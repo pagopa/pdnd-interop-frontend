@@ -1,0 +1,209 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PartyContacts > should match snapshot and not render edit button if user is not an admin 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+        >
+          <div
+            class="css-nen11g-MuiStack-root"
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            >
+              title
+            </h2>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+            >
+              description
+            </span>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <div
+              class="css-1p5q5e5-MuiStack-root"
+            >
+              <div
+                class="css-19qjufr-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    mailField.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    n/a
+                  </p>
+                </div>
+              </div>
+              <div
+                class="css-19qjufr-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    descriptionField.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    n/a
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PartyContacts > should match snapshot and render edit button if user is admin 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+        >
+          <div
+            class="css-nen11g-MuiStack-root"
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            >
+              title
+            </h2>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+            >
+              description
+            </span>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <div
+              class="css-1p5q5e5-MuiStack-root"
+            >
+              <div
+                class="css-19qjufr-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    mailField.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    n/a
+                  </p>
+                </div>
+              </div>
+              <div
+                class="css-19qjufr-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    descriptionField.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    n/a
+                  </p>
+                </div>
+              </div>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+              />
+              <div
+                class="css-163ljxj-MuiStack-root"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+                  tabindex="0"
+                  type="button"
+                >
+                  actions.edit
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PartyContactsSkeleton > should match snapshot 1`] = `
+<body
+  style=""
+>
+  <div>
+    <div
+      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          style="height: 261px;"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;

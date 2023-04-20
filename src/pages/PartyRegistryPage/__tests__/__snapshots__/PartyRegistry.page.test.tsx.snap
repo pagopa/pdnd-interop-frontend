@@ -1,0 +1,1408 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PartyRegistryPage > should match snapshot 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-0"
+  >
+    <div
+      class="css-1mure3k-MuiStack-root"
+    >
+      <div
+        class="MuiBox-root css-1rr4qq7"
+      >
+        <h1
+          class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+        >
+          orgName
+        </h1>
+      </div>
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+    </div>
+    <div
+      class="MuiBox-root css-h5fkc8"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+            style="height: 261px;"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-j7482c-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PartyRegistryPage > should match snapshot when jwt is undefined 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-0"
+  >
+    <div
+      class="css-1mure3k-MuiStack-root"
+    >
+      <div
+        class="MuiBox-root css-1rr4qq7"
+      >
+        <h1
+          class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+        >
+          orgName
+        </h1>
+      </div>
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+    </div>
+    <div
+      class="MuiBox-root css-h5fkc8"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+            style="height: 261px;"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-j7482c-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PartyRegistryPage > should match snapshot while jwt is undefined 1`] = `
+<div>
+  <div
+    class="MuiBox-root css-0"
+  >
+    <div
+      class="css-1mure3k-MuiStack-root"
+    >
+      <div
+        class="MuiBox-root css-1rr4qq7"
+      >
+        <h1
+          class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+        >
+          orgName
+        </h1>
+      </div>
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+    </div>
+    <div
+      class="MuiBox-root css-h5fkc8"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+            style="height: 261px;"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            label
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-j7482c-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+          <span
+            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          >
+            description
+          </span>
+        </div>
+        <div
+          class="MuiBox-root css-1yuhvjn"
+        >
+          <div
+            class="MuiBox-root css-xxzef7"
+          >
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+            <div
+              class="css-1yo1jo6-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <div
+                  class="MuiBox-root css-11ze7cv"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  />
+                </div>
+              </div>
+              <div
+                class="css-172p5tq-MuiStack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 19px; height: 19px;"
+                />
+              </div>
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-fw9igz-MuiSkeleton-root"
+                style="width: 52px;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
