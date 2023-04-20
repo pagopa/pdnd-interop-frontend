@@ -7,7 +7,6 @@ export const CertifiedPartyAttributesList = () => {
   const { t } = useTranslation('party', { keyPrefix: 'attributes.certified' })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'certified' })
   const { data } = PartyQueries.useGetActiveUserParty()
-  console.log(data)
 
   const certifiedAttributes = data?.attributes.certified ?? []
 
