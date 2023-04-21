@@ -96,17 +96,16 @@ const ConsumerPurposesListPage: React.FC = () => {
     { suspense: false }
   )
 
-  const hasNotActiveEService = activeEServices?.results.length === 0 ?? true
+  const hasNoActiveEService = activeEServices?.results.length === 0
 
   const topSideActions: TopSideActions = {
-    infoTooltip:
-      !activeEServices && hasNotActiveEService ? tPurpose('cantCreatePurposeTooltip') : undefined,
+    infoTooltip: hasNoActiveEService ? tPurpose('cantCreatePurposeTooltip') : undefined,
     buttons: [
       {
         action: () => navigate('SUBSCRIBE_PURPOSE_CREATE'),
         label: tCommon('createNewBtn'),
         variant: 'contained',
-        disabled: hasNotActiveEService,
+        disabled: !activeEServices || hasNoActiveEService,
       },
     ],
   }

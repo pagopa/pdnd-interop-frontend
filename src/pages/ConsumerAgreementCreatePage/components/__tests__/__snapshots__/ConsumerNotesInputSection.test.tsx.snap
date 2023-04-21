@@ -1,0 +1,94 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConsumerNotesInputSection > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          description
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="MuiBox-root css-1e1z9m8"
+        >
+          <div
+            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="true"
+              for=":r0:"
+              id=":r0:-label"
+            >
+              field.label
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-multiline css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <textarea
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                id=":r0:"
+                maxlength="1000"
+                name="consumerNotes"
+                rows="6"
+                style="height: 0px; overflow: hidden;"
+              />
+              <textarea
+                aria-hidden="true"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                readonly=""
+                style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding: 0px; width: 100%;"
+                tabindex="-1"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-14lo706"
+                >
+                  <span>
+                    field.label
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+          <p
+            class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+          >
+            field.infoLabel
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ConsumerNotestInputSectionSkeleton > should match snapshot 1`] = `
+<body>
+  <div>
+    <span
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+      style="height: 326px;"
+    />
+  </div>
+</body>
+`;

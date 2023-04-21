@@ -1,13 +1,12 @@
-import { AgreementQueries } from '@/api/agreement'
+import type { Agreement } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
 import { EServiceQueries } from '@/api/eservice'
 import { useJwt } from '@/hooks/useJwt'
 import { checkEServiceAttributesOwnership } from '@/utils/attribute.utils'
 import React from 'react'
 
-export default function useCanUserSubmitAgreementDraft(agreementId: string) {
+export function useCanUserSubmitAgreementDraft(agreement?: Agreement) {
   const { jwt } = useJwt()
-  const { data: agreement } = AgreementQueries.useGetSingle(agreementId, { suspense: false })
   // This should not stay here, waiting to get the attributes from the agreement itself
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
     agreement?.eservice.id as string,

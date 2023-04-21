@@ -11,7 +11,7 @@ import {
   AgreementDocsInputSectionSkeleton,
 } from './components/AgreementDocsInputSection'
 import { Button, Grid } from '@mui/material'
-import useCanUserSubmitAgreementDraft from './hooks/useCanUserSubmitAgreementDraft'
+import { useCanUserSubmitAgreementDraft } from './hooks/useCanUserSubmitAgreementDraft'
 import { PageBottomActionsCardContainer } from '@/components/layout/containers/PageBottomCardContainer'
 import {
   ConsumerNotesInputSection,
@@ -23,12 +23,9 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { navigate } = useNavigateRouter()
 
   const { agreementId } = useRouteParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
-  const { data: agreement, isInitialLoading: isLoadingAgreements } = AgreementQueries.useGetSingle(
-    agreementId,
-    {
-      suspense: false,
-    }
-  )
+  const { data: agreement, isInitialLoading } = AgreementQueries.useGetSingle(agreementId, {
+    suspense: false,
+  })
   const [consumerNotes, setConsumerNotes] = React.useState(agreement?.consumerNotes ?? '')
   const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft()
   const { mutate: updateAgreementDraft } = AgreementMutations.useUpdateDraft()
@@ -37,7 +34,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { actions } = useGetAgreementsActions(agreement)
   const topSideActions = formatTopSideActions(actions)
 
-  const canUserSubmitAgreementDraft = useCanUserSubmitAgreementDraft(agreementId)
+  const canUserSubmitAgreementDraft = useCanUserSubmitAgreementDraft(agreement)
 
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
@@ -84,18 +81,21 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         <AgreementDetails agreementId={agreementId} />
       </React.Suspense>
 
-      {!isLoadingAgreements && !isAgreementEServiceMine && (
+      {isInitialLoading && (
         <>
-          <React.Suspense fallback={<AgreementDocsInputSectionSkeleton />}>
-            <AgreementDocsInputSection agreementId={agreementId} />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerNotesInputSectionSkeleton />}>
-            <ConsumerNotesInputSection
-              agreementId={agreementId}
-              consumerNotes={consumerNotes}
-              setConsumerNotes={setConsumerNotes}
-            />
-          </React.Suspense>
+          <AgreementDocsInputSectionSkeleton />
+          <ConsumerNotesInputSectionSkeleton />
+        </>
+      )}
+
+      {!isInitialLoading && !isAgreementEServiceMine && (
+        <>
+          <AgreementDocsInputSection agreement={agreement} />
+          <ConsumerNotesInputSection
+            agreement={agreement}
+            consumerNotes={consumerNotes}
+            setConsumerNotes={setConsumerNotes}
+          />
         </>
       )}
 

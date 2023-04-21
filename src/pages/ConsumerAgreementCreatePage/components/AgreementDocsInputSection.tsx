@@ -1,5 +1,5 @@
 import React from 'react'
-import { AgreementDownloads, AgreementMutations, AgreementQueries } from '@/api/agreement'
+import { AgreementDownloads, AgreementMutations } from '@/api/agreement'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -8,10 +8,10 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
+import type { Agreement, EServiceDoc } from '@/api/api.generatedTypes'
 
 type AgreementDocsInputSectionProps = {
-  agreementId: string
+  agreement?: Agreement
 }
 
 type AddDocFormValues = {
@@ -19,13 +19,8 @@ type AddDocFormValues = {
   prettyName: string
 }
 
-const defaultValues: AddDocFormValues = {
-  doc: null,
-  prettyName: '',
-}
-
 export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps> = ({
-  agreementId,
+  agreement,
 }) => {
   const { t } = useTranslation('agreement', { keyPrefix: 'edit.documents' })
   const { t: tCommon } = useTranslation('common')
@@ -34,7 +29,10 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
   const { mutate: deleteDocument } = AgreementMutations.useDeleteDraftDocument()
   const downloadDocument = AgreementDownloads.useDownloadDocument()
 
-  const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
+  const defaultValues: AddDocFormValues = {
+    doc: null,
+    prettyName: '',
+  }
 
   const formMethods = useForm<AddDocFormValues>({
     defaultValues,
@@ -45,9 +43,9 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
   const selectedDoc = formMethods.watch('doc')
 
   const onSubmit = ({ doc, prettyName }: AddDocFormValues) => {
-    if (!doc) return
+    if (!doc || !agreement) return
     uploadDocument(
-      { agreementId, doc, name: doc.name, prettyName },
+      { agreementId: agreement.id, doc, name: doc.name, prettyName },
       {
         onSuccess() {
           setShowDocInput(false)
@@ -57,11 +55,14 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
   }
 
   const handleDeleteDocument = (doc: EServiceDoc) => {
-    deleteDocument({ agreementId, documentId: doc.id })
+    deleteDocument({ agreementId: agreement!.id, documentId: doc.id })
   }
 
   const handleDownloadDocument = (doc: EServiceDoc) => {
-    downloadDocument({ agreementId, documentId: doc.id }, getDownloadDocumentName(doc))
+    downloadDocument(
+      { agreementId: agreement!.id, documentId: doc.id },
+      getDownloadDocumentName(doc)
+    )
   }
 
   const docs = agreement?.consumerDocuments ?? []
