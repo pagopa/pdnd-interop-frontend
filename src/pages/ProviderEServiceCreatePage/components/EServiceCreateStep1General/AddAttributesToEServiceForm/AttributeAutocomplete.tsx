@@ -7,16 +7,16 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
-import type { Attribute, AttributeKind } from '@/api/api.generatedTypes'
+import type { Attribute, AttributeKind, CompactAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 
-type AttributeAutocompleteProps = {
+export type AttributeAutocompleteProps = {
   groupIndex: number
   attributeKey: AttributeKey
   handleHideAutocomplete: VoidFunction
 }
 
-type AttributeAutocompleteFormValues = { attribute: null | Attribute }
+type AttributeAutocompleteFormValues = { attribute: null | Attribute | CompactAttribute }
 
 export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   groupIndex,

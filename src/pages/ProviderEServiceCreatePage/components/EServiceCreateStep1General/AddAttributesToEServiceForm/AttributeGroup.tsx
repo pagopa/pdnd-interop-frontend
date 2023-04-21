@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from './AttributeAutocomplete'
 
-type AttributeGroupProps = {
+export type AttributeGroupProps = {
   group: FrontendAttribute
   groupIndex: number
   attributeKey: AttributeKey

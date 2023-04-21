@@ -10,7 +10,7 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { useDialog } from '@/stores'
 import { AttributeGroup } from './AttributeGroup'
 
-type AddAttributesToEServiceFormProps = {
+export type AddAttributesToEServiceFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
 }
