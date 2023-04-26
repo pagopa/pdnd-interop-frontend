@@ -1,8 +1,11 @@
-import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseClientKind,
+  mockUseJwt,
+  renderHookWithApplicationContext,
+} from '@/utils/testing.utils'
 import useGetKeyActions from '../useGetKeyActions'
 import { vi } from 'vitest'
 import * as router from '@/router'
-import * as useClientKindHook from '@/hooks/useClientKind'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
@@ -24,7 +27,6 @@ vi.spyOn(router, 'useNavigateRouter').mockReturnValue({
   getRouteUrl: navigateFn,
 })
 const parameters = ['clientId', 'kid'] as const
-const useClientKindSpy = vi.spyOn(useClientKindHook, 'useClientKind')
 
 beforeAll(() => server.listen())
 afterAll(() => {
@@ -34,7 +36,7 @@ afterAll(() => {
 
 describe('useGetKeyActions testing', () => {
   it('should return the correct key actions', () => {
-    useClientKindSpy.mockReturnValue('API')
+    mockUseClientKind('API')
     mockUseJwt({ isAdmin: true })
     const { result } = renderHookWithApplicationContext(() => useGetKeyActions(...parameters), {
       withReactQueryContext: true,
@@ -44,7 +46,7 @@ describe('useGetKeyActions testing', () => {
   })
 
   it('should return the correct key actions when user is not admin but it is a security operator', () => {
-    useClientKindSpy.mockReturnValue('API')
+    mockUseClientKind('API')
     mockUseJwt({ isAdmin: false, isOperatorSecurity: true })
     const { result } = renderHookWithApplicationContext(() => useGetKeyActions(...parameters), {
       withReactQueryContext: true,
@@ -54,7 +56,7 @@ describe('useGetKeyActions testing', () => {
   })
 
   it('should return no actions when user is not Admin', () => {
-    useClientKindSpy.mockReturnValue('API')
+    mockUseClientKind('API')
     mockUseJwt({ isAdmin: false })
     const { result } = renderHookWithApplicationContext(() => useGetKeyActions(...parameters), {
       withReactQueryContext: true,
@@ -64,7 +66,7 @@ describe('useGetKeyActions testing', () => {
   })
 
   it('should correctly call the download action', () => {
-    useClientKindSpy.mockReturnValue('API')
+    mockUseClientKind('API')
 
     const downloadFn = vi.fn()
     vi.spyOn(ClientDownloads, 'useDownloadKey').mockReturnValue(downloadFn)
@@ -79,7 +81,7 @@ describe('useGetKeyActions testing', () => {
   })
 
   it('should redirect on the correct page after delete key action (API)', async () => {
-    useClientKindSpy.mockReturnValue('API')
+    mockUseClientKind('API')
     mockUseJwt({ isAdmin: true })
     const history = createMemoryHistory()
     const { result, rerender } = renderHookWithApplicationContext(
@@ -109,7 +111,7 @@ describe('useGetKeyActions testing', () => {
   })
 
   it('should redirect on the correct page after delete key action (CONSUMER)', async () => {
-    useClientKindSpy.mockReturnValue('CONSUMER')
+    mockUseClientKind('CONSUMER')
     mockUseJwt({ isAdmin: true })
     const history = createMemoryHistory()
     const { result, rerender } = renderHookWithApplicationContext(

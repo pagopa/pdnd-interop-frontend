@@ -1,14 +1,12 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { ClientTableRow, ClientTableRowSkeleton } from '../ClientTableRow'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseClientKind, renderWithApplicationContext } from '@/utils/testing.utils'
 import { vi } from 'vitest'
-import * as useClientKindHook from '@/hooks/useClientKind'
 import * as router from '@/router'
 import userEvent from '@testing-library/user-event'
 
 const clientMock = { id: 'client-id', name: 'name', hasKeys: false }
-const useClientKindMock = vi.spyOn(useClientKindHook, 'useClientKind')
 const navigateRouterFn = vi.fn()
 vi.spyOn(router, 'useNavigateRouter').mockReturnValue({
   navigate: navigateRouterFn,
@@ -21,7 +19,7 @@ afterEach(() => {
 
 describe('ClientTableRow', () => {
   it('should match the snapshot', () => {
-    useClientKindMock.mockReturnValue('API')
+    mockUseClientKind('API')
     const { container } = renderWithApplicationContext(
       <ClientTableRow client={clientMock} clientKind="API" />,
       {
@@ -33,7 +31,7 @@ describe('ClientTableRow', () => {
   })
 
   it('should navigate to the client edit page (API)', async () => {
-    useClientKindMock.mockReturnValue('API')
+    mockUseClientKind('API')
     const { getByRole } = renderWithApplicationContext(
       <ClientTableRow client={clientMock} clientKind="API" />,
       {
@@ -51,7 +49,7 @@ describe('ClientTableRow', () => {
   })
 
   it('should navigate to the client edit page (CONSUMER)', async () => {
-    useClientKindMock.mockReturnValue('CONSUMER')
+    mockUseClientKind('CONSUMER')
     const { getByRole } = renderWithApplicationContext(
       <ClientTableRow client={clientMock} clientKind="CONSUMER" />,
       {

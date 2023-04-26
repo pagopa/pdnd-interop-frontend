@@ -44,8 +44,11 @@ const OperatorsInputTable: React.FC = () => {
       >
         {operators.map((operator) => (
           <TableRow key={operator.id} cellData={[`${operator.name} ${operator.familyName}`]}>
-            <IconButton onClick={handleRemoveOperator.bind(null, operator.id)}>
-              <DeleteOutlineIcon color="error" fontSize="small" />
+            <IconButton
+              aria-label={tCommon('actions.delete')}
+              onClick={handleRemoveOperator.bind(null, operator.id)}
+            >
+              <DeleteOutlineIcon aria-hidden color="error" fontSize="small" />
             </IconButton>
           </TableRow>
         ))}

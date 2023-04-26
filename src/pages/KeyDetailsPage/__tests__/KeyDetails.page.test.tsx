@@ -1,9 +1,12 @@
 import React from 'react'
-import { renderWithApplicationContext, setupQueryServer } from '@/utils/testing.utils'
+import {
+  mockUseClientKind,
+  renderWithApplicationContext,
+  setupQueryServer,
+} from '@/utils/testing.utils'
 import KeyDetailsPage from '../KeyDetails.page'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { createMockPublicKey } from '__mocks__/data/key.mocks'
-import * as useClientKindHook from '@/hooks/useClientKind'
 import * as router from '@/router'
 import { vi } from 'vitest'
 import { waitFor } from '@testing-library/react'
@@ -20,12 +23,11 @@ beforeAll(() => queryServer.listen())
 afterEach(() => queryServer.resetHandlers())
 afterAll(() => queryServer.close())
 
-const useClientKindSpy = vi.spyOn(useClientKindHook, 'useClientKind')
 vi.spyOn(router, 'useRouteParams').mockReturnValue({ clientId: 'clientId', kid: 'kid' })
 
 describe('KeyDetailsPage', () => {
   it('should match snapshot (API)', async () => {
-    useClientKindSpy.mockReturnValue('API')
+    mockUseClientKind('API')
 
     const screen = renderWithApplicationContext(<KeyDetailsPage />, {
       withReactQueryContext: true,
@@ -38,7 +40,7 @@ describe('KeyDetailsPage', () => {
   })
 
   it('should match snapshot (CONSUMER)', async () => {
-    useClientKindSpy.mockReturnValue('CONSUMER')
+    mockUseClientKind('CONSUMER')
 
     const screen = renderWithApplicationContext(<KeyDetailsPage />, {
       withReactQueryContext: true,
@@ -51,7 +53,7 @@ describe('KeyDetailsPage', () => {
   })
 
   it('should show alert if key is orphan', async () => {
-    useClientKindSpy.mockReturnValue('API')
+    mockUseClientKind('API')
 
     vi.spyOn(ClientQueries, 'useGetSingleKey').mockReturnValue({
       data: createMockPublicKey({ name: 'public-key-name', isOrphan: true }),
@@ -66,7 +68,7 @@ describe('KeyDetailsPage', () => {
   })
 
   it('should show alert if key is not orphan', async () => {
-    useClientKindSpy.mockReturnValue('API')
+    mockUseClientKind('API')
 
     vi.spyOn(ClientQueries, 'useGetSingleKey').mockReturnValue({
       data: createMockPublicKey({ name: 'public-key-name', isOrphan: false }),

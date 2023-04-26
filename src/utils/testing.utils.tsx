@@ -18,6 +18,8 @@ import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 import * as useRouteParams from '@/router/hooks/useRouteParams'
 import { setupServer } from 'msw/node'
 import { rest, type DefaultBodyType } from 'msw'
+import type { ClientKind } from '@/api/api.generatedTypes'
+import * as useClientKindHook from '@/hooks/useClientKind'
 
 const queryClientConfigMock: QueryClientConfig = deepmerge(
   {
@@ -111,6 +113,12 @@ export const mockUseRouteParams = (params: Record<string, string | undefined>) =
   const useRouteParamsSpy = vi.spyOn(useRouteParams, 'default')
   useRouteParamsSpy.mockReturnValue(params as unknown as ReturnType<typeof useRouteParams.default>)
   return useRouteParams
+}
+
+export const mockUseClientKind = (kind: ClientKind) => {
+  const useClientKindSpy = vi.spyOn(useClientKindHook, 'useClientKind')
+  useClientKindSpy.mockReturnValue(kind)
+  return useClientKindSpy
 }
 
 type WrapperOptions = (

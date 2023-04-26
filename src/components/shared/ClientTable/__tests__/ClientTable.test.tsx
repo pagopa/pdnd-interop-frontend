@@ -1,13 +1,17 @@
 import React from 'react'
-import { mockUseJwt, renderWithApplicationContext, setupQueryServer } from '@/utils/testing.utils'
+import {
+  mockUseClientKind,
+  mockUseJwt,
+  renderWithApplicationContext,
+  setupQueryServer,
+} from '@/utils/testing.utils'
 import { render, waitFor } from '@testing-library/react'
 import { ClientTable, ClientTableSkeleton } from '../ClientTable'
-import * as useClientKindHook from '@/hooks/useClientKind'
 import { vi } from 'vitest'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { ClientQueries } from '@/api/client'
 
-vi.spyOn(useClientKindHook, 'useClientKind').mockReturnValue('API')
+mockUseClientKind('API')
 mockUseJwt()
 
 const useGetListSpy = vi.spyOn(ClientQueries, 'useGetList')
