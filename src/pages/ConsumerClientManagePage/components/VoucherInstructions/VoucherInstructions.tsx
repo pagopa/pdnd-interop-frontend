@@ -4,16 +4,18 @@ import { Stepper } from '@/components/shared/Stepper'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { useJwt } from '@/hooks/useJwt'
 import { RouterLink } from '@/router'
-import { Alert, Grid, Skeleton } from '@mui/material'
+import { Alert, Grid } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
-import { useGetVoucherInstructionsSteps } from '../../hooks/useGetVoucherInstructionsSteps'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { ClientVoucherIntructionsPurposeSelect } from './ClientVoucherIntructionsPurposeSelect'
 import { useSearchParams } from 'react-router-dom'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '@/components/shared/ApiInfoSection'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
+import { VoucherInstructionsStep1 } from './VoucherInstructionsStep1'
+import { VoucherInstructionsStep2 } from './VoucherInstructionsStep2'
+import { VoucherInstructionsStep3 } from './VoucherInstructionsStep3'
 
 interface VoucherInstructionsProps {
   clientId: string
@@ -170,4 +172,18 @@ export const VoucherInstructionsSkeleton: React.FC = () => {
       )}
     </Grid>
   )
+}
+
+function useGetVoucherInstructionsSteps() {
+  const { t } = useTranslation('voucher')
+  const clientKind = useClientKind()
+
+  return [
+    { label: t('step1.stepperLabel'), component: VoucherInstructionsStep1 },
+    { label: t('step2.stepperLabel'), component: VoucherInstructionsStep2 },
+    {
+      label: t(`step3.${clientKind === 'CONSUMER' ? 'consumerStepperLabel' : 'apiStepperLabel'}`),
+      component: VoucherInstructionsStep3,
+    },
+  ]
 }
