@@ -1,4 +1,4 @@
-import type { RelationshipInfo } from '@/api/api.generatedTypes'
+import type { Operator, RelationshipInfo } from '@/api/api.generatedTypes'
 import type { JwtUser, RemappedTenant } from '@/types/party.types'
 import { createMockFactory } from '@/utils/testing.utils'
 
@@ -115,4 +115,16 @@ const createMockRemappedTenant = createMockFactory<RemappedTenant>({
   updatedAt: '2023-04-12T13:52:03.027Z',
 })
 
-export { createMockJwtUser, createMockSelfCareUser, createMockRemappedTenant }
+const createMockOperator = createMockFactory<Operator>({
+  relationshipId: 'relationship-id',
+  taxCode: 'tax-code',
+  name: 'operator-name',
+  familyName: 'operator-family-name',
+  /** Represents the generic available role types for the relationship */
+  role: 'OPERATOR',
+  product: { id: 'product-id', role: 'admin', createdAt: '2022-09-30T15:03:41.078Z' },
+  /** Represents the Client Operator state */
+  state: 'ACTIVE',
+})
+
+export { createMockJwtUser, createMockSelfCareUser, createMockRemappedTenant, createMockOperator }

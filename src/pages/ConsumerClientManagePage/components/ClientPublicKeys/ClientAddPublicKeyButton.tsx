@@ -36,12 +36,12 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
     openDialog({ type: 'addSecurityOperatorKey', clientId })
   }
 
-  const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
-  const canAddKey = isOperatorSecurity || (isAdmin && isAdminInClient)
+  const isAdminInClient = Boolean(isAdmin && usersId.includes(jwt?.uid))
+  const canAddKey = isOperatorSecurity || isAdminInClient
 
   return (
     <Stack sx={{ mb: 2 }} direction="row" justifyContent="end" alignItems="center" spacing={2}>
-      {isAdmin && !isAdminInClient && <InfoTooltip label={t('list.adminEnableInfo')} />}
+      {!isAdminInClient && <InfoTooltip label={t('list.adminEnableInfo')} />}
       <Button variant="contained" size="small" onClick={openAddKeyDialog} disabled={!canAddKey}>
         {tCommon('addBtn')}
       </Button>

@@ -1,0 +1,79 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CodeLanguagePicker > should 1`] = `
+<body>
+  <div>
+    <div
+      class="css-m69qwo-MuiStack-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1fbouff-MuiTypography-root"
+      >
+        codeLanguagePicker.languageLabel
+        : 
+      </p>
+      <div
+        class="MuiBox-root css-0"
+      >
+        <div
+          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-hqoktk-MuiChip-root"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+          >
+            python
+          </span>
+        </div>
+        <div
+          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-aiufer-MuiChip-root"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+          >
+            javascript
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`CodeLanguagePicker > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-m69qwo-MuiStack-root"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-1fbouff-MuiTypography-root"
+      >
+        codeLanguagePicker.languageLabel
+        : 
+      </p>
+      <div
+        class="MuiBox-root css-0"
+      >
+        <div
+          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-hqoktk-MuiChip-root"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+          >
+            python
+          </span>
+        </div>
+        <div
+          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-aiufer-MuiChip-root"
+        >
+          <span
+            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+          >
+            javascript
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

@@ -1,0 +1,158 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ClientOperatorsTableRowSkeleton > should match snapshot (admin - API) 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          operator-name operator-family-name
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          actions.inspect
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <button
+            aria-haspopup="true"
+            aria-label="iconButtonAriaLabel"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
+            id=":r0:-composition-button"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
+              data-testid="MoreVertIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;
+
+exports[`ClientOperatorsTableRowSkeleton > should match snapshot (not admin - CONSUMER) 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          operator-name operator-family-name
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          actions.inspect
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <button
+            aria-haspopup="true"
+            aria-label="iconButtonAriaLabel"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1skso5k-MuiButtonBase-root-MuiIconButton-root"
+            id=":r3:-composition-button"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
+              data-testid="MoreVertIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;
+
+exports[`ClientOperatorsTableRowSkeleton > should match snapshot 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+          style="width: 120px;"
+        />
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+          style="width: 103px; height: 40px;"
+        />
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+            style="width: 4px;"
+          />
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;

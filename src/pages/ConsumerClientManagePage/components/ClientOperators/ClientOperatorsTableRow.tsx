@@ -11,7 +11,7 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { Operator } from '@/api/api.generatedTypes'
 
-interface ClientOperatorsTableRowProps {
+export interface ClientOperatorsTableRowProps {
   operator: Operator
   clientId: string
 }

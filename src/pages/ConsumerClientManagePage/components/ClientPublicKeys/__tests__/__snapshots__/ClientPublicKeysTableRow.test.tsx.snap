@@ -1,0 +1,220 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ClientPublicKeysTableRow > should match snapshot 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        string
+         
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          Mario Rossi
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          28 febbraio 2023
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          actions.inspect
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <button
+            aria-haspopup="true"
+            aria-label="iconButtonAriaLabel"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1skso5k-MuiButtonBase-root-MuiIconButton-root"
+            id=":r0:-composition-button"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
+              data-testid="MoreVertIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;
+
+exports[`ClientPublicKeysTableRow > should match snapshot with orphan public key 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        string
+         
+        <svg
+          aria-hidden="true"
+          aria-label="tableKey.operatorDeletedWarning.message"
+          class="MuiSvgIcon-root MuiSvgIcon-colorError MuiSvgIcon-fontSizeMedium css-100tjhr-MuiSvgIcon-root"
+          data-mui-internal-clone-element="true"
+          data-testid="ReportGmailerrorredIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM19 14.9 14.9 19H9.1L5 14.9V9.1L9.1 5h5.8L19 9.1v5.8z"
+          />
+          <path
+            d="M11 7h2v6h-2zm0 8h2v2h-2z"
+          />
+        </svg>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          Mario Rossi
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+        >
+          28 febbraio 2023
+        </span>
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          actions.inspect
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <button
+            aria-haspopup="true"
+            aria-label="iconButtonAriaLabel"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1skso5k-MuiButtonBase-root-MuiIconButton-root"
+            id=":r4:-composition-button"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-colorError MuiSvgIcon-fontSizeSmall css-1efkf0c-MuiSvgIcon-root"
+              data-testid="MoreVertIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;
+
+exports[`ClientPublicKeysTableRowSkeleton > should match snapshot 1`] = `
+<body>
+  <div>
+    <tr
+      class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+    >
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+          style="width: 120px;"
+        />
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+          style="width: 120px;"
+        />
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+          style="width: 120px;"
+        />
+      </td>
+      <td
+        class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+          style="width: 100px; height: 40px;"
+        />
+        <span
+          class="MuiBox-root css-1ljwlp4"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+            style="width: 4px;"
+          />
+        </span>
+      </td>
+    </tr>
+  </div>
+</body>
+`;

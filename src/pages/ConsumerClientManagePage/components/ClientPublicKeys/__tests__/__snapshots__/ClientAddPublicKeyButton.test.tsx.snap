@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ClientAddPublicKeyButtonSkeleton > should match snapshot 1`] = `
+<body
+  style=""
+>
+  <div>
+    <div
+      class="css-9raj41-MuiStack-root"
+    >
+      <span
+        class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+        style="width: 20px; height: 20px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+        style="width: 103px; height: 40px;"
+      />
+    </div>
+  </div>
+</body>
+`;
