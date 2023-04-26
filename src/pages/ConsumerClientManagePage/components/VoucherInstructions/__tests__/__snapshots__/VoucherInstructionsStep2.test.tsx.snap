@@ -1,0 +1,675 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`VoucherInstructionsStep2 > should match snapshot (API) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step2.title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          step2.apiDescription.message
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1tixoof-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              step2.authEndpoint.label
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              https://selfcare.dev.interop.pagopa.it/authorization-server/token.oauth2
+              <button
+                aria-label="Copia"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                data-mui-internal-clone-element="true"
+                role="button"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  data-testid="ContentCopyIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step2.requestBody.title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-ramisn-MuiStack-root"
+        >
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step2.requestBody.clientIdField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                test-client-id
+                <button
+                  aria-label="Copia"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                  data-mui-internal-clone-element="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                    data-testid="ContentCopyIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step2.requestBody.clientAssertionField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                step2.requestBody.clientAssertionField.suggestionLabel
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step2.requestBody.clientAssertionTypeField.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                step2.requestBody.clientAssertionTypeField.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                <button
+                  aria-label="Copia"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                  data-mui-internal-clone-element="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                    data-testid="ContentCopyIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step2.requestBody.grantTypeField.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                step2.requestBody.grantTypeField.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                client_credentials
+                <button
+                  aria-label="Copia"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                  data-mui-internal-clone-element="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                    data-testid="ContentCopyIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step2.voucherScript.title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          step2.voucherScript.description
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="MuiBox-root css-9lwr4s"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-caption css-xomfih-MuiTypography-root"
+          >
+            step2.voucherScript.exampleLabel
+          </span>
+          <div
+            class="MuiBox-root css-79elbk"
+          >
+            <div
+              class="MuiBox-root css-1azb3nq"
+            >
+              <div
+                class="MuiBox-root css-tx9fw1"
+              />
+            </div>
+            <div
+              class="MuiBox-root css-1f1zykm"
+            />
+          </div>
+        </div>
+        <div
+          class="css-9v4aab-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            backBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            proceedBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`VoucherInstructionsStep2 > should match snapshot (CONSUMER) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step2.title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          step2.consumerDescription
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1tixoof-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              step2.authEndpoint.label
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              https://selfcare.dev.interop.pagopa.it/authorization-server/token.oauth2
+              <button
+                aria-label="Copia"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                data-mui-internal-clone-element="true"
+                role="button"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  data-testid="ContentCopyIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step2.requestBody.title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-ramisn-MuiStack-root"
+        >
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step2.requestBody.clientIdField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                test-client-id
+                <button
+                  aria-label="Copia"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                  data-mui-internal-clone-element="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                    data-testid="ContentCopyIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step2.requestBody.clientAssertionField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                step2.requestBody.clientAssertionField.suggestionLabel
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step2.requestBody.clientAssertionTypeField.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                step2.requestBody.clientAssertionTypeField.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                <button
+                  aria-label="Copia"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                  data-mui-internal-clone-element="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                    data-testid="ContentCopyIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step2.requestBody.grantTypeField.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                step2.requestBody.grantTypeField.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                client_credentials
+                <button
+                  aria-label="Copia"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                  data-mui-internal-clone-element="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                    data-testid="ContentCopyIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step2.voucherScript.title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          step2.voucherScript.description
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="MuiBox-root css-9lwr4s"
+        >
+          <span
+            class="MuiTypography-root MuiTypography-caption css-xomfih-MuiTypography-root"
+          >
+            step2.voucherScript.exampleLabel
+          </span>
+          <div
+            class="MuiBox-root css-79elbk"
+          >
+            <div
+              class="MuiBox-root css-1azb3nq"
+            >
+              <div
+                class="MuiBox-root css-tx9fw1"
+              />
+            </div>
+            <div
+              class="MuiBox-root css-1f1zykm"
+            />
+          </div>
+        </div>
+        <div
+          class="css-9v4aab-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            backBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            proceedBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
