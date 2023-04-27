@@ -41,7 +41,7 @@ exports[`VoucherInstructionsStep2 > should match snapshot (API) 1`] = `
             <p
               class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
             >
-              https://selfcare.dev.interop.pagopa.it/authorization-server/token.oauth2
+              https://test.it//authorization-server/token.oauth2
               <button
                 aria-label="Copia"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -378,7 +378,7 @@ exports[`VoucherInstructionsStep2 > should match snapshot (CONSUMER) 1`] = `
             <p
               class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
             >
-              https://selfcare.dev.interop.pagopa.it/authorization-server/token.oauth2
+              https://test.it//authorization-server/token.oauth2
               <button
                 aria-label="Copia"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
