@@ -7,18 +7,11 @@ import { parse } from 'node-html-parser'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const prodPlugins = [react(), setNonceAttToScripts()]
-  const devPlugins = [react(), visualizer(), configurePreviewServer()]
-  const testPlugins = [react()]
-
-  const plugins =
-    mode === 'development'
-      ? devPlugins
-      : mode === 'production'
-      ? prodPlugins
-      : mode === 'test'
-      ? testPlugins
-      : undefined
+  const plugins = {
+    development: [react, visualizer, configurePreviewServer],
+    production: [react, setNonceAttToScripts],
+    test: [react],
+  }[mode].map((plugin: () => PluginOption) => plugin())
 
   return {
     base: '/ui/',
@@ -101,7 +94,7 @@ function external(source: string) {
 
 function configurePreviewServer(): PluginOption {
   const testNonce = 'OXtve5rl0YunhKAkT+Qlww=='
-  const env = Object.assign(process.env, loadEnv('development', process.cwd(), ''))
+  const env = loadEnv('development', process.cwd(), '')
 
   return {
     name: 'configure-preview-server',
