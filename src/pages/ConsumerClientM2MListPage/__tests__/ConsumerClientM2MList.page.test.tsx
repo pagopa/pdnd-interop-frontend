@@ -20,7 +20,16 @@ describe('ConsumerClientM2MListPage', () => {
     expect(baseElement).toMatchSnapshot()
   })
 
-  it('should successfully navigate to the create M2M client page', async () => {
+  it('should match the snapshot as non admin', () => {
+    mockUseJwt({ isAdmin: false })
+    const { baseElement } = renderWithApplicationContext(<ConsumerClientM2MListPage />, {
+      withRouterContext: true,
+      withReactQueryContext: true,
+    })
+    expect(baseElement).toMatchSnapshot()
+  })
+
+  it('should successfully navigate to the create client page', async () => {
     mockUseJwt({ isAdmin: true })
     const screen = renderWithApplicationContext(<ConsumerClientM2MListPage />, {
       withRouterContext: true,
