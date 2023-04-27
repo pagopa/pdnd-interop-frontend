@@ -4,12 +4,12 @@ import {
   FormLabel,
   Radio,
   RadioGroup as MUIRadioGroup,
-  RadioGroupProps as MUIRadioGroupProps,
+  type RadioGroupProps as MUIRadioGroupProps,
 } from '@mui/material'
 import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
-import { InputOption } from '@/types/common.types'
-import { ControllerProps } from 'react-hook-form/dist/types'
+import type { InputOption } from '@/types/common.types'
+import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 

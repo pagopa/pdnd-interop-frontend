@@ -1,7 +1,7 @@
 import { AuthServicesHooks } from '@/api/auth'
 import { useCheckSessionExpired } from '@/hooks/useCheckSessionExpired'
 import { useJwt } from '@/hooks/useJwt'
-import useCurrentRoute from '@/router/hooks/useCurrentRoute'
+import { useCurrentRoute } from '@/router'
 import { NotAuthorizedError } from '@/utils/errors.utils'
 import React from 'react'
 

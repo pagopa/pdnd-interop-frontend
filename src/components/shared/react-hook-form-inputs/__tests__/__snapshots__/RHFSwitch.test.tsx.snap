@@ -1,0 +1,93 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`determine whether the integration between react-hook-form and MUI’s Switch works > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-zitybv"
+    >
+      <label
+        class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          label
+        </span>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <span
+            class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+          >
+            <span
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+            >
+              <input
+                class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                name="test"
+                type="checkbox"
+              />
+              <span
+                class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+              />
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </span>
+            <span
+              class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+            />
+          </span>
+        </div>
+      </label>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`determine whether the integration between react-hook-form and MUI’s Switch works > should match the snapshot in vertical layout 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-zitybv"
+    >
+      <label
+        class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1kh4vj2-MuiFormLabel-root"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body1 css-1th83v5-MuiTypography-root"
+        >
+          label
+        </span>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <span
+            class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+          >
+            <span
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+            >
+              <input
+                class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                name="test"
+                type="checkbox"
+              />
+              <span
+                class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+              />
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </span>
+            <span
+              class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+            />
+          </span>
+        </div>
+      </label>
+    </div>
+  </div>
+</body>
+`;

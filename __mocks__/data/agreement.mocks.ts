@@ -1,7 +1,7 @@
 import type { Agreement, AgreementListEntry } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
-const createMockAgreementSummary = createMockFactory<Agreement>({
+const createMockAgreement = createMockFactory<Agreement>({
   certifiedAttributes: [],
   consumer: {
     attributes: {
@@ -290,4 +290,4 @@ const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
   suspendedByPlatform: false,
 })
 
-export { createMockAgreementListingItem, createMockAgreementSummary }
+export { createMockAgreementListingItem, createMockAgreement }

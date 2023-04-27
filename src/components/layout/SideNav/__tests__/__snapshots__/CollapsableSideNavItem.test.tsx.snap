@@ -1,0 +1,287 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CollapsableSideNavItem > should match the snapshot (closed - not selected) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-1jolfkj"
+    >
+      <div
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
+        color="inherit"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+          >
+            Erogazione
+          </p>
+        </div>
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ExpandMoreIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`CollapsableSideNavItem > should match the snapshot (closed - selected) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-1bm9945"
+    >
+      <div
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
+        color="inherit"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-dtyt49-MuiTypography-root"
+          >
+            Erogazione
+          </p>
+        </div>
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ExpandMoreIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`CollapsableSideNavItem > should match the snapshot (opened - not selected) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-1jolfkj"
+    >
+      <div
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
+        color="inherit"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+          >
+            Erogazione
+          </p>
+        </div>
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ExpandLessIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+      <div
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+          >
+            <ul
+              class="MuiList-root css-10gkqfq-MuiList-root"
+            >
+              <li
+                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+                  href="/it/erogazione/richieste"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
+                    >
+                      Richieste di fruizione
+                    </p>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </a>
+              </li>
+              <li
+                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+                  href="/it/erogazione/e-service"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
+                    >
+                      I tuoi e-service
+                    </p>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`CollapsableSideNavItem > should match the snapshot (opened - selected) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-1bm9945"
+    >
+      <div
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
+        color="inherit"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-dtyt49-MuiTypography-root"
+          >
+            Erogazione
+          </p>
+        </div>
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="ExpandLessIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="m12 8-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+          />
+        </svg>
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+      <div
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+          >
+            <ul
+              class="MuiList-root css-10gkqfq-MuiList-root"
+            >
+              <li
+                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-4vn07n-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+                  href="/it/erogazione/richieste"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ha8szv-MuiTypography-root"
+                    >
+                      Richieste di fruizione
+                    </p>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </a>
+              </li>
+              <li
+                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+                  href="/it/erogazione/e-service"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
+                    >
+                      I tuoi e-service
+                    </p>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

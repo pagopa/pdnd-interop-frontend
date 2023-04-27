@@ -4,13 +4,10 @@ import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type { Attribute } from '@/api/api.generatedTypes'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { waitFor } from '@testing-library/react'
-import { vi } from 'vitest'
-import * as useJwtHook from '@/hooks/useJwt'
-import { mockUseJwt } from '__mocks__/data/user.mocks'
 
-vi.spyOn(useJwtHook, 'useJwt').mockImplementation(() => mockUseJwt())
+mockUseJwt()
 
 const server = setupServer(
   rest.get(`${BACKEND_FOR_FRONTEND_URL}/attributes/:id`, (req, res, ctx) => {

@@ -1,0 +1,772 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ClientTable > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1m2za9r-MuiStack-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-1equabv-MuiGrid-root"
+        >
+          <div
+            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+              for=":r2:"
+              id=":r2:-label"
+            >
+              nameField.label
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input"
+                id=":r2:"
+                name="q"
+                type="text"
+                value=""
+              />
+              <button
+                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-ytfocf-MuiButtonBase-root-MuiIconButton-root"
+                disabled=""
+                tabindex="-1"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  aria-label="Filtra"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="SearchIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  />
+                </svg>
+              </button>
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-yjsfm1"
+                >
+                  <span>
+                    nameField.label
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiTableContainer-root css-u77c0j-MuiTableContainer-root"
+    >
+      <table
+        class="MuiTable-root css-rqglhn-MuiTable-root"
+      >
+        <thead
+          class="MuiTableHead-root css-whv87p-MuiTableHead-root"
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+          >
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+              scope="col"
+            >
+              clientName
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+              scope="col"
+            />
+          </tr>
+        </thead>
+        <tbody
+          class="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
+        >
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+              >
+                client1
+              </span>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                inspect
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <button
+                  aria-haspopup="true"
+                  aria-label="iconButtonAriaLabel"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
+                  id=":r3:-composition-button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
+                    data-testid="MoreVertIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-body2 css-1h9j9ew-MuiTypography-root"
+              >
+                client2
+              </span>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                inspect
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <button
+                  aria-haspopup="true"
+                  aria-label="iconButtonAriaLabel"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
+                  id=":r5:-composition-button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
+                    data-testid="MoreVertIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ClientTable > should match the snapshot in empty state 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1m2za9r-MuiStack-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-1equabv-MuiGrid-root"
+        >
+          <div
+            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+              for=":r8:"
+              id=":r8:-label"
+            >
+              nameField.label
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input"
+                id=":r8:"
+                name="q"
+                type="text"
+                value=""
+              />
+              <button
+                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-ytfocf-MuiButtonBase-root-MuiIconButton-root"
+                disabled=""
+                tabindex="-1"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  aria-label="Filtra"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="SearchIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  />
+                </svg>
+              </button>
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-yjsfm1"
+                >
+                  <span>
+                    nameField.label
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiTableContainer-root css-u77c0j-MuiTableContainer-root"
+    >
+      <table
+        class="MuiTable-root css-rqglhn-MuiTable-root"
+      >
+        <thead
+          class="MuiTableHead-root css-whv87p-MuiTableHead-root"
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+          >
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+              scope="col"
+            >
+              clientName
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+              scope="col"
+            />
+          </tr>
+        </thead>
+        <tbody
+          class="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
+        >
+          <tr
+            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-d9l1z9-MuiTableCell-root"
+              colspan="2"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
+                role="alert"
+              >
+                <div
+                  class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                    data-testid="InfoOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+                >
+                  noMultiDataLabel
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ClientTable > should match the snapshot in loading state 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1m2za9r-MuiStack-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 css-1equabv-MuiGrid-root"
+        >
+          <div
+            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+              for=":r0:"
+              id=":r0:-label"
+            >
+              nameField.label
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input"
+                id=":r0:"
+                name="q"
+                type="text"
+                value=""
+              />
+              <button
+                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium css-ytfocf-MuiButtonBase-root-MuiIconButton-root"
+                disabled=""
+                tabindex="-1"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  aria-label="Filtra"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="SearchIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  />
+                </svg>
+              </button>
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-yjsfm1"
+                >
+                  <span>
+                    nameField.label
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiTableContainer-root css-u77c0j-MuiTableContainer-root"
+    >
+      <table
+        class="MuiTable-root css-rqglhn-MuiTable-root"
+      >
+        <thead
+          class="MuiTableHead-root css-whv87p-MuiTableHead-root"
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+          >
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+              scope="col"
+            >
+              clientName
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+              scope="col"
+            />
+          </tr>
+        </thead>
+        <tbody
+          class="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
+        >
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ClientTableSkeleton > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiTableContainer-root css-u77c0j-MuiTableContainer-root"
+    >
+      <table
+        class="MuiTable-root css-rqglhn-MuiTable-root"
+      >
+        <thead
+          class="MuiTableHead-root css-whv87p-MuiTableHead-root"
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+          >
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+              scope="col"
+            >
+              clientName
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+              scope="col"
+            />
+          </tr>
+        </thead>
+        <tbody
+          class="MuiTableBody-root css-1nq9kkf-MuiTableBody-root"
+        >
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1p72hwd-MuiTableRow-root"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 440px;"
+              />
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                style="width: 100px; height: 40px;"
+              />
+              <span
+                class="MuiBox-root css-1ljwlp4"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  style="width: 4px;"
+                />
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+`;

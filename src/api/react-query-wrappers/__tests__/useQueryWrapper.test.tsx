@@ -2,9 +2,7 @@ import React from 'react'
 import { renderHook, screen } from '@testing-library/react'
 import { useQueryWrapper } from '../useQueryWrapper'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClientMock } from '@/utils/testing.utils'
-import { vi } from 'vitest'
-import * as hooks from '@/hooks/useJwt'
+import { mockUseJwt, queryClientMock } from '@/utils/testing.utils'
 import { act } from 'react-dom/test-utils'
 import { ErrorBoundary } from 'react-error-boundary'
 import { rest } from 'msw'
@@ -29,12 +27,8 @@ afterAll(() => {
 })
 
 afterEach(() => {
-  useJwtSpy.mockClear()
   queryClientMock.clear()
 })
-
-const useJwtSpy = vi.spyOn(hooks, 'useJwt')
-type UseJwtReturnT = ReturnType<typeof hooks.useJwt>
 
 async function promiseResolvedMock() {
   const response = await axiosInstance.get('/test-success')
@@ -68,7 +62,7 @@ describe('useQueryWrapper tests', () => {
 
   it('Should fetch when useJwt jwt property is truthy', async () => {
     /** Mocks useJwt returns a truthy value for jwt property */
-    useJwtSpy.mockImplementation(() => ({ jwt: true } as unknown as UseJwtReturnT))
+    mockUseJwt()
     const { result, rerender } = renderHook(() => useQueryWrapper(['TEST'], promiseResolvedMock), {
       wrapper,
     })
@@ -80,7 +74,7 @@ describe('useQueryWrapper tests', () => {
 
   it('Should not show error boundary when 404 error occurs', async () => {
     /** Mocks useJwt returns a truthy value for jwt property */
-    useJwtSpy.mockImplementation(() => ({ jwt: true } as unknown as UseJwtReturnT))
+    mockUseJwt()
     const { rerender } = renderHook(
       () => useQueryWrapper(['TEST'], promiseRejectedMock, { skipThrowOn404Error: true }),
       {
@@ -96,7 +90,7 @@ describe('useQueryWrapper tests', () => {
 
   it('Should show error boundary', async () => {
     /** Mocks useJwt returns a truthy value for jwt property */
-    useJwtSpy.mockImplementation(() => ({ jwt: true } as unknown as UseJwtReturnT))
+    mockUseJwt()
     const { rerender } = renderHook(() => useQueryWrapper(['TEST'], promiseRejectedMock), {
       wrapper: wrapperWithErrorBoundary,
     })

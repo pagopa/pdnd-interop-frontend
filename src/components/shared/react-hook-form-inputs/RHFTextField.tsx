@@ -1,8 +1,8 @@
 import React from 'react'
-import { TextField as MUITextField, TextFieldProps as MUITextFieldProps } from '@mui/material'
+import { TextField as MUITextField, type TextFieldProps as MUITextFieldProps } from '@mui/material'
 import { InputWrapper } from '../InputWrapper'
 import { useFormContext, Controller } from 'react-hook-form'
-import { ControllerProps } from 'react-hook-form/dist/types/controller'
+import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 import { useTranslation } from 'react-i18next'
 

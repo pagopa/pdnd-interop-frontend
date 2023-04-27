@@ -1,13 +1,13 @@
 import React from 'react'
 import {
   SingleFileInput as PagoPASingleFileInput,
-  SingleFileInputProps as PagoPASingleFileInputProps,
+  type SingleFileInputProps as PagoPASingleFileInputProps,
 } from '@pagopa/mui-italia'
 import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
-import { SxProps } from '@mui/material'
+import type { SxProps } from '@mui/material'
+import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { ControllerProps } from 'react-hook-form/dist/types'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type RHFSingleFileInputProps = Omit<

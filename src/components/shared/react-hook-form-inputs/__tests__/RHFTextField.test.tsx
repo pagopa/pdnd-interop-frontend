@@ -4,6 +4,7 @@ import { TestInputWrapper } from './test-utils'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import userEvent from '@testing-library/user-event'
 import { useFormContext } from 'react-hook-form'
+import { vi } from 'vitest'
 
 const testValues = {
   first: 'test',
@@ -60,5 +61,21 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     const input = textField.getByRole('textbox')
 
     expect(document.activeElement).toBe(input)
+  })
+
+  it('should call onValueChange when the value changes', async () => {
+    const user = userEvent.setup()
+    const onValueChange = vi.fn()
+    const textField = render(
+      <TestInputWrapper>
+        <RHFTextField label={'input label'} name={'testText'} onValueChange={onValueChange} />
+      </TestInputWrapper>
+    )
+    const input = textField.getByRole('textbox')
+
+    user.type(input, testValues.first)
+    await waitFor(() => {
+      expect(onValueChange).toHaveBeenCalledWith(testValues.first)
+    })
   })
 })

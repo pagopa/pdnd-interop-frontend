@@ -1,17 +1,9 @@
-import { afterEach, vi } from 'vitest'
-import * as hooks from '@/hooks/useJwt'
 import { renderHook } from '@testing-library/react'
 import { useGetSideNavItems } from '../useGetSideNavItems'
-
-afterEach(() => {
-  useJwtSpy.mockClear()
-})
-
-const useJwtSpy = vi.spyOn(hooks, 'useJwt')
-type UseJwtReturnT = ReturnType<typeof hooks.useJwt>
+import { mockUseJwt } from '@/utils/testing.utils'
 
 it('Should match the snapshot on empty roles', async () => {
-  useJwtSpy.mockImplementation(() => ({ currentRoles: [] } as unknown as UseJwtReturnT))
+  mockUseJwt({ currentRoles: [] })
   const { result } = renderHook(() => useGetSideNavItems())
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -35,7 +27,7 @@ it('Should match the snapshot on empty roles', async () => {
 })
 
 it('Should match the snapshot on only admin role', async () => {
-  useJwtSpy.mockImplementation(() => ({ currentRoles: ['admin'] } as unknown as UseJwtReturnT))
+  mockUseJwt({ currentRoles: ['admin'] })
   const { result } = renderHook(() => useGetSideNavItems())
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -79,7 +71,7 @@ it('Should match the snapshot on only admin role', async () => {
 })
 
 it('Should match the snapshot on only api operator role', async () => {
-  useJwtSpy.mockImplementation(() => ({ currentRoles: ['api'] } as unknown as UseJwtReturnT))
+  mockUseJwt({ currentRoles: ['api'] })
   const { result } = renderHook(() => useGetSideNavItems())
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -119,7 +111,7 @@ it('Should match the snapshot on only api operator role', async () => {
 })
 
 it('Should match the snapshot on only security operator role', async () => {
-  useJwtSpy.mockImplementation(() => ({ currentRoles: ['security'] } as unknown as UseJwtReturnT))
+  mockUseJwt({ currentRoles: ['security'] })
   const { result } = renderHook(() => useGetSideNavItems())
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -154,9 +146,7 @@ it('Should match the snapshot on only security operator role', async () => {
 })
 
 it('Should match the snapshot on security and api operator roles', async () => {
-  useJwtSpy.mockImplementation(
-    () => ({ currentRoles: ['security', 'api'] } as unknown as UseJwtReturnT)
-  )
+  mockUseJwt({ currentRoles: ['security', 'api'] })
   const { result } = renderHook(() => useGetSideNavItems())
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -200,9 +190,7 @@ it('Should match the snapshot on security and api operator roles', async () => {
 })
 
 it('Should match the snapshot on security and admin operator roles', async () => {
-  useJwtSpy.mockImplementation(
-    () => ({ currentRoles: ['security', 'admin'] } as unknown as UseJwtReturnT)
-  )
+  mockUseJwt({ currentRoles: ['security', 'admin'] })
   const { result } = renderHook(() => useGetSideNavItems())
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -246,9 +234,7 @@ it('Should match the snapshot on security and admin operator roles', async () =>
 })
 
 it('Should match the snapshot on api and admin operator roles', async () => {
-  useJwtSpy.mockImplementation(
-    () => ({ currentRoles: ['api', 'admin'] } as unknown as UseJwtReturnT)
-  )
+  mockUseJwt({ currentRoles: ['api', 'admin'] })
   const { result } = renderHook(() => useGetSideNavItems())
 
   expect(result.current).toMatchInlineSnapshot(`
@@ -292,9 +278,7 @@ it('Should match the snapshot on api and admin operator roles', async () => {
 })
 
 it('Should match the snapshot on all roles', async () => {
-  useJwtSpy.mockImplementation(
-    () => ({ currentRoles: ['api', 'admin'] } as unknown as UseJwtReturnT)
-  )
+  mockUseJwt({ currentRoles: ['api', 'admin'] })
   const { result } = renderHook(() => useGetSideNavItems())
 
   expect(result.current).toMatchInlineSnapshot(`

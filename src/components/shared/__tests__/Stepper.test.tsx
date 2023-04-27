@@ -13,18 +13,18 @@ describe("Checks that Stepper snapshots didn't change", () => {
   it('renders correctly step 1', () => {
     const stepper = render(<Stepper steps={steps} activeIndex={1} />)
     // doesn't render component
-    expect(stepper).toMatchSnapshot()
+    expect(stepper.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly step 2', () => {
     const stepper = render(<Stepper steps={steps} activeIndex={2} />)
 
-    expect(stepper).toMatchSnapshot()
+    expect(stepper.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly step 3', () => {
     const stepper = render(<Stepper steps={steps} activeIndex={3} />)
 
-    expect(stepper).toMatchSnapshot()
+    expect(stepper.baseElement).toMatchSnapshot()
   })
 })

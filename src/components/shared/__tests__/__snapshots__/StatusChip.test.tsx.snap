@@ -1,0 +1,480 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`StatusChip > should match the snapshot (agreement - ACTIVE) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.ACTIVE
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - ARCHIVED) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.ARCHIVED
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - DRAFT) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.DRAFT
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - MISSING_CERTIFIED_ATTRIBUTES) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.MISSING_CERTIFIED_ATTRIBUTES
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - PENDING) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.PENDING
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - REJECTED) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.REJECTED
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - suspended by all ) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.frontendStatus.suspendedByPlatform
+        </span>
+      </div>
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.frontendStatus.suspendedByProducer
+        </span>
+      </div>
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.frontendStatus.suspendedByConsumer
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - suspended by consumer and producer ) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.frontendStatus.suspendedByProducer
+        </span>
+      </div>
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.frontendStatus.suspendedByConsumer
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - suspendedByConsumer ) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.frontendStatus.suspendedByConsumer
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - suspendedByPlatform ) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.frontendStatus.suspendedByPlatform
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (agreement - suspendedByPlatform ) 2`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.agreement.frontendStatus.suspendedByProducer
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (attribute - ACTIVE) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1rq9bu9-MuiChip-root"
+      kind="CERTIFIED"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+      >
+        status.attribute.certified.ACTIVE
+      </span>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (attribute - NOT_ACTIVE) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorWarning MuiChip-filledWarning css-1cocbx6-MuiChip-root"
+      kind="CERTIFIED"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+      >
+        status.attribute.certified.NOT_ACTIVE
+      </span>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (eservice - ARCHIVED) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorInfo MuiChip-filledInfo css-1kvl34t-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+      >
+        status.eservice.ARCHIVED
+      </span>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (eservice - DEPRECATED) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorWarning MuiChip-filledWarning css-1cocbx6-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+      >
+        status.eservice.DEPRECATED
+      </span>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (eservice - DRAFT) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorInfo MuiChip-filledInfo css-1kvl34t-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+      >
+        status.eservice.DRAFT
+      </span>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (eservice - PUBLISHED) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1rq9bu9-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+      >
+        status.eservice.PUBLISHED
+      </span>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (eservice - SUSPENDED) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorError MuiChip-filledError css-xb328r-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+      >
+        status.eservice.SUSPENDED
+      </span>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (purpose - suspended by consumer version and waiting for approval version) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.purpose.SUSPENDED.byConsumer
+        </span>
+      </div>
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.purpose.WAITING_FOR_APPROVAL
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (purpose - suspended by producer version and waiting for approval version) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.purpose.SUSPENDED.byProducer
+        </span>
+      </div>
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.purpose.WAITING_FOR_APPROVAL
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (purpose - with current version and waiting for approval version) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.purpose.ACTIVE
+        </span>
+      </div>
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.purpose.WAITING_FOR_APPROVAL
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChip > should match the snapshot (purpose - with only waiting for approval version) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-w4z10b-MuiStack-root"
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.purpose.WAITING_FOR_APPROVAL
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StatusChipSkeleton > should match the snapshot 1`] = `
+<body>
+  <div>
+    <span
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1k986ro-MuiSkeleton-root"
+      style="width: 54px; height: 23px;"
+    />
+  </div>
+</body>
+`;

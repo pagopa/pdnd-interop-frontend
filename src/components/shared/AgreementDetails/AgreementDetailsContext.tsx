@@ -8,7 +8,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { AttributeQueries } from '@/api/attribute'
-import type { Agreement, TenantAttributes } from '@/api/api.generatedTypes'
+import type { Agreement } from '@/api/api.generatedTypes'
 
 type AgreementDetailsContextType = {
   agreement: Agreement | undefined
@@ -46,12 +46,7 @@ const AgreementDetailsContextProvider: React.FC<{
     { enabled: !!(agreement?.eservice.id && agreement?.descriptorId) }
   )
 
-  const partyId =
-    mode === 'provider'
-      ? agreement?.consumer.id
-      : mode === 'consumer'
-      ? jwt?.organizationId
-      : undefined
+  const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
 
   const [{ data: certified = [] }, { data: verified = [] }, { data: declared = [] }] =
     AttributeQueries.useGetListParty(partyId, agreement?.producer.id)

@@ -1,0 +1,76 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PageBottomCardContainer > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ofknlc-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-zv7ju9"
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
+        <div
+          class="css-hhuesm-MuiStack-root"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageBottomCardContainer > should match the snapshot with description 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ofknlc-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-zv7ju9"
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          <h2
+            class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+          >
+            title
+          </h2>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-1pnmrwp-MuiTypography-root"
+          >
+            description
+          </p>
+        </div>
+        <div
+          class="css-hhuesm-MuiStack-root"
+        />
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PageBottomCardContainerSkeleton > should match the snapshot 1`] = `
+<body>
+  <div>
+    <span
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+    />
+  </div>
+</body>
+`;
