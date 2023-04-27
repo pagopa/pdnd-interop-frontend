@@ -3,20 +3,20 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   Attribute,
   AttributeSeed,
-  AttributesResponse,
+  Attributes,
   CertifiedAttributesResponse,
   DeclaredAttributesResponse,
   DeclaredTenantAttributeSeed,
+  GetAttributesParams,
   VerifiedAttributesResponse,
   VerifiedTenantAttributeSeed,
 } from '../api.generatedTypes'
 import { remapAttributeResponseData } from './attribute.api.utils'
 
-async function getList(params?: { search: string }) {
-  const response = await axiosInstance.get<AttributesResponse>(
-    `${BACKEND_FOR_FRONTEND_URL}/attributes`,
-    { params }
-  )
+async function getList(params?: GetAttributesParams) {
+  const response = await axiosInstance.get<Attributes>(`${BACKEND_FOR_FRONTEND_URL}/attributes`, {
+    params,
+  })
   return response.data
 }
 

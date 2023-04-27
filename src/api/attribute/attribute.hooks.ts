@@ -2,6 +2,8 @@ import { useQueries, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
+import { Attributes, GetAttributesParams } from '../api.generatedTypes'
+import { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum AttributeQueryKeys {
   GetList = 'AttributeGetList',
@@ -12,16 +14,11 @@ export enum AttributeQueryKeys {
   GetPartyList = 'AttributeGetPartyList',
 }
 
-function useGetList(search?: string, config = { suspense: true }) {
+function useGetList(params: GetAttributesParams, config?: UseQueryWrapperOptions<Attributes>) {
   return useQueryWrapper(
-    [AttributeQueryKeys.GetList, search],
-    () => AttributeServices.getList(search ? { search } : undefined),
-    {
-      select(data) {
-        return data.attributes
-      },
-      ...config,
-    }
+    [AttributeQueryKeys.GetList, params],
+    () => AttributeServices.getList(params),
+    config
   )
 }
 
