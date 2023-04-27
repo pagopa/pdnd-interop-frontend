@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import type { SxProps } from '@mui/system'
 import { Box } from '@mui/material'
 import { Typography } from '@mui/material'
-import axios from 'axios'
 import isEmpty from 'lodash/isEmpty'
 import { useTranslation } from 'react-i18next'
 import { CopyToClipboardButton } from '@pagopa/mui-italia'
+import axiosInstance from '@/config/axios'
 
 type Entry = {
   value: string
@@ -46,14 +46,18 @@ export const CodeSnippetPreview = ({
 
   useEffect(() => {
     async function asyncFetchData() {
-      const codeStringResp = await Promise.all(entries.map(({ url }) => axios.get(url)))
+      try {
+        const codeStringResp = await Promise.all(entries.map(({ url }) => axiosInstance.get(url)))
 
-      const entriesMap = entries.reduce((acc, e) => {
-        const codeString = codeStringResp.find((r) => r.config.url === e.url)?.data
-        return { ...acc, [e.value]: codeString }
-      }, {})
+        const entriesMap = entries.reduce((acc, e) => {
+          const codeString = codeStringResp.find((r) => r.config.url === e.url)?.data
+          return { ...acc, [e.value]: codeString }
+        }, {})
 
-      setCodeEntries(entriesMap)
+        setCodeEntries(entriesMap)
+      } catch (err) {
+        console.error(err)
+      }
     }
 
     asyncFetchData()
