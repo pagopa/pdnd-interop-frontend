@@ -6,32 +6,13 @@ import {
   type AddAttributesToEServiceFormProps,
 } from '../AddAttributesToEServiceForm'
 import type { FrontendAttribute } from '@/types/attribute.types'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { createMockAttribute, createMockFrontendAttribute } from '__mocks__/data/attribute.mocks'
 import { AttributeQueries } from '@/api/attribute'
-import type { CompactAttribute } from '@/api/api.generatedTypes'
-
-// vi.mock('react-hook-form', async () => ({
-//   ...(await vi.importActual('react-hook-form')),
-//   useFormContext: () => ({
-//     watch: (value: string) => [
-//       {
-//         attributes: [
-//           {
-//             id: 'test-id',
-//             name: 'test-id-name',
-//           },
-//         ],
-//         explicitAttributeVerification: false,
-//       },
-//     ],
-//     setValue: (value: string, group: Array<FrontendAttribute>) => undefined,
-//     formState: {
-//       errors: {},
-//     },
-//   }),
-// }))
+import { Dialog } from '@/components/dialogs'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClientMock } from '@/utils/testing.utils'
 
 const attribute = createMockAttribute()
 
@@ -42,20 +23,6 @@ vi.spyOn(AttributeQueries, 'useGetSingle').mockReturnValue(
 vi.spyOn(AttributeQueries, 'usePrefetchSingle').mockReturnValue(
   vi.fn() as unknown as ReturnType<typeof AttributeQueries.usePrefetchSingle>
 )
-
-const mockGetListSpy = (attributes: Array<CompactAttribute> = [], isLoading = false) => {
-  vi.spyOn(AttributeQueries, 'useGetList').mockReturnValue({
-    data: {
-      results: attributes,
-      pagination: {
-        limit: 50,
-        offset: 0,
-        totalCount: attributes.length,
-      },
-    },
-    isLoading,
-  } as unknown as ReturnType<typeof AttributeQueries.useGetList>)
-}
 
 type MockContext = {
   attributes: {
@@ -75,7 +42,10 @@ const getInputWrapper = (
   }
 ) => {
   const InputWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <FormProvider {...useForm<MockContext>({ defaultValues })}>{children}</FormProvider>
+    <QueryClientProvider client={queryClientMock}>
+      <Dialog />
+      <FormProvider {...useForm<MockContext>({ defaultValues })}>{children}</FormProvider>
+    </QueryClientProvider>
   )
 
   return InputWrapper
@@ -147,7 +117,7 @@ describe("Checks that AttributeGroup snapshot don't change", () => {
 })
 
 describe('check the functionalities', () => {
-  it('button create new attribute not renders with attributeKey cetified', () => {
+  it('button create new attribute should not renders with attributeKey cetified', () => {
     const formComponent = renderAddAttributetoEServiceForm({
       attributeKey: 'certified',
       readOnly: true,
@@ -158,39 +128,35 @@ describe('check the functionalities', () => {
     expect(button).not.toBeInTheDocument()
   })
 
-  // it('create new attribute dialog renders correctly with attributeKey verified and readOnly false', async () => {
-  //   const user = userEvent.setup()
-  //   const formComponent = renderAddAttributetoEServiceForm({
-  //     attributeKey: 'verified',
-  //     readOnly: false,
-  //   })
+  it('create new attribute dialog renders correctly with attributeKey verified and readOnly false', async () => {
+    const user = userEvent.setup()
+    const formComponent = renderAddAttributetoEServiceForm({
+      attributeKey: 'verified',
+      readOnly: false,
+    })
 
-  //   const button = formComponent.getByRole('button', { name: 'createBtn' })
+    const button = formComponent.getByRole('button', { name: 'createBtn' })
 
-  //   await user.click(button)
+    await user.click(button)
 
-  //   screen.debug()
+    expect(formComponent.getByRole('dialog', { name: 'title type.verified' })).toBeInTheDocument()
+  })
 
-  //   expect(screen.getByRole('dialog', { name: 'title type.verified' })).toBeInTheDocument()
-  // })
+  it('create new attribute dialog renders correctly with attributeKey declared and readOnly false', async () => {
+    const user = userEvent.setup()
+    const formComponent = renderAddAttributetoEServiceForm({
+      attributeKey: 'declared',
+      readOnly: false,
+    })
 
-  // it('create new attribute dialog renders correctly with attributeKey declared and readOnly false', async () => {
-  //   const user = userEvent.setup()
-  //   const formComponent = renderAddAttributetoEServiceForm({
-  //     attributeKey: 'declared',
-  //     readOnly: false,
-  //   })
+    const button = formComponent.getByRole('button', { name: 'createBtn' })
 
-  //   const button = formComponent.getByRole('button', { name: 'createBtn' })
+    await user.click(button)
 
-  //   expect(button).toBeInTheDocument()
+    expect(formComponent.getByRole('dialog', { name: 'title type.declared' })).toBeInTheDocument()
+  })
 
-  //   // await user.click(button)
-
-  //   // expect(screen.getByRole('dialog', { name: 'title type.declared' })).toBeInTheDocument()
-  // })
-
-  it('renders correctly after adding new attributes group', async () => {
+  it('should add correctly new attributes group', async () => {
     const user = userEvent.setup()
     const formComponent = renderAddAttributetoEServiceForm({
       attributeKey: 'declared',
@@ -206,53 +172,39 @@ describe('check the functionalities', () => {
     expect(formComponent.queryAllByText('title').length).toBe(2)
   })
 
-  it('renders correctly after removing attributes group', async () => {
+  it('should remove correctly an attributes group', async () => {
     const user = userEvent.setup()
     const formComponent = renderAddAttributetoEServiceForm({
       attributeKey: 'declared',
       readOnly: false,
     })
 
-    const buttons = formComponent.getAllByRole('button', { name: 'addBtn' })
+    const buttonDelete = formComponent.getByLabelText('deleteGroupSrLabel')
 
-    expect(formComponent.queryAllByText('title').length).toBe(1)
+    expect(formComponent.queryByText('title')).toBeInTheDocument()
+    expect(formComponent.queryByText('Attribute Name')).toBeInTheDocument()
 
-    await user.click(buttons[1])
+    await user.click(buttonDelete)
 
-    expect(formComponent.queryAllByText('title').length).toBe(2)
-
-    formComponent.debug()
-
-    const buttonsDelete = formComponent.getAllByLabelText('deleteGroupSrLabel')
-
-    // expect(formComponent.queryByText('Attribute Name')).toBeInTheDocument()
-
-    console.debug('AAAAAAAAAAAAa', buttonsDelete.length)
-
-    await user.click(buttonsDelete[0])
-
-    // console.debug('BBBBBBBBBBBBB  ', formComponent.getAllByLabelText('deleteGroupSrLabel').length)
-
-    // expect(formComponent.queryAllByText('title').length).toBe(1)
-
-    // expect(formComponent.queryByText('Attribute Name')).not.toBeInTheDocument()
-
-    formComponent.debug()
+    expect(formComponent.queryByText('title')).not.toBeInTheDocument()
+    expect(formComponent.queryByText('Attribute Name')).not.toBeInTheDocument()
   })
 
-  // it('renders correctly after removing an attribute from a group', async () => {
-  //   const user = userEvent.setup()
-  //   const formComponent = renderAddAttributetoEServiceForm({
-  //     attributeKey: 'declared',
-  //     readOnly: false,
-  //   })
+  it('should remove correctly an attribute from a group', async () => {
+    const user = userEvent.setup()
+    const formComponent = renderAddAttributetoEServiceForm({
+      attributeKey: 'declared',
+      readOnly: false,
+    })
 
-  //   const buttons = formComponent.getAllByRole('button', { name: 'addBtn' })
+    const buttonsDelete = formComponent.getAllByTestId('DeleteOutlineIcon')
 
-  //   formComponent.debug()
+    expect(formComponent.queryByText('title')).toBeInTheDocument()
+    expect(formComponent.queryByText('Attribute Name')).toBeInTheDocument()
 
-  //   // await user.click(buttons[1])
+    await user.click(buttonsDelete[1])
 
-  //   // expect(formComponent.baseElement).toMatchSnapshot()
-  // })
+    expect(formComponent.queryByText('title')).toBeInTheDocument()
+    expect(formComponent.queryByText('Attribute Name')).not.toBeInTheDocument()
+  })
 })

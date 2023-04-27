@@ -250,9 +250,11 @@ describe('determine the element functionalities', () => {
     )
 
     vi.mock('react-hook-form', async () => ({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       ...(await vi.importActual('react-hook-form')),
       useFormContext: () => ({
-        watch: (value: string) => [
+        watch: () => [
           {
             attributes: [],
             explicitAttributeVerification: false,
@@ -290,7 +292,6 @@ describe('determine the element functionalities', () => {
       <AttributeGroup {...commonProps} onRemoveAttributesGroup={onRemoveAttributesGroupFn} />,
       { withReactQueryContext: true }
     )
-    groupComponent.debug()
     const button = groupComponent.getByLabelText('deleteGroupSrLabel')
     await user.click(button)
     expect(onRemoveAttributesGroupFn).toBeCalledWith(0)
@@ -303,7 +304,6 @@ describe('determine the element functionalities', () => {
       <AttributeGroup {...commonProps} onRemoveAttributeFromGroup={onRemoveAttributeFromGroupFn} />,
       { withReactQueryContext: true }
     )
-    groupComponent.debug()
 
     const buttons = groupComponent.getAllByTestId('DeleteOutlineIcon')
 

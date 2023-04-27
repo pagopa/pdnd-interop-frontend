@@ -33,7 +33,7 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
   }
 
   const handleRemoveAttributesGroup = (groupIndex: number) => {
-    const newAttributeGroups = attributeGroups.slice(groupIndex, 1)
+    const newAttributeGroups = attributeGroups.filter((_, i) => i !== groupIndex)
     setValue(`attributes.${attributeKey}`, newAttributeGroups, {
       shouldValidate: false,
     })
