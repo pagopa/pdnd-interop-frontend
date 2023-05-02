@@ -353,14 +353,3 @@ exports[`Checks that Accordion snapshot don't change > renders correctly 1`] = `
   </div>
 </body>
 `;
-
-exports[`Checks that Accordion snapshot don't change > renders correctly 2`] = `
-<body>
-  <div>
-    <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
-      style="height: 500px;"
-    />
-  </div>
-</body>
-`;
