@@ -45,6 +45,12 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
           direction="column"
           label={t('content.descriptionField.label')}
         />
+        <InformationContainer
+          content={attributeId}
+          copyToClipboard={{ value: attributeId }}
+          direction="column"
+          label={t('content.attributeIdField.label')}
+        />
       </Stack>
     </DialogContent>
   )
