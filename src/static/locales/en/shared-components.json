@@ -8,6 +8,9 @@
     "content": {
       "descriptionField": {
         "label": "Attribute description"
+      },
+      "attributeIdField": {
+        "label": "Attribute Id"
       }
     },
     "loading": "We are loading the attribute",
@@ -175,5 +178,10 @@
   },
   "actionMenu": {
     "iconButtonAriaLabel": "Open action menu"
+  },
+  "apiInfoSection": {
+    "title": "API Interoperabilità",
+    "content": "Useful parameters to obtain information programmatically through",
+    "link": "your interop api clients"
   }
 }
