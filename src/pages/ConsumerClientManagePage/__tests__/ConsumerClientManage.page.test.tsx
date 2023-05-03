@@ -33,7 +33,6 @@ describe('ConsumerClientManagePage (API)', () => {
 })
 
 describe('ConsumerClientManagePage (CONSUMER)', () => {
-  // global.Math.random = vi.fn().mockImplementation(() => 1)
   it('should match snapshot', () => {
     mockUseClientKind('CONSUMER')
     const { baseElement } = renderWithApplicationContext(<ConsumerClientManagePage />, {
