@@ -12,6 +12,8 @@ import { useGetVoucherInstructionsSteps } from '../../hooks/useGetVoucherInstruc
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { ClientVoucherIntructionsPurposeSelect } from './ClientVoucherIntructionsPurposeSelect'
 import { useSearchParams } from 'react-router-dom'
+import { ApiInfoSection, ApiInfoSectionSkeleton } from '@/components/shared/ApiInfoSection'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
 
 interface VoucherInstructionsProps {
   clientId: string
@@ -32,10 +34,12 @@ const InteropM2MVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ cli
   }
 
   return (
-    <>
-      <Stepper steps={steps} activeIndex={activeStep} />
-      <Step {...stepProps} />
-    </>
+    <Grid container>
+      <Grid item xs={8}>
+        <Stepper steps={steps} activeIndex={activeStep} />
+        <Step {...stepProps} />
+      </Grid>
+    </Grid>
   )
 }
 
@@ -44,6 +48,7 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
   const steps = useGetVoucherInstructionsSteps()
   const { isAdmin } = useJwt()
   const { t } = useTranslation('voucher')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'idLabels' })
   const { data: clientKeys = { keys: [] } } = ClientQueries.useGetKeyList(clientId)
   const { data: client } = ClientQueries.useGetSingle(clientId)
   const purposes = client?.purposes
@@ -58,7 +63,10 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
     setSearchParams({ ...Object.fromEntries(searchParams), purposeId: purposeId })
   }
 
-  const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId, { suspense: false })
+  const { data: purpose, isInitialLoading: isLoadingPurpose } = PurposeQueries.useGetSingle(
+    selectedPurposeId,
+    { suspense: false }
+  )
 
   const { component: Step } = steps[activeStep]
 
@@ -88,13 +96,33 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
 
   return (
     <>
-      <ClientVoucherIntructionsPurposeSelect
-        purposes={purposes}
-        selectedPurposeId={selectedPurposeId}
-        onChange={handlePurposeSelectOnChange}
-      />
-      <Stepper steps={steps} activeIndex={activeStep} />
-      <Step {...stepProps} />
+      <Grid spacing={2} container>
+        <Grid item xs={8}>
+          <ClientVoucherIntructionsPurposeSelect
+            purposes={purposes}
+            selectedPurposeId={selectedPurposeId}
+            onChange={handlePurposeSelectOnChange}
+          />
+          <Stepper steps={steps} activeIndex={activeStep} />
+          <Step {...stepProps} />
+        </Grid>
+        <Grid item xs={4}>
+          {purpose && (
+            <ApiInfoSection
+              ids={[
+                { name: tCommon('eserviceId'), id: purpose.eservice.id },
+                { name: tCommon('descriptorId'), id: purpose.eservice.descriptor.id },
+                { name: tCommon('agreementId'), id: purpose.agreement.id },
+                { name: tCommon('purposeId'), id: purpose.id },
+                { name: tCommon('clientId'), id: clientId },
+                { name: tCommon('providerId'), id: purpose.eservice.producer.id },
+                { name: tCommon('consumerId'), id: purpose.consumer.id },
+              ]}
+            />
+          )}
+          {isLoadingPurpose && <ApiInfoSectionSkeleton height={604} />}
+        </Grid>
+      </Grid>
     </>
   )
 }
@@ -120,22 +148,26 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ client
   }
 
   return (
-    <Grid container>
-      <Grid item xs={8}>
-        {clientKind === 'CONSUMER' && <ClientVoucherInstructions clientId={clientId} />}
-        {clientKind === 'API' && <InteropM2MVoucherInstructions clientId={clientId} />}
-      </Grid>
-    </Grid>
+    <>
+      {clientKind === 'CONSUMER' && <ClientVoucherInstructions clientId={clientId} />}
+      {clientKind === 'API' && <InteropM2MVoucherInstructions clientId={clientId} />}
+    </>
   )
 }
 
 export const VoucherInstructionsSkeleton: React.FC = () => {
+  const clientKind = useClientKind()
   return (
-    <Grid container>
+    <Grid spacing={2} container>
       <Grid item xs={8}>
-        <Skeleton variant="rectangular" height={111} />
-        <Skeleton sx={{ mt: 2 }} variant="rectangular" height={600} />
+        <SectionContainerSkeleton height={111} />
+        <SectionContainerSkeleton height={600} />
       </Grid>
+      {clientKind === 'CONSUMER' && (
+        <Grid item xs={4}>
+          <ApiInfoSectionSkeleton height={604} />
+        </Grid>
+      )}
     </Grid>
   )
 }

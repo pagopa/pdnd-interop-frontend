@@ -18,21 +18,38 @@ import {
 import { AgreementRejectedMessageSection } from './components/AgreementRejectedMessageSection'
 import { AgreementConsumerMessageSection } from './components/AgreementConsumerMessageSection'
 import { AgreementUpgradeGuideSection } from './components/AgreementUpgradeGuideSection'
+import { ApiInfoSection, ApiInfoSectionSkeleton } from '../ApiInfoSection'
+import { AgreementQueries } from '@/api/agreement'
+import { useTranslation } from 'react-i18next'
 
 type AgreementDetailsProps = {
   agreementId: string
 }
 
 export const AgreementDetails: React.FC<AgreementDetailsProps> = ({ agreementId }) => {
+  const { t } = useTranslation('common', { keyPrefix: 'idLabels' })
+  const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
+
   return (
     <AgreementDetailsContextProvider agreementId={agreementId}>
       <AgreementUpgradeGuideSection />
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <AgreementGeneralInfoSection />
+          <AgreementDocumentListSection />
         </Grid>
         <Grid item xs={5}>
-          <AgreementDocumentListSection />
+          {agreement && (
+            <ApiInfoSection
+              ids={[
+                { name: t('eserviceId'), id: agreement.eservice.id },
+                { name: t('descriptorId'), id: agreement.descriptorId },
+                { name: t('agreementId'), id: agreementId },
+                { name: t('providerId'), id: agreement.producer.id },
+                { name: t('consumerId'), id: agreement.consumer.id },
+              ]}
+            />
+          )}
         </Grid>
       </Grid>
 
@@ -53,11 +70,12 @@ export const AgreementDetailsSkeleton: React.FC = () => {
         <Grid item xs={7}>
           <Stack spacing={2}>
             <AgreementGeneralInfoSectionSkeleton />
+            <AgreementDocumentListSectionSkeleton />
           </Stack>
         </Grid>
         <Grid item xs={5}>
           <Stack spacing={2}>
-            <AgreementDocumentListSectionSkeleton />
+            <ApiInfoSectionSkeleton />
           </Stack>
         </Grid>
       </Grid>

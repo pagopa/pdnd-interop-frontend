@@ -34,7 +34,14 @@ describe('EServiceDetails', () => {
 })
 
 describe('EServiceDetailsSkeleton', () => {
-  it('should match the snapshot', () => {
+  it('should match the snapshot (provider)', () => {
+    mockUseCurrentRoute({ mode: 'provider' })
+    const { baseElement } = render(<EServiceDetailsSkeleton />)
+    expect(baseElement).toMatchSnapshot()
+  })
+
+  it('should match the snapshot (consumer)', () => {
+    mockUseCurrentRoute({ mode: 'consumer' })
     const { baseElement } = render(<EServiceDetailsSkeleton />)
     expect(baseElement).toMatchSnapshot()
   })

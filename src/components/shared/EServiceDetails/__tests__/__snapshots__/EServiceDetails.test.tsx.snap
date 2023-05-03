@@ -13,7 +13,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -56,7 +56,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -280,15 +280,11 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
-      >
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -327,12 +323,177 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
           </div>
         </div>
       </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+        >
+          <div
+            class="css-1okj3ks-MuiStack-root"
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            >
+              title
+            </h2>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+            >
+              content
+            </span>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <div
+              class="css-1okj3ks-MuiStack-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-1pdb85g"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    eserviceId
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    03d0c725-47e5-4ec5-8ecd-1a1f3ce45d29
+                    <button
+                      aria-label="Copia"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                      data-mui-internal-clone-element="true"
+                      role="button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                        data-testid="ContentCopyIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                        />
+                      </svg>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </button>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-1pdb85g"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    descriptorId
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    ec94e366-cbb2-4203-ac07-95acf5289a31
+                    <button
+                      aria-label="Copia"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                      data-mui-internal-clone-element="true"
+                      role="button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                        data-testid="ContentCopyIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                        />
+                      </svg>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </button>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-1pdb85g"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    providerId
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  >
+                    ad474d35-7939-4bee-bde9-4e469cca1030
+                    <button
+                      aria-label="Copia"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                      data-mui-internal-clone-element="true"
+                      role="button"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                        data-testid="ContentCopyIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                        />
+                      </svg>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -387,7 +548,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -442,7 +603,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -517,7 +678,7 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -560,7 +721,7 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -784,15 +945,11 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
-      >
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -830,11 +987,15 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
             </div>
           </div>
         </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+      >
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -914,7 +1075,7 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -969,7 +1130,7 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1024,7 +1185,7 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1086,6 +1247,152 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
 </body>
 `;
 
+exports[`EServiceDetailsSkeleton > should match the snapshot (consumer) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1r4x8sc-MuiStack-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+        >
+          <div
+            class="css-1p5q5e5-MuiStack-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 102px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 471px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 150px;"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+        >
+          <div
+            class="css-1p5q5e5-MuiStack-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 300px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 337px;"
+            />
+          </div>
+        </div>
+      </div>
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+            style="height: 150px;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`EServiceDetailsSkeleton > should match the snapshot (provider) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1r4x8sc-MuiStack-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+        >
+          <div
+            class="css-1p5q5e5-MuiStack-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 102px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 471px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 150px;"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+        >
+          <div
+            class="css-1p5q5e5-MuiStack-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 194px;"
+            />
+          </div>
+        </div>
+      </div>
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+            style="height: 150px;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
 exports[`EServiceDetailsSkeleton > should match the snapshot 1`] = `
 <body>
   <div>
@@ -1102,12 +1409,16 @@ exports[`EServiceDetailsSkeleton > should match the snapshot 1`] = `
             class="css-1p5q5e5-MuiStack-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-              style="height: 140px;"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 102px;"
             />
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
               style="height: 471px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 150px;"
             />
           </div>
         </div>
@@ -1118,26 +1429,26 @@ exports[`EServiceDetailsSkeleton > should match the snapshot 1`] = `
             class="css-1p5q5e5-MuiStack-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-              style="height: 150px;"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 300px;"
             />
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-              style="height: 300px;"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              style="height: 337px;"
             />
           </div>
         </div>
       </div>
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
         style="height: 320px;"
       />
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
         style="height: 320px;"
       />
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
         style="height: 320px;"
       />
       <div
@@ -1147,7 +1458,7 @@ exports[`EServiceDetailsSkeleton > should match the snapshot 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
         >
           <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
             style="height: 150px;"
           />
         </div>
