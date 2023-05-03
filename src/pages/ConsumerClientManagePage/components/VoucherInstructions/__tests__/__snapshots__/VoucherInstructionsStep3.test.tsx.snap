@@ -1,0 +1,310 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`VoucherInstructionsStep3 > should match snapshot (API) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step3.api.title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          step3.api.description
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1evo70x-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              step3.api.apiField.label
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              <a
+                class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                href="https://test.it//swagger/docs/interface-specification.yml"
+                rel="noreferrer"
+                target="_blank"
+                title="step3.api.apiField.link.title"
+              >
+                step3.api.apiField.link.label
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-9v4aab-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            backBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`VoucherInstructionsStep3 > should match snapshot (CONSUMER) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step3.consumer.title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          step3.consumer.description
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-vemggx-MuiStack-root"
+        >
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step3.consumer.audField.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                step3.consumer.audField.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                Lorem
+                <button
+                  aria-label="Copia"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                  data-mui-internal-clone-element="true"
+                  role="button"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                    data-testid="ContentCopyIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                    />
+                  </svg>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step3.consumer.eserviceDetailsField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  href="/it/fruizione/catalogo-e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
+                  target="_blank"
+                >
+                  Test Attributi 2 - Ste
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-9v4aab-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            backBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`VoucherInstructionsStep3 > should match snapshot (CONSUMER) while loading descriptor 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-nen11g-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          step3.consumer.title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          step3.consumer.description
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-vemggx-MuiStack-root"
+        >
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step3.consumer.audField.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                step3.consumer.audField.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  style="width: 200px;"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                step3.consumer.eserviceDetailsField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  href="/it/fruizione/catalogo-e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
+                  target="_blank"
+                >
+                  Test Attributi 2 - Ste
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-9v4aab-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            backBtn
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

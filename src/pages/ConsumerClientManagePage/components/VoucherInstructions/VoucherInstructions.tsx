@@ -134,7 +134,7 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ client
   const { data: clientKeys } = ClientQueries.useGetKeyList(clientId)
   const clientKind = useClientKind()
 
-  if (!clientKeys || (clientKeys && Boolean(clientKeys.keys.length === 0))) {
+  if (!clientKeys || clientKeys.keys.length === 0) {
     return (
       <Alert severity="info">
         {t('uploadKey.message')}{' '}

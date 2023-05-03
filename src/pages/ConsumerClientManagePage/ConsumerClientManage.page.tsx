@@ -30,7 +30,7 @@ const ConsumerClientManagePage: React.FC = () => {
 
   return (
     <PageContainer
-      title={client?.name ?? ''}
+      title={client?.name}
       description={client?.description}
       topSideActions={topSideActions}
       isLoading={isLoadingClient}

@@ -208,13 +208,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
 
         switch (type) {
           case 'text':
-            questionComponents.push(
-              <RHFTextField
-                {...commonProps}
-                inputProps={{ maxLength }}
-                rules={{ required: true }}
-              />
-            )
+            questionComponents.push(<RHFTextField {...commonProps} inputProps={{ maxLength }} />)
             break
           case 'select-one':
             questionComponents.push(
@@ -222,40 +216,17 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
                 {...commonProps}
                 options={inputOptions}
                 emptyLabel={t('edit.step2.emptyLabel')}
-                rules={{ required: true }}
               />
             )
             break
           case 'checkbox':
-            questionComponents.push(
-              <RHFCheckboxGroup
-                {...commonProps}
-                options={inputOptions}
-                rules={{
-                  validate: (value) =>
-                    (typeof value !== 'undefined' && value.length > 0) ||
-                    t('edit.step2.multiCheckboxField.validation.mixed.required'),
-                }}
-              />
-            )
+            questionComponents.push(<RHFCheckboxGroup {...commonProps} options={inputOptions} />)
             break
           case 'radio':
-            questionComponents.push(
-              <RHFRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
-            )
+            questionComponents.push(<RHFRadioGroup {...commonProps} options={inputOptions} />)
             break
           case 'switch':
-            questionComponents.push(
-              <RiskAnalysisSwitch
-                {...commonProps}
-                options={inputOptions}
-                rules={{
-                  validate: (value) =>
-                    (typeof value === 'boolean' && value === true) ||
-                    t('edit.step2.riskAnalysisSwitch.validation.boolean.isValue'),
-                }}
-              />
-            )
+            questionComponents.push(<RiskAnalysisSwitch {...commonProps} options={inputOptions} />)
             break
         }
 

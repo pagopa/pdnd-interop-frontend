@@ -1,0 +1,305 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ConsumerClientManagePage (API) > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            style="overflow: hidden; margin-bottom: 0px;"
+          >
+            <div
+              aria-label="tabs.ariaLabel"
+              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-controls="mui-p-3417-P-voucher"
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth Mui-selected css-1ujykiq-MuiButtonBase-root-MuiTab-root"
+                id="mui-p-3417-T-voucher"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                tabs.voucher
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="mui-p-3417-P-clientOperators"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth css-1ujykiq-MuiButtonBase-root-MuiTab-root"
+                id="mui-p-3417-T-clientOperators"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                tabs.clientOperators
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="mui-p-3417-P-publicKeys"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth css-1ujykiq-MuiButtonBase-root-MuiTab-root"
+                id="mui-p-3417-T-publicKeys"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                tabs.publicKeys
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+        <div
+          aria-labelledby="mui-p-3417-T-voucher"
+          class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
+          id="mui-p-3417-P-voucher"
+          role="tabpanel"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                style="height: 111px;"
+              />
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-oxsfu5-MuiSkeleton-root"
+                style="height: 600px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          aria-labelledby="mui-p-3417-T-clientOperators"
+          class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
+          hidden=""
+          id="mui-p-3417-P-clientOperators"
+          role="tabpanel"
+        />
+        <div
+          aria-labelledby="mui-p-3417-T-publicKeys"
+          class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
+          hidden=""
+          id="mui-p-3417-P-publicKeys"
+          role="tabpanel"
+        />
+        <div
+          class="css-fhd9dx-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            actions.backToClientsLabel
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ConsumerClientManagePage (CONSUMER) > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="css-1mure3k-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-1rr4qq7"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </h1>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            />
+          </p>
+        </div>
+        <div
+          class="css-1yo1jo6-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-h5fkc8"
+      >
+        <div
+          class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            style="overflow: hidden; margin-bottom: 0px;"
+          >
+            <div
+              aria-label="tabs.ariaLabel"
+              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-controls="mui-p-72373-P-voucher"
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth Mui-selected css-1ujykiq-MuiButtonBase-root-MuiTab-root"
+                id="mui-p-72373-T-voucher"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                tabs.voucher
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="mui-p-72373-P-clientOperators"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth css-1ujykiq-MuiButtonBase-root-MuiTab-root"
+                id="mui-p-72373-T-clientOperators"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                tabs.clientOperators
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="mui-p-72373-P-publicKeys"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth css-1ujykiq-MuiButtonBase-root-MuiTab-root"
+                id="mui-p-72373-T-publicKeys"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                tabs.publicKeys
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+        <div
+          aria-labelledby="mui-p-72373-T-voucher"
+          class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
+          id="mui-p-72373-P-voucher"
+          role="tabpanel"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                style="height: 111px;"
+              />
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-oxsfu5-MuiSkeleton-root"
+                style="height: 600px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          aria-labelledby="mui-p-72373-T-clientOperators"
+          class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
+          hidden=""
+          id="mui-p-72373-P-clientOperators"
+          role="tabpanel"
+        />
+        <div
+          aria-labelledby="mui-p-72373-T-publicKeys"
+          class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
+          hidden=""
+          id="mui-p-72373-P-publicKeys"
+          role="tabpanel"
+        />
+        <div
+          class="css-fhd9dx-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            actions.backToClientsLabel
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
