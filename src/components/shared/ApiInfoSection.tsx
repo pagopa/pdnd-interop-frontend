@@ -1,7 +1,7 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SectionContainer, SectionContainerSkeleton } from '../layout/containers'
-import { type SkeletonProps, Stack, Typography } from '@mui/material'
+import { Stack, type SkeletonProps } from '@mui/material'
 import { RouterLink } from '@/router'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 
@@ -21,15 +21,17 @@ export const ApiInfoSection: React.FC<ApiInfoSectionProps> = ({ ids }) => {
         <Trans components={{ 1: <RouterLink to="SUBSCRIBE_INTEROP_M2M" /> }}>{t('content')}</Trans>
       }
     >
-      {ids.map((element, index) => (
-        <InformationContainer
-          key={index}
-          content={element.id}
-          copyToClipboard={{ value: element.id, tooltipTitle: t('tooltipTitle') }}
-          direction="column"
-          label={element.name}
-        />
-      ))}
+      <Stack spacing={1}>
+        {ids.map((element, index) => (
+          <InformationContainer
+            key={index}
+            content={element.id}
+            copyToClipboard={{ value: element.id, tooltipTitle: t('tooltipTitle') }}
+            direction="column"
+            label={element.name}
+          />
+        ))}
+      </Stack>
     </SectionContainer>
   )
 }
