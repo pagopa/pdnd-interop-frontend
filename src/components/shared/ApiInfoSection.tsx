@@ -15,23 +15,21 @@ export const ApiInfoSection: React.FC<ApiInfoSectionProps> = ({ ids }) => {
   })
 
   return (
-    <SectionContainer title={t('title')}>
-      <Stack spacing={2}>
-        <Typography variant="body2">
-          <Trans components={{ 1: <RouterLink to="SUBSCRIBE_INTEROP_M2M" /> }}>
-            {t('content')}
-          </Trans>
-        </Typography>
-        {ids.map((element, index) => (
-          <InformationContainer
-            key={index}
-            content={element.id}
-            copyToClipboard={{ value: element.id, tooltipTitle: t('tooltipTitle') }}
-            direction="column"
-            label={element.name}
-          />
-        ))}
-      </Stack>
+    <SectionContainer
+      title={t('title')}
+      description={
+        <Trans components={{ 1: <RouterLink to="SUBSCRIBE_INTEROP_M2M" /> }}>{t('content')}</Trans>
+      }
+    >
+      {ids.map((element, index) => (
+        <InformationContainer
+          key={index}
+          content={element.id}
+          copyToClipboard={{ value: element.id, tooltipTitle: t('tooltipTitle') }}
+          direction="column"
+          label={element.name}
+        />
+      ))}
     </SectionContainer>
   )
 }
