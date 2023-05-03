@@ -47,10 +47,10 @@ exports[`ConsumerClientManagePage (API) > should match snapshot 1`] = `
               role="tablist"
             >
               <button
-                aria-controls="mui-p-3417-P-voucher"
+                aria-controls="mui-p-100000-P-voucher"
                 aria-selected="true"
                 class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth Mui-selected css-1ujykiq-MuiButtonBase-root-MuiTab-root"
-                id="mui-p-3417-T-voucher"
+                id="mui-p-100000-T-voucher"
                 role="tab"
                 tabindex="0"
                 type="button"
@@ -61,10 +61,10 @@ exports[`ConsumerClientManagePage (API) > should match snapshot 1`] = `
                 />
               </button>
               <button
-                aria-controls="mui-p-3417-P-clientOperators"
+                aria-controls="mui-p-100000-P-clientOperators"
                 aria-selected="false"
                 class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth css-1ujykiq-MuiButtonBase-root-MuiTab-root"
-                id="mui-p-3417-T-clientOperators"
+                id="mui-p-100000-T-clientOperators"
                 role="tab"
                 tabindex="-1"
                 type="button"
@@ -75,10 +75,10 @@ exports[`ConsumerClientManagePage (API) > should match snapshot 1`] = `
                 />
               </button>
               <button
-                aria-controls="mui-p-3417-P-publicKeys"
+                aria-controls="mui-p-100000-P-publicKeys"
                 aria-selected="false"
                 class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth css-1ujykiq-MuiButtonBase-root-MuiTab-root"
-                id="mui-p-3417-T-publicKeys"
+                id="mui-p-100000-T-publicKeys"
                 role="tab"
                 tabindex="-1"
                 type="button"
@@ -96,9 +96,9 @@ exports[`ConsumerClientManagePage (API) > should match snapshot 1`] = `
           </div>
         </div>
         <div
-          aria-labelledby="mui-p-3417-T-voucher"
+          aria-labelledby="mui-p-100000-T-voucher"
           class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
-          id="mui-p-3417-P-voucher"
+          id="mui-p-100000-P-voucher"
           role="tabpanel"
         >
           <div
@@ -119,17 +119,17 @@ exports[`ConsumerClientManagePage (API) > should match snapshot 1`] = `
           </div>
         </div>
         <div
-          aria-labelledby="mui-p-3417-T-clientOperators"
+          aria-labelledby="mui-p-100000-T-clientOperators"
           class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
           hidden=""
-          id="mui-p-3417-P-clientOperators"
+          id="mui-p-100000-P-clientOperators"
           role="tabpanel"
         />
         <div
-          aria-labelledby="mui-p-3417-T-publicKeys"
+          aria-labelledby="mui-p-100000-T-publicKeys"
           class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
           hidden=""
-          id="mui-p-3417-P-publicKeys"
+          id="mui-p-100000-P-publicKeys"
           role="tabpanel"
         />
         <div
@@ -199,10 +199,10 @@ exports[`ConsumerClientManagePage (CONSUMER) > should match snapshot 1`] = `
               role="tablist"
             >
               <button
-                aria-controls="mui-p-72373-P-voucher"
+                aria-controls="mui-p-100000-P-voucher"
                 aria-selected="true"
                 class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth Mui-selected css-1ujykiq-MuiButtonBase-root-MuiTab-root"
-                id="mui-p-72373-T-voucher"
+                id="mui-p-100000-T-voucher"
                 role="tab"
                 tabindex="0"
                 type="button"
@@ -213,10 +213,10 @@ exports[`ConsumerClientManagePage (CONSUMER) > should match snapshot 1`] = `
                 />
               </button>
               <button
-                aria-controls="mui-p-72373-P-clientOperators"
+                aria-controls="mui-p-100000-P-clientOperators"
                 aria-selected="false"
                 class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth css-1ujykiq-MuiButtonBase-root-MuiTab-root"
-                id="mui-p-72373-T-clientOperators"
+                id="mui-p-100000-T-clientOperators"
                 role="tab"
                 tabindex="-1"
                 type="button"
@@ -227,10 +227,10 @@ exports[`ConsumerClientManagePage (CONSUMER) > should match snapshot 1`] = `
                 />
               </button>
               <button
-                aria-controls="mui-p-72373-P-publicKeys"
+                aria-controls="mui-p-100000-P-publicKeys"
                 aria-selected="false"
                 class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary MuiTab-fullWidth css-1ujykiq-MuiButtonBase-root-MuiTab-root"
-                id="mui-p-72373-T-publicKeys"
+                id="mui-p-100000-T-publicKeys"
                 role="tab"
                 tabindex="-1"
                 type="button"
@@ -248,9 +248,9 @@ exports[`ConsumerClientManagePage (CONSUMER) > should match snapshot 1`] = `
           </div>
         </div>
         <div
-          aria-labelledby="mui-p-72373-T-voucher"
+          aria-labelledby="mui-p-100000-T-voucher"
           class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
-          id="mui-p-72373-P-voucher"
+          id="mui-p-100000-P-voucher"
           role="tabpanel"
         >
           <div
@@ -271,17 +271,17 @@ exports[`ConsumerClientManagePage (CONSUMER) > should match snapshot 1`] = `
           </div>
         </div>
         <div
-          aria-labelledby="mui-p-72373-T-clientOperators"
+          aria-labelledby="mui-p-100000-T-clientOperators"
           class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
           hidden=""
-          id="mui-p-72373-P-clientOperators"
+          id="mui-p-100000-P-clientOperators"
           role="tabpanel"
         />
         <div
-          aria-labelledby="mui-p-72373-T-publicKeys"
+          aria-labelledby="mui-p-100000-T-publicKeys"
           class="MuiTabPanel-root css-13xfq8m-MuiTabPanel-root"
           hidden=""
-          id="mui-p-72373-P-publicKeys"
+          id="mui-p-100000-P-publicKeys"
           role="tabpanel"
         />
         <div
