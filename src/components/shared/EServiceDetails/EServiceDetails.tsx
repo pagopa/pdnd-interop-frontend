@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Skeleton, Stack } from '@mui/material'
+import { Grid, Stack } from '@mui/material'
 import { useCurrentRoute } from '@/router'
 import { EServiceDetailsContextProvider } from './EServiceDetailsContext'
 import { EServiceGeneralInfoSection } from './components/EServiceGeneralInfoSection'
@@ -15,6 +15,7 @@ import type {
 } from '@/api/api.generatedTypes'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '../ApiInfoSection'
 import { useTranslation } from 'react-i18next'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
 
 type EServiceDetailsProps = {
   descriptor: CatalogEServiceDescriptor | ProducerEServiceDescriptor
@@ -62,31 +63,38 @@ export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ descriptor }) 
 }
 
 export const EServiceDetailsSkeleton: React.FC = () => {
+  const { mode } = useCurrentRoute()
+
   return (
     <Stack sx={{ mt: 2 }} spacing={2}>
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <Stack spacing={2}>
-            <Skeleton variant="rectangular" height={140} />
-            <Skeleton variant="rectangular" height={471} />
-            <Skeleton variant="rectangular" height={150} />
+            <SectionContainerSkeleton height={102} />
+            <SectionContainerSkeleton height={471} />
+            <SectionContainerSkeleton height={150} />
           </Stack>
         </Grid>
         <Grid item xs={5}>
           <Stack spacing={2}>
-            <Skeleton variant="rectangular" height={300} />
-            <ApiInfoSectionSkeleton />
+            {mode === 'provider' && <SectionContainerSkeleton height={194} />}
+            {mode === 'consumer' && (
+              <>
+                <SectionContainerSkeleton height={300} />
+                <ApiInfoSectionSkeleton height={337} />
+              </>
+            )}
           </Stack>
         </Grid>
       </Grid>
 
-      <Skeleton variant="rectangular" height={320} />
-      <Skeleton variant="rectangular" height={320} />
-      <Skeleton variant="rectangular" height={320} />
+      <SectionContainerSkeleton height={320} />
+      <SectionContainerSkeleton height={320} />
+      <SectionContainerSkeleton height={320} />
 
       <Grid spacing={2} container>
         <Grid item xs={6}>
-          <Skeleton variant="rectangular" height={150} />
+          <SectionContainerSkeleton height={150} />
         </Grid>
       </Grid>
     </Stack>
