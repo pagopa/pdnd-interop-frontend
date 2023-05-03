@@ -1,3 +1,4 @@
+import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { PageContainerSkeleton } from '@/components/layout/containers/PageContainer'
@@ -29,16 +30,7 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
 
   const topSideActions = formatTopSideActions(actions)
 
-  // Only show missing certified attributes alert when...
-  const shouldShowMissingCertifiedAttributesAlert =
-    // ...the e-service is not owned by the active party...
-    !isMine &&
-    // ... the party doesn't own all the certified attributes required...
-    !descriptor?.eservice.hasCertifiedAttributes &&
-    // ... the e-service'slatest active descriptor is the actual descriptor the user is viewing...
-    descriptor?.eservice.activeDescriptor?.id === descriptor?.id &&
-    /// ... and it is not archived.
-    descriptor?.state !== 'ARCHIVED'
+  console.log(shouldShowMissingCertifiedAttributesAlert(descriptor, isMine), 'dd')
 
   return (
     <PageContainer
@@ -48,7 +40,7 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
     >
       <Stack spacing={2}>
         {isMine && <Alert severity="info">{t('read.alert.youAreTheProvider')}</Alert>}
-        {shouldShowMissingCertifiedAttributesAlert && (
+        {shouldShowMissingCertifiedAttributesAlert(descriptor, isMine) && (
           <Alert severity="info">{t('read.alert.missingCertifiedAttributes')}</Alert>
         )}
         {isSubscribed && <Alert severity="info">{t('read.alert.alreadySubscribed')}</Alert>}
@@ -67,7 +59,7 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
   )
 }
 
-const ConsumerEServiceDetailsPageContentSkeleton = () => {
+export const ConsumerEServiceDetailsPageContentSkeleton = () => {
   const { t } = useTranslation('eservice')
 
   return (
@@ -79,6 +71,25 @@ const ConsumerEServiceDetailsPageContentSkeleton = () => {
         </RouterLink>
       </PageBottomActionsContainer>
     </PageContainerSkeleton>
+  )
+}
+
+/**
+ * Only show missing certified attributes alert when:
+ * - the e-service is not owned by the active party
+ * - the party doesn't own all the certified attributes required
+ * - the e-service's latest active descriptor is the actual descriptor the user is viewing
+ * - it is not archived
+ */
+function shouldShowMissingCertifiedAttributesAlert(
+  descriptor: CatalogEServiceDescriptor | undefined,
+  isMine: boolean
+) {
+  return (
+    !isMine &&
+    !descriptor?.eservice.hasCertifiedAttributes &&
+    descriptor?.eservice.activeDescriptor?.id === descriptor?.id &&
+    descriptor?.state !== 'ARCHIVED'
   )
 }
 
