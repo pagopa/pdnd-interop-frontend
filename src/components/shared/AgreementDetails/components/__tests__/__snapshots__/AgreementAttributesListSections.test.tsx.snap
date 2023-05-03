@@ -18,7 +18,7 @@ exports[`AgreementCertifiedAttributesSection > should match the snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -331,7 +331,7 @@ exports[`AgreementCertifiedAttributesSection > should match the snapshot in empt
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -396,7 +396,7 @@ exports[`AgreementCertifiedAttributesSection > should match the snapshot with ag
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -696,7 +696,7 @@ exports[`AgreementDeclaredAttributesSection > should match the snapshot in consu
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1030,7 +1030,7 @@ exports[`AgreementDeclaredAttributesSection > should match the snapshot in empty
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1095,7 +1095,7 @@ exports[`AgreementDeclaredAttributesSection > should match the snapshot in provi
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1429,7 +1429,7 @@ exports[`AgreementDeclaredAttributesSection > should match the snapshot with agr
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1729,7 +1729,7 @@ exports[`AgreementVerifiedAttributesSection > should match the snapshot in consu
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -2042,7 +2042,7 @@ exports[`AgreementVerifiedAttributesSection > should match the snapshot in empty
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -2107,7 +2107,7 @@ exports[`AgreementVerifiedAttributesSection > should match the snapshot in provi
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -2476,7 +2476,7 @@ exports[`AgreementVerifiedAttributesSection > should match the snapshot with agr
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"

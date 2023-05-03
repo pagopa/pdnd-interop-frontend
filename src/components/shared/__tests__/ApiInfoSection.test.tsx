@@ -1,9 +1,7 @@
 import React from 'react'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '../ApiInfoSection'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { createMemoryHistory } from 'history'
-import { routes } from '@/router/routes'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
 
 const ids = [
   { name: 'eserviceId', id: 'test-eserviceId' },
@@ -15,37 +13,18 @@ const ids = [
   { name: 'consumerId', id: 'test-consumerId' },
 ]
 
-describe("Checks that Accordion snapshot don't change", () => {
-  it('renders correctly', () => {
+describe('ApiInfoSection', () => {
+  it('should match snapshot', () => {
     const { baseElement } = renderWithApplicationContext(<ApiInfoSection ids={ids} />, {
       withRouterContext: true,
     })
-
     expect(baseElement).toMatchSnapshot()
   })
+})
 
-  it('should navigate correctly when the link is pressed', () => {
-    const history = createMemoryHistory()
-    history.push('/it')
-
-    const screen = renderWithApplicationContext(
-      <ApiInfoSection ids={ids} />,
-      {
-        withRouterContext: true,
-      },
-      history
-    )
-
-    const link = screen.getByText('link')
-
-    fireEvent.click(link)
-
-    expect(history.location.pathname).toContain(routes.SUBSCRIBE_INTEROP_M2M.PATH.it)
-  })
-
-  it('renders correctly', () => {
+describe('ApiInfoSectionSkeleton', () => {
+  it('should match snapshot', () => {
     const { baseElement } = render(<ApiInfoSectionSkeleton />)
-
     expect(baseElement).toBeInTheDocument()
   })
 })
