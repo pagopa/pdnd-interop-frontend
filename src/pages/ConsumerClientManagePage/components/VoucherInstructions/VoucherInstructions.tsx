@@ -13,6 +13,7 @@ import type { VoucherInstructionsStepProps } from '../../types/voucher-instructi
 import { ClientVoucherIntructionsPurposeSelect } from './ClientVoucherIntructionsPurposeSelect'
 import { useSearchParams } from 'react-router-dom'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '@/components/shared/ApiInfoSection'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
 
 interface VoucherInstructionsProps {
   clientId: string
@@ -62,7 +63,10 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
     setSearchParams({ ...Object.fromEntries(searchParams), purposeId: purposeId })
   }
 
-  const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId, { suspense: false })
+  const { data: purpose, isInitialLoading: isLoadingPurpose } = PurposeQueries.useGetSingle(
+    selectedPurposeId,
+    { suspense: false }
+  )
 
   const { component: Step } = steps[activeStep]
 
@@ -102,8 +106,8 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
           <Stepper steps={steps} activeIndex={activeStep} />
           <Step {...stepProps} />
         </Grid>
-        {purpose && (
-          <Grid item xs={4}>
+        <Grid item xs={4}>
+          {purpose && (
             <ApiInfoSection
               ids={[
                 { name: tCommon('eserviceId'), id: purpose.eservice.id },
@@ -115,8 +119,9 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
                 { name: tCommon('consumerId'), id: purpose.consumer.id },
               ]}
             />
-          </Grid>
-        )}
+          )}
+          {isLoadingPurpose && <ApiInfoSectionSkeleton height={604} />}
+        </Grid>
       </Grid>
     </>
   )
@@ -155,12 +160,12 @@ export const VoucherInstructionsSkeleton: React.FC = () => {
   return (
     <Grid spacing={2} container>
       <Grid item xs={8}>
-        <Skeleton variant="rectangular" height={111} />
-        <Skeleton sx={{ mt: 2 }} variant="rectangular" height={600} />
+        <SectionContainerSkeleton height={111} />
+        <SectionContainerSkeleton height={600} />
       </Grid>
       {clientKind === 'CONSUMER' && (
         <Grid item xs={4}>
-          <ApiInfoSectionSkeleton />
+          <ApiInfoSectionSkeleton height={604} />
         </Grid>
       )}
     </Grid>
