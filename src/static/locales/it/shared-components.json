@@ -181,8 +181,7 @@
   },
   "apiInfoSection": {
     "title": "Api di Interoperabilità",
-    "content": "Parametri utili per ottenere informazioni programmaticamente attraverso",
-    "link": "i tuoi client api interop",
+    "content": "Parametri utili per ottenere informazioni programmaticamente attraverso <1>i tuoi client api interop</1>",
     "tooltipTitle": "Id copiato correttamente"
   }
 }

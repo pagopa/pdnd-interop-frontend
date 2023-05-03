@@ -1,8 +1,8 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { SectionContainer, SectionContainerSkeleton } from '../layout/containers'
-import { Link, type SkeletonProps, Stack, Typography } from '@mui/material'
-import { useNavigateRouter } from '@/router'
+import { type SkeletonProps, Stack, Typography } from '@mui/material'
+import { RouterLink } from '@/router'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 type ApiInfoSectionProps = {
@@ -13,19 +13,14 @@ export const ApiInfoSection: React.FC<ApiInfoSectionProps> = ({ ids }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'apiInfoSection',
   })
-  const { navigate } = useNavigateRouter()
 
-  const handleLinkNavigation = () => {
-    navigate('SUBSCRIBE_INTEROP_M2M')
-  }
   return (
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
         <Typography variant="body2">
-          {t('content')}{' '}
-          <Link variant="body2" onClick={handleLinkNavigation}>
-            {t('link')}
-          </Link>
+          <Trans components={{ 1: <RouterLink to="SUBSCRIBE_INTEROP_M2M" /> }}>
+            {t('content')}
+          </Trans>
         </Typography>
         {ids.map((element, index) => (
           <InformationContainer
