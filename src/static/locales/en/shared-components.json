@@ -10,7 +10,8 @@
         "label": "Attribute description"
       },
       "attributeIdField": {
-        "label": "Attribute Id"
+        "label": "Attribute Id",
+        "tooltipTitle": "Id successfully copied"
       }
     },
     "loading": "We are loading the attribute",
@@ -182,6 +183,7 @@
   "apiInfoSection": {
     "title": "API Interoperabilità",
     "content": "Useful parameters to obtain information programmatically through",
-    "link": "your interop api clients"
+    "link": "your interop api clients",
+    "tooltipTitle": "Id successfully copied"
   }
 }

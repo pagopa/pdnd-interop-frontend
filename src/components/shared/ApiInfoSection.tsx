@@ -31,7 +31,7 @@ export const ApiInfoSection: React.FC<ApiInfoSectionProps> = ({ ids }) => {
           <InformationContainer
             key={index}
             content={element.id}
-            copyToClipboard={{ value: element.id }}
+            copyToClipboard={{ value: element.id, tooltipTitle: t('tooltipTitle') }}
             direction="column"
             label={element.name}
           />

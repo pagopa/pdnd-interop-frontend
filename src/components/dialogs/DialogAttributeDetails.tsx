@@ -47,7 +47,10 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
         />
         <InformationContainer
           content={attributeId}
-          copyToClipboard={{ value: attributeId }}
+          copyToClipboard={{
+            value: attributeId,
+            tooltipTitle: t('content.attributeIdField.tooltipTitle'),
+          }}
           direction="column"
           label={t('content.attributeIdField.label')}
         />

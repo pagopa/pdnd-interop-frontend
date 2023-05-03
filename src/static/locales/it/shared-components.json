@@ -10,7 +10,8 @@
         "label": "Descrizione dell'attributo"
       },
       "attributeIdField": {
-        "label": "Id dell'attributo (attributeId)"
+        "label": "Id dell'attributo (attributeId)",
+        "tooltipTitle": "Id copiato correttamente"
       }
     },
     "actions": {
@@ -181,6 +182,7 @@
   "apiInfoSection": {
     "title": "Api di Interoperabilità",
     "content": "Parametri utili per ottenere informazioni programmaticamente attraverso",
-    "link": "i tuoi client api interop"
+    "link": "i tuoi client api interop",
+    "tooltipTitle": "Id copiato correttamente"
   }
 }
