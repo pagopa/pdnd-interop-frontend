@@ -85,7 +85,7 @@ const ProviderPurposesListPage: React.FC = () => {
     producersIds: [jwt?.organizationId] as Array<string>,
   }
 
-  const { data } = PurposeQueries.useGetList(params, {
+  const { data } = PurposeQueries.useGetProducersList(params, {
     suspense: false,
     keepPreviousData: true,
     enabled: !!jwt?.organizationId,
@@ -106,7 +106,7 @@ const ProviderPurposesListPage: React.FC = () => {
 const PurposesTableWrapper: React.FC<{ params: GetPurposesParams }> = ({ params }) => {
   const { jwt } = useJwt()
 
-  const { data, isFetching } = PurposeQueries.useGetList(params, {
+  const { data, isFetching } = PurposeQueries.useGetProducersList(params, {
     suspense: false,
     enabled: !!jwt?.organizationId,
   })
