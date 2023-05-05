@@ -20,7 +20,7 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
     setValue('templateId', null)
   }, [selectedEServiceId, setValue])
 
-  const { data, isInitialLoading, isFetched } = PurposeQueries.useGetList(
+  const { data, isInitialLoading, isFetched } = PurposeQueries.useGetConsumersList(
     {
       consumersIds: [jwt?.organizationId] as Array<string>,
       eservicesIds: [selectedEServiceId!],

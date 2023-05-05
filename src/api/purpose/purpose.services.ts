@@ -14,10 +14,23 @@ import type {
   WaitingForApprovalPurposeVersionUpdateContentSeed,
 } from '../api.generatedTypes'
 
-async function getList(params: GetPurposesParams) {
-  const response = await axiosInstance.get<Purposes>(`${BACKEND_FOR_FRONTEND_URL}/purposes`, {
-    params,
-  })
+async function getProducersList(params: GetPurposesParams) {
+  const response = await axiosInstance.get<Purposes>(
+    `${BACKEND_FOR_FRONTEND_URL}/producer/purposes`,
+    {
+      params,
+    }
+  )
+  return response.data
+}
+
+async function getConsumersList(params: GetPurposesParams) {
+  const response = await axiosInstance.get<Purposes>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumer/purposes`,
+    {
+      params,
+    }
+  )
   return response.data
 }
 
@@ -155,7 +168,8 @@ function removeClient({ clientId, purposeId }: { clientId: string; purposeId: st
 }
 
 const PurposeServices = {
-  getList,
+  getProducersList,
+  getConsumersList,
   getSingle,
   createDraft,
   updateDraft,
