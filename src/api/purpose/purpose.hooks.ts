@@ -11,13 +11,24 @@ export enum PurposeQueryKeys {
   GetSingle = 'PurposeGetSingle',
 }
 
-function useGetList(
+function useGetProducersList(
   params: GetPurposesParams,
-  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getList>>>
+  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getProducersList>>>
 ) {
   return useQueryWrapper(
     [PurposeQueryKeys.GetList, params],
-    () => PurposeServices.getList(params),
+    () => PurposeServices.getProducersList(params),
+    config
+  )
+}
+
+function useGetConsumersList(
+  params: GetPurposesParams,
+  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getConsumersList>>>
+) {
+  return useQueryWrapper(
+    [PurposeQueryKeys.GetList, params],
+    () => PurposeServices.getConsumersList(params),
     config
   )
 }
@@ -216,7 +227,8 @@ function useRemoveClient() {
   })
 }
 export const PurposeQueries = {
-  useGetList,
+  useGetProducersList,
+  useGetConsumersList,
   useGetSingle,
   usePrefetchSingle,
 }
