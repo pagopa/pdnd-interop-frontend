@@ -3,7 +3,6 @@ name: Bug report
 about: Segnalaci un bug
 title: ''
 labels: bug
-assignees: ruggerocastagnola
 
 ---
 
