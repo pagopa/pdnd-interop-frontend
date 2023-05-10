@@ -184,5 +184,8 @@
     "title": "API Interoperabilità",
     "content": "Useful parameters to obtain information programmatically through <1>your interop api clients</1>",
     "tooltipTitle": "Id successfully copied"
+  },
+  "environmentBanner": {
+    "content": "Testing environment: warning the data does not have to be real."
   }
 }

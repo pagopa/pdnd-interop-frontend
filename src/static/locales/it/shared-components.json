@@ -183,5 +183,8 @@
     "title": "Api di Interoperabilità",
     "content": "Parametri utili per ottenere informazioni programmaticamente attraverso <1>i tuoi client api interop</1>",
     "tooltipTitle": "Id copiato correttamente"
+  },
+  "environmentBanner": {
+    "content": "Ambiente di collaudo: attenzione i dati non devono essere reali."
   }
 }
