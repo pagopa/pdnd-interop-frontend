@@ -2,7 +2,6 @@ import { EServiceMutations } from '@/api/eservice'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
-import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigateRouter } from '@/router'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { Box } from '@mui/material'
@@ -25,7 +24,7 @@ type EServiceCreateStep2FormValues = {
   agreementApprovalPolicy: boolean
 }
 
-export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
+export const EServiceCreateStep2Version: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { navigate } = useNavigateRouter()
   const { eservice, descriptor, forward, back } = useEServiceCreateContext()

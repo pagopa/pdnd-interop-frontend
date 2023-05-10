@@ -1,0 +1,383 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EServiceCreateStep2Version > should match snapshot 1`] = `
+<body>
+  <div>
+    <form
+      class="MuiBox-root css-0"
+      novalidate=""
+    >
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      >
+        <div
+          class="css-nen11g-MuiStack-root"
+        />
+        <div
+          class="MuiBox-root css-zv7ju9"
+        >
+          <div
+            class="MuiBox-root css-1pp36gf"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="true"
+                for=":r0:"
+                id=":r0:-label"
+              >
+                create.step2.versionField.label
+              </label>
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  disabled=""
+                  id=":r0:"
+                  name="version"
+                  type="text"
+                  value="1"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-14lo706"
+                  >
+                    <span>
+                      create.step2.versionField.label
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+            >
+              create.step2.versionField.infoLabel
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-zitybv"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="true"
+                for=":r1:"
+                id=":r1:-label"
+              >
+                create.step2.descriptionField.label
+              </label>
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl MuiInputBase-multiline css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root"
+              >
+                <textarea
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                  id=":r1:"
+                  maxlength="250"
+                  name="description"
+                  rows="6"
+                  style="height: 0px; overflow: hidden;"
+                />
+                <textarea
+                  aria-hidden="true"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                  readonly=""
+                  style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding: 0px; width: 100%;"
+                  tabindex="-1"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-14lo706"
+                  >
+                    <span>
+                      create.step2.descriptionField.label
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+            >
+              create.step2.descriptionField.infoLabel
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-zitybv"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="true"
+                for=":r2:"
+                id=":r2:-label"
+              >
+                create.step2.audienceField.label
+              </label>
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  id=":r2:"
+                  maxlength="250"
+                  name="audience"
+                  type="text"
+                  value=""
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-14lo706"
+                  >
+                    <span>
+                      create.step2.audienceField.label
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+            >
+              create.step2.audienceField.infoLabel
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-zitybv"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="true"
+                for=":r3:"
+                id=":r3:-label"
+              >
+                create.step2.voucherLifespanField.label
+              </label>
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  id=":r3:"
+                  max="1440"
+                  min="1"
+                  name="voucherLifespan"
+                  type="number"
+                  value="1"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-14lo706"
+                  >
+                    <span>
+                      create.step2.voucherLifespanField.label
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+            >
+              create.step2.voucherLifespanField.infoLabel
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-zitybv"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="true"
+                for=":r4:"
+                id=":r4:-label"
+              >
+                create.step2.dailyCallsPerConsumerField.label
+              </label>
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  id=":r4:"
+                  min="1"
+                  name="dailyCallsPerConsumer"
+                  type="number"
+                  value="1"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-14lo706"
+                  >
+                    <span>
+                      create.step2.dailyCallsPerConsumerField.label
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+            >
+              create.step2.dailyCallsPerConsumerField.infoLabel
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1tl2pm8"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="true"
+                for=":r5:"
+                id=":r5:-label"
+              >
+                create.step2.dailyCallsTotalField.label
+              </label>
+              <div
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                  id=":r5:"
+                  min="1"
+                  name="dailyCallsTotal"
+                  type="number"
+                  value="1"
+                />
+                <fieldset
+                  aria-hidden="true"
+                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                >
+                  <legend
+                    class="css-14lo706"
+                  >
+                    <span>
+                      create.step2.dailyCallsTotalField.label
+                    </span>
+                  </legend>
+                </fieldset>
+              </div>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+            >
+              create.step2.dailyCallsTotalField.infoLabel
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-zitybv"
+          >
+            <label
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1kh4vj2-MuiFormLabel-root"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-body1 css-1th83v5-MuiTypography-root"
+              >
+                create.step2.agreementApprovalPolicyField.label
+              </span>
+              <div
+                class="MuiBox-root css-0"
+              >
+                <span
+                  class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+                >
+                  <span
+                    class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+                  >
+                    <input
+                      checked=""
+                      class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                      name="agreementApprovalPolicy"
+                      type="checkbox"
+                    />
+                    <span
+                      class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                    />
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </span>
+                  <span
+                    class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                  />
+                </span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-9v4aab-MuiStack-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="button"
+        >
+          create.backWithoutSaveBtn
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="submit"
+        >
+          create.forwardWithSaveBtn
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </form>
+  </div>
+</body>
+`;
+
+exports[`EServiceCreateStep2VersionSkeleton > should match snapshot 1`] = `
+<body>
+  <div>
+    <span
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+      style="height: 1010px;"
+    />
+  </div>
+</body>
+`;
