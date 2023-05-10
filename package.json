@@ -10,7 +10,7 @@
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "generate-types": "node scripts/open-api-type-generator.js",
-    "crawling-guide-links": "node scripts/crawling-guide-links.js"
+    "crawling-guide-links": "node scripts/guide-crawl/index.js"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",

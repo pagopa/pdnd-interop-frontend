@@ -21,6 +21,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+scripts/guide-crawl/output/
 
 # testing
 /coverage
