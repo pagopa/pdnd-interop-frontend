@@ -142,25 +142,15 @@ function formatErrors() {
 
 async function main() {
   const startingTime = Date.now()
-  console.log('Starting TIME', Date(startingTime))
   while (urlsToVisit.length !== 0) {
     const urlToVisit = urlsToVisit.pop()
 
     await getAllURLs(urlToVisit)
   }
 
-  console.log('INTERNAL LINKS', internalURLs.length)
-  console.log('EXTERNAL LINKS', externalURLs.length)
-  console.log('VISITED LINKS', visitedURLs.length)
-  console.log('ERRORS', urlErrors.length)
-  console.log('Cloudflare LINKS', cloudflareLinks.length)
-  console.log('ANCHOR LINKS', anchorLinks.length)
-
   const endingTime = Date.now()
-  console.log('Ending TIME', Date(endingTime))
 
   const duration = endingTime - startingTime
-  console.log('DURATION', duration / 1000, 'SECONDS')
 
   const reportData = formatReport(startingTime, endingTime, duration)
   const reportError = formatErrors()
