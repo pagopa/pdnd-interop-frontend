@@ -10,8 +10,6 @@ export const EServiceDocumentsListSection: React.FC = () => {
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
 
   const handleDownloadDocument = (document: EServiceDoc) => {
-    if (!descriptor) return
-
     downloadDocument(
       {
         eserviceId: descriptor.eservice.id,

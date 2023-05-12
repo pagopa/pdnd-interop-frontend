@@ -172,5 +172,14 @@
   "securityKeyGuide": {
     "title": "How to generate and upload security keys"
   },
-  "error": {}
+  "error": {},
+  "idLabels": {
+    "eserviceId": "eserviceId",
+    "descriptorId": "descriptorId",
+    "agreementId": "agreementId",
+    "purposeId": "purposeId",
+    "clientId": "clientId",
+    "providerId": "organizationId (provider)",
+    "consumerId": "organizationId (consumer)"
+  }
 }

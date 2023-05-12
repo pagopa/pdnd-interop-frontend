@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Redirect, RouterLink } from '@/router'
-import CodeBlock from '@/components/shared/CodeBlock'
 import {
   NotAuthorizedError,
   NotFoundError,
@@ -12,6 +11,7 @@ import {
 } from '@/utils/errors.utils'
 import type { FallbackProps } from 'react-error-boundary'
 import { isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
+import { CodeBlock } from '@pagopa/interop-fe-commons'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -55,7 +55,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = (
       <>
         {reloadPageButton}
-        {isDevelopment && <CodeBlock error={error?.stack || error.message || error?.name} />}
+        {isDevelopment && <CodeBlock code={error?.stack || error.message || error?.name} />}
       </>
     )
   }
@@ -76,7 +76,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = (
       <>
         {retryQueryButton}
-        {isDevelopment && <CodeBlock error={error.response ?? error} />}
+        {isDevelopment && <CodeBlock code={error.response ?? error} />}
       </>
     )
   }

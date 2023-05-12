@@ -1,15 +1,11 @@
 import React from 'react'
-import * as hooks from '@/hooks/useJwt'
-import { vi } from 'vitest'
 import { CatalogCard, CatalogCardSkeleton } from '../CatalogCard'
 import { createMockEServiceCatalog } from '__mocks__/data/eservice.mocks'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { mockUseJwt } from '__mocks__/data/user.mocks'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-const useJwtReturnDataMock = mockUseJwt()
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
+mockUseJwt()
 
 describe("Checks that CatalogCard snapshot don't change", () => {
   it('renders correctly the skeleton', () => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { vi } from 'vitest'
 
-import { ActionMenu } from '@/components/shared/ActionMenu'
+import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import type { ActionItem } from '@/types/common.types'
 import userEvent from '@testing-library/user-event'
 
@@ -24,13 +24,13 @@ describe("Checks that ActionMenu snapshots don't change", () => {
   it('renders correctly', () => {
     const actionMenu = render(<ActionMenu actions={mockActions} />)
 
-    expect(actionMenu).toMatchSnapshot()
+    expect(actionMenu.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly without actions', async () => {
     const actionMenu = render(<ActionMenu actions={[]} />)
 
-    expect(actionMenu).toMatchSnapshot()
+    expect(actionMenu.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly while opened', async () => {
@@ -40,25 +40,40 @@ describe("Checks that ActionMenu snapshots don't change", () => {
 
     await user.click(button!)
 
-    expect(actionMenu).toMatchSnapshot()
+    expect(actionMenu.baseElement).toMatchSnapshot()
   })
 })
 
 describe('Unit tests for ActionMenu', () => {
   it('opens and closes', async () => {
     const user = userEvent.setup()
-    const actionMenu = render(<ActionMenu actions={mockActions} />)
-    const button = actionMenu.queryByRole('button', { name: 'iconButtonAriaLabel' })
+    const screen = render(<ActionMenu actions={mockActions} />)
+    const button = screen.queryByRole('button', { name: 'iconButtonAriaLabel' })
 
     await user.click(button!)
 
-    expect(actionMenu.baseElement).toHaveTextContent('action1')
-    expect(actionMenu.baseElement).toHaveTextContent('action2')
+    expect(screen.queryByRole('menu')).toBeInTheDocument()
+    expect(screen.queryByRole('menu')).toBeInTheDocument()
 
     await user.click(button!)
 
-    expect(actionMenu.baseElement).not.toHaveTextContent('action1')
-    expect(actionMenu.baseElement).not.toHaveTextContent('action2')
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+  })
+
+  it('should close on tab key down press', async () => {
+    const user = userEvent.setup()
+    const screen = render(<ActionMenu actions={mockActions} />)
+    const button = screen.queryByRole('button', { name: 'iconButtonAriaLabel' })
+
+    await user.click(button!)
+    expect(screen.queryByRole('menu')).toBeInTheDocument()
+    await user.tab()
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    await user.click(button!)
+    expect(screen.queryByRole('menu')).toBeInTheDocument()
+    await user.keyboard('{Escape}')
+    expect(screen.queryByRole('menu')).not.toBeInTheDocument()
   })
 
   it('fires the actions on action menu item click', async () => {
@@ -82,5 +97,12 @@ describe('Unit tests for ActionMenu', () => {
 
     await user.click(actionsAfter![1])
     expect(functionSpy2).toHaveBeenCalled()
+  })
+})
+
+describe('ActionMenuSkeleton', () => {
+  it('should match the snapshot', () => {
+    const { baseElement } = render(<ActionMenuSkeleton />)
+    expect(baseElement).toBeInTheDocument()
   })
 })

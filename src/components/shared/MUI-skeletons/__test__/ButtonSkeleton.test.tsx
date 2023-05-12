@@ -6,18 +6,18 @@ describe("Checks that ButtonSkeleton snapshots don't change", () => {
   it('renders small variant correctly', () => {
     const buttonSkeleton = render(<ButtonSkeleton width={100} size="small" />)
 
-    expect(buttonSkeleton).toMatchSnapshot()
+    expect(buttonSkeleton.baseElement).toMatchSnapshot()
   })
 
   it('renders medium variant correctly', () => {
     const buttonSkeleton = render(<ButtonSkeleton width={120} size="medium" />)
 
-    expect(buttonSkeleton).toMatchSnapshot()
+    expect(buttonSkeleton.baseElement).toMatchSnapshot()
   })
 
   it('renders large variant correctly', () => {
     const buttonSkeleton = render(<ButtonSkeleton width={140} size="large" />)
 
-    expect(buttonSkeleton).toMatchSnapshot()
+    expect(buttonSkeleton.baseElement).toMatchSnapshot()
   })
 })

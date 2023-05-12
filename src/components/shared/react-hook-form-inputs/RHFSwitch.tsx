@@ -4,12 +4,12 @@ import {
   Box,
   FormLabel,
   Switch as MUISwitch,
-  SxProps,
+  type SxProps,
   Typography,
-  SwitchProps as MUISwitchProps,
+  type SwitchProps as MUISwitchProps,
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
-import { ControllerProps } from 'react-hook-form/dist/types'
+import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 

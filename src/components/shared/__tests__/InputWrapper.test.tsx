@@ -14,7 +14,7 @@ describe("Checks that InputWrapper snapshot don't change", () => {
   it('renders correctly', () => {
     const inputWrapper = render(<InputWrapper>{inputWrapperValues.children}</InputWrapper>)
 
-    expect(inputWrapper).toMatchSnapshot()
+    expect(inputWrapper.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly with error', () => {
@@ -22,7 +22,7 @@ describe("Checks that InputWrapper snapshot don't change", () => {
       <InputWrapper error={inputWrapperValues.error}>{inputWrapperValues.children}</InputWrapper>
     )
 
-    expect(inputWrapper).toMatchSnapshot()
+    expect(inputWrapper.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly with info label', () => {
@@ -32,7 +32,7 @@ describe("Checks that InputWrapper snapshot don't change", () => {
       </InputWrapper>
     )
 
-    expect(inputWrapper).toMatchSnapshot()
+    expect(inputWrapper.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly with info label and error', () => {
@@ -42,6 +42,6 @@ describe("Checks that InputWrapper snapshot don't change", () => {
       </InputWrapper>
     )
 
-    expect(inputWrapper).toMatchSnapshot()
+    expect(inputWrapper.baseElement).toMatchSnapshot()
   })
 })

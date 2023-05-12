@@ -84,7 +84,7 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
                 </RouterLink>
               </Stack>
             }
-            label="Link utili"
+            label={t('linksLabel')}
           />
           <Divider />
           <Stack direction="row" justifyContent="center">

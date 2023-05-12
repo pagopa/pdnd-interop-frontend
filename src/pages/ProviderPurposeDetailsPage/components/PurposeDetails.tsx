@@ -11,12 +11,15 @@ import {
 import { PurposeDetailsLoadEstimateUpdateSection } from './PurposeDetailsLoadEstimateUpdateSection'
 import { PurposeQueries } from '@/api/purpose'
 import { useJwt } from '@/hooks/useJwt'
+import { ApiInfoSection, ApiInfoSectionSkeleton } from '@/components/shared/ApiInfoSection'
+import { useTranslation } from 'react-i18next'
 
 interface PurposeDetailsProps {
   purposeId: string
 }
 
 export const PurposeDetails: React.FC<PurposeDetailsProps> = ({ purposeId }) => {
+  const { t } = useTranslation('common', { keyPrefix: 'idLabels' })
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const { isAdmin } = useJwt()
 
@@ -25,9 +28,21 @@ export const PurposeDetails: React.FC<PurposeDetailsProps> = ({ purposeId }) => 
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <PurposeDetailsGeneralInfoSection purposeId={purposeId} />
+          <PurposeDetailsDocumentListSection purposeId={purposeId} />
         </Grid>
         <Grid item xs={5}>
-          <PurposeDetailsDocumentListSection purposeId={purposeId} />
+          {purpose && (
+            <ApiInfoSection
+              ids={[
+                { name: t('eserviceId'), id: purpose.eservice.id },
+                { name: t('descriptorId'), id: purpose.eservice.descriptor.id },
+                { name: t('agreementId'), id: purpose.agreement.id },
+                { name: t('purposeId'), id: purpose.id },
+                { name: t('providerId'), id: purpose.eservice.producer.id },
+                { name: t('consumerId'), id: purpose.consumer.id },
+              ]}
+            />
+          )}
         </Grid>
       </Grid>
       {purpose?.waitingForApprovalVersion && isAdmin && (
@@ -42,9 +57,10 @@ export const PurposeDetailsSkeleton: React.FC = () => {
     <Grid spacing={2} container>
       <Grid item xs={7}>
         <PurposeDetailsGeneralInfoSectionSkeleton />
+        <PurposeDetailsDocumentListSectionSkeleton />
       </Grid>
       <Grid item xs={5}>
-        <PurposeDetailsDocumentListSectionSkeleton />
+        <ApiInfoSectionSkeleton />
       </Grid>
     </Grid>
   )

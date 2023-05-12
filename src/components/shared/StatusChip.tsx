@@ -119,7 +119,6 @@ function getAgreementChipState(
 
 export const StatusChip: React.FC<StatusChipProps> = (props) => {
   const { t } = useTranslation('common')
-  const { jwt } = useJwt()
 
   let color: MUIColor = 'primary'
   let label = ''
@@ -140,59 +139,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   }
 
   if (props.for === 'purpose') {
-    const purpose = props.purpose
-    const purposeState = props.purpose.currentVersion?.state ?? 'DRAFT'
-
-    const isPurposeSuspended =
-      purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
-    const isPurposeSuspendedByProvider = purpose.suspendedByProducer
-
-    const isPurposeSuspendedByConsumer = checkPurposeSuspendedByConsumer(
-      purpose,
-      jwt?.organizationId
-    )
-
-    return (
-      <Stack direction="row" spacing={1}>
-        {props.purpose.currentVersion && (
-          <>
-            {isPurposeSuspended ? (
-              <>
-                {isPurposeSuspendedByConsumer && (
-                  <Chip
-                    size="small"
-                    label={t(`status.purpose.SUSPENDED.byConsumer`)}
-                    color={chipColors['purpose'][purposeState]}
-                  />
-                )}
-                {isPurposeSuspendedByProvider && (
-                  <Chip
-                    size="small"
-                    label={t(`status.purpose.SUSPENDED.byProducer`)}
-                    color={chipColors['purpose'][purposeState]}
-                  />
-                )}
-              </>
-            ) : (
-              <Chip
-                size="small"
-                label={t(
-                  `status.purpose.${purposeState as Exclude<PurposeVersionState, 'SUSPENDED'>}`
-                )}
-                color={chipColors['purpose'][purposeState]}
-              />
-            )}
-          </>
-        )}
-        {props.purpose.waitingForApprovalVersion && (
-          <Chip
-            size="small"
-            label={t(`status.purpose.WAITING_FOR_APPROVAL`)}
-            color={chipColors['purpose']['WAITING_FOR_APPROVAL']}
-          />
-        )}
-      </Stack>
-    )
+    return <PurposeStatusChip purpose={props.purpose} />
   }
 
   if (props.for === 'attribute') {
@@ -208,6 +155,60 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
       color={color}
       {...omit(props, ['for', 'state', 'agreement', 'attributeKey'])}
     />
+  )
+}
+
+const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
+  const { t } = useTranslation('common')
+  const { jwt } = useJwt()
+
+  const purposeState = purpose.currentVersion?.state ?? 'DRAFT'
+
+  const isPurposeSuspended =
+    purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
+  const isPurposeSuspendedByProvider = purpose.suspendedByProducer
+
+  const isPurposeSuspendedByConsumer = checkPurposeSuspendedByConsumer(purpose, jwt?.organizationId)
+  return (
+    <Stack direction="row" spacing={1}>
+      {purpose.currentVersion && (
+        <>
+          {isPurposeSuspended ? (
+            <>
+              {isPurposeSuspendedByConsumer && (
+                <Chip
+                  size="small"
+                  label={t(`status.purpose.SUSPENDED.byConsumer`)}
+                  color={chipColors['purpose'][purposeState]}
+                />
+              )}
+              {isPurposeSuspendedByProvider && (
+                <Chip
+                  size="small"
+                  label={t(`status.purpose.SUSPENDED.byProducer`)}
+                  color={chipColors['purpose'][purposeState]}
+                />
+              )}
+            </>
+          ) : (
+            <Chip
+              size="small"
+              label={t(
+                `status.purpose.${purposeState as Exclude<PurposeVersionState, 'SUSPENDED'>}`
+              )}
+              color={chipColors['purpose'][purposeState]}
+            />
+          )}
+        </>
+      )}
+      {purpose.waitingForApprovalVersion && (
+        <Chip
+          size="small"
+          label={t(`status.purpose.WAITING_FOR_APPROVAL`)}
+          color={chipColors['purpose']['WAITING_FOR_APPROVAL']}
+        />
+      )}
+    </Stack>
   )
 }
 

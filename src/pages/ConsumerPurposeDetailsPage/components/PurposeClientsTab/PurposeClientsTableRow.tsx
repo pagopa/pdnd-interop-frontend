@@ -54,6 +54,7 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
         onFocusVisible={handlePrefetchClient}
         variant="outlined"
         size="small"
+        options={{ urlParams: { purposeId: purposeId } }}
       >
         {tCommon('inspect')}
       </RouterLink>

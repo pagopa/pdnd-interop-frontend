@@ -1,22 +1,18 @@
-import * as hooks from '@/hooks/useJwt'
-import { vi } from 'vitest'
 import useGetEServiceConsumerActions from '../useGetEServiceConsumerActions'
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import type {
   CatalogEService,
   CatalogEServiceDescriptor,
   EServiceDescriptorState,
 } from '@/api/api.generatedTypes'
 import { createMockEServiceCatalog } from '__mocks__/data/eservice.mocks'
-import { mockUseJwt } from '__mocks__/data/user.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
 
-const useJwtReturnDataMock = mockUseJwt()
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
+mockUseJwt()
 
 const server = setupServer(
   rest.post(`${BACKEND_FOR_FRONTEND_URL}/agreements`, (_, res, ctx) => {

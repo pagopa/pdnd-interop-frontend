@@ -65,6 +65,51 @@ exports[`DialogAttributeDetails testing > should match the snapshot > full state
                 </p>
               </div>
             </div>
+            <div
+              class="css-nen11g-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-1pdb85g"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                >
+                  content.attributeIdField.label
+                </p>
+              </div>
+              <div
+                class="MuiBox-root css-1rr4qq7"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                >
+                  id
+                  <button
+                    aria-label="Copia"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                    data-mui-internal-clone-element="true"
+                    role="button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                      data-testid="ContentCopyIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         <div

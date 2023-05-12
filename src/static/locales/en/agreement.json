@@ -10,6 +10,7 @@
       "title": "Upgrade guide",
       "description": "It is possible to update the fruition request to the latest version of <1>{{eserviceName}}</1> e-service. Here are some useful informations",
       "upgradeGuideLinkLabel": "Upgrade fuide",
+      "linksLabel": "Useful links",
       "eserviceLinkLabel": "E-service card <1>{{eserviceName}}, version {{version}}</1>",
       "upgradeBtn": "Upgrade"
     },

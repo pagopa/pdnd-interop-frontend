@@ -17,7 +17,7 @@ export function SectionContainer({
 }: PaperProps & SectionContainerProps) {
   return (
     <Paper sx={{ bgcolor: 'white', p: 3, mt: 2, ...sx }} {...props}>
-      <Stack>
+      <Stack spacing={1}>
         {title && (
           <Typography component="h2" variant="overline">
             {title}

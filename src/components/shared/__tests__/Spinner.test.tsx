@@ -6,18 +6,18 @@ describe("Checks that Spinner snapshots don't change", () => {
   it('renders correctly without label', () => {
     const spinner = render(<Spinner />)
 
-    expect(spinner).toMatchSnapshot()
+    expect(spinner.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly with label, aligned vertically', () => {
     const spinner = render(<Spinner label="label" />)
 
-    expect(spinner).toMatchSnapshot()
+    expect(spinner.baseElement).toMatchSnapshot()
   })
 
   it('renders correctly with label, aligned horizontally', () => {
     const spinner = render(<Spinner label="label" direction="row" />)
 
-    expect(spinner).toMatchSnapshot()
+    expect(spinner.baseElement).toMatchSnapshot()
   })
 })

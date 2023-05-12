@@ -1,9 +1,10 @@
 import React from 'react'
-import { render, RenderResult } from '@testing-library/react'
+import { render, type RenderResult } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFDatePicker } from '@/components/shared/react-hook-form-inputs'
+import { vi } from 'vitest'
 
 const datePickerProps = {
   standard: {
@@ -60,5 +61,22 @@ describe('determine whether the integration between react-hook-form and MUI’s 
 
     await user.click(switchViewButton)
     expect(datePickerResult.baseElement).not.toHaveTextContent('LMMGVSD')
+  })
+
+  it('should call onValueChange when the value changes', async () => {
+    const onValueChange = vi.fn()
+    const datePickerResult = render(
+      <TestInputWrapper>
+        <RHFDatePicker {...datePickerProps.standard} onValueChange={onValueChange} />
+      </TestInputWrapper>
+    )
+
+    const secondCell = datePickerResult.getByRole('gridcell', {
+      name: '2',
+    })
+    await userEvent.click(secondCell)
+
+    expect(onValueChange).toBeCalledTimes(1)
+    expect(onValueChange).toBeCalledWith(new Date('1970-01-02T00:00:00.000Z'))
   })
 })

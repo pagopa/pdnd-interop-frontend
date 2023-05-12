@@ -10,7 +10,7 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { useDialog } from '@/stores'
 import { AttributeGroup } from './AttributeGroup'
 
-type AddAttributesToEServiceFormProps = {
+export type AddAttributesToEServiceFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
 }
@@ -32,12 +32,29 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
     openDialog({ type: 'createNewAttribute', attributeKey })
   }
 
+  const handleRemoveAttributesGroup = (groupIndex: number) => {
+    const newAttributeGroups = attributeGroups.filter((_, i) => i !== groupIndex)
+    setValue(`attributes.${attributeKey}`, newAttributeGroups, {
+      shouldValidate: false,
+    })
+  }
+
   const handleAddAttributesGroup = () => {
     setValue(
       `attributes.${attributeKey}`,
       [...attributeGroups, { explicitAttributeVerification: false, attributes: [] }],
       { shouldValidate: false }
     )
+  }
+
+  const handleRemoveAttributeFromGroup = (attributeId: string, groupIndex: number) => {
+    const newAttributeGroups = [...attributeGroups]
+    newAttributeGroups[groupIndex].attributes = newAttributeGroups[groupIndex].attributes.filter(
+      (attributeFilter) => attributeFilter.id !== attributeId
+    )
+    setValue(`attributes.${attributeKey}`, newAttributeGroups, {
+      shouldValidate: false,
+    })
   }
 
   return (
@@ -66,6 +83,8 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
               group={group}
               attributeKey={attributeKey}
               readOnly={readOnly}
+              onRemoveAttributesGroup={handleRemoveAttributesGroup}
+              onRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
             />
           ))}
         </Stack>

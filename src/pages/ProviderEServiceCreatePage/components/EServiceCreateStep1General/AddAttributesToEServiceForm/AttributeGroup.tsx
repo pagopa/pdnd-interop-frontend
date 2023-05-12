@@ -2,18 +2,18 @@ import React from 'react'
 import { AttributeContainerRow, AttributeGroupContainer } from '@/components/layout/containers'
 import type { AttributeKey, FrontendAttribute } from '@/types/attribute.types'
 import { Box, Divider, Stack } from '@mui/material'
-import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
 import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from './AttributeAutocomplete'
 
-type AttributeGroupProps = {
+export type AttributeGroupProps = {
   group: FrontendAttribute
   groupIndex: number
   attributeKey: AttributeKey
   readOnly: boolean
+  onRemoveAttributesGroup: (groupIndex: number) => void
+  onRemoveAttributeFromGroup: (attributeId: string, groupIndex: number) => void
 }
 
 export const AttributeGroup: React.FC<AttributeGroupProps> = ({
@@ -21,30 +21,19 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   groupIndex,
   attributeKey,
   readOnly,
+  onRemoveAttributesGroup,
+  onRemoveAttributeFromGroup,
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const { t: tCommon } = useTranslation('common')
-  const { watch, setValue } = useFormContext<EServiceCreateStep1FormValues>()
-  const attributeGroups = watch(`attributes.${attributeKey}`)
-
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)
 
   const handleDeleteAttributesGroup = () => {
-    const newAttributeGroups = [...attributeGroups]
-    newAttributeGroups.splice(groupIndex, 1)
-    setValue(`attributes.${attributeKey}`, newAttributeGroups, {
-      shouldValidate: false,
-    })
+    onRemoveAttributesGroup(groupIndex)
   }
 
   const handleDeleteAttributeFromGroup = (attributeId: string) => {
-    const newAttributeGroups = [...attributeGroups]
-    newAttributeGroups[groupIndex].attributes = newAttributeGroups[groupIndex].attributes.filter(
-      (attributeFilter) => attributeFilter.id !== attributeId
-    )
-    setValue(`attributes.${attributeKey}`, newAttributeGroups, {
-      shouldValidate: false,
-    })
+    onRemoveAttributeFromGroup(attributeId, groupIndex)
   }
 
   const handleHideAutocomplete = () => {

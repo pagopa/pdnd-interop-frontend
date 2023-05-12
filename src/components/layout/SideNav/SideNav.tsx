@@ -141,7 +141,7 @@ const _SideNav = () => {
   )
 }
 
-const SideNavSkeleton: React.FC = () => {
+export const SideNavSkeleton: React.FC = () => {
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
