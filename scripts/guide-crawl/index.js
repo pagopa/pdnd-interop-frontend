@@ -1,6 +1,11 @@
 import axios from 'axios'
 import { load } from 'cheerio'
-import { writeFile } from 'fs'
+import { writeFile, mkdirSync } from 'fs'
+import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 /**
  * FORMAT FOR ELEMENTS:
@@ -16,6 +21,13 @@ import { writeFile } from 'fs'
  *    text: string
  * }
  */
+
+const chalk = {
+  red: (text) => `\x1b[31m${text}\x1b[0m`,
+  green: (text) => `\x1b[32m${text}\x1b[0m`,
+  yellow: (text) => `\x1b[33m${text}\x1b[0m`,
+  blue: (text) => `\x1b[34m${text}\x1b[0m`,
+}
 
 const guideURL = 'https://docs.pagopa.it/interoperabilita-1/'
 
@@ -34,6 +46,7 @@ const cloudflareLinks = []
 const anchorLinks = []
 
 async function checkURL(url, text) {
+  console.log('Checking URL:', chalk.blue(url))
   let pageHTML
   await axios
     .get(url)
@@ -141,6 +154,8 @@ function formatErrors() {
 }
 
 async function main() {
+  console.log('Starting program...\n')
+
   const startingTime = Date.now()
   while (urlsToVisit.length !== 0) {
     const urlToVisit = urlsToVisit.pop()
@@ -155,12 +170,18 @@ async function main() {
   const reportData = formatReport(startingTime, endingTime, duration)
   const reportError = formatErrors()
 
-  writeFile('./scripts/guide-crawl/output/report.txt', reportData, (err) => {
+  mkdirSync(resolve(__dirname, 'output'), { recursive: true }, (err) => {
     if (err !== null) console.log('Error:', err)
   })
-  writeFile('./scripts/guide-crawl/output/errors.txt', reportError, (err) => {
+
+  writeFile(resolve(__dirname, 'output/report.txt'), reportData, (err) => {
     if (err !== null) console.log('Error:', err)
   })
+  writeFile(resolve(__dirname, 'output/errors.txt'), reportError, (err) => {
+    if (err !== null) console.log('Error:', err)
+  })
+
+  console.log(chalk.green('\nDone!'))
 }
 
 main()
