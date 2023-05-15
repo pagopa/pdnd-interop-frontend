@@ -12,6 +12,7 @@ import { EnvironmentBanner } from '@pagopa/mui-italia'
 import { STAGE } from './config/env'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import { useTranslation } from 'react-i18next'
+import { MaintenanceBanner } from './components/shared/MaintenanceBanner'
 
 const queryClient = new QueryClient(queryClientConfig)
 
@@ -32,6 +33,7 @@ function App() {
           <RouterProvider />
           <LoadingOverlay />
           <ToastNotification />
+          <MaintenanceBanner />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </React.Suspense>
