@@ -1,11 +1,30 @@
-import { useQueryWrapper } from '@/api/react-query-wrappers'
 import { INTEROP_RESOURCES_BASE_URL } from '@/config/env'
 import axios from 'axios'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import differenceInHours from 'date-fns/differenceInHours'
 import isWithinInterval from 'date-fns/isWithinInterval'
-import type { UseQueryWrapperOptions } from '@/api/react-query-wrappers/react-query-wrappers.types'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+
+const singleDateFormatter = new Intl.DateTimeFormat('it', {
+  day: '2-digit',
+  month: '2-digit',
+})
+const multipleDateFormatter = new Intl.DateTimeFormat('it', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+})
+
+function formatDateString(dateString: string | undefined, type: 'single' | 'multiple') {
+  if (dateString === undefined) return ''
+  if (type === 'single') {
+    return singleDateFormatter.format(new Date(dateString))
+  }
+  if (type === 'multiple') {
+    return multipleDateFormatter.format(new Date(dateString))
+  }
+}
 
 export type MaintenanceData = {
   start: { date: string; time: string }
@@ -19,32 +38,27 @@ async function getMaintenanceJson() {
   return response.data
 }
 
-export function useGetMaintenanceJson(config?: UseQueryWrapperOptions<MaintenanceData>) {
-  return useQuery(['Maintenance json'], () => getMaintenanceJson(), config)
+export function useGetMaintenanceJson() {
+  return useQuery(['Maintenance json'], getMaintenanceJson, {
+    suspense: false,
+    useErrorBoundary: false,
+    retry: false,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  })
 }
 
-export function useMaintenanceBanner(data: MaintenanceData | undefined) {
+export function useMaintenanceBanner() {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'maintenanceBanner',
+  })
+  const { data } = useGetMaintenanceJson()
+
   const maintenanceStartString = `${data?.start.date} ${data?.start.time}`
   const maintenanceEndString = `${data?.end.date} ${data?.end.time}`
 
   const maintenanceStart = Date.parse(maintenanceStartString)
   const maintenanceEnd = Date.parse(maintenanceEndString)
-
-  // const openBanner = useCallback(() => {
-  //   if (data && data.start && data.end) {
-  //     const lastMaintenanceViewed = window.localStorage.getItem('lastMaintenanceViewed')
-  //     if (lastMaintenanceViewed && lastMaintenanceViewed === maintenanceEndString) {
-  //       console.log('La stringa di maintenance è già presente')
-  //       return false
-  //     }
-  //     const now = Date.now()
-  //     const interval: Interval = { start: maintenanceStart, end: maintenanceEnd }
-  //     console.log("Verifichiamo che now sia dentro l'intervallo", !isWithinInterval(now, interval))
-  //     return /* isWithinInterval(now, interval) */ !isWithinInterval(now, interval)
-  //   }
-  //   console.log('Non ci sono i data')
-  //   return false
-  // }, [data, maintenanceEnd, maintenanceEndString, maintenanceStart])
 
   const [isOpen, setIsOpen] = useState<boolean>()
 
@@ -61,21 +75,36 @@ export function useMaintenanceBanner(data: MaintenanceData | undefined) {
     if (data && data.start && data.end) {
       const lastMaintenanceViewed = window.localStorage.getItem('lastMaintenanceViewed')
       if (lastMaintenanceViewed && lastMaintenanceViewed === maintenanceEndString) {
-        console.log('La stringa di maintenance è già presente')
         setIsOpen(false)
         return
       }
       const now = Date.now()
       const interval: Interval = { start: maintenanceStart, end: maintenanceEnd }
-      console.log("Verifichiamo che now sia dentro l'intervallo", !isWithinInterval(now, interval))
       /* isWithinInterval(now, interval) */ setIsOpen(!isWithinInterval(now, interval))
       return
     }
-    console.log('Non ci sono i data')
     setIsOpen(false)
   }, [data, maintenanceEnd, maintenanceEndString, maintenanceStart])
 
-  console.log('BBBBBBBBBBBBBBBBBBB', isOpen)
+  React.useEffect(() => {
+    if (data) {
+      openBanner()
+    }
+  }, [data, openBanner])
 
-  return { isSingleOrMultipleDays, isOpen, closeBanner, durationInHours, openBanner }
+  const text =
+    isSingleOrMultipleDays === 'single'
+      ? t('bodySingleDay', {
+          maintenanceStartDay: formatDateString(data?.start.date, 'single'),
+          maintenanceStartHour: data?.start.time,
+          hoursDuration: durationInHours,
+        })
+      : t('bodyMultipleDay', {
+          maintenanceStartHour: data?.start.time,
+          maintenanceStartDay: formatDateString(data?.start.date, 'multiple'),
+          maintenanceEndHour: data?.end.time,
+          maintenanceEndDay: formatDateString(data?.end.date, 'multiple'),
+        })
+
+  return { text, isOpen, closeBanner }
 }
