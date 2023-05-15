@@ -9,7 +9,8 @@
     "preview": "vite build --mode development && vite preview --mode development",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
-    "generate-types": "node scripts/open-api-type-generator.js"
+    "generate-types": "node scripts/open-api-type-generator.js",
+    "crawling-guide-links": "node scripts/guide-crawl/index.js"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
@@ -54,6 +55,7 @@
     "@typescript-eslint/parser": "^5.53.0",
     "@vitejs/plugin-react": "^3.1.0",
     "@vitest/coverage-c8": "^0.29.1",
+    "cheerio": "^1.0.0-rc.12",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
