@@ -186,5 +186,10 @@
   },
   "environmentBanner": {
     "content": "Ambiente di collaudo: attenzione i dati non devono essere reali."
+  },
+  "maintenanceBanner": {
+    "title": "Manutenzione programmata",
+    "bodySingleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata il {{maintenanceStartDay}} alle {{maintenanceStartHour}} per circa {{hoursDuration}} ore. Ci scusiamo per gli eventuali disservizi causati.",
+    "bodyMultipleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata dalle {{maintenanceStartHour}} del {{maintenanceStartDay}} alle {{maintenanceEndHour}} del {{maintenanceEndDay}}. Ci scusiamo per gli eventuali disservizi causati."
   }
 }
