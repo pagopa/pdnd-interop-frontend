@@ -48,4 +48,14 @@ describe('testing canAgreementBeUpgraded utility function', () => {
 
     expect(result).toBe(true)
   })
+
+  it('shoud not be possible to upgrade an agreement if the agreement state is REJECTED', () => {
+    const agreementMock = createMockAgreement({
+      state: 'REJECTED',
+      eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '2' },
+    })
+    const result = canAgreementBeUpgraded(agreementMock, 'consumer')
+
+    expect(result).toBe(false)
+  })
 })
