@@ -28,6 +28,15 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
     navigate('PROVIDE_ESERVICE_LIST')
   }
 
+  const goToEServiceDetails = (eserviceId: string, descriptorId: string) => {
+    navigate('PROVIDE_ESERVICE_MANAGE', {
+      params: {
+        eserviceId: eserviceId,
+        descriptorId: descriptorId,
+      },
+    })
+  }
+
   const handleDeleteVersion = () => {
     if (!descriptor) return
     deleteVersion(
@@ -40,7 +49,7 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
     if (!descriptor) return
     publishVersion(
       { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
-      { onSuccess: goToProviderEServiceList }
+      { onSuccess: () => goToEServiceDetails(descriptor.eservice.id, descriptor.id) }
     )
   }
 
