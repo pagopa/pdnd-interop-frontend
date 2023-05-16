@@ -1,10 +1,13 @@
-import { INTEROP_RESOURCES_BASE_URL } from '@/config/env'
-import axios from 'axios'
 import React, { useCallback, useState } from 'react'
 import differenceInHours from 'date-fns/differenceInHours'
 import isWithinInterval from 'date-fns/isWithinInterval'
-import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { useGetMaintenanceJson } from '@/api/maintenance'
+
+export type MaintenanceData = {
+  start: { date: string; time: string }
+  end: { date: string; time: string }
+}
 
 const singleDateFormatter = new Intl.DateTimeFormat('it', {
   day: '2-digit',
@@ -26,41 +29,19 @@ function formatDateString(dateString: string | undefined, type: 'single' | 'mult
   }
 }
 
-export type MaintenanceData = {
-  start: { date: string; time: string }
-  end: { date: string; time: string }
-}
-
-async function getMaintenanceJson() {
-  const response = await axios.get<MaintenanceData>(
-    `${INTEROP_RESOURCES_BASE_URL}/maintenance-window/data.json`
-  )
-  return response.data
-}
-
-export function useGetMaintenanceJson() {
-  return useQuery(['Maintenance json'], getMaintenanceJson, {
-    suspense: false,
-    useErrorBoundary: false,
-    retry: false,
-    staleTime: Infinity,
-    cacheTime: Infinity,
-  })
-}
-
 export function useMaintenanceBanner() {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'maintenanceBanner',
   })
   const { data } = useGetMaintenanceJson()
 
-  const maintenanceStartString = `${data?.start.date} ${data?.start.time}`
-  const maintenanceEndString = `${data?.end.date} ${data?.end.time}`
+  const maintenanceStartString = `${data?.start?.date} ${data?.start?.time}`
+  const maintenanceEndString = `${data?.end?.date} ${data?.end?.time}`
 
   const maintenanceStart = Date.parse(maintenanceStartString)
   const maintenanceEnd = Date.parse(maintenanceEndString)
 
-  const [isOpen, setIsOpen] = useState<boolean>()
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const durationInHours = differenceInHours(maintenanceEnd, maintenanceStart)
   const isSingleOrMultipleDays = durationInHours <= 24 ? 'single' : 'multiple'
@@ -80,7 +61,7 @@ export function useMaintenanceBanner() {
       }
       const now = Date.now()
       const interval: Interval = { start: maintenanceStart, end: maintenanceEnd }
-      /* isWithinInterval(now, interval) */ setIsOpen(!isWithinInterval(now, interval))
+      setIsOpen(isWithinInterval(now, interval))
       return
     }
     setIsOpen(false)
@@ -95,15 +76,15 @@ export function useMaintenanceBanner() {
   const text =
     isSingleOrMultipleDays === 'single'
       ? t('bodySingleDay', {
-          maintenanceStartDay: formatDateString(data?.start.date, 'single'),
-          maintenanceStartHour: data?.start.time,
+          maintenanceStartDay: formatDateString(data?.start?.date, 'single'),
+          maintenanceStartHour: data?.start?.time,
           hoursDuration: durationInHours,
         })
       : t('bodyMultipleDay', {
-          maintenanceStartHour: data?.start.time,
-          maintenanceStartDay: formatDateString(data?.start.date, 'multiple'),
-          maintenanceEndHour: data?.end.time,
-          maintenanceEndDay: formatDateString(data?.end.date, 'multiple'),
+          maintenanceStartHour: data?.start?.time,
+          maintenanceStartDay: formatDateString(data?.start?.date, 'multiple'),
+          maintenanceEndHour: data?.end?.time,
+          maintenanceEndDay: formatDateString(data?.end?.date, 'multiple'),
         })
 
   return { text, isOpen, closeBanner }
