@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import differenceInHours from 'date-fns/differenceInHours'
-import isWithinInterval from 'date-fns/isWithinInterval'
 import { useTranslation } from 'react-i18next'
 import { useGetMaintenanceJson } from '@/api/maintenance'
+import isBefore from 'date-fns/isBefore'
 
 export type MaintenanceData = {
   start: { date: string; time: string }
@@ -60,12 +60,11 @@ export function useMaintenanceBanner() {
         return
       }
       const now = Date.now()
-      const interval: Interval = { start: maintenanceStart, end: maintenanceEnd }
-      setIsOpen(isWithinInterval(now, interval))
+      setIsOpen(isBefore(now, maintenanceEnd))
       return
     }
     setIsOpen(false)
-  }, [data, maintenanceEnd, maintenanceEndString, maintenanceStart])
+  }, [data, maintenanceEnd, maintenanceEndString])
 
   React.useEffect(() => {
     if (data) {
