@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse } from 'react-router-dom'
 import { Button } from '@mui/material'
-import { Redirect, RouterLink } from '@/router'
+import { Redirect, Link } from '@/router'
 import {
   NotAuthorizedError,
   NotFoundError,
@@ -40,9 +40,9 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   )
 
   const backToHomeButton = (
-    <RouterLink as="button" variant="contained" to="SUBSCRIBE_CATALOG_LIST">
+    <Link as="button" variant="contained" to="SUBSCRIBE_CATALOG_LIST">
       {t('actions.backToHome')}
-    </RouterLink>
+    </Link>
   )
 
   const backToSelfcareButton = (

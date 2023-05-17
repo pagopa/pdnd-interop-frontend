@@ -2,7 +2,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import { useToastNotification } from '@/stores'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import { useNavigateRouter, useRouteParams } from '@/router'
+import { useNavigate, useParams } from '@/router'
 import { Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -20,9 +20,9 @@ export const PurposeEditStep3Clients: React.FC<ActiveStepProps> = ({ back }) => 
   const { t: tMutations } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDraft.outcome',
   })
-  const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_EDIT'>()
+  const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const { showToast } = useToastNotification()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
 
   const goToPurposeList = () => {
     showToast(tMutations('success'), 'success')

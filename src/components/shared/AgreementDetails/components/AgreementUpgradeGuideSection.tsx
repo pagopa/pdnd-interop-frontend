@@ -6,7 +6,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import LinkIcon from '@mui/icons-material/Link'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { AgreementMutations } from '@/api/agreement'
-import { RouterLink, useNavigateRouter } from '@/router'
+import { Link as RouterLink, useNavigate } from '@/router'
 import { agreementUpgradeGuideLink } from '@/config/constants'
 import { useJwt } from '@/hooks/useJwt'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
@@ -15,7 +15,7 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.updateGuide' })
   const { agreement, canBeUpgraded } = useAgreementDetailsContext()
   const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { isAdmin } = useJwt()
 
   const handleUpgrade = async () => {

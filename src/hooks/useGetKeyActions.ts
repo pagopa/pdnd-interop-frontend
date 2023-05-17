@@ -1,6 +1,6 @@
 import { ClientDownloads, ClientMutations } from '@/api/client'
 import { useClientKind } from '@/hooks/useClientKind'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
@@ -9,7 +9,7 @@ function useGetKeyActions(clientId: string, kid: string): { actions: Array<Actio
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { isOperatorSecurity, isAdmin } = useJwt()
   const clientKind = useClientKind()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const downloadKey = ClientDownloads.useDownloadKey()
   const { mutate: deleteKey } = ClientMutations.useDeleteKey()
 

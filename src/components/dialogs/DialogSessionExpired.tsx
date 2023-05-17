@@ -2,14 +2,14 @@ import React from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import type { DialogSessionExpiredProps } from '@/types/dialog.types'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 
 export const DialogSessionExpired: React.FC<DialogSessionExpiredProps> = () => {
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
 
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogSessionExpired' })
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
 
   const logout = React.useCallback(() => {
     navigate('LOGOUT')

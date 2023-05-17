@@ -5,14 +5,14 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
 import { useJwt } from '@/hooks/useJwt'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { Box, Button, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { t } = useTranslation('common')
   const prefetch = PurposeQueries.usePrefetchSingle()
   const { isAdmin } = useJwt()

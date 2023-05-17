@@ -1,5 +1,5 @@
 import { SectionContainer } from '@/components/layout/containers'
-import { useCurrentRoute, useNavigateRouter } from '@/router'
+import { useCurrentRoute, useNavigate } from '@/router'
 import { Box, Button } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -18,7 +18,7 @@ export const EServiceVersionHistorySection: React.FC = () => {
   })
   const { mode } = useCurrentRoute()
   const { descriptor } = useEServiceDetailsContext()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
 
   const formMethods = useForm<VersionHistoryFormValues>({
     defaultValues: {

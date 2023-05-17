@@ -7,8 +7,11 @@ import {
 import { SideNav, SideNavSkeleton } from '../SideNav'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
+import * as useIsRouteInCurrentSubtree from '../hooks/useIsRouteInCurrentSubtree'
 
-mockUseCurrentRoute({ routeKey: 'TOS', isRouteInCurrentSubtree: () => false })
+mockUseCurrentRoute({ routeKey: 'TOS' })
+vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnValue(() => false)
 
 describe('SideNav', () => {
   it('should match the snapshot', () => {
@@ -45,11 +48,11 @@ describe('SideNav', () => {
     mockUseJwt({ isAdmin: true, currentRoles: ['admin'] })
     const screen = renderWithApplicationContext(<SideNav />, { withRouterContext: true })
     const user = userEvent.setup()
-    const collapsable = screen.getByRole('button', { name: 'Erogazione' })
+    const collapsable = screen.getByRole('button', { name: 'PROVIDE' })
 
     await user.click(collapsable)
 
-    const link = screen.queryByRole('link', { name: 'I tuoi e-service' })
+    const link = screen.queryByRole('link', { name: 'PROVIDE_ESERVICE_LIST' })
     expect(link).toBeInTheDocument()
 
     await user.click(collapsable)

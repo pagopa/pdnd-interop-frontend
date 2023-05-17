@@ -1,7 +1,7 @@
 import type { ClientKind, CompactClient } from '@/api/api.generatedTypes'
 import { ClientQueries } from '@/api/client'
 import useGetClientActions from '@/hooks/useGetClientActions'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { Box, Button, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -16,7 +16,7 @@ type ClientTableRow = {
 
 export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind }) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const prefetch = ClientQueries.usePrefetchSingle()
 
   const { actions } = useGetClientActions(client)

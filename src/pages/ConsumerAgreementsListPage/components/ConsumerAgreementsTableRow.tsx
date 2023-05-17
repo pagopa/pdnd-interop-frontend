@@ -5,7 +5,7 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useJwt } from '@/hooks/useJwt'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { Box, Button, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntry }> = ({
   agreement,
 }) => {
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { isAdmin } = useJwt()

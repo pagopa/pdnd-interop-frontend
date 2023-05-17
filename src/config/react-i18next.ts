@@ -2,21 +2,21 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import { DEFAULT_LANG } from '@/config/constants'
 
-// import pagesEnNs from '@/static/locales/en/pages.json'
-// import commonEnNs from '@/static/locales/en/common.json'
-// import eserviceEnNs from '@/static/locales/en/eservice.json'
-// import partyEnNs from '@/static/locales/en/party.json'
-// import pagopaEnNs from '@/static/locales/en/pagopa.json'
-// import sharedComponentsEnNs from '@/static/locales/en/shared-components.json'
-// import attributeEnNs from '@/static/locales/en/attribute.json'
-// import mutationsFeedbackEnNs from '@/static/locales/en/mutations-feedback.json'
-// import errorEnNs from '@/static/locales/en/error.json'
-// import agreementEnNs from '@/static/locales/en/agreement.json'
-// import purposeEnNs from '@/static/locales/en/purpose.json'
-// import clientEnNs from '@/static/locales/en/client.json'
-// import voucherEnNs from '@/static/locales/en/voucher.json'
-// import userEnNs from '@/static/locales/en/user.json'
-// import keyEnNs from '@/static/locales/en/key.json'
+import pagesEnNs from '@/static/locales/en/pages.json'
+import commonEnNs from '@/static/locales/en/common.json'
+import eserviceEnNs from '@/static/locales/en/eservice.json'
+import partyEnNs from '@/static/locales/en/party.json'
+import pagopaEnNs from '@/static/locales/en/pagopa.json'
+import sharedComponentsEnNs from '@/static/locales/en/shared-components.json'
+import attributeEnNs from '@/static/locales/en/attribute.json'
+import mutationsFeedbackEnNs from '@/static/locales/en/mutations-feedback.json'
+import errorEnNs from '@/static/locales/en/error.json'
+import agreementEnNs from '@/static/locales/en/agreement.json'
+import purposeEnNs from '@/static/locales/en/purpose.json'
+import clientEnNs from '@/static/locales/en/client.json'
+import voucherEnNs from '@/static/locales/en/voucher.json'
+import userEnNs from '@/static/locales/en/user.json'
+import keyEnNs from '@/static/locales/en/key.json'
 
 import pagesItNs from '@/static/locales/it/pages.json'
 import commonItNs from '@/static/locales/it/common.json'
@@ -59,23 +59,23 @@ i18n.use(initReactI18next).init({
       user: userItNs,
       key: keyItNs,
     },
-    // en: {
-    //   pages: pagesEnNs,
-    //   common: commonEnNs,
-    //   eservice: eserviceEnNs,
-    //   party: partyEnNs,
-    //   pagopa: pagopaEnNs,
-    //   'shared-components': sharedComponentsEnNs,
-    //   attribute: attributeEnNs,
-    //   'mutations-feedback': mutationsFeedbackEnNs,
-    //   error: errorEnNs,
-    //   agreement: agreementEnNs,
-    //   purpose: purposeEnNs,
-    //   client: clientEnNs,
-    //   voucher: voucherEnNs,
-    //   user: userEnNs,
-    //   key: keyEnNs,
-    // },
+    en: {
+      pages: pagesEnNs,
+      common: commonEnNs,
+      eservice: eserviceEnNs,
+      party: partyEnNs,
+      pagopa: pagopaEnNs,
+      'shared-components': sharedComponentsEnNs,
+      attribute: attributeEnNs,
+      'mutations-feedback': mutationsFeedbackEnNs,
+      error: errorEnNs,
+      agreement: agreementEnNs,
+      purpose: purposeEnNs,
+      client: clientEnNs,
+      voucher: voucherEnNs,
+      user: userEnNs,
+      key: keyEnNs,
+    },
   },
 })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { SectionContainer, SectionContainerSkeleton } from '../layout/containers'
 import { Stack, type SkeletonProps } from '@mui/material'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 type ApiInfoSectionProps = {
@@ -18,7 +18,7 @@ export const ApiInfoSection: React.FC<ApiInfoSectionProps> = ({ ids }) => {
     <SectionContainer
       title={t('title')}
       description={
-        <Trans components={{ 1: <RouterLink to="SUBSCRIBE_INTEROP_M2M" /> }}>{t('content')}</Trans>
+        <Trans components={{ 1: <Link to="SUBSCRIBE_INTEROP_M2M" /> }}>{t('content')}</Trans>
       }
     >
       <Stack spacing={1}>

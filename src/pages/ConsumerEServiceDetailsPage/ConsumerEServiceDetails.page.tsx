@@ -3,7 +3,7 @@ import { PageBottomActionsContainer, PageContainer } from '@/components/layout/c
 import { PageContainerSkeleton } from '@/components/layout/containers/PageContainer'
 import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
-import { RouterLink, useRouteParams } from '@/router'
+import { Link, useParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { Alert, Stack } from '@mui/material'
 import React from 'react'
@@ -19,7 +19,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
 
 const ConsumerEServiceDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('eservice')
-  const { eserviceId, descriptorId } = useRouteParams<'SUBSCRIBE_CATALOG_VIEW'>()
+  const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
 
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId)
   const { actions, isMine, isSubscribed, hasAgreementDraft } = useGetEServiceConsumerActions(
@@ -59,9 +59,9 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
       {!descriptor && <EServiceDetailsSkeleton />}
 
       <PageBottomActionsContainer>
-        <RouterLink as="button" to="SUBSCRIBE_CATALOG_LIST" variant="outlined">
+        <Link as="button" to="SUBSCRIBE_CATALOG_LIST" variant="outlined">
           {t('read.actions.backToCatalogLabel')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainer>
   )
@@ -74,9 +74,9 @@ const ConsumerEServiceDetailsPageContentSkeleton = () => {
     <PageContainerSkeleton>
       <EServiceDetailsSkeleton />
       <PageBottomActionsContainer>
-        <RouterLink as="button" to="SUBSCRIBE_CATALOG_LIST" variant="outlined">
+        <Link as="button" to="SUBSCRIBE_CATALOG_LIST" variant="outlined">
           {t('read.actions.backToCatalogLabel')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainerSkeleton>
   )

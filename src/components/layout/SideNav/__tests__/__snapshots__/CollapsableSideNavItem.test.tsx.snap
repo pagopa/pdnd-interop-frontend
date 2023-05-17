@@ -18,7 +18,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (closed - not select
           <p
             class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
           >
-            Erogazione
+            PROVIDE
           </p>
         </div>
         <svg
@@ -59,7 +59,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (closed - selected) 
           <p
             class="MuiTypography-root MuiTypography-body1 css-dtyt49-MuiTypography-root"
           >
-            Erogazione
+            PROVIDE
           </p>
         </div>
         <svg
@@ -100,7 +100,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - not select
           <p
             class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
           >
-            Erogazione
+            PROVIDE
           </p>
         </div>
         <svg
@@ -145,7 +145,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - not select
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
                     >
-                      Richieste di fruizione
+                      PROVIDE_AGREEMENT_LIST
                     </p>
                   </div>
                   <span
@@ -167,7 +167,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - not select
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
                     >
-                      I tuoi e-service
+                      PROVIDE_ESERVICE_LIST
                     </p>
                   </div>
                   <span
@@ -202,7 +202,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - selected) 
           <p
             class="MuiTypography-root MuiTypography-body1 css-dtyt49-MuiTypography-root"
           >
-            Erogazione
+            PROVIDE
           </p>
         </div>
         <svg
@@ -247,7 +247,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - selected) 
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-ha8szv-MuiTypography-root"
                     >
-                      Richieste di fruizione
+                      PROVIDE_AGREEMENT_LIST
                     </p>
                   </div>
                   <span
@@ -269,7 +269,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - selected) 
                     <p
                       class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
                     >
-                      I tuoi e-service
+                      PROVIDE_ESERVICE_LIST
                     </p>
                   </div>
                   <span

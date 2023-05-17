@@ -1,7 +1,7 @@
 import { AgreementMutations } from '@/api/agreement'
 import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
-import { useCurrentRoute, useNavigateRouter } from '@/router'
+import { useCurrentRoute, useNavigate } from '@/router'
 import { useDialog } from '@/stores'
 import { useJwt } from './useJwt'
 import type { Agreement, AgreementListEntry, AgreementState } from '@/api/api.generatedTypes'
@@ -15,7 +15,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mode } = useCurrentRoute()
   const { isAdmin } = useJwt()
   const { openDialog } = useDialog()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
 
   const { mutate: activateAgreement } = AgreementMutations.useActivate()
   const { mutate: suspendAgreement } = AgreementMutations.useSuspend()

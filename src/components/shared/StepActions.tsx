@@ -1,7 +1,6 @@
 import React from 'react'
 import { Stack, Button } from '@mui/material'
-import { RouteKey } from '@/router/router.types'
-import { RouterLink } from '@/router'
+import { Link, type RouteKey } from '@/router'
 
 type ActionButton = {
   label: string
@@ -37,9 +36,7 @@ export function StepActions({ back, forward }: StepActionsProps) {
       ? { onClick: forward.onClick }
       : { type: 'submit', disabled: forward?.disabled })
   const backProps =
-    back && back.type === 'link'
-      ? { component: RouterLink, to: back.to }
-      : { onClick: back?.onClick }
+    back && back.type === 'link' ? { component: Link, to: back.to } : { onClick: back?.onClick }
 
   return (
     <Stack direction="row" spacing={2} sx={{ mt: 2 }}>

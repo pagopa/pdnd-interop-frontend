@@ -76,10 +76,10 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly agree
         <div
           class="css-e53awj-MuiStack-root"
         >
-          <button
+          <a
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
-            type="button"
           >
             <span>
               actions.inspect
@@ -87,7 +87,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly agree
             <span
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
@@ -192,10 +192,10 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         <div
           class="css-e53awj-MuiStack-root"
         >
-          <button
+          <a
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
-            type="button"
           >
             <span>
               actions.inspect
@@ -203,7 +203,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
             <span
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
@@ -292,10 +292,10 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         <div
           class="css-e53awj-MuiStack-root"
         >
-          <button
+          <a
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
-            type="button"
           >
             <span>
               actions.inspect
@@ -303,7 +303,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
             <span
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
@@ -392,10 +392,10 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         <div
           class="css-e53awj-MuiStack-root"
         >
-          <button
+          <a
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
-            type="button"
           >
             <span>
               actions.inspect
@@ -403,7 +403,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
             <span
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
@@ -497,10 +497,10 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         <div
           class="css-e53awj-MuiStack-root"
         >
-          <button
+          <a
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
-            type="button"
           >
             <span>
               actions.inspect
@@ -508,7 +508,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
             <span
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
@@ -597,10 +597,10 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
         <div
           class="css-e53awj-MuiStack-root"
         >
-          <button
+          <a
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
-            type="button"
           >
             <span>
               actions.inspect
@@ -608,7 +608,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
             <span
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
-          </button>
+          </a>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             tabindex="0"

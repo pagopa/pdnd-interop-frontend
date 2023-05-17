@@ -2,7 +2,7 @@ import React from 'react'
 import { ClientQueries } from '@/api/client'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { useClientKind } from '@/hooks/useClientKind'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import KeyIcon from '@mui/icons-material/Key'
@@ -27,7 +27,7 @@ export const OperatorKeysSection: React.FC<OperatorKeysSectionProps> = ({
     <SectionContainer title={t('edit.associatedKeysField.label')}>
       <Stack spacing={2}>
         {operatorKeys.map(({ keyId, name }, i) => (
-          <RouterLink
+          <Link
             key={i}
             to={keyDetailsRouteKey}
             startIcon={<KeyIcon fontSize="small" />}
@@ -38,7 +38,7 @@ export const OperatorKeysSection: React.FC<OperatorKeysSectionProps> = ({
             sx={{ display: 'block' }}
           >
             {name}
-          </RouterLink>
+          </Link>
         ))}
 
         {operatorKeys.length === 0 && (

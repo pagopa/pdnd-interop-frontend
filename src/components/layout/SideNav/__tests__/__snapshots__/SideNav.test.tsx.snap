@@ -24,7 +24,7 @@ exports[`SideNav > should match the snapshot 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                Erogazione
+                PROVIDE
               </p>
             </div>
             <svg
@@ -58,7 +58,7 @@ exports[`SideNav > should match the snapshot 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                Fruizione
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -106,7 +106,7 @@ exports[`SideNav > should match the snapshot 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
               >
-                Notifiche
+                NOTIFICATION
               </p>
             </div>
             <span
@@ -128,7 +128,7 @@ exports[`SideNav > should match the snapshot 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
               >
-                Anagrafica ente
+                PARTY_REGISTRY
               </p>
             </div>
             <span
@@ -498,7 +498,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                Erogazione
+                PROVIDE
               </p>
             </div>
             <svg
@@ -532,7 +532,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                Fruizione
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -580,7 +580,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
               >
-                Notifiche
+                NOTIFICATION
               </p>
             </div>
             <span
@@ -602,7 +602,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
               >
-                Anagrafica ente
+                PARTY_REGISTRY
               </p>
             </div>
             <span
@@ -640,7 +640,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                Erogazione
+                PROVIDE
               </p>
             </div>
             <svg
@@ -674,7 +674,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                Fruizione
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -722,7 +722,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
               <p
                 class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
               >
-                Notifiche
+                NOTIFICATION
               </p>
             </div>
             <span
@@ -744,7 +744,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
               <p
                 class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
               >
-                Anagrafica ente
+                PARTY_REGISTRY
               </p>
             </div>
             <span
@@ -782,7 +782,7 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                Fruizione
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -830,7 +830,7 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
               <p
                 class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
               >
-                Notifiche
+                NOTIFICATION
               </p>
             </div>
             <span
@@ -852,7 +852,7 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
               <p
                 class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
               >
-                Anagrafica ente
+                PARTY_REGISTRY
               </p>
             </div>
             <span

@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 
 type AddSecurityOperatorKeyFormValues = {
@@ -69,9 +69,9 @@ export const DialogAddSecurityOperatorKey: React.FC<DialogAddSecurityOperatorKey
 
             <Alert severity="info">
               {t('content.keyField.infoLabel.message')}{' '}
-              <RouterLink to="SECURITY_KEY_GUIDE" target="_blank">
+              <Link to="SECURITY_KEY_GUIDE" target="_blank">
                 {t('content.keyField.infoLabel.linkLabel')}
-              </RouterLink>
+              </Link>
             </Alert>
           </DialogContent>
 

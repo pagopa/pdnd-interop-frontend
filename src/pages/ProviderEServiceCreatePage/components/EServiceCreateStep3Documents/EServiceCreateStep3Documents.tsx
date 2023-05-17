@@ -5,7 +5,7 @@ import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { StepActions } from '@/components/shared/StepActions'
 import { useToastNotification } from '@/stores'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +16,7 @@ import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3Docu
 export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
   const { t: tMutations } = useTranslation('mutations-feedback')
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
 
   const { showToast } = useToastNotification()
   const { descriptor, back } = useEServiceCreateContext()

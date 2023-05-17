@@ -9,17 +9,18 @@ import type {
 } from '@pagopa/mui-italia'
 import { LANGUAGES, pagoPaLink } from '@/config/constants'
 import { useJwt } from '@/hooks/useJwt'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate as useRRDNavigate } from 'react-router-dom'
 
 type FooterLinksTypeMulti = Omit<FooterLinksType, 'label' | 'ariaLabel'> & { labelKey?: string }
 
 export const Footer = () => {
   const { t } = useTranslation('pagopa')
   const currentLanguage = useCurrentLanguage()
-  const internalNavigate = useNavigate()
+  const navigate = useNavigate()
+  const rrdNavigate = useRRDNavigate()
   const { jwt } = useJwt()
 
   function convertLinks(inputLinks: Array<FooterLinksTypeMulti>) {
@@ -34,8 +35,6 @@ export const Footer = () => {
       return { label, ariaLabel, ...l }
     })
   }
-
-  const { navigate } = useNavigateRouter()
 
   const links: Array<FooterLinksTypeMulti> = [
     {
@@ -95,7 +94,7 @@ export const Footer = () => {
       currentLangCode={currentLanguage}
       onExit={() => (href: string, linkType: string) => {
         if (linkType === 'internal') {
-          internalNavigate(href)
+          rrdNavigate(href)
         } else {
           window.open(href, '_blank')
         }

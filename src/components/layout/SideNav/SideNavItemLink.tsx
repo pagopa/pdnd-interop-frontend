@@ -8,10 +8,10 @@ import {
   Typography,
 } from '@mui/material'
 import type { SvgIconComponent } from '@mui/icons-material'
-import type { RouteKey } from '@/router/router.types'
-import { routes } from '@/router/routes'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { RouterLink, useCurrentRoute } from '@/router'
+import { type RouteKey } from '@/router'
+import { Link } from '@/router'
+import { useTranslation } from 'react-i18next'
+import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
 
 type SideNavItemLinkProps = {
   routeKey: RouteKey
@@ -26,10 +26,8 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
   EndIcon,
   indented = false,
 }) => {
-  const currentLanguage = useCurrentLanguage()
-  const { isRouteInCurrentSubtree } = useCurrentRoute()
-  const route = routes[routeKey]
-  const label = route.LABEL[currentLanguage]
+  const { t } = useTranslation('shared-components', { keyPrefix: 'routeLabels' })
+  const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
   const isSelected = isRouteInCurrentSubtree(routeKey)
 
   return (
@@ -38,7 +36,7 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
     <ListItemButton
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      component={RouterLink}
+      component={Link}
       underline="none"
       to={routeKey}
       sx={{
@@ -64,7 +62,7 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
             color="inherit"
             sx={{ fontWeight: isSelected ? 600 : 300, pl: indented ? 4 : 0 }}
           >
-            {label}
+            {t(routeKey)}
           </Typography>
         }
       />

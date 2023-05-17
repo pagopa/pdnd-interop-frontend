@@ -5,8 +5,6 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act, fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
-import { routes } from '@/router/routes'
-import { generatePath } from 'react-router-dom'
 import { vi } from 'vitest'
 import * as hooks from '@/hooks/useJwt'
 import type { Purpose } from '@/api/api.generatedTypes'
@@ -190,8 +188,6 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
 
-    expect(history.location.pathname).toBe(
-      '/it/' + generatePath(routes.SUBSCRIBE_PURPOSE_EDIT.PATH.it, { purposeId: 'test-purpose-id' })
-    )
+    expect(history.location.pathname).toBe('/it/fruizione/finalita/test-purpose-id/modifica')
   })
 })

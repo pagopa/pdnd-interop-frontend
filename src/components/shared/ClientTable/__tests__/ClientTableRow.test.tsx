@@ -10,10 +10,7 @@ import userEvent from '@testing-library/user-event'
 const clientMock = { id: 'client-id', name: 'name', hasKeys: false }
 const useClientKindMock = vi.spyOn(useClientKindHook, 'useClientKind')
 const navigateRouterFn = vi.fn()
-vi.spyOn(router, 'useNavigateRouter').mockReturnValue({
-  navigate: navigateRouterFn,
-  getRouteUrl: () => '',
-})
+vi.spyOn(router, 'useNavigate').mockReturnValue(navigateRouterFn)
 
 afterEach(() => {
   navigateRouterFn.mockReset()

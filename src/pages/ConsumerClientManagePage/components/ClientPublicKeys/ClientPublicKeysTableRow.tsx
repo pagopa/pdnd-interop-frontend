@@ -1,6 +1,6 @@
 import { ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import { formatDateString } from '@/utils/format.utils'
 import { Box, Skeleton, Tooltip } from '@mui/material'
 import React from 'react'
@@ -54,7 +54,7 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
         formatDateString(publicKey.createdAt),
       ]}
     >
-      <RouterLink
+      <Link
         as="button"
         to={inspectRouteKey}
         params={{ clientId, kid }}
@@ -64,7 +64,7 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
         onFocusVisible={handlePrefetchKey}
       >
         {tCommon('actions.inspect')}
-      </RouterLink>
+      </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} iconColor={color} />

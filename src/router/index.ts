@@ -1,6 +1,9 @@
-export { default as RouterProvider } from './components/RouterProvider'
-export { default as Redirect } from './components/Redirect'
-export { default as RouterLink } from './components/RouterLink'
-export { default as useNavigateRouter } from './hooks/useNavigateRouter'
-export { default as useCurrentRoute } from './hooks/useCurrentRoute'
-export { default as useRouteParams } from './hooks/useRouteParams'
+export { RouterProvider } from './components/RouterProvider'
+export { useCurrentRoute } from './hooks/useCurrentRoute'
+
+import * as _routes from './routes'
+
+export const { useNavigate, useParams, useLocation, useAuthGuard, useGeneratePath } = _routes.hooks
+export const { Link, Redirect, Breadcrumbs } = _routes.components
+export const { getParentRoutes } = _routes.utils
+export type RouteKey = _routes.RouteKey

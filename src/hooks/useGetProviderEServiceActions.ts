@@ -1,6 +1,6 @@
 import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
@@ -14,7 +14,7 @@ export function useGetProviderEServiceActions(
 ) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { isAdmin, isOperatorAPI } = useJwt()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()

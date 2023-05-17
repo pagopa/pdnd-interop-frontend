@@ -2,7 +2,7 @@ import React from 'react'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { Button, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import {
   PageBottomActionsCardContainer,
   PageBottomActionsCardContainerSkeleton,
@@ -16,7 +16,7 @@ export const PurposeEditBottomPageQuickActions: React.FC<
   PurposeEditBottomPageQuickActionsProps
 > = ({ purposeId }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()

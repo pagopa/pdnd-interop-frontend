@@ -7,10 +7,7 @@ import userEvent from '@testing-library/user-event'
 
 const mockFn = vi.fn()
 
-vi.spyOn(router, 'useNavigateRouter').mockReturnValue({
-  navigate: mockFn,
-  getRouteUrl: mockFn,
-})
+vi.spyOn(router, 'useNavigate').mockReturnValue(mockFn)
 
 afterEach(() => {
   mockFn.mockClear()

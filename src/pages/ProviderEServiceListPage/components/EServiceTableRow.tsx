@@ -2,9 +2,8 @@ import React from 'react'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { Box, Button, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { URL_FRAGMENTS } from '@/router/router.utils'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
@@ -18,10 +17,9 @@ type EServiceTableRow = {
 }
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { t } = useTranslation('common')
   const { isAdmin, isOperatorAPI } = useJwt()
-  const lang = useCurrentLanguage()
 
   const prefetchDescriptor = EServiceQueries.usePrefetchDescriptorProvider()
   const prefetchEService = EServiceQueries.usePrefetchSingle()
@@ -45,7 +43,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         descriptorId:
           eservice?.activeDescriptor?.id ||
           eservice?.draftDescriptor?.id ||
-          URL_FRAGMENTS.FIRST_DRAFT[lang],
+          URL_FRAGMENTS.FIRST_DRAFT,
       },
     })
   }

@@ -1,7 +1,7 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
-import { RouterLink, useRouteParams } from '@/router'
+import { Link, useParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { Alert } from '@mui/material'
 import React from 'react'
@@ -12,7 +12,7 @@ import { useJwt } from '@/hooks/useJwt'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice')
-  const { eserviceId, descriptorId } = useRouteParams<'PROVIDE_ESERVICE_MANAGE'>()
+  const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
   const { data: descriptor, isLoading: isLoadingDescriptor } =
     EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, { suspense: false })
@@ -42,9 +42,9 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       {(!descriptor || isLoadingDescriptor) && <EServiceDetailsSkeleton />}
 
       <PageBottomActionsContainer>
-        <RouterLink as="button" to="PROVIDE_ESERVICE_LIST" variant="outlined">
+        <Link as="button" to="PROVIDE_ESERVICE_LIST" variant="outlined">
           {t('read.actions.backToListLabel')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainer>
   )
@@ -63,7 +63,7 @@ const HasDraftDescriptorAlert: React.FC<{ descriptor: ProducerEServiceDescriptor
       <Trans
         components={{
           1: (
-            <RouterLink
+            <Link
               to="PROVIDE_ESERVICE_EDIT"
               params={{
                 eserviceId: descriptor.eservice.id,

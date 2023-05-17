@@ -3,7 +3,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { Box } from '@mui/material'
 import React from 'react'
@@ -27,7 +27,7 @@ type EServiceCreateStep2FormValues = {
 
 export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { eservice, descriptor, forward, back } = useEServiceCreateContext()
   const { mutate: createVersionDraft } = EServiceMutations.useCreateVersionDraft({
     suppressSuccessToast: true,

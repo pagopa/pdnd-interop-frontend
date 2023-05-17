@@ -4,7 +4,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import * as useLoginAttemptHook from '@/hooks/useLoginAttempt'
 import { vi } from 'vitest'
 import * as useTOSAgreement from '../../../hooks/useTOSAgreement'
-import * as useSyncLangWithRoute from '../../../hooks/useSyncLangWithRoute'
 import {
   mockUseCurrentRoute,
   mockUseJwt,
@@ -21,7 +20,6 @@ useTOSAgreementSpy.mockReturnValue({
   tosAcceptedId: 'tosAcceptedId',
 })
 
-vi.spyOn(useSyncLangWithRoute, 'default').mockImplementation(vi.fn())
 mockUseJwt()
 
 const mockRouter = createBrowserRouter([

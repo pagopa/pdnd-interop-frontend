@@ -1,5 +1,5 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { RouterLink, useCurrentRoute } from '@/router'
+import { Link, useCurrentRoute } from '@/router'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -23,13 +23,13 @@ export const AgreementGeneralInfoSection: React.FC = () => {
       <Stack spacing={2}>
         <InformationContainer
           content={
-            <RouterLink
+            <Link
               to="SUBSCRIBE_CATALOG_VIEW"
               params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
               target="_blank"
             >
               {eServiceName}
-            </RouterLink>
+            </Link>
           }
           label={t('eserviceField.label')}
         />

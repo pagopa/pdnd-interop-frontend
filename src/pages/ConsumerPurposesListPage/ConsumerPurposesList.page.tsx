@@ -4,7 +4,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { useJwt } from '@/hooks/useJwt'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import {
   Filters,
   Pagination,
@@ -21,7 +21,7 @@ const ConsumerPurposesListPage: React.FC = () => {
   const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common')
   const { jwt, isAdmin } = useJwt()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
 
   const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] =
     useAutocompleteTextInput('')

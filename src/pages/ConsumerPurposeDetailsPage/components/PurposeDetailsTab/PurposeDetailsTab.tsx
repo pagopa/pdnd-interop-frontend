@@ -14,7 +14,7 @@ import {
 } from './PurposeDetailsLoadEstimateUpdateSection'
 import { PurposeQueries } from '@/api/purpose'
 import { Trans, useTranslation } from 'react-i18next'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '@/components/shared/ApiInfoSection'
 
 interface PurposeDetailsTabProps {
@@ -54,7 +54,7 @@ export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({ purposeId 
           <Trans
             components={{
               1: (
-                <RouterLink
+                <Link
                   to="SUBSCRIBE_PURPOSE_DETAILS"
                   params={{ purposeId }}
                   options={{ urlParams: { tab: 'clients' } }}
