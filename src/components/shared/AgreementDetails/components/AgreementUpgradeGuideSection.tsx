@@ -23,8 +23,12 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
     upgradeAgreement(
       { agreementId: agreement.id },
       {
-        onSuccess() {
-          navigate('SUBSCRIBE_AGREEMENT_LIST')
+        onSuccess(data) {
+          navigate('SUBSCRIBE_AGREEMENT_READ', {
+            params: {
+              agreementId: data.id,
+            },
+          })
         },
       }
     )
