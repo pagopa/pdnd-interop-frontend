@@ -39,7 +39,11 @@ export const PurposeEditBottomPageQuickActions: React.FC<
       { purposeId, versionId: purpose.currentVersion.id },
       {
         onSuccess() {
-          navigate('SUBSCRIBE_PURPOSE_LIST')
+          navigate('SUBSCRIBE_PURPOSE_DETAILS', {
+            params: {
+              purposeId: purposeId,
+            },
+          })
         },
       }
     )
