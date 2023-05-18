@@ -13,7 +13,7 @@ import * as router from '@/router'
 
 const server = setupServer(
   rest.post(`${BACKEND_FOR_FRONTEND_URL}/agreements/:agreementId/upgrade`, (req, res, ctx) => {
-    return res(ctx.status(200))
+    return res(ctx.json(createMockAgreement({ id: 'new updated agreement id' })))
   })
 )
 
@@ -68,7 +68,7 @@ describe('AgreementUpgradeGuideSection', () => {
     expect(container).toBeEmptyDOMElement()
   })
 
-  it('should redirect to the agreement list after upgrading', async () => {
+  it('should redirect to the new agreement details after upgrading', async () => {
     const navigateRouterFn = vi.fn()
     useNavigateSpy.mockReturnValue({ navigate: navigateRouterFn, getRouteUrl: () => '' })
 
@@ -88,7 +88,11 @@ describe('AgreementUpgradeGuideSection', () => {
     await user.click(screen.getByRole('button', { name: /confirm/i }))
 
     await waitFor(() => {
-      expect(navigateRouterFn).toBeCalledWith('SUBSCRIBE_AGREEMENT_LIST')
+      expect(navigateRouterFn).toBeCalledWith('SUBSCRIBE_AGREEMENT_READ', {
+        params: {
+          agreementId: 'new updated agreement id',
+        },
+      })
     })
   })
 })
