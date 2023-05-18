@@ -41,6 +41,10 @@ exports[`ConsumerAgreementCreatePage > should match the snapshot 1`] = `
                   class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
                   style="height: 190px;"
                 />
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+                  style="height: 115px;"
+                />
               </div>
             </div>
             <div
@@ -51,7 +55,7 @@ exports[`ConsumerAgreementCreatePage > should match the snapshot 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
-                  style="height: 115px;"
+                  style="height: 500px;"
                 />
               </div>
             </div>
@@ -73,7 +77,7 @@ exports[`ConsumerAgreementCreatePage > should match the snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -228,7 +232,7 @@ exports[`ConsumerAgreementCreatePage > should match the snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -333,7 +337,7 @@ exports[`ConsumerAgreementCreatePage > should match the snapshot 1`] = `
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ofknlc-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               />
               <div
                 class="MuiBox-root css-zv7ju9"
@@ -419,15 +423,14 @@ exports[`ConsumerAgreementCreatePage > should match the snapshot while initial l
               class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
               style="height: 190px;"
             />
-          </div>
-          <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
-          >
             <span
               class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
               style="height: 115px;"
             />
           </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          />
         </div>
         <span
           class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
@@ -483,7 +486,7 @@ exports[`ConsumerAgreementCreatePage > should match the snapshot while initial l
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ofknlc-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               />
               <div
                 class="MuiBox-root css-zv7ju9"

@@ -27,9 +27,6 @@ exports[`ConsumerAgreementDetails > should match the snapshot > full 1`] = `
             type="button"
           >
             suspend
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
         </div>
       </div>
@@ -46,7 +43,7 @@ exports[`ConsumerAgreementDetails > should match the snapshot > full 1`] = `
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -151,15 +148,11 @@ exports[`ConsumerAgreementDetails > should match the snapshot > full 1`] = `
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
-          >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -219,12 +212,252 @@ exports[`ConsumerAgreementDetails > should match the snapshot > full 1`] = `
               </div>
             </div>
           </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            >
+              <div
+                class="css-1okj3ks-MuiStack-root"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                >
+                  title
+                </h2>
+                <span
+                  class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+                >
+                  content
+                </span>
+              </div>
+              <div
+                class="MuiBox-root css-1yuhvjn"
+              >
+                <div
+                  class="css-1okj3ks-MuiStack-root"
+                >
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        eserviceId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        47f82055-77fd-4efd-8ed6-8a7d3021c879
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        descriptorId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        b79fc9ac-2882-49bd-afd1-71f4284f117c
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        agreementId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        agreementId
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        providerId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        62c6cf7f-f279-41b1-bd76-27982e6491df
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        consumerId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        6b16be70-9230-4209-bd1f-7e5ae0eed289
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -282,7 +515,7 @@ exports[`ConsumerAgreementDetails > should match the snapshot > full 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -340,7 +573,7 @@ exports[`ConsumerAgreementDetails > should match the snapshot > full 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -403,9 +636,6 @@ exports[`ConsumerAgreementDetails > should match the snapshot > full 1`] = `
             type="button"
           >
             backToRequestsBtn
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
         </div>
       </div>
@@ -455,6 +685,10 @@ exports[`ConsumerAgreementDetails > should match the snapshot > loading 1`] = `
                   class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
                   style="height: 190px;"
                 />
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+                  style="height: 115px;"
+                />
               </div>
             </div>
             <div
@@ -465,7 +699,7 @@ exports[`ConsumerAgreementDetails > should match the snapshot > loading 1`] = `
               >
                 <span
                   class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
-                  style="height: 115px;"
+                  style="height: 500px;"
                 />
               </div>
             </div>
@@ -574,7 +808,7 @@ exports[`ConsumerAgreementDetails > should show alert if no purpose is associate
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -679,15 +913,11 @@ exports[`ConsumerAgreementDetails > should show alert if no purpose is associate
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
-          >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -747,12 +977,267 @@ exports[`ConsumerAgreementDetails > should show alert if no purpose is associate
               </div>
             </div>
           </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            >
+              <div
+                class="css-1okj3ks-MuiStack-root"
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                >
+                  title
+                </h2>
+                <span
+                  class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+                >
+                  content
+                </span>
+              </div>
+              <div
+                class="MuiBox-root css-1yuhvjn"
+              >
+                <div
+                  class="css-1okj3ks-MuiStack-root"
+                >
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        eserviceId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        47f82055-77fd-4efd-8ed6-8a7d3021c879
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        descriptorId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        b79fc9ac-2882-49bd-afd1-71f4284f117c
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        agreementId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        agreementId
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        providerId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        62c6cf7f-f279-41b1-bd76-27982e6491df
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                  >
+                    <div
+                      class="MuiBox-root css-1pdb85g"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        consumerId
+                      </p>
+                    </div>
+                    <div
+                      class="MuiBox-root css-1rr4qq7"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                      >
+                        6b16be70-9230-4209-bd1f-7e5ae0eed289
+                        <button
+                          aria-label="Copia"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                          data-mui-internal-clone-element="true"
+                          role="button"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                            data-testid="ContentCopyIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                            />
+                          </svg>
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -810,7 +1295,7 @@ exports[`ConsumerAgreementDetails > should show alert if no purpose is associate
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -868,7 +1353,7 @@ exports[`ConsumerAgreementDetails > should show alert if no purpose is associate
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"

@@ -7,7 +7,7 @@ exports[`CertifiedPartyAttributesList > should match snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -94,7 +94,7 @@ exports[`CertifiedPartyAttributesList > should match snapshot with no attributes
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -152,7 +152,7 @@ exports[`CertifiedPartyAttributesListSkeleton > should match snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-nen11g-MuiStack-root"
+        class="css-1okj3ks-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"

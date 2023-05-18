@@ -102,17 +102,17 @@ exports[`ConsumerClientManagePage (API) > should match snapshot 1`] = `
           role="tabpanel"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
           >
             <div
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
                 style="height: 111px;"
               />
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-oxsfu5-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
                 style="height: 600px;"
               />
             </div>
@@ -254,18 +254,26 @@ exports[`ConsumerClientManagePage (CONSUMER) > should match snapshot 1`] = `
           role="tabpanel"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
           >
             <div
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
                 style="height: 111px;"
               />
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-oxsfu5-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
                 style="height: 600px;"
+              />
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+                style="height: 604px;"
               />
             </div>
           </div>

@@ -61,7 +61,7 @@ describe('ConsumerAgreementCreatePage', () => {
     expect(screen.baseElement).toMatchSnapshot()
   })
 
-  it('should correctly navigate to SUBSCRIBE_AGREEMENT_LIST on submit agreement draft success', async () => {
+  it('should correctly navigate to SUBSCRIBE_AGREEMENT_DETAILS on submit agreement draft success', async () => {
     mockUseGetSingle(createMockAgreement())
     vi.spyOn(useCanUserSubmitAgreementDraft, 'useCanUserSubmitAgreementDraft').mockReturnValue(true)
     const screen = renderWithApplicationContext(<ConsumerAgreementCreatePage />, {
@@ -73,7 +73,7 @@ describe('ConsumerAgreementCreatePage', () => {
     await user.click(screen.getByRole('button', { name: 'edit.bottomPageActionCard.submitBtn' }))
     await user.click(screen.getByRole('button', { name: 'confirm' }))
     await waitFor(() => {
-      expect(screen.history.location.pathname).toBe('/it/fruizione/richieste')
+      expect(screen.history.location.pathname).toBe('/it/fruizione/richieste/agreementId')
     })
   })
 

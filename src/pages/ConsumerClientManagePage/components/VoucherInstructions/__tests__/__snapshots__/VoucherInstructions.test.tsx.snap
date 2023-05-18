@@ -161,7 +161,7 @@ exports[`VoucherInstructions (API) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -257,7 +257,7 @@ exports[`VoucherInstructions (API) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -437,7 +437,7 @@ exports[`VoucherInstructions (API) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -706,7 +706,7 @@ exports[`VoucherInstructions (API) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -817,7 +817,7 @@ exports[`VoucherInstructions (CONSUMER) > should match snapshot 1`] = `
 <body>
   <div>
     <div
-      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
     >
       <div
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
@@ -826,7 +826,7 @@ exports[`VoucherInstructions (CONSUMER) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           />
           <div
             class="MuiBox-root css-zv7ju9"
@@ -1041,7 +1041,7 @@ exports[`VoucherInstructions (CONSUMER) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1137,7 +1137,7 @@ exports[`VoucherInstructions (CONSUMER) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1317,7 +1317,7 @@ exports[`VoucherInstructions (CONSUMER) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1639,7 +1639,7 @@ exports[`VoucherInstructions (CONSUMER) > should match snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -1741,6 +1741,14 @@ exports[`VoucherInstructions (CONSUMER) > should match snapshot 1`] = `
           </div>
         </div>
       </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          style="height: 604px;"
+        />
+      </div>
     </div>
   </div>
 </body>
@@ -1750,18 +1758,26 @@ exports[`VoucherInstructionsSkeleton > should match snapshot 1`] = `
 <body>
   <div>
     <div
-      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
     >
       <div
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
           style="height: 111px;"
         />
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-oxsfu5-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
           style="height: 600px;"
+        />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          style="height: 604px;"
         />
       </div>
     </div>

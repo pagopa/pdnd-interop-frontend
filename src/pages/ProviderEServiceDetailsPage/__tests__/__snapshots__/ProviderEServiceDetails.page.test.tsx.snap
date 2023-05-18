@@ -40,7 +40,7 @@ exports[`ProviderEServiceDetails > should match the snapshot 1`] = `
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -83,7 +83,7 @@ exports[`ProviderEServiceDetails > should match the snapshot 1`] = `
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -307,15 +307,11 @@ exports[`ProviderEServiceDetails > should match the snapshot 1`] = `
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
-          >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -353,11 +349,15 @@ exports[`ProviderEServiceDetails > should match the snapshot 1`] = `
                 </div>
               </div>
             </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+          >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
             >
               <div
-                class="css-nen11g-MuiStack-root"
+                class="css-1okj3ks-MuiStack-root"
               >
                 <h2
                   class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -437,7 +437,7 @@ exports[`ProviderEServiceDetails > should match the snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -492,7 +492,7 @@ exports[`ProviderEServiceDetails > should match the snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -547,7 +547,7 @@ exports[`ProviderEServiceDetails > should match the snapshot 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -672,12 +672,16 @@ exports[`ProviderEServiceDetails > should match the snapshot in loading state 1`
                 class="css-1p5q5e5-MuiStack-root"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 140px;"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+                  style="height: 102px;"
                 />
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
                   style="height: 471px;"
+                />
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+                  style="height: 150px;"
                 />
               </div>
             </div>
@@ -688,26 +692,22 @@ exports[`ProviderEServiceDetails > should match the snapshot in loading state 1`
                 class="css-1p5q5e5-MuiStack-root"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 150px;"
-                />
-                <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
-                  style="height: 300px;"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+                  style="height: 194px;"
                 />
               </div>
             </div>
           </div>
           <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
             style="height: 320px;"
           />
           <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
             style="height: 320px;"
           />
           <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
             style="height: 320px;"
           />
           <div
@@ -717,7 +717,7 @@ exports[`ProviderEServiceDetails > should match the snapshot in loading state 1`
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-58ftfq-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
                 style="height: 150px;"
               />
             </div>

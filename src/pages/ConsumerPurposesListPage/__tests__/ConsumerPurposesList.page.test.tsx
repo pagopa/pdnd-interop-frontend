@@ -6,7 +6,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { EServiceQueries } from '@/api/eservice'
 
 mockUseJwt()
-const useGetProviderListSpy = vi.spyOn(PurposeQueries, 'useGetList')
+const useGetProviderListSpy = vi.spyOn(PurposeQueries, 'useGetConsumersList')
 
 describe('ConsumerPurposesListPage', () => {
   it('should match the snapshot', () => {
@@ -20,7 +20,7 @@ describe('ConsumerPurposesListPage', () => {
         },
       },
       isFetching: false,
-    } as unknown as ReturnType<typeof PurposeQueries.useGetList>)
+    } as unknown as ReturnType<typeof PurposeQueries.useGetConsumersList>)
     const { baseElement } = renderWithApplicationContext(<ConsumerPurposesListPage />, {
       withRouterContext: true,
       withReactQueryContext: true,
@@ -32,7 +32,7 @@ describe('ConsumerPurposesListPage', () => {
     useGetProviderListSpy.mockReturnValue({
       data: undefined,
       isFetching: true,
-    } as unknown as ReturnType<typeof PurposeQueries.useGetList>)
+    } as unknown as ReturnType<typeof PurposeQueries.useGetConsumersList>)
     const { baseElement } = renderWithApplicationContext(<ConsumerPurposesListPage />, {
       withRouterContext: true,
       withReactQueryContext: true,
@@ -51,7 +51,7 @@ describe('ConsumerPurposesListPage', () => {
         },
       },
       isFetching: false,
-    } as unknown as ReturnType<typeof PurposeQueries.useGetList>)
+    } as unknown as ReturnType<typeof PurposeQueries.useGetConsumersList>)
     const screen = renderWithApplicationContext(<ConsumerPurposesListPage />, {
       withRouterContext: true,
       withReactQueryContext: true,
@@ -71,7 +71,7 @@ describe('ConsumerPurposesListPage', () => {
         },
       },
       isFetching: false,
-    } as unknown as ReturnType<typeof PurposeQueries.useGetList>)
+    } as unknown as ReturnType<typeof PurposeQueries.useGetConsumersList>)
 
     vi.spyOn(EServiceQueries, 'useGetCatalogList').mockReturnValue({
       data: { results: [] },
@@ -97,7 +97,7 @@ describe('ConsumerPurposesListPage', () => {
         },
       },
       isFetching: false,
-    } as unknown as ReturnType<typeof PurposeQueries.useGetList>)
+    } as unknown as ReturnType<typeof PurposeQueries.useGetConsumersList>)
     const screen = renderWithApplicationContext(<ConsumerPurposesListPage />, {
       withRouterContext: true,
       withReactQueryContext: true,

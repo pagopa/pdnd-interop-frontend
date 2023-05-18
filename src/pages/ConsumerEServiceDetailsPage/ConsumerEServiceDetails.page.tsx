@@ -30,8 +30,6 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
 
   const topSideActions = formatTopSideActions(actions)
 
-  console.log(shouldShowMissingCertifiedAttributesAlert(descriptor, isMine), 'dd')
-
   return (
     <PageContainer
       title={descriptor?.eservice.name || ''}

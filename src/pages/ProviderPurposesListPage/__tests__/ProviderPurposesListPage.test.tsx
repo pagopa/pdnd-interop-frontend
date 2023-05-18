@@ -5,7 +5,7 @@ import { vi } from 'vitest'
 import { PurposeQueries } from '@/api/purpose'
 
 mockUseJwt()
-const useGetProviderListSpy = vi.spyOn(PurposeQueries, 'useGetList')
+const useGetProviderListSpy = vi.spyOn(PurposeQueries, 'useGetProducersList')
 
 describe('ProviderPurposesListPage', () => {
   it('should match the snapshot', () => {
@@ -19,7 +19,7 @@ describe('ProviderPurposesListPage', () => {
         },
       },
       isFetching: false,
-    } as unknown as ReturnType<typeof PurposeQueries.useGetList>)
+    } as unknown as ReturnType<typeof PurposeQueries.useGetProducersList>)
     const { baseElement } = renderWithApplicationContext(<ProviderPurposesListPage />, {
       withRouterContext: true,
       withReactQueryContext: true,
@@ -31,7 +31,7 @@ describe('ProviderPurposesListPage', () => {
     useGetProviderListSpy.mockReturnValue({
       data: undefined,
       isFetching: true,
-    } as unknown as ReturnType<typeof PurposeQueries.useGetList>)
+    } as unknown as ReturnType<typeof PurposeQueries.useGetProducersList>)
     const { baseElement } = renderWithApplicationContext(<ProviderPurposesListPage />, {
       withRouterContext: true,
       withReactQueryContext: true,

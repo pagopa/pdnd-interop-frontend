@@ -40,7 +40,7 @@ exports[`PartyRegistryPage > should match snapshot 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-nen11g-MuiStack-root"
+          class="css-1okj3ks-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -147,7 +147,7 @@ exports[`PartyRegistryPage > should match snapshot 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-nen11g-MuiStack-root"
+          class="css-1okj3ks-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -254,7 +254,7 @@ exports[`PartyRegistryPage > should match snapshot 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-nen11g-MuiStack-root"
+          class="css-1okj3ks-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -361,7 +361,7 @@ exports[`PartyRegistryPage > should match snapshot 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-j7482c-MuiPaper-root"
       >
         <div
-          class="css-nen11g-MuiStack-root"
+          class="css-1okj3ks-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -509,7 +509,7 @@ exports[`PartyRegistryPage > should match snapshot when jwt is undefined 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-nen11g-MuiStack-root"
+          class="css-1okj3ks-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -616,7 +616,7 @@ exports[`PartyRegistryPage > should match snapshot when jwt is undefined 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-nen11g-MuiStack-root"
+          class="css-1okj3ks-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -723,7 +723,7 @@ exports[`PartyRegistryPage > should match snapshot when jwt is undefined 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-nen11g-MuiStack-root"
+          class="css-1okj3ks-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -830,7 +830,7 @@ exports[`PartyRegistryPage > should match snapshot when jwt is undefined 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-j7482c-MuiPaper-root"
       >
         <div
-          class="css-nen11g-MuiStack-root"
+          class="css-1okj3ks-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"

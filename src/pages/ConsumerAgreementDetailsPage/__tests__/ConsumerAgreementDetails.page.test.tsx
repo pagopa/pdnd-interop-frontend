@@ -66,9 +66,9 @@ describe('ConsumerAgreementDetails', () => {
   })
 
   it('should show alert if no purpose is associated with the agreement', async () => {
-    vi.spyOn(PurposeQueries, 'useGetList').mockReturnValue({
+    vi.spyOn(PurposeQueries, 'useGetConsumersList').mockReturnValue({
       data: { results: [] },
-    } as unknown as ReturnType<typeof PurposeQueries.useGetList>)
+    } as unknown as ReturnType<typeof PurposeQueries.useGetConsumersList>)
 
     const screen = renderWithApplicationContext(<ConsumerAgreementDetailsPage />, {
       withReactQueryContext: true,
