@@ -44,7 +44,11 @@ const ConsumerAgreementCreatePage: React.FC = () => {
       { agreementId, consumerNotes },
       {
         onSuccess() {
-          navigate('SUBSCRIBE_AGREEMENT_LIST')
+          navigate('SUBSCRIBE_AGREEMENT_READ', {
+            params: {
+              agreementId: agreementId,
+            },
+          })
         },
       }
     )
