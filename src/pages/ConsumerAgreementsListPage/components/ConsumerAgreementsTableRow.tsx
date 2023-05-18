@@ -5,8 +5,8 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useJwt } from '@/hooks/useJwt'
-import { useNavigate } from '@/router'
-import { Box, Button, Skeleton } from '@mui/material'
+import { Link } from '@/router'
+import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next'
 export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntry }> = ({
   agreement,
 }) => {
-  const navigate = useNavigate()
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { isAdmin } = useJwt()
@@ -28,12 +27,6 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
 
   const isAgreementEditable = isAdmin && agreement.state === 'DRAFT'
 
-  const handleEditOrInspect = () => {
-    const destPath = isAgreementEditable ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
-
-    navigate(destPath, { params: { agreementId: agreement.id } })
-  }
-
   const handlePrefetch = () => {
     prefetchAgreement(agreement.id)
   }
@@ -46,15 +39,17 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
         <StatusChip key={agreement.id} for="agreement" agreement={agreement} />,
       ]}
     >
-      <Button
+      <Link
+        as="button"
         onPointerEnter={handlePrefetch}
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        onClick={handleEditOrInspect}
+        to={isAgreementEditable ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'}
+        params={{ agreementId: agreement.id }}
       >
         {tCommon(isAgreementEditable ? 'edit' : 'inspect')}
-      </Button>
+      </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

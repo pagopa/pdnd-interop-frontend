@@ -1,8 +1,8 @@
 import React from 'react'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { Box, Button, Skeleton, Stack } from '@mui/material'
+import { Box, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from '@/router'
+import { Link } from '@/router'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { EServiceQueries } from '@/api/eservice'
@@ -17,7 +17,6 @@ type EServiceTableRow = {
 }
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
-  const navigate = useNavigate()
   const { t } = useTranslation('common')
   const { isAdmin, isOperatorAPI } = useJwt()
 
@@ -33,20 +32,6 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
 
   const isEServiceInDraft = !eservice.activeDescriptor
   const isEServiceEditable = (isAdmin || isOperatorAPI) && isEServiceInDraft
-
-  const handleEditOrInspect = () => {
-    const destPath = isEServiceEditable ? 'PROVIDE_ESERVICE_EDIT' : 'PROVIDE_ESERVICE_MANAGE'
-
-    navigate(destPath, {
-      params: {
-        eserviceId: eservice.id,
-        descriptorId:
-          eservice?.activeDescriptor?.id ||
-          eservice?.draftDescriptor?.id ||
-          URL_FRAGMENTS.FIRST_DRAFT,
-      },
-    })
-  }
 
   const handlePrefetch = () => {
     if (isEServiceEditable) {
@@ -72,15 +57,23 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         </Stack>,
       ]}
     >
-      <Button
+      <Link
+        as="button"
         onPointerEnter={handlePrefetch}
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        onClick={handleEditOrInspect}
+        to={isEServiceEditable ? 'PROVIDE_ESERVICE_EDIT' : 'PROVIDE_ESERVICE_MANAGE'}
+        params={{
+          eserviceId: eservice.id,
+          descriptorId:
+            eservice?.activeDescriptor?.id ||
+            eservice?.draftDescriptor?.id ||
+            URL_FRAGMENTS.FIRST_DRAFT,
+        }}
       >
         {t(`actions.${isEServiceEditable ? 'edit' : 'inspect'}`)}
-      </Button>
+      </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

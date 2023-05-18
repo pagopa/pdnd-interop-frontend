@@ -5,14 +5,13 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
 import { useJwt } from '@/hooks/useJwt'
-import { useNavigate } from '@/router'
-import { Box, Button, Skeleton } from '@mui/material'
+import { Link } from '@/router'
+import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
-  const navigate = useNavigate()
   const { t } = useTranslation('common')
   const prefetch = PurposeQueries.usePrefetchSingle()
   const { isAdmin } = useJwt()
@@ -20,11 +19,6 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   const { actions } = useGetConsumerPurposesActions(purpose)
 
   const isPurposeEditable = purpose?.currentVersion?.state === 'DRAFT' && isAdmin
-
-  const goToEditOrInspectPurpose = () => {
-    const path = isPurposeEditable ? 'SUBSCRIBE_PURPOSE_EDIT' : 'SUBSCRIBE_PURPOSE_DETAILS'
-    navigate(path, { params: { purposeId: purpose.id } })
-  }
 
   const handlePrefetch = () => {
     prefetch(purpose.id)
@@ -39,15 +33,17 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
         <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
       ]}
     >
-      <Button
+      <Link
+        as="button"
         onPointerEnter={handlePrefetch}
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        onClick={goToEditOrInspectPurpose}
+        to={isPurposeEditable ? 'SUBSCRIBE_PURPOSE_EDIT' : 'SUBSCRIBE_PURPOSE_DETAILS'}
+        params={{ purposeId: purpose.id }}
       >
         {t(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}
-      </Button>
+      </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

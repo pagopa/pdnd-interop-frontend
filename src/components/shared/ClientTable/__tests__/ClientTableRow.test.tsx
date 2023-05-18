@@ -31,7 +31,7 @@ describe('ClientTableRow', () => {
 
   it('should navigate to the client edit page (API)', async () => {
     useClientKindMock.mockReturnValue('API')
-    const { getByRole } = renderWithApplicationContext(
+    const { getByRole, history } = renderWithApplicationContext(
       <ClientTableRow client={clientMock} clientKind="API" />,
       {
         withRouterContext: true,
@@ -40,16 +40,14 @@ describe('ClientTableRow', () => {
     )
 
     const user = userEvent.setup()
-    await user.click(getByRole('button', { name: 'inspect' }))
+    await user.click(getByRole('link', { name: 'inspect' }))
 
-    expect(navigateRouterFn).toHaveBeenCalledWith('SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT', {
-      params: { clientId: clientMock.id },
-    })
+    expect(history.location.pathname).toBe('/it/fruizione/interop-m2m/client-id')
   })
 
   it('should navigate to the client edit page (CONSUMER)', async () => {
     useClientKindMock.mockReturnValue('CONSUMER')
-    const { getByRole } = renderWithApplicationContext(
+    const { getByRole, history } = renderWithApplicationContext(
       <ClientTableRow client={clientMock} clientKind="CONSUMER" />,
       {
         withRouterContext: true,
@@ -58,11 +56,9 @@ describe('ClientTableRow', () => {
     )
 
     const user = userEvent.setup()
-    await user.click(getByRole('button', { name: 'inspect' }))
+    await user.click(getByRole('link', { name: 'inspect' }))
 
-    expect(navigateRouterFn).toHaveBeenCalledWith('SUBSCRIBE_CLIENT_EDIT', {
-      params: { clientId: clientMock.id },
-    })
+    expect(history.location.pathname).toBe('/it/fruizione/client/client-id')
   })
 })
 

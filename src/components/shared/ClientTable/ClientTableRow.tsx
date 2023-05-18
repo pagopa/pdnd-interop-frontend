@@ -1,8 +1,8 @@
 import type { ClientKind, CompactClient } from '@/api/api.generatedTypes'
 import { ClientQueries } from '@/api/client'
 import useGetClientActions from '@/hooks/useGetClientActions'
-import { useNavigate } from '@/router'
-import { Box, Button, Skeleton } from '@mui/material'
+import { Link } from '@/router'
+import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +16,6 @@ type ClientTableRow = {
 
 export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind }) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const navigate = useNavigate()
   const prefetch = ClientQueries.usePrefetchSingle()
 
   const { actions } = useGetClientActions(client)
@@ -25,24 +24,21 @@ export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind })
     prefetch(client.id)
   }
 
-  const handleInspect = () => {
-    const path =
-      clientKind === 'CONSUMER' ? 'SUBSCRIBE_CLIENT_EDIT' : 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'
-
-    navigate(path, { params: { clientId: client.id } })
-  }
-
   return (
     <TableRow cellData={[client.name]}>
-      <Button
+      <Link
+        as="button"
         onPointerEnter={handlePrefetch}
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        onClick={handleInspect}
+        to={
+          clientKind === 'CONSUMER' ? 'SUBSCRIBE_CLIENT_EDIT' : 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'
+        }
+        params={{ clientId: client.id }}
       >
         {t('inspect')}
-      </Button>
+      </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

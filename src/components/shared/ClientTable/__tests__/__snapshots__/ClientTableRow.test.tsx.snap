@@ -17,16 +17,16 @@ exports[`ClientTableRow > should match the snapshot 1`] = `
     <td
       class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
     >
-      <button
+      <a
         class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+        href="/it/fruizione/interop-m2m/client-id"
         tabindex="0"
-        type="button"
       >
         inspect
         <span
           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
         />
-      </button>
+      </a>
       <span
         class="MuiBox-root css-1ljwlp4"
       >
