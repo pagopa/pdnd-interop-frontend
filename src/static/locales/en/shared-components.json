@@ -229,7 +229,6 @@
     "SUBSCRIBE_INTEROP_M2M": "Your api interop clients",
     "SUBSCRIBE": "Subscriber",
     "PARTY_REGISTRY": "Party registry",
-    "NOT_FOUND": "Page not found",
-    "DEFAULT": ""
+    "NOT_FOUND": "Page not found"
   }
 }

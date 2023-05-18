@@ -228,7 +228,6 @@
     "SUBSCRIBE_INTEROP_M2M": "I tuoi client api interop",
     "SUBSCRIBE": "Fruizione",
     "PARTY_REGISTRY": "Anagrafica ente",
-    "NOT_FOUND": "Pagina non trovata",
-    "DEFAULT": ""
+    "NOT_FOUND": "Pagina non trovata"
   }
 }
