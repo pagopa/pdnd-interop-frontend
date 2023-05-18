@@ -8,6 +8,6 @@ export const canAgreementBeUpgraded = (agreement: Agreement, mode: ProviderOrCon
     agreement.eservice.activeDescriptor &&
     ['PUBLISHED', 'SUSPENDED'].includes(agreement.eservice.activeDescriptor.state) &&
     agreement.eservice.activeDescriptor.version > agreement.eservice.version &&
-    agreement.state !== 'ARCHIVED'
+    ['ACTIVE', 'SUSPENDED'].includes(agreement.state)
   )
 }
