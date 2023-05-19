@@ -22,23 +22,22 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
       limit: 50,
       offset: 0,
     },
-    {
-      suspense: false,
-      onSuccess(eservices) {
-        if (!hasSetFirstEService.current && eservices.results.length > 0) {
-          setValue('eserviceId', eservices.results[0].id)
-          hasSetFirstEService.current = true
-        }
-      },
-    }
+    { suspense: false }
   )
 
   const eservices = data?.results ?? []
 
-  const autocompleteOptions = (eservices ?? []).map((eservice) => ({
+  const autocompleteOptions = eservices.map((eservice) => ({
     label: `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producer.name}`,
     value: eservice.id,
   }))
+
+  React.useEffect(() => {
+    if (data && !hasSetFirstEService.current && data.results.length > 0) {
+      setValue('eserviceId', data.results[0].id)
+      hasSetFirstEService.current = true
+    }
+  }, [data, setValue])
 
   return (
     <RHFAutocompleteSingle

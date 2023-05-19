@@ -23,6 +23,7 @@
     "purposeDescription": "Descrizione finalità",
     "createNewPurposeBtn": "Crea bozza finalità",
     "backToListBtn": "Torna alle finalità",
+    "riskAnalysisPreviewTitle": "Analisi del rischio",
     "defaultPurpose": {
       "title": "Nuova finalità",
       "description": "Lorem ipsum dolor sit amet..."

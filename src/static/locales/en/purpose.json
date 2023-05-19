@@ -23,6 +23,7 @@
     "purposeDescription": "Purpose description",
     "createNewPurposeBtn": "Create purpose draft",
     "backToListBtn": "Back to purpose list",
+    "riskAnalysisPreviewTitle": "Risk analysis",
     "defaultPurpose": {
       "title": "New purpose",
       "description": "Lorem ipsum dolor sit amet..."

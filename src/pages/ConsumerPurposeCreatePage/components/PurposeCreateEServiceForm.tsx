@@ -40,23 +40,23 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const selectedEService = formMethods.watch('eserviceId')
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
-  const isEServiceSelected = !!selectedEService
 
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId!, {
     suspense: false,
     enabled: !!purposeId,
   })
 
-  const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
-
-  const onSubmit = ({ eserviceId }: PurposeCreateFormValues) => {
+  const onSubmit = ({ eserviceId, useTemplate }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eserviceId) return
 
     let title = t('create.defaultPurpose.title')
     let description = t('create.defaultPurpose.description')
     let riskAnalysisForm: undefined | RiskAnalysisForm
 
-    if (useTemplate && purposeId && purpose) {
+    if (useTemplate && purposeId) {
+      // If the user selected a template but the template is not yet loaded, return
+      // (just to be sure, the user should not be able to submit the form anyway)
+      if (!purpose) return
       title = `${purpose.title} — clone`
       description = purpose.description
       riskAnalysisForm = purpose.riskAnalysisForm
@@ -80,6 +80,9 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       },
     })
   }
+
+  const isEServiceSelected = !!selectedEService
+  const isSubmitBtnDisabled = Boolean(useTemplate && purposeId && !purpose)
 
   return (
     <FormProvider {...formMethods}>

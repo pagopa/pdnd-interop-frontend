@@ -20,9 +20,9 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
     setValue('templateId', null)
   }, [selectedEServiceId, setValue])
 
-  const { data, isInitialLoading, isFetched } = PurposeQueries.useGetConsumersList(
+  const { data, isInitialLoading } = PurposeQueries.useGetConsumersList(
     {
-      consumersIds: [jwt?.organizationId] as Array<string>,
+      consumersIds: [jwt!.organizationId],
       eservicesIds: [selectedEServiceId!],
       states: ['ACTIVE', 'SUSPENDED', 'ARCHIVED'],
       offset: 0,
@@ -33,21 +33,21 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
       suspense: false,
     }
   )
-  const purposes = data?.results ?? []
-
-  const options = purposes.map((purpose) => ({
-    label: purpose.title,
-    value: purpose.id,
-  }))
 
   if (!shouldRenderTemplateAutocomplete) return null
-  if (isFetched && (!purposes || data?.pagination.totalCount === 0)) {
+
+  if (isInitialLoading || !data) {
+    return <Spinner label={t('create.purposeField.loadingLabel')} />
+  }
+
+  if (data && data.results.length === 0) {
     return <Alert severity="warning">{t('create.purposeField.noDataLabel')}</Alert>
   }
 
-  if (isInitialLoading) {
-    return <Spinner label={t('create.purposeField.loadingLabel')} />
-  }
+  const options = data.results.map((purpose) => ({
+    label: purpose.title,
+    value: purpose.id,
+  }))
 
   return (
     <RHFAutocompleteSingle

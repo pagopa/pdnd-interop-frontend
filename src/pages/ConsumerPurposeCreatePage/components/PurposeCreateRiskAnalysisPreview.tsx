@@ -15,6 +15,7 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'create' })
   const currentLanguage = useCurrentLanguage()
   const { watch } = useFormContext<PurposeCreateFormValues>()
+
   const isUsingTemplate = watch('useTemplate')
   const purposeId = watch('templateId')
 
@@ -69,7 +70,7 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
         <Divider />
 
         <Typography sx={{ mt: 4, mb: 2 }} component="h2" variant="overline">
-          Analisi del rischio
+          {t('riskAnalysisPreviewTitle')}
         </Typography>
 
         <List>
@@ -92,7 +93,7 @@ type DescriptionBlockProps = {
   label: string
 }
 
-export const DescriptionBlock: React.FC<DescriptionBlockProps> = ({ children, label }) => {
+const DescriptionBlock: React.FC<DescriptionBlockProps> = ({ children, label }) => {
   return (
     <Grid container sx={{ my: 4 }} columnSpacing={4}>
       <Grid item xs={3}>
