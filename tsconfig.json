@@ -18,8 +18,9 @@
     "paths": {
       "@/*": ["src/*"],
     },
-  },
-  "include": ["src"],
+    "types": ["cypress", "node"] 
+   },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
   "exclude": [
     // "./src/**/__tests__/**",
     "__mocks__",
