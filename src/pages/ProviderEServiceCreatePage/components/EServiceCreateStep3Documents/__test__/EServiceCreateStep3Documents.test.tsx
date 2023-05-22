@@ -11,11 +11,10 @@ import {
   EServiceCreateStep3Documents,
   EServiceCreateStep3DocumentsSkeleton,
 } from '../EServiceCreateStep3Documents'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorProvider } from '__mocks__/data/eservice.mocks'
 import userEvent from '@testing-library/user-event'
-import { act } from 'react-dom/test-utils'
 
 const mockUseNavigateRouter = vi.spyOn(router, 'useNavigateRouter')
 const mockUseToastNotification = vi.spyOn(toast, 'useToastNotification')
@@ -35,6 +34,7 @@ const server = setupServer(
 )
 
 const original = window.crypto.getRandomValues
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 window.crypto.getRandomValues = () => [0, undefined] as any
 
 beforeAll(() => server.listen())
@@ -88,6 +88,8 @@ describe('EServiceCreateStep3Documents', () => {
 
     const deleteButton = screen.getByRole('button', { name: 'create.quickPublish.deleteBtn' })
     await user.click(deleteButton)
+    const confirmButton = screen.getByRole('button', { name: 'confirm' })
+    await user.click(confirmButton)
     await waitFor(() => expect(navigateFn).toBeCalledWith('PROVIDE_ESERVICE_LIST'))
   })
 
@@ -106,28 +108,51 @@ describe('EServiceCreateStep3Documents', () => {
     await waitFor(() => expect(navigateFn).not.toBeCalled())
   })
 
-  // it('should call the publishVersionDraft mutation', async () => {
-  //   const navigateFn = vi.fn()
-  //   mockUseNavigateRouter.mockReturnValue({ navigate: navigateFn, getRouteUrl: () => '' })
-  //   const descriptor = createMockEServiceDescriptorProvider()
-  //   mockUseEServiceCreateContext(descriptor)
-  //   const screen = renderWithApplicationContext(<EServiceCreateStep3Documents />, {
-  //     withRouterContext: true,
-  //     withReactQueryContext: true,
-  //   })
-  //   const user = userEvent.setup()
+  it('should call the publishVersionDraft mutation', async () => {
+    const navigateFn = vi.fn()
+    mockUseNavigateRouter.mockReturnValue({ navigate: navigateFn, getRouteUrl: () => '' })
+    const descriptor = createMockEServiceDescriptorProvider()
+    mockUseEServiceCreateContext(descriptor)
+    const screen = renderWithApplicationContext(<EServiceCreateStep3Documents />, {
+      withRouterContext: true,
+      withReactQueryContext: true,
+    })
+    const user = userEvent.setup()
 
-  //   const publishButton = screen.getByRole('button', { name: 'create.quickPublish.publishBtn' })
-  //   await user.click(publishButton)
-  //   await waitFor(() =>
-  //     expect(navigateFn).toBeCalledWith('PROVIDE_ESERVICE_MANAGE', {
-  //       params: {
-  //         eserviceId: descriptor.eservice.id,
-  //         descriptorId: descriptor.id,
-  //       },
-  //     })
-  //   )
-  // })
+    const publishButton = screen.getByRole('button', { name: 'create.quickPublish.publishBtn' })
+    await user.click(publishButton)
+    const confirmButton = screen.getByRole('button', { name: 'confirm' })
+    await user.click(confirmButton)
+    await waitFor(() =>
+      expect(navigateFn).toBeCalledWith('PROVIDE_ESERVICE_MANAGE', {
+        params: {
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+        },
+      })
+    )
+  })
+
+  it('should call the showToast and navigate if saveDraft is called', async () => {
+    const navigateFn = vi.fn()
+    mockUseNavigateRouter.mockReturnValue({ navigate: navigateFn, getRouteUrl: () => '' })
+    const showToastFn = vi.fn()
+    mockUseToastNotification.mockReturnValue({ showToast: showToastFn, hideToast: vi.fn() })
+    const descriptor = createMockEServiceDescriptorProvider()
+    mockUseEServiceCreateContext(descriptor)
+    const screen = renderWithApplicationContext(<EServiceCreateStep3Documents />, {
+      withRouterContext: true,
+      withReactQueryContext: true,
+    })
+    const user = userEvent.setup()
+
+    const saveButton = screen.getByRole('button', { name: 'create.endWithSaveBtn' })
+    await user.click(saveButton)
+    await waitFor(() => {
+      expect(showToastFn).toBeCalledWith('eservice.updateVersionDraft.outcome.success', 'success')
+      expect(navigateFn).toBeCalledWith('PROVIDE_ESERVICE_LIST')
+    })
+  })
 })
 
 describe('EServiceCreateStep3DocumentsSkeleton', () => {
