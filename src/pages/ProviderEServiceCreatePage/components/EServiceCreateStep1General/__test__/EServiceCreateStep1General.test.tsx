@@ -10,9 +10,8 @@ import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type { ProducerEServiceDescriptor, ProducerEServiceDetails } from '@/api/api.generatedTypes'
-import * as hooks from '@/hooks/useJwt'
 import * as EServiceCreateContext from '../../EServiceCreateContext'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import {
   createMockEServiceDescriptorProvider,
   createMockEServiceRead,
@@ -21,15 +20,10 @@ import userEvent from '@testing-library/user-event'
 import * as language from '@/hooks/useCurrentLanguage'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import { EServiceMutations } from '@/api/eservice'
+import { createMockJwtUser } from '__mocks__/data/user.mocks'
 
 const mockUseNavigateRouter = vi.spyOn(router, 'useNavigateRouter')
 vi.spyOn(language, 'default').mockReturnValue('it')
-const useJwtReturnDataMock = {
-  currentRoles: ['admin'],
-  isAdmin: true,
-  hasSessionExpired: () => false,
-} as unknown as ReturnType<typeof hooks.useJwt>
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
 
 const server = setupServer(
   rest.post(`${BACKEND_FOR_FRONTEND_URL}/eservices`, (req, res, ctx) => {
@@ -64,6 +58,7 @@ const mockUseEServiceCreateContext = (
 
 describe('EServiceCreateStep1General', () => {
   it('should match snapshot if isNewEService is true', () => {
+    mockUseJwt()
     mockUseEServiceCreateContext(undefined, undefined, true)
     const { baseElement } = renderWithApplicationContext(<EServiceCreateStep1General />, {
       withRouterContext: true,
@@ -73,6 +68,7 @@ describe('EServiceCreateStep1General', () => {
   })
 
   it('should match snapshot if isNewEService is false and EService defined', () => {
+    mockUseJwt()
     const eservice = createMockEServiceRead()
     mockUseEServiceCreateContext(eservice, undefined, false)
     const { baseElement } = renderWithApplicationContext(<EServiceCreateStep1General />, {
@@ -83,8 +79,9 @@ describe('EServiceCreateStep1General', () => {
   })
 
   it('should match snapshot if isNewEService is false and EService and descriptor defined and isEditable', () => {
+    mockUseJwt()
     const eservice = createMockEServiceRead()
-    const descriptor = createMockEServiceDescriptorProvider()
+    const descriptor = createMockEServiceDescriptorProvider({ version: '1', state: 'DRAFT' })
     mockUseEServiceCreateContext(eservice, descriptor, false)
     const { baseElement } = renderWithApplicationContext(<EServiceCreateStep1General />, {
       withRouterContext: true,
@@ -94,6 +91,7 @@ describe('EServiceCreateStep1General', () => {
   })
 
   it('should match snapshot if isNewEService is false and EService and descriptor defined but isEditable is false', () => {
+    mockUseJwt()
     const eservice = createMockEServiceRead()
     const descriptor = createMockEServiceDescriptorProvider({ state: 'PUBLISHED' })
     mockUseEServiceCreateContext(eservice, descriptor, false)
@@ -104,36 +102,64 @@ describe('EServiceCreateStep1General', () => {
     expect(baseElement).toMatchSnapshot()
   })
 
-  // it('should call the createDraft mutation when submitting a new eservice', async () => {
-  //   mockUseEServiceCreateContext(undefined, undefined, true)
-  //   const navigateFn = vi.fn()
-  //   mockUseNavigateRouter.mockReturnValue({ navigate: navigateFn, getRouteUrl: () => '' })
-  //   const screen = renderWithApplicationContext(<EServiceCreateStep1General />, {
-  //     withRouterContext: true,
-  //     withReactQueryContext: true,
-  //   })
-  //   const user = userEvent.setup()
-  //   await user.type(screen.getByLabelText('create.step1.eserviceNameField.label'), 'name test')
-  //   await user.type(
-  //     screen.getByLabelText('create.step1.eserviceDescriptionField.label'),
-  //     'description test'
-  //   )
+  it('should call the createDraft mutation when submitting a new eservice', async () => {
+    mockUseJwt()
+    mockUseEServiceCreateContext(undefined, undefined, true)
+    const navigateFn = vi.fn()
+    mockUseNavigateRouter.mockReturnValue({ navigate: navigateFn, getRouteUrl: () => '' })
+    const screen = renderWithApplicationContext(<EServiceCreateStep1General />, {
+      withRouterContext: true,
+      withReactQueryContext: true,
+    })
+    const user = userEvent.setup()
+    await user.type(screen.getByLabelText('create.step1.eserviceNameField.label'), 'name test')
+    await user.type(
+      screen.getByLabelText('create.step1.eserviceDescriptionField.label'),
+      'description test'
+    )
 
-  //   const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
-  //   await user.click(submitButton)
-  //   await waitFor(() =>
-  //     expect(navigateFn).toBeCalledWith('PROVIDE_ESERVICE_EDIT', {
-  //       params: {
-  //         eserviceId: 'ad474d35-7939-4bee-bde9-4e469cca1030',
-  //         descriptorId: URL_FRAGMENTS.FIRST_DRAFT['it'],
-  //       },
-  //       replace: true,
-  //       state: { stepIndexDestination: 1 },
-  //     })
-  //   )
-  // })
+    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+    await user.click(submitButton)
+    await waitFor(() =>
+      expect(navigateFn).toBeCalledWith('PROVIDE_ESERVICE_EDIT', {
+        params: {
+          eserviceId: 'ad474d35-7939-4bee-bde9-4e469cca1030',
+          descriptorId: URL_FRAGMENTS.FIRST_DRAFT['it'],
+        },
+        replace: true,
+        state: { stepIndexDestination: 1 },
+      })
+    )
+  })
+
+  it('should skip the createDraft mutation when jwt has not an organizationId', async () => {
+    mockUseJwt({ jwt: createMockJwtUser({ organizationId: undefined }) })
+    mockUseEServiceCreateContext(undefined, undefined, true)
+    const navigateFn = vi.fn()
+    mockUseNavigateRouter.mockReturnValue({ navigate: navigateFn, getRouteUrl: () => '' })
+    const createDraftFn = vi.fn()
+    vi.spyOn(EServiceMutations, 'useCreateDraft').mockReturnValue({
+      mutate: createDraftFn,
+    } as unknown as ReturnType<typeof EServiceMutations.useCreateDraft>)
+    const screen = renderWithApplicationContext(<EServiceCreateStep1General />, {
+      withRouterContext: true,
+      withReactQueryContext: true,
+    })
+    const user = userEvent.setup()
+    await user.type(screen.getByLabelText('create.step1.eserviceNameField.label'), 'name test')
+    await user.type(
+      screen.getByLabelText('create.step1.eserviceDescriptionField.label'),
+      'description test'
+    )
+
+    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+    await user.click(submitButton)
+    expect(navigateFn).not.toBeCalled()
+    expect(createDraftFn).not.toBeCalled()
+  })
 
   it('should call the updateDraft mutation when submitting an existing eservice', async () => {
+    mockUseJwt()
     const forwardFn = vi.fn()
     const eservice = createMockEServiceRead()
     mockUseEServiceCreateContext(eservice, undefined, false, forwardFn)
@@ -154,6 +180,7 @@ describe('EServiceCreateStep1General', () => {
   })
 
   it("should skip the updateDraft mutation call when the user doesn't change anything", async () => {
+    mockUseJwt()
     const forwardFn = vi.fn()
     const eservice = createMockEServiceRead()
     mockUseEServiceCreateContext(eservice, undefined, false, forwardFn)
@@ -178,6 +205,7 @@ describe('EServiceCreateStep1General', () => {
 
 describe('EServiceCreateStep1GeneralSkeleton', () => {
   it('should match snapshot', () => {
+    mockUseJwt()
     const { baseElement } = render(<EServiceCreateStep1GeneralSkeleton />)
     expect(baseElement).toMatchSnapshot()
   })

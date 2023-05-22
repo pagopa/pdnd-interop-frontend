@@ -28,7 +28,7 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
               class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":ra:"
                 id=":ra:-label"
@@ -36,12 +36,11 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
                 create.step1.eserviceNameField.label
               </label>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                  disabled=""
+                  class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":ra:"
                   maxlength="60"
                   name="name"
@@ -75,7 +74,7 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
               class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":rb:"
                 id=":rb:-label"
@@ -83,12 +82,11 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
                 create.step1.eserviceDescriptionField.label
               </label>
               <div
-                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl MuiInputBase-multiline css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-multiline css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <textarea
                   aria-invalid="false"
-                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                  disabled=""
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":rb:"
                   maxlength="250"
                   name="description"
@@ -99,7 +97,7 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
                 </textarea>
                 <textarea
                   aria-hidden="true"
-                  class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
                   readonly=""
                   style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding: 0px; width: 100%;"
                   tabindex="-1"
@@ -139,17 +137,14 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
               role="radiogroup"
             >
               <label
-                class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
+                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
               >
                 <span
-                  aria-disabled="true"
-                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked Mui-disabled MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
-                  tabindex="-1"
+                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
                 >
                   <input
                     checked=""
                     class="PrivateSwitchBase-input css-1m9pwf3"
-                    disabled=""
                     name="technology"
                     type="radio"
                     value="REST"
@@ -180,24 +175,24 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
                       />
                     </svg>
                   </span>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
                 </span>
                 <span
-                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-ahj2mt-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
                 >
                   REST
                 </span>
               </label>
               <label
-                class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
+                class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
               >
                 <span
-                  aria-disabled="true"
-                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
-                  tabindex="-1"
+                  class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
                 >
                   <input
                     class="PrivateSwitchBase-input css-1m9pwf3"
-                    disabled=""
                     name="technology"
                     type="radio"
                     value="SOAP"
@@ -228,9 +223,12 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
                       />
                     </svg>
                   </span>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
                 </span>
                 <span
-                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-ahj2mt-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
                 >
                   SOAP
                 </span>
@@ -281,9 +279,8 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
               class="css-9v4aab-MuiStack-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall Mui-disabled MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
-                disabled=""
-                tabindex="-1"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
                 type="button"
               >
                 addBtn
@@ -334,17 +331,15 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
               class="css-9v4aab-MuiStack-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall Mui-disabled MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
-                disabled=""
-                tabindex="-1"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
                 type="button"
               >
                 addBtn
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall Mui-disabled MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
-                disabled=""
-                tabindex="-1"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
                 type="button"
               >
                 createBtn
@@ -395,48 +390,21 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
               class="css-9v4aab-MuiStack-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall Mui-disabled MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
-                disabled=""
-                tabindex="-1"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
                 type="button"
               >
                 addBtn
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall Mui-disabled MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
-                disabled=""
-                tabindex="-1"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-1074q1t-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
                 type="button"
               >
                 createBtn
               </button>
             </div>
           </div>
-        </div>
-      </div>
-      <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1tuaycb-MuiPaper-root-MuiAlert-root"
-        role="alert"
-      >
-        <div
-          class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-            data-testid="InfoOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-            />
-          </svg>
-        </div>
-        <div
-          class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
-        >
-          create.step1.firstVersionOnlyEditableInfo
         </div>
       </div>
       <div
@@ -455,9 +423,9 @@ exports[`EServiceCreateStep1General > should match snapshot if isNewEService is 
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
           tabindex="0"
-          type="button"
+          type="submit"
         >
-          create.forwardWithoutSaveBtn
+          create.forwardWithSaveBtn
           <span
             class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
           />
