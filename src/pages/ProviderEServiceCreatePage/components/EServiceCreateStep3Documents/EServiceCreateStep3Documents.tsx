@@ -4,7 +4,6 @@ import { PageBottomActionsCardContainer } from '@/components/layout/containers/P
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { StepActions } from '@/components/shared/StepActions'
 import { useToastNotification } from '@/stores'
-import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigateRouter } from '@/router'
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
@@ -13,7 +12,7 @@ import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
 import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3DocumentsInterface'
 
-export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
+export const EServiceCreateStep3Documents: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { t: tMutations } = useTranslation('mutations-feedback')
   const { navigate } = useNavigateRouter()
