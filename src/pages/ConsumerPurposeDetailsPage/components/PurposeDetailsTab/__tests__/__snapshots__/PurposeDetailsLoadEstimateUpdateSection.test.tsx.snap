@@ -1,0 +1,981 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PurposeDetailsLoadEstimateUpdateSection > should match snapshot if the purpose already has a waitingForApprovalVersion and has an estimated date set 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+  >
+    <div
+      class="css-1okj3ks-MuiStack-root"
+    >
+      <h2
+        class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+      >
+        title
+      </h2>
+      <span
+        class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+      >
+        consumerDescription
+      </span>
+    </div>
+    <div
+      class="MuiBox-root css-1yuhvjn"
+    >
+      <div
+        class="css-1xhmyjz-MuiStack-root"
+      >
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              dateEstimateField.label
+            </p>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+            />
+            <span
+              class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+            >
+              dateEstimateField.consumerDescription
+            </span>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              10 ottobre 2021
+            </p>
+          </div>
+        </div>
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              loadEstimateRequestedField.consumerLabel
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              loadEstimateRequestedField.value
+            </p>
+          </div>
+        </div>
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              FAQ
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-0"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-0"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.1
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-0"
+                        class="MuiAccordion-region"
+                        id="panel-content-0"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.1
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-1"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-1"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.2
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-1"
+                        class="MuiAccordion-region"
+                        id="panel-content-1"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.2
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-2"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-2"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.3
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-2"
+                        class="MuiAccordion-region"
+                        id="panel-content-2"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.3
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              linksField.label
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-t9g631-MuiTypography-root-MuiLink-root"
+                  href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/finalita"
+                  target="_blank"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-elhp89-MuiSvgIcon-root"
+                    data-testid="LaunchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                    />
+                  </svg>
+                   
+                  linksField.upgradeGuideLink.label
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PurposeDetailsLoadEstimateUpdateSection > should match snapshot if the purpose already has a waitingForApprovalVersion and has no estimated date set 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+  >
+    <div
+      class="css-1okj3ks-MuiStack-root"
+    >
+      <h2
+        class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+      >
+        title
+      </h2>
+      <span
+        class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+      >
+        consumerDescription
+      </span>
+    </div>
+    <div
+      class="MuiBox-root css-1yuhvjn"
+    >
+      <div
+        class="css-1xhmyjz-MuiStack-root"
+      >
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              dateEstimateField.label
+            </p>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+            />
+            <span
+              class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+            >
+              dateEstimateField.consumerDescription
+            </span>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              dateEstimateField.emptyLabel
+            </p>
+          </div>
+        </div>
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              loadEstimateRequestedField.consumerLabel
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              loadEstimateRequestedField.value
+            </p>
+          </div>
+        </div>
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              FAQ
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-0"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-0"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.1
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-0"
+                        class="MuiAccordion-region"
+                        id="panel-content-0"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.1
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-1"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-1"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.2
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-1"
+                        class="MuiAccordion-region"
+                        id="panel-content-1"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.2
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-2"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-2"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.3
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-2"
+                        class="MuiAccordion-region"
+                        id="panel-content-2"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.3
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              linksField.label
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-t9g631-MuiTypography-root-MuiLink-root"
+                  href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/finalita"
+                  target="_blank"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-elhp89-MuiSvgIcon-root"
+                    data-testid="LaunchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                    />
+                  </svg>
+                   
+                  linksField.upgradeGuideLink.label
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PurposeDetailsLoadEstimateUpdateSection > should match snapshot if the purpose already has no waitingForApprovalVersion 1`] = `
+<div>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+  >
+    <div
+      class="css-1okj3ks-MuiStack-root"
+    >
+      <h2
+        class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+      >
+        title
+      </h2>
+      <span
+        class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+      >
+        consumerDescription
+      </span>
+    </div>
+    <div
+      class="MuiBox-root css-1yuhvjn"
+    >
+      <div
+        class="css-1xhmyjz-MuiStack-root"
+      >
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              FAQ
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-0"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-0"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.1
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-0"
+                        class="MuiAccordion-region"
+                        id="panel-content-0"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.1
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-1"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-1"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.2
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-1"
+                        class="MuiAccordion-region"
+                        id="panel-content-1"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.2
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+              >
+                <div
+                  aria-controls="panel-content-2"
+                  aria-expanded="false"
+                  class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+                  id="panel-header-2"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
+                    >
+                      faq.summary.3
+                    </span>
+                  </div>
+                  <div
+                    class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ExpandMoreIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        aria-labelledby="panel-header-2"
+                        class="MuiAccordion-region"
+                        id="panel-content-2"
+                        role="region"
+                      >
+                        <div
+                          class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                        >
+                          faq.summary.3
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-19qjufr-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-iuqs4u"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              linksField.label
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <div
+              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-t9g631-MuiTypography-root-MuiLink-root"
+                  href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/finalita"
+                  target="_blank"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-elhp89-MuiSvgIcon-root"
+                    data-testid="LaunchIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                    />
+                  </svg>
+                   
+                  linksField.upgradeGuideLink.label
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+        />
+        <div
+          class="css-13f3otb-MuiStack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            updateDailyCalls
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PurposeDetailsLoadEstimateUpdateSectionSkeleton > should match the snapshot 1`] = `
+<body
+  style=""
+>
+  <div>
+    <span
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+      style="height: 556px;"
+    />
+  </div>
+</body>
+`;

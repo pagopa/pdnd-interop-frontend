@@ -216,20 +216,18 @@
           "providerLabel": "Requested load estimate",
           "value": "{{value}} calls per day"
         },
-        "faq": [
-          {
-            "summary": "How does the load update mechanism work?",
-            "details": "Over time, the subscriber's needs in terms of using your e-service may change. He can then decide to update the load estimate for a purpose already presented. If the new estimate respects all the thresholds set by the provider, the old purpose with the new threshold will be activated automatically. Otherwise, the provider will find it among those \"awaiting approval\". Until the new threshold is activated, the subscriber can continue to use the active purpose with the previous threshold."
+        "faq": {
+          "summary": {
+            "1": "How does the load update mechanism work?",
+            "2": "How does the activation of a new load estimate above the threshold work?",
+            "3": "Is the activation date set binding?"
           },
-          {
-            "summary": "How does the activation of a new load estimate above the threshold work?",
-            "details": "When the provider receives a new load estimate that exceeds one or more of the set thresholds, the version of the purpose that exceeds is indicated \"awaiting approval\". It can therefore do two things: schedule an estimated approval date, or activate it immediately."
-          },
-          {
-            "summary": "Is the activation date set binding?",
-            "details": "No, it serves as an indication to the subscriber. Once a date has been set, the provider can always change it. At the end of the time, the new load estimate will not be activated automatically, it will only be reminded to the provider that an activation was expected. The activation of a purpose that exceeds one or more thresholds is always and only manual by the provider. The activation action is irreversible."
+          "details": {
+            "1": "Over time, the subscriber's needs in terms of using your e-service may change. He can then decide to update the load estimate for a purpose already presented. If the new estimate respects all the thresholds set by the provider, the old purpose with the new threshold will be activated automatically. Otherwise, the provider will find it among those \"awaiting approval\". Until the new threshold is activated, the subscriber can continue to use the active purpose with the previous threshold.",
+            "2": "When the provider receives a new load estimate that exceeds one or more of the set thresholds, the version of the purpose that exceeds is indicated \"awaiting approval\". It can therefore do two things: schedule an estimated approval date, or activate it immediately.",
+            "3": "No, it serves as an indication to the subscriber. Once a date has been set, the provider can always change it. At the end of the time, the new load estimate will not be activated automatically, it will only be reminded to the provider that an activation was expected. The activation of a purpose that exceeds one or more thresholds is always and only manual by the provider. The activation action is irreversible."
           }
-        ],
+        },
         "linksField": {
           "label": "Useful links",
           "upgradeGuideLink": {

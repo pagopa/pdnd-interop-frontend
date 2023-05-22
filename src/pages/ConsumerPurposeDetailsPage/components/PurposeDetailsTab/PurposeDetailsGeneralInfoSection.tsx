@@ -1,5 +1,5 @@
+import type { Purpose } from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
-import { PurposeQueries } from '@/api/purpose'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { RouterLink } from '@/router'
@@ -10,14 +10,13 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface PurposeDetailsGeneralInfoSectionProps {
-  purposeId: string
+  purpose: Purpose | undefined
 }
 
 export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInfoSectionProps> = ({
-  purposeId,
+  purpose,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.generalInformations' })
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   // This should not stay here, waiting to get the attributes from the purpose itself
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
     purpose?.eservice.id as string,

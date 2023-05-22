@@ -1,5 +1,4 @@
 import React from 'react'
-import { PurposeQueries } from '@/api/purpose'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { Accordion } from '@/components/shared/Accordion'
 import type { AccordionEntry } from '@/components/shared/Accordion'
@@ -11,16 +10,16 @@ import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
 import { useJwt } from '@/hooks/useJwt'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import type { Purpose } from '@/api/api.generatedTypes'
 
 interface PurposeDetailsLoadEstimateUpdateSectionProps {
-  purposeId: string
+  purpose: Purpose | undefined
 }
 
 export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   PurposeDetailsLoadEstimateUpdateSectionProps
-> = ({ purposeId }) => {
+> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.loadEstimateUpdate' })
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const { isAdmin } = useJwt()
 
   const { openDialog } = useDialog()
@@ -29,12 +28,25 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
 
   if (!purpose || state === 'ARCHIVED' || state === 'DRAFT' || !isAdmin) return null
 
-  const accordionEntries: Array<AccordionEntry> = t('faq', { returnObjects: true })
+  const accordionEntries: Array<AccordionEntry> = [
+    {
+      summary: t('faq.summary.1'),
+      details: t('faq.summary.1'),
+    },
+    {
+      summary: t('faq.summary.2'),
+      details: t('faq.summary.2'),
+    },
+    {
+      summary: t('faq.summary.3'),
+      details: t('faq.summary.3'),
+    },
+  ]
 
   const handleUpdateDailyCalls = () => {
     openDialog({
       type: 'updatePurposeDailyCalls',
-      purposeId,
+      purposeId: purpose.id,
       dailyCalls: purpose.currentVersion?.dailyCalls,
     })
   }

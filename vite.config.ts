@@ -59,6 +59,7 @@ export default defineConfig(({ mode }) => {
           '**/api/eservice/**',
           '**/api/party/**',
           '**/api/purpose/**',
+          '**/api/maintenance/**',
         ],
       },
     },

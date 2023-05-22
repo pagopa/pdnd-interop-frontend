@@ -30,25 +30,27 @@ export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({ purposeId 
     <>
       <Grid spacing={2} container>
         <Grid item xs={7}>
-          <PurposeDetailsGeneralInfoSection purposeId={purposeId} />
-          <PurposeDetailsDocumentListSection purposeId={purposeId} />
+          <PurposeDetailsGeneralInfoSection purpose={purpose} />
+          <PurposeDetailsDocumentListSection purpose={purpose} />
         </Grid>
         <Grid item xs={5}>
           {purpose && (
-            <ApiInfoSection
-              ids={[
-                { name: tCommon('eserviceId'), id: purpose.eservice.id },
-                { name: tCommon('descriptorId'), id: purpose.eservice.descriptor.id },
-                { name: tCommon('agreementId'), id: purpose.agreement.id },
-                { name: tCommon('purposeId'), id: purpose.id },
-                { name: tCommon('providerId'), id: purpose.eservice.producer.id },
-                { name: tCommon('consumerId'), id: purpose.consumer.id },
-              ]}
-            />
+            <>
+              <ApiInfoSection
+                ids={[
+                  { name: tCommon('eserviceId'), id: purpose.eservice.id },
+                  { name: tCommon('descriptorId'), id: purpose.eservice.descriptor.id },
+                  { name: tCommon('agreementId'), id: purpose.agreement.id },
+                  { name: tCommon('purposeId'), id: purpose.id },
+                  { name: tCommon('providerId'), id: purpose.eservice.producer.id },
+                  { name: tCommon('consumerId'), id: purpose.consumer.id },
+                ]}
+              />
+            </>
           )}
         </Grid>
       </Grid>
-      <PurposeDetailsLoadEstimateUpdateSection purposeId={purposeId} />
+      <PurposeDetailsLoadEstimateUpdateSection purpose={purpose} />
       {purpose?.currentVersion?.state !== 'ARCHIVED' && purpose?.clients.length === 0 && (
         <Alert sx={{ mt: 2 }} severity="info">
           <Trans

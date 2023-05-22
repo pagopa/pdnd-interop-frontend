@@ -214,20 +214,18 @@
           "providerLabel": "Stima di carico richiesta",
           "value": "{{value}} chiamate/giorno"
         },
-        "faq": [
-          {
-            "summary": "Come funziona il meccanismo di aggiornamento del carico?",
-            "details": "Nel corso del tempo, le necessità del fruitore in termini di utilizzo del tuo e-service potrebbero cambiare. Può quindi decidere di aggiornare la stima di carico per una finalità già presentata. Se la nuova stima rispetta tutte le soglie impostate dall’erogatore, la finalità vecchia con la nuova soglia sarà attivata automaticamente. In caso contrario, l’erogatore la troverà tra quelle “in attesa di approvazione”. Fino a che la nuova soglia non viene attivata, il fruitore può continuare ad utilizzare la finalità attiva con la soglia precedente."
+        "faq": {
+          "summary": {
+            "1": "Come funziona il meccanismo di aggiornamento del carico?",
+            "2": "Come funziona l’attivazione di una nuova stima di carico sopra soglia?",
+            "3": "La data di attivazione impostata è vincolante?"
           },
-          {
-            "summary": "Come funziona l’attivazione di una nuova stima di carico sopra soglia?",
-            "details": "Quando all’erogatore arriva una nuova stima di carico che supera una o più delle soglie impostate, la versione della finalità che eccede viene indicata “in attesa di approvazione”. Può quindi fare due cose: programmare una data stimata di approvazione, oppure attivarla subito."
-          },
-          {
-            "summary": "La data di attivazione impostata è vincolante?",
-            "details": "No, serve come indicazione al fruitore. Una volta impostata una data, l’erogatore potrà sempre modificarla. Allo scadere del tempo, la nuova stima di carico non sarà attivata automaticamente, verrà solo ricordato all’erogatore che era prevista un’attivazione. L’attivazione di una finalità che supera una o più soglie è sempre e solo manuale ad opera dell’erogatore. L’azione di attivazione è irreversibile."
+          "details": {
+            "1": "Nel corso del tempo, le necessità del fruitore in termini di utilizzo del tuo e-service potrebbero cambiare. Può quindi decidere di aggiornare la stima di carico per una finalità già presentata. Se la nuova stima rispetta tutte le soglie impostate dall’erogatore, la finalità vecchia con la nuova soglia sarà attivata automaticamente. In caso contrario, l’erogatore la troverà tra quelle “in attesa di approvazione”. Fino a che la nuova soglia non viene attivata, il fruitore può continuare ad utilizzare la finalità attiva con la soglia precedente.",
+            "2": "Quando all’erogatore arriva una nuova stima di carico che supera una o più delle soglie impostate, la versione della finalità che eccede viene indicata “in attesa di approvazione”. Può quindi fare due cose: programmare una data stimata di approvazione, oppure attivarla subito.",
+            "3": "No, serve come indicazione al fruitore. Una volta impostata una data, l’erogatore potrà sempre modificarla. Allo scadere del tempo, la nuova stima di carico non sarà attivata automaticamente, verrà solo ricordato all’erogatore che era prevista un’attivazione. L’attivazione di una finalità che supera una o più soglie è sempre e solo manuale ad opera dell’erogatore. L’azione di attivazione è irreversibile."
           }
-        ],
+        },
         "linksField": {
           "label": "Link utili",
           "upgradeGuideLink": {
