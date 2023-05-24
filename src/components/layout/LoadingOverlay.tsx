@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLoadingOverlayStore } from '@/stores'
 import { Backdrop, Paper } from '@mui/material'
-import { Spinner } from '../shared/Spinner'
+import { Spinner } from '@pagopa/interop-fe-commons'
 
 const _LoadingOverlay: React.FC = () => {
   const isLoadingOverlayShown = useLoadingOverlayStore((state) => state.isShown)
