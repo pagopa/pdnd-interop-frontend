@@ -2,20 +2,21 @@ import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
 import { Card, CardContent, CardHeader, IconButton, alpha } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
+import { Stack } from '@mui/system'
 
 interface AttributeGroupContainerProps {
   title: string
   onRemove?: () => void
   subheader?: React.ReactNode
   children?: React.ReactNode
-  color?: 'primary' | 'success' | 'error' | 'warning' | 'gray'
+  color?: 'primary' | 'success' | 'warning' | 'gray'
 }
 
 const containerColors = {
   primary: {
     textColor: 'white',
     headerColor: theme.palette.primary.dark,
-    borderColor: theme.palette.primary.dark,
+    borderColor: 'white',
     bodyColor: 'white',
   },
   success: {
@@ -23,12 +24,6 @@ const containerColors = {
     headerColor: theme.palette.success.extraLight,
     borderColor: theme.palette.success.extraLight,
     bodyColor: alpha(theme.palette.success.main, 0.08),
-  },
-  error: {
-    textColor: theme.palette.text.primary,
-    headerColor: theme.palette.error.extraLight,
-    borderColor: theme.palette.error.extraLight,
-    bodyColor: alpha(theme.palette.error.main, 0.08),
   },
   warning: {
     textColor: theme.palette.text.primary,
@@ -77,7 +72,7 @@ export const _AttributeGroupContainer: React.FC<AttributeGroupContainerProps> = 
             },
           }}
         >
-          {children}
+          <Stack spacing={1.2}>{children}</Stack>
         </CardContent>
       )}
     </Card>

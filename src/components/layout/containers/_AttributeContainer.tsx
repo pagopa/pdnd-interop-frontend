@@ -51,6 +51,10 @@ export const _AttributeContainer = <TAttribute extends { id: string; name: strin
     prefetch(attribute.id)
   }
 
+  const toggleExpanded = () => {
+    setHasExpandedOnce(true)
+  }
+
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Stack direction="row" alignItems="center" spacing={2}>
@@ -72,7 +76,7 @@ export const _AttributeContainer = <TAttribute extends { id: string; name: strin
           }}
         >
           <AccordionSummary
-            onClick={() => setHasExpandedOnce(true)}
+            onClick={toggleExpanded}
             onPointerEnter={handlePrefetchAttribute}
             onFocusVisible={handlePrefetchAttribute}
             expandIcon={<ExpandMoreIcon />}
@@ -85,7 +89,7 @@ export const _AttributeContainer = <TAttribute extends { id: string; name: strin
             {hasExpandedOnce && <AttributeDetails attributeId={attribute.id} />}
           </AccordionDetails>
         </Accordion>
-        {(chipLabel || (actions && actions.length > 0)) && (
+        {(chipLabel || actions) && (
           <Stack
             sx={{ px: 2, pb: 2 }}
             direction="row"
@@ -126,7 +130,6 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
       </>
     )
   }
-
   return (
     <Stack sx={{ mt: 1 }} spacing={2}>
       <InformationContainer
@@ -142,21 +145,6 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
         }}
         direction="column"
         label={'content.attributeIdField.label'}
-      />
-    </Stack>
-  )
-}
-
-export const _AttributeContainerSkeleton: React.FC<{ checked?: boolean }> = ({ checked }) => {
-  return (
-    <Stack direction="row" alignItems="center" spacing={2}>
-      <Stack direction="row" alignItems="center" spacing={2}>
-        {checked && <Skeleton variant="circular" height={23} width={23} />}
-      </Stack>
-      <Skeleton
-        variant="rectangular"
-        sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}
-        height={51}
       />
     </Stack>
   )
