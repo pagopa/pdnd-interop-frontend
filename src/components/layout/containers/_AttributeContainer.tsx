@@ -1,0 +1,151 @@
+import React from 'react'
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Card,
+  CardActions,
+  Chip,
+  IconButton,
+  Skeleton,
+  Stack,
+  Typography,
+} from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { ButtonNaked } from '@pagopa/mui-italia'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import { AttributeQueries } from '@/api/attribute'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
+
+type AttributeContainerProps<TAttribute extends { id: string; name: string }> = {
+  attribute: TAttribute
+  actions?: Array<{
+    label: React.ReactNode
+    action: (attributeId: string, attributeName: string) => void
+    color?: 'primary' | 'error'
+  }>
+  chipLabel?: string
+  checked?: boolean
+  onRemove?: (id: string, name: string) => void
+}
+
+export const _AttributeContainer = <TAttribute extends { id: string; name: string }>({
+  attribute,
+  actions,
+  chipLabel,
+  checked,
+  onRemove,
+}: AttributeContainerProps<TAttribute>) => {
+  const panelContentId = React.useId()
+  const headerId = React.useId()
+  const alreadyPrefetched = React.useRef(false)
+  const [hasExpandedOnce, setHasExpandedOnce] = React.useState(false)
+
+  const prefetch = AttributeQueries.usePrefetchSingle()
+
+  const handlePrefetchAttribute = () => {
+    if (alreadyPrefetched.current) return
+    alreadyPrefetched.current = true
+    prefetch(attribute.id)
+  }
+
+  const toggleExpanded = () => {
+    setHasExpandedOnce(true)
+  }
+
+  return (
+    <Stack direction="row" alignItems="center" spacing={2}>
+      <Stack direction="row" alignItems="center" spacing={2}>
+        {checked && <CheckCircleIcon sx={{ color: 'success.main' }} />}
+        {onRemove && (
+          <IconButton
+            onClick={onRemove.bind(null, attribute.id, attribute.name)}
+            color={'error' as unknown as 'primary'}
+          >
+            <RemoveCircleOutlineIcon />
+          </IconButton>
+        )}
+      </Stack>
+      <Card sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}>
+        <Accordion
+          disableGutters
+          sx={{
+            '&:before': { display: 'none' },
+          }}
+        >
+          <AccordionSummary
+            onClick={toggleExpanded}
+            onPointerEnter={handlePrefetchAttribute}
+            onFocusVisible={handlePrefetchAttribute}
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls={panelContentId}
+            id={headerId}
+          >
+            <Typography fontWeight={600}>{attribute.name}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {hasExpandedOnce && <AttributeDetails attributeId={attribute.id} />}
+          </AccordionDetails>
+        </Accordion>
+        {(chipLabel || actions) && (
+          <Stack
+            sx={{ px: 2, pb: 2 }}
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box>{chipLabel && <Chip label={chipLabel} />}</Box>
+            <CardActions disableSpacing sx={{ p: 0 }}>
+              <Stack direction="row" spacing={2}>
+                {actions?.map(({ action, label, color = 'primary' }, i) => (
+                  <ButtonNaked
+                    key={i}
+                    onClick={action.bind(null, attribute.id, attribute.name)}
+                    color={color}
+                  >
+                    {label}
+                  </ButtonNaked>
+                ))}
+              </Stack>
+            </CardActions>
+          </Stack>
+        )}
+      </Card>
+    </Stack>
+  )
+}
+
+const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) => {
+  const { data: attribute, isInitialLoading } = AttributeQueries.useGetSingle(attributeId, {
+    suspense: false,
+  })
+
+  if (isInitialLoading || !attribute) {
+    return (
+      <>
+        <Skeleton />
+        <Skeleton />
+      </>
+    )
+  }
+  return (
+    <Stack sx={{ mt: 1 }} spacing={2}>
+      <InformationContainer
+        content={attribute.description}
+        direction="column"
+        label={'content.descriptionField.label'}
+      />
+      <InformationContainer
+        content={attributeId}
+        copyToClipboard={{
+          value: attributeId,
+          tooltipTitle: 'content.attributeIdField.tooltipTitle',
+        }}
+        direction="column"
+        label={'content.attributeIdField.label'}
+      />
+    </Stack>
+  )
+}
