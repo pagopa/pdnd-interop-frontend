@@ -163,12 +163,6 @@ exports[`PurposeClientsTable > should match snapshot (full state) 1`] = `
 </body>
 `;
 
-exports[`PurposeClientsTable > should match snapshot 1`] = `
-<body>
-  <div />
-</body>
-`;
-
 exports[`PurposeClientsTableSkeleton > should match snapshot 1`] = `
 <body>
   <div>
