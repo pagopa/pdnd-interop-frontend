@@ -1,6 +1,6 @@
 import type { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
 
-export const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
+const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 
 export const isDevelopment = !!(import.meta.env.MODE === 'development')
 export const isProduction = !!(import.meta.env.MODE === 'production')
@@ -33,9 +33,7 @@ export const MIXPANEL_PROJECT_ID = isProduction && PAGOPA_ENV ? PAGOPA_ENV.MIXPA
 export const TEMP_USER_BLACKLIST_URL = `${INTEROP_RESOURCES_BASE_URL}/temp-blacklist.json`
 
 function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string): string {
-  return isProduction && PAGOPA_ENV && PAGOPA_ENV
-    ? PAGOPA_ENV[varName]
-    : `${DEV_API_HOST_URL}/${devVarName}`
+  return isProduction && PAGOPA_ENV ? PAGOPA_ENV[varName] : `${DEV_API_HOST_URL}/${devVarName}`
 }
 
 const SERVICE_VERSION = import.meta.env.REACT_APP_SERVICE_VERSION

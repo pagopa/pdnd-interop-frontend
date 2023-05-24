@@ -36,7 +36,7 @@ exports[`Checks that Maintenance banner snapshot don't change > should renders c
             class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiAlertTitle-root css-1ssz9t4-MuiTypography-root-MuiAlertTitle-root"
             id=":r0:"
           >
-            title
+            test banner title
           </div>
           test banner maintenance
         </div>
