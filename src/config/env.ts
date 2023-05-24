@@ -1,6 +1,6 @@
 import type { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
 
-const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
+export const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 
 export const isDevelopment = !!(import.meta.env.MODE === 'development')
 export const isProduction = !!(import.meta.env.MODE === 'production')
