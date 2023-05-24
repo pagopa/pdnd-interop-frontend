@@ -1,4 +1,4 @@
-import { URL_FRAGMENTS, isEditPath, isProviderOrConsumerRoute } from '@/router/router.utils'
+import { isProviderOrConsumerRoute } from '@/router/router.utils'
 
 describe('checks router utils functions behavior', () => {
   it('checks that isProviderOrConsumerRoute return the right string - if provider', () => {
@@ -17,17 +17,5 @@ describe('checks router utils functions behavior', () => {
     const result = isProviderOrConsumerRoute('/test/1')
 
     expect(result).toBeNull()
-  })
-
-  it('checks that isEditPath return the right value - false', () => {
-    const result = isEditPath('/path/test')
-
-    expect(result).toEqual(false)
-  })
-
-  it('checks that isEditPath return the right value - true', () => {
-    const result = isEditPath(`/path/test/${URL_FRAGMENTS.EDIT}`)
-
-    expect(result).toEqual(true)
   })
 })

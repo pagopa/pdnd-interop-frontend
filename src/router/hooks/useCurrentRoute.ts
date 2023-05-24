@@ -1,5 +1,5 @@
 import { useJwt } from '@/hooks/useJwt'
-import { isEditPath, isProviderOrConsumerRoute } from '../router.utils'
+import { isProviderOrConsumerRoute } from '../router.utils'
 import { useAuthGuard, useLocation } from '..'
 
 /** Returns the route informations of the current location */
@@ -13,6 +13,5 @@ export function useCurrentRoute() {
     isPublic,
     isUserAuthorized: isUserAuthorized(currentRoles),
     mode: isProviderOrConsumerRoute(pathname),
-    isEditPath: isEditPath(pathname),
   }
 }

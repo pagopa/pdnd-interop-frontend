@@ -12,13 +12,13 @@ export const AgreementDocumentListSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
     keyPrefix: 'read.generalInformations.printableCopyField',
   })
-  const { isEditPath } = useCurrentRoute()
+  const { routeKey } = useCurrentRoute()
   const { agreement } = useAgreementDetailsContext()
   const downloadDocument = AgreementDownloads.useDownloadDocument()
   const downloadContract = AgreementDownloads.useDownloadContract()
 
+  if (routeKey === 'SUBSCRIBE_AGREEMENT_EDIT') return null
   if (!agreement) return <AgreementDocumentListSectionSkeleton />
-  if (isEditPath) return null
 
   let docs = agreement.consumerDocuments
 
@@ -52,7 +52,7 @@ export const AgreementDocumentListSection: React.FC = () => {
 }
 
 export const AgreementDocumentListSectionSkeleton: React.FC = () => {
-  const { isEditPath } = useCurrentRoute()
-  if (isEditPath) return null
+  const { routeKey } = useCurrentRoute()
+  if (routeKey === 'SUBSCRIBE_AGREEMENT_EDIT') return null
   return <SectionContainerSkeleton height={115} />
 }

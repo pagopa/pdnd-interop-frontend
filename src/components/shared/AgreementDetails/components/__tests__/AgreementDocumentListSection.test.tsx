@@ -49,8 +49,7 @@ const docsMock: Array<Document> = [
 
 describe('AgreementDocumentListSection', () => {
   it('should match the snapshot with contract', () => {
-    mockUseCurrentRoute({ isEditPath: false })
-
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_READ' })
     mockAgreementDetailsContext({
       agreement: createMockAgreement({ consumerDocuments: docsMock, isContractPresent: true }),
     })
@@ -61,8 +60,7 @@ describe('AgreementDocumentListSection', () => {
   })
 
   it('should match the snapshot without contract', () => {
-    mockUseCurrentRoute({ isEditPath: false })
-
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_READ' })
     mockAgreementDetailsContext({
       agreement: createMockAgreement({ consumerDocuments: docsMock, isContractPresent: false }),
     })
@@ -73,8 +71,7 @@ describe('AgreementDocumentListSection', () => {
   })
 
   it('should match the snapshot with loading skeleton', () => {
-    mockUseCurrentRoute({ isEditPath: false })
-
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_READ' })
     mockAgreementDetailsContext({
       agreement: undefined,
     })
@@ -85,7 +82,7 @@ describe('AgreementDocumentListSection', () => {
   })
 
   it('should not render if it is edit path', () => {
-    mockUseCurrentRoute({ isEditPath: true })
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
 
     mockAgreementDetailsContext({
       agreement: createMockAgreement({ consumerDocuments: docsMock, isContractPresent: false }),
@@ -97,7 +94,7 @@ describe('AgreementDocumentListSection', () => {
   })
 
   it('should correctly call the document download service', async () => {
-    mockUseCurrentRoute({ isEditPath: false })
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_READ' })
 
     mockAgreementDetailsContext({
       agreement: createMockAgreement({ consumerDocuments: docsMock, isContractPresent: true }),
@@ -144,12 +141,11 @@ describe('AgreementDocumentListSection', () => {
 describe('AgreementDocumentListSectionSkeleton', () => {
   it('should match the snapshot', () => {
     const { baseElement } = render(<AgreementDocumentListSectionSkeleton />)
-
     expect(baseElement).toMatchSnapshot()
   })
 
   it('should not render in editing path ', () => {
-    mockUseCurrentRoute({ isEditPath: true })
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     const { container } = render(<AgreementDocumentListSectionSkeleton />)
 
     expect(container).toBeEmptyDOMElement()

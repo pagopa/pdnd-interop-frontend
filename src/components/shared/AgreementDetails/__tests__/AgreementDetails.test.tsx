@@ -51,7 +51,7 @@ mockUseJwt({ isAdmin: true })
 
 describe('AgreementDetails', () => {
   it('should match the snapshot (consumer)', async () => {
-    mockUseCurrentRoute({ mode: 'consumer', isEditPath: true })
+    mockUseCurrentRoute({ mode: 'consumer' })
     const server = createAgreementDetailsContextServerMock()
     server.listen()
 
@@ -73,7 +73,7 @@ describe('AgreementDetails', () => {
   })
 
   it('should match the snapshot (producer)', async () => {
-    mockUseCurrentRoute({ mode: 'provider', isEditPath: true })
+    mockUseCurrentRoute({ mode: 'provider' })
     const server = createAgreementDetailsContextServerMock()
     server.listen()
 

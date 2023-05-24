@@ -134,7 +134,7 @@ describe('AgreementCertifiedAttributesSection', () => {
 
 describe('AgreementVerifiedAttributesSection', () => {
   it('should match the snapshot in consumer context', () => {
-    mockUseCurrentRoute({ mode: 'consumer' })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
@@ -150,7 +150,7 @@ describe('AgreementVerifiedAttributesSection', () => {
   })
 
   it('should match the snapshot in provider context', () => {
-    mockUseCurrentRoute({ mode: 'provider' })
+    mockUseCurrentRoute({ mode: 'provider', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
@@ -166,7 +166,7 @@ describe('AgreementVerifiedAttributesSection', () => {
   })
 
   it('should match the snapshot with agreement e-service owned by the active user ', () => {
-    mockUseCurrentRoute({ mode: 'consumer' })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({ ...attributesMock, isAgreementEServiceMine: true })
 
@@ -178,7 +178,7 @@ describe('AgreementVerifiedAttributesSection', () => {
   })
 
   it('should match the snapshot with loading skeleton', () => {
-    mockUseCurrentRoute({ mode: 'consumer' })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
 
     mockAgreementDetailsContext({
@@ -195,7 +195,7 @@ describe('AgreementVerifiedAttributesSection', () => {
   })
 
   it('should match the snapshot in empty state', () => {
-    mockUseCurrentRoute({ mode: 'consumer' })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
       partyAttributes: {
@@ -229,7 +229,7 @@ describe('AgreementVerifiedAttributesSection', () => {
       mutate: verifyAttributeSpy,
     } as unknown as ReturnType<typeof AttributeMutations.useVerifyPartyAttribute>)
 
-    mockUseCurrentRoute({ mode: 'provider' })
+    mockUseCurrentRoute({ mode: 'provider', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
@@ -265,7 +265,7 @@ describe('AgreementVerifiedAttributesSection', () => {
 
 describe('AgreementDeclaredAttributesSection', () => {
   it('should match the snapshot in consumer context', () => {
-    mockUseCurrentRoute({ mode: 'consumer', isEditPath: true })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
@@ -281,7 +281,7 @@ describe('AgreementDeclaredAttributesSection', () => {
   })
 
   it('should match the snapshot in provider context', () => {
-    mockUseCurrentRoute({ mode: 'provider', isEditPath: true })
+    mockUseCurrentRoute({ mode: 'provider', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
@@ -297,7 +297,7 @@ describe('AgreementDeclaredAttributesSection', () => {
   })
 
   it('should match the snapshot with agreement e-service owned by the active user ', () => {
-    mockUseCurrentRoute({ mode: 'consumer' })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({ ...attributesMock, isAgreementEServiceMine: true })
 
@@ -309,7 +309,7 @@ describe('AgreementDeclaredAttributesSection', () => {
   })
 
   it('should match the snapshot with loading skeleton', () => {
-    mockUseCurrentRoute({ mode: 'consumer' })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
 
     mockAgreementDetailsContext({
@@ -326,7 +326,7 @@ describe('AgreementDeclaredAttributesSection', () => {
   })
 
   it('should match the snapshot in empty state', () => {
-    mockUseCurrentRoute({ mode: 'consumer' })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
       partyAttributes: {
@@ -355,7 +355,7 @@ describe('AgreementDeclaredAttributesSection', () => {
       mutate: declareAttributeSpy,
     } as unknown as ReturnType<typeof AttributeMutations.useDeclarePartyAttribute>)
 
-    mockUseCurrentRoute({ mode: 'consumer', isEditPath: true })
+    mockUseCurrentRoute({ mode: 'consumer', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),

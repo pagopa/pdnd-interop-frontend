@@ -17,10 +17,3 @@ export const isProviderOrConsumerRoute = memoize((pathname: string): ProviderOrC
 
   return null
 })
-
-export const isEditPath = memoize((pathname: string): boolean => {
-  const subroutes = pathname.split('/').filter(Boolean)
-
-  const lastBit = subroutes[subroutes.length - 1]
-  return lastBit.endsWith(URL_FRAGMENTS.EDIT)
-})

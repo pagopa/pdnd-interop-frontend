@@ -94,7 +94,6 @@ export const mockUseCurrentRoute = (
   const useCurrentRouteSpy = vi.spyOn(useCurrentRoute, 'useCurrentRoute')
   if (returnValue) {
     useCurrentRouteSpy.mockReturnValue({
-      isEditPath: false,
       isPublic: true,
       isUserAuthorized: true,
       mode: 'consumer',
