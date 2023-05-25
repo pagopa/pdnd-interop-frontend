@@ -3,7 +3,6 @@ import { AttributeQueries } from '@/api/attribute'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import type { AttributeKey } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
-import { ButtonNaked } from '@pagopa/mui-italia'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
@@ -25,7 +24,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
-  const { data, isLoading } = AttributeQueries.useGetList(
+  const { data } = AttributeQueries.useGetList(
     {
       kinds: [attributeKey.toUpperCase() as AttributeKind],
       q: attributeSearchParam,
@@ -34,6 +33,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
     },
     {
       suspense: false,
+      keepPreviousData: true,
     }
   )
 
@@ -71,36 +71,24 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
 
   return (
     <FormProvider {...attributeAutocompleteFormMethods}>
-      <RHFAutocompleteSingle
-        label={t('autocompleteInput.label')}
-        placeholder={t('autocompleteInput.placeholder')}
-        onInputChange={(_, value) => setAttributeSearchParam(value)}
-        loading={isLoading}
-        sx={{ mb: 0, flex: 1 }}
-        options={options}
-        variant="standard"
-        focusOnMount
-        name="attribute"
-      />
-      <Stack sx={{ mt: 2 }} direction="row" alignItems="center" spacing={1}>
+      <Stack direction="row" alignItems="center" spacing={1}>
+        <RHFAutocompleteSingle
+          label={t('autocompleteInput.label')}
+          placeholder={t('autocompleteInput.placeholder')}
+          onInputChange={(_, value) => setAttributeSearchParam(value)}
+          sx={{ mb: 0, flex: 1 }}
+          options={options}
+          focusOnMount
+          name="attribute"
+        />
         <Button
           onClick={handleAddAttributeToGroup}
           disabled={!isSelected}
           type="button"
-          size="small"
-          variant="outlined"
+          variant="contained"
         >
           {t('addBtn')}
         </Button>
-        <ButtonNaked
-          onClick={handleHideAutocomplete}
-          type="button"
-          size="small"
-          color="error"
-          variant="text"
-        >
-          {t('cancelBtn')}
-        </ButtonNaked>
       </Stack>
     </FormProvider>
   )

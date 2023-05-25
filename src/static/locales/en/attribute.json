@@ -22,8 +22,8 @@
   "showInfoSrLabel": "Show attribute info",
   "mustOwn": "Must own:",
   "group": {
-    "title": "attribute {{num}}:",
-    "addBtn": "Add",
+    "title": "The user must possess at least one of the following requirements",
+    "addBtn": "Add requirement",
     "cancelBtn": "Cancel",
     "confirmDeclaredAttributeBtn": "Confirm",
     "or": "or",

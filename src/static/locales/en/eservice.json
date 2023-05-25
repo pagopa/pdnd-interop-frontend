@@ -32,8 +32,9 @@
         "label": "Technology (required)"
       },
       "attributes": {
-        "subtitle": "The subscriber must own:",
-        "addBtn": "+ Add new attribute",
+        "title": "Attributes",
+        "description": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service.",
+        "addBtn": "Add attribute",
         "createBtn": "Create new attribute",
         "certified": {
           "description": "Certified by an authoritative source. You don't need to do anything."

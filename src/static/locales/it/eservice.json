@@ -32,17 +32,18 @@
         "label": "Tecnologia utilizzata (richiesto)"
       },
       "attributes": {
-        "subtitle": "Il fruitore deve possedere:",
-        "addBtn": "+ Aggiungi nuovo attributo",
+        "title": "Attributi",
+        "description": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell'e-service.",
+        "addBtn": "Aggiungi attributo",
         "createBtn": "Crea nuovo attributo",
         "certified": {
-          "description": "Certificati da una fonte autoritativa riconosciuta, non necessitano di ulteriori verifiche da parte tua."
+          "description": "Ovvero attributi certificati da una fonte autoritativa riconosciuta."
         },
         "verified": {
-          "description": "Puoi decidere se avvalerti della verifica effettuata da altri enti o effettuarne una nuova indipendentemente."
+          "description": "Ovvero attributi verificati da altre organizzazioni per lo stesso fruitore con la possibilità di richiedere una tua verifica puntuale."
         },
         "declared": {
-          "description": "Il fruitore dovrà dichiarare sotto la propria responsabilità di possedere questi attributi."
+          "description": "Ovvero attributi dichiarati dal fruitore sotto propria responsabilità durante la richiesta di fruizione. Non è necessaria una tua verifica."
         }
       },
       "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service"

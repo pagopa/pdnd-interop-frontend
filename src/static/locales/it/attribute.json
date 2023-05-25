@@ -22,8 +22,8 @@
   "showInfoSrLabel": "Mostra informazioni attributo",
   "mustOwn": "Devi possedere:",
   "group": {
-    "title": "attributo {{num}}:",
-    "addBtn": "Aggiungi",
+    "title": "Il fruitore dovrà possedere almeno uno dei seguenti requisiti",
+    "addBtn": "Aggiungi requisito",
     "cancelBtn": "Annulla",
     "confirmDeclaredAttributeBtn": "Conferma",
     "or": "oppure",

@@ -4,9 +4,8 @@ import { useFormContext } from 'react-hook-form'
 import type { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
 import { useTranslation } from 'react-i18next'
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Link, Stack, Typography } from '@mui/material'
+import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
-import { ButtonNaked } from '@pagopa/mui-italia'
 import { useDialog } from '@/stores'
 import { AttributeGroup } from './AttributeGroup'
 
@@ -59,6 +58,8 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
 
   return (
     <SectionContainer
+      newDesign
+      innerSection
       title={tAttribute(`${attributeKey}.label`)}
       description={
         <>
@@ -70,11 +71,6 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
       }
     >
       <Box>
-        {attributeGroups.length > 0 && (
-          <Typography sx={{ mb: 2 }} fontWeight={700}>
-            {t('subtitle')}
-          </Typography>
-        )}
         <Stack spacing={3}>
           {attributeGroups.map((group, i) => (
             <AttributeGroup
@@ -91,28 +87,28 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
       </Box>
       <Stack spacing={3}>
         <Stack sx={{ mt: 2 }} direction="row" spacing={2}>
-          <ButtonNaked
-            size="small"
+          <Button
             sx={{ fontWeight: 700 }}
             color="primary"
             type="button"
+            variant="outlined"
             onClick={handleAddAttributesGroup}
             disabled={readOnly}
           >
             {t('addBtn')}
-          </ButtonNaked>
+          </Button>
 
           {attributeKey !== 'certified' && (
-            <ButtonNaked
-              type="button"
-              size="small"
+            <Button
               sx={{ fontWeight: 700 }}
               color="primary"
+              type="button"
+              variant="outlined"
               onClick={handleOpenCreateNewAttributeDialog}
               disabled={readOnly}
             >
               {t('createBtn')}
-            </ButtonNaked>
+            </Button>
           )}
         </Stack>
       </Stack>

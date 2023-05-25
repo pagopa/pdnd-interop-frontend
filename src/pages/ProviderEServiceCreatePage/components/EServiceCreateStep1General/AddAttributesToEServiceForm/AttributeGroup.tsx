@@ -1,9 +1,9 @@
 import React from 'react'
-import { AttributeContainerRow, AttributeGroupContainer } from '@/components/layout/containers'
+import { _AttributeContainer, _AttributeGroupContainer } from '@/components/layout/containers'
 import type { AttributeKey, FrontendAttribute } from '@/types/attribute.types'
-import { Box, Divider, Stack } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import DeleteIcon from '@mui/icons-material/DeleteOutline'
+import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from './AttributeAutocomplete'
 
@@ -25,7 +25,6 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   onRemoveAttributeFromGroup,
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
-  const { t: tCommon } = useTranslation('common')
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)
 
   const handleDeleteAttributesGroup = () => {
@@ -41,32 +40,19 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   }
 
   return (
-    <AttributeGroupContainer
-      groupNum={groupIndex + 1}
-      headerContent={
-        <ButtonNaked disabled={readOnly} onClick={handleDeleteAttributesGroup}>
-          <DeleteIcon
-            color={readOnly ? 'disabled' : 'error'}
-            aria-label={t('deleteGroupSrLabel')}
-          />
-        </ButtonNaked>
-      }
+    <_AttributeGroupContainer
+      title={t('title')}
+      onRemove={!readOnly ? handleDeleteAttributesGroup : undefined}
     >
       {group.attributes.length > 0 && (
-        <Stack sx={{ my: 3, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-          {group.attributes.map((attribute, i) => (
+        <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }} component="ul" spacing={1.2}>
+          {group.attributes.map((attribute) => (
             <Box component="li" key={attribute.id}>
-              <AttributeContainerRow
+              <_AttributeContainer
                 attribute={attribute}
-                showOrLabel={i !== group.attributes.length - 1}
-                hiddenTooltipSpacing={false}
-                actions={[
-                  {
-                    label: <DeleteIcon fontSize="small" color={readOnly ? 'disabled' : 'error'} />,
-                    action: handleDeleteAttributeFromGroup,
-                    disabled: readOnly,
-                  },
-                ]}
+                onRemove={
+                  !readOnly ? handleDeleteAttributeFromGroup.bind(null, attribute.id) : undefined
+                }
               />
             </Box>
           ))}
@@ -74,29 +60,26 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
       )}
       {!readOnly && (
         <>
-          {group.attributes.length > 0 && <Divider />}
-          <Box sx={{ mb: 3, mt: 2.5 }}>
-            {isAttributeAutocompleteShown ? (
-              <AttributeAutocomplete
-                groupIndex={groupIndex}
-                attributeKey={attributeKey}
-                handleHideAutocomplete={handleHideAutocomplete}
-              />
-            ) : (
-              <ButtonNaked
-                size="small"
-                color="primary"
-                type="button"
-                sx={{ fontWeight: 700 }}
-                readOnly={readOnly}
-                onClick={() => setIsAttributeAutocompleteShown(true)}
-              >
-                {tCommon('addBtn')}
-              </ButtonNaked>
-            )}
-          </Box>
+          {isAttributeAutocompleteShown ? (
+            <AttributeAutocomplete
+              groupIndex={groupIndex}
+              attributeKey={attributeKey}
+              handleHideAutocomplete={handleHideAutocomplete}
+            />
+          ) : (
+            <ButtonNaked
+              color="primary"
+              type="button"
+              sx={{ fontWeight: 700 }}
+              readOnly={readOnly}
+              startIcon={<AddIcon fontSize="small" />}
+              onClick={() => setIsAttributeAutocompleteShown(true)}
+            >
+              {t('addBtn')}
+            </ButtonNaked>
+          )}
         </>
       )}
-    </AttributeGroupContainer>
+    </_AttributeGroupContainer>
   )
 }
