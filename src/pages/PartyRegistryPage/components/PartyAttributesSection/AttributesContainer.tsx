@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Paper, Typography } from '@mui/material'
+import { SectionContainer } from '@/components/layout/containers'
 
 export const AttributesContainer: React.FC<{
   title: string
@@ -7,14 +7,8 @@ export const AttributesContainer: React.FC<{
   children: React.ReactNode
 }> = ({ title, description, children }) => {
   return (
-    <Paper component="section">
-      <Typography variant="sidenav" component="h3">
-        {title}
-      </Typography>
-      <Typography sx={{ mt: 1 }} variant="body2" color="text.secondary">
-        {description}
-      </Typography>
-      <Box sx={{ mt: 2 }}>{children}</Box>
-    </Paper>
+    <SectionContainer newDesign innerSection title={title} description={description}>
+      {children}
+    </SectionContainer>
   )
 }
