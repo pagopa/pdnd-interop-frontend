@@ -2,7 +2,6 @@ import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
 import { Card, CardContent, CardHeader, IconButton, alpha } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
-import { Stack } from '@mui/system'
 
 interface AttributeGroupContainerProps {
   title: string
@@ -16,7 +15,7 @@ const containerColors = {
   primary: {
     textColor: 'white',
     headerColor: theme.palette.primary.dark,
-    borderColor: 'white',
+    borderColor: theme.palette.primary.dark,
     bodyColor: 'white',
   },
   success: {
@@ -72,7 +71,7 @@ export const _AttributeGroupContainer: React.FC<AttributeGroupContainerProps> = 
             },
           }}
         >
-          <Stack spacing={1.2}>{children}</Stack>
+          {children}
         </CardContent>
       )}
     </Card>
