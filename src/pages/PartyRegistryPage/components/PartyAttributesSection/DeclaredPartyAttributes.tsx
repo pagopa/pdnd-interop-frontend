@@ -67,14 +67,15 @@ const DeclaredAttributesList: React.FC = () => {
   }
 
   return (
-    <Stack spacing={1}>
+    <Stack component="ul" spacing={1}>
       {declaredAttributes.map((attribute) => (
-        <_AttributeContainer
-          key={attribute.id}
-          checked={attribute.state === 'ACTIVE'}
-          actions={getAttributeActions(attribute)}
-          attribute={attribute}
-        />
+        <li key={attribute.id}>
+          <_AttributeContainer
+            checked={attribute.state === 'ACTIVE'}
+            actions={getAttributeActions(attribute)}
+            attribute={attribute}
+          />
+        </li>
       ))}
     </Stack>
   )

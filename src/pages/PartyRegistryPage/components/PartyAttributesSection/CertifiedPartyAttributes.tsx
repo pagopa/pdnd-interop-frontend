@@ -28,9 +28,11 @@ const CertifiedAttributesList: React.FC = () => {
   }
 
   return (
-    <Stack spacing={1}>
+    <Stack component="ul" spacing={1}>
       {CertifiedAttributes.map((attribute) => (
-        <_AttributeContainer key={attribute.id} checked attribute={attribute} />
+        <li key={attribute.id}>
+          <_AttributeContainer checked attribute={attribute} />
+        </li>
       ))}
     </Stack>
   )
