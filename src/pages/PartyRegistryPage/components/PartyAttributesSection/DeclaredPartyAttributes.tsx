@@ -67,7 +67,7 @@ const DeclaredAttributesList: React.FC = () => {
   }
 
   return (
-    <Stack component="ul" spacing={1}>
+    <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
       {declaredAttributes.map((attribute) => (
         <li key={attribute.id}>
           <_AttributeContainer
