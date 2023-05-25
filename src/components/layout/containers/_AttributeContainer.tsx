@@ -51,10 +51,6 @@ export const _AttributeContainer = <TAttribute extends { id: string; name: strin
     prefetch(attribute.id)
   }
 
-  const toggleExpanded = () => {
-    setHasExpandedOnce(true)
-  }
-
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Stack direction="row" alignItems="center" spacing={2}>
@@ -76,7 +72,7 @@ export const _AttributeContainer = <TAttribute extends { id: string; name: strin
           }}
         >
           <AccordionSummary
-            onClick={toggleExpanded}
+            onClick={() => setHasExpandedOnce(true)}
             onPointerEnter={handlePrefetchAttribute}
             onFocusVisible={handlePrefetchAttribute}
             expandIcon={<ExpandMoreIcon />}
@@ -130,6 +126,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
       </>
     )
   }
+
   return (
     <Stack sx={{ mt: 1 }} spacing={2}>
       <InformationContainer
@@ -145,6 +142,21 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
         }}
         direction="column"
         label={'content.attributeIdField.label'}
+      />
+    </Stack>
+  )
+}
+
+export const _AttributeContainerSkeleton: React.FC<{ checked?: boolean }> = ({ checked }) => {
+  return (
+    <Stack direction="row" alignItems="center" spacing={2}>
+      <Stack direction="row" alignItems="center" spacing={2}>
+        {checked && <Skeleton variant="circular" height={23} width={23} />}
+      </Stack>
+      <Skeleton
+        variant="rectangular"
+        sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}
+        height={51}
       />
     </Stack>
   )

@@ -1,0 +1,91 @@
+import React from 'react'
+import {
+  _AttributeContainer,
+  _AttributeContainerSkeleton,
+  _AttributeGroupContainer,
+} from '@/components/layout/containers'
+import { Stack } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import { PartyQueries } from '@/api/party/party.hooks'
+import { useJwt } from '@/hooks/useJwt'
+import { AttributeMutations } from '@/api/attribute'
+import type { PartyAttribute } from '@/types/attribute.types'
+import { AttributesContainer } from './AttributesContainer'
+import { EmptyAttributesAlert } from './EmptyAttributesAlert'
+
+export const DeclaredAttributes = () => {
+  const { t } = useTranslation('party', { keyPrefix: 'attributes.declared' })
+  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
+
+  return (
+    <AttributesContainer title={tAttribute('label')} description={t('description')}>
+      <React.Suspense fallback={<DeclaredAttributesListSkeleton />}>
+        <DeclaredAttributesList />
+      </React.Suspense>
+    </AttributesContainer>
+  )
+}
+
+const DeclaredAttributesList: React.FC = () => {
+  const { isAdmin } = useJwt()
+  const { t } = useTranslation('party', { keyPrefix: 'attributes.declared' })
+
+  const { data } = PartyQueries.useGetActiveUserParty()
+  const declaredAttributes = data?.attributes.declared ?? []
+
+  const { mutate: revokeDeclaredAttribute } = AttributeMutations.useRevokeDeclaredPartyAttribute()
+  const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
+
+  function getAttributeActions(
+    attribute: PartyAttribute
+  ): Parameters<typeof _AttributeContainer>[0]['actions'] {
+    if (!isAdmin) return []
+    if (attribute.state === 'ACTIVE')
+      return [
+        {
+          label: t('revokeActionLabel'),
+          action: (attributeId: string) => {
+            revokeDeclaredAttribute({ attributeId })
+          },
+          color: 'error',
+        },
+      ]
+    if (attribute.state === 'REVOKED')
+      return [
+        {
+          label: t('declareActionLabel'),
+          action: (id: string) => {
+            declareAttribute({ id })
+          },
+        },
+      ]
+    return []
+  }
+
+  if (declaredAttributes.length === 0) {
+    return <EmptyAttributesAlert type="declared" />
+  }
+
+  return (
+    <Stack spacing={1}>
+      {declaredAttributes.map((attribute) => (
+        <_AttributeContainer
+          key={attribute.id}
+          checked={attribute.state === 'ACTIVE'}
+          actions={getAttributeActions(attribute)}
+          attribute={attribute}
+        />
+      ))}
+    </Stack>
+  )
+}
+
+const DeclaredAttributesListSkeleton: React.FC = () => {
+  return (
+    <Stack spacing={1}>
+      <_AttributeContainerSkeleton checked />
+      <_AttributeContainerSkeleton checked />
+      <_AttributeContainerSkeleton checked />
+    </Stack>
+  )
+}

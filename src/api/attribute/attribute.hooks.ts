@@ -2,7 +2,7 @@ import { useQueries, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
-import { Attributes, GetAttributesParams } from '../api.generatedTypes'
+import { Attribute, Attributes, GetAttributesParams } from '../api.generatedTypes'
 import { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum AttributeQueryKeys {
@@ -22,9 +22,11 @@ function useGetList(params: GetAttributesParams, config?: UseQueryWrapperOptions
   )
 }
 
-function useGetSingle(attributeId: string) {
-  return useQueryWrapper([AttributeQueryKeys.GetSingle, attributeId], () =>
-    AttributeServices.getSingle(attributeId)
+function useGetSingle(attributeId: string, config?: UseQueryWrapperOptions<Attribute>) {
+  return useQueryWrapper(
+    [AttributeQueryKeys.GetSingle, attributeId],
+    () => AttributeServices.getSingle(attributeId),
+    config
   )
 }
 

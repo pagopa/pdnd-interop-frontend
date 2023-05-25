@@ -1,7 +1,7 @@
 {
   "loadingPartyDataLabel": "Stiamo caricando i dati dell'ente",
   "contacts": {
-    "title": "contatti",
+    "title": "Contatti",
     "description": "La mail alla quale possono contattarti direttamente i tuoi fruitori oppure gli erogatori dei servizi di cui fruisci. Puoi associare una descrizione per indicare come desideri ricevere le comunicazioni",
     "mailField": {
       "label": "Indirizzo email"
@@ -11,24 +11,21 @@
     }
   },
   "attributes": {
+    "title": "Attributi",
+    "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che il tuo Ente possiede.",
     "certified": {
-      "description": "Le fonti autoritative riconosciute da Interoperabilità ti hanno attribuito questi attributi certificati.",
+      "description": "Ovvero attributi certificati da una fonte autoritativa riconosciuta.",
       "noAttributesLabel": "Non si possiedono attributi certificati"
     },
     "verified": {
-      "description": "Almeno un erogatore ti ha riconosciuto i seguenti attributi verificati.",
+      "description": "Ovvero attributi verificati da altre organizzazioni per lo stesso fruitore con la possibilità di richiedere una verifica dall’erogatore.",
       "noAttributesLabel": "Non si possiedono attributi verificati"
     },
-    "activeDeclared": {
-      "description": "Hai dichiarato sotto la tua responsabilità di possedere questi attributi.",
-      "noAttributesLabel": "Non si possiedono attributi dichiarati",
-      "revokeActionLabel": "Segnala decadenza"
-    },
-    "revokedDeclared": {
-      "title": "Attributi dichiarati revocati",
-      "description": "In passato possedevi questi attributi dichiarati, ma hai successivamente dichiarato di non possederli più",
-      "noAttributesLabel": "Non si possiedono attributi dichiarati revocati",
-      "declareActionLabel": "Dichiara possesso"
+    "declared": {
+      "description": "Ovvero attributi dichiarati dal fruitore sotto propria responsabilità durante la richiesta di fruizione. Non è necessaria una verifica dell’erogatore.",
+      "noAttributesLabel": "Non hai presentato nessun attributo dichiarato",
+      "declareActionLabel": "Dichiara attributo",
+      "revokeActionLabel": "Revoca attributo"
     }
   }
 }

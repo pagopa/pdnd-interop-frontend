@@ -2,10 +2,17 @@ import { Box, Typography, Paper, Skeleton, Stack } from '@mui/material'
 import type { PaperProps, SkeletonProps } from '@mui/material'
 import React from 'react'
 
-type SectionContainerProps = {
+interface SectionContainerProps extends PaperProps {
   title?: string
   description?: React.ReactNode
   children: React.ReactNode
+  component?: React.ElementType
+
+  /**
+   * The `newDesign` prop is temporary and will be removed when the new section container design will be
+   * implemented in the overall application.
+   */
+  newDesign?: boolean
 }
 
 export function SectionContainer({
@@ -13,18 +20,23 @@ export function SectionContainer({
   description,
   children,
   sx,
+  component = 'section',
+  newDesign,
   ...props
-}: PaperProps & SectionContainerProps) {
+}: SectionContainerProps) {
+  const titleVariant = newDesign ? 'h6' : 'overline'
+  const descriptionVariant = newDesign ? 'body2' : 'caption'
+
   return (
-    <Paper sx={{ bgcolor: 'white', p: 3, mt: 2, ...sx }} {...props}>
+    <Paper component={component} sx={{ bgcolor: 'white', p: 3, mt: 2, ...sx }} {...props}>
       <Stack spacing={1}>
         {title && (
-          <Typography component="h2" variant="overline">
+          <Typography component="h2" variant={titleVariant}>
             {title}
           </Typography>
         )}
         {description && (
-          <Typography color="text.secondary" variant="caption">
+          <Typography color="text.secondary" variant={descriptionVariant}>
             {description}
           </Typography>
         )}
