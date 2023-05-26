@@ -17,4 +17,5 @@ export type PartyAttribute = {
   id: string
   name: string
   state: AttributeState
+  kind: 'certified' | 'declared' | 'verified'
 }

@@ -112,7 +112,7 @@ export const EServiceCreateStep1General: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer newDesign title={t('create.step1.detailsTitle')}>
+        <SectionContainer newDesign title={t('create.step1.detailsTitle')} component="div">
           <RHFTextField
             name="name"
             focusOnMount

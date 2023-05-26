@@ -43,6 +43,19 @@
       "description": "L'erogatore ha motivato così il rifiuto di attivare questa richiesta di fruizione. Il fruitore potrà sempre presentarne una nuova"
     },
     "attributes": {
+      "title": "Attributi",
+      "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service.",
+      "states": {
+        "consumer": {
+          "fullfilled": "Possiedi almeno uno dei seguenti requisiti",
+          "unfullfilled": "Non possiedi nessuno dei seguenti requisiti",
+          "waiting-for-verification": "L’erogatore deve verificare se possiedi almeno uno dei seguenti requisiti"
+        },
+        "provider": {
+          "fullfilled": "Il fruitore possiede almeno uno dei seguenti requisiti",
+          "unfullfilled": "Il fruitore non possiede nessuno dei seguenti requisiti"
+        }
+      },
       "howLink": "Come funziona?",
       "certified": {
         "title": "Attributi certificati",
@@ -52,12 +65,20 @@
       "verified": {
         "title": "Attributi verificati",
         "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti).",
-        "emptyLabel": "Non ci sono attributi verificati richiesti per questo e-service"
+        "emptyLabel": "Non ci sono attributi verificati richiesti per questo e-service",
+        "actions": {
+          "verify": "Verifica attributo",
+          "update": "Aggiorna verifica",
+          "revoke": "Revoca attributo"
+        }
       },
       "declared": {
         "title": "Attributi dichiarati",
         "subtitle": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti).",
-        "emptyLabel": "Non ci sono attributi dichiarati richiesti per questo e-service"
+        "emptyLabel": "Non ci sono attributi dichiarati richiesti per questo e-service",
+        "actions": {
+          "declare": "Dichiara attributo"
+        }
       }
     }
   },

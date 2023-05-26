@@ -8,7 +8,7 @@ interface AttributeGroupContainerProps {
   onRemove?: () => void
   subheader?: React.ReactNode
   children?: React.ReactNode
-  color?: 'primary' | 'success' | 'warning' | 'gray'
+  color?: 'primary' | 'success' | 'error' | 'warning' | 'gray'
 }
 
 const containerColors = {
@@ -23,6 +23,12 @@ const containerColors = {
     headerColor: theme.palette.success.extraLight,
     borderColor: theme.palette.success.extraLight,
     bodyColor: alpha(theme.palette.success.main, 0.08),
+  },
+  error: {
+    textColor: theme.palette.text.primary,
+    headerColor: theme.palette.error.extraLight,
+    borderColor: theme.palette.error.extraLight,
+    bodyColor: alpha(theme.palette.error.main, 0.08),
   },
   warning: {
     textColor: theme.palette.text.primary,

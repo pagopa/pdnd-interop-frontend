@@ -44,6 +44,19 @@
       "description": "The provider states their reason for refusing to activate this fruition request. You can always submit a new one"
     },
     "attributes": {
+      "title": "Attributes",
+      "description": "All the certified, verified or declared attributes that are required for the use of the e-service are indicated below.",
+      "states": {
+        "consumer": {
+          "fullfilled": "Possiedi almeno uno dei seguenti requisiti",
+          "unfullfilled": "Non possiedi nessuno dei seguenti requisiti",
+          "waiting-for-verification": "L’erogatore deve verificare se possiedi almeno uno dei seguenti requisiti"
+        },
+        "provider": {
+          "fullfilled": "Il fruitore possiede almeno uno dei seguenti requisiti",
+          "unfullfilled": "Il fruitore non possiede nessuno dei seguenti requisiti"
+        }
+      },
       "howLink": "How?",
       "certified": {
         "title": "Certified attributes",
@@ -53,12 +66,20 @@
       "verified": {
         "title": "Verified attributes",
         "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti).",
-        "emptyLabel": "There are no required verified attributes for this e-service"
+        "emptyLabel": "There are no required verified attributes for this e-service",
+        "actions": {
+          "verify": "Verify attribute",
+          "update": "Update verification",
+          "revoke": "Revoke attribute"
+        }
       },
       "declared": {
         "title": "Declared attributes",
         "subtitle": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti).",
-        "emptyLabel": "There are no required declared attributes for this e-service"
+        "emptyLabel": "There are no required declared attributes for this e-service",
+        "actions": {
+          "declare": "Declare attribute"
+        }
       }
     }
   },
