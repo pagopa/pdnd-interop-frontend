@@ -18,7 +18,7 @@ import type { ProviderOrConsumer } from '@/types/common.types'
 export const AgreementDeclaredAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
   const { isAdmin } = useJwt()
-  const { isEditPath, mode } = useCurrentRoute()
+  const { mode, routeKey } = useCurrentRoute()
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
 
   const { eserviceAttributes, partyAttributes, isAgreementEServiceMine } =
@@ -35,7 +35,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
 
   const getAttributeActions = (attributeId: string) => {
     // The user can declare his own attributes only in the agreement create/edit view...
-    if (!isEditPath || !isAdmin) return []
+    if (routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' || !isAdmin) return []
     if (isAgreementEServiceMine) return []
     const isDeclared = getAttributeState(ownedDeclaredAttributes, attributeId) === 'ACTIVE'
     // ... and only if it is not alread declared
