@@ -260,8 +260,8 @@ export type RouteKey = InferRouteKey<typeof routes>
 export const router = createBrowserRouter(
   [
     { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
-    { path: '//', element: <components.Redirect to="SUBSCRIBE_CATALOG_LIST" /> },
-    { path: '//*', element: <components.Redirect to="NOT_FOUND" /> },
+    { path: '/', element: <components.Redirect to="SUBSCRIBE_CATALOG_LIST" /> },
+    { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
   ],
   { basename: '/ui/' }
 )
