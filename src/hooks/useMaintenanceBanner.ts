@@ -3,6 +3,7 @@ import differenceInHours from 'date-fns/differenceInHours'
 import { useTranslation } from 'react-i18next'
 import { useGetMaintenanceJson } from '@/api/maintenance'
 import isBefore from 'date-fns/isBefore'
+import { STAGE } from '@/config/env'
 
 export type MaintenanceData = {
   start: { date: string; time: string }
@@ -86,5 +87,7 @@ export function useMaintenanceBanner() {
           maintenanceEndDay: formatDateString(data?.end?.date, 'multiple'),
         })
 
-  return { text, isOpen, closeBanner }
+  const title = STAGE === 'PROD' ? t('titleProdEnv') : t('titleTestEnv')
+
+  return { title, text, isOpen, closeBanner }
 }

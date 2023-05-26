@@ -5,6 +5,7 @@ import { vi } from 'vitest'
 import * as hooks from '@/hooks/useMaintenanceBanner'
 
 vi.spyOn(hooks, 'useMaintenanceBanner').mockReturnValue({
+  title: 'test banner title',
   text: 'test banner maintenance',
   isOpen: true,
   closeBanner: vi.fn(),
