@@ -1,7 +1,7 @@
 import React from 'react'
 import { ClientQueries } from '@/api/client'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { RouterLink, useRouteParams } from '@/router'
+import { Link, useParams } from '@/router'
 import { Trans, useTranslation } from 'react-i18next'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { useClientKind } from '@/hooks/useClientKind'
@@ -10,13 +10,13 @@ import {
   KeyGeneralInfoSection,
 } from './components/KeyGeneralInfoSection'
 import useGetKeyActions from '@/hooks/useGetKeyActions'
-import { Alert, Link } from '@mui/material'
+import { Alert, Link as MUILink } from '@mui/material'
 import { clientKeyGuideLink } from '@/config/constants'
 
 const KeyDetailsPage: React.FC = () => {
   const { t } = useTranslation('key')
   const clientKind = useClientKind()
-  const { clientId, kid } = useRouteParams<
+  const { clientId, kid } = useParams<
     'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT' | 'SUBSCRIBE_CLIENT_KEY_EDIT'
   >()
 
@@ -35,7 +35,7 @@ const KeyDetailsPage: React.FC = () => {
       <React.Suspense fallback={<KeyGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (
           <Alert severity="error">
-            <Trans components={{ 1: <Link href={clientKeyGuideLink} target="_blank" /> }}>
+            <Trans components={{ 1: <MUILink href={clientKeyGuideLink} target="_blank" /> }}>
               {t('edit.orphanAlertLabel')}
             </Trans>
           </Alert>
@@ -43,7 +43,7 @@ const KeyDetailsPage: React.FC = () => {
         <KeyGeneralInfoSection clientId={clientId} kid={kid} />
       </React.Suspense>
       <PageBottomActionsContainer>
-        <RouterLink
+        <Link
           as="button"
           variant="outlined"
           to={backToOperatorsListRouteKey}
@@ -51,7 +51,7 @@ const KeyDetailsPage: React.FC = () => {
           options={{ urlParams: { tab: 'publicKeys' } }}
         >
           {t('backToKeyListBtn')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainer>
   )

@@ -82,7 +82,7 @@ describe('', () => {
 
     expect(screen.getByText('notAuthorized.title')).toBeInTheDocument()
     expect(screen.getByText('notAuthorized.description')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'actions.backToHome' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'actions.backToHome' })).toBeInTheDocument()
   })
 
   it('should correctly resolve the ServerError throw', () => {

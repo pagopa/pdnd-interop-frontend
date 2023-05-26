@@ -6,13 +6,12 @@ import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
 import type { FrontendAttributes } from '@/types/attribute.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
 import { remapFrontendAttributesToBackend } from '@/api/eservice/eservice.api.utils'
 import { URL_FRAGMENTS } from '@/router/router.utils'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useJwt } from '@/hooks/useJwt'
 import { getKeys } from '@/utils/array.utils'
 import isEqual from 'lodash/isEqual'
@@ -29,8 +28,7 @@ export type EServiceCreateStep1FormValues = {
 export const EServiceCreateStep1General: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { jwt } = useJwt()
-  const { navigate } = useNavigateRouter()
-  const currentLanguage = useCurrentLanguage()
+  const navigate = useNavigate()
   const { eservice, descriptor, isNewEService, forward } = useEServiceCreateContext()
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
@@ -64,7 +62,7 @@ export const EServiceCreateStep1General: React.FC = () => {
         {
           onSuccess({ id }) {
             navigate('PROVIDE_ESERVICE_EDIT', {
-              params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT[currentLanguage] },
+              params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT },
               replace: true,
               state: { stepIndexDestination: 1 },
             })

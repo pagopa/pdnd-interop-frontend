@@ -15,23 +15,20 @@ import {
 } from './components/EServiceCreateStep3Documents'
 import { useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
-import { Redirect, useRouteParams } from '@/router'
+import { Redirect, useParams } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 import { Grid } from '@mui/material'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
 import { URL_FRAGMENTS } from '@/router/router.utils'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const lang = useCurrentLanguage()
-  const params = useRouteParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
+  const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
   const isNewEService = !params?.eserviceId
-  const isDraftEService =
-    params?.eserviceId && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT[lang]
+  const isDraftEService = params?.eserviceId && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
   const isDraftDescriptor = params?.eserviceId && params?.descriptorId && !isDraftEService
 
   const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(

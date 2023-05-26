@@ -1,7 +1,7 @@
 import React from 'react'
 import { ClientMutations, ClientQueries } from '@/api/client'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { RouterLink, useCurrentRoute, useRouteParams } from '@/router'
+import { Link, useCurrentRoute, useParams } from '@/router'
 import {
   OperatorGeneralInfoSection,
   OperatorGeneralInfoSectionSkeleton,
@@ -21,7 +21,7 @@ const OperatorDetailsPage: React.FC = () => {
   const { t } = useTranslation('user')
   const { mutate: removeOperatorFromClient } = ClientMutations.useRemoveOperator()
 
-  const { clientId: clientId, operatorId } = useRouteParams<
+  const { clientId: clientId, operatorId } = useParams<
     'SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT' | 'SUBSCRIBE_CLIENT_OPERATOR_EDIT'
   >()
   const { data: operator, isLoading } = ClientQueries.useGetSingleOperator(operatorId, {
@@ -60,7 +60,7 @@ const OperatorDetailsPage: React.FC = () => {
         </Grid>
       </Grid>
       <PageBottomActionsContainer>
-        <RouterLink
+        <Link
           as="button"
           variant="outlined"
           to={backToOperatorsListRouteKey}
@@ -68,7 +68,7 @@ const OperatorDetailsPage: React.FC = () => {
           options={{ urlParams: { tab: 'clientOperators' } }}
         >
           {t('backToMemberListBtn')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainer>
   )

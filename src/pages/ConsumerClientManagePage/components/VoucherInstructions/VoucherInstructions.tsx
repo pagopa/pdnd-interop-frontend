@@ -3,8 +3,8 @@ import { PurposeQueries } from '@/api/purpose'
 import { Stepper } from '@/components/shared/Stepper'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { useJwt } from '@/hooks/useJwt'
-import { RouterLink } from '@/router'
-import { Alert, Grid, Skeleton } from '@mui/material'
+import { Link } from '@/router'
+import { Alert, Grid } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
@@ -77,8 +77,8 @@ const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientI
         {isAdmin && (
           <>
             {' '}
-            <RouterLink to={'SUBSCRIBE_PURPOSE_CREATE'}>{t('createPurposeBtn')}</RouterLink>{' '}
-            {t('or')} <RouterLink to={'SUBSCRIBE_PURPOSE_LIST'}>{t('choosePurposeBtn')}</RouterLink>
+            <Link to={'SUBSCRIBE_PURPOSE_CREATE'}>{t('createPurposeBtn')}</Link> {t('or')}{' '}
+            <Link to={'SUBSCRIBE_PURPOSE_LIST'}>{t('choosePurposeBtn')}</Link>
           </>
         )}
       </Alert>
@@ -136,13 +136,13 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ client
     return (
       <Alert severity="info">
         {t('uploadKey.message')}{' '}
-        <RouterLink
+        <Link
           to={'SUBSCRIBE_CLIENT_EDIT'}
           params={{ clientId }}
           options={{ urlParams: { tab: 'publicKeys' } }}
         >
           {t('uploadKey.linkLabel')}
-        </RouterLink>
+        </Link>
       </Alert>
     )
   }

@@ -4,22 +4,17 @@ import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions'
-import { useNavigateRouter } from '@/router'
-import { Box, Button, Skeleton } from '@mui/material'
+import { Link } from '@/router'
+import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
-  const { navigate } = useNavigateRouter()
   const { t } = useTranslation('common')
   const prefetch = PurposeQueries.usePrefetchSingle()
 
   const { actions } = useGetProviderPurposesActions(purpose)
-
-  const handleInspect = () => {
-    navigate('PROVIDE_PURPOSE_DETAILS', { params: { purposeId: purpose.id } })
-  }
 
   const handlePrefetch = () => {
     prefetch(purpose.id)
@@ -33,15 +28,17 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
         <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
       ]}
     >
-      <Button
+      <Link
+        as="button"
         onPointerEnter={handlePrefetch}
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        onClick={handleInspect}
+        to="PROVIDE_PURPOSE_DETAILS"
+        params={{ purposeId: purpose.id }}
       >
         {t('actions.inspect')}
-      </Button>
+      </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

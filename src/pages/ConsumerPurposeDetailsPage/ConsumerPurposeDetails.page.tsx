@@ -2,7 +2,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
-import { RouterLink, useRouteParams } from '@/router'
+import { Link, useParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
@@ -12,7 +12,7 @@ import { PurposeClientsTab } from './components/PurposeClientsTab'
 import { PurposeDetailsTab, PurposeDetailsTabSkeleton } from './components/PurposeDetailsTab'
 
 const ConsumerPurposeDetailsPage: React.FC = () => {
-  const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
+  const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
   const { t } = useTranslation('purpose')
 
   const { data: purpose, isLoading } = PurposeQueries.useGetSingle(purposeId, { suspense: false })
@@ -51,9 +51,9 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
         </TabPanel>
       </TabContext>
       <PageBottomActionsContainer>
-        <RouterLink variant="outlined" to="SUBSCRIBE_PURPOSE_LIST" as="button">
+        <Link variant="outlined" to="SUBSCRIBE_PURPOSE_LIST" as="button">
           {t('backToPurposeListBtn')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainer>
   )

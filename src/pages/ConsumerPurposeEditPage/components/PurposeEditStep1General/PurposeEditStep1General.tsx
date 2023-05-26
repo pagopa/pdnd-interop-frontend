@@ -1,6 +1,6 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
-import { useRouteParams } from '@/router'
+import { useParams } from '@/router'
 import { NotFoundError } from '@/utils/errors.utils'
 import PurposeEditStep1GeneralForm, {
   PurposeEditStep1GeneralFormSkeleton,
@@ -8,7 +8,7 @@ import PurposeEditStep1GeneralForm, {
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 
 export const PurposeEditStep1General: React.FC<ActiveStepProps> = (props) => {
-  const { purposeId } = useRouteParams<'SUBSCRIBE_PURPOSE_EDIT'>()
+  const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const { data: purpose, isLoading: isLoadingPurpose } = PurposeQueries.useGetSingle(purposeId, {
     suspense: false,
   })

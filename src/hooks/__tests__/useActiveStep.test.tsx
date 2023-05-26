@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
-import { vi } from 'vitest'
 import { useActiveStep } from '../useActiveStep'
 import * as reactRouterDom from 'react-router-dom'
+import { vi } from 'vitest'
 
 vi.mock('react-router-dom')
 const useLocationSpy = vi.spyOn(reactRouterDom, 'useLocation')

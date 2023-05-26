@@ -10,10 +10,7 @@ import userEvent from '@testing-library/user-event'
 const clientMock = { id: 'client-id', name: 'name', hasKeys: false }
 const useClientKindMock = vi.spyOn(useClientKindHook, 'useClientKind')
 const navigateRouterFn = vi.fn()
-vi.spyOn(router, 'useNavigateRouter').mockReturnValue({
-  navigate: navigateRouterFn,
-  getRouteUrl: () => '',
-})
+vi.spyOn(router, 'useNavigate').mockReturnValue(navigateRouterFn)
 
 afterEach(() => {
   navigateRouterFn.mockReset()
@@ -34,7 +31,7 @@ describe('ClientTableRow', () => {
 
   it('should navigate to the client edit page (API)', async () => {
     useClientKindMock.mockReturnValue('API')
-    const { getByRole } = renderWithApplicationContext(
+    const { getByRole, history } = renderWithApplicationContext(
       <ClientTableRow client={clientMock} clientKind="API" />,
       {
         withRouterContext: true,
@@ -43,16 +40,14 @@ describe('ClientTableRow', () => {
     )
 
     const user = userEvent.setup()
-    await user.click(getByRole('button', { name: 'inspect' }))
+    await user.click(getByRole('link', { name: 'inspect' }))
 
-    expect(navigateRouterFn).toHaveBeenCalledWith('SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT', {
-      params: { clientId: clientMock.id },
-    })
+    expect(history.location.pathname).toBe('/it/fruizione/interop-m2m/client-id')
   })
 
   it('should navigate to the client edit page (CONSUMER)', async () => {
     useClientKindMock.mockReturnValue('CONSUMER')
-    const { getByRole } = renderWithApplicationContext(
+    const { getByRole, history } = renderWithApplicationContext(
       <ClientTableRow client={clientMock} clientKind="CONSUMER" />,
       {
         withRouterContext: true,
@@ -61,11 +56,9 @@ describe('ClientTableRow', () => {
     )
 
     const user = userEvent.setup()
-    await user.click(getByRole('button', { name: 'inspect' }))
+    await user.click(getByRole('link', { name: 'inspect' }))
 
-    expect(navigateRouterFn).toHaveBeenCalledWith('SUBSCRIBE_CLIENT_EDIT', {
-      params: { clientId: clientMock.id },
-    })
+    expect(history.location.pathname).toBe('/it/fruizione/client/client-id')
   })
 })
 

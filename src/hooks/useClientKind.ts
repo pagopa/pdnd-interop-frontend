@@ -1,18 +1,14 @@
 import type { ClientKind } from '@/api/api.generatedTypes'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { useCurrentRoute } from '@/router'
+import { useLocation } from 'react-router-dom'
 
 export function useClientKind(): ClientKind {
-  const { route } = useCurrentRoute()
-  const currentLanguage = useCurrentLanguage()
+  const { pathname } = useLocation()
 
-  const locationPath = route.PATH[currentLanguage]
-
-  if (locationPath.includes('interop-m2m')) {
+  if (pathname.includes('interop-m2m')) {
     return 'API'
   }
 
-  if (locationPath.includes('client')) {
+  if (pathname.includes('client')) {
     return 'CONSUMER'
   }
 

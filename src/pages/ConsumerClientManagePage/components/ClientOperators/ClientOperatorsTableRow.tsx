@@ -2,7 +2,7 @@ import { ClientMutations, ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useJwt } from '@/hooks/useJwt'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { Box, Skeleton } from '@mui/material'
 import React from 'react'
@@ -47,7 +47,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
 
   return (
     <TableRow cellData={[`${operator.name} ${operator.familyName}`]}>
-      <RouterLink
+      <Link
         as="button"
         to={inspectRouteKey}
         params={{ clientId, operatorId: operator.relationshipId }}
@@ -57,7 +57,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
         onFocusVisible={handlePrefetchOperator}
       >
         {tCommon('actions.inspect')}
-      </RouterLink>
+      </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

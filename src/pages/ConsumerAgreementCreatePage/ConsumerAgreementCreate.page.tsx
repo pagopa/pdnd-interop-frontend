@@ -2,7 +2,7 @@ import React from 'react'
 import { AgreementMutations, AgreementQueries } from '@/api/agreement'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
-import { RouterLink, useNavigateRouter, useRouteParams } from '@/router'
+import { Link, useNavigate, useParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { useTranslation } from 'react-i18next'
 import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
@@ -20,9 +20,9 @@ import {
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
 
-  const { agreementId } = useRouteParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
+  const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
   const { data: agreement, isInitialLoading: isLoadingAgreements } = AgreementQueries.useGetSingle(
     agreementId,
     {
@@ -100,9 +100,9 @@ const ConsumerAgreementCreatePage: React.FC = () => {
       )}
 
       <PageBottomActionsContainer>
-        <RouterLink as="button" to="SUBSCRIBE_AGREEMENT_LIST" variant="outlined">
+        <Link as="button" to="SUBSCRIBE_AGREEMENT_LIST" variant="outlined">
           {t('backToRequestsBtn')}
-        </RouterLink>
+        </Link>
         <Button onClick={handleUpdateAgreementDraft} variant="contained">
           {t('edit.bottomPageActionCard.updateBtn')}
         </Button>

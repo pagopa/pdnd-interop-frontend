@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
 import { useJwt } from './useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import type { Purpose } from '@/api/api.generatedTypes'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { jwt, isAdmin } = useJwt()
 
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()

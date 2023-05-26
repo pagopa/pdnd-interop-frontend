@@ -1,6 +1,6 @@
 import React from 'react'
 import { AuthServicesHooks } from '@/api/auth'
-import { useCurrentRoute, useNavigateRouter } from '@/router'
+import { useAuthGuard, useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useLoadingOverlay } from '../stores/loading-overlay.store'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
@@ -14,8 +14,8 @@ export function useLoginAttempt() {
 
   const { t } = useTranslation('common')
   const { showOverlay, hideOverlay } = useLoadingOverlay()
-  const { navigate } = useNavigateRouter()
-  const { route } = useCurrentRoute()
+  const navigate = useNavigate()
+  const { isPublic } = useAuthGuard()
 
   const isAttemptingLogin = React.useRef(false)
 
@@ -46,11 +46,11 @@ export function useLoginAttempt() {
     }
 
     // 4. Check if the route is public
-    if (route.PUBLIC) return
+    if (isPublic) return
 
     // 5. If all else fails, logout
     navigate('LOGOUT')
-  }, [navigate, route.PUBLIC, setSessionToken, swapTokens])
+  }, [navigate, isPublic, setSessionToken, swapTokens])
 
   React.useEffect(() => {
     if (sessionToken || isAttemptingLogin.current) return

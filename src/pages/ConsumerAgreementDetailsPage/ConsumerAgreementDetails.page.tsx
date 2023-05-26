@@ -4,7 +4,7 @@ import { PageBottomActionsContainer, PageContainer } from '@/components/layout/c
 import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useJwt } from '@/hooks/useJwt'
-import { RouterLink, useRouteParams } from '@/router'
+import { Link, useParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { Alert } from '@mui/material'
 import React from 'react'
@@ -22,7 +22,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('agreement')
   const { isAdmin } = useJwt()
 
-  const { agreementId } = useRouteParams<'SUBSCRIBE_AGREEMENT_READ'>()
+  const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
   const { data: agreementPurposes } = PurposeQueries.useGetConsumersList(
     { eservicesIds: [agreement?.eservice?.id as string], limit: 50, offset: 0 },
@@ -41,7 +41,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
           <Trans
             components={{
               1: (
-                <RouterLink
+                <Link
                   to="SUBSCRIBE_PURPOSE_CREATE"
                   options={{ urlParams: { 'e-service': agreement.eservice.id } }}
                 />
@@ -54,9 +54,9 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
       )}
       <AgreementDetails agreementId={agreementId} />
       <PageBottomActionsContainer>
-        <RouterLink as="button" variant="outlined" to={'SUBSCRIBE_AGREEMENT_LIST'}>
+        <Link as="button" variant="outlined" to={'SUBSCRIBE_AGREEMENT_LIST'}>
           {t('backToRequestsBtn')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainer>
   )
@@ -69,9 +69,9 @@ const ConsumerAgreementDetailsPageContentSkeleton: React.FC = () => {
     <PageContainer title={t('read.title')}>
       <AgreementDetailsSkeleton />
       <PageBottomActionsContainer>
-        <RouterLink as="button" variant="outlined" to={'SUBSCRIBE_AGREEMENT_LIST'}>
+        <Link as="button" variant="outlined" to={'SUBSCRIBE_AGREEMENT_LIST'}>
           {t('backToRequestsBtn')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainer>
   )

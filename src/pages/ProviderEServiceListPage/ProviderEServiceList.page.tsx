@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { EServiceTable, EServiceTableSkeleton } from './components'
 import { PageContainer } from '@/components/layout/containers'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { EServiceQueries } from '@/api/eservice'
 import { useJwt } from '@/hooks/useJwt'
@@ -19,7 +19,7 @@ const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list.filters' })
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { isAdmin, isOperatorAPI } = useJwt()
   const [consumersAutocompleteInput, setConsumersAutocompleteInput] = useAutocompleteTextInput('')
 

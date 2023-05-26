@@ -14,7 +14,7 @@ exports[`SideNavItemLink > should match the snapshot 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
         >
-          Termini di servizio
+          TOS
         </p>
       </div>
       <span
@@ -39,7 +39,7 @@ exports[`SideNavItemLink > should match the snapshot indented 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
         >
-          Termini di servizio
+          TOS
         </p>
       </div>
       <span
@@ -64,7 +64,7 @@ exports[`SideNavItemLink > should match the snapshot selected 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body1 css-ha8szv-MuiTypography-root"
         >
-          Termini di servizio
+          TOS
         </p>
       </div>
       <span
@@ -89,7 +89,7 @@ exports[`SideNavItemLink > should match the snapshot with EndIcon 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
         >
-          Termini di servizio
+          TOS
         </p>
       </div>
       <div
@@ -144,7 +144,7 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
         >
-          Termini di servizio
+          TOS
         </p>
       </div>
       <span
@@ -184,7 +184,7 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon and EndIcon 
         <p
           class="MuiTypography-root MuiTypography-body1 css-1qwku07-MuiTypography-root"
         >
-          Termini di servizio
+          TOS
         </p>
       </div>
       <div

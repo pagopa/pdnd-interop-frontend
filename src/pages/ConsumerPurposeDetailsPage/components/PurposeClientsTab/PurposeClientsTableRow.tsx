@@ -4,7 +4,7 @@ import { PurposeMutations } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useJwt } from '@/hooks/useJwt'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -46,7 +46,7 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
 
   return (
     <TableRow cellData={[client.name]}>
-      <RouterLink
+      <Link
         as="button"
         to="SUBSCRIBE_CLIENT_EDIT"
         params={{ clientId: client.id }}
@@ -57,7 +57,7 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
         options={{ urlParams: { purposeId: purposeId } }}
       >
         {tCommon('inspect')}
-      </RouterLink>
+      </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

@@ -2,7 +2,7 @@ import React from 'react'
 import { CatalogCard, CatalogCardSkeleton } from '../CatalogCard'
 import { createMockEServiceCatalog } from '__mocks__/data/eservice.mocks'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 mockUseJwt()
@@ -108,15 +108,16 @@ describe("Checks that CatalogCard snapshot don't change", () => {
         canBeUpgraded: false,
       },
     })
-    const { history } = renderWithApplicationContext(<CatalogCard eservice={eserviceMock} />, {
-      withRouterContext: true,
-      withReactQueryContext: true,
-    })
-    const buttons = screen.queryAllByRole('button')
-
+    const { history, ...screen } = renderWithApplicationContext(
+      <CatalogCard eservice={eserviceMock} />,
+      {
+        withRouterContext: true,
+        withReactQueryContext: true,
+      }
+    )
+    const inspectLink = screen.getByRole('link', { name: 'actions.inspect' })
     expect(history.location.pathname).toEqual('/')
-
-    await user.click(buttons[0])
+    await user.click(inspectLink)
     expect(history.location.pathname).toBe(
       `/it/fruizione/catalogo-e-service/${eserviceMock.id}/${eserviceMock.activeDescriptor?.id}`
     )

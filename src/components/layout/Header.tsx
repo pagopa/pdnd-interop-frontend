@@ -1,6 +1,6 @@
 import React from 'react'
 import { useJwt } from '@/hooks/useJwt'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
 import { FE_LOGIN_URL, SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID, STAGE } from '@/config/env'
@@ -56,7 +56,7 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
 }
 
 export const Header = () => {
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { t } = useTranslation('common')
   const { jwt } = useJwt()
 

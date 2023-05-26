@@ -2,7 +2,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
@@ -61,7 +61,7 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
         <InformationContainer
           label={t('eServiceField.label')}
           content={
-            <RouterLink
+            <Link
               target="_blank"
               to="PROVIDE_ESERVICE_MANAGE"
               params={{
@@ -73,19 +73,19 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
                 name: purpose.eservice.name,
                 version: purpose.eservice.descriptor.version,
               })}
-            </RouterLink>
+            </Link>
           }
         />
         <InformationContainer
           label={t('agreementField.label')}
           content={
-            <RouterLink
+            <Link
               to="PROVIDE_AGREEMENT_READ"
               params={{ agreementId: purpose.agreement.id }}
               target="_blank"
             >
               {t('agreementField.link.label')}
-            </RouterLink>
+            </Link>
           }
         />
       </Stack>

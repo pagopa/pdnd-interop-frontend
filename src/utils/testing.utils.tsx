@@ -89,17 +89,16 @@ export function mockUseJwt(
 }
 
 export const mockUseCurrentRoute = (
-  returnValue?: Partial<ReturnType<typeof useCurrentRoute.default>>
+  returnValue?: Partial<ReturnType<typeof useCurrentRoute.useCurrentRoute>>
 ) => {
-  const useCurrentRouteSpy = vi.spyOn(useCurrentRoute, 'default')
+  const useCurrentRouteSpy = vi.spyOn(useCurrentRoute, 'useCurrentRoute')
   if (returnValue) {
     useCurrentRouteSpy.mockReturnValue({
-      isEditPath: false,
       isPublic: true,
       isUserAuthorized: true,
       mode: 'consumer',
       ...returnValue,
-    } as ReturnType<typeof useCurrentRoute.default>)
+    } as ReturnType<typeof useCurrentRoute.useCurrentRoute>)
   }
   return useCurrentRouteSpy
 }

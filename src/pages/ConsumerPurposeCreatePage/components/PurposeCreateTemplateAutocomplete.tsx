@@ -1,12 +1,12 @@
 import { PurposeQueries } from '@/api/purpose'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
-import { Spinner } from '@/components/shared/Spinner'
 import { useJwt } from '@/hooks/useJwt'
 import { Alert } from '@mui/material'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import { Spinner } from '@pagopa/interop-fe-commons'
 
 export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')

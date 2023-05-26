@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { ClientMutations } from '@/api/client'
 import { useClientKind } from './useClientKind'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { useJwt } from './useJwt'
 import type { Client, CompactClient } from '@/api/api.generatedTypes'
@@ -10,7 +10,7 @@ function useGetClientActions(client?: Client | CompactClient): { actions: Array<
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const clientKind = useClientKind()
   const { isAdmin } = useJwt()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { mutate: deleteClient } = ClientMutations.useDelete()
 
   if (!client || !isAdmin) return { actions: [] }

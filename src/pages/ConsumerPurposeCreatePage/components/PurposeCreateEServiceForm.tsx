@@ -3,7 +3,7 @@ import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, SectionContainer } from '@/components/layout/containers'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 import { useJwt } from '@/hooks/useJwt'
-import { RouterLink, useNavigateRouter } from '@/router'
+import { Link, useNavigate } from '@/router'
 import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -21,7 +21,7 @@ export type PurposeCreateFormValues = {
 
 export const PurposeCreateEServiceForm: React.FC = () => {
   const { t } = useTranslation('purpose')
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { jwt } = useJwt()
   const { mutate: createPurposeDraft } = PurposeMutations.useCreateDraft()
   const { mutate: createVersionDraft } = PurposeMutations.useCreateVersionDraft()
@@ -99,9 +99,9 @@ export const PurposeCreateEServiceForm: React.FC = () => {
           </Grid>
         </Grid>
         <PageBottomActionsContainer>
-          <RouterLink as="button" type="button" variant="outlined" to="SUBSCRIBE_PURPOSE_LIST">
+          <Link as="button" type="button" variant="outlined" to="SUBSCRIBE_PURPOSE_LIST">
             {t('create.backToListBtn')}
-          </RouterLink>
+          </Link>
           <Button variant="contained" type="submit" disabled={isSubmitBtnDisabled}>
             {t('create.createNewPurposeBtn')}
           </Button>

@@ -1,5 +1,5 @@
 import { PageContainer } from '@/components/layout/containers'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -12,9 +12,9 @@ const NotFoundPage: React.FC = () => {
       title={t('notFound.title')}
       description={t('notFound.description')}
     >
-      <RouterLink as="button" variant="contained" to="PROVIDE_ESERVICE_LIST">
+      <Link as="button" variant="contained" to="PROVIDE_ESERVICE_LIST">
         {t('actions.backToHome')}
-      </RouterLink>
+      </Link>
     </PageContainer>
   )
 }

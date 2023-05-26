@@ -1,12 +1,19 @@
 import React from 'react'
-import { mockUseCurrentRoute, renderWithApplicationContext } from '@/utils/testing.utils'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from '../SideNavItemLink'
 import { render } from '@testing-library/react'
 import HomeIcon from '@mui/icons-material/Home'
+import { vi } from 'vitest'
+import * as useIsRouteInCurrentSubtree from '../hooks/useIsRouteInCurrentSubtree'
+import type { RouteKey } from '@/router'
+
+const useIsRouteInCurrentSubtreeMock = (implementation = (_routeKey: RouteKey) => false) => {
+  vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnValue(implementation)
+}
 
 describe('SideNavItemLink', () => {
   it('should match the snapshot', () => {
-    mockUseCurrentRoute({ isRouteInCurrentSubtree: () => false })
+    useIsRouteInCurrentSubtreeMock(() => false)
     const { baseElement } = renderWithApplicationContext(<SideNavItemLink routeKey="TOS" />, {
       withRouterContext: true,
     })
@@ -14,7 +21,7 @@ describe('SideNavItemLink', () => {
   })
 
   it('should match the snapshot with EndIcon', () => {
-    mockUseCurrentRoute({ isRouteInCurrentSubtree: () => false })
+    useIsRouteInCurrentSubtreeMock(() => false)
     const { baseElement } = renderWithApplicationContext(
       <SideNavItemLink EndIcon={HomeIcon} routeKey="TOS" />,
       {
@@ -25,7 +32,7 @@ describe('SideNavItemLink', () => {
   })
 
   it('should match the snapshot with StartIcon', () => {
-    mockUseCurrentRoute({ isRouteInCurrentSubtree: () => false })
+    useIsRouteInCurrentSubtreeMock(() => false)
     const { baseElement } = renderWithApplicationContext(
       <SideNavItemLink StartIcon={HomeIcon} routeKey="TOS" />,
       {
@@ -36,7 +43,7 @@ describe('SideNavItemLink', () => {
   })
 
   it('should match the snapshot with StartIcon and EndIcon', () => {
-    mockUseCurrentRoute({ isRouteInCurrentSubtree: () => true })
+    useIsRouteInCurrentSubtreeMock(() => true)
     const { baseElement } = renderWithApplicationContext(
       <SideNavItemLink StartIcon={HomeIcon} EndIcon={HomeIcon} routeKey="TOS" />,
       {
@@ -47,7 +54,7 @@ describe('SideNavItemLink', () => {
   })
 
   it('should match the snapshot indented', () => {
-    mockUseCurrentRoute({ isRouteInCurrentSubtree: () => false })
+    useIsRouteInCurrentSubtreeMock(() => false)
     const { baseElement } = renderWithApplicationContext(
       <SideNavItemLink indented routeKey="TOS" />,
       {
@@ -58,7 +65,7 @@ describe('SideNavItemLink', () => {
   })
 
   it('should match the snapshot selected', () => {
-    mockUseCurrentRoute({ isRouteInCurrentSubtree: () => true })
+    useIsRouteInCurrentSubtreeMock(() => true)
     const { baseElement } = renderWithApplicationContext(
       <SideNavItemLink indented routeKey="TOS" />,
       {

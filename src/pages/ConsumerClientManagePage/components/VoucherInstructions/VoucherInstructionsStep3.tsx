@@ -3,8 +3,8 @@ import { EServiceQueries } from '@/api/eservice'
 import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import { API_GATEWAY_INTEFACE_URL } from '@/config/env'
-import { RouterLink } from '@/router'
-import { Link, Skeleton, Stack } from '@mui/material'
+import { Link } from '@/router'
+import { Link as MUILink, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
@@ -62,7 +62,7 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
           <InformationContainer
             label={t('step3.consumer.eserviceDetailsField.label')}
             content={
-              <RouterLink
+              <Link
                 to="SUBSCRIBE_CATALOG_VIEW"
                 params={{
                   eserviceId: purpose.eservice.id,
@@ -71,7 +71,7 @@ const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (
                 target="_blank"
               >
                 {purpose.eservice.name}
-              </RouterLink>
+              </Link>
             }
           />
         )}
@@ -91,14 +91,14 @@ const InteropM2MVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps>
         sx={{ my: 4 }}
         label={t('step3.api.apiField.label')}
         content={
-          <Link
+          <MUILink
             href={API_GATEWAY_INTEFACE_URL}
             target="_blank"
             rel="noreferrer"
             title={t('step3.api.apiField.link.title')}
           >
             {t('step3.api.apiField.link.label')}
-          </Link>
+          </MUILink>
         }
       />
       <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />

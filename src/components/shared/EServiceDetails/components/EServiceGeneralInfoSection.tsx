@@ -1,6 +1,6 @@
 import { SectionContainer } from '@/components/layout/containers'
 import { useJwt } from '@/hooks/useJwt'
-import { RouterLink } from '@/router'
+import { Link } from '@/router'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -25,9 +25,9 @@ export const EServiceGeneralInfoSection: React.FC = () => {
         {isAdmin && agreement && (
           <InformationContainer
             content={
-              <RouterLink target="_blank" to={agreementPath} params={{ agreementId: agreement.id }}>
+              <Link target="_blank" to={agreementPath} params={{ agreementId: agreement.id }}>
                 {t('agreementField.link.label')}
-              </RouterLink>
+              </Link>
             }
             label={t('agreementField.label')}
           />

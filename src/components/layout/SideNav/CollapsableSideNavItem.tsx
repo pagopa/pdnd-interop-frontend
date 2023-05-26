@@ -11,12 +11,11 @@ import {
 } from '@mui/material'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { routes } from '@/router/routes'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { useCurrentRoute } from '@/router'
 import type { SideNavItemView } from './SideNav'
 import { SideNavItemLink } from './SideNavItemLink'
 import { SIDENAV_WIDTH } from '@/config/constants'
+import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
+import { useTranslation } from 'react-i18next'
 
 type CollapsableSideNavItemProps = {
   item: SideNavItemView
@@ -29,10 +28,9 @@ export const CollapsableSideNavItem: React.FC<CollapsableSideNavItemProps> = ({
   isOpen,
   toggleCollapse,
 }) => {
-  const currentLanguage = useCurrentLanguage()
-  const { isRouteInCurrentSubtree } = useCurrentRoute()
+  const { t } = useTranslation('shared-components', { keyPrefix: 'routeLabels' })
+  const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
 
-  const route = routes[item.routeKey]
   const isSelected = item.children?.some(isRouteInCurrentSubtree)
 
   const handleToggleCollapse = () => {
@@ -47,7 +45,7 @@ export const CollapsableSideNavItem: React.FC<CollapsableSideNavItemProps> = ({
           disableTypography
           primary={
             <Typography color="inherit" sx={{ fontWeight: isSelected ? 600 : 300 }}>
-              {route.LABEL[currentLanguage]}
+              {t(item.routeKey)}
             </Typography>
           }
         />

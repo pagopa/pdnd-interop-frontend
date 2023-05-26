@@ -1,6 +1,6 @@
 import { ClientQueries } from '@/api/client'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { RouterLink, useRouteParams } from '@/router'
+import { Link, useParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
@@ -15,9 +15,7 @@ import useGetClientActions from '@/hooks/useGetClientActions'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
-  const { clientId } = useRouteParams<
-    'SUBSCRIBE_CLIENT_EDIT' | 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'
-  >()
+  const { clientId } = useParams<'SUBSCRIBE_CLIENT_EDIT' | 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'>()
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('voucher')
   const { data: client, isLoading: isLoadingClient } = ClientQueries.useGetSingle(clientId, {
@@ -57,13 +55,13 @@ const ConsumerClientManagePage: React.FC = () => {
         </TabPanel>
       </TabContext>
       <PageBottomActionsContainer>
-        <RouterLink
+        <Link
           as="button"
           variant="outlined"
           to={clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST'}
         >
           {t('actions.backToClientsLabel')}
-        </RouterLink>
+        </Link>
       </PageBottomActionsContainer>
     </PageContainer>
   )

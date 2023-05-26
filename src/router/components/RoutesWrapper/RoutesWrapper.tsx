@@ -3,8 +3,6 @@ import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
 import { Outlet } from 'react-router-dom'
-import useCurrentRoute from '../../hooks/useCurrentRoute'
-import useSyncLangWithRoute from '../../hooks/useSyncLangWithRoute'
 import useScrollTopOnLocationChange from '../../hooks/useScrollTopOnLocationChange'
 import { Box } from '@mui/material'
 import { AuthGuard } from './AuthGuard'
@@ -14,12 +12,12 @@ import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
 import { useLoginAttempt } from '@/hooks/useLoginAttempt'
+import { useCurrentRoute } from '@/router'
 
 const _RoutesWrapper: React.FC = () => {
   const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement()
   const { isPublic, routeKey } = useCurrentRoute()
   useLoginAttempt()
-  useSyncLangWithRoute()
   useScrollTopOnLocationChange()
 
   return (

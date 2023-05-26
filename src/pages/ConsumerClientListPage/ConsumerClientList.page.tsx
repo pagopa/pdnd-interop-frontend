@@ -2,14 +2,14 @@ import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { ClientTable } from '@/components/shared/ClientTable'
-import { useNavigateRouter } from '@/router'
+import { useNavigate } from '@/router'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { useJwt } from '@/hooks/useJwt'
 
 const ConsumerClientListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerClientList' })
   const { t: tCommon } = useTranslation('common')
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { isAdmin } = useJwt()
 
   const topSideActions: TopSideActions = {

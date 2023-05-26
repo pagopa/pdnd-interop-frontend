@@ -19,10 +19,7 @@ const server = setupServer(
 
 const navigateFn = vi.fn()
 
-vi.spyOn(router, 'useNavigateRouter').mockReturnValue({
-  navigate: navigateFn,
-  getRouteUrl: navigateFn,
-})
+vi.spyOn(router, 'useNavigate').mockReturnValue(navigateFn)
 const parameters = ['clientId', 'kid'] as const
 const useClientKindSpy = vi.spyOn(useClientKindHook, 'useClientKind')
 

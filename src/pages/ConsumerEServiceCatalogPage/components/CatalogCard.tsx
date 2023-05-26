@@ -1,6 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
-import { useNavigateRouter } from '@/router'
+import { Link } from '@/router'
 import {
   Avatar,
   Button,
@@ -26,7 +26,6 @@ interface CatalogCardProps {
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'tableEServiceCatalog' })
   const { t: tCommon } = useTranslation('common')
-  const { navigate } = useNavigateRouter()
   const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
 
   const {
@@ -37,15 +36,6 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
     createAgreementDraftAction,
     goToAgreementAction,
   } = useGetEServiceConsumerActions(eservice, eservice.activeDescriptor)
-
-  const handleInspect = () => {
-    navigate('SUBSCRIBE_CATALOG_VIEW', {
-      params: {
-        eserviceId: eservice.id,
-        descriptorId: eservice.activeDescriptor?.id ?? '',
-      },
-    })
-  }
 
   const handlePrefetch = () => {
     prefetchEService(eservice.id, eservice.activeDescriptor?.id ?? '')
@@ -172,15 +162,20 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
 
       <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={2}>
-          <Button
+          <Link
+            as="button"
             variant="text"
             size="small"
+            to="SUBSCRIBE_CATALOG_VIEW"
+            params={{
+              eserviceId: eservice.id,
+              descriptorId: eservice.activeDescriptor?.id ?? '',
+            }}
             onFocusVisible={handlePrefetch}
             color="primary"
-            onClick={handleInspect}
           >
             <span onPointerEnter={handlePrefetch}>{tCommon('actions.inspect')}</span>
-          </Button>
+          </Link>
 
           {secondaryAction && secondaryAction.buttonType === 'naked' && (
             <Button variant="text" size="small" color="primary" onClick={secondaryAction.action}>

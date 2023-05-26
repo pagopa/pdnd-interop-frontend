@@ -10,10 +10,7 @@ import type { CompactDescriptor } from '@/api/api.generatedTypes'
 import userEvent from '@testing-library/user-event'
 
 const navigateFn = vi.fn()
-vi.spyOn(router, 'useNavigateRouter').mockReturnValue({
-  navigate: navigateFn,
-  getRouteUrl: () => '',
-})
+vi.spyOn(router, 'useNavigate').mockReturnValue(navigateFn)
 
 afterEach(() => {
   navigateFn.mockClear()

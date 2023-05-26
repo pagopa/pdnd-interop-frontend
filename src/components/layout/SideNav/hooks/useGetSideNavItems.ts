@@ -3,8 +3,8 @@ import { useJwt } from '@/hooks/useJwt'
 import type { SideNavItemView } from '../SideNav'
 import type { UserProductRole } from '@/types/party.types'
 import EmailIcon from '@mui/icons-material/Email'
-import type { RouteKey } from '@/router/router.types'
 import uniq from 'lodash/uniq'
+import type { RouteKey } from '@/router'
 
 type Views = Record<UserProductRole, Array<SideNavItemView>>
 

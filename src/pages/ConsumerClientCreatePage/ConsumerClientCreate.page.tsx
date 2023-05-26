@@ -7,7 +7,7 @@ import {
 } from '@/components/layout/containers'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useClientKind } from '@/hooks/useClientKind'
-import { RouterLink, useNavigateRouter } from '@/router'
+import { Link, useNavigate } from '@/router'
 import { Box, Button, Grid, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -25,7 +25,7 @@ const defaultValues: CreateClientFormValues = { name: '', description: '', opera
 const ConsumerClientCreatePage: React.FC = () => {
   const { t } = useTranslation('client')
   const clientKind = useClientKind()
-  const { navigate } = useNavigateRouter()
+  const navigate = useNavigate()
   const { mutateAsync: createClient } = ClientMutations.useCreate()
   const { mutateAsync: createInteropM2MClient } = ClientMutations.useCreateInteropM2M()
   const { mutateAsync: addOperator } = ClientMutations.useAddOperator({
@@ -107,9 +107,9 @@ const ConsumerClientCreatePage: React.FC = () => {
           </Grid>
         </FormProvider>
         <PageBottomActionsContainer>
-          <RouterLink as="button" variant="outlined" to={backToRoute}>
+          <Link as="button" variant="outlined" to={backToRoute}>
             {t('create.actions.backToClientsLabel')}
-          </RouterLink>
+          </Link>
           <Button variant="contained" type="submit">
             {t('create.actions.createLabel')}
           </Button>

@@ -20,7 +20,7 @@ const server = setupServer(
 beforeAll(() => server.listen())
 afterAll(() => server.close())
 
-const useNavigateSpy = vi.spyOn(router, 'useNavigateRouter')
+const useNavigateSpy = vi.spyOn(router, 'useNavigate')
 
 describe('AgreementUpgradeGuideSection', () => {
   it('should match the snapshot', () => {
@@ -70,7 +70,7 @@ describe('AgreementUpgradeGuideSection', () => {
 
   it('should redirect to the new agreement details after upgrading', async () => {
     const navigateRouterFn = vi.fn()
-    useNavigateSpy.mockReturnValue({ navigate: navigateRouterFn, getRouteUrl: () => '' })
+    useNavigateSpy.mockReturnValue(navigateRouterFn)
 
     mockUseJwt({ isAdmin: true })
     mockAgreementDetailsContext({
