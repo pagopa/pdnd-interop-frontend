@@ -85,7 +85,7 @@ export const _AttributeContainer = <TAttribute extends { id: string; name: strin
             {hasExpandedOnce && <AttributeDetails attributeId={attribute.id} />}
           </AccordionDetails>
         </Accordion>
-        {(chipLabel || actions) && (
+        {(chipLabel || (actions && actions.length > 0)) && (
           <Stack
             sx={{ px: 2, pb: 2 }}
             direction="row"
