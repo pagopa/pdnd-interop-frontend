@@ -24,13 +24,20 @@ export const htmlJsonFormatParser = (json: Node, route: string): React.ReactNode
     case 'root':
       return <>{json.child.map((item) => htmlJsonFormatParser(item, route))}</>
     case 'element':
-      const filteredAttr = { ...json.attr }
-      if (filteredAttr.style) delete filteredAttr.style
-      if (filteredAttr.class) delete filteredAttr.class
+      const filteredAttr: Record<string, unknown> = {
+        id: json.attr?.id,
+        href: json.attr?.href,
+        target: json.attr?.target,
+        rel: Array.isArray(json.attr?.rel) ? json.attr?.rel.join(' ') : json.attr?.rel,
+      }
+      /**
+       * During the anchor navigation the root path will be lost.
+       * To avoid that behaviour we put the path behind the anchor in the href
+       */
       if (filteredAttr.href && (filteredAttr.href as string).startsWith('#', 0)) {
         if (route.startsWith('/', 0)) {
           const path = route.substring(1)
-          filteredAttr.href = `${path}/${filteredAttr.href}`
+          filteredAttr.href = `${path}${filteredAttr.href}`
         }
       }
       return React.createElement(
