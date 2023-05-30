@@ -18,6 +18,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { useTranslation } from 'react-i18next'
 
 type AttributeContainerProps<TAttribute extends { id: string; name: string }> = {
   attribute: TAttribute
@@ -114,6 +115,7 @@ export const _AttributeContainer = <TAttribute extends { id: string; name: strin
 }
 
 const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
   const { data: attribute, isInitialLoading } = AttributeQueries.useGetSingle(attributeId, {
     suspense: false,
   })
@@ -129,19 +131,14 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
 
   return (
     <Stack sx={{ mt: 1 }} spacing={2}>
-      <InformationContainer
-        content={attribute.description}
-        direction="column"
-        label={'content.descriptionField.label'}
-      />
+      <Typography variant="body2">{attribute.description}</Typography>
       <InformationContainer
         content={attributeId}
         copyToClipboard={{
           value: attributeId,
           tooltipTitle: 'content.attributeIdField.tooltipTitle',
         }}
-        direction="column"
-        label={'content.attributeIdField.label'}
+        label={t('attributeIdLabel')}
       />
     </Stack>
   )

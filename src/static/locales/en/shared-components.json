@@ -194,6 +194,9 @@
     "bodySingleDay": "Interoperabilità PDND will undergo scheduled maintenance on {{maintenanceStartDay}} at {{maintenanceStartHour}} for approximately {{hoursDuration}} hours. We apologize for any inconvenience caused.",
     "bodyMultipleDay": "Interoperabilità PDND will undergo scheduled maintenance from {{maintenanceStartHour}} of {{maintenanceStartDay}} to {{maintenanceEndHour}} of {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
+  "attributeContainer": {
+    "attributeIdLabel": "Attribute's id (attributeId)"
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of service",
