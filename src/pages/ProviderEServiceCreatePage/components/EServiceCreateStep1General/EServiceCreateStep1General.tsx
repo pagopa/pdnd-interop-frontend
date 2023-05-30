@@ -8,9 +8,9 @@ import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
-import type { FrontendAttributes } from '@/types/attribute.types'
+import type { RemappedEServiceAttributes } from '@/types/attribute.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import { remapFrontendAttributesToBackend } from '@/api/eservice/eservice.api.utils'
+import { remapRemappedEServiceAttributesToBackend } from '@/api/eservice/eservice.api.utils'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import { useJwt } from '@/hooks/useJwt'
 import { getKeys } from '@/utils/array.utils'
@@ -22,7 +22,7 @@ export type EServiceCreateStep1FormValues = {
   name: string
   description: string
   technology: EServiceTechnology
-  attributes: FrontendAttributes
+  attributes: RemappedEServiceAttributes
 }
 
 export const EServiceCreateStep1General: React.FC = () => {
@@ -54,7 +54,7 @@ export const EServiceCreateStep1General: React.FC = () => {
   })
 
   const onSubmit = (formValues: EServiceCreateStep1FormValues) => {
-    const backendAttributes = remapFrontendAttributesToBackend(formValues.attributes)
+    const backendAttributes = remapRemappedEServiceAttributesToBackend(formValues.attributes)
     if (isNewEService) {
       if (!jwt?.organizationId) return
       createDraft(

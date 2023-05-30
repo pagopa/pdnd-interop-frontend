@@ -1,20 +1,20 @@
 import React from 'react'
 import { AttributeGroup, type AttributeGroupProps } from '../AttributeGroup'
-import type { FrontendAttribute } from '@/types/attribute.types'
+import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import {
   createMockCompactAttribute,
-  createMockFrontendAttribute,
+  createMockRemappedEServiceAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
-const emptyGroup: FrontendAttribute = {
+const emptyGroup: RemappedEServiceAttribute = {
   attributes: [],
   explicitAttributeVerification: false,
 }
 
-const groupWithElements = createMockFrontendAttribute({
+const groupWithElements = createMockRemappedEServiceAttribute({
   attributes: [createMockCompactAttribute({ id: 'attribute-option' })],
 })
 

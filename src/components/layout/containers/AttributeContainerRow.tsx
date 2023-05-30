@@ -4,7 +4,7 @@ import { Box, IconButton, Skeleton, Stack, Tooltip, Typography } from '@mui/mate
 import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { AttributeQueries } from '@/api/attribute'
-import type { AttributeKey, AttributeState } from '@/types/attribute.types'
+import type { AttributeKey } from '@/types/attribute.types'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import InfoIcon from '@mui/icons-material/Info'
 import CheckIcon from '@mui/icons-material/Check'
@@ -22,7 +22,7 @@ type AttributeContainerRowProps<T extends { id: string; name: string }> = {
   >
 
   hiddenTooltipSpacing?: boolean
-} & ({ state?: undefined } | { state: AttributeState; kind: AttributeKind })
+} & ({ state?: undefined } | { state: any; kind: AttributeKind })
 
 export const AttributeContainerRow = <T extends { id: string; name: string }>({
   attribute,
@@ -61,7 +61,7 @@ export const AttributeContainerRow = <T extends { id: string; name: string }>({
           </ButtonNaked>
         ))}
 
-        {props.state === 'ACTIVE' && (
+        {/* {props.state === 'ACTIVE' && (
           <Tooltip title={tCommon(`${props.kind.toLowerCase() as AttributeKey}.${props.state}`)}>
             <CheckIcon color="success" fontSize="small" />
           </Tooltip>
@@ -71,7 +71,7 @@ export const AttributeContainerRow = <T extends { id: string; name: string }>({
           <Tooltip title={tCommon(`${props.kind.toLowerCase() as AttributeKey}.${props.state}`)}>
             <CloseIcon color="error" fontSize="small" />
           </Tooltip>
-        )}
+        )} */}
 
         {!props.state && hiddenTooltipSpacing && (
           <CloseIcon sx={{ visibility: 'hidden' }} color="error" fontSize="small" />

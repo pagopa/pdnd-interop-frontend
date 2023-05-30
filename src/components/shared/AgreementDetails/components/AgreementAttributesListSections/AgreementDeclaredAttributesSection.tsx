@@ -1,8 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
-import type { FrontendAttribute } from '@/types/attribute.types'
-import { getAttributeState, isGroupFullfilled } from '../../agreement-details.utils'
+import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
   _AttributeGroupContainer,
@@ -14,6 +13,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
 import { AttributeMutations } from '@/api/attribute'
 import type { ProviderOrConsumer } from '@/types/common.types'
+import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
 
 export const AgreementDeclaredAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
@@ -37,7 +37,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
     // The user can declare his own attributes only in the agreement create/edit view...
     if (routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' || !isAdmin) return []
     if (isAgreementEServiceMine) return []
-    const isDeclared = getAttributeState(ownedDeclaredAttributes, attributeId) === 'ACTIVE'
+    const isDeclared = isAttributeOwned('declared', attributeId, ownedDeclaredAttributes)
     // ... and only if it is not alread declared
     if (isDeclared) return []
 
@@ -50,9 +50,9 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
   }
 
   function getGroupContainerProps(
-    group: FrontendAttribute
+    group: RemappedEServiceAttribute
   ): React.ComponentProps<typeof _AttributeGroupContainer> {
-    const isGroupFulfilled = isGroupFullfilled(ownedDeclaredAttributes, group)
+    const isGroupFulfilled = isAttributeGroupFullfilled('declared', ownedDeclaredAttributes, group)
     const state = isGroupFulfilled ? 'fullfilled' : 'unfullfilled'
     const providerOrConsumer = mode as ProviderOrConsumer
 
@@ -84,7 +84,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
                 <_AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
-                  checked={getAttributeState(ownedDeclaredAttributes, attribute.id) === 'ACTIVE'}
+                  checked={isAttributeOwned('declared', attribute.id, ownedDeclaredAttributes)}
                   actions={getAttributeActions(attribute.id)}
                 />
               ))}

@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack, Typography, Box, Link, Alert } from '@mui/material'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
-import type { FrontendAttribute } from '@/types/attribute.types'
+import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
   AttributeContainerRow,
   SectionContainer,
@@ -50,7 +50,7 @@ export const EServiceAttributesSections: React.FC = () => {
 }
 
 type AttributeGroupsListSectionProps = {
-  attributeGroups: Array<FrontendAttribute>
+  attributeGroups: Array<RemappedEServiceAttribute>
   title: string
   subtitle: string
   emptyLabel: string

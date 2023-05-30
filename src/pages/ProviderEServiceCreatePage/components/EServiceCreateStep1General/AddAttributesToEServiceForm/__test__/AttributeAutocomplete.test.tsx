@@ -2,13 +2,13 @@ import React from 'react'
 import { AttributeAutocomplete } from '../AttributeAutocomplete'
 import type { AttributeAutocompleteProps } from '../AttributeAutocomplete'
 import { vi } from 'vitest'
-import type { FrontendAttribute } from '@/types/attribute.types'
+import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import userEvent from '@testing-library/user-event'
 import type { CompactAttribute } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
 import {
   createMockCompactAttribute,
-  createMockFrontendAttribute,
+  createMockRemappedEServiceAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { FormProvider, useForm } from 'react-hook-form'
 import { render } from '@testing-library/react'
@@ -29,18 +29,18 @@ const mockGetListSpy = (attributes: Array<CompactAttribute> = [], isLoading = fa
 
 type MockContext = {
   attributes: {
-    certified: FrontendAttribute[]
-    verified: FrontendAttribute[]
-    declared: FrontendAttribute[]
+    certified: RemappedEServiceAttribute[]
+    verified: RemappedEServiceAttribute[]
+    declared: RemappedEServiceAttribute[]
   }
 }
 
 const getInputWrapper = (
   defaultValues: MockContext = {
     attributes: {
-      certified: [createMockFrontendAttribute()],
-      verified: [createMockFrontendAttribute()],
-      declared: [createMockFrontendAttribute()],
+      certified: [createMockRemappedEServiceAttribute()],
+      verified: [createMockRemappedEServiceAttribute()],
+      declared: [createMockRemappedEServiceAttribute()],
     },
   }
 ) => {
@@ -132,7 +132,7 @@ describe("Checks that AttributeAutocomplete snapshot don't change", () => {
       {
         attributes: {
           certified: [
-            createMockFrontendAttribute({
+            createMockRemappedEServiceAttribute({
               attributes: [createMockCompactAttribute({ id: 'attribute-option' })],
             }),
           ],

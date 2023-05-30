@@ -4,7 +4,6 @@ import { useCurrentRoute } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
 import { AttributeMutations } from '@/api/attribute'
-import { getAttributeState, isGroupFullfilled } from '../../agreement-details.utils'
 import {
   SectionContainer,
   _AttributeGroupContainer,
@@ -12,7 +11,8 @@ import {
 } from '@/components/layout/containers'
 import { Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
-import type { FrontendAttribute } from '@/types/attribute.types'
+import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
 
 export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
@@ -50,7 +50,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     if (mode === 'consumer' || !isAdmin) return []
     // ... And only if the e-service does not belong to itself
     if (isAgreementEServiceMine) return []
-    const isOwned = getAttributeState(ownedVerifiedAttributes, attributeId) === 'ACTIVE'
+    const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes)
 
     const attributeActions = [
       {
@@ -68,9 +68,9 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   }
 
   function getGroupContainerProps(
-    group: FrontendAttribute
+    group: RemappedEServiceAttribute
   ): React.ComponentProps<typeof _AttributeGroupContainer> {
-    const isGroupFulfilled = isGroupFullfilled(ownedVerifiedAttributes!, group)
+    const isGroupFulfilled = isAttributeGroupFullfilled('verified', ownedVerifiedAttributes, group)
 
     if (mode === 'provider') {
       const state = isGroupFulfilled ? 'fullfilled' : 'unfullfilled'
@@ -109,7 +109,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
                 <_AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
-                  checked={getAttributeState(ownedVerifiedAttributes, attribute.id) === 'ACTIVE'}
+                  checked={isAttributeOwned('verified', attribute.id, ownedVerifiedAttributes)}
                   actions={getAttributeActions(attribute.id)}
                 />
               ))}

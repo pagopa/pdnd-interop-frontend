@@ -1,12 +1,12 @@
 import React from 'react'
-import type { FrontendAttributes } from '@/types/attribute.types'
+import type { RemappedEServiceAttributes } from '@/types/attribute.types'
 import { createMockAttribute } from '__mocks__/data/attribute.mocks'
 import { mockEServiceDetailsContext } from './test.commons'
 import { render } from '@testing-library/react'
 import { EServiceAttributesSections } from '../EServiceAttributesSections'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
-const eserviceAttributes: FrontendAttributes = {
+const eserviceAttributes: RemappedEServiceAttributes = {
   certified: [
     {
       attributes: [

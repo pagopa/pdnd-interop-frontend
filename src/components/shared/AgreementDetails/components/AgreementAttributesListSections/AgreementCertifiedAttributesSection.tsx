@@ -1,8 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
-import type { FrontendAttribute } from '@/types/attribute.types'
-import { getAttributeState, isGroupFullfilled } from '../../agreement-details.utils'
+import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
   _AttributeGroupContainer,
@@ -12,6 +11,7 @@ import { Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
+import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
 
 export const AgreementCertifiedAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
@@ -24,9 +24,13 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
   const ownedCertifiedAttributes = partyAttributes?.certified ?? []
 
   function getGroupContainerProps(
-    group: FrontendAttribute
+    group: RemappedEServiceAttribute
   ): React.ComponentProps<typeof _AttributeGroupContainer> {
-    const isGroupFulfilled = isGroupFullfilled(ownedCertifiedAttributes, group)
+    const isGroupFulfilled = isAttributeGroupFullfilled(
+      'certified',
+      ownedCertifiedAttributes,
+      group
+    )
     const state = isGroupFulfilled ? 'fullfilled' : 'unfullfilled'
     const providerOrConsumer = mode as ProviderOrConsumer
 
@@ -58,7 +62,7 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
                 <_AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
-                  checked={getAttributeState(ownedCertifiedAttributes, attribute.id) === 'ACTIVE'}
+                  checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes)}
                 />
               ))}
             </Stack>

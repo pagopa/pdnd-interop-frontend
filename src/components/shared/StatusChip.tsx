@@ -5,14 +5,12 @@ import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
-import type { AttributeKey, AttributeState } from '@/types/attribute.types'
 import { useJwt } from '@/hooks/useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 import type {
   Agreement,
   AgreementListEntry,
   AgreementState,
-  AttributeKind,
   EServiceDescriptorState,
   OperatorState,
   Purpose,
@@ -54,18 +52,11 @@ const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   ARCHIVED: 'info',
 }
 
-const CHIP_COLORS_ATTRIBUTE: Record<AttributeState | 'NOT_ACTIVE', MUIColor> = {
-  ACTIVE: 'success',
-  NOT_ACTIVE: 'warning',
-  REVOKED: 'error',
-}
-
 const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
   user: CHIP_COLORS_USER,
-  attribute: CHIP_COLORS_ATTRIBUTE,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
@@ -81,11 +72,6 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'purpose'
         purpose: Purpose
-      }
-    | {
-        for: 'attribute'
-        state?: AttributeState
-        kind: AttributeKind
       }
   )
 
@@ -140,13 +126,6 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
   if (props.for === 'purpose') {
     return <PurposeStatusChip purpose={props.purpose} />
-  }
-
-  if (props.for === 'attribute') {
-    color = chipColors['attribute'][props.state || 'NOT_ACTIVE']
-    label = t(
-      `status.attribute.${props.kind.toLowerCase() as AttributeKey}.${props.state ?? 'NOT_ACTIVE'}`
-    )
   }
 
   return (

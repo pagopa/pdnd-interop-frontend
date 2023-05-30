@@ -9,9 +9,10 @@ import { useTranslation } from 'react-i18next'
 import { PartyQueries } from '@/api/party/party.hooks'
 import { useJwt } from '@/hooks/useJwt'
 import { AttributeMutations } from '@/api/attribute'
-import type { PartyAttribute } from '@/types/attribute.types'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
+import type { DeclaredTenantAttribute } from '@/api/api.generatedTypes'
+import { isAttributeRevoked } from '@/utils/attribute.utils'
 
 export const DeclaredAttributes = () => {
   const { t } = useTranslation('party', { keyPrefix: 'attributes.declared' })
@@ -37,10 +38,13 @@ const DeclaredAttributesList: React.FC = () => {
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
 
   function getAttributeActions(
-    attribute: PartyAttribute
+    attribute: DeclaredTenantAttribute
   ): Parameters<typeof _AttributeContainer>[0]['actions'] {
     if (!isAdmin) return []
-    if (attribute.state === 'ACTIVE')
+
+    const isRevoked = isAttributeRevoked('declared', attribute)
+
+    if (!isRevoked)
       return [
         {
           label: t('revokeActionLabel'),
@@ -50,7 +54,7 @@ const DeclaredAttributesList: React.FC = () => {
           color: 'error',
         },
       ]
-    if (attribute.state === 'REVOKED')
+    if (isRevoked)
       return [
         {
           label: t('declareActionLabel'),
@@ -71,7 +75,7 @@ const DeclaredAttributesList: React.FC = () => {
       {declaredAttributes.map((attribute) => (
         <li key={attribute.id}>
           <_AttributeContainer
-            checked={attribute.state === 'ACTIVE'}
+            checked={!isAttributeRevoked('declared', attribute)}
             actions={getAttributeActions(attribute)}
             attribute={attribute}
           />
@@ -86,7 +90,7 @@ const DeclaredAttributesListSkeleton: React.FC = () => {
     <Stack spacing={1}>
       <_AttributeContainerSkeleton checked />
       <_AttributeContainerSkeleton checked />
-      <_AttributeContainerSkeleton checked />
+      <_AttributeContainerSkeleton />
     </Stack>
   )
 }
