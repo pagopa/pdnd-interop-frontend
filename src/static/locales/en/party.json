@@ -14,15 +14,12 @@
     "title": "Attributes",
     "description": "Below are all the certified, verified or declared attributes that your organization possesses.",
     "certified": {
-      "description": "Authoritative sources recognized by Interoperability have given you these certified attributes.",
       "noAttributesLabel": "There are no certified attributes"
     },
     "verified": {
-      "description": "At least one provider has recognized the following verified attributes for you.",
       "noAttributesLabel": "There are no verified attributes"
     },
     "declared": {
-      "description": "Attributes declared by the user under his own responsibility during the agreement reqeust. A producer check is not necessary.",
       "noAttributesLabel": "You have not submitted any declared attributes",
       "declareActionLabel": "Declare attribute",
       "revokeActionLabel": "Revoke attribute"

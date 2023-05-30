@@ -8,13 +8,16 @@
     "declared_other": "declared"
   },
   "certified": {
-    "label": "Certified Attributes"
+    "label": "Certified Attributes",
+    "description": "Attributes recognized to members by an authoritative source."
   },
   "verified": {
-    "label": "Verified Attributes"
+    "label": "Verified Attributes",
+    "description": ""
   },
   "declared": {
-    "label": "Declared Attributes"
+    "label": "Declared Attributes",
+    "description": ""
   },
   "noAttributesRequiredAlert": "There are no {{attributeKey}} attributes required for this e-service",
   "title": "attribute {{num}}:",

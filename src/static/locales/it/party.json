@@ -14,15 +14,12 @@
     "title": "Attributi",
     "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che il tuo Ente possiede.",
     "certified": {
-      "description": "Ovvero attributi certificati da una fonte autoritativa riconosciuta.",
       "noAttributesLabel": "Non si possiedono attributi certificati"
     },
     "verified": {
-      "description": "Ovvero attributi verificati da altre organizzazioni per lo stesso fruitore con la possibilità di richiedere una verifica dall’erogatore.",
       "noAttributesLabel": "Non si possiedono attributi verificati"
     },
     "declared": {
-      "description": "Ovvero attributi dichiarati dal fruitore sotto propria responsabilità durante la richiesta di fruizione. Non è necessaria una verifica dell’erogatore.",
       "noAttributesLabel": "Non hai presentato nessun attributo dichiarato",
       "declareActionLabel": "Dichiara attributo",
       "revokeActionLabel": "Revoca attributo"

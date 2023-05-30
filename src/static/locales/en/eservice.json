@@ -35,16 +35,7 @@
         "title": "Attributes",
         "description": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service.",
         "addBtn": "Add attribute",
-        "createBtn": "Create new attribute",
-        "certified": {
-          "description": "Certified by an authoritative source. You don't need to do anything."
-        },
-        "verified": {
-          "description": "You can decide whether to trust another party's audit on these attributes or run your own."
-        },
-        "declared": {
-          "description": "The Subscriber will declare it possesses these attributes under its own responsibility."
-        }
+        "createBtn": "Create new attribute"
       },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
     },
@@ -180,17 +171,6 @@
         "manageEServiceGuideLink": "How do I implement and manage an e-service?",
         "verifyVoucherGuideLink": "How do I verify a voucher?",
         "wellKnownLink": "URL .well-known"
-      },
-      "attributes": {
-        "certified": {
-          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche."
-        },
-        "verified": {
-          "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti)."
-        },
-        "declared": {
-          "description": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti)."
-        }
       },
       "versionHistory": {
         "title": "Version history",

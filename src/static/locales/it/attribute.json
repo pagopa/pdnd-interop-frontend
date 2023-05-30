@@ -8,13 +8,16 @@
     "declared_other": "dichiarati"
   },
   "certified": {
-    "label": "Attributi Certificati"
+    "label": "Attributi Certificati",
+    "description": "Ovvero attributi riconosciuti agli aderenti da una fonte autoritativa."
   },
   "verified": {
-    "label": "Attributi Verificati"
+    "label": "Attributi Verificati",
+    "description": "Attributes recognized by the providers to the users following an investigation. Alternatively, PDND Interoperability offers the possibility for lenders to rely on the investigations carried out by other lenders, if available."
   },
   "declared": {
-    "label": "Attributi Dichiarati"
+    "label": "Attributi Dichiarati",
+    "description": "Attributes of which the user declares possession, acknowledging them under his own responsibility with a self-declaration."
   },
   "noAttributesRequiredAlert": "Non ci sono attributi {{attributeKey}} richiesti per questo e-service",
   "title": "attributo {{num}}:",

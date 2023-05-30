@@ -7,11 +7,10 @@ import { Stack } from '@mui/material'
 import { _AttributeContainer, _AttributeContainerSkeleton } from '@/components/layout/containers'
 
 export const CertifiedAttributes = () => {
-  const { t } = useTranslation('party', { keyPrefix: 'attributes.certified' })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'certified' })
 
   return (
-    <AttributesContainer title={tAttribute('label')} description={t('description')}>
+    <AttributesContainer title={tAttribute('label')} description={tAttribute('description')}>
       <React.Suspense fallback={<CertifiedAttributesListSkeleton />}>
         <CertifiedAttributesList />
       </React.Suspense>

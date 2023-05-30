@@ -35,16 +35,7 @@
         "title": "Attributi",
         "description": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell'e-service.",
         "addBtn": "Aggiungi attributo",
-        "createBtn": "Crea nuovo attributo",
-        "certified": {
-          "description": "Ovvero attributi certificati da una fonte autoritativa riconosciuta."
-        },
-        "verified": {
-          "description": "Ovvero attributi verificati da altre organizzazioni per lo stesso fruitore con la possibilità di richiedere una tua verifica puntuale."
-        },
-        "declared": {
-          "description": "Ovvero attributi dichiarati dal fruitore sotto propria responsabilità durante la richiesta di fruizione. Non è necessaria una tua verifica."
-        }
+        "createBtn": "Crea nuovo attributo"
       },
       "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service"
     },
@@ -180,17 +171,6 @@
         "manageEServiceGuideLink": "Come implemento e gestisco un e-service?",
         "verifyVoucherGuideLink": "Come faccio a verificare un voucher?",
         "wellKnownLink": "URL .well-known"
-      },
-      "attributes": {
-        "certified": {
-          "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche."
-        },
-        "verified": {
-          "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti)."
-        },
-        "declared": {
-          "description": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti)."
-        }
       },
       "versionHistory": {
         "title": "Storico delle versioni",

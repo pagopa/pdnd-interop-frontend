@@ -58,13 +58,9 @@
       },
       "howLink": "Come funziona?",
       "certified": {
-        "title": "Attributi certificati",
-        "subtitle": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche.",
         "emptyLabel": "Non ci sono attributi certificati richiesti per questo e-service"
       },
       "verified": {
-        "title": "Attributi verificati",
-        "subtitle": "Questi attributi necessitano di verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti).",
         "emptyLabel": "Non ci sono attributi verificati richiesti per questo e-service",
         "actions": {
           "verify": "Verifica attributo",
@@ -73,8 +69,6 @@
         }
       },
       "declared": {
-        "title": "Attributi dichiarati",
-        "subtitle": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti).",
         "emptyLabel": "Non ci sono attributi dichiarati richiesti per questo e-service",
         "actions": {
           "declare": "Dichiara attributo"
@@ -99,16 +93,7 @@
       }
     },
     "attribute": {
-      "subtitle": "Devi possedere:",
-      "certified": {
-        "description": "Questi attributi sono certificati da una fonte autoritativa riconosciuta, e non necessitano di ulteriori verifiche."
-      },
-      "verified": {
-        "description": "Questi attributi necessitano verifica da parte di almeno un erogatore. Il fruitore potrebbe già possederne alcuni (o tutti)."
-      },
-      "declared": {
-        "description": "Il fruitore deve dichiarare sotto la propria responsabilità di possedere questi attributi; potrebbe già possederne alcuni (o tutti)."
-      }
+      "subtitle": "Devi possedere:"
     },
     "consumerNotes": {
       "title": "messaggio per l’erogatore",

@@ -9,13 +9,13 @@ import {
   _AttributeGroupContainer,
   _AttributeContainer,
 } from '@/components/layout/containers'
-import { Link, Stack } from '@mui/material'
-import { attributesHelpLink } from '@/config/constants'
+import { Stack } from '@mui/material'
 import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
 
 export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
+  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'verified' })
   const { mode } = useCurrentRoute()
   const { isAdmin } = useJwt()
 
@@ -91,15 +91,8 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     <SectionContainer
       newDesign
       innerSection
-      title={t('verified.title')}
-      description={
-        <>
-          {t('verified.subtitle')}{' '}
-          <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
-            {t('howLink')}
-          </Link>
-        </>
-      }
+      title={tAttribute('label')}
+      description={tAttribute('description')}
     >
       <Stack spacing={2}>
         {verifiedAttributeGroups.map((group, i) => (

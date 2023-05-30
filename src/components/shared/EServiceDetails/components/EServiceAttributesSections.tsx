@@ -12,9 +12,6 @@ import { attributesHelpLink } from '@/config/constants'
 import type { CompactAttribute } from '@/api/api.generatedTypes'
 
 export const EServiceAttributesSections: React.FC = () => {
-  const { t } = useTranslation('eservice', {
-    keyPrefix: 'read.sections.attributes',
-  })
   const { t: tAttribute } = useTranslation('attribute')
 
   const { eserviceAttributes } = useEServiceDetailsContext()
@@ -23,7 +20,7 @@ export const EServiceAttributesSections: React.FC = () => {
     <>
       <AttributeGroupsListSection
         title={tAttribute('certified.label')}
-        subtitle={t('certified.description')}
+        subtitle={tAttribute('certified.description')}
         attributeGroups={eserviceAttributes.certified}
         emptyLabel={tAttribute('noAttributesRequiredAlert', {
           attributeKey: tAttribute(`type.certified_other`),
@@ -31,7 +28,7 @@ export const EServiceAttributesSections: React.FC = () => {
       />
       <AttributeGroupsListSection
         title={tAttribute('verified.label')}
-        subtitle={t('verified.description')}
+        subtitle={tAttribute('verified.description')}
         attributeGroups={eserviceAttributes.verified}
         emptyLabel={tAttribute('noAttributesRequiredAlert', {
           attributeKey: tAttribute(`type.verified_other`),
@@ -39,7 +36,7 @@ export const EServiceAttributesSections: React.FC = () => {
       />
       <AttributeGroupsListSection
         title={tAttribute('declared.label')}
-        subtitle={t('declared.description')}
+        subtitle={tAttribute('declared.description')}
         attributeGroups={eserviceAttributes.declared}
         emptyLabel={tAttribute('noAttributesRequiredAlert', {
           attributeKey: tAttribute(`type.declared_other`),

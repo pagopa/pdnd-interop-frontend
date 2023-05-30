@@ -7,15 +7,14 @@ import {
   _AttributeGroupContainer,
   _AttributeContainer,
 } from '@/components/layout/containers'
-import { Link, Stack } from '@mui/material'
-import { attributesHelpLink } from '@/config/constants'
+import { Stack } from '@mui/material'
 import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
 
 export const AgreementCertifiedAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
-  const { t: tCommon } = useTranslation('common')
+  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'certified' })
   const { mode } = useCurrentRoute()
 
   const { eserviceAttributes, partyAttributes } = useAgreementDetailsContext()
@@ -44,15 +43,8 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
     <SectionContainer
       newDesign
       innerSection
-      title={t('certified.title')}
-      description={
-        <>
-          {t('certified.subtitle')}{' '}
-          <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
-            {tCommon('howLink')}
-          </Link>
-        </>
-      }
+      title={tAttribute('label')}
+      description={tAttribute('description')}
     >
       <Stack spacing={2}>
         {certifiedAttributeGroups.map((group, i) => (

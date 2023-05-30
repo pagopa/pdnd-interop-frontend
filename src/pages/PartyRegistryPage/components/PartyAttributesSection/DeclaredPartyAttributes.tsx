@@ -15,11 +15,10 @@ import type { DeclaredTenantAttribute } from '@/api/api.generatedTypes'
 import { isAttributeRevoked } from '@/utils/attribute.utils'
 
 export const DeclaredAttributes = () => {
-  const { t } = useTranslation('party', { keyPrefix: 'attributes.declared' })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
 
   return (
-    <AttributesContainer title={tAttribute('label')} description={t('description')}>
+    <AttributesContainer title={tAttribute('label')} description={tAttribute('description')}>
       <React.Suspense fallback={<DeclaredAttributesListSkeleton />}>
         <DeclaredAttributesList />
       </React.Suspense>

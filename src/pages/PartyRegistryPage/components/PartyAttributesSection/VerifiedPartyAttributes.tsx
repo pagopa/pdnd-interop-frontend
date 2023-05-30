@@ -7,11 +7,10 @@ import { Stack } from '@mui/material'
 import { _AttributeContainer, _AttributeContainerSkeleton } from '@/components/layout/containers'
 
 export const VerifiedAttributes = () => {
-  const { t } = useTranslation('party', { keyPrefix: 'attributes.verified' })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'verified' })
 
   return (
-    <AttributesContainer title={tAttribute('label')} description={t('description')}>
+    <AttributesContainer title={tAttribute('label')} description={tAttribute('description')}>
       <React.Suspense fallback={<VerifiedAttributesListSkeleton />}>
         <VerifiedAttributesList />
       </React.Suspense>

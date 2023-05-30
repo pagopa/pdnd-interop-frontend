@@ -7,8 +7,7 @@ import {
   _AttributeGroupContainer,
   _AttributeContainer,
 } from '@/components/layout/containers'
-import { Link, Stack } from '@mui/material'
-import { attributesHelpLink } from '@/config/constants'
+import { Stack } from '@mui/material'
 import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
 import { AttributeMutations } from '@/api/attribute'
@@ -17,6 +16,7 @@ import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.
 
 export const AgreementDeclaredAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
+  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
   const { isAdmin } = useJwt()
   const { mode, routeKey } = useCurrentRoute()
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
@@ -66,15 +66,8 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
     <SectionContainer
       newDesign
       innerSection
-      title={t('declared.title')}
-      description={
-        <>
-          {t('declared.subtitle')}{' '}
-          <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
-            {t('howLink')}
-          </Link>
-        </>
-      }
+      title={tAttribute('label')}
+      description={tAttribute('description')}
     >
       <Stack spacing={2}>
         {declaredAttributeGroups.map((group, i) => (

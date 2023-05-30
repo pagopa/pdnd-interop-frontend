@@ -63,7 +63,7 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
       title={tAttribute(`${attributeKey}.label`)}
       description={
         <>
-          {t(`${attributeKey}.description`)}{' '}
+          {tAttribute(`${attributeKey}.description`)}{' '}
           <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
             {tCommon('howLink')}
           </Link>
