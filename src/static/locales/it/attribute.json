@@ -13,11 +13,11 @@
   },
   "verified": {
     "label": "Attributi Verificati",
-    "description": "Attributes recognized by the providers to the users following an investigation. Alternatively, PDND Interoperability offers the possibility for lenders to rely on the investigations carried out by other lenders, if available."
+    "description": "Ovvero attributi riconosciuti dagli erogatori ai fruitori a seguito di un’istruttoria. In alternativa, PDND Interoperabilità offre la possibilità agli erogatori di fare affidamento sulle istruttorie effettuate da altri erogatori, qualora disponibili."
   },
   "declared": {
     "label": "Attributi Dichiarati",
-    "description": "Attributes of which the user declares possession, acknowledging them under his own responsibility with a self-declaration."
+    "description": "Ovvero attributi dei quali il fruitore dichiara il possesso, riconoscendoseli sotto la propria responsabilità con un’autodichiarazione."
   },
   "noAttributesRequiredAlert": "Non ci sono attributi {{attributeKey}} richiesti per questo e-service",
   "title": "attributo {{num}}:",

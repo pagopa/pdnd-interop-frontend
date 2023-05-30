@@ -13,11 +13,11 @@
   },
   "verified": {
     "label": "Verified Attributes",
-    "description": ""
+    "description": "Attributes recognized by the providers to the users following an investigation. Alternatively, PDND Interoperability offers the possibility for lenders to rely on the investigations carried out by other lenders, if available."
   },
   "declared": {
     "label": "Declared Attributes",
-    "description": ""
+    "description": "Attributes of which the user declares possession, acknowledging them under his own responsibility with a self-declaration."
   },
   "noAttributesRequiredAlert": "There are no {{attributeKey}} attributes required for this e-service",
   "title": "attribute {{num}}:",
