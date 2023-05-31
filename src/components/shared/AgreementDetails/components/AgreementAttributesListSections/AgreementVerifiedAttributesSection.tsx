@@ -50,9 +50,12 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
 
   const getAttributeActions = (attributeId: string) => {
     // The user can certify verified attributes in this view only if it is a provider...
-    if (mode === 'consumer' || !isAdmin) return []
-    // ... And only if the e-service does not belong to itself
+    if (!agreement || mode === 'consumer' || !isAdmin) return []
+    // ... only if the e-service does not belong to itself
     if (isAgreementEServiceMine) return []
+    // ... and only if the agreement is active, pending or suspended
+    if (!['ACTIVE', 'PENDING', 'SUSPENDED'].includes(agreement.state)) return []
+
     const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes)
 
     const attributeActions = [

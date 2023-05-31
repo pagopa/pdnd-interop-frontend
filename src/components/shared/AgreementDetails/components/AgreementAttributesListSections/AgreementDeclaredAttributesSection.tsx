@@ -21,7 +21,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
   const { mode, routeKey } = useCurrentRoute()
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
 
-  const { eserviceAttributes, partyAttributes, isAgreementEServiceMine } =
+  const { eserviceAttributes, partyAttributes, isAgreementEServiceMine, agreement } =
     useAgreementDetailsContext()
 
   const declaredAttributeGroups = eserviceAttributes?.declared ?? []
@@ -37,11 +37,13 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
 
   const getAttributeActions = (attributeId: string) => {
     // The user can declare his own attributes only in the agreement create/edit view...
-    if (routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' || !isAdmin) return []
+    if (!agreement || routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' || !isAdmin) return []
     if (isAgreementEServiceMine) return []
     const isDeclared = isAttributeOwned('declared', attributeId, ownedDeclaredAttributes)
-    // ... and only if it is not alread declared
+    // ... only if it is not alread declared
     if (isDeclared) return []
+    // ... and only if the agreement is active, draft or suspended
+    if (!['ACTIVE', 'DRAFT', 'SUSPENDED'].includes(agreement.state)) return []
 
     return [
       {
