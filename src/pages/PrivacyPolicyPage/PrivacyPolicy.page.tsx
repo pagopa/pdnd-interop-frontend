@@ -3,8 +3,8 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { OneTrustNoticesQueries } from '@/api/one-trust-notices'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { htmlJsonFormatParser } from '@/utils/parser'
 import { useGeneratePath } from '@/router'
+import { parseHtmlJsonToReactNode } from '@/utils/common.utils'
 
 const PrivacyPolicyPage: React.FC = () => {
   const { t } = useTranslation('common', { keyPrefix: 'privacyPolicy' })
@@ -16,7 +16,7 @@ const PrivacyPolicyPage: React.FC = () => {
 
   return (
     <PageContainer sx={{ maxWidth: 800, mx: 'auto', py: 12 }} title={t('title')}>
-      {termsOfService && htmlJsonFormatParser(termsOfService, path)}
+      {termsOfService && parseHtmlJsonToReactNode(termsOfService, path)}
     </PageContainer>
   )
 }
