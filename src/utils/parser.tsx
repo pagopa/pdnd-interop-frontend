@@ -1,6 +1,6 @@
 import React from 'react'
 
-type RootNode = {
+export type RootNode = {
   node: 'root'
   child: Array<Node>
 }
@@ -18,6 +18,12 @@ type TextNode = {
 }
 
 export type Node = RootNode | ElementNode | TextNode
+
+function decodeHtml(html: string): string {
+  const txt = document.createElement('textarea')
+  txt.innerHTML = html
+  return txt.value
+}
 
 export const htmlJsonFormatParser = (json: Node, route: string): React.ReactNode => {
   switch (json.node) {
@@ -46,7 +52,7 @@ export const htmlJsonFormatParser = (json: Node, route: string): React.ReactNode
         json.child ? json.child.map((item) => htmlJsonFormatParser(item, route)) : undefined
       )
     case 'text':
-      return json.text
+      return decodeHtml(json.text)
     default:
       break
   }
