@@ -1,25 +1,22 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
-import { FE_URL } from '@/config/env'
-import axiosInstance from '@/config/axios'
 import { useTranslation } from 'react-i18next'
+import { OneTrustNoticesQueries } from '@/api/one-trust-notices'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { htmlJsonFormatParser } from '@/utils/parser'
+import { useGeneratePath } from '@/router'
 
 const TOSPage: React.FC = () => {
   const { t } = useTranslation('common', { keyPrefix: 'tos' })
-  const [htmlString, setHtmlString] = React.useState('')
+  const lang = useCurrentLanguage()
+  const generatePath = useGeneratePath()
+  const path = generatePath('TOS')
 
-  React.useEffect(() => {
-    async function asyncFetchData() {
-      const resp = await axiosInstance.get(`${FE_URL}/data/it/tos.json`)
-      setHtmlString(resp.data.html)
-    }
-
-    asyncFetchData()
-  }, [])
+  const { data: termsOfService } = OneTrustNoticesQueries.useTermsOfServiceNotice(lang)
 
   return (
     <PageContainer sx={{ maxWidth: 800, mx: 'auto', py: 12 }} title={t('title')}>
-      <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+      {termsOfService && htmlJsonFormatParser(termsOfService, path)}
     </PageContainer>
   )
 }
