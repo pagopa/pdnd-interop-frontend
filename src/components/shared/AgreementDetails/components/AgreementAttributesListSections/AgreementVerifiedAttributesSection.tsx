@@ -52,6 +52,11 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     })
   }
 
+  const isVerifiedAttributeRevoked = (attributeId: string) => {
+    const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
+    return attribute && isAttributeRevoked('verified', attribute)
+  }
+
   const getAttributeActions = (attributeId: string) => {
     // The user can certify verified attributes in this view only if it is a provider...
     if (!agreement || mode === 'consumer' || !isAdmin) return []
@@ -61,25 +66,28 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     if (!['ACTIVE', 'PENDING', 'SUSPENDED'].includes(agreement.state)) return []
 
     const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes)
+    const isRevoked = isVerifiedAttributeRevoked(attributeId)
 
-    const attributeActions = [
+    const attributeActions: React.ComponentProps<typeof AttributeContainer>['actions'] = [
       {
         label: isOwned ? t('verified.actions.update') : t('verified.actions.verify'),
         action: handleVerifyAttribute,
       },
-      {
+    ]
+
+    if (isOwned && !isRevoked) {
+      attributeActions.push({
         label: t('verified.actions.revoke'),
         action: handleRevokeAttribute,
-        color: 'error' as const,
-      },
-    ]
+        color: 'error',
+      })
+    }
 
     return attributeActions
   }
 
   const getChipLabel = (attributeId: string) => {
-    const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
-    if (attribute && mode === 'consumer' && isAttributeRevoked('verified', attribute))
+    if (mode === 'consumer' && isVerifiedAttributeRevoked(attributeId))
       return tAttribute('group.manage.revokedByParty')
   }
 
