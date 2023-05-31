@@ -44,7 +44,7 @@
         },
         "declared": {
           "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
-          "consumer": "Il tuo ente possiede almeno uno dei seguenti attributi"
+          "consumer": "Il tuo ente deve possedere almeno uno dei seguenti attributi"
         }
       },
       "error": {

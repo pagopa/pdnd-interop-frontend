@@ -136,7 +136,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
         content={attributeId}
         copyToClipboard={{
           value: attributeId,
-          tooltipTitle: 'content.attributeIdField.tooltipTitle',
+          tooltipTitle: t('idCopytooltipLabel'),
         }}
         label={t('attributeIdLabel')}
       />
