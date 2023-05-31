@@ -1,8 +1,8 @@
 import React from 'react'
 import {
-  _AttributeContainer,
-  _AttributeContainerSkeleton,
-  _AttributeGroupContainer,
+  AttributeContainer,
+  AttributeContainerSkeleton,
+  AttributeGroupContainer,
 } from '@/components/layout/containers'
 import { Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -38,7 +38,7 @@ const DeclaredAttributesList: React.FC = () => {
 
   function getAttributeActions(
     attribute: DeclaredTenantAttribute
-  ): Parameters<typeof _AttributeContainer>[0]['actions'] {
+  ): Parameters<typeof AttributeContainer>[0]['actions'] {
     if (!isAdmin) return []
 
     const isRevoked = isAttributeRevoked('declared', attribute)
@@ -73,7 +73,7 @@ const DeclaredAttributesList: React.FC = () => {
     <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
       {declaredAttributes.map((attribute) => (
         <li key={attribute.id}>
-          <_AttributeContainer
+          <AttributeContainer
             checked={!isAttributeRevoked('declared', attribute)}
             actions={getAttributeActions(attribute)}
             attribute={attribute}
@@ -87,9 +87,9 @@ const DeclaredAttributesList: React.FC = () => {
 const DeclaredAttributesListSkeleton: React.FC = () => {
   return (
     <Stack spacing={1}>
-      <_AttributeContainerSkeleton checked />
-      <_AttributeContainerSkeleton checked />
-      <_AttributeContainerSkeleton />
+      <AttributeContainerSkeleton checked />
+      <AttributeContainerSkeleton checked />
+      <AttributeContainerSkeleton />
     </Stack>
   )
 }

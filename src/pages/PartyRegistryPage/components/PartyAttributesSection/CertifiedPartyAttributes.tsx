@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
 import { Stack } from '@mui/material'
-import { _AttributeContainer, _AttributeContainerSkeleton } from '@/components/layout/containers'
+import { AttributeContainer, AttributeContainerSkeleton } from '@/components/layout/containers'
 
 export const CertifiedAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'certified' })
@@ -30,7 +30,7 @@ const CertifiedAttributesList: React.FC = () => {
     <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
       {CertifiedAttributes.map((attribute) => (
         <li key={attribute.id}>
-          <_AttributeContainer checked attribute={attribute} />
+          <AttributeContainer checked attribute={attribute} />
         </li>
       ))}
     </Stack>
@@ -40,9 +40,9 @@ const CertifiedAttributesList: React.FC = () => {
 const CertifiedAttributesListSkeleton: React.FC = () => {
   return (
     <Stack spacing={1}>
-      <_AttributeContainerSkeleton checked />
-      <_AttributeContainerSkeleton checked />
-      <_AttributeContainerSkeleton checked />
+      <AttributeContainerSkeleton checked />
+      <AttributeContainerSkeleton checked />
+      <AttributeContainerSkeleton checked />
     </Stack>
   )
 }

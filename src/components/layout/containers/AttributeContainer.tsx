@@ -32,7 +32,7 @@ type AttributeContainerProps<TAttribute extends { id: string; name: string }> = 
   onRemove?: (id: string, name: string) => void
 }
 
-export const _AttributeContainer = <TAttribute extends { id: string; name: string }>({
+export const AttributeContainer = <TAttribute extends { id: string; name: string }>({
   attribute,
   actions,
   chipLabel,
@@ -144,7 +144,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
   )
 }
 
-export const _AttributeContainerSkeleton: React.FC<{ checked?: boolean }> = ({ checked }) => {
+export const AttributeContainerSkeleton: React.FC<{ checked?: boolean }> = ({ checked }) => {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Stack direction="row" alignItems="center" spacing={2}>

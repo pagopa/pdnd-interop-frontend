@@ -4,8 +4,8 @@ import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
 import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
-  _AttributeGroupContainer,
-  _AttributeContainer,
+  AttributeGroupContainer,
+  AttributeContainer,
 } from '@/components/layout/containers'
 import { Stack } from '@mui/material'
 import { useCurrentRoute } from '@/router'
@@ -13,9 +13,10 @@ import type { ProviderOrConsumer } from '@/types/common.types'
 import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
 
 export const AgreementCertifiedAttributesSection: React.FC = () => {
-  const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
-  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'certified' })
+  const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
+
+  const providerOrConsumer = mode as ProviderOrConsumer
 
   const { eserviceAttributes, partyAttributes } = useAgreementDetailsContext()
 
@@ -24,18 +25,25 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
 
   function getGroupContainerProps(
     group: RemappedEServiceAttribute
-  ): React.ComponentProps<typeof _AttributeGroupContainer> {
+  ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled(
       'certified',
       ownedCertifiedAttributes,
       group
     )
-    const state = isGroupFulfilled ? 'fullfilled' : 'unfullfilled'
+
     const providerOrConsumer = mode as ProviderOrConsumer
 
+    if (isGroupFulfilled) {
+      return {
+        title: tAttribute(`group.manage.success.${providerOrConsumer}`),
+        color: 'success',
+      }
+    }
+
     return {
-      title: t(`states.${providerOrConsumer}.${state}`),
-      color: isGroupFulfilled ? 'success' : 'error',
+      title: tAttribute(`group.manage.error.${providerOrConsumer}`),
+      color: 'error',
     }
   }
 
@@ -43,26 +51,31 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
     <SectionContainer
       newDesign
       innerSection
-      title={tAttribute('label')}
-      description={tAttribute('description')}
+      title={tAttribute('certified.label')}
+      description={tAttribute('certified.description')}
     >
       <Stack spacing={2}>
         {certifiedAttributeGroups.map((group, i) => (
-          <_AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
+          <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
             <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
               {group.attributes.map((attribute) => (
-                <_AttributeContainer
+                <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
                   checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes)}
                 />
               ))}
             </Stack>
-          </_AttributeGroupContainer>
+          </AttributeGroupContainer>
         ))}
       </Stack>
       {certifiedAttributeGroups.length === 0 && (
-        <_AttributeGroupContainer title={t('certified.emptyLabel')} color="gray" />
+        <AttributeGroupContainer
+          title={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
+            attributeKey: tAttribute(`type.certified_other`),
+          })}
+          color="gray"
+        />
       )}
     </SectionContainer>
   )

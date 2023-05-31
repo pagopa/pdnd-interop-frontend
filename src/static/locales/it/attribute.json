@@ -19,13 +19,39 @@
     "label": "Attributi Dichiarati",
     "description": "Ovvero attributi dei quali il fruitore dichiara il possesso, riconoscendoseli sotto la propria responsabilità con un’autodichiarazione."
   },
-  "noAttributesRequiredAlert": "Non ci sono attributi {{attributeKey}} richiesti per questo e-service",
+  "noAttributesRequiredAlert": {
+    "provider": "Il tuo ente non richiede attributi {{attributeKey}}",
+    "consumer": "L'erogatore non richiede attributi {{attributeKey}}"
+  },
   "title": "attributo {{num}}:",
   "or": "oppure",
   "showInfoSrLabel": "Mostra informazioni attributo",
   "mustOwn": "Devi possedere:",
   "group": {
-    "title": "Il fruitore dovrà possedere almeno uno dei seguenti requisiti",
+    "read": {
+      "provider": "Il fruitore dovrà possedere almeno uno dei seguenti requisiti",
+      "consumer": "Il tuo ente dovrà possedere almeno uno dei seguenti attributi"
+    },
+    "manage": {
+      "success": {
+        "provider": "Il fruitore possiede almeno uno dei seguenti attributi",
+        "consumer": "Il tuo ente possiede almeno uno dei seguenti attributi"
+      },
+      "warning": {
+        "verified": {
+          "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
+          "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti requisiti"
+        },
+        "declared": {
+          "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
+          "consumer": "Il tuo ente possiede almeno uno dei seguenti attributi"
+        }
+      },
+      "error": {
+        "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
+        "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
+      }
+    },
     "addBtn": "Aggiungi requisito",
     "cancelBtn": "Annulla",
     "confirmDeclaredAttributeBtn": "Conferma",

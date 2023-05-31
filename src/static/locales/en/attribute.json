@@ -19,13 +19,39 @@
     "label": "Declared Attributes",
     "description": "Attributes of which the user declares possession, acknowledging them under his own responsibility with a self-declaration."
   },
-  "noAttributesRequiredAlert": "There are no {{attributeKey}} attributes required for this e-service",
+  "noAttributesRequiredAlert": {
+    "provider": "Your organization does not require {{attributeKey}} attributes",
+    "consumer": "The provider does not require {{attributeKey}} attributes"
+  },
   "title": "attribute {{num}}:",
   "or": "or",
   "showInfoSrLabel": "Show attribute info",
   "mustOwn": "Must own:",
   "group": {
-    "title": "The user must possess at least one of the following requirements",
+    "read": {
+      "provider": "The consumer must possess at least one of the following requirements",
+      "consumer": "Your organization must possess at least one of the following requirements"
+    },
+    "manage": {
+      "success": {
+        "provider": "The consumer possess at least one of the following attributes",
+        "consumer": "Your organization has at least one of the following attributes"
+      },
+      "warning": {
+        "verified": {
+          "provider": "The consumer must possess at least one of the following attributes",
+          "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti requisiti"
+        },
+        "declared": {
+          "provider": "The consumer must possess at least one of the following attributes",
+          "consumer": "Your organization has at least one of the following attributes"
+        }
+      },
+      "error": {
+        "provider": "The consumer has none of the following attributes",
+        "consumer": "Your organization has none of the following attributes"
+      }
+    },
     "addBtn": "Add requirement",
     "cancelBtn": "Cancel",
     "confirmDeclaredAttributeBtn": "Confirm",

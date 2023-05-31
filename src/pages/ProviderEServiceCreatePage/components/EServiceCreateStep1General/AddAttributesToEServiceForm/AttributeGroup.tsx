@@ -1,5 +1,5 @@
 import React from 'react'
-import { _AttributeContainer, _AttributeGroupContainer } from '@/components/layout/containers'
+import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
 import type { AttributeKey, RemappedEServiceAttribute } from '@/types/attribute.types'
 import { Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -40,15 +40,15 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   }
 
   return (
-    <_AttributeGroupContainer
-      title={t('title')}
+    <AttributeGroupContainer
+      title={t('read.provider')}
       onRemove={!readOnly ? handleDeleteAttributesGroup : undefined}
     >
       {group.attributes.length > 0 && (
         <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }} component="ul" spacing={1.2}>
           {group.attributes.map((attribute) => (
             <Box component="li" key={attribute.id}>
-              <_AttributeContainer
+              <AttributeContainer
                 attribute={attribute}
                 onRemove={
                   !readOnly ? handleDeleteAttributeFromGroup.bind(null, attribute.id) : undefined
@@ -80,6 +80,6 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
           )}
         </>
       )}
-    </_AttributeGroupContainer>
+    </AttributeGroupContainer>
   )
 }

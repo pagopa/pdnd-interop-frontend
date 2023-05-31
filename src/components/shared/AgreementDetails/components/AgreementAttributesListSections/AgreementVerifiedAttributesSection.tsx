@@ -6,16 +6,17 @@ import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
 import { AttributeMutations } from '@/api/attribute'
 import {
   SectionContainer,
-  _AttributeGroupContainer,
-  _AttributeContainer,
+  AttributeGroupContainer,
+  AttributeContainer,
 } from '@/components/layout/containers'
 import { Stack } from '@mui/material'
 import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
+import { ProviderOrConsumer } from '@/types/common.types'
 
 export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
-  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'verified' })
+  const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
   const { isAdmin } = useJwt()
 
@@ -24,6 +25,8 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
 
   const { mutate: verifyAttribute } = AttributeMutations.useVerifyPartyAttribute()
   const { mutate: revokeAttibute } = AttributeMutations.useRevokeVerifiedPartyAttribute()
+
+  const providerOrConsumer = mode as ProviderOrConsumer
 
   const verifiedAttributeGroups = eserviceAttributes?.verified ?? []
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
@@ -69,21 +72,19 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
 
   function getGroupContainerProps(
     group: RemappedEServiceAttribute
-  ): React.ComponentProps<typeof _AttributeGroupContainer> {
+  ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled('verified', ownedVerifiedAttributes, group)
 
-    if (mode === 'provider') {
-      const state = isGroupFulfilled ? 'fullfilled' : 'unfullfilled'
+    if (isGroupFulfilled) {
       return {
-        title: t(`states.provider.${state}`),
-        color: isGroupFulfilled ? 'success' : 'error',
+        title: tAttribute(`group.manage.success.${providerOrConsumer}`),
+        color: 'success',
       }
     }
 
-    const state = isGroupFulfilled ? 'fullfilled' : 'waiting-for-verification'
     return {
-      title: t(`states.consumer.${state}`),
-      color: isGroupFulfilled ? 'success' : 'warning',
+      title: tAttribute(`group.manage.warning.verified.${providerOrConsumer}`),
+      color: 'warning',
     }
   }
 
@@ -91,15 +92,15 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     <SectionContainer
       newDesign
       innerSection
-      title={tAttribute('label')}
-      description={tAttribute('description')}
+      title={tAttribute('verified.label')}
+      description={tAttribute('verified.description')}
     >
       <Stack spacing={2}>
         {verifiedAttributeGroups.map((group, i) => (
-          <_AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
+          <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
             <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
               {group.attributes.map((attribute) => (
-                <_AttributeContainer
+                <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
                   checked={isAttributeOwned('verified', attribute.id, ownedVerifiedAttributes)}
@@ -107,11 +108,16 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
                 />
               ))}
             </Stack>
-          </_AttributeGroupContainer>
+          </AttributeGroupContainer>
         ))}
       </Stack>
       {verifiedAttributeGroups.length === 0 && (
-        <_AttributeGroupContainer title={t('verified.emptyLabel')} color="gray" />
+        <AttributeGroupContainer
+          title={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
+            attributeKey: tAttribute(`type.verified_other`),
+          })}
+          color="gray"
+        />
       )}
     </SectionContainer>
   )

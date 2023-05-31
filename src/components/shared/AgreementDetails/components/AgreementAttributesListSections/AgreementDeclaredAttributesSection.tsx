@@ -4,8 +4,8 @@ import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
 import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
-  _AttributeGroupContainer,
-  _AttributeContainer,
+  AttributeGroupContainer,
+  AttributeContainer,
 } from '@/components/layout/containers'
 import { Stack } from '@mui/material'
 import { useJwt } from '@/hooks/useJwt'
@@ -16,7 +16,7 @@ import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.
 
 export const AgreementDeclaredAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
-  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
+  const { t: tAttribute } = useTranslation('attribute')
   const { isAdmin } = useJwt()
   const { mode, routeKey } = useCurrentRoute()
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
@@ -26,6 +26,8 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
 
   const declaredAttributeGroups = eserviceAttributes?.declared ?? []
   const ownedDeclaredAttributes = partyAttributes?.declared ?? []
+
+  const providerOrConsumer = mode as ProviderOrConsumer
 
   const handleDeclareAttribute = (attributeId: string) => {
     declareAttribute({
@@ -51,14 +53,19 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
 
   function getGroupContainerProps(
     group: RemappedEServiceAttribute
-  ): React.ComponentProps<typeof _AttributeGroupContainer> {
+  ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled('declared', ownedDeclaredAttributes, group)
-    const state = isGroupFulfilled ? 'fullfilled' : 'unfullfilled'
-    const providerOrConsumer = mode as ProviderOrConsumer
+
+    if (isGroupFulfilled) {
+      return {
+        title: tAttribute(`group.manage.success.${providerOrConsumer}`),
+        color: 'success',
+      }
+    }
 
     return {
-      title: t(`states.${providerOrConsumer}.${state}`),
-      color: isGroupFulfilled ? 'success' : 'error',
+      title: tAttribute(`group.manage.warning.declared.${providerOrConsumer}`),
+      color: 'warning',
     }
   }
 
@@ -66,15 +73,15 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
     <SectionContainer
       newDesign
       innerSection
-      title={tAttribute('label')}
-      description={tAttribute('description')}
+      title={tAttribute('declared.label')}
+      description={tAttribute('declared.description')}
     >
       <Stack spacing={2}>
         {declaredAttributeGroups.map((group, i) => (
-          <_AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
+          <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
             <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
               {group.attributes.map((attribute) => (
-                <_AttributeContainer
+                <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
                   checked={isAttributeOwned('declared', attribute.id, ownedDeclaredAttributes)}
@@ -82,11 +89,16 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
                 />
               ))}
             </Stack>
-          </_AttributeGroupContainer>
+          </AttributeGroupContainer>
         ))}
       </Stack>
       {declaredAttributeGroups.length === 0 && (
-        <_AttributeGroupContainer title={t('declared.emptyLabel')} color="gray" />
+        <AttributeGroupContainer
+          title={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
+            attributeKey: tAttribute(`type.declared_other`),
+          })}
+          color="gray"
+        />
       )}
     </SectionContainer>
   )

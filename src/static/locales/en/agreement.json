@@ -46,23 +46,8 @@
     "attributes": {
       "title": "Attributes",
       "description": "All the certified, verified or declared attributes that are required for the use of the e-service are indicated below.",
-      "states": {
-        "consumer": {
-          "fullfilled": "Possiedi almeno uno dei seguenti requisiti",
-          "unfullfilled": "Non possiedi nessuno dei seguenti requisiti",
-          "waiting-for-verification": "L’erogatore deve verificare se possiedi almeno uno dei seguenti requisiti"
-        },
-        "provider": {
-          "fullfilled": "Il fruitore possiede almeno uno dei seguenti requisiti",
-          "unfullfilled": "Il fruitore non possiede nessuno dei seguenti requisiti"
-        }
-      },
       "howLink": "How?",
-      "certified": {
-        "emptyLabel": "There are no required certified attributes for this e-service"
-      },
       "verified": {
-        "emptyLabel": "There are no required verified attributes for this e-service",
         "actions": {
           "verify": "Verify attribute",
           "update": "Update verification",
@@ -70,7 +55,6 @@
         }
       },
       "declared": {
-        "emptyLabel": "There are no required declared attributes for this e-service",
         "actions": {
           "declare": "Declare attribute"
         }

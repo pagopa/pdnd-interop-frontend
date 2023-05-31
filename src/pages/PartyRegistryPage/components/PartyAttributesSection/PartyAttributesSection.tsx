@@ -1,9 +1,9 @@
 import React from 'react'
 import {
   SectionContainer,
-  _AttributeContainer,
-  _AttributeContainerSkeleton,
-  _AttributeGroupContainer,
+  AttributeContainer,
+  AttributeContainerSkeleton,
+  AttributeGroupContainer,
 } from '@/components/layout/containers'
 import { Divider } from '@mui/material'
 import { useTranslation } from 'react-i18next'

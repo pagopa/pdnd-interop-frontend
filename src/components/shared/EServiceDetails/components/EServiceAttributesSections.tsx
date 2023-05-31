@@ -1,48 +1,54 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Stack, Typography, Box, Link, Alert } from '@mui/material'
+import { Stack, Box, Divider } from '@mui/material'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
 import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
-  AttributeContainerRow,
   SectionContainer,
+  AttributeContainer,
   AttributeGroupContainer,
 } from '@/components/layout/containers'
-import { attributesHelpLink } from '@/config/constants'
 import type { CompactAttribute } from '@/api/api.generatedTypes'
+import { useCurrentRoute } from '@/router'
+import type { ProviderOrConsumer } from '@/types/common.types'
 
 export const EServiceAttributesSections: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
+  const { mode } = useCurrentRoute()
+
+  const providerOrConsumer = mode as ProviderOrConsumer
 
   const { eserviceAttributes } = useEServiceDetailsContext()
 
   return (
-    <>
+    <SectionContainer newDesign component="div">
       <AttributeGroupsListSection
         title={tAttribute('certified.label')}
         subtitle={tAttribute('certified.description')}
         attributeGroups={eserviceAttributes.certified}
-        emptyLabel={tAttribute('noAttributesRequiredAlert', {
+        emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.certified_other`),
         })}
       />
+      <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
         title={tAttribute('verified.label')}
         subtitle={tAttribute('verified.description')}
         attributeGroups={eserviceAttributes.verified}
-        emptyLabel={tAttribute('noAttributesRequiredAlert', {
+        emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.verified_other`),
         })}
       />
+      <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
         title={tAttribute('declared.label')}
         subtitle={tAttribute('declared.description')}
         attributeGroups={eserviceAttributes.declared}
-        emptyLabel={tAttribute('noAttributesRequiredAlert', {
+        emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.declared_other`),
         })}
       />
-    </>
+    </SectionContainer>
   )
 }
 
@@ -59,35 +65,16 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
   subtitle,
   emptyLabel,
 }) => {
-  const { t: tCommon } = useTranslation('common')
-  const { t: tAttribute } = useTranslation('attribute')
-
   return (
-    <SectionContainer
-      title={title}
-      description={
-        <>
-          {subtitle}{' '}
-          <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
-            {tCommon('howLink')}
-          </Link>
-        </>
-      }
-    >
+    <SectionContainer newDesign innerSection title={title} description={subtitle}>
       {attributeGroups.length > 0 && (
-        <Box>
-          <Typography sx={{ mb: 2 }} fontWeight={700}>
-            {tAttribute('mustOwn')}
-          </Typography>
-          <Stack spacing={3}>
-            {attributeGroups.map((attributeGroup, index) => (
-              <AttributeGroup key={index} attributes={attributeGroup.attributes} index={index} />
-            ))}
-          </Stack>
-        </Box>
+        <Stack spacing={3}>
+          {attributeGroups.map((attributeGroup, index) => (
+            <AttributeGroup key={index} attributes={attributeGroup.attributes} index={index} />
+          ))}
+        </Stack>
       )}
-
-      {attributeGroups.length === 0 && <Alert severity="info">{emptyLabel}</Alert>}
+      {attributeGroups.length === 0 && <AttributeGroupContainer title={emptyLabel} color="gray" />}
     </SectionContainer>
   )
 }
@@ -97,16 +84,16 @@ type AttributeGroup = {
   index: number
 }
 
-const AttributeGroup: React.FC<AttributeGroup> = ({ attributes, index }) => {
+const AttributeGroup: React.FC<AttributeGroup> = ({ attributes }) => {
+  const { t } = useTranslation('attribute', { keyPrefix: 'group.read' })
+  const { mode } = useCurrentRoute()
+
   return (
-    <AttributeGroupContainer groupNum={index + 1}>
-      <Stack sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-        {attributes.map((attribute, i) => (
+    <AttributeGroupContainer title={t(mode as ProviderOrConsumer)} color="gray">
+      <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
+        {attributes.map((attribute) => (
           <Box key={attribute.id} component="li">
-            <AttributeContainerRow
-              attribute={attribute}
-              showOrLabel={i !== attributes.length - 1}
-            />
+            <AttributeContainer attribute={attribute} />
           </Box>
         ))}
       </Stack>
