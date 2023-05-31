@@ -50,7 +50,8 @@
       "error": {
         "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
         "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
-      }
+      },
+      "revokedByParty": "Attributo revocato da un ente"
     },
     "addBtn": "Aggiungi requisito",
     "cancelBtn": "Annulla",

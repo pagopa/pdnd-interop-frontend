@@ -50,7 +50,8 @@
       "error": {
         "provider": "The consumer has none of the following attributes",
         "consumer": "Your organization has none of the following attributes"
-      }
+      },
+      "revokedByParty": "Attribute revoked by a party"
     },
     "addBtn": "Add requirement",
     "cancelBtn": "Cancel",

@@ -11,8 +11,12 @@ import {
 } from '@/components/layout/containers'
 import { Stack } from '@mui/material'
 import type { RemappedEServiceAttribute } from '@/types/attribute.types'
-import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
-import { ProviderOrConsumer } from '@/types/common.types'
+import {
+  isAttributeOwned,
+  isAttributeGroupFullfilled,
+  isAttributeRevoked,
+} from '@/utils/attribute.utils'
+import type { ProviderOrConsumer } from '@/types/common.types'
 
 export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
@@ -73,6 +77,12 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     return attributeActions
   }
 
+  const getChipLabel = (attributeId: string) => {
+    const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
+    if (attribute && mode === 'consumer' && isAttributeRevoked('verified', attribute))
+      return tAttribute('group.manage.revokedByParty')
+  }
+
   function getGroupContainerProps(
     group: RemappedEServiceAttribute
   ): React.ComponentProps<typeof AttributeGroupContainer> {
@@ -106,6 +116,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
                 <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
+                  chipLabel={getChipLabel(attribute.id)}
                   checked={isAttributeOwned('verified', attribute.id, ownedVerifiedAttributes)}
                   actions={getAttributeActions(attribute.id)}
                 />
