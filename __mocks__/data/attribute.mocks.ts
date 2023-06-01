@@ -49,7 +49,7 @@ const createMockCompactAttribute = createMockFactory<CompactAttribute>({
 })
 
 const createMockRemappedEServiceAttribute = createMockFactory<RemappedEServiceAttribute>({
-  attributes: [{ ...createMockCompactAttribute() }],
+  attributes: [createMockCompactAttribute()],
   explicitAttributeVerification: true,
 })
 

@@ -2,6 +2,7 @@ import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
 import { Card, CardContent, CardHeader, IconButton, alpha } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
+import { useTranslation } from 'react-i18next'
 
 interface AttributeGroupContainerProps {
   title: string
@@ -51,6 +52,7 @@ export const AttributeGroupContainer: React.FC<AttributeGroupContainerProps> = (
   subheader,
   color = 'primary',
 }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'attributeGroupContainer' })
   const { headerColor, borderColor, bodyColor, textColor } = containerColors[color]
 
   return (
@@ -60,7 +62,7 @@ export const AttributeGroupContainer: React.FC<AttributeGroupContainerProps> = (
         title={title}
         action={
           onRemove && (
-            <IconButton size="small" onClick={onRemove}>
+            <IconButton aria-label={t('removeGroupAriaLabel')} size="small" onClick={onRemove}>
               <ClearIcon sx={{ color: 'white' }} />
             </IconButton>
           )

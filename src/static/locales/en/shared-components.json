@@ -196,7 +196,11 @@
   },
   "attributeContainer": {
     "attributeIdLabel": "Attribute's id (attributeId)",
-    "idCopytooltipLabel": "Id copied correctly"
+    "idCopytooltipLabel": "Id copied correctly",
+    "removeAttributeAriaLabel": "Remove {{attributeName}} attribute"
+  },
+  "attributeGroupContainer": {
+    "removeGroupAriaLabel": "Remove attribute group"
   },
   "routeLabels": {
     "LOGOUT": "Logout",

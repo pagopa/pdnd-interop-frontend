@@ -39,6 +39,7 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
   checked,
   onRemove,
 }: AttributeContainerProps<TAttribute>) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
   const panelContentId = React.useId()
   const headerId = React.useId()
   const alreadyPrefetched = React.useRef(false)
@@ -58,6 +59,7 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
         {checked && <CheckCircleIcon sx={{ color: 'success.main' }} />}
         {onRemove && (
           <IconButton
+            aria-label={t('removeAttributeAriaLabel', { name: attribute.name })}
             onClick={onRemove.bind(null, attribute.id, attribute.name)}
             color={'error' as unknown as 'primary'}
           >
