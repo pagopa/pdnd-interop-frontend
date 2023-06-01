@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
     build: {
       target: 'es2017',
       minify: mode !== 'development',
-      sourcemap: mode === 'development',
+      sourcemap: true,
       rollupOptions: {
         external,
       },
