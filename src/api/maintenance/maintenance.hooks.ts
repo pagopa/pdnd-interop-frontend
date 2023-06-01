@@ -1,12 +1,8 @@
+import { useQuery } from '@tanstack/react-query'
 import { getMaintenanceJson } from './maintenance.services'
-import { useQueryWrapper } from '../react-query-wrappers'
-
-enum MaintenanceQueryKeys {
-  MaintenanceJson = 'MaintenanceJson',
-}
 
 export function useGetMaintenanceJson() {
-  return useQueryWrapper([MaintenanceQueryKeys.MaintenanceJson], getMaintenanceJson, {
+  return useQuery(['Maintenance json'], getMaintenanceJson, {
     suspense: false,
     useErrorBoundary: false,
     retry: false,
