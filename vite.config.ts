@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       : undefined
 
   return {
-    base: '/ui/',
+    base: '/ui',
     plugins,
     resolve: {
       alias: {
