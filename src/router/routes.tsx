@@ -263,5 +263,5 @@ export const router = createBrowserRouter(
     { path: '/', element: <components.Redirect to="SUBSCRIBE_CATALOG_LIST" /> },
     { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
   ],
-  { basename: '/ui/' }
+  { basename: '/ui' }
 )
