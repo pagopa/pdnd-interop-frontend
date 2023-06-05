@@ -50,7 +50,7 @@ const AgreementDetailsContextProvider: React.FC<{
   const { mode } = useCurrentRoute()
 
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
-  console.log({ agreement })
+
   // This should not stay here, waiting to get the attributes from the agreement itself
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
     agreement?.eservice.id as string,

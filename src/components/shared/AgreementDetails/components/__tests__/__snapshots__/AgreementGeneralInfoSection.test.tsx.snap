@@ -3,7 +3,7 @@
 exports[`AgreementGeneralInfoSection > should match the snapshot (consumer) 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -111,7 +111,7 @@ exports[`AgreementGeneralInfoSection > should match the snapshot (consumer) 1`] 
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
@@ -119,7 +119,7 @@ exports[`AgreementGeneralInfoSection > should match the snapshot (consumer) 1`] 
 exports[`AgreementGeneralInfoSection > should match the snapshot (provider) 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -227,7 +227,7 @@ exports[`AgreementGeneralInfoSection > should match the snapshot (provider) 1`] 
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;

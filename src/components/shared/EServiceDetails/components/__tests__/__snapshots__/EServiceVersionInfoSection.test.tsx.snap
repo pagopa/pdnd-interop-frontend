@@ -3,7 +3,7 @@
 exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -221,7 +221,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
@@ -229,7 +229,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
 exports[`EServiceVersionInfoSection > should match the snapshot when viewing descriptor is the current version 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -456,7 +456,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;

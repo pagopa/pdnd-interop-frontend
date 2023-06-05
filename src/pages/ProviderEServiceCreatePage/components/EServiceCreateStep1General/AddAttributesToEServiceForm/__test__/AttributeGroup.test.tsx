@@ -8,6 +8,7 @@ import {
   createMockRemappedEServiceAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { fireEvent } from '@testing-library/react'
 
 const emptyGroup: RemappedEServiceAttribute = {
   attributes: [],
@@ -276,13 +277,6 @@ describe('determine the element functionalities', () => {
 
     expect(button).not.toBeInTheDocument()
     expect(groupComponent.queryByLabelText('autocompleteInput.label')).toBeInTheDocument()
-
-    const autocompleteCancelButton = groupComponent.getByRole('button', { name: 'cancelBtn' })
-
-    await user.click(autocompleteCancelButton)
-
-    expect(groupComponent.queryByRole('button', { name: 'addBtn' })).toBeInTheDocument()
-    expect(groupComponent.queryByLabelText('autocompleteInput.label')).not.toBeInTheDocument()
   })
 
   it('should correctly call onRemoveAttributesGroup callback function', async () => {
@@ -292,22 +286,21 @@ describe('determine the element functionalities', () => {
       <AttributeGroup {...commonProps} onRemoveAttributesGroup={onRemoveAttributesGroupFn} />,
       { withReactQueryContext: true }
     )
-    const button = groupComponent.getByLabelText('deleteGroupSrLabel')
+    const button = groupComponent.getByRole('button', { name: 'removeGroupAriaLabel' })
     await user.click(button)
     expect(onRemoveAttributesGroupFn).toBeCalledWith(0)
   })
 
   it('should correctly call onRemoveAttributeFromGroup callback function', async () => {
-    const user = userEvent.setup()
     const onRemoveAttributeFromGroupFn = vi.fn()
     const groupComponent = renderWithApplicationContext(
       <AttributeGroup {...commonProps} onRemoveAttributeFromGroup={onRemoveAttributeFromGroupFn} />,
       { withReactQueryContext: true }
     )
 
-    const buttons = groupComponent.getAllByTestId('DeleteOutlineIcon')
+    const button = groupComponent.getByRole('button', { name: 'removeAttributeAriaLabel' })
 
-    await user.click(buttons[1])
+    fireEvent.click(button)
 
     expect(onRemoveAttributeFromGroupFn).toBeCalledWith('attribute-option', 0)
   })

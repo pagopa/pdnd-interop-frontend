@@ -3,7 +3,7 @@
 exports[`AgreementDocumentListSection > should match the snapshot with contract 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -107,7 +107,7 @@ exports[`AgreementDocumentListSection > should match the snapshot with contract 
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
@@ -126,7 +126,7 @@ exports[`AgreementDocumentListSection > should match the snapshot with loading s
 exports[`AgreementDocumentListSection > should match the snapshot without contract 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -209,7 +209,7 @@ exports[`AgreementDocumentListSection > should match the snapshot without contra
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;

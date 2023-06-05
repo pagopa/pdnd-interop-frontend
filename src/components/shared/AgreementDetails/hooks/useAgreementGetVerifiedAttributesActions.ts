@@ -21,23 +21,6 @@ export const useAgreementGetVerifiedAttributesActions = () => {
 
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
 
-  const handleVerifyAttribute = (attributeId: string) => {
-    if (!agreement?.consumer.id) return
-    verifyAttribute({
-      partyId: agreement.consumer.id,
-      id: attributeId,
-      renewal: 'AUTOMATIC_RENEWAL',
-    })
-  }
-
-  const handleRevokeAttribute = (attributeId: string) => {
-    if (!agreement?.consumer.id) return
-    revokeAttibute({
-      partyId: agreement.consumer.id,
-      attributeId,
-    })
-  }
-
   return (attributeId: string) => {
     // The user can certify verified attributes in this view only if it is a provider...
     if (!agreement || mode === 'consumer' || !isAdmin) return []
@@ -49,7 +32,22 @@ export const useAgreementGetVerifiedAttributesActions = () => {
     const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
 
     const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes)
-    const isRevoked = attribute && isAttributeRevoked('verified', attribute)
+    const isOwnedButRevoked = attribute && isAttributeRevoked('verified', attribute)
+
+    const handleVerifyAttribute = (attributeId: string) => {
+      verifyAttribute({
+        partyId: agreement.consumer.id,
+        id: attributeId,
+        renewal: 'AUTOMATIC_RENEWAL',
+      })
+    }
+
+    const handleRevokeAttribute = (attributeId: string) => {
+      revokeAttibute({
+        partyId: agreement.consumer.id,
+        attributeId,
+      })
+    }
 
     const attributeActions: React.ComponentProps<typeof AttributeContainer>['actions'] = [
       {
@@ -58,7 +56,7 @@ export const useAgreementGetVerifiedAttributesActions = () => {
       },
     ]
 
-    if (isOwned && !isRevoked) {
+    if (isOwned && !isOwnedButRevoked) {
       attributeActions.push({
         label: t('verified.actions.revoke'),
         action: handleRevokeAttribute,

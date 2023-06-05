@@ -96,7 +96,6 @@ describe('AttributeContainer', () => {
     await user.hover(accordion)
     await user.unhover(accordion)
     expect(prefetchFn).toBeCalledTimes(1)
-    screen.debug()
   })
 
   it('should match snapshot on opening accordion and loading attribute', async () => {
