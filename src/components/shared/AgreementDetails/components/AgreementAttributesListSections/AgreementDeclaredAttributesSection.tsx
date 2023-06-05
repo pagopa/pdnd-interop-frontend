@@ -8,50 +8,23 @@ import {
   AttributeContainer,
 } from '@/components/layout/containers'
 import { Stack } from '@mui/material'
-import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
-import { AttributeMutations } from '@/api/attribute'
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
+import { useAgreementGetDeclaredAttributesActions } from '../../hooks/useAgreementGetDeclaredAttributesActions'
 
 export const AgreementDeclaredAttributesSection: React.FC = () => {
-  const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
   const { t: tAttribute } = useTranslation('attribute')
-  const { isAdmin } = useJwt()
-  const { mode, routeKey } = useCurrentRoute()
-  const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
+  const { mode } = useCurrentRoute()
 
-  const { eserviceAttributes, partyAttributes, isAgreementEServiceMine, agreement } =
-    useAgreementDetailsContext()
+  const { eserviceAttributes, partyAttributes } = useAgreementDetailsContext()
 
   const declaredAttributeGroups = eserviceAttributes?.declared ?? []
   const ownedDeclaredAttributes = partyAttributes?.declared ?? []
 
   const providerOrConsumer = mode as ProviderOrConsumer
 
-  const handleDeclareAttribute = (attributeId: string) => {
-    declareAttribute({
-      id: attributeId,
-    })
-  }
-
-  const getAttributeActions = (attributeId: string) => {
-    // The user can declare his own attributes only in the agreement create/edit view...
-    if (!agreement || routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' || !isAdmin) return []
-    if (isAgreementEServiceMine) return []
-    const isDeclared = isAttributeOwned('declared', attributeId, ownedDeclaredAttributes)
-    // ... only if it is not alread declared
-    if (isDeclared) return []
-    // ... and only if the agreement is active, draft or suspended
-    if (!['ACTIVE', 'DRAFT', 'SUSPENDED'].includes(agreement.state)) return []
-
-    return [
-      {
-        label: t('declared.actions.declare'),
-        action: handleDeclareAttribute,
-      },
-    ]
-  }
+  const getDeclaredAttributeActions = useAgreementGetDeclaredAttributesActions()
 
   function getGroupContainerProps(
     group: RemappedEServiceAttribute
@@ -87,7 +60,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
                   key={attribute.id}
                   attribute={attribute}
                   checked={isAttributeOwned('declared', attribute.id, ownedDeclaredAttributes)}
-                  actions={getAttributeActions(attribute.id)}
+                  actions={getDeclaredAttributeActions(attribute.id)}
                 />
               ))}
             </Stack>
