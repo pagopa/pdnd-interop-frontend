@@ -9,6 +9,8 @@ import type { GetConsumerPurposesParams, GetProducerPurposesParams } from '../ap
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
   GetSingle = 'PurposeGetSingle',
+  GetRyskAnalysisLatest = 'PurposeGetRyskAnalysisLatest',
+  GetRyskAnalysisVersion = 'PurposeGetRyskAnalysisVersion',
 }
 
 function useGetProducersList(
@@ -50,6 +52,29 @@ function usePrefetchSingle() {
     queryClient.prefetchQuery([PurposeQueryKeys.GetSingle, purposeId], () =>
       PurposeServices.getSingle(purposeId)
     )
+}
+
+function useGetRyskAnalysisLatest(
+  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getRyskAnalysisLatest>>>
+) {
+  return useQueryWrapper(
+    [PurposeQueryKeys.GetRyskAnalysisLatest],
+    () => PurposeServices.getRyskAnalysisLatest(),
+    config
+  )
+}
+
+function useGetRyskAnalysisVersion(
+  riskAnalysisVersion: number,
+  config?: UseQueryWrapperOptions<
+    Awaited<ReturnType<typeof PurposeServices.getRyskAnalysisVersion>>
+  >
+) {
+  return useQueryWrapper(
+    [PurposeQueryKeys.GetRyskAnalysisVersion, riskAnalysisVersion],
+    () => PurposeServices.getRyskAnalysisVersion(riskAnalysisVersion),
+    config
+  )
 }
 
 function useCreateDraft() {
@@ -231,6 +256,8 @@ export const PurposeQueries = {
   useGetConsumersList,
   useGetSingle,
   usePrefetchSingle,
+  useGetRyskAnalysisLatest,
+  useGetRyskAnalysisVersion,
 }
 
 export const PurposeMutations = {

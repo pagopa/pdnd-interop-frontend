@@ -12,6 +12,7 @@ import type {
   PurposeUpdateContent,
   PurposeVersionResource,
   PurposeVersionSeed,
+  RiskAnalysisFormConfig,
   WaitingForApprovalPurposeVersionUpdateContentSeed,
 } from '../api.generatedTypes'
 
@@ -42,6 +43,21 @@ async function getSingle(purposeId: string) {
   return response.data
 }
 
+async function getRyskAnalysisLatest() {
+  const response = await axiosInstance.get<RiskAnalysisFormConfig>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/latest`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
+}
+
+async function getRyskAnalysisVersion(riskAnalysisVersion: number) {
+  const response = await axiosInstance.get<RiskAnalysisFormConfig>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/version/${riskAnalysisVersion}`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
+}
 async function createDraft(payload: PurposeSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes`,
@@ -172,6 +188,8 @@ const PurposeServices = {
   getProducersList,
   getConsumersList,
   getSingle,
+  getRyskAnalysisLatest,
+  getRyskAnalysisVersion,
   createDraft,
   updateDraft,
   deleteDraft,
