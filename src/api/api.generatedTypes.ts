@@ -9,6 +9,72 @@
  * ---------------------------------------------------------------
  */
 
+export interface AccessTokenRequest {
+  /** @example "e58035ce-c753-4f72-b613-46f8a17b71cc" */
+  client_id?: string
+  /** @format jws */
+  client_assertion: string
+  client_assertion_type: string
+  grant_type: string
+}
+
+export interface PrivacyNotice {
+  /** @format uuid */
+  id: string
+  /** @format uuid */
+  userId: string
+  /** Consent Type */
+  consentType: ConsentType
+  firstAccept: boolean
+  isUpdated: boolean
+  /** @format uuid */
+  latestVersionId: string
+}
+
+/** Consent Type */
+export type ConsentType = 'PP' | 'TOS'
+
+export interface PrivacyNoticeSeed {
+  /** @format uuid */
+  latestVersionId: string
+}
+
+export interface RiskAnalysisFormConfig {
+  version: string
+  questions: FormConfigQuestion[]
+}
+
+export interface FormConfigQuestion {
+  id: string
+  label: LocalizedText
+  infoLabel?: LocalizedText
+  /** Data Type Question */
+  dataType: DataType
+  required: boolean
+  dependencies: Dependency[]
+  visualType: string
+  defaultValue: string[]
+  options?: LabeledValue[]
+}
+
+export interface LabeledValue {
+  label: LocalizedText
+  value: string
+}
+
+export interface LocalizedText {
+  it: string
+  en: string
+}
+
+/** Data Type Question */
+export type DataType = 'SINGLE' | 'MULTI' | 'FREETEXT'
+
+export interface Dependency {
+  id: string
+  value: string
+}
+
 export interface UpdateEServiceSeed {
   name: string
   description: string
@@ -107,12 +173,22 @@ export interface CatalogEServiceDescriptor {
    */
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: CatalogDescriptorEService
+  /** @format date-time */
+  publishedAt?: string
+  /** @format date-time */
+  suspendedAt?: string
+  /** @format date-time */
+  deprecatedAt?: string
+  /** @format date-time */
+  archivedAt?: string
 }
 
 /** Models Client details */
 export interface Client {
   /** @format uuid */
   id: string
+  /** @format date-time */
+  createdAt: string
   consumer: CompactOrganization
   name: string
   purposes: ClientPurpose[]
@@ -247,6 +323,8 @@ export interface Agreement {
   createdAt: string
   /** @format date-time */
   updatedAt?: string
+  /** @format date-time */
+  suspendedAt?: string
 }
 
 export interface Agreements {
@@ -378,6 +456,8 @@ export interface PurposeSeed {
   riskAnalysisForm?: RiskAnalysisForm
   title: string
   description: string
+  isFreeOfCharge: boolean
+  freeOfChargeReason?: string
 }
 
 /** contains the expected payload for purpose version update. */
@@ -497,6 +577,8 @@ export interface Purpose {
   waitingForApprovalVersion?: PurposeVersion
   suspendedByConsumer?: boolean
   suspendedByProducer?: boolean
+  isFreeOfCharge: boolean
+  freeOfChargeReason?: string
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -592,6 +674,8 @@ export interface PurposeVersion {
   state: PurposeVersionState
   /** @format date-time */
   createdAt: string
+  /** @format date-time */
+  suspendedAt?: string
   /** @format date-time */
   expectedApprovalDate?: string
   /** @format date-time */
@@ -905,6 +989,12 @@ export interface DeclaredTenantAttributeSeed {
   id: string
 }
 
+export interface RenewalVerifiedTenantAttributeSeed {
+  renewal: VerificationRenewal
+  /** @format date-time */
+  expirationDate?: string
+}
+
 export interface VerifiedTenantAttributeSeed {
   /** @format uuid */
   id: string
@@ -961,6 +1051,42 @@ export interface TenantRevoker {
   extensionDate?: string
   /** @format date-time */
   revocationDate: string
+}
+
+export interface TokenGenerationValidationResult {
+  clientKind?: ClientKind
+  steps: TokenGenerationValidationSteps
+  eservice?: TokenGenerationValidationEService
+}
+
+export interface TokenGenerationValidationSteps {
+  clientAssertionValidation: TokenGenerationValidationEntry
+  publicKeyRetrieve: TokenGenerationValidationEntry
+  clientAssertionSignatureVerification: TokenGenerationValidationEntry
+  platformStatesVerification: TokenGenerationValidationEntry
+}
+
+export interface TokenGenerationValidationEntry {
+  /** Token Generation Validation Step RESULT */
+  result: TokenGenerationValidationStepResult
+  failures: TokenGenerationValidationStepFailure[]
+}
+
+/** Token Generation Validation Step RESULT */
+export type TokenGenerationValidationStepResult = 'PASSED' | 'SKIPPED' | 'FAILED'
+
+export interface TokenGenerationValidationStepFailure {
+  code: string
+  reason: string
+}
+
+export interface TokenGenerationValidationEService {
+  /** @format uuid */
+  id: string
+  /** @format uuid */
+  descriptorId: string
+  version: string
+  name: string
 }
 
 export interface PublicKey {
@@ -1259,7 +1385,42 @@ export interface GetUserInstitutionRelationshipsParams {
   tenantId: string
 }
 
-export interface GetPurposesParams {
+export interface GetProducerPurposesParams {
+  q?: string
+  /**
+   * comma separated sequence of EService IDs
+   * @default []
+   */
+  eservicesIds?: string[]
+  /**
+   * comma separated sequence of consumers IDs
+   * @default []
+   */
+  consumersIds?: string[]
+  /**
+   * comma separated sequence of producers IDs
+   * @default []
+   */
+  producersIds?: string[]
+  /**
+   * comma separated sequence of states
+   * @default []
+   */
+  states?: PurposeVersionState[]
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface GetConsumerPurposesParams {
   q?: string
   /**
    * comma separated sequence of EService IDs
@@ -1936,6 +2097,30 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
+   * @name GetEServiceConsumers
+   * @summary Retrieve Consumers for an EService
+   * @request GET:/eservices/{eServiceId}/consumers
+   * @secure
+   */
+  export namespace GetEServiceConsumers {
+    export type RequestParams = {
+      /**
+       * The E-Service id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = File
+  }
+  /**
+   * No description
+   * @tags eservices
    * @name DeleteDraft
    * @summary Deletes a draft descriptor or an eservice if empty
    * @request DELETE:/eservices/{eServiceId}/descriptors/{descriptorId}
@@ -2541,6 +2726,32 @@ export namespace Tenants {
     export type ResponseBody = CertifiedAttributesResponse
   }
   /**
+   * @description Update Renewal Strategy for Verified Attribute of Tenant
+   * @tags tenants
+   * @name UpdateRenewalStrategyVerifiedAttribute
+   * @summary Update Renewal Strategy for Verified Attribute of Tenant
+   * @request POST:/tenants/{tenantId}/attributes/{attributeId}/updateRenewalStrategy
+   * @secure
+   */
+  export namespace UpdateRenewalStrategyVerifiedAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+      /**
+       * The internal identifier of the attribute
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RenewalVerifiedTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Adds the declared attribute to the Institution
    * @tags tenants
    * @name AddDeclaredAttribute
@@ -2714,6 +2925,27 @@ export namespace Tenants {
   }
 }
 
+export namespace Tools {
+  /**
+   * @description Provides additional details about token generation request failure
+   * @tags tools
+   * @name ValidateTokenGeneration
+   * @summary Validate token generation request
+   * @request POST:/tools/validateTokenGeneration
+   * @secure
+   */
+  export namespace ValidateTokenGeneration {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = AccessTokenRequest
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = TokenGenerationValidationResult
+  }
+}
+
 export namespace Relationships {
   /**
    * @description Gets relationship
@@ -2739,56 +2971,6 @@ export namespace Relationships {
 }
 
 export namespace Purposes {
-  /**
-   * @description Retrieve Purposes
-   * @tags purposes
-   * @name GetPurposes
-   * @request GET:/purposes
-   * @secure
-   */
-  export namespace GetPurposes {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      q?: string
-      /**
-       * comma separated sequence of EService IDs
-       * @default []
-       */
-      eservicesIds?: string[]
-      /**
-       * comma separated sequence of consumers IDs
-       * @default []
-       */
-      consumersIds?: string[]
-      /**
-       * comma separated sequence of producers IDs
-       * @default []
-       */
-      producersIds?: string[]
-      /**
-       * comma separated sequence of states
-       * @default []
-       */
-      states?: PurposeVersionState[]
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = Purposes
-  }
   /**
    * @description Creates the Purpose
    * @tags purposes
@@ -3090,6 +3272,148 @@ export namespace Purposes {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
+  }
+  /**
+   * @description Retrieve latest risk analysis configuration
+   * @tags purposes
+   * @name RetrieveLatestRiskAnalysisConfiguration
+   * @request GET:/purposes/riskAnalysis/latest
+   * @secure
+   */
+  export namespace RetrieveLatestRiskAnalysisConfiguration {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = RiskAnalysisFormConfig
+  }
+  /**
+   * @description Retrieve a specified version of risk analysis configuration
+   * @tags purposes
+   * @name RetrieveRiskAnalysisConfigurationByVersion
+   * @request GET:/purposes/riskAnalysis/version/{riskAnalysisVersion}
+   * @secure
+   */
+  export namespace RetrieveRiskAnalysisConfigurationByVersion {
+    export type RequestParams = {
+      riskAnalysisVersion: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = RiskAnalysisFormConfig
+  }
+}
+
+export namespace Producer {
+  /**
+   * @description Retrieve Purposes from the producer prospective
+   * @tags purposes
+   * @name GetProducerPurposes
+   * @request GET:/producer/purposes
+   * @secure
+   */
+  export namespace GetProducerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of consumers IDs
+       * @default []
+       */
+      consumersIds?: string[]
+      /**
+       * comma separated sequence of producers IDs
+       * @default []
+       */
+      producersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Purposes
+  }
+}
+
+export namespace Consumer {
+  /**
+   * @description Retrieve Purposes from the consumer prospective
+   * @tags purposes
+   * @name GetConsumerPurposes
+   * @request GET:/consumer/purposes
+   * @secure
+   */
+  export namespace GetConsumerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of consumers IDs
+       * @default []
+       */
+      consumersIds?: string[]
+      /**
+       * comma separated sequence of producers IDs
+       * @default []
+       */
+      producersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Purposes
   }
 }
 
@@ -3638,6 +3962,49 @@ export namespace ClientsApi {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
+  }
+}
+
+export namespace User {
+  /**
+   * @description Retrieve a specified version of privacy notice
+   * @tags privacyNotices
+   * @name GetPrivacyNotice
+   * @request GET:/user/consent/{consentType}
+   * @secure
+   */
+  export namespace GetPrivacyNotice {
+    export type RequestParams = {
+      /** Consent Type */
+      consentType: ConsentType
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = PrivacyNotice
+  }
+  /**
+   * @description User approve a privacy notice
+   * @tags privacyNotices
+   * @name AcceptPrivacyNotice
+   * @request POST:/user/consent/{consentType}
+   * @secure
+   */
+  export namespace AcceptPrivacyNotice {
+    export type RequestParams = {
+      /** Consent Type */
+      consentType: ConsentType
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PrivacyNoticeSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = void
   }
 }
 
