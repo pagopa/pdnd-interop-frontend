@@ -44,20 +44,19 @@ async function getSingle(purposeId: string) {
 }
 
 async function getRyskAnalysisLatest() {
-  const response = await axiosInstance.get<RiskAnalysisFormConfig>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/latest`,
-    { responseType: 'arraybuffer' }
+  const response = await axiosInstance.get<ArrayBuffer>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/latest`
   )
   return response.data
 }
 
 async function getRyskAnalysisVersion(riskAnalysisVersion: number) {
   const response = await axiosInstance.get<RiskAnalysisFormConfig>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/version/${riskAnalysisVersion}`,
-    { responseType: 'arraybuffer' }
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/version/${riskAnalysisVersion}`
   )
   return response.data
 }
+
 async function createDraft(payload: PurposeSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes`,
