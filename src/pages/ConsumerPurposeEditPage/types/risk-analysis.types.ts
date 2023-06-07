@@ -1,86 +1,11 @@
+import type { FormConfigQuestion, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import type { LangCode } from '@/types/common.types'
 import type { TFunction } from 'i18next'
 import type { UseFormReturn } from 'react-hook-form'
 
-export type MultiLangEntry = {
-  it: string
-  en: string
-}
-
-export type Dependency = {
-  id: string
-  value: unknown
-}
-
-export type QuestionV1 = {
-  id: string
-  label: MultiLangEntry
-  defaultValue: AnswerValue
-  options?: Array<{
-    label: MultiLangEntry
-    value: string
-  }>
-  dependencies: Array<Dependency>
-  type: 'text' | 'radio' | 'checkbox' | 'select-one'
-  infoLabel?: MultiLangEntry
-  required: boolean
-}
-
-export type QuestionV2 = {
-  id: string
-  /**
-   * The HTML5 input type
-   */
-  type: 'text' | 'radio' | 'checkbox' | 'select-one' | 'switch'
-  /**
-   * Used for backend validation
-   */
-  dataType: 'single' | 'multi' | 'freeText'
-  label: MultiLangEntry
-  defaultValue: AnswerValue
-  options?: Array<{
-    label: MultiLangEntry
-    value: string
-  }>
-  dependencies: Array<Dependency>
-  /**
-   * Declares the dependency of the state of one of its own option if the user
-   * sets a specific value in another question.
-   * EX:
-   *
-   * ```ts
-   * {
-   *   PREPARE_ICE_CREAM: [
-   *     {
-   *       id: "hasMilk",
-   *       value: false,
-   *     }
-   *   ]
-   * }
-   * ```
-   *
-   * If the user sets the value false to the "hasMilk" question, the option "PREPARE_ICE_CREAN"
-   * will be hidden
-   *
-   */
-  hideOption?: Record<string, Array<Dependency>>
-  infoLabel?: MultiLangEntry
-  required: boolean
-  validation?: {
-    maxLength?: number
-  }
-}
-
-export type Question = QuestionV1 | QuestionV2
-
-export type RiskAnalysis = {
-  version: string
-  questions: Array<Question>
-}
-
 export type GetUpdatedQuestions = (
   values: Record<string, unknown>,
-  riskAnalysis: RiskAnalysis
+  riskAnalysis: RiskAnalysisFormConfig
 ) => Questions
 
 export type BuildForm = (
@@ -117,5 +42,5 @@ export type DynamicFormOperations = Record<
 >
 
 export type AnswerValue = string | Array<string> | boolean
-export type Questions = Record<string, Question>
+export type Questions = Record<string, FormConfigQuestion>
 export type Answers = Record<string, AnswerValue>

@@ -43,14 +43,14 @@ async function getSingle(purposeId: string) {
   return response.data
 }
 
-async function getRyskAnalysisLatest() {
+async function getRiskAnalysisLatest() {
   const response = await axiosInstance.get<RiskAnalysisFormConfig>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/latest`
   )
   return response.data
 }
 
-async function getRyskAnalysisVersion(riskAnalysisVersion: number) {
+async function getRiskAnalysisVersion(riskAnalysisVersion: string) {
   const response = await axiosInstance.get<RiskAnalysisFormConfig>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/version/${riskAnalysisVersion}`
   )
@@ -187,8 +187,8 @@ const PurposeServices = {
   getProducersList,
   getConsumersList,
   getSingle,
-  getRyskAnalysisLatest,
-  getRyskAnalysisVersion,
+  getRiskAnalysisLatest,
+  getRiskAnalysisVersion,
   createDraft,
   updateDraft,
   deleteDraft,

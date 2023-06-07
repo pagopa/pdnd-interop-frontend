@@ -1,21 +1,15 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import type { Answers, Questions, RiskAnalysis } from '../types/risk-analysis.types'
+import type { Answers, Questions } from '../types/risk-analysis.types'
 import { getFormOperations } from '../utils/form-operations'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import useGetRiskAnalysisFormDefaultValues from './useGetRiskAnalysisFormDefaultValues'
-import { PurposeMutations } from '@/api/purpose'
-import type { Purpose } from '@/api/api.generatedTypes'
+import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 
-function useRiskAnalysisForm(
-  riskAnalysisConfig: RiskAnalysis,
-  purpose: Purpose,
-  forward: VoidFunction
-) {
+function useRiskAnalysisForm(riskAnalysisConfig: RiskAnalysisFormConfig, purpose: Purpose) {
   const { t } = useTranslation('purpose')
   const currentaLanguage = useCurrentLanguage()
-  const { mutate: updatePurpose } = PurposeMutations.useUpdateDraft()
 
   const dynamicFormOperations = React.useMemo(
     () => getFormOperations(riskAnalysisConfig.version),
@@ -39,7 +33,7 @@ function useRiskAnalysisForm(
   })
   const { watch } = formMethods
 
-  const handleSubmit = formMethods.handleSubmit((answers) => {
+  const getValidAnswers = (answers: Answers) => {
     const currentQuestions = Object.keys(questions)
 
     function transformAnswerToArray(answer: unknown) {
@@ -62,18 +56,8 @@ function useRiskAnalysisForm(
       {}
     )
 
-    updatePurpose(
-      {
-        purposeId: purpose.id,
-        title: purpose.title,
-        description: purpose.description,
-        isFreeOfCharge: purpose.isFreeOfCharge,
-        freeOfChargeReason: purpose.freeOfChargeReason,
-        riskAnalysisForm: { version: riskAnalysisConfig.version, answers: validAnswers },
-      },
-      { onSuccess: forward }
-    )
-  })
+    return validAnswers
+  }
 
   React.useEffect(() => {
     const subscription = watch((values) => {
@@ -96,7 +80,7 @@ function useRiskAnalysisForm(
     t
   )
 
-  return { handleSubmit, formMethods, formComponents, isSubmitBtnDisabled }
+  return { getValidAnswers, formMethods, formComponents, isSubmitBtnDisabled }
 }
 
 export default useRiskAnalysisForm

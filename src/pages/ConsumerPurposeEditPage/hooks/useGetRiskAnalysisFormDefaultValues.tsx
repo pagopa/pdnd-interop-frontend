@@ -1,14 +1,9 @@
-import type { Purpose } from '@/api/api.generatedTypes'
+import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import React from 'react'
-import type {
-  Answers,
-  BuildForm,
-  GetUpdatedQuestions,
-  RiskAnalysis,
-} from '../types/risk-analysis.types'
+import type { Answers, BuildForm, GetUpdatedQuestions } from '../types/risk-analysis.types'
 
 function useGetRiskAnalysisFormDefaultValues(
-  riskAnalysisConfig: RiskAnalysis,
+  riskAnalysisConfig: RiskAnalysisFormConfig,
   operations: {
     getUpdatedQuestions: GetUpdatedQuestions
     buildForm: BuildForm
@@ -28,10 +23,10 @@ function useGetRiskAnalysisFormDefaultValues(
         const question = riskAnalysisConfig.questions.find((question) => question.id === id)
         // Only the checkbox needs the data as Array
         if (answer) {
-          if (question?.type !== 'checkbox') {
+          if (question?.visualType !== 'checkbox') {
             answer = answer[0]
           }
-          if (question?.type === 'switch') {
+          if (question?.visualType === 'switch') {
             answer = !!answer[0]
           }
         }

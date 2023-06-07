@@ -27,7 +27,8 @@
       "title": "New purpose",
       "description": "Lorem ipsum dolor sit amet...",
       "freeOfChargeReason": "I'm a Public Amministration"
-    }
+    },
+    "riskAnalysisPreviewTitle": "Risk analysis"
   },
   "edit": {
     "emptyTitle": "Edit purpose",
@@ -111,6 +112,12 @@
         "maxLength": "Max {{num}} characters",
         "required": "required",
         "multipleChoice": "multiple choice"
+      },
+      "versionMismatchDialog": {
+        "title": "Risk analysis update",
+        "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
+        "proceedButtonLabel": "Update",
+        "cancelButtonLabel": "Discard"
       }
     },
     "step3": {

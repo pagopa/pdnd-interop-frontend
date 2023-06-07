@@ -7,14 +7,9 @@ import {
 import type { InputOption } from '@/types/common.types'
 import React from 'react'
 import identity from 'lodash/identity'
-import type {
-  Dependency,
-  DynamicFormOperations,
-  Questions,
-  QuestionV1,
-  QuestionV2,
-} from '../types/risk-analysis.types'
+import type { DynamicFormOperations, Questions } from '../types/risk-analysis.types'
 import { RiskAnalysisSwitch } from '../components/PurposeEditStep2RiskAnalysis/RiskAnalysisSwitch'
+import type { Dependency, FormConfigQuestion, LabeledValue } from '@/api/api.generatedTypes'
 
 export const dynamicFormOperationsVersions: DynamicFormOperations = {
   '1.0': {
@@ -54,7 +49,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
       const questionKeys = Object.keys(questions)
 
       const formComponents = questionKeys.map((id, i) => {
-        const { type, label, options, infoLabel } = questions[id] as QuestionV1
+        const { visualType, label, options, infoLabel } = questions[id]
 
         const sx = questionKeys.length - 1 === i ? { mb: 0 } : {}
         const inputOptions = options ? options.map((o) => ({ ...o, label: o.label[lang] })) : []
@@ -66,7 +61,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
           sx,
         }
 
-        switch (type) {
+        switch (visualType) {
           case 'text':
             return <RHFTextField {...commonProps} rules={{ required: true }} />
 
@@ -108,11 +103,11 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
   },
   '2.0': {
     getUpdatedQuestions: (values, riskAnalysis) => {
-      const questions = riskAnalysis.questions as Array<QuestionV2>
+      const questions = riskAnalysis.questions
 
       // Filters all the questions that not satisfies the dependency inside the "dependencies" property
       const updatedQuestions = questions.filter(({ dependencies }) => {
-        function satisfiesDependency(dep: QuestionV2['dependencies'][0]) {
+        function satisfiesDependency(dep: Dependency) {
           if (Array.isArray(values[dep.id])) {
             return (values[dep.id] as Array<unknown>).includes(dep.value)
           }
@@ -136,8 +131,6 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
 
       const questionIds = Object.keys(questions)
 
-      type QuestionOption = Exclude<QuestionV2['options'], undefined>[0]
-
       function checkOptionDependency(dependency: Dependency) {
         const currentDepValue = values[dependency.id]
 
@@ -149,13 +142,17 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
         return hasDependency
       }
 
-      function parseOption(option: QuestionOption, { hideOption, id, defaultValue }: QuestionV2) {
+      function parseOption(
+        option: LabeledValue,
+        { /* hideOption, */ id, defaultValue }: FormConfigQuestion
+      ) {
         // if the key "hideOption" is present in the question object and the conditions are satisfied
         // the option will be not added to the array of options
-        const shouldHideOption =
-          hideOption &&
-          hideOption[option.value] &&
-          hideOption[option.value].some(checkOptionDependency)
+        // TODO const shouldHideOption =
+        //   hideOption &&
+        //   hideOption[option.value] &&
+        //   hideOption[option.value].some(checkOptionDependency)
+        const shouldHideOption = false
 
         if (!shouldHideOption) {
           return { value: option.value, label: option.label[lang] }
@@ -167,15 +164,16 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
       }
 
       function buildFormQuestionComponents(
-        { id, type, ...question }: QuestionV2,
+        { id, visualType, ...question }: FormConfigQuestion,
         inputOptions: Array<InputOption>,
         isLast: boolean
       ) {
         const questionComponents: Array<React.ReactNode> = []
 
-        const maxLength = question?.validation?.maxLength
+        //TODO const maxLength = question?.validation?.maxLength
+        const maxLength = 50
         const isRequired = question.required
-        const isMultipleChoice = question.dataType === 'multi'
+        const isMultipleChoice = question.dataType === 'MULTI'
 
         let label = question.label[lang]
         let infoLabel = question.infoLabel && question.infoLabel[lang]
@@ -206,7 +204,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
         const sx = isLast ? { mb: 0 } : {}
         const commonProps = { key: id, name: id, label, infoLabel, sx }
 
-        switch (type) {
+        switch (visualType) {
           case 'text':
             questionComponents.push(
               <RHFTextField
@@ -265,7 +263,7 @@ export const dynamicFormOperationsVersions: DynamicFormOperations = {
       for (let i = 0; i < questionIds.length; i++) {
         const questionId = questionIds[i]
 
-        const question = questions[questionId] as QuestionV2
+        const question = questions[questionId]
 
         const inputOptions = (question.options
           ?.map((option) => parseOption(option, question))
@@ -285,7 +283,9 @@ export function getFormOperations(version: string) {
   const dynamicFormOperations = dynamicFormOperationsVersions[version]
 
   if (!dynamicFormOperations) {
-    throw new Error('There is no business logic for this specific risk analysis data form')
+    throw new Error(
+      `There is no business logic for this specific risk analysis data form (version: ${version})`
+    )
   }
 
   return dynamicFormOperations

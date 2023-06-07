@@ -9,8 +9,8 @@ import type { GetConsumerPurposesParams, GetProducerPurposesParams } from '../ap
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
   GetSingle = 'PurposeGetSingle',
-  GetRyskAnalysisLatest = 'PurposeGetRyskAnalysisLatest',
-  GetRyskAnalysisVersion = 'PurposeGetRyskAnalysisVersion',
+  GetRiskAnalysisLatest = 'PurposeGetRiskAnalysisLatest',
+  GetRiskAnalysisVersion = 'PurposeGetRiskAnalysisVersion',
 }
 
 function useGetProducersList(
@@ -54,25 +54,25 @@ function usePrefetchSingle() {
     )
 }
 
-function useGetRyskAnalysisLatest(
-  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getRyskAnalysisLatest>>>
+function useGetRiskAnalysisLatest(
+  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisLatest>>>
 ) {
   return useQueryWrapper(
-    [PurposeQueryKeys.GetRyskAnalysisLatest],
-    () => PurposeServices.getRyskAnalysisLatest(),
+    [PurposeQueryKeys.GetRiskAnalysisLatest],
+    () => PurposeServices.getRiskAnalysisLatest(),
     config
   )
 }
 
-function useGetRyskAnalysisVersion(
-  riskAnalysisVersion: number,
+function useGetRiskAnalysisVersion(
+  riskAnalysisVersion: string,
   config?: UseQueryWrapperOptions<
-    Awaited<ReturnType<typeof PurposeServices.getRyskAnalysisVersion>>
+    Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisVersion>>
   >
 ) {
   return useQueryWrapper(
-    [PurposeQueryKeys.GetRyskAnalysisVersion, riskAnalysisVersion],
-    () => PurposeServices.getRyskAnalysisVersion(riskAnalysisVersion),
+    [PurposeQueryKeys.GetRiskAnalysisVersion, riskAnalysisVersion],
+    () => PurposeServices.getRiskAnalysisVersion(riskAnalysisVersion),
     config
   )
 }
@@ -256,8 +256,8 @@ export const PurposeQueries = {
   useGetConsumersList,
   useGetSingle,
   usePrefetchSingle,
-  useGetRyskAnalysisLatest,
-  useGetRyskAnalysisVersion,
+  useGetRiskAnalysisLatest,
+  useGetRiskAnalysisVersion,
 }
 
 export const PurposeMutations = {

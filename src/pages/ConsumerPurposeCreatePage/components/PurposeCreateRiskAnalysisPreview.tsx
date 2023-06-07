@@ -1,11 +1,10 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import riskAnalysisConfig from '@/static/risk-analysis/pa/v2.0.json'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { Box, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } from '@mui/material'
-import type { Question } from '@/pages/ConsumerPurposeEditPage/types/risk-analysis.types'
+// import type { Question } from '@/pages/ConsumerPurposeEditPage/types/risk-analysis.types'
 import { PurposeQueries } from '@/api/purpose'
 import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 
@@ -22,21 +21,28 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
     suspense: false,
     enabled: !!purposeId,
   })
+  const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
+    purpose?.riskAnalysisForm?.version as string,
+    {
+      suspense: false,
+      enabled: !!purpose?.riskAnalysisForm?.version,
+    }
+  )
 
   const riskAnalysisTemplate = purpose?.riskAnalysisForm?.answers
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
-    if (!riskAnalysisTemplate || !isUsingTemplate) return []
+    if (!riskAnalysisTemplate || !riskAnalysisConfig || !isUsingTemplate) return []
 
     // Answers in this form
     const answerIds = Object.keys(riskAnalysisTemplate)
 
     // Corresponding questions
-    const questionsWithAnswer = (riskAnalysisConfig.questions as Array<Question>).filter(({ id }) =>
+    const questionsWithAnswer = riskAnalysisConfig.questions.filter(({ id }) =>
       answerIds.includes(id)
     )
 
-    const answers = questionsWithAnswer.map(({ label, options, id, type }) => {
+    const answers = questionsWithAnswer.map(({ label, options, id, visualType }) => {
       const question = label[currentLanguage]
 
       // Get the value of the answer
@@ -44,7 +50,7 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
       const answerValue = riskAnalysisTemplate[id]
 
       // Plain text: this value comes from a text field
-      if (type === 'text') {
+      if (visualType === 'text') {
         return { question, answer: answerValue[0] }
       }
 
@@ -56,7 +62,7 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
     })
 
     return answers
-  }, [riskAnalysisTemplate, currentLanguage, isUsingTemplate])
+  }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage, isUsingTemplate])
 
   if (!riskAnalysisTemplate || !isUsingTemplate) return null
 
@@ -69,7 +75,7 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
         <Divider />
 
         <Typography sx={{ mt: 4, mb: 2 }} component="h2" variant="overline">
-          Analisi del rischio
+          {t('riskAnalysisPreviewTitle')}
         </Typography>
 
         <List>
