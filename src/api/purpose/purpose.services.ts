@@ -3,7 +3,8 @@ import axiosInstance from '@/config/axios'
 import type {
   CreatedResource,
   DraftPurposeVersionUpdateContent,
-  GetPurposesParams,
+  GetConsumerPurposesParams,
+  GetProducerPurposesParams,
   Purpose,
   PurposeAdditionDetailsSeed,
   Purposes,
@@ -14,7 +15,7 @@ import type {
   WaitingForApprovalPurposeVersionUpdateContentSeed,
 } from '../api.generatedTypes'
 
-async function getProducersList(params: GetPurposesParams) {
+async function getProducersList(params: GetProducerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/producer/purposes`,
     {
@@ -24,7 +25,7 @@ async function getProducersList(params: GetPurposesParams) {
   return response.data
 }
 
-async function getConsumersList(params: GetPurposesParams) {
+async function getConsumersList(params: GetConsumerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/consumer/purposes`,
     {

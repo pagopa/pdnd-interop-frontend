@@ -11,6 +11,7 @@ const createMockClient = createMockFactory<Client>({
   description: 'test test test',
   kind: 'CONSUMER',
   purposes: [],
+  createdAt: '2021-02-24T15:00:00.000Z',
 })
 
 export { createMockClient }

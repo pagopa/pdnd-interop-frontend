@@ -12,7 +12,7 @@ import {
   useFilters,
   usePagination,
 } from '@pagopa/interop-fe-commons'
-import type { GetPurposesParams } from '@/api/api.generatedTypes'
+import type { GetProducerPurposesParams } from '@/api/api.generatedTypes'
 
 const ProviderPurposesListPage: React.FC = () => {
   const { jwt } = useJwt()
@@ -47,7 +47,7 @@ const ProviderPurposesListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetPurposesParams, 'limit' | 'offset'>
+    Omit<GetProducerPurposesParams, 'limit' | 'offset'>
   >([
     { name: 'q', label: tPurpose('nameField.label'), type: 'freetext' },
     {
@@ -103,7 +103,7 @@ const ProviderPurposesListPage: React.FC = () => {
   )
 }
 
-const PurposesTableWrapper: React.FC<{ params: GetPurposesParams }> = ({ params }) => {
+const PurposesTableWrapper: React.FC<{ params: GetProducerPurposesParams }> = ({ params }) => {
   const { jwt } = useJwt()
 
   const { data, isFetching } = PurposeQueries.useGetProducersList(params, {

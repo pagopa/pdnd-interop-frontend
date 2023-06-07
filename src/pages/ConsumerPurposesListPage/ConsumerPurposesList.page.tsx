@@ -1,4 +1,3 @@
-import type { GetPurposesParams } from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
@@ -15,6 +14,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerPurposesTable, ConsumerPurposesTableSkeleton } from './components'
+import type { GetConsumerPurposesParams } from '@/api/api.generatedTypes'
 
 const ConsumerPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposesList' })
@@ -50,7 +50,7 @@ const ConsumerPurposesListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetPurposesParams, 'limit' | 'offset'>
+    Omit<GetConsumerPurposesParams, 'limit' | 'offset'>
   >([
     { name: 'q', label: tPurpose('filters.nameField.label'), type: 'freetext' },
     {
@@ -135,7 +135,7 @@ const ConsumerPurposesListPage: React.FC = () => {
   )
 }
 
-const PurposesTableWrapper: React.FC<{ params: GetPurposesParams }> = ({ params }) => {
+const PurposesTableWrapper: React.FC<{ params: GetConsumerPurposesParams }> = ({ params }) => {
   const { jwt } = useJwt()
 
   const { data, isFetching } = PurposeQueries.useGetConsumersList(params, {
