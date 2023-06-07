@@ -44,7 +44,7 @@ async function getSingle(purposeId: string) {
 }
 
 async function getRyskAnalysisLatest() {
-  const response = await axiosInstance.get<ArrayBuffer>(
+  const response = await axiosInstance.get<RiskAnalysisFormConfig>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/latest`
   )
   return response.data
