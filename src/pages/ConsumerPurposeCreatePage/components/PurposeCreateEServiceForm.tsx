@@ -52,7 +52,18 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const onSubmit = ({ eserviceId }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eserviceId) return
 
-    let title = t('create.defaultPurpose.title')
+    /**
+     * An e-service cannot have two purposes with the same title.
+     * To avoid this, we add the current date to the title to make it unique.
+     */
+    const currentDateString = new Intl.DateTimeFormat('it', {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    })
+      .format()
+      .replace(',', '')
+
+    let title = `${t('create.defaultPurpose.title')} ${currentDateString}`
     let description = t('create.defaultPurpose.description')
     let riskAnalysisForm: undefined | RiskAnalysisForm
 
