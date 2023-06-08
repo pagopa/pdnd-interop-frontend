@@ -4,8 +4,7 @@ import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm'
 import { useNavigate, useParams } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
 import { NotFoundError } from '@/utils/errors.utils'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { RiskAnalysisVersionMismatchDialog } from './RiskAnalysisVersionMismatchDialog'
 
 export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = (props) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
@@ -46,30 +45,4 @@ export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = (props) =
   }
 
   return <RiskAnalysisForm purpose={purpose} riskAnalysis={riskAnalysis} {...props} />
-}
-
-const RiskAnalysisVersionMismatchDialog: React.FC<{
-  onProceed: VoidFunction
-  onRefuse: VoidFunction
-}> = ({ onProceed, onRefuse }) => {
-  const { t } = useTranslation('purpose', { keyPrefix: 'edit.step2.versionMismatchDialog' })
-  const ariaLabelId = React.useId()
-  const ariaDescriptionId = React.useId()
-
-  return (
-    <Dialog open aria-labelledby={ariaLabelId} aria-describedby={ariaDescriptionId}>
-      <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
-
-      <DialogContent aria-describedby={ariaDescriptionId}>{t('description')}</DialogContent>
-
-      <DialogActions>
-        <Button variant="outlined" onClick={onRefuse}>
-          {t('cancelButtonLabel')}
-        </Button>
-        <Button variant="contained" onClick={onProceed}>
-          {t('proceedButtonLabel')}
-        </Button>
-      </DialogActions>
-    </Dialog>
-  )
 }
