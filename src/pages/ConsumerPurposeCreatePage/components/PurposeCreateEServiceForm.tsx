@@ -80,6 +80,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       description,
       riskAnalysisForm,
       isFreeOfCharge: true,
+      freeOfChargeReason: '',
     }
 
     createPurposeDraft(payloadCreatePurposeDraft, {
