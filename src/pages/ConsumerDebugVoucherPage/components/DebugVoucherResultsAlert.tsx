@@ -34,7 +34,10 @@ const DebugVoucherResultsAlert: React.FC = () => {
   if (isDebugVoucherPassed) {
     resultAlert.text =
       response.clientKind === 'CONSUMER'
-        ? t('alert.description.consumerSuccess')
+        ? t('alert.description.consumerSuccess', {
+            eserviceName: response.eservice?.name,
+            eserviceVersion: response.eservice?.version,
+          })
         : t('alert.description.apiSuccess')
     resultAlert.type = 'success'
   }
