@@ -1,18 +1,21 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { PurposeMutations } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import type { Purpose } from '@/api/api.generatedTypes'
+import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 
-type PurposeEditStep1GeneralFormValues = {
-  title: string
-  description: string
+export type PurposeEditStep1GeneralFormValues = Omit<
+  PurposeUpdateContent,
+  'riskAnalysisForm' | 'isFreeOfCharge'
+> & {
   dailyCalls: number
+  isFreeOfCharge: 'SI' | 'NO'
+  freeOfChargeReason?: string // TODO: remove this field when the API will be updated
 }
 
 type PurposeEditStep1GeneralFormProps = ActiveStepProps & {
@@ -34,10 +37,17 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   })
 
   const onSubmit = (values: PurposeEditStep1GeneralFormValues) => {
-    const { dailyCalls, ...updateDraftPayload } = values
+    const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
+    const isFreeOfChargeBool = isFreeOfCharge === 'SI'
     const purposeId = purpose.id
     updateDraft(
-      { ...updateDraftPayload, riskAnalysisForm: purpose.riskAnalysisForm, purposeId },
+      {
+        ...updateDraftPayload,
+        isFreeOfCharge: isFreeOfChargeBool,
+        freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
+        riskAnalysisForm: purpose.riskAnalysisForm,
+        purposeId,
+      },
       {
         onSuccess(updatedPurpose) {
           const versionId = updatedPurpose.versionId
@@ -46,6 +56,8 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
       }
     )
   }
+
+  const isFreeOfCharge = formMethods.watch('isFreeOfCharge')
 
   return (
     <FormProvider {...formMethods}>
@@ -72,6 +84,26 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
           />
+
+          <RHFRadioGroup
+            name="isFreeOfCharge"
+            label={t('step1.isFreeOfChargeField.label')}
+            options={[
+              { label: t('step1.isFreeOfChargeField.options.SI'), value: 'SI' },
+              { label: t('step1.isFreeOfChargeField.options.NO'), value: 'NO' },
+            ]}
+          />
+
+          {isFreeOfCharge === 'SI' && (
+            <RHFTextField
+              name="freeOfChargeReason"
+              label={t('step1.freeOfChargeReasonField.label')}
+              infoLabel={t('step1.freeOfChargeReasonField.infoLabel')}
+              multiline
+              inputProps={{ maxLength: 250 }}
+              rules={{ required: true, minLength: 10 }}
+            />
+          )}
 
           <RHFTextField
             name="dailyCalls"

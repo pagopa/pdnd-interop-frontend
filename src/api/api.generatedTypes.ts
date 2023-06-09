@@ -659,6 +659,8 @@ export interface PurposeUpdateContent {
   title: string
   description: string
   riskAnalysisForm?: RiskAnalysisForm
+  isFreeOfCharge: boolean
+  freeOfChargeReason?: string
 }
 
 export interface Purposes {

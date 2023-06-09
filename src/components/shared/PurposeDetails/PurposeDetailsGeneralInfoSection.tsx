@@ -1,37 +1,45 @@
+import React from 'react'
+import type { Purpose } from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
-import { PurposeQueries } from '@/api/purpose'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { Link } from '@/router'
+import { Link, useCurrentRoute } from '@/router'
 import { formatThousands } from '@/utils/format.utils'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 interface PurposeDetailsGeneralInfoSectionProps {
-  purposeId: string
+  purpose: Purpose
 }
 
 export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInfoSectionProps> = ({
-  purposeId,
+  purpose,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.generalInformations' })
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
+  const { mode } = useCurrentRoute()
 
   // This should not stay here, waiting to get the attributes from the purpose itself
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
-    purpose?.eservice.id as string,
-    purpose?.eservice.descriptor.id as string,
-    { enabled: !!(purpose?.eservice.id && purpose?.eservice.descriptor.id) }
+    purpose.eservice.id,
+    purpose.eservice.descriptor.id
   )
 
-  if (!purpose || !descriptor) return null
+  if (!descriptor) return null
 
   return (
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
-        <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
+        {mode === 'provider' && (
+          <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
+        )}
+
+        {mode === 'consumer' && (
+          <InformationContainer
+            label={t('providerField.label')}
+            content={purpose.eservice.producer.name}
+          />
+        )}
 
         <InformationContainer
           label={t('purposeStatusField.label')}
@@ -88,6 +96,20 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
             </Link>
           }
         />
+        <InformationContainer
+          label={t('isFreeOfChargeField.label')}
+          labelDescription={t('isFreeOfChargeField.labelDescription')}
+          content={
+            purpose.isFreeOfCharge ? t('isFreeOfChargeField.yes') : t('isFreeOfChargeField.no')
+          }
+        />
+
+        {purpose.isFreeOfCharge && (
+          <InformationContainer
+            label={t('freeOfChargeReasonField.label')}
+            content={purpose.freeOfChargeReason ?? ''}
+          />
+        )}
       </Stack>
     </SectionContainer>
   )

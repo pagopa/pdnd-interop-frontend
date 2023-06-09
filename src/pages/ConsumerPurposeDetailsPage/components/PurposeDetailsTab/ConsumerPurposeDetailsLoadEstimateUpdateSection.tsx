@@ -1,5 +1,4 @@
 import React from 'react'
-import { PurposeQueries } from '@/api/purpose'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { Accordion } from '@/components/shared/Accordion'
 import type { AccordionEntry } from '@/components/shared/Accordion'
@@ -11,16 +10,16 @@ import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
 import { useJwt } from '@/hooks/useJwt'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import type { Purpose } from '@/api/api.generatedTypes'
 
-interface PurposeDetailsLoadEstimateUpdateSectionProps {
-  purposeId: string
+interface ConsumerPurposeDetailsLoadEstimateUpdateSectionProps {
+  purpose?: Purpose
 }
 
-export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
-  PurposeDetailsLoadEstimateUpdateSectionProps
-> = ({ purposeId }) => {
+export const ConsumerPurposeDetailsLoadEstimateUpdateSection: React.FC<
+  ConsumerPurposeDetailsLoadEstimateUpdateSectionProps
+> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.loadEstimateUpdate' })
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const { isAdmin } = useJwt()
 
   const { openDialog } = useDialog()
@@ -34,7 +33,7 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   const handleUpdateDailyCalls = () => {
     openDialog({
       type: 'updatePurposeDailyCalls',
-      purposeId,
+      purposeId: purpose.id,
       dailyCalls: purpose.currentVersion?.dailyCalls,
     })
   }
@@ -96,6 +95,6 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   )
 }
 
-export const PurposeDetailsLoadEstimateUpdateSectionSkeleton: React.FC = () => {
+export const ConsumerPurposeDetailsLoadEstimateUpdateSectionSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={556} />
 }

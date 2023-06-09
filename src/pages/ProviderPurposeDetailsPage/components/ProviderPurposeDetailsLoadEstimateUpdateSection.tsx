@@ -1,5 +1,5 @@
 import React from 'react'
-import { PurposeMutations, PurposeQueries } from '@/api/purpose'
+import { PurposeMutations } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
 import { Button, Divider, Link, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
@@ -8,23 +8,26 @@ import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
 import { useDialog } from '@/stores'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import type { Purpose } from '@/api/api.generatedTypes'
+import { useJwt } from '@/hooks/useJwt'
 
-interface PurposeDetailsLoadEstimateUpdateSectionProps {
-  purposeId: string
+interface ProviderPurposeDetailsLoadEstimateUpdateSectionProps {
+  purpose?: Purpose
 }
 
-export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
-  PurposeDetailsLoadEstimateUpdateSectionProps
-> = ({ purposeId }) => {
+export const ProviderPurposeDetailsLoadEstimateUpdateSection: React.FC<
+  ProviderPurposeDetailsLoadEstimateUpdateSectionProps
+> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.loadEstimateUpdate' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { isAdmin } = useJwt()
 
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { openDialog } = useDialog()
 
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
+  const waitingForApprovalVersion = purpose?.waitingForApprovalVersion
 
-  const waitingForApprovalVersion = purpose!.waitingForApprovalVersion!
+  if (!purpose || !waitingForApprovalVersion || !isAdmin) return null
 
   const handleConfirmUpdate = () => {
     activateVersion({ purposeId: purpose!.id, versionId: waitingForApprovalVersion.id })
@@ -33,7 +36,7 @@ export const PurposeDetailsLoadEstimateUpdateSection: React.FC<
   const handleSetActivationDate = () => {
     openDialog({
       type: 'setPurposeExpectedApprovalDate',
-      purposeId: purpose!.id,
+      purposeId: purpose.id,
       versionId: waitingForApprovalVersion.id,
       approvalDate: waitingForApprovalVersion.expectedApprovalDate,
     })

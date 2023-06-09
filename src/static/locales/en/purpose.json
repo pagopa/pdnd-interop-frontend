@@ -25,7 +25,8 @@
     "backToListBtn": "Back to purpose list",
     "defaultPurpose": {
       "title": "New purpose",
-      "description": "Lorem ipsum dolor sit amet..."
+      "description": "Lorem ipsum dolor sit amet...",
+      "freeOfChargeReason": "I'm a Public Amministration"
     }
   },
   "edit": {
@@ -55,6 +56,17 @@
       "descriptionField": {
         "label": "Purpose description (required)",
         "infoLabel": "Min 10 chars, max 250 chars"
+      },
+      "isFreeOfChargeField": {
+        "label": "Indicate whether access to the data made available with the use of this e-service is free of charge (required)",
+        "options": {
+          "SI": "Yes",
+          "NO": "No"
+        }
+      },
+      "freeOfChargeReasonField": {
+        "label": "Free of charge reason (richiesto)",
+        "infoLabel": "It is requested to specify whether the provision of data is free of charge by virtue of an exemption/exclusion provided for by law or other. Min 10 characters, max 250 characters"
       },
       "eserviceField": {
         "label": "Related e-service (required)"
@@ -198,6 +210,15 @@
         "totalThreshold": {
           "label": "Total threshold",
           "value": "{{value}} call per day"
+        },
+        "isFreeOfChargeField": {
+          "label": "Free of charge purpose",
+          "labelDescription": "Indicate whether access to the data made available with the use of this e-service is free of charge",
+          "yes": "Yes",
+          "no": "No"
+        },
+        "freeOfChargeReasonField": {
+          "label": "Free of charge reason"
         }
       },
       "loadEstimateUpdate": {

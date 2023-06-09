@@ -1,11 +1,15 @@
 import { PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
+import {
+  PurposeDetails,
+  PurposeDetailsSkeleton,
+} from '@/components/shared/PurposeDetails/PurposeDetails'
 import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions'
 import { Link, useParams } from '@/router'
 import { formatTopSideActions } from '@/utils/common.utils'
 import React from 'react'
-import { PurposeDetails, PurposeDetailsSkeleton } from './components/PurposeDetails'
 import { useTranslation } from 'react-i18next'
+import { ProviderPurposeDetailsLoadEstimateUpdateSection } from './components/ProviderPurposeDetailsLoadEstimateUpdateSection'
 
 const ProviderPurposeDetailsPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -24,7 +28,8 @@ const ProviderPurposeDetailsPage: React.FC = () => {
       topSideActions={topSideActions}
     >
       <React.Suspense fallback={<PurposeDetailsSkeleton />}>
-        <PurposeDetails purposeId={purposeId} />
+        <PurposeDetails purpose={purpose} />
+        <ProviderPurposeDetailsLoadEstimateUpdateSection purpose={purpose} />
       </React.Suspense>
       <PageBottomActionsContainer>
         <Link variant="outlined" to="PROVIDE_PURPOSE_LIST" as="button">
