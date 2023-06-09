@@ -510,5 +510,13 @@
         "error": "Contact Infos could not be updated. Please, try again!"
       }
     }
+  },
+  "voucher": {
+    "tokenVerification": {
+      "loading": "We are verifying. Please, wait",
+      "outcome": {
+        "error": "There was an error processing your request. Please try again later!"
+      }
+    }
   }
 }

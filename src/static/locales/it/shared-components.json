@@ -237,6 +237,7 @@
     "SUBSCRIBE": "Fruizione",
     "PARTY_REGISTRY": "Anagrafica ente",
     "NOT_FOUND": "Pagina non trovata",
-    "DEFAULT": ""
+    "DEFAULT": "",
+    "SUBSCRIBE_DEBUG_VOUCHER": "Debug del voucher"
   }
 }

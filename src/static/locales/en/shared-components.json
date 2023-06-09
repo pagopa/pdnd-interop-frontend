@@ -238,6 +238,7 @@
     "SUBSCRIBE": "Subscriber",
     "PARTY_REGISTRY": "Party registry",
     "NOT_FOUND": "Page not found",
-    "DEFAULT": ""
+    "DEFAULT": "",
+    "SUBSCRIBE_DEBUG_VOUCHER": "Voucher debug"
   }
 }
