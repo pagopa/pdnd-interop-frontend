@@ -59,7 +59,7 @@ const DebugVoucherStepDrawer: React.FC = () => {
           {selectedStep?.[1].failures.map((failure, index) => (
             <ListItemText key={index} sx={{ display: 'list-item' }} disableTypography>
               <Typography variant="body2">
-                {t(`errors.${failure.code}` as unknown as TemplateStringsArray) || failure.reason}
+                {t(`errors.${failure.code}` as unknown as TemplateStringsArray, failure.reason)}
               </Typography>
             </ListItemText>
           ))}
@@ -67,8 +67,7 @@ const DebugVoucherStepDrawer: React.FC = () => {
 
         {((response.clientKind === 'CONSUMER' &&
           selectedStep?.[0] !== 'platformStatesVerification') ||
-          (response.clientKind === 'API' &&
-            selectedStep?.[0] !== 'clientAssertionSignatureVerification')) && (
+          selectedStep?.[0] !== 'clientAssertionSignatureVerification') && (
           <Box position="absolute" bottom={37} width={327}>
             <Button variant="contained" fullWidth onClick={nextStep}>
               {t('stepDrawer.nextStepBtn')}
