@@ -2,12 +2,13 @@ import React from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import { AUTHORIZATION_SERVER_ACCESS_TOKEN_URL, FE_URL } from '@/config/env'
-import { Stack } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { CodeSnippetPreview } from './CodeSnippetPreview'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { Link } from '@/router'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -91,6 +92,11 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
             GRANT_TYPE: GRANT_TYPE,
           }}
         />
+
+        <Alert severity="info" sx={{ mt: 4, mb: 4 }}>
+          {t('step2.debugVoucherAlert.description')}{' '}
+          <Link to={'SUBSCRIBE_DEBUG_VOUCHER'}>{t('step2.debugVoucherAlert.link.label')}</Link>
+        </Alert>
 
         <StepActions
           back={{ label: t('backBtn'), type: 'button', onClick: back }}
