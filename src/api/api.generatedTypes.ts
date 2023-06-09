@@ -733,7 +733,7 @@ export interface RelationshipInfo {
   /** Represents the party relationship state */
   state: RelationshipState
   /** @format date-time */
-  createdAt: string
+  createdAt?: string
   /** @format date-time */
   updatedAt?: string
 }
