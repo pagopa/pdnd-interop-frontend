@@ -67,6 +67,8 @@ function useRiskAnalysisForm(
         purposeId: purpose.id,
         title: purpose.title,
         description: purpose.description,
+        isFreeOfCharge: purpose.isFreeOfCharge,
+        freeOfChargeReason: purpose.freeOfChargeReason,
         riskAnalysisForm: { version: riskAnalysisConfig.version, answers: validAnswers },
       },
       { onSuccess: forward }
