@@ -143,16 +143,10 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
             focusOnMount
             multiline
             label={t('clientAssertionLabel')}
-            inputProps={{ maxLength: 250 }}
-            rules={{ required: true, minLength: 5 }}
+            rules={{ required: true }}
           />
 
-          <RHFTextField
-            name="clientId"
-            label={t('clientIdLabel')}
-            inputProps={{ maxLength: 60 }}
-            rules={{ required: true, minLength: 10 }}
-          />
+          <RHFTextField name="clientId" label={t('clientIdLabel')} />
           <Typography variant="body2">
             <Trans
               components={{
