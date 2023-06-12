@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { NotAuthorizedError, NotFoundError, ServerError } from '@/utils/errors.utils'
+import i18next from 'i18next'
+import type { LangCode } from '@/types/common.types'
 
 // Performs a trim operation on each string contained in the object
 const deepTrim = (object: any) => {
@@ -29,6 +31,11 @@ const axiosInstance = axios.create({
   },
 })
 
+const acceptLanguageHeader: Record<LangCode, string> = {
+  it: 'it-IT',
+  en: 'en-EN',
+}
+
 axiosInstance.interceptors.request.use(
   (config) => {
     const sessionStorageToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
@@ -36,6 +43,7 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${sessionStorageToken}`
     }
 
+    config.headers['Accept-Language'] = acceptLanguageHeader[i18next.language as LangCode]
     config.headers['X-Correlation-Id'] = crypto.randomUUID()
 
     // If the request has a payload performs the trim on all its strings
