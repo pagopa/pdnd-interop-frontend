@@ -1,8 +1,8 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { Stack, Box, Divider } from '@mui/material'
+import { Trans, useTranslation } from 'react-i18next'
+import { Stack, Box, Divider, Link } from '@mui/material'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { AttributeKey, RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
   AttributeContainer,
@@ -11,6 +11,7 @@ import {
 import type { CompactAttribute } from '@/api/api.generatedTypes'
 import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
+import { attributesHelpLink } from '@/config/constants'
 
 export const EServiceAttributesSections: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -20,11 +21,21 @@ export const EServiceAttributesSections: React.FC = () => {
 
   const { eserviceAttributes } = useEServiceDetailsContext()
 
+  const getSubtitle = (attributeKey: AttributeKey) => {
+    return (
+      <Trans
+        components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+      >
+        {tAttribute(`${attributeKey}.description`)}
+      </Trans>
+    )
+  }
+
   return (
     <SectionContainer newDesign component="div">
       <AttributeGroupsListSection
         title={tAttribute('certified.label')}
-        subtitle={tAttribute('certified.description')}
+        subtitle={getSubtitle('certified')}
         attributeGroups={eserviceAttributes.certified}
         emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.certified_other`),
@@ -33,7 +44,7 @@ export const EServiceAttributesSections: React.FC = () => {
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
         title={tAttribute('verified.label')}
-        subtitle={tAttribute('verified.description')}
+        subtitle={getSubtitle('verified')}
         attributeGroups={eserviceAttributes.verified}
         emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.verified_other`),
@@ -42,7 +53,7 @@ export const EServiceAttributesSections: React.FC = () => {
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
         title={tAttribute('declared.label')}
-        subtitle={tAttribute('declared.description')}
+        subtitle={getSubtitle('declared')}
         attributeGroups={eserviceAttributes.declared}
         emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.declared_other`),
@@ -55,7 +66,7 @@ export const EServiceAttributesSections: React.FC = () => {
 type AttributeGroupsListSectionProps = {
   attributeGroups: Array<RemappedEServiceAttribute>
   title: string
-  subtitle: string
+  subtitle: React.ReactNode
   emptyLabel: string
 }
 

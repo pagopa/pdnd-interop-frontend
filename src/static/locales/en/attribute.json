@@ -9,15 +9,15 @@
   },
   "certified": {
     "label": "Certified Attributes",
-    "description": "Attributes recognized to members by an authoritative source."
+    "description": "Attributes <1>recognized to members by an authoritative source</1>."
   },
   "verified": {
     "label": "Verified Attributes",
-    "description": "Attributes recognized by the providers to the users following an investigation. Alternatively, PDND Interoperability offers the possibility for lenders to rely on the investigations carried out by other lenders, if available."
+    "description": "Attributes <1>recognized by the providers to the users following an investigation<1/>. Alternatively, PDND Interoperability offers the possibility for lenders to rely on the investigations carried out by other lenders, if available."
   },
   "declared": {
     "label": "Declared Attributes",
-    "description": "Attributes of which the user declares possession, acknowledging them under his own responsibility with a self-declaration."
+    "description": "Attributes of which <1>the user declares possession<1/>, acknowledging them under his own responsibility with a self-declaration."
   },
   "noAttributesRequiredAlert": {
     "provider": "Your organization does not require {{attributeKey}} attributes",
@@ -40,7 +40,7 @@
       "warning": {
         "verified": {
           "provider": "The consumer must possess at least one of the following attributes",
-          "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti requisiti"
+          "consumer": "The producer must verify if you possess at least one of the following attributes"
         },
         "declared": {
           "provider": "The consumer must possess at least one of the following attributes",

@@ -1,13 +1,13 @@
 import React from 'react'
 import { useCurrentRoute } from '@/router'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
 import {
   SectionContainer,
   AttributeGroupContainer,
   AttributeContainer,
 } from '@/components/layout/containers'
-import { Stack } from '@mui/material'
+import { Link, Stack } from '@mui/material'
 import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
   isAttributeOwned,
@@ -16,6 +16,7 @@ import {
 } from '@/utils/attribute.utils'
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { useAgreementGetVerifiedAttributesActions } from '../../hooks/useAgreementGetVerifiedAttributesActions'
+import { attributesHelpLink } from '@/config/constants'
 
 export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -61,7 +62,13 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
       newDesign
       innerSection
       title={tAttribute('verified.label')}
-      description={tAttribute('verified.description')}
+      description={
+        <Trans
+          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+        >
+          {tAttribute(`verified.description`)}
+        </Trans>
+      }
     >
       <Stack spacing={2}>
         {verifiedAttributeGroups.map((group, i) => (

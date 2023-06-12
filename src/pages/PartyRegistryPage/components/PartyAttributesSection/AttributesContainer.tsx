@@ -3,7 +3,7 @@ import { SectionContainer } from '@/components/layout/containers'
 
 export const AttributesContainer: React.FC<{
   title: string
-  description: string
+  description: React.ReactNode
   children: React.ReactNode
 }> = ({ title, description, children }) => {
   return (

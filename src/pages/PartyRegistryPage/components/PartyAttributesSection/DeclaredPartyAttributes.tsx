@@ -1,19 +1,29 @@
 import React from 'react'
 import { AttributeContainer, AttributeContainerSkeleton } from '@/components/layout/containers'
-import { Stack } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Link, Stack } from '@mui/material'
+import { Trans, useTranslation } from 'react-i18next'
 import { PartyQueries } from '@/api/party/party.hooks'
 import { useJwt } from '@/hooks/useJwt'
 import { AttributeMutations } from '@/api/attribute'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
 import { isAttributeRevoked } from '@/utils/attribute.utils'
+import { attributesHelpLink } from '@/config/constants'
 
 export const DeclaredAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
 
   return (
-    <AttributesContainer title={tAttribute('label')} description={tAttribute('description')}>
+    <AttributesContainer
+      title={tAttribute('label')}
+      description={
+        <Trans
+          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+        >
+          {tAttribute('description')}
+        </Trans>
+      }
+    >
       <React.Suspense fallback={<DeclaredAttributesListSkeleton />}>
         <DeclaredAttributesList />
       </React.Suspense>

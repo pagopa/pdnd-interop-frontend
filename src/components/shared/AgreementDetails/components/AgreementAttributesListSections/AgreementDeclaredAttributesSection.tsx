@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
 import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import {
@@ -7,7 +7,7 @@ import {
   AttributeGroupContainer,
   AttributeContainer,
 } from '@/components/layout/containers'
-import { Stack } from '@mui/material'
+import { Link, Stack } from '@mui/material'
 import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
 import {
@@ -16,6 +16,7 @@ import {
   isAttributeRevoked,
 } from '@/utils/attribute.utils'
 import { useAgreementGetDeclaredAttributesActions } from '../../hooks/useAgreementGetDeclaredAttributesActions'
+import { attributesHelpLink } from '@/config/constants'
 
 export const AgreementDeclaredAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -61,7 +62,13 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
       newDesign
       innerSection
       title={tAttribute('declared.label')}
-      description={tAttribute('declared.description')}
+      description={
+        <Trans
+          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+        >
+          {tAttribute(`declared.description`)}
+        </Trans>
+      }
     >
       <Stack spacing={2}>
         {declaredAttributeGroups.map((group, i) => (

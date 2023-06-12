@@ -1,16 +1,26 @@
 import React from 'react'
 import { PartyQueries } from '@/api/party/party.hooks'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
-import { Stack } from '@mui/material'
+import { Link, Stack } from '@mui/material'
 import { AttributeContainer, AttributeContainerSkeleton } from '@/components/layout/containers'
+import { attributesHelpLink } from '@/config/constants'
 
 export const CertifiedAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'certified' })
 
   return (
-    <AttributesContainer title={tAttribute('label')} description={tAttribute('description')}>
+    <AttributesContainer
+      title={tAttribute('label')}
+      description={
+        <Trans
+          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+        >
+          {tAttribute('description')}
+        </Trans>
+      }
+    >
       <React.Suspense fallback={<CertifiedAttributesListSkeleton />}>
         <CertifiedAttributesList />
       </React.Suspense>
