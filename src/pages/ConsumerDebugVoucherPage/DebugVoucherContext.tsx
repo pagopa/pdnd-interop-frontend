@@ -5,7 +5,7 @@ import type {
   TokenGenerationValidationRequest,
   TokenGenerationValidationResult,
   TokenGenerationValidationSteps,
-} from '../types/debug-voucher.types'
+} from './types/debug-voucher.types'
 
 type DebugVoucherContextType = {
   request: TokenGenerationValidationRequest

@@ -2,9 +2,9 @@ import { Box, Button, Chip, List, ListItemText, Stack, Typography } from '@mui/m
 import { Drawer, IconButton } from '@mui/material'
 import React from 'react'
 import CloseIcon from '@mui/icons-material/Close'
-import { useDebugVoucherContext } from './DebugVoucherContext'
+import { useDebugVoucherContext } from '../DebugVoucherContext'
 import { useTranslation } from 'react-i18next'
-import { useGetDebugVoucherResultChipProps } from '../hooks/useGetDebugVoucherResultChipProps.hook'
+import { useGetDebugVoucherResultChipProps } from '../hooks/useGetDebugVoucherResultChipProps'
 
 const HeaderDrawer: React.FC = () => {
   const { setDebugVoucherStepDrawer } = useDebugVoucherContext()

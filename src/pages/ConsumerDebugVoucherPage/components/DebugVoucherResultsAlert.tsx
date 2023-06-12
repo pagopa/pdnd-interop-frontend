@@ -3,7 +3,7 @@ import type { AlertColor } from '@mui/material'
 import { Alert, AlertTitle, Typography } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useDebugVoucherContext } from './DebugVoucherContext'
+import { useDebugVoucherContext } from '../DebugVoucherContext'
 import type { TokenGenerationValidationSteps } from '../types/debug-voucher.types'
 
 const DebugVoucherResultsAlert: React.FC = () => {

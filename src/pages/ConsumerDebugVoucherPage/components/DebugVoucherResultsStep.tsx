@@ -5,9 +5,9 @@ import type {
 } from '../types/debug-voucher.types'
 import { Chip, Stack, Typography } from '@mui/material'
 import RightArrowIcon from '@mui/icons-material/ChevronRight'
-import { useDebugVoucherContext } from './DebugVoucherContext'
+import { useDebugVoucherContext } from '../DebugVoucherContext'
 import { useTranslation } from 'react-i18next'
-import { useGetDebugVoucherResultChipProps } from '../hooks/useGetDebugVoucherResultChipProps.hook'
+import { useGetDebugVoucherResultChipProps } from '../hooks/useGetDebugVoucherResultChipProps'
 
 type ResultStepProps = {
   step: TokenGenerationValidationEntry

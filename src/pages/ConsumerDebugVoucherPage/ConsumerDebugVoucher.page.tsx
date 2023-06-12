@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DebugVoucherForm } from './components/DebugVoucherForm'
 import { DebugVoucherResults } from './components/DebugVoucherResults'
-import { DebugVoucherContextProvider } from './components/DebugVoucherContext'
+import { DebugVoucherContextProvider } from './DebugVoucherContext'
 import type {
   TokenGenerationValidationRequest,
   TokenGenerationValidationResult,

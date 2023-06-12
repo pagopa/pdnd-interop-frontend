@@ -2,7 +2,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { Stack } from '@mui/material'
-import { useDebugVoucherContext } from './DebugVoucherContext'
+import { useDebugVoucherContext } from '../DebugVoucherContext'
 import { useTranslation } from 'react-i18next'
 
 export const DebugVoucherResultsRequestSection: React.FC = () => {

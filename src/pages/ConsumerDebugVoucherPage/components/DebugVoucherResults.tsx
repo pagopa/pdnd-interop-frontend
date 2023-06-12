@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { DebugVoucherResultsStepsSection } from './DebugVoucherResultsStepsSection'
 import { DebugVoucherResultsRequestSection } from './DebugVoucherResultsRequestSection'
 import DebugVoucherStepDrawer from './DebugVoucherStepDrawer'
-import { useDebugVoucherContext } from './DebugVoucherContext'
+import { useDebugVoucherContext } from '../DebugVoucherContext'
 import DebugVoucherResultsAlert from './DebugVoucherResultsAlert'
 
 export const DebugVoucherResults: React.FC = () => {
