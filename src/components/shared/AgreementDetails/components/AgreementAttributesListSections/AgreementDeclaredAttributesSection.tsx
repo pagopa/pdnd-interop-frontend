@@ -10,7 +10,11 @@ import {
 import { Stack } from '@mui/material'
 import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
-import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
+import {
+  isAttributeOwned,
+  isAttributeGroupFullfilled,
+  isAttributeRevoked,
+} from '@/utils/attribute.utils'
 import { useAgreementGetDeclaredAttributesActions } from '../../hooks/useAgreementGetDeclaredAttributesActions'
 
 export const AgreementDeclaredAttributesSection: React.FC = () => {
@@ -44,6 +48,14 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
     }
   }
 
+  const getChipLabel = (attributeId: string) => {
+    const attribute = ownedDeclaredAttributes.find((a) => a.id === attributeId)
+    if (!attribute) return
+
+    if (isAttributeRevoked('declared', attribute))
+      return tAttribute('group.manage.revokedByOwnParty')
+  }
+
   return (
     <SectionContainer
       newDesign
@@ -59,6 +71,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
                 <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
+                  chipLabel={getChipLabel(attribute.id)}
                   checked={isAttributeOwned('declared', attribute.id, ownedDeclaredAttributes)}
                   actions={getDeclaredAttributeActions(attribute.id)}
                 />

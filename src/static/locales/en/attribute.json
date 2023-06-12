@@ -51,7 +51,8 @@
         "provider": "The consumer has none of the following attributes",
         "consumer": "Your organization has none of the following attributes"
       },
-      "revokedByParty": "Attribute revoked by a party"
+      "revokedByProducer": "Attribute revoked by a producer",
+      "revokedByOwnParty": "Attribute revoked by your own party"
     },
     "addBtn": "Add requirement",
     "cancelBtn": "Cancel",

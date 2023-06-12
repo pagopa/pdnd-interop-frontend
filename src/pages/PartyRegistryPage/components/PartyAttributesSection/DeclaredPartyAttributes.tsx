@@ -7,7 +7,6 @@ import { useJwt } from '@/hooks/useJwt'
 import { AttributeMutations } from '@/api/attribute'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
-import type { DeclaredTenantAttribute } from '@/api/api.generatedTypes'
 import { isAttributeRevoked } from '@/utils/attribute.utils'
 
 export const DeclaredAttributes = () => {
@@ -25,6 +24,7 @@ export const DeclaredAttributes = () => {
 const DeclaredAttributesList: React.FC = () => {
   const { isAdmin } = useJwt()
   const { t } = useTranslation('party', { keyPrefix: 'attributes.declared' })
+  const { t: tAttribute } = useTranslation('attribute')
 
   const { data } = PartyQueries.useGetActiveUserParty()
   const declaredAttributes = data?.attributes.declared ?? []
@@ -33,11 +33,9 @@ const DeclaredAttributesList: React.FC = () => {
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
 
   function getAttributeActions(
-    attribute: DeclaredTenantAttribute
+    isRevoked: boolean
   ): Parameters<typeof AttributeContainer>[0]['actions'] {
     if (!isAdmin) return []
-
-    const isRevoked = isAttributeRevoked('declared', attribute)
 
     if (!isRevoked)
       return [
@@ -68,15 +66,19 @@ const DeclaredAttributesList: React.FC = () => {
 
   return (
     <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
-      {declaredAttributes.map((attribute) => (
-        <li key={attribute.id}>
-          <AttributeContainer
-            checked={!isAttributeRevoked('declared', attribute)}
-            actions={getAttributeActions(attribute)}
-            attribute={attribute}
-          />
-        </li>
-      ))}
+      {declaredAttributes.map((attribute) => {
+        const isRevoked = isAttributeRevoked('declared', attribute)
+        return (
+          <li key={attribute.id}>
+            <AttributeContainer
+              chipLabel={isRevoked ? tAttribute('group.manage.revokedByOwnParty') : undefined}
+              checked={!isAttributeRevoked('declared', attribute)}
+              actions={getAttributeActions(isRevoked)}
+              attribute={attribute}
+            />
+          </li>
+        )
+      })}
     </Stack>
   )
 }

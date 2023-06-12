@@ -73,6 +73,6 @@ describe('AgreementVerifiedAttributesSection', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.getByText('group.manage.revokedByParty')).toBeInTheDocument()
+    expect(screen.getByText('group.manage.revokedByProducer')).toBeInTheDocument()
   })
 })

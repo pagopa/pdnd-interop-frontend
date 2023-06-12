@@ -9,7 +9,7 @@
   },
   "certified": {
     "label": "Attributi Certificati",
-    "description": "Ovvero attributi riconosciuti da una fonte autoritativa agli aderenti."
+    "description": "Ovvero attributi <1>riconosciuti da una fonte autoritativa agli aderenti.</1>"
   },
   "verified": {
     "label": "Attributi Verificati",
@@ -51,7 +51,8 @@
         "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
         "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
       },
-      "revokedByParty": "Attributo revocato da un erogatore"
+      "revokedByProducer": "Attributo revocato da un erogatore",
+      "revokedByOwnParty": "Attributo revocato dal tuo ente"
     },
     "addBtn": "Aggiungi requisito",
     "cancelBtn": "Annulla",
