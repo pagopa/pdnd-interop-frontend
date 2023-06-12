@@ -34,8 +34,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
     if (!attribute) return
 
-    if (mode === 'consumer' && isAttributeRevoked('verified', attribute))
-      return tAttribute('group.manage.revokedByParty')
+    if (isAttributeRevoked('verified', attribute)) return tAttribute('group.manage.revokedByParty')
   }
 
   function getGroupContainerProps(
