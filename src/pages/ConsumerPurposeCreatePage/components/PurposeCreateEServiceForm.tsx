@@ -1,4 +1,4 @@
-import type { RiskAnalysisForm } from '@/api/api.generatedTypes'
+import type { PurposeSeed, RiskAnalysisForm } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, SectionContainer } from '@/components/layout/containers'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
@@ -62,12 +62,13 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       riskAnalysisForm = purpose.riskAnalysisForm
     }
 
-    const payloadCreatePurposeDraft = {
+    const payloadCreatePurposeDraft: PurposeSeed = {
       consumerId: jwt?.organizationId,
       eserviceId,
       title,
       description,
       riskAnalysisForm,
+      isFreeOfCharge: true,
     }
 
     createPurposeDraft(payloadCreatePurposeDraft, {

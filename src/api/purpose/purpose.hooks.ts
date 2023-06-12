@@ -4,7 +4,7 @@ import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import PurposeServices from './purpose.services'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
-import type { GetPurposesParams } from '../api.generatedTypes'
+import type { GetConsumerPurposesParams, GetProducerPurposesParams } from '../api.generatedTypes'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -12,7 +12,7 @@ export enum PurposeQueryKeys {
 }
 
 function useGetProducersList(
-  params: GetPurposesParams,
+  params: GetProducerPurposesParams,
   config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getProducersList>>>
 ) {
   return useQueryWrapper(
@@ -23,7 +23,7 @@ function useGetProducersList(
 }
 
 function useGetConsumersList(
-  params: GetPurposesParams,
+  params: GetConsumerPurposesParams,
   config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getConsumersList>>>
 ) {
   return useQueryWrapper(

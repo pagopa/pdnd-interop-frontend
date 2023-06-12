@@ -67,6 +67,7 @@ const createMockPurpose = createMockFactory<Purpose>({
     },
     state: 'ACTIVE',
   },
+  isFreeOfCharge: false,
 })
 
 export { createMockPurpose }
