@@ -29,7 +29,7 @@
   "mustOwn": "Devi possedere:",
   "group": {
     "read": {
-      "provider": "Il fruitore dovrà possedere almeno uno dei seguenti requisiti",
+      "provider": "Il fruitore dovrà possedere almeno uno dei seguenti attributi",
       "consumer": "Il tuo ente dovrà possedere almeno uno dei seguenti attributi"
     },
     "manage": {
@@ -40,7 +40,7 @@
       "warning": {
         "verified": {
           "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
-          "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti requisiti"
+          "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti attributi"
         },
         "declared": {
           "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
@@ -51,7 +51,7 @@
         "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
         "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
       },
-      "revokedByParty": "Attributo revocato da un ente"
+      "revokedByParty": "Attributo revocato da un erogatore"
     },
     "addBtn": "Aggiungi requisito",
     "cancelBtn": "Annulla",
