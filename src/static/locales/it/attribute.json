@@ -9,7 +9,7 @@
   },
   "certified": {
     "label": "Attributi Certificati",
-    "description": "Ovvero attributi riconosciuti agli aderenti da una fonte autoritativa."
+    "description": "Ovvero attributi riconosciuti da una fonte autoritativa agli aderenti."
   },
   "verified": {
     "label": "Attributi Verificati",

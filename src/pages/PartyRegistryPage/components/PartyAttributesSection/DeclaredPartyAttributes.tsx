@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  AttributeContainer,
-  AttributeContainerSkeleton,
-  AttributeGroupContainer,
-} from '@/components/layout/containers'
+import { AttributeContainer, AttributeContainerSkeleton } from '@/components/layout/containers'
 import { Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { PartyQueries } from '@/api/party/party.hooks'
@@ -53,6 +49,7 @@ const DeclaredAttributesList: React.FC = () => {
           color: 'error',
         },
       ]
+
     if (isRevoked)
       return [
         {
