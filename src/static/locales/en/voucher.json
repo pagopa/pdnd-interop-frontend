@@ -225,6 +225,9 @@
           "clientAssertionSignatureVerification": "Check that there is a match between the private key with which the client assertion was signed and the public one identified with the kid and recovered in step 2.",
           "platformStatesVerification": "It verifies that all the administrative and technical components of the flow foreseen by PDND Interoperabilità are active"
         },
+        "closeIconBtn": {
+          "aria-label": "Close"
+        },
         "stepResultLabel": "Verification result:",
         "nextStepBtn": "Go to next step"
       },

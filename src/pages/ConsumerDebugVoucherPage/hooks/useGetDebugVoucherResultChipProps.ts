@@ -33,6 +33,4 @@ export function useGetDebugVoucherResultChipProps(
       color: 'error',
     }
   }
-
-  throw new Error('Unknown step result:', step.result)
 }

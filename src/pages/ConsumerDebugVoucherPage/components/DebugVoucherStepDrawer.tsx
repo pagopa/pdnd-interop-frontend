@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useGetDebugVoucherResultChipProps } from '../hooks/useGetDebugVoucherResultChipProps'
 
 const HeaderDrawer: React.FC = () => {
+  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result.stepDrawer' })
   const { setDebugVoucherStepDrawer } = useDebugVoucherContext()
 
   const handleDrawerClose = () => {
@@ -24,7 +25,7 @@ const HeaderDrawer: React.FC = () => {
       pr={1}
       pb={1}
     >
-      <IconButton onClick={handleDrawerClose} aria-label="Close">
+      <IconButton onClick={handleDrawerClose} aria-label={t('closeIconBtn.aria-label')}>
         <CloseIcon fontSize="small" />
       </IconButton>
     </Box>
@@ -67,7 +68,8 @@ const DebugVoucherStepDrawer: React.FC = () => {
 
         {((response.clientKind === 'CONSUMER' &&
           selectedStep?.[0] !== 'platformStatesVerification') ||
-          selectedStep?.[0] !== 'clientAssertionSignatureVerification') && (
+          (response.clientKind !== 'CONSUMER' &&
+            selectedStep?.[0] !== 'clientAssertionSignatureVerification')) && (
           <Box position="absolute" bottom={37} width={327}>
             <Button variant="contained" fullWidth onClick={nextStep}>
               {t('stepDrawer.nextStepBtn')}

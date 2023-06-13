@@ -1,0 +1,273 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DebugVoucherResultsRequestSection testing > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          description
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-678bp8-MuiStack-root"
+        >
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                clientId.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                test request client id
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                clientAssertion.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                test request client assertion
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                clientAssertionType.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                clientAssertionType.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                grantType.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                grantType.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                client_credentials
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`DebugVoucherResultsRequestSection testing > should match snapshot if clientId is undefined 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+        <span
+          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        >
+          description
+        </span>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-678bp8-MuiStack-root"
+        >
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                clientId.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              />
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                clientAssertion.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                test request client assertion
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                clientAssertionType.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                clientAssertionType.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                grantType.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                grantType.description
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                client_credentials
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

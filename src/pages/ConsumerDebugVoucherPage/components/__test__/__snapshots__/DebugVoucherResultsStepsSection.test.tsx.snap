@@ -1,0 +1,702 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is failed and clientKind is API 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1p5q5e5-MuiStack-root"
+        >
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionValidation
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.publicKeyRetrieve
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.failed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionSignatureVerification
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.skipped
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is failed and clientKind is CONSUMER 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1p5q5e5-MuiStack-root"
+        >
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionValidation
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.publicKeyRetrieve
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.failed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionSignatureVerification
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.skipped
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.platformStatesVerification
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.skipped
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is failed and clientKind is undefined 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1p5q5e5-MuiStack-root"
+        >
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionValidation
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.publicKeyRetrieve
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.failed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionSignatureVerification
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.skipped
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is passed and clientKind is API 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1p5q5e5-MuiStack-root"
+        >
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionValidation
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.publicKeyRetrieve
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionSignatureVerification
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is passed and clientKind is CONSUMER 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1p5q5e5-MuiStack-root"
+        >
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionValidation
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.publicKeyRetrieve
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.clientAssertionSignatureVerification
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="css-84i68s-MuiStack-root"
+          >
+            <span
+              class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+            >
+              label.platformStatesVerification
+            </span>
+            <div
+              class="css-bcexoh-MuiStack-root"
+            >
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.passed
+                </span>
+              </div>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ChevronRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
