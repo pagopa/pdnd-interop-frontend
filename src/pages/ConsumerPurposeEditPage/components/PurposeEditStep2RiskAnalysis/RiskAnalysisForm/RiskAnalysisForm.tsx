@@ -31,10 +31,10 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
 
   const [_, startTransition] = React.useTransition()
   const [questions, setQuestions] = React.useState<Questions>(() =>
-    getUpdatedQuestions(defaultValues, riskAnalysis)
+    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
   )
   const [defaultValues, __] = React.useState<Answers>(() =>
-    getRiskAnalysisDefaultValues(riskAnalysis, purpose.riskAnalysisForm?.answers)
+    getRiskAnalysisDefaultValues(riskAnalysis.questions, purpose.riskAnalysisForm?.answers)
   )
 
   const formMethods = useForm<Answers>({
@@ -50,11 +50,9 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
    * and updates the actual visible questions on values change.
    */
   React.useEffect(() => {
-    const subscription = watch((values) => {
-      if (!values) return
-
+    const subscription = watch((answers) => {
       startTransition(() => {
-        setQuestions(getUpdatedQuestions(values, riskAnalysis))
+        setQuestions(getUpdatedQuestions(answers as Answers, riskAnalysis.questions))
       })
     })
     return () => subscription.unsubscribe()

@@ -1,8 +1,4 @@
-import type {
-  Dependency,
-  FormConfigQuestion,
-  RiskAnalysisFormConfig,
-} from '@/api/api.generatedTypes'
+import type { Dependency, FormConfigQuestion } from '@/api/api.generatedTypes'
 import type { AnswerValue, Answers, Questions } from '../types/risk-analysis-form.types'
 
 /**
@@ -20,13 +16,13 @@ import type { AnswerValue, Answers, Questions } from '../types/risk-analysis-for
  */
 export function getFrontendAnswerValue(
   backendAnswer: Array<string>,
-  question?: FormConfigQuestion
+  visualType?: FormConfigQuestion['visualType']
 ): AnswerValue {
-  if (question?.visualType === 'switch') {
+  if (visualType === 'switch') {
     return backendAnswer[0] === 'true'
   }
 
-  if (question?.visualType === 'checkbox') {
+  if (visualType === 'checkbox') {
     return backendAnswer
   }
 
@@ -80,37 +76,34 @@ export function getValidAnswers(currentQuestionsIds: Array<string>, answers: Ans
  * Returns true if the dependency is satisfied, false otherwise.
  *
  * @param dependency - the dependency
- * @param values - the actual form values
+ * @param answers - the actual form values
  * @returns `true` if the dependency is satisfied, `false` otherwise
  * */
-export function isDependencySatisfied(dependency: Dependency, values: Record<string, unknown>) {
-  if (Array.isArray(values[dependency.id])) {
-    return (values[dependency.id] as Array<unknown>).includes(dependency.value)
+export function isDependencySatisfied(dependency: Dependency, answers: Answers) {
+  const answer = answers[dependency.id]
+  if (Array.isArray(answer)) {
+    return answer.includes(dependency.value)
   }
-  if (Array.isArray(dependency.value)) {
-    return dependency.value.includes(values[dependency.id])
-  }
-  return values[dependency.id] === dependency.value
+
+  return answer === dependency.value
 }
 
 /**
  * Returns the updated question data.
  *
- * @param values - the actual form values
+ * @param answers - the actual form values
  * @param riskAnalysis - the risk analysis document
  *
  * @returns the updated questions data
  * */
 export function getUpdatedQuestions(
-  values: Record<string, unknown>,
-  riskAnalysis: RiskAnalysisFormConfig
+  answers: Answers,
+  riskAnalysisQuestions: FormConfigQuestion[]
 ): Questions {
-  const questions = riskAnalysis.questions
-
   // Filters all the questions that not satisfies the dependency inside the "dependencies" property
-  return questions.reduce<Questions>((acc, question) => {
+  return riskAnalysisQuestions.reduce<Questions>((acc, question) => {
     const doesSatisfyDeps = question.dependencies.every((dependency) =>
-      isDependencySatisfied(dependency, values)
+      isDependencySatisfied(dependency, answers)
     )
     if (doesSatisfyDeps) {
       acc[question.id] = question
@@ -127,21 +120,19 @@ export function getUpdatedQuestions(
  * defined in the risk analysis document.
  *
  * @param riskAnalysisConfig the risk analysis document
- * @param actualAnswers the answers data, taken from the Purpose
+ * @param backendAnswers the answers data, taken from the Purpose
  * @returns the default values for the risk analysis form
  */
 export function getRiskAnalysisDefaultValues(
-  riskAnalysisConfig: RiskAnalysisFormConfig,
-  actualAnswers?: Record<string, Array<string>>
+  riskAnalysisConfigQuestions: FormConfigQuestion[],
+  backendAnswers?: Record<string, Array<string>>
 ): Answers {
-  return riskAnalysisConfig.questions.reduce<Answers>((acc, question) => {
-    const answer = actualAnswers?.[question.id] ?? question.defaultValue
-    acc[question.id] = getFrontendAnswerValue(answer, question)
+  return riskAnalysisConfigQuestions.reduce<Answers>((acc, question) => {
+    const answer = backendAnswers?.[question.id] ?? question.defaultValue
+    acc[question.id] = getFrontendAnswerValue(answer, question.visualType)
 
-    if (!acc[question.id]) {
-      if (question.dataType === 'FREETEXT') {
-        acc[question.id] = ''
-      }
+    if (!acc[question.id] && question.dataType === 'FREETEXT') {
+      acc[question.id] = ''
     }
 
     return acc
