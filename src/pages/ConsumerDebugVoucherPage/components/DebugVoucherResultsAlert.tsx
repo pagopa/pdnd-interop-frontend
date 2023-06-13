@@ -25,10 +25,12 @@ const DebugVoucherResultsAlert: React.FC = () => {
    * this is a BE decision that when clientKind is API the last step is returned as SKIPPED and should be ignored
    */
   const isDebugVoucherPassed = Object.entries(response.steps).every(([key, step]) => {
-    step?.result === 'PASSED' ||
+    return (
+      step?.result === 'PASSED' ||
       (response.clientKind === 'API' &&
         (key as keyof TokenGenerationValidationSteps) === 'platformStatesVerification' &&
         step.result === 'SKIPPED')
+    )
   })
 
   if (isDebugVoucherPassed) {

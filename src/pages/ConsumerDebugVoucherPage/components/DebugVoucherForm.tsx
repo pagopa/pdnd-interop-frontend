@@ -49,10 +49,6 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
         setDebugVoucherValues({ request: payloadValidateVoucher, response: data })
       },
     })
-
-    // TODO: commenti per test mock... eliminare questi commenti
-    // const res: TokenGenerationValidationResult = mockResApi
-    // setDebugVoucherValues({ request: payloadValidateVoucher, response: res })
   }
 
   return (
