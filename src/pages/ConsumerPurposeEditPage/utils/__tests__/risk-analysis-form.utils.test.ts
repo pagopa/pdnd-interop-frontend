@@ -1,13 +1,17 @@
 import type { Dependency, FormConfigQuestion } from '@/api/api.generatedTypes'
 import {
+  formatRiskAnalysisInputInfoLabel,
+  formatRiskAnalysisInputLabel,
   getBackendAnswerValue,
   getFrontendAnswerValue,
   getRiskAnalysisDefaultValues,
+  getRiskAnalysisInputOptions,
   getUpdatedQuestions,
   getValidAnswers,
   isDependencySatisfied,
 } from '../risk-analysis-form.utils'
 import type { Answers } from '../../types/risk-analysis-form.types'
+import type { TFunction } from 'i18next'
 
 const _questions: Partial<FormConfigQuestion>[] = [
   {
@@ -198,6 +202,105 @@ describe('Risk analysis form utils', () => {
       }
       const result = getRiskAnalysisDefaultValues(questions, backendAnswers)
       expect(result['test-id']).toEqual('')
+    })
+  })
+
+  const tPurposeMock = ((str: string) => str) as TFunction<'purpose'>
+
+  describe('formatRiskAnalysisInputLabel', () => {
+    it('should contain the required label if the question is required', () => {
+      const question = {
+        label: { it: 'test' },
+        dataType: 'FREETEXT',
+        required: true,
+      } as FormConfigQuestion
+
+      const result = formatRiskAnalysisInputLabel(question, 'it', tPurposeMock)
+
+      expect(result).toContain('edit.step2.validation.required')
+    })
+
+    it('should contain the multiple choice label if the question is of multiple choices', () => {
+      const question = {
+        label: { it: 'test' },
+        dataType: 'MULTI',
+        required: false,
+      } as FormConfigQuestion
+
+      const result = formatRiskAnalysisInputLabel(question, 'it', tPurposeMock)
+
+      expect(result).toContain('edit.step2.validation.multipleChoice')
+    })
+
+    it('should both required and multiple choice labels separated by a comma if the question has both', () => {
+      const question = {
+        label: { it: 'test' },
+        dataType: 'MULTI',
+        required: true,
+      } as FormConfigQuestion
+
+      const result = formatRiskAnalysisInputLabel(
+        question,
+        'it',
+        ((str: string) => str) as TFunction<'purpose'>
+      )
+
+      expect(result).toContain(
+        'edit.step2.validation.required, edit.step2.validation.multipleChoice'
+      )
+    })
+  })
+
+  describe('formatRiskAnalysisInputInfoLabel', () => {
+    it('should return undefined if no infoLabel has been set and the question has no max length validation', () => {
+      const question = {
+        infoLabel: undefined,
+        validation: undefined,
+      } as FormConfigQuestion
+
+      const result = formatRiskAnalysisInputInfoLabel(question, 'it', tPurposeMock)
+      expect(result).toBeUndefined()
+    })
+
+    it("should return only the max length validation string if the question doesn't have an infoLabel but has a max lenght validation rule", () => {
+      const question = {
+        infoLabel: undefined,
+        validation: { maxLength: 40 },
+      } as FormConfigQuestion
+
+      const result = formatRiskAnalysisInputInfoLabel(question, 'it', tPurposeMock)
+      expect(result).toEqual('edit.step2.validation.maxLength')
+    })
+
+    it("should format correctly the infoLabel if it's present", () => {
+      const question = {
+        infoLabel: { it: 'test' },
+        validation: { maxLength: 40 },
+      } as FormConfigQuestion
+
+      const result = formatRiskAnalysisInputInfoLabel(question, 'it', tPurposeMock)
+      expect(result).toEqual('test. edit.step2.validation.maxLength')
+    })
+  })
+
+  describe('getRiskAnalysisInputOptions', () => {
+    it('should filter out the options that have one of the hideOption dependencies satisfied', () => {
+      const question = {
+        options: [
+          { value: 'option-1', label: { it: 'option-1', en: 'option-1' } },
+          { value: 'option-2', label: { it: 'option-2', en: 'option-2' } },
+        ],
+        hideOption: {
+          'option-1': [{ value: 'test', id: 'test-1' }],
+        },
+      } as unknown as FormConfigQuestion
+
+      const answers = {
+        'test-1': 'test',
+      }
+
+      const result = getRiskAnalysisInputOptions(question, answers, 'it')
+      expect(result.length).toBe(1)
     })
   })
 })
