@@ -3,10 +3,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { Alert, Box, Stack, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { StepActions } from '@/components/shared/StepActions'
-import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
-import { PurposeMutations } from '@/api/purpose'
+import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import type { Answers, Questions } from '../../../types/risk-analysis-form.types'
 import {
   getRiskAnalysisDefaultValues,
@@ -15,26 +12,25 @@ import {
 } from '../../../utils/risk-analysis-form.utils'
 import { RiskAnalysisFormComponents } from './RiskAnalysisFormComponents'
 
-type RiskAnalysisFormProps = ActiveStepProps & {
-  purpose: Purpose
+type RiskAnalysisFormProps = {
+  defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
+  onSubmit: (answers: Record<string, string[]>) => void
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
-  back,
-  forward,
-  purpose,
+  defaultAnswers,
   riskAnalysis,
+  onSubmit,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
-  const { mutate: updatePurpose } = PurposeMutations.useUpdateDraft()
 
   const [_, startTransition] = React.useTransition()
   const [questions, setQuestions] = React.useState<Questions>(() =>
     getUpdatedQuestions(defaultValues, riskAnalysis.questions)
   )
   const [defaultValues, __] = React.useState<Answers>(() =>
-    getRiskAnalysisDefaultValues(riskAnalysis.questions, purpose.riskAnalysisForm?.answers)
+    getRiskAnalysisDefaultValues(riskAnalysis.questions, defaultAnswers)
   )
 
   const formMethods = useForm<Answers>({
@@ -62,15 +58,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
     const currentQuestionsIds = Object.keys(questions)
     const validAnswers = getValidAnswers(currentQuestionsIds, answers)
 
-    updatePurpose(
-      {
-        purposeId: purpose.id,
-        title: purpose.title,
-        description: purpose.description,
-        riskAnalysisForm: { version: riskAnalysis.version, answers: validAnswers },
-      },
-      { onSuccess: forward }
-    )
+    onSubmit(validAnswers)
   })
 
   return (
@@ -88,13 +76,6 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
             <RiskAnalysisFormComponents questions={questions} />
           </Stack>
         </SectionContainer>
-        <StepActions
-          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{
-            label: t('forwardWithSaveBtn'),
-            type: 'submit',
-          }}
-        />
       </Box>
     </FormProvider>
   )

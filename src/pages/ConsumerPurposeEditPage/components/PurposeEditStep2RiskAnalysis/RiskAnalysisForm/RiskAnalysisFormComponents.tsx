@@ -12,6 +12,7 @@ import {
 import { RiskAnalysisSwitch } from './RiskAnalysisSwitch'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { isDependencySatisfied } from '@/pages/ConsumerPurposeEditPage/utils/risk-analysis-form.utils'
 
 /**
  * Returns the updated form components.
@@ -29,15 +30,14 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
   return React.useMemo(() => {
     function parseOption(
       option: LabeledValue,
-      { /* hideOption, */ id, defaultValue }: FormConfigQuestion
+      { hideOption, id, defaultValue }: FormConfigQuestion
     ) {
       // if the key "hideOption" is present in the question object and the conditions are satisfied
       // the option will be not added to the array of options
-      // TODO const shouldHideOption =
-      //   hideOption &&
-      //   hideOption[option.value] &&
-      //   hideOption[option.value].some((dep) => isDependencySatisfied(dep, values))
-      const shouldHideOption = false
+      const shouldHideOption =
+        hideOption &&
+        hideOption[option.value] &&
+        hideOption[option.value].some((dep) => isDependencySatisfied(dep, values))
 
       if (!shouldHideOption) {
         return { value: option.value, label: option.label[lang] }
@@ -51,8 +51,7 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
     function buildFormQuestionComponents(question: FormConfigQuestion, isLast: boolean) {
       const questionComponents: Array<React.ReactNode> = []
 
-      //TODO const maxLength = question?.validation?.maxLength
-      const maxLength = 50
+      const maxLength = question?.validation?.maxLength
       const isRequired = question.required
       const isMultipleChoice = question.dataType === 'MULTI'
       const inputOptions = (question.options
