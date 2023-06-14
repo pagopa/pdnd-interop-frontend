@@ -1,4 +1,4 @@
-import type { Dependency, FormConfigQuestion } from '@/api/api.generatedTypes'
+import type { Dependency, FormConfigQuestion, HideOption } from '@/api/api.generatedTypes'
 import type { AnswerValue, Answers, Questions } from '../types/risk-analysis-form.types'
 
 /**
@@ -79,7 +79,7 @@ export function getValidAnswers(currentQuestionsIds: Array<string>, answers: Ans
  * @param answers - the actual form values
  * @returns `true` if the dependency is satisfied, `false` otherwise
  * */
-export function isDependencySatisfied(dependency: Dependency, answers: Answers) {
+export function isDependencySatisfied(dependency: Dependency | HideOption, answers: Answers) {
   const answer = answers[dependency.id]
   if (Array.isArray(answer)) {
     return answer.includes(dependency.value)
