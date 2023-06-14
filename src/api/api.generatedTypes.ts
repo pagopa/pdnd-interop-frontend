@@ -658,9 +658,9 @@ export interface CompactClient {
 export interface PurposeUpdateContent {
   title: string
   description: string
-  riskAnalysisForm?: RiskAnalysisForm
   isFreeOfCharge: boolean
   freeOfChargeReason?: string
+  riskAnalysisForm?: RiskAnalysisForm
 }
 
 export interface Purposes {
