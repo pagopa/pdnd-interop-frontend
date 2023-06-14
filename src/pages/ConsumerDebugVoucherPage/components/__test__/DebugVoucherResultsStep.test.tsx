@@ -5,8 +5,6 @@ import { fireEvent, render } from '@testing-library/react'
 import { vi } from 'vitest'
 import { DebugVoucherResultsStep } from '../DebugVoucherResultsStep'
 
-// vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnValue(() => false)
-
 describe('DebugVoucherResultsStep testing', () => {
   it('should match snapshot if result is failed', () => {
     const screen = render(
