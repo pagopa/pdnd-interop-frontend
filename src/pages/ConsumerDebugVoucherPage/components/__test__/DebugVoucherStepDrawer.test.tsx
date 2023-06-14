@@ -1,4 +1,5 @@
 import {
+  createMockDebugVoucherResultFailed,
   createMockDebugVoucherResultPassed,
   createMockDebugVoucherResultStep,
 } from '__mocks__/data/voucher.mocks'
@@ -113,7 +114,7 @@ describe('DebugVoucherStepDrawer testing', () => {
 
   it('should button nextStep not be rendered if clientKind is undefined and selectedStep key is clientAssertionSignatureVerification', () => {
     mockDebugVoucherContext({
-      response: createMockDebugVoucherResultPassed({
+      response: createMockDebugVoucherResultFailed({
         clientKind: undefined,
         eservice: undefined,
         steps: {
@@ -202,7 +203,7 @@ describe('DebugVoucherStepDrawer testing', () => {
 
   it('should button nextStep be rendered if clientKind is undefined and selectedStep key is not clientAssertionSignatureVerification', () => {
     mockDebugVoucherContext({
-      response: createMockDebugVoucherResultPassed({
+      response: createMockDebugVoucherResultFailed({
         clientKind: undefined,
         eservice: undefined,
         steps: {
@@ -241,14 +242,14 @@ describe('DebugVoucherStepDrawer testing', () => {
   })
 
   it('should nextStep function be called on nextStepButton click', () => {
-    const nextStepMockFn = vi.fn()
+    const goToNextStepMockFn = vi.fn()
     mockDebugVoucherContext({
       response: createMockDebugVoucherResultPassed({ clientKind: 'CONSUMER' }),
       debugVoucherStepDrawer: {
         isOpen: true,
         selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
       },
-      nextStep: nextStepMockFn,
+      goToNextStep: goToNextStepMockFn,
     })
 
     const screen = render(<DebugVoucherStepDrawer />)
@@ -257,6 +258,6 @@ describe('DebugVoucherStepDrawer testing', () => {
 
     fireEvent.click(nextStepButton)
 
-    expect(nextStepMockFn).toBeCalled()
+    expect(goToNextStepMockFn).toBeCalled()
   })
 })

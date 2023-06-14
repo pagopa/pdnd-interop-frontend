@@ -34,7 +34,7 @@ const HeaderDrawer: React.FC = () => {
 
 const DebugVoucherStepDrawer: React.FC = () => {
   const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
-  const { debugVoucherStepDrawer, response, nextStep } = useDebugVoucherContext()
+  const { debugVoucherStepDrawer, response, goToNextStep } = useDebugVoucherContext()
 
   const selectedStep = debugVoucherStepDrawer.selectedStep
 
@@ -71,7 +71,7 @@ const DebugVoucherStepDrawer: React.FC = () => {
           (response.clientKind !== 'CONSUMER' &&
             selectedStep?.[0] !== 'clientAssertionSignatureVerification')) && (
           <Box position="absolute" bottom={37} width={327}>
-            <Button variant="contained" fullWidth onClick={nextStep}>
+            <Button variant="contained" fullWidth onClick={goToNextStep}>
               {t('stepDrawer.nextStepBtn')}
             </Button>
           </Box>

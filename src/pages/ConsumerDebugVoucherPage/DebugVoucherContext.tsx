@@ -22,7 +22,7 @@ type DebugVoucherContextType = {
         | undefined
     }>
   >
-  nextStep: VoidFunction
+  goToNextStep: VoidFunction
   handleMakeNewRequest: VoidFunction
 }
 
@@ -49,41 +49,47 @@ const DebugVoucherContextProvider: React.FC<DebugVoucherContextProviderProps> = 
     selectedStep?: [keyof TokenGenerationValidationSteps, TokenGenerationValidationEntry]
   }>({ isOpen: false, selectedStep: undefined })
 
-  const nextStep = useCallback(() => {
-    if (response) {
-      switch (debugVoucherStepDrawer.selectedStep?.[0]) {
+  /**
+   * Based on the current selectedStep key we know which is the subsequent step key
+   * and when we change the debugVoucherStepDrawer selectedStep value we use the steps value from response
+   */
+  const goToNextStep = useCallback(() => {
+    setDebugVoucherStepDrawer((prev) => {
+      switch (prev.selectedStep?.[0]) {
         case 'clientAssertionValidation':
-          setDebugVoucherStepDrawer((prev) => ({
+          return {
             ...prev,
             selectedStep: ['publicKeyRetrieve', response?.steps.publicKeyRetrieve],
-          }))
-          break
+          }
         case 'publicKeyRetrieve':
-          setDebugVoucherStepDrawer((prev) => ({
+          return {
             ...prev,
             selectedStep: [
               'clientAssertionSignatureVerification',
               response?.steps.clientAssertionSignatureVerification,
             ],
-          }))
-          break
+          }
         case 'clientAssertionSignatureVerification':
           if (response.clientKind === 'CONSUMER') {
-            setDebugVoucherStepDrawer((prev) => ({
+            return {
               ...prev,
               selectedStep: [
                 'platformStatesVerification',
                 response.steps.platformStatesVerification,
               ],
-            }))
+            }
           }
-          break
         case 'platformStatesVerification':
         default:
-          break
+          return prev
       }
-    }
-  }, [debugVoucherStepDrawer.selectedStep, response])
+    })
+  }, [
+    response.clientKind,
+    response.steps.clientAssertionSignatureVerification,
+    response.steps.platformStatesVerification,
+    response.steps.publicKeyRetrieve,
+  ])
 
   const handleMakeNewRequest = useCallback(() => {
     onResetDebugVoucherValues()
@@ -95,10 +101,10 @@ const DebugVoucherContextProvider: React.FC<DebugVoucherContextProviderProps> = 
       response,
       debugVoucherStepDrawer,
       setDebugVoucherStepDrawer,
-      nextStep,
+      goToNextStep,
       handleMakeNewRequest,
     }
-  }, [debugVoucherStepDrawer, handleMakeNewRequest, nextStep, request, response])
+  }, [debugVoucherStepDrawer, goToNextStep, handleMakeNewRequest, request, response])
 
   return <Provider value={providerValue}>{children}</Provider>
 }
