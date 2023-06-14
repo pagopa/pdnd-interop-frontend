@@ -1,13 +1,13 @@
 import React from 'react'
-import type {
-  TokenGenerationValidationEntry,
-  TokenGenerationValidationSteps,
-} from '../types/debug-voucher.types'
 import { Chip, Stack, Typography } from '@mui/material'
 import RightArrowIcon from '@mui/icons-material/ChevronRight'
 import { useDebugVoucherContext } from '../DebugVoucherContext'
 import { useTranslation } from 'react-i18next'
 import { useGetDebugVoucherResultChipProps } from '../hooks/useGetDebugVoucherResultChipProps'
+import type {
+  TokenGenerationValidationEntry,
+  TokenGenerationValidationSteps,
+} from '@/api/api.generatedTypes'
 
 type ResultStepProps = {
   step: TokenGenerationValidationEntry

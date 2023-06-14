@@ -1,11 +1,11 @@
-import { createMockFactory } from '../../src/utils/testing.utils'
 import type {
-  TokenGenerationValidationRequest,
+  AccessTokenRequest,
   TokenGenerationValidationEntry,
   TokenGenerationValidationResult,
-} from '../../src/pages/ConsumerDebugVoucherPage/types/debug-voucher.types'
+} from '@/api/api.generatedTypes'
+import { createMockFactory } from '../../src/utils/testing.utils'
 
-const createMockDebugVoucherRequest = createMockFactory<TokenGenerationValidationRequest>({
+const createMockDebugVoucherRequest = createMockFactory<AccessTokenRequest>({
   client_id: 'test request client id',
   client_assertion: 'test request client assertion',
   client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',

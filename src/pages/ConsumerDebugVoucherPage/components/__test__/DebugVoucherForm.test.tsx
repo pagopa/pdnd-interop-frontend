@@ -5,12 +5,12 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { rest } from 'msw'
-import type { TokenGenerationValidationResult } from '../../types/debug-voucher.types'
 import { fireEvent, waitFor } from '@testing-library/react'
 import {
   createMockDebugVoucherRequest,
   createMockDebugVoucherResultPassed,
 } from '__mocks__/data/voucher.mocks'
+import type { TokenGenerationValidationResult } from '@/api/api.generatedTypes'
 
 const response = createMockDebugVoucherResultPassed()
 

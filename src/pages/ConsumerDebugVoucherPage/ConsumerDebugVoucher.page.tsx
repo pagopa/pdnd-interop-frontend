@@ -4,16 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { DebugVoucherForm } from './components/DebugVoucherForm'
 import { DebugVoucherResults } from './components/DebugVoucherResults'
 import { DebugVoucherContextProvider } from './DebugVoucherContext'
-import type {
-  TokenGenerationValidationRequest,
-  TokenGenerationValidationResult,
-} from './types/debug-voucher.types'
+import type { AccessTokenRequest, TokenGenerationValidationResult } from '@/api/api.generatedTypes'
 
 const ConsumerDebugVoucherPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerDebugVoucher' })
 
   const [debugVoucherValues, setDebugVoucherValues] = React.useState<{
-    request: TokenGenerationValidationRequest
+    request: AccessTokenRequest
     response: TokenGenerationValidationResult
   }>()
 

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import type { TokenGenerationValidationEntry } from '../types/debug-voucher.types'
 import type { ChipProps } from '@mui/material'
+import type { TokenGenerationValidationEntry } from '@/api/api.generatedTypes'
 
 export function useGetDebugVoucherResultChipProps(
   step?: TokenGenerationValidationEntry

@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react'
 import { createContext } from '@/utils/common.utils'
-import type {
+import {
+  AccessTokenRequest,
   TokenGenerationValidationEntry,
-  TokenGenerationValidationRequest,
   TokenGenerationValidationResult,
   TokenGenerationValidationSteps,
-} from './types/debug-voucher.types'
+} from '@/api/api.generatedTypes'
 
 type DebugVoucherContextType = {
-  request: TokenGenerationValidationRequest
+  request: AccessTokenRequest
   response: TokenGenerationValidationResult
   debugVoucherStepDrawer: {
     isOpen: boolean
@@ -33,7 +33,7 @@ const { useContext, Provider } = createContext<DebugVoucherContextType>(
 
 type DebugVoucherContextProviderProps = {
   children: React.ReactNode
-  request: TokenGenerationValidationRequest
+  request: AccessTokenRequest
   response: TokenGenerationValidationResult
   onResetDebugVoucherValues: VoidFunction
 }

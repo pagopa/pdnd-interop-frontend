@@ -4,11 +4,8 @@ import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
-import type {
-  TokenGenerationValidationRequest,
-  TokenGenerationValidationResult,
-} from '../types/debug-voucher.types'
 import { VoucherMutations } from '@/api/voucher'
+import type { AccessTokenRequest, TokenGenerationValidationResult } from '@/api/api.generatedTypes'
 
 export type DebugVoucherFormValues = {
   clientAssertion: string
@@ -18,8 +15,7 @@ export type DebugVoucherFormValues = {
 export type DebugVoucherFormProps = {
   setDebugVoucherValues: React.Dispatch<
     React.SetStateAction<
-      | { request: TokenGenerationValidationRequest; response: TokenGenerationValidationResult }
-      | undefined
+      { request: AccessTokenRequest; response: TokenGenerationValidationResult } | undefined
     >
   >
 }
@@ -37,7 +33,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
   })
 
   const onSubmit = (formValues: DebugVoucherFormValues) => {
-    const payloadValidateVoucher: TokenGenerationValidationRequest = {
+    const payloadValidateVoucher: AccessTokenRequest = {
       client_id: formValues.clientId,
       client_assertion: formValues.clientAssertion,
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
