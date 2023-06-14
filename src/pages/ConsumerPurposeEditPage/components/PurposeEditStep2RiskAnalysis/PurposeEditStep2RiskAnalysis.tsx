@@ -3,13 +3,9 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm/RiskAnalysisForm'
 import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
-import { NotFoundError } from '@/utils/errors.utils'
 import { RiskAnalysisVersionMismatchDialog } from './RiskAnalysisForm'
-import { StepActions } from '@/components/shared/StepActions'
-import { useTranslation } from 'react-i18next'
 
 export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back, forward }) => {
-  const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const navigate = useNavigate()
 
@@ -17,19 +13,15 @@ export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back, 
     React.useState(false)
 
   const { mutate: updatePurpose } = PurposeMutations.useUpdateDraft()
-  const { data: purpose, isLoading: isLoadingPurpose } = PurposeQueries.useGetSingle(purposeId, {
+  const { data: purpose } = PurposeQueries.useGetSingle(purposeId, {
     suspense: false,
   })
   const { data: riskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
     suspense: false,
   })
 
-  if (isLoadingPurpose || !riskAnalysis) {
+  if (!purpose || !riskAnalysis) {
     return <RiskAnalysisFormSkeleton />
-  }
-
-  if (!purpose) {
-    throw new NotFoundError()
   }
 
   const hasVersionMismatch =
@@ -61,19 +53,11 @@ export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back, 
   }
 
   return (
-    <>
-      <RiskAnalysisForm
-        riskAnalysis={riskAnalysis}
-        defaultAnswers={purpose.riskAnalysisForm?.answers}
-        onSubmit={handleSubmit}
-      />
-      <StepActions
-        back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-        forward={{
-          label: t('forwardWithSaveBtn'),
-          type: 'submit',
-        }}
-      />
-    </>
+    <RiskAnalysisForm
+      riskAnalysis={riskAnalysis}
+      defaultAnswers={purpose.riskAnalysisForm?.answers}
+      onSubmit={handleSubmit}
+      onCancel={back}
+    />
   )
 }

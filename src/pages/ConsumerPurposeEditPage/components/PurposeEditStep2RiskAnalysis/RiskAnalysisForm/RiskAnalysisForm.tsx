@@ -11,17 +11,20 @@ import {
   getValidAnswers,
 } from '../../../utils/risk-analysis-form.utils'
 import { RiskAnalysisFormComponents } from './RiskAnalysisFormComponents'
+import { StepActions } from '@/components/shared/StepActions'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
   onSubmit: (answers: Record<string, string[]>) => void
+  onCancel: VoidFunction
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   defaultAnswers,
   riskAnalysis,
   onSubmit,
+  onCancel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
 
@@ -76,6 +79,13 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
             <RiskAnalysisFormComponents questions={questions} />
           </Stack>
         </SectionContainer>
+        <StepActions
+          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: onCancel }}
+          forward={{
+            label: t('forwardWithSaveBtn'),
+            type: 'submit',
+          }}
+        />
       </Box>
     </FormProvider>
   )

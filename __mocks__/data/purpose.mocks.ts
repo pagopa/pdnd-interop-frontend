@@ -1,4 +1,4 @@
-import type { Purpose } from '@/api/api.generatedTypes'
+import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockPurpose = createMockFactory<Purpose>({
@@ -70,4 +70,44 @@ const createMockPurpose = createMockFactory<Purpose>({
   isFreeOfCharge: false,
 })
 
-export { createMockPurpose }
+const createMockRiskAnalysisFormConfig = createMockFactory<RiskAnalysisFormConfig>({
+  version: '2.0',
+  questions: [
+    {
+      dataType: 'SINGLE',
+      defaultValue: ['INSTITUTIONAL'],
+      dependencies: [],
+      id: 'purpose',
+      label: {
+        en: '',
+        it: 'Question 1',
+      },
+      options: [
+        {
+          label: {
+            en: '',
+            it: 'option 1',
+          },
+          value: 'INSTITUTIONAL',
+        },
+        { label: { en: '', it: 'Other' }, value: 'OTHER' },
+      ],
+      required: true,
+      visualType: 'radio',
+    },
+    {
+      dataType: 'FREETEXT',
+      defaultValue: [],
+      dependencies: [{ id: 'purpose', value: 'OTHER' }],
+      id: 'institutionalPurpose',
+      label: {
+        en: '',
+        it: 'Question 2',
+      },
+      required: true,
+      visualType: 'text',
+    },
+  ],
+})
+
+export { createMockPurpose, createMockRiskAnalysisFormConfig }

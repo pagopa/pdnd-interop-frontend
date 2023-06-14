@@ -14,7 +14,6 @@ type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   options: Array<InputOption>
   name: string
   rules?: ControllerProps['rules']
-  onValueChange?: (value: boolean) => void
 }
 
 export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
@@ -24,7 +23,6 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   name,
   sx,
   rules,
-  onValueChange,
   ...switchProps
 }) => {
   const { formState } = useFormContext()
@@ -47,7 +45,6 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
                 {...switchProps}
                 {...fieldProps}
                 onChange={(e) => {
-                  if (onValueChange) onValueChange(e.target.checked)
                   onChange(e.target.checked)
                 }}
                 checked={value}
