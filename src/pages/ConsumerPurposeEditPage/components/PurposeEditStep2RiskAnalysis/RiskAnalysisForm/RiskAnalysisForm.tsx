@@ -26,11 +26,11 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
 
   const [_, startTransition] = React.useTransition()
-  const [questions, setQuestions] = React.useState<Questions>(() =>
-    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
-  )
   const [defaultValues, __] = React.useState<Answers>(() =>
     getRiskAnalysisDefaultValues(riskAnalysis.questions, defaultAnswers)
+  )
+  const [questions, setQuestions] = React.useState<Questions>(() =>
+    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
   )
 
   const formMethods = useForm<Answers>({
