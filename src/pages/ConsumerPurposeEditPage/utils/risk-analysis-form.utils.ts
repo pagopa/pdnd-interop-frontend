@@ -1,5 +1,12 @@
-import type { Dependency, FormConfigQuestion, HideOption } from '@/api/api.generatedTypes'
+import type {
+  Dependency,
+  FormConfigQuestion,
+  HideOption,
+  LabeledValue,
+} from '@/api/api.generatedTypes'
 import type { AnswerValue, Answers, Questions } from '../types/risk-analysis-form.types'
+import type { InputOption, LangCode } from '@/types/common.types'
+import type { TFunction } from 'i18next'
 
 /**
  * Transform the answers from the backend to the frontend format
@@ -137,4 +144,102 @@ export function getRiskAnalysisDefaultValues(
 
     return acc
   }, {})
+}
+
+/**
+ * Returns the formatted label for the risk analysis input.
+ *
+ * @param label - the label to format
+ * @param lang - the current active language
+ * @param t - the translation function
+ * @returns the formatted label for the risk analysis input
+ */
+export function formatRiskAnalysisInputLabel(
+  question: FormConfigQuestion,
+  lang: LangCode,
+  t: TFunction<'purpose'>
+) {
+  const isRequired = question.required
+  const isMultipleChoice = question.dataType === 'MULTI'
+
+  let label = question.label[lang]
+
+  const labelValidation: Array<string> = []
+
+  if (isRequired) {
+    labelValidation.push(t('edit.step2.validation.required'))
+  }
+
+  if (isMultipleChoice) {
+    labelValidation.push(t('edit.step2.validation.multipleChoice'))
+  }
+
+  if (labelValidation.length > 0) {
+    label += ` (${labelValidation.join(', ')})`
+  }
+
+  return label
+}
+
+/**
+ * Returns the formatted info label for the risk analysis input.
+ * The info label is the text that appears below the input.
+ *
+ * @param question - the question
+ * @param lang - the current active language
+ * @param t - the translation function
+ * @returns the formatted info label for the risk analysis input
+ */
+export function formatRiskAnalysisInputInfoLabel(
+  question: FormConfigQuestion,
+  lang: LangCode,
+  t: TFunction<'purpose'>
+) {
+  const maxLength = question?.validation?.maxLength
+
+  let infoLabel = question.infoLabel && question.infoLabel[lang]
+
+  if (maxLength) {
+    const maxLengthLabel = t('edit.step2.validation.maxLength', { num: maxLength })
+    if (infoLabel) {
+      infoLabel += `. ${maxLengthLabel}`
+    } else {
+      infoLabel = maxLengthLabel
+    }
+  }
+
+  return infoLabel
+}
+
+/**
+ * Returns the options for the risk analysis input.
+ * If the question has the property "hideOption" and the conditions are satisfied
+ * the option will be not added to the array of options.
+ *
+ * @param question - the question
+ * @param answers - the actual form values
+ * @param lang - the current active language
+ * @returns the options for the risk analysis input
+ * */
+export function getRiskAnalysisInputOptions(
+  question: FormConfigQuestion,
+  answers: Answers,
+  lang: LangCode
+) {
+  const { options = [], hideOption } = question
+  function shouldHideOption(option: LabeledValue) {
+    // if the key "hideOption" is present in the question object and the conditions are satisfied
+    // the option will be not added to the array of options
+    return hideOption?.[option.value]?.some((dep) => isDependencySatisfied(dep, answers))
+  }
+
+  return options.reduce<Array<InputOption>>((acc, option) => {
+    if (!shouldHideOption(option)) {
+      acc.push({
+        label: option.label[lang],
+        value: option.value,
+      })
+    }
+    return acc
+  }, [])
 }
