@@ -1,0 +1,484 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1p5q5e5-MuiStack-root"
+        >
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                providerField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                PagoPa S.p.A.
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                purposeStatusField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <div
+                  class="css-w4z10b-MuiStack-root"
+                >
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      status.purpose.ACTIVE
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                dailyCallsEstimateField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                dailyCallsEstimateField.value
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                consumerThreshold.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                consumerThreshold.value
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                totalThreshold.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                totalThreshold.value
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                eServiceField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
+                  target="_blank"
+                >
+                  eServiceField.value
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                agreementField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
+                  target="_blank"
+                >
+                  agreementField.link.label
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                isFreeOfChargeField.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                isFreeOfChargeField.labelDescription
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                isFreeOfChargeField.no
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+    >
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        >
+          title
+        </h2>
+      </div>
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      >
+        <div
+          class="css-1p5q5e5-MuiStack-root"
+        >
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                consumerField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                PagoPa S.p.A.
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                purposeStatusField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <div
+                  class="css-w4z10b-MuiStack-root"
+                >
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      status.purpose.ACTIVE
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                dailyCallsEstimateField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                dailyCallsEstimateField.value
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                consumerThreshold.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                consumerThreshold.value
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                totalThreshold.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                totalThreshold.value
+              </p>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                eServiceField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
+                  target="_blank"
+                >
+                  eServiceField.value
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                agreementField.label
+              </p>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <div
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                <a
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
+                  target="_blank"
+                >
+                  agreementField.link.label
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-19qjufr-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-iuqs4u"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+              >
+                isFreeOfChargeField.label
+              </p>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+              />
+              <span
+                class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+              >
+                isFreeOfChargeField.labelDescription
+              </span>
+            </div>
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                isFreeOfChargeField.no
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`PurposeDetailsGeneralInfoSectionSkeleton > should match snapshot  1`] = `
+<body>
+  <div>
+    <span
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+      style="height: 336px;"
+    />
+  </div>
+</body>
+`;

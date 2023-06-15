@@ -25,7 +25,8 @@
     "backToListBtn": "Torna alle finalità",
     "defaultPurpose": {
       "title": "Nuova finalità",
-      "description": "Lorem ipsum dolor sit amet..."
+      "description": "Lorem ipsum dolor sit amet...",
+      "freeOfChargeReason": "Sono una Pubblica Amministrazione"
     }
   },
   "edit": {
@@ -55,6 +56,17 @@
       "descriptionField": {
         "label": "Descrizione della finalità (richiesto)",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
+      },
+      "isFreeOfChargeField": {
+        "label": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente E-service è a titolo gratuito (richiesto)",
+        "options": {
+          "SI": "Sì",
+          "NO": "No"
+        }
+      },
+      "freeOfChargeReasonField": {
+        "label": "Motivazione titolo gratuito (richiesto)",
+        "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
       },
       "eserviceField": {
         "label": "E-service da associare (richiesto)"
@@ -196,6 +208,15 @@
         "totalThreshold": {
           "label": "Soglia totale",
           "value": "{{value}} chiamate/giorno"
+        },
+        "isFreeOfChargeField": {
+          "label": "Finalità a titolo gratuito",
+          "labelDescription": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente e-service è a titolo gratuito",
+          "yes": "Sì",
+          "no": "No"
+        },
+        "freeOfChargeReasonField": {
+          "label": "Motivazione titolo gratuito"
         }
       },
       "loadEstimateUpdate": {

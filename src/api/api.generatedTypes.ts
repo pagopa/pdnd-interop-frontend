@@ -658,6 +658,8 @@ export interface CompactClient {
 export interface PurposeUpdateContent {
   title: string
   description: string
+  isFreeOfCharge: boolean
+  freeOfChargeReason?: string
   riskAnalysisForm?: RiskAnalysisForm
 }
 

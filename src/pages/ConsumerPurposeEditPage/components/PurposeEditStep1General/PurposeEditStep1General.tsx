@@ -4,6 +4,7 @@ import { useParams } from '@/router'
 import { NotFoundError } from '@/utils/errors.utils'
 import PurposeEditStep1GeneralForm, {
   PurposeEditStep1GeneralFormSkeleton,
+  type PurposeEditStep1GeneralFormValues,
 } from './PurposeEditStep1GeneralForm'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 
@@ -21,10 +22,12 @@ export const PurposeEditStep1General: React.FC<ActiveStepProps> = (props) => {
     throw new NotFoundError()
   }
 
-  const defaultValues = {
+  const defaultValues: PurposeEditStep1GeneralFormValues = {
     title: purpose.title,
     description: purpose.description,
     dailyCalls: purpose.versions[0]?.dailyCalls ?? 1,
+    isFreeOfCharge: purpose.isFreeOfCharge ? 'SI' : 'NO',
+    freeOfChargeReason: purpose.freeOfChargeReason,
   }
 
   return <PurposeEditStep1GeneralForm purpose={purpose} defaultValues={defaultValues} {...props} />
