@@ -3,8 +3,10 @@
 exports[`DebugVoucherResultsStep testing > should match snapshot if result is failed 1`] = `
 <body>
   <div>
-    <div
-      class="css-84i68s-MuiStack-root"
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
     >
       <span
         class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -35,7 +37,10 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if result is fa
           />
         </svg>
       </div>
-    </div>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
   </div>
 </body>
 `;
@@ -43,8 +48,10 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if result is fa
 exports[`DebugVoucherResultsStep testing > should match snapshot if step result is passed 1`] = `
 <body>
   <div>
-    <div
-      class="css-84i68s-MuiStack-root"
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
     >
       <span
         class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -75,7 +82,10 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
           />
         </svg>
       </div>
-    </div>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
   </div>
 </body>
 `;
@@ -83,8 +93,10 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
 exports[`DebugVoucherResultsStep testing > should match snapshot if step result is skipped 1`] = `
 <body>
   <div>
-    <div
-      class="css-84i68s-MuiStack-root"
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
     >
       <span
         class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -115,7 +127,10 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
           />
         </svg>
       </div>
-    </div>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
   </div>
 </body>
 `;

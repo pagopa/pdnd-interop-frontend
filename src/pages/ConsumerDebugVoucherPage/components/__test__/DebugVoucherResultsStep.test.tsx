@@ -50,10 +50,13 @@ describe('DebugVoucherResultsStep testing', () => {
       />
     )
 
-    expect(screen.getByText('label.clientAssertionValidation')).toBeInTheDocument()
-    expect(screen.getByText('chipLabel.failed')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'label.clientAssertionValidation chipLabel.failed' })
+    ).toBeInTheDocument()
 
-    fireEvent.click(screen.getByText('chipLabel.failed'))
+    fireEvent.click(
+      screen.getByRole('button', { name: 'label.clientAssertionValidation chipLabel.failed' })
+    )
 
     expect(setDebugVoucherStepDrawerMockFn).toBeCalled()
   })

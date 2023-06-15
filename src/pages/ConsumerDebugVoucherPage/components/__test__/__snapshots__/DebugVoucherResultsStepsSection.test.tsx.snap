@@ -21,8 +21,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         <div
           class="css-1p5q5e5-MuiStack-root"
         >
-          <div
-            class="css-84i68s-MuiStack-root"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -53,9 +55,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -86,9 +93,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -119,7 +131,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
     </section>
@@ -148,8 +163,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         <div
           class="css-1p5q5e5-MuiStack-root"
         >
-          <div
-            class="css-84i68s-MuiStack-root"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -180,9 +197,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -213,9 +235,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -246,9 +273,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -279,7 +311,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
     </section>
@@ -308,8 +343,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         <div
           class="css-1p5q5e5-MuiStack-root"
         >
-          <div
-            class="css-84i68s-MuiStack-root"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -340,9 +377,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -373,9 +415,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -406,7 +453,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
     </section>
@@ -435,8 +485,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         <div
           class="css-1p5q5e5-MuiStack-root"
         >
-          <div
-            class="css-84i68s-MuiStack-root"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -467,9 +519,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -500,9 +557,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -533,7 +595,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
     </section>
@@ -562,8 +627,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         <div
           class="css-1p5q5e5-MuiStack-root"
         >
-          <div
-            class="css-84i68s-MuiStack-root"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -594,9 +661,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -627,9 +699,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -660,9 +737,14 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
-          <div
-            class="css-84i68s-MuiStack-root"
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
             <span
               class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -693,7 +775,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
                 />
               </svg>
             </div>
-          </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
     </section>

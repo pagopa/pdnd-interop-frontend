@@ -1,5 +1,5 @@
 import React from 'react'
-import { Chip, Stack, Typography } from '@mui/material'
+import { Button, Chip, Stack, Typography } from '@mui/material'
 import RightArrowIcon from '@mui/icons-material/ChevronRight'
 import { useDebugVoucherContext } from '../DebugVoucherContext'
 import { useTranslation } from 'react-i18next'
@@ -28,15 +28,15 @@ export const DebugVoucherResultsStep: React.FC<ResultStepProps> = ({ step, stepK
   }
 
   return (
-    <Stack
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-      flex={1}
-      border={1}
-      borderColor={'background.default'}
-      borderRadius="4px"
-      p={2}
+    <Button
+      variant="naked"
+      sx={{
+        border: 1,
+        borderColor: 'background.default',
+        borderRadius: '4px',
+        p: 2,
+        justifyContent: 'space-between',
+      }}
       onClick={handleClick}
     >
       <Typography component={'span'} variant="body1" fontWeight={600}>
@@ -46,6 +46,6 @@ export const DebugVoucherResultsStep: React.FC<ResultStepProps> = ({ step, stepK
         {chipProps && <Chip size="small" label={chipProps.label} color={chipProps.color} />}
         <RightArrowIcon />
       </Stack>
-    </Stack>
+    </Button>
   )
 }

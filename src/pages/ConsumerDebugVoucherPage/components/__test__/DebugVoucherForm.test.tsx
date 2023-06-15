@@ -65,4 +65,32 @@ describe('DebugVoucherForm testing', () => {
       })
     )
   })
+
+  it('should call the onSuccess function when clientId is not compiled', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
+    fireEvent.click(submitButton)
+
+    const request = createMockDebugVoucherRequest({
+      client_id: undefined,
+      client_assertion: 'test client assertion',
+    })
+
+    await waitFor(() =>
+      expect(setDebugVoucherValuesMockFn).toBeCalledWith({
+        request: request,
+        response: response,
+      })
+    )
+  })
 })
