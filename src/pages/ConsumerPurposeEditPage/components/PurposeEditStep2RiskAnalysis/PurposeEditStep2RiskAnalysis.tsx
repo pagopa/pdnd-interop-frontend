@@ -47,6 +47,8 @@ export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back, 
         title: purpose.title,
         description: purpose.description,
         riskAnalysisForm: { version: riskAnalysis.version, answers },
+        freeOfChargeReason: purpose.freeOfChargeReason,
+        isFreeOfCharge: purpose.isFreeOfCharge,
       },
       { onSuccess: forward }
     )
