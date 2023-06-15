@@ -15,7 +15,6 @@ export type PurposeEditStep1GeneralFormValues = Omit<
 > & {
   dailyCalls: number
   isFreeOfCharge: 'SI' | 'NO'
-  freeOfChargeReason?: string // TODO: remove this field when the API will be updated
 }
 
 type PurposeEditStep1GeneralFormProps = ActiveStepProps & {
