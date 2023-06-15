@@ -85,8 +85,10 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
               <div
                 class="css-1p5q5e5-MuiStack-root"
               >
-                <div
-                  class="css-84i68s-MuiStack-root"
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+                  tabindex="0"
+                  type="button"
                 >
                   <span
                     class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -117,9 +119,11 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                       />
                     </svg>
                   </div>
-                </div>
-                <div
-                  class="css-84i68s-MuiStack-root"
+                </button>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+                  tabindex="0"
+                  type="button"
                 >
                   <span
                     class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -150,9 +154,11 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                       />
                     </svg>
                   </div>
-                </div>
-                <div
-                  class="css-84i68s-MuiStack-root"
+                </button>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+                  tabindex="0"
+                  type="button"
                 >
                   <span
                     class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
@@ -183,7 +189,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                       />
                     </svg>
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </section>
