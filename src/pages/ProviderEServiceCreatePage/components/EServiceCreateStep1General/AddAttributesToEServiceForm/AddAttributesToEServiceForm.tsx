@@ -2,7 +2,7 @@ import React from 'react'
 import type { AttributeKey } from '@/types/attribute.types'
 import { useFormContext } from 'react-hook-form'
 import type { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
@@ -20,7 +20,6 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: `create.step1.attributes` })
   const { t: tAttribute } = useTranslation('attribute')
-  const { t: tCommon } = useTranslation('common')
   const { openDialog } = useDialog()
 
   const { watch, setValue } = useFormContext<EServiceCreateStep1FormValues>()
@@ -62,12 +61,11 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
       innerSection
       title={tAttribute(`${attributeKey}.label`)}
       description={
-        <>
-          {tAttribute(`${attributeKey}.description`)}{' '}
-          <Link component={'a'} underline="hover" target="_blank" href={attributesHelpLink}>
-            {tCommon('howLink')}
-          </Link>
-        </>
+        <Trans
+          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+        >
+          {tAttribute(`${attributeKey}.description`)}
+        </Trans>
       }
     >
       <Box>
