@@ -2,7 +2,7 @@ import { AgreementQueries } from '@/api/agreement'
 import { AttributeQueries } from '@/api/attribute'
 import { EServiceQueries } from '@/api/eservice'
 import { useJwt } from '@/hooks/useJwt'
-import { checkEServiceAttributesOwnership } from '@/utils/attribute.utils'
+import { hasAllEServiceAttributes, remapEServiceAttributes } from '@/utils/attribute.utils'
 import React from 'react'
 
 export default function useCanUserSubmitAgreementDraft(agreementId: string) {
@@ -27,11 +27,25 @@ export default function useCanUserSubmitAgreementDraft(agreementId: string) {
     if (!agreement || !descriptor || !ownedCertified || !ownedDeclared) return false
 
     const isProviderSameAsSubscriber = agreement.consumer.id === agreement.producer.id
-    const hasAllDeclaredAndCertifiedAttributes =
-      agreement?.state !== 'MISSING_CERTIFIED_ATTRIBUTES' &&
-      checkEServiceAttributesOwnership(ownedCertified, descriptor.eservice.attributes.certified) &&
-      checkEServiceAttributesOwnership(ownedDeclared, descriptor.eservice.attributes.declared)
+    const remapedEServiceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
 
-    return hasAllDeclaredAndCertifiedAttributes || isProviderSameAsSubscriber
+    const hasAllCertifiedAttributes =
+      agreement?.state !== 'MISSING_CERTIFIED_ATTRIBUTES' &&
+      hasAllEServiceAttributes(
+        'certified',
+        ownedCertified.attributes,
+        remapedEServiceAttributes.certified
+      )
+
+    const hasAllDeclaredAttributes = hasAllEServiceAttributes(
+      'declared',
+      ownedDeclared.attributes,
+      remapedEServiceAttributes.declared
+    )
+
+    /**
+     * If the provider is the same as the subscriber, we don't need to check for attributes
+     */
+    return isProviderSameAsSubscriber || (hasAllCertifiedAttributes && hasAllDeclaredAttributes)
   }, [agreement, descriptor, ownedCertified, ownedDeclared])
 }

@@ -193,6 +193,14 @@
     "bodySingleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata il {{maintenanceStartDay}} alle {{maintenanceStartHour}} per circa {{hoursDuration}} ore. Ci scusiamo per gli eventuali disservizi causati.",
     "bodyMultipleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata dalle {{maintenanceStartHour}} del {{maintenanceStartDay}} alle {{maintenanceEndHour}} del {{maintenanceEndDay}}. Ci scusiamo per gli eventuali disservizi causati."
   },
+  "attributeContainer": {
+    "attributeIdLabel": "Id dell'attributo (attributeId)",
+    "idCopytooltipLabel": "Id copiato correttamente",
+    "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}"
+  },
+  "attributeGroupContainer": {
+    "removeGroupAriaLabel": "Rimuovi gruppo di attributi"
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",

@@ -11,7 +11,6 @@ import type {
   VerifiedAttributesResponse,
   VerifiedTenantAttributeSeed,
 } from '../api.generatedTypes'
-import { remapAttributeResponseData } from './attribute.api.utils'
 
 async function getList(params?: GetAttributesParams) {
   const response = await axiosInstance.get<Attributes>(`${BACKEND_FOR_FRONTEND_URL}/attributes`, {
@@ -31,21 +30,21 @@ async function getPartyCertifiedList(partyId: string) {
   const response = await axiosInstance.get<CertifiedAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/certified`
   )
-  return remapAttributeResponseData(response.data, 'certified')
+  return response.data
 }
 
-async function getPartyVerifiedList(partyId: string, verifierId?: string) {
+async function getPartyVerifiedList(partyId: string) {
   const response = await axiosInstance.get<VerifiedAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/verified`
   )
-  return remapAttributeResponseData(response.data, 'verified', verifierId)
+  return response.data
 }
 
 async function getPartyDeclaredList(partyId: string) {
   const response = await axiosInstance.get<DeclaredAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/declared`
   )
-  return remapAttributeResponseData(response.data, 'declared')
+  return response.data
 }
 
 async function create(payload: AttributeSeed) {

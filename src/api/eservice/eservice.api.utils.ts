@@ -1,9 +1,9 @@
-import type { FrontendAttributes } from '@/types/attribute.types'
+import type { RemappedEServiceAttributes } from '@/types/attribute.types'
 import { getKeys } from '@/utils/array.utils'
 import type { EServiceAttributes } from '../api.generatedTypes'
 
-export function remapFrontendAttributesToBackend(
-  _frontendAttributes: FrontendAttributes
+export function remapRemappedEServiceAttributesToBackend(
+  _frontendAttributes: RemappedEServiceAttributes
 ): EServiceAttributes {
   const attributekeys = getKeys(_frontendAttributes)
 

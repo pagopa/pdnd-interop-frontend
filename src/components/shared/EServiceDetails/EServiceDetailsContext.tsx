@@ -1,7 +1,7 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import type { FrontendAttributes } from '@/types/attribute.types'
+import type { RemappedEServiceAttributes } from '@/types/attribute.types'
 import type {
   AgreementState,
   CatalogEServiceDescriptor,
@@ -11,7 +11,7 @@ import type {
 
 type EServiceDetailsContextType = {
   descriptor: CatalogEServiceDescriptor | ProducerEServiceDescriptor
-  eserviceAttributes: FrontendAttributes
+  eserviceAttributes: RemappedEServiceAttributes
   isViewingDescriptorCurrentVersion: boolean
   agreement:
     | {

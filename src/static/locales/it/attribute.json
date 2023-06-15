@@ -8,22 +8,53 @@
     "declared_other": "dichiarati"
   },
   "certified": {
-    "label": "Attributi Certificati"
+    "label": "Attributi Certificati",
+    "description": "Ovvero attributi <1>riconosciuti da una fonte autoritativa agli aderenti</1>."
   },
   "verified": {
-    "label": "Attributi Verificati"
+    "label": "Attributi Verificati",
+    "description": "Ovvero attributi <1>riconosciuti dagli erogatori ai fruitori a seguito di un’istruttoria</1>. In alternativa, PDND Interoperabilità offre la possibilità agli erogatori di fare affidamento sulle istruttorie effettuate da altri erogatori, qualora disponibili."
   },
   "declared": {
-    "label": "Attributi Dichiarati"
+    "label": "Attributi Dichiarati",
+    "description": "Ovvero attributi <1>dei quali il fruitore dichiara il possesso</1>, riconoscendoseli sotto la propria responsabilità con un’autodichiarazione."
   },
-  "noAttributesRequiredAlert": "Non ci sono attributi {{attributeKey}} richiesti per questo e-service",
+  "noAttributesRequiredAlert": {
+    "provider": "Il tuo ente non richiede attributi {{attributeKey}}",
+    "consumer": "L'erogatore non richiede attributi {{attributeKey}}"
+  },
   "title": "attributo {{num}}:",
   "or": "oppure",
   "showInfoSrLabel": "Mostra informazioni attributo",
   "mustOwn": "Devi possedere:",
   "group": {
-    "title": "attributo {{num}}:",
-    "addBtn": "Aggiungi",
+    "read": {
+      "provider": "Il fruitore dovrà possedere almeno uno dei seguenti attributi",
+      "consumer": "Il tuo ente dovrà possedere almeno uno dei seguenti attributi"
+    },
+    "manage": {
+      "success": {
+        "provider": "Il fruitore possiede almeno uno dei seguenti attributi",
+        "consumer": "Il tuo ente possiede almeno uno dei seguenti attributi"
+      },
+      "warning": {
+        "verified": {
+          "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
+          "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti attributi"
+        },
+        "declared": {
+          "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
+          "consumer": "Il tuo ente deve possedere almeno uno dei seguenti attributi"
+        }
+      },
+      "error": {
+        "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
+        "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
+      },
+      "revokedByProducer": "Attributo revocato da un erogatore",
+      "revokedByOwnParty": "Attributo revocato dal tuo ente"
+    },
+    "addBtn": "Aggiungi requisito",
     "cancelBtn": "Annulla",
     "confirmDeclaredAttributeBtn": "Conferma",
     "or": "oppure",

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Typography } from '@mui/material'
+import { Alert, Box, Divider } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -8,9 +8,9 @@ import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
-import type { FrontendAttributes } from '@/types/attribute.types'
+import type { RemappedEServiceAttributes } from '@/types/attribute.types'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import { remapFrontendAttributesToBackend } from '@/api/eservice/eservice.api.utils'
+import { remapRemappedEServiceAttributesToBackend } from '@/api/eservice/eservice.api.utils'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import { useJwt } from '@/hooks/useJwt'
 import { getKeys } from '@/utils/array.utils'
@@ -22,7 +22,7 @@ export type EServiceCreateStep1FormValues = {
   name: string
   description: string
   technology: EServiceTechnology
-  attributes: FrontendAttributes
+  attributes: RemappedEServiceAttributes
 }
 
 export const EServiceCreateStep1General: React.FC = () => {
@@ -54,7 +54,7 @@ export const EServiceCreateStep1General: React.FC = () => {
   })
 
   const onSubmit = (formValues: EServiceCreateStep1FormValues) => {
-    const backendAttributes = remapFrontendAttributesToBackend(formValues.attributes)
+    const backendAttributes = remapRemappedEServiceAttributesToBackend(formValues.attributes)
     if (isNewEService) {
       if (!jwt?.organizationId) return
       createDraft(
@@ -112,11 +112,7 @@ export const EServiceCreateStep1General: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer>
-          <Typography component="h2" variant="h5">
-            {t('create.step1.detailsTitle')}
-          </Typography>
-
+        <SectionContainer newDesign title={t('create.step1.detailsTitle')} component="div">
           <RHFTextField
             name="name"
             focusOnMount
@@ -150,11 +146,18 @@ export const EServiceCreateStep1General: React.FC = () => {
           />
         </SectionContainer>
 
-        <AddAttributesToEServiceForm attributeKey="certified" readOnly={!isEditable} />
-
-        <AddAttributesToEServiceForm attributeKey="verified" readOnly={!isEditable} />
-
-        <AddAttributesToEServiceForm attributeKey="declared" readOnly={!isEditable} />
+        <SectionContainer
+          newDesign
+          title={t('create.step1.attributes.title')}
+          description={t('create.step1.attributes.description')}
+        >
+          <Divider sx={{ my: 3 }} />
+          <AddAttributesToEServiceForm attributeKey="certified" readOnly={!isEditable} />
+          <Divider sx={{ my: 3 }} />
+          <AddAttributesToEServiceForm attributeKey="verified" readOnly={!isEditable} />
+          <Divider sx={{ my: 3 }} />
+          <AddAttributesToEServiceForm attributeKey="declared" readOnly={!isEditable} />
+        </SectionContainer>
 
         {!isEditable && (
           <Alert severity="info" sx={{ mt: 4 }}>

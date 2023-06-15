@@ -1,0 +1,737 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AttributeContainer > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded css-1byhwgv-MuiPaper-root-MuiAccordion-root"
+        >
+          <div
+            aria-controls=":r0:"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root css-1pvvkxv-MuiButtonBase-root-MuiAccordionSummary-root"
+            id=":r1:"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiAccordionSummary-content css-1betqn-MuiAccordionSummary-content"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+              >
+                Test
+              </p>
+            </div>
+            <div
+              class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ExpandMoreIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+            style="min-height: 0px;"
+          >
+            <div
+              class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+              >
+                <div
+                  aria-labelledby=":r1:"
+                  class="MuiAccordion-region"
+                  id=":r0:"
+                  role="region"
+                >
+                  <div
+                    class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AttributeContainer > should match snapshot on opening accordion and loading attribute 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded Mui-expanded css-1byhwgv-MuiPaper-root-MuiAccordion-root"
+        >
+          <div
+            aria-controls=":ri:"
+            aria-expanded="true"
+            class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded css-1pvvkxv-MuiButtonBase-root-MuiAccordionSummary-root"
+            id=":rj:"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiAccordionSummary-content Mui-expanded css-1betqn-MuiAccordionSummary-content"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+              >
+                Test
+              </p>
+            </div>
+            <div
+              class="MuiAccordionSummary-expandIconWrapper Mui-expanded css-yw020d-MuiAccordionSummary-expandIconWrapper"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ExpandMoreIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiCollapse-root MuiCollapse-vertical css-1fkrdiv-MuiCollapse-root"
+            style="min-height: 0px; height: 0px; transition-duration: 0ms;"
+          >
+            <div
+              class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+              >
+                <div
+                  aria-labelledby=":rj:"
+                  class="MuiAccordion-region"
+                  id=":ri:"
+                  role="region"
+                >
+                  <div
+                    class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                  >
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    />
+                    <span
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AttributeContainer > should match snapshot on opening accordion with loading attribute complete 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded Mui-expanded css-1byhwgv-MuiPaper-root-MuiAccordion-root"
+        >
+          <div
+            aria-controls=":rl:"
+            aria-expanded="true"
+            class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded css-1pvvkxv-MuiButtonBase-root-MuiAccordionSummary-root"
+            id=":rm:"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiAccordionSummary-content Mui-expanded css-1betqn-MuiAccordionSummary-content"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+              >
+                Test
+              </p>
+            </div>
+            <div
+              class="MuiAccordionSummary-expandIconWrapper Mui-expanded css-yw020d-MuiAccordionSummary-expandIconWrapper"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ExpandMoreIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiCollapse-root MuiCollapse-vertical css-1fkrdiv-MuiCollapse-root"
+            style="min-height: 0px; height: 0px; transition-duration: 0ms;"
+          >
+            <div
+              class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+              >
+                <div
+                  aria-labelledby=":rm:"
+                  class="MuiAccordion-region"
+                  id=":rl:"
+                  role="region"
+                >
+                  <div
+                    class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                  >
+                    <div
+                      class="css-1gw2iun-MuiStack-root"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                      >
+                        Attribute description
+                      </p>
+                      <div
+                        class="css-19qjufr-MuiStack-root"
+                      >
+                        <div
+                          class="MuiBox-root css-iuqs4u"
+                        >
+                          <p
+                            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                          >
+                            attributeIdLabel
+                          </p>
+                        </div>
+                        <div
+                          class="MuiBox-root css-1rr4qq7"
+                        >
+                          <p
+                            class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                          >
+                            test-id
+                            <button
+                              aria-label="Copia"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
+                              data-mui-internal-clone-element="true"
+                              role="button"
+                              tabindex="0"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                                data-testid="ContentCopyIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+                                />
+                              </svg>
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
+                            </button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AttributeContainer > should match snapshot with actions 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded css-1byhwgv-MuiPaper-root-MuiAccordion-root"
+        >
+          <div
+            aria-controls=":rc:"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root css-1pvvkxv-MuiButtonBase-root-MuiAccordionSummary-root"
+            id=":rd:"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiAccordionSummary-content css-1betqn-MuiAccordionSummary-content"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+              >
+                Test
+              </p>
+            </div>
+            <div
+              class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ExpandMoreIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+            style="min-height: 0px;"
+          >
+            <div
+              class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+              >
+                <div
+                  aria-labelledby=":rd:"
+                  class="MuiAccordion-region"
+                  id=":rc:"
+                  role="region"
+                >
+                  <div
+                    class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-1x5gx3c-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-0"
+          />
+          <div
+            class="MuiCardActions-root css-1hll1z9-MuiCardActions-root"
+          >
+            <div
+              class="css-e53awj-MuiStack-root"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-14wetfy-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                action-1
+              </button>
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-14wetfy-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                action-2
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AttributeContainer > should match snapshot with checked icon 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-4b67si-MuiSvgIcon-root"
+          data-testid="CheckCircleIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded css-1byhwgv-MuiPaper-root-MuiAccordion-root"
+        >
+          <div
+            aria-controls=":r6:"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root css-1pvvkxv-MuiButtonBase-root-MuiAccordionSummary-root"
+            id=":r7:"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiAccordionSummary-content css-1betqn-MuiAccordionSummary-content"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+              >
+                Test
+              </p>
+            </div>
+            <div
+              class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ExpandMoreIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+            style="min-height: 0px;"
+          >
+            <div
+              class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+              >
+                <div
+                  aria-labelledby=":r7:"
+                  class="MuiAccordion-region"
+                  id=":r6:"
+                  role="region"
+                >
+                  <div
+                    class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AttributeContainer > should match snapshot with chip label 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded css-1byhwgv-MuiPaper-root-MuiAccordion-root"
+        >
+          <div
+            aria-controls=":r3:"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root css-1pvvkxv-MuiButtonBase-root-MuiAccordionSummary-root"
+            id=":r4:"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiAccordionSummary-content css-1betqn-MuiAccordionSummary-content"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+              >
+                Test
+              </p>
+            </div>
+            <div
+              class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ExpandMoreIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+            style="min-height: 0px;"
+          >
+            <div
+              class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+              >
+                <div
+                  aria-labelledby=":r4:"
+                  class="MuiAccordion-region"
+                  id=":r3:"
+                  role="region"
+                >
+                  <div
+                    class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-1x5gx3c-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-0"
+          >
+            <div
+              class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-w66kx-MuiChip-root"
+            >
+              <span
+                class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+              >
+                chip-label
+              </span>
+            </div>
+          </div>
+          <div
+            class="MuiCardActions-root css-1hll1z9-MuiCardActions-root"
+          >
+            <div
+              class="css-e53awj-MuiStack-root"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AttributeContainer > should match snapshot with remove icon 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      >
+        <button
+          aria-label="removeAttributeAriaLabel"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorError MuiIconButton-sizeMedium css-1jo1f9u-MuiButtonBase-root-MuiIconButton-root"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="RemoveCircleOutlineIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            />
+          </svg>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded css-1byhwgv-MuiPaper-root-MuiAccordion-root"
+        >
+          <div
+            aria-controls=":r9:"
+            aria-expanded="false"
+            class="MuiButtonBase-root MuiAccordionSummary-root css-1pvvkxv-MuiButtonBase-root-MuiAccordionSummary-root"
+            id=":ra:"
+            role="button"
+            tabindex="0"
+          >
+            <div
+              class="MuiAccordionSummary-content css-1betqn-MuiAccordionSummary-content"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+              >
+                Test
+              </p>
+            </div>
+            <div
+              class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ExpandMoreIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+            style="min-height: 0px;"
+          >
+            <div
+              class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+              >
+                <div
+                  aria-labelledby=":ra:"
+                  class="MuiAccordion-region"
+                  id=":r9:"
+                  role="region"
+                >
+                  <div
+                    class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AttributeContainerSkeleton > should match snapshot (checked) 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+          style="width: 23px; height: 23px;"
+        />
+      </div>
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1dbrcok-MuiSkeleton-root"
+        style="height: 51px;"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AttributeContainerSkeleton > should match snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="css-1yo1jo6-MuiStack-root"
+    >
+      <div
+        class="css-1yo1jo6-MuiStack-root"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1dbrcok-MuiSkeleton-root"
+        style="height: 51px;"
+      />
+    </div>
+  </div>
+</body>
+`;

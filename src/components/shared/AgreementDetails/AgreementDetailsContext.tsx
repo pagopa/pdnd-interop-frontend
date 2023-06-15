@@ -2,18 +2,29 @@ import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import { EServiceQueries } from '@/api/eservice'
 import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import type { FrontendAttributes, PartyAttributes } from '@/types/attribute.types'
+import type { RemappedEServiceAttributes } from '@/types/attribute.types'
 import { AgreementQueries } from '@/api/agreement'
 import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { AttributeQueries } from '@/api/attribute'
-import type { Agreement } from '@/api/api.generatedTypes'
+import type {
+  Agreement,
+  CertifiedTenantAttribute,
+  DeclaredTenantAttribute,
+  VerifiedTenantAttribute,
+} from '@/api/api.generatedTypes'
 
 type AgreementDetailsContextType = {
   agreement: Agreement | undefined
-  eserviceAttributes: FrontendAttributes | undefined
-  partyAttributes: PartyAttributes | undefined
+  eserviceAttributes: RemappedEServiceAttributes | undefined
+  partyAttributes:
+    | {
+        certified: CertifiedTenantAttribute[]
+        verified: VerifiedTenantAttribute[]
+        declared: DeclaredTenantAttribute[]
+      }
+    | undefined
   isAgreementEServiceMine: boolean
   canBeUpgraded: boolean
 }
@@ -39,6 +50,7 @@ const AgreementDetailsContextProvider: React.FC<{
   const { mode } = useCurrentRoute()
 
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
+
   // This should not stay here, waiting to get the attributes from the agreement itself
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
     agreement?.eservice.id as string,
@@ -48,7 +60,7 @@ const AgreementDetailsContextProvider: React.FC<{
 
   const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
 
-  const [{ data: certified = [] }, { data: verified = [] }, { data: declared = [] }] =
+  const [{ data: certified }, { data: verified }, { data: declared }] =
     AttributeQueries.useGetListParty(partyId, agreement?.producer.id)
 
   const providerValue = React.useMemo(() => {
@@ -58,7 +70,11 @@ const AgreementDetailsContextProvider: React.FC<{
     const isAgreementEServiceMine = agreement.producer.id === agreement.consumer.id
 
     const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
-    const partyAttributes = { certified, verified, declared }
+    const partyAttributes = {
+      certified: certified?.attributes ?? [],
+      verified: verified?.attributes ?? [],
+      declared: declared?.attributes ?? [],
+    }
 
     return {
       agreement,

@@ -9,18 +9,16 @@ import {
   AgreementDocumentListSection,
   AgreementDocumentListSectionSkeleton,
 } from './components/AgreementDocumentListSection'
-import {
-  AgreementCertifiedAttributesSection,
-  AgreementVerifiedAttributesSection,
-  AgreementDeclaredAttributesSection,
-  AgreementAttributesListSectionSkeleton,
-} from './components/AgreementAttributesListSections'
 import { AgreementRejectedMessageSection } from './components/AgreementRejectedMessageSection'
 import { AgreementConsumerMessageSection } from './components/AgreementConsumerMessageSection'
 import { AgreementUpgradeGuideSection } from './components/AgreementUpgradeGuideSection'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '../ApiInfoSection'
 import { AgreementQueries } from '@/api/agreement'
 import { useTranslation } from 'react-i18next'
+import {
+  AgreementAttributesListSections,
+  AgreementAttributesListSectionsSkeleton,
+} from './components/AgreementAttributesListSections'
 
 type AgreementDetailsProps = {
   agreementId: string
@@ -56,9 +54,7 @@ export const AgreementDetails: React.FC<AgreementDetailsProps> = ({ agreementId 
       <AgreementRejectedMessageSection />
       <AgreementConsumerMessageSection />
 
-      <AgreementCertifiedAttributesSection />
-      <AgreementVerifiedAttributesSection />
-      <AgreementDeclaredAttributesSection />
+      <AgreementAttributesListSections />
     </AgreementDetailsContextProvider>
   )
 }
@@ -80,9 +76,7 @@ export const AgreementDetailsSkeleton: React.FC = () => {
         </Grid>
       </Grid>
 
-      <AgreementAttributesListSectionSkeleton />
-      <AgreementAttributesListSectionSkeleton />
-      <AgreementAttributesListSectionSkeleton />
+      <AgreementAttributesListSectionsSkeleton />
     </Stack>
   )
 }

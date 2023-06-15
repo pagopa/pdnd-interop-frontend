@@ -5,16 +5,6 @@ import { createMockPurpose } from '__mocks__/data/purpose.mocks'
 import { createMockAgreementListingItem } from '__mocks__/data/agreement.mocks'
 
 describe('StatusChip', () => {
-  it('should match the snapshot (attribute - ACTIVE)', () => {
-    const { baseElement } = render(<StatusChip for="attribute" kind="CERTIFIED" state="ACTIVE" />)
-    expect(baseElement).toMatchSnapshot()
-  })
-
-  it('should match the snapshot (attribute - NOT_ACTIVE)', () => {
-    const { baseElement } = render(<StatusChip for="attribute" kind="CERTIFIED" />)
-    expect(baseElement).toMatchSnapshot()
-  })
-
   it('should match the snapshot (purpose - with only waiting for approval version)', () => {
     const { baseElement } = render(
       <StatusChip

@@ -9,7 +9,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
       <div
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
       >
-        <div
+        <section
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
@@ -117,8 +117,8 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
               </div>
             </div>
           </div>
-        </div>
-        <div
+        </section>
+        <section
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
@@ -180,12 +180,12 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
       <div
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
       >
-        <div
+        <section
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
@@ -435,183 +435,166 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
         class="css-1okj3ks-MuiStack-root"
       >
         <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
         >
           title
         </h2>
-        <span
-          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
-          subtitle
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
-        </span>
+          description
+        </p>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
       >
-        <div
-          class="css-1p5q5e5-MuiStack-root"
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
         />
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
-          role="alert"
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+            class="css-1okj3ks-MuiStack-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-              data-testid="InfoOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <h3
+              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
             >
-              <path
-                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-              />
-            </svg>
+              certified.label
+            </h3>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              certified.description
+            </p>
           </div>
           <div
-            class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+            class="MuiBox-root css-1yuhvjn"
           >
-            emptyLabel
+            <div
+              class="css-1p5q5e5-MuiStack-root"
+            />
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.consumer
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
-    >
-      <div
-        class="css-1okj3ks-MuiStack-root"
-      >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
-        >
-          title
-        </h2>
-        <span
-          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-        >
-          subtitle
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
-        </span>
-      </div>
-      <div
-        class="MuiBox-root css-1yuhvjn"
-      >
-        <div
-          class="css-1p5q5e5-MuiStack-root"
+        </section>
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
         />
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
-          role="alert"
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+            class="css-1okj3ks-MuiStack-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-              data-testid="InfoOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <h3
+              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
             >
-              <path
-                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-              />
-            </svg>
+              verified.label
+            </h3>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              verified.description
+            </p>
           </div>
           <div
-            class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+            class="MuiBox-root css-1yuhvjn"
           >
-            emptyLabel
+            <div
+              class="css-1p5q5e5-MuiStack-root"
+            />
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.consumer
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
-    >
-      <div
-        class="css-1okj3ks-MuiStack-root"
-      >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
-        >
-          title
-        </h2>
-        <span
-          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-        >
-          subtitle
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
-        </span>
-      </div>
-      <div
-        class="MuiBox-root css-1yuhvjn"
-      >
-        <div
-          class="css-1p5q5e5-MuiStack-root"
+        </section>
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
         />
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
-          role="alert"
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+            class="css-1okj3ks-MuiStack-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-              data-testid="InfoOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <h3
+              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
             >
-              <path
-                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-              />
-            </svg>
+              declared.label
+            </h3>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              declared.description
+            </p>
           </div>
           <div
-            class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+            class="MuiBox-root css-1yuhvjn"
           >
-            emptyLabel
+            <div
+              class="css-1p5q5e5-MuiStack-root"
+            />
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.consumer
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
@@ -625,7 +608,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
       <div
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
       >
-        <div
+        <section
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
@@ -733,8 +716,8 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
               </div>
             </div>
           </div>
-        </div>
-        <div
+        </section>
+        <section
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
@@ -796,12 +779,12 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
       <div
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
       >
-        <div
+        <section
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
@@ -1051,183 +1034,166 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
         class="css-1okj3ks-MuiStack-root"
       >
         <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
         >
           title
         </h2>
-        <span
-          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
-          subtitle
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
-        </span>
+          description
+        </p>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
       >
-        <div
-          class="css-1p5q5e5-MuiStack-root"
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
         />
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
-          role="alert"
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+            class="css-1okj3ks-MuiStack-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-              data-testid="InfoOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <h3
+              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
             >
-              <path
-                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-              />
-            </svg>
+              certified.label
+            </h3>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              certified.description
+            </p>
           </div>
           <div
-            class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+            class="MuiBox-root css-1yuhvjn"
           >
-            emptyLabel
+            <div
+              class="css-1p5q5e5-MuiStack-root"
+            />
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.provider
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
-    >
-      <div
-        class="css-1okj3ks-MuiStack-root"
-      >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
-        >
-          title
-        </h2>
-        <span
-          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-        >
-          subtitle
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
-        </span>
-      </div>
-      <div
-        class="MuiBox-root css-1yuhvjn"
-      >
-        <div
-          class="css-1p5q5e5-MuiStack-root"
+        </section>
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
         />
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
-          role="alert"
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+            class="css-1okj3ks-MuiStack-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-              data-testid="InfoOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <h3
+              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
             >
-              <path
-                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-              />
-            </svg>
+              verified.label
+            </h3>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              verified.description
+            </p>
           </div>
           <div
-            class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+            class="MuiBox-root css-1yuhvjn"
           >
-            emptyLabel
+            <div
+              class="css-1p5q5e5-MuiStack-root"
+            />
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.provider
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
-    >
-      <div
-        class="css-1okj3ks-MuiStack-root"
-      >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
-        >
-          title
-        </h2>
-        <span
-          class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-        >
-          subtitle
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
-        </span>
-      </div>
-      <div
-        class="MuiBox-root css-1yuhvjn"
-      >
-        <div
-          class="css-1p5q5e5-MuiStack-root"
+        </section>
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
         />
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-1fuz9qr-MuiPaper-root-MuiAlert-root"
-          role="alert"
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+            class="css-1okj3ks-MuiStack-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-              data-testid="InfoOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <h3
+              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
             >
-              <path
-                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-              />
-            </svg>
+              declared.label
+            </h3>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              declared.description
+            </p>
           </div>
           <div
-            class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+            class="MuiBox-root css-1yuhvjn"
           >
-            emptyLabel
+            <div
+              class="css-1p5q5e5-MuiStack-root"
+            />
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.provider
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;

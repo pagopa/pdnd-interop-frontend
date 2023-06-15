@@ -1,6 +1,5 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
-import { remapUserResponseData } from './party.utils'
 import type {
   GetUserInstitutionRelationshipsParams,
   RelationshipsResponse,
@@ -11,8 +10,7 @@ import type {
 
 async function getParty(partyId: string) {
   const response = await axiosInstance.get<Tenant>(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`)
-
-  return remapUserResponseData(response.data)
+  return response.data
 }
 
 async function getUsersList({ tenantId, ...params }: GetUserInstitutionRelationshipsParams) {

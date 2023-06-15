@@ -247,40 +247,6 @@ exports[`StatusChip > should match the snapshot (agreement - suspendedByPlatform
 </body>
 `;
 
-exports[`StatusChip > should match the snapshot (attribute - ACTIVE) 1`] = `
-<body>
-  <div>
-    <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1rq9bu9-MuiChip-root"
-      kind="CERTIFIED"
-    >
-      <span
-        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
-      >
-        status.attribute.certified.ACTIVE
-      </span>
-    </div>
-  </div>
-</body>
-`;
-
-exports[`StatusChip > should match the snapshot (attribute - NOT_ACTIVE) 1`] = `
-<body>
-  <div>
-    <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorWarning MuiChip-filledWarning css-1cocbx6-MuiChip-root"
-      kind="CERTIFIED"
-    >
-      <span
-        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
-      >
-        status.attribute.certified.NOT_ACTIVE
-      </span>
-    </div>
-  </div>
-</body>
-`;
-
 exports[`StatusChip > should match the snapshot (eservice - ARCHIVED) 1`] = `
 <body>
   <div>

@@ -1,5 +1,5 @@
 export * from './PageBottomActionsContainer'
 export * from './SectionContainer'
 export * from './PageContainer'
-export * from './AttributeContainerRow'
+export * from './AttributeContainer'
 export * from './AttributeGroupContainer'

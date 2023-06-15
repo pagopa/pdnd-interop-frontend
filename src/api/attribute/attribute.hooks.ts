@@ -2,8 +2,8 @@ import { useQueries, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
-import { Attributes, GetAttributesParams } from '../api.generatedTypes'
-import { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import type { Attribute, Attributes, GetAttributesParams } from '../api.generatedTypes'
+import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum AttributeQueryKeys {
   GetList = 'AttributeGetList',
@@ -22,9 +22,11 @@ function useGetList(params: GetAttributesParams, config?: UseQueryWrapperOptions
   )
 }
 
-function useGetSingle(attributeId: string) {
-  return useQueryWrapper([AttributeQueryKeys.GetSingle, attributeId], () =>
-    AttributeServices.getSingle(attributeId)
+function useGetSingle(attributeId: string, config?: UseQueryWrapperOptions<Attribute>) {
+  return useQueryWrapper(
+    [AttributeQueryKeys.GetSingle, attributeId],
+    () => AttributeServices.getSingle(attributeId),
+    config
   )
 }
 
@@ -54,10 +56,10 @@ function usePrefetchPartyCertifiedList() {
     )
 }
 
-function useGetPartyVerifiedList(partyId?: string, verifierId?: string) {
+function useGetPartyVerifiedList(partyId?: string) {
   return useQueryWrapper(
     [AttributeQueryKeys.GetPartyVerifiedList, partyId],
-    () => AttributeServices.getPartyVerifiedList(partyId!, verifierId),
+    () => AttributeServices.getPartyVerifiedList(partyId!),
     {
       enabled: !!partyId,
     }
@@ -85,7 +87,7 @@ function useGetListParty(partyId?: string, verifierId?: string, config = { suspe
       },
       {
         queryKey: [AttributeQueryKeys.GetPartyVerifiedList, partyId],
-        queryFn: () => AttributeServices.getPartyVerifiedList(partyId!, verifierId),
+        queryFn: () => AttributeServices.getPartyVerifiedList(partyId!),
         enabled: !!partyId,
         ...config,
       },

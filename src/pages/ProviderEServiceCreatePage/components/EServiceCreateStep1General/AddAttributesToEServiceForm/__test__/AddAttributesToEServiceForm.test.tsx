@@ -5,10 +5,13 @@ import {
   AddAttributesToEServiceForm,
   type AddAttributesToEServiceFormProps,
 } from '../AddAttributesToEServiceForm'
-import type { FrontendAttribute } from '@/types/attribute.types'
+import type { RemappedEServiceAttribute } from '@/types/attribute.types'
 import { render } from '@testing-library/react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { createMockAttribute, createMockFrontendAttribute } from '__mocks__/data/attribute.mocks'
+import {
+  createMockAttribute,
+  createMockRemappedEServiceAttribute,
+} from '__mocks__/data/attribute.mocks'
 import { AttributeQueries } from '@/api/attribute'
 import { Dialog } from '@/components/dialogs'
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -26,18 +29,18 @@ vi.spyOn(AttributeQueries, 'usePrefetchSingle').mockReturnValue(
 
 type MockContext = {
   attributes: {
-    certified: FrontendAttribute[]
-    verified: FrontendAttribute[]
-    declared: FrontendAttribute[]
+    certified: RemappedEServiceAttribute[]
+    verified: RemappedEServiceAttribute[]
+    declared: RemappedEServiceAttribute[]
   }
 }
 
 const getInputWrapper = (
   defaultValues: MockContext = {
     attributes: {
-      certified: [createMockFrontendAttribute()],
-      verified: [createMockFrontendAttribute()],
-      declared: [createMockFrontendAttribute()],
+      certified: [createMockRemappedEServiceAttribute()],
+      verified: [createMockRemappedEServiceAttribute()],
+      declared: [createMockRemappedEServiceAttribute()],
     },
   }
 ) => {
@@ -163,13 +166,10 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const buttons = formComponent.getAllByRole('button', { name: 'addBtn' })
-
-    expect(formComponent.queryAllByText('title').length).toBe(1)
-
-    await user.click(buttons[1])
-
-    expect(formComponent.queryAllByText('title').length).toBe(2)
+    const addGroupButton = formComponent.getAllByRole('button', { name: 'addBtn' })[1]
+    expect(formComponent.queryAllByText('read.provider').length).toBe(1)
+    await user.click(addGroupButton)
+    expect(formComponent.queryAllByText('read.provider').length).toBe(2)
   })
 
   it('should remove correctly an attributes group', async () => {
@@ -179,15 +179,11 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const buttonDelete = formComponent.getByLabelText('deleteGroupSrLabel')
+    const buttonDelete = formComponent.getByRole('button', { name: 'removeGroupAriaLabel' })
 
-    expect(formComponent.queryByText('title')).toBeInTheDocument()
-    expect(formComponent.queryByText('Attribute Name')).toBeInTheDocument()
-
+    expect(formComponent.queryByText('read.provider')).toBeInTheDocument()
     await user.click(buttonDelete)
-
-    expect(formComponent.queryByText('title')).not.toBeInTheDocument()
-    expect(formComponent.queryByText('Attribute Name')).not.toBeInTheDocument()
+    expect(formComponent.queryByText('read.provider')).not.toBeInTheDocument()
   })
 
   it('should remove correctly an attribute from a group', async () => {
@@ -197,14 +193,10 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const buttonsDelete = formComponent.getAllByTestId('DeleteOutlineIcon')
+    const buttonsDelete = formComponent.getByRole('button', { name: 'removeAttributeAriaLabel' })
 
-    expect(formComponent.queryByText('title')).toBeInTheDocument()
     expect(formComponent.queryByText('Attribute Name')).toBeInTheDocument()
-
-    await user.click(buttonsDelete[1])
-
-    expect(formComponent.queryByText('title')).toBeInTheDocument()
+    await user.click(buttonsDelete)
     expect(formComponent.queryByText('Attribute Name')).not.toBeInTheDocument()
   })
 })
