@@ -14,7 +14,9 @@ export const DebugVoucherResultsRequestSection: React.FC = () => {
   return (
     <SectionContainer title={t('title')} description={t('description')}>
       <Stack spacing={4}>
-        <InformationContainer label={t('clientId.label')} content={request.client_id ?? ''} />
+        {request.client_id && (
+          <InformationContainer label={t('clientId.label')} content={request.client_id} />
+        )}
         <InformationContainer
           label={t('clientAssertion.label')}
           content={request.client_assertion}

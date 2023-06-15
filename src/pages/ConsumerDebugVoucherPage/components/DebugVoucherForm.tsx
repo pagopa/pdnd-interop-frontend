@@ -34,7 +34,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
 
   const onSubmit = (formValues: DebugVoucherFormValues) => {
     const payloadValidateVoucher: AccessTokenRequest = {
-      client_id: formValues.clientId,
+      client_id: formValues.clientId || undefined,
       client_assertion: formValues.clientAssertion,
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       grant_type: 'client_credentials',
