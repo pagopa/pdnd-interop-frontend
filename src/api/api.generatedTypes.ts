@@ -54,7 +54,19 @@ export interface FormConfigQuestion {
   dependencies: Dependency[]
   visualType: string
   defaultValue: string[]
+  hideOption?: Record<string, HideOption[]>
+  validation?: ValidationOption
   options?: LabeledValue[]
+}
+
+export interface ValidationOption {
+  /** @format int32 */
+  maxLength?: number
+}
+
+export interface HideOption {
+  id: string
+  value: string
 }
 
 export interface LabeledValue {

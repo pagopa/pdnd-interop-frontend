@@ -64,7 +64,7 @@ export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
                     value={o.value}
                     control={
                       <Checkbox
-                        checked={field.value.includes(o.value)}
+                        checked={field.value?.includes(o.value) ?? false}
                         onChange={onChange}
                         name={String(o.value)}
                       />

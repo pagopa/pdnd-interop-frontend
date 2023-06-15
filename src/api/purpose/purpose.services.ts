@@ -12,6 +12,7 @@ import type {
   PurposeUpdateContent,
   PurposeVersionResource,
   PurposeVersionSeed,
+  RiskAnalysisFormConfig,
   WaitingForApprovalPurposeVersionUpdateContentSeed,
 } from '../api.generatedTypes'
 
@@ -38,6 +39,20 @@ async function getConsumersList(params: GetConsumerPurposesParams) {
 async function getSingle(purposeId: string) {
   const response = await axiosInstance.get<Purpose>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`
+  )
+  return response.data
+}
+
+async function getRiskAnalysisLatest() {
+  const response = await axiosInstance.get<RiskAnalysisFormConfig>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/latest`
+  )
+  return response.data
+}
+
+async function getRiskAnalysisVersion(riskAnalysisVersion: string) {
+  const response = await axiosInstance.get<RiskAnalysisFormConfig>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/version/${riskAnalysisVersion}`
   )
   return response.data
 }
@@ -172,6 +187,8 @@ const PurposeServices = {
   getProducersList,
   getConsumersList,
   getSingle,
+  getRiskAnalysisLatest,
+  getRiskAnalysisVersion,
   createDraft,
   updateDraft,
   deleteDraft,

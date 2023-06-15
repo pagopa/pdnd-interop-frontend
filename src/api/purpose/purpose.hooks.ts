@@ -9,6 +9,8 @@ import type { GetConsumerPurposesParams, GetProducerPurposesParams } from '../ap
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
   GetSingle = 'PurposeGetSingle',
+  GetRiskAnalysisLatest = 'PurposeGetRiskAnalysisLatest',
+  GetRiskAnalysisVersion = 'PurposeGetRiskAnalysisVersion',
 }
 
 function useGetProducersList(
@@ -50,6 +52,29 @@ function usePrefetchSingle() {
     queryClient.prefetchQuery([PurposeQueryKeys.GetSingle, purposeId], () =>
       PurposeServices.getSingle(purposeId)
     )
+}
+
+function useGetRiskAnalysisLatest(
+  config?: UseQueryWrapperOptions<Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisLatest>>>
+) {
+  return useQueryWrapper(
+    [PurposeQueryKeys.GetRiskAnalysisLatest],
+    () => PurposeServices.getRiskAnalysisLatest(),
+    config
+  )
+}
+
+function useGetRiskAnalysisVersion(
+  riskAnalysisVersion: string,
+  config?: UseQueryWrapperOptions<
+    Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisVersion>>
+  >
+) {
+  return useQueryWrapper(
+    [PurposeQueryKeys.GetRiskAnalysisVersion, riskAnalysisVersion],
+    () => PurposeServices.getRiskAnalysisVersion(riskAnalysisVersion),
+    config
+  )
 }
 
 function useCreateDraft() {
@@ -231,6 +256,8 @@ export const PurposeQueries = {
   useGetConsumersList,
   useGetSingle,
   usePrefetchSingle,
+  useGetRiskAnalysisLatest,
+  useGetRiskAnalysisVersion,
 }
 
 export const PurposeMutations = {

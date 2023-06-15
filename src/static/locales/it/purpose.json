@@ -27,7 +27,8 @@
       "title": "Nuova finalità",
       "description": "Lorem ipsum dolor sit amet...",
       "freeOfChargeReason": "Sono una Pubblica Amministrazione"
-    }
+    },
+    "riskAnalysisPreviewTitle": "Analisi del rischio"
   },
   "edit": {
     "emptyTitle": "Modifica finalità",
@@ -111,6 +112,12 @@
         "maxLength": "Max {{num}} caratteri",
         "required": "richiesto",
         "multipleChoice": "scelta multipla"
+      },
+      "versionMismatchDialog": {
+        "title": "Aggiornamento analisi del rischio",
+        "description": "C'è una nuova versione di analisi del rischio disponibile. Quella compilata in precedenza è obsoleta e non può più essere usata. Se clicchi “Aggiorna”, tutti i campi che non sono cambiati ed erano stati compilati li troverai già compilati nella nuova versione",
+        "proceedButtonLabel": "Aggiorna",
+        "cancelButtonLabel": "Abbandona"
       }
     },
     "step3": {
