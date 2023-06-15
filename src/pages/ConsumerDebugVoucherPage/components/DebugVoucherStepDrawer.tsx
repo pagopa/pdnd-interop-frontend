@@ -6,13 +6,12 @@ import { useDebugVoucherContext } from '../DebugVoucherContext'
 import { useTranslation } from 'react-i18next'
 import { useGetDebugVoucherResultChipProps } from '../hooks/useGetDebugVoucherResultChipProps'
 
-const HeaderDrawer: React.FC = () => {
-  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result.stepDrawer' })
-  const { setDebugVoucherStepDrawer } = useDebugVoucherContext()
+type HeaderDrawerProps = {
+  handleDrawerClose: VoidFunction
+}
 
-  const handleDrawerClose = () => {
-    setDebugVoucherStepDrawer((prev) => ({ ...prev, isOpen: false }))
-  }
+const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ handleDrawerClose }) => {
+  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result.stepDrawer' })
 
   return (
     <Box
@@ -34,15 +33,25 @@ const HeaderDrawer: React.FC = () => {
 
 const DebugVoucherStepDrawer: React.FC = () => {
   const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
-  const { debugVoucherStepDrawer, response, goToNextStep } = useDebugVoucherContext()
+  const { debugVoucherStepDrawer, response, goToNextStep, setDebugVoucherStepDrawer } =
+    useDebugVoucherContext()
+
+  const handleDrawerClose = () => {
+    setDebugVoucherStepDrawer((prev) => ({ ...prev, isOpen: false }))
+  }
 
   const selectedStep = debugVoucherStepDrawer.selectedStep
 
   const chipProps = useGetDebugVoucherResultChipProps(selectedStep?.[1])
 
   return (
-    <Drawer variant="temporary" anchor="right" open={debugVoucherStepDrawer.isOpen}>
-      <HeaderDrawer />
+    <Drawer
+      variant="temporary"
+      anchor="right"
+      open={debugVoucherStepDrawer.isOpen}
+      onClose={handleDrawerClose}
+    >
+      <HeaderDrawer handleDrawerClose={handleDrawerClose} />
       <Stack spacing={2} width={375} px={3} pt={2}>
         <Typography variant="h6" fontWeight={600}>
           {t(`stepDrawer.title.${selectedStep?.[0]}` as unknown as TemplateStringsArray)}
