@@ -50,6 +50,8 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
   }
 
   const getChipLabel = (attributeId: string) => {
+    if (mode === 'provider') return
+
     const attribute = ownedDeclaredAttributes.find((a) => a.id === attributeId)
     if (!attribute) return
 
