@@ -3,7 +3,7 @@
 exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is failed and clientKind is API 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -122,7 +122,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
@@ -130,7 +130,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
 exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is failed and clientKind is CONSUMER 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -282,7 +282,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
@@ -290,7 +290,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
 exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is failed and clientKind is undefined 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -409,7 +409,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
@@ -417,7 +417,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
 exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is passed and clientKind is API 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -536,7 +536,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;
@@ -544,7 +544,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
 exports[`DebugVoucherResultsStepsSection testing > should match snapshot if result is passed and clientKind is CONSUMER 1`] = `
 <body>
   <div>
-    <div
+    <section
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
@@ -696,7 +696,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </body>
 `;

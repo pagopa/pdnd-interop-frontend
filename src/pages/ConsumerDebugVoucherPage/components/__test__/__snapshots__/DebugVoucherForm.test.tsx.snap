@@ -7,7 +7,7 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
       class="MuiBox-root css-0"
       novalidate=""
     >
-      <div
+      <section
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
@@ -114,7 +114,7 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
             description
           </p>
         </div>
-      </div>
+      </section>
       <div
         class="MuiBox-root css-a6ohpv"
       >
