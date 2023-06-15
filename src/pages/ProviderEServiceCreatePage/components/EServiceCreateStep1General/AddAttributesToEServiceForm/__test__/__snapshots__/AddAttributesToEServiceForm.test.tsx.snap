@@ -18,14 +18,6 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
           certified.description
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
         </p>
       </div>
       <div
@@ -250,14 +242,6 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
           certified.description
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
         </p>
       </div>
       <div
@@ -411,14 +395,6 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
           declared.description
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
         </p>
       </div>
       <div
@@ -653,14 +629,6 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
           declared.description
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
         </p>
       </div>
       <div
@@ -822,14 +790,6 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
           verified.description
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
         </p>
       </div>
       <div
@@ -1064,14 +1024,6 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
           verified.description
-           
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineHover css-17dcqu8-MuiTypography-root-MuiLink-root"
-            href="https://docs.pagopa.it/interoperabilita-1/manuale-operativo/attributi"
-            target="_blank"
-          >
-            howLink
-          </a>
         </p>
       </div>
       <div
