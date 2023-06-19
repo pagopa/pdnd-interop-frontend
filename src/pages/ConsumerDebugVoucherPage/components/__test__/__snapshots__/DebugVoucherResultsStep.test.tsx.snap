@@ -37,9 +37,6 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if result is fa
           />
         </svg>
       </div>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </body>
@@ -82,9 +79,6 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
           />
         </svg>
       </div>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </body>
@@ -127,9 +121,6 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
           />
         </svg>
       </div>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </body>
