@@ -8,14 +8,16 @@ import {
   RHFSelect,
   RHFTextField,
 } from '@/components/shared/react-hook-form-inputs'
-import { RiskAnalysisSwitch } from './RiskAnalysisSwitch'
+import { RiskAnalysisSwitch } from './components/RiskAnalysisSwitch'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
   formatRiskAnalysisInputInfoLabel,
   formatRiskAnalysisInputLabel,
+  formatRiskAnalysisInputValidationInfoLabel,
   getRiskAnalysisInputOptions,
 } from '@/pages/ConsumerPurposeEditPage/utils/risk-analysis-form.utils'
+import RiskAnalysisFormSection from './components/RiskAnalysisFormSection'
 
 /**
  * Returns the updated form components.
@@ -29,63 +31,104 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
   const answers = useFormContext<Answers>().watch()
 
   return React.useMemo(() => {
-    function buildFormQuestionComponents(question: FormConfigQuestion, isLast: boolean) {
+    function buildFormQuestionComponents(question: FormConfigQuestion) {
       const questionComponents: Array<React.ReactNode> = []
 
       const maxLength = question?.validation?.maxLength
 
       const inputOptions = getRiskAnalysisInputOptions(question, answers, lang)
       const label = formatRiskAnalysisInputLabel(question, lang, t)
-      const infoLabel = formatRiskAnalysisInputInfoLabel(question, lang, t)
+      const infoLabel = formatRiskAnalysisInputInfoLabel(question, lang)
 
-      const sx = isLast ? { mb: 0 } : {}
-      const commonProps = { key: question.id, name: question.id, label, infoLabel, sx }
+      const validationInfoLabel = formatRiskAnalysisInputValidationInfoLabel(question, t)
+
+      const sx = { mb: 0 }
+      const commonProps = {
+        key: question.id,
+        name: question.id,
+        infoLabel: validationInfoLabel,
+        sx,
+      }
 
       switch (question.visualType) {
         case 'text':
           questionComponents.push(
-            <RHFTextField {...commonProps} inputProps={{ maxLength }} rules={{ required: true }} />
+            <RiskAnalysisFormSection
+              title={label}
+              description={infoLabel}
+              formFieldName={question.id}
+            >
+              <RHFTextField
+                {...commonProps}
+                inputProps={{ maxLength }}
+                rules={{ required: true }}
+              />
+            </RiskAnalysisFormSection>
           )
           break
         case 'select-one':
           questionComponents.push(
-            <RHFSelect
-              {...commonProps}
-              options={inputOptions}
-              emptyLabel={t('edit.step2.emptyLabel')}
-              rules={{ required: true }}
-            />
+            <RiskAnalysisFormSection
+              title={label}
+              description={infoLabel}
+              formFieldName={question.id}
+            >
+              <RHFSelect
+                {...commonProps}
+                options={inputOptions}
+                emptyLabel={t('edit.step2.emptyLabel')}
+                rules={{ required: true }}
+              />
+            </RiskAnalysisFormSection>
           )
           break
         case 'checkbox':
           questionComponents.push(
-            <RHFCheckboxGroup
-              {...commonProps}
-              options={inputOptions}
-              rules={{
-                validate: (value) =>
-                  (typeof value !== 'undefined' && value.length > 0) ||
-                  t('edit.step2.multiCheckboxField.validation.mixed.required'),
-              }}
-            />
+            <RiskAnalysisFormSection
+              title={label}
+              description={infoLabel}
+              formFieldName={question.id}
+            >
+              <RHFCheckboxGroup
+                {...commonProps}
+                options={inputOptions}
+                rules={{
+                  validate: (value) =>
+                    (typeof value !== 'undefined' && value.length > 0) ||
+                    t('edit.step2.multiCheckboxField.validation.mixed.required'),
+                }}
+              />
+            </RiskAnalysisFormSection>
           )
           break
         case 'radio':
           questionComponents.push(
-            <RHFRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
+            <RiskAnalysisFormSection
+              title={label}
+              description={infoLabel}
+              formFieldName={question.id}
+            >
+              <RHFRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
+            </RiskAnalysisFormSection>
           )
           break
         case 'switch':
           questionComponents.push(
-            <RiskAnalysisSwitch
-              {...commonProps}
-              options={inputOptions}
-              rules={{
-                validate: (value) =>
-                  (typeof value === 'boolean' && value === true) ||
-                  t('edit.step2.riskAnalysisSwitch.validation.boolean.isValue'),
-              }}
-            />
+            <RiskAnalysisFormSection
+              title={label}
+              description={infoLabel}
+              formFieldName={question.id}
+            >
+              <RiskAnalysisSwitch
+                {...commonProps}
+                options={inputOptions}
+                rules={{
+                  validate: (value) =>
+                    (typeof value === 'boolean' && value === true) ||
+                    t('edit.step2.riskAnalysisSwitch.validation.boolean.isValue'),
+                }}
+              />
+            </RiskAnalysisFormSection>
           )
           break
       }
@@ -96,9 +139,9 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
     const formComponents: Array<React.ReactNode> = []
     const questionIds = Object.keys(questions)
 
-    questionIds.forEach((questionId, i) => {
+    questionIds.forEach((questionId) => {
       const question = questions[questionId]
-      formComponents.push(...buildFormQuestionComponents(question, questionIds.length - 1 === i))
+      formComponents.push(...buildFormQuestionComponents(question))
     })
 
     return <>{formComponents}</>
