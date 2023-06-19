@@ -88,4 +88,24 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     expect(onValueChange).toHaveBeenCalledTimes(1)
     expect(onValueChange).toHaveBeenCalledWith('option1')
   })
+
+  it('should not render label if no label prop is given', () => {
+    const radioGroupResult = render(
+      <TestInputWrapper>
+        <RHFRadioGroup {...radioGroupProps.standard} label={undefined} />
+      </TestInputWrapper>
+    )
+
+    expect(radioGroupResult.baseElement).toMatchSnapshot()
+  })
+
+  it('should render correctly with label if label prop is given', () => {
+    const radioGroupResult = render(
+      <TestInputWrapper>
+        <RHFRadioGroup {...radioGroupProps.standard} />
+      </TestInputWrapper>
+    )
+
+    expect(radioGroupResult.baseElement).toMatchSnapshot()
+  })
 })

@@ -9,7 +9,7 @@ import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type RHFCheckboxGroupProps = {
   sx?: SxProps
-  label: string
+  label?: string
   options: Array<InputOption & { disabled?: boolean }>
   name: string
   infoLabel?: string
@@ -37,7 +37,7 @@ export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
 
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
-      <FormLabel component="legend">{label}</FormLabel>
+      {label && <FormLabel component="legend">{label}</FormLabel>}
       <FormGroup>
         <Controller
           name={name}
