@@ -29,6 +29,7 @@ export const DebugVoucherResultsStep: React.FC<ResultStepProps> = ({ step, stepK
 
   return (
     <Button
+      disableRipple
       variant="naked"
       sx={{
         border: 1,
