@@ -4,7 +4,7 @@ exports[`Checks that Stepper snapshots didn't change > renders correctly step 1 
 <body>
   <div>
     <div
-      class="MuiBox-root css-1jru5tr"
+      class="MuiBox-root css-1phy807"
     >
       <div
         class="MuiStepper-root MuiStepper-horizontal MuiStepper-alternativeLabel css-10mg1vw-MuiStepper-root"
@@ -149,7 +149,7 @@ exports[`Checks that Stepper snapshots didn't change > renders correctly step 2 
 <body>
   <div>
     <div
-      class="MuiBox-root css-1jru5tr"
+      class="MuiBox-root css-1phy807"
     >
       <div
         class="MuiStepper-root MuiStepper-horizontal MuiStepper-alternativeLabel css-10mg1vw-MuiStepper-root"
@@ -284,7 +284,7 @@ exports[`Checks that Stepper snapshots didn't change > renders correctly step 3 
 <body>
   <div>
     <div
-      class="MuiBox-root css-1jru5tr"
+      class="MuiBox-root css-1phy807"
     >
       <div
         class="MuiStepper-root MuiStepper-horizontal MuiStepper-alternativeLabel css-10mg1vw-MuiStepper-root"

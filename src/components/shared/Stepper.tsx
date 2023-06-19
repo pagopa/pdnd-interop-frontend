@@ -9,7 +9,7 @@ type StepperProps = {
 
 export function Stepper({ steps, activeIndex }: StepperProps) {
   return (
-    <Box bgcolor="background.paper" sx={{ py: 3 }}>
+    <Box sx={{ py: 3 }}>
       <MUIStepper activeStep={activeIndex} alternativeLabel>
         {steps.map(({ label }) => (
           <Step key={label}>
