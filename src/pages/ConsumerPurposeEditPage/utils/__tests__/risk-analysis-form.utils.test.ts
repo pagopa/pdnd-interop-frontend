@@ -2,6 +2,7 @@ import type { Dependency, FormConfigQuestion } from '@/api/api.generatedTypes'
 import {
   formatRiskAnalysisInputInfoLabel,
   formatRiskAnalysisInputLabel,
+  formatRiskAnalysisInputValidationInfoLabel,
   getBackendAnswerValue,
   getFrontendAnswerValue,
   getRiskAnalysisDefaultValues,
@@ -252,34 +253,42 @@ describe('Risk analysis form utils', () => {
   })
 
   describe('formatRiskAnalysisInputInfoLabel', () => {
-    it('should return undefined if no infoLabel has been set and the question has no max length validation', () => {
+    it('should return undefined if no infoLabel has been set', () => {
       const question = {
         infoLabel: undefined,
-        validation: undefined,
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisInputInfoLabel(question, 'it', tPurposeMock)
+      const result = formatRiskAnalysisInputInfoLabel(question, 'it')
       expect(result).toBeUndefined()
-    })
-
-    it("should return only the max length validation string if the question doesn't have an infoLabel but has a max lenght validation rule", () => {
-      const question = {
-        infoLabel: undefined,
-        validation: { maxLength: 40 },
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisInputInfoLabel(question, 'it', tPurposeMock)
-      expect(result).toEqual('edit.step2.validation.maxLength')
     })
 
     it("should format correctly the infoLabel if it's present", () => {
       const question = {
         infoLabel: { it: 'test' },
+      } as FormConfigQuestion
+
+      const result = formatRiskAnalysisInputInfoLabel(question, 'it')
+      expect(result).toEqual('test')
+    })
+  })
+
+  describe('formatRiskAnalysisInputValidationInfoLabel', () => {
+    it('should return undefined if the question has no max length validation', () => {
+      const question = {
+        validation: undefined,
+      } as FormConfigQuestion
+
+      const result = formatRiskAnalysisInputValidationInfoLabel(question, tPurposeMock)
+      expect(result).toBeUndefined()
+    })
+
+    it("should format correctly the validationInfoLabel if it's present", () => {
+      const question = {
         validation: { maxLength: 40 },
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisInputInfoLabel(question, 'it', tPurposeMock)
-      expect(result).toEqual('test. edit.step2.validation.maxLength')
+      const result = formatRiskAnalysisInputValidationInfoLabel(question, tPurposeMock)
+      expect(result).toEqual('edit.step2.validation.maxLength')
     })
   })
 

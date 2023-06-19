@@ -183,32 +183,37 @@ export function formatRiskAnalysisInputLabel(
 
 /**
  * Returns the formatted info label for the risk analysis input.
- * The info label is the text that appears below the input.
+ * The info label is the text that appears below section title.
  *
  * @param question - the question
  * @param lang - the current active language
- * @param t - the translation function
  * @returns the formatted info label for the risk analysis input
  */
-export function formatRiskAnalysisInputInfoLabel(
-  question: FormConfigQuestion,
-  lang: LangCode,
-  t: TFunction<'purpose'>
-) {
-  const maxLength = question?.validation?.maxLength
-
-  let infoLabel = question.infoLabel && question.infoLabel[lang]
-
-  if (maxLength) {
-    const maxLengthLabel = t('edit.step2.validation.maxLength', { num: maxLength })
-    if (infoLabel) {
-      infoLabel += `. ${maxLengthLabel}`
-    } else {
-      infoLabel = maxLengthLabel
-    }
-  }
+export function formatRiskAnalysisInputInfoLabel(question: FormConfigQuestion, lang: LangCode) {
+  const infoLabel = question.infoLabel && question.infoLabel[lang]
 
   return infoLabel
+}
+
+/**
+ * Returns the formatted validation info label for the risk analysis input.
+ * The info label is the text that appears below the input.
+ *
+ * @param question - the question
+ * @param t - the translation function
+ * @returns the formatted validatio info label for the risk analysis input
+ */
+export function formatRiskAnalysisInputValidationInfoLabel(
+  question: FormConfigQuestion,
+  t: TFunction<'purpose'>
+) {
+  const maxLength = question.validation?.maxLength
+
+  if (maxLength) {
+    return t('edit.step2.validation.maxLength', { num: maxLength })
+  }
+
+  return undefined
 }
 
 /**
