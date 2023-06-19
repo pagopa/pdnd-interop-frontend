@@ -130,6 +130,12 @@
       "title": "cURL example",
       "description": "Replace the placeholder with the assertion obtained at step 1 and run the cURL",
       "exampleLabel": "example cURL"
+    },
+    "debugVoucherAlert": {
+      "description": "Can't get a valid voucher? Try the",
+      "link": {
+        "label": "debugging functionality"
+      }
     }
   },
   "step3": {
@@ -156,6 +162,107 @@
           "label": "OpenAPI Interface",
           "title": "Link to the Interoperability API gateway OpenAPI file specification"
         }
+      }
+    }
+  },
+  "consumerDebugVoucher": {
+    "edit": {
+      "title": "Enter the fields of your request",
+      "clientAssertionLabel": "Enter your client assertion (required)",
+      "clientIdLabel": "Enter the client id",
+      "description": "The request will be forwarded to the authorization server endpoint: <strong>https://auth.dev.interop.pagopa.it/token.oauth2</strong>",
+      "submitBtn": "Submit request"
+    },
+    "result": {
+      "newRequestBtn": "Check again",
+      "alert": {
+        "title": "Request result",
+        "description": {
+          "apiSuccess": "This request is valid, you can get a voucher for the <strong>PDND Interoperabilità API</strong>",
+          "consumerSuccess": "This request is valid, you can get a voucher for the e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
+          "failed": "It is not possible to obtain a voucher for this request"
+        }
+      },
+      "stepSection": {
+        "title": "Debug result",
+        "step": {
+          "label": {
+            "clientAssertionValidation": "1. Client assertion validation",
+            "publicKeyRetrieve": "2. Retrieve of the public key deposited on PDND Interoperabilità",
+            "clientAssertionSignatureVerification": "3. Client assertion signature verification",
+            "platformStatesVerification": "4. PDND Interoperabilità components states verification"
+          }
+        }
+      },
+      "requestSection": {
+        "title": "Your request content",
+        "description": "Below is the body (payload) of the request that was forwarded to the PDND Interoperabilità authorization server",
+        "clientId": {
+          "label": "Client_id"
+        },
+        "clientAssertion": {
+          "label": "Client_assertion"
+        },
+        "clientAssertionType": {
+          "label": "Client_assertion_type",
+          "description": "Client assertion format, as indicated in the RFC"
+        },
+        "grantType": {
+          "label": "Grant_type",
+          "description": "Flow type used, as indicated in the RFC"
+        }
+      },
+      "stepDrawer": {
+        "title": {
+          "clientAssertionValidation": "1. Client assertion validation",
+          "publicKeyRetrieve": "2. Retrieve of the public key deposited on PDND Interoperabilità",
+          "clientAssertionSignatureVerification": "3. Client assertion signature verification",
+          "platformStatesVerification": "4. PDND Interoperabilità components states verification"
+        },
+        "description": {
+          "clientAssertionValidation": "Check that the client assertion is well structured. All required fields must be present and filled in correctly.",
+          "publicKeyRetrieve": "It verifies that the public key corresponding to the kid inserted in the client assertion is present on PDND Interoperabilità and that this is recoverable.",
+          "clientAssertionSignatureVerification": "Check that there is a match between the private key with which the client assertion was signed and the public one identified with the kid and recovered in step 2.",
+          "platformStatesVerification": "It verifies that all the administrative and technical components of the flow foreseen by PDND Interoperabilità are active"
+        },
+        "closeIconBtn": {
+          "aria-label": "Close"
+        },
+        "stepResultLabel": "Verification result:",
+        "nextStepBtn": "Go to next step"
+      },
+      "chipLabel": {
+        "passed": "Successful",
+        "skipped": "Unable to execute",
+        "failed_one": "{{count}} error",
+        "failed_other": "{{count}} errors"
+      },
+      "errors": {
+        "8001": "String entered as client_id is not a uuid. You find the correct value within your client page",
+        "8002": "The string entered as grant_type is incorrect. Must be client_credentials",
+        "8003": "The string entered as client_assertion_type is incorrect. Must be urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+        "8006": "The client assertion's claim SUB (subject) is not a valid uuid. The value of the subject is the client id, which you find inside your client page",
+        "8007": "The SUB (subject) claim is missing from the client assertion. The value of the subject is the client id, which you find inside your client page",
+        "8008": "Il SUB (subject) claim della client assertion non corrisponde al client_id inserito nella chiamata all'authorization server",
+        "8009": "String entered as purposeId is not a uuid. Find the correct value on your client's page by selecting the purpose of your interest",
+        "8010": "The AUD (audience) claim does not contain the correct audience",
+        "8011": "The hash entered in the value field in the digest does not have the length expected by the SHA256 hashing algorithm",
+        "8012": "The value field in the digest must be hashed with SHA256",
+        "8013": "The KID field is missing from the client assertion header",
+        "8014": "The ALG field is missing from the client assertion payload",
+        "8015": "The JTI field is missing from the client assertion payload",
+        "8016": "The IAT field is missing from the client assertion payload",
+        "8017": "The ISS field is missing from the client assertion payload",
+        "8018": "The EXP field is missing from the client assertion payload",
+        "8019": "The digest field within the client assertion payload must contain two fields: alg and value",
+        "8020": "The digest field within the client assertion payload must contain two fields: alg and value",
+        "8023": "The client assertion signature is invalid. Make sure that the private key with which you signed the assertion corresponds to the public key deposited on PDND Interoperabilità of which you indicated the kid",
+        "8024": "The purposeId field is missing from the client assertion payload",
+        "8025": "The purpose id you provided (purposeId) does not match any purpose associated with the client id you provided",
+        "8026": "The client assertion is valid but the purpose for which you are requesting the voucher is not active",
+        "8027": "The client assertion is valid but the e-service version for which you are requesting the voucher is not active",
+        "8028": "The client assertion is valid but the agreement for which you are requesting the voucher is not active",
+        "8099": "The key id you specified (kid) is not part of the client you specified as client id"
       }
     }
   }

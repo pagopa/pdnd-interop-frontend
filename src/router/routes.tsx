@@ -30,6 +30,7 @@ import {
   ProviderEServiceCreatePage,
   ProviderPurposesListPage,
   ConsumerPurposeDetailsPage,
+  ConsumerDebugVoucherPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 
@@ -250,6 +251,12 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = genera
       redirect: 'SUBSCRIBE_CATALOG_LIST',
       public: true,
       authLevels: ['admin', 'api', 'security'],
+    },
+    SUBSCRIBE_DEBUG_VOUCHER: {
+      path: '/fruizione/debug-voucher',
+      element: <ConsumerDebugVoucherPage />,
+      public: false,
+      authLevels: ['admin'],
     },
   },
   { languages: ['it', 'en'] }

@@ -130,6 +130,12 @@
       "title": "Esempio di cURL",
       "description": "Sostituisci il segnaposto con l’asserzione che hai ottenuto allo step precedente e lancia la cURL",
       "exampleLabel": "cURL di esempio"
+    },
+    "debugVoucherAlert": {
+      "description": "Non riesci ad ottenere un voucher valido? Prova la",
+      "link": {
+        "label": "funzionalità di debug"
+      }
     }
   },
   "step3": {
@@ -156,6 +162,107 @@
           "label": "Interfaccia OpenAPI",
           "title": "Link alla specifica OpenAPI dell'API gateway di Interoperabilità"
         }
+      }
+    }
+  },
+  "consumerDebugVoucher": {
+    "edit": {
+      "title": "Inserisci i campi della tua richiesta",
+      "clientAssertionLabel": "Inserisci la tua client assertion (richiesto)",
+      "clientIdLabel": "Inserisci il client id",
+      "description": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>https://auth.dev.interop.pagopa.it/token.oauth2</strong>",
+      "submitBtn": "Inoltra richiesta"
+    },
+    "result": {
+      "newRequestBtn": "Effettua nuova verifica",
+      "alert": {
+        "title": "Esito della tua richiesta",
+        "description": {
+          "apiSuccess": "Questa richiesta è valida, è possibile ottenere un voucher per le <strong>API di PDND Interoperabilità</strong>",
+          "consumerSuccess": "Questa richiesta è valida, è possibile ottenere un voucher per l’e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
+          "failed": "Non è possibile ottenere un voucher per questa richiesta"
+        }
+      },
+      "stepSection": {
+        "title": "Esito del debug",
+        "step": {
+          "label": {
+            "clientAssertionValidation": "1. Validazione della client assertion",
+            "publicKeyRetrieve": "2. Recupero della chiave pubblica depositata su PDND Interoperabilità",
+            "clientAssertionSignatureVerification": "3. Verifica della firma della client assertion",
+            "platformStatesVerification": "4. Verifica degli stati delle componenti su PDND Interoperabilità"
+          }
+        }
+      },
+      "requestSection": {
+        "title": "Il contenuto della tua richiesta",
+        "description": "Di seguito il body (payload) della richiesta che è stata inoltrata al server autorizzativo di PDND Interoperabilità",
+        "clientId": {
+          "label": "Client_id"
+        },
+        "clientAssertion": {
+          "label": "Client_assertion"
+        },
+        "clientAssertionType": {
+          "label": "Client_assertion_type",
+          "description": "Il formato della client assertion, come indicato in RFC"
+        },
+        "grantType": {
+          "label": "Grant_type",
+          "description": "La tipologia di flusso utilizzato, come indicato in RFC"
+        }
+      },
+      "stepDrawer": {
+        "title": {
+          "clientAssertionValidation": "1. Validazione della client assertion",
+          "publicKeyRetrieve": "2. Recupero della chiave pubblica depositata su PDND Interoperabilità",
+          "clientAssertionSignatureVerification": "3. Verifica della firma della client assertion",
+          "platformStatesVerification": "4. Verifica degli stati delle componenti su PDND Interoperabilità"
+        },
+        "description": {
+          "clientAssertionValidation": "Si verifica che la client assertion sia ben strutturata. Tutti i campi richiesti devono essere presenti e compilati correttamente.",
+          "publicKeyRetrieve": "Si verifica che la chiave pubblica corrispondente al kid inserito nella client assertion sia presente su PDND Interoperabilità e che questa sia recuperabile.",
+          "clientAssertionSignatureVerification": "Si verifica che ci sia corrispondenza tra la chiave privata con la quale è stata firmata la client assertion e quella pubblica identificata con il kid e recuperata al passaggio 2.",
+          "platformStatesVerification": "Si verifica che tutte le componenti amministrative e tecniche del flusso previsto da PDND Interoperabilità siano attive"
+        },
+        "closeIconBtn": {
+          "aria-label": "Chiudi"
+        },
+        "stepResultLabel": "Risultato della verifica:",
+        "nextStepBtn": "Vai al prossimo passaggio"
+      },
+      "chipLabel": {
+        "passed": "Riuscita",
+        "skipped": "Impossibile eseguire",
+        "failed_one": "{{count}} errore",
+        "failed_other": "{{count}} errori"
+      },
+      "errors": {
+        "8001": "La stringa inserita come client_id non è uno uuid. Trovi il valore corretto all'interno della pagina del tuo client",
+        "8002": "La stringa inserita come grant_type è errata. Deve essere client_credentials",
+        "8003": "La stringa inserita come client_assertion_type è errata. Deve essere urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+        "8006": "Il claim SUB (subject) della client assertion non è uno uuid valido. Il valore del subject è il client id, che trovi all'interno della pagina del tuo client",
+        "8007": "Nella client assertion manca il claim SUB (subject). Il valore del subject è il client id, che trovi all'interno della pagina del tuo client",
+        "8008": "Il claim SUB (subject) della client assertion non corrisponde al client_id inserito nella chiamata all'authorization server",
+        "8009": "La stringa inserita come purposeId non è uno uuid. Trovi il valore corretto all'interno della pagina del tuo client, selezionando la finalità di tuo interesse",
+        "8010": "Il claim AUD (audience) non contiene l'audience corretta",
+        "8011": "L'hash inserito all'interno del campo value nel digest non ha la lunghezza prevista dall'algoritmo di hashing SHA256",
+        "8012": "L'hashing del campo value nel digest deve avvenire con SHA256",
+        "8013": "Nell'header della client assertion manca il campo KID",
+        "8014": "Nel payload della client assertion manca il campo ALG",
+        "8015": "Nel payload della client assertion manca il campo JTI",
+        "8016": "Nel payload della client assertion manca il campo IAT",
+        "8017": "Nel payload della client assertion manca il campo ISS",
+        "8018": "Nel payload della client assertion manca il campo EXP",
+        "8019": "Il campo digest all'interno del payload della client assertion deve contenere due campi: alg e value",
+        "8020": "Il campo digest all'interno del payload della client assertion deve contenere due campi: alg e value",
+        "8023": "La firma della client assertion non è valida. Assicurati che la chiave privata con la quale hai firmato l'asserzione corrisponda alla chiave pubblica depositata su PDND Interoperabilità della quale hai indicato il kid",
+        "8024": "Nel payload della client assertion manca il campo purposeId",
+        "8025": "L'id della finalità che hai indicato (purposeId) non corrisponde a nessuna finalità associata al client id che hai indicato",
+        "8026": "La client assertion è valida ma la finalità per la quale stai richiedendo il voucher non è attiva",
+        "8027": "La client assertion è valida ma la versione di e-service per la quale stai richiedendo il voucher non è attiva",
+        "8028": "La client assertion è valida ma la richiesta di fruizione per la quale stai richiedendo il voucher non è attiva",
+        "8099": "L'id della chiave che hai indicato (kid) non fa parte del client che hai indicato come client id"
       }
     }
   }
