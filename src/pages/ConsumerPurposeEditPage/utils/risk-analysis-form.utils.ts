@@ -190,9 +190,7 @@ export function formatRiskAnalysisInputLabel(
  * @returns the formatted info label for the risk analysis input
  */
 export function formatRiskAnalysisInputInfoLabel(question: FormConfigQuestion, lang: LangCode) {
-  const infoLabel = question.infoLabel && question.infoLabel[lang]
-
-  return infoLabel
+  return question.infoLabel && question.infoLabel[lang]
 }
 
 /**
@@ -212,8 +210,6 @@ export function formatRiskAnalysisInputValidationInfoLabel(
   if (maxLength) {
     return t('edit.step2.validation.maxLength', { num: maxLength })
   }
-
-  return undefined
 }
 
 /**
