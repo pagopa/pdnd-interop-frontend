@@ -9,7 +9,7 @@ import type { ControllerProps } from 'react-hook-form/dist/types'
 import type { InputOption } from '@/types/common.types'
 
 type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
-  label: string
+  label?: string
   infoLabel?: string | JSX.Element
   options: Array<InputOption>
   name: string
@@ -33,9 +33,11 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       <FormLabel sx={{ color: 'text.primary' }}>
-        <Typography component="span" variant="body1">
-          {label}
-        </Typography>
+        {label && (
+          <Typography component="span" variant="body1">
+            {label}
+          </Typography>
+        )}
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={0.25}>
           <Controller
             name={name}

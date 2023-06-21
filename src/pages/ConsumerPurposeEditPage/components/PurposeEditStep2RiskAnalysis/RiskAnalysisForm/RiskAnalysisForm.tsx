@@ -75,10 +75,10 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
           <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
             {t('step2.personalInfoAlert')}
           </Alert>
-          <Stack spacing={5}>
-            <RiskAnalysisFormComponents questions={questions} />
-          </Stack>
         </SectionContainer>
+        <Stack spacing={2}>
+          <RiskAnalysisFormComponents questions={questions} />
+        </Stack>
         <StepActions
           back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: onCancel }}
           forward={{

@@ -28,9 +28,7 @@ describe('RiskAnalysisForm', () => {
       />
     )
 
-    expect(
-      screen.queryByRole('textbox', { name: 'Question 2 (edit.step2.validation.required)' })
-    ).not.toBeInTheDocument()
+    expect(screen.queryByRole('textbox', { name: '' })).not.toBeInTheDocument()
 
     fireEvent.click(
       screen.getByRole('radio', {
@@ -38,9 +36,7 @@ describe('RiskAnalysisForm', () => {
       })
     )
 
-    expect(
-      screen.getByRole('textbox', { name: 'Question 2 (edit.step2.validation.required)' })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: '' })).toBeInTheDocument()
   })
 
   it('should submit the form with the correct values', async () => {
@@ -62,10 +58,7 @@ describe('RiskAnalysisForm', () => {
       })
     )
 
-    await user.type(
-      screen.getByRole('textbox', { name: 'Question 2 (edit.step2.validation.required)' }),
-      'Some text'
-    )
+    await user.type(screen.getByRole('textbox', { name: '' }), 'Some text')
 
     fireEvent.click(screen.getByRole('button', { name: 'forwardWithSaveBtn' }))
 

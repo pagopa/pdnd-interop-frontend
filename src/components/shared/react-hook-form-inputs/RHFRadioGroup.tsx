@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 
 export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
-  label: string
+  label?: string
   options: Array<InputOption & { disabled?: boolean }>
   name: string
   infoLabel?: string
@@ -46,7 +46,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
 
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
-      <FormLabel id={labelId}>{label}</FormLabel>
+      {label && <FormLabel id={labelId}>{label}</FormLabel>}
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, t)}

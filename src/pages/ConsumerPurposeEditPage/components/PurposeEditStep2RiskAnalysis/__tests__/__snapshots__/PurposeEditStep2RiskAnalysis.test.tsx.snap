@@ -51,18 +51,32 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
               step2.personalInfoAlert
             </div>
           </div>
+        </div>
+      </section>
+      <div
+        class="css-1p5q5e5-MuiStack-root"
+      >
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+        >
           <div
-            class="css-pnq1z9-MuiStack-root"
+            class="css-1okj3ks-MuiStack-root"
+          />
+          <div
+            class="MuiBox-root css-zv7ju9"
           >
+            <div
+              class="css-1okj3ks-MuiStack-root"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-sidenav css-d2mesl-MuiTypography-root"
+              >
+                Question 1 (edit.step2.validation.required)
+              </span>
+            </div>
             <div
               class="MuiBox-root css-1hhytss"
             >
-              <label
-                class="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"
-                id=":r0:"
-              >
-                Question 1 (edit.step2.validation.required)
-              </label>
               <div
                 aria-labelledby=":r0:"
                 class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
@@ -168,10 +182,10 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
       <div
-        class="css-9v4aab-MuiStack-root"
+        class="css-jojnym-MuiStack-root"
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"

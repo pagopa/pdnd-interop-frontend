@@ -38,8 +38,18 @@ export function StepActions({ back, forward }: StepActionsProps) {
   const backProps =
     back && back.type === 'link' ? { component: Link, to: back.to } : { onClick: back?.onClick }
 
+  const getJustifyContentProp = () => {
+    if (back && forward) return 'space-between'
+
+    if (!back && forward) return 'end'
+
+    if (back && !forward) return 'start'
+
+    return undefined
+  }
+
   return (
-    <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+    <Stack direction="row" justifyContent={getJustifyContentProp()} spacing={2} sx={{ mt: 5 }}>
       {back && (
         <Button variant="outlined" {...backProps}>
           {back.label}
