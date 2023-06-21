@@ -76,6 +76,10 @@ export const parseHtmlJsonToReactNode = (
       }
       return React.createElement(
         json.tag,
+        /**
+         * We can accept here to use a random number as a node key because we are generating
+         * static content and we don't expect to have much re-rendering (if any).
+         */
         { ...filteredAttr, key: Math.random() },
         json.child ? json.child.map((item) => parseHtmlJsonToReactNode(item, route)) : undefined
       )
