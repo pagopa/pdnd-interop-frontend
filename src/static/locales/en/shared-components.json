@@ -205,6 +205,7 @@
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of service",
+    "PRIVACY_POLICY": "Privacy policy",
     "SECURITY_KEY_GUIDE": "How to upload public keys",
     "NOTIFICATION": "Notifications",
     "PROVIDE_ESERVICE_CREATE": "Create e-service",
