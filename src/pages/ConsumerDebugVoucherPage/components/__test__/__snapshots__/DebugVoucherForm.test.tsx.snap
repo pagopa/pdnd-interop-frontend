@@ -22,7 +22,7 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
             title
           </span>
           <div
-            class="MuiBox-root css-zitybv"
+            class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -30,8 +30,8 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
-                for=":r0:"
-                id=":r0:-label"
+                for=":r3:"
+                id=":r3:-label"
               >
                 clientAssertionLabel
               </label>
@@ -41,7 +41,7 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
                 <textarea
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r0:"
+                  id=":r3:"
                   name="clientAssertion"
                   rows="6"
                   style="height: 0px; overflow: hidden;"
@@ -69,7 +69,7 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root css-zitybv"
+            class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -77,8 +77,8 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
-                for=":r1:"
-                id=":r1:-label"
+                for=":r7:"
+                id=":r7:-label"
               >
                 clientIdLabel
               </label>
@@ -88,7 +88,7 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r1:"
+                  id=":r7:"
                   name="clientId"
                   type="text"
                   value=""

@@ -45,7 +45,7 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
             class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
           >
             <div
-              class="MuiBox-root css-zitybv"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -53,8 +53,8 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":r3:"
-                  id=":r3:-label"
+                  for=":r6:"
+                  id=":r6:-label"
                 >
                   content.dailyCallsField.label
                 </label>
@@ -62,9 +62,10 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <input
+                    aria-describedby=":r4:"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r3:"
+                    id=":r6:"
                     min="1"
                     name="dailyCalls"
                     type="number"
@@ -84,11 +85,12 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
                   </fieldset>
                 </div>
               </div>
-              <p
-                class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+              <span
+                class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1u3cfh2-MuiFormHelperText-root"
+                id=":r4:"
               >
                 content.dailyCallsField.infoLabel
-              </p>
+              </span>
             </div>
           </div>
           <div

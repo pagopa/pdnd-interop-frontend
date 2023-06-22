@@ -18,6 +18,7 @@ import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { useGetInputAriaProps } from '@/hooks/useGetInputAriaProps'
 
 export type RHFAutocompleteInput<T> = { label: string; value: T }
 
@@ -81,8 +82,19 @@ export function _RHFAutocompleteBase<
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const {
+    ids: { errorId, infoLabelId },
+    inputAriaProps,
+  } = useGetInputAriaProps({ error, infoLabel })
+
   return (
-    <InputWrapper error={error} sx={{ my: 0, ...sx }} infoLabel={infoLabel}>
+    <InputWrapper
+      error={error}
+      sx={{ my: 0, ...sx }}
+      infoLabel={infoLabel}
+      errorId={errorId}
+      infoLabelId={infoLabelId}
+    >
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, tCommon)}
@@ -117,6 +129,7 @@ export function _RHFAutocompleteBase<
                   InputLabelProps={{ shrink: true, ...params.InputLabelProps }}
                   InputProps={{
                     ...params.InputProps,
+                    ...inputAriaProps,
                     endAdornment: (
                       <>
                         {loading ? <CircularProgress color="primary" size={20} /> : null}

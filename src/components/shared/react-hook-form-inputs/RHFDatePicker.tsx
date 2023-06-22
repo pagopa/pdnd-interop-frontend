@@ -11,12 +11,13 @@ import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { useGetInputAriaProps } from '@/hooks/useGetInputAriaProps'
 
 export type RHFDatePickerProps = {
   name: string
   label?: string
   disabled?: boolean
-  infoLabel?: string | JSX.Element
+  infoLabel?: string
   focusOnMount?: boolean
   sx?: SxProps
   inputSx?: SxProps
@@ -40,11 +41,22 @@ export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const {
+    ids: { errorId, infoLabelId },
+    inputAriaProps,
+  } = useGetInputAriaProps({ error, infoLabel })
+
   const adapterLocale = { it, en }[lang]
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={adapterLocale}>
-      <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
+      <InputWrapper
+        error={error}
+        sx={sx}
+        infoLabel={infoLabel}
+        errorId={errorId}
+        infoLabelId={infoLabelId}
+      >
         <Controller
           name={name}
           rules={mapValidationErrorMessages(rules, t)}
@@ -55,6 +67,7 @@ export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
               autoFocus={focusOnMount}
               renderInput={(params) => <TextField sx={inputSx} {...params} />}
               {...fieldProps}
+              {...inputAriaProps}
               onChange={(value) => {
                 if (onValueChange) onValueChange(value)
                 onChange(value)

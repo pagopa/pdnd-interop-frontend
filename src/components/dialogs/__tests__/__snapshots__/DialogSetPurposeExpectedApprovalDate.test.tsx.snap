@@ -53,7 +53,7 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
               class="MuiBox-root css-1aw1p0y"
             >
               <div
-                class="MuiBox-root css-1mgrf5c"
+                class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
               >
                 <div
                   class="MuiPickerStaticWrapper-root css-u0soqy-MuiPickerStaticWrapper-root"
@@ -83,7 +83,7 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                               >
                                 <div
                                   class="MuiPickersCalendarHeader-label css-dplwbx-MuiPickersCalendarHeader-label"
-                                  id=":r3:-grid-label"
+                                  id=":r6:-grid-label"
                                   style="opacity: 1;"
                                 >
                                   gennaio 2020
@@ -171,7 +171,7 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                               style="opacity: 1;"
                             >
                               <div
-                                aria-labelledby=":r3:-grid-label"
+                                aria-labelledby=":r6:-grid-label"
                                 role="grid"
                               >
                                 <div

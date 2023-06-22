@@ -75,7 +75,7 @@ exports[`RiskAnalysisForm > should match the snapshot 1`] = `
               </span>
             </div>
             <div
-              class="MuiBox-root css-1hhytss"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-wxjq9z-MuiFormControl-root"
             >
               <div
                 aria-labelledby=":r0:"

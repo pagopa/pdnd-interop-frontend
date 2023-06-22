@@ -4,7 +4,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s T
 <body>
   <div>
     <div
-      class="MuiBox-root css-zitybv"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
     >
       <div
         class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -15,7 +15,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s T
           <input
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-            id=":r4:"
+            id=":rj:"
             name="testText"
             type="text"
             value=""
@@ -45,7 +45,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s T
 <body>
   <div>
     <div
-      class="MuiBox-root css-zitybv"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
     >
       <div
         class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -53,8 +53,8 @@ exports[`determine whether the integration between react-hook-form and MUI’s T
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
           data-shrink="true"
-          for=":r5:"
-          id=":r5:-label"
+          for=":rn:"
+          id=":rn:-label"
         >
           input label
         </label>
@@ -64,7 +64,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s T
           <input
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-            id=":r5:"
+            id=":rn:"
             name="testText"
             type="text"
             value=""

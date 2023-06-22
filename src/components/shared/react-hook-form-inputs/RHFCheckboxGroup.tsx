@@ -36,8 +36,8 @@ export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
-      {label && <FormLabel component="legend">{label}</FormLabel>}
+    <InputWrapper component="fieldset" error={error} sx={sx} infoLabel={infoLabel}>
+      <FormLabel component="legend">{label}</FormLabel>
       <FormGroup>
         <Controller
           name={name}

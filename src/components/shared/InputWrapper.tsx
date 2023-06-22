@@ -1,25 +1,42 @@
 import React from 'react'
-import { SxProps } from '@mui/system'
-import { InputError } from './InputError'
-import { Box, Theme, Typography } from '@mui/material'
+import { FormControl, FormHelperText } from '@mui/material'
+import type { Theme, SxProps } from '@mui/material'
 
 type InputWrapperProps = {
   error?: string
   infoLabel?: string | JSX.Element
   sx?: SxProps<Theme>
   children: React.ReactNode
+  infoLabelId?: string
+  errorId?: string
+  component?: React.ElementType
 }
 
-export const InputWrapper: React.FC<InputWrapperProps> = ({ error, sx, infoLabel, children }) => {
+export const InputWrapper: React.FC<InputWrapperProps> = ({
+  infoLabelId,
+  errorId,
+  error,
+  sx,
+  infoLabel,
+  children,
+  component = 'div',
+}) => {
+  const helperTextSx = { fontWeight: 400, color: 'text.secondary', ml: 0, display: 'block' }
+
   return (
-    <Box sx={{ my: 4, ...sx }}>
+    <FormControl fullWidth component={component} error={!!error} sx={{ my: 4, ...sx }}>
       {children}
-      {Boolean(error) && <InputError error={{ message: error }} />}
-      {infoLabel && (
-        <Typography sx={{ mt: 0.5 }} variant="caption" component="p" color="text.secondary">
-          {infoLabel}
-        </Typography>
+
+      {error && (
+        <FormHelperText component="span" id={errorId} sx={helperTextSx}>
+          {error}
+        </FormHelperText>
       )}
-    </Box>
+      {infoLabel && (
+        <FormHelperText component="span" id={infoLabelId} error={false} sx={{ ...helperTextSx }}>
+          {infoLabel}
+        </FormHelperText>
+      )}
+    </FormControl>
   )
 }

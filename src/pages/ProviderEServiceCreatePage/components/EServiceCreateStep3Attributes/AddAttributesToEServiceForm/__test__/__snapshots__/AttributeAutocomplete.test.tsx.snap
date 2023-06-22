@@ -7,7 +7,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
       class="css-1q36rmd-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-4gs0jn"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
           class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-l3ln04-MuiAutocomplete-root"
@@ -102,7 +102,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
       class="css-1q36rmd-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-4gs0jn"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
           class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-l3ln04-MuiAutocomplete-root"
@@ -113,8 +113,8 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="true"
-              for=":r6:"
-              id=":r6:-label"
+              for=":rc:"
+              id=":rc:-label"
             >
               autocompleteInput.label
             </label>
@@ -128,7 +128,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
                 autocapitalize="none"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-                id=":r6:"
+                id=":rc:"
                 placeholder="autocompleteInput.placeholder"
                 role="combobox"
                 spellcheck="false"
@@ -197,7 +197,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
       class="css-1q36rmd-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-4gs0jn"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
           class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-l3ln04-MuiAutocomplete-root"
@@ -208,8 +208,8 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="true"
-              for=":r3:"
-              id=":r3:-label"
+              for=":r6:"
+              id=":r6:-label"
             >
               autocompleteInput.label
             </label>
@@ -223,7 +223,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
                 autocapitalize="none"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-                id=":r3:"
+                id=":r6:"
                 placeholder="autocompleteInput.placeholder"
                 role="combobox"
                 spellcheck="false"

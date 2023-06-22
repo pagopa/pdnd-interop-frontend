@@ -5,6 +5,7 @@ import { useFormContext, Controller } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { mapValidationErrorMessages } from '@/utils/validation.utils'
 import { useTranslation } from 'react-i18next'
+import { useGetInputAriaProps } from '@/hooks/useGetInputAriaProps'
 
 export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type'> & {
   name: string
@@ -37,8 +38,19 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const {
+    ids: { errorId, infoLabelId },
+    inputAriaProps,
+  } = useGetInputAriaProps({ error, infoLabel })
+
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper
+      error={error}
+      sx={sx}
+      infoLabel={infoLabel}
+      infoLabelId={infoLabelId}
+      errorId={errorId}
+    >
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, t)}
@@ -46,6 +58,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
           <MUITextField
             autoFocus={focusOnMount}
             {...props}
+            inputProps={{ ...props.inputProps, ...inputAriaProps }}
             multiline={multiline}
             rows={multiline ? 6 : undefined}
             InputLabelProps={{ shrink: true, ...props?.InputLabelProps }}
