@@ -70,7 +70,6 @@ exports[`EServiceVersionHistorySection > should match the snapshot 1`] = `
                     </div>
                     <input
                       aria-hidden="true"
-                      aria-labelledby=":r0:"
                       class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
                       name="selectedDescriptorId"
                       tabindex="-1"

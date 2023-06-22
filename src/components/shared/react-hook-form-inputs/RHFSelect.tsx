@@ -64,7 +64,10 @@ export const RHFSelect: React.FC<RHFSelectProps> = ({
           <MUISelect
             {...props}
             {...fieldProps}
-            inputProps={{ ...props.inputProps, ...inputAriaProps }}
+            inputProps={{
+              ...props.inputProps,
+              'aria-describedby': inputAriaProps['aria-describedby'],
+            }}
             label={label}
             labelId={labelId}
             error={!!error}
