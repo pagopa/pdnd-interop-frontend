@@ -2,7 +2,7 @@ import React from 'react'
 import { OneTrustNoticesMutations, OneTrustNoticesQueries } from '@/api/one-trust-notices'
 
 export function useTOSAgreement() {
-  const { mutateAsync } = OneTrustNoticesMutations.useAcceptPrivacyNotice()
+  const { mutateAsync: acceptNotice } = OneTrustNoticesMutations.useAcceptPrivacyNotice()
 
   const { data: userTOSConsent } = OneTrustNoticesQueries.useGetUserConsent('TOS')
   const { data: userPPConsent } = OneTrustNoticesQueries.useGetUserConsent('PP')
@@ -17,10 +17,10 @@ export function useTOSAgreement() {
     if (!userTOSConsent?.latestVersionId || !userPPConsent?.latestVersionId) return
 
     Promise.all([
-      mutateAsync({ consentType: 'TOS', latestVersionId: userTOSConsent.latestVersionId }),
-      mutateAsync({ consentType: 'PP', latestVersionId: userPPConsent.latestVersionId }),
+      acceptNotice({ consentType: 'TOS', latestVersionId: userTOSConsent.latestVersionId }),
+      acceptNotice({ consentType: 'PP', latestVersionId: userPPConsent.latestVersionId }),
     ])
-  }, [isTOSAccepted, userTOSConsent?.latestVersionId, userPPConsent?.latestVersionId, mutateAsync])
+  }, [isTOSAccepted, userTOSConsent?.latestVersionId, userPPConsent?.latestVersionId, acceptNotice])
 
   return { isTOSAccepted, handleAcceptTOS }
 }
