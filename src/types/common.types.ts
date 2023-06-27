@@ -61,6 +61,18 @@ export type StepperStep = {
 
 export type InputOption = { label: string; value: string | number }
 
+/**
+ * InputDescriptors describes the various labels and messages that can be
+ * associated to an input field.
+ * Label and infoLabel are used to describe the input field itself, while
+ * error and helperText are used to describe the input field's value.
+ */
+export type InputDescriptorKey = 'label' | 'infoLabel' | 'error' | 'helperText'
+export type InputDescriptors<TKey extends InputDescriptorKey = InputDescriptorKey> = Record<
+  TKey,
+  string | undefined
+>
+
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace OneTrustContent {
   export type RootNode = {

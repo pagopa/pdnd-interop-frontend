@@ -33,7 +33,7 @@ export const InputWrapper: React.FC<InputWrapperProps> = ({
         </FormHelperText>
       )}
       {infoLabel && (
-        <FormHelperText component="span" id={infoLabelId} error={false} sx={{ ...helperTextSx }}>
+        <FormHelperText component="span" id={infoLabelId} error={false} sx={helperTextSx}>
           {infoLabel}
         </FormHelperText>
       )}

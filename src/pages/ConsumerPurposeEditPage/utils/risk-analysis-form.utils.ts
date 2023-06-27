@@ -194,14 +194,14 @@ export function formatRiskAnalysisInputInfoLabel(question: FormConfigQuestion, l
 }
 
 /**
- * Returns the formatted validation info label for the risk analysis input.
- * The info label is the text that appears below the input.
+ * Returns the formatted validation herlper text for the risk analysis input.
+ * The herlper text is the text that appears below the input.
  *
  * @param question - the question
  * @param t - the translation function
  * @returns the formatted validatio info label for the risk analysis input
  */
-export function formatRiskAnalysisInputValidationInfoLabel(
+export function formatRiskAnalysisHerlperText(
   question: FormConfigQuestion,
   t: TFunction<'purpose'>
 ) {

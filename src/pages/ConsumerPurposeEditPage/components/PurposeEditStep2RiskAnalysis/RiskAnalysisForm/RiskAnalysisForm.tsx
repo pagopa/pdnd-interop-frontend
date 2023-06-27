@@ -10,7 +10,7 @@ import {
   getUpdatedQuestions,
   getValidAnswers,
 } from '../../../utils/risk-analysis-form.utils'
-import { RiskAnalysisFormComponents } from './RiskAnalysisFormComponents'
+import { RiskAnalysisFormComponents } from './RiskAnalysisFormComponents/RiskAnalysisFormComponents'
 import { StepActions } from '@/components/shared/StepActions'
 
 type RiskAnalysisFormProps = {

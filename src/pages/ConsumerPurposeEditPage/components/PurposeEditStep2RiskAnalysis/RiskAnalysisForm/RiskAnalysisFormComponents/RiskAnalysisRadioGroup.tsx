@@ -1,62 +1,66 @@
-import React, { useId } from 'react'
+import React from 'react'
 import {
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup as MUIRadioGroup,
   type RadioGroupProps as MUIRadioGroupProps,
 } from '@mui/material'
-import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/form.utils'
+import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
+import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 
-export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
-  label?: string
-  options: Array<InputOption & { disabled?: boolean }>
+export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   name: string
+  label: string
   infoLabel?: string
+  helperText?: string
   disabled?: boolean
   rules?: ControllerProps['rules']
-  onValueChange?: (value: string) => void
+  options: Array<InputOption & { disabled?: boolean }>
 }
 
-export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
-  sx,
+export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   name,
   label,
   options,
   infoLabel,
+  helperText,
   disabled,
   rules,
-  onValueChange,
   ...props
 }) => {
   const { formState } = useFormContext()
-  const labelId = useId()
   const { t } = useTranslation()
-
-  if (!options || options.length === 0) {
-    return null
-  }
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+    label,
+    infoLabel,
+    error,
+    helperText,
+  })
+
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
-      {label && <FormLabel id={labelId}>{label}</FormLabel>}
+    <RiskAnalysisInputWrapper
+      label={label}
+      error={error}
+      infoLabel={infoLabel}
+      helperText={helperText}
+      {...ids}
+    >
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, t)}
         render={({ field: { onChange, ...fieldProps } }) => (
           <MUIRadioGroup
-            aria-labelledby={labelId}
+            {...accessibilityProps}
             {...props}
             {...fieldProps}
             onChange={(_, value) => {
-              if (onValueChange) onValueChange(value)
               onChange(value)
             }}
           >
@@ -73,6 +77,6 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
           </MUIRadioGroup>
         )}
       />
-    </InputWrapper>
+    </RiskAnalysisInputWrapper>
   )
 }

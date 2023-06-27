@@ -11,8 +11,7 @@ import {
 import { Controller, useFormContext } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/validation.utils'
-import { useGetInputAriaProps } from '@/hooks/useGetInputAriaProps'
+import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
@@ -46,23 +45,18 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
 
   const error = formState.errors[name]?.message as string | undefined
 
-  const {
-    ids: { labelId, errorId, infoLabelId },
-    inputAriaProps,
-  } = useGetInputAriaProps({ label, error, infoLabel })
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+    label,
+    infoLabel,
+    error,
+  })
 
   return (
-    <InputWrapper
-      error={error}
-      sx={sx}
-      infoLabel={infoLabel}
-      errorId={errorId}
-      infoLabelId={infoLabelId}
-    >
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       <FormLabel sx={{ color: 'text.primary', ...formLabelSxProps }}>
         <Typography
-          htmlFor={labelId}
-          id={labelId}
+          htmlFor={ids.labelId}
+          id={ids.labelId}
           sx={typographyLabelSxProps}
           component="label"
           variant="body1"
@@ -77,7 +71,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
               <MUISwitch
                 {...props}
                 {...fieldProps}
-                inputProps={{ ...props.inputProps, ...inputAriaProps }}
+                inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 onChange={(e) => {
                   if (onValueChange) onValueChange(e.target.checked)
                   onChange(e.target.checked)

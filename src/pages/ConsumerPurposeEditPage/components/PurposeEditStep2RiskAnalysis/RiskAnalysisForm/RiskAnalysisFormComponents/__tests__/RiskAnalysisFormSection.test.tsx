@@ -1,5 +1,5 @@
 import React from 'react'
-import RiskAnalysisFormSection from '../RiskAnalysisFormSection'
+import RiskAnalysisFormSection from '../RiskAnalysisInputWrapper'
 import { render } from '@testing-library/react'
 import { Typography } from '@mui/material'
 import { vi } from 'vitest'
