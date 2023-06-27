@@ -36,7 +36,9 @@ describe('RiskAnalysisForm', () => {
       })
     )
 
-    expect(screen.getByRole('textbox', { name: '' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('textbox', { name: 'Question 2 (edit.step2.validation.required)' })
+    ).toBeInTheDocument()
   })
 
   it('should submit the form with the correct values', async () => {
@@ -58,8 +60,10 @@ describe('RiskAnalysisForm', () => {
       })
     )
 
-    await user.type(screen.getByRole('textbox', { name: '' }), 'Some text')
-
+    await user.type(
+      screen.getByRole('textbox', { name: 'Question 2 (edit.step2.validation.required)' }),
+      'Some text'
+    )
     fireEvent.click(screen.getByRole('button', { name: 'forwardWithSaveBtn' }))
 
     await waitFor(() => {

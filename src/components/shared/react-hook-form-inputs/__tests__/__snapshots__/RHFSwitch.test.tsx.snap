@@ -11,8 +11,8 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
       >
         <label
           class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          for=":r6:"
-          id=":r6:"
+          for="test-label"
+          id="test-label"
         >
           label
         </label>
@@ -26,7 +26,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
               class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
             >
               <input
-                aria-labelledby=":r6:"
+                aria-labelledby="test-label"
                 class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
                 name="test"
                 type="checkbox"
@@ -60,8 +60,8 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
       >
         <label
           class="MuiTypography-root MuiTypography-body1 css-1th83v5-MuiTypography-root"
-          for=":r9:"
-          id=":r9:"
+          for="test-label"
+          id="test-label"
         >
           label
         </label>
@@ -75,7 +75,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
               class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
             >
               <input
-                aria-labelledby=":r9:"
+                aria-labelledby="test-label"
                 class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
                 name="test"
                 type="checkbox"

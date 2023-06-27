@@ -44,8 +44,6 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
     error,
   })
 
-  console.log(accessibilityProps)
-
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       <Controller

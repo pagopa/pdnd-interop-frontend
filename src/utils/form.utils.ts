@@ -42,7 +42,6 @@ export function getAriaAccessibilityInputProps<
   }
 
   if ('infoLabel' in inputDescriptors && 'infoLabelId' in ids && inputDescriptors.infoLabel) {
-    console.log('HERE')
     describedByIds.push(ids.infoLabelId as string)
   }
 

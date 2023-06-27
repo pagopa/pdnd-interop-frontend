@@ -53,8 +53,8 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":r6:"
-                  id=":r6:-label"
+                  for=":r3:"
+                  id=":r3:-label"
                 >
                   content.reason.label
                 </label>
@@ -62,10 +62,10 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl MuiInputBase-multiline css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <textarea
-                    aria-describedby=":r4:"
+                    aria-describedby="reason-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r6:"
+                    id=":r3:"
                     maxlength="1000"
                     name="reason"
                     rows="6"
@@ -94,7 +94,7 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
               </div>
               <span
                 class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1u3cfh2-MuiFormHelperText-root"
-                id=":r4:"
+                id="reason-infoLabel"
               >
                 content.reason.infoLabel
               </span>

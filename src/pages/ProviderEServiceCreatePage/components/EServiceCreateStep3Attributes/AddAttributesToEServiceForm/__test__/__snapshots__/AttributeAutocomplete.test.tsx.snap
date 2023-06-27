@@ -113,8 +113,8 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="true"
-              for=":rc:"
-              id=":rc:-label"
+              for=":r6:"
+              id=":r6:-label"
             >
               autocompleteInput.label
             </label>
@@ -128,7 +128,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
                 autocapitalize="none"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-                id=":rc:"
+                id=":r6:"
                 placeholder="autocompleteInput.placeholder"
                 role="combobox"
                 spellcheck="false"
@@ -208,8 +208,8 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="true"
-              for=":r6:"
-              id=":r6:-label"
+              for=":r3:"
+              id=":r3:-label"
             >
               autocompleteInput.label
             </label>
@@ -223,7 +223,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
                 autocapitalize="none"
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-                id=":r6:"
+                id=":r3:"
                 placeholder="autocompleteInput.placeholder"
                 role="combobox"
                 spellcheck="false"

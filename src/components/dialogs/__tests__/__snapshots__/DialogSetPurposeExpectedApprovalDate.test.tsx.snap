@@ -83,7 +83,7 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                               >
                                 <div
                                   class="MuiPickersCalendarHeader-label css-dplwbx-MuiPickersCalendarHeader-label"
-                                  id=":r6:-grid-label"
+                                  id=":r3:-grid-label"
                                   style="opacity: 1;"
                                 >
                                   gennaio 2020
@@ -171,7 +171,7 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
                               style="opacity: 1;"
                             >
                               <div
-                                aria-labelledby=":r6:-grid-label"
+                                aria-labelledby=":r3:-grid-label"
                                 role="grid"
                               >
                                 <div

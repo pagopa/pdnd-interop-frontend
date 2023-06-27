@@ -398,8 +398,8 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                     data-shrink="true"
-                    for=":r3:"
-                    id=":r3:-label"
+                    for=":r0:"
+                    id=":r0:-label"
                   >
                     clientAssertionLabel
                   </label>
@@ -409,7 +409,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                     <textarea
                       aria-invalid="false"
                       class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                      id=":r3:"
+                      id=":r0:"
                       name="clientAssertion"
                       rows="6"
                       style="height: 0px; overflow: hidden;"
@@ -445,8 +445,8 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                     data-shrink="true"
-                    for=":r7:"
-                    id=":r7:-label"
+                    for=":r1:"
+                    id=":r1:-label"
                   >
                     clientIdLabel
                   </label>
@@ -456,7 +456,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                     <input
                       aria-invalid="false"
                       class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                      id=":r7:"
+                      id=":r1:"
                       name="clientId"
                       type="text"
                       value=""

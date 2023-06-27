@@ -46,7 +46,7 @@ exports[`EServiceVersionHistorySection > should match the snapshot 1`] = `
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                     data-shrink="true"
-                    id=":r0:"
+                    id="selectedDescriptorId-label"
                   >
                     historyField.label
                   </label>
@@ -56,7 +56,7 @@ exports[`EServiceVersionHistorySection > should match the snapshot 1`] = `
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      aria-labelledby=":r0: mui-component-select-selectedDescriptorId"
+                      aria-labelledby="selectedDescriptorId-label mui-component-select-selectedDescriptorId"
                       class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                       id="mui-component-select-selectedDescriptorId"
                       role="button"

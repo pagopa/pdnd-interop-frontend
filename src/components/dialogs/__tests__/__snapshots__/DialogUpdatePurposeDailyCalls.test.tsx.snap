@@ -53,8 +53,8 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":r6:"
-                  id=":r6:-label"
+                  for=":r3:"
+                  id=":r3:-label"
                 >
                   content.dailyCallsField.label
                 </label>
@@ -62,10 +62,10 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <input
-                    aria-describedby=":r4:"
+                    aria-describedby="dailyCalls-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r6:"
+                    id=":r3:"
                     min="1"
                     name="dailyCalls"
                     type="number"
@@ -87,7 +87,7 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
               </div>
               <span
                 class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1u3cfh2-MuiFormHelperText-root"
-                id=":r4:"
+                id="dailyCalls-infoLabel"
               >
                 content.dailyCallsField.infoLabel
               </span>

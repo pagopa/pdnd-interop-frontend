@@ -4,48 +4,64 @@ exports[`RiskAnalysisSwitch > should match snapshot 1`] = `
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
-      <label
-        class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-zv7ju9"
       >
-        <span
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-        >
-          RiskAnalysisSwitch
-        </span>
         <div
-          class="css-1npm2ob-MuiStack-root"
+          class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
-          <span
-            class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+          <div
+            class="css-1b2nz6m-MuiStack-root"
           >
-            <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+            <label
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              id="RiskAnalysisSwitch-label"
             >
-              <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
-                name="RiskAnalysisSwitch"
-                type="checkbox"
-              />
-              <span
-                class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-              />
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </span>
-            <span
-              class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
-            />
-          </span>
-          <span
-            class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              RiskAnalysisSwitch
+            </label>
+          </div>
+          <label
+            class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
           >
-            test
-          </span>
+            <div
+              class="css-1npm2ob-MuiStack-root"
+            >
+              <span
+                class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+              >
+                <span
+                  class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+                >
+                  <input
+                    class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                    name="RiskAnalysisSwitch"
+                    type="checkbox"
+                  />
+                  <span
+                    class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                  />
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </span>
+                <span
+                  class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                />
+              </span>
+              <span
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                test
+              </span>
+            </div>
+          </label>
         </div>
-      </label>
+      </div>
     </div>
   </div>
 </body>
@@ -55,43 +71,62 @@ exports[`RiskAnalysisSwitch > should match snapshot if there is no label 1`] = `
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
-      <label
-        class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
+      <div
+        class="css-1okj3ks-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-zv7ju9"
       >
         <div
-          class="css-1npm2ob-MuiStack-root"
+          class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
-          <span
-            class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+          <div
+            class="css-1b2nz6m-MuiStack-root"
           >
-            <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
-            >
-              <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
-                name="RiskAnalysisSwitch"
-                type="checkbox"
-              />
-              <span
-                class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-              />
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </span>
-            <span
-              class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+            <label
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              id="RiskAnalysisSwitch-label"
             />
-          </span>
-          <span
-            class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+          </div>
+          <label
+            class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
           >
-            test
-          </span>
+            <div
+              class="css-1npm2ob-MuiStack-root"
+            >
+              <span
+                class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+              >
+                <span
+                  class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+                >
+                  <input
+                    class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                    name="RiskAnalysisSwitch"
+                    type="checkbox"
+                  />
+                  <span
+                    class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                  />
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </span>
+                <span
+                  class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                />
+              </span>
+              <span
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              >
+                test
+              </span>
+            </div>
+          </label>
         </div>
-      </label>
+      </div>
     </div>
   </div>
 </body>

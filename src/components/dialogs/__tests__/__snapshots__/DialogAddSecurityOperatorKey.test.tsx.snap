@@ -53,8 +53,8 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":r6:"
-                  id=":r6:-label"
+                  for=":r3:"
+                  id=":r3:-label"
                 >
                   content.nameField.label
                 </label>
@@ -62,10 +62,10 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <input
-                    aria-describedby=":r4:"
+                    aria-describedby="name-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r6:"
+                    id=":r3:"
                     maxlength="60"
                     name="name"
                     type="text"
@@ -87,7 +87,7 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
               </div>
               <span
                 class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1u3cfh2-MuiFormHelperText-root"
-                id=":r4:"
+                id="name-infoLabel"
               >
                 content.nameField.infoLabel
               </span>
@@ -101,8 +101,8 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":ra:"
-                  id=":ra:-label"
+                  for=":r4:"
+                  id=":r4:-label"
                 >
                   content.keyField.label
                 </label>
@@ -112,7 +112,7 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                   <textarea
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":ra:"
+                    id=":r4:"
                     name="key"
                     rows="6"
                     style="height: 0px; overflow: hidden;"
