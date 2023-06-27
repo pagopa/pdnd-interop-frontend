@@ -177,6 +177,10 @@
         "verifyVoucherGuideLink": "Come faccio a verificare un voucher?",
         "wellKnownLink": "URL .well-known"
       },
+      "documentsList": {
+        "consumerListButtonLabel": "Scarica l’elenco dei fruitori dell’e-service",
+        "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv"
+      },
       "versionHistory": {
         "title": "Storico delle versioni",
         "historyField": {
