@@ -18,10 +18,10 @@ exports[`PurposeDetailsDocumentListSection > should match the snapshot 1`] = `
       <div
         class="MuiBox-root css-1yuhvjn"
       >
-        <div
-          class="css-18emkw7-MuiStack-root"
+        <ul
+          class="css-129j0b2-MuiStack-root"
         >
-          <div
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -41,8 +41,8 @@ exports[`PurposeDetailsDocumentListSection > should match the snapshot 1`] = `
                
               downloadRiskAnalysisLabel
             </button>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </section>
   </div>
