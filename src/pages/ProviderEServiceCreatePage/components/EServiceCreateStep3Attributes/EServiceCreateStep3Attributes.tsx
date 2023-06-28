@@ -1,6 +1,6 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import type { RemappedEServiceAttributes } from '@/types/attribute.types'
-import { Box, Button, Divider } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { AddAttributesToEServiceForm } from '../EServiceCreateStep1General/AddAttributesToEServiceForm'
@@ -44,11 +44,11 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
     const backendAttributes = remapRemappedEServiceAttributesToBackend(values.attributes)
 
     if (descriptor) {
-      const nothingHasChanged = compareAttributesStep3IfEquals(
+      const areAttributesEquals = compareAttributesStep3IfEquals(
         values.attributes,
         descriptor.attributes
       )
-      if (nothingHasChanged) {
+      if (areAttributesEquals) {
         forward()
         return
       }
@@ -70,7 +70,6 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
         },
         { onSuccess: forward }
       )
-      // forward()
       return
     }
   }
@@ -83,19 +82,6 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
           title={t('create.step3.attributesTitle')}
           description={t('create.step3.attributesDescription')}
         >
-          {/* TODO button pin 3383*/}
-          {descriptor && descriptor?.version !== '1' && (
-            <Button
-              variant="text"
-              onClick={() =>
-                console.log(
-                  'TODO: funzione che cambia i valori degli input con quelli della versione precedente'
-                )
-              }
-            >
-              Copia attributi dalla versione precedente
-            </Button>
-          )}
           <Divider sx={{ my: 3 }} />
           <AddAttributesToEServiceForm attributeKey="certified" readOnly={false} />
           <Divider sx={{ my: 3 }} />
