@@ -1,5 +1,5 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Divider } from '@mui/material'
+import { Box, Button, Divider } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
@@ -11,6 +11,8 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
 import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
+import { useGetPreviousVersionDescriptor } from './hooks/useGetPreviousVersionDescriptor'
+import { remapDescriptorAttributes } from '@/utils/attribute.utils'
 
 export type EServiceCreateStep3FormValues = {
   attributes: RemappedDescriptorAttributes
@@ -23,9 +25,31 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
     suppressSuccessToast: true,
   })
 
+  const previousVersionDescriptor = useGetPreviousVersionDescriptor(descriptor)
+
   const formMethods = useForm({
     defaultValues: { attributes: attributes ?? { certified: [], verified: [], declared: [] } },
   })
+
+  const onCloneAttributes = () => {
+    if (!previousVersionDescriptor) return
+    const remappedPreviousVersionDescriptorAttributes = remapDescriptorAttributes(
+      previousVersionDescriptor.attributes
+    )
+
+    formMethods.setValue(
+      'attributes.certified',
+      remappedPreviousVersionDescriptorAttributes.certified
+    )
+    formMethods.setValue(
+      'attributes.verified',
+      remappedPreviousVersionDescriptorAttributes.verified
+    )
+    formMethods.setValue(
+      'attributes.declared',
+      remappedPreviousVersionDescriptorAttributes.declared
+    )
+  }
 
   const onSubmit = (values: EServiceCreateStep3FormValues) => {
     if (!eservice) return
@@ -77,6 +101,11 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
           title={t('create.step3.attributesTitle')}
           description={t('create.step3.attributesDescription')}
         >
+          {descriptor && descriptor.version > '1' && (
+            <Button variant="text" onClick={onCloneAttributes}>
+              {t('create.step3.attributeCloneBtn')}
+            </Button>
+          )}
           <Divider sx={{ my: 3 }} />
           <AddAttributesToEServiceForm attributeKey="certified" readOnly={false} />
           <Divider sx={{ my: 3 }} />
