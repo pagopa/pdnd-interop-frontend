@@ -32,8 +32,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const { activeStep, ...stepProps } = useActiveStep()
 
   const isNewEService = !params?.eserviceId
-  const isDraftEService = params?.eserviceId && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
-  const isDraftDescriptor = params?.eserviceId && params?.descriptorId && !isDraftEService
+  const isDraftEService = !isNewEService && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
+  const isDraftDescriptor = !isNewEService && params?.descriptorId && !isDraftEService
 
   const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(
     params?.eserviceId,
@@ -45,6 +45,12 @@ const ProviderEServiceCreatePage: React.FC = () => {
       suspense: false,
       enabled: !!isDraftDescriptor,
     })
+
+  /**
+   *  If we are creating a new e-service that has no descriptors, we take the e-service data from the
+   *  useGetSingle query. Otherwise, we take it from the descriptor using the useGetDescriptorProvider query.
+   */
+  const eserviceData = isDraftEService ? eservice : descriptor?.eservice
 
   const steps: Array<StepperStep> = [
     { label: t('stepper.step1Label'), component: EServiceCreateStep1General },
@@ -81,8 +87,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const intro = isNewEService
     ? { title: t('emptyTitle') }
     : {
-        title: (eservice || descriptor?.eservice)?.name,
-        description: (eservice || descriptor?.eservice)?.description,
+        title: eserviceData?.name,
+        description: eserviceData?.description,
       }
 
   return (
@@ -92,7 +98,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           <Stepper steps={steps} activeIndex={activeStep} />
           {isReady && (
             <EServiceCreateContextProvider
-              eservice={eservice ?? descriptor?.eservice}
+              eservice={eserviceData}
               descriptor={descriptor}
               isNewEService={isNewEService}
               {...stepProps}
