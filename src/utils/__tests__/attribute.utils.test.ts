@@ -1,7 +1,7 @@
 import {
   hasAllEServiceAttributes,
   isAttributeGroupFullfilled,
-  remapEServiceAttributes,
+  remapDescriptorAttributes,
 } from '@/utils/attribute.utils'
 import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import { isAttributeOwned, isAttributeRevoked } from '../attribute.utils'
@@ -13,7 +13,7 @@ import {
   createMockSingleBackendAttribute,
   createVerifiedTenantAttribute,
 } from '__mocks__/data/attribute.mocks'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 
 describe('attribute utils', () => {
   describe('isAttributeRevoked', () => {
@@ -251,13 +251,13 @@ describe('attribute utils', () => {
         }),
       ]
 
-      const eserviceAttributes: Array<RemappedEServiceAttribute> = [
+      const descriptorAttributes: Array<RemappedDescriptorAttribute> = [
         createMockRemappedEServiceAttribute({ attributes: [{ id: 'attribute-id-1' }] }),
         createMockRemappedEServiceAttribute({
           attributes: [{ id: 'attribute-id-2' }, { id: 'attribute-id-3' }],
         }),
       ]
-      const result = hasAllEServiceAttributes('certified', ownedAttributes, eserviceAttributes)
+      const result = hasAllEServiceAttributes('certified', ownedAttributes, descriptorAttributes)
       expect(result).toBe(true)
     })
 
@@ -270,7 +270,7 @@ describe('attribute utils', () => {
         }),
       ]
 
-      const eserviceAttributes: Array<RemappedEServiceAttribute> = [
+      const descriptorAttributes: Array<RemappedDescriptorAttribute> = [
         createMockRemappedEServiceAttribute({ attributes: [{ id: 'attribute-id-1' }] }),
         createMockRemappedEServiceAttribute({
           attributes: [{ id: 'attribute-id-2' }, { id: 'attribute-id-3' }],
@@ -279,7 +279,7 @@ describe('attribute utils', () => {
           attributes: [{ id: 'attribute-id-4' }, { id: 'attribute-id-5' }],
         }),
       ]
-      const result = hasAllEServiceAttributes('certified', ownedAttributes, eserviceAttributes)
+      const result = hasAllEServiceAttributes('certified', ownedAttributes, descriptorAttributes)
       expect(result).toBe(false)
     })
 
@@ -292,13 +292,13 @@ describe('attribute utils', () => {
         }),
       ]
 
-      const eserviceAttributes: Array<RemappedEServiceAttribute> = [
+      const descriptorAttributes: Array<RemappedDescriptorAttribute> = [
         createMockRemappedEServiceAttribute({ attributes: [{ id: 'attribute-id-1' }] }),
         createMockRemappedEServiceAttribute({
           attributes: [{ id: 'attribute-id-2' }, { id: 'attribute-id-3' }],
         }),
       ]
-      const result = hasAllEServiceAttributes('verified', ownedAttributes, eserviceAttributes)
+      const result = hasAllEServiceAttributes('verified', ownedAttributes, descriptorAttributes)
       expect(result).toBe(true)
     })
 
@@ -311,14 +311,14 @@ describe('attribute utils', () => {
         }),
       ]
 
-      const eserviceAttributes: Array<RemappedEServiceAttribute> = [
+      const descriptorAttributes: Array<RemappedDescriptorAttribute> = [
         createMockRemappedEServiceAttribute({ attributes: [{ id: 'attribute-id-1' }] }),
         createMockRemappedEServiceAttribute({
           attributes: [{ id: 'attribute-id-2' }, { id: 'attribute-id-3' }],
         }),
       ]
 
-      const result = hasAllEServiceAttributes('verified', ownedAttributes, eserviceAttributes)
+      const result = hasAllEServiceAttributes('verified', ownedAttributes, descriptorAttributes)
       expect(result).toBe(false)
     })
 
@@ -331,13 +331,13 @@ describe('attribute utils', () => {
         }),
       ]
 
-      const eserviceAttributes: Array<RemappedEServiceAttribute> = [
+      const descriptorAttributes: Array<RemappedDescriptorAttribute> = [
         createMockRemappedEServiceAttribute({ attributes: [{ id: 'attribute-id-1' }] }),
         createMockRemappedEServiceAttribute({
           attributes: [{ id: 'attribute-id-2' }, { id: 'attribute-id-3' }],
         }),
       ]
-      const result = hasAllEServiceAttributes('declared', ownedAttributes, eserviceAttributes)
+      const result = hasAllEServiceAttributes('declared', ownedAttributes, descriptorAttributes)
       expect(result).toBe(true)
     })
 
@@ -350,7 +350,7 @@ describe('attribute utils', () => {
         }),
       ]
 
-      const eserviceAttributes: Array<RemappedEServiceAttribute> = [
+      const descriptorAttributes: Array<RemappedDescriptorAttribute> = [
         createMockRemappedEServiceAttribute({ attributes: [{ id: 'attribute-id-1' }] }),
         createMockRemappedEServiceAttribute({
           attributes: [{ id: 'attribute-id-2' }, { id: 'attribute-id-3' }],
@@ -359,7 +359,7 @@ describe('attribute utils', () => {
           attributes: [{ id: 'attribute-id-4' }, { id: 'attribute-id-5' }],
         }),
       ]
-      const result = hasAllEServiceAttributes('declared', ownedAttributes, eserviceAttributes)
+      const result = hasAllEServiceAttributes('declared', ownedAttributes, descriptorAttributes)
       expect(result).toBe(false)
     })
 
@@ -372,7 +372,7 @@ describe('attribute utils', () => {
         }),
       ]
 
-      const eserviceAttributes: Array<RemappedEServiceAttribute> = [
+      const descriptorAttributes: Array<RemappedDescriptorAttribute> = [
         createMockRemappedEServiceAttribute({ attributes: [{ id: 'attribute-id-1' }] }),
         createMockRemappedEServiceAttribute({
           attributes: [{ id: 'attribute-id-2' }, { id: 'attribute-id-3' }],
@@ -381,7 +381,7 @@ describe('attribute utils', () => {
       expect(() =>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-expect-error
-        hasAllEServiceAttributes('unknown-kind', ownedAttributes, eserviceAttributes)
+        hasAllEServiceAttributes('unknown-kind', ownedAttributes, descriptorAttributes)
       ).toThrowError('Unknown attribute kind: unknown-kind')
     })
   })
@@ -403,7 +403,7 @@ describe('attribute utils', () => {
         ],
       }
 
-      expect(remapEServiceAttributes(backendAttributesMock)).toMatchInlineSnapshot(`
+      expect(remapDescriptorAttributes(backendAttributesMock)).toMatchInlineSnapshot(`
         {
           "certified": [
             {

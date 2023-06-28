@@ -1,7 +1,7 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
-import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import type { RemappedEServiceAttributes } from '@/types/attribute.types'
+import { remapDescriptorAttributes } from '@/utils/attribute.utils'
+import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import type {
   AgreementState,
   CatalogEServiceDescriptor,
@@ -11,7 +11,7 @@ import type {
 
 type EServiceDetailsContextType = {
   descriptor: CatalogEServiceDescriptor | ProducerEServiceDescriptor
-  eserviceAttributes: RemappedEServiceAttributes
+  descriptorAttributes: RemappedDescriptorAttributes
   isViewingDescriptorCurrentVersion: boolean
   agreement:
     | {
@@ -32,7 +32,7 @@ const EServiceDetailsContextProvider: React.FC<{
   children: React.ReactNode
 }> = ({ descriptor, children }) => {
   const providerValue = React.useMemo(() => {
-    const eserviceAttributes = remapEServiceAttributes(descriptor.attributes)
+    const descriptorAttributes = remapDescriptorAttributes(descriptor.attributes)
 
     const activeDescriptor = descriptor.eservice.descriptors.find(
       (descriptor) => descriptor.state === 'PUBLISHED'
@@ -51,7 +51,7 @@ const EServiceDetailsContextProvider: React.FC<{
 
     return {
       descriptor,
-      eserviceAttributes,
+      descriptorAttributes,
       isViewingDescriptorCurrentVersion,
       agreement,
       docs,

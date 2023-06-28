@@ -1,11 +1,11 @@
 import React from 'react'
-import type { RemappedEServiceAttributes } from '@/types/attribute.types'
+import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { createMockAttribute } from '__mocks__/data/attribute.mocks'
 import { mockEServiceDetailsContext } from './test.commons'
 import { EServiceAttributesSections } from '../EServiceAttributesSections'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
-const eserviceAttributes: RemappedEServiceAttributes = {
+const descriptorAttributes: RemappedDescriptorAttributes = {
   certified: [
     {
       attributes: [
@@ -52,7 +52,7 @@ const eserviceAttributes: RemappedEServiceAttributes = {
 
 describe('EServiceAttributesSections', () => {
   it('should match the snapshot', () => {
-    mockEServiceDetailsContext({ eserviceAttributes })
+    mockEServiceDetailsContext({ descriptorAttributes })
     const { baseElement } = renderWithApplicationContext(<EServiceAttributesSections />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -62,7 +62,7 @@ describe('EServiceAttributesSections', () => {
 
   it('should match the snapshot on no attributes', () => {
     mockEServiceDetailsContext({
-      eserviceAttributes: { certified: [], verified: [], declared: [] },
+      descriptorAttributes: { certified: [], verified: [], declared: [] },
     })
     const { baseElement } = renderWithApplicationContext(<EServiceAttributesSections />, {
       withReactQueryContext: true,

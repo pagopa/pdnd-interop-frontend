@@ -1,7 +1,7 @@
 import type {
   AttributeKey,
-  RemappedEServiceAttribute,
-  RemappedEServiceAttributes,
+  RemappedDescriptorAttribute,
+  RemappedDescriptorAttributes,
 } from './../types/attribute.types'
 import type {
   CertifiedTenantAttribute,
@@ -118,17 +118,17 @@ export function isAttributeOwned(
 export function isAttributeGroupFullfilled(
   kind: 'certified',
   ownedAttributes: CertifiedTenantAttribute[],
-  attributesGroup: RemappedEServiceAttribute
+  attributesGroup: RemappedDescriptorAttribute
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
-  attributesGroup: RemappedEServiceAttribute
+  attributesGroup: RemappedDescriptorAttribute
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'declared',
   ownedAttributes: DeclaredTenantAttribute[],
-  attributesGroup: RemappedEServiceAttribute
+  attributesGroup: RemappedDescriptorAttribute
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: AttributeKey,
@@ -136,9 +136,9 @@ export function isAttributeGroupFullfilled(
     | VerifiedTenantAttribute[]
     | CertifiedTenantAttribute[]
     | DeclaredTenantAttribute[],
-  attributesGroup: RemappedEServiceAttribute
+  attributesGroup: RemappedDescriptorAttribute
 ) {
-  const isOwned = ({ id }: RemappedEServiceAttribute['attributes'][0]) => {
+  const isOwned = ({ id }: RemappedDescriptorAttribute['attributes'][0]) => {
     switch (kind) {
       case 'certified':
         return isAttributeOwned(kind, id, ownedAttributes as CertifiedTenantAttribute[])
@@ -158,23 +158,23 @@ export function isAttributeGroupFullfilled(
  * Checks if the user owns all attributes of the given kind needed by the e-service.
  * @param kind The kind of attribute to check.
  * @param ownedAttributes The list of owned attributes to check against.
- * @param eserviceAttributes The list of e-service attributes to check.
+ * @param descriptorAttributes The list of e-service attributes to check.
  * @returns `true` if the user owns all attributes needed by the e-service, false otherwise.
  */
 export function hasAllEServiceAttributes(
   kind: 'certified',
   ownedAttributes: CertifiedTenantAttribute[],
-  eserviceAttributes: Array<RemappedEServiceAttribute>
+  descriptorAttributes: Array<RemappedDescriptorAttribute>
 ): boolean
 export function hasAllEServiceAttributes(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
-  eserviceAttributes: Array<RemappedEServiceAttribute>
+  descriptorAttributes: Array<RemappedDescriptorAttribute>
 ): boolean
 export function hasAllEServiceAttributes(
   kind: 'declared',
   ownedAttributes: DeclaredTenantAttribute[],
-  eserviceAttributes: Array<RemappedEServiceAttribute>
+  descriptorAttributes: Array<RemappedDescriptorAttribute>
 ): boolean
 export function hasAllEServiceAttributes(
   kind: AttributeKey,
@@ -182,9 +182,9 @@ export function hasAllEServiceAttributes(
     | VerifiedTenantAttribute[]
     | CertifiedTenantAttribute[]
     | DeclaredTenantAttribute[],
-  eserviceAttributes: Array<RemappedEServiceAttribute>
+  descriptorAttributes: Array<RemappedDescriptorAttribute>
 ) {
-  const isGroupFullfilled = (attributesGroup: RemappedEServiceAttribute) => {
+  const isGroupFullfilled = (attributesGroup: RemappedDescriptorAttribute) => {
     switch (kind) {
       case 'certified':
         return isAttributeGroupFullfilled(
@@ -209,7 +209,7 @@ export function hasAllEServiceAttributes(
     }
   }
 
-  return eserviceAttributes.every(isGroupFullfilled)
+  return descriptorAttributes.every(isGroupFullfilled)
 }
 
 /**
@@ -217,15 +217,15 @@ export function hasAllEServiceAttributes(
  * The backend returns the attributes in a format that is not suitable for the frontend.
  * @param backendAttributes The e-service attributes from the backend.
  * @returns The e-service attributes in a format suitable for the frontend.
- * @deprecated Should be removed when the backend is fixed.
+ *
+ * @deprecated Should be removed when the backend updated the attribute structure.
  */
-export function remapEServiceAttributes(
+export function remapDescriptorAttributes(
   backendAttributes: DescriptorAttributes
-): RemappedEServiceAttributes {
-  const eServiceAttributeToRemappedEServiceAttribute = (
-    attributeType: keyof DescriptorAttributes,
+): RemappedDescriptorAttributes {
+  const eserviceAttributeToRemappedEServiceAttribute = (
     eserviceAttribute: DescriptorAttribute
-  ): RemappedEServiceAttribute => {
+  ): RemappedDescriptorAttribute => {
     const isSingle = eserviceAttribute.hasOwnProperty('single')
 
     if (isSingle) {
@@ -250,15 +250,15 @@ export function remapEServiceAttributes(
   }
 
   const certified = backendAttributes.certified.map((eServiceAttribute) => {
-    return eServiceAttributeToRemappedEServiceAttribute('certified', eServiceAttribute)
+    return eserviceAttributeToRemappedEServiceAttribute(eServiceAttribute)
   })
 
   const verified = backendAttributes.verified.map((eServiceAttribute) => {
-    return eServiceAttributeToRemappedEServiceAttribute('verified', eServiceAttribute)
+    return eserviceAttributeToRemappedEServiceAttribute(eServiceAttribute)
   })
 
   const declared = backendAttributes.declared.map((eServiceAttribute) => {
-    return eServiceAttributeToRemappedEServiceAttribute('declared', eServiceAttribute)
+    return eserviceAttributeToRemappedEServiceAttribute(eServiceAttribute)
   })
 
   return { certified, verified, declared }

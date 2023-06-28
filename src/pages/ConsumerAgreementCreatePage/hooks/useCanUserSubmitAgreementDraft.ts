@@ -2,7 +2,7 @@ import { AgreementQueries } from '@/api/agreement'
 import { AttributeQueries } from '@/api/attribute'
 import { EServiceQueries } from '@/api/eservice'
 import { useJwt } from '@/hooks/useJwt'
-import { hasAllEServiceAttributes, remapEServiceAttributes } from '@/utils/attribute.utils'
+import { hasAllEServiceAttributes, remapDescriptorAttributes } from '@/utils/attribute.utils'
 import React from 'react'
 
 export default function useCanUserSubmitAgreementDraft(agreementId: string) {
@@ -27,7 +27,7 @@ export default function useCanUserSubmitAgreementDraft(agreementId: string) {
     if (!agreement || !descriptor || !ownedCertified || !ownedDeclared) return false
 
     const isProviderSameAsSubscriber = agreement.consumer.id === agreement.producer.id
-    const remapedEServiceAttributes = remapEServiceAttributes(descriptor.attributes)
+    const remapedEServiceAttributes = remapDescriptorAttributes(descriptor.attributes)
 
     const hasAllCertifiedAttributes =
       agreement?.state !== 'MISSING_CERTIFIED_ATTRIBUTES' &&

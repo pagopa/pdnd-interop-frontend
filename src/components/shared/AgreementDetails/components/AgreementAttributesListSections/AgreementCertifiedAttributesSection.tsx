@@ -1,7 +1,7 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
   AttributeGroupContainer,
@@ -19,13 +19,13 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
 
   const providerOrConsumer = mode as ProviderOrConsumer
 
-  const { eserviceAttributes, partyAttributes } = useAgreementDetailsContext()
+  const { descriptorAttributes, partyAttributes } = useAgreementDetailsContext()
 
-  const certifiedAttributeGroups = eserviceAttributes?.certified ?? []
+  const certifiedAttributeGroups = descriptorAttributes?.certified ?? []
   const ownedCertifiedAttributes = partyAttributes?.certified ?? []
 
   function getGroupContainerProps(
-    group: RemappedEServiceAttribute
+    group: RemappedDescriptorAttribute
   ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled(
       'certified',

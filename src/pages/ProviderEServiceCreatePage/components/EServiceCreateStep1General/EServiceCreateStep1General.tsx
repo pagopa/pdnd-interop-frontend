@@ -10,9 +10,8 @@ import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import { useJwt } from '@/hooks/useJwt'
-import { getKeys } from '@/utils/array.utils'
-import isEqual from 'lodash/isEqual'
 import type { EServiceTechnology } from '@/api/api.generatedTypes'
+import { compareObjects } from '@/utils/common.utils'
 
 export type EServiceCreateStep1FormValues = {
   name: string
@@ -62,11 +61,12 @@ export const EServiceCreateStep1General: React.FC = () => {
           },
         }
       )
-    } else if (eservice) {
+      return
+    }
+
+    if (eservice) {
       // If nothing has changed skip the update call
-      const isEServiceTheSame = getKeys(formValues).every((key) =>
-        isEqual(formValues[key], eservice[key])
-      )
+      const isEServiceTheSame = compareObjects(formValues, eservice)
 
       if (isEServiceTheSame) {
         forward()

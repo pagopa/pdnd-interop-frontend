@@ -7,7 +7,7 @@ import type {
   DescriptorAttributeValue,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
-import type { RemappedEServiceAttribute } from '../../src/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '../../src/types/attribute.types'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockAttribute = createMockFactory<Attribute>({
@@ -48,7 +48,7 @@ const createMockCompactAttribute = createMockFactory<CompactAttribute>({
   name: 'Attribute Name',
 })
 
-const createMockRemappedEServiceAttribute = createMockFactory<RemappedEServiceAttribute>({
+const createMockRemappedEServiceAttribute = createMockFactory<RemappedDescriptorAttribute>({
   attributes: [createMockCompactAttribute()],
   explicitAttributeVerification: true,
 })

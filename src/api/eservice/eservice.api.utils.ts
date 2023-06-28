@@ -1,21 +1,27 @@
-import type { RemappedEServiceAttributes } from '@/types/attribute.types'
+import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { getKeys } from '@/utils/array.utils'
 import type { DescriptorAttributes, DescriptorAttributesSeed } from '../api.generatedTypes'
 
-export function remapRemappedEServiceAttributesToBackend(
-  _frontendAttributes: RemappedEServiceAttributes
+/**
+ * Remaps back the remapped attributes to the original format that the backend expects
+ *
+ * @param _remappedAttributes The remapped attributes
+ * @returns The attributes in the original format
+ */
+export function remapRemappedEServiceAttributesToDescriptorAttributes(
+  _remappedAttributes: RemappedDescriptorAttributes
 ): DescriptorAttributes {
-  const attributekeys = getKeys(_frontendAttributes)
+  const attributekeys = getKeys(_remappedAttributes)
 
-  const frontendAttributes = { ..._frontendAttributes }
+  const remappedAttributes = { ..._remappedAttributes }
 
   attributekeys.forEach((key) => {
-    frontendAttributes[key] = frontendAttributes[key].filter((group) => group.attributes.length > 0)
+    remappedAttributes[key] = remappedAttributes[key].filter((group) => group.attributes.length > 0)
   })
 
   const mappedAttributes: DescriptorAttributes = attributekeys.reduce(
     (acc, attributeType) => {
-      const mapped = frontendAttributes[attributeType].map(
+      const mapped = remappedAttributes[attributeType].map(
         ({ attributes, explicitAttributeVerification }) =>
           attributes.length === 1
             ? { single: { id: attributes[0].id, explicitAttributeVerification } }
@@ -29,12 +35,17 @@ export function remapRemappedEServiceAttributesToBackend(
   return mappedAttributes
 }
 
+/**
+ * This remapping is needed because the backend expects in the update version draft call the attributes
+ * in the `DescriptorAttributesSeed` format
+ *
+ * @param attributes The attributes to remap
+ * @returns The attributes in the `DescriptorAttributesSeed` format
+ */
 export function remapDescriptorAttributesToDescriptorAttributesSeed(
-  _attributes: DescriptorAttributes
-) {
-  const attributekeys = Object.keys(_attributes)
-
-  const attributes = { ..._attributes }
+  attributes: DescriptorAttributes
+): DescriptorAttributesSeed {
+  const attributekeys = Object.keys(attributes)
 
   const mappedAttributes: DescriptorAttributesSeed = attributekeys.reduce(
     (accumulator, attributeTypeKey) => {

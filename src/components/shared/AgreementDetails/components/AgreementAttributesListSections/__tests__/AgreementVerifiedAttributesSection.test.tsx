@@ -12,7 +12,7 @@ mockUseCurrentRoute({ mode: 'provider' })
 describe('AgreementVerifiedAttributesSection', () => {
   it('should match snapshot when e-service does not require verified attributes', () => {
     mockAgreementDetailsContext({
-      eserviceAttributes: undefined,
+      descriptorAttributes: undefined,
     })
     const { baseElement } = renderWithApplicationContext(<AgreementVerifiedAttributesSection />, {
       withReactQueryContext: true,
@@ -22,7 +22,7 @@ describe('AgreementVerifiedAttributesSection', () => {
 
   it('should match snapshot when e-service requires verified attributes', () => {
     mockAgreementDetailsContext({
-      eserviceAttributes: {
+      descriptorAttributes: {
         certified: [],
         verified: [
           createMockRemappedEServiceAttribute({ attributes: [{ id: 'a-1-1' }, { id: 'a-1-2' }] }),
@@ -51,7 +51,7 @@ describe('AgreementVerifiedAttributesSection', () => {
   it('should show revoked chip when attribute is revoked and user is consumer', () => {
     mockUseCurrentRoute({ mode: 'consumer' })
     mockAgreementDetailsContext({
-      eserviceAttributes: {
+      descriptorAttributes: {
         certified: [],
         verified: [createMockRemappedEServiceAttribute({ attributes: [{ id: 'a-1-1' }] })],
         declared: [],

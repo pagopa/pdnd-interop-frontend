@@ -8,7 +8,7 @@ import {
   AttributeContainer,
 } from '@/components/layout/containers'
 import { Link, Stack } from '@mui/material'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
   isAttributeOwned,
   isAttributeGroupFullfilled,
@@ -22,11 +22,11 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
 
-  const { eserviceAttributes, partyAttributes } = useAgreementDetailsContext()
+  const { descriptorAttributes, partyAttributes } = useAgreementDetailsContext()
 
   const providerOrConsumer = mode as ProviderOrConsumer
 
-  const verifiedAttributeGroups = eserviceAttributes?.verified ?? []
+  const verifiedAttributeGroups = descriptorAttributes?.verified ?? []
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
 
   const getAttributeActions = useAgreementGetVerifiedAttributesActions()
@@ -40,7 +40,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   }
 
   function getGroupContainerProps(
-    group: RemappedEServiceAttribute
+    group: RemappedDescriptorAttribute
   ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled('verified', ownedVerifiedAttributes, group)
 

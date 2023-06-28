@@ -7,7 +7,7 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { Attribute, AttributeKind, CompactAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import type { EServiceCreateStep3FormValues } from '../../EServiceCreateStep3Attributes'
+import type { EServiceCreateStep3FormValues } from '..'
 
 export type AttributeAutocompleteProps = {
   groupIndex: number

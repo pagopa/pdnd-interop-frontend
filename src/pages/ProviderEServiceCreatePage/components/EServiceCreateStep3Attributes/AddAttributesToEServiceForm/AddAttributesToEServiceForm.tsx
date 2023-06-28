@@ -7,7 +7,7 @@ import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { useDialog } from '@/stores'
 import { AttributeGroup } from './AttributeGroup'
-import type { EServiceCreateStep3FormValues } from '../../EServiceCreateStep3Attributes'
+import type { EServiceCreateStep3FormValues } from '..'
 
 export type AddAttributesToEServiceFormProps = {
   attributeKey: AttributeKey

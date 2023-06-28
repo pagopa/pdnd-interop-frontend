@@ -12,10 +12,10 @@ import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import omit from 'lodash/omit'
 import type { AgreementApprovalPolicy } from '@/api/api.generatedTypes'
-import { compareDescriptorsStep2DataIfEquals } from '../../utils/eservice-create.utils'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/api/eservice/eservice.api.utils'
+import { compareObjects } from '@/utils/common.utils'
 
-type EServiceCreateStep2FormValues = {
+export type EServiceCreateStep2FormValues = {
   audience: string
   version: string
   voucherLifespan: number
@@ -77,10 +77,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
 
     // If nothing has changed skip the update call
     if (descriptor) {
-      const areDescriptorsEquals = compareDescriptorsStep2DataIfEquals(
-        newDescriptorData,
-        descriptor
-      )
+      const areDescriptorsEquals = compareObjects(newDescriptorData, descriptor)
       if (areDescriptorsEquals) {
         forward()
         return

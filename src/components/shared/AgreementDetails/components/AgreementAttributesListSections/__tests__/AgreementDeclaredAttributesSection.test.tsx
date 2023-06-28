@@ -12,7 +12,7 @@ mockUseCurrentRoute({ mode: 'provider' })
 describe('AgreementDeclaredAttributesSection', () => {
   it('should match snapshot when e-service does not require declared attributes', () => {
     mockAgreementDetailsContext({
-      eserviceAttributes: undefined,
+      descriptorAttributes: undefined,
     })
     const { baseElement } = renderWithApplicationContext(<AgreementDeclaredAttributesSection />, {
       withReactQueryContext: true,
@@ -22,7 +22,7 @@ describe('AgreementDeclaredAttributesSection', () => {
 
   it('should match snapshot when e-service requires declared attributes', () => {
     mockAgreementDetailsContext({
-      eserviceAttributes: {
+      descriptorAttributes: {
         certified: [],
         verified: [],
         declared: [

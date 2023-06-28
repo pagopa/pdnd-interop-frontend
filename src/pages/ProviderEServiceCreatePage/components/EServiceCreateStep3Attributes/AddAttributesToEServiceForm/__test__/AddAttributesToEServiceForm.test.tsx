@@ -5,7 +5,7 @@ import {
   AddAttributesToEServiceForm,
   type AddAttributesToEServiceFormProps,
 } from '../AddAttributesToEServiceForm'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import { render } from '@testing-library/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import {
@@ -29,9 +29,9 @@ vi.spyOn(AttributeQueries, 'usePrefetchSingle').mockReturnValue(
 
 type MockContext = {
   attributes: {
-    certified: RemappedEServiceAttribute[]
-    verified: RemappedEServiceAttribute[]
-    declared: RemappedEServiceAttribute[]
+    certified: RemappedDescriptorAttribute[]
+    verified: RemappedDescriptorAttribute[]
+    declared: RemappedDescriptorAttribute[]
   }
 }
 

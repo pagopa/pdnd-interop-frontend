@@ -2,7 +2,7 @@ import React from 'react'
 import { AttributeAutocomplete } from '../AttributeAutocomplete'
 import type { AttributeAutocompleteProps } from '../AttributeAutocomplete'
 import { vi } from 'vitest'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import userEvent from '@testing-library/user-event'
 import type { CompactAttribute } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
@@ -29,9 +29,9 @@ const mockGetListSpy = (attributes: Array<CompactAttribute> = [], isLoading = fa
 
 type MockContext = {
   attributes: {
-    certified: RemappedEServiceAttribute[]
-    verified: RemappedEServiceAttribute[]
-    declared: RemappedEServiceAttribute[]
+    certified: RemappedDescriptorAttribute[]
+    verified: RemappedDescriptorAttribute[]
+    declared: RemappedDescriptorAttribute[]
   }
 }
 

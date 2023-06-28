@@ -1,6 +1,6 @@
 import React from 'react'
 import { AttributeGroup, type AttributeGroupProps } from '../AttributeGroup'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import {
@@ -10,7 +10,7 @@ import {
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { fireEvent } from '@testing-library/react'
 
-const emptyGroup: RemappedEServiceAttribute = {
+const emptyGroup: RemappedDescriptorAttribute = {
   attributes: [],
   explicitAttributeVerification: false,
 }

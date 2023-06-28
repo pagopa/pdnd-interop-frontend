@@ -1,7 +1,9 @@
+import React from 'react'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import type { ActionItem } from '@/types/common.types'
 import type { ButtonProps } from '@mui/material'
-import React from 'react'
+import { getKeys } from '@/utils/array.utils'
+import isEqual from 'lodash/isEqual'
 
 /**
  * Top side actions are formatted with the first action as a button, and the
@@ -31,4 +33,22 @@ export function createContext<ContextValue>(name: string, defaultValue: ContextV
     useContext,
     Provider: context.Provider,
   } as const
+}
+
+/**
+ * Compare the first object with the second passed object.
+ * If all the values in the first object are equal to the values in the second object
+ * at the same key, return true, otherwise false.
+ *
+ * @param object
+ * @param objectToCompare
+ * @returns True if the second object has the same keys and values as the first object, otherwise false
+ */
+export function compareObjects<
+  TObjectToCompare extends object,
+  TObject extends { [TKey in keyof TObjectToCompare]?: unknown }
+>(object: TObject, objectToCompare: TObjectToCompare) {
+  return getKeys(object).every((key) =>
+    isEqual(object[key], objectToCompare[key as keyof TObjectToCompare])
+  )
 }

@@ -1,53 +1,48 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import type { RemappedEServiceAttributes } from '@/types/attribute.types'
 import { Box, Divider } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { AddAttributesToEServiceForm } from '../EServiceCreateStep1General/AddAttributesToEServiceForm'
-import { remapEServiceAttributes } from '@/utils/attribute.utils'
+import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import { useTranslation } from 'react-i18next'
-import { remapRemappedEServiceAttributesToBackend } from '@/api/eservice/eservice.api.utils'
-import { compareAttributesStep3IfEquals } from '../../utils/eservice-create.utils'
+import { remapRemappedEServiceAttributesToDescriptorAttributes } from '@/api/eservice/eservice.api.utils'
 import { StepActions } from '@/components/shared/StepActions'
 import type { UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
+import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
+import { compareObjects } from '@/utils/common.utils'
 
 export type EServiceCreateStep3FormValues = {
-  attributes: RemappedEServiceAttributes
+  attributes: RemappedDescriptorAttributes
 }
 
 export const EServiceCreateStep3Attributes: React.FC = () => {
   const { t } = useTranslation('eservice')
-  const { eservice, descriptor, forward, back } = useEServiceCreateContext()
+  const { eservice, descriptor, attributes, forward, back } = useEServiceCreateContext()
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
-  let defaultValues: EServiceCreateStep3FormValues = {
-    attributes: { certified: [], verified: [], declared: [] },
-  }
-
-  // Pre-fill if there is already a draft of the service available
-  if (descriptor) {
-    defaultValues = {
-      attributes: remapEServiceAttributes(descriptor.attributes),
-    }
-  }
-
   const formMethods = useForm({
-    defaultValues,
+    defaultValues: { attributes: attributes ?? { certified: [], verified: [], declared: [] } },
   })
 
   const onSubmit = (values: EServiceCreateStep3FormValues) => {
     if (!eservice) return
-    const backendAttributes = remapRemappedEServiceAttributesToBackend(values.attributes)
+    const backendAttributes = remapRemappedEServiceAttributesToDescriptorAttributes(
+      values.attributes
+    )
 
-    if (descriptor) {
-      const areAttributesEquals = compareAttributesStep3IfEquals(
-        values.attributes,
-        descriptor.attributes
-      )
+    if (descriptor && attributes) {
+      // Removes empty groups from the comparison
+      const newAttributesToCompare = {
+        certified: values.attributes.certified.filter((group) => group.attributes.length > 0),
+        verified: values.attributes.verified.filter((group) => group.attributes.length > 0),
+        declared: values.attributes.declared.filter((group) => group.attributes.length > 0),
+      }
+
+      const areAttributesEquals = compareObjects(newAttributesToCompare, attributes)
+
       if (areAttributesEquals) {
         forward()
         return
