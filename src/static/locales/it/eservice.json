@@ -70,6 +70,7 @@
     "step3": {
       "attributesTitle": "Attributi",
       "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell'e-service.",
+      "attributeCloneBtn": "Copia attributi dalla versione precedente",
       "attributesAddBtn": "Aggiungi attributo",
       "attributesCreateBtn": "Crea nuovo attributo"
     },
