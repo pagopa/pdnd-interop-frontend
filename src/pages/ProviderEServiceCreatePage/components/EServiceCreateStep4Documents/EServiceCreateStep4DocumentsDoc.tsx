@@ -10,17 +10,17 @@ import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 
-type EServiceCreateStep3DocumentsDocFormValues = {
+type EServiceCreateStep4DocumentsDocFormValues = {
   doc: File | null
   prettyName: string
 }
 
-const defaultValues: EServiceCreateStep3DocumentsDocFormValues = {
+const defaultValues: EServiceCreateStep4DocumentsDocFormValues = {
   doc: null,
   prettyName: '',
 }
 
-export function EServiceCreateStep3DocumentsDoc() {
+export function EServiceCreateStep4DocumentsDoc() {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
   const { descriptor } = useEServiceCreateContext()
@@ -46,7 +46,7 @@ export function EServiceCreateStep3DocumentsDoc() {
     shouldUnregister: true,
   })
 
-  const onSubmit = ({ doc, prettyName }: EServiceCreateStep3DocumentsDocFormValues) => {
+  const onSubmit = ({ doc, prettyName }: EServiceCreateStep4DocumentsDocFormValues) => {
     if (!doc || !descriptor) return
     uploadDocument(
       {
@@ -105,7 +105,7 @@ export function EServiceCreateStep3DocumentsDoc() {
             />
           ))
         ) : (
-          <Alert severity="info">{t('create.step3.documentation.noFileUploaded')}</Alert>
+          <Alert severity="info">{t('create.step4.documentation.noFileUploaded')}</Alert>
         )}
       </Stack>
 
@@ -123,15 +123,15 @@ export function EServiceCreateStep3DocumentsDoc() {
             <RHFTextField
               sx={{ my: 2 }}
               name="prettyName"
-              label={t('create.step3.nameField.label')}
-              infoLabel={t('create.step3.nameField.infoLabel')}
+              label={t('create.step4.nameField.label')}
+              infoLabel={t('create.step4.nameField.infoLabel')}
               inputProps={{ maxLength: 60 }}
               rules={{ required: true, minLength: 5 }}
             />
 
             <Stack direction="row" justifyContent="flex-end">
               <Button type="submit" variant="contained">
-                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step3.uploadBtn')}
+                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step4.uploadBtn')}
               </Button>
             </Stack>
           </Box>

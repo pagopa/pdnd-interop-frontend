@@ -3,7 +3,7 @@ import {
   isAttributeGroupFullfilled,
   remapEServiceAttributes,
 } from '@/utils/attribute.utils'
-import type { EServiceAttributes } from '@/api/api.generatedTypes'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import { isAttributeOwned, isAttributeRevoked } from '../attribute.utils'
 import {
   createCertifiedTenantAttribute,
@@ -388,7 +388,7 @@ describe('attribute utils', () => {
 
   describe('remapEServiceAttributes', () => {
     it('should match the inline snapshot', () => {
-      const backendAttributesMock: EServiceAttributes = {
+      const backendAttributesMock: DescriptorAttributes = {
         verified: [
           createMockSingleBackendAttribute({ single: { id: 'attribute-id-single-verified' } }),
           createMockGroupBackendAttribute({ group: [{ id: 'attribute-id-group-verified' }] }),

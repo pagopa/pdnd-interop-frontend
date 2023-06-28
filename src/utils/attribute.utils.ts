@@ -6,8 +6,8 @@ import type {
 import type {
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
-  EServiceAttribute,
-  EServiceAttributes,
+  DescriptorAttribute,
+  DescriptorAttributes,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 
@@ -220,11 +220,11 @@ export function hasAllEServiceAttributes(
  * @deprecated Should be removed when the backend is fixed.
  */
 export function remapEServiceAttributes(
-  backendAttributes: EServiceAttributes
+  backendAttributes: DescriptorAttributes
 ): RemappedEServiceAttributes {
   const eServiceAttributeToRemappedEServiceAttribute = (
-    attributeType: keyof EServiceAttributes,
-    eserviceAttribute: EServiceAttribute
+    attributeType: keyof DescriptorAttributes,
+    eserviceAttribute: DescriptorAttribute
   ): RemappedEServiceAttribute => {
     const isSingle = eserviceAttribute.hasOwnProperty('single')
 

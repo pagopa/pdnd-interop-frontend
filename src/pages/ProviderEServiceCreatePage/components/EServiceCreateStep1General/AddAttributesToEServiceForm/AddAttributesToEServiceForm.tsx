@@ -1,13 +1,13 @@
 import React from 'react'
 import type { AttributeKey } from '@/types/attribute.types'
 import { useFormContext } from 'react-hook-form'
-import type { EServiceCreateStep1FormValues } from '../EServiceCreateStep1General'
 import { Trans, useTranslation } from 'react-i18next'
 import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { useDialog } from '@/stores'
 import { AttributeGroup } from './AttributeGroup'
+import type { EServiceCreateStep3FormValues } from '../../EServiceCreateStep3Attributes'
 
 export type AddAttributesToEServiceFormProps = {
   attributeKey: AttributeKey
@@ -18,11 +18,11 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
   attributeKey,
   readOnly,
 }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: `create.step1.attributes` })
+  const { t } = useTranslation('eservice', { keyPrefix: `create.step3` })
   const { t: tAttribute } = useTranslation('attribute')
   const { openDialog } = useDialog()
 
-  const { watch, setValue } = useFormContext<EServiceCreateStep1FormValues>()
+  const { watch, setValue } = useFormContext<EServiceCreateStep3FormValues>()
 
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
@@ -93,7 +93,7 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
             onClick={handleAddAttributesGroup}
             disabled={readOnly}
           >
-            {t('addBtn')}
+            {t('attributesAddBtn')}
           </Button>
 
           {attributeKey !== 'certified' && (
@@ -105,7 +105,7 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
               onClick={handleOpenCreateNewAttributeDialog}
               disabled={readOnly}
             >
-              {t('createBtn')}
+              {t('attributesCreateBtn')}
             </Button>
           )}
         </Stack>

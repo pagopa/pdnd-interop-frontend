@@ -12,7 +12,8 @@
     "stepper": {
       "step1Label": "General",
       "step2Label": "Version",
-      "step3Label": "Documentation"
+      "step3Label": "Attributes",
+      "step4Label": "Documentation"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
@@ -31,15 +32,10 @@
       "eserviceTechnologyField": {
         "label": "Technology (required)"
       },
-      "attributes": {
-        "title": "Attributes",
-        "description": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service.",
-        "addBtn": "Add attribute",
-        "createBtn": "Create new attribute"
-      },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
     },
     "step2": {
+      "versionTitle": "Version informations",
       "versionField": {
         "label": "Version number (required)",
         "infoLabel": "Set automatically, not editable"
@@ -72,6 +68,12 @@
       }
     },
     "step3": {
+      "attributesTitle": "Attributes",
+      "attributesDescription": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service.",
+      "attributesAddBtn": "Add attribute",
+      "attributesCreateBtn": "Create new attribute"
+    },
+    "step4": {
       "interface": {
         "title": "Interface (required)",
         "description": {

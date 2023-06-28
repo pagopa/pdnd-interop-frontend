@@ -10,21 +10,21 @@ import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 
-type EServiceCreateStep3DocumentsInterfaceFormValues = {
+type EServiceCreateStep4DocumentsInterfaceFormValues = {
   interfaceDoc: File | null
   prettyName: string
 }
 
-export function EServiceCreateStep3DocumentsInterface() {
+export function EServiceCreateStep4DocumentsInterface() {
   const { t } = useTranslation('eservice')
   const { descriptor } = useEServiceCreateContext()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
 
-  const defaultValues: EServiceCreateStep3DocumentsInterfaceFormValues = {
+  const defaultValues: EServiceCreateStep4DocumentsInterfaceFormValues = {
     interfaceDoc: null,
-    prettyName: t('create.step3.interface.prettyName'),
+    prettyName: t('create.step4.interface.prettyName'),
   }
 
   const actualInterface: EServiceDoc | null = descriptor?.interface ?? null
@@ -37,7 +37,7 @@ export function EServiceCreateStep3DocumentsInterface() {
   const onSubmit = ({
     interfaceDoc,
     prettyName,
-  }: EServiceCreateStep3DocumentsInterfaceFormValues) => {
+  }: EServiceCreateStep4DocumentsInterfaceFormValues) => {
     if (!interfaceDoc || !descriptor) return
     uploadDocument({
       eserviceId: descriptor.eservice.id,
@@ -91,21 +91,21 @@ export function EServiceCreateStep3DocumentsInterface() {
         <RHFSingleFileInput
           sx={{ my: 0 }}
           name="interfaceDoc"
-          label={t('create.step3.uploadFileField.label')}
+          label={t('create.step4.uploadFileField.label')}
           rules={{ required: true }}
         />
 
         <RHFTextField
           sx={{ my: 2 }}
           name="prettyName"
-          label={t('create.step3.nameField.label')}
+          label={t('create.step4.nameField.label')}
           disabled
           rules={{ required: true }}
         />
 
         <Stack direction="row" justifyContent="flex-end">
           <Button type="submit" variant="contained">
-            <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step3.uploadBtn')}
+            <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step4.uploadBtn')}
           </Button>
         </Stack>
       </Box>
