@@ -5,7 +5,7 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import {
   createMockCompactAttribute,
-  createMockRemappedEServiceAttribute,
+  createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { fireEvent } from '@testing-library/react'
@@ -15,7 +15,7 @@ const emptyGroup: RemappedDescriptorAttribute = {
   explicitAttributeVerification: false,
 }
 
-const groupWithElements = createMockRemappedEServiceAttribute({
+const groupWithElements = createMockRemappedDescriptorAttribute({
   attributes: [createMockCompactAttribute({ id: 'attribute-option' })],
 })
 

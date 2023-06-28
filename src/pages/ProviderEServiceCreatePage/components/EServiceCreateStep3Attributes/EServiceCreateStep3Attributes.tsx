@@ -6,7 +6,7 @@ import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import { useTranslation } from 'react-i18next'
-import { remapRemappedEServiceAttributesToDescriptorAttributes } from '@/api/eservice/eservice.api.utils'
+import { remapRemappedDescriptorAttributesToDescriptorAttributes } from '@/api/eservice/eservice.api.utils'
 import { StepActions } from '@/components/shared/StepActions'
 import type { UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
 import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
@@ -29,7 +29,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
 
   const onSubmit = (values: EServiceCreateStep3FormValues) => {
     if (!eservice) return
-    const backendAttributes = remapRemappedEServiceAttributesToDescriptorAttributes(
+    const backendAttributes = remapRemappedDescriptorAttributesToDescriptorAttributes(
       values.attributes
     )
 

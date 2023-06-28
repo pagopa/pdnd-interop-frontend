@@ -161,22 +161,22 @@ export function isAttributeGroupFullfilled(
  * @param descriptorAttributes The list of e-service attributes to check.
  * @returns `true` if the user owns all attributes needed by the e-service, false otherwise.
  */
-export function hasAllEServiceAttributes(
+export function hasAllDescriptorAttributes(
   kind: 'certified',
   ownedAttributes: CertifiedTenantAttribute[],
   descriptorAttributes: Array<RemappedDescriptorAttribute>
 ): boolean
-export function hasAllEServiceAttributes(
+export function hasAllDescriptorAttributes(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
   descriptorAttributes: Array<RemappedDescriptorAttribute>
 ): boolean
-export function hasAllEServiceAttributes(
+export function hasAllDescriptorAttributes(
   kind: 'declared',
   ownedAttributes: DeclaredTenantAttribute[],
   descriptorAttributes: Array<RemappedDescriptorAttribute>
 ): boolean
-export function hasAllEServiceAttributes(
+export function hasAllDescriptorAttributes(
   kind: AttributeKey,
   ownedAttributes:
     | VerifiedTenantAttribute[]
@@ -223,13 +223,13 @@ export function hasAllEServiceAttributes(
 export function remapDescriptorAttributes(
   backendAttributes: DescriptorAttributes
 ): RemappedDescriptorAttributes {
-  const eserviceAttributeToRemappedEServiceAttribute = (
-    eserviceAttribute: DescriptorAttribute
+  const descriptorAttributeToRemappedDescriptorAttribute = (
+    descriptorAttribute: DescriptorAttribute
   ): RemappedDescriptorAttribute => {
-    const isSingle = eserviceAttribute.hasOwnProperty('single')
+    const isSingle = descriptorAttribute.hasOwnProperty('single')
 
     if (isSingle) {
-      const single = eserviceAttribute.single!
+      const single = descriptorAttribute.single!
       const { id, explicitAttributeVerification, name } = single
       return {
         attributes: [{ id, name }],
@@ -237,7 +237,7 @@ export function remapDescriptorAttributes(
       }
     }
 
-    const group = eserviceAttribute.group
+    const group = descriptorAttribute.group
     return {
       attributes: [
         ...group!.map(({ id, name }) => ({
@@ -249,16 +249,16 @@ export function remapDescriptorAttributes(
     }
   }
 
-  const certified = backendAttributes.certified.map((eServiceAttribute) => {
-    return eserviceAttributeToRemappedEServiceAttribute(eServiceAttribute)
+  const certified = backendAttributes.certified.map((descriptorAttribute) => {
+    return descriptorAttributeToRemappedDescriptorAttribute(descriptorAttribute)
   })
 
-  const verified = backendAttributes.verified.map((eServiceAttribute) => {
-    return eserviceAttributeToRemappedEServiceAttribute(eServiceAttribute)
+  const verified = backendAttributes.verified.map((descriptorAttribute) => {
+    return descriptorAttributeToRemappedDescriptorAttribute(descriptorAttribute)
   })
 
-  const declared = backendAttributes.declared.map((eServiceAttribute) => {
-    return eserviceAttributeToRemappedEServiceAttribute(eServiceAttribute)
+  const declared = backendAttributes.declared.map((descriptorAttribute) => {
+    return descriptorAttributeToRemappedDescriptorAttribute(descriptorAttribute)
   })
 
   return { certified, verified, declared }

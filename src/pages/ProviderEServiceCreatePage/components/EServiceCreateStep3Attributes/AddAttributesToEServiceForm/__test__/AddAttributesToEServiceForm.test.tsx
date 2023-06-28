@@ -10,7 +10,7 @@ import { render } from '@testing-library/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import {
   createMockAttribute,
-  createMockRemappedEServiceAttribute,
+  createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { AttributeQueries } from '@/api/attribute'
 import { Dialog } from '@/components/dialogs'
@@ -38,9 +38,9 @@ type MockContext = {
 const getInputWrapper = (
   defaultValues: MockContext = {
     attributes: {
-      certified: [createMockRemappedEServiceAttribute()],
-      verified: [createMockRemappedEServiceAttribute()],
-      declared: [createMockRemappedEServiceAttribute()],
+      certified: [createMockRemappedDescriptorAttribute()],
+      verified: [createMockRemappedDescriptorAttribute()],
+      declared: [createMockRemappedDescriptorAttribute()],
     },
   }
 ) => {

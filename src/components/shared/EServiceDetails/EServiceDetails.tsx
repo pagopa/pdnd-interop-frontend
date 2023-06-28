@@ -6,7 +6,7 @@ import { EServiceGeneralInfoSection } from './components/EServiceGeneralInfoSect
 import { EServiceVersionInfoSection } from './components/EServiceVersionInfoSection'
 import { EServiceLinksSection } from './components/EServiceLinksSection'
 import { EServiceVersionHistorySection } from './components/EServiceVersionHistorySection'
-import { EServiceAttributesSections } from './components/EServiceAttributesSections'
+import { EServiceDescriptorAttributesSections } from './components/EServiceDescriptorAttributesSections'
 import { EServiceDocumentsListSection } from './components/EServiceDocumentsListSection'
 import { EServiceProviderContacts } from './components/EServiceProviderContacts'
 import type {
@@ -51,7 +51,7 @@ export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ descriptor }) 
         </Grid>
       </Grid>
 
-      <EServiceAttributesSections />
+      <EServiceDescriptorAttributesSections />
 
       <Grid spacing={2} container>
         <Grid item xs={6}>

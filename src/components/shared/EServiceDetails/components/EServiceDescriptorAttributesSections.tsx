@@ -13,7 +13,7 @@ import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
 
-export const EServiceAttributesSections: React.FC = () => {
+export const EServiceDescriptorAttributesSections: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
 

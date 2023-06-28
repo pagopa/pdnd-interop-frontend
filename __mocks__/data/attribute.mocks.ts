@@ -48,7 +48,7 @@ const createMockCompactAttribute = createMockFactory<CompactAttribute>({
   name: 'Attribute Name',
 })
 
-const createMockRemappedEServiceAttribute = createMockFactory<RemappedDescriptorAttribute>({
+const createMockRemappedDescriptorAttribute = createMockFactory<RemappedDescriptorAttribute>({
   attributes: [createMockCompactAttribute()],
   explicitAttributeVerification: true,
 })
@@ -77,7 +77,7 @@ export {
   createVerifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createMockCompactAttribute,
-  createMockRemappedEServiceAttribute,
+  createMockRemappedDescriptorAttribute,
   createMockSingleBackendAttribute,
   createMockGroupBackendAttribute,
 }

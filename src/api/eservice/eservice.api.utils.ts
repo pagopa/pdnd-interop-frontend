@@ -8,7 +8,7 @@ import type { DescriptorAttributes, DescriptorAttributesSeed } from '../api.gene
  * @param _remappedAttributes The remapped attributes
  * @returns The attributes in the original format
  */
-export function remapRemappedEServiceAttributesToDescriptorAttributes(
+export function remapRemappedDescriptorAttributesToDescriptorAttributes(
   _remappedAttributes: RemappedDescriptorAttributes
 ): DescriptorAttributes {
   const attributekeys = getKeys(_remappedAttributes)

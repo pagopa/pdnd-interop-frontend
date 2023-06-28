@@ -8,7 +8,7 @@ import type { CompactAttribute } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
 import {
   createMockCompactAttribute,
-  createMockRemappedEServiceAttribute,
+  createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { FormProvider, useForm } from 'react-hook-form'
 import { render } from '@testing-library/react'
@@ -38,9 +38,9 @@ type MockContext = {
 const getInputWrapper = (
   defaultValues: MockContext = {
     attributes: {
-      certified: [createMockRemappedEServiceAttribute()],
-      verified: [createMockRemappedEServiceAttribute()],
-      declared: [createMockRemappedEServiceAttribute()],
+      certified: [createMockRemappedDescriptorAttribute()],
+      verified: [createMockRemappedDescriptorAttribute()],
+      declared: [createMockRemappedDescriptorAttribute()],
     },
   }
 ) => {
@@ -132,7 +132,7 @@ describe("Checks that AttributeAutocomplete snapshot don't change", () => {
       {
         attributes: {
           certified: [
-            createMockRemappedEServiceAttribute({
+            createMockRemappedDescriptorAttribute({
               attributes: [createMockCompactAttribute({ id: 'attribute-option' })],
             }),
           ],

@@ -5,7 +5,7 @@ import { render } from '@testing-library/react'
 import { AgreementCertifiedAttributesSection } from '../AgreementCertifiedAttributesSection'
 import {
   createCertifiedTenantAttribute,
-  createMockRemappedEServiceAttribute,
+  createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
 
 mockUseCurrentRoute({ mode: 'provider' })
@@ -23,8 +23,8 @@ describe('AgreementCertifiedAttributesSection', () => {
     mockAgreementDetailsContext({
       descriptorAttributes: {
         certified: [
-          createMockRemappedEServiceAttribute({ attributes: [{ id: 'a-1-1' }, { id: 'a-1-2' }] }),
-          createMockRemappedEServiceAttribute({ attributes: [{ id: 'a-2-1' }, { id: 'a-2-2' }] }),
+          createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-1-1' }, { id: 'a-1-2' }] }),
+          createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-2-1' }, { id: 'a-2-2' }] }),
         ],
         verified: [],
         declared: [],
