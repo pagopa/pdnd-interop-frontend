@@ -211,7 +211,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="0"
               type="button"
             >
-              addBtn
+              attributesAddBtn
               <span
                 class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
@@ -367,7 +367,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="-1"
               type="button"
             >
-              addBtn
+              attributesAddBtn
             </button>
           </div>
         </div>
@@ -588,7 +588,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="0"
               type="button"
             >
-              addBtn
+              attributesAddBtn
               <span
                 class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
@@ -598,7 +598,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="0"
               type="button"
             >
-              createBtn
+              attributesCreateBtn
               <span
                 class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
@@ -754,7 +754,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="-1"
               type="button"
             >
-              addBtn
+              attributesAddBtn
             </button>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ugwy04-MuiButtonBase-root-MuiButton-root"
@@ -762,7 +762,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="-1"
               type="button"
             >
-              createBtn
+              attributesCreateBtn
             </button>
           </div>
         </div>
@@ -983,7 +983,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="0"
               type="button"
             >
-              addBtn
+              attributesAddBtn
               <span
                 class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
@@ -993,7 +993,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="0"
               type="button"
             >
-              createBtn
+              attributesCreateBtn
               <span
                 class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
@@ -1149,7 +1149,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="-1"
               type="button"
             >
-              addBtn
+              attributesAddBtn
             </button>
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ugwy04-MuiButtonBase-root-MuiButton-root"
@@ -1157,7 +1157,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
               tabindex="-1"
               type="button"
             >
-              createBtn
+              attributesCreateBtn
             </button>
           </div>
         </div>

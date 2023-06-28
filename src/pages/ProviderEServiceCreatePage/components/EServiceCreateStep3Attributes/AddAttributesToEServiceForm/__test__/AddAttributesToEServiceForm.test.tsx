@@ -138,7 +138,7 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const button = formComponent.getByRole('button', { name: 'createBtn' })
+    const button = formComponent.getByRole('button', { name: 'attributesCreateBtn' })
 
     await user.click(button)
 
@@ -152,7 +152,7 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const button = formComponent.getByRole('button', { name: 'createBtn' })
+    const button = formComponent.getByRole('button', { name: 'attributesCreateBtn' })
 
     await user.click(button)
 
@@ -166,7 +166,7 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const addGroupButton = formComponent.getAllByRole('button', { name: 'addBtn' })[1]
+    const addGroupButton = formComponent.getByRole('button', { name: 'attributesAddBtn' })
     expect(formComponent.queryAllByText('read.provider').length).toBe(1)
     await user.click(addGroupButton)
     expect(formComponent.queryAllByText('read.provider').length).toBe(2)

@@ -171,7 +171,6 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
     expect(action).toHaveBeenCalledWith({
       partyId: 'consumer',
       id: 'test',
-      renewal: 'AUTOMATIC_RENEWAL',
     })
   })
 
