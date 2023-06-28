@@ -27,7 +27,7 @@ export default function useCanUserSubmitAgreementDraft(agreementId: string) {
     if (!agreement || !descriptor || !ownedCertified || !ownedDeclared) return false
 
     const isProviderSameAsSubscriber = agreement.consumer.id === agreement.producer.id
-    const remapedEServiceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
+    const remapedEServiceAttributes = remapEServiceAttributes(descriptor.attributes)
 
     const hasAllCertifiedAttributes =
       agreement?.state !== 'MISSING_CERTIFIED_ATTRIBUTES' &&

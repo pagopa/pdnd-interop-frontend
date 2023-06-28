@@ -66,7 +66,7 @@ const AgreementDetailsContextProvider: React.FC<{
   const providerValue = React.useMemo(() => {
     if (!agreement || !descriptor || mode === null) return initialState
 
-    const eserviceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
+    const eserviceAttributes = remapEServiceAttributes(descriptor.attributes)
     const isAgreementEServiceMine = agreement.producer.id === agreement.consumer.id
 
     const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)

@@ -38,7 +38,6 @@ export const useAgreementGetVerifiedAttributesActions = () => {
       verifyAttribute({
         partyId: agreement.consumer.id,
         id: attributeId,
-        renewal: 'AUTOMATIC_RENEWAL',
       })
     }
 

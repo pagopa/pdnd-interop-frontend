@@ -32,7 +32,7 @@ const EServiceDetailsContextProvider: React.FC<{
   children: React.ReactNode
 }> = ({ descriptor, children }) => {
   const providerValue = React.useMemo(() => {
-    const eserviceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
+    const eserviceAttributes = remapEServiceAttributes(descriptor.attributes)
 
     const activeDescriptor = descriptor.eservice.descriptors.find(
       (descriptor) => descriptor.state === 'PUBLISHED'

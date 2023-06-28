@@ -92,7 +92,6 @@ export interface UpdateEServiceSeed {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  attributes: EServiceAttributesSeed
 }
 
 export interface EServiceSeed {
@@ -100,7 +99,6 @@ export interface EServiceSeed {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  attributes: EServiceAttributesSeed
 }
 
 export interface UpdateEServiceDescriptorSeed {
@@ -124,6 +122,7 @@ export interface UpdateEServiceDescriptorSeed {
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
   agreementApprovalPolicy: AgreementApprovalPolicy
+  attributes: DescriptorAttributesSeed
 }
 
 export interface Mail {
@@ -152,6 +151,7 @@ export interface EServiceDescriptorSeed {
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
   agreementApprovalPolicy: AgreementApprovalPolicy
+  attributes: DescriptorAttributesSeed
 }
 
 export interface CatalogEServiceDescriptor {
@@ -161,6 +161,7 @@ export interface CatalogEServiceDescriptor {
   description?: string
   interface?: EServiceDoc
   docs: EServiceDoc[]
+  attributes: DescriptorAttributes
   /** EService Descriptor State */
   state: EServiceDescriptorState
   audience: string[]
@@ -223,7 +224,6 @@ export interface CatalogDescriptorEService {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  attributes: EServiceAttributes
   descriptors: CompactDescriptor[]
   agreement?: CompactAgreement
   isMine: boolean
@@ -240,7 +240,6 @@ export interface ProducerEServiceDetails {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  attributes: EServiceAttributes
 }
 
 export interface ProducerEServiceDescriptor {
@@ -274,6 +273,7 @@ export interface ProducerEServiceDescriptor {
    */
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: ProducerDescriptorEService
+  attributes: DescriptorAttributes
 }
 
 export interface ProducerDescriptorEService {
@@ -283,7 +283,6 @@ export interface ProducerDescriptorEService {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  attributes: EServiceAttributes
   descriptors: CompactDescriptor[]
   draftDescriptor?: CompactDescriptor
   mail?: Mail
@@ -802,18 +801,18 @@ export type EServiceDescriptorState =
 /** EService Descriptor State */
 export type EServiceTechnology = 'REST' | 'SOAP'
 
-export interface EServiceAttributes {
-  certified: EServiceAttribute[]
-  declared: EServiceAttribute[]
-  verified: EServiceAttribute[]
+export interface DescriptorAttributes {
+  certified: DescriptorAttribute[]
+  declared: DescriptorAttribute[]
+  verified: DescriptorAttribute[]
 }
 
-export interface EServiceAttribute {
-  single?: EServiceAttributeValue
-  group?: EServiceAttributeValue[]
+export interface DescriptorAttribute {
+  single?: DescriptorAttributeValue
+  group?: DescriptorAttributeValue[]
 }
 
-export interface EServiceAttributeValue {
+export interface DescriptorAttributeValue {
   /** @format uuid */
   id: string
   name: string
@@ -821,18 +820,18 @@ export interface EServiceAttributeValue {
   explicitAttributeVerification: boolean
 }
 
-export interface EServiceAttributesSeed {
-  certified: EServiceAttributeSeed[]
-  declared: EServiceAttributeSeed[]
-  verified: EServiceAttributeSeed[]
+export interface DescriptorAttributesSeed {
+  certified: DescriptorAttributeSeed[]
+  declared: DescriptorAttributeSeed[]
+  verified: DescriptorAttributeSeed[]
 }
 
-export interface EServiceAttributeSeed {
-  single?: EServiceAttributeValueSeed
-  group?: EServiceAttributeValueSeed[]
+export interface DescriptorAttributeSeed {
+  single?: DescriptorAttributeValueSeed
+  group?: DescriptorAttributeValueSeed[]
 }
 
-export interface EServiceAttributeValueSeed {
+export interface DescriptorAttributeValueSeed {
   /** @format uuid */
   id: string
   explicitAttributeVerification: boolean
@@ -1003,8 +1002,7 @@ export interface DeclaredTenantAttributeSeed {
   id: string
 }
 
-export interface RenewalVerifiedTenantAttributeSeed {
-  renewal: VerificationRenewal
+export interface UpdateVerifiedTenantAttributeSeed {
   /** @format date-time */
   expirationDate?: string
 }
@@ -1012,7 +1010,6 @@ export interface RenewalVerifiedTenantAttributeSeed {
 export interface VerifiedTenantAttributeSeed {
   /** @format uuid */
   id: string
-  renewal: VerificationRenewal
   /** @format date-time */
   expirationDate?: string
 }
@@ -1039,14 +1036,11 @@ export interface VerifiedTenantAttribute {
   revokedBy: TenantRevoker[]
 }
 
-export type VerificationRenewal = 'REVOKE_ON_EXPIRATION' | 'AUTOMATIC_RENEWAL'
-
 export interface TenantVerifier {
   /** @format uuid */
   id: string
   /** @format date-time */
   verificationDate: string
-  renewal: VerificationRenewal
   /** @format date-time */
   expirationDate?: string
   /** @format date-time */
@@ -1058,7 +1052,6 @@ export interface TenantRevoker {
   id: string
   /** @format date-time */
   verificationDate: string
-  renewal: VerificationRenewal
   /** @format date-time */
   expirationDate?: string
   /** @format date-time */
@@ -2740,14 +2733,14 @@ export namespace Tenants {
     export type ResponseBody = CertifiedAttributesResponse
   }
   /**
-   * @description Update Renewal Strategy for Verified Attribute of Tenant
+   * @description Update expirationDate for Verified Attribute of Tenant
    * @tags tenants
-   * @name UpdateRenewalStrategyVerifiedAttribute
-   * @summary Update Renewal Strategy for Verified Attribute of Tenant
-   * @request POST:/tenants/{tenantId}/attributes/{attributeId}/updateRenewalStrategy
+   * @name UpdateVerifiedAttribute
+   * @summary Update expirationDate for Verified Attribute of Tenant
+   * @request POST:/tenants/{tenantId}/attributes/{attributeId}
    * @secure
    */
-  export namespace UpdateRenewalStrategyVerifiedAttribute {
+  export namespace UpdateVerifiedAttribute {
     export type RequestParams = {
       /**
        * The internal identifier of the tenant
@@ -2761,7 +2754,7 @@ export namespace Tenants {
       attributeId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = RenewalVerifiedTenantAttributeSeed
+    export type RequestBody = UpdateVerifiedTenantAttributeSeed
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
