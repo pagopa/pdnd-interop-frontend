@@ -11,7 +11,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
 import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
-import { useClonePreviousDescriptorAttributes } from './hooks/useClonePreviousDescriptorAttributes'
+import { useClonePreviousDescriptorAttributes } from '../../hooks/useClonePreviousDescriptorAttributes'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 
 export type EServiceCreateStep3FormValues = {

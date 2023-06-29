@@ -5,7 +5,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { useToastNotification } from '@/stores'
 import type { UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { EServiceCreateStep3FormValues } from '../EServiceCreateStep3Attributes'
+import type { EServiceCreateStep3FormValues } from '../components/EServiceCreateStep3Attributes/EServiceCreateStep3Attributes'
 
 export function useClonePreviousDescriptorAttributes(
   currentDescriptor: ProducerEServiceDescriptor | undefined,
