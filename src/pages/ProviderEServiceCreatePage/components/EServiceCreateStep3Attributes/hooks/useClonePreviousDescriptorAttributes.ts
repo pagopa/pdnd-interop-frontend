@@ -16,7 +16,7 @@ export function useClonePreviousDescriptorAttributes(
 
   const previousVersionCompactDescriptor = currentDescriptor?.eservice.descriptors.find(
     (compactDescriptor) =>
-      parseInt(compactDescriptor.version) === parseInt(currentDescriptor.version) - 1
+      Number(compactDescriptor.version) === Number(currentDescriptor.version) - 1
   )
 
   const { data: previousVersionDescriptor } = EServiceQueries.useGetDescriptorProvider(
