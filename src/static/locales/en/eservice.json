@@ -70,6 +70,9 @@
     "step3": {
       "attributesTitle": "Attributes",
       "attributesDescription": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service.",
+      "attributeCloneBtn": "Copy attributes from previous version",
+      "attributeCloneSuccess": "Attributes cloned correctly",
+      "attributeCloneNoAttributesLabel": "There are no attribute to copy",
       "attributesAddBtn": "Add attribute",
       "attributesCreateBtn": "Create new attribute"
     },
