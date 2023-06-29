@@ -14,17 +14,18 @@ export function useClonePreviousDescriptorAttributes(
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step3' })
   const { showToast } = useToastNotification()
 
-  const previousVersionCompactDescriptor = currentDescriptor?.eservice.descriptors.find(
+  const eserviceId = currentDescriptor?.eservice.id
+  const previousVersionDescriptorId = currentDescriptor?.eservice.descriptors.find(
     (compactDescriptor) =>
       Number(compactDescriptor.version) === Number(currentDescriptor.version) - 1
-  )
+  )?.id
 
   const { data: previousVersionDescriptor } = EServiceQueries.useGetDescriptorProvider(
-    currentDescriptor?.eservice.id,
-    previousVersionCompactDescriptor?.id,
+    eserviceId,
+    previousVersionDescriptorId,
     {
       suspense: false,
-      enabled: true,
+      enabled: Boolean(eserviceId) && Boolean(previousVersionDescriptorId),
     }
   )
 
