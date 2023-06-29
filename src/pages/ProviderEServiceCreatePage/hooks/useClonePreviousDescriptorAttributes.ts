@@ -5,7 +5,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { useToastNotification } from '@/stores'
 import type { UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { EServiceCreateStep3FormValues } from '../EServiceCreateStep3Attributes'
+import type { EServiceCreateStep3FormValues } from '../components/EServiceCreateStep3Attributes/EServiceCreateStep3Attributes'
 
 export function useClonePreviousDescriptorAttributes(
   currentDescriptor: ProducerEServiceDescriptor | undefined,
@@ -14,17 +14,18 @@ export function useClonePreviousDescriptorAttributes(
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step3' })
   const { showToast } = useToastNotification()
 
-  const previousVersionCompactDescriptor = currentDescriptor?.eservice.descriptors.find(
+  const eserviceId = currentDescriptor?.eservice.id
+  const previousDescriptorId = currentDescriptor?.eservice.descriptors.find(
     (compactDescriptor) =>
       Number(compactDescriptor.version) === Number(currentDescriptor.version) - 1
-  )
+  )?.id
 
   const { data: previousVersionDescriptor } = EServiceQueries.useGetDescriptorProvider(
-    currentDescriptor?.eservice.id,
-    previousVersionCompactDescriptor?.id,
+    eserviceId,
+    previousDescriptorId,
     {
       suspense: false,
-      enabled: true,
+      enabled: Boolean(eserviceId) && Boolean(previousDescriptorId),
     }
   )
 
