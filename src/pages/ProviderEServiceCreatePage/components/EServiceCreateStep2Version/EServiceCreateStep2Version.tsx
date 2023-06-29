@@ -11,11 +11,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import omit from 'lodash/omit'
-import isEqual from 'lodash/isEqual'
-import { getKeys } from '@/utils/array.utils'
 import type { AgreementApprovalPolicy } from '@/api/api.generatedTypes'
+import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/api/eservice/eservice.api.utils'
+import { compareObjects } from '@/utils/common.utils'
 
-type EServiceCreateStep2FormValues = {
+export type EServiceCreateStep2FormValues = {
   audience: string
   version: string
   voucherLifespan: number
@@ -77,30 +77,27 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
 
     // If nothing has changed skip the update call
     if (descriptor) {
-      const descriptorDataToCompare = {
-        voucherLifespan: descriptor.voucherLifespan,
-        audience: descriptor.audience,
-        agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-        version: descriptor.version,
-        description: descriptor?.description ?? '',
-        dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
-        dailyCallsTotal: descriptor.dailyCallsTotal,
-      }
-
-      if (
-        getKeys(newDescriptorData).every((key) =>
-          isEqual(newDescriptorData[key], descriptorDataToCompare[key])
-        )
-      ) {
+      const areDescriptorsEquals = compareObjects(newDescriptorData, descriptor)
+      if (areDescriptorsEquals) {
         forward()
         return
       }
     }
 
-    const payload = { eserviceId: eservice.id, ...omit(newDescriptorData, ['version']) }
+    const payload = {
+      eserviceId: eservice.id,
+      attributes: { certified: [], verified: [], declared: [] },
+      ...omit(newDescriptorData, ['version']),
+    }
 
     if (descriptor) {
-      updateVersionDraft({ ...payload, descriptorId: descriptor.id }, { onSuccess: forward })
+      const descriptorAttributeSeed = remapDescriptorAttributesToDescriptorAttributesSeed(
+        descriptor.attributes
+      )
+      updateVersionDraft(
+        { ...payload, descriptorId: descriptor.id, attributes: descriptorAttributeSeed },
+        { onSuccess: forward }
+      )
       return
     }
     createVersionDraft(payload, {
@@ -119,7 +116,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer>
+        <SectionContainer newDesign title={t('create.step2.versionTitle')} component="div">
           <RHFTextField
             sx={{ mt: 0 }}
             name="version"

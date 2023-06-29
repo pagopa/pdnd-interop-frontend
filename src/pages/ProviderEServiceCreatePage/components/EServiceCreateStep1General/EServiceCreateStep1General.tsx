@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Divider } from '@mui/material'
+import { Alert, Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -8,21 +8,15 @@ import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
-import type { RemappedEServiceAttributes } from '@/types/attribute.types'
-import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import { remapRemappedEServiceAttributesToBackend } from '@/api/eservice/eservice.api.utils'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import { useJwt } from '@/hooks/useJwt'
-import { getKeys } from '@/utils/array.utils'
-import isEqual from 'lodash/isEqual'
-import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
 import type { EServiceTechnology } from '@/api/api.generatedTypes'
+import { compareObjects } from '@/utils/common.utils'
 
 export type EServiceCreateStep1FormValues = {
   name: string
   description: string
   technology: EServiceTechnology
-  attributes: RemappedEServiceAttributes
 }
 
 export const EServiceCreateStep1General: React.FC = () => {
@@ -37,7 +31,6 @@ export const EServiceCreateStep1General: React.FC = () => {
     name: '',
     description: '',
     technology: 'REST',
-    attributes: { certified: [], verified: [], declared: [] },
   }
 
   if (!isNewEService && eservice) {
@@ -45,7 +38,6 @@ export const EServiceCreateStep1General: React.FC = () => {
       name: eservice.name,
       description: eservice.description,
       technology: eservice.technology,
-      attributes: remapEServiceAttributes(eservice.attributes),
     }
   }
 
@@ -54,11 +46,10 @@ export const EServiceCreateStep1General: React.FC = () => {
   })
 
   const onSubmit = (formValues: EServiceCreateStep1FormValues) => {
-    const backendAttributes = remapRemappedEServiceAttributesToBackend(formValues.attributes)
     if (isNewEService) {
       if (!jwt?.organizationId) return
       createDraft(
-        { ...formValues, attributes: backendAttributes },
+        { ...formValues },
         {
           onSuccess({ id }) {
             navigate('PROVIDE_ESERVICE_EDIT', {
@@ -70,34 +61,19 @@ export const EServiceCreateStep1General: React.FC = () => {
           },
         }
       )
-    } else if (eservice) {
-      // If nothing has changed skip the update call
-      const eserviceToCompare = {
-        ...eservice,
-        attributes: remapEServiceAttributes(eservice.attributes),
-      }
-      const formValuesToCompare = {
-        ...formValues,
-        attributes: {
-          certified: formValues.attributes.certified.filter((group) => group.attributes.length > 0),
-          verified: formValues.attributes.verified.filter((group) => group.attributes.length > 0),
-          declared: formValues.attributes.declared.filter((group) => group.attributes.length > 0),
-        },
-      }
+      return
+    }
 
-      const isEServiceTheSame = getKeys(formValues).every((key) =>
-        isEqual(formValuesToCompare[key], eserviceToCompare[key])
-      )
+    if (eservice) {
+      // If nothing has changed skip the update call
+      const isEServiceTheSame = compareObjects(formValues, eservice)
 
       if (isEServiceTheSame) {
         forward()
         return
       }
 
-      updateDraft(
-        { eserviceId: eservice.id, ...formValues, attributes: backendAttributes },
-        { onSuccess: forward }
-      )
+      updateDraft({ eserviceId: eservice.id, ...formValues }, { onSuccess: forward })
     }
   }
 
@@ -144,19 +120,6 @@ export const EServiceCreateStep1General: React.FC = () => {
             disabled={!isEditable}
             rules={{ required: true }}
           />
-        </SectionContainer>
-
-        <SectionContainer
-          newDesign
-          title={t('create.step1.attributes.title')}
-          description={t('create.step1.attributes.description')}
-        >
-          <Divider sx={{ my: 3 }} />
-          <AddAttributesToEServiceForm attributeKey="certified" readOnly={!isEditable} />
-          <Divider sx={{ my: 3 }} />
-          <AddAttributesToEServiceForm attributeKey="verified" readOnly={!isEditable} />
-          <Divider sx={{ my: 3 }} />
-          <AddAttributesToEServiceForm attributeKey="declared" readOnly={!isEditable} />
         </SectionContainer>
 
         {!isEditable && (

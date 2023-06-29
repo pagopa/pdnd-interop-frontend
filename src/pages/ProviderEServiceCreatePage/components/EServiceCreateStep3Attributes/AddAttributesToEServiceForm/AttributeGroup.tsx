@@ -1,6 +1,6 @@
 import React from 'react'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
-import type { AttributeKey, RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { AttributeKey, RemappedDescriptorAttribute } from '@/types/attribute.types'
 import { Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
@@ -8,7 +8,7 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from './AttributeAutocomplete'
 
 export type AttributeGroupProps = {
-  group: RemappedEServiceAttribute
+  group: RemappedDescriptorAttribute
   groupIndex: number
   attributeKey: AttributeKey
   readOnly: boolean

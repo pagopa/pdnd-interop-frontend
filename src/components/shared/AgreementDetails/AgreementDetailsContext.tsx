@@ -1,8 +1,8 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import { EServiceQueries } from '@/api/eservice'
-import { remapEServiceAttributes } from '@/utils/attribute.utils'
-import type { RemappedEServiceAttributes } from '@/types/attribute.types'
+import { remapDescriptorAttributes } from '@/utils/attribute.utils'
+import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { AgreementQueries } from '@/api/agreement'
 import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
@@ -17,7 +17,7 @@ import type {
 
 type AgreementDetailsContextType = {
   agreement: Agreement | undefined
-  eserviceAttributes: RemappedEServiceAttributes | undefined
+  descriptorAttributes: RemappedDescriptorAttributes | undefined
   partyAttributes:
     | {
         certified: CertifiedTenantAttribute[]
@@ -32,7 +32,7 @@ type AgreementDetailsContextType = {
 const initialState: AgreementDetailsContextType = {
   agreement: undefined,
   isAgreementEServiceMine: false,
-  eserviceAttributes: undefined,
+  descriptorAttributes: undefined,
   partyAttributes: undefined,
   canBeUpgraded: false,
 }
@@ -66,7 +66,7 @@ const AgreementDetailsContextProvider: React.FC<{
   const providerValue = React.useMemo(() => {
     if (!agreement || !descriptor || mode === null) return initialState
 
-    const eserviceAttributes = remapEServiceAttributes(descriptor.eservice.attributes)
+    const descriptorAttributes = remapDescriptorAttributes(descriptor.attributes)
     const isAgreementEServiceMine = agreement.producer.id === agreement.consumer.id
 
     const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
@@ -79,7 +79,7 @@ const AgreementDetailsContextProvider: React.FC<{
     return {
       agreement,
       isAgreementEServiceMine,
-      eserviceAttributes,
+      descriptorAttributes,
       partyAttributes,
       canBeUpgraded,
     }

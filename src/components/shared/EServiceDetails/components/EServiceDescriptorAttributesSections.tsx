@@ -2,7 +2,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Stack, Box, Divider, Link } from '@mui/material'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
-import type { AttributeKey, RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { AttributeKey, RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
   AttributeContainer,
@@ -13,13 +13,13 @@ import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
 
-export const EServiceAttributesSections: React.FC = () => {
+export const EServiceDescriptorAttributesSections: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
 
   const providerOrConsumer = mode as ProviderOrConsumer
 
-  const { eserviceAttributes } = useEServiceDetailsContext()
+  const { descriptorAttributes } = useEServiceDetailsContext()
 
   const getSubtitle = (attributeKey: AttributeKey) => {
     return (
@@ -36,7 +36,7 @@ export const EServiceAttributesSections: React.FC = () => {
       <AttributeGroupsListSection
         title={tAttribute('certified.label')}
         subtitle={getSubtitle('certified')}
-        attributeGroups={eserviceAttributes.certified}
+        attributeGroups={descriptorAttributes.certified}
         emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.certified_other`),
         })}
@@ -45,7 +45,7 @@ export const EServiceAttributesSections: React.FC = () => {
       <AttributeGroupsListSection
         title={tAttribute('verified.label')}
         subtitle={getSubtitle('verified')}
-        attributeGroups={eserviceAttributes.verified}
+        attributeGroups={descriptorAttributes.verified}
         emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.verified_other`),
         })}
@@ -54,7 +54,7 @@ export const EServiceAttributesSections: React.FC = () => {
       <AttributeGroupsListSection
         title={tAttribute('declared.label')}
         subtitle={getSubtitle('declared')}
-        attributeGroups={eserviceAttributes.declared}
+        attributeGroups={descriptorAttributes.declared}
         emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
           attributeKey: tAttribute(`type.declared_other`),
         })}
@@ -64,7 +64,7 @@ export const EServiceAttributesSections: React.FC = () => {
 }
 
 type AttributeGroupsListSectionProps = {
-  attributeGroups: Array<RemappedEServiceAttribute>
+  attributeGroups: Array<RemappedDescriptorAttribute>
   title: string
   subtitle: React.ReactNode
   emptyLabel: string

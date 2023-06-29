@@ -10,9 +10,9 @@ import {
   EServiceCreateStep2VersionSkeleton,
 } from './components/EServiceCreateStep2Version'
 import {
-  EServiceCreateStep3Documents,
-  EServiceCreateStep3DocumentsSkeleton,
-} from './components/EServiceCreateStep3Documents'
+  EServiceCreateStep4Documents,
+  EServiceCreateStep4DocumentsSkeleton,
+} from './components/EServiceCreateStep4Documents'
 import { useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { Redirect, useParams } from '@/router'
@@ -21,6 +21,10 @@ import { Grid } from '@mui/material'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
 import { URL_FRAGMENTS } from '@/router/router.utils'
+import {
+  EServiceCreateStep3Attributes,
+  EServiceCreateStep3AttributesSkeleton,
+} from './components/EServiceCreateStep3Attributes'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
@@ -28,8 +32,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const { activeStep, ...stepProps } = useActiveStep()
 
   const isNewEService = !params?.eserviceId
-  const isDraftEService = params?.eserviceId && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
-  const isDraftDescriptor = params?.eserviceId && params?.descriptorId && !isDraftEService
+  const isDraftEService = !isNewEService && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
+  const isDraftDescriptor = !isNewEService && params?.descriptorId && !isDraftEService
 
   const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(
     params?.eserviceId,
@@ -42,10 +46,17 @@ const ProviderEServiceCreatePage: React.FC = () => {
       enabled: !!isDraftDescriptor,
     })
 
+  /**
+   *  If we are creating a new e-service that has no descriptors, we take the e-service data from the
+   *  useGetSingle query. Otherwise, we take it from the descriptor using the useGetDescriptorProvider query.
+   */
+  const eserviceData = isDraftEService ? eservice : descriptor?.eservice
+
   const steps: Array<StepperStep> = [
     { label: t('stepper.step1Label'), component: EServiceCreateStep1General },
     { label: t('stepper.step2Label'), component: EServiceCreateStep2Version },
-    { label: t('stepper.step3Label'), component: EServiceCreateStep3Documents },
+    { label: t('stepper.step3Label'), component: EServiceCreateStep3Attributes },
+    { label: t('stepper.step4Label'), component: EServiceCreateStep4Documents },
   ]
 
   const { component: Step } = steps[activeStep]
@@ -69,14 +80,15 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const stepsLoadingSkeletons = [
     <EServiceCreateStep1GeneralSkeleton key={1} />,
     <EServiceCreateStep2VersionSkeleton key={2} />,
-    <EServiceCreateStep3DocumentsSkeleton key={3} />,
+    <EServiceCreateStep3AttributesSkeleton key={3} />,
+    <EServiceCreateStep4DocumentsSkeleton key={4} />,
   ]
 
   const intro = isNewEService
     ? { title: t('emptyTitle') }
     : {
-        title: (eservice || descriptor?.eservice)?.name,
-        description: (eservice || descriptor?.eservice)?.description,
+        title: eserviceData?.name,
+        description: eserviceData?.description,
       }
 
   return (
@@ -86,7 +98,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           <Stepper steps={steps} activeIndex={activeStep} />
           {isReady && (
             <EServiceCreateContextProvider
-              eservice={eservice ?? descriptor?.eservice}
+              eservice={eserviceData}
               descriptor={descriptor}
               isNewEService={isNewEService}
               {...stepProps}

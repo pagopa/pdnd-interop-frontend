@@ -44,7 +44,6 @@ const createMockAgreement = createMockFactory<Agreement>({
           revokedBy: [
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2023-02-15T09:33:29.717Z',
               verificationDate: '2023-02-15T09:19:33.136Z',
             },
@@ -52,7 +51,6 @@ const createMockAgreement = createMockFactory<Agreement>({
           verifiedBy: [
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               verificationDate: '2023-02-15T09:33:35.807Z',
             },
           ],
@@ -66,7 +64,6 @@ const createMockAgreement = createMockFactory<Agreement>({
           verifiedBy: [
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               verificationDate: '2023-02-15T09:19:42.732Z',
             },
           ],
@@ -81,7 +78,6 @@ const createMockAgreement = createMockFactory<Agreement>({
           verifiedBy: [
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               verificationDate: '2023-02-15T09:19:38.568Z',
             },
           ],
@@ -95,17 +91,14 @@ const createMockAgreement = createMockFactory<Agreement>({
           verifiedBy: [
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               verificationDate: '2022-11-13T21:08:47.195Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               verificationDate: '2023-02-15T09:19:03.746Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               verificationDate: '2023-02-15T09:19:16.78Z',
             },
           ],
@@ -118,61 +111,51 @@ const createMockAgreement = createMockFactory<Agreement>({
           revokedBy: [
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T20:59:25.103Z',
               verificationDate: '2022-11-13T20:32:23.178Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:06:00.477Z',
               verificationDate: '2022-11-13T20:59:30.186Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:07:01.027Z',
               verificationDate: '2022-11-13T21:06:56.919Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:09:44.858Z',
               verificationDate: '2022-11-13T21:07:03.54Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:10:03.765Z',
               verificationDate: '2022-11-13T21:09:52.636Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:16:11.568Z',
               verificationDate: '2022-11-13T21:11:06.997Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:16:53.976Z',
               verificationDate: '2022-11-13T21:16:35.722Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:17:03.643Z',
               verificationDate: '2022-11-13T21:16:56.507Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:18:17.041Z',
               verificationDate: '2022-11-13T21:18:07.45Z',
             },
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               revocationDate: '2022-11-13T21:21:27.759Z',
               verificationDate: '2022-11-13T21:21:00.799Z',
             },
@@ -180,7 +163,6 @@ const createMockAgreement = createMockFactory<Agreement>({
           verifiedBy: [
             {
               id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
-              renewal: 'AUTOMATIC_RENEWAL',
               verificationDate: '2022-11-13T21:21:29.628Z',
             },
           ],

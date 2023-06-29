@@ -12,11 +12,6 @@ const createMockEServiceRead = createMockFactory<ProducerEServiceDetails>({
   name: '-- CAMMELLO --',
   description: 'Lore ipsum',
   technology: 'REST',
-  attributes: {
-    certified: [],
-    verified: [],
-    declared: [],
-  },
 })
 
 const createMockEServiceProvider = createMockFactory<ProducerEService>({
@@ -60,11 +55,6 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
       id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
       name: '-- CAMMELLO --',
     },
-    attributes: {
-      certified: [],
-      declared: [],
-      verified: [],
-    },
     description: 'lorem',
     descriptors: [
       {
@@ -91,6 +81,11 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
   state: 'PUBLISHED',
   version: '1',
   voucherLifespan: 60,
+  attributes: {
+    certified: [],
+    declared: [],
+    verified: [],
+  },
 })
 
 const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceDescriptor>({
@@ -101,11 +96,6 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
   description: 'kinoin',
   docs: [],
   eservice: {
-    attributes: {
-      certified: [],
-      declared: [],
-      verified: [],
-    },
     description: 'Lorem ipsum',
     descriptors: [
       {
@@ -129,6 +119,11 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
   state: 'PUBLISHED',
   version: '3',
   voucherLifespan: 60,
+  attributes: {
+    certified: [],
+    declared: [],
+    verified: [],
+  },
 })
 
 export {

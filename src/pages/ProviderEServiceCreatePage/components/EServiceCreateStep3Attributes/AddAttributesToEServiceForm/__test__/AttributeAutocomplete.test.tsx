@@ -2,13 +2,13 @@ import React from 'react'
 import { AttributeAutocomplete } from '../AttributeAutocomplete'
 import type { AttributeAutocompleteProps } from '../AttributeAutocomplete'
 import { vi } from 'vitest'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import userEvent from '@testing-library/user-event'
 import type { CompactAttribute } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
 import {
   createMockCompactAttribute,
-  createMockRemappedEServiceAttribute,
+  createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { FormProvider, useForm } from 'react-hook-form'
 import { render } from '@testing-library/react'
@@ -29,18 +29,18 @@ const mockGetListSpy = (attributes: Array<CompactAttribute> = [], isLoading = fa
 
 type MockContext = {
   attributes: {
-    certified: RemappedEServiceAttribute[]
-    verified: RemappedEServiceAttribute[]
-    declared: RemappedEServiceAttribute[]
+    certified: RemappedDescriptorAttribute[]
+    verified: RemappedDescriptorAttribute[]
+    declared: RemappedDescriptorAttribute[]
   }
 }
 
 const getInputWrapper = (
   defaultValues: MockContext = {
     attributes: {
-      certified: [createMockRemappedEServiceAttribute()],
-      verified: [createMockRemappedEServiceAttribute()],
-      declared: [createMockRemappedEServiceAttribute()],
+      certified: [createMockRemappedDescriptorAttribute()],
+      verified: [createMockRemappedDescriptorAttribute()],
+      declared: [createMockRemappedDescriptorAttribute()],
     },
   }
 ) => {
@@ -132,7 +132,7 @@ describe("Checks that AttributeAutocomplete snapshot don't change", () => {
       {
         attributes: {
           certified: [
-            createMockRemappedEServiceAttribute({
+            createMockRemappedDescriptorAttribute({
               attributes: [createMockCompactAttribute({ id: 'attribute-option' })],
             }),
           ],

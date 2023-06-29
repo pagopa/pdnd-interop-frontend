@@ -5,12 +5,12 @@ import {
   AddAttributesToEServiceForm,
   type AddAttributesToEServiceFormProps,
 } from '../AddAttributesToEServiceForm'
-import type { RemappedEServiceAttribute } from '@/types/attribute.types'
+import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import { render } from '@testing-library/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import {
   createMockAttribute,
-  createMockRemappedEServiceAttribute,
+  createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { AttributeQueries } from '@/api/attribute'
 import { Dialog } from '@/components/dialogs'
@@ -29,18 +29,18 @@ vi.spyOn(AttributeQueries, 'usePrefetchSingle').mockReturnValue(
 
 type MockContext = {
   attributes: {
-    certified: RemappedEServiceAttribute[]
-    verified: RemappedEServiceAttribute[]
-    declared: RemappedEServiceAttribute[]
+    certified: RemappedDescriptorAttribute[]
+    verified: RemappedDescriptorAttribute[]
+    declared: RemappedDescriptorAttribute[]
   }
 }
 
 const getInputWrapper = (
   defaultValues: MockContext = {
     attributes: {
-      certified: [createMockRemappedEServiceAttribute()],
-      verified: [createMockRemappedEServiceAttribute()],
-      declared: [createMockRemappedEServiceAttribute()],
+      certified: [createMockRemappedDescriptorAttribute()],
+      verified: [createMockRemappedDescriptorAttribute()],
+      declared: [createMockRemappedDescriptorAttribute()],
     },
   }
 ) => {
@@ -138,7 +138,7 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const button = formComponent.getByRole('button', { name: 'createBtn' })
+    const button = formComponent.getByRole('button', { name: 'attributesCreateBtn' })
 
     await user.click(button)
 
@@ -152,7 +152,7 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const button = formComponent.getByRole('button', { name: 'createBtn' })
+    const button = formComponent.getByRole('button', { name: 'attributesCreateBtn' })
 
     await user.click(button)
 
@@ -166,7 +166,7 @@ describe('check the functionalities', () => {
       readOnly: false,
     })
 
-    const addGroupButton = formComponent.getAllByRole('button', { name: 'addBtn' })[1]
+    const addGroupButton = formComponent.getByRole('button', { name: 'attributesAddBtn' })
     expect(formComponent.queryAllByText('read.provider').length).toBe(1)
     await user.click(addGroupButton)
     expect(formComponent.queryAllByText('read.provider').length).toBe(2)

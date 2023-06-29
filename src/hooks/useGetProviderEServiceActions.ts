@@ -109,6 +109,11 @@ export function useGetProviderEServiceActions(
         dailyCallsPerConsumer: 1,
         dailyCallsTotal: 1,
         agreementApprovalPolicy: 'MANUAL',
+        attributes: {
+          certified: [],
+          declared: [],
+          verified: [],
+        },
       },
       {
         onSuccess({ id }) {

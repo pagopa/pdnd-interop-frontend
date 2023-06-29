@@ -4,7 +4,7 @@ import { mockAgreementDetailsContext } from '../../__tests__/test.commons'
 import { AgreementVerifiedAttributesSection } from '../AgreementVerifiedAttributesSection'
 import {
   createVerifiedTenantAttribute,
-  createMockRemappedEServiceAttribute,
+  createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
 
 mockUseCurrentRoute({ mode: 'provider' })
@@ -12,7 +12,7 @@ mockUseCurrentRoute({ mode: 'provider' })
 describe('AgreementVerifiedAttributesSection', () => {
   it('should match snapshot when e-service does not require verified attributes', () => {
     mockAgreementDetailsContext({
-      eserviceAttributes: undefined,
+      descriptorAttributes: undefined,
     })
     const { baseElement } = renderWithApplicationContext(<AgreementVerifiedAttributesSection />, {
       withReactQueryContext: true,
@@ -22,11 +22,11 @@ describe('AgreementVerifiedAttributesSection', () => {
 
   it('should match snapshot when e-service requires verified attributes', () => {
     mockAgreementDetailsContext({
-      eserviceAttributes: {
+      descriptorAttributes: {
         certified: [],
         verified: [
-          createMockRemappedEServiceAttribute({ attributes: [{ id: 'a-1-1' }, { id: 'a-1-2' }] }),
-          createMockRemappedEServiceAttribute({ attributes: [{ id: 'a-2-1' }, { id: 'a-2-2' }] }),
+          createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-1-1' }, { id: 'a-1-2' }] }),
+          createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-2-1' }, { id: 'a-2-2' }] }),
         ],
         declared: [],
       },
@@ -51,9 +51,9 @@ describe('AgreementVerifiedAttributesSection', () => {
   it('should show revoked chip when attribute is revoked and user is consumer', () => {
     mockUseCurrentRoute({ mode: 'consumer' })
     mockAgreementDetailsContext({
-      eserviceAttributes: {
+      descriptorAttributes: {
         certified: [],
-        verified: [createMockRemappedEServiceAttribute({ attributes: [{ id: 'a-1-1' }] })],
+        verified: [createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-1-1' }] })],
         declared: [],
       },
       partyAttributes: {

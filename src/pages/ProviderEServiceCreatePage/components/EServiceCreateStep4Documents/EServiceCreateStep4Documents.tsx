@@ -10,10 +10,10 @@ import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { EServiceCreateStep3DocumentsDoc } from './EServiceCreateStep3DocumentsDoc'
-import { EServiceCreateStep3DocumentsInterface } from './EServiceCreateStep3DocumentsInterface'
+import { EServiceCreateStep4DocumentsDoc } from './EServiceCreateStep4DocumentsDoc'
+import { EServiceCreateStep4DocumentsInterface } from './EServiceCreateStep4DocumentsInterface'
 
-export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
+export const EServiceCreateStep4Documents: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
   const { t: tMutations } = useTranslation('mutations-feedback')
   const navigate = useNavigate()
@@ -53,9 +53,9 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
     )
   }
 
-  const sectionDescription = `${t('create.step3.interface.description.before')} ${
+  const sectionDescription = `${t('create.step4.interface.description.before')} ${
     descriptor?.eservice.technology === 'REST' ? 'OpenAPI' : 'WSDL'
-  }  ${t('create.step3.interface.description.after')}`
+  }  ${t('create.step4.interface.description.after')}`
 
   const hasInterface = !!descriptor?.interface
 
@@ -63,22 +63,22 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
     <>
       <SectionContainer>
         <Typography component="h2" variant="h5">
-          {t('create.step3.interface.title')}
+          {t('create.step4.interface.title')}
         </Typography>
         <Typography color="text.secondary">{sectionDescription}</Typography>
 
         <Box sx={{ mt: 2 }}>
-          <EServiceCreateStep3DocumentsInterface />
+          <EServiceCreateStep4DocumentsInterface />
         </Box>
 
         <Typography sx={{ mt: 8 }} component="h2" variant="h5">
-          {t('create.step3.documentation.title')}
+          {t('create.step4.documentation.title')}
         </Typography>
         <Typography color="text.secondary">
-          {t('create.step3.documentation.description')}
+          {t('create.step4.documentation.description')}
         </Typography>
         <Box sx={{ mt: 2 }}>
-          <EServiceCreateStep3DocumentsDoc />
+          <EServiceCreateStep4DocumentsDoc />
         </Box>
       </SectionContainer>
 
@@ -110,6 +110,6 @@ export const EServiceCreateStep3Documents: React.FC<ActiveStepProps> = () => {
   )
 }
 
-export const EServiceCreateStep3DocumentsSkeleton: React.FC = () => {
+export const EServiceCreateStep4DocumentsSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={600} />
 }
