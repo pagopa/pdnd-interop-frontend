@@ -1,5 +1,5 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Button, Divider } from '@mui/material'
+import { Box, Button, Divider, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
@@ -11,45 +11,26 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
 import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
-import { useGetPreviousVersionDescriptor } from './hooks/useGetPreviousVersionDescriptor'
-import { remapDescriptorAttributes } from '@/utils/attribute.utils'
+import { useClonePreviousDescriptorAttributes } from './hooks/useClonePreviousDescriptorAttributes'
+import { InfoTooltip } from '@/components/shared/InfoTooltip'
 
 export type EServiceCreateStep3FormValues = {
   attributes: RemappedDescriptorAttributes
 }
 
 export const EServiceCreateStep3Attributes: React.FC = () => {
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { eservice, descriptor, attributes, forward, back } = useEServiceCreateContext()
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
-  const previousVersionDescriptor = useGetPreviousVersionDescriptor(descriptor)
-
   const formMethods = useForm({
     defaultValues: { attributes: attributes ?? { certified: [], verified: [], declared: [] } },
   })
 
-  const onCloneAttributes = () => {
-    if (!previousVersionDescriptor) return
-    const remappedPreviousVersionDescriptorAttributes = remapDescriptorAttributes(
-      previousVersionDescriptor.attributes
-    )
-
-    formMethods.setValue(
-      'attributes.certified',
-      remappedPreviousVersionDescriptorAttributes.certified
-    )
-    formMethods.setValue(
-      'attributes.verified',
-      remappedPreviousVersionDescriptorAttributes.verified
-    )
-    formMethods.setValue(
-      'attributes.declared',
-      remappedPreviousVersionDescriptorAttributes.declared
-    )
-  }
+  const { handleClonePreviousDescriptorAttributes, hasPreviousVersionNoAttributes } =
+    useClonePreviousDescriptorAttributes(descriptor, formMethods.setValue)
 
   const onSubmit = (values: EServiceCreateStep3FormValues) => {
     if (!eservice) return
@@ -98,13 +79,22 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
           newDesign
-          title={t('create.step3.attributesTitle')}
-          description={t('create.step3.attributesDescription')}
+          title={t('step3.attributesTitle')}
+          description={t('step3.attributesDescription')}
         >
           {descriptor && descriptor.version > '1' && (
-            <Button variant="text" onClick={onCloneAttributes}>
-              {t('create.step3.attributeCloneBtn')}
-            </Button>
+            <Stack direction="row" alignItems="center">
+              <Button
+                variant="naked"
+                disabled={hasPreviousVersionNoAttributes}
+                onClick={handleClonePreviousDescriptorAttributes}
+              >
+                {t('step3.attributeCloneBtn')}
+              </Button>
+              {hasPreviousVersionNoAttributes && (
+                <InfoTooltip label={t('step3.attributeCloneNoAttributesLabel')} />
+              )}
+            </Stack>
           )}
           <Divider sx={{ my: 3 }} />
           <AddAttributesToEServiceForm attributeKey="certified" readOnly={false} />
@@ -114,8 +104,8 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
           <AddAttributesToEServiceForm attributeKey="declared" readOnly={false} />
         </SectionContainer>
         <StepActions
-          back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
+          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
+          forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
         />
       </Box>
     </FormProvider>
