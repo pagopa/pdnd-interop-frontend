@@ -15,17 +15,17 @@ export function useClonePreviousDescriptorAttributes(
   const { showToast } = useToastNotification()
 
   const eserviceId = currentDescriptor?.eservice.id
-  const previousVersionDescriptorId = currentDescriptor?.eservice.descriptors.find(
+  const previousDescriptorId = currentDescriptor?.eservice.descriptors.find(
     (compactDescriptor) =>
       Number(compactDescriptor.version) === Number(currentDescriptor.version) - 1
   )?.id
 
   const { data: previousVersionDescriptor } = EServiceQueries.useGetDescriptorProvider(
     eserviceId,
-    previousVersionDescriptorId,
+    previousDescriptorId,
     {
       suspense: false,
-      enabled: Boolean(eserviceId) && Boolean(previousVersionDescriptorId),
+      enabled: Boolean(eserviceId) && Boolean(previousDescriptorId),
     }
   )
 
