@@ -59,6 +59,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
         dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
         dailyCallsTotal: descriptor.dailyCallsTotal,
         agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+        description: descriptor.description,
         attributes: backendAttributes,
       }
 
