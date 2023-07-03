@@ -24,7 +24,10 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
       { agreementId: agreement.id },
       {
         onSuccess(data) {
-          navigate('SUBSCRIBE_AGREEMENT_READ', {
+          const agreementView =
+            data.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
+
+          navigate(agreementView, {
             params: {
               agreementId: data.id,
             },
