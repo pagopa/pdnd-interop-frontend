@@ -281,7 +281,7 @@
     "upgrade": {
       "loading": "Upgrading fruition request",
       "outcome": {
-        "success": "The fruition request was upgraded to the latest e-service version. Warning: always check the \"audience\" field in your client assertions, it may change with the version of the e-service",
+        "success": "The fruition request was upgraded to the latest e-service version",
         "error": "The fruition request could not be upgraded. Please, try again!"
       },
       "confirmDialog": {

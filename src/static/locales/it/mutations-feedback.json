@@ -282,7 +282,7 @@
     "upgrade": {
       "loading": "Stiamo aggiornando la richiesta",
       "outcome": {
-        "success": "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service. Attenzione: verifica sempre il valore del campo \"audience\" all'interno delle client assertion nei tuoi client, potrebbe variare tra una versione di un e-service e un'altra a discrezione delle necessità dell'erogatore",
+        "success": "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service",
         "error": "Non è stato possibile aggiornare la richiesta. Per favore, riprova!"
       },
       "confirmDialog": {
