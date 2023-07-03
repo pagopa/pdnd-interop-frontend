@@ -24,6 +24,12 @@ export const AgreementUpgradeGuideSection: React.FC = () => {
       { agreementId: agreement.id },
       {
         onSuccess(data) {
+          /**
+           * When the subscriber is missing one or more verified/declared attributes,
+           * the new agreement is created as a DRAFT instead of being submitted to
+           * the provider. When this happens, the subscriber should be presented with
+           * the "draft edit" view of the agreement.
+           */
           const agreementView =
             data.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
 
