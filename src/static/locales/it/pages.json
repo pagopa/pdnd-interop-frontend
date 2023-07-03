@@ -32,7 +32,7 @@
     "description": "Qui puoi gestire le finalità create dai fruitori per i tuoi e-service"
   },
   "consumerDebugVoucher": {
-    "title": "Debug del voucher",
+    "title": "Debug della client assertion",
     "description": "Se non riesci ad ottenere un voucher e non sai perché, puoi effettuare il debugging in questa vista"
   }
 }

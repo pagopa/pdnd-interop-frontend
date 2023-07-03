@@ -238,6 +238,6 @@
     "PARTY_REGISTRY": "Anagrafica ente",
     "NOT_FOUND": "Pagina non trovata",
     "DEFAULT": "",
-    "SUBSCRIBE_DEBUG_VOUCHER": "Debug del voucher"
+    "SUBSCRIBE_DEBUG_VOUCHER": "Debug client assertion"
   }
 }
