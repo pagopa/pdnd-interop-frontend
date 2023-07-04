@@ -33,6 +33,7 @@ describe('DebugVoucherResults testing', () => {
         isOpen: true,
         selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
       },
+      goToNextStep: vi.fn(),
     })
 
     const screen = render(<DebugVoucherResults />)
@@ -72,6 +73,7 @@ describe('DebugVoucherResults testing', () => {
         isOpen: true,
         selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
       },
+      goToNextStep: vi.fn(),
       setDebugVoucherStepDrawer: setDebugVoucherStepDrawerMockFn,
     })
 
@@ -92,6 +94,7 @@ describe('DebugVoucherResults testing', () => {
         isOpen: true,
         selectedStep: ['platformStatesVerification', createMockDebugVoucherResultStep()],
       },
+      goToNextStep: vi.fn(),
     })
 
     const screen = render(<DebugVoucherResults />)
@@ -128,6 +131,7 @@ describe('DebugVoucherResults testing', () => {
         isOpen: true,
         selectedStep: ['clientAssertionSignatureVerification', createMockDebugVoucherResultStep()],
       },
+      goToNextStep: vi.fn(),
     })
 
     const screen = render(<DebugVoucherResults />)
@@ -169,6 +173,7 @@ describe('DebugVoucherResults testing', () => {
         isOpen: true,
         selectedStep: ['clientAssertionSignatureVerification', createMockDebugVoucherResultStep()],
       },
+      goToNextStep: vi.fn(),
     })
 
     const screen = render(<DebugVoucherResults />)
@@ -188,113 +193,117 @@ describe('DebugVoucherResults testing', () => {
         isOpen: true,
         selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
       },
+      goToNextStep: vi.fn(),
     })
 
     const screen = render(<DebugVoucherResults />)
 
     expect(screen.getByText('stepDrawer.title.clientAssertionValidation')).toBeInTheDocument()
 
-    screen.debug()
+    expect(screen.queryByRole('button', { name: 'stepDrawer.nextStepBtn' })).toBeInTheDocument()
+  })
+
+  it('should button nextStep be rendered if clientKind is API and selectedStep key is not clientAssertionSignatureVerification', () => {
+    mockDebugVoucherContext({
+      request: createMockDebugVoucherRequest(),
+      response: createMockDebugVoucherResultPassed({
+        clientKind: 'API',
+        eservice: undefined,
+        steps: {
+          clientAssertionValidation: {
+            result: 'PASSED',
+            failures: [],
+          },
+          publicKeyRetrieve: {
+            result: 'PASSED',
+            failures: [],
+          },
+          clientAssertionSignatureVerification: {
+            result: 'PASSED',
+            failures: [],
+          },
+          platformStatesVerification: {
+            result: 'SKIPPED',
+            failures: [],
+          },
+        },
+      }),
+      debugVoucherStepDrawer: {
+        isOpen: true,
+        selectedStep: ['publicKeyRetrieve', createMockDebugVoucherResultStep()],
+      },
+      goToNextStep: vi.fn(),
+    })
+
+    const screen = render(<DebugVoucherResults />)
+
+    expect(screen.getByText('stepDrawer.title.publicKeyRetrieve')).toBeInTheDocument()
+
+    expect(screen.getByRole('button', { name: 'stepDrawer.nextStepBtn' })).toBeInTheDocument()
+  })
+
+  it('should button nextStep be rendered if clientKind is undefined and selectedStep key is not clientAssertionSignatureVerification', () => {
+    mockDebugVoucherContext({
+      request: createMockDebugVoucherRequest(),
+      response: createMockDebugVoucherResultFailed({
+        clientKind: undefined,
+        eservice: undefined,
+        steps: {
+          clientAssertionValidation: {
+            result: 'FAILED',
+            failures: [
+              {
+                code: 'test code',
+                reason: 'test reason',
+              },
+            ],
+          },
+          publicKeyRetrieve: {
+            result: 'SKIPPED',
+            failures: [],
+          },
+          clientAssertionSignatureVerification: {
+            result: 'SKIPPED',
+            failures: [],
+          },
+          platformStatesVerification: {
+            result: 'SKIPPED',
+            failures: [],
+          },
+        },
+      }),
+      debugVoucherStepDrawer: {
+        isOpen: true,
+        selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
+      },
+      goToNextStep: vi.fn(),
+    })
+
+    const screen = render(<DebugVoucherResults />)
+
+    expect(screen.getByText('stepDrawer.title.clientAssertionValidation')).toBeInTheDocument()
 
     expect(screen.queryByRole('button', { name: 'stepDrawer.nextStepBtn' })).toBeInTheDocument()
   })
 
-  // it('should button nextStep be rendered if clientKind is API and selectedStep key is not clientAssertionSignatureVerification', () => {
-  //   mockDebugVoucherContext({
-  //     request: createMockDebugVoucherRequest(),
-  //     response: createMockDebugVoucherResultPassed({
-  //       clientKind: 'API',
-  //       eservice: undefined,
-  //       steps: {
-  //         clientAssertionValidation: {
-  //           result: 'PASSED',
-  //           failures: [],
-  //         },
-  //         publicKeyRetrieve: {
-  //           result: 'PASSED',
-  //           failures: [],
-  //         },
-  //         clientAssertionSignatureVerification: {
-  //           result: 'PASSED',
-  //           failures: [],
-  //         },
-  //         platformStatesVerification: {
-  //           result: 'SKIPPED',
-  //           failures: [],
-  //         },
-  //       },
-  //     }),
-  //     debugVoucherStepDrawer: {
-  //       isOpen: true,
-  //       selectedStep: ['publicKeyRetrieve', createMockDebugVoucherResultStep()],
-  //     },
-  //   })
+  it('should nextStep function be called on nextStepButton click', () => {
+    const goToNextStepMockFn = vi.fn()
+    mockDebugVoucherContext({
+      request: createMockDebugVoucherRequest(),
+      response: createMockDebugVoucherResultPassed({ clientKind: 'CONSUMER' }),
+      debugVoucherStepDrawer: {
+        isOpen: true,
+        selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
+      },
+      goToNextStep: goToNextStepMockFn,
+    })
 
-  //   const screen = render(<DebugVoucherResults />)
+    const screen = render(<DebugVoucherResults />)
 
-  //   expect(screen.getByRole('button', { name: 'stepDrawer.nextStepBtn' })).toBeInTheDocument()
-  // })
+    const nextStepButton = screen.getByRole('button', { name: 'stepDrawer.nextStepBtn' })
 
-  // it('should button nextStep be rendered if clientKind is undefined and selectedStep key is not clientAssertionSignatureVerification', () => {
-  //   mockDebugVoucherContext({
-  //     request: createMockDebugVoucherRequest(),
-  //     response: createMockDebugVoucherResultFailed({
-  //       clientKind: undefined,
-  //       eservice: undefined,
-  //       steps: {
-  //         clientAssertionValidation: {
-  //           result: 'FAILED',
-  //           failures: [
-  //             {
-  //               code: 'test code',
-  //               reason: 'test reason',
-  //             },
-  //           ],
-  //         },
-  //         publicKeyRetrieve: {
-  //           result: 'SKIPPED',
-  //           failures: [],
-  //         },
-  //         clientAssertionSignatureVerification: {
-  //           result: 'SKIPPED',
-  //           failures: [],
-  //         },
-  //         platformStatesVerification: {
-  //           result: 'SKIPPED',
-  //           failures: [],
-  //         },
-  //       },
-  //     }),
-  //     debugVoucherStepDrawer: {
-  //       isOpen: true,
-  //       selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
-  //     },
-  //   })
+    fireEvent.click(nextStepButton)
 
-  //   const screen = render(<DebugVoucherResults />)
-
-  //   expect(screen.getByText('stepDrawer.title.clientAssertionValidation')).toBeInTheDocument()
-
-  //   expect(screen.queryByRole('button', { name: 'stepDrawer.nextStepBtn' })).toBeInTheDocument()
-  // })
-
-  // it('should nextStep function be called on nextStepButton click', () => {
-  //   const goToNextStepMockFn = vi.fn()
-  //   mockDebugVoucherContext({
-  //     response: createMockDebugVoucherResultPassed({ clientKind: 'CONSUMER' }),
-  //     debugVoucherStepDrawer: {
-  //       isOpen: true,
-  //       selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
-  //     },
-  //     goToNextStep: goToNextStepMockFn,
-  //   })
-
-  //   const screen = render(<DebugVoucherStepDrawer />)
-
-  //   const nextStepButton = screen.getByRole('button', { name: 'stepDrawer.nextStepBtn' })
-
-  //   fireEvent.click(nextStepButton)
-
-  //   expect(goToNextStepMockFn).toBeCalled()
-  // })
+    expect(goToNextStepMockFn).toBeCalled()
+  })
 })

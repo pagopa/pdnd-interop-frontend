@@ -47,8 +47,9 @@ export const DebugVoucherResults: React.FC = () => {
           subtitle={t(
             `stepDrawer.description.${debugVoucherStepDrawer.selectedStep?.[0]}` as unknown as TemplateStringsArray
           )}
-          buttonLabel={isNotLastStep ? t('stepDrawer.nextStepBtn') : undefined}
-          buttonAction={isNotLastStep ? goToNextStep : undefined}
+          buttonAction={
+            isNotLastStep ? { label: t('stepDrawer.nextStepBtn'), action: goToNextStep } : undefined
+          }
         >
           <DebugVoucherStepDrawer />
         </Drawer>

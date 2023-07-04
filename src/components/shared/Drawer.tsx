@@ -2,14 +2,14 @@ import React from 'react'
 import { Box, Button, Drawer as MUIDrawer, IconButton, Stack, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
+import type { ActionItem } from '@/types/common.types'
 
 export type DrawerProps = {
   isOpen: boolean
   closeAction: VoidFunction
   title: string
   subtitle?: string
-  buttonLabel?: string
-  buttonAction?: VoidFunction
+  buttonAction?: ActionItem
   children: JSX.Element
 }
 
@@ -43,7 +43,6 @@ export const Drawer: React.FC<DrawerProps> = ({
   closeAction,
   title,
   subtitle,
-  buttonLabel,
   buttonAction,
   children,
 }) => {
@@ -66,10 +65,10 @@ export const Drawer: React.FC<DrawerProps> = ({
 
         {children}
 
-        {buttonLabel && buttonAction && (
+        {buttonAction && (
           <Box sx={{ pb: 4 }} width={327} display="flex" flexGrow={1} alignItems="flex-end">
-            <Button variant="contained" fullWidth onClick={buttonAction}>
-              {buttonLabel}
+            <Button variant="contained" fullWidth onClick={buttonAction.action}>
+              {buttonAction.label}
             </Button>
           </Box>
         )}
