@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Stack, Typography } from '@mui/material'
+import { Divider, Link, Stack, Typography } from '@mui/material'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
 import { SectionContainer } from '../layout/containers'
@@ -10,6 +10,7 @@ interface Props {
   onDocumentDownload: (document: EServiceDoc) => void
   sectionTitle?: string
   noFilesLabel?: string
+  bottomContent?: React.ReactNode
 }
 
 export function DownloadableDocumentsList({
@@ -17,6 +18,7 @@ export function DownloadableDocumentsList({
   onDocumentDownload,
   sectionTitle = 'Download',
   noFilesLabel,
+  bottomContent,
 }: Props) {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'downloadableDocumentList',
@@ -25,9 +27,9 @@ export function DownloadableDocumentsList({
   return (
     <SectionContainer title={sectionTitle}>
       {docs.length > 0 ? (
-        <Stack spacing={2} alignItems="start">
+        <Stack component="ul" sx={{ listStyle: 'none', px: 0 }} spacing={2} alignItems="start">
           {docs.map((doc) => (
-            <Stack key={doc.id} spacing={2}>
+            <Stack component="li" key={doc.id} spacing={2}>
               <Link
                 onClick={onDocumentDownload.bind(null, doc)}
                 component="button"
@@ -51,6 +53,12 @@ export function DownloadableDocumentsList({
         </Stack>
       ) : (
         <Typography variant="body2">{noFilesLabel ?? t('noDataLabel')}</Typography>
+      )}
+      {bottomContent && (
+        <>
+          <Divider sx={{ my: 2 }} />
+          {bottomContent}
+        </>
       )}
     </SectionContainer>
   )

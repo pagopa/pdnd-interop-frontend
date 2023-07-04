@@ -177,6 +177,10 @@
         "verifyVoucherGuideLink": "How do I verify a voucher?",
         "wellKnownLink": "URL .well-known"
       },
+      "documentsList": {
+        "consumerListButtonLabel": "Download e-service's consumer list",
+        "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv"
+      },
       "versionHistory": {
         "title": "Version history",
         "historyField": {
