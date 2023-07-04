@@ -1,4 +1,4 @@
-import { Chip, List, ListItemText, Stack, Typography } from '@mui/material'
+import { Chip, List, ListItem, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useDebugVoucherContext } from '../DebugVoucherContext'
 import { useTranslation } from 'react-i18next'
@@ -21,11 +21,11 @@ const DebugVoucherStepDrawer: React.FC = () => {
 
       <List sx={{ listStyleType: 'disc', pl: 4 }}>
         {selectedStep?.[1].failures.map((failure, index) => (
-          <ListItemText key={index} sx={{ display: 'list-item' }} disableTypography>
+          <ListItem key={index} sx={{ display: 'list-item', px: 0 }}>
             <Typography variant="body2">
               {t(`errors.${failure.code}` as unknown as TemplateStringsArray, failure.reason)}
             </Typography>
-          </ListItemText>
+          </ListItem>
         ))}
       </List>
     </Stack>
