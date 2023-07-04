@@ -134,6 +134,13 @@
         "success": "Il documento è stato scaricato correttamente. Lo trovi nella cartella dei download del tuo device",
         "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
       }
+    },
+    "downloadConsumerList": {
+      "loading": "Stiamo scaricando l’elenco richiesto. Attendere, prego",
+      "outcome": {
+        "success": "L’elenco è stato scaricato correttamente",
+        "error": "Non è stato possibile scaricare l’elenco. Per favore, riprova!"
+      }
     }
   },
   "attribute": {

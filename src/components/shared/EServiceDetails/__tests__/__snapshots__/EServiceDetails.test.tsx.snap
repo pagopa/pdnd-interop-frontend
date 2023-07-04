@@ -295,10 +295,10 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
           <div
             class="MuiBox-root css-1yuhvjn"
           >
-            <div
-              class="css-18emkw7-MuiStack-root"
+            <ul
+              class="css-129j0b2-MuiStack-root"
             >
-              <div
+              <li
                 class="css-1p5q5e5-MuiStack-root"
               >
                 <button
@@ -318,8 +318,8 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                    
                   Specifica API
                 </button>
-              </div>
-            </div>
+              </li>
+            </ul>
           </div>
         </section>
       </div>
@@ -929,10 +929,10 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
           <div
             class="MuiBox-root css-1yuhvjn"
           >
-            <div
-              class="css-18emkw7-MuiStack-root"
+            <ul
+              class="css-129j0b2-MuiStack-root"
             >
-              <div
+              <li
                 class="css-1p5q5e5-MuiStack-root"
               >
                 <button
@@ -952,8 +952,28 @@ exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
                    
                   Specifica API
                 </button>
-              </div>
-            </div>
+              </li>
+            </ul>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth css-ctpjxq-MuiDivider-root"
+            />
+            <button
+              class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-lhtrmb-MuiTypography-root-MuiLink-root"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-elhp89-MuiSvgIcon-root"
+                data-testid="DownloadIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"
+                />
+              </svg>
+               
+              consumerListButtonLabel
+            </button>
           </div>
         </section>
       </div>

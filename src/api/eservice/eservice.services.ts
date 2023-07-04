@@ -255,6 +255,14 @@ async function downloadVersionDraftDocument({
   return response.data
 }
 
+async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/consumers`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
+}
+
 const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -277,6 +285,7 @@ const EServiceServices = {
   deleteVersionDraftDocument,
   updateVersionDraftDocumentDescription,
   downloadVersionDraftDocument,
+  downloadConsumerList,
 }
 
 export default EServiceServices

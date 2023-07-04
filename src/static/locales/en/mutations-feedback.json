@@ -134,6 +134,13 @@
         "success": "Document downloaded successfully. You can find it in the Download folder of your device",
         "error": "The document could not be downloaded. Please, try again!"
       }
+    },
+    "downloadConsumerList": {
+      "loading": " We are downloading the requested list. Please wait",
+      "outcome": {
+        "success": "The list has been downloaded successfully",
+        "error": "The list could not be downloaded. Please try again"
+      }
     }
   },
   "attribute": {
