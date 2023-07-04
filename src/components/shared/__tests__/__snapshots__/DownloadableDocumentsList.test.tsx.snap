@@ -18,10 +18,10 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
       <div
         class="MuiBox-root css-1yuhvjn"
       >
-        <div
-          class="css-18emkw7-MuiStack-root"
+        <ul
+          class="css-129j0b2-MuiStack-root"
         >
-          <div
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -41,8 +41,8 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
                
               Document 1
             </button>
-          </div>
-          <div
+          </li>
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -62,8 +62,8 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
                
               Document 2
             </button>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </section>
   </div>

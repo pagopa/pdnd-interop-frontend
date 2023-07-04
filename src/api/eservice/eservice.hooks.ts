@@ -329,6 +329,17 @@ function useDownloadVersionDocument() {
   })
 }
 
+function useDownloadConsumerList() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.downloadConsumerList',
+  })
+  return useDownloadFile(EServiceServices.downloadConsumerList, {
+    errorToastLabel: t('outcome.error'),
+    successToastLabel: t('outcome.success'),
+    loadingLabel: t('loading'),
+  })
+}
+
 export const EServiceQueries = {
   useGetCatalogList,
   useGetProviderList,
@@ -360,4 +371,5 @@ export const EServiceMutations = {
 
 export const EServiceDownloads = {
   useDownloadVersionDocument,
+  useDownloadConsumerList,
 }

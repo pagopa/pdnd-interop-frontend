@@ -18,10 +18,10 @@ exports[`AgreementDocumentListSection > should match the snapshot with contract 
       <div
         class="MuiBox-root css-1yuhvjn"
       >
-        <div
-          class="css-18emkw7-MuiStack-root"
+        <ul
+          class="css-129j0b2-MuiStack-root"
         >
-          <div
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -41,8 +41,8 @@ exports[`AgreementDocumentListSection > should match the snapshot with contract 
                
               docLabel
             </button>
-          </div>
-          <div
+          </li>
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -62,8 +62,8 @@ exports[`AgreementDocumentListSection > should match the snapshot with contract 
                
               doc-1
             </button>
-          </div>
-          <div
+          </li>
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -83,8 +83,8 @@ exports[`AgreementDocumentListSection > should match the snapshot with contract 
                
               doc-2
             </button>
-          </div>
-          <div
+          </li>
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -104,8 +104,8 @@ exports[`AgreementDocumentListSection > should match the snapshot with contract 
                
               doc-3
             </button>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </section>
   </div>
@@ -141,10 +141,10 @@ exports[`AgreementDocumentListSection > should match the snapshot without contra
       <div
         class="MuiBox-root css-1yuhvjn"
       >
-        <div
-          class="css-18emkw7-MuiStack-root"
+        <ul
+          class="css-129j0b2-MuiStack-root"
         >
-          <div
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -164,8 +164,8 @@ exports[`AgreementDocumentListSection > should match the snapshot without contra
                
               doc-1
             </button>
-          </div>
-          <div
+          </li>
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -185,8 +185,8 @@ exports[`AgreementDocumentListSection > should match the snapshot without contra
                
               doc-2
             </button>
-          </div>
-          <div
+          </li>
+          <li
             class="css-1p5q5e5-MuiStack-root"
           >
             <button
@@ -206,8 +206,8 @@ exports[`AgreementDocumentListSection > should match the snapshot without contra
                
               doc-3
             </button>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </section>
   </div>
