@@ -1,5 +1,5 @@
 import React from 'react'
-import { Drawer, Footer, Header } from '@/components/layout'
+import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
 import { Outlet } from 'react-router-dom'
@@ -40,7 +40,6 @@ const _RoutesWrapper: React.FC = () => {
       </Box>
       <Footer />
       <Dialog />
-      <Drawer />
     </>
   )
 }

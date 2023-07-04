@@ -6,11 +6,28 @@ import { DebugVoucherResultsRequestSection } from './DebugVoucherResultsRequestS
 import DebugVoucherStepDrawer from './DebugVoucherStepDrawer'
 import { useDebugVoucherContext } from '../DebugVoucherContext'
 import DebugVoucherResultsAlert from './DebugVoucherResultsAlert'
+import { Drawer } from '@/components/shared/Drawer'
 
 export const DebugVoucherResults: React.FC = () => {
   const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
 
-  const { handleMakeNewRequest } = useDebugVoucherContext()
+  const {
+    handleMakeNewRequest,
+    debugVoucherStepDrawer,
+    setDebugVoucherStepDrawer,
+    response,
+    goToNextStep,
+  } = useDebugVoucherContext()
+
+  const handleDrawerClose = () => {
+    setDebugVoucherStepDrawer((prev) => ({ ...prev, isOpen: false }))
+  }
+
+  const isNotLastStep =
+    (response.clientKind === 'CONSUMER' &&
+      debugVoucherStepDrawer.selectedStep?.[0] !== 'platformStatesVerification') ||
+    (response.clientKind !== 'CONSUMER' &&
+      debugVoucherStepDrawer.selectedStep?.[0] !== 'clientAssertionSignatureVerification')
 
   return (
     <>
@@ -21,7 +38,20 @@ export const DebugVoucherResults: React.FC = () => {
 
         <DebugVoucherResultsRequestSection />
 
-        <DebugVoucherStepDrawer />
+        <Drawer
+          isOpen={debugVoucherStepDrawer.isOpen}
+          closeAction={handleDrawerClose}
+          title={t(
+            `stepDrawer.title.${debugVoucherStepDrawer.selectedStep?.[0]}` as unknown as TemplateStringsArray
+          )}
+          subtitle={t(
+            `stepDrawer.description.${debugVoucherStepDrawer.selectedStep?.[0]}` as unknown as TemplateStringsArray
+          )}
+          buttonLabel={isNotLastStep ? t('stepDrawer.nextStepBtn') : undefined}
+          buttonAction={isNotLastStep ? goToNextStep : undefined}
+        >
+          <DebugVoucherStepDrawer />
+        </Drawer>
       </Stack>
 
       <Box sx={{ display: 'flex', justifyContent: 'end', pt: 4 }}>

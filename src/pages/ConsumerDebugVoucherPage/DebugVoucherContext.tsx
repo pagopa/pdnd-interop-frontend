@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { createContext } from '@/utils/common.utils'
-import {
+import type {
   AccessTokenRequest,
   TokenGenerationValidationEntry,
   TokenGenerationValidationResult,
