@@ -11,6 +11,7 @@ export function useCheckSessionExpired() {
   const { openDialog } = useDialog()
 
   React.useEffect(() => {
-    hasSessionExpired() && openDialog({ type: 'sessionExpired' })
+    console.log(hasSessionExpired())
+    // hasSessionExpired() && openDialog({ type: 'sessionExpired' })
   }, [openDialog, hasSessionExpired])
 }

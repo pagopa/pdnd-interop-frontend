@@ -24,5 +24,9 @@
   "tokenExchange": {
     "title": "Errore di autenticazione",
     "description": "Per favore, torna ad Area Riservata e tenta nuovamente l'accesso"
+  },
+  "assistencePartySelection": {
+    "title": "Errore: non autorizzato",
+    "description": "Non hai i permessi necessari per visualizzare PDND Interoperabilità in modalità assistenza, oppure la sessione è scaduta. Prova ad effettuare nuovamente l’accesso da Google Workspace."
   }
 }

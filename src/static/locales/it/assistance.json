@@ -1,0 +1,9 @@
+{
+  "partySelection": {
+    "title": "Seleziona l’ente da impersonare",
+    "subtitle": "Se l’ente non compare nella tendina, significa che non ha effettuato l’onboarding su Area Riservata o il primo accesso su PDND Interoperabilità",
+    "textFieldLabel": "Cerca ente",
+    "nextButtonLabel": "Prosegui",
+    "deselectButtonLabel": "Deseleziona ente"
+  }
+}

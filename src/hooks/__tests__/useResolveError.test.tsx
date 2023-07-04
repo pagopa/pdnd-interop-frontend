@@ -1,10 +1,5 @@
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
-import {
-  NotAuthorizedError,
-  NotFoundError,
-  ServerError,
-  TokenExchangeError,
-} from '@/utils/errors.utils'
+import { NotAuthorizedError, NotFoundError, TokenExchangeError } from '@/utils/errors.utils'
 import { queryClientMock } from '@/utils/testing.utils'
 import { createMemoryHistory } from '@remix-run/router'
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -13,6 +8,7 @@ import React from 'react'
 import type { FallbackProps } from 'react-error-boundary'
 import { Route, Router, Routes } from 'react-router-dom'
 import useResolveError from '../useResolveError'
+import { AxiosError } from 'axios'
 
 const TestErrorComponent: React.FC<FallbackProps> = (props) => {
   const { title, description, content } = useResolveError(props)
@@ -85,8 +81,8 @@ describe('', () => {
     expect(screen.getByRole('link', { name: 'actions.backToHome' })).toBeInTheDocument()
   })
 
-  it('should correctly resolve the ServerError throw', () => {
-    const screen = render(<ThrowErrorComponent error={new ServerError()} />, {
+  it('should correctly resolve the AxiosError throw', () => {
+    const screen = render(<ThrowErrorComponent error={new AxiosError()} />, {
       wrapper: ErrorBoundaryTest,
     })
 

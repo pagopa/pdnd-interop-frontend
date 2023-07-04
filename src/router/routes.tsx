@@ -32,6 +32,7 @@ import {
   ProviderPurposesListPage,
   ConsumerPurposeDetailsPage,
   ConsumerDebugVoucherPage,
+  AssistencePartySelectionPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 
@@ -280,6 +281,12 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = genera
       element: <PartyRegistryPage />,
       public: false,
       hideSideNav: false,
+      authLevels: ['admin', 'api', 'security'],
+    },
+    ASSISTENCE_PARTY_SELECTION: {
+      path: '/assistenza/scelta-ente',
+      element: <AssistencePartySelectionPage />,
+      public: true,
       authLevels: ['admin', 'api', 'security'],
     },
     NOT_FOUND: {

@@ -1,18 +1,19 @@
-import pagesNs from '@/static/locales/en/pages.json'
-import commonNs from '@/static/locales/en/common.json'
-import eserviceNs from '@/static/locales/en/eservice.json'
-import partyNs from '@/static/locales/en/party.json'
-import pagopaNs from '@/static/locales/en/pagopa.json'
-import sharedComponentsNs from '@/static/locales/en/shared-components.json'
-import attributeNs from '@/static/locales/en/attribute.json'
-import mutationsFeedbackNs from '@/static/locales/en/mutations-feedback.json'
-import errorNs from '@/static/locales/en/error.json'
-import agreementNs from '@/static/locales/en/agreement.json'
-import purposeNs from '@/static/locales/en/purpose.json'
-import clientNs from '@/static/locales/en/client.json'
-import voucherNs from '@/static/locales/en/voucher.json'
-import userNs from '@/static/locales/en/user.json'
-import keyNs from '@/static/locales/en/key.json'
+import type pagesNs from '@/static/locales/en/pages.json'
+import type commonNs from '@/static/locales/en/common.json'
+import type eserviceNs from '@/static/locales/en/eservice.json'
+import type partyNs from '@/static/locales/en/party.json'
+import type pagopaNs from '@/static/locales/en/pagopa.json'
+import type sharedComponentsNs from '@/static/locales/en/shared-components.json'
+import type attributeNs from '@/static/locales/en/attribute.json'
+import type mutationsFeedbackNs from '@/static/locales/en/mutations-feedback.json'
+import type errorNs from '@/static/locales/en/error.json'
+import type agreementNs from '@/static/locales/en/agreement.json'
+import type purposeNs from '@/static/locales/en/purpose.json'
+import type clientNs from '@/static/locales/en/client.json'
+import type voucherNs from '@/static/locales/en/voucher.json'
+import type userNs from '@/static/locales/en/user.json'
+import type keyNs from '@/static/locales/en/key.json'
+import type assistanceNs from '@/static/locales/en/assistance.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -33,6 +34,7 @@ declare module 'i18next' {
       voucher: typeof voucherNs
       user: typeof userNs
       key: typeof keyNs
+      assistance: typeof assistanceNs
     }
   }
 }

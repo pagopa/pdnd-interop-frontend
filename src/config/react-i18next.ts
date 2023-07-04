@@ -17,6 +17,7 @@ import clientEnNs from '@/static/locales/en/client.json'
 import voucherEnNs from '@/static/locales/en/voucher.json'
 import userEnNs from '@/static/locales/en/user.json'
 import keyEnNs from '@/static/locales/en/key.json'
+import assistanceEnNs from '@/static/locales/en/assistance.json'
 
 import pagesItNs from '@/static/locales/it/pages.json'
 import commonItNs from '@/static/locales/it/common.json'
@@ -33,6 +34,7 @@ import clientItNs from '@/static/locales/it/client.json'
 import voucherItNs from '@/static/locales/it/voucher.json'
 import userItNs from '@/static/locales/it/user.json'
 import keyItNs from '@/static/locales/it/key.json'
+import assistanceItNs from '@/static/locales/it/assistance.json'
 
 i18n.use(initReactI18next).init({
   debug: false,
@@ -58,6 +60,7 @@ i18n.use(initReactI18next).init({
       voucher: voucherItNs,
       user: userItNs,
       key: keyItNs,
+      assistance: assistanceItNs,
     },
     en: {
       pages: pagesEnNs,
@@ -75,6 +78,7 @@ i18n.use(initReactI18next).init({
       voucher: voucherEnNs,
       user: userEnNs,
       key: keyEnNs,
+      assistance: assistanceEnNs,
     },
   },
 })
