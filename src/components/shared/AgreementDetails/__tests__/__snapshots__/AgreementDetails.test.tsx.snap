@@ -133,10 +133,10 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           <div
             class="MuiBox-root css-1yuhvjn"
           >
-            <div
-              class="css-18emkw7-MuiStack-root"
+            <ul
+              class="css-129j0b2-MuiStack-root"
             >
-              <div
+              <li
                 class="css-1p5q5e5-MuiStack-root"
               >
                 <button
@@ -156,8 +156,8 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                    
                   docLabel
                 </button>
-              </div>
-              <div
+              </li>
+              <li
                 class="css-1p5q5e5-MuiStack-root"
               >
                 <button
@@ -177,8 +177,8 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                    
                   test-pdf
                 </button>
-              </div>
-            </div>
+              </li>
+            </ul>
           </div>
         </section>
       </div>
@@ -732,10 +732,10 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           <div
             class="MuiBox-root css-1yuhvjn"
           >
-            <div
-              class="css-18emkw7-MuiStack-root"
+            <ul
+              class="css-129j0b2-MuiStack-root"
             >
-              <div
+              <li
                 class="css-1p5q5e5-MuiStack-root"
               >
                 <button
@@ -755,8 +755,8 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                    
                   docLabel
                 </button>
-              </div>
-              <div
+              </li>
+              <li
                 class="css-1p5q5e5-MuiStack-root"
               >
                 <button
@@ -776,8 +776,8 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                    
                   test-pdf
                 </button>
-              </div>
-            </div>
+              </li>
+            </ul>
           </div>
         </section>
       </div>
