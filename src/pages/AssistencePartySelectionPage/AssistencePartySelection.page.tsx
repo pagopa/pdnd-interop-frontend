@@ -2,10 +2,21 @@ import React from 'react'
 import { Box, Button, Paper, Stack, Typography } from '@mui/material'
 import { PartySelect } from './components/PartySelect'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
+import { AssistencePartySelectionError } from '@/utils/errors.utils'
 
 const AssistencePartySelectionPage: React.FC = () => {
   const { t } = useTranslation('assistance', { keyPrefix: 'partySelection' })
+  const [searchParams] = useSearchParams()
+
   const [selected, setSelected] = React.useState<number | null>(null)
+
+  const session = searchParams.get('session')
+  const saml2 = searchParams.get('saml2')
+
+  if (!session || !saml2) {
+    throw new AssistencePartySelectionError('Missing session or saml2 query params')
+  }
 
   return (
     <Stack
