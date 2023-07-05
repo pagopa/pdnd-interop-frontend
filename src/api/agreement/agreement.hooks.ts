@@ -134,7 +134,9 @@ function useSubmitDraft() {
 }
 
 function useCreateAndSubmitDraft() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.submitDraft' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'agreement.createAndSubmitDraft',
+  })
   return useMutationWrapper(AgreementServices.createAndSubmitDraft, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),

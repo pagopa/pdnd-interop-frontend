@@ -219,11 +219,22 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
       }
     },
+    "createAndSubmitDraft": {
+      "loading": "Stiamo attivando la richiesta di fruizione",
+      "outcome": {
+        "success": "La richiesta è stata attivata correttamente",
+        "error": "Non è stato possibile attivare la richiesta. Per favore, riprova"
+      },
+      "confirmDialog": {
+        "title": "Conferma attivazione richiesta",
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà attivata. Il tuo ente è l'erogatore di questo e-service, non è necessario nessun controllo o approvazione degli attributi"
+      }
+    },
     "deleteDraft": {
       "loading": "Stiamo cancellando la bozza",
       "outcome": {
         "success": "La bozza richiesta è stata cancellata correttamente",
-        "error": "Non è stato possibile cancellare la richiesta. Per favore, riprova!"
+        "error": "Non è stato possibile cancellare la richiesta. Per favore, riprova"
       },
       "confirmDialog": {
         "title": "Conferma cancellazione richiesta",
