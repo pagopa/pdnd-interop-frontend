@@ -4,6 +4,7 @@ import { PageContainerSkeleton } from '@/components/layout/containers/PageContai
 import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { Link, useParams } from '@/router'
+import { checkIfAlreadySubscribed, checkIfhasAlreadyAgreementDraft } from '@/utils/agreement.utils'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { Alert, Stack } from '@mui/material'
 import React from 'react'
@@ -22,10 +23,11 @@ const ConsumerEServiceDetailsPageContent: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
 
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId)
-  const { actions, isMine, isSubscribed, hasAgreementDraft } = useGetEServiceConsumerActions(
-    descriptor?.eservice,
-    descriptor
-  )
+  const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
+
+  const isMine = descriptor?.eservice.isMine
+  const isSubscribed = checkIfAlreadySubscribed(descriptor?.eservice)
+  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(descriptor?.eservice)
 
   const topSideActions = formatTopSideActions(actions)
 

@@ -8,99 +8,101 @@ import { useNavigate } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { useJwt } from './useJwt'
+import {
+  checkIfAlreadySubscribed,
+  checkIfcanCreateAgreementDraft,
+  checkIfhasAlreadyAgreementDraft,
+} from '@/utils/agreement.utils'
 
-function useGetEServiceConsumerActions<
-  TDescriptor extends { id: string; state: EServiceDescriptorState; version: string }
->(eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'], descriptor?: TDescriptor) {
+function useGetEServiceConsumerActions(
+  eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
+  descriptor?: { id: string; state: EServiceDescriptorState; version: string }
+) {
   const { isAdmin } = useJwt()
   const navigate = useNavigate()
   const { t } = useTranslation('eservice')
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
+  const { mutate: createAndSubmitAgreementDraft } = AgreementMutations.useCreateAndSubmitDraft()
 
-  const isMine = !!eservice?.isMine
-  const isSubscribed =
-    !!eservice?.agreement && !['REJECTED', 'DRAFT'].includes(eservice.agreement.state)
-  const hasAgreementDraft = !!(eservice?.agreement && eservice.agreement.state === 'DRAFT')
+  const isMine = Boolean(eservice?.isMine)
+  const isSubscribed = checkIfAlreadySubscribed(eservice)
+  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
+  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor?.state)
 
   const actions: Array<ActionItem> = []
 
-  let canCreateAgreementDraft = false
   let createAgreementDraftAction: undefined | VoidFunction
   let goToAgreementAction: undefined | VoidFunction
 
-  // I can subscribe to the eservice only if...
-  if (eservice) {
-    // ... I own all the certified attributes or...
-    if (eservice.hasCertifiedAttributes) {
-      canCreateAgreementDraft = true
-    }
+  if (!eservice || !descriptor) {
+    return { actions: [] }
+  }
 
-    // ... if it is mine...
-    if (isMine) {
-      canCreateAgreementDraft = true
-    }
+  if (isAdmin && (isSubscribed || hasAgreementDraft)) {
+    // If there is an valid agreement for this e-service add a "Go to Agreement" action
+    goToAgreementAction = () => {
+      const routeKey = hasAgreementDraft ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
 
-    // ... but only if I'm not subscribed to it yet...
-    if (isSubscribed || hasAgreementDraft) {
-      canCreateAgreementDraft = false
-    }
-
-    // ... and the actual viewing descriptor is published or suspended!
-    if (descriptor && !['PUBLISHED', 'SUSPENDED'].includes(descriptor?.state)) {
-      canCreateAgreementDraft = false
-    }
-
-    if (isAdmin && (isSubscribed || hasAgreementDraft)) {
-      // Possible actions
-
-      // If there is an valid agreement for this e-service add a "Go to Agreement" action
-      goToAgreementAction = () => {
-        const routeKey = hasAgreementDraft ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
-
-        navigate(routeKey, {
-          params: {
-            agreementId: eservice.agreement?.id as string,
-          },
-        })
-      }
-
-      actions.push({
-        action: goToAgreementAction,
-        label: t('tableEServiceCatalog.goToRequestCta'),
+      navigate(routeKey, {
+        params: {
+          agreementId: eservice.agreement?.id as string,
+        },
       })
     }
 
-    if (canCreateAgreementDraft && isAdmin) {
-      createAgreementDraftAction = () => {
-        if (!descriptor) return
-        createAgreementDraft(
+    actions.push({
+      action: goToAgreementAction,
+      label: t('tableEServiceCatalog.goToRequestCta'),
+    })
+  }
+
+  if (canCreateAgreementDraft && isAdmin) {
+    createAgreementDraftAction = () => {
+      /**
+       * If the subscriber is the owner of the e-service
+       * create and submit the agreement without passing through the draft
+       * */
+      if (isMine) {
+        createAndSubmitAgreementDraft(
           {
-            eserviceName: eservice.name,
             eserviceId: eservice.id,
-            eserviceVersion: descriptor.version,
             descriptorId: descriptor.id,
           },
           {
             onSuccess({ id }) {
-              navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+              navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
             },
           }
         )
+        return
       }
-      actions.push({
-        action: createAgreementDraftAction,
-        label: t('tableEServiceCatalog.subscribe'),
-      })
+      /**
+       * If the subscriber is not the owner of the e-service
+       * create the agreement draft
+       * */
+      createAgreementDraft(
+        {
+          eserviceName: eservice.name,
+          eserviceId: eservice.id,
+          eserviceVersion: descriptor.version,
+          descriptorId: descriptor.id,
+        },
+        {
+          onSuccess({ id }) {
+            navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+          },
+        }
+      )
     }
+    actions.push({
+      action: createAgreementDraftAction,
+      label: t('tableEServiceCatalog.subscribe'),
+    })
   }
 
   return {
     actions,
-    canCreateAgreementDraft,
-    isMine,
-    isSubscribed,
-    hasAgreementDraft,
     createAgreementDraftAction,
     goToAgreementAction,
   }
