@@ -6,6 +6,7 @@ import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import AgreementServices from './agreement.services'
 import type {
   Agreement,
+  AgreementPayload,
   Agreements,
   CompactEServicesLight,
   CompactOrganizations,
@@ -95,23 +96,46 @@ function useGetConsumerEServiceList(
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.createDraft' })
-  return useMutationWrapper(AgreementServices.createDraft, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: ({ eserviceName, eserviceVersion }) =>
-        t('confirmDialog.description', { name: eserviceName, version: eserviceVersion }),
-      proceedLabel: t('confirmDialog.proceedLabel'),
-    },
-  })
+  return useMutationWrapper(
+    ({
+      eserviceId,
+      descriptorId,
+    }: {
+      eserviceName: string
+      eserviceVersion: string | undefined
+    } & AgreementPayload) => AgreementServices.createDraft({ eserviceId, descriptorId }),
+    {
+      suppressSuccessToast: true,
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      showConfirmationDialog: true,
+      dialogConfig: {
+        title: t('confirmDialog.title'),
+        description: ({ eserviceName, eserviceVersion }) =>
+          t('confirmDialog.description', { name: eserviceName, version: eserviceVersion }),
+        proceedLabel: t('confirmDialog.proceedLabel'),
+      },
+    }
+  )
 }
 
 function useSubmitDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.submitDraft' })
   return useMutationWrapper(AgreementServices.submitDraft, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+  })
+}
+
+function useCreateAndSubmitDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.submitDraft' })
+  return useMutationWrapper(AgreementServices.createAndSubmitDraft, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
@@ -266,6 +290,7 @@ export const AgreementQueries = {
 export const AgreementMutations = {
   useCreateDraft,
   useSubmitDraft,
+  useCreateAndSubmitDraft,
   useDeleteDraft,
   useUpdateDraft,
   useUploadDraftDocument,
