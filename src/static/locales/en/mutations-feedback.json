@@ -219,6 +219,17 @@
         "description": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated"
       }
     },
+    "submitToOwnEService": {
+      "loading": "Activating the fruition request",
+      "outcome": {
+        "success": "The requested fruition request has been activated successfully",
+        "error": "The request could not be activated. Please, try again"
+      },
+      "confirmDialog": {
+        "title": "Confirm activation fruition request",
+        "description": "By clicking \"confirm\", the fruition request will activated. Your party is the e-service's provider, no attribute checking or approval is required"
+      }
+    },
     "deleteDraft": {
       "loading": "Deleting fruition request",
       "outcome": {
