@@ -18,6 +18,11 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import { Tag } from '@pagopa/mui-italia'
 import type { Colors } from '@pagopa/mui-italia'
 import type { CatalogEService } from '@/api/api.generatedTypes'
+import {
+  checkIfAlreadySubscribed,
+  checkIfcanCreateAgreementDraft,
+  checkIfhasAlreadyAgreementDraft,
+} from '@/utils/agreement.utils'
 
 interface CatalogCardProps {
   eservice: CatalogEService
@@ -28,14 +33,18 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   const { t: tCommon } = useTranslation('common')
   const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
 
-  const {
-    canCreateAgreementDraft,
-    isMine,
-    isSubscribed,
-    hasAgreementDraft,
-    createAgreementDraftAction,
-    goToAgreementAction,
-  } = useGetEServiceConsumerActions(eservice, eservice.activeDescriptor)
+  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(
+    eservice,
+    eservice.activeDescriptor?.state
+  )
+  const isMine = eservice.isMine
+  const isSubscribed = checkIfAlreadySubscribed(eservice)
+  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
+
+  const { createAgreementDraftAction, goToAgreementAction } = useGetEServiceConsumerActions(
+    eservice,
+    eservice.activeDescriptor
+  )
 
   const handlePrefetch = () => {
     prefetchEService(eservice.id, eservice.activeDescriptor?.id ?? '')
