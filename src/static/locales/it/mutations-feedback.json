@@ -219,7 +219,7 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
       }
     },
-    "createAndSubmitDraft": {
+    "submitToOwnEService": {
       "loading": "Stiamo attivando la richiesta di fruizione",
       "outcome": {
         "success": "La richiesta è stata attivata correttamente",

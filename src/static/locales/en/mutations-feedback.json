@@ -219,7 +219,7 @@
         "description": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated"
       }
     },
-    "createAndSubmitDraft": {
+    "submitToOwnEService": {
       "loading": "Activating the fruition request",
       "outcome": {
         "success": "The requested fruition request has been activated successfully",

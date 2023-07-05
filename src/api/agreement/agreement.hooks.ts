@@ -133,11 +133,11 @@ function useSubmitDraft() {
   })
 }
 
-function useCreateAndSubmitDraft() {
+function useSubmitToOwnEService() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'agreement.createAndSubmitDraft',
+    keyPrefix: 'agreement.submitToOwnEService',
   })
-  return useMutationWrapper(AgreementServices.createAndSubmitDraft, {
+  return useMutationWrapper(AgreementServices.submitToOwnEService, {
     successToastLabel: t('outcome.success'),
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
@@ -292,7 +292,7 @@ export const AgreementQueries = {
 export const AgreementMutations = {
   useCreateDraft,
   useSubmitDraft,
-  useCreateAndSubmitDraft,
+  useSubmitToOwnEService,
   useDeleteDraft,
   useUpdateDraft,
   useUploadDraftDocument,

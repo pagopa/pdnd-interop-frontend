@@ -23,7 +23,7 @@ function useGetEServiceConsumerActions(
   const { t } = useTranslation('eservice')
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
-  const { mutate: createAndSubmitAgreementDraft } = AgreementMutations.useCreateAndSubmitDraft()
+  const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
 
   const isMine = Boolean(eservice?.isMine)
   const isSubscribed = checkIfAlreadySubscribed(eservice)
@@ -64,7 +64,7 @@ function useGetEServiceConsumerActions(
        * create and submit the agreement without passing through the draft
        * */
       if (isMine) {
-        createAndSubmitAgreementDraft(
+        submitToOwnEService(
           {
             eserviceId: eservice.id,
             descriptorId: descriptor.id,

@@ -85,7 +85,11 @@ async function submitDraft({
   return response.data
 }
 
-async function createAndSubmitDraft({ eserviceId, descriptorId }: AgreementPayload) {
+/**
+ * This is used to subscribe to an e-service that is owned by the subscriber itself.
+ * It skips the draft creation and directly submits the agreement.
+ */
+async function submitToOwnEService({ eserviceId, descriptorId }: AgreementPayload) {
   const response = await createDraft({ eserviceId, descriptorId })
   return await submitDraft({ agreementId: response.id })
 }
@@ -205,7 +209,7 @@ const AgreementServices = {
   getConsumerEServiceList,
   createDraft,
   submitDraft,
-  createAndSubmitDraft,
+  submitToOwnEService,
   deleteDraft,
   updateDraft,
   downloadDraftDocument,
