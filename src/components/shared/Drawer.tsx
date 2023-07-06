@@ -10,7 +10,7 @@ export type DrawerProps = {
   title: string
   subtitle?: string
   buttonAction?: ActionItem
-  children: JSX.Element
+  children: React.ReactNode
 }
 
 type HeaderDrawerProps = {

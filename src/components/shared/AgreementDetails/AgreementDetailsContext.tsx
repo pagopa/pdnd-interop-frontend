@@ -14,6 +14,7 @@ import type {
   DeclaredTenantAttribute,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
+import noop from 'lodash/noop'
 
 type AgreementDetailsContextType = {
   agreement: Agreement | undefined
@@ -27,6 +28,9 @@ type AgreementDetailsContextType = {
     | undefined
   isAgreementEServiceMine: boolean
   canBeUpgraded: boolean
+  isAttachedDocsDrawerOpen: boolean
+  openAttachedDocsDrawer: VoidFunction
+  closeAttachedDocsDrawer: VoidFunction
 }
 
 const initialState: AgreementDetailsContextType = {
@@ -35,6 +39,9 @@ const initialState: AgreementDetailsContextType = {
   descriptorAttributes: undefined,
   partyAttributes: undefined,
   canBeUpgraded: false,
+  isAttachedDocsDrawerOpen: false,
+  openAttachedDocsDrawer: noop,
+  closeAttachedDocsDrawer: noop,
 }
 
 const { useContext, Provider } = createContext<AgreementDetailsContextType>(
@@ -57,6 +64,11 @@ const AgreementDetailsContextProvider: React.FC<{
     agreement?.descriptorId as string,
     { enabled: !!(agreement?.eservice.id && agreement?.descriptorId) }
   )
+
+  const [isAttachedDocsDrawerOpen, setIsAttachedDocsDrawerOpen] = React.useState(false)
+
+  const openAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(true), [])
+  const closeAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(false), [])
 
   const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
 
@@ -82,8 +94,21 @@ const AgreementDetailsContextProvider: React.FC<{
       descriptorAttributes,
       partyAttributes,
       canBeUpgraded,
+      isAttachedDocsDrawerOpen,
+      openAttachedDocsDrawer,
+      closeAttachedDocsDrawer,
     }
-  }, [agreement, descriptor, mode, certified, verified, declared])
+  }, [
+    agreement,
+    descriptor,
+    mode,
+    certified,
+    verified,
+    declared,
+    isAttachedDocsDrawerOpen,
+    openAttachedDocsDrawer,
+    closeAttachedDocsDrawer,
+  ])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

@@ -16,6 +16,7 @@ export const ApiInfoSection: React.FC<ApiInfoSectionProps> = ({ ids }) => {
 
   return (
     <SectionContainer
+      newDesign
       title={t('title')}
       description={
         <Trans components={{ 1: <Link to="SUBSCRIBE_INTEROP_M2M" /> }}>{t('content')}</Trans>

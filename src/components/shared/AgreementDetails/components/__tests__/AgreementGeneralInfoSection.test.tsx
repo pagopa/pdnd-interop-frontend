@@ -4,7 +4,7 @@ import { mockAgreementDetailsContext } from './test.commons'
 import {
   AgreementGeneralInfoSection,
   AgreementGeneralInfoSectionSkeleton,
-} from '../AgreementGeneralInfoSection'
+} from '../AgreementSummarySection'
 import {
   mockUseCurrentRoute,
   mockUseJwt,

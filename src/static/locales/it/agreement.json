@@ -14,8 +14,8 @@
       "eserviceLinkLabel": "Scheda e-service <1>{{eserviceName}}, versione {{version}}</1>",
       "upgradeBtn": "Aggiorna"
     },
-    "generalInformations": {
-      "title": "Informazioni generali",
+    "summary": {
+      "title": "Riassunto",
       "eserviceField": {
         "label": "Richiesta relativa a",
         "goToEServiceBtn": "Vedi e-service",
@@ -30,9 +30,21 @@
       "requestStatusField": {
         "label": "Stato della richiesta"
       },
-      "printableCopyField": {
-        "label": "Copia stampabile",
+      "documentationField": {
+        "label": "Documentazione",
         "docLabel": "Richiesta di fruizione"
+      },
+      "attachedDocsButtonLabel": "Visualizza documentazione allegata"
+    },
+    "attachedDocumentsDrawer": {
+      "title": "Documentazione allegata",
+      "subtitle": "Contiene tutta la documentazione che hai inoltrato all’erogatore per la verifica degli attributi",
+      "consumerMessage": {
+        "title": "Messaggio per l’erogatore"
+      },
+      "attachedDocuments": {
+        "title": "Documenti allegati",
+        "noDocumentsLabel": "Non ci sono documenti allegati"
       }
     },
     "consumerMessage": {

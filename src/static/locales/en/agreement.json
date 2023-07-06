@@ -14,8 +14,8 @@
       "eserviceLinkLabel": "E-service card <1>{{eserviceName}}, version {{version}}</1>",
       "upgradeBtn": "Upgrade"
     },
-    "generalInformations": {
-      "title": "General Informations",
+    "summary": {
+      "title": "Summary",
       "eserviceField": {
         "label": "Request for",
         "goToEServiceBtn": "Go to e-service",
@@ -31,9 +31,21 @@
       "requestStatusField": {
         "label": "Request status"
       },
-      "printableCopyField": {
-        "label": "Printable copy",
-        "docLabel": "Fruition request"
+      "documentationField": {
+        "label": "Documentation",
+        "docLabel": "Agreement request"
+      },
+      "attachedDocsButtonLabel": "Show attached documents"
+    },
+    "attachedDocumentsDrawer": {
+      "title": "Attached documentation",
+      "subtitle": "Contains all the documentation that you have sent to the supplier for the verification of the attributes",
+      "consumerMessage": {
+        "title": "Consumer message"
+      },
+      "attachedDocuments": {
+        "title": "Attached documents",
+        "noDocumentsLabel": "There are no attached documents"
       }
     },
     "consumerMessage": {
