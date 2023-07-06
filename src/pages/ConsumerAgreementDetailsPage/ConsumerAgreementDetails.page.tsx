@@ -5,7 +5,6 @@ import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useJwt } from '@/hooks/useJwt'
 import { Link, useParams } from '@/router'
-import { formatTopSideActions } from '@/utils/common.utils'
 import { Alert } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -30,12 +29,10 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   )
   const { actions } = useGetAgreementsActions(agreement)
 
-  const topSideActions = formatTopSideActions(actions)
-
   const showNoPurposeAlert = isAdmin && agreementPurposes && agreementPurposes.results.length === 0
 
   return (
-    <PageContainer title={t('read.title')} topSideActions={topSideActions}>
+    <PageContainer title={t('read.title')} newTopSideActions={actions}>
       {showNoPurposeAlert && agreement?.eservice && (
         <Alert severity="info">
           <Trans

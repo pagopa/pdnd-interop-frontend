@@ -1,12 +1,12 @@
 import React from 'react'
-import type { ButtonProps, SxProps } from '@mui/material'
+import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Typography } from '@mui/material'
-import type { ActionItem } from '@/types/common.types'
+import type { ActionItem, ActionItemButton } from '@/types/common.types'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 
 export type TopSideActions = {
-  buttons: Array<ActionItem & Omit<ButtonProps, keyof ActionItem | 'onClick'>>
+  buttons: Array<ActionItemButton>
   infoTooltip?: string
   actionMenu?: Array<ActionItem>
 }
@@ -14,7 +14,11 @@ export type TopSideActions = {
 type Props = {
   title?: string
   description?: string
+  /**
+   * @deprecated use newTopSideActions instead for now, will be removed in the future
+   */
   topSideActions?: TopSideActions
+  newTopSideActions?: Array<ActionItemButton>
   isLoading?: boolean
   sx?: SxProps
 }
@@ -57,9 +61,15 @@ type StyledIntroProps = {
   title?: string
   description?: string
   topSideActions?: TopSideActions
+  newTopSideActions?: Array<ActionItemButton>
 }
 
-const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideActions = null }) => {
+const StyledIntro: React.FC<StyledIntroProps> = ({
+  title,
+  description,
+  newTopSideActions,
+  topSideActions = null,
+}) => {
   return (
     <Stack direction="row" alignItems="end" spacing={2}>
       <Box sx={{ flex: 1 }}>
@@ -83,6 +93,21 @@ const StyledIntro: React.FC<StyledIntroProps> = ({ title, description, topSideAc
               {label}
             </Button>
           ))}
+
+        {newTopSideActions &&
+          newTopSideActions.map(({ action, label, color, icon: Icon, ...props }, i) => (
+            <Button
+              key={i}
+              onClick={action}
+              variant="text"
+              color={color}
+              startIcon={Icon && <Icon />}
+              {...props}
+            >
+              {label}
+            </Button>
+          ))}
+
         {topSideActions?.actionMenu && <ActionMenu actions={topSideActions.actionMenu} />}
       </Stack>
     </Stack>

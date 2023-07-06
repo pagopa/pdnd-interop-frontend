@@ -3,7 +3,6 @@ import { AgreementMutations, AgreementQueries } from '@/api/agreement'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { Link, useNavigate, useParams } from '@/router'
-import { formatTopSideActions } from '@/utils/common.utils'
 import { useTranslation } from 'react-i18next'
 import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
 import {
@@ -35,7 +34,6 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { mutate: deleteAgreementDraft } = AgreementMutations.useDeleteDraft()
 
   const { actions } = useGetAgreementsActions(agreement)
-  const topSideActions = formatTopSideActions(actions)
 
   const canUserSubmitAgreementDraft = useCanUserSubmitAgreementDraft(agreementId)
 
@@ -79,7 +77,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const isAgreementEServiceMine = agreement && agreement?.producer.id === agreement?.consumer.id
 
   return (
-    <PageContainer title={t('read.title')} topSideActions={topSideActions}>
+    <PageContainer title={t('read.title')} newTopSideActions={actions}>
       <React.Suspense fallback={<AgreementDetailsSkeleton />}>
         <AgreementDetails agreementId={agreementId} />
       </React.Suspense>
