@@ -14,7 +14,7 @@ exports[`Drawer test > Should render correctly with subtitle and button 1`] = `
     aria-hidden="true"
   />
   <div
-    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-6mfcz5-MuiModal-root-MuiDrawer-root"
+    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-17eom3u-MuiModal-root-MuiDrawer-root"
     role="presentation"
   >
     <div
@@ -56,7 +56,7 @@ exports[`Drawer test > Should render correctly with subtitle and button 1`] = `
         </button>
       </div>
       <div
-        class="css-1kkizf6-MuiStack-root"
+        class="css-139xa77-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -72,13 +72,17 @@ exports[`Drawer test > Should render correctly with subtitle and button 1`] = `
             test subtitle
           </p>
         </div>
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-        >
-          TEST CHILDREN
-        </p>
         <div
-          class="MuiBox-root css-7k7gds"
+          class="MuiBox-root css-be40y1"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            TEST CHILDREN
+          </p>
+        </div>
+        <div
+          class="MuiBox-root css-iugrlp"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
@@ -109,7 +113,7 @@ exports[`Drawer test > Should render correctly with subtitle and without button 
     aria-hidden="true"
   />
   <div
-    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-6mfcz5-MuiModal-root-MuiDrawer-root"
+    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-17eom3u-MuiModal-root-MuiDrawer-root"
     role="presentation"
   >
     <div
@@ -151,7 +155,7 @@ exports[`Drawer test > Should render correctly with subtitle and without button 
         </button>
       </div>
       <div
-        class="css-1kkizf6-MuiStack-root"
+        class="css-139xa77-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -167,11 +171,15 @@ exports[`Drawer test > Should render correctly with subtitle and without button 
             test subtitle
           </p>
         </div>
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        <div
+          class="MuiBox-root css-be40y1"
         >
-          TEST CHILDREN
-        </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            TEST CHILDREN
+          </p>
+        </div>
       </div>
     </div>
     <div
@@ -190,7 +198,7 @@ exports[`Drawer test > Should render correctly without subtitle and button 1`] =
     aria-hidden="true"
   />
   <div
-    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-6mfcz5-MuiModal-root-MuiDrawer-root"
+    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-17eom3u-MuiModal-root-MuiDrawer-root"
     role="presentation"
   >
     <div
@@ -232,7 +240,7 @@ exports[`Drawer test > Should render correctly without subtitle and button 1`] =
         </button>
       </div>
       <div
-        class="css-1kkizf6-MuiStack-root"
+        class="css-139xa77-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -243,11 +251,15 @@ exports[`Drawer test > Should render correctly without subtitle and button 1`] =
             test title
           </h6>
         </div>
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        <div
+          class="MuiBox-root css-be40y1"
         >
-          TEST CHILDREN
-        </p>
+          <p
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          >
+            TEST CHILDREN
+          </p>
+        </div>
       </div>
     </div>
     <div
