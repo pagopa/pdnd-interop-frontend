@@ -2,8 +2,8 @@ import React from 'react'
 import { createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { mockAgreementDetailsContext } from './test.commons'
 import {
-  AgreementGeneralInfoSection,
-  AgreementGeneralInfoSectionSkeleton,
+  AgreementSummarySection,
+  AgreementSummarySectionSkeleton,
 } from '../AgreementSummarySection'
 import {
   mockUseCurrentRoute,
@@ -12,7 +12,7 @@ import {
 } from '@/utils/testing.utils'
 import { render } from '@testing-library/react'
 
-describe('AgreementGeneralInfoSection', () => {
+describe('AgreementSummarySection', () => {
   it('should match the snapshot (consumer)', () => {
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'consumer' })
@@ -21,7 +21,7 @@ describe('AgreementGeneralInfoSection', () => {
       agreement: createMockAgreement(),
     })
 
-    const { baseElement } = renderWithApplicationContext(<AgreementGeneralInfoSection />, {
+    const { baseElement } = renderWithApplicationContext(<AgreementSummarySection />, {
       withRouterContext: true,
     })
 
@@ -36,7 +36,7 @@ describe('AgreementGeneralInfoSection', () => {
       agreement: createMockAgreement(),
     })
 
-    const { baseElement } = renderWithApplicationContext(<AgreementGeneralInfoSection />, {
+    const { baseElement } = renderWithApplicationContext(<AgreementSummarySection />, {
       withRouterContext: true,
     })
 
@@ -51,7 +51,7 @@ describe('AgreementGeneralInfoSection', () => {
       agreement: undefined,
     })
 
-    const { baseElement } = renderWithApplicationContext(<AgreementGeneralInfoSection />, {
+    const { baseElement } = renderWithApplicationContext(<AgreementSummarySection />, {
       withRouterContext: true,
     })
 
@@ -59,9 +59,9 @@ describe('AgreementGeneralInfoSection', () => {
   })
 })
 
-describe('AgreementGeneralInfoSectionSkeleton', () => {
+describe('AgreementSummarySectionSkeleton', () => {
   it('should match the snapshot', () => {
-    const { baseElement } = render(<AgreementGeneralInfoSectionSkeleton />)
+    const { baseElement } = render(<AgreementSummarySectionSkeleton />)
 
     expect(baseElement).toMatchSnapshot()
   })
