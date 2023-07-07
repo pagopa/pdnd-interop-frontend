@@ -135,8 +135,8 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
     expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('activate')
-    expect(result.current.actions[1].label).toBe('reject')
+    expect(result.current.actions[0].label).toBe('reject')
+    expect(result.current.actions[1].label).toBe('activate')
   })
 
   it('shoud not return any provider action if mode is provider and agreement has state ARCHIVED', () => {
@@ -289,8 +289,8 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
     expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('activate')
-    expect(result.current.actions[1].label).toBe('reject')
+    expect(result.current.actions[0].label).toBe('reject')
+    expect(result.current.actions[1].label).toBe('activate')
   })
 
   it('shoud not return any provider action if mode is provider and agreement has state ARCHIVED', () => {
