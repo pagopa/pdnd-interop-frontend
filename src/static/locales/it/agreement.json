@@ -5,13 +5,22 @@
   "read": {
     "title": "Gestisci richiesta di fruizione",
     "noPurposeAlert": "La richiesta di fruizione è attiva. <1>Crea la tua prima finalità</1>",
-    "updateGuide": {
-      "alertLabel": "È disponibile una nuova versione dell’e-service <1>{{eserviceName}}</1>. Prima di effettuare l’aggiornamento, leggi la guida di seguito",
-      "title": "Guida all’aggiornamento",
-      "description": "È possibile aggiornare la richiesta di fruizione all’ultima versione dell’e-service <1>{{eserviceName}}</1>. Ecco alcune indicazioni utili",
-      "upgradeGuideLinkLabel": "Guida all'aggiornamento",
-      "linksLabel": "Link utili",
-      "eserviceLinkLabel": "Scheda e-service <1>{{eserviceName}}, versione {{version}}</1>",
+    "noCertifiedAttributesForUpgradeTooltip": "Il tuo ente non ha gli attributi certificati necessari per aggiornare all’ultima versione",
+    "updateDrawer": {
+      "title": "Aggiornamento richiesta di fruizione",
+      "subtitle": "È stata pubblicata una versione più recente dell’e-service e puoi effettuare l’aggiornamento",
+      "eserviceNewVersion": {
+        "title": "La nuova versione dell’e-service",
+        "content": "Vedi la scheda di <1>{{eserviceName}}</1>."
+      },
+      "meaning": {
+        "title": "Cosa significa effettuare l’aggiornamento?",
+        "paragraph1": "Quando un erogatore pubblica una nuova versione di un e-service, vuol dire che ci sono variazioni rispetto alla precedente. Queste modifiche possono essere di natura amministrativa, tecnica, o entrambe.",
+        "paragraph2": "Prima di effettuare l’aggiornamento, assicurati di aver allineato tutti i tuoi sistemi alla specifica API della nuova versione dell’e-service.",
+        "paragraph3": "Servono maggiori informazioni? <1>Leggi la guida</1>."
+      },
+      "noAttributesAlert": "La nuova richiesta non sarà attiva subito, il tuo ente non possiede tutti gli attributi necessari. Ti sarà chiesto di integrare la richiesta prima di inoltrarla all’erogatore.",
+      "upgradeTextFieldLabel": "Digita “Aggiorna” per abilitare il bottone",
       "upgradeBtn": "Aggiorna"
     },
     "summary": {

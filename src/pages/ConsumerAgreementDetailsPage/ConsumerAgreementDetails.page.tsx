@@ -1,3 +1,4 @@
+import React from 'react'
 import { AgreementQueries } from '@/api/agreement'
 import { PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
@@ -5,9 +6,12 @@ import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useJwt } from '@/hooks/useJwt'
 import { Link, useParams } from '@/router'
+import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { Alert } from '@mui/material'
-import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import NewReleasesIcon from '@mui/icons-material/NewReleases'
+import { AgreementUpgradeDrawer } from './components/AgreementUpgradeDrawer'
+import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
 
 const ConsumerAgreementDetailsPage: React.FC = () => {
   return (
@@ -19,7 +23,10 @@ const ConsumerAgreementDetailsPage: React.FC = () => {
 
 const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('agreement')
+  const { t: tCommon } = useTranslation('common')
   const { isAdmin } = useJwt()
+
+  const [isAgreementUpgradeDrawerOpen, setIsAgreementUpgradeDrawerOpen] = React.useState(false)
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
@@ -27,9 +34,29 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
     { eservicesIds: [agreement?.eservice?.id as string], limit: 50, offset: 0 },
     { enabled: !!agreement?.eservice && agreement.state === 'ACTIVE', suspense: false }
   )
+
+  const { hasAllCertifiedAttributes, hasAllDeclaredAttributes, hasAllVerifiedAttributes } =
+    useDescriptorAttributesPartyOwnership(
+      agreement?.eservice.id,
+      agreement?.eservice.activeDescriptor?.id
+    )
   const { actions } = useGetAgreementsActions(agreement)
 
+  const shouldDisableUpgradeButton = !hasAllCertifiedAttributes
+  const canBeUpgraded = isAdmin && canAgreementBeUpgraded(agreement)
   const showNoPurposeAlert = isAdmin && agreementPurposes && agreementPurposes.results.length === 0
+
+  if (canBeUpgraded) {
+    actions.unshift({
+      label: tCommon('actions.upgrade'),
+      action: () => setIsAgreementUpgradeDrawerOpen(true),
+      icon: NewReleasesIcon,
+      disabled: shouldDisableUpgradeButton,
+      tooltip: shouldDisableUpgradeButton
+        ? t('read.noCertifiedAttributesForUpgradeTooltip')
+        : undefined,
+    })
+  }
 
   return (
     <PageContainer title={t('read.title')} newTopSideActions={actions}>
@@ -50,6 +77,14 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
         </Alert>
       )}
       <AgreementDetails agreementId={agreementId} />
+      {canBeUpgraded && agreement && (
+        <AgreementUpgradeDrawer
+          agreement={agreement}
+          isOpen={isAgreementUpgradeDrawerOpen}
+          onClose={() => setIsAgreementUpgradeDrawerOpen(false)}
+          hasMissingAttributes={!hasAllDeclaredAttributes || !hasAllVerifiedAttributes}
+        />
+      )}
       <PageBottomActionsContainer>
         <Link as="button" variant="outlined" to={'SUBSCRIBE_AGREEMENT_LIST'}>
           {t('backToRequestsBtn')}

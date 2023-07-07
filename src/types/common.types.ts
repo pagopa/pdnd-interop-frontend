@@ -43,6 +43,9 @@ export type ActionItem = { action: VoidFunction; label: string }
 export type ActionItemButton = ActionItem & {
   color?: ButtonProps['color']
   icon?: SvgIconComponent
+  tooltip?: string
+  disabled?: boolean
+  variant?: ButtonProps['variant']
 }
 
 export type StepperStepComponentProps = {

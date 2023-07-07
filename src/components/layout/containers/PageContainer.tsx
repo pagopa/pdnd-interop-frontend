@@ -1,6 +1,6 @@
 import React from 'react'
 import type { SxProps } from '@mui/material'
-import { Box, Button, Skeleton, Stack, Typography } from '@mui/material'
+import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import type { ActionItem, ActionItemButton } from '@/types/common.types'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
@@ -95,18 +95,29 @@ const StyledIntro: React.FC<StyledIntroProps> = ({
           ))}
 
         {newTopSideActions &&
-          newTopSideActions.map(({ action, label, color, icon: Icon, ...props }, i) => (
-            <Button
-              key={i}
-              onClick={action}
-              variant="text"
-              color={color}
-              startIcon={Icon && <Icon />}
-              {...props}
-            >
-              {label}
-            </Button>
-          ))}
+          newTopSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
+            const Wrapper = tooltip
+              ? ({ children }: { children: React.ReactElement }) => (
+                  <Tooltip title={tooltip}>{children}</Tooltip>
+                )
+              : React.Fragment
+
+            return (
+              <Wrapper key={i}>
+                <span>
+                  <Button
+                    onClick={action}
+                    variant="text"
+                    color={color}
+                    startIcon={Icon && <Icon />}
+                    {...props}
+                  >
+                    {label}
+                  </Button>
+                </span>
+              </Wrapper>
+            )
+          })}
 
         {topSideActions?.actionMenu && <ActionMenu actions={topSideActions.actionMenu} />}
       </Stack>

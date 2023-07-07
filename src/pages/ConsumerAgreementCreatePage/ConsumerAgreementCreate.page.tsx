@@ -10,24 +10,21 @@ import {
   AgreementDocsInputSectionSkeleton,
 } from './components/AgreementDocsInputSection'
 import { Button, Grid } from '@mui/material'
-import useCanUserSubmitAgreementDraft from './hooks/useCanUserSubmitAgreementDraft'
 import { PageBottomActionsCardContainer } from '@/components/layout/containers/PageBottomCardContainer'
 import {
   ConsumerNotesInputSection,
   ConsumerNotesInputSectionSkeleton,
 } from './components/ConsumerNotesInputSection'
+import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
   const navigate = useNavigate()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
-  const { data: agreement, isInitialLoading: isLoadingAgreements } = AgreementQueries.useGetSingle(
-    agreementId,
-    {
-      suspense: false,
-    }
-  )
+  const { data: agreement } = AgreementQueries.useGetSingle(agreementId, {
+    suspense: false,
+  })
   const [consumerNotes, setConsumerNotes] = React.useState(agreement?.consumerNotes ?? '')
   const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft()
   const { mutate: updateAgreementDraft } = AgreementMutations.useUpdateDraft()
@@ -35,7 +32,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   const { actions } = useGetAgreementsActions(agreement)
 
-  const canUserSubmitAgreementDraft = useCanUserSubmitAgreementDraft(agreementId)
+  const { hasAllCertifiedAttributes, hasAllDeclaredAttributes } =
+    useDescriptorAttributesPartyOwnership(agreement?.eservice.id, agreement?.descriptorId)
 
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
@@ -74,7 +72,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     )
   }
 
-  const isAgreementEServiceMine = agreement && agreement?.producer.id === agreement?.consumer.id
+  const canUserSubmitAgreementDraft = hasAllCertifiedAttributes && hasAllDeclaredAttributes
 
   return (
     <PageContainer title={t('read.title')} newTopSideActions={actions}>
@@ -82,20 +80,16 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         <AgreementDetails agreementId={agreementId} />
       </React.Suspense>
 
-      {!isLoadingAgreements && !isAgreementEServiceMine && (
-        <>
-          <React.Suspense fallback={<AgreementDocsInputSectionSkeleton />}>
-            <AgreementDocsInputSection agreementId={agreementId} />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerNotesInputSectionSkeleton />}>
-            <ConsumerNotesInputSection
-              agreementId={agreementId}
-              consumerNotes={consumerNotes}
-              setConsumerNotes={setConsumerNotes}
-            />
-          </React.Suspense>
-        </>
-      )}
+      <React.Suspense fallback={<AgreementDocsInputSectionSkeleton />}>
+        <AgreementDocsInputSection agreementId={agreementId} />
+      </React.Suspense>
+      <React.Suspense fallback={<ConsumerNotesInputSectionSkeleton />}>
+        <ConsumerNotesInputSection
+          agreementId={agreementId}
+          consumerNotes={consumerNotes}
+          setConsumerNotes={setConsumerNotes}
+        />
+      </React.Suspense>
 
       <PageBottomActionsContainer>
         <Link as="button" to="SUBSCRIBE_AGREEMENT_LIST" variant="outlined">

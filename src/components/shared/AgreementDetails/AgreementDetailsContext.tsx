@@ -6,7 +6,6 @@ import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { AgreementQueries } from '@/api/agreement'
 import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
-import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { AttributeQueries } from '@/api/attribute'
 import type {
   Agreement,
@@ -27,7 +26,6 @@ type AgreementDetailsContextType = {
       }
     | undefined
   isAgreementEServiceMine: boolean
-  canBeUpgraded: boolean
   isAttachedDocsDrawerOpen: boolean
   openAttachedDocsDrawer: VoidFunction
   closeAttachedDocsDrawer: VoidFunction
@@ -38,7 +36,6 @@ const initialState: AgreementDetailsContextType = {
   isAgreementEServiceMine: false,
   descriptorAttributes: undefined,
   partyAttributes: undefined,
-  canBeUpgraded: false,
   isAttachedDocsDrawerOpen: false,
   openAttachedDocsDrawer: noop,
   closeAttachedDocsDrawer: noop,
@@ -73,7 +70,7 @@ const AgreementDetailsContextProvider: React.FC<{
   const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
 
   const [{ data: certified }, { data: verified }, { data: declared }] =
-    AttributeQueries.useGetListParty(partyId, agreement?.producer.id)
+    AttributeQueries.useGetListParty(partyId)
 
   const providerValue = React.useMemo(() => {
     if (!agreement || !descriptor || mode === null) return initialState
@@ -81,7 +78,6 @@ const AgreementDetailsContextProvider: React.FC<{
     const descriptorAttributes = remapDescriptorAttributes(descriptor.attributes)
     const isAgreementEServiceMine = agreement.producer.id === agreement.consumer.id
 
-    const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
     const partyAttributes = {
       certified: certified?.attributes ?? [],
       verified: verified?.attributes ?? [],
@@ -93,7 +89,6 @@ const AgreementDetailsContextProvider: React.FC<{
       isAgreementEServiceMine,
       descriptorAttributes,
       partyAttributes,
-      canBeUpgraded,
       isAttachedDocsDrawerOpen,
       openAttachedDocsDrawer,
       closeAttachedDocsDrawer,

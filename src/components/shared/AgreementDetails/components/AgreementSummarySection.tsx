@@ -102,5 +102,8 @@ export const AgreementSummarySection: React.FC = () => {
 }
 
 export const AgreementSummarySectionSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={190} />
+  const { routeKey } = useCurrentRoute()
+  const height = routeKey === 'SUBSCRIBE_AGREEMENT_EDIT' ? 194 : 322
+
+  return <SectionContainerSkeleton height={height} />
 }
