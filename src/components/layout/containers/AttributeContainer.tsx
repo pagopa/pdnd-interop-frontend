@@ -24,7 +24,7 @@ type AttributeContainerProps<TAttribute extends { id: string; name: string }> = 
   attribute: TAttribute
   actions?: Array<{
     label: React.ReactNode
-    action: (attributeId: string, attributeName: string) => void
+    action: (attributeId: string) => void
     color?: 'primary' | 'error'
   }>
   chipLabel?: string
@@ -99,11 +99,7 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
             <CardActions disableSpacing sx={{ p: 0 }}>
               <Stack direction="row" spacing={2}>
                 {actions?.map(({ action, label, color = 'primary' }, i) => (
-                  <ButtonNaked
-                    key={i}
-                    onClick={action.bind(null, attribute.id, attribute.name)}
-                    color={color}
-                  >
+                  <ButtonNaked key={i} onClick={action.bind(null, attribute.id)} color={color}>
                     {label}
                   </ButtonNaked>
                 ))}
