@@ -120,8 +120,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -165,8 +165,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -210,8 +210,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -252,8 +252,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -294,8 +294,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -339,8 +339,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -395,8 +395,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -432,7 +432,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       expect(verifyAttributeFn).toBeCalledWith({
         partyId: 'test-id-consumer',
         id: 'test attributeId',
-        expirationDate: '2023-02-02T09:33:35.807Z',
+        expirationDate: '2023-02-02T09:33:35.000Z',
       })
     })
   })
@@ -460,8 +460,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -516,8 +516,8 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
             verifiedBy: [
               {
                 id: 'test-id-producer',
-                verificationDate: '2023-02-15T09:33:35.807Z',
-                expirationDate: '2023-02-20T09:33:35.807Z',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
               },
             ],
           }),
@@ -553,7 +553,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       expect(updateAttributeExpirationDateFn).toBeCalledWith({
         partyId: 'test-id-consumer',
         attributeId: 'test attributeId',
-        expirationDate: '2023-02-02T09:33:35.807Z',
+        expirationDate: '2023-02-02T09:33:35.000Z',
       })
     })
   })

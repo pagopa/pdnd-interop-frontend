@@ -1,11 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Drawer test > Should not render when isOpen is false 1`] = `
-<body>
-  <div />
-</body>
-`;
-
 exports[`Drawer test > Should render correctly with subtitle and button 1`] = `
 <body
   style="padding-right: 1024px; overflow: hidden;"
@@ -56,7 +50,7 @@ exports[`Drawer test > Should render correctly with subtitle and button 1`] = `
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="css-1kkizf6-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -155,7 +149,7 @@ exports[`Drawer test > Should render correctly with subtitle and without button 
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="css-1kkizf6-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -240,7 +234,7 @@ exports[`Drawer test > Should render correctly without subtitle and button 1`] =
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="css-1kkizf6-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
