@@ -10,7 +10,6 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
 
 export const AgreementAttachedDocumentsDrawer = () => {
-  const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attachedDocumentsDrawer' })
 
   const { agreement, isAttachedDocsDrawerOpen, closeAttachedDocsDrawer } =
@@ -34,10 +33,6 @@ export const AgreementAttachedDocumentsDrawer = () => {
       subtitle={t('subtitle')}
       isOpen={isAttachedDocsDrawerOpen}
       onClose={closeAttachedDocsDrawer}
-      buttonAction={{
-        label: tCommon('closeBtn'),
-        action: closeAttachedDocsDrawer,
-      }}
     >
       <Stack spacing={4}>
         {agreement.consumerNotes && (
