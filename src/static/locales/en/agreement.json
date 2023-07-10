@@ -11,7 +11,7 @@
       "subtitle": "A newer version of the e-service has been released and you can upgrade",
       "eserviceNewVersion": {
         "title": "The new version of the e-service",
-        "content": "See <1>{{eserviceName}}</1> details."
+        "content": "See <1>{{eserviceName}}, version {{eserviceVersion}}</1> details."
       },
       "meaning": {
         "title": "What does it mean to upgrade?",

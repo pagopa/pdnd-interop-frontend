@@ -76,15 +76,19 @@ export const AgreementUpgradeDrawer: React.FC<AgreementUpgradeDrawerProps> = ({
                 1: (
                   <Link
                     to="SUBSCRIBE_CATALOG_VIEW"
+                    target="_blank"
                     params={{
                       eserviceId: agreement.eservice.id,
-                      descriptorId: agreement.descriptorId,
+                      descriptorId: agreement.eservice.activeDescriptor!.id,
                     }}
                   />
                 ),
               }}
             >
-              {t('eserviceNewVersion.content', { eserviceName: agreement.eservice.name })}
+              {t('eserviceNewVersion.content', {
+                eserviceName: agreement.eservice.name,
+                eserviceVersion: agreement.eservice.activeDescriptor!.version,
+              })}
             </Trans>
           </Typography>
         </Box>

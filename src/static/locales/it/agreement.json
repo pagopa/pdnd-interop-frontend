@@ -11,7 +11,7 @@
       "subtitle": "È stata pubblicata una versione più recente dell’e-service e puoi effettuare l’aggiornamento",
       "eserviceNewVersion": {
         "title": "La nuova versione dell’e-service",
-        "content": "Vedi la scheda di <1>{{eserviceName}}</1>."
+        "content": "Vedi la scheda di <1>{{eserviceName}}, versione {{eserviceVersion}}</1>."
       },
       "meaning": {
         "title": "Cosa significa effettuare l’aggiornamento?",
