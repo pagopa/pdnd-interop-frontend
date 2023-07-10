@@ -17,6 +17,7 @@ import {
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { useAgreementGetVerifiedAttributesActions } from '../../hooks/useAgreementGetVerifiedAttributesActions'
 import { attributesHelpLink } from '@/config/constants'
+import AgreementVerifiedAttributesDrawer from './AgreementVerifiedAttributesDrawer/AgreementVerifiedAttributesDrawer'
 
 export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -29,7 +30,8 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   const verifiedAttributeGroups = descriptorAttributes?.verified ?? []
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
 
-  const getAttributeActions = useAgreementGetVerifiedAttributesActions()
+  const { agreementVerifiedAttributeDrawer, handleCloseDrawer, getAttributeActions } =
+    useAgreementGetVerifiedAttributesActions()
 
   const getChipLabel = (attributeId: string) => {
     const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
@@ -70,6 +72,10 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
         </Trans>
       }
     >
+      <AgreementVerifiedAttributesDrawer
+        {...agreementVerifiedAttributeDrawer}
+        onClose={handleCloseDrawer}
+      />
       <Stack spacing={2}>
         {verifiedAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>

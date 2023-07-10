@@ -3,8 +3,8 @@ import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute } from '@/router'
 import { useJwt } from '@/hooks/useJwt'
-import { AttributeMutations } from '@/api/attribute'
 import type { AttributeContainer } from '@/components/layout/containers'
+import React from 'react'
 
 /**
  * Returns the actions for the verified attributes section inside the agreement details.
@@ -16,53 +16,78 @@ export const useAgreementGetVerifiedAttributesActions = () => {
   const { isAdmin } = useJwt()
   const { partyAttributes, isAgreementEServiceMine, agreement } = useAgreementDetailsContext()
 
-  const { mutate: verifyAttribute } = AttributeMutations.useVerifyPartyAttribute()
-  const { mutate: revokeAttibute } = AttributeMutations.useRevokeVerifiedPartyAttribute()
+  const [agreementVerifiedAttributeDrawer, setAgreementVerifiedAttributeDrawer] = React.useState<{
+    isOpen: boolean
+    attributeId: string
+    type: 'revoke' | 'verify' | 'update'
+  }>({
+    isOpen: false,
+    attributeId: '',
+    type: 'revoke',
+  })
 
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
 
-  return (attributeId: string) => {
-    // The user can certify verified attributes in this view only if it is a provider...
-    if (!agreement || mode === 'consumer' || !isAdmin) return []
-    // ... only if the e-service does not belong to itself
-    if (isAgreementEServiceMine) return []
-    // ... and only if the agreement is active, pending or suspended
-    if (!['ACTIVE', 'PENDING', 'SUSPENDED'].includes(agreement.state)) return []
+  const handleCloseDrawer = () => {
+    setAgreementVerifiedAttributeDrawer((prev) => {
+      return { ...prev, isOpen: false }
+    })
+  }
 
-    const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
+  return {
+    agreementVerifiedAttributeDrawer: agreementVerifiedAttributeDrawer,
+    handleCloseDrawer: handleCloseDrawer,
+    getAttributeActions: (attributeId: string) => {
+      // The user can certify verified attributes in this view only if it is a provider...
+      if (!agreement || mode === 'consumer' || !isAdmin) return []
+      // ... only if the e-service does not belong to itself
+      if (isAgreementEServiceMine) return []
+      // ... and only if the agreement is active, pending or suspended
+      if (!['ACTIVE', 'PENDING', 'SUSPENDED'].includes(agreement.state)) return []
 
-    const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes)
-    const isOwnedButRevoked = attribute && isAttributeRevoked('verified', attribute)
+      const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
 
-    const handleVerifyAttribute = (attributeId: string) => {
-      verifyAttribute({
-        partyId: agreement.consumer.id,
-        id: attributeId,
-      })
-    }
+      const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes)
+      const isOwnedButRevoked = attribute && isAttributeRevoked('verified', attribute)
 
-    const handleRevokeAttribute = (attributeId: string) => {
-      revokeAttibute({
-        partyId: agreement.consumer.id,
-        attributeId,
-      })
-    }
+      const handleVerifyAttribute = (attributeId: string) => {
+        setAgreementVerifiedAttributeDrawer((prev) => {
+          return {
+            ...prev,
+            isOpen: true,
+            attributeId: attributeId,
+            type: isOwned ? 'update' : 'verify',
+          }
+        })
+      }
 
-    const attributeActions: React.ComponentProps<typeof AttributeContainer>['actions'] = [
-      {
-        label: isOwned ? t('verified.actions.update') : t('verified.actions.verify'),
-        action: handleVerifyAttribute,
-      },
-    ]
+      const handleRevokeAttribute = (attributeId: string) => {
+        setAgreementVerifiedAttributeDrawer((prev) => {
+          return {
+            ...prev,
+            isOpen: true,
+            attributeId: attributeId,
+            type: 'revoke',
+          }
+        })
+      }
 
-    if (isOwned && !isOwnedButRevoked) {
-      attributeActions.push({
-        label: t('verified.actions.revoke'),
-        action: handleRevokeAttribute,
-        color: 'error',
-      })
-    }
+      const attributeActions: React.ComponentProps<typeof AttributeContainer>['actions'] = [
+        {
+          label: isOwned ? t('verified.actions.update') : t('verified.actions.verify'),
+          action: handleVerifyAttribute,
+        },
+      ]
 
-    return attributeActions
+      if (isOwned && !isOwnedButRevoked) {
+        attributeActions.push({
+          label: t('verified.actions.revoke'),
+          action: handleRevokeAttribute,
+          color: 'error',
+        })
+      }
+
+      return attributeActions
+    },
   }
 }
