@@ -174,7 +174,7 @@ const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDra
   return (
     <Drawer
       isOpen={isOpen}
-      closeAction={handleCloseDrawer}
+      onClose={handleCloseDrawer}
       title={title}
       subtitle={subtitle}
       buttonAction={buttonAction}
