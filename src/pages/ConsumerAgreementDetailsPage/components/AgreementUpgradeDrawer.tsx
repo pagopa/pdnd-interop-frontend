@@ -58,7 +58,7 @@ export const AgreementUpgradeDrawer: React.FC<AgreementUpgradeDrawerProps> = ({
       title={t('title')}
       subtitle={t('subtitle')}
       isOpen={isOpen}
-      closeAction={onClose}
+      onClose={onClose}
       buttonAction={{
         label: t('upgradeBtn'),
         action: handleUpgrade,

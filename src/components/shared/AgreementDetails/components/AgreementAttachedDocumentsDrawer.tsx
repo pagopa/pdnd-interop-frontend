@@ -33,7 +33,7 @@ export const AgreementAttachedDocumentsDrawer = () => {
       title={t('title')}
       subtitle={t('subtitle')}
       isOpen={isAttachedDocsDrawerOpen}
-      closeAction={closeAttachedDocsDrawer}
+      onClose={closeAttachedDocsDrawer}
       buttonAction={{
         label: tCommon('closeBtn'),
         action: closeAttachedDocsDrawer,
