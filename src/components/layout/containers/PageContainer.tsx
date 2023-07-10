@@ -98,23 +98,23 @@ const StyledIntro: React.FC<StyledIntroProps> = ({
           newTopSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
             const Wrapper = tooltip
               ? ({ children }: { children: React.ReactElement }) => (
-                  <Tooltip title={tooltip}>{children}</Tooltip>
+                  <Tooltip arrow title={tooltip}>
+                    <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
+                  </Tooltip>
                 )
               : React.Fragment
 
             return (
               <Wrapper key={i}>
-                <span>
-                  <Button
-                    onClick={action}
-                    variant="text"
-                    color={color}
-                    startIcon={Icon && <Icon />}
-                    {...props}
-                  >
-                    {label}
-                  </Button>
-                </span>
+                <Button
+                  onClick={action}
+                  variant="text"
+                  color={color}
+                  startIcon={Icon && <Icon />}
+                  {...props}
+                >
+                  {label}
+                </Button>
               </Wrapper>
             )
           })}
