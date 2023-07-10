@@ -6,7 +6,7 @@ import type { ActionItem } from '@/types/common.types'
 
 export type DrawerProps = {
   isOpen: boolean
-  closeAction: VoidFunction
+  onClose: VoidFunction
   title: string
   subtitle?: string
   buttonAction?: ActionItem
@@ -14,10 +14,10 @@ export type DrawerProps = {
 }
 
 type HeaderDrawerProps = {
-  handleDrawerClose: VoidFunction
+  onDrawerClose: VoidFunction
 }
 
-const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ handleDrawerClose }) => {
+const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ onDrawerClose }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'drawer' })
 
   return (
@@ -31,7 +31,7 @@ const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ handleDrawerClose }) => {
       pb={1}
       flexShrink={0}
     >
-      <IconButton onClick={handleDrawerClose} aria-label={t('closeIconAriaLabel')}>
+      <IconButton onClick={onDrawerClose} aria-label={t('closeIconAriaLabel')}>
         <CloseIcon fontSize="small" />
       </IconButton>
     </Box>
@@ -40,7 +40,7 @@ const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ handleDrawerClose }) => {
 
 export const Drawer: React.FC<DrawerProps> = ({
   isOpen,
-  closeAction,
+  onClose,
   title,
   subtitle,
   buttonAction,
@@ -51,10 +51,10 @@ export const Drawer: React.FC<DrawerProps> = ({
       variant="temporary"
       anchor="right"
       open={isOpen}
-      onClose={closeAction}
+      onClose={onClose}
       sx={{ zIndex: 99900 }}
     >
-      <HeaderDrawer handleDrawerClose={closeAction} />
+      <HeaderDrawer onDrawerClose={onClose} />
       <Stack spacing={2} width={375} px={3} pt={2} flexGrow={1}>
         <Stack spacing={1} pb={5}>
           <Typography variant="h6" fontWeight={600}>
