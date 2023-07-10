@@ -20,7 +20,7 @@
         "paragraph3": "Need more information? <1>Read the guide</1>."
       },
       "noAttributesAlert": "The new request will not be active immediately, your institution does not have all the necessary attributes. You will be asked to integrate the request before forwarding it to the provider.",
-      "upgradeTextFieldLabel": "Type “Upgrade” to enable the button",
+      "upgradeTextFieldLabel": "Type “upgrade” to enable the button",
       "upgradeBtn": "Upgrade"
     },
     "summary": {
