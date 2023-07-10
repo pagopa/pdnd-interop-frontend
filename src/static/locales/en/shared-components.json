@@ -202,6 +202,9 @@
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Remove attribute group"
   },
+  "drawer": {
+    "closeIconAriaLabel": "Close the drawer"
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of service",
