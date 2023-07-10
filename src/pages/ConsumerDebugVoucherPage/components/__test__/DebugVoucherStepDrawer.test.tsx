@@ -50,7 +50,7 @@ describe('DebugVoucherStepDrawer testing', () => {
     expect(setDebugVoucherStepDrawerMockFn).toBeCalled()
   })
 
-  it('should button nextStep not be rendered if clientKind is CONUSMER and selectedStep key is platformStatesVerification', () => {
+  it('should button nextStep not be rendered if clientKind is CONSUMER and selectedStep key is platformStatesVerification', () => {
     mockDebugVoucherContext({
       response: createMockDebugVoucherResultPassed({ clientKind: 'CONSUMER' }),
       debugVoucherStepDrawer: {
@@ -146,7 +146,7 @@ describe('DebugVoucherStepDrawer testing', () => {
     expect(screen.queryByRole('button', { name: 'stepDrawer.nextStepBtn' })).not.toBeInTheDocument()
   })
 
-  it('should button nextStep be rendered if clientKind is CONUSMER and selectedStep key is not platformStatesVerification', () => {
+  it('should button nextStep be rendered if clientKind is CONSUMER and selectedStep key is not platformStatesVerification', () => {
     mockDebugVoucherContext({
       response: createMockDebugVoucherResultPassed({ clientKind: 'CONSUMER' }),
       debugVoucherStepDrawer: {
