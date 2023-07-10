@@ -122,11 +122,7 @@ function useVerifyPartyAttribute() {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
-    },
+    showConfirmationDialog: false,
   })
 }
 
@@ -138,11 +134,7 @@ function useUpdateVerifiedPartyAttribute() {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
-    },
+    showConfirmationDialog: false,
   })
 }
 
@@ -154,11 +146,7 @@ function useRevokeVerifiedPartyAttribute() {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
-    },
+    showConfirmationDialog: false,
   })
 }
 
