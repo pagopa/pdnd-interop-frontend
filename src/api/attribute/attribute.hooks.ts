@@ -130,6 +130,22 @@ function useVerifyPartyAttribute() {
   })
 }
 
+function useUpdateVerifiedPartyAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.verifyPartyAttribute',
+  })
+  return useMutationWrapper(AttributeServices.updateVerifiedPartyAttribute, {
+    suppressSuccessToast: true,
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+  })
+}
+
 function useRevokeVerifiedPartyAttribute() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.revokeVerifiedPartyAttribute',
@@ -192,6 +208,7 @@ export const AttributeQueries = {
 export const AttributeMutations = {
   useCreate,
   useVerifyPartyAttribute,
+  useUpdateVerifiedPartyAttribute,
   useRevokeVerifiedPartyAttribute,
   useDeclarePartyAttribute,
   useRevokeDeclaredPartyAttribute,
