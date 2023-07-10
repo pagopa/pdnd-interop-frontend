@@ -1,4 +1,4 @@
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseCurrentRoute, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetAgreementsActions from '../useGetAgreementsActions'
 import { createMockAgreementListingItem, createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { createMemoryHistory } from 'history'
@@ -470,5 +470,29 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
 
     expect(history.location.pathname).toBe('/it/fruizione/richieste')
+  })
+
+  it('should not navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action if actual routeKey is SUBSCRIBE_AGREEMENT_LIST', async () => {
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_LIST' })
+    const agreement = createMockAgreement({
+      state: 'DRAFT',
+    })
+    const { result, history } = renderUseGetAgreementsActionsHook(agreement)
+    expect(result.current.actions).toHaveLength(1)
+
+    const deleteAction = result.current.actions[0]
+    expect(deleteAction.label).toBe('delete')
+
+    act(() => {
+      deleteAction.action()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
+
+    expect(history.location.pathname).toBe('/it/ente')
   })
 })

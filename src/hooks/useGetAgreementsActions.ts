@@ -17,7 +17,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   actions: Array<ActionItemButton>
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { mode } = useCurrentRoute()
+  const { mode, routeKey } = useCurrentRoute()
   const { isAdmin } = useJwt()
   const { openDialog } = useDialog()
   const navigate = useNavigate()
@@ -54,6 +54,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
       { agreementId: agreement.id },
       {
         onSuccess() {
+          if (routeKey === 'SUBSCRIBE_AGREEMENT_LIST') return
           navigate('SUBSCRIBE_AGREEMENT_LIST')
         },
       }
