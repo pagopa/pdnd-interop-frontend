@@ -6,13 +6,13 @@ import { Typography } from '@mui/material'
 
 describe('Drawer test', () => {
   it('Should not render when isOpen is false', () => {
-    const screen = render(
+    const { container } = render(
       <Drawer isOpen={false} closeAction={vi.fn()} title="test title">
         <Typography>TEST CHILDREN</Typography>
       </Drawer>
     )
 
-    expect(screen.baseElement).toMatchSnapshot()
+    expect(container).toBeEmptyDOMElement()
   })
 
   it('Should render correctly without subtitle and button', () => {
