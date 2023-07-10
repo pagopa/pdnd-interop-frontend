@@ -19,6 +19,9 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   //   return `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producer.name}`
   // }
 
+  /**
+   * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected attribute name.
+   */
   function getQ() {
     let result = eserviceAutocompleteTextInput
 
