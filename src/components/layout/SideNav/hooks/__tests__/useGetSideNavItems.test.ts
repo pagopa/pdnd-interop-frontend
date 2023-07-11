@@ -89,6 +89,7 @@ it('Should match the snapshot on only api operator role', async () => {
       {
         "children": [
           "SUBSCRIBE_CATALOG_LIST",
+          "SUBSCRIBE_DEBUG_VOUCHER",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
@@ -124,6 +125,7 @@ it('Should match the snapshot on only security operator role', async () => {
           "SUBSCRIBE_PURPOSE_LIST",
           "SUBSCRIBE_CLIENT_LIST",
           "SUBSCRIBE_INTEROP_M2M",
+          "SUBSCRIBE_DEBUG_VOUCHER",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
@@ -159,6 +161,7 @@ it('Should match the snapshot on security and api operator roles', async () => {
           "SUBSCRIBE_PURPOSE_LIST",
           "SUBSCRIBE_CLIENT_LIST",
           "SUBSCRIBE_INTEROP_M2M",
+          "SUBSCRIBE_DEBUG_VOUCHER",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
@@ -253,11 +256,11 @@ it('Should match the snapshot on api and admin operator roles', async () => {
       {
         "children": [
           "SUBSCRIBE_CATALOG_LIST",
+          "SUBSCRIBE_DEBUG_VOUCHER",
           "SUBSCRIBE_AGREEMENT_LIST",
           "SUBSCRIBE_PURPOSE_LIST",
           "SUBSCRIBE_CLIENT_LIST",
           "SUBSCRIBE_INTEROP_M2M",
-          "SUBSCRIBE_DEBUG_VOUCHER",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
@@ -298,11 +301,11 @@ it('Should match the snapshot on all roles', async () => {
       {
         "children": [
           "SUBSCRIBE_CATALOG_LIST",
+          "SUBSCRIBE_DEBUG_VOUCHER",
           "SUBSCRIBE_AGREEMENT_LIST",
           "SUBSCRIBE_PURPOSE_LIST",
           "SUBSCRIBE_CLIENT_LIST",
           "SUBSCRIBE_INTEROP_M2M",
-          "SUBSCRIBE_DEBUG_VOUCHER",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",

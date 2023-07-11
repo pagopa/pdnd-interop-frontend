@@ -37,7 +37,7 @@ const views: Views = {
     {
       routeKey: 'SUBSCRIBE',
       id: 'subscriber',
-      children: ['SUBSCRIBE_CATALOG_LIST'],
+      children: ['SUBSCRIBE_CATALOG_LIST', 'SUBSCRIBE_DEBUG_VOUCHER'],
     },
   ],
   security: [
@@ -50,6 +50,7 @@ const views: Views = {
         'SUBSCRIBE_PURPOSE_LIST',
         'SUBSCRIBE_CLIENT_LIST',
         'SUBSCRIBE_INTEROP_M2M',
+        'SUBSCRIBE_DEBUG_VOUCHER',
       ],
     },
   ],
