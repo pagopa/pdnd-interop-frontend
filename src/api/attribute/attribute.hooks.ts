@@ -76,7 +76,7 @@ function useGetPartyDeclaredList(partyId?: string) {
   )
 }
 
-function useGetListParty(partyId?: string, verifierId?: string, config = { suspense: true }) {
+function useGetListParty(partyId?: string, config = { suspense: true }) {
   return useQueries({
     queries: [
       {

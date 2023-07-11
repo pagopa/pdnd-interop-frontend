@@ -9,8 +9,8 @@ export type DrawerProps = {
   onClose: VoidFunction
   title: string
   subtitle?: string
-  buttonAction?: ActionItem
-  children: JSX.Element
+  buttonAction?: ActionItem & { disabled?: boolean }
+  children: React.ReactNode
 }
 
 type HeaderDrawerProps = {
@@ -52,10 +52,10 @@ export const Drawer: React.FC<DrawerProps> = ({
       anchor="right"
       open={isOpen}
       onClose={onClose}
-      sx={{ zIndex: 99900 }}
+      sx={{ zIndex: 100 }}
     >
       <HeaderDrawer onDrawerClose={onClose} />
-      <Stack spacing={2} width={375} px={3} pt={2} flexGrow={1}>
+      <Stack width={375} px={3} pt={2} flexGrow={1}>
         <Stack spacing={1} pb={5}>
           <Typography variant="h6" fontWeight={600}>
             {title}
@@ -63,11 +63,16 @@ export const Drawer: React.FC<DrawerProps> = ({
           {subtitle && <Typography variant="body2">{subtitle}</Typography>}
         </Stack>
 
-        {children}
+        <Box sx={{ flexGrow: 1, mt: 2 }}>{children}</Box>
 
         {buttonAction && (
-          <Box sx={{ pb: 4 }} width={327} display="flex" flexGrow={1} alignItems="flex-end">
-            <Button variant="contained" fullWidth onClick={buttonAction.action}>
+          <Box sx={{ pb: 4, mt: 0.5 }} width={327} display="flex" alignItems="flex-end">
+            <Button
+              variant="contained"
+              disabled={buttonAction.disabled}
+              fullWidth
+              onClick={buttonAction.action}
+            >
               {buttonAction.label}
             </Button>
           </Box>

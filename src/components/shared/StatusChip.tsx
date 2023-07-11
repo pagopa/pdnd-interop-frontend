@@ -81,20 +81,24 @@ function getAgreementChipState(
 ): Array<ChipProps> {
   const result: Array<Partial<ChipProps>> = []
 
-  if (item.state !== 'SUSPENDED') {
+  const isSuspended = item.state === 'SUSPENDED'
+
+  if (!isSuspended) {
     result.push({ label: t(`status.agreement.${item.state}`) })
   }
 
-  if (item.suspendedByPlatform) {
-    result.push({ label: t('status.agreement.frontendStatus.suspendedByPlatform') })
-  }
+  if (isSuspended) {
+    if (item.suspendedByPlatform) {
+      result.push({ label: t('status.agreement.frontendStatus.suspendedByPlatform') })
+    }
 
-  if (item.suspendedByProducer) {
-    result.push({ label: t('status.agreement.frontendStatus.suspendedByProducer') })
-  }
+    if (item.suspendedByProducer) {
+      result.push({ label: t('status.agreement.frontendStatus.suspendedByProducer') })
+    }
 
-  if (item.suspendedByConsumer) {
-    result.push({ label: t('status.agreement.frontendStatus.suspendedByConsumer') })
+    if (item.suspendedByConsumer) {
+      result.push({ label: t('status.agreement.frontendStatus.suspendedByConsumer') })
+    }
   }
 
   return result.map((r) => ({

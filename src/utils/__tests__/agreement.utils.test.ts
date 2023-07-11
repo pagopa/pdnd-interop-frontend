@@ -10,14 +10,7 @@ import { createMockEServiceCatalog } from '__mocks__/data/eservice.mocks'
 describe('canAgreementBeUpgraded', () => {
   it('shoud always return false when the active descriptor of the eservice agreement is undefined', () => {
     const agreementMock = createMockAgreement({ eservice: { activeDescriptor: undefined } })
-    const result = canAgreementBeUpgraded(agreementMock, 'consumer')
-    expect(result).toBe(false)
-  })
-
-  it('shoud always return false when the mode is different from the consumer', () => {
-    const agreementMock = createMockAgreement()
-    const result = canAgreementBeUpgraded(agreementMock, 'provider')
-
+    const result = canAgreementBeUpgraded(agreementMock)
     expect(result).toBe(false)
   })
 
@@ -26,7 +19,7 @@ describe('canAgreementBeUpgraded', () => {
       state: 'ARCHIVED',
       eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '3' },
     })
-    const result = canAgreementBeUpgraded(agreementMock, 'consumer')
+    const result = canAgreementBeUpgraded(agreementMock)
 
     expect(result).toBe(false)
   })
@@ -36,7 +29,7 @@ describe('canAgreementBeUpgraded', () => {
       state: 'ACTIVE',
       eservice: { activeDescriptor: { state: 'ARCHIVED', version: '4' }, version: '3' },
     })
-    const result = canAgreementBeUpgraded(agreementMock, 'consumer')
+    const result = canAgreementBeUpgraded(agreementMock)
 
     expect(result).toBe(false)
   })
@@ -46,7 +39,7 @@ describe('canAgreementBeUpgraded', () => {
       state: 'ACTIVE',
       eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '4' },
     })
-    const result = canAgreementBeUpgraded(agreementMock, 'consumer')
+    const result = canAgreementBeUpgraded(agreementMock)
 
     expect(result).toBe(false)
   })
@@ -56,7 +49,7 @@ describe('canAgreementBeUpgraded', () => {
       state: 'ACTIVE',
       eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '2' },
     })
-    const result = canAgreementBeUpgraded(agreementMock, 'consumer')
+    const result = canAgreementBeUpgraded(agreementMock)
 
     expect(result).toBe(true)
   })
@@ -66,7 +59,7 @@ describe('canAgreementBeUpgraded', () => {
       state: 'REJECTED',
       eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '2' },
     })
-    const result = canAgreementBeUpgraded(agreementMock, 'consumer')
+    const result = canAgreementBeUpgraded(agreementMock)
 
     expect(result).toBe(false)
   })
