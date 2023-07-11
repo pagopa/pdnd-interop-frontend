@@ -302,10 +302,6 @@
       "outcome": {
         "success": "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service",
         "error": "Non è stato possibile aggiornare la richiesta. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma aggiornamento richiesta",
-        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'e-service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione"
       }
     },
     "clone": {

@@ -13,7 +13,7 @@ export const AgreementRejectedMessageSection: React.FC = () => {
   }
 
   return (
-    <SectionContainer title={t('title')} description={t('description')}>
+    <SectionContainer newDesign title={t('title')} description={t('description')}>
       <Typography>{agreement.rejectionReason}</Typography>
     </SectionContainer>
   )

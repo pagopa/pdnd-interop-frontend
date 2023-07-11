@@ -1,4 +1,6 @@
 import type { LANGUAGES } from '@/config/constants'
+import type { SvgIconComponent } from '@mui/icons-material'
+import type { ButtonProps } from '@mui/material'
 
 export type PagoPAEnvVars = {
   STAGE: 'DEV' | 'PROD' | 'UAT'
@@ -38,6 +40,13 @@ export type Consumer = 'consumer'
 export type ProviderOrConsumer = Provider | Consumer
 
 export type ActionItem = { action: VoidFunction; label: string }
+export type ActionItemButton = ActionItem & {
+  color?: ButtonProps['color']
+  icon?: SvgIconComponent
+  tooltip?: string
+  disabled?: boolean
+  variant?: ButtonProps['variant']
+}
 
 export type StepperStepComponentProps = {
   forward: (e?: React.SyntheticEvent, data?: Record<string, unknown>) => void

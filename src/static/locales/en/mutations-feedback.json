@@ -301,10 +301,6 @@
       "outcome": {
         "success": "The fruition request was upgraded to the latest e-service version",
         "error": "The fruition request could not be upgraded. Please, try again!"
-      },
-      "confirmDialog": {
-        "title": "Confirm request upgrade",
-        "description": "By clicking \"confirm\", the fruition request will be upgraded to the latest e-service version. All the clients added to purposes for this e-service will keep accessing it"
       }
     },
     "clone": {
