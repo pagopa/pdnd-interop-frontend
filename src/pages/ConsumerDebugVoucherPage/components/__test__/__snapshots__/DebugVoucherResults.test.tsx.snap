@@ -702,7 +702,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
     </div>
   </div>
   <div
-    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-6mfcz5-MuiModal-root-MuiDrawer-root"
+    class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-17eom3u-MuiModal-root-MuiDrawer-root"
     role="presentation"
   >
     <div
@@ -744,7 +744,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
         </button>
       </div>
       <div
-        class="css-1kkizf6-MuiStack-root"
+        class="css-139xa77-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -761,51 +761,55 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
           </p>
         </div>
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiBox-root css-be40y1"
         >
           <div
-            class="css-3y1137-MuiStack-root"
+            class="css-1p5q5e5-MuiStack-root"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-            >
-              stepDrawer.stepResultLabel
-            </p>
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+              class="css-3y1137-MuiStack-root"
             >
-              <span
-                class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
               >
-                chipLabel.failed
-              </span>
+                stepDrawer.stepResultLabel
+              </p>
+              <div
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+              >
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  chipLabel.failed
+                </span>
+              </div>
             </div>
+            <ul
+              class="MuiList-root MuiList-padding css-ippg2v-MuiList-root"
+            >
+              <li
+                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-1gvuol5-MuiListItem-root"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                >
+                  errors.8001
+                </p>
+              </li>
+              <li
+                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-1gvuol5-MuiListItem-root"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                >
+                  errors.8004
+                </p>
+              </li>
+            </ul>
           </div>
-          <ul
-            class="MuiList-root MuiList-padding css-ippg2v-MuiList-root"
-          >
-            <li
-              class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-1gvuol5-MuiListItem-root"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-              >
-                errors.8001
-              </p>
-            </li>
-            <li
-              class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-1gvuol5-MuiListItem-root"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-              >
-                errors.8004
-              </p>
-            </li>
-          </ul>
         </div>
         <div
-          class="MuiBox-root css-7k7gds"
+          class="MuiBox-root css-iugrlp"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1fu7jd5-MuiButtonBase-root-MuiButton-root"

@@ -40,7 +40,7 @@ export const DebugVoucherResults: React.FC = () => {
 
         <Drawer
           isOpen={debugVoucherStepDrawer.isOpen}
-          closeAction={handleDrawerClose}
+          onClose={handleDrawerClose}
           title={t(
             `stepDrawer.title.${debugVoucherStepDrawer.selectedStep?.[0]}` as unknown as TemplateStringsArray
           )}
