@@ -22,54 +22,52 @@
     "step1": {
       "detailsTitle": "Caratterizzazione e-service",
       "eserviceNameField": {
-        "label": "Nome dell'e-service (richiesto)",
-        "infoLabel": "Se prevedi di usare più e-service con lo stesso nome, inserisci una piccola indicazione per distinguerli (es. \"TARI – dedicata Comuni\" e \"TARI - dedicata Regioni\"). Min 5 caratteri, max 60 caratteri"
+        "label": "Nome e-service"
       },
       "eserviceDescriptionField": {
-        "label": "Descrizione dell'e-service (richiesto)",
-        "infoLabel": "(es. \"Dedicato agli Enti che hanno necessità di ...\", oppure \"L'e-service rivolto agli Enti che ...\"). Min 10 caratteri, max 250 caratteri"
+        "label": "Cosa permette di fare questo e-service?"
       },
       "eserviceTechnologyField": {
-        "label": "Tecnologia utilizzata (richiesto)"
+        "label": "Con quale tecnologia è costruita la tua API?"
       },
       "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service"
     },
     "step2": {
-      "versionTitle": "Informazioni di versione",
-      "versionField": {
-        "label": "Numero della versione (richiesto)",
-        "infoLabel": "Assegnata automaticamente dal sistema e non modificabile"
-      },
+      "versionTitle": "Informazioni per la versione {{versionNumber}}",
       "descriptionField": {
-        "label": "Descrizione della versione (richiesto)",
-        "infoLabel": "Min 10 caratteri, max 250 caratteri"
+        "label": "Cosa è cambiato in questa versione?"
       },
-      "audienceField": {
-        "label": "Audience (richiesto)",
-        "infoLabel": "All’interno dell'access token che il fruitore ti invierà rappresenterà l’audience (aud), l'id con il quale è dichiarato il servizio richiesto. Min 1 carattere, max 250 caratteri"
-      },
-      "voucherLifespanField": {
-        "label": "Durata di validità del voucher (in minuti - richiesto)",
-        "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
-      },
-      "dailyCallsPerConsumerField": {
-        "label": "Soglia chiamate API/giorno per fruitore (richiesto)",
-        "infoLabel": "Il fruitore dovrà dichiarare una stima delle chiamate che effettuerà per ogni finalità. Se la somma delle chiamate dichiarate dal fruitore sarà sopra la soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo e-service"
-      },
-      "dailyCallsTotalField": {
-        "label": "Soglia chiamate API/giorno totali (richiesto)",
-        "infoLabel": "Il numero totale di chiamate al giorno permesse sommando quelle di tutti i fruitori. Se la somma sarà superiore alla soglia da te impostata, potrai approvare manualmente l'accesso delle nuove finalità alla fruizione del tuo e-service",
-        "validation": {
-          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
+      "voucherSection": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Durata validità (in minuti)",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+        },
+        "audienceField": {
+          "label": "Audience",
+          "infoLabel": "Rappresenta il destinatario del voucher, ossia la tua risorsa di destinazione. Dubbi? <1>Consulta la guida</1>"
         }
       },
-      "agreementApprovalPolicyField": {
-        "label": "Voglio riservarmi la facoltà di verificare e attivare manualmente tutte le richieste di fruizione pervenute per questa versione dell'e-service"
+      "thresholdSection": {
+        "title": "Soglia di chiamate previste per i fruitori",
+        "dailyCallsPerConsumerField": {
+          "label": "Chiamate API/giorno per fruitore"
+        },
+        "dailyCallsTotalField": {
+          "label": "Chiamate API/giorno totali",
+          "validation": {
+            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
+          }
+        }
+      },
+      "agreementApprovalPolicySection": {
+        "title": "Desideri attivare manualmente tutte le richieste di fruizione pervenute?",
+        "label": "Sì, le attiverò io manualmente"
       }
     },
     "step3": {
-      "attributesTitle": "Attributi",
-      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell'e-service.",
+      "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
+      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell’e-service",
       "attributeCloneBtn": "Copia attributi dalla versione precedente",
       "attributeCloneSuccess": "Attributi copiati correttamente",
       "attributeCloneNoAttributesLabel": "Non ci sono attributi da copiare",
@@ -87,8 +85,7 @@
       },
       "documentation": {
         "title": "Documentazione",
-        "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo e-service",
-        "noFileUploaded": "Nessun documento caricato"
+        "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo e-service"
       },
       "uploadFileField": {
         "label": "Seleziona documento"

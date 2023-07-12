@@ -96,6 +96,7 @@ export function EServiceCreateStep4DocumentsInterface() {
         />
 
         <RHFTextField
+          size="small"
           sx={{ my: 2 }}
           name="prettyName"
           label={t('create.step4.nameField.label')}

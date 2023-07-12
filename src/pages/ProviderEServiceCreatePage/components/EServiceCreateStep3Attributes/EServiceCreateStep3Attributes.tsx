@@ -80,7 +80,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
           newDesign
-          title={t('step3.attributesTitle')}
+          title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
           description={t('step3.attributesDescription')}
         >
           {descriptor && descriptor.version > '1' && (

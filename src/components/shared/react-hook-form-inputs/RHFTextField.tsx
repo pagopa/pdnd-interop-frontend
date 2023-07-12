@@ -56,7 +56,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
             label={label}
             inputProps={{ ...props.inputProps, ...accessibilityProps }}
             multiline={multiline}
-            rows={multiline ? 6 : undefined}
+            rows={multiline ? 2.5 : undefined}
             error={!!error}
             onChange={(e) => {
               let value: string | number = e.target.value

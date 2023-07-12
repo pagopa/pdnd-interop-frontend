@@ -47,6 +47,7 @@ export function DocumentContainer({
         infoLabel={canEdit ? t('prettyName.infoLabel') : undefined}
       >
         <TextField
+          size="small"
           inputRef={(input) => input && input.focus()}
           disabled={!canEdit}
           sx={{ my: 0, width: '100%', flexShrink: 1 }}

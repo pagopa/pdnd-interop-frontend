@@ -5,7 +5,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigate } from '@/router'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
-import { Box } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +26,7 @@ export type EServiceCreateStep2FormValues = {
 }
 
 export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const navigate = useNavigate()
   const { eservice, descriptor, forward, back } = useEServiceCreateContext()
   const { mutate: createVersionDraft } = EServiceMutations.useCreateVersionDraft({
@@ -116,77 +116,100 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer newDesign title={t('create.step2.versionTitle')} component="div">
-          <RHFTextField
-            sx={{ mt: 0 }}
-            name="version"
-            label={t('create.step2.versionField.label')}
-            infoLabel={t('create.step2.versionField.infoLabel')}
-            disabled
-            rules={{ required: true }}
-          />
-
+        <SectionContainer
+          newDesign
+          title={t('step2.versionTitle', { versionNumber: descriptor?.version ?? '1' })}
+          component="div"
+        >
           <RHFTextField
             name="description"
-            label={t('create.step2.descriptionField.label')}
-            infoLabel={t('create.step2.descriptionField.infoLabel')}
+            label={t('step2.descriptionField.label')}
             multiline
             focusOnMount
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
           />
+          <SectionContainer
+            newDesign
+            innerSection
+            title={t('step2.voucherSection.title')}
+            sx={{ mt: 3 }}
+          >
+            <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+              <RHFTextField
+                size="small"
+                name="voucherLifespan"
+                label={t('step2.voucherSection.voucherLifespanField.label')}
+                infoLabel={t('step2.voucherSection.voucherLifespanField.infoLabel')}
+                type="number"
+                inputProps={{ min: 1, max: 1440 }}
+                rules={{ required: true, min: 1, max: 1440 }}
+                sx={{ flex: 1, mt: 0 }}
+              />
 
-          <RHFTextField
-            name="audience"
-            label={t('create.step2.audienceField.label')}
-            infoLabel={t('create.step2.audienceField.infoLabel')}
-            inputProps={{ maxLength: 250 }}
-            rules={{ required: true, minLength: 1 }}
-          />
+              <RHFTextField
+                size="small"
+                name="audience"
+                label={t('step2.voucherSection.audienceField.label')}
+                infoLabel={t('step2.voucherSection.audienceField.infoLabel')}
+                inputProps={{ maxLength: 250 }}
+                rules={{ required: true, minLength: 1 }}
+                sx={{ flex: 1, mt: 0 }}
+              />
+            </Stack>
+          </SectionContainer>
+          <SectionContainer
+            newDesign
+            innerSection
+            title={t('step2.thresholdSection.title')}
+            sx={{ mt: 3 }}
+          >
+            <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+              <RHFTextField
+                size="small"
+                name="dailyCallsPerConsumer"
+                label={t('step2.thresholdSection.dailyCallsPerConsumerField.label')}
+                type="number"
+                inputProps={{ min: '1' }}
+                rules={{ required: true, min: 1 }}
+                sx={{ mt: 0, flex: 1 }}
+              />
 
-          <RHFTextField
-            name="voucherLifespan"
-            label={t('create.step2.voucherLifespanField.label')}
-            infoLabel={t('create.step2.voucherLifespanField.infoLabel')}
-            type="number"
-            inputProps={{ min: 1, max: 1440 }}
-            rules={{ required: true, min: 1, max: 1440 }}
-          />
+              <RHFTextField
+                size="small"
+                name="dailyCallsTotal"
+                label={t('step2.thresholdSection.dailyCallsTotalField.label')}
+                type="number"
+                inputProps={{ min: '1' }}
+                sx={{ mt: 0, flex: 1 }}
+                rules={{
+                  required: true,
+                  min: {
+                    value: dailyCallsPerConsumer,
+                    message: t('step2.thresholdSection.dailyCallsTotalField.validation.min'),
+                  },
+                }}
+              />
+            </Stack>
+          </SectionContainer>
 
-          <RHFTextField
-            name="dailyCallsPerConsumer"
-            label={t('create.step2.dailyCallsPerConsumerField.label')}
-            infoLabel={t('create.step2.dailyCallsPerConsumerField.infoLabel')}
-            type="number"
-            inputProps={{ min: '1' }}
-            rules={{ required: true, min: 1 }}
-          />
-
-          <RHFTextField
-            name="dailyCallsTotal"
-            label={t('create.step2.dailyCallsTotalField.label')}
-            infoLabel={t('create.step2.dailyCallsTotalField.infoLabel')}
-            type="number"
-            inputProps={{ min: '1' }}
-            sx={{ mb: 3 }}
-            rules={{
-              required: true,
-              min: {
-                value: dailyCallsPerConsumer,
-                message: t('create.step2.dailyCallsTotalField.validation.min'),
-              },
-            }}
-          />
-
-          <RHFSwitch
-            label={t('create.step2.agreementApprovalPolicyField.label')}
-            vertical
-            name="agreementApprovalPolicy"
-          />
+          <SectionContainer
+            newDesign
+            innerSection
+            title={t('step2.agreementApprovalPolicySection.title')}
+            sx={{ mt: 3 }}
+          >
+            <RHFSwitch
+              label={t('step2.agreementApprovalPolicySection.label')}
+              vertical
+              name="agreementApprovalPolicy"
+              sx={{ mt: 0 }}
+            />
+          </SectionContainer>
         </SectionContainer>
         <StepActions
-          back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('create.forwardWithSaveBtn'), type: 'submit' }}
+          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
+          forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
         />
       </Box>
     </FormProvider>

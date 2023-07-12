@@ -87,25 +87,29 @@ export const EServiceCreateStep1General: React.FC = () => {
 
   return (
     <FormProvider {...formMethods}>
+      <Alert severity="info" sx={{ mb: 3 }}>
+        {t('create.step1.firstVersionOnlyEditableInfo')}
+      </Alert>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer newDesign title={t('create.step1.detailsTitle')} component="div">
           <RHFTextField
-            name="name"
-            focusOnMount
             label={t('create.step1.eserviceNameField.label')}
-            infoLabel={t('create.step1.eserviceNameField.infoLabel')}
-            inputProps={{ maxLength: 60 }}
+            name="name"
             disabled={!isEditable}
             rules={{ required: true, minLength: 5 }}
+            focusOnMount
+            inputProps={{ maxLength: 60 }}
+            size="small"
+            sx={{ width: '50%' }}
           />
 
           <RHFTextField
+            label={t('create.step1.eserviceDescriptionField.label')}
             name="description"
             multiline
-            label={t('create.step1.eserviceDescriptionField.label')}
-            infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
-            inputProps={{ maxLength: 250 }}
             disabled={!isEditable}
+            size="small"
+            inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
           />
 
@@ -121,12 +125,6 @@ export const EServiceCreateStep1General: React.FC = () => {
             rules={{ required: true }}
           />
         </SectionContainer>
-
-        {!isEditable && (
-          <Alert severity="info" sx={{ mt: 4 }}>
-            {t('create.step1.firstVersionOnlyEditableInfo')}
-          </Alert>
-        )}
 
         <StepActions
           back={{

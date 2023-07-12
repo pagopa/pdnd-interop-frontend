@@ -1,3 +1,4 @@
+import React from 'react'
 import { EServiceMutations } from '@/api/eservice'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { PageBottomActionsCardContainer } from '@/components/layout/containers/PageBottomCardContainer'
@@ -6,8 +7,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import { useToastNotification } from '@/stores'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigate } from '@/router'
-import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
+import { Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceCreateStep4DocumentsDoc } from './EServiceCreateStep4DocumentsDoc'
@@ -61,25 +61,19 @@ export const EServiceCreateStep4Documents: React.FC<ActiveStepProps> = () => {
 
   return (
     <>
-      <SectionContainer>
-        <Typography component="h2" variant="h5">
-          {t('create.step4.interface.title')}
-        </Typography>
-        <Typography color="text.secondary">{sectionDescription}</Typography>
-
-        <Box sx={{ mt: 2 }}>
-          <EServiceCreateStep4DocumentsInterface />
-        </Box>
-
-        <Typography sx={{ mt: 8 }} component="h2" variant="h5">
-          {t('create.step4.documentation.title')}
-        </Typography>
-        <Typography color="text.secondary">
-          {t('create.step4.documentation.description')}
-        </Typography>
-        <Box sx={{ mt: 2 }}>
-          <EServiceCreateStep4DocumentsDoc />
-        </Box>
+      <SectionContainer
+        newDesign
+        title={t('create.step4.interface.title')}
+        description={sectionDescription}
+      >
+        <EServiceCreateStep4DocumentsInterface />
+      </SectionContainer>
+      <SectionContainer
+        newDesign
+        title={t('create.step4.documentation.title')}
+        description={t('create.step4.documentation.description')}
+      >
+        <EServiceCreateStep4DocumentsDoc />
       </SectionContainer>
 
       <StepActions
