@@ -128,7 +128,7 @@ function useVerifyPartyAttribute() {
 
 function useUpdateVerifiedPartyAttribute() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'attribute.verifyPartyAttribute',
+    keyPrefix: 'attribute.updatingExpirationPartyAttribute',
   })
   return useMutationWrapper(AttributeServices.updateVerifiedPartyAttribute, {
     suppressSuccessToast: true,

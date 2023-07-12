@@ -162,6 +162,13 @@
         "description": "Sei sicuro di voler verificare l'attributo?"
       }
     },
+    "updatingExpirationPartyAttribute": {
+      "loading": "Stiamo aggiornando la scadenza dell'attributo",
+      "outcome": {
+        "success": "La scadenza è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la scadenza. Per favore, riprova!"
+      }
+    },
     "revokeVerifiedPartyAttribute": {
       "loading": "Stiamo revocando la verifica dell'attributo",
       "outcome": {

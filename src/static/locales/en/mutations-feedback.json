@@ -162,6 +162,13 @@
         "description": "Are you sure you want to verify the attribute?"
       }
     },
+    "updatingExpirationPartyAttribute": {
+      "loading": "Updating the attribute expiration date",
+      "outcome": {
+        "success": "The expiration date was updated successfully",
+        "error": "The expiration date could not be updated. Please, try again!"
+      }
+    },
     "revokeVerifiedPartyAttribute": {
       "loading": "Revoking verified attribute",
       "outcome": {
