@@ -1,11 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
 import { OneTrustNoticesServices } from './one-trust-notices.services'
-import type { LangCode } from '@/types/common.types'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import type { ConsentType } from '../api.generatedTypes'
 
 export enum OneTrustNoticesQueryKeys {
   GetUserConsent = 'GetUserConsent',
+  GetNoticeContent = 'GetNoticeContent',
   GetPrivacyPolicy = 'GetPrivacyPolicy',
   GetTermsOfService = 'GetTermsOfService',
 }
@@ -21,24 +20,10 @@ function useGetUserConsent(consentType: ConsentType) {
   )
 }
 
-function usePrivacyPolicyNotice(lang: LangCode) {
-  return useQuery(
-    [OneTrustNoticesQueryKeys.GetPrivacyPolicy, lang],
-    () => OneTrustNoticesServices.getPrivacyPolicyNotice({ lang }),
-    {
-      suspense: false,
-      useErrorBoundary: false,
-      retry: false,
-      staleTime: Infinity,
-      cacheTime: Infinity,
-    }
-  )
-}
-
-function useTermsOfServiceNotice(lang: LangCode) {
-  return useQuery(
-    [OneTrustNoticesQueryKeys.GetTermsOfService, lang],
-    () => OneTrustNoticesServices.getTermsOfServiceNotice({ lang }),
+function useGetNoticeContent(consentType: ConsentType) {
+  return useQueryWrapper(
+    [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
+    () => OneTrustNoticesServices.getNoticeContent({ consentType }),
     {
       suspense: false,
       useErrorBoundary: false,
@@ -59,8 +44,7 @@ function useAcceptPrivacyNotice() {
 
 export const OneTrustNoticesQueries = {
   useGetUserConsent,
-  usePrivacyPolicyNotice,
-  useTermsOfServiceNotice,
+  useGetNoticeContent,
 }
 
 export const OneTrustNoticesMutations = {
