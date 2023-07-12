@@ -532,11 +532,6 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       }
     )
 
-    const radioOption1 = screen.getByRole('radio', {
-      name: 'form.radioGroup.options.YES',
-    }) as HTMLInputElement
-    fireEvent.click(radioOption1)
-
     const buttonChooseDate = screen.getByRole('button', {
       name: 'Choose date, selected date is 20 feb 2023',
     })

@@ -50,7 +50,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
         </button>
       </div>
       <div
-        class="css-1kkizf6-MuiStack-root"
+        class="css-139xa77-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -199,16 +199,16 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
                     class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
                     id=":ri:"
                   >
-                    form.datePickerLabel
+                    form.datePicker.label
                   </label>
                   <div
                     class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
                   >
                     <div
-                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
                     >
                       <input
-                        aria-invalid="false"
+                        aria-invalid="true"
                         class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
                         id=":rj:"
                         placeholder="dd/mm/y"
@@ -349,7 +349,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
         </button>
       </div>
       <div
-        class="css-1kkizf6-MuiStack-root"
+        class="css-139xa77-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -457,7 +457,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
         </button>
       </div>
       <div
-        class="css-1kkizf6-MuiStack-root"
+        class="css-139xa77-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
@@ -673,7 +673,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
         </button>
       </div>
       <div
-        class="css-1kkizf6-MuiStack-root"
+        class="css-139xa77-MuiStack-root"
       >
         <div
           class="css-xm2ers-MuiStack-root"
