@@ -39,6 +39,7 @@ export const AgreementVerifiedAttributesDrawerDatePicker: React.FC<
               onChange={(value) => {
                 onChange(value)
               }}
+              minDate={Date.now()}
             />
           )}
         />

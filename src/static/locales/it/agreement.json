@@ -85,7 +85,9 @@
                   "YES": "Imposta data di scadenza"
                 }
               },
-              "datePickerLabel": "Imposta data di scadenza"
+              "datePicker": {
+                "label": "Imposta data di scadenza"
+              }
             },
             "info": {
               "title": "Cosa succede quando scade un attributo?",

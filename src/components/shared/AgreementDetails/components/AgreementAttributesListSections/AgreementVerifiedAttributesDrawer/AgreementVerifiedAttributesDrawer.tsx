@@ -45,7 +45,7 @@ const AgreementVerifiedAttributesVerifyDrawer: React.FC = () => {
           <AgreementVerifiedAttributesDrawerDatePicker
             sx={{ my: 0 }}
             name="expirationDate"
-            label={t('form.datePickerLabel')}
+            label={t('form.datePicker.label')}
           />
           <Box mt={3}>
             <Typography variant="body2" fontWeight={600}>
@@ -106,7 +106,6 @@ const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDra
 
   const handleCloseDrawer = () => {
     onClose()
-    formMethods.reset(undefined, { keepDefaultValues: true })
   }
 
   const handleRevoke = () => {

@@ -86,7 +86,9 @@
                   "YES": "Set the expiration date"
                 }
               },
-              "datePickerLabel": "Set the expiration date"
+              "datePicker": {
+                "label": "Set the expiration date"
+              }
             },
             "info": {
               "title": "What happens when an attribute expires?",
