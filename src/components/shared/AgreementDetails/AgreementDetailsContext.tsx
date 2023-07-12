@@ -14,6 +14,7 @@ import type {
 } from '@/api/api.generatedTypes'
 import noop from 'lodash/noop'
 import { AuthHooks } from '@/api/auth'
+import { useDrawerState } from '@/hooks/useDrawerState'
 
 type AgreementDetailsContextType = {
   agreement: Agreement | undefined
@@ -79,10 +80,11 @@ const AgreementDetailsContextProvider: React.FC<{
     { enabled: !!(agreement?.eservice.id && agreement?.descriptorId) }
   )
 
-  const [isAttachedDocsDrawerOpen, setIsAttachedDocsDrawerOpen] = React.useState(false)
-
-  const openAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(true), [])
-  const closeAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(false), [])
+  const {
+    isOpen: isAttachedDocsDrawerOpen,
+    openDrawer: openAttachedDocsDrawer,
+    closeDrawer: closeAttachedDocsDrawer,
+  } = useDrawerState()
 
   const [agreementVerifiedAttributeDrawerState, setAgreementVerifiedAttributeDrawerState] =
     React.useState<{

@@ -12,6 +12,7 @@ import NewReleasesIcon from '@mui/icons-material/NewReleases'
 import { AgreementUpgradeDrawer } from './components/AgreementUpgradeDrawer'
 import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
 import { AuthHooks } from '@/api/auth'
+import { useDrawerState } from '@/hooks/useDrawerState'
 
 const ConsumerAgreementDetailsPage: React.FC = () => {
   return (
@@ -26,7 +27,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { isAdmin } = AuthHooks.useJwt()
 
-  const [isAgreementUpgradeDrawerOpen, setIsAgreementUpgradeDrawerOpen] = React.useState(false)
+  const { isOpen: isAgreementUpgradeDrawerOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
@@ -49,7 +50,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   if (canBeUpgraded) {
     actions.unshift({
       label: tCommon('actions.upgrade'),
-      action: () => setIsAgreementUpgradeDrawerOpen(true),
+      action: openDrawer,
       icon: NewReleasesIcon,
       disabled: shouldDisableUpgradeButton,
       tooltip: shouldDisableUpgradeButton
@@ -81,7 +82,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
         <AgreementUpgradeDrawer
           agreement={agreement}
           isOpen={isAgreementUpgradeDrawerOpen}
-          onClose={() => setIsAgreementUpgradeDrawerOpen(false)}
+          onClose={closeDrawer}
           hasMissingAttributes={!hasAllDeclaredAttributes || !hasAllVerifiedAttributes}
         />
       )}
