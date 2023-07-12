@@ -8,6 +8,7 @@ import { useAgreementGetVerifiedAttributesActions } from '../useAgreementGetVeri
 import { createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { createVerifiedTenantAttribute } from '__mocks__/data/attribute.mocks'
 import { act } from 'react-dom/test-utils'
+import { vi } from 'vitest'
 
 describe('useAgreementGetVerifiedAttributesActions', () => {
   it('should return an empty array if the agreement is undefined', () => {
@@ -22,7 +23,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
-    expect(result.current.getAttributeActions('test')).toEqual([])
+    expect(result.current('test')).toEqual([])
   })
 
   it('should return an empty array the user is a consumer', () => {
@@ -41,7 +42,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
-    expect(result.current.getAttributeActions('')).toEqual([])
+    expect(result.current('')).toEqual([])
   })
 
   it('should return an empty array if the user is not an admin', () => {
@@ -60,7 +61,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
-    expect(result.current.getAttributeActions('')).toEqual([])
+    expect(result.current('')).toEqual([])
   })
 
   it('should return an empty array if the user is the owner of the agreement e-service', () => {
@@ -79,7 +80,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
-    expect(result.current.getAttributeActions('')).toEqual([])
+    expect(result.current('')).toEqual([])
   })
 
   it('should return an empty array if agreement state is different from ACTIVE, SUSPENDED or PENDING', () => {
@@ -98,7 +99,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
-    expect(result.current.getAttributeActions('')).toEqual([])
+    expect(result.current('')).toEqual([])
   })
 
   it("should return only the 'verify' action if the attribute is not owned", () => {
@@ -117,7 +118,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
-    expect(result.current.getAttributeActions('')).toEqual([
+    expect(result.current('')).toEqual([
       { label: 'verified.actions.verify', action: expect.any(Function) },
     ])
   })
@@ -138,45 +139,14 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
-    expect(result.current.getAttributeActions('test-owned')).toEqual([
+    expect(result.current('test-owned')).toEqual([
       { label: 'verified.actions.update', action: expect.any(Function) },
       { label: 'verified.actions.revoke', action: expect.any(Function), color: expect.any(String) },
     ])
   })
 
-  it('should change the agreementVerifiedAttributeDrawer state when handleCloseDrawer is called', () => {
-    mockAgreementDetailsContext({
-      agreement: createMockAgreement(),
-      isAgreementEServiceMine: false,
-      partyAttributes: {
-        declared: [],
-        certified: [],
-        verified: [],
-      },
-    })
-    mockUseJwt({ isAdmin: true })
-    mockUseCurrentRoute({ mode: 'provider' })
-    const { result, rerender } = renderHookWithApplicationContext(
-      () => useAgreementGetVerifiedAttributesActions(),
-      { withReactQueryContext: true, withRouterContext: true }
-    )
-
-    const verifyAction = result.current.getAttributeActions('test')[0].action
-    act(() => {
-      verifyAction('test')
-      rerender()
-    })
-    expect(result.current.agreementVerifiedAttributeDrawer.isOpen).toBe(true)
-
-    const closeDrawerFn = result.current.handleCloseDrawer
-    act(() => {
-      closeDrawerFn()
-      rerender()
-    })
-    expect(result.current.agreementVerifiedAttributeDrawer.isOpen).toBe(false)
-  })
-
   it("should change the agreementVerifiedAttributeDrawer state when 'verify' action is called", () => {
+    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
       isAgreementEServiceMine: false,
@@ -185,6 +155,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
         certified: [],
         verified: [],
       },
+      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
     })
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider' })
@@ -193,20 +164,17 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       { withReactQueryContext: true, withRouterContext: true }
     )
 
-    const verifyAction = result.current.getAttributeActions('test')[0].action
+    const verifyAction = result.current('test')[0].action
     act(() => {
       verifyAction('test')
       rerender()
     })
 
-    expect(result.current.agreementVerifiedAttributeDrawer).toEqual({
-      isOpen: true,
-      attributeId: 'test',
-      type: 'verify',
-    })
+    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
   })
 
   it("should change the agreementVerifiedAttributeDrawer state when 'update verification' action is called", () => {
+    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
       isAgreementEServiceMine: false,
@@ -215,6 +183,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
         certified: [],
         verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
       },
+      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
     })
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider' })
@@ -223,20 +192,17 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       { withReactQueryContext: true, withRouterContext: true }
     )
 
-    const updateAction = result.current.getAttributeActions('test-owned')[0].action
+    const updateAction = result.current('test-owned')[0].action
     act(() => {
       updateAction('test-owned')
       rerender()
     })
 
-    expect(result.current.agreementVerifiedAttributeDrawer).toEqual({
-      isOpen: true,
-      attributeId: 'test-owned',
-      type: 'update',
-    })
+    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
   })
 
   it("should change the agreementVerifiedAttributeDrawer state when 'revoke' action is called", () => {
+    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
       isAgreementEServiceMine: false,
@@ -245,6 +211,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
         certified: [],
         verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
       },
+      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
     })
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider' })
@@ -253,16 +220,12 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       { withReactQueryContext: true, withRouterContext: true }
     )
 
-    const revokeAction = result.current.getAttributeActions('test-owned')[1].action
+    const revokeAction = result.current('test-owned')[1].action
     act(() => {
       revokeAction('test-owned')
       rerender()
     })
 
-    expect(result.current.agreementVerifiedAttributeDrawer).toEqual({
-      isOpen: true,
-      attributeId: 'test-owned',
-      type: 'revoke',
-    })
+    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
   })
 })

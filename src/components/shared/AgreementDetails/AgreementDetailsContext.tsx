@@ -29,6 +29,24 @@ type AgreementDetailsContextType = {
   isAttachedDocsDrawerOpen: boolean
   openAttachedDocsDrawer: VoidFunction
   closeAttachedDocsDrawer: VoidFunction
+  agreementVerifiedAttributeDrawerProps:
+    | {
+        isOpen: boolean
+        attributeId: string
+        type: 'revoke' | 'verify' | 'update'
+      }
+    | undefined
+  setAgreementVerifiedAttributeDrawerProps: React.Dispatch<
+    React.SetStateAction<
+      | {
+          isOpen: boolean
+          attributeId: string
+          type: 'revoke' | 'verify' | 'update'
+        }
+      | undefined
+    >
+  >
+  closeAgreementVerifiedAttributeDrawer: VoidFunction
 }
 
 const initialState: AgreementDetailsContextType = {
@@ -39,6 +57,9 @@ const initialState: AgreementDetailsContextType = {
   isAttachedDocsDrawerOpen: false,
   openAttachedDocsDrawer: noop,
   closeAttachedDocsDrawer: noop,
+  agreementVerifiedAttributeDrawerProps: undefined,
+  setAgreementVerifiedAttributeDrawerProps: noop,
+  closeAgreementVerifiedAttributeDrawer: noop,
 }
 
 const { useContext, Provider } = createContext<AgreementDetailsContextType>(
@@ -67,6 +88,22 @@ const AgreementDetailsContextProvider: React.FC<{
   const openAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(true), [])
   const closeAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(false), [])
 
+  const [agreementVerifiedAttributeDrawerProps, setAgreementVerifiedAttributeDrawerProps] =
+    React.useState<
+      | {
+          isOpen: boolean
+          attributeId: string
+          type: 'revoke' | 'verify' | 'update'
+        }
+      | undefined
+    >(undefined)
+
+  const closeAgreementVerifiedAttributeDrawer = React.useCallback(() => {
+    setAgreementVerifiedAttributeDrawerProps((prev) => {
+      if (prev) return { ...prev, isOpen: false }
+    })
+  }, [])
+
   const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
 
   const [{ data: certified }, { data: verified }, { data: declared }] =
@@ -92,6 +129,9 @@ const AgreementDetailsContextProvider: React.FC<{
       isAttachedDocsDrawerOpen,
       openAttachedDocsDrawer,
       closeAttachedDocsDrawer,
+      agreementVerifiedAttributeDrawerProps,
+      setAgreementVerifiedAttributeDrawerProps,
+      closeAgreementVerifiedAttributeDrawer,
     }
   }, [
     agreement,
@@ -103,6 +143,8 @@ const AgreementDetailsContextProvider: React.FC<{
     isAttachedDocsDrawerOpen,
     openAttachedDocsDrawer,
     closeAttachedDocsDrawer,
+    agreementVerifiedAttributeDrawerProps,
+    closeAgreementVerifiedAttributeDrawer,
   ])
 
   return <Provider value={providerValue}>{children}</Provider>

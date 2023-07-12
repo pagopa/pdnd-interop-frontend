@@ -23,15 +23,20 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
 
-  const { descriptorAttributes, partyAttributes } = useAgreementDetailsContext()
+  const {
+    descriptorAttributes,
+    partyAttributes,
+    agreement,
+    agreementVerifiedAttributeDrawerProps,
+    closeAgreementVerifiedAttributeDrawer,
+  } = useAgreementDetailsContext()
 
   const providerOrConsumer = mode as ProviderOrConsumer
 
   const verifiedAttributeGroups = descriptorAttributes?.verified ?? []
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
 
-  const { agreementVerifiedAttributeDrawer, handleCloseDrawer, getAttributeActions } =
-    useAgreementGetVerifiedAttributesActions()
+  const getAttributeActions = useAgreementGetVerifiedAttributesActions()
 
   const getChipLabel = (attributeId: string) => {
     const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
@@ -72,10 +77,18 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
         </Trans>
       }
     >
-      <AgreementVerifiedAttributesDrawer
-        {...agreementVerifiedAttributeDrawer}
-        onClose={handleCloseDrawer}
-      />
+      {agreement && agreementVerifiedAttributeDrawerProps && (
+        <AgreementVerifiedAttributesDrawer
+          /**
+           * To avoid old or dirty data in the drawer the key used is isOpen
+           * because it changes everytime the drawer is closed or opened and
+           * in this way the drawer will be build like a new one with the correct updated data
+           */
+          key={`${agreementVerifiedAttributeDrawerProps.isOpen}`}
+          {...agreementVerifiedAttributeDrawerProps}
+          onClose={closeAgreementVerifiedAttributeDrawer}
+        />
+      )}
       <Stack spacing={2}>
         {verifiedAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
