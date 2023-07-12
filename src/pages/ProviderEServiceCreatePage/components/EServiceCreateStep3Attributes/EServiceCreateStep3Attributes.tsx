@@ -13,6 +13,7 @@ import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
 import { useClonePreviousDescriptorAttributes } from '../../hooks/useClonePreviousDescriptorAttributes'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
+import SaveIcon from '@mui/icons-material/Save'
 
 export type EServiceCreateStep3FormValues = {
   attributes: RemappedDescriptorAttributes
@@ -106,7 +107,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
         </SectionContainer>
         <StepActions
           back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
+          forward={{ label: t('forwardWithSaveBtn'), type: 'submit', icon: <SaveIcon /> }}
         />
       </Box>
     </FormProvider>

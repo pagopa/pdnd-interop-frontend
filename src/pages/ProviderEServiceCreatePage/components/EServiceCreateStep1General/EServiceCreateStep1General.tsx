@@ -12,6 +12,7 @@ import { URL_FRAGMENTS } from '@/router/router.utils'
 import type { EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import { AuthHooks } from '@/api/auth'
+import SaveIcon from '@mui/icons-material/Save'
 
 export type EServiceCreateStep1FormValues = {
   name: string
@@ -139,7 +140,7 @@ export const EServiceCreateStep1General: React.FC = () => {
                   onClick: forward,
                   type: 'button',
                 }
-              : { label: t('create.forwardWithSaveBtn'), type: 'submit' }
+              : { label: t('create.forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }
           }
         />
       </Box>

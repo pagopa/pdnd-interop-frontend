@@ -14,6 +14,7 @@ import omit from 'lodash/omit'
 import type { AgreementApprovalPolicy } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/api/eservice/eservice.api.utils'
 import { compareObjects } from '@/utils/common.utils'
+import SaveIcon from '@mui/icons-material/Save'
 
 export type EServiceCreateStep2FormValues = {
   audience: string
@@ -122,6 +123,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
           component="div"
         >
           <RHFTextField
+            size="small"
             name="description"
             label={t('step2.descriptionField.label')}
             multiline
@@ -209,7 +211,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
         </SectionContainer>
         <StepActions
           back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
+          forward={{ label: t('forwardWithSaveBtn'), type: 'submit', icon: <SaveIcon /> }}
         />
       </Box>
     </FormProvider>
