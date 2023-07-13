@@ -17,7 +17,6 @@ const useTOSAgreementSpy = vi.spyOn(useTOSAgreement, 'useTOSAgreement')
 useTOSAgreementSpy.mockReturnValue({
   isTOSAccepted: true,
   handleAcceptTOS: vi.fn(),
-  tosAcceptedId: 'tosAcceptedId',
 })
 
 mockUseJwt()
@@ -90,7 +89,6 @@ describe('RoutesWrapper', () => {
     useTOSAgreementSpy.mockReturnValue({
       isTOSAccepted: false,
       handleAcceptTOS: vi.fn(),
-      tosAcceptedId: null,
     })
     const screen = renderRoutesWrapper()
     const confirmTOSBtn = screen.getByRole('button', { name: 'confirmBtnLabel' })
@@ -104,7 +102,6 @@ describe('RoutesWrapper', () => {
     useTOSAgreementSpy.mockReturnValue({
       isTOSAccepted: true,
       handleAcceptTOS: vi.fn(),
-      tosAcceptedId: 'tosAcceptedId',
     })
     const screen = renderRoutesWrapperWithError()
     expect(screen.baseElement).toMatchSnapshot()

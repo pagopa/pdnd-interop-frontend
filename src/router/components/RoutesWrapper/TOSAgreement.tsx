@@ -15,7 +15,14 @@ const TOSAgreement: React.FC<TOSAgreementProps> = ({ onAcceptAgreement }) => {
       sx={{ height: '100%' }}
       productName={t('title')}
       description={
-        <Trans components={{ 1: <Link to="TOS" underline="hover" /> }}>{t('description')}</Trans>
+        <Trans
+          components={{
+            1: <Link to="TOS" underline="hover" />,
+            2: <Link to="PRIVACY_POLICY" underline="hover" />,
+          }}
+        >
+          {t('description')}
+        </Trans>
       }
       onConfirm={onAcceptAgreement}
       confirmBtnLabel={t('confirmBtnLabel')}

@@ -55,7 +55,9 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = (
       <>
         {reloadPageButton}
-        {isDevelopment && <CodeBlock code={error?.stack || error.message || error?.name} />}
+        {isDevelopment && (
+          <CodeBlock sx={{ mt: 2 }} code={error?.stack || error.message || error?.name} />
+        )}
       </>
     )
   }
@@ -76,7 +78,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = (
       <>
         {retryQueryButton}
-        {isDevelopment && <CodeBlock code={error.response ?? error} />}
+        {isDevelopment && <CodeBlock sx={{ mt: 2 }} code={error.response ?? error} />}
       </>
     )
   }

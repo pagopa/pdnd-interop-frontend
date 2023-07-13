@@ -60,3 +60,25 @@ export type StepperStep = {
 }
 
 export type InputOption = { label: string; value: string | number }
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace OneTrustContent {
+  export type RootNode = {
+    node: 'root'
+    child: Array<Node>
+  }
+
+  export type ElementNode = {
+    node: 'element'
+    tag: string
+    child?: Array<Node>
+    attr?: { [key: string]: string | Array<string> }
+  }
+
+  export type TextNode = {
+    node: 'text'
+    text: string
+  }
+
+  export type Node = RootNode | ElementNode | TextNode
+}
