@@ -3,9 +3,12 @@
 exports[`determine whether the integration between react-hook-form and MUI’s Checkbox works > should not render label if no label prop is given 1`] = `
 <body>
   <div>
-    <div
-      class="MuiBox-root css-zitybv"
+    <fieldset
+      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
     >
+      <legend
+        class="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"
+      />
       <div
         class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
       >
@@ -112,7 +115,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
           </span>
         </label>
       </div>
-    </div>
+    </fieldset>
   </div>
 </body>
 `;
@@ -120,8 +123,8 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
 exports[`determine whether the integration between react-hook-form and MUI’s Checkbox works > should render correctly with label if label prop is given 1`] = `
 <body>
   <div>
-    <div
-      class="MuiBox-root css-zitybv"
+    <fieldset
+      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
     >
       <legend
         class="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"
@@ -234,7 +237,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
           </span>
         </label>
       </div>
-    </div>
+    </fieldset>
   </div>
 </body>
 `;

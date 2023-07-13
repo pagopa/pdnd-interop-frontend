@@ -56,7 +56,7 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
       <div
         class="css-1p5q5e5-MuiStack-root"
       >
-        <section
+        <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
@@ -66,20 +66,22 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
             class="MuiBox-root css-zv7ju9"
           >
             <div
-              class="css-1okj3ks-MuiStack-root"
-            >
-              <span
-                class="MuiTypography-root MuiTypography-sidenav css-d2mesl-MuiTypography-root"
-              >
-                Question 1 (edit.step2.validation.required)
-              </span>
-            </div>
-            <div
-              class="MuiBox-root css-1hhytss"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
             >
               <div
-                aria-labelledby=":r0:"
-                class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+                class="css-1b2nz6m-MuiStack-root"
+              >
+                <label
+                  class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+                  id="purpose-label"
+                >
+                  Question 1 (edit.step2.validation.required)
+                </label>
+              </div>
+              <div
+                aria-labelledby="purpose-label"
+                class="MuiFormGroup-root css-1w0y3ky-MuiFormGroup-root"
+                id="purpose"
                 role="radiogroup"
               >
                 <label
@@ -182,7 +184,7 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
       <div
         class="css-jojnym-MuiStack-root"

@@ -2,7 +2,7 @@ import type { Dependency, FormConfigQuestion } from '@/api/api.generatedTypes'
 import {
   formatRiskAnalysisInputInfoLabel,
   formatRiskAnalysisInputLabel,
-  formatRiskAnalysisInputValidationInfoLabel,
+  formatRiskAnalysisHerlperText,
   getBackendAnswerValue,
   getFrontendAnswerValue,
   getRiskAnalysisDefaultValues,
@@ -272,13 +272,13 @@ describe('Risk analysis form utils', () => {
     })
   })
 
-  describe('formatRiskAnalysisInputValidationInfoLabel', () => {
+  describe('formatRiskAnalysisHerlperText', () => {
     it('should return undefined if the question has no max length validation', () => {
       const question = {
         validation: undefined,
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisInputValidationInfoLabel(question, tPurposeMock)
+      const result = formatRiskAnalysisHerlperText(question, tPurposeMock)
       expect(result).toBeUndefined()
     })
 
@@ -287,7 +287,7 @@ describe('Risk analysis form utils', () => {
         validation: { maxLength: 40 },
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisInputValidationInfoLabel(question, tPurposeMock)
+      const result = formatRiskAnalysisHerlperText(question, tPurposeMock)
       expect(result).toEqual('edit.step2.validation.maxLength')
     })
   })

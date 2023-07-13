@@ -11,11 +11,11 @@ import {
 import { Controller, useFormContext } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
-  infoLabel?: string | JSX.Element
+  infoLabel?: string
   name: string
   vertical?: boolean
   rules?: ControllerProps['rules']
@@ -30,7 +30,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
   vertical = false,
   rules,
   onValueChange,
-  ...switchProps
+  ...props
 }) => {
   let formLabelSxProps: SxProps = {}
   let typographyLabelSxProps: SxProps = {}
@@ -45,10 +45,22 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+    label,
+    infoLabel,
+    error,
+  })
+
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       <FormLabel sx={{ color: 'text.primary', ...formLabelSxProps }}>
-        <Typography sx={typographyLabelSxProps} component="span" variant="body1">
+        <Typography
+          htmlFor={ids.labelId}
+          id={ids.labelId}
+          sx={typographyLabelSxProps}
+          component="label"
+          variant="body1"
+        >
           {label}
         </Typography>
         <Box>
@@ -57,8 +69,9 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
             rules={mapValidationErrorMessages(rules, t)}
             render={({ field: { value, ref, onChange, ...fieldProps } }) => (
               <MUISwitch
-                {...switchProps}
+                {...props}
                 {...fieldProps}
+                inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 onChange={(e) => {
                   if (onValueChange) onValueChange(e.target.checked)
                   onChange(e.target.checked)

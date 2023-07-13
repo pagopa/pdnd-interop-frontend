@@ -16,3 +16,7 @@ body {
 pre {
   white-space: pre-line;
 }
+
+fieldset {
+  border: none;
+}

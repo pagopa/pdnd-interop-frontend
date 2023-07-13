@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { RiskAnalysisFormComponents } from '../RiskAnalysisFormComponents'
+import { RiskAnalysisFormComponents } from '../RiskAnalysisFormComponents/RiskAnalysisFormComponents'
 import { render } from '@testing-library/react'
 import type { Questions } from '@/pages/ConsumerPurposeEditPage/types/risk-analysis-form.types'
 

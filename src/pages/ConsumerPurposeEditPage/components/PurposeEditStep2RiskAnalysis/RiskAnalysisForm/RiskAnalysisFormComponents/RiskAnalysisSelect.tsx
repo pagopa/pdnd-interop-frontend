@@ -1,56 +1,51 @@
 import React from 'react'
-import {
-  InputLabel,
-  MenuItem,
-  Select as MUISelect,
-  type SelectProps as MUISelectProps,
-} from '@mui/material'
-import { InputWrapper } from '../InputWrapper'
+import { MenuItem, Select as MUISelect, type SelectProps as MUISelectProps } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
+import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 
-export type RHFSelectProps = Omit<MUISelectProps, 'onChange' | 'label'> & {
-  label: string
+export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'> & {
   name: string
-  options: Array<InputOption>
-  focusOnMount?: boolean
+  label: string
   infoLabel?: string
+  helperText?: string
   emptyLabel?: string
+  options: Array<InputOption>
   rules?: ControllerProps['rules']
-  onValueChange?: (value: string) => void
 }
 
-export const RHFSelect: React.FC<RHFSelectProps> = ({
-  sx,
+export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
   name,
-  options,
   label,
-  focusOnMount,
+  options,
   infoLabel,
+  helperText,
   emptyLabel,
   rules,
-  onValueChange,
   ...props
 }) => {
-  const { formState } = useFormContext()
   const { t } = useTranslation()
-
+  const { formState } = useFormContext()
   const error = formState.errors[name]?.message as string | undefined
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
     infoLabel,
     error,
+    helperText,
   })
 
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
-      <InputLabel id={ids.labelId} shrink>
-        {label}
-      </InputLabel>
+    <RiskAnalysisInputWrapper
+      label={label}
+      infoLabel={infoLabel}
+      error={error}
+      helperText={helperText}
+      {...ids}
+    >
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, t)}
@@ -60,14 +55,9 @@ export const RHFSelect: React.FC<RHFSelectProps> = ({
             {...fieldProps}
             inputProps={{
               ...props.inputProps,
-              'aria-describedby': accessibilityProps['aria-describedby'],
+              ...accessibilityProps,
             }}
-            label={label}
-            labelId={ids.labelId}
-            error={!!error}
-            autoFocus={focusOnMount}
             onChange={(e) => {
-              if (onValueChange) onValueChange(e.target.value)
               onChange(e)
             }}
             inputRef={ref}
@@ -84,6 +74,6 @@ export const RHFSelect: React.FC<RHFSelectProps> = ({
           </MUISelect>
         )}
       />
-    </InputWrapper>
+    </RiskAnalysisInputWrapper>
   )
 }

@@ -7,7 +7,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
       class="css-1q36rmd-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-4gs0jn"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
           class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-l3ln04-MuiAutocomplete-root"
@@ -102,7 +102,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
       class="css-1q36rmd-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-4gs0jn"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
           class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-l3ln04-MuiAutocomplete-root"
@@ -197,7 +197,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
       class="css-1q36rmd-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-4gs0jn"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
           class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-l3ln04-MuiAutocomplete-root"
