@@ -43,7 +43,6 @@ export function DocumentContainer({
   return (
     <Stack sx={sx} direction="row" justifyContent="space-between">
       <InputWrapper
-        name="prettyName"
         sx={{ my: 0, width: '100%' }}
         infoLabel={canEdit ? t('prettyName.infoLabel') : undefined}
       >
