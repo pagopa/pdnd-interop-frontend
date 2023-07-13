@@ -6,24 +6,7 @@ it('Should match the snapshot on empty roles', async () => {
   mockUseJwt({ currentRoles: [] })
   const { result } = renderHook(() => useGetSideNavItems())
 
-  expect(result.current).toMatchInlineSnapshot(`
-    [
-      {
-        "StartIcon": {
-          "$$typeof": Symbol(react.memo),
-          "compare": null,
-          "type": {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          },
-        },
-        "routeKey": "NOTIFICATION",
-      },
-      {
-        "routeKey": "PARTY_REGISTRY",
-      },
-    ]
-  `)
+  expect(result.current).toMatchInlineSnapshot('[]')
 })
 
 it('Should match the snapshot on only admin role', async () => {
@@ -156,6 +139,15 @@ it('Should match the snapshot on security and api operator roles', async () => {
     [
       {
         "children": [
+          "PROVIDE_ESERVICE_LIST",
+          "PROVIDE_AGREEMENT_LIST",
+          "PROVIDE_PURPOSE_LIST",
+        ],
+        "id": "provider",
+        "routeKey": "PROVIDE",
+      },
+      {
+        "children": [
           "SUBSCRIBE_CATALOG_LIST",
           "SUBSCRIBE_AGREEMENT_LIST",
           "SUBSCRIBE_PURPOSE_LIST",
@@ -165,15 +157,6 @@ it('Should match the snapshot on security and api operator roles', async () => {
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
-      },
-      {
-        "children": [
-          "PROVIDE_ESERVICE_LIST",
-          "PROVIDE_AGREEMENT_LIST",
-          "PROVIDE_PURPOSE_LIST",
-        ],
-        "id": "provider",
-        "routeKey": "PROVIDE",
       },
       {
         "StartIcon": {
@@ -201,6 +184,15 @@ it('Should match the snapshot on security and admin operator roles', async () =>
     [
       {
         "children": [
+          "PROVIDE_ESERVICE_LIST",
+          "PROVIDE_AGREEMENT_LIST",
+          "PROVIDE_PURPOSE_LIST",
+        ],
+        "id": "provider",
+        "routeKey": "PROVIDE",
+      },
+      {
+        "children": [
           "SUBSCRIBE_CATALOG_LIST",
           "SUBSCRIBE_AGREEMENT_LIST",
           "SUBSCRIBE_PURPOSE_LIST",
@@ -210,15 +202,6 @@ it('Should match the snapshot on security and admin operator roles', async () =>
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
-      },
-      {
-        "children": [
-          "PROVIDE_ESERVICE_LIST",
-          "PROVIDE_AGREEMENT_LIST",
-          "PROVIDE_PURPOSE_LIST",
-        ],
-        "id": "provider",
-        "routeKey": "PROVIDE",
       },
       {
         "StartIcon": {
@@ -256,11 +239,11 @@ it('Should match the snapshot on api and admin operator roles', async () => {
       {
         "children": [
           "SUBSCRIBE_CATALOG_LIST",
-          "SUBSCRIBE_DEBUG_VOUCHER",
           "SUBSCRIBE_AGREEMENT_LIST",
           "SUBSCRIBE_PURPOSE_LIST",
           "SUBSCRIBE_CLIENT_LIST",
           "SUBSCRIBE_INTEROP_M2M",
+          "SUBSCRIBE_DEBUG_VOUCHER",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
@@ -301,11 +284,11 @@ it('Should match the snapshot on all roles', async () => {
       {
         "children": [
           "SUBSCRIBE_CATALOG_LIST",
-          "SUBSCRIBE_DEBUG_VOUCHER",
           "SUBSCRIBE_AGREEMENT_LIST",
           "SUBSCRIBE_PURPOSE_LIST",
           "SUBSCRIBE_CLIENT_LIST",
           "SUBSCRIBE_INTEROP_M2M",
+          "SUBSCRIBE_DEBUG_VOUCHER",
         ],
         "id": "subscriber",
         "routeKey": "SUBSCRIBE",
