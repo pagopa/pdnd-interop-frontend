@@ -1,7 +1,7 @@
 {
   "tos": {
     "title": "Interoperability",
-    "description": "By entering, you accept the service <1>Terms and Conditions</1> and confirm you have read the <1>Privacy Policy</1>.",
+    "description": "By entering, you accept the service <1>Terms and Conditions</1> and confirm you have read the <2>Privacy Policy</2>.",
     "confirmBtnLabel": "Enter"
   },
   "footer": {

@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+export interface SAMLResponse {
+  /** SAML response */
+  response: string
+}
+
 export interface AccessTokenRequest {
   /** @example "e58035ce-c753-4f72-b613-46f8a17b71cc" */
   client_id?: string
@@ -1256,6 +1261,11 @@ export interface GetEServicesCatalogParams {
    */
   producersIds?: string[]
   /**
+   * comma separated sequence of attribute IDs
+   * @default []
+   */
+  attributesIds?: string[]
+  /**
    * comma separated sequence of states
    * @default []
    */
@@ -1492,6 +1502,14 @@ export interface GetClientsParams {
    * @max 50
    */
   limit: number
+}
+
+export interface GetSaml2TokenParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string
 }
 
 export namespace Agreements {
@@ -1889,6 +1907,30 @@ export namespace Agreements {
     export type ResponseBody = Agreement
   }
   /**
+   * @description returns the updated agreement
+   * @tags agreements
+   * @name ArchiveAgreement
+   * @summary Archive an agreement
+   * @request POST:/agreements/{agreementId}/archive
+   * @secure
+   */
+  export namespace ArchiveAgreement {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = void
+  }
+  /**
    * @description update agreement fields.
    * @tags agreements
    * @name UpdateAgreement
@@ -1957,6 +1999,11 @@ export namespace Catalog {
        * @default []
        */
       producersIds?: string[]
+      /**
+       * comma separated sequence of attribute IDs
+       * @default []
+       */
+      attributesIds?: string[]
       /**
        * comma separated sequence of states
        * @default []
@@ -2661,6 +2708,30 @@ export namespace Session {
     }
     export type ResponseBody = SessionToken
   }
+  /**
+   * @description Returns the generated token
+   * @tags support
+   * @name GetSaml2Token
+   * @summary Returns the generated token
+   * @request POST:/session/saml2/tokens
+   * @secure
+   */
+  export namespace GetSaml2Token {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestBody = SAMLResponse
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = SessionToken
+  }
 }
 
 export namespace Tenants {
@@ -2731,32 +2802,6 @@ export namespace Tenants {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = CertifiedAttributesResponse
-  }
-  /**
-   * @description Update expirationDate for Verified Attribute of Tenant
-   * @tags tenants
-   * @name UpdateVerifiedAttribute
-   * @summary Update expirationDate for Verified Attribute of Tenant
-   * @request POST:/tenants/{tenantId}/attributes/{attributeId}
-   * @secure
-   */
-  export namespace UpdateVerifiedAttribute {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-      /**
-       * The internal identifier of the attribute
-       * @format uuid
-       */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateVerifiedTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
   }
   /**
    * @description Adds the declared attribute to the Institution
@@ -2854,6 +2899,32 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = VerifiedTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Update expirationDate for Verified Attribute of Tenant
+   * @tags tenants
+   * @name UpdateVerifiedAttribute
+   * @summary Update expirationDate for Verified Attribute of Tenant
+   * @request POST:/tenants/{tenantId}/attributes/verified/{attributeId}
+   * @secure
+   */
+  export namespace UpdateVerifiedAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateVerifiedTenantAttributeSeed
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
@@ -4012,6 +4083,48 @@ export namespace User {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
+  }
+}
+
+export namespace PrivacyNotices {
+  /**
+   * @description Retrieve the content of the privacy notice version
+   * @tags privacyNotices
+   * @name GetPrivacyNoticeContent
+   * @request GET:/privacyNotices/{consentType}
+   * @secure
+   */
+  export namespace GetPrivacyNoticeContent {
+    export type RequestParams = {
+      /** Consent Type */
+      consentType: ConsentType
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = File
+  }
+}
+
+export namespace Support {
+  /**
+   * @description This route is used to redirect support flow to the dedicated page
+   * @tags support
+   * @name SamlLoginCallback
+   * @request POST:/support
+   */
+  export namespace SamlLoginCallback {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = SAMLResponse
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = any
   }
 }
 

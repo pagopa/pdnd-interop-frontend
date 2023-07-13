@@ -207,6 +207,7 @@
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",
+    "PRIVACY_POLICY": "Privacy policy",
     "SECURITY_KEY_GUIDE": "Come caricare le chiavi di sicurezza",
     "NOTIFICATION": "Notifiche",
     "PROVIDE_ESERVICE_CREATE": "Crea e-service",

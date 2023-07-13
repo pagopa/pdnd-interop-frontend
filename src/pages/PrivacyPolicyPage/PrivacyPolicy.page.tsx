@@ -5,12 +5,12 @@ import { OneTrustNoticesQueries } from '@/api/one-trust-notices'
 import { useGeneratePath } from '@/router'
 import { parseHtmlJsonToReactNode } from '@/utils/common.utils'
 
-const TOSPage: React.FC = () => {
-  const { t } = useTranslation('common', { keyPrefix: 'tos' })
+const PrivacyPolicyPage: React.FC = () => {
+  const { t } = useTranslation('common', { keyPrefix: 'privacyPolicy' })
   const generatePath = useGeneratePath()
-  const path = generatePath('TOS')
+  const path = generatePath('PRIVACY_POLICY')
 
-  const { data: termsOfService } = OneTrustNoticesQueries.useGetNoticeContent('TOS')
+  const { data: termsOfService } = OneTrustNoticesQueries.useGetNoticeContent('PP')
 
   return (
     <PageContainer sx={{ maxWidth: 800, mx: 'auto', py: 12 }} title={t('title')}>
@@ -19,4 +19,4 @@ const TOSPage: React.FC = () => {
   )
 }
 
-export default TOSPage
+export default PrivacyPolicyPage
