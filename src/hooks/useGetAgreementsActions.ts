@@ -58,7 +58,6 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const archiveAction: ActionItemButton = {
     action: handleArchive,
     label: t('archive'),
-    color: 'error',
     icon: ArchiveIcon,
   }
 
