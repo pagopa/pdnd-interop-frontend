@@ -7,3 +7,4 @@ export const { useNavigate, useParams, useLocation, useAuthGuard, useGeneratePat
 export const { Link, Redirect, Breadcrumbs } = _routes.components
 export const { getParentRoutes } = _routes.utils
 export type RouteKey = _routes.RouteKey
+export const routes = _routes.routes

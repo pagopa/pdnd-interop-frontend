@@ -232,7 +232,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = genera
       path: '/fruizione',
       redirect: 'SUBSCRIBE_CATALOG_LIST',
       public: false,
-      authLevels: ['admin', 'security'],
+      authLevels: ['admin', 'security', 'api'],
     },
     PARTY_REGISTRY: {
       path: '/ente',
@@ -256,7 +256,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = genera
       path: '/fruizione/debug-voucher',
       element: <ConsumerDebugVoucherPage />,
       public: false,
-      authLevels: ['admin'],
+      authLevels: ['admin', 'api', 'security'],
     },
   },
   { languages: ['it', 'en'] }
