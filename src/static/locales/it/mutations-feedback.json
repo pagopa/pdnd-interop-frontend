@@ -305,7 +305,7 @@
       },
       "confirmDialog": {
         "title": "Conferma archiviazione richiesta",
-        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà archiviata"
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà archiviata. Questa azione è irreversibile. I client collegati a questa richiesta non avranno più accesso all'e-service in erogazione. Sarà sempre possibile creare nuove richieste di fruizione per questo e-service"
       }
     },
     "upgrade": {
