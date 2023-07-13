@@ -7,7 +7,7 @@ exports[`DocumentContainer > should match snapshot 1`] = `
       class="css-gmwslw-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-n2ek5d"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-o9ut6b-MuiFormControl-root"
       >
         <div
           class="MuiFormControl-root MuiTextField-root css-8rphz-MuiFormControl-root-MuiTextField-root"
@@ -83,7 +83,7 @@ exports[`DocumentContainer > should match snapshot with onDelete callback passed
       class="css-gmwslw-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-n2ek5d"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-o9ut6b-MuiFormControl-root"
       >
         <div
           class="MuiFormControl-root MuiTextField-root css-8rphz-MuiFormControl-root-MuiTextField-root"
@@ -182,7 +182,7 @@ exports[`DocumentContainer > should match snapshot with onDownload callback pass
       class="css-gmwslw-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-n2ek5d"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-o9ut6b-MuiFormControl-root"
       >
         <div
           class="MuiFormControl-root MuiTextField-root css-8rphz-MuiFormControl-root-MuiTextField-root"
@@ -281,7 +281,7 @@ exports[`DocumentContainer > should match snapshot with onUpdateDescription call
       class="css-gmwslw-MuiStack-root"
     >
       <div
-        class="MuiBox-root css-n2ek5d"
+        class="MuiFormControl-root MuiFormControl-fullWidth css-o9ut6b-MuiFormControl-root"
       >
         <div
           class="MuiFormControl-root MuiTextField-root css-8rphz-MuiFormControl-root-MuiTextField-root"

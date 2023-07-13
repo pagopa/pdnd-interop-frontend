@@ -1,6 +1,6 @@
 import type { TFunction } from 'i18next'
 import identity from 'lodash/identity'
-import { emailRegex, mapValidationErrorMessages } from '../validation.utils'
+import { emailRegex, mapValidationErrorMessages } from '../form.utils'
 
 const tMock = identity as unknown as TFunction
 

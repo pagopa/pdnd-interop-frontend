@@ -45,7 +45,7 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
             class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
           >
             <div
-              class="MuiBox-root css-zitybv"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -62,6 +62,7 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl MuiInputBase-multiline css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <textarea
+                    aria-describedby="reason-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r3:"
@@ -91,11 +92,12 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                   </fieldset>
                 </div>
               </div>
-              <p
-                class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+              <span
+                class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1u3cfh2-MuiFormHelperText-root"
+                id="reason-infoLabel"
               >
                 content.reason.infoLabel
-              </p>
+              </span>
             </div>
           </div>
           <div

@@ -53,7 +53,7 @@ exports[`DialogSetPurposeExpectedApprovalDate testing > should match the snapsho
               class="MuiBox-root css-1aw1p0y"
             >
               <div
-                class="MuiBox-root css-1mgrf5c"
+                class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
               >
                 <div
                   class="MuiPickerStaticWrapper-root css-u0soqy-MuiPickerStaticWrapper-root"
