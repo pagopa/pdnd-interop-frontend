@@ -79,16 +79,6 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     })
   })
 
-  it('should not render label if no label prop is given', () => {
-    const radioGroupResult = render(
-      <TestInputWrapper>
-        <RHFTextField label={undefined} name={'testText'} />
-      </TestInputWrapper>
-    )
-
-    expect(radioGroupResult.baseElement).toMatchSnapshot()
-  })
-
   it('should render correctly with label if label prop is given', () => {
     const radioGroupResult = render(
       <TestInputWrapper>

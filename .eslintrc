@@ -43,6 +43,7 @@
     // Disables the warning using the no null assertion
     "@typescript-eslint/no-non-null-assertion": "off",
 
-    "@typescript-eslint/consistent-type-imports": "warn"
+    "@typescript-eslint/consistent-type-imports": "warn",
+    "@typescript-eslint/ban-types": "off"
   }
 }

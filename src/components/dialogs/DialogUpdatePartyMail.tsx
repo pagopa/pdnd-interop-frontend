@@ -17,7 +17,7 @@ import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { PartyMutations } from '@/api/party/party.hooks'
 import { useJwt } from '@/hooks/useJwt'
 import isEqual from 'lodash/isEqual'
-import { emailRegex } from '@/utils/validation.utils'
+import { emailRegex } from '@/utils/form.utils'
 
 type UpdatePartyMailFormValues = {
   contactEmail: string

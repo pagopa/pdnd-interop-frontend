@@ -1,43 +1,42 @@
 import React from 'react'
-import { FormControlLabel, FormGroup, FormLabel, Checkbox, type SxProps } from '@mui/material'
-import { InputWrapper } from '../InputWrapper'
+import { FormControlLabel, FormGroup, Checkbox } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/form.utils'
+import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 
-export type RHFCheckboxGroupProps = {
-  sx?: SxProps
-  label?: string
-  options: Array<InputOption & { disabled?: boolean }>
+export type RiskAnalysisCheckboxGroupProps = {
   name: string
+  label: string
   infoLabel?: string
+  helperText?: string
+  options: Array<InputOption>
   rules?: ControllerProps['rules']
-  onValueChange?: (value: Array<string>) => void
 }
 
-export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
-  sx,
+export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps> = ({
   name,
   label,
   options,
   infoLabel,
+  helperText,
   rules,
-  onValueChange,
 }) => {
   const { formState } = useFormContext()
   const { t } = useTranslation()
 
-  if (!options || options.length === 0) {
-    return null
-  }
-
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper component="fieldset" error={error} sx={sx} infoLabel={infoLabel}>
-      <FormLabel component="legend">{label}</FormLabel>
+    <RiskAnalysisInputWrapper
+      isInputGroup
+      label={label}
+      infoLabel={infoLabel}
+      helperText={helperText}
+      error={error}
+    >
       <FormGroup>
         <Controller
           name={name}
@@ -52,14 +51,12 @@ export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
                 : [...prevValue, target.name]
 
               field.onChange(newValue)
-              if (onValueChange) onValueChange(newValue)
             }
 
             return (
               <>
                 {options.map((o) => (
                   <FormControlLabel
-                    disabled={o.disabled}
                     key={o.value}
                     value={o.value}
                     control={
@@ -78,6 +75,6 @@ export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
           }}
         />
       </FormGroup>
-    </InputWrapper>
+    </RiskAnalysisInputWrapper>
   )
 }

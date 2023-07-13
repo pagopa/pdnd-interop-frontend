@@ -4,16 +4,18 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
 <body>
   <div>
     <div
-      class="MuiBox-root css-zitybv"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
     >
       <label
         class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
       >
-        <span
+        <label
           class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          for="test-label"
+          id="test-label"
         >
           label
-        </span>
+        </label>
         <div
           class="MuiBox-root css-0"
         >
@@ -24,6 +26,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
               class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
             >
               <input
+                aria-labelledby="test-label"
                 class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
                 name="test"
                 type="checkbox"
@@ -50,16 +53,18 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
 <body>
   <div>
     <div
-      class="MuiBox-root css-zitybv"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
     >
       <label
         class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1kh4vj2-MuiFormLabel-root"
       >
-        <span
+        <label
           class="MuiTypography-root MuiTypography-body1 css-1th83v5-MuiTypography-root"
+          for="test-label"
+          id="test-label"
         >
           label
-        </span>
+        </label>
         <div
           class="MuiBox-root css-0"
         >
@@ -70,6 +75,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
               class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
             >
               <input
+                aria-labelledby="test-label"
                 class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
                 name="test"
                 type="checkbox"

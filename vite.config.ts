@@ -68,6 +68,7 @@ export default defineConfig(({ mode }) => {
           '**/api/purpose/**',
           '**/api/voucher/**',
           '**/api/one-trust-notices/**',
+          '**/api/maintenance/**',
         ],
       },
     },

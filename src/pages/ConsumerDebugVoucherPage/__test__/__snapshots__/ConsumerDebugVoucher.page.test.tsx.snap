@@ -390,7 +390,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                 title
               </span>
               <div
-                class="MuiBox-root css-zitybv"
+                class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
               >
                 <div
                   class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -437,7 +437,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                 </div>
               </div>
               <div
-                class="MuiBox-root css-zitybv"
+                class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
               >
                 <div
                   class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"

@@ -10,13 +10,13 @@ import en from 'date-fns/locale/en-US'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFDatePickerProps = {
   name: string
   label?: string
   disabled?: boolean
-  infoLabel?: string | JSX.Element
+  infoLabel?: string
   focusOnMount?: boolean
   sx?: SxProps
   inputSx?: SxProps
@@ -39,12 +39,17 @@ export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
   const { t } = useTranslation()
 
   const error = formState.errors[name]?.message as string | undefined
-
   const adapterLocale = { it, en }[lang]
+
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+    label,
+    infoLabel,
+    error,
+  })
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={adapterLocale}>
-      <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
+      <InputWrapper error={error} infoLabel={infoLabel} sx={sx} {...ids}>
         <Controller
           name={name}
           rules={mapValidationErrorMessages(rules, t)}
@@ -53,7 +58,9 @@ export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
               label={label}
               displayStaticWrapperAs="desktop"
               autoFocus={focusOnMount}
-              renderInput={(params) => <TextField sx={inputSx} {...params} />}
+              renderInput={(params) => (
+                <TextField sx={inputSx} {...params} inputProps={accessibilityProps} />
+              )}
               {...fieldProps}
               onChange={(value) => {
                 if (onValueChange) onValueChange(value)
