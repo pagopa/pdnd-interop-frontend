@@ -16,11 +16,29 @@ export function useTOSAgreement() {
     if (isTOSAccepted) return
     if (!userTOSConsent?.latestVersionId || !userPPConsent?.latestVersionId) return
 
-    Promise.all([
-      acceptNotice({ consentType: 'TOS', latestVersionId: userTOSConsent.latestVersionId }),
-      acceptNotice({ consentType: 'PP', latestVersionId: userPPConsent.latestVersionId }),
-    ])
-  }, [isTOSAccepted, userTOSConsent?.latestVersionId, userPPConsent?.latestVersionId, acceptNotice])
+    const acceptPromises: Promise<unknown>[] = []
+
+    if (!hasAcceptedTOS) {
+      acceptPromises.push(
+        acceptNotice({ consentType: 'TOS', latestVersionId: userTOSConsent.latestVersionId })
+      )
+    }
+
+    if (!hasAcceptedPP) {
+      acceptPromises.push(
+        acceptNotice({ consentType: 'PP', latestVersionId: userPPConsent.latestVersionId })
+      )
+    }
+
+    Promise.all(acceptPromises)
+  }, [
+    isTOSAccepted,
+    userTOSConsent?.latestVersionId,
+    userPPConsent?.latestVersionId,
+    acceptNotice,
+    hasAcceptedTOS,
+    hasAcceptedPP,
+  ])
 
   return { isTOSAccepted, handleAcceptTOS }
 }
