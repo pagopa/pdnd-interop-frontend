@@ -255,6 +255,20 @@ function useSuspend() {
   })
 }
 
+function useArchive() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.archive' })
+  return useMutationWrapper(AgreementServices.archive, {
+    successToastLabel: t('outcome.success'),
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: true,
+    dialogConfig: {
+      title: t('confirmDialog.title'),
+      description: t('confirmDialog.description'),
+    },
+  })
+}
+
 function useUpgrade() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.upgrade' })
   return useMutationWrapper(AgreementServices.upgrade, {
@@ -295,6 +309,7 @@ export const AgreementMutations = {
   useActivate,
   useReject,
   useSuspend,
+  useArchive,
   useUpgrade,
   useClone,
 }

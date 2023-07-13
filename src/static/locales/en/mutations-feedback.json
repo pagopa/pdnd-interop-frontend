@@ -296,6 +296,17 @@
         "description": "By clicking \"confirm\", the fruition request will be suspended. It will no longer be possible to the clients added to purposes for this e-service to access it. The request can be reactivated anytime from this page"
       }
     },
+    "archive": {
+      "loading": "Archiving fruition request",
+      "outcome": {
+        "success": "The fruition request was archived successfully",
+        "error": "The fruition request could not be archived. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm request archiving",
+        "description": "By clicking \"confirm\", the fruition request will be archived"
+      }
+    },
     "upgrade": {
       "loading": "Upgrading fruition request",
       "outcome": {
