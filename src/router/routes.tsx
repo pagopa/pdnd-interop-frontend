@@ -12,6 +12,7 @@ import {
   ConsumerClientM2MListPage,
   ConsumerEServiceDetailsPage,
   TOSPage,
+  PrivacyPolicyPage,
   ProviderEServiceDetailsPage,
   ConsumerAgreementDetailsPage,
   ProviderAgreementDetailsPage,
@@ -45,6 +46,12 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = genera
     TOS: {
       path: '/termini-di-servizio',
       element: <TOSPage />,
+      public: true,
+      authLevels: ['admin', 'api', 'security'],
+    },
+    PRIVACY_POLICY: {
+      path: '/privacy-policy',
+      element: <PrivacyPolicyPage />,
       public: true,
       authLevels: ['admin', 'api', 'security'],
     },

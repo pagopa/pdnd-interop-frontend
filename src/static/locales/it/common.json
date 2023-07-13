@@ -165,6 +165,9 @@
   "tos": {
     "title": "Termini di servizio"
   },
+  "privacyPolicy": {
+    "title": "Privacy Policy"
+  },
   "notifications": {
     "title": "Notifiche",
     "tempAlert": "Le funzionalità di notifica sono attualmente in sviluppo"

@@ -40,7 +40,7 @@ export const Footer = () => {
     {
       labelKey: 'privacy',
       onClick: () => {
-        navigate('TOS')
+        navigate('PRIVACY_POLICY')
       },
       linkType: 'internal',
     },
