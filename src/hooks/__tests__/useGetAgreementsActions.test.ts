@@ -119,7 +119,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
     expect(result.current.actions[0].label).toBe('activate')
   })
 
-  it('shoud return provider suspend action if mode is provider and agreement has state SUSPENDED and is not suspendedByProducer', () => {
+  it('shoud return provider suspend and archive action if mode is provider and agreement has state SUSPENDED and is not suspendedByProducer', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: false,
@@ -173,33 +173,36 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
 
   /* consumer */
 
-  it('shoud return consumer suspend action if mode is consumer and agreement has state ACTIVE', () => {
+  it('shoud return consumer suspend and archived action if mode is consumer and agreement has state ACTIVE', () => {
     const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('suspend')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('suspend')
   })
 
-  it('shoud return consumer activate action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
+  it('shoud return consumer activate and archive action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByConsumer: true,
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('activate')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('activate')
   })
 
-  it('shoud return consumer suspend action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
+  it('shoud return consumer suspend and archive action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByConsumer: false,
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('suspend')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('suspend')
   })
 
   it('shoud not return any consumer action if mode is consumer and agreement has state PENDING', () => {
@@ -327,33 +330,36 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
 
   /* consumer */
 
-  it('shoud return consumer suspend action if mode is consumer and agreement has state ACTIVE', () => {
+  it('shoud return consumer suspend and archive action if mode is consumer and agreement has state ACTIVE', () => {
     const agreement = createMockAgreementListingItem({
       state: 'ACTIVE',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('suspend')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('suspend')
   })
 
-  it('shoud return consumer activate action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
+  it('shoud return consumer activate and archive action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
     const agreement = createMockAgreementListingItem({
       state: 'SUSPENDED',
       suspendedByConsumer: true,
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('activate')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('activate')
   })
 
-  it('shoud return consumer suspend action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
+  it('shoud return consumer suspend and archive action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
     const agreement = createMockAgreementListingItem({
       state: 'SUSPENDED',
       suspendedByConsumer: false,
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('suspend')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('suspend')
   })
 
   it('shoud not return any consumer action if mode is consumer and agreement has state PENDING', () => {

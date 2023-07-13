@@ -297,6 +297,17 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all'e-service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina"
       }
     },
+    "archive": {
+      "loading": "Stiamo archiviando la richiesta",
+      "outcome": {
+        "success": "La richiesta di fruizione è stata archiviata correttamente",
+        "error": "Non è stato possibile archiviare la richiesta. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma archiviazione richiesta",
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà archiviata. Questa azione è irreversibile. I client collegati a questa richiesta non avranno più accesso all'e-service in erogazione. Sarà sempre possibile creare nuove richieste di fruizione per questo e-service"
+      }
+    },
     "upgrade": {
       "loading": "Stiamo aggiornando la richiesta",
       "outcome": {

@@ -178,6 +178,12 @@ async function suspend({ agreementId }: { agreementId: string }) {
   return response.data
 }
 
+async function archive({ agreementId }: { agreementId: string }) {
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/archive`
+  )
+}
+
 async function upgrade({ agreementId }: { agreementId: string }) {
   const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/upgrade`
@@ -218,6 +224,7 @@ const AgreementServices = {
   activate,
   reject,
   suspend,
+  archive,
   upgrade,
   clone,
   downloadContract,
