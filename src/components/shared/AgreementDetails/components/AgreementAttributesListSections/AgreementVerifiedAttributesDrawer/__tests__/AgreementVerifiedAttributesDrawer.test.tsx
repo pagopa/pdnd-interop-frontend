@@ -9,7 +9,7 @@ import { createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { AttributeMutations } from '@/api/attribute'
 import addYears from 'date-fns/addYears'
 
-const defualtDrawerProps = {
+const defaultDrawerProps = {
   isOpen: true,
   attributeId: 'test attributeId',
   onClose: vi.fn(),
@@ -26,7 +26,7 @@ const mockAgreementDetailsContext = (
 describe('AgreementVerifiedAttributesDrawer tests', () => {
   it('should match snapshot if type is revoke', () => {
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -40,7 +40,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
 
   it('should match snapshot if type is verify', () => {
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -54,7 +54,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
 
   it('should match snapshot if type is update', () => {
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -72,7 +72,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const screen = renderWithApplicationContext(
       <AgreementVerifiedAttributesDrawer
         type={'update'}
-        {...defualtDrawerProps}
+        {...defaultDrawerProps}
         onClose={onClose}
       />,
       {
@@ -89,7 +89,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
 
   it('should match snapshot if type is verify or update and selected radio is YES (datepicker is visible)', () => {
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -131,7 +131,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -176,7 +176,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -221,7 +221,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -263,7 +263,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -305,7 +305,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -344,7 +344,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -393,7 +393,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -444,7 +444,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const today = new Date()
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -509,7 +509,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -559,7 +559,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const today = new Date(new Date().setMilliseconds(0))
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -629,7 +629,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const today = new Date()
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -683,7 +683,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -736,7 +736,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -785,7 +785,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -836,7 +836,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const today = new Date()
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -901,7 +901,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -951,7 +951,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const today = new Date(new Date().setMilliseconds(0))
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -1021,7 +1021,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const today = new Date(new Date().setMilliseconds(0))
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
@@ -1075,7 +1075,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
 
     const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
       {
         withReactQueryContext: true,
       }
