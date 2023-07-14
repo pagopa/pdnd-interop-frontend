@@ -5,8 +5,8 @@ import {
   RadioGroup as MUIRadioGroup,
   type RadioGroupProps as MUIRadioGroupProps,
   Typography,
+  FormControl,
 } from '@mui/material'
-import { Controller } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import { InputWrapper } from '@/components/shared/InputWrapper'
 
@@ -17,11 +17,13 @@ export type AgreementVerifiedAttributesDrawerRadioGroupProps = Omit<
   label: string
   options: Array<InputOption & { disabled?: boolean }>
   name: string
+  value: string | undefined
+  onChange: (selectedValue: string) => void
 }
 
 export const AgreementVerifiedAttributesDrawerRadioGroup: React.FC<
   AgreementVerifiedAttributesDrawerRadioGroupProps
-> = ({ sx, name, label, options, ...props }) => {
+> = ({ sx, name, label, options, value, onChange, ...props }) => {
   const labelId = React.useId()
 
   if (!options || options.length === 0) {
@@ -33,30 +35,28 @@ export const AgreementVerifiedAttributesDrawerRadioGroup: React.FC<
       <Typography variant="body2" fontWeight={600} id={labelId} component="label">
         {label}
       </Typography>
-      <Controller
-        name={name}
-        render={({ field: { onChange, ...fieldProps } }) => (
-          <MUIRadioGroup
-            aria-labelledby={labelId}
-            {...props}
-            {...fieldProps}
-            onChange={(_, value) => {
-              onChange(value)
-            }}
-          >
-            {options.map((o) => (
-              <FormControlLabel
-                disabled={o.disabled}
-                key={o.label}
-                value={o.value}
-                control={<Radio />}
-                label={o.label}
-                sx={{ mr: 3 }}
-              />
-            ))}
-          </MUIRadioGroup>
-        )}
-      />
+      <FormControl>
+        <MUIRadioGroup
+          aria-labelledby={labelId}
+          name={name}
+          {...props}
+          value={value}
+          onChange={(_, value) => {
+            onChange(value)
+          }}
+        >
+          {options.map((o) => (
+            <FormControlLabel
+              disabled={o.disabled}
+              key={o.label}
+              value={o.value}
+              control={<Radio />}
+              label={o.label}
+              sx={{ mr: 3 }}
+            />
+          ))}
+        </MUIRadioGroup>
+      </FormControl>
     </InputWrapper>
   )
 }

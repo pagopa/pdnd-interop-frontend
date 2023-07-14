@@ -70,21 +70,21 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
           class="MuiBox-root css-be40y1"
         >
           <form
-            class="MuiBox-root css-0"
+            class="css-ozfu34-MuiStack-root"
             novalidate=""
           >
             <div
-              class="css-ozfu34-MuiStack-root"
+              class="MuiBox-root css-1mgrf5c"
             >
-              <div
-                class="MuiBox-root css-1mgrf5c"
+              <label
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                id=":rg:"
               >
-                <label
-                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
-                  id=":rg:"
-                >
-                  form.radioGroup.label
-                </label>
+                form.radioGroup.label
+              </label>
+              <div
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+              >
                 <div
                   aria-labelledby=":rg:"
                   class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
@@ -189,88 +189,88 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
                   </label>
                 </div>
               </div>
+            </div>
+            <div
+              class="MuiBox-root css-0"
+            >
               <div
-                class="MuiBox-root css-0"
+                class="MuiBox-root css-1mgrf5c"
               >
-                <div
-                  class="MuiBox-root css-1mgrf5c"
+                <label
+                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  id=":ri:"
                 >
-                  <label
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
-                    id=":ri:"
-                  >
-                    form.datePicker.label
-                  </label>
+                  form.datePicker.label
+                </label>
+                <div
+                  class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                >
                   <div
-                    class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
                   >
+                    <input
+                      aria-invalid="true"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                      id=":rj:"
+                      placeholder="dd/mm/y"
+                      type="tel"
+                      value="20/02/2023"
+                    />
                     <div
-                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
+                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                     >
-                      <input
-                        aria-invalid="true"
-                        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-                        id=":rj:"
-                        placeholder="dd/mm/y"
-                        type="tel"
-                        value="20/02/2023"
-                      />
-                      <div
-                        class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                      <button
+                        aria-label="Choose date, selected date is 20 feb 2023"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                        tabindex="0"
+                        type="button"
                       >
-                        <button
-                          aria-label="Choose date, selected date is 20 feb 2023"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-                          tabindex="0"
-                          type="button"
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          data-testid="CalendarIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                            data-testid="CalendarIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                            />
-                          </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          <path
+                            d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
                           />
-                        </button>
-                      </div>
-                      <fieldset
-                        aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                      >
-                        <legend
-                          class="css-ihdtdm"
-                        >
-                          <span
-                            class="notranslate"
-                          >
-                            ​
-                          </span>
-                        </legend>
-                      </fieldset>
+                        </svg>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
+                      </button>
                     </div>
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="css-ihdtdm"
+                      >
+                        <span
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
                   </div>
                 </div>
-                <div
-                  class="MuiBox-root css-178yklu"
+              </div>
+              <div
+                class="MuiBox-root css-178yklu"
+              >
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
-                  >
-                    info.title
-                  </p>
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-c9fm5x-MuiTypography-root"
-                  >
-                    info.description
-                  </p>
-                </div>
+                  info.title
+                </p>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-c9fm5x-MuiTypography-root"
+                >
+                  info.description
+                </p>
               </div>
             </div>
           </form>
@@ -477,21 +477,21 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
           class="MuiBox-root css-be40y1"
         >
           <form
-            class="MuiBox-root css-0"
+            class="css-ozfu34-MuiStack-root"
             novalidate=""
           >
             <div
-              class="css-ozfu34-MuiStack-root"
+              class="MuiBox-root css-1mgrf5c"
             >
-              <div
-                class="MuiBox-root css-1mgrf5c"
+              <label
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                id=":r5:"
               >
-                <label
-                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
-                  id=":r5:"
-                >
-                  form.radioGroup.label
-                </label>
+                form.radioGroup.label
+              </label>
+              <div
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+              >
                 <div
                   aria-labelledby=":r5:"
                   class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
@@ -693,21 +693,21 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
           class="MuiBox-root css-be40y1"
         >
           <form
-            class="MuiBox-root css-0"
+            class="css-ozfu34-MuiStack-root"
             novalidate=""
           >
             <div
-              class="css-ozfu34-MuiStack-root"
+              class="MuiBox-root css-1mgrf5c"
             >
-              <div
-                class="MuiBox-root css-1mgrf5c"
+              <label
+                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                id=":r2:"
               >
-                <label
-                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
-                  id=":r2:"
-                >
-                  form.radioGroup.label
-                </label>
+                form.radioGroup.label
+              </label>
+              <div
+                class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+              >
                 <div
                   aria-labelledby=":r2:"
                   class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"

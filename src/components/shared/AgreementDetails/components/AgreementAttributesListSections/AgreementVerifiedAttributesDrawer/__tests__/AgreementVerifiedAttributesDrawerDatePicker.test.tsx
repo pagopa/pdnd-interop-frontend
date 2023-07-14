@@ -1,66 +1,89 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-
-import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { AgreementVerifiedAttributesDrawerDatePicker } from '../AgreementVerifiedAttributesDrawerDatePicker'
+import { vi } from 'vitest'
+import isLastDayOfMonth from 'date-fns/isLastDayOfMonth'
+import addDays from 'date-fns/addDays'
+
+const locale = 'it-IT'
+const dateNow = new Date()
 
 const datePickerProps = {
   standard: {
     label: 'label',
     name: 'test',
+    value: dateNow,
+    onChange: vi.fn(),
   },
 }
 
 describe('determine whether the integration between react-hook-form and MUI’s DatePicker works', () => {
-  it('gets the input from the user correctly', async () => {
+  it('gets the input from the user correctly', () => {
+    const onChangeFn = vi.fn()
     const datePickerResult = render(
-      <TestInputWrapper>
-        <AgreementVerifiedAttributesDrawerDatePicker {...datePickerProps.standard} />
-      </TestInputWrapper>
+      <AgreementVerifiedAttributesDrawerDatePicker
+        {...datePickerProps.standard}
+        onChange={onChangeFn}
+      />
     )
 
     const textBox = datePickerResult.getByRole('textbox')
-    expect(textBox).toHaveValue('01/01/1970')
+    expect(textBox).toHaveValue(
+      dateNow.toLocaleDateString(locale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    )
 
-    const buttonChooseDate = datePickerResult.getByRole('button', { name: 'Choose date' })
+    const buttonChooseDate = datePickerResult.getByRole('button', {
+      name: `Choose date, selected date is ${dateNow.toLocaleDateString(locale, {
+        dateStyle: 'medium',
+      })}`,
+    })
     fireEvent.click(buttonChooseDate)
 
     const selectedCell = datePickerResult.getByRole('gridcell', {
       selected: true,
     })
-    expect(selectedCell).toHaveTextContent('1')
+    expect(selectedCell).toHaveTextContent(`${dateNow.getDate()}`)
 
-    const secondCell = datePickerResult.getByRole('gridcell', {
-      name: '2',
-    })
-    fireEvent.click(secondCell)
-    expect(textBox).toHaveValue('02/01/1970')
+    if (isLastDayOfMonth(dateNow)) {
+      const buttonNextMonth = datePickerResult.getByRole('button', { name: 'Next month' })
+      fireEvent.click(buttonNextMonth)
 
-    const thirdCell = datePickerResult.getByRole('gridcell', {
-      name: '3',
-    })
-    fireEvent.click(thirdCell)
-    expect(textBox).toHaveValue('03/01/1970')
+      const secondCell = datePickerResult.getAllByRole('gridcell', { name: '1' })[0]
+      fireEvent.click(secondCell)
 
-    const fourthCell = datePickerResult.getByRole('gridcell', {
-      name: '4',
-    })
-    fireEvent.click(fourthCell)
-    expect(textBox).toHaveValue('04/01/1970')
+      const expectedDate = addDays(dateNow, 1).setMilliseconds(0)
+      expect(onChangeFn).toBeCalledWith(new Date(expectedDate))
+    }
+
+    if (!isLastDayOfMonth(dateNow)) {
+      const secondCell = datePickerResult.getByRole('gridcell', {
+        name: `${dateNow.getDate() + 1}`,
+      })
+      fireEvent.click(secondCell)
+
+      const expectedDate = addDays(dateNow, 1).setMilliseconds(0)
+      expect(onChangeFn).toBeCalledWith(new Date(expectedDate))
+    }
   })
 
   it('switches to year view', async () => {
     const datePickerResult = render(
-      <TestInputWrapper>
-        <AgreementVerifiedAttributesDrawerDatePicker {...datePickerProps.standard} />
-      </TestInputWrapper>
+      <AgreementVerifiedAttributesDrawerDatePicker {...datePickerProps.standard} />
     )
 
-    const buttonChooseDate = datePickerResult.getByRole('button', { name: 'Choose date' })
+    const buttonChooseDate = datePickerResult.getByRole('button', {
+      name: `Choose date, selected date is ${dateNow.toLocaleDateString(locale, {
+        dateStyle: 'medium',
+      })}`,
+    })
     fireEvent.click(buttonChooseDate)
     expect(
       datePickerResult.queryByRole('button', {
-        name: '1980',
+        name: `${dateNow.getFullYear()}`,
       })
     ).not.toBeInTheDocument()
 
@@ -70,7 +93,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     fireEvent.click(switchViewButton)
     expect(
       datePickerResult.getByRole('button', {
-        name: '1980',
+        name: `${dateNow.getFullYear()}`,
       })
     ).toBeInTheDocument()
   })

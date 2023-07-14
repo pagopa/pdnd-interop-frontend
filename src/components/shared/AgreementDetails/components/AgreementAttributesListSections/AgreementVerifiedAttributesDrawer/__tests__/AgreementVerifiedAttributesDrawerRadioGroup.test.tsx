@@ -1,9 +1,7 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-
-import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
+import { fireEvent, render } from '@testing-library/react'
 import { AgreementVerifiedAttributesDrawerRadioGroup } from '../AgreementVerifiedAttributesDrawerRadioGroup'
+import { vi } from 'vitest'
 
 const radioGroupOptions = [
   { label: 'option1', value: 'option1' },
@@ -16,16 +14,15 @@ const radioGroupProps = {
     label: 'label',
     name: 'testText',
     options: radioGroupOptions,
+    value: undefined,
+    onChange: vi.fn(),
   },
 }
 
 describe('AgreementVerifiedAttributesDrawerRadioGroup tests', () => {
-  it('gets the input from the user correctly', async () => {
-    const user = userEvent.setup()
+  it('gets the input from the user correctly', () => {
     const radioGroupResult = render(
-      <TestInputWrapper>
-        <AgreementVerifiedAttributesDrawerRadioGroup {...radioGroupProps.standard} />
-      </TestInputWrapper>
+      <AgreementVerifiedAttributesDrawerRadioGroup {...radioGroupProps.standard} />
     )
 
     const radioOption1 = radioGroupResult.getByRole('radio', {
@@ -42,17 +39,17 @@ describe('AgreementVerifiedAttributesDrawerRadioGroup tests', () => {
     expect(radioOption2).not.toBeChecked()
     expect(radioOption3).not.toBeChecked()
 
-    await user.click(radioOption1)
+    fireEvent.click(radioOption1)
     expect(radioOption1).toBeChecked()
     expect(radioOption2).not.toBeChecked()
     expect(radioOption3).not.toBeChecked()
 
-    await user.click(radioOption2)
+    fireEvent.click(radioOption2)
     expect(radioOption1).not.toBeChecked()
     expect(radioOption2).toBeChecked()
     expect(radioOption3).not.toBeChecked()
 
-    await user.click(radioOption3)
+    fireEvent.click(radioOption3)
     expect(radioOption1).not.toBeChecked()
     expect(radioOption2).not.toBeChecked()
     expect(radioOption3).toBeChecked()
@@ -60,9 +57,7 @@ describe('AgreementVerifiedAttributesDrawerRadioGroup tests', () => {
 
   it('should not render if options is empty', () => {
     const { container } = render(
-      <TestInputWrapper>
-        <AgreementVerifiedAttributesDrawerRadioGroup {...radioGroupProps.standard} options={[]} />
-      </TestInputWrapper>
+      <AgreementVerifiedAttributesDrawerRadioGroup {...radioGroupProps.standard} options={[]} />
     )
 
     expect(container).toBeEmptyDOMElement()
@@ -70,9 +65,7 @@ describe('AgreementVerifiedAttributesDrawerRadioGroup tests', () => {
 
   it('should render correctly with label if label prop is given', () => {
     const radioGroupResult = render(
-      <TestInputWrapper>
-        <AgreementVerifiedAttributesDrawerRadioGroup {...radioGroupProps.standard} />
-      </TestInputWrapper>
+      <AgreementVerifiedAttributesDrawerRadioGroup {...radioGroupProps.standard} />
     )
 
     expect(radioGroupResult.baseElement).toMatchSnapshot()
