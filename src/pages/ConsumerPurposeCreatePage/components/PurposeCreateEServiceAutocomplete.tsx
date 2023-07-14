@@ -15,9 +15,9 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
     useAutocompleteTextInput()
 
-  // function formatAutocompleteOptionLabel(eservice: CatalogEService) {
-  //   return `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producer.name}`
-  // }
+  function formatAutocompleteOptionLabel(eservice: CatalogEService) {
+    return `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producer.name}`
+  }
 
   /**
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected attribute name.
@@ -27,7 +27,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
 
     if (
       selectedEServiceRef.current &&
-      eserviceAutocompleteTextInput === selectedEServiceRef.current.name
+      eserviceAutocompleteTextInput === formatAutocompleteOptionLabel(selectedEServiceRef.current)
     ) {
       result = ''
     }
@@ -58,7 +58,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
 
   const eservices = data?.results ?? []
   const autocompleteOptions = (eservices ?? []).map((eservice) => ({
-    label: eservice.name,
+    label: formatAutocompleteOptionLabel(eservice),
     value: eservice.id,
   }))
 
