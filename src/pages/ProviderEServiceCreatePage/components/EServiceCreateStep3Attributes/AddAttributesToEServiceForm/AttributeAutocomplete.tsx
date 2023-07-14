@@ -24,18 +24,6 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
-  const { data } = AttributeQueries.useGetList(
-    {
-      kinds: [attributeKey.toUpperCase() as AttributeKind],
-      q: attributeSearchParam,
-      offset: 0,
-      limit: 50,
-    },
-    {
-      suspense: false,
-      keepPreviousData: true,
-    }
-  )
 
   const { watch, setValue } = useFormContext<EServiceCreateStep3FormValues>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
@@ -45,7 +33,34 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   })
 
   const { watch: watchAttribute, handleSubmit } = attributeAutocompleteFormMethods
-  const isSelected = !!watchAttribute('attribute')
+  const selectedAttribute = watchAttribute('attribute')
+  const isSelected = !!selectedAttribute
+
+  /**
+   * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected attribute name.
+   */
+  function getQ() {
+    let result = attributeSearchParam
+
+    if (selectedAttribute && attributeSearchParam === selectedAttribute.name) {
+      result = ''
+    }
+
+    return result
+  }
+
+  const { data } = AttributeQueries.useGetList(
+    {
+      kinds: [attributeKey.toUpperCase() as AttributeKind],
+      q: getQ(),
+      offset: 0,
+      limit: 50,
+    },
+    {
+      suspense: false,
+      keepPreviousData: true,
+    }
+  )
 
   const handleAddAttributeToGroup = handleSubmit(({ attribute }) => {
     if (!attribute) return
