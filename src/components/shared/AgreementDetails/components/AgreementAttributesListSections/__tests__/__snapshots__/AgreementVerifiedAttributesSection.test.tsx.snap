@@ -115,13 +115,13 @@ exports[`AgreementVerifiedAttributesSection > should match snapshot when agreeme
           <div
             class="css-nen11g-MuiStack-root"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            <span
+              class="MuiTypography-root MuiTypography-label css-37jdci-MuiTypography-root"
             >
               drawer.revoke.info.title
-            </p>
+            </span>
             <p
-              class="MuiTypography-root MuiTypography-body2 css-c9fm5x-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
             >
               drawer.revoke.info.description
             </p>

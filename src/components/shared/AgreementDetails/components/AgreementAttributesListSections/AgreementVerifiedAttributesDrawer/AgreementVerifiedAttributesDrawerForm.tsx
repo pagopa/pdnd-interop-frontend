@@ -66,10 +66,8 @@ const AgreementVerifiedAttributesDrawerForm: React.FC<
             onChange={handleDateChange}
           />
           <Box mt={3}>
-            <Typography variant="body2" fontWeight={600}>
-              {t('info.title')}
-            </Typography>
-            <Typography variant="body2" fontWeight={400}>
+            <Typography variant="label">{t('info.title')}</Typography>
+            <Typography variant="body2">
               <Trans
                 components={{
                   1: <Link href={attributesHelpLink} target="_blank" />,

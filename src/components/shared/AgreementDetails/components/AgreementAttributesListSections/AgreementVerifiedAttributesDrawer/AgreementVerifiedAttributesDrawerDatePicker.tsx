@@ -27,11 +27,11 @@ export const AgreementVerifiedAttributesDrawerDatePicker: React.FC<
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={adapterLocale}>
       <InputWrapper sx={sx}>
-        <Typography variant="body2" fontWeight={600} id={labelId} component="label">
+        <Typography variant="label" id={labelId} component="label" mb={1.2}>
           {label}
         </Typography>
         <DatePicker
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => <TextField {...params} size="small" />}
           value={value}
           onChange={(value) => {
             onChange(value)

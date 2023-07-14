@@ -1,7 +1,7 @@
 import { Drawer } from '@/components/shared/Drawer'
 import type { ActionItem } from '@/types/common.types'
 import { Link, Stack, Typography } from '@mui/material'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../../AgreementDetailsContext'
 import { AttributeMutations } from '@/api/attribute'
@@ -65,25 +65,43 @@ const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDra
     })
   }
 
-  const selectExpirationDateToSubmit = useCallback(() => {
+  /**
+   * Select the right expiration date exploring every case
+   * @returns expirationDate to send in the payload of the verifyAttribute or updateAttributeExpirationDate
+   */
+  const selectExpirationDateToSubmit = () => {
     switch (formState.hasExpirationDate) {
+      // the YES option in the radio group is selected (manually)
       case 'YES':
+        // the expiration date is setted (manually) in the date picker
         if (formState.expirationDate) {
           return formState.expirationDate.toISOString()
         }
+
+        // the expiration date is not setted (manually) but the attribute has already an expiration date
         if (verifier?.expirationDate) return verifier.expirationDate
+
+        // the expiration date is not setted (manually) and the attribute has not an expiration date yet
         return new Date().toISOString()
+
+      // the NO option in the radio group is selected (manually)
       case 'NO':
+        // no expiration date
         return undefined
+
+      // no option in the radio group is selected (manually)
       default:
+        // the radio is automatically setted to YES and the expiration date is setted (manually) in the date picker
         if (formState.expirationDate) {
           return formState.expirationDate.toISOString()
         }
+
+        // if the attribute has already an expiration date we return that else no expiration date is returned
         return verifier?.expirationDate
     }
-  }, [formState.expirationDate, formState.hasExpirationDate, verifier?.expirationDate])
+  }
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = () => {
     if (!agreement) return
 
     const expirationDate = selectExpirationDateToSubmit()
@@ -102,14 +120,7 @@ const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDra
         expirationDate: expirationDate,
       })
     }
-  }, [
-    agreement,
-    attributeId,
-    selectExpirationDateToSubmit,
-    type,
-    updateAttributeExpirationDate,
-    verifyAttribute,
-  ])
+  }
 
   let title = ''
   let subtitle = undefined
@@ -152,10 +163,8 @@ const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDra
     >
       {type === 'revoke' ? (
         <Stack>
-          <Typography variant="body2" fontWeight={600}>
-            {t('drawer.revoke.info.title')}
-          </Typography>
-          <Typography variant="body2" fontWeight={400}>
+          <Typography variant="label">{t('drawer.revoke.info.title')}</Typography>
+          <Typography variant="body2">
             <Trans
               components={{
                 1: <Link href={attributesHelpLink} target="_blank" />,

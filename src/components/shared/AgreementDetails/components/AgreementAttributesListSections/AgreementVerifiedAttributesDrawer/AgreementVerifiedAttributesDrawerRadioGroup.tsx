@@ -32,7 +32,7 @@ export const AgreementVerifiedAttributesDrawerRadioGroup: React.FC<
 
   return (
     <InputWrapper sx={sx}>
-      <Typography variant="body2" fontWeight={600} id={labelId} component="label">
+      <Typography variant="label" id={labelId} component="label" mb={1.2}>
         {label}
       </Typography>
       <FormControl>

@@ -74,10 +74,10 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
             novalidate=""
           >
             <div
-              class="MuiBox-root css-1mgrf5c"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
             >
               <label
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-label css-1g3jo3m-MuiTypography-root"
                 id=":rg:"
               >
                 form.radioGroup.label
@@ -194,10 +194,10 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
               class="MuiBox-root css-0"
             >
               <div
-                class="MuiBox-root css-1mgrf5c"
+                class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
               >
                 <label
-                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-label css-1g3jo3m-MuiTypography-root"
                   id=":ri:"
                 >
                   form.datePicker.label
@@ -206,18 +206,18 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
                   class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
                 >
                   <div
-                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root"
                   >
                     <input
                       aria-invalid="true"
-                      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input"
                       id=":rj:"
                       placeholder="dd/mm/y"
                       type="tel"
                       value="20/02/2023"
                     />
                     <div
-                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
                     >
                       <button
                         aria-label="Choose date, selected date is 20 feb 2023"
@@ -261,13 +261,13 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
               <div
                 class="MuiBox-root css-178yklu"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                <span
+                  class="MuiTypography-root MuiTypography-label css-37jdci-MuiTypography-root"
                 >
                   info.title
-                </p>
+                </span>
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-c9fm5x-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
                 >
                   info.description
                 </p>
@@ -371,13 +371,13 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
           <div
             class="css-nen11g-MuiStack-root"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+            <span
+              class="MuiTypography-root MuiTypography-label css-37jdci-MuiTypography-root"
             >
               drawer.revoke.info.title
-            </p>
+            </span>
             <p
-              class="MuiTypography-root MuiTypography-body2 css-c9fm5x-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
             >
               drawer.revoke.info.description
             </p>
@@ -481,10 +481,10 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
             novalidate=""
           >
             <div
-              class="MuiBox-root css-1mgrf5c"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
             >
               <label
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-label css-1g3jo3m-MuiTypography-root"
                 id=":r5:"
               >
                 form.radioGroup.label
@@ -697,10 +697,10 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
             novalidate=""
           >
             <div
-              class="MuiBox-root css-1mgrf5c"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
             >
               <label
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-label css-1g3jo3m-MuiTypography-root"
                 id=":r2:"
               >
                 form.radioGroup.label

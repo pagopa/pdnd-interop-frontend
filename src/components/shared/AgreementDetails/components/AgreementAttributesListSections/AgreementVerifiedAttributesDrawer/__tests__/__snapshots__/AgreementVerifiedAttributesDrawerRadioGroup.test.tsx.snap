@@ -4,10 +4,10 @@ exports[`AgreementVerifiedAttributesDrawerRadioGroup tests > should render corre
 <body>
   <div>
     <div
-      class="MuiBox-root css-zitybv"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
     >
       <label
-        class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-label css-1g3jo3m-MuiTypography-root"
         id=":r3:"
       >
         label
