@@ -93,4 +93,43 @@ describe('AgreementVerifiedAttributesSection', () => {
     })
     expect(baseElement).toMatchSnapshot()
   })
+
+  it('should show expirationDate chip when attribute is verified and has an expirationDate', () => {
+    mockUseCurrentRoute({ mode: 'consumer' })
+    mockAgreementDetailsContext({
+      descriptorAttributes: {
+        certified: [],
+        verified: [createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-1-1' }] })],
+        declared: [],
+      },
+      agreement: createMockAgreement({
+        producer: { id: 'test-id-producer' },
+        consumer: { id: 'test-id-consumer' },
+      }),
+      partyAttributes: {
+        certified: [],
+        declared: [],
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'a-1-1',
+            verifiedBy: [
+              {
+                id: 'test-id-producer',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
+              },
+            ],
+          }),
+        ],
+      },
+    })
+
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesSection />, {
+      withReactQueryContext: true,
+    })
+
+    screen.debug()
+
+    expect(screen.getByText('group.manage.expirationDate')).toBeInTheDocument()
+  })
 })

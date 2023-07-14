@@ -52,7 +52,8 @@
         "consumer": "Your organization has none of the following attributes"
       },
       "revokedByProducer": "Attribute revoked by a producer",
-      "revokedByOwnParty": "Attribute revoked by your own party"
+      "revokedByOwnParty": "Attribute revoked by your own party",
+      "expirationDate": "Verification expiration: {{expirationDate}}"
     },
     "addBtn": "Add requirement",
     "cancelBtn": "Cancel",

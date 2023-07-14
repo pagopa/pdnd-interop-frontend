@@ -44,6 +44,16 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
 
     if (isAttributeRevoked('verified', attribute))
       return tAttribute('group.manage.revokedByProducer')
+
+    const verifier = attribute?.verifiedBy.find((b) => b.id === agreement?.producer.id)
+    if (verifier && verifier.expirationDate) {
+      const expirationDate = new Date(verifier.expirationDate).toLocaleDateString(undefined, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+      return tAttribute('group.manage.expirationDate', { expirationDate: expirationDate })
+    }
   }
 
   function getGroupContainerProps(
