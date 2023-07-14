@@ -598,56 +598,57 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
   })
 
-  // fails because of milliseconds in Date now
-  // it('should call verify attribute function on button click correctly if type is verify, agreement is defined and hasExpirationDate is YES. Verified undefined', () => {
-  //   const verifyAttributeFn = vi.fn()
-  //   vi.spyOn(AttributeMutations, 'useVerifyPartyAttribute').mockImplementation(
-  //     () =>
-  //       ({
-  //         mutate: verifyAttributeFn,
-  //       } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
-  //   )
+  it('should call verify attribute function on button click correctly if type is verify, agreement is defined and hasExpirationDate is YES. Verified undefined', () => {
+    vi.useFakeTimers().setSystemTime(new Date('2020-01-01'))
 
-  //   mockAgreementDetailsContext({
-  //     agreement: createMockAgreement({
-  //       producer: { id: 'test-id-producer' },
-  //       consumer: { id: 'test-id-consumer' },
-  //     }),
-  //     partyAttributes: {
-  //       certified: [],
-  //       declared: [],
-  //       verified: [
-  //         createVerifiedTenantAttribute({
-  //           id: 'test attributeId',
-  //           verifiedBy: [],
-  //         }),
-  //       ],
-  //     },
-  //   })
+    const verifyAttributeFn = vi.fn()
+    vi.spyOn(AttributeMutations, 'useVerifyPartyAttribute').mockImplementation(
+      () =>
+        ({
+          mutate: verifyAttributeFn,
+        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+    )
 
-  //   const today = new Date(new Date().setMilliseconds(0))
+    mockAgreementDetailsContext({
+      agreement: createMockAgreement({
+        producer: { id: 'test-id-producer' },
+        consumer: { id: 'test-id-consumer' },
+      }),
+      partyAttributes: {
+        certified: [],
+        declared: [],
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'test attributeId',
+            verifiedBy: [],
+          }),
+        ],
+      },
+    })
 
-  //   const screen = renderWithApplicationContext(
-  //     <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
-  //     {
-  //       withReactQueryContext: true,
-  //     }
-  //   )
+    const today = new Date()
 
-  //   const radioOption1 = screen.getByRole('radio', {
-  //     name: 'form.radioGroup.options.YES',
-  //   }) as HTMLInputElement
-  //   fireEvent.click(radioOption1)
+    const screen = renderWithApplicationContext(
+      <AgreementVerifiedAttributesDrawer type={'verify'} {...defualtDrawerProps} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
 
-  //   const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
-  //   fireEvent.click(buttonVerify)
+    const radioOption1 = screen.getByRole('radio', {
+      name: 'form.radioGroup.options.YES',
+    }) as HTMLInputElement
+    fireEvent.click(radioOption1)
 
-  //   expect(verifyAttributeFn).toBeCalledWith({
-  //     partyId: 'test-id-consumer',
-  //     id: 'test attributeId',
-  //     expirationDate: `${today.toISOString()}`,
-  //   })
-  // })
+    const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
+    fireEvent.click(buttonVerify)
+
+    expect(verifyAttributeFn).toBeCalledWith({
+      partyId: 'test-id-consumer',
+      id: 'test attributeId',
+      expirationDate: `${today.toISOString()}`,
+    })
+  })
 
   it('should call verify attribute function on button click correctly if type is verify, agreement and verified are defined and hasExpirationDate is YES', () => {
     const verifyAttributeFn = vi.fn()
@@ -989,56 +990,57 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     })
   })
 
-  // fails because of milliseconds in Date now
-  // it('should call updateExpirationDate function on button click correctly if type is update, agreement is defined and hasExpirationDate is YES. Verified undefined', () => {
-  //   const updateExpirationDateFn = vi.fn()
-  //   vi.spyOn(AttributeMutations, 'useUpdateVerifiedPartyAttribute').mockImplementation(
-  //     () =>
-  //       ({
-  //         mutate: updateExpirationDateFn,
-  //       } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
-  //   )
+  it('should call updateExpirationDate function on button click correctly if type is update, agreement is defined and hasExpirationDate is YES. Verified undefined', () => {
+    vi.useFakeTimers().setSystemTime(new Date('2020-01-01'))
 
-  //   mockAgreementDetailsContext({
-  //     agreement: createMockAgreement({
-  //       producer: { id: 'test-id-producer' },
-  //       consumer: { id: 'test-id-consumer' },
-  //     }),
-  //     partyAttributes: {
-  //       certified: [],
-  //       declared: [],
-  //       verified: [
-  //         createVerifiedTenantAttribute({
-  //           id: 'test attributeId',
-  //           verifiedBy: [],
-  //         }),
-  //       ],
-  //     },
-  //   })
+    const updateExpirationDateFn = vi.fn()
+    vi.spyOn(AttributeMutations, 'useUpdateVerifiedPartyAttribute').mockImplementation(
+      () =>
+        ({
+          mutate: updateExpirationDateFn,
+        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+    )
 
-  //   const today = new Date(new Date().setMilliseconds(0))
+    mockAgreementDetailsContext({
+      agreement: createMockAgreement({
+        producer: { id: 'test-id-producer' },
+        consumer: { id: 'test-id-consumer' },
+      }),
+      partyAttributes: {
+        certified: [],
+        declared: [],
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'test attributeId',
+            verifiedBy: [],
+          }),
+        ],
+      },
+    })
 
-  //   const screen = renderWithApplicationContext(
-  //     <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
-  //     {
-  //       withReactQueryContext: true,
-  //     }
-  //   )
+    const today = new Date(new Date().setMilliseconds(0))
 
-  //   const radioOption1 = screen.getByRole('radio', {
-  //     name: 'form.radioGroup.options.YES',
-  //   }) as HTMLInputElement
-  //   fireEvent.click(radioOption1)
+    const screen = renderWithApplicationContext(
+      <AgreementVerifiedAttributesDrawer type={'update'} {...defualtDrawerProps} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
 
-  //   const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
-  //   fireEvent.click(buttonUpdate)
+    const radioOption1 = screen.getByRole('radio', {
+      name: 'form.radioGroup.options.YES',
+    }) as HTMLInputElement
+    fireEvent.click(radioOption1)
 
-  //   expect(updateExpirationDateFn).toBeCalledWith({
-  //     partyId: 'test-id-consumer',
-  //     attributeId: 'test attributeId',
-  //     expirationDate: `${today.toISOString()}`,
-  //   })
-  // })
+    const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
+    fireEvent.click(buttonUpdate)
+
+    expect(updateExpirationDateFn).toBeCalledWith({
+      partyId: 'test-id-consumer',
+      attributeId: 'test attributeId',
+      expirationDate: `${today.toISOString()}`,
+    })
+  })
 
   it('should call updateExpirationDate function on button click correctly if type is update, agreement and verified are defined and hasExpirationDate is YES', () => {
     const updateExpirationDateFn = vi.fn()

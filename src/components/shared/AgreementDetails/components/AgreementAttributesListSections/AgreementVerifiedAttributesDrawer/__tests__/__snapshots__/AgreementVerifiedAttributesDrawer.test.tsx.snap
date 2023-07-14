@@ -74,7 +74,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
             novalidate=""
           >
             <div
-              class="MuiBox-root css-1mgrf5c"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
             >
               <label
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
@@ -194,7 +194,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if attr
               class="MuiBox-root css-0"
             >
               <div
-                class="MuiBox-root css-1mgrf5c"
+                class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
               >
                 <label
                   class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
@@ -481,7 +481,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
             novalidate=""
           >
             <div
-              class="MuiBox-root css-1mgrf5c"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
             >
               <label
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
@@ -697,7 +697,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
             novalidate=""
           >
             <div
-              class="MuiBox-root css-1mgrf5c"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
             >
               <label
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
