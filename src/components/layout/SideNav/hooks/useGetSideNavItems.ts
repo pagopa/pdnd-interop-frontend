@@ -1,99 +1,60 @@
 import React from 'react'
 import { useJwt } from '@/hooks/useJwt'
 import type { SideNavItemView } from '../SideNav'
-import type { UserProductRole } from '@/types/party.types'
 import EmailIcon from '@mui/icons-material/Email'
-import uniq from 'lodash/uniq'
 import type { RouteKey } from '@/router'
+import { routes } from '@/router'
 
-type Views = Record<UserProductRole, Array<SideNavItemView>>
-
-const views: Views = {
-  admin: [
-    {
-      routeKey: 'PROVIDE',
-      id: 'provider',
-      children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
-    },
-    {
-      routeKey: 'SUBSCRIBE',
-      id: 'subscriber',
-      children: [
-        'SUBSCRIBE_CATALOG_LIST',
-        'SUBSCRIBE_AGREEMENT_LIST',
-        'SUBSCRIBE_PURPOSE_LIST',
-        'SUBSCRIBE_CLIENT_LIST',
-        'SUBSCRIBE_INTEROP_M2M',
-        'SUBSCRIBE_DEBUG_VOUCHER',
-      ],
-    },
-  ],
-  api: [
-    {
-      routeKey: 'PROVIDE',
-      id: 'provider',
-      children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
-    },
-    {
-      routeKey: 'SUBSCRIBE',
-      id: 'subscriber',
-      children: ['SUBSCRIBE_CATALOG_LIST', 'SUBSCRIBE_DEBUG_VOUCHER'],
-    },
-  ],
-  security: [
-    {
-      routeKey: 'SUBSCRIBE',
-      id: 'subscriber',
-      children: [
-        'SUBSCRIBE_CATALOG_LIST',
-        'SUBSCRIBE_AGREEMENT_LIST',
-        'SUBSCRIBE_PURPOSE_LIST',
-        'SUBSCRIBE_CLIENT_LIST',
-        'SUBSCRIBE_INTEROP_M2M',
-        'SUBSCRIBE_DEBUG_VOUCHER',
-      ],
-    },
-  ],
-}
+const views = [
+  {
+    routeKey: 'PROVIDE',
+    id: 'provider',
+    children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
+  },
+  {
+    routeKey: 'SUBSCRIBE',
+    id: 'subscriber',
+    children: [
+      'SUBSCRIBE_CATALOG_LIST',
+      'SUBSCRIBE_AGREEMENT_LIST',
+      'SUBSCRIBE_PURPOSE_LIST',
+      'SUBSCRIBE_CLIENT_LIST',
+      'SUBSCRIBE_INTEROP_M2M',
+      'SUBSCRIBE_DEBUG_VOUCHER',
+    ],
+  },
+  { routeKey: 'NOTIFICATION', StartIcon: EmailIcon },
+  { routeKey: 'PARTY_REGISTRY' },
+] as const
 
 export function useGetSideNavItems() {
   const { currentRoles } = useJwt()
 
   return React.useMemo(() => {
-    const availableSideNavItems: Array<SideNavItemView> = []
+    /**
+     * Checks if the user as the authorization level required to access a given route
+     */
+    const isAuthorizedToRoute = (routeKey: RouteKey) => {
+      const authLevels = routes[routeKey].authLevels
+      return authLevels.some((authLevel) => currentRoles.includes(authLevel))
+    }
 
-    // For each user roles
-    currentRoles.forEach((userRole) => {
-      // ... take all the sidenav items for that role...
-      const roleSideNavItems = views[userRole]
+    /**
+     * Filters out views that the user is not authorized to access
+     */
+    return views.reduce<Array<SideNavItemView>>((acc, view) => {
+      // If the view is not authorized, we don't need to check its children
+      if (!isAuthorizedToRoute(view.routeKey)) return acc
 
-      roleSideNavItems.forEach(({ id: roleSideNavItemId, children }, index) => {
-        const sideNavBarItemIndex = availableSideNavItems.findIndex(
-          ({ id }) => id === roleSideNavItemId
-        )
+      // If the view has children, we need to filter out the ones that the user is not authorized to access
+      if ('children' in view) {
+        const children = [...view.children].filter(isAuthorizedToRoute)
+        if (children.length === 0) return acc
 
-        // ... if the item is already on the availableSideNavItems array, just merge the children
-        if (sideNavBarItemIndex > -1) {
-          availableSideNavItems[sideNavBarItemIndex].children?.push(...(children ?? []))
-        }
-
-        // ... if not add the side nav item inside the availableSideNavItems array result.
-        if (sideNavBarItemIndex === -1) {
-          availableSideNavItems.push(roleSideNavItems[index])
-        }
-      })
-    })
-
-    availableSideNavItems.push({ routeKey: 'NOTIFICATION', StartIcon: EmailIcon })
-    availableSideNavItems.push({ routeKey: 'PARTY_REGISTRY' as RouteKey })
-
-    // Remove duplicated children, if there's any.
-    availableSideNavItems.forEach((_, index) => {
-      if (availableSideNavItems[index]?.children) {
-        availableSideNavItems[index].children = uniq(availableSideNavItems[index].children)
+        return [...acc, { ...view, children }]
       }
-    })
 
-    return availableSideNavItems
+      return [...acc, view]
+    }, [])
   }, [currentRoles])
 }
