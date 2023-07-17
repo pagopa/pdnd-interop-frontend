@@ -8,6 +8,7 @@ import type {
   DeclaredAttributesResponse,
   DeclaredTenantAttributeSeed,
   GetAttributesParams,
+  UpdateVerifiedTenantAttributeSeed,
   VerifiedAttributesResponse,
   VerifiedTenantAttributeSeed,
 } from '../api.generatedTypes'
@@ -65,6 +66,17 @@ async function verifyPartyAttribute({
   )
 }
 
+async function updateVerifiedPartyAttribute({
+  partyId,
+  attributeId,
+  ...payload
+}: { partyId: string; attributeId: string } & UpdateVerifiedTenantAttributeSeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/verified/${attributeId}`,
+    payload
+  )
+}
+
 async function revokeVerifiedPartyAttribute({
   partyId,
   attributeId,
@@ -95,6 +107,7 @@ const AttributeServices = {
   getPartyDeclaredList,
   create,
   verifyPartyAttribute,
+  updateVerifiedPartyAttribute,
   revokeVerifiedPartyAttribute,
   declarePartyAttribute,
   revokeDeclaredPartyAttribute,

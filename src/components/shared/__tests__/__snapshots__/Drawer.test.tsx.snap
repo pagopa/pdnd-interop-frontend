@@ -1,11 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Drawer test > Should not render when isOpen is false 1`] = `
-<body>
-  <div />
-</body>
-`;
-
 exports[`Drawer test > Should render correctly with subtitle and button 1`] = `
 <body
   style="padding-right: 1024px; overflow: hidden;"

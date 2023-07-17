@@ -17,12 +17,19 @@ import {
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { useAgreementGetVerifiedAttributesActions } from '../../hooks/useAgreementGetVerifiedAttributesActions'
 import { attributesHelpLink } from '@/config/constants'
+import AgreementVerifiedAttributesDrawer from './AgreementVerifiedAttributesDrawer/AgreementVerifiedAttributesDrawer'
 
 export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
 
-  const { descriptorAttributes, partyAttributes } = useAgreementDetailsContext()
+  const {
+    descriptorAttributes,
+    partyAttributes,
+    agreement,
+    agreementVerifiedAttributeDrawerProps,
+    closeAgreementVerifiedAttributeDrawer,
+  } = useAgreementDetailsContext()
 
   const providerOrConsumer = mode as ProviderOrConsumer
 
@@ -37,6 +44,16 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
 
     if (isAttributeRevoked('verified', attribute))
       return tAttribute('group.manage.revokedByProducer')
+
+    const verifier = attribute?.verifiedBy.find((b) => b.id === agreement?.producer.id)
+    if (verifier && verifier.expirationDate) {
+      const expirationDate = new Date(verifier.expirationDate).toLocaleDateString(undefined, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+      return tAttribute('group.manage.expirationDate', { expirationDate: expirationDate })
+    }
   }
 
   function getGroupContainerProps(
@@ -70,6 +87,18 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
         </Trans>
       }
     >
+      {agreement && agreementVerifiedAttributeDrawerProps && (
+        <AgreementVerifiedAttributesDrawer
+          /**
+           * To avoid old or dirty data in the drawer the key used is isOpen
+           * because it changes everytime the drawer is closed or opened and
+           * in this way the drawer will be build like a new one with the correct updated data
+           */
+          key={`${agreementVerifiedAttributeDrawerProps.isOpen}`}
+          {...agreementVerifiedAttributeDrawerProps}
+          onClose={closeAgreementVerifiedAttributeDrawer}
+        />
+      )}
       <Stack spacing={2}>
         {verifiedAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>

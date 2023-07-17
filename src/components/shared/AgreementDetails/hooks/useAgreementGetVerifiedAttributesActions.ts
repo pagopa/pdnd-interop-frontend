@@ -3,7 +3,6 @@ import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute } from '@/router'
 import { useJwt } from '@/hooks/useJwt'
-import { AttributeMutations } from '@/api/attribute'
 import type { AttributeContainer } from '@/components/layout/containers'
 
 /**
@@ -14,10 +13,12 @@ export const useAgreementGetVerifiedAttributesActions = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
   const { mode } = useCurrentRoute()
   const { isAdmin } = useJwt()
-  const { partyAttributes, isAgreementEServiceMine, agreement } = useAgreementDetailsContext()
-
-  const { mutate: verifyAttribute } = AttributeMutations.useVerifyPartyAttribute()
-  const { mutate: revokeAttibute } = AttributeMutations.useRevokeVerifiedPartyAttribute()
+  const {
+    partyAttributes,
+    isAgreementEServiceMine,
+    agreement,
+    setAgreementVerifiedAttributeDrawerProps,
+  } = useAgreementDetailsContext()
 
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
 
@@ -35,16 +36,24 @@ export const useAgreementGetVerifiedAttributesActions = () => {
     const isOwnedButRevoked = attribute && isAttributeRevoked('verified', attribute)
 
     const handleVerifyAttribute = (attributeId: string) => {
-      verifyAttribute({
-        partyId: agreement.consumer.id,
-        id: attributeId,
+      setAgreementVerifiedAttributeDrawerProps((prev) => {
+        return {
+          ...prev,
+          isOpen: true,
+          attributeId: attributeId,
+          type: isOwned ? 'update' : 'verify',
+        }
       })
     }
 
     const handleRevokeAttribute = (attributeId: string) => {
-      revokeAttibute({
-        partyId: agreement.consumer.id,
-        attributeId,
+      setAgreementVerifiedAttributeDrawerProps((prev) => {
+        return {
+          ...prev,
+          isOpen: true,
+          attributeId: attributeId,
+          type: 'revoke',
+        }
       })
     }
 

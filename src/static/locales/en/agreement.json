@@ -73,6 +73,36 @@
           "verify": "Verify attribute",
           "update": "Update verification",
           "revoke": "Revoke attribute"
+        },
+        "drawer": {
+          "verify": {
+            "title": "Verify attribute",
+            "subtitle": "With this verification you declare that the consumer owns the requested attribute.",
+            "form": {
+              "radioGroup": {
+                "label": "When does the verification of this attribute expire?",
+                "options": {
+                  "NO": "Without expiration",
+                  "YES": "Set the expiration date"
+                }
+              },
+              "datePicker": {
+                "label": "Set the expiration date"
+              }
+            },
+            "info": {
+              "title": "What happens when an attribute expires?",
+              "description": "To find out more, <1>read the guide.</1>"
+            }
+          },
+          "revoke": {
+            "title": "Revoke attribute",
+            "subtitle": "By revoking the attribute, you declare that the consumer no longer owns the indicated attribute.",
+            "info": {
+              "title": "What happens when I revoke an attribute?",
+              "description": "To find out more, <1>read the guide.</1>"
+            }
+          }
         }
       },
       "declared": {

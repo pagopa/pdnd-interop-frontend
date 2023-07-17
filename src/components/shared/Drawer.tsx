@@ -1,4 +1,5 @@
 import React from 'react'
+import type { ButtonProps } from '@mui/material'
 import { Box, Button, Drawer as MUIDrawer, IconButton, Stack, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +10,11 @@ export type DrawerProps = {
   onClose: VoidFunction
   title: string
   subtitle?: string
-  buttonAction?: ActionItem & { disabled?: boolean }
+  buttonAction?: ActionItem & {
+    disabled?: boolean
+    variant?: ButtonProps['variant']
+    color?: ButtonProps['color']
+  }
   children: React.ReactNode
 }
 
@@ -68,8 +73,9 @@ export const Drawer: React.FC<DrawerProps> = ({
         {buttonAction && (
           <Box sx={{ pb: 4, mt: 0.5 }} width={327} display="flex" alignItems="flex-end">
             <Button
-              variant="contained"
               disabled={buttonAction.disabled}
+              variant={buttonAction.variant ?? 'contained'}
+              color={buttonAction.color ?? 'primary'}
               fullWidth
               onClick={buttonAction.action}
             >
