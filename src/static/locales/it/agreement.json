@@ -72,6 +72,36 @@
           "verify": "Verifica attributo",
           "update": "Aggiorna verifica",
           "revoke": "Revoca attributo"
+        },
+        "drawer": {
+          "verify": {
+            "title": "Verifica attributo",
+            "subtitle": "Con questa verifica dichiari che il fruitore possiede l’attributo richiesto.",
+            "form": {
+              "radioGroup": {
+                "label": "Quando scade la verifica di questo attributo?",
+                "options": {
+                  "NO": "Senza scadenza",
+                  "YES": "Imposta data di scadenza"
+                }
+              },
+              "datePicker": {
+                "label": "Imposta data di scadenza"
+              }
+            },
+            "info": {
+              "title": "Cosa succede quando scade un attributo?",
+              "description": "Per saperne di più, <1>leggi la guida.</1>"
+            }
+          },
+          "revoke": {
+            "title": "Revoca attributo",
+            "subtitle": "Revocando l’attributo, dichiari che il fruitore non possiede più l’attributo indicato.",
+            "info": {
+              "title": "Cosa succede quando revoco un attributo?",
+              "description": "Per saperne di più, <1>leggi la guida.</1>"
+            }
+          }
         }
       },
       "declared": {

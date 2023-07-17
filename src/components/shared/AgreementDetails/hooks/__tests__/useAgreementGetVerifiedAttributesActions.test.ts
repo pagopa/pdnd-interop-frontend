@@ -7,8 +7,8 @@ import { mockAgreementDetailsContext } from '../../components/__tests__/test.com
 import { useAgreementGetVerifiedAttributesActions } from '../useAgreementGetVerifiedAttributesActions'
 import { createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { createVerifiedTenantAttribute } from '__mocks__/data/attribute.mocks'
+import { act } from 'react-dom/test-utils'
 import { vi } from 'vitest'
-import { AttributeMutations } from '@/api/attribute'
 
 describe('useAgreementGetVerifiedAttributesActions', () => {
   it('should return an empty array if the agreement is undefined', () => {
@@ -145,61 +145,87 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
     ])
   })
 
-  it('should correctly call the verify/update action', () => {
-    const action = vi.fn()
-    vi.spyOn(AttributeMutations, 'useVerifyPartyAttribute').mockReturnValue({
-      mutate: action,
-    } as unknown as ReturnType<typeof AttributeMutations.useVerifyPartyAttribute>)
-
+  it("should change the agreementVerifiedAttributeDrawer state when 'verify' action is called", () => {
+    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
     mockAgreementDetailsContext({
-      agreement: createMockAgreement({ consumer: { id: 'consumer' } }),
+      agreement: createMockAgreement(),
       isAgreementEServiceMine: false,
       partyAttributes: {
         declared: [],
         certified: [],
         verified: [],
       },
+      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
     })
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider' })
-    const { result } = renderHookWithApplicationContext(
+    const { result, rerender } = renderHookWithApplicationContext(
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
+
     const verifyAction = result.current('test')[0].action
-    verifyAction('test', 'Test')
-    expect(action).toHaveBeenCalledWith({
-      partyId: 'consumer',
-      id: 'test',
+    act(() => {
+      verifyAction('test')
+      rerender()
     })
+
+    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
   })
 
-  it('should correctly call the revoke action', () => {
-    const action = vi.fn()
-    vi.spyOn(AttributeMutations, 'useRevokeVerifiedPartyAttribute').mockReturnValue({
-      mutate: action,
-    } as unknown as ReturnType<typeof AttributeMutations.useRevokeVerifiedPartyAttribute>)
-
+  it("should change the agreementVerifiedAttributeDrawer state when 'update verification' action is called", () => {
+    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
     mockAgreementDetailsContext({
-      agreement: createMockAgreement({ consumer: { id: 'consumer' } }),
+      agreement: createMockAgreement(),
       isAgreementEServiceMine: false,
       partyAttributes: {
         declared: [],
         certified: [],
         verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
       },
+      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
     })
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider' })
-    const { result } = renderHookWithApplicationContext(
+    const { result, rerender } = renderHookWithApplicationContext(
       () => useAgreementGetVerifiedAttributesActions(),
       { withReactQueryContext: true, withRouterContext: true }
     )
-    const revokeAction = result.current('test-owned')[1].action
-    revokeAction('test-owned', 'Test')
-    expect(action).toHaveBeenCalledWith({
-      partyId: 'consumer',
-      attributeId: 'test-owned',
+
+    const updateAction = result.current('test-owned')[0].action
+    act(() => {
+      updateAction('test-owned')
+      rerender()
     })
+
+    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
+  })
+
+  it("should change the agreementVerifiedAttributeDrawer state when 'revoke' action is called", () => {
+    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
+    mockAgreementDetailsContext({
+      agreement: createMockAgreement(),
+      isAgreementEServiceMine: false,
+      partyAttributes: {
+        declared: [],
+        certified: [],
+        verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
+      },
+      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
+    })
+    mockUseJwt({ isAdmin: true })
+    mockUseCurrentRoute({ mode: 'provider' })
+    const { result, rerender } = renderHookWithApplicationContext(
+      () => useAgreementGetVerifiedAttributesActions(),
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    const revokeAction = result.current('test-owned')[1].action
+    act(() => {
+      revokeAction('test-owned')
+      rerender()
+    })
+
+    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
   })
 })
