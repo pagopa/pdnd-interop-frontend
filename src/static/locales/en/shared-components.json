@@ -186,7 +186,7 @@
     "tooltipTitle": "Id successfully copied"
   },
   "environmentBanner": {
-    "content": "Testing environment: warning the data does not have to be real."
+    "content": "Testing environment. Do not use real data."
   },
   "maintenanceBanner": {
     "titleTestEnv": "Scheduled maintenance for test environment",
