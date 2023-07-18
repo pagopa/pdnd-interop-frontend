@@ -185,7 +185,7 @@
     "tooltipTitle": "Id copiato correttamente"
   },
   "environmentBanner": {
-    "content": "Ambiente di collaudo: attenzione i dati non devono essere reali."
+    "content": "Ambiente di collaudo. Non utilizzare dati reali."
   },
   "maintenanceBanner": {
     "titleTestEnv": "Manutenzione programmata ambiente di collaudo",
