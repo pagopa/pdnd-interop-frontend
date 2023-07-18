@@ -24,7 +24,8 @@ const ProviderPurposesListPage: React.FC = () => {
     useAutocompleteTextInput()
 
   const { data: consumers } = EServiceQueries.useGetConsumers(
-    { offset: 0, limit: 50, q: consumersAutocompleteText },
+    // PIN-3646 - Temporary avoid passing an empty string as a query parameter
+    { offset: 0, limit: 50, q: consumersAutocompleteText || undefined },
     { suspense: false, keepPreviousData: true }
   )
 

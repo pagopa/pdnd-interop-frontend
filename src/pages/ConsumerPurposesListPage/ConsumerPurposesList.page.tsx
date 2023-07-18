@@ -28,7 +28,8 @@ const ConsumerPurposesListPage: React.FC = () => {
   const [producersAutocompleteText, setProducersAutocompleteInputChange] = React.useState('')
 
   const { data: producers } = EServiceQueries.useGetProducers(
-    { offset: 0, limit: 50, q: producersAutocompleteText },
+    // PIN-3646 - Temporary avoid passing an empty string as a query parameter
+    { offset: 0, limit: 50, q: producersAutocompleteText || undefined },
     { suspense: false, keepPreviousData: true }
   )
   const { data: eservices } = EServiceQueries.useGetProviderList(
