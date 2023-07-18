@@ -23,7 +23,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
         }}
         bgcolor="#FAFAFA"
       >
-        <Box sx={{ maxWidth: 1280, mx: 'auto' }}>{children}</Box>
+        <Box sx={{ maxWidth: 920, mx: 'auto' }}>
+          <Breadcrumbs />
+          {children}
+        </Box>
       </Box>
     )
   }
