@@ -4,6 +4,7 @@ import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material
 import type { ActionItem, ActionItemButton } from '@/types/common.types'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
+import { Breadcrumbs } from '../Breadcrumbs'
 
 export type TopSideActions = {
   buttons: Array<ActionItemButton>
@@ -31,6 +32,7 @@ export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
 }) => {
   return (
     <Box sx={sx}>
+      <Breadcrumbs />
       {isLoading ? <StyledIntroSkeleton /> : <StyledIntro {...props} />}
       <Box sx={{ mt: 4 }}>{children}</Box>
     </Box>
@@ -40,18 +42,8 @@ export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
 export const PageContainerSkeleton: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <Box>
-      <Stack direction="row" alignItems="end" spacing={2}>
-        <Box sx={{ flex: 1 }}>
-          <Typography component="h1" variant="h4">
-            <Skeleton />
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
-            <Skeleton />
-          </Typography>
-        </Box>
-
-        <Stack direction="row" alignItems="center" spacing={2}></Stack>
-      </Stack>
+      <Breadcrumbs />
+      <StyledIntroSkeleton />
       <Box sx={{ mt: 4 }}>{children}</Box>
     </Box>
   )
