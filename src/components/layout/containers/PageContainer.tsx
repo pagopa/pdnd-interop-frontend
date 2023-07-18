@@ -5,6 +5,7 @@ import type { ActionItem, ActionItemButton } from '@/types/common.types'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { Breadcrumbs } from '../Breadcrumbs'
+import { StatusChip } from '@/components/shared/StatusChip'
 
 export type TopSideActions = {
   buttons: Array<ActionItemButton>
@@ -20,6 +21,7 @@ type Props = {
    */
   topSideActions?: TopSideActions
   newTopSideActions?: Array<ActionItemButton>
+  statusChip?: React.ComponentProps<typeof StatusChip>
   isLoading?: boolean
   sx?: SxProps
 }
@@ -54,66 +56,84 @@ type StyledIntroProps = {
   description?: string
   topSideActions?: TopSideActions
   newTopSideActions?: Array<ActionItemButton>
+  statusChip?: React.ComponentProps<typeof StatusChip>
 }
 
 const StyledIntro: React.FC<StyledIntroProps> = ({
   title,
   description,
   newTopSideActions,
+  statusChip,
   topSideActions = null,
 }) => {
   return (
-    <Stack direction="row" alignItems="end" spacing={2}>
-      <Box sx={{ flex: 1 }}>
-        {title && (
-          <Typography component="h1" variant="h4">
-            {title}
-          </Typography>
-        )}
-        {description && (
-          <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
-            {description}
-          </Typography>
-        )}
-      </Box>
+    <Box>
+      <Stack direction="row" alignItems="end" spacing={2}>
+        <Box sx={{ flex: 1 }}>
+          {title && (
+            <Typography component="h1" variant="h4">
+              {title}
+            </Typography>
+          )}
+          {description && (
+            <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
+              {description}
+            </Typography>
+          )}
+        </Box>
 
-      <Stack direction="row" alignItems="center" spacing={2}>
-        {topSideActions?.infoTooltip && <InfoTooltip label={topSideActions.infoTooltip} />}
-        {topSideActions?.buttons &&
-          topSideActions.buttons.map(({ action, label, ...props }, i) => (
-            <Button key={i} onClick={action} variant="outlined" size="small" {...props}>
-              {label}
-            </Button>
-          ))}
+        <Stack direction="row" alignItems="center" spacing={2}>
+          {topSideActions?.infoTooltip && <InfoTooltip label={topSideActions.infoTooltip} />}
+          {topSideActions?.buttons &&
+            topSideActions.buttons.map(({ action, label, ...props }, i) => (
+              <Button key={i} onClick={action} variant="outlined" size="small" {...props}>
+                {label}
+              </Button>
+            ))}
 
-        {newTopSideActions &&
-          newTopSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
-            const Wrapper = tooltip
-              ? ({ children }: { children: React.ReactElement }) => (
-                  <Tooltip arrow title={tooltip}>
-                    <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
-                  </Tooltip>
-                )
-              : React.Fragment
-
-            return (
-              <Wrapper key={i}>
-                <Button
-                  onClick={action}
-                  variant="text"
-                  color={color}
-                  startIcon={Icon && <Icon />}
-                  {...props}
-                >
-                  {label}
-                </Button>
-              </Wrapper>
-            )
-          })}
-
-        {topSideActions?.actionMenu && <ActionMenu actions={topSideActions.actionMenu} />}
+          {topSideActions?.actionMenu && <ActionMenu actions={topSideActions.actionMenu} />}
+        </Stack>
       </Stack>
-    </Stack>
+      {(newTopSideActions || statusChip) && (
+        <Stack
+          sx={{ mt: 1, minHeight: 40 }}
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
+          <Box>
+            {newTopSideActions &&
+              newTopSideActions.map(
+                ({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
+                  const Wrapper = tooltip
+                    ? ({ children }: { children: React.ReactElement }) => (
+                        <Tooltip arrow title={tooltip}>
+                          <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
+                        </Tooltip>
+                      )
+                    : React.Fragment
+
+                  return (
+                    <Wrapper key={i}>
+                      <Button
+                        onClick={action}
+                        variant="text"
+                        size="small"
+                        color={color}
+                        startIcon={Icon && <Icon />}
+                        {...props}
+                      >
+                        {label}
+                      </Button>
+                    </Wrapper>
+                  )
+                }
+              )}
+          </Box>
+        </Stack>
+      )}
+    </Box>
   )
 }
 
