@@ -6,6 +6,8 @@ import { ActionMenu } from '@/components/shared/ActionMenu'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
+import { Link, type RouteKey } from '@/router'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export type TopSideActions = {
   buttons: Array<ActionItemButton>
@@ -21,8 +23,12 @@ type Props = {
    */
   topSideActions?: TopSideActions
   newTopSideActions?: Array<ActionItemButton>
-  statusChip?: React.ComponentProps<typeof StatusChip>
   isLoading?: boolean
+  statusChip?: React.ComponentProps<typeof StatusChip>
+  backToAction?: {
+    label: string
+    to: RouteKey
+  }
   sx?: SxProps
 }
 
@@ -30,11 +36,27 @@ export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
   children,
   sx,
   isLoading,
+  backToAction,
   ...props
 }) => {
   return (
     <Box sx={sx}>
-      <Breadcrumbs />
+      <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
+        {backToAction && (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          <Link
+            to={backToAction.to}
+            as="button"
+            startIcon={<ArrowBackIcon />}
+            size="small"
+            variant="naked"
+          >
+            {backToAction.label}
+          </Link>
+        )}
+        <Breadcrumbs />
+      </Stack>
       {isLoading ? <StyledIntroSkeleton /> : <StyledIntro {...props} />}
       <Box sx={{ mt: 4 }}>{children}</Box>
     </Box>
