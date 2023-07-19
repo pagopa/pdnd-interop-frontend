@@ -6,6 +6,7 @@ import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 import type {
   CatalogEServices,
+  CompactOrganizations,
   EServiceDescriptorSeed,
   GetConsumersParams,
   GetEServicesCatalogParams,
@@ -49,7 +50,7 @@ function useGetProviderList(
 
 function useGetConsumers(
   params: GetConsumersParams,
-  config?: { suspense?: boolean; keepPreviousData?: boolean }
+  config?: UseQueryWrapperOptions<CompactOrganizations>
 ) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetConsumers, params],
@@ -60,7 +61,7 @@ function useGetConsumers(
 
 function useGetProducers(
   params: GetProducersParams,
-  config?: { suspense?: boolean; keepPreviousData?: boolean }
+  config?: UseQueryWrapperOptions<CompactOrganizations>
 ) {
   return useQueryWrapper(
     [EServiceQueryKeys.GetProducers, params],

@@ -25,7 +25,8 @@ const ProviderEServiceListPage: React.FC = () => {
 
   const { data: consumers } = EServiceQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteInput },
-    { suspense: false, keepPreviousData: true }
+    // PIN-3646 - Temporarly avoid fetching consumers if the autocomplete text is less than 3 chars
+    { suspense: false, keepPreviousData: true, enabled: consumersAutocompleteInput.length > 2 }
   )
 
   const consumersOptions =
