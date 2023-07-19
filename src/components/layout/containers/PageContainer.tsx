@@ -15,77 +15,70 @@ export type TopSideActions = {
   actionMenu?: Array<ActionItem>
 }
 
-type Props = {
+type PageContainerActionsProps = {
+  statusChip?: React.ComponentProps<typeof StatusChip>
+  newTopSideActions?: Array<ActionItemButton>
+}
+
+type PageContainerBreadcrumbsProps = {
+  backToAction?: {
+    label: string
+    to: RouteKey
+  }
+}
+
+type PageContainerIntroProps = {
   title?: string
   description?: string
   /**
    * @deprecated use newTopSideActions instead for now, will be removed in the future
    */
   topSideActions?: TopSideActions
-  newTopSideActions?: Array<ActionItemButton>
+}
+
+type PageContainerProps = {
   isLoading?: boolean
-  statusChip?: React.ComponentProps<typeof StatusChip>
+  sx?: SxProps
+  children: React.ReactNode
+} & PageContainerActionsProps &
+  PageContainerBreadcrumbsProps &
+  PageContainerIntroProps
+
+type PageContainerSkeletonProps = {
+  children?: React.ReactNode
   backToAction?: {
     label: string
     to: RouteKey
   }
-  sx?: SxProps
 }
 
-export const PageContainer: React.FC<Props & { children: React.ReactNode }> = ({
-  children,
-  sx,
-  isLoading,
-  backToAction,
-  ...props
-}) => {
-  return (
-    <Box sx={sx}>
-      <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-        {backToAction && (
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          <Link
-            to={backToAction.to}
-            as="button"
-            startIcon={<ArrowBackIcon />}
-            size="small"
-            variant="naked"
-          >
-            {backToAction.label}
-          </Link>
-        )}
-        <Breadcrumbs />
-      </Stack>
-      {isLoading ? <StyledIntroSkeleton /> : <StyledIntro {...props} />}
-      <Box sx={{ mt: 4 }}>{children}</Box>
-    </Box>
-  )
-}
-
-export const PageContainerSkeleton: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
   return (
     <Box>
-      <Breadcrumbs />
-      <StyledIntroSkeleton />
+      <PageContainerBreadcrumbs {...props} />
+      {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
+      <PageContainerActions {...props} />
       <Box sx={{ mt: 4 }}>{children}</Box>
     </Box>
   )
 }
 
-type StyledIntroProps = {
-  title?: string
-  description?: string
-  topSideActions?: TopSideActions
-  newTopSideActions?: Array<ActionItemButton>
-  statusChip?: React.ComponentProps<typeof StatusChip>
+export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
+  children,
+  backToAction,
+}) => {
+  return (
+    <Box>
+      <PageContainerBreadcrumbs backToAction={backToAction} />
+      <PageContainerIntroSkeleton />
+      <Box sx={{ mt: 4 }}>{children}</Box>
+    </Box>
+  )
 }
 
-const StyledIntro: React.FC<StyledIntroProps> = ({
+const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
   title,
   description,
-  newTopSideActions,
-  statusChip,
   topSideActions = null,
 }) => {
   return (
@@ -116,50 +109,77 @@ const StyledIntro: React.FC<StyledIntroProps> = ({
           {topSideActions?.actionMenu && <ActionMenu actions={topSideActions.actionMenu} />}
         </Stack>
       </Stack>
-      {(newTopSideActions || statusChip) && (
-        <Stack
-          sx={{ mt: 1, minHeight: 40 }}
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
-          <Box>
-            {newTopSideActions &&
-              newTopSideActions.map(
-                ({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
-                  const Wrapper = tooltip
-                    ? ({ children }: { children: React.ReactElement }) => (
-                        <Tooltip arrow title={tooltip}>
-                          <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
-                        </Tooltip>
-                      )
-                    : React.Fragment
-
-                  return (
-                    <Wrapper key={i}>
-                      <Button
-                        onClick={action}
-                        variant="text"
-                        size="small"
-                        color={color}
-                        startIcon={Icon && <Icon />}
-                        {...props}
-                      >
-                        {label}
-                      </Button>
-                    </Wrapper>
-                  )
-                }
-              )}
-          </Box>
-        </Stack>
-      )}
     </Box>
   )
 }
 
-export const StyledIntroSkeleton: React.FC = () => {
+const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ backToAction }) => {
+  return (
+    <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
+      {backToAction && (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <Link
+          to={backToAction.to}
+          as="button"
+          startIcon={<ArrowBackIcon />}
+          size="small"
+          variant="naked"
+        >
+          {backToAction.label}
+        </Link>
+      )}
+      <Breadcrumbs />
+    </Stack>
+  )
+}
+
+const PageContainerActions: React.FC<PageContainerActionsProps> = ({
+  statusChip,
+  newTopSideActions,
+}) => {
+  if (!statusChip && !newTopSideActions) return null
+
+  return (
+    <Stack
+      sx={{ mt: 1, minHeight: 40 }}
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
+      <Box>
+        {newTopSideActions &&
+          newTopSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
+            const Wrapper = tooltip
+              ? ({ children }: { children: React.ReactElement }) => (
+                  <Tooltip arrow title={tooltip}>
+                    <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
+                  </Tooltip>
+                )
+              : React.Fragment
+
+            return (
+              <Wrapper key={i}>
+                <Button
+                  onClick={action}
+                  variant="text"
+                  size="small"
+                  color={color}
+                  startIcon={Icon && <Icon />}
+                  {...props}
+                >
+                  {label}
+                </Button>
+              </Wrapper>
+            )
+          })}
+      </Box>
+    </Stack>
+  )
+}
+
+export const PageContainerIntroSkeleton: React.FC = () => {
   return (
     <Stack direction="row" alignItems="end" spacing={2}>
       <Box sx={{ flex: 1 }}>
