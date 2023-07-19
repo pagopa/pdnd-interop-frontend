@@ -15,6 +15,7 @@ import type {
   RiskAnalysisFormConfig,
   WaitingForApprovalPurposeVersionUpdateContentSeed,
 } from '../api.generatedTypes'
+import { waitFor } from '@/utils/common.utils'
 
 async function getProducersList(params: GetProducerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
@@ -105,6 +106,9 @@ async function updateVersionDraft({
 
 async function updateDailyCalls(data: { purposeId: string; dailyCalls: number }) {
   const newPurposeVersion = await createVersionDraft(data)
+  // This is a workaround to make sure the version is created before we try to activate it
+  // Will be removed when the backend will expose a way to create and activate a version in one call
+  await waitFor(2000)
   return activateVersion({ purposeId: data.purposeId, versionId: newPurposeVersion.versionId })
 }
 
