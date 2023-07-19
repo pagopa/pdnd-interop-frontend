@@ -20,8 +20,9 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   const { data: producers } = EServiceQueries.useGetProducers(
     // PIN-3646 - Temporary avoid passing an empty string as a query parameter
-    { offset: 0, limit: 50, q: producersAutocompleteInput || undefined },
-    { suspense: false, keepPreviousData: true }
+    { offset: 0, limit: 50, q: producersAutocompleteInput },
+    // PIN-3646 - Temporarly avoid fetching producers if the autocomplete text is less than 3 chars
+    { suspense: false, keepPreviousData: true, enabled: producersAutocompleteInput.length > 2 }
   )
 
   const producersOptions =
