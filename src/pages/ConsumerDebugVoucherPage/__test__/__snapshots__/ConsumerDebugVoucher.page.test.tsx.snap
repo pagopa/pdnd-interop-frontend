@@ -7,25 +7,32 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
+          class="css-1mure3k-MuiStack-root"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          <div
+            class="MuiBox-root css-1rr4qq7"
           >
-            title
-          </h1>
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
-          >
-            description
-          </p>
+            <h1
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+            >
+              title
+            </h1>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            >
+              description
+            </p>
+          </div>
+          <div
+            class="css-1yo1jo6-MuiStack-root"
+          />
         </div>
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        />
       </div>
       <div
         class="MuiBox-root css-h5fkc8"
@@ -348,25 +355,32 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
+          class="css-1mure3k-MuiStack-root"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          <div
+            class="MuiBox-root css-1rr4qq7"
           >
-            title
-          </h1>
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
-          >
-            description
-          </p>
+            <h1
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+            >
+              title
+            </h1>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            >
+              description
+            </p>
+          </div>
+          <div
+            class="css-1yo1jo6-MuiStack-root"
+          />
         </div>
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        />
       </div>
       <div
         class="MuiBox-root css-h5fkc8"

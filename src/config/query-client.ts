@@ -15,6 +15,10 @@ export const queryClientConfig: QueryClientConfig = {
     mutations: {
       useErrorBoundary: false,
       retry: (attemptIndex, error) => {
+        /**
+         * Retry only on 404 error mutation. This is needed
+         * for eventual consistency reasons.
+         */
         if (error instanceof NotFoundError) {
           return attemptIndex < 4
         }

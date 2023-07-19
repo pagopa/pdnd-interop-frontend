@@ -2,7 +2,6 @@ import React from 'react'
 import { Box, Stack } from '@mui/material'
 import type { SxProps } from '@mui/material'
 import { SideNav } from '@/components/layout'
-import { Breadcrumbs } from './Breadcrumbs'
 
 type AppLayoutProps = {
   children: React.ReactNode
@@ -23,10 +22,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
         }}
         bgcolor="#FAFAFA"
       >
-        <Box sx={{ maxWidth: 920, mx: 'auto' }}>
-          <Breadcrumbs />
-          {children}
-        </Box>
+        <Box sx={{ maxWidth: 920, mx: 'auto' }}>{children}</Box>
       </Box>
     )
   }
@@ -55,8 +51,6 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
           bgcolor="#FAFAFA"
         >
           <Box component="main" sx={{ height: '100%', maxWidth: 1280 }}>
-            <Breadcrumbs />
-
             {children}
           </Box>
         </Box>
