@@ -9,7 +9,7 @@ import { useAuth } from '@/stores'
 
 export function useLoginAttempt() {
   const { mutateAsync: swapTokens } = AuthServicesHooks.useSwapTokens()
-  const { sessionToken, setSessionToken } = useAuth()
+  const { sessionToken, setSessionToken, setIsLoadingSessionToken } = useAuth()
   const [error, setError] = React.useState<Error | null>(null)
 
   const { t } = useTranslation('common')
@@ -62,7 +62,12 @@ export function useLoginAttempt() {
       await loginAttempt()
     }
 
-    asyncLoginAttempt().catch(setError).finally(hideOverlay)
+    asyncLoginAttempt()
+      .catch(setError)
+      .finally(() => {
+        setIsLoadingSessionToken(false)
+        hideOverlay()
+      })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) throw new TokenExchangeError()
