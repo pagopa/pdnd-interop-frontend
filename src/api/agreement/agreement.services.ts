@@ -17,6 +17,7 @@ import type {
   GetAgreementProducersParams,
   GetAgreementsParams,
 } from '../api.generatedTypes'
+import { waitFor } from '@/utils/common.utils'
 
 async function getList(params?: GetAgreementsParams) {
   const response = await axiosInstance.get<Agreements>(`${BACKEND_FOR_FRONTEND_URL}/agreements`, {
@@ -91,6 +92,8 @@ async function submitDraft({
  */
 async function submitToOwnEService({ eserviceId, descriptorId }: AgreementPayload) {
   const response = await createDraft({ eserviceId, descriptorId })
+  //!!! Temporary, in order to avoid eventual consistency issues.
+  await waitFor(2000)
   return await submitDraft({ agreementId: response.id })
 }
 
