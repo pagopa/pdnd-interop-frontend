@@ -16,6 +16,8 @@ describe('useJwt testing', () => {
       sessionToken: null,
       setSessionToken: vi.fn(),
       clearSessionToken: vi.fn(),
+      isLoadingSessionToken: false,
+      setIsLoadingSessionToken: vi.fn(),
     }))
 
     const { result } = renderHook(() => useJwt())
@@ -35,6 +37,8 @@ describe('useJwt testing', () => {
       sessionToken: sessionTokenMock,
       setSessionToken: vi.fn(),
       clearSessionToken: vi.fn(),
+      isLoadingSessionToken: false,
+      setIsLoadingSessionToken: vi.fn(),
     }))
 
     const { result } = renderHook(() => useJwt())
@@ -55,6 +59,8 @@ describe('useJwt testing', () => {
       sessionToken: sessionTokenMock,
       setSessionToken: vi.fn(),
       clearSessionToken: vi.fn(),
+      isLoadingSessionToken: false,
+      setIsLoadingSessionToken: vi.fn(),
     }))
 
     const { result } = renderHook(() => useJwt())
@@ -75,6 +81,8 @@ describe('useJwt testing', () => {
       sessionToken: sessionTokenMock,
       setSessionToken: vi.fn(),
       clearSessionToken: vi.fn(),
+      isLoadingSessionToken: false,
+      setIsLoadingSessionToken: vi.fn(),
     }))
 
     const { result } = renderHook(() => useJwt())
@@ -97,6 +105,8 @@ describe('useJwt testing', () => {
       sessionToken: sessionTokenMock,
       setSessionToken: vi.fn(),
       clearSessionToken: vi.fn(),
+      isLoadingSessionToken: false,
+      setIsLoadingSessionToken: vi.fn(),
     }))
 
     const { result } = renderHook(() => useJwt())
@@ -117,6 +127,8 @@ describe('useJwt testing', () => {
       sessionToken: sessionTokenMock,
       setSessionToken: vi.fn(),
       clearSessionToken: vi.fn(),
+      isLoadingSessionToken: false,
+      setIsLoadingSessionToken: vi.fn(),
     }))
 
     const { result } = renderHook(() => useJwt())
@@ -132,6 +144,8 @@ describe('useJwt testing', () => {
       sessionToken: sessionTokenMock,
       setSessionToken: vi.fn(),
       clearSessionToken: vi.fn(),
+      isLoadingSessionToken: false,
+      setIsLoadingSessionToken: vi.fn(),
     }))
 
     const { result } = renderHook(() => useJwt())
