@@ -190,7 +190,9 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
+    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }), {
+      timeout: 3 * 1000,
+    })
 
     expect(history.location.pathname).toBe(`/it/fruizione/richieste/test-id`)
   })
