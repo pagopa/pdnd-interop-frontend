@@ -456,28 +456,35 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
           class="MuiBox-root css-g0r5qj"
         >
           <div
-            class="MuiBox-root css-1rr4qq7"
+            class="MuiBox-root css-0"
           >
             <div
-              class="css-1mure3k-MuiStack-root"
+              class="css-1qx01vb-MuiStack-root"
+            />
+            <div
+              class="MuiBox-root css-0"
             >
               <div
-                class="MuiBox-root css-1rr4qq7"
+                class="css-1mure3k-MuiStack-root"
               >
-                <h1
-                  class="MuiTypography-root MuiTypography-h4 css-fatzjd-MuiTypography-root"
+                <div
+                  class="MuiBox-root css-1rr4qq7"
                 >
-                  default.title
-                </h1>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-15nfii5-MuiTypography-root"
-                >
-                  default.description
-                </p>
+                  <h1
+                    class="MuiTypography-root MuiTypography-h4 css-fatzjd-MuiTypography-root"
+                  >
+                    default.title
+                  </h1>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-15nfii5-MuiTypography-root"
+                  >
+                    default.description
+                  </p>
+                </div>
+                <div
+                  class="css-1yo1jo6-MuiStack-root"
+                />
               </div>
-              <div
-                class="css-1yo1jo6-MuiStack-root"
-              />
             </div>
             <div
               class="MuiBox-root css-h5fkc8"

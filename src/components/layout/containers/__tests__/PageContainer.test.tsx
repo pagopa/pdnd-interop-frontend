@@ -1,44 +1,53 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import { PageContainer, PageContainerSkeleton, StyledIntroSkeleton } from '../PageContainer'
+import { PageContainer, PageContainerSkeleton } from '../PageContainer'
 import { vi } from 'vitest'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 describe('PageContainer', () => {
   it('should match snapshot', () => {
-    const screen = render(<PageContainer>{}</PageContainer>)
+    const screen = renderWithApplicationContext(<PageContainer>{}</PageContainer>, {
+      withRouterContext: true,
+    })
     expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should match snapshot with title', () => {
-    const screen = render(<PageContainer title="title">{}</PageContainer>)
+    const screen = renderWithApplicationContext(<PageContainer title="title">{}</PageContainer>, {
+      withRouterContext: true,
+    })
     expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should match snapshot with description', () => {
-    const screen = render(<PageContainer description="description">{}</PageContainer>)
+    const screen = renderWithApplicationContext(
+      <PageContainer description="description">{}</PageContainer>,
+      { withRouterContext: true }
+    )
     expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should match snapshot with title and description', () => {
-    const screen = render(
+    const screen = renderWithApplicationContext(
       <PageContainer title="title" description="description">
         {}
-      </PageContainer>
+      </PageContainer>,
+      { withRouterContext: true }
     )
     expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should match snapshot on loading state', () => {
-    const screen = render(
+    const screen = renderWithApplicationContext(
       <PageContainer isLoading title="title" description="description">
         {}
-      </PageContainer>
+      </PageContainer>,
+      { withRouterContext: true }
     )
     expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should match snapshot with action menu', () => {
-    const screen = render(
+    const screen = renderWithApplicationContext(
       <PageContainer
         title="title"
         description="description"
@@ -57,13 +66,14 @@ describe('PageContainer', () => {
         }}
       >
         {}
-      </PageContainer>
+      </PageContainer>,
+      { withRouterContext: true }
     )
     expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should match snapshot with top info tooltip', () => {
-    const screen = render(
+    const screen = renderWithApplicationContext(
       <PageContainer
         title="title"
         description="description"
@@ -73,13 +83,14 @@ describe('PageContainer', () => {
         }}
       >
         {}
-      </PageContainer>
+      </PageContainer>,
+      { withRouterContext: true }
     )
     expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should match snapshot with buttons', () => {
-    const screen = render(
+    const screen = renderWithApplicationContext(
       <PageContainer
         title="title"
         description="description"
@@ -97,7 +108,8 @@ describe('PageContainer', () => {
         }}
       >
         {}
-      </PageContainer>
+      </PageContainer>,
+      { withRouterContext: true }
     )
     expect(screen.baseElement).toMatchSnapshot()
   })
@@ -105,14 +117,9 @@ describe('PageContainer', () => {
 
 describe('PageContainerSkeleton', () => {
   it('should match snapshot', () => {
-    const screen = render(<PageContainerSkeleton />)
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-})
-
-describe('StyledIntroSkeleton', () => {
-  it('should match snapshot', () => {
-    const screen = render(<StyledIntroSkeleton />)
+    const screen = renderWithApplicationContext(<PageContainerSkeleton />, {
+      withRouterContext: true,
+    })
     expect(screen.baseElement).toMatchSnapshot()
   })
 })
