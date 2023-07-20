@@ -146,7 +146,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
   })
 
   it("should change the agreementVerifiedAttributeDrawer state when 'verify' action is called", () => {
-    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
+    const openAgreementVerifiedAttributeDrawer = vi.fn()
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
       isAgreementEServiceMine: false,
@@ -155,7 +155,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
         certified: [],
         verified: [],
       },
-      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
+      openAgreementVerifiedAttributeDrawer,
     })
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider' })
@@ -170,11 +170,11 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       rerender()
     })
 
-    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
+    expect(openAgreementVerifiedAttributeDrawer).toBeCalled()
   })
 
   it("should change the agreementVerifiedAttributeDrawer state when 'update verification' action is called", () => {
-    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
+    const openAgreementVerifiedAttributeDrawer = vi.fn()
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
       isAgreementEServiceMine: false,
@@ -183,7 +183,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
         certified: [],
         verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
       },
-      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
+      openAgreementVerifiedAttributeDrawer,
     })
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider' })
@@ -197,12 +197,11 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       updateAction('test-owned')
       rerender()
     })
-
-    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
+    expect(openAgreementVerifiedAttributeDrawer).toBeCalled()
   })
 
   it("should change the agreementVerifiedAttributeDrawer state when 'revoke' action is called", () => {
-    const setAgreementVerifiedAttributeDrawerPropsFn = vi.fn()
+    const openAgreementVerifiedAttributeDrawer = vi.fn()
     mockAgreementDetailsContext({
       agreement: createMockAgreement(),
       isAgreementEServiceMine: false,
@@ -211,7 +210,7 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
         certified: [],
         verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
       },
-      setAgreementVerifiedAttributeDrawerProps: setAgreementVerifiedAttributeDrawerPropsFn,
+      openAgreementVerifiedAttributeDrawer,
     })
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider' })
@@ -226,6 +225,6 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
       rerender()
     })
 
-    expect(setAgreementVerifiedAttributeDrawerPropsFn).toBeCalled()
+    expect(openAgreementVerifiedAttributeDrawer).toBeCalled()
   })
 })

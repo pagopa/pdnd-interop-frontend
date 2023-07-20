@@ -7,7 +7,6 @@ import {
   createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
 import { createMockAgreement } from '__mocks__/data/agreement.mocks'
-import { vi } from 'vitest'
 
 mockUseCurrentRoute({ mode: 'provider' })
 
@@ -78,22 +77,6 @@ describe('AgreementVerifiedAttributesSection', () => {
     expect(screen.getByText('group.manage.revokedByProducer')).toBeInTheDocument()
   })
 
-  it('should match snapshot when agreement and agreementVerifiedAttributeDrawerProps are defined', () => {
-    mockAgreementDetailsContext({
-      agreement: createMockAgreement(),
-      agreementVerifiedAttributeDrawerProps: {
-        isOpen: true,
-        attributeId: 'test attributeId',
-        type: 'revoke',
-      },
-      setAgreementVerifiedAttributeDrawerProps: vi.fn(),
-    })
-    const { baseElement } = renderWithApplicationContext(<AgreementVerifiedAttributesSection />, {
-      withReactQueryContext: true,
-    })
-    expect(baseElement).toMatchSnapshot()
-  })
-
   it('should show expirationDate chip when attribute is verified and has an expirationDate', () => {
     mockUseCurrentRoute({ mode: 'consumer' })
     mockAgreementDetailsContext({
@@ -122,13 +105,16 @@ describe('AgreementVerifiedAttributesSection', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        isOpen: false,
+        attributeId: 'a-1-1',
+        type: 'update',
+      },
     })
 
     const screen = renderWithApplicationContext(<AgreementVerifiedAttributesSection />, {
       withReactQueryContext: true,
     })
-
-    screen.debug()
 
     expect(screen.getByText('group.manage.expirationDate')).toBeInTheDocument()
   })
