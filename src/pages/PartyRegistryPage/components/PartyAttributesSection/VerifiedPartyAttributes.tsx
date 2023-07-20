@@ -6,6 +6,7 @@ import { EmptyAttributesAlert } from './EmptyAttributesAlert'
 import { Link, Stack } from '@mui/material'
 import { AttributeContainer, AttributeContainerSkeleton } from '@/components/layout/containers'
 import { attributesHelpLink } from '@/config/constants'
+import { isAttributeRevoked } from '@/utils/attribute.utils'
 
 export const VerifiedAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'verified' })
@@ -40,7 +41,10 @@ const VerifiedAttributesList: React.FC = () => {
     <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
       {verifiedAttributes.map((attribute) => (
         <li key={attribute.id}>
-          <AttributeContainer checked attribute={attribute} />
+          <AttributeContainer
+            checked={!isAttributeRevoked('verified', attribute)}
+            attribute={attribute}
+          />
         </li>
       ))}
     </Stack>
@@ -50,9 +54,9 @@ const VerifiedAttributesList: React.FC = () => {
 const VerifiedAttributesListSkeleton: React.FC = () => {
   return (
     <Stack spacing={1}>
+      <AttributeContainerSkeleton />
       <AttributeContainerSkeleton checked />
-      <AttributeContainerSkeleton checked />
-      <AttributeContainerSkeleton checked />
+      <AttributeContainerSkeleton />
     </Stack>
   )
 }
