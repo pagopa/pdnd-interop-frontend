@@ -125,13 +125,14 @@
       },
       "requestStatusField": {
         "label": "Stato della richiesta"
-      }
+      },
+      "certifiedAttributesDrawerBtn": "Visualizza attributi certificati"
     },
     "attribute": {
       "subtitle": "Devi possedere:"
     },
     "consumerNotes": {
-      "title": "messaggio per l’erogatore",
+      "title": "Messaggio per l’erogatore",
       "description": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili",
       "field": {
         "label": "Messaggio",
@@ -152,7 +153,8 @@
       "description": "Hai inserito tutte le informazioni per questa richiesta di fruizione? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
       "cancelBtn": "Cancella bozza",
       "submitBtn": "Inoltra richiesta di fruizione",
-      "updateBtn": "Salva bozza"
+      "updateBtn": "Salva bozza",
+      "noCertifiedAttributesForSubmitTooltip": "Il tuo ente non ha gli attributi certificati necessari per inoltrare la richiesta"
     }
   },
   "list": {
@@ -187,6 +189,13 @@
     "subscriber": {
       "title": "Le tue richieste",
       "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
+    }
+  },
+  "drawers": {
+    "certifiedAttributes": {
+      "title": "Attributi certificati richiesti",
+      "description": "Ovvero gli attributi certificati da una <1>fonte autoritativa riconosciuta</1> richiesti per iscriversi a questa versione di e-service",
+      "missingCertifiedAttributesAlert": "Una o più fonti autoritative ti hanno revocato uno o più attributi necessari alla fruizione di questo e-service. Se pensi sia un errore, effettua una verifica presso di loro."
     }
   }
 }

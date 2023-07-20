@@ -31,8 +31,7 @@
         "versionLabel": "version"
       },
       "providerField": {
-        "label": "Provider",
-        "infoLabel": "Max 1000 chars"
+        "label": "Provider"
       },
       "consumerField": {
         "label": "Consumer"
@@ -126,7 +125,8 @@
       },
       "requestStatusField": {
         "label": "Request status"
-      }
+      },
+      "certifiedAttributesDrawerBtn": "Visualizza attributi certificati"
     },
     "attribute": {
       "subtitle": "You must own:"
@@ -153,9 +153,9 @@
       "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
       "cancelBtn": "Delete draft",
       "submitBtn": "Publish agreement request",
-      "updateBtn": "Save draft"
-    },
-    "backToRequestsBtn": "Go back to requests"
+      "updateBtn": "Save draft",
+      "noCertifiedAttributesForSubmitTooltip": "Your party does not have the needed certified attributes in order to submit the agreement"
+    }
   },
   "list": {
     "eserviceName": "{{name}}, version {{version}}",
@@ -189,6 +189,13 @@
     "subscriber": {
       "title": "Your requests",
       "description": "In this section, you can manage all the fruition requests you have sent to e-service Providers"
+    }
+  },
+  "drawers": {
+    "certifiedAttributes": {
+      "title": "Certified attributes required",
+      "description": "That is, the attributes certified by a <1>recognized authoritative source</1> required to subscribe to this version of the e-service",
+      "missingCertifiedAttributesAlert": "One or more authoritative sources have revoked one or more attributes necessary for the use of this e-service. If you think it's a mistake, check with them."
     }
   }
 }
