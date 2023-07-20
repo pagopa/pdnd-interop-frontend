@@ -7,6 +7,7 @@ import {
   AttributeGroupContainer,
   AttributeContainer,
 } from '@/components/layout/containers'
+import type { SxProps } from '@mui/material'
 import { Link, Stack } from '@mui/material'
 import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
@@ -18,7 +19,14 @@ import {
 import { useAgreementGetDeclaredAttributesActions } from '../../hooks/useAgreementGetDeclaredAttributesActions'
 import { attributesHelpLink } from '@/config/constants'
 
-export const AgreementDeclaredAttributesSection: React.FC = () => {
+type AgreementDeclaredAttributesSectionProps = {
+  isInnerSection?: boolean
+  sx?: SxProps
+}
+
+export const AgreementDeclaredAttributesSection: React.FC<
+  AgreementDeclaredAttributesSectionProps
+> = ({ isInnerSection, sx }) => {
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
 
@@ -62,7 +70,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
   return (
     <SectionContainer
       newDesign
-      innerSection
+      innerSection={isInnerSection}
       title={tAttribute('declared.label')}
       description={
         <Trans
@@ -71,6 +79,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
           {tAttribute(`declared.description`)}
         </Trans>
       }
+      sx={sx}
     >
       <Stack spacing={2}>
         {declaredAttributeGroups.map((group, i) => (

@@ -24,7 +24,7 @@ export const AgreementAttributesListSections: React.FC = () => {
       <Divider sx={{ my: 3 }} />
       <AgreementVerifiedAttributesSection />
       <Divider sx={{ my: 3 }} />
-      <AgreementDeclaredAttributesSection />
+      <AgreementDeclaredAttributesSection isInnerSection={true} />
     </SectionContainer>
   )
 }
