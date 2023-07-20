@@ -232,7 +232,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = genera
       path: '/fruizione/richieste/:agreementId/modifica',
       element: <ConsumerAgreementCreatePage />,
       public: false,
-      hideSideNav: false,
+      hideSideNav: true,
       authLevels: ['admin'],
     },
     SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT: {
