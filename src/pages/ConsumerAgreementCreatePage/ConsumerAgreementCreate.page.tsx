@@ -2,20 +2,14 @@ import React from 'react'
 import { AgreementMutations, AgreementQueries } from '@/api/agreement'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
-import { Link, useNavigate, useParams } from '@/router'
+import { useNavigate, useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
-import {
-  AgreementDocsInputSection,
-  AgreementDocsInputSectionSkeleton,
-} from './components/AgreementDocsInputSection'
-import { Button, Grid } from '@mui/material'
-import { PageBottomActionsCardContainer } from '@/components/layout/containers/PageBottomCardContainer'
-import {
-  ConsumerNotesInputSection,
-  ConsumerNotesInputSectionSkeleton,
-} from './components/ConsumerNotesInputSection'
+import { Box, Button, Tooltip } from '@mui/material'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import MailIcon from '@mui/icons-material/Mail'
+import SaveIcon from '@mui/icons-material/Save'
 import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
+import ConsumerAgreementCreateDetails from './components/ConsumerAgreementCreateDetails'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -75,50 +69,65 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const canUserSubmitAgreementDraft = hasAllCertifiedAttributes && hasAllDeclaredAttributes
 
   return (
-    <PageContainer title={t('read.title')} newTopSideActions={actions}>
-      <React.Suspense fallback={<AgreementDetailsSkeleton />}>
-        <AgreementDetails agreementId={agreementId} />
-      </React.Suspense>
-
-      <React.Suspense fallback={<AgreementDocsInputSectionSkeleton />}>
-        <AgreementDocsInputSection agreementId={agreementId} />
-      </React.Suspense>
-      <React.Suspense fallback={<ConsumerNotesInputSectionSkeleton />}>
-        <ConsumerNotesInputSection
-          agreementId={agreementId}
-          consumerNotes={consumerNotes}
-          setConsumerNotes={setConsumerNotes}
-        />
-      </React.Suspense>
+    <PageContainer
+      title={t('read.title')}
+      newTopSideActions={actions}
+      statusChip={
+        agreement
+          ? {
+              for: 'agreement',
+              agreement: agreement,
+            }
+          : undefined
+      }
+      backToAction={{
+        label: t('backToRequestsBtn'),
+        to: 'SUBSCRIBE_AGREEMENT_LIST',
+      }}
+    >
+      <ConsumerAgreementCreateDetails
+        agreementId={agreementId}
+        consumerNotes={{
+          value: consumerNotes,
+          setter: setConsumerNotes,
+        }}
+      />
 
       <PageBottomActionsContainer>
-        <Link as="button" to="SUBSCRIBE_AGREEMENT_LIST" variant="outlined">
-          {t('backToRequestsBtn')}
-        </Link>
-        <Button onClick={handleUpdateAgreementDraft} variant="contained">
-          {t('edit.bottomPageActionCard.updateBtn')}
-        </Button>
-      </PageBottomActionsContainer>
-
-      <Grid container>
-        <Grid item xs={8}>
-          <PageBottomActionsCardContainer
-            title={t('edit.bottomPageActionCard.title')}
-            description={t('edit.bottomPageActionCard.description')}
+        <Box display="flex" flexDirection="row" justifyContent="right" flexGrow={1}>
+          <Button
+            onClick={handleDeleteAgreementDraft}
+            variant="text"
+            color="error"
+            startIcon={<DeleteOutlineIcon />}
           >
-            <Button onClick={handleDeleteAgreementDraft} variant="outlined">
-              {t('edit.bottomPageActionCard.cancelBtn')}
-            </Button>
-            <Button
-              disabled={!canUserSubmitAgreementDraft}
-              onClick={handleSubmitAgreementDraft}
-              variant="contained"
-            >
-              {t('edit.bottomPageActionCard.submitBtn')}
-            </Button>
-          </PageBottomActionsCardContainer>
-        </Grid>
-      </Grid>
+            {t('edit.bottomPageActionCard.cancelBtn')}
+          </Button>
+          <Button
+            onClick={handleUpdateAgreementDraft}
+            variant="text"
+            color="primary"
+            startIcon={<SaveIcon />}
+          >
+            {t('edit.bottomPageActionCard.updateBtn')}
+          </Button>
+          <Tooltip
+            arrow
+            title={t('edit.bottomPageActionCard.noCertifiedAttributesForSubmitTooltip')}
+          >
+            <span tabIndex={!canUserSubmitAgreementDraft ? 0 : undefined}>
+              <Button
+                disabled={!canUserSubmitAgreementDraft}
+                onClick={handleSubmitAgreementDraft}
+                variant="contained"
+                startIcon={<MailIcon />}
+              >
+                {t('edit.bottomPageActionCard.submitBtn')}
+              </Button>
+            </span>
+          </Tooltip>
+        </Box>
+      </PageBottomActionsContainer>
     </PageContainer>
   )
 }

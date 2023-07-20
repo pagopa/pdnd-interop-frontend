@@ -10,10 +10,20 @@ import { IconLink } from '../../IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { AgreementDownloads } from '@/api/agreement'
 import FolderIcon from '@mui/icons-material/Folder'
+import RuleIcon from '@mui/icons-material/Rule'
 
-export const AgreementSummarySection: React.FC = () => {
-  const { t } = useTranslation('agreement', { keyPrefix: 'read.summary' })
+type AgreementSummarySectionProps = {
+  onOpenCertifiedAttributesDrawer?: VoidFunction
+}
+
+export const AgreementSummarySection: React.FC<AgreementSummarySectionProps> = ({
+  onOpenCertifiedAttributesDrawer,
+}) => {
   const { mode, routeKey } = useCurrentRoute()
+  const { t } = useTranslation('agreement', {
+    keyPrefix:
+      routeKey === 'SUBSCRIBE_AGREEMENT_EDIT' ? 'edit.generalInformations' : 'read.summary',
+  })
   const { agreement, openAttachedDocsDrawer } = useAgreementDetailsContext()
   const downloadContract = AgreementDownloads.useDownloadContract()
 
@@ -43,14 +53,16 @@ export const AgreementSummarySection: React.FC = () => {
           label={t('eserviceField.label')}
         />
 
-        <InformationContainer
-          content={
-            <Stack direction="row" spacing={1}>
-              <StatusChip for="agreement" agreement={agreement} />
-            </Stack>
-          }
-          label={t('requestStatusField.label')}
-        />
+        {routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' && (
+          <InformationContainer
+            content={
+              <Stack direction="row" spacing={1}>
+                <StatusChip for="agreement" agreement={agreement} />
+              </Stack>
+            }
+            label={t('requestStatusField.label')}
+          />
+        )}
 
         {mode === 'consumer' && (
           <InformationContainer
@@ -92,6 +104,22 @@ export const AgreementSummarySection: React.FC = () => {
                 startIcon={<FolderIcon />}
               >
                 {t('attachedDocsButtonLabel')}
+              </IconLink>
+            </Box>
+          </>
+        )}
+
+        {routeKey === 'SUBSCRIBE_AGREEMENT_EDIT' && (
+          <>
+            <Divider />
+
+            <Box>
+              <IconLink
+                onClick={onOpenCertifiedAttributesDrawer}
+                component="button"
+                startIcon={<RuleIcon />}
+              >
+                {t('certifiedAttributesDrawerBtn')}
               </IconLink>
             </Box>
           </>
