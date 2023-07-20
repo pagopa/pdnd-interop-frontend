@@ -9,7 +9,7 @@ export const PageBottomActionsContainer: React.FC<PageBottomActionsContainerProp
   children,
 }) => {
   return (
-    <Stack direction="row" spacing={2} sx={{ mt: 4 }}>
+    <Stack direction="row" spacing={1.5} sx={{ mt: 4 }}>
       {children}
     </Stack>
   )
