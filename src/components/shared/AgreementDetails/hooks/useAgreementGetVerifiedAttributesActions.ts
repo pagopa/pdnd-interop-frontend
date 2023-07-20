@@ -17,7 +17,7 @@ export const useAgreementGetVerifiedAttributesActions = () => {
     partyAttributes,
     isAgreementEServiceMine,
     agreement,
-    setAgreementVerifiedAttributeDrawerProps,
+    openAgreementVerifiedAttributeDrawer,
   } = useAgreementDetailsContext()
 
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
@@ -36,25 +36,11 @@ export const useAgreementGetVerifiedAttributesActions = () => {
     const isOwnedButRevoked = attribute && isAttributeRevoked('verified', attribute)
 
     const handleVerifyAttribute = (attributeId: string) => {
-      setAgreementVerifiedAttributeDrawerProps((prev) => {
-        return {
-          ...prev,
-          isOpen: true,
-          attributeId: attributeId,
-          type: isOwned ? 'update' : 'verify',
-        }
-      })
+      openAgreementVerifiedAttributeDrawer(attributeId, isOwned ? 'update' : 'verify')
     }
 
     const handleRevokeAttribute = (attributeId: string) => {
-      setAgreementVerifiedAttributeDrawerProps((prev) => {
-        return {
-          ...prev,
-          isOpen: true,
-          attributeId: attributeId,
-          type: 'revoke',
-        }
-      })
+      openAgreementVerifiedAttributeDrawer(attributeId, 'revoke')
     }
 
     const attributeActions: React.ComponentProps<typeof AttributeContainer>['actions'] = [

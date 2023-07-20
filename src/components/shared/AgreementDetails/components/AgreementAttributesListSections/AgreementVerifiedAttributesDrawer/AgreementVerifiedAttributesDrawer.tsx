@@ -1,5 +1,4 @@
 import { Drawer } from '@/components/shared/Drawer'
-import type { ActionItem } from '@/types/common.types'
 import { Link, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -8,34 +7,24 @@ import { AttributeMutations } from '@/api/attribute'
 import AgreementVerifiedAttributesDrawerForm from './AgreementVerifiedAttributesDrawerForm'
 import { attributesHelpLink } from '@/config/constants'
 
-type AgreementVerifiedAttributesDrawerProps = {
-  type: 'revoke' | 'verify' | 'update'
-  isOpen: boolean
-  attributeId: string
-  onClose: VoidFunction
-}
-
 export type AgreementVerifiedAttributesDrawerVerifingFormValues = {
   hasExpirationDate: 'YES' | 'NO' | undefined
   expirationDate: Date | undefined
 }
 
-const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDrawerProps> = ({
-  type,
-  isOpen,
-  attributeId,
-  onClose,
-}) => {
+const AgreementVerifiedAttributesDrawer: React.FC = () => {
   const { t } = useTranslation('agreement', {
     keyPrefix: 'read.attributes.verified',
   })
 
-  const { partyAttributes, agreement } = useAgreementDetailsContext()
+  const {
+    partyAttributes,
+    agreement,
+    closeAgreementVerifiedAttributeDrawer,
+    agreementVerifiedAttributeDrawerState,
+  } = useAgreementDetailsContext()
 
-  const { mutate: verifyAttribute } = AttributeMutations.useVerifyPartyAttribute()
-  const { mutate: revokeAttibute } = AttributeMutations.useRevokeVerifiedPartyAttribute()
-  const { mutate: updateAttributeExpirationDate } =
-    AttributeMutations.useUpdateVerifiedPartyAttribute()
+  const { isOpen, attributeId, type } = agreementVerifiedAttributeDrawerState
 
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
   const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
@@ -49,32 +38,23 @@ const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDra
     })
 
   const handleCloseDrawer = () => {
-    onClose()
+    closeAgreementVerifiedAttributeDrawer()
     setFormState({
       hasExpirationDate: undefined,
       expirationDate: undefined,
     })
   }
 
-  const handleRevoke = () => {
-    if (!agreement) return
+  const selectedExpirationDate = React.useMemo(() => {
+    function isValidDate(date: Date | undefined): date is Date {
+      return date instanceof Date && !isNaN(date.getTime())
+    }
 
-    revokeAttibute({
-      partyId: agreement.consumer.id,
-      attributeId,
-    })
-  }
-
-  /**
-   * Select the right expiration date exploring every case
-   * @returns expirationDate to send in the payload of the verifyAttribute or updateAttributeExpirationDate
-   */
-  const selectExpirationDateToSubmit = () => {
     switch (formState.hasExpirationDate) {
       // the YES option in the radio group is selected (manually)
       case 'YES':
         // the expiration date is setted (manually) in the date picker
-        if (formState.expirationDate) {
+        if (isValidDate(formState.expirationDate)) {
           return formState.expirationDate.toISOString()
         }
 
@@ -92,66 +72,16 @@ const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDra
       // no option in the radio group is selected (manually)
       default:
         // the radio is automatically setted to YES and the expiration date is setted (manually) in the date picker
-        if (formState.expirationDate) {
+        if (isValidDate(formState.expirationDate)) {
           return formState.expirationDate.toISOString()
         }
 
         // if the attribute has already an expiration date we return that else no expiration date is returned
         return verifier?.expirationDate
     }
-  }
+  }, [formState, verifier])
 
-  const onSubmit = () => {
-    if (!agreement) return
-
-    const expirationDate = selectExpirationDateToSubmit()
-
-    if (type === 'update') {
-      updateAttributeExpirationDate({
-        partyId: agreement.consumer.id,
-        attributeId: attributeId,
-        expirationDate: expirationDate,
-      })
-    }
-    if (type === 'verify') {
-      verifyAttribute({
-        partyId: agreement.consumer.id,
-        id: attributeId,
-        expirationDate: expirationDate,
-      })
-    }
-  }
-
-  let title = ''
-  let subtitle = undefined
-  let buttonAction:
-    | (ActionItem & {
-        variant?: 'contained' | 'outlined'
-        color?: 'primary' | 'error'
-      })
-    | undefined = undefined
-
-  if (type === 'revoke') {
-    title = t('drawer.revoke.title')
-    subtitle = t('drawer.revoke.subtitle')
-    buttonAction = {
-      label: t('actions.revoke'),
-      action: handleRevoke,
-      variant: 'outlined',
-      color: 'error',
-    }
-  }
-
-  if (type === 'verify' || type === 'update') {
-    title = t('drawer.verify.title')
-    subtitle = t('drawer.verify.subtitle')
-    buttonAction = {
-      label: t('actions.verify'),
-      action: onSubmit,
-      variant: 'contained',
-      color: 'primary',
-    }
-  }
+  const { title, subtitle, buttonAction } = useGetDrawerComponents(selectedExpirationDate)
 
   return (
     <Drawer
@@ -183,6 +113,71 @@ const AgreementVerifiedAttributesDrawer: React.FC<AgreementVerifiedAttributesDra
       )}
     </Drawer>
   )
+}
+
+function useGetDrawerComponents(selectedExpirationDate: string | undefined) {
+  const { t } = useTranslation('agreement', {
+    keyPrefix: 'read.attributes.verified',
+  })
+
+  const { mutate: verifyAttribute } = AttributeMutations.useVerifyPartyAttribute()
+  const { mutate: revokeAttibute } = AttributeMutations.useRevokeVerifiedPartyAttribute()
+  const { mutate: updateAttributeExpirationDate } =
+    AttributeMutations.useUpdateVerifiedPartyAttribute()
+
+  const { agreement, agreementVerifiedAttributeDrawerState } = useAgreementDetailsContext()
+  const { attributeId, type } = agreementVerifiedAttributeDrawerState
+
+  const handleRevoke = () => {
+    if (!agreement) return
+
+    revokeAttibute({
+      partyId: agreement.consumer.id,
+      attributeId,
+    })
+  }
+
+  const handleUpdate = () => {
+    if (!agreement) return
+    updateAttributeExpirationDate({
+      partyId: agreement.consumer.id,
+      attributeId: attributeId,
+      expirationDate: selectedExpirationDate,
+    })
+  }
+
+  const handleVerify = () => {
+    if (!agreement) return
+    verifyAttribute({
+      partyId: agreement.consumer.id,
+      id: attributeId,
+      expirationDate: selectedExpirationDate,
+    })
+  }
+
+  if (type === 'revoke') {
+    return {
+      title: t('drawer.revoke.title'),
+      subtitle: t('drawer.revoke.subtitle'),
+      buttonAction: {
+        label: t('actions.revoke'),
+        action: handleRevoke,
+        variant: 'outlined',
+        color: 'error',
+      },
+    } as const
+  }
+
+  return {
+    title: t('drawer.verify.title'),
+    subtitle: t('drawer.verify.subtitle'),
+    buttonAction: {
+      label: t('actions.verify'),
+      action: type === 'update' ? handleUpdate : handleVerify,
+      variant: 'contained',
+      color: 'primary',
+    },
+  } as const
 }
 
 export default AgreementVerifiedAttributesDrawer

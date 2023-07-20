@@ -29,23 +29,15 @@ type AgreementDetailsContextType = {
   isAttachedDocsDrawerOpen: boolean
   openAttachedDocsDrawer: VoidFunction
   closeAttachedDocsDrawer: VoidFunction
-  agreementVerifiedAttributeDrawerProps:
-    | {
-        isOpen: boolean
-        attributeId: string
-        type: 'revoke' | 'verify' | 'update'
-      }
-    | undefined
-  setAgreementVerifiedAttributeDrawerProps: React.Dispatch<
-    React.SetStateAction<
-      | {
-          isOpen: boolean
-          attributeId: string
-          type: 'revoke' | 'verify' | 'update'
-        }
-      | undefined
-    >
-  >
+  agreementVerifiedAttributeDrawerState: {
+    isOpen: boolean
+    attributeId: string
+    type: 'revoke' | 'verify' | 'update'
+  }
+  openAgreementVerifiedAttributeDrawer: (
+    attributeId: string,
+    type: 'revoke' | 'verify' | 'update'
+  ) => void
   closeAgreementVerifiedAttributeDrawer: VoidFunction
 }
 
@@ -57,8 +49,12 @@ const initialState: AgreementDetailsContextType = {
   isAttachedDocsDrawerOpen: false,
   openAttachedDocsDrawer: noop,
   closeAttachedDocsDrawer: noop,
-  agreementVerifiedAttributeDrawerProps: undefined,
-  setAgreementVerifiedAttributeDrawerProps: noop,
+  agreementVerifiedAttributeDrawerState: {
+    isOpen: false,
+    attributeId: '',
+    type: 'revoke',
+  },
+  openAgreementVerifiedAttributeDrawer: noop,
   closeAgreementVerifiedAttributeDrawer: noop,
 }
 
@@ -88,20 +84,30 @@ const AgreementDetailsContextProvider: React.FC<{
   const openAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(true), [])
   const closeAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(false), [])
 
-  const [agreementVerifiedAttributeDrawerProps, setAgreementVerifiedAttributeDrawerProps] =
-    React.useState<
-      | {
-          isOpen: boolean
-          attributeId: string
-          type: 'revoke' | 'verify' | 'update'
-        }
-      | undefined
-    >(undefined)
+  const [agreementVerifiedAttributeDrawerState, setAgreementVerifiedAttributeDrawerState] =
+    React.useState<{
+      isOpen: boolean
+      attributeId: string
+      type: 'revoke' | 'verify' | 'update'
+    }>({
+      isOpen: false,
+      attributeId: '',
+      type: 'revoke',
+    })
+
+  const openAgreementVerifiedAttributeDrawer = React.useCallback(
+    (attributeId: string, type: 'revoke' | 'verify' | 'update') => {
+      setAgreementVerifiedAttributeDrawerState({
+        isOpen: true,
+        attributeId,
+        type,
+      })
+    },
+    []
+  )
 
   const closeAgreementVerifiedAttributeDrawer = React.useCallback(() => {
-    setAgreementVerifiedAttributeDrawerProps((prev) => {
-      if (prev) return { ...prev, isOpen: false }
-    })
+    setAgreementVerifiedAttributeDrawerState((prev) => ({ ...prev, isOpen: false }))
   }, [])
 
   const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
@@ -129,8 +135,8 @@ const AgreementDetailsContextProvider: React.FC<{
       isAttachedDocsDrawerOpen,
       openAttachedDocsDrawer,
       closeAttachedDocsDrawer,
-      agreementVerifiedAttributeDrawerProps,
-      setAgreementVerifiedAttributeDrawerProps,
+      agreementVerifiedAttributeDrawerState,
+      openAgreementVerifiedAttributeDrawer,
       closeAgreementVerifiedAttributeDrawer,
     }
   }, [
@@ -143,7 +149,8 @@ const AgreementDetailsContextProvider: React.FC<{
     isAttachedDocsDrawerOpen,
     openAttachedDocsDrawer,
     closeAttachedDocsDrawer,
-    agreementVerifiedAttributeDrawerProps,
+    agreementVerifiedAttributeDrawerState,
+    openAgreementVerifiedAttributeDrawer,
     closeAgreementVerifiedAttributeDrawer,
   ])
 
