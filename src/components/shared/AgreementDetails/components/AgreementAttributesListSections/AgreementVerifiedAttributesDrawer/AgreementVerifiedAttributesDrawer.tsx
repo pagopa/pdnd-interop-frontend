@@ -125,34 +125,47 @@ function useGetDrawerComponents(selectedExpirationDate: string | undefined) {
   const { mutate: updateAttributeExpirationDate } =
     AttributeMutations.useUpdateVerifiedPartyAttribute()
 
-  const { agreement, agreementVerifiedAttributeDrawerState } = useAgreementDetailsContext()
+  const {
+    agreement,
+    agreementVerifiedAttributeDrawerState,
+    closeAgreementVerifiedAttributeDrawer,
+  } = useAgreementDetailsContext()
   const { attributeId, type } = agreementVerifiedAttributeDrawerState
 
   const handleRevoke = () => {
     if (!agreement) return
 
-    revokeAttibute({
-      partyId: agreement.consumer.id,
-      attributeId,
-    })
+    revokeAttibute(
+      {
+        partyId: agreement.consumer.id,
+        attributeId,
+      },
+      { onSuccess: closeAgreementVerifiedAttributeDrawer }
+    )
   }
 
   const handleUpdate = () => {
     if (!agreement) return
-    updateAttributeExpirationDate({
-      partyId: agreement.consumer.id,
-      attributeId: attributeId,
-      expirationDate: selectedExpirationDate,
-    })
+    updateAttributeExpirationDate(
+      {
+        partyId: agreement.consumer.id,
+        attributeId: attributeId,
+        expirationDate: selectedExpirationDate,
+      },
+      { onSuccess: closeAgreementVerifiedAttributeDrawer }
+    )
   }
 
   const handleVerify = () => {
     if (!agreement) return
-    verifyAttribute({
-      partyId: agreement.consumer.id,
-      id: attributeId,
-      expirationDate: selectedExpirationDate,
-    })
+    verifyAttribute(
+      {
+        partyId: agreement.consumer.id,
+        id: attributeId,
+        expirationDate: selectedExpirationDate,
+      },
+      { onSuccess: closeAgreementVerifiedAttributeDrawer }
+    )
   }
 
   if (type === 'revoke') {
