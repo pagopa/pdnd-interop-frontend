@@ -9,7 +9,7 @@ export type DrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   title: string
-  subtitle?: string
+  subtitle?: React.ReactNode
   buttonAction?: ActionItem & {
     disabled?: boolean
     variant?: ButtonProps['variant']
