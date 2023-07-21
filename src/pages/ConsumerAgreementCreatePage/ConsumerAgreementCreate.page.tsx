@@ -1,10 +1,10 @@
 import React from 'react'
 import { AgreementMutations, AgreementQueries } from '@/api/agreement'
-import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
+import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useNavigate, useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Tooltip } from '@mui/material'
+import { Button, Stack, Tooltip } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import MailIcon from '@mui/icons-material/Mail'
 import SaveIcon from '@mui/icons-material/Save'
@@ -68,6 +68,15 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   const canUserSubmitAgreementDraft = hasAllCertifiedAttributes && hasAllDeclaredAttributes
 
+  const getTooltipButtonTitle = () => {
+    if (!hasAllCertifiedAttributes) {
+      return t('edit.bottomPageActionCard.noCertifiedAttributesForSubmitTooltip')
+    }
+    if (!hasAllDeclaredAttributes) {
+      return t('edit.bottomPageActionCard.noDeclaredAttributesForSubmitTooltip')
+    }
+  }
+
   return (
     <PageContainer
       title={t('read.title')}
@@ -93,45 +102,36 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         }}
       />
 
-      <PageBottomActionsContainer>
-        <Box display="flex" flexDirection="row" justifyContent="right" flexGrow={1}>
-          <Button
-            onClick={handleDeleteAgreementDraft}
-            variant="text"
-            color="error"
-            startIcon={<DeleteOutlineIcon />}
-          >
-            {t('edit.bottomPageActionCard.cancelBtn')}
-          </Button>
-          <Button
-            onClick={handleUpdateAgreementDraft}
-            variant="text"
-            color="primary"
-            startIcon={<SaveIcon />}
-          >
-            {t('edit.bottomPageActionCard.updateBtn')}
-          </Button>
-          <Tooltip
-            arrow
-            title={
-              agreement?.state === 'MISSING_CERTIFIED_ATTRIBUTES'
-                ? t('edit.bottomPageActionCard.noCertifiedAttributesForSubmitTooltip')
-                : t('edit.bottomPageActionCard.noDeclaredAttributesForSubmitTooltip')
-            }
-          >
-            <span tabIndex={!canUserSubmitAgreementDraft ? 0 : undefined}>
-              <Button
-                disabled={!canUserSubmitAgreementDraft}
-                onClick={handleSubmitAgreementDraft}
-                variant="contained"
-                startIcon={<MailIcon />}
-              >
-                {t('edit.bottomPageActionCard.submitBtn')}
-              </Button>
-            </span>
-          </Tooltip>
-        </Box>
-      </PageBottomActionsContainer>
+      <Stack direction="row" spacing={1.5} sx={{ mt: 4, justifyContent: 'right' }}>
+        <Button
+          onClick={handleDeleteAgreementDraft}
+          variant="text"
+          color="error"
+          startIcon={<DeleteOutlineIcon />}
+        >
+          {t('edit.bottomPageActionCard.cancelBtn')}
+        </Button>
+        <Button
+          onClick={handleUpdateAgreementDraft}
+          variant="text"
+          color="primary"
+          startIcon={<SaveIcon />}
+        >
+          {t('edit.bottomPageActionCard.updateBtn')}
+        </Button>
+        <Tooltip arrow title={getTooltipButtonTitle()}>
+          <span tabIndex={!canUserSubmitAgreementDraft ? 0 : undefined}>
+            <Button
+              disabled={!canUserSubmitAgreementDraft}
+              onClick={handleSubmitAgreementDraft}
+              variant="contained"
+              startIcon={<MailIcon />}
+            >
+              {t('edit.bottomPageActionCard.submitBtn')}
+            </Button>
+          </span>
+        </Tooltip>
+      </Stack>
     </PageContainer>
   )
 }
