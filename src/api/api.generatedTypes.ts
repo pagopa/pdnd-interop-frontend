@@ -9,9 +9,20 @@
  * ---------------------------------------------------------------
  */
 
-export interface SAMLResponse {
+export interface GoogleSAMLPayload {
   /** SAML response */
-  response: string
+  SAMLResponse: string
+  RelayState: string | null
+}
+
+export interface SAMLTokenRequest {
+  /** SAML */
+  saml2: string
+  /**
+   * tenant id
+   * @format uuid
+   */
+  tenantId: string
 }
 
 export interface AccessTokenRequest {
@@ -317,7 +328,7 @@ export interface Agreement {
   id: string
   /** @format uuid */
   descriptorId: string
-  producer: CompactTenant
+  producer: CompactOrganization
   consumer: Tenant
   eservice: AgreementsEService
   /** Agreement State */
@@ -959,15 +970,23 @@ export interface Attributes {
   results: CompactAttribute[]
 }
 
-export interface CompactTenant {
-  /** @format uuid */
-  id: string
-  name: string
-}
-
 export interface ExternalId {
   origin: string
   value: string
+}
+
+/** Tenants */
+export interface Tenants {
+  results: CompactTenant[]
+  pagination: Pagination
+}
+
+export interface CompactTenant {
+  /** @format uuid */
+  id: string
+  selfcareId?: string
+  name: string
+  logoUrl?: string
 }
 
 export interface Tenant {
@@ -1481,6 +1500,16 @@ export interface GetAttributesParams {
   kinds: AttributeKind[]
 }
 
+export interface GetTenantsParams {
+  name?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
 export interface GetClientsParams {
   /** Query to filter Clients by name */
   q?: string
@@ -1502,14 +1531,6 @@ export interface GetClientsParams {
    * @max 50
    */
   limit: number
-}
-
-export interface GetSaml2TokenParams {
-  /**
-   * The internal identifier of the tenant
-   * @format uuid
-   */
-  tenantId: string
 }
 
 export namespace Agreements {
@@ -2718,14 +2739,8 @@ export namespace Session {
    */
   export namespace GetSaml2Token {
     export type RequestParams = {}
-    export type RequestQuery = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestBody = SAMLResponse
+    export type RequestQuery = {}
+    export type RequestBody = SAMLTokenRequest
     export type RequestHeaders = {
       'X-Correlation-Id': string
       'X-Forwarded-For'?: string
@@ -3000,6 +3015,31 @@ export namespace Tenants {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
+  }
+  /**
+   * @description Retrieve Tenants by name
+   * @tags tenants
+   * @name GetTenants
+   * @request GET:/tenants
+   * @secure
+   */
+  export namespace GetTenants {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      name?: string
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Tenants
   }
 }
 
@@ -4112,16 +4152,15 @@ export namespace PrivacyNotices {
 export namespace Support {
   /**
    * @description This route is used to redirect support flow to the dedicated page
-   * @tags support
+   * @tags authorization
    * @name SamlLoginCallback
    * @request POST:/support
    */
   export namespace SamlLoginCallback {
     export type RequestParams = {}
     export type RequestQuery = {}
-    export type RequestBody = SAMLResponse
+    export type RequestBody = GoogleSAMLPayload
     export type RequestHeaders = {
-      'X-Correlation-Id': string
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = any
