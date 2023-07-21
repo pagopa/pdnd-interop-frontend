@@ -33,6 +33,7 @@ import {
   ConsumerPurposeDetailsPage,
   ConsumerDebugVoucherPage,
   AssistencePartySelectionPage,
+  AssistanceTenantSelectionErrorPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 
@@ -287,6 +288,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = genera
       path: '/assistenza/scelta-ente',
       element: <AssistencePartySelectionPage />,
       public: true,
+      hideSideNav: true,
+      authLevels: ['admin', 'api', 'security'],
+    },
+    ASSISTENCE_PARTY_SELECTION_ERROR: {
+      path: '/assistenza/errore',
+      element: <AssistanceTenantSelectionErrorPage />,
+      public: true,
+      hideSideNav: true,
       authLevels: ['admin', 'api', 'security'],
     },
     NOT_FOUND: {
