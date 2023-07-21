@@ -141,6 +141,38 @@ describe('AgreementSummarySection', () => {
 
     expect(queryByRole('button', { name: 'attachedDocsButtonLabel' })).not.toBeInTheDocument()
   })
+
+  it('should not show the status chip if the routekey is equal to SUBSCRIBE_AGREEMENT_EDIT', () => {
+    mockUseJwt({ isAdmin: true })
+    mockUseCurrentRoute({ mode: 'provider', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
+
+    mockAgreementDetailsContext({
+      agreement: createMockAgreement({ isContractPresent: true }),
+    })
+
+    const { queryByText } = renderWithApplicationContext(<AgreementSummarySection />, {
+      withRouterContext: true,
+    })
+
+    expect(queryByText('requestStatusField.label')).not.toBeInTheDocument()
+  })
+
+  it('should show the "open certified drawer" button if the routekey is equal to SUBSCRIBE_AGREEMENT_EDIT', () => {
+    mockUseJwt({ isAdmin: true })
+    mockUseCurrentRoute({ mode: 'provider', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
+
+    mockAgreementDetailsContext({
+      agreement: createMockAgreement({ isContractPresent: true }),
+    })
+
+    const { queryByRole } = renderWithApplicationContext(<AgreementSummarySection />, {
+      withRouterContext: true,
+    })
+
+    expect(
+      queryByRole('button', { name: 'certifiedAttributesDrawerButtonLabel' })
+    ).toBeInTheDocument()
+  })
 })
 
 describe('AgreementSummarySectionSkeleton', () => {

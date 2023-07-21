@@ -119,7 +119,7 @@ export const AgreementSummarySection: React.FC<AgreementSummarySectionProps> = (
                 component="button"
                 startIcon={<RuleIcon />}
               >
-                {t('certifiedAttributesDrawerBtn')}
+                {t('certifiedAttributesDrawerButtonLabel')}
               </IconLink>
             </Box>
           </>

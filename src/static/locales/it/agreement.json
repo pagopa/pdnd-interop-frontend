@@ -126,7 +126,7 @@
       "requestStatusField": {
         "label": "Stato della richiesta"
       },
-      "certifiedAttributesDrawerBtn": "Visualizza attributi certificati"
+      "certifiedAttributesDrawerButtonLabel": "Visualizza attributi certificati"
     },
     "attribute": {
       "subtitle": "Devi possedere:"
@@ -154,7 +154,8 @@
       "cancelBtn": "Cancella bozza",
       "submitBtn": "Inoltra richiesta di fruizione",
       "updateBtn": "Salva bozza",
-      "noCertifiedAttributesForSubmitTooltip": "Il tuo ente non ha gli attributi certificati necessari per inoltrare la richiesta"
+      "noCertifiedAttributesForSubmitTooltip": "Il tuo ente non ha gli attributi certificati necessari per inoltrare la richiesta",
+      "noDeclaredAttributesForSubmitTooltip": "Per procedere con l’inoltro, devi aver attivato tutti gli attributi dichiarati richiesti"
     }
   },
   "list": {

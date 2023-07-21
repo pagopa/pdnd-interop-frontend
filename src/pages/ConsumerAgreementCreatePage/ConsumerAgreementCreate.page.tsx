@@ -113,7 +113,11 @@ const ConsumerAgreementCreatePage: React.FC = () => {
           </Button>
           <Tooltip
             arrow
-            title={t('edit.bottomPageActionCard.noCertifiedAttributesForSubmitTooltip')}
+            title={
+              agreement?.state === 'MISSING_CERTIFIED_ATTRIBUTES'
+                ? t('edit.bottomPageActionCard.noCertifiedAttributesForSubmitTooltip')
+                : t('edit.bottomPageActionCard.noDeclaredAttributesForSubmitTooltip')
+            }
           >
             <span tabIndex={!canUserSubmitAgreementDraft ? 0 : undefined}>
               <Button

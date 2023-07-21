@@ -126,7 +126,7 @@
       "requestStatusField": {
         "label": "Request status"
       },
-      "certifiedAttributesDrawerBtn": "Visualizza attributi certificati"
+      "certifiedAttributesDrawerButtonLabel": "View certified attributes"
     },
     "attribute": {
       "subtitle": "You must own:"
@@ -154,7 +154,8 @@
       "cancelBtn": "Delete draft",
       "submitBtn": "Publish agreement request",
       "updateBtn": "Save draft",
-      "noCertifiedAttributesForSubmitTooltip": "Your party does not have the needed certified attributes in order to submit the agreement"
+      "noCertifiedAttributesForSubmitTooltip": "Your party does not have the needed certified attributes in order to publish the agreement request",
+      "noDeclaredAttributesForSubmitTooltip": "To proceed with the publication, you must have activated all the required declared attributes"
     }
   },
   "list": {
