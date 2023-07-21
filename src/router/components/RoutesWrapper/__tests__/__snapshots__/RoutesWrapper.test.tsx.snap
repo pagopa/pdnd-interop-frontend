@@ -170,7 +170,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
       class="MuiBox-root css-ktdqii"
     >
       <div
-        class="MuiBox-root css-1d01y2y"
+        class="MuiBox-root css-6aqev1"
       />
     </main>
   </div>
@@ -453,54 +453,36 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
         class="MuiBox-root css-ktdqii"
       >
         <div
-          class="MuiBox-root css-g0r5qj"
+          class="MuiBox-root css-6aqev1"
         >
-          <div
-            class="MuiBox-root css-0"
+          <aside
+            class="css-1v50wi4-MuiStack-root"
           >
             <div
-              class="css-1qx01vb-MuiStack-root"
-            />
-            <div
-              class="MuiBox-root css-0"
+              class="css-1otdgos-MuiStack-root"
             >
-              <div
-                class="css-1mure3k-MuiStack-root"
+              <h1
+                class="MuiTypography-root MuiTypography-h3 css-fm0214-MuiTypography-root"
               >
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <h1
-                    class="MuiTypography-root MuiTypography-h4 css-fatzjd-MuiTypography-root"
-                  >
-                    default.title
-                  </h1>
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 css-15nfii5-MuiTypography-root"
-                  >
-                    default.description
-                  </p>
-                </div>
-                <div
-                  class="css-1yo1jo6-MuiStack-root"
-                />
-              </div>
+                default.title
+              </h1>
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1wenj6t-MuiTypography-root"
+              >
+                default.description
+              </p>
             </div>
-            <div
-              class="MuiBox-root css-h5fkc8"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation css-1tk6yq4-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
             >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation css-1tk6yq4-MuiButtonBase-root-MuiButton-root"
-                tabindex="0"
-                type="button"
-              >
-                actions.reloadPage
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </div>
-          </div>
+              actions.reloadPage
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </aside>
         </div>
       </main>
     </div>
