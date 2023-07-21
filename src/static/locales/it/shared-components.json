@@ -243,6 +243,7 @@
     "NOT_FOUND": "Pagina non trovata",
     "SUBSCRIBE_DEBUG_VOUCHER": "Debug client assertion",
     "ASSISTENCE_PARTY_SELECTION": "Selezione ente",
+    "ASSISTENCE_PARTY_SELECTION_ERROR": "Errore selezione ente",
     "DEFAULT": ""
   }
 }
