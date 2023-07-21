@@ -8,18 +8,30 @@ import {
   ListItemText,
 } from '@mui/material'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
+import type { CompactTenant } from '@/api/api.generatedTypes'
+import { useTranslation } from 'react-i18next'
 
-type PartySelectItemProps = {
+type TenantSelectItemProps = {
   component?: React.ElementType
+  tenant: CompactTenant
   onClick?: VoidFunction
 } & ListItemProps
 
-export const PartySelectItem: React.FC<PartySelectItemProps> = ({
+export const TenantSelectItem: React.FC<TenantSelectItemProps> = ({
   onClick,
   component,
+  tenant,
   ...listItemProps
 }) => {
-  const Wrapper = onClick ? ListItemButton : React.Fragment
+  const { t } = useTranslation('common')
+
+  const Wrapper = onClick
+    ? ({ children }: { children: React.ReactNode }) => (
+        <ListItemButton onClick={onClick} sx={{ borderRadius: 1 }}>
+          {children}
+        </ListItemButton>
+      )
+    : React.Fragment
 
   return (
     <ListItem
@@ -34,13 +46,13 @@ export const PartySelectItem: React.FC<PartySelectItemProps> = ({
       disablePadding
       {...listItemProps}
     >
-      <Wrapper onClick={onClick} sx={{ borderRadius: 1 }}>
+      <Wrapper>
         <ListItemAvatar>
-          <Avatar sx={{ width: 48, height: 48, bgcolor: 'white', border: 1 }}>
+          <Avatar sx={{ width: 48, height: 48, bgcolor: 'white', border: 1 }} src={tenant?.logoUrl}>
             <AccountBalanceIcon sx={{ color: '#bdbdbd' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Agenzia delle Entrate" secondary="Amministratore" />
+        <ListItemText primary={tenant.name} secondary={t('userRole.MANAGER')} />
       </Wrapper>
     </ListItem>
   )
