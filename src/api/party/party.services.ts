@@ -15,7 +15,7 @@ async function getParty(partyId: string) {
   return response.data
 }
 
-async function getUsersList({ tenantId, ...params }: GetUserInstitutionRelationshipsParams) {
+async function getPartyUsersList({ tenantId, ...params }: GetUserInstitutionRelationshipsParams) {
   const response = await axiosInstance.get<RelationshipsResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/relationships`,
     {
@@ -58,7 +58,7 @@ async function getPartyList() {
 
 const PartyServices = {
   getParty,
-  getUsersList,
+  getPartyUsersList,
   getTenants,
   getProducts,
   getPartyList,
