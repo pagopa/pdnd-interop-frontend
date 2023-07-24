@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { Redirect, useParams } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
-import { Grid } from '@mui/material'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
 import { URL_FRAGMENTS } from '@/router/router.utils'
@@ -27,7 +26,7 @@ import {
 } from './components/EServiceCreateStep3Attributes'
 
 const ProviderEServiceCreatePage: React.FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const { t } = useTranslation('eservice')
   const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
@@ -53,10 +52,10 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const eserviceData = isDraftEService ? eservice : descriptor?.eservice
 
   const steps: Array<StepperStep> = [
-    { label: t('stepper.step1Label'), component: EServiceCreateStep1General },
-    { label: t('stepper.step2Label'), component: EServiceCreateStep2Version },
-    { label: t('stepper.step3Label'), component: EServiceCreateStep3Attributes },
-    { label: t('stepper.step4Label'), component: EServiceCreateStep4Documents },
+    { label: t('create.stepper.step1Label'), component: EServiceCreateStep1General },
+    { label: t('create.stepper.step2Label'), component: EServiceCreateStep2Version },
+    { label: t('create.stepper.step3Label'), component: EServiceCreateStep3Attributes },
+    { label: t('create.stepper.step4Label'), component: EServiceCreateStep4Documents },
   ]
 
   const { component: Step } = steps[activeStep]
@@ -85,30 +84,33 @@ const ProviderEServiceCreatePage: React.FC = () => {
   ]
 
   const intro = isNewEService
-    ? { title: t('emptyTitle') }
+    ? { title: t('create.emptyTitle') }
     : {
         title: eserviceData?.name,
         description: eserviceData?.description,
       }
 
   return (
-    <PageContainer {...intro} isLoading={!isReady}>
-      <Grid container>
-        <Grid item lg={8}>
-          <Stepper steps={steps} activeIndex={activeStep} />
-          {isReady && (
-            <EServiceCreateContextProvider
-              eservice={eserviceData}
-              descriptor={descriptor}
-              isNewEService={isNewEService}
-              {...stepProps}
-            >
-              <Step />
-            </EServiceCreateContextProvider>
-          )}
-          {!isReady && stepsLoadingSkeletons[activeStep]}
-        </Grid>
-      </Grid>
+    <PageContainer
+      {...intro}
+      backToAction={{
+        label: t('backToListBtn'),
+        to: 'PROVIDE_ESERVICE_LIST',
+      }}
+      isLoading={!isReady}
+    >
+      <Stepper steps={steps} activeIndex={activeStep} />
+      {isReady && (
+        <EServiceCreateContextProvider
+          eservice={eserviceData}
+          descriptor={descriptor}
+          isNewEService={isNewEService}
+          {...stepProps}
+        >
+          <Step />
+        </EServiceCreateContextProvider>
+      )}
+      {!isReady && stepsLoadingSkeletons[activeStep]}
     </PageContainer>
   )
 }

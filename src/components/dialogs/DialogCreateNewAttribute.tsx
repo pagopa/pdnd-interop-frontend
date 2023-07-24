@@ -29,7 +29,11 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   }
 
   const formMethods = useForm<CreateNewAttributeFormValues>({
-    defaultValues,
+    defaultValues: {
+      name: '',
+      description: '',
+      kind: attributeKey.toUpperCase() as AttributeKind,
+    },
   })
 
   const onSubmit = (values: CreateNewAttributeFormValues) => {

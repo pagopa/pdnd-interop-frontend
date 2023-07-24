@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type' | 'label'> & {
   name: string
   label: string
-  infoLabel?: string
+  infoLabel?: React.ReactNode
   focusOnMount?: boolean
   rules?: ControllerProps['rules']
 } & (

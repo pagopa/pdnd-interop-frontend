@@ -18,7 +18,7 @@
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "forwardWithoutSaveBtn": "Next",
-    "endWithSaveBtn": "Save draft and back to the e-services",
+    "goToSummary": "Go to summary",
     "step1": {
       "detailsTitle": "E-service details",
       "eserviceNameField": {
@@ -72,7 +72,25 @@
       "attributeCloneSuccess": "Attributes cloned correctly",
       "attributeCloneNoAttributesLabel": "There are no attribute to copy",
       "attributesAddBtn": "Add attribute",
-      "attributesCreateBtn": "Create new attribute"
+      "attributesCreateBtn": "Create new attribute",
+      "createAttributeDialog": {
+        "verified": {
+          "title": "Create new verified attribute"
+        },
+        "certified": {
+          "title": "Create new certified attribute"
+        },
+        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "nameField": {
+          "label": "Nome dell'attributo",
+          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+        },
+        "descriptionField": {
+          "label": "Descrizione dell'attributo",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri"
+        },
+        "submitBtnLabel": "Crea attributo"
+      }
     },
     "step4": {
       "interface": {
@@ -95,13 +113,6 @@
         "infoLabel": "Min 5 chars, max 60 chars"
       },
       "uploadBtn": "Upload"
-    },
-    "quickPublish": {
-      "title": "Quick publish",
-      "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft at the end of the page",
-      "publishBtn": "Publish draft",
-      "deleteBtn": "Delete draft",
-      "noInterfaceTooltipLabel": "In order to publish the draft is madatory to upload an API Interface"
     }
   },
   "list": {

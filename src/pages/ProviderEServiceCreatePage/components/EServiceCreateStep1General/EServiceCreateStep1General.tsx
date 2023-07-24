@@ -101,7 +101,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             focusOnMount
             inputProps={{ maxLength: 60 }}
             size="small"
-            sx={{ width: '50%' }}
+            sx={{ width: '50%', my: 0, mt: 1 }}
           />
 
           <RHFTextField
@@ -112,6 +112,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             size="small"
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
+            sx={{ mb: 0, mt: 3 }}
           />
 
           <RHFRadioGroup
@@ -124,15 +125,11 @@ export const EServiceCreateStep1General: React.FC = () => {
             ]}
             disabled={!isEditable}
             rules={{ required: true }}
+            sx={{ mb: 0, mt: 3 }}
           />
         </SectionContainer>
 
         <StepActions
-          back={{
-            label: t('backToListBtn'),
-            type: 'link',
-            to: 'PROVIDE_ESERVICE_LIST',
-          }}
           forward={
             !isEditable
               ? {

@@ -18,7 +18,7 @@
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
     "forwardWithoutSaveBtn": "Prosegui",
-    "endWithSaveBtn": "Salva bozza e torna agli e-service",
+    "goToSummary": "Vai al riepilogo",
     "step1": {
       "detailsTitle": "Caratterizzazione e-service",
       "eserviceNameField": {
@@ -72,7 +72,25 @@
       "attributeCloneSuccess": "Attributi copiati correttamente",
       "attributeCloneNoAttributesLabel": "Non ci sono attributi da copiare",
       "attributesAddBtn": "Aggiungi attributo",
-      "attributesCreateBtn": "Crea nuovo attributo"
+      "attributesCreateBtn": "Crea nuovo attributo",
+      "createAttributeDialog": {
+        "verified": {
+          "title": "Crea nuovo attributo verificato"
+        },
+        "certified": {
+          "title": "Crea nuovo attributo certificato"
+        },
+        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "nameField": {
+          "label": "Nome dell'attributo",
+          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+        },
+        "descriptionField": {
+          "label": "Descrizione dell'attributo",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri"
+        },
+        "submitBtnLabel": "Crea attributo"
+      }
     },
     "step4": {
       "interface": {
@@ -95,13 +113,6 @@
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
       "uploadBtn": "Carica"
-    },
-    "quickPublish": {
-      "title": "Pubblicazione immediata",
-      "description": "Hai inserito tutte le informazioni per questo e-service? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza in fondo alla pagina",
-      "publishBtn": "Pubblica bozza",
-      "deleteBtn": "Cancella bozza",
-      "noInterfaceTooltipLabel": "Per poter procedere con la pubblicazione della bozza è obbligatorio caricare un file d'interfaccia API"
     }
   },
   "list": {

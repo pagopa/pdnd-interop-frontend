@@ -9,11 +9,13 @@ import { useTranslation } from 'react-i18next'
 import { remapRemappedDescriptorAttributesToDescriptorAttributes } from '@/api/eservice/eservice.api.utils'
 import { StepActions } from '@/components/shared/StepActions'
 import type { UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
-import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
+import type { AttributeKey, RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
 import { useClonePreviousDescriptorAttributes } from '../../hooks/useClonePreviousDescriptorAttributes'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import SaveIcon from '@mui/icons-material/Save'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { CreateAttributeDrawer } from './CreateAttributeDrawer'
 
 export type EServiceCreateStep3FormValues = {
   attributes: RemappedDescriptorAttributes
@@ -25,6 +27,22 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
+  const [createAttributeCreateDrawerState, setCreateAttributeCreateDrawerState] = React.useState<{
+    attributeKey: Exclude<AttributeKey, 'certified'>
+    isOpen: boolean
+  }>({
+    attributeKey: 'verified',
+    isOpen: false,
+  })
+
+  const handleCloseAttributeCreateDrawer = () => {
+    setCreateAttributeCreateDrawerState((prevState) => ({ ...prevState, isOpen: false }))
+  }
+
+  const handleOpenAttributeCreateDrawerFactory =
+    (attributeKey: Exclude<AttributeKey, 'certified'>) => () => {
+      setCreateAttributeCreateDrawerState({ attributeKey, isOpen: true })
+    }
 
   const formMethods = useForm({
     defaultValues: { attributes: attributes ?? { certified: [], verified: [], declared: [] } },
@@ -77,40 +95,59 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
   }
 
   return (
-    <FormProvider {...formMethods}>
-      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer
-          newDesign
-          title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
-          description={t('step3.attributesDescription')}
-        >
-          {descriptor && descriptor.version > '1' && (
-            <Stack direction="row" alignItems="center">
-              <Button
-                variant="naked"
-                disabled={hasPreviousVersionNoAttributes}
-                onClick={handleClonePreviousDescriptorAttributes}
-              >
-                {t('step3.attributeCloneBtn')}
-              </Button>
-              {hasPreviousVersionNoAttributes && (
-                <InfoTooltip label={t('step3.attributeCloneNoAttributesLabel')} />
-              )}
-            </Stack>
-          )}
-          <Divider sx={{ my: 3 }} />
-          <AddAttributesToEServiceForm attributeKey="certified" readOnly={false} />
-          <Divider sx={{ my: 3 }} />
-          <AddAttributesToEServiceForm attributeKey="verified" readOnly={false} />
-          <Divider sx={{ my: 3 }} />
-          <AddAttributesToEServiceForm attributeKey="declared" readOnly={false} />
-        </SectionContainer>
-        <StepActions
-          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('forwardWithSaveBtn'), type: 'submit', icon: <SaveIcon /> }}
-        />
-      </Box>
-    </FormProvider>
+    <>
+      <FormProvider {...formMethods}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <SectionContainer
+            newDesign
+            title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
+            description={t('step3.attributesDescription')}
+          >
+            {descriptor && descriptor.version > '1' && (
+              <Stack direction="row" alignItems="center">
+                <Button
+                  variant="naked"
+                  disabled={hasPreviousVersionNoAttributes}
+                  onClick={handleClonePreviousDescriptorAttributes}
+                >
+                  {t('step3.attributeCloneBtn')}
+                </Button>
+                {hasPreviousVersionNoAttributes && (
+                  <InfoTooltip label={t('step3.attributeCloneNoAttributesLabel')} />
+                )}
+              </Stack>
+            )}
+            <Divider sx={{ my: 3 }} />
+            <AddAttributesToEServiceForm attributeKey="certified" readOnly={false} />
+            <Divider sx={{ my: 3 }} />
+            <AddAttributesToEServiceForm
+              attributeKey="verified"
+              readOnly={false}
+              openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
+            />
+            <Divider sx={{ my: 3 }} />
+            <AddAttributesToEServiceForm
+              attributeKey="declared"
+              readOnly={false}
+              openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
+            />
+          </SectionContainer>
+          <StepActions
+            back={{
+              label: t('backWithoutSaveBtn'),
+              type: 'button',
+              onClick: back,
+              startIcon: <ArrowBackIcon />,
+            }}
+            forward={{ label: t('forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
+          />
+        </Box>
+      </FormProvider>
+      <CreateAttributeDrawer
+        {...createAttributeCreateDrawerState}
+        onClose={handleCloseAttributeCreateDrawer}
+      />
+    </>
   )
 }
 

@@ -5,16 +5,17 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigate } from '@/router'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
-import { Box, Stack } from '@mui/material'
+import { Box, Link, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import omit from 'lodash/omit'
 import type { AgreementApprovalPolicy } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/api/eservice/eservice.api.utils'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export type EServiceCreateStep2FormValues = {
   audience: string
@@ -130,6 +131,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
             focusOnMount
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
+            sx={{ my: 0, mt: 1 }}
           />
           <SectionContainer
             newDesign
@@ -146,17 +148,21 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
                 type="number"
                 inputProps={{ min: 1, max: 1440 }}
                 rules={{ required: true, min: 1, max: 1440 }}
-                sx={{ flex: 1, mt: 0 }}
+                sx={{ flex: 1, my: 0 }}
               />
 
               <RHFTextField
                 size="small"
                 name="audience"
                 label={t('step2.voucherSection.audienceField.label')}
-                infoLabel={t('step2.voucherSection.audienceField.infoLabel')}
+                infoLabel={
+                  <Trans components={{ 1: <Link href="/" target="_blank" /> }}>
+                    {t('step2.voucherSection.audienceField.infoLabel')}
+                  </Trans>
+                }
                 inputProps={{ maxLength: 250 }}
                 rules={{ required: true, minLength: 1 }}
-                sx={{ flex: 1, mt: 0 }}
+                sx={{ flex: 1, my: 0 }}
               />
             </Stack>
           </SectionContainer>
@@ -174,7 +180,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
                 type="number"
                 inputProps={{ min: '1' }}
                 rules={{ required: true, min: 1 }}
-                sx={{ mt: 0, flex: 1 }}
+                sx={{ my: 0, flex: 1 }}
               />
 
               <RHFTextField
@@ -183,7 +189,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
                 label={t('step2.thresholdSection.dailyCallsTotalField.label')}
                 type="number"
                 inputProps={{ min: '1' }}
-                sx={{ mt: 0, flex: 1 }}
+                sx={{ my: 0, flex: 1 }}
                 rules={{
                   required: true,
                   min: {
@@ -205,13 +211,18 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
               label={t('step2.agreementApprovalPolicySection.label')}
               vertical
               name="agreementApprovalPolicy"
-              sx={{ mt: 0 }}
+              sx={{ my: 0 }}
             />
           </SectionContainer>
         </SectionContainer>
         <StepActions
-          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('forwardWithSaveBtn'), type: 'submit', icon: <SaveIcon /> }}
+          back={{
+            label: t('backWithoutSaveBtn'),
+            type: 'button',
+            onClick: back,
+            startIcon: <ArrowBackIcon />,
+          }}
+          forward={{ label: t('forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
         />
       </Box>
     </FormProvider>
