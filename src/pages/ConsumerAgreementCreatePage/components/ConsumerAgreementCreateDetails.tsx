@@ -7,15 +7,14 @@ import ConsumerAgreementCreateDeclaredAttributesSection from './ConsumerAgreemen
 
 type ConsumerAgreementCreateDetailsProps = {
   agreementId: string
-  consumerNotes: {
-    value: string
-    setter: React.Dispatch<React.SetStateAction<string>>
-  }
+  consumerNotes: string
+  onConsumerNotesChange: (value: string) => void
 }
 
 const ConsumerAgreementCreateDetails: React.FC<ConsumerAgreementCreateDetailsProps> = ({
   agreementId,
   consumerNotes,
+  onConsumerNotesChange,
 }) => {
   return (
     <ConsumerAgreementCreateDetailsContextProvider agreementId={agreementId}>
@@ -24,6 +23,7 @@ const ConsumerAgreementCreateDetails: React.FC<ConsumerAgreementCreateDetailsPro
       <ConsumerAgreementCreateVerifiedAttributesSection
         agreementId={agreementId}
         consumerNotes={consumerNotes}
+        onConsumerNotesChange={onConsumerNotesChange}
       />
       <ConsumerAgreementCreateDeclaredAttributesSection />
     </ConsumerAgreementCreateDetailsContextProvider>

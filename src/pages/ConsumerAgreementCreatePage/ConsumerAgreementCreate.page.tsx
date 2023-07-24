@@ -20,6 +20,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     suspense: false,
   })
   const [consumerNotes, setConsumerNotes] = React.useState(agreement?.consumerNotes ?? '')
+
   const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft()
   const { mutate: updateAgreementDraft } = AgreementMutations.useUpdateDraft()
   const { mutate: deleteAgreementDraft } = AgreementMutations.useDeleteDraft()
@@ -96,10 +97,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     >
       <ConsumerAgreementCreateDetails
         agreementId={agreementId}
-        consumerNotes={{
-          value: consumerNotes,
-          setter: setConsumerNotes,
-        }}
+        consumerNotes={consumerNotes}
+        onConsumerNotesChange={setConsumerNotes}
       />
 
       <Stack direction="row" spacing={1.5} sx={{ mt: 4, justifyContent: 'right' }}>

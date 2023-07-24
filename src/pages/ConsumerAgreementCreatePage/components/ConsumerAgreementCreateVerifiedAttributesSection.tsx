@@ -19,15 +19,13 @@ import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCr
 
 type ConsumerAgreementCreateVerifiedAttributesSectionProps = {
   agreementId: string
-  consumerNotes: {
-    value: string
-    setter: React.Dispatch<React.SetStateAction<string>>
-  }
+  consumerNotes: string
+  onConsumerNotesChange: (value: string) => void
 }
 
 const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
   ConsumerAgreementCreateVerifiedAttributesSectionProps
-> = ({ agreementId, consumerNotes }) => {
+> = ({ agreementId, consumerNotes, onConsumerNotesChange }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
   const { descriptorAttributes } = useConsumerAgreementCreateDetailsContext()
@@ -83,8 +81,8 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
           <React.Suspense fallback={<ConsumerNotesInputSectionSkeleton />}>
             <ConsumerNotesInputSection
               agreementId={agreementId}
-              consumerNotes={consumerNotes.value}
-              setConsumerNotes={consumerNotes.setter}
+              consumerNotes={consumerNotes}
+              onConsumerNotesChange={onConsumerNotesChange}
             />
           </React.Suspense>
         </>

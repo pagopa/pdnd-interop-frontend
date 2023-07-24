@@ -8,13 +8,13 @@ import { useTranslation } from 'react-i18next'
 type ConsumerNotesInputSectionProps = {
   agreementId: string
   consumerNotes: string
-  setConsumerNotes: React.Dispatch<React.SetStateAction<string>>
+  onConsumerNotesChange: (value: string) => void
 }
 
 export const ConsumerNotesInputSection: React.FC<ConsumerNotesInputSectionProps> = ({
   agreementId,
   consumerNotes,
-  setConsumerNotes,
+  onConsumerNotesChange,
 }) => {
   const { t } = useTranslation('agreement', { keyPrefix: 'edit.consumerNotes' })
   const consumerNotesRef = React.useRef<string | undefined | null>(null)
@@ -34,13 +34,13 @@ export const ConsumerNotesInputSection: React.FC<ConsumerNotesInputSectionProps>
       // so it will update it.
       if (consumerNotesRef.current === null || data.consumerNotes !== consumerNotesRef.current) {
         consumerNotesRef.current = data?.consumerNotes
-        setConsumerNotes(data?.consumerNotes ?? '')
+        onConsumerNotesChange(data?.consumerNotes ?? '')
       }
     },
   })
 
   const handleConsumerNotesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setConsumerNotes(e.target.value)
+    onConsumerNotesChange(e.target.value)
   }
 
   return (
