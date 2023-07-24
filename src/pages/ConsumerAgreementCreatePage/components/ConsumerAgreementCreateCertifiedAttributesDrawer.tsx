@@ -6,7 +6,7 @@ import { isAttributeGroupFullfilled, isAttributeOwned } from '@/utils/attribute.
 import { Alert, Link, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCreateDetailsContext'
+import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 
 const ConsumerAgreementCreateCertifiedAttributesDrawer: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -18,7 +18,7 @@ const ConsumerAgreementCreateCertifiedAttributesDrawer: React.FC = () => {
     closeCertifiedAttributesDrawer,
     partyAttributes,
     descriptorAttributes,
-  } = useConsumerAgreementCreateDetailsContext()
+  } = useConsumerAgreementCreateContentContext()
 
   const certifiedAttributeGroups = descriptorAttributes?.certified ?? []
   const ownedCertifiedAttributes = partyAttributes?.certified ?? []

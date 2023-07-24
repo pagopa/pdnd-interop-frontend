@@ -1,5 +1,5 @@
 import { AgreementQueries } from '@/api/agreement'
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { InputWrapper } from '@/components/shared/InputWrapper'
 import { TextField } from '@mui/material'
 import React from 'react'
@@ -59,8 +59,4 @@ export const ConsumerNotesInputSection: React.FC<ConsumerNotesInputSectionProps>
       </InputWrapper>
     </SectionContainer>
   )
-}
-
-export const ConsumerNotesInputSectionSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={326} />
 }

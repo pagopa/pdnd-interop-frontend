@@ -9,7 +9,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import MailIcon from '@mui/icons-material/Mail'
 import SaveIcon from '@mui/icons-material/Save'
 import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
-import ConsumerAgreementCreateDetails from './components/ConsumerAgreementCreateDetails'
+import ConsumerAgreementCreateContent from './components/ConsumerAgreementCreateContent'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -95,7 +95,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         to: 'SUBSCRIBE_AGREEMENT_LIST',
       }}
     >
-      <ConsumerAgreementCreateDetails
+      <ConsumerAgreementCreateContent
         agreementId={agreementId}
         consumerNotes={consumerNotes}
         onConsumerNotesChange={setConsumerNotes}

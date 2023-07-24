@@ -7,15 +7,9 @@ import { attributesHelpLink } from '@/config/constants'
 import { Divider, Link, Stack } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import {
-  AgreementDocsInputSection,
-  AgreementDocsInputSectionSkeleton,
-} from './AgreementDocsInputSection'
-import {
-  ConsumerNotesInputSection,
-  ConsumerNotesInputSectionSkeleton,
-} from './ConsumerNotesInputSection'
-import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCreateDetailsContext'
+import { ConsumerAgreementDocsInputSection } from './ConsumerAgreementDocsInputSection'
+import { ConsumerNotesInputSection } from './ConsumerNotesInputSection'
+import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 
 type ConsumerAgreementCreateVerifiedAttributesSectionProps = {
   agreementId: string
@@ -28,7 +22,7 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
 > = ({ agreementId, consumerNotes, onConsumerNotesChange }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { descriptorAttributes } = useConsumerAgreementCreateDetailsContext()
+  const { descriptorAttributes } = useConsumerAgreementCreateContentContext()
 
   const verifiedAttributeGroups = descriptorAttributes?.verified ?? []
 
@@ -72,19 +66,15 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
 
           <Divider sx={{ my: 3 }} />
 
-          <React.Suspense fallback={<AgreementDocsInputSectionSkeleton />}>
-            <AgreementDocsInputSection agreementId={agreementId} />
-          </React.Suspense>
+          <ConsumerAgreementDocsInputSection agreementId={agreementId} />
 
           <Divider sx={{ my: 3 }} />
 
-          <React.Suspense fallback={<ConsumerNotesInputSectionSkeleton />}>
-            <ConsumerNotesInputSection
-              agreementId={agreementId}
-              consumerNotes={consumerNotes}
-              onConsumerNotesChange={onConsumerNotesChange}
-            />
-          </React.Suspense>
+          <ConsumerNotesInputSection
+            agreementId={agreementId}
+            consumerNotes={consumerNotes}
+            onConsumerNotesChange={onConsumerNotesChange}
+          />
         </>
       )}
     </SectionContainer>

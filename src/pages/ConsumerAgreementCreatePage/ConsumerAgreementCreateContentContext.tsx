@@ -11,9 +11,8 @@ import noop from 'lodash/noop'
 import { EServiceQueries } from '@/api/eservice'
 import { remapDescriptorAttributes } from '@/utils/attribute.utils'
 import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
-// import { AttributeQueries } from '@/api/attribute'
 
-type ConsumerAgreementCreateDetailsContextType = {
+type ConsumerAgreementCreateContentContextType = {
   agreement: Agreement | undefined
   descriptorAttributes: RemappedDescriptorAttributes | undefined
   partyAttributes:
@@ -28,7 +27,7 @@ type ConsumerAgreementCreateDetailsContextType = {
   closeCertifiedAttributesDrawer: VoidFunction
 }
 
-const initialState: ConsumerAgreementCreateDetailsContextType = {
+const initialState: ConsumerAgreementCreateContentContextType = {
   agreement: undefined,
   descriptorAttributes: undefined,
   partyAttributes: undefined,
@@ -37,12 +36,12 @@ const initialState: ConsumerAgreementCreateDetailsContextType = {
   closeCertifiedAttributesDrawer: noop,
 }
 
-const { useContext, Provider } = createContext<ConsumerAgreementCreateDetailsContextType>(
-  'ConsumerAgreementCreateDetailsContext',
+const { useContext, Provider } = createContext<ConsumerAgreementCreateContentContextType>(
+  'ConsumerAgreementCreateContentContext',
   initialState
 )
 
-const ConsumerAgreementCreateDetailsContextProvider: React.FC<{
+const ConsumerAgreementCreateContentContextProvider: React.FC<{
   agreementId: string
   children: React.ReactNode
 }> = ({ agreementId, children }) => {
@@ -88,6 +87,6 @@ const ConsumerAgreementCreateDetailsContextProvider: React.FC<{
 }
 
 export {
-  useContext as useConsumerAgreementCreateDetailsContext,
-  ConsumerAgreementCreateDetailsContextProvider,
+  useContext as useConsumerAgreementCreateContentContext,
+  ConsumerAgreementCreateContentContextProvider,
 }

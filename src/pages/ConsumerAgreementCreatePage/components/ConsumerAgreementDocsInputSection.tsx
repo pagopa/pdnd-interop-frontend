@@ -1,6 +1,6 @@
 import React from 'react'
 import { AgreementDownloads, AgreementMutations } from '@/api/agreement'
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { Box, Button, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -8,9 +8,9 @@ import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
-import { useAgreementDetailsContext } from '@/components/shared/AgreementDetails/AgreementDetailsContext'
+import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 
-type AgreementDocsInputSectionProps = {
+type ConsumerAgreementDocsInputSectionProps = {
   agreementId: string
 }
 
@@ -24,9 +24,9 @@ const defaultValues: AddDocFormValues = {
   prettyName: '',
 }
 
-export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps> = ({
-  agreementId,
-}) => {
+export const ConsumerAgreementDocsInputSection: React.FC<
+  ConsumerAgreementDocsInputSectionProps
+> = ({ agreementId }) => {
   const { t } = useTranslation('agreement', { keyPrefix: 'edit.documents' })
   const { t: tCommon } = useTranslation('common')
   const [showDocInput, setShowDocInput] = React.useState(false)
@@ -34,7 +34,7 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
   const { mutate: deleteDocument } = AgreementMutations.useDeleteDraftDocument()
   const downloadDocument = AgreementDownloads.useDownloadDocument()
 
-  const { agreement } = useAgreementDetailsContext()
+  const { agreement } = useConsumerAgreementCreateContentContext()
 
   const formMethods = useForm<AddDocFormValues>({
     defaultValues,
@@ -122,8 +122,4 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
       </FormProvider>
     </SectionContainer>
   )
-}
-
-export const AgreementDocsInputSectionSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={127} />
 }

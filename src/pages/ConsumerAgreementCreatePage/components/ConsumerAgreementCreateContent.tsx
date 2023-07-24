@@ -2,22 +2,22 @@ import React from 'react'
 import ConsumerAgreementCreateVerifiedAttributesSection from './ConsumerAgreementCreateVerifiedAttributesSection'
 import ConsumerAgreementCreateCertifiedAttributesDrawer from './ConsumerAgreementCreateCertifiedAttributesDrawer'
 import ConsumerAgreementCreateAgreementGeneralInformation from './ConsumerAgreementCreateAgreementGeneralInformation'
-import { ConsumerAgreementCreateDetailsContextProvider } from '../ConsumerAgreementCreateDetailsContext'
+import { ConsumerAgreementCreateContentContextProvider } from '../ConsumerAgreementCreateContentContext'
 import ConsumerAgreementCreateDeclaredAttributesSection from './ConsumerAgreementCreateDeclaredAttributesSection'
 
-type ConsumerAgreementCreateDetailsProps = {
+type ConsumerAgreementCreateContentProps = {
   agreementId: string
   consumerNotes: string
   onConsumerNotesChange: (value: string) => void
 }
 
-const ConsumerAgreementCreateDetails: React.FC<ConsumerAgreementCreateDetailsProps> = ({
+const ConsumerAgreementCreateContent: React.FC<ConsumerAgreementCreateContentProps> = ({
   agreementId,
   consumerNotes,
   onConsumerNotesChange,
 }) => {
   return (
-    <ConsumerAgreementCreateDetailsContextProvider agreementId={agreementId}>
+    <ConsumerAgreementCreateContentContextProvider agreementId={agreementId}>
       <ConsumerAgreementCreateAgreementGeneralInformation />
       <ConsumerAgreementCreateCertifiedAttributesDrawer />
       <ConsumerAgreementCreateVerifiedAttributesSection
@@ -26,8 +26,8 @@ const ConsumerAgreementCreateDetails: React.FC<ConsumerAgreementCreateDetailsPro
         onConsumerNotesChange={onConsumerNotesChange}
       />
       <ConsumerAgreementCreateDeclaredAttributesSection />
-    </ConsumerAgreementCreateDetailsContextProvider>
+    </ConsumerAgreementCreateContentContextProvider>
   )
 }
 
-export default ConsumerAgreementCreateDetails
+export default ConsumerAgreementCreateContent

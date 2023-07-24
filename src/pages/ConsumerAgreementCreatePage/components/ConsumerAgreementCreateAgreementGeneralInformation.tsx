@@ -1,7 +1,7 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCreateDetailsContext'
+import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 import { Box, Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { Link } from '@/router'
@@ -13,7 +13,7 @@ const ConsumerAgreementCreateAgreementGeneralInformation: React.FC = () => {
     keyPrefix: 'edit.generalInformations',
   })
 
-  const { agreement, openCertifiedAttributesDrawer } = useConsumerAgreementCreateDetailsContext()
+  const { agreement, openCertifiedAttributesDrawer } = useConsumerAgreementCreateContentContext()
 
   if (!agreement) return <ConsumerAgreementCreateAgreementGeneralInformationSkeleton />
 

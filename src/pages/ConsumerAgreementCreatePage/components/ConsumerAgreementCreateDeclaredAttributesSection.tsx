@@ -1,6 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCreateDetailsContext'
+import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
   AttributeContainer,
@@ -19,7 +19,7 @@ import { useGetConsumerDeclaredAttributesActions } from '../hooks/useGetConsumer
 const ConsumerAgreementCreateDeclaredAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { descriptorAttributes, partyAttributes } = useConsumerAgreementCreateDetailsContext()
+  const { descriptorAttributes, partyAttributes } = useConsumerAgreementCreateContentContext()
 
   const declaredAttributeGroups = descriptorAttributes?.declared ?? []
   const ownedDeclaredAttributes = partyAttributes?.declared ?? []
