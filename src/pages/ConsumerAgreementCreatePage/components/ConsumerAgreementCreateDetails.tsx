@@ -20,14 +20,11 @@ const ConsumerAgreementCreateDetails: React.FC<ConsumerAgreementCreateDetailsPro
   return (
     <ConsumerAgreementCreateDetailsContextProvider agreementId={agreementId}>
       <ConsumerAgreementCreateAgreementGeneralInformation />
-
       <ConsumerAgreementCreateCertifiedAttributesDrawer />
-
       <ConsumerAgreementCreateVerifiedAttributesSection
         agreementId={agreementId}
         consumerNotes={consumerNotes}
       />
-
       <ConsumerAgreementCreateDeclaredAttributesSection />
     </ConsumerAgreementCreateDetailsContextProvider>
   )

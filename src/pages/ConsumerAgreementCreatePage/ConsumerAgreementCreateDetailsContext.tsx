@@ -8,7 +8,6 @@ import type {
 } from '@/api/api.generatedTypes'
 import { AgreementQueries } from '@/api/agreement'
 import noop from 'lodash/noop'
-import { useJwt } from '@/hooks/useJwt'
 import { EServiceQueries } from '@/api/eservice'
 import { remapDescriptorAttributes } from '@/utils/attribute.utils'
 import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
@@ -47,18 +46,12 @@ const ConsumerAgreementCreateDetailsContextProvider: React.FC<{
   agreementId: string
   children: React.ReactNode
 }> = ({ agreementId, children }) => {
-  const { jwt } = useJwt()
-
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
-
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
     agreement?.eservice.id as string,
     agreement?.descriptorId as string,
     { enabled: !!(agreement?.eservice.id && agreement?.descriptorId) }
   )
-
-  // const [{ data: certified }, { data: verified }, { data: declared }] =
-  //   AttributeQueries.useGetListParty(jwt?.organizationId)
 
   const [isCertifiedAttributesDrawerOpen, setIsCertifiedAttributesDrawerOpen] =
     React.useState(false)
@@ -74,15 +67,7 @@ const ConsumerAgreementCreateDetailsContextProvider: React.FC<{
   const providerValue = React.useMemo(() => {
     if (!agreement || !descriptor) return initialState
 
-    console.log('HERE', jwt?.organizationId === agreement.consumer.id)
-
     const descriptorAttributes = remapDescriptorAttributes(descriptor.attributes)
-
-    // const partyAttributes = {
-    //   certified: certified?.attributes ?? [],
-    //   verified: verified?.attributes ?? [],
-    //   declared: declared?.attributes ?? [],
-    // }
 
     const partyAttributes = {
       certified: agreement?.consumer.attributes.certified ?? [],
@@ -98,7 +83,7 @@ const ConsumerAgreementCreateDetailsContextProvider: React.FC<{
       openCertifiedAttributesDrawer,
       closeCertifiedAttributesDrawer,
     }
-  }, [agreement, descriptor, isCertifiedAttributesDrawerOpen, jwt?.organizationId])
+  }, [agreement, descriptor, isCertifiedAttributesDrawerOpen])
   return <Provider value={providerValue}>{children}</Provider>
 }
 

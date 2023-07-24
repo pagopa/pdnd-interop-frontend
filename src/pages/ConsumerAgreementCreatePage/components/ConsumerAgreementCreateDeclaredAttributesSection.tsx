@@ -14,7 +14,7 @@ import {
 } from '@/utils/attribute.utils'
 import { Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
-import { useConsumerAgreementCreateGetDeclaredAttributesActions } from '../hooks/useConsumerAgreementCreateGetDeclaredAttributesActions'
+import { useGetConsumerDeclaredAttributesActions } from '../hooks/useGetConsumerDeclaredAttributesActions'
 
 const ConsumerAgreementCreateDeclaredAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -24,7 +24,7 @@ const ConsumerAgreementCreateDeclaredAttributesSection: React.FC = () => {
   const declaredAttributeGroups = descriptorAttributes?.declared ?? []
   const ownedDeclaredAttributes = partyAttributes?.declared ?? []
 
-  const getDeclaredAttributeActions = useConsumerAgreementCreateGetDeclaredAttributesActions()
+  const getDeclaredAttributeActions = useGetConsumerDeclaredAttributesActions()
   function getGroupContainerProps(
     group: RemappedDescriptorAttribute
   ): React.ComponentProps<typeof AttributeGroupContainer> {

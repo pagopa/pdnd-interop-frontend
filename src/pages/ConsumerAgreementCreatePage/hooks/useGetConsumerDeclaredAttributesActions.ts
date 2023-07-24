@@ -4,7 +4,7 @@ import { useJwt } from '@/hooks/useJwt'
 import { AttributeMutations } from '@/api/attribute'
 import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCreateDetailsContext'
 
-export const useConsumerAgreementCreateGetDeclaredAttributesActions = () => {
+export const useGetConsumerDeclaredAttributesActions = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
   const { isAdmin } = useJwt()
   const { partyAttributes, agreement } = useConsumerAgreementCreateDetailsContext()
