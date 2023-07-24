@@ -14,10 +14,12 @@ import type {
 export const checkIfAlreadySubscribed = (
   eservice: CatalogEService | CatalogDescriptorEService | undefined
 ) => {
-  const isSubscribed = !!eservice?.agreement
-  const isNotDraftOrRejected = !['REJECTED', 'DRAFT'].includes(eservice?.agreement?.state as string)
+  if (!eservice) return false
+  const hasAgreement = !!eservice.agreement
+  const isNotDraftOrRejected =
+    eservice.agreement && !['REJECTED', 'DRAFT', 'ARCHIVED'].includes(eservice.agreement.state)
 
-  return isSubscribed && isNotDraftOrRejected
+  return hasAgreement && isNotDraftOrRejected
 }
 
 /**

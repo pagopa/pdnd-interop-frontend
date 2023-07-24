@@ -90,6 +90,13 @@ describe('checkIfAlreadySubscribed', () => {
     expect(result).toBe(false)
   })
 
+  it('should return false if the eservice with agreement state as ARCHIVED ', () => {
+    const result = checkIfAlreadySubscribed(
+      createMockEServiceCatalog({ agreement: { state: 'ARCHIVED' } })
+    )
+    expect(result).toBe(false)
+  })
+
   it('should return true if the eservice has an agreement with state different from DRAFT or REJECTED', () => {
     const result = checkIfAlreadySubscribed(
       createMockEServiceCatalog({ agreement: { state: 'ACTIVE' } })
