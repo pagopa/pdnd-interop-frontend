@@ -1,9 +1,9 @@
-import { AgreementDetailsContextProvider } from '@/components/shared/AgreementDetails/AgreementDetailsContext'
-import { AgreementSummarySection } from '@/components/shared/AgreementDetails/components/AgreementSummarySection'
 import React from 'react'
 import ConsumerAgreementCreateVerifiedAttributesSection from './ConsumerAgreementCreateVerifiedAttributesSection'
-import { AgreementDeclaredAttributesSection } from '@/components/shared/AgreementDetails/components/AgreementAttributesListSections/AgreementDeclaredAttributesSection'
-import { ConsumerAgreementCreateDrawer } from './ConsumerAgreementCreateDrawer'
+import ConsumerAgreementCreateCertifiedAttributesDrawer from './ConsumerAgreementCreateCertifiedAttributesDrawer'
+import ConsumerAgreementCreateAgreementGeneralInformation from './ConsumerAgreementCreateAgreementGeneralInformation'
+import { ConsumerAgreementCreateDetailsContextProvider } from '../ConsumerAgreementCreateDetailsContext'
+import ConsumerAgreementCreateDeclaredAttributesSection from './ConsumerAgreementCreateDeclaredAttributesSection'
 
 type ConsumerAgreementCreateDetailsProps = {
   agreementId: string
@@ -17,35 +17,19 @@ const ConsumerAgreementCreateDetails: React.FC<ConsumerAgreementCreateDetailsPro
   agreementId,
   consumerNotes,
 }) => {
-  const [isCertifiedAttributesDrawerOpen, setIsCertifiedAttributesDrawerOpen] =
-    React.useState(false)
-
-  const handleOpenCertifiedAttributesDrawer = () => {
-    setIsCertifiedAttributesDrawerOpen(true)
-  }
-
-  const handleCloseCertifiedAttributesDrawer = () => {
-    setIsCertifiedAttributesDrawerOpen(false)
-  }
-
   return (
-    <AgreementDetailsContextProvider agreementId={agreementId}>
-      <AgreementSummarySection
-        onOpenCertifiedAttributesDrawer={handleOpenCertifiedAttributesDrawer}
-      />
+    <ConsumerAgreementCreateDetailsContextProvider agreementId={agreementId}>
+      <ConsumerAgreementCreateAgreementGeneralInformation />
 
-      <ConsumerAgreementCreateDrawer
-        isOpen={isCertifiedAttributesDrawerOpen}
-        onClose={handleCloseCertifiedAttributesDrawer}
-      />
+      <ConsumerAgreementCreateCertifiedAttributesDrawer />
 
       <ConsumerAgreementCreateVerifiedAttributesSection
         agreementId={agreementId}
         consumerNotes={consumerNotes}
       />
 
-      <AgreementDeclaredAttributesSection sx={{ borderRadius: 2 }} />
-    </AgreementDetailsContextProvider>
+      <ConsumerAgreementCreateDeclaredAttributesSection />
+    </ConsumerAgreementCreateDetailsContextProvider>
   )
 }
 

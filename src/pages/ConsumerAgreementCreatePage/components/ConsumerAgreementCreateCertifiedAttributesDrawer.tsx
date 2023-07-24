@@ -1,5 +1,4 @@
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
-import { useAgreementDetailsContext } from '@/components/shared/AgreementDetails/AgreementDetailsContext'
 import { Drawer } from '@/components/shared/Drawer'
 import { attributesHelpLink } from '@/config/constants'
 import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
@@ -7,20 +6,19 @@ import { isAttributeGroupFullfilled, isAttributeOwned } from '@/utils/attribute.
 import { Alert, Link, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCreateDetailsContext'
 
-type ConsumerAgreementCreateDrawerProps = {
-  isOpen: boolean
-  onClose: VoidFunction
-}
-
-export const ConsumerAgreementCreateDrawer: React.FC<ConsumerAgreementCreateDrawerProps> = ({
-  isOpen,
-  onClose,
-}) => {
+const ConsumerAgreementCreateCertifiedAttributesDrawer: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
   const { t: tAgreement } = useTranslation('agreement')
 
-  const { descriptorAttributes, partyAttributes, agreement } = useAgreementDetailsContext()
+  const {
+    agreement,
+    isCertifiedAttributesDrawerOpen,
+    closeCertifiedAttributesDrawer,
+    partyAttributes,
+    descriptorAttributes,
+  } = useConsumerAgreementCreateDetailsContext()
 
   const certifiedAttributeGroups = descriptorAttributes?.certified ?? []
   const ownedCertifiedAttributes = partyAttributes?.certified ?? []
@@ -49,8 +47,8 @@ export const ConsumerAgreementCreateDrawer: React.FC<ConsumerAgreementCreateDraw
 
   return (
     <Drawer
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={isCertifiedAttributesDrawerOpen}
+      onClose={closeCertifiedAttributesDrawer}
       title={tAgreement('drawers.certifiedAttributes.title')}
       subtitle={
         <Trans
@@ -93,3 +91,5 @@ export const ConsumerAgreementCreateDrawer: React.FC<ConsumerAgreementCreateDraw
     </Drawer>
   )
 }
+
+export default ConsumerAgreementCreateCertifiedAttributesDrawer

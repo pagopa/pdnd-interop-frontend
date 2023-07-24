@@ -10,15 +10,8 @@ import { IconLink } from '../../IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { AgreementDownloads } from '@/api/agreement'
 import FolderIcon from '@mui/icons-material/Folder'
-import RuleIcon from '@mui/icons-material/Rule'
 
-type AgreementSummarySectionProps = {
-  onOpenCertifiedAttributesDrawer?: VoidFunction
-}
-
-export const AgreementSummarySection: React.FC<AgreementSummarySectionProps> = ({
-  onOpenCertifiedAttributesDrawer,
-}) => {
+export const AgreementSummarySection: React.FC = () => {
   const { mode, routeKey } = useCurrentRoute()
   const { t } = useTranslation('agreement', {
     keyPrefix:
@@ -53,16 +46,14 @@ export const AgreementSummarySection: React.FC<AgreementSummarySectionProps> = (
           label={t('eserviceField.label')}
         />
 
-        {routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' && (
-          <InformationContainer
-            content={
-              <Stack direction="row" spacing={1}>
-                <StatusChip for="agreement" agreement={agreement} />
-              </Stack>
-            }
-            label={t('requestStatusField.label')}
-          />
-        )}
+        <InformationContainer
+          content={
+            <Stack direction="row" spacing={1}>
+              <StatusChip for="agreement" agreement={agreement} />
+            </Stack>
+          }
+          label={t('requestStatusField.label')}
+        />
 
         {mode === 'consumer' && (
           <InformationContainer
@@ -93,45 +84,26 @@ export const AgreementSummarySection: React.FC<AgreementSummarySectionProps> = (
           />
         )}
 
-        {routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' && (
-          <>
-            <Divider />
+        <>
+          <Divider />
 
-            <Box>
-              <IconLink
-                onClick={openAttachedDocsDrawer}
-                component="button"
-                startIcon={<FolderIcon />}
-              >
-                {t('attachedDocsButtonLabel')}
-              </IconLink>
-            </Box>
-          </>
-        )}
-
-        {routeKey === 'SUBSCRIBE_AGREEMENT_EDIT' && (
-          <>
-            <Divider />
-
-            <Box>
-              <IconLink
-                onClick={onOpenCertifiedAttributesDrawer}
-                component="button"
-                startIcon={<RuleIcon />}
-              >
-                {t('certifiedAttributesDrawerButtonLabel')}
-              </IconLink>
-            </Box>
-          </>
-        )}
+          <Box>
+            <IconLink
+              onClick={openAttachedDocsDrawer}
+              component="button"
+              startIcon={<FolderIcon />}
+            >
+              {t('attachedDocsButtonLabel')}
+            </IconLink>
+          </Box>
+        </>
       </Stack>
     </SectionContainer>
   )
 }
 
 export const AgreementSummarySectionSkeleton: React.FC = () => {
-  const { routeKey } = useCurrentRoute()
-  const height = routeKey === 'SUBSCRIBE_AGREEMENT_EDIT' ? 194 : 322
+  const height = 322
 
   return <SectionContainerSkeleton height={height} />
 }

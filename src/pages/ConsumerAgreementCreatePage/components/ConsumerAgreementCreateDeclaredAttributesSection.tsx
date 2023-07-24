@@ -1,36 +1,30 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
+import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCreateDetailsContext'
 import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
-  SectionContainer,
-  AttributeGroupContainer,
   AttributeContainer,
+  AttributeGroupContainer,
+  SectionContainer,
 } from '@/components/layout/containers'
-import { Link, Stack } from '@mui/material'
-import { useCurrentRoute } from '@/router'
-import type { ProviderOrConsumer } from '@/types/common.types'
 import {
-  isAttributeOwned,
   isAttributeGroupFullfilled,
+  isAttributeOwned,
   isAttributeRevoked,
 } from '@/utils/attribute.utils'
-import { useAgreementGetDeclaredAttributesActions } from '../../hooks/useAgreementGetDeclaredAttributesActions'
+import { Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
+import { useConsumerAgreementCreateGetDeclaredAttributesActions } from '../hooks/useConsumerAgreementCreateGetDeclaredAttributesActions'
 
-export const AgreementDeclaredAttributesSection: React.FC = () => {
+const ConsumerAgreementCreateDeclaredAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
-  const { mode } = useCurrentRoute()
 
-  const { descriptorAttributes, partyAttributes } = useAgreementDetailsContext()
+  const { descriptorAttributes, partyAttributes } = useConsumerAgreementCreateDetailsContext()
 
   const declaredAttributeGroups = descriptorAttributes?.declared ?? []
   const ownedDeclaredAttributes = partyAttributes?.declared ?? []
 
-  const providerOrConsumer = mode as ProviderOrConsumer
-
-  const getDeclaredAttributeActions = useAgreementGetDeclaredAttributesActions()
-
+  const getDeclaredAttributeActions = useConsumerAgreementCreateGetDeclaredAttributesActions()
   function getGroupContainerProps(
     group: RemappedDescriptorAttribute
   ): React.ComponentProps<typeof AttributeGroupContainer> {
@@ -38,20 +32,18 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
 
     if (isGroupFulfilled) {
       return {
-        title: tAttribute(`group.manage.success.${providerOrConsumer}`),
+        title: tAttribute(`group.manage.success.consumer`),
         color: 'success',
       }
     }
 
     return {
-      title: tAttribute(`group.manage.warning.declared.${providerOrConsumer}`),
+      title: tAttribute(`group.manage.warning.declared.consumer`),
       color: 'warning',
     }
   }
 
   const getChipLabel = (attributeId: string) => {
-    if (mode === 'provider') return
-
     const attribute = ownedDeclaredAttributes.find((a) => a.id === attributeId)
     if (!attribute) return
 
@@ -62,7 +54,6 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
   return (
     <SectionContainer
       newDesign
-      innerSection
       title={tAttribute('declared.label')}
       description={
         <Trans
@@ -71,6 +62,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
           {tAttribute(`declared.description`)}
         </Trans>
       }
+      sx={{ borderRadius: 2 }}
     >
       <Stack spacing={2}>
         {declaredAttributeGroups.map((group, i) => (
@@ -91,7 +83,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
       </Stack>
       {declaredAttributeGroups.length === 0 && (
         <AttributeGroupContainer
-          title={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
+          title={tAttribute(`noAttributesRequiredAlert.consumer`, {
             attributeKey: tAttribute(`type.declared_other`),
           })}
           color="gray"
@@ -100,3 +92,5 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
     </SectionContainer>
   )
 }
+
+export default ConsumerAgreementCreateDeclaredAttributesSection

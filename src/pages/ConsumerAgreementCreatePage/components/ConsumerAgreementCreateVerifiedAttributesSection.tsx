@@ -15,7 +15,7 @@ import {
   ConsumerNotesInputSection,
   ConsumerNotesInputSectionSkeleton,
 } from './ConsumerNotesInputSection'
-import { useAgreementDetailsContext } from '@/components/shared/AgreementDetails/AgreementDetailsContext'
+import { useConsumerAgreementCreateDetailsContext } from '../ConsumerAgreementCreateDetailsContext'
 
 type ConsumerAgreementCreateVerifiedAttributesSectionProps = {
   agreementId: string
@@ -30,7 +30,7 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
 > = ({ agreementId, consumerNotes }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { descriptorAttributes } = useAgreementDetailsContext()
+  const { descriptorAttributes } = useConsumerAgreementCreateDetailsContext()
 
   const verifiedAttributeGroups = descriptorAttributes?.verified ?? []
 
