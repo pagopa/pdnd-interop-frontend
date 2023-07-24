@@ -12,11 +12,8 @@ import { AgreementDownloads } from '@/api/agreement'
 import FolderIcon from '@mui/icons-material/Folder'
 
 export const AgreementSummarySection: React.FC = () => {
-  const { mode, routeKey } = useCurrentRoute()
-  const { t } = useTranslation('agreement', {
-    keyPrefix:
-      routeKey === 'SUBSCRIBE_AGREEMENT_EDIT' ? 'edit.generalInformations' : 'read.summary',
-  })
+  const { mode } = useCurrentRoute()
+  const { t } = useTranslation('agreement', { keyPrefix: 'read.summary' })
   const { agreement, openAttachedDocsDrawer } = useAgreementDetailsContext()
   const downloadContract = AgreementDownloads.useDownloadContract()
 
@@ -26,7 +23,7 @@ export const AgreementSummarySection: React.FC = () => {
     downloadContract({ agreementId: agreement.id }, `${t('documentationField.docLabel')}.pdf`)
   }
 
-  const eServiceName = `${agreement.eservice.name}, ${t('eserviceField.versionLabel')} ${
+  const eserviceName = `${agreement.eservice.name}, ${t('eserviceField.versionLabel')} ${
     agreement.eservice.version
   }`
 
@@ -40,7 +37,7 @@ export const AgreementSummarySection: React.FC = () => {
               params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
               target="_blank"
             >
-              {eServiceName}
+              {eserviceName}
             </Link>
           }
           label={t('eserviceField.label')}
@@ -84,19 +81,13 @@ export const AgreementSummarySection: React.FC = () => {
           />
         )}
 
-        <>
-          <Divider />
+        <Divider />
 
-          <Box>
-            <IconLink
-              onClick={openAttachedDocsDrawer}
-              component="button"
-              startIcon={<FolderIcon />}
-            >
-              {t('attachedDocsButtonLabel')}
-            </IconLink>
-          </Box>
-        </>
+        <Box>
+          <IconLink onClick={openAttachedDocsDrawer} component="button" startIcon={<FolderIcon />}>
+            {t('attachedDocsButtonLabel')}
+          </IconLink>
+        </Box>
       </Stack>
     </SectionContainer>
   )
