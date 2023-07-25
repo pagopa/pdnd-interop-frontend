@@ -7,8 +7,7 @@ import memoize from 'lodash/memoize'
  */
 const parseJwt = memoize((token: string | null) => {
   const jwt = token ? (JSON.parse(window.atob(token.split('.')[1])) as JwtUser) : undefined
-  // const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
-  const currentRoles = ['support']
+  const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
   const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
   const isOperatorAPI = currentRoles.includes('api')
   const isOperatorSecurity = currentRoles.includes('security')
