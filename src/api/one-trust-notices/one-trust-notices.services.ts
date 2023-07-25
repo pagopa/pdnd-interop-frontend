@@ -18,9 +18,7 @@ async function getNoticeContent({ consentType }: { consentType: ConsentType }) {
 }
 
 /**
- * This service is used to get directly the content of the notice from the bucket without
- * relying on the BFF. This is because the BFF is not able to get the content of the notice
- * for non-logged users, but the notice is public and should be accessible to everyone.
+ * This service is used to retrieve the notices for not logged users, it does not pass through the BFF api.
  */
 async function getPublicNoticeContent({
   consentType,
