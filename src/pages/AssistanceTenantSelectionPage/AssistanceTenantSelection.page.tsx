@@ -9,12 +9,12 @@ import type { CompactTenant } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 
 function getJWTAndSAML2FromURLFragment() {
-  const searchParams = window.location.hash.split('#')[1]
-  if (!searchParams) throw new AssistencePartySelectionError(`Missing jwt and saml2 query param`)
+  const hashParams = window.location.hash.split('#')[1]
+  if (!hashParams) throw new AssistencePartySelectionError(`Missing jwt and saml2 query param`)
 
-  const test = searchParams.split('&')
-  const saml2 = test[0].split('=')[1]
-  const jwt = test[1].split('=')[1]
+  const splittedHashParams = hashParams.split('&')
+  const saml2 = splittedHashParams[0].split('=')[1]
+  const jwt = splittedHashParams[1].split('=')[1]
 
   if (!jwt || !saml2)
     throw new AssistencePartySelectionError(`Missing jwt (${jwt}) or saml2 (${saml2}) query param`)
