@@ -1,5 +1,13 @@
 import React from 'react'
-import { IconButton, InputAdornment, List, Paper, Skeleton, TextField } from '@mui/material'
+import {
+  IconButton,
+  InputAdornment,
+  List,
+  Paper,
+  Skeleton,
+  TextField,
+  Typography,
+} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { TenantSelectItem } from './TenantSelectItem'
 import SearchIcon from '@mui/icons-material/Search'
@@ -93,6 +101,9 @@ export const TenantSelect: React.FC<TenantSelectProps> = ({ selectedTenant, onSe
             onClick={() => onSelectTenant(tenantOption)}
           />
         ))}
+        {tenantsOptions.length === 0 && (
+          <Typography fontWeight={700}>{t('noResultsLabel')}</Typography>
+        )}
       </List>
     </TenantSelectWrapper>
   )

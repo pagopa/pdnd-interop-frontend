@@ -4,6 +4,7 @@
     "subtitle": "Se l’ente non compare nella tendina, significa che non ha effettuato l’onboarding su Area Riservata o il primo accesso su PDND Interoperabilità",
     "textFieldLabel": "Cerca ente",
     "nextButtonLabel": "Prosegui",
-    "deselectButtonLabel": "Deseleziona ente"
+    "deselectButtonLabel": "Deseleziona ente",
+    "noResultsLabel": "Nessun risultato"
   }
 }
