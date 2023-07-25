@@ -19,9 +19,9 @@ export const checkIfAlreadySubscribed = (
   eservice: CatalogEService | CatalogDescriptorEService | undefined
 ) => {
   if (!eservice?.agreement) return false
-  const notSubscribedState: Array<AgreementState> = ['REJECTED', 'DRAFT', 'ARCHIVED']
+  const notSubscribedStates: Array<AgreementState> = ['REJECTED', 'DRAFT', 'ARCHIVED']
 
-  return !notSubscribedState.includes(eservice.agreement.state)
+  return !notSubscribedStates.includes(eservice.agreement.state)
 }
 
 /**
