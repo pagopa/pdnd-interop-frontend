@@ -79,8 +79,10 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
 
 export const Header = () => {
   const navigate = useNavigate()
-  const { t } = useTranslation('common')
-  const { jwt } = useJwt()
+  const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
+  const { t: tCommon } = useTranslation('common')
+
+  const { jwt, isSupport } = useJwt()
 
   const queriesOptions = {
     suspense: false,
@@ -93,7 +95,7 @@ export const Header = () => {
   const { data: parties } = PartyQueries.useGetPartyList(queriesOptions)
   const { data: products } = PartyQueries.useGetProducts(queriesOptions)
 
-  const partyList = getPartyList(parties, jwt, t)
+  const partyList = getPartyList(parties, jwt, tCommon)
   const productList = getProductList(products)
 
   const headerAccountLoggedUser = jwt
@@ -125,6 +127,10 @@ export const Header = () => {
     )
   }
 
+  const headerChipProps = isSupport
+    ? ({ chipLabel: t('supportChipLabel'), color: 'primary' } as const)
+    : undefined
+
   return (
     <header>
       <HeaderAccount
@@ -152,6 +158,7 @@ export const Header = () => {
         productId={SELFCARE_INTEROP_PROD_ID}
         productsList={productList}
         partyList={partyList}
+        {...headerChipProps}
       />
     </header>
   )

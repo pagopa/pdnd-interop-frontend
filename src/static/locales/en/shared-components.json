@@ -1,4 +1,7 @@
 {
+  "header": {
+    "supportChipLabel": "PagoPA Support"
+  },
   "styledDialogBasic": {
     "actions": {
       "cancelLabel": "Undo"

@@ -1,4 +1,7 @@
 {
+  "header": {
+    "supportChipLabel": "Assistenza PagoPA"
+  },
   "styledDialogBasic": {
     "actions": {
       "cancelLabel": "Annulla"
