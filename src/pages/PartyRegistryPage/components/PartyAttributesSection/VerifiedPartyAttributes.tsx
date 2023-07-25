@@ -6,6 +6,8 @@ import { EmptyAttributesAlert } from './EmptyAttributesAlert'
 import { Link, Stack } from '@mui/material'
 import { AttributeContainer, AttributeContainerSkeleton } from '@/components/layout/containers'
 import { attributesHelpLink } from '@/config/constants'
+import { isAttributeRevoked } from '@/utils/attribute.utils'
+import type { VerifiedTenantAttribute } from '@/api/api.generatedTypes'
 
 export const VerifiedAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'verified' })
@@ -39,20 +41,33 @@ const VerifiedAttributesList: React.FC = () => {
   return (
     <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
       {verifiedAttributes.map((attribute) => (
-        <li key={attribute.id}>
-          <AttributeContainer checked attribute={attribute} />
-        </li>
+        <VerifiedAttributesListItem key={attribute.id} attribute={attribute} />
       ))}
     </Stack>
+  )
+}
+
+const VerifiedAttributesListItem: React.FC<{ attribute: VerifiedTenantAttribute }> = ({
+  attribute,
+}) => {
+  const isRevoked = isAttributeRevoked('verified', attribute)
+  const { t } = useTranslation('attribute', { keyPrefix: 'group.manage' })
+
+  const chipLabel = isRevoked ? t('revokedByProducer') : undefined
+
+  return (
+    <li>
+      <AttributeContainer chipLabel={chipLabel} checked={!isRevoked} attribute={attribute} />
+    </li>
   )
 }
 
 const VerifiedAttributesListSkeleton: React.FC = () => {
   return (
     <Stack spacing={1}>
+      <AttributeContainerSkeleton />
       <AttributeContainerSkeleton checked />
-      <AttributeContainerSkeleton checked />
-      <AttributeContainerSkeleton checked />
+      <AttributeContainerSkeleton />
     </Stack>
   )
 }
