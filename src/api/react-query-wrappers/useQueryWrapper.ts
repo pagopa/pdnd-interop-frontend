@@ -22,6 +22,7 @@ export const useQueryWrapper: UseQueryWrapper = (key, queryFn, options) => {
       }
       return true
     },
+    // Disable the query if the jwt is not in session
     enabled: !!jwt && (options?.enabled ?? true),
     ...options,
   })

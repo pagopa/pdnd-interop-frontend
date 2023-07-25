@@ -10,7 +10,10 @@ const TOSPage: React.FC = () => {
   const generatePath = useGeneratePath()
   const path = generatePath('TOS')
 
-  const { data: termsOfService } = OneTrustNoticesQueries.useGetNoticeContent('TOS')
+  const { data: bffTermsOfService } = OneTrustNoticesQueries.useGetNoticeContent('TOS')
+  const { data: bucketTermsOfService } = OneTrustNoticesQueries.useGetPublicNoticeContent('TOS')
+
+  const termsOfService = bffTermsOfService || bucketTermsOfService
 
   return (
     <PageContainer sx={{ maxWidth: 800, mx: 'auto', py: 12 }} title={t('title')}>

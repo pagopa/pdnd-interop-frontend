@@ -10,11 +10,14 @@ const PrivacyPolicyPage: React.FC = () => {
   const generatePath = useGeneratePath()
   const path = generatePath('PRIVACY_POLICY')
 
-  const { data: termsOfService } = OneTrustNoticesQueries.useGetNoticeContent('PP')
+  const { data: bffPrivacyPolicy } = OneTrustNoticesQueries.useGetNoticeContent('PP')
+  const { data: bucketPrivacyPolicy } = OneTrustNoticesQueries.useGetPublicNoticeContent('PP')
+
+  const privacyPolicy = bffPrivacyPolicy || bucketPrivacyPolicy
 
   return (
     <PageContainer sx={{ maxWidth: 800, mx: 'auto', py: 12 }} title={t('title')}>
-      {termsOfService && parseHtmlJsonToReactNode(termsOfService, path)}
+      {privacyPolicy && parseHtmlJsonToReactNode(privacyPolicy, path)}
     </PageContainer>
   )
 }

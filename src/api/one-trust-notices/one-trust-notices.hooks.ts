@@ -1,6 +1,9 @@
 import { OneTrustNoticesServices } from './one-trust-notices.services'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import type { ConsentType } from '../api.generatedTypes'
+import { useQuery } from '@tanstack/react-query'
+import { useAuth } from '@/stores'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 export enum OneTrustNoticesQueryKeys {
   GetUserConsent = 'GetUserConsent',
@@ -20,6 +23,10 @@ function useGetUserConsent(consentType: ConsentType) {
   )
 }
 
+/**
+ * This hook will get the content of the notice from the BFF and will be enabled only if the user is logged.
+ * This is the default behaviour of the useQueryWrapper hook.
+ */
 function useGetNoticeContent(consentType: ConsentType) {
   return useQueryWrapper(
     [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
@@ -30,6 +37,32 @@ function useGetNoticeContent(consentType: ConsentType) {
       retry: false,
       staleTime: Infinity,
       cacheTime: Infinity,
+    }
+  )
+}
+
+/**
+ * This hook will get the content of the notice from the bucket and will be enabled only if the user is not logged.
+ * The PP and ToS are public and should be accessible to everyone.
+ */
+function useGetPublicNoticeContent(consentType: ConsentType) {
+  const { sessionToken, isLoadingSessionToken } = useAuth()
+  const lang = useCurrentLanguage()
+
+  return useQuery(
+    [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
+    () =>
+      OneTrustNoticesServices.getPublicNoticeContent({
+        consentType: consentType.toLowerCase() as Lowercase<ConsentType>,
+        lang,
+      }),
+    {
+      suspense: false,
+      useErrorBoundary: false,
+      retry: false,
+      staleTime: Infinity,
+      cacheTime: Infinity,
+      enabled: !isLoadingSessionToken && !sessionToken,
     }
   )
 }
@@ -45,6 +78,7 @@ function useAcceptPrivacyNotice() {
 export const OneTrustNoticesQueries = {
   useGetUserConsent,
   useGetNoticeContent,
+  useGetPublicNoticeContent,
 }
 
 export const OneTrustNoticesMutations = {
