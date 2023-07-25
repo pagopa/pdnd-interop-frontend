@@ -56,7 +56,7 @@ const VerifiedAttributesListItem: React.FC<{ attribute: VerifiedTenantAttribute 
   const chipLabel = isRevoked ? t('revokedByProducer') : undefined
 
   return (
-    <li key={attribute.id}>
+    <li>
       <AttributeContainer chipLabel={chipLabel} checked={!isRevoked} attribute={attribute} />
     </li>
   )
