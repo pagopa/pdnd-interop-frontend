@@ -6,11 +6,16 @@ import { AssistencePartySelectionError } from '@/utils/errors.utils'
 import { AuthServicesHooks } from '@/api/auth'
 import { useAuth } from '@/stores'
 import type { CompactTenant } from '@/api/api.generatedTypes'
+import { useNavigate } from '@/router'
 
 function getJWTAndSAML2FromURLFragment() {
-  const searchParams = new URLSearchParams(window.location.hash.split('#')[1])
-  const jwt = searchParams.get('jwt')
-  const saml2 = searchParams.get('saml2')
+  const searchParams = window.location.hash.split('#')[1]
+  if (!searchParams) throw new AssistencePartySelectionError(`Missing jwt and saml2 query param`)
+
+  const test = searchParams.split('&')
+  const saml2 = test[0].split('=')[1]
+  const jwt = test[1].split('=')[1]
+
   if (!jwt || !saml2)
     throw new AssistencePartySelectionError(`Missing jwt (${jwt}) or saml2 (${saml2}) query param`)
   return { jwt, saml2 }
@@ -20,6 +25,7 @@ const AssistanceTenantSelectionPage: React.FC = () => {
   const { t } = useTranslation('assistance', { keyPrefix: 'tenantSelection' })
 
   const { setSessionToken } = useAuth()
+  const navigate = useNavigate()
 
   const [selectedTenant, setSelectedTenant] = React.useState<CompactTenant | null>(null)
   const { mutate: swapSAMLToken } = AuthServicesHooks.useSwapSAMLTokens()
@@ -33,7 +39,15 @@ const AssistanceTenantSelectionPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedTenant) return
-    swapSAMLToken({ tenantId: selectedTenant.id, saml2 })
+    swapSAMLToken(
+      { tenantId: selectedTenant.id, saml2 },
+      {
+        onSuccess: ({ session_token }) => {
+          setSessionToken(session_token)
+          navigate('SUBSCRIBE_CATALOG_LIST')
+        },
+      }
+    )
   }
 
   return (

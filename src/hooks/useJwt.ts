@@ -1,34 +1,34 @@
-import React from 'react'
 import { useAuth } from '@/stores'
 import type { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 
+/**
+ * Parse the JWT token and return the user informations stored in it
+ */
 const parseJwt = memoize((token: string | null) => {
   const jwt = token ? (JSON.parse(window.atob(token.split('.')[1])) as JwtUser) : undefined
-  const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
+  // const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
+  const currentRoles = ['support']
   const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
   const isOperatorAPI = currentRoles.includes('api')
   const isOperatorSecurity = currentRoles.includes('security')
+  const isSupport = currentRoles.includes('support')
 
-  return { jwt, currentRoles, isAdmin, isOperatorAPI, isOperatorSecurity }
-})
-
-export const useJwt = () => {
-  const { sessionToken } = useAuth()
-
-  const { jwt, currentRoles, isAdmin, isOperatorAPI, isOperatorSecurity } = parseJwt(sessionToken)
-
-  const hasSessionExpired = React.useCallback(
-    () => (jwt ? new Date() > new Date(jwt.exp * 1000) : false),
-    [jwt]
-  )
+  function hasSessionExpired() {
+    return jwt ? new Date() > new Date(jwt.exp * 1000) : false
+  }
 
   return {
     jwt,
-    hasSessionExpired,
+    currentRoles,
     isAdmin,
     isOperatorAPI,
     isOperatorSecurity,
-    currentRoles,
+    isSupport,
+    hasSessionExpired,
   }
+})
+
+export const useJwt = () => {
+  return parseJwt(useAuth().sessionToken)
 }
