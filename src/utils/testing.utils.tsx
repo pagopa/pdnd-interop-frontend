@@ -79,6 +79,7 @@ export function mockUseJwt(
       isAdmin: true,
       isOperatorAPI: false,
       isOperatorSecurity: false,
+      isSupport: false,
       currentRoles: [],
     }),
     overwrites

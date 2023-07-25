@@ -7,7 +7,7 @@ exports[`AppLayout > should match snapshot (hideSideNav) 1`] = `
       class="MuiBox-root css-ktdqii"
     >
       <div
-        class="MuiBox-root css-g0r5qj"
+        class="MuiBox-root css-6aqev1"
       />
     </main>
   </div>

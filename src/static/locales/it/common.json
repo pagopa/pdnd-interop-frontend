@@ -140,7 +140,8 @@
   "userProductRole": {
     "admin": "Amministratore",
     "security": "Operatore di sicurezza",
-    "api": "Operatore API"
+    "api": "Operatore API",
+    "support": "Supporto"
   },
   "time": {
     "second_one": "secondo",

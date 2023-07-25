@@ -1,4 +1,7 @@
 {
+  "header": {
+    "supportChipLabel": "Assistenza PagoPA"
+  },
   "styledDialogBasic": {
     "actions": {
       "cancelLabel": "Annulla"
@@ -241,7 +244,9 @@
     "SUBSCRIBE": "Fruizione",
     "PARTY_REGISTRY": "Anagrafica ente",
     "NOT_FOUND": "Pagina non trovata",
-    "DEFAULT": "",
-    "SUBSCRIBE_DEBUG_VOUCHER": "Debug client assertion"
+    "SUBSCRIBE_DEBUG_VOUCHER": "Debug client assertion",
+    "ASSISTENCE_PARTY_SELECTION": "Selezione ente",
+    "ASSISTENCE_PARTY_SELECTION_ERROR": "Errore selezione ente",
+    "DEFAULT": ""
   }
 }

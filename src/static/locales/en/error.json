@@ -13,7 +13,7 @@
     "title": "404",
     "description": "The requested page does not exist"
   },
-  "serverError": {
+  "axiosError": {
     "title": "Server Error",
     "description": "There was an error while handling the request. Please reload the page."
   },
@@ -24,5 +24,9 @@
   "tokenExchange": {
     "title": "Authentication error",
     "description": "Please, go back to Area Riservata and try again"
+  },
+  "assistencePartySelection": {
+    "title": "Error: not authorized.",
+    "description": "You do not have the necessary permissions to view PDND Interoperability in support mode, or your session has expired. Try signing in again from Google Workspace."
   }
 }

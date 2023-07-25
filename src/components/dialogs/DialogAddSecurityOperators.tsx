@@ -40,7 +40,7 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
   })
 
   const { data: allPartyOperators = [], isLoading: isLoadingAllPartyOperators } =
-    PartyQueries.useGetUsersList(
+    PartyQueries.useGetPartyUsersList(
       {
         productRoles: ['admin', 'security'],
         states: ['ACTIVE'],

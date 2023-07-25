@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { ClientTable } from '@/components/shared/ClientTable'
 import { useNavigate } from '@/router'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
+import { useJwt } from '@/hooks/useJwt'
 
 const ConsumerClientM2MListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerClientM2MList' })
   const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
+  const { isAdmin } = useJwt()
 
   const topSideActions: TopSideActions = {
     buttons: [
@@ -24,7 +26,7 @@ const ConsumerClientM2MListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      topSideActions={topSideActions}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <ClientTable clientKind="API" />
     </PageContainer>

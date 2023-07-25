@@ -1,4 +1,3 @@
-import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AuthServices from './auth.services'
@@ -32,9 +31,15 @@ function useSwapTokens() {
     suppressErrorToast: true,
     suppressSuccessToast: true,
     loadingLabel: t('auth.loadingLabel'),
-    onSuccess({ session_token }) {
-      window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, session_token)
-    },
+  })
+}
+
+function useSwapSAMLTokens() {
+  const { t } = useTranslation('mutations-feedback')
+  return useMutationWrapper(AuthServices.swapSAMLToken, {
+    suppressErrorToast: true,
+    suppressSuccessToast: true,
+    loadingLabel: t('auth.loadingLabel'),
   })
 }
 
@@ -42,4 +47,5 @@ export const AuthServicesHooks = {
   useGetBlacklist,
   useAuthHealthCheck,
   useSwapTokens,
+  useSwapSAMLTokens,
 }

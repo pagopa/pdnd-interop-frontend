@@ -2,8 +2,10 @@ import { useJwt } from '@/hooks/useJwt'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type {
+  GetTenantsParams,
   GetUserInstitutionRelationshipsParams,
   SelfcareInstitution,
+  Tenants,
 } from '../api.generatedTypes'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import { type UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
@@ -11,7 +13,8 @@ import PartyServices from './party.services'
 
 export enum PartyQueryKeys {
   GetSingle = 'PartyGetSingle',
-  GetUsersList = 'PartyGetUsersList',
+  GetPartyUsersList = 'PartyGetPartyUsersList',
+  GetTenants = 'PartyGetTenants',
   GetProducts = 'PartyGetProducts',
   GetPartyList = 'PartyGetPartyList',
 }
@@ -31,13 +34,13 @@ function useGetActiveUserParty() {
   return useGetParty(jwt?.organizationId)
 }
 
-function useGetUsersList(
+function useGetPartyUsersList(
   params: GetUserInstitutionRelationshipsParams,
   config = { suspense: false }
 ) {
   return useQueryWrapper(
-    [PartyQueryKeys.GetUsersList, params],
-    () => PartyServices.getUsersList(params),
+    [PartyQueryKeys.GetPartyUsersList, params],
+    () => PartyServices.getPartyUsersList(params),
     {
       enabled: !!params?.tenantId,
       ...config,
@@ -49,10 +52,18 @@ function usePrefetchUsersList() {
   const queryClient = useQueryClient()
 
   return (params: GetUserInstitutionRelationshipsParams) => {
-    queryClient.prefetchQuery([PartyQueryKeys.GetUsersList, params], () =>
-      PartyServices.getUsersList(params)
+    queryClient.prefetchQuery([PartyQueryKeys.GetPartyUsersList, params], () =>
+      PartyServices.getPartyUsersList(params)
     )
   }
+}
+
+function useGetTenants(params: GetTenantsParams, config: UseQueryWrapperOptions<Tenants>) {
+  return useQueryWrapper(
+    [PartyQueryKeys.GetTenants, params],
+    () => PartyServices.getTenants(params),
+    config
+  )
 }
 
 function useGetProducts(config: UseQueryWrapperOptions<Array<{ id: string; name: string }>>) {
@@ -74,8 +85,9 @@ function useGetPartyList(config: UseQueryWrapperOptions<Array<SelfcareInstitutio
 
 export const PartyQueries = {
   useGetParty,
+  useGetTenants,
   useGetActiveUserParty,
-  useGetUsersList,
+  useGetPartyUsersList,
   usePrefetchUsersList,
   useGetProducts,
   useGetPartyList,
