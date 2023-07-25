@@ -23,13 +23,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
 
-  const {
-    descriptorAttributes,
-    partyAttributes,
-    agreement,
-    agreementVerifiedAttributeDrawerProps,
-    closeAgreementVerifiedAttributeDrawer,
-  } = useAgreementDetailsContext()
+  const { descriptorAttributes, partyAttributes, agreement } = useAgreementDetailsContext()
 
   const providerOrConsumer = mode as ProviderOrConsumer
 
@@ -75,55 +69,46 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   }
 
   return (
-    <SectionContainer
-      newDesign
-      innerSection
-      title={tAttribute('verified.label')}
-      description={
-        <Trans
-          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
-        >
-          {tAttribute(`verified.description`)}
-        </Trans>
-      }
-    >
-      {agreement && agreementVerifiedAttributeDrawerProps && (
-        <AgreementVerifiedAttributesDrawer
-          /**
-           * To avoid old or dirty data in the drawer the key used is isOpen
-           * because it changes everytime the drawer is closed or opened and
-           * in this way the drawer will be build like a new one with the correct updated data
-           */
-          key={`${agreementVerifiedAttributeDrawerProps.isOpen}`}
-          {...agreementVerifiedAttributeDrawerProps}
-          onClose={closeAgreementVerifiedAttributeDrawer}
-        />
-      )}
-      <Stack spacing={2}>
-        {verifiedAttributeGroups.map((group, i) => (
-          <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
-            <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-              {group.attributes.map((attribute) => (
-                <AttributeContainer
-                  key={attribute.id}
-                  attribute={attribute}
-                  chipLabel={getChipLabel(attribute.id)}
-                  checked={isAttributeOwned('verified', attribute.id, ownedVerifiedAttributes)}
-                  actions={getAttributeActions(attribute.id)}
-                />
-              ))}
-            </Stack>
-          </AttributeGroupContainer>
-        ))}
-      </Stack>
-      {verifiedAttributeGroups.length === 0 && (
-        <AttributeGroupContainer
-          title={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
-            attributeKey: tAttribute(`type.verified_other`),
-          })}
-          color="gray"
-        />
-      )}
-    </SectionContainer>
+    <>
+      <SectionContainer
+        newDesign
+        innerSection
+        title={tAttribute('verified.label')}
+        description={
+          <Trans
+            components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+          >
+            {tAttribute(`verified.description`)}
+          </Trans>
+        }
+      >
+        <Stack spacing={2}>
+          {verifiedAttributeGroups.map((group, i) => (
+            <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
+              <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
+                {group.attributes.map((attribute) => (
+                  <AttributeContainer
+                    key={attribute.id}
+                    attribute={attribute}
+                    chipLabel={getChipLabel(attribute.id)}
+                    checked={isAttributeOwned('verified', attribute.id, ownedVerifiedAttributes)}
+                    actions={getAttributeActions(attribute.id)}
+                  />
+                ))}
+              </Stack>
+            </AttributeGroupContainer>
+          ))}
+        </Stack>
+        {verifiedAttributeGroups.length === 0 && (
+          <AttributeGroupContainer
+            title={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
+              attributeKey: tAttribute(`type.verified_other`),
+            })}
+            color="gray"
+          />
+        )}
+      </SectionContainer>
+      {agreement && <AgreementVerifiedAttributesDrawer />}
+    </>
   )
 }

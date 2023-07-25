@@ -1,8 +1,8 @@
 import React from 'react'
 import AgreementVerifiedAttributesDrawer from '../AgreementVerifiedAttributesDrawer'
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as agreementDetailsContext from '@/components/shared/AgreementDetails/AgreementDetailsContext'
 import { createVerifiedTenantAttribute } from '__mocks__/data/attribute.mocks'
 import { createMockAgreement } from '__mocks__/data/agreement.mocks'
@@ -10,10 +10,41 @@ import { AttributeMutations } from '@/api/attribute'
 import addYears from 'date-fns/addYears'
 
 const defaultDrawerProps = {
+  type: 'update',
   isOpen: true,
   attributeId: 'test attributeId',
-  onClose: vi.fn(),
 }
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+
+mockUseJwt()
+
+const server = setupServer(
+  rest.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/verified`, (_, res, ctx) => {
+    return res(ctx.status(200))
+  }),
+  rest.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/verified/:attributeId`,
+    (_, res, ctx) => {
+      return res(ctx.status(200))
+    }
+  ),
+  rest.post(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/:partyId/attributes/verified/:attributeId`,
+    (_, res, ctx) => {
+      return res(ctx.status(200))
+    }
+  )
+)
+
+beforeAll(() => {
+  server.listen()
+})
+
+afterAll(() => {
+  server.close()
+})
 
 const mockAgreementDetailsContext = (
   returnValue: Partial<ReturnType<typeof agreementDetailsContext.useAgreementDetailsContext>>
@@ -25,12 +56,16 @@ const mockAgreementDetailsContext = (
 
 describe('AgreementVerifiedAttributesDrawer tests', () => {
   it('should match snapshot if type is revoke', () => {
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    mockAgreementDetailsContext({
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'revoke',
+      },
+    })
+
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     expect(screen.queryByText('drawer.revoke.title')).toBeInTheDocument()
     expect(screen.queryByText('drawer.revoke.subtitle')).toBeInTheDocument()
@@ -39,12 +74,16 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
   })
 
   it('should match snapshot if type is verify', () => {
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    mockAgreementDetailsContext({
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
+    })
+
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     expect(screen.queryByText('drawer.verify.title')).toBeInTheDocument()
     expect(screen.queryByText('drawer.verify.subtitle')).toBeInTheDocument()
@@ -53,12 +92,16 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
   })
 
   it('should match snapshot if type is update', () => {
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    mockAgreementDetailsContext({
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
+    })
+
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     expect(screen.queryByText('drawer.verify.title')).toBeInTheDocument()
     expect(screen.queryByText('drawer.verify.subtitle')).toBeInTheDocument()
@@ -67,33 +110,38 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
   })
 
   it('should onClose function be called if close icon is clicked', () => {
-    const onClose = vi.fn()
+    const closeAgreementVerifiedAttributeDrawer = vi.fn()
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer
-        type={'update'}
-        {...defaultDrawerProps}
-        onClose={onClose}
-      />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    mockAgreementDetailsContext({
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
+      closeAgreementVerifiedAttributeDrawer,
+    })
+
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const closeDrawerButton = screen.getByLabelText('closeIconAriaLabel')
 
     fireEvent.click(closeDrawerButton)
 
-    expect(onClose).toBeCalled()
+    expect(closeAgreementVerifiedAttributeDrawer).toBeCalled()
   })
 
   it('should match snapshot if type is verify or update and selected radio is YES (datepicker is visible)', () => {
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    mockAgreementDetailsContext({
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
+    })
+
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOption2 = screen.getByRole('radio', {
       name: 'form.radioGroup.options.YES',
@@ -106,7 +154,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  it('should match snapshot if attribute is verified and has expirationDate', () => {
+  it('should show the actual expiration date if no expiration date is selected', () => {
     mockAgreementDetailsContext({
       agreement: createMockAgreement({
         producer: { id: 'test-id-producer' },
@@ -128,29 +176,22 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     expect(screen.getByRole('textbox')).toBeInTheDocument()
     expect(screen.getByRole('textbox')).toHaveValue('20/02/2023')
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
-  it('should call revoke attribute function on button click if type is revoke and agreement is defined', () => {
-    const revokeAttributeFn = vi.fn()
-    vi.spyOn(AttributeMutations, 'useRevokeVerifiedPartyAttribute').mockImplementation(
-      () =>
-        ({
-          mutate: revokeAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useRevokeVerifiedPartyAttribute']>)
-    )
+  it('should call revoke attribute function and close the drawer on success', async () => {
+    const closeAgreementVerifiedAttributeDrawer = vi.fn()
 
     mockAgreementDetailsContext({
       agreement: createMockAgreement({
@@ -173,21 +214,22 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'revoke',
+      },
+      closeAgreementVerifiedAttributeDrawer,
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonRevoke = screen.getByRole('button', { name: 'actions.revoke' })
     fireEvent.click(buttonRevoke)
 
-    expect(revokeAttributeFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      attributeId: 'test attributeId',
+    await waitFor(() => {
+      expect(closeAgreementVerifiedAttributeDrawer).toBeCalled()
     })
   })
 
@@ -218,14 +260,15 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'revoke',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'revoke'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonRevoke = screen.getByRole('button', { name: 'actions.revoke' })
     fireEvent.click(buttonRevoke)
@@ -260,14 +303,15 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonVerify)
@@ -275,7 +319,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     expect(verifyAttributeFn).not.toBeCalled()
   })
 
-  it('should not call update attribute expiraiton date function on button click if type is update and agreement is undefined', () => {
+  it('should not call update attribute expiration date function on button click if type is update and agreement is undefined', () => {
     const updateAttributeExpirationDateFn = vi.fn()
     vi.spyOn(AttributeMutations, 'useUpdateVerifiedPartyAttribute').mockImplementation(
       () =>
@@ -302,14 +346,15 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonUpdate)
@@ -319,6 +364,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
 
   it('should call verify attribute function on button click correctly if type is verify, agreement is defined and hasExpirationDate is undefined', () => {
     const verifyAttributeFn = vi.fn()
+
     vi.spyOn(AttributeMutations, 'useVerifyPartyAttribute').mockImplementation(
       () =>
         ({
@@ -341,23 +387,27 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonVerify)
 
-    expect(verifyAttributeFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      id: 'test attributeId',
-      expirationDate: undefined,
-    })
+    expect(verifyAttributeFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        id: 'test attributeId',
+        expirationDate: undefined,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call verify attribute function on button click correctly if type is verify, agreement and verifier are defined and hasExpirationDate is undefined', () => {
@@ -390,23 +440,27 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonVerify)
 
-    expect(verifyAttributeFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      id: 'test attributeId',
-      expirationDate: '2023-02-20T09:33:35.000Z',
-    })
+    expect(verifyAttributeFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        id: 'test attributeId',
+        expirationDate: '2023-02-20T09:33:35.000Z',
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call verify attribute function on button click correctly if type is verify, agreement and verifier and expirationDate are defined and hasExpirationDate is undefined', () => {
@@ -439,16 +493,17 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
     const today = new Date()
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonChooseDate = screen.getByRole('button', {
       name: `Choose date, selected date is 20 feb 2023`,
@@ -469,11 +524,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonVerify)
 
-    expect(verifyAttributeFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      id: 'test attributeId',
-      expirationDate: `${today.getFullYear() + 1}-02-01T09:33:35.000Z`,
-    })
+    expect(verifyAttributeFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        id: 'test attributeId',
+        expirationDate: `${today.getFullYear() + 1}-02-01T09:33:35.000Z`,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call verify attribute function on button click correctly if type is verify, agreement and hasExpirationDate is NO', () => {
@@ -506,14 +564,16 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOption1 = screen.getByRole('radio', {
       name: 'form.radioGroup.options.NO',
@@ -523,11 +583,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonVerify)
 
-    expect(verifyAttributeFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      id: 'test attributeId',
-      expirationDate: undefined,
-    })
+    expect(verifyAttributeFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        id: 'test attributeId',
+        expirationDate: undefined,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call verify attribute function on button click correctly if type is verify, agreement and expirationDate are defined and hasExpirationDate is YES', () => {
@@ -554,16 +617,17 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
     const today = new Date(new Date().setMilliseconds(0))
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOption1 = screen.getByRole('radio', {
       name: 'form.radioGroup.options.YES',
@@ -591,11 +655,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonVerify)
 
-    expect(verifyAttributeFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      id: 'test attributeId',
-      expirationDate: `${addYears(today, 1).toISOString()}`,
-    })
+    expect(verifyAttributeFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        id: 'test attributeId',
+        expirationDate: `${addYears(today, 1).toISOString()}`,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call verify attribute function on button click correctly if type is verify, agreement is defined and hasExpirationDate is YES. Verified undefined', () => {
@@ -624,16 +691,17 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
     const today = new Date()
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOption1 = screen.getByRole('radio', {
       name: 'form.radioGroup.options.YES',
@@ -643,11 +711,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonVerify)
 
-    expect(verifyAttributeFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      id: 'test attributeId',
-      expirationDate: `${today.toISOString()}`,
-    })
+    expect(verifyAttributeFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        id: 'test attributeId',
+        expirationDate: `${today.toISOString()}`,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call verify attribute function on button click correctly if type is verify, agreement and verified are defined and hasExpirationDate is YES', () => {
@@ -680,14 +751,15 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'verify',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'verify'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOptionNo = screen.getByRole('radio', {
       name: 'form.radioGroup.options.NO',
@@ -702,11 +774,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonVerify = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonVerify)
 
-    expect(verifyAttributeFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      id: 'test attributeId',
-      expirationDate: '2023-02-20T09:33:35.000Z',
-    })
+    expect(verifyAttributeFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        id: 'test attributeId',
+        expirationDate: '2023-02-20T09:33:35.000Z',
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call updateExpirationDate function on button click correctly if type is update, agreement is defined and hasExpirationDate is undefined', () => {
@@ -733,23 +808,27 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonUpdate)
 
-    expect(updateExpirationDateFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      attributeId: 'test attributeId',
-      expirationDate: undefined,
-    })
+    expect(updateExpirationDateFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        attributeId: 'test attributeId',
+        expirationDate: undefined,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call updateExpirationDate function on button click correctly if type is update, agreement and verifier are defined and hasExpirationDate is undefined', () => {
@@ -782,23 +861,27 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonUpdate)
 
-    expect(updateExpirationDateFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      attributeId: 'test attributeId',
-      expirationDate: '2023-02-20T09:33:35.000Z',
-    })
+    expect(updateExpirationDateFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        attributeId: 'test attributeId',
+        expirationDate: '2023-02-20T09:33:35.000Z',
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call updateExpirationDate function on button click correctly if type is update, agreement and verifier and expirationDate are defined and hasExpirationDate is undefined', () => {
@@ -831,16 +914,17 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
     })
 
     const today = new Date()
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const buttonChooseDate = screen.getByRole('button', {
       name: `Choose date, selected date is 20 feb 2023`,
@@ -861,11 +945,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonUpdate)
 
-    expect(updateExpirationDateFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      attributeId: 'test attributeId',
-      expirationDate: `${today.getFullYear() + 1}-02-01T09:33:35.000Z`,
-    })
+    expect(updateExpirationDateFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        attributeId: 'test attributeId',
+        expirationDate: `${today.getFullYear() + 1}-02-01T09:33:35.000Z`,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call updateExpirationDate function on button click correctly if type is update, agreement and hasExpirationDate is NO', () => {
@@ -898,14 +985,15 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOption1 = screen.getByRole('radio', {
       name: 'form.radioGroup.options.NO',
@@ -915,11 +1003,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonUpdate)
 
-    expect(updateExpirationDateFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      attributeId: 'test attributeId',
-      expirationDate: undefined,
-    })
+    expect(updateExpirationDateFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        attributeId: 'test attributeId',
+        expirationDate: undefined,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call updateExpirationDate function on button click correctly if type is update, agreement and expirationDate are defined and hasExpirationDate is YES', () => {
@@ -946,16 +1037,17 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
     })
 
     const today = new Date(new Date().setMilliseconds(0))
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOption1 = screen.getByRole('radio', {
       name: 'form.radioGroup.options.YES',
@@ -983,11 +1075,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonUpdate)
 
-    expect(updateExpirationDateFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      attributeId: 'test attributeId',
-      expirationDate: `${addYears(today, 1).toISOString()}`,
-    })
+    expect(updateExpirationDateFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        attributeId: 'test attributeId',
+        expirationDate: `${addYears(today, 1).toISOString()}`,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call updateExpirationDate function on button click correctly if type is update, agreement is defined and hasExpirationDate is YES. Verified undefined', () => {
@@ -1016,16 +1111,17 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
     })
 
     const today = new Date(new Date().setMilliseconds(0))
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOption1 = screen.getByRole('radio', {
       name: 'form.radioGroup.options.YES',
@@ -1035,11 +1131,14 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonUpdate)
 
-    expect(updateExpirationDateFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      attributeId: 'test attributeId',
-      expirationDate: `${today.toISOString()}`,
-    })
+    expect(updateExpirationDateFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        attributeId: 'test attributeId',
+        expirationDate: `${today.toISOString()}`,
+      },
+      { onSuccess: undefined }
+    )
   })
 
   it('should call updateExpirationDate function on button click correctly if type is update, agreement and verified are defined and hasExpirationDate is YES', () => {
@@ -1072,14 +1171,15 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
           }),
         ],
       },
+      agreementVerifiedAttributeDrawerState: {
+        ...defaultDrawerProps,
+        type: 'update',
+      },
     })
 
-    const screen = renderWithApplicationContext(
-      <AgreementVerifiedAttributesDrawer type={'update'} {...defaultDrawerProps} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesDrawer />, {
+      withReactQueryContext: true,
+    })
 
     const radioOptionNo = screen.getByRole('radio', {
       name: 'form.radioGroup.options.NO',
@@ -1094,10 +1194,13 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
     const buttonUpdate = screen.getByRole('button', { name: 'actions.verify' })
     fireEvent.click(buttonUpdate)
 
-    expect(updateExpirationDateFn).toBeCalledWith({
-      partyId: 'test-id-consumer',
-      attributeId: 'test attributeId',
-      expirationDate: '2023-02-20T09:33:35.000Z',
-    })
+    expect(updateExpirationDateFn).toBeCalledWith(
+      {
+        partyId: 'test-id-consumer',
+        attributeId: 'test attributeId',
+        expirationDate: '2023-02-20T09:33:35.000Z',
+      },
+      { onSuccess: undefined }
+    )
   })
 })
