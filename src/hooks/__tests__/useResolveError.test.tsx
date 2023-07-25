@@ -86,8 +86,8 @@ describe('', () => {
       wrapper: ErrorBoundaryTest,
     })
 
-    expect(screen.getByText('serverError.title')).toBeInTheDocument()
-    expect(screen.getByText('serverError.description')).toBeInTheDocument()
+    expect(screen.getByText('axiosError.title')).toBeInTheDocument()
+    expect(screen.getByText('axiosError.description')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'actions.retry' })).toBeInTheDocument()
   })
 

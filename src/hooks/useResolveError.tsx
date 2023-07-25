@@ -72,8 +72,8 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   }
 
   if (error instanceof AxiosError) {
-    title = t('serverError.title')
-    description = t('serverError.description')
+    title = t('axiosError.title')
+    description = t('axiosError.description')
     content = (
       <>
         {isDevelopment && <CodeBlock code={error.response ?? error} />}

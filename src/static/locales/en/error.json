@@ -13,7 +13,7 @@
     "title": "404",
     "description": "The requested page does not exist"
   },
-  "serverError": {
+  "axiosError": {
     "title": "Server Error",
     "description": "There was an error while handling the request. Please reload the page."
   },

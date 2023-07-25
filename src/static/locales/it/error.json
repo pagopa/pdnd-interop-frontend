@@ -13,7 +13,7 @@
     "title": "Pagina inesistente",
     "description": "404 - La pagina cercata purtroppo non esiste."
   },
-  "serverError": {
+  "axiosError": {
     "title": "Errore del server",
     "description": "Si è verificato un errore nella gestione della richiesta. Per favore, riprova."
   },
