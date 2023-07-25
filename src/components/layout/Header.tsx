@@ -9,25 +9,47 @@ import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySw
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
-import type { UserProductRole } from '@/types/party.types'
+import type { JwtUser, UserProductRole } from '@/types/party.types'
 
-const getPartyList = (parties: Array<SelfcareInstitution> | undefined, t: TFunction<'common'>) => {
-  const partyList: Array<PartySwitchItem> = []
-  if (parties) {
-    partyList.push(
-      ...parties.map((party) => ({
-        id: party.id,
-        name: party.description,
-        productRole: (party.userProductRoles as Array<UserProductRole>)
-          .map((role) => t(`userProductRole.${role}`))
-          .join(', '),
-      }))
-    )
+/**
+ * Generate the party list to be used in the HeaderProduct component to show the party switcher
+ * If the parties list is not available, it will use the jwt to generate the party list containing only the active party
+ */
+const getPartyList = (
+  parties: Array<SelfcareInstitution> | undefined,
+  jwt: JwtUser | undefined,
+  t: TFunction<'common'>
+): PartySwitchItem[] => {
+  const generatePartyItem = (party: SelfcareInstitution) => ({
+    id: party.id,
+    name: party.description,
+    productRole: (party.userProductRoles as Array<UserProductRole>)
+      .map((role) => t(`userProductRole.${role}`))
+      .join(', '),
+  })
+
+  if (parties && parties.length > 0) {
+    return parties.map(generatePartyItem)
   }
 
-  return partyList
+  if (jwt) {
+    return [
+      generatePartyItem({
+        id: jwt.selfcareId,
+        description: jwt.organization.name,
+        userProductRoles: jwt.organization.roles.map((r) => r.role),
+      }),
+    ]
+  }
+
+  return []
 }
 
+/**
+ * Generate the product list to be used in the HeaderProduct component to show the product switcher
+ * If the products list is not available, it will return the default product list containing only
+ * selfcare's Aria Riservata and interoperability products
+ */
 const getProductList = (products?: Array<{ id: string; name: string }>): ProductSwitchItem[] => {
   const selfcareProduct: ProductSwitchItem = {
     id: 'selfcare',
@@ -43,7 +65,7 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
     linkType: 'internal',
   }
 
-  if (!products) return [selfcareProduct, interopProduct]
+  if (!products || products.length === 0) return [selfcareProduct, interopProduct]
 
   const productsFromBE: ProductSwitchItem[] = products.map((product) => ({
     id: product.id,
@@ -70,7 +92,8 @@ export const Header = () => {
 
   const { data: parties } = PartyQueries.useGetPartyList(queriesOptions)
   const { data: products } = PartyQueries.useGetProducts(queriesOptions)
-  const partyList = getPartyList(parties, t)
+
+  const partyList = getPartyList(parties, jwt, t)
   const productList = getProductList(products)
 
   const headerAccountLoggedUser = jwt
