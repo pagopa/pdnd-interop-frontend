@@ -1,5 +1,6 @@
 import type {
   Agreement,
+  AgreementState,
   CatalogDescriptorEService,
   CatalogEService,
   EServiceDescriptorState,
@@ -7,17 +8,20 @@ import type {
 
 /**
  * Checks if the user has already an active agreement for the given e-service.
- * Takes into account also the agreement draft.
+ * An agreement is considered active if the eservice object owns the `agreement` property and its state is not one of the following:
+ * - REJECTED
+ * - DRAFT
+ * - ARCHIVED
  * @param eservice The e-service to check
  * @returns `true` if the user has already an active agreement for the given e-service, `false` otherwise
  */
 export const checkIfAlreadySubscribed = (
   eservice: CatalogEService | CatalogDescriptorEService | undefined
 ) => {
-  const isSubscribed = !!eservice?.agreement
-  const isNotDraftOrRejected = !['REJECTED', 'DRAFT'].includes(eservice?.agreement?.state as string)
+  if (!eservice?.agreement) return false
+  const notSubscribedStates: Array<AgreementState> = ['REJECTED', 'DRAFT', 'ARCHIVED']
 
-  return isSubscribed && isNotDraftOrRejected
+  return !notSubscribedStates.includes(eservice.agreement.state)
 }
 
 /**
