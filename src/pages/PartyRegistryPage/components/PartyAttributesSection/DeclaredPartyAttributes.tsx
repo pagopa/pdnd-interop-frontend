@@ -88,7 +88,7 @@ const DeclaredAttributesListItem: React.FC<{ attribute: DeclaredTenantAttribute 
   }, [isRevoked, revokeDeclaredAttribute, declareAttribute, t, isAdmin])
 
   return (
-    <li key={attribute.id}>
+    <li>
       <AttributeContainer
         chipLabel={isRevoked ? tAttribute('group.manage.revokedByOwnParty') : undefined}
         checked={!isRevoked}
