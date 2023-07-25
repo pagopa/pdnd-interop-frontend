@@ -4,16 +4,16 @@ exports[`AgreementDeclaredAttributesSection > should match snapshot when e-servi
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
         class="css-1okj3ks-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        <h3
+          class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
         >
           declared.label
-        </h2>
+        </h3>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -53,16 +53,16 @@ exports[`AgreementDeclaredAttributesSection > should match snapshot when e-servi
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
         class="css-1okj3ks-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        <h3
+          class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
         >
           declared.label
-        </h2>
+        </h3>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
