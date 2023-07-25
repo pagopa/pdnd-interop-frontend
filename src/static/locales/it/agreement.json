@@ -148,15 +148,9 @@
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       }
     },
-    "bottomPageActionCard": {
-      "title": "Azioni rapide di pubblicazione",
-      "description": "Hai inserito tutte le informazioni per questa richiesta di fruizione? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
-      "cancelBtn": "Cancella bozza",
-      "submitBtn": "Inoltra richiesta di fruizione",
-      "updateBtn": "Salva bozza",
-      "noCertifiedAttributesForSubmitTooltip": "Il tuo ente non ha gli attributi certificati necessari per inoltrare la richiesta",
-      "noDeclaredAttributesForSubmitTooltip": "Per procedere con l’inoltro, devi aver attivato tutti gli attributi dichiarati richiesti"
-    }
+    "submitBtn": "Inoltra richiesta",
+    "noCertifiedAttributesForSubmitTooltip": "Il tuo ente non ha gli attributi certificati necessari per inoltrare la richiesta",
+    "noDeclaredAttributesForSubmitTooltip": "Per procedere con l’inoltro, devi aver attivato tutti gli attributi dichiarati richiesti"
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",

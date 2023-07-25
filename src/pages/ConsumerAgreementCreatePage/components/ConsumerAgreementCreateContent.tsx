@@ -4,6 +4,8 @@ import ConsumerAgreementCreateCertifiedAttributesDrawer from './ConsumerAgreemen
 import ConsumerAgreementCreateAgreementGeneralInformation from './ConsumerAgreementCreateAgreementGeneralInformation'
 import { ConsumerAgreementCreateContentContextProvider } from '../ConsumerAgreementCreateContentContext'
 import ConsumerAgreementCreateDeclaredAttributesSection from './ConsumerAgreementCreateDeclaredAttributesSection'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
+import { Stack } from '@mui/material'
 
 type ConsumerAgreementCreateContentProps = {
   agreementId: string
@@ -11,7 +13,7 @@ type ConsumerAgreementCreateContentProps = {
   onConsumerNotesChange: (value: string) => void
 }
 
-const ConsumerAgreementCreateContent: React.FC<ConsumerAgreementCreateContentProps> = ({
+export const ConsumerAgreementCreateContent: React.FC<ConsumerAgreementCreateContentProps> = ({
   agreementId,
   consumerNotes,
   onConsumerNotesChange,
@@ -30,4 +32,12 @@ const ConsumerAgreementCreateContent: React.FC<ConsumerAgreementCreateContentPro
   )
 }
 
-export default ConsumerAgreementCreateContent
+export const ConsumerAgreementCreateContentSkeleton: React.FC = () => {
+  return (
+    <Stack spacing={2}>
+      <SectionContainerSkeleton sx={{ borderRadius: 2 }} height={214} />
+      <SectionContainerSkeleton sx={{ borderRadius: 2 }} height={847} />
+      <SectionContainerSkeleton sx={{ borderRadius: 2 }} height={306} />
+    </Stack>
+  )
+}

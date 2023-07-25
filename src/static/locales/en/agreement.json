@@ -148,15 +148,9 @@
         "infoLabel": "Min 5 chars, max 60 chars"
       }
     },
-    "bottomPageActionCard": {
-      "title": "Quick publish",
-      "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
-      "cancelBtn": "Delete draft",
-      "submitBtn": "Publish agreement request",
-      "updateBtn": "Save draft",
-      "noCertifiedAttributesForSubmitTooltip": "Your party does not have the needed certified attributes in order to publish the agreement request",
-      "noDeclaredAttributesForSubmitTooltip": "To proceed with the publication, you must have activated all the required declared attributes"
-    }
+    "submitBtn": "Publish request",
+    "noCertifiedAttributesForSubmitTooltip": "Your party does not have the needed certified attributes in order to publish the agreement request",
+    "noDeclaredAttributesForSubmitTooltip": "To proceed with the publication, you must have activated all the required declared attributes"
   },
   "list": {
     "eserviceName": "{{name}}, version {{version}}",

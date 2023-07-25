@@ -1,7 +1,6 @@
 import React from 'react'
 import { AgreementMutations, AgreementQueries } from '@/api/agreement'
 import { PageContainer } from '@/components/layout/containers'
-import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useNavigate, useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { Button, Stack, Tooltip } from '@mui/material'
@@ -9,10 +8,14 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import MailIcon from '@mui/icons-material/Mail'
 import SaveIcon from '@mui/icons-material/Save'
 import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
-import ConsumerAgreementCreateContent from './components/ConsumerAgreementCreateContent'
+import {
+  ConsumerAgreementCreateContent,
+  ConsumerAgreementCreateContentSkeleton,
+} from './components/ConsumerAgreementCreateContent'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
+  const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
@@ -24,8 +27,6 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft()
   const { mutate: updateAgreementDraft } = AgreementMutations.useUpdateDraft()
   const { mutate: deleteAgreementDraft } = AgreementMutations.useDeleteDraft()
-
-  const { actions } = useGetAgreementsActions(agreement)
 
   const { hasAllCertifiedAttributes, hasAllDeclaredAttributes } =
     useDescriptorAttributesPartyOwnership(agreement?.eservice.id, agreement?.descriptorId)
@@ -71,17 +72,16 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   const getTooltipButtonTitle = () => {
     if (!hasAllCertifiedAttributes) {
-      return t('edit.bottomPageActionCard.noCertifiedAttributesForSubmitTooltip')
+      return t('edit.noCertifiedAttributesForSubmitTooltip')
     }
     if (!hasAllDeclaredAttributes) {
-      return t('edit.bottomPageActionCard.noDeclaredAttributesForSubmitTooltip')
+      return t('edit.noDeclaredAttributesForSubmitTooltip')
     }
   }
 
   return (
     <PageContainer
       title={t('read.title')}
-      newTopSideActions={actions}
       statusChip={
         agreement
           ? {
@@ -95,11 +95,13 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         to: 'SUBSCRIBE_AGREEMENT_LIST',
       }}
     >
-      <ConsumerAgreementCreateContent
-        agreementId={agreementId}
-        consumerNotes={consumerNotes}
-        onConsumerNotesChange={setConsumerNotes}
-      />
+      <React.Suspense fallback={<ConsumerAgreementCreateContentSkeleton />}>
+        <ConsumerAgreementCreateContent
+          agreementId={agreementId}
+          consumerNotes={consumerNotes}
+          onConsumerNotesChange={setConsumerNotes}
+        />
+      </React.Suspense>
 
       <Stack direction="row" spacing={1.5} sx={{ mt: 4, justifyContent: 'right' }}>
         <Button
@@ -108,7 +110,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
           color="error"
           startIcon={<DeleteOutlineIcon />}
         >
-          {t('edit.bottomPageActionCard.cancelBtn')}
+          {tCommon('actions.deleteDraft')}
         </Button>
         <Button
           onClick={handleUpdateAgreementDraft}
@@ -116,7 +118,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
           color="primary"
           startIcon={<SaveIcon />}
         >
-          {t('edit.bottomPageActionCard.updateBtn')}
+          {tCommon('actions.saveDraft')}
         </Button>
         <Tooltip arrow title={getTooltipButtonTitle()}>
           <span tabIndex={!canUserSubmitAgreementDraft ? 0 : undefined}>
@@ -126,7 +128,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
               variant="contained"
               startIcon={<MailIcon />}
             >
-              {t('edit.bottomPageActionCard.submitBtn')}
+              {t('edit.submitBtn')}
             </Button>
           </span>
         </Tooltip>
