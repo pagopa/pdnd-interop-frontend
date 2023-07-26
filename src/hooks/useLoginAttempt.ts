@@ -8,7 +8,7 @@ import { TokenExchangeError } from '@/utils/errors.utils'
 import { useAuth } from '@/stores'
 
 export function useLoginAttempt() {
-  const { mutateAsync: swapTokens } = AuthServicesHooks.useSwapTokens()
+  const { mutate: swapTokens } = AuthServicesHooks.useSwapTokens()
   const { sessionToken, setSessionToken, setIsLoadingSessionToken } = useAuth()
   const [error, setError] = React.useState<Error | null>(null)
 
@@ -27,28 +27,40 @@ export function useLoginAttempt() {
     }
 
     // 2. See if we are coming from Self Care and have a new token
-    const newSelfCareIdentityToken = window.location.hash.replace('#id=', '')
-    if (newSelfCareIdentityToken) {
+    const hasSelfCareIdentityToken = window.location.hash.includes('#id=')
+    if (hasSelfCareIdentityToken) {
+      const selfCareIdentityToken = window.location.hash.replace('#id=', '')
       // Remove token from hash
       history.replaceState({}, document.title, window.location.href.split('#')[0])
-      const response = await swapTokens(newSelfCareIdentityToken)
-      if (response.session_token) {
-        setSessionToken(response.session_token)
-        return
-      }
+      swapTokens(selfCareIdentityToken, {
+        onSuccess({ session_token }) {
+          setSessionToken(session_token)
+        },
+      })
+      return
     }
 
-    // 3. Check if there is a valid token in the storage already
+    // 3. See if we are trying to login as support operator
+    // If the url has contains saml2 and jwt, we are trying to login as support operator
+    const hasSupportOperatorToken =
+      window.location.hash.includes('#saml2=') && window.location.hash.includes('jwt=')
+    if (hasSupportOperatorToken) {
+      const supportOperatorToken = window.location.hash.split('jwt=')[1]
+      setSessionToken(supportOperatorToken)
+      return
+    }
+
+    // 4. Check if there is a valid token in the storage already
     const sessionStorageToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
     if (sessionStorageToken) {
       setSessionToken(sessionStorageToken)
       return
     }
 
-    // 4. Check if the route is public
+    // 5. Check if the route is public
     if (isPublic) return
 
-    // 5. If all else fails, logout
+    // 6. If all else fails, logout
     navigate('LOGOUT')
   }, [navigate, isPublic, setSessionToken, swapTokens])
 

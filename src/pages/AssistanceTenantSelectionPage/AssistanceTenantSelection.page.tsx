@@ -8,19 +8,6 @@ import { useAuth } from '@/stores'
 import type { CompactTenant } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 
-function getJWTAndSAML2FromURLFragment() {
-  const hashParams = window.location.hash.split('#')[1]
-  if (!hashParams) throw new AssistencePartySelectionError(`Missing jwt and saml2 query param`)
-
-  const splittedHashParams = hashParams.split('&')
-  const saml2 = splittedHashParams[0].split('=')[1]
-  const jwt = splittedHashParams[1].split('=')[1]
-
-  if (!jwt || !saml2)
-    throw new AssistencePartySelectionError(`Missing jwt (${jwt}) or saml2 (${saml2}) query param`)
-  return { jwt, saml2 }
-}
-
 const AssistanceTenantSelectionPage: React.FC = () => {
   const { t } = useTranslation('assistance', { keyPrefix: 'tenantSelection' })
 
@@ -30,11 +17,8 @@ const AssistanceTenantSelectionPage: React.FC = () => {
   const [selectedTenant, setSelectedTenant] = React.useState<CompactTenant | null>(null)
   const { mutate: swapSAMLToken } = AuthServicesHooks.useSwapSAMLTokens()
 
-  const { jwt, saml2 } = getJWTAndSAML2FromURLFragment()
-
-  React.useEffect(() => {
-    setSessionToken(jwt)
-  }, [setSessionToken, jwt])
+  const saml2 = window.location.hash.split('#saml2=')[1]?.split('&')[0]
+  if (!saml2) throw new AssistencePartySelectionError(`Missing saml2 (${saml2}) from query param`)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
