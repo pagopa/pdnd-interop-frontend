@@ -51,7 +51,8 @@ export function useDescriptorAttributesPartyOwnership(
     const hasAllVerifiedAttributes = hasAllDescriptorAttributes(
       'verified',
       ownedVerified.attributes,
-      remapedDescriptorAttributes.verified
+      remapedDescriptorAttributes.verified,
+      descriptor.eservice.producer.id
     )
 
     const hasAllDeclaredAttributes = hasAllDescriptorAttributes(

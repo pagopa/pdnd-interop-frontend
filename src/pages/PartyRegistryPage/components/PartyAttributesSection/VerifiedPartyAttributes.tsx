@@ -40,17 +40,33 @@ const VerifiedAttributesList: React.FC = () => {
 
   return (
     <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
-      {verifiedAttributes.map((attribute) => (
-        <VerifiedAttributesListItem key={attribute.id} attribute={attribute} />
-      ))}
+      {verifiedAttributes.map((attribute) => {
+        // if it is verified and revoked by some provider then we need to show both
+        if (attribute.revokedBy.length > 0 && attribute.verifiedBy.length > 0) {
+          return (
+            <React.Fragment key={attribute.id}>
+              <VerifiedAttributesListItem attribute={attribute} isRevoked={true} />
+              <VerifiedAttributesListItem attribute={attribute} isRevoked={false} />
+            </React.Fragment>
+          )
+        }
+        const isRevoked = isAttributeRevoked('verified', attribute)
+        return (
+          <VerifiedAttributesListItem
+            key={attribute.id}
+            attribute={attribute}
+            isRevoked={isRevoked}
+          />
+        )
+      })}
     </Stack>
   )
 }
 
-const VerifiedAttributesListItem: React.FC<{ attribute: VerifiedTenantAttribute }> = ({
-  attribute,
-}) => {
-  const isRevoked = isAttributeRevoked('verified', attribute)
+const VerifiedAttributesListItem: React.FC<{
+  attribute: VerifiedTenantAttribute
+  isRevoked: boolean
+}> = ({ attribute, isRevoked }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group.manage' })
 
   const chipLabel = isRevoked ? t('revokedByProducer') : undefined

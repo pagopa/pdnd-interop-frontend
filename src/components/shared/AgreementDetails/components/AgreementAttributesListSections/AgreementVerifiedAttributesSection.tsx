@@ -36,7 +36,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
     const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
     if (!attribute) return
 
-    if (isAttributeRevoked('verified', attribute))
+    if (isAttributeRevoked('verified', attribute, agreement?.producer.id))
       return tAttribute('group.manage.revokedByProducer')
 
     const verifier = attribute?.verifiedBy.find((b) => b.id === agreement?.producer.id)
@@ -53,7 +53,12 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   function getGroupContainerProps(
     group: RemappedDescriptorAttribute
   ): React.ComponentProps<typeof AttributeGroupContainer> {
-    const isGroupFulfilled = isAttributeGroupFullfilled('verified', ownedVerifiedAttributes, group)
+    const isGroupFulfilled = isAttributeGroupFullfilled(
+      'verified',
+      ownedVerifiedAttributes,
+      group,
+      agreement?.producer.id
+    )
 
     if (isGroupFulfilled) {
       return {
@@ -91,7 +96,12 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
                     key={attribute.id}
                     attribute={attribute}
                     chipLabel={getChipLabel(attribute.id)}
-                    checked={isAttributeOwned('verified', attribute.id, ownedVerifiedAttributes)}
+                    checked={isAttributeOwned(
+                      'verified',
+                      attribute.id,
+                      ownedVerifiedAttributes,
+                      agreement?.producer.id
+                    )}
                     actions={getAttributeActions(attribute.id)}
                   />
                 ))}

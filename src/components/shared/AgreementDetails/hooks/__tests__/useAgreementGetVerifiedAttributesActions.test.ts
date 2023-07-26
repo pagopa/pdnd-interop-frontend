@@ -125,12 +125,25 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
 
   it("should return only the 'update verification' action and the 'revoke' action if the attribute is owned", () => {
     mockAgreementDetailsContext({
-      agreement: createMockAgreement(),
+      agreement: createMockAgreement({
+        producer: { name: 'test-producer-name', id: 'test-producer-id' },
+      }),
       isAgreementEServiceMine: false,
       partyAttributes: {
         declared: [],
         certified: [],
-        verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'test-owned',
+            verifiedBy: [
+              {
+                id: 'test-producer-id',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
+              },
+            ],
+          }),
+        ],
       },
     })
     mockUseJwt({ isAdmin: true })
@@ -176,12 +189,25 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
   it("should change the agreementVerifiedAttributeDrawer state when 'update verification' action is called", () => {
     const openAgreementVerifiedAttributeDrawer = vi.fn()
     mockAgreementDetailsContext({
-      agreement: createMockAgreement(),
+      agreement: createMockAgreement({
+        producer: { name: 'test-producer-name', id: 'test-producer-id' },
+      }),
       isAgreementEServiceMine: false,
       partyAttributes: {
         declared: [],
         certified: [],
-        verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'test-owned',
+            verifiedBy: [
+              {
+                id: 'test-producer-id',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
+              },
+            ],
+          }),
+        ],
       },
       openAgreementVerifiedAttributeDrawer,
     })
@@ -203,12 +229,25 @@ describe('useAgreementGetVerifiedAttributesActions', () => {
   it("should change the agreementVerifiedAttributeDrawer state when 'revoke' action is called", () => {
     const openAgreementVerifiedAttributeDrawer = vi.fn()
     mockAgreementDetailsContext({
-      agreement: createMockAgreement(),
+      agreement: createMockAgreement({
+        producer: { name: 'test-producer-name', id: 'test-producer-id' },
+      }),
       isAgreementEServiceMine: false,
       partyAttributes: {
         declared: [],
         certified: [],
-        verified: [createVerifiedTenantAttribute({ id: 'test-owned', verifiedBy: [{}] })],
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'test-owned',
+            verifiedBy: [
+              {
+                id: 'test-producer-id',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
+              },
+            ],
+          }),
+        ],
       },
       openAgreementVerifiedAttributeDrawer,
     })

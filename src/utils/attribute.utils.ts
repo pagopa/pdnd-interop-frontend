@@ -22,7 +22,7 @@ export function isAttributeRevoked(kind: 'certified', attribute: CertifiedTenant
 export function isAttributeRevoked(
   kind: 'verified',
   attribute: VerifiedTenantAttribute,
-  verifierId?: string
+  verifierId?: string | undefined
 ): boolean
 export function isAttributeRevoked(kind: 'declared', attribute: DeclaredTenantAttribute): boolean
 export function isAttributeRevoked(
@@ -35,18 +35,19 @@ export function isAttributeRevoked(
       return Boolean((attribute as CertifiedTenantAttribute).revocationTimestamp)
     case 'verified':
       /*
-       * If a verifierId is passed, the attribute is considered revoked if it is not verified by him
+       * If a verifierId is passed, the attribute is considered revoked if it is revoked by him
        */
       if (verifierId) {
-        const isVerifiedByVerifier = (attribute as VerifiedTenantAttribute).verifiedBy.some(
+        const isRevokedByVerifier = (attribute as VerifiedTenantAttribute).revokedBy.some(
           (verifier) => verifier.id === verifierId
         )
-        return !isVerifiedByVerifier
+        return isRevokedByVerifier
       }
+
       /*
-       *  if no verifierId is passed in, the attribute is considered revoked if it has no entries in 'verifiedBy'
+       *  if no verifierId is passed in, the attribute is considered revoked if it has at least one entry in 'revokedBy'
        */
-      return (attribute as VerifiedTenantAttribute).verifiedBy.length <= 0
+      return (attribute as VerifiedTenantAttribute).revokedBy.length > 0
     case 'declared':
       return Boolean((attribute as DeclaredTenantAttribute).revocationTimestamp)
     default:
@@ -69,7 +70,8 @@ export function isAttributeOwned(
 export function isAttributeOwned(
   kind: 'verified',
   attributeId: string,
-  ownedAttributes: VerifiedTenantAttribute[]
+  ownedAttributes: VerifiedTenantAttribute[],
+  verifierId: string | undefined
 ): boolean
 export function isAttributeOwned(
   kind: 'declared',
@@ -82,7 +84,8 @@ export function isAttributeOwned(
   ownedAttributes:
     | VerifiedTenantAttribute[]
     | CertifiedTenantAttribute[]
-    | DeclaredTenantAttribute[]
+    | DeclaredTenantAttribute[],
+  verifierId?: string
 ) {
   const matchIndex = ownedAttributes.findIndex((a) => a.id === attributeId)
   const match = ownedAttributes[matchIndex]
@@ -94,12 +97,15 @@ export function isAttributeOwned(
   /**
    * If a match is found, last thing we need to check if it is revoked.
    * If it is, it is not considered "owned".
+   * For the verified attributes we check if verifiedBy has an entry which verifier id is the same as the verifierId passed.
    */
   switch (kind) {
     case 'certified':
       return !isAttributeRevoked('certified', match as CertifiedTenantAttribute)
     case 'verified':
-      return !isAttributeRevoked('verified', match as VerifiedTenantAttribute)
+      return (match as VerifiedTenantAttribute).verifiedBy.some(
+        (verifier) => verifier.id === verifierId
+      )
     case 'declared':
       return !isAttributeRevoked('declared', match as DeclaredTenantAttribute)
     default:
@@ -123,7 +129,8 @@ export function isAttributeGroupFullfilled(
 export function isAttributeGroupFullfilled(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
-  attributesGroup: RemappedDescriptorAttribute
+  attributesGroup: RemappedDescriptorAttribute,
+  verifierId: string | undefined
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'declared',
@@ -136,14 +143,15 @@ export function isAttributeGroupFullfilled(
     | VerifiedTenantAttribute[]
     | CertifiedTenantAttribute[]
     | DeclaredTenantAttribute[],
-  attributesGroup: RemappedDescriptorAttribute
+  attributesGroup: RemappedDescriptorAttribute,
+  verifierId?: string
 ) {
   const isOwned = ({ id }: RemappedDescriptorAttribute['attributes'][0]) => {
     switch (kind) {
       case 'certified':
         return isAttributeOwned(kind, id, ownedAttributes as CertifiedTenantAttribute[])
       case 'verified':
-        return isAttributeOwned(kind, id, ownedAttributes as VerifiedTenantAttribute[])
+        return isAttributeOwned(kind, id, ownedAttributes as VerifiedTenantAttribute[], verifierId)
       case 'declared':
         return isAttributeOwned(kind, id, ownedAttributes as DeclaredTenantAttribute[])
       default:
@@ -169,7 +177,8 @@ export function hasAllDescriptorAttributes(
 export function hasAllDescriptorAttributes(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
-  descriptorAttributes: Array<RemappedDescriptorAttribute>
+  descriptorAttributes: Array<RemappedDescriptorAttribute>,
+  verifierId: string | undefined
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: 'declared',
@@ -182,7 +191,8 @@ export function hasAllDescriptorAttributes(
     | VerifiedTenantAttribute[]
     | CertifiedTenantAttribute[]
     | DeclaredTenantAttribute[],
-  descriptorAttributes: Array<RemappedDescriptorAttribute>
+  descriptorAttributes: Array<RemappedDescriptorAttribute>,
+  verifierId?: string
 ) {
   const isGroupFullfilled = (attributesGroup: RemappedDescriptorAttribute) => {
     switch (kind) {
@@ -196,7 +206,8 @@ export function hasAllDescriptorAttributes(
         return isAttributeGroupFullfilled(
           kind,
           ownedAttributes as VerifiedTenantAttribute[],
-          attributesGroup
+          attributesGroup,
+          verifierId
         )
       case 'declared':
         return isAttributeGroupFullfilled(
