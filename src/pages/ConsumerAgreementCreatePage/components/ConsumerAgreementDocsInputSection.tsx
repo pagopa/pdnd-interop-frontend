@@ -1,16 +1,16 @@
 import React from 'react'
-import { AgreementDownloads, AgreementMutations, AgreementQueries } from '@/api/agreement'
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
+import { AgreementDownloads, AgreementMutations } from '@/api/agreement'
+import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { ButtonNaked } from '@pagopa/mui-italia'
-import { Box, Button, Divider, Stack } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
+import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 
-type AgreementDocsInputSectionProps = {
+type ConsumerAgreementDocsInputSectionProps = {
   agreementId: string
 }
 
@@ -24,9 +24,9 @@ const defaultValues: AddDocFormValues = {
   prettyName: '',
 }
 
-export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps> = ({
-  agreementId,
-}) => {
+export const ConsumerAgreementDocsInputSection: React.FC<
+  ConsumerAgreementDocsInputSectionProps
+> = ({ agreementId }) => {
   const { t } = useTranslation('agreement', { keyPrefix: 'edit.documents' })
   const { t: tCommon } = useTranslation('common')
   const [showDocInput, setShowDocInput] = React.useState(false)
@@ -34,7 +34,7 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
   const { mutate: deleteDocument } = AgreementMutations.useDeleteDraftDocument()
   const downloadDocument = AgreementDownloads.useDownloadDocument()
 
-  const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
+  const { agreement } = useConsumerAgreementCreateContentContext()
 
   const formMethods = useForm<AddDocFormValues>({
     defaultValues,
@@ -67,7 +67,7 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
   const docs = agreement?.consumerDocuments ?? []
 
   return (
-    <SectionContainer title={t('title')} description={t('description')}>
+    <SectionContainer newDesign innerSection title={t('title')} description={t('description')}>
       <Stack spacing={2}>
         {docs.map((doc) => (
           <DocumentContainer
@@ -79,14 +79,22 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
         ))}
       </Stack>
 
-      {docs.length > 0 && <Divider sx={{ my: 2 }} />}
-
       <FormProvider {...formMethods}>
-        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={formMethods.handleSubmit(onSubmit)}
+          mt={docs.length > 0 ? 4 : 0}
+        >
           {!showDocInput ? (
-            <ButtonNaked type="button" color="primary" onClick={setShowDocInput.bind(null, true)}>
+            <Button
+              type="button"
+              variant="text"
+              color="primary"
+              onClick={setShowDocInput.bind(null, true)}
+            >
               {tCommon('addBtn')}
-            </ButtonNaked>
+            </Button>
           ) : (
             <>
               <RHFSingleFileInput name="doc" sx={{ my: 0 }} />
@@ -114,8 +122,4 @@ export const AgreementDocsInputSection: React.FC<AgreementDocsInputSectionProps>
       </FormProvider>
     </SectionContainer>
   )
-}
-
-export const AgreementDocsInputSectionSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={127} />
 }

@@ -112,7 +112,7 @@ describe('AgreementSummarySection', () => {
     )
   })
 
-  it("should show the 'open attached docs' button if the routekey is not equal to SUBSCRIBE_AGREEMENT_EDIT", () => {
+  it("should show the 'open attached docs' button", () => {
     mockUseJwt({ isAdmin: true })
     mockUseCurrentRoute({ mode: 'provider', routeKey: 'TOS' })
 
@@ -126,32 +126,10 @@ describe('AgreementSummarySection', () => {
 
     expect(getByRole('button', { name: 'attachedDocsButtonLabel' })).toBeInTheDocument()
   })
-
-  it("should not show the 'open attached docs' button if the routekey is equal to SUBSCRIBE_AGREEMENT_EDIT", () => {
-    mockUseJwt({ isAdmin: true })
-    mockUseCurrentRoute({ mode: 'provider', routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
-
-    mockAgreementDetailsContext({
-      agreement: createMockAgreement({ isContractPresent: true }),
-    })
-
-    const { queryByRole } = renderWithApplicationContext(<AgreementSummarySection />, {
-      withRouterContext: true,
-    })
-
-    expect(queryByRole('button', { name: 'attachedDocsButtonLabel' })).not.toBeInTheDocument()
-  })
 })
 
 describe('AgreementSummarySectionSkeleton', () => {
-  it('should match the snapshot (SUBSCRIBE_AGREEMENT_EDIT)', () => {
-    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_EDIT' })
-    const { baseElement } = render(<AgreementSummarySectionSkeleton />)
-
-    expect(baseElement).toMatchSnapshot()
-  })
-
-  it('should match the snapshot (NOT SUBSCRIBE_AGREEMENT_EDIT)', () => {
+  it('should match the snapshot', () => {
     mockUseCurrentRoute({ mode: 'provider', routeKey: 'TOS' })
     const { baseElement } = render(<AgreementSummarySectionSkeleton />)
 

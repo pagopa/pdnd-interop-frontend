@@ -12,8 +12,8 @@ import { AgreementDownloads } from '@/api/agreement'
 import FolderIcon from '@mui/icons-material/Folder'
 
 export const AgreementSummarySection: React.FC = () => {
+  const { mode } = useCurrentRoute()
   const { t } = useTranslation('agreement', { keyPrefix: 'read.summary' })
-  const { mode, routeKey } = useCurrentRoute()
   const { agreement, openAttachedDocsDrawer } = useAgreementDetailsContext()
   const downloadContract = AgreementDownloads.useDownloadContract()
 
@@ -23,7 +23,7 @@ export const AgreementSummarySection: React.FC = () => {
     downloadContract({ agreementId: agreement.id }, `${t('documentationField.docLabel')}.pdf`)
   }
 
-  const eServiceName = `${agreement.eservice.name}, ${t('eserviceField.versionLabel')} ${
+  const eserviceName = `${agreement.eservice.name}, ${t('eserviceField.versionLabel')} ${
     agreement.eservice.version
   }`
 
@@ -37,7 +37,7 @@ export const AgreementSummarySection: React.FC = () => {
               params={{ eserviceId: agreement.eservice.id, descriptorId: agreement.descriptorId }}
               target="_blank"
             >
-              {eServiceName}
+              {eserviceName}
             </Link>
           }
           label={t('eserviceField.label')}
@@ -81,29 +81,20 @@ export const AgreementSummarySection: React.FC = () => {
           />
         )}
 
-        {routeKey !== 'SUBSCRIBE_AGREEMENT_EDIT' && (
-          <>
-            <Divider />
+        <Divider />
 
-            <Box>
-              <IconLink
-                onClick={openAttachedDocsDrawer}
-                component="button"
-                startIcon={<FolderIcon />}
-              >
-                {t('attachedDocsButtonLabel')}
-              </IconLink>
-            </Box>
-          </>
-        )}
+        <Box>
+          <IconLink onClick={openAttachedDocsDrawer} component="button" startIcon={<FolderIcon />}>
+            {t('attachedDocsButtonLabel')}
+          </IconLink>
+        </Box>
       </Stack>
     </SectionContainer>
   )
 }
 
 export const AgreementSummarySectionSkeleton: React.FC = () => {
-  const { routeKey } = useCurrentRoute()
-  const height = routeKey === 'SUBSCRIBE_AGREEMENT_EDIT' ? 194 : 322
+  const height = 322
 
   return <SectionContainerSkeleton height={height} />
 }
