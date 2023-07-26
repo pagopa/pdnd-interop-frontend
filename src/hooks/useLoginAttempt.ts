@@ -27,11 +27,12 @@ export function useLoginAttempt() {
     }
 
     // 2. See if we are coming from Self Care and have a new token
-    const newSelfCareIdentityToken = window.location.hash.replace('#id=', '')
-    if (newSelfCareIdentityToken) {
+    const hasSelfCareIdentityToken = window.location.hash.includes('#id=')
+    if (hasSelfCareIdentityToken) {
+      const selfCareIdentityToken = window.location.hash.replace('#id=', '')
       // Remove token from hash
       history.replaceState({}, document.title, window.location.href.split('#')[0])
-      const response = await swapTokens(newSelfCareIdentityToken)
+      const response = await swapTokens(selfCareIdentityToken)
       if (response.session_token) {
         setSessionToken(response.session_token)
         return
