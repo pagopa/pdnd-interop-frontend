@@ -33,36 +33,36 @@ describe('attribute utils', () => {
       expect(result).toBe(false)
     })
 
-    it('should not be considered revoked if the attribute has been verified at least once by the given verifier id (verified)', () => {
+    it('should not be considered revoked if the given verifier did not revoke the attribute (verified)', () => {
       const attributeMock = createVerifiedTenantAttribute({
-        verifiedBy: [{ id: 'verifier-id' }],
+        revokedBy: [{ id: 'verifier-id-another' }],
       })
       const result = isAttributeRevoked('verified', attributeMock, 'verifier-id')
       expect(result).toBe(false)
     })
 
-    it('should be considered revoked if the given verifier did not verify the attribute (verified)', () => {
+    it('should be considered revoked if the given verifier revoked the attribute (verified)', () => {
       const attributeMock = createVerifiedTenantAttribute({
-        verifiedBy: [{ id: 'verifier-id-another' }],
+        revokedBy: [{ id: 'verifier-id' }],
       })
       const result = isAttributeRevoked('verified', attributeMock, 'verifier-id')
       expect(result).toBe(true)
     })
 
-    it('should not be considered revoked if the attribute has at least been verified once if no verifier is passed (verified)', () => {
+    it('should be considered revoked if the attribute has at least been revoked once if no verifier is passed (verified)', () => {
       const attributeMock = createVerifiedTenantAttribute({
-        verifiedBy: [{ id: 'verifier-id' }],
-      })
-      const result = isAttributeRevoked('verified', attributeMock)
-      expect(result).toBe(false)
-    })
-
-    it('should be considered revoked if the attribute has not been verified once and if no verifier is passed (verified)', () => {
-      const attributeMock = createVerifiedTenantAttribute({
-        verifiedBy: [],
+        revokedBy: [{ id: 'verifier-id' }],
       })
       const result = isAttributeRevoked('verified', attributeMock)
       expect(result).toBe(true)
+    })
+
+    it('should not be considered revoked if the attribute has not been revoked once and if no verifier is passed (verified)', () => {
+      const attributeMock = createVerifiedTenantAttribute({
+        revokedBy: [],
+      })
+      const result = isAttributeRevoked('verified', attributeMock)
+      expect(result).toBe(false)
     })
 
     it('should be considered revoked (declared)', () => {
@@ -119,18 +119,23 @@ describe('attribute utils', () => {
         id: 'attribute-id-test',
         verifiedBy: [{ id: 'attribute-id' }],
       })
-      const result = isAttributeOwned('verified', 'attribute-id-test', [attributeMock])
+      const result = isAttributeOwned(
+        'verified',
+        'attribute-id-test',
+        [attributeMock],
+        'attribute-id'
+      )
       expect(result).toBe(true)
     })
 
     it('should not be considered owned if the attribute is not in the owned attribute array (verified)', () => {
-      const result = isAttributeOwned('verified', 'attribute-id', [])
+      const result = isAttributeOwned('verified', 'attribute-id', [], 'producer-id')
       expect(result).toBe(false)
     })
 
     it('should not be considered owned if the attribute is in the owned attribute array but it is revoked (verified)', () => {
       const attributeMock = createVerifiedTenantAttribute({ verifiedBy: [] })
-      const result = isAttributeOwned('verified', 'attribute-id', [attributeMock])
+      const result = isAttributeOwned('verified', 'attribute-id', [attributeMock], 'producer-id')
       expect(result).toBe(false)
     })
 
@@ -206,7 +211,7 @@ describe('attribute utils', () => {
       const group = createMockRemappedDescriptorAttribute({
         attributes: [{ id: 'attribute-id-1' }],
       })
-      const result = isAttributeGroupFullfilled('verified', ownedAttributes, group)
+      const result = isAttributeGroupFullfilled('verified', ownedAttributes, group, 'test')
       expect(result).toBe(true)
     })
 
@@ -218,7 +223,7 @@ describe('attribute utils', () => {
       const group = createMockRemappedDescriptorAttribute({
         attributes: [{ id: 'attribute-id-2' }],
       })
-      const result = isAttributeGroupFullfilled('verified', ownedAttributes, group)
+      const result = isAttributeGroupFullfilled('verified', ownedAttributes, group, 'test')
       expect(result).toBe(false)
     })
 
@@ -300,7 +305,7 @@ describe('attribute utils', () => {
         createVerifiedTenantAttribute({ id: 'attribute-id-1', verifiedBy: [{ id: 'test-id' }] }),
         createVerifiedTenantAttribute({
           id: 'attribute-id-2',
-          verifiedBy: [{ id: 'test-id-2' }],
+          verifiedBy: [{ id: 'test-id' }],
         }),
       ]
 
@@ -310,7 +315,12 @@ describe('attribute utils', () => {
           attributes: [{ id: 'attribute-id-2' }, { id: 'attribute-id-3' }],
         }),
       ]
-      const result = hasAllDescriptorAttributes('verified', ownedAttributes, descriptorAttributes)
+      const result = hasAllDescriptorAttributes(
+        'verified',
+        ownedAttributes,
+        descriptorAttributes,
+        'test-id'
+      )
       expect(result).toBe(true)
     })
 
@@ -330,7 +340,12 @@ describe('attribute utils', () => {
         }),
       ]
 
-      const result = hasAllDescriptorAttributes('verified', ownedAttributes, descriptorAttributes)
+      const result = hasAllDescriptorAttributes(
+        'verified',
+        ownedAttributes,
+        descriptorAttributes,
+        'test-id'
+      )
       expect(result).toBe(false)
     })
 

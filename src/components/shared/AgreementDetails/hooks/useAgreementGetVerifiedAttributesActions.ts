@@ -32,8 +32,14 @@ export const useAgreementGetVerifiedAttributesActions = () => {
 
     const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
 
-    const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes)
-    const isOwnedButRevoked = attribute && isAttributeRevoked('verified', attribute)
+    const isOwned = isAttributeOwned(
+      'verified',
+      attributeId,
+      ownedVerifiedAttributes,
+      agreement.producer.id
+    )
+    const isOwnedButRevoked =
+      attribute && isAttributeRevoked('verified', attribute, agreement.producer.id)
 
     const handleVerifyAttribute = (attributeId: string) => {
       openAgreementVerifiedAttributeDrawer(attributeId, isOwned ? 'update' : 'verify')
