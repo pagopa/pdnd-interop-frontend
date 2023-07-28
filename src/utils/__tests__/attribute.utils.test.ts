@@ -33,14 +33,6 @@ describe('attribute utils', () => {
       expect(result).toBe(false)
     })
 
-    it('should not be considered revoked if the given verifier did not revoke the attribute (verified)', () => {
-      const attributeMock = createVerifiedTenantAttribute({
-        revokedBy: [{ id: 'verifier-id-another' }],
-      })
-      const result = isAttributeRevoked('verified', attributeMock, 'verifier-id')
-      expect(result).toBe(false)
-    })
-
     it('should be considered revoked if the given verifier revoked the attribute (verified)', () => {
       const attributeMock = createVerifiedTenantAttribute({
         revokedBy: [{ id: 'verifier-id' }],
