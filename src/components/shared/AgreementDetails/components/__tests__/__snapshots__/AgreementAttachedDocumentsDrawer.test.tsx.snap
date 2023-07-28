@@ -63,7 +63,7 @@ exports[`AgreementAttachedDocumentsDrawer > should match the snapshot with docum
           <p
             class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
           >
-            subtitle
+            subtitle.null
           </p>
         </div>
         <div
@@ -206,7 +206,7 @@ exports[`AgreementAttachedDocumentsDrawer > should match the snapshot without do
           <p
             class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
           >
-            subtitle
+            subtitle.null
           </p>
         </div>
         <div
