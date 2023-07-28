@@ -16,6 +16,7 @@ describe('AgreementAttachedDocumentsDrawer', () => {
 
     const { container } = renderWithApplicationContext(<AgreementAttachedDocumentsDrawer />, {
       withReactQueryContext: true,
+      withRouterContext: true,
     })
 
     expect(container).toBeEmptyDOMElement()

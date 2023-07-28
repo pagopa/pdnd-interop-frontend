@@ -47,7 +47,10 @@
     },
     "attachedDocumentsDrawer": {
       "title": "Attached documentation",
-      "subtitle": "Contains all the documentation that you have sent to the supplier for the verification of the attributes",
+      "subtitle": {
+        "consumer": "Contains all the documentation that you have sent to the supplier for the verification of the attributes",
+        "provider": "It contains all the documentation that the consuemr has sent you to verify the attributes"
+      },
       "consumerMessage": {
         "title": "Consumer message"
       },
@@ -133,7 +136,7 @@
     },
     "consumerNotes": {
       "title": "Message for provider",
-      "description": "If there are any groups of attributes marked with “or”, indicate in this message which of those you want to be recognized, based on the documentation you have uploaded. Enter any other useful notes",
+      "description": "Useful information to communicate to the provider for the verification of the attributes",
       "field": {
         "label": "Message",
         "infoLabel": "Max 1000 chars"

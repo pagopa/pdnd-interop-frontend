@@ -47,7 +47,10 @@
     },
     "attachedDocumentsDrawer": {
       "title": "Documentazione allegata",
-      "subtitle": "Contiene tutta la documentazione che hai inoltrato all’erogatore per la verifica degli attributi",
+      "subtitle": {
+        "consumer": "Contiene tutta la documentazione che hai inoltrato all’erogatore per la verifica degli attributi",
+        "provider": "Contiene tutta la documentazione che il fruitore ti ha inoltrato per la verifica degli attributi"
+      },
       "consumerMessage": {
         "title": "Messaggio per l’erogatore"
       },
@@ -133,7 +136,7 @@
     },
     "consumerNotes": {
       "title": "Messaggio per l’erogatore",
-      "description": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili",
+      "description": "Informazioni utili da comunicare all'erogatore per la verifica degli attributi",
       "field": {
         "label": "Messaggio",
         "infoLabel": "Max 1000 caratteri"
