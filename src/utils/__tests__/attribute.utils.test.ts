@@ -215,10 +215,9 @@ describe('attribute utils', () => {
       expect(result).toBe(true)
     })
 
-    it('should be considered fullfilled if no attributes are owned (verified)', () => {
+    it('should not be considered fullfilled if no attributes are owned (verified)', () => {
       const ownedAttributes = [
-        createVerifiedTenantAttribute({ id: 'attribute-id-1', verifiedBy: [{ id: 'test' }] }),
-        createVerifiedTenantAttribute({ id: 'attribute-id-2', verifiedBy: [] }),
+        createVerifiedTenantAttribute({ id: 'attribute-id-1', verifiedBy: [{ id: 'test-1' }] }),
       ]
       const group = createMockRemappedDescriptorAttribute({
         attributes: [{ id: 'attribute-id-2' }],
@@ -326,11 +325,7 @@ describe('attribute utils', () => {
 
     it('should return false if the user has not fullfilled all the attribute groups requirements (verified)', () => {
       const ownedAttributes = [
-        createVerifiedTenantAttribute({ id: 'attribute-id-1', verifiedBy: [{ id: 'test-id' }] }),
-        createVerifiedTenantAttribute({
-          id: 'attribute-id-2',
-          verifiedBy: [],
-        }),
+        createVerifiedTenantAttribute({ id: 'attribute-id-1', verifiedBy: [] }),
       ]
 
       const descriptorAttributes: Array<RemappedDescriptorAttribute> = [
@@ -344,7 +339,7 @@ describe('attribute utils', () => {
         'verified',
         ownedAttributes,
         descriptorAttributes,
-        'test-id'
+        'test-id-2'
       )
       expect(result).toBe(false)
     })
