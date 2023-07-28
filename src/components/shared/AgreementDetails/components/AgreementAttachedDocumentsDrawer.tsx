@@ -8,6 +8,8 @@ import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { IconLink } from '../../IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
+import { useCurrentRoute } from '@/router'
+import type { ProviderOrConsumer } from '@/types/common.types'
 
 export const AgreementAttachedDocumentsDrawer = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attachedDocumentsDrawer' })
@@ -15,6 +17,7 @@ export const AgreementAttachedDocumentsDrawer = () => {
   const { agreement, isAttachedDocsDrawerOpen, closeAttachedDocsDrawer } =
     useAgreementDetailsContext()
   const downloadDocument = AgreementDownloads.useDownloadDocument()
+  const { mode } = useCurrentRoute()
 
   if (!agreement) return null
 
@@ -30,7 +33,7 @@ export const AgreementAttachedDocumentsDrawer = () => {
   return (
     <Drawer
       title={t('title')}
-      subtitle={t('subtitle')}
+      subtitle={t(`subtitle.${mode as ProviderOrConsumer}`)}
       isOpen={isAttachedDocsDrawerOpen}
       onClose={closeAttachedDocsDrawer}
     >

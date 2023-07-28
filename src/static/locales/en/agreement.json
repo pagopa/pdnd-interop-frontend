@@ -47,7 +47,10 @@
     },
     "attachedDocumentsDrawer": {
       "title": "Attached documentation",
-      "subtitle": "Contains all the documentation that you have sent to the supplier for the verification of the attributes",
+      "subtitle": {
+        "consumer": "Contains all the documentation that you have sent to the supplier for the verification of the attributes",
+        "provider": "It contains all the documentation that the consuemr has sent you to verify the attributes"
+      },
       "consumerMessage": {
         "title": "Consumer message"
       },
