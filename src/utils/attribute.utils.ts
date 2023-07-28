@@ -45,15 +45,11 @@ export function isAttributeRevoked(
 
       const typedAttribute = attribute as VerifiedTenantAttribute
       if (verifierId) {
-        const isInRevokedBy = typedAttribute.revokedBy.some(
-          (verifier) => verifier.id === verifierId
-        )
-
         const isInVerifiedBy = typedAttribute.verifiedBy.some(
           (verifier) => verifier.id === verifierId
         )
 
-        return isInRevokedBy && !isInVerifiedBy
+        return !isInVerifiedBy
       }
 
       /*
