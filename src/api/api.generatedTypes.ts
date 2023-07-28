@@ -685,6 +685,8 @@ export interface CompactClient {
 export interface PurposeUpdateContent {
   title: string
   description: string
+  /** @format uuid */
+  eserviceId: string
   isFreeOfCharge: boolean
   freeOfChargeReason?: string
   riskAnalysisForm?: RiskAnalysisForm
