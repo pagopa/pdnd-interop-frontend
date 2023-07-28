@@ -9,6 +9,22 @@
  * ---------------------------------------------------------------
  */
 
+export interface GoogleSAMLPayload {
+  /** SAML response */
+  SAMLResponse: string
+  RelayState: string | null
+}
+
+export interface SAMLTokenRequest {
+  /** SAML */
+  saml2: string
+  /**
+   * tenant id
+   * @format uuid
+   */
+  tenantId: string
+}
+
 export interface AccessTokenRequest {
   /** @example "e58035ce-c753-4f72-b613-46f8a17b71cc" */
   client_id?: string
@@ -312,7 +328,7 @@ export interface Agreement {
   id: string
   /** @format uuid */
   descriptorId: string
-  producer: CompactTenant
+  producer: CompactOrganization
   consumer: Tenant
   eservice: AgreementsEService
   /** Agreement State */
@@ -669,6 +685,8 @@ export interface CompactClient {
 export interface PurposeUpdateContent {
   title: string
   description: string
+  /** @format uuid */
+  eserviceId: string
   isFreeOfCharge: boolean
   freeOfChargeReason?: string
   riskAnalysisForm?: RiskAnalysisForm
@@ -954,15 +972,23 @@ export interface Attributes {
   results: CompactAttribute[]
 }
 
-export interface CompactTenant {
-  /** @format uuid */
-  id: string
-  name: string
-}
-
 export interface ExternalId {
   origin: string
   value: string
+}
+
+/** Tenants */
+export interface Tenants {
+  results: CompactTenant[]
+  pagination: Pagination
+}
+
+export interface CompactTenant {
+  /** @format uuid */
+  id: string
+  selfcareId?: string
+  name: string
+  logoUrl?: string
 }
 
 export interface Tenant {
@@ -1256,6 +1282,11 @@ export interface GetEServicesCatalogParams {
    */
   producersIds?: string[]
   /**
+   * comma separated sequence of attribute IDs
+   * @default []
+   */
+  attributesIds?: string[]
+  /**
    * comma separated sequence of states
    * @default []
    */
@@ -1469,6 +1500,16 @@ export interface GetAttributesParams {
   offset: number
   /** Array of kinds */
   kinds: AttributeKind[]
+}
+
+export interface GetTenantsParams {
+  name?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
 }
 
 export interface GetClientsParams {
@@ -1889,6 +1930,30 @@ export namespace Agreements {
     export type ResponseBody = Agreement
   }
   /**
+   * @description returns the updated agreement
+   * @tags agreements
+   * @name ArchiveAgreement
+   * @summary Archive an agreement
+   * @request POST:/agreements/{agreementId}/archive
+   * @secure
+   */
+  export namespace ArchiveAgreement {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = void
+  }
+  /**
    * @description update agreement fields.
    * @tags agreements
    * @name UpdateAgreement
@@ -1957,6 +2022,11 @@ export namespace Catalog {
        * @default []
        */
       producersIds?: string[]
+      /**
+       * comma separated sequence of attribute IDs
+       * @default []
+       */
+      attributesIds?: string[]
       /**
        * comma separated sequence of states
        * @default []
@@ -2661,6 +2731,24 @@ export namespace Session {
     }
     export type ResponseBody = SessionToken
   }
+  /**
+   * @description Returns the generated token
+   * @tags support
+   * @name GetSaml2Token
+   * @summary Returns the generated token
+   * @request POST:/session/saml2/tokens
+   * @secure
+   */
+  export namespace GetSaml2Token {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = SAMLTokenRequest
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = SessionToken
+  }
 }
 
 export namespace Tenants {
@@ -2731,32 +2819,6 @@ export namespace Tenants {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = CertifiedAttributesResponse
-  }
-  /**
-   * @description Update expirationDate for Verified Attribute of Tenant
-   * @tags tenants
-   * @name UpdateVerifiedAttribute
-   * @summary Update expirationDate for Verified Attribute of Tenant
-   * @request POST:/tenants/{tenantId}/attributes/{attributeId}
-   * @secure
-   */
-  export namespace UpdateVerifiedAttribute {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-      /**
-       * The internal identifier of the attribute
-       * @format uuid
-       */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateVerifiedTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
   }
   /**
    * @description Adds the declared attribute to the Institution
@@ -2858,6 +2920,32 @@ export namespace Tenants {
     export type ResponseBody = void
   }
   /**
+   * @description Update expirationDate for Verified Attribute of Tenant
+   * @tags tenants
+   * @name UpdateVerifiedAttribute
+   * @summary Update expirationDate for Verified Attribute of Tenant
+   * @request POST:/tenants/{tenantId}/attributes/verified/{attributeId}
+   * @secure
+   */
+  export namespace UpdateVerifiedAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateVerifiedTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Revoke a Verified attribute to a Tenant by the requester Tenant
    * @tags tenants
    * @name RevokeVerifiedAttribute
@@ -2929,6 +3017,31 @@ export namespace Tenants {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
+  }
+  /**
+   * @description Retrieve Tenants by name
+   * @tags tenants
+   * @name GetTenants
+   * @request GET:/tenants
+   * @secure
+   */
+  export namespace GetTenants {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      name?: string
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Tenants
   }
 }
 
@@ -4012,6 +4125,47 @@ export namespace User {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
+  }
+}
+
+export namespace PrivacyNotices {
+  /**
+   * @description Retrieve the content of the privacy notice version
+   * @tags privacyNotices
+   * @name GetPrivacyNoticeContent
+   * @request GET:/privacyNotices/{consentType}
+   * @secure
+   */
+  export namespace GetPrivacyNoticeContent {
+    export type RequestParams = {
+      /** Consent Type */
+      consentType: ConsentType
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = File
+  }
+}
+
+export namespace Support {
+  /**
+   * @description This route is used to redirect support flow to the dedicated page
+   * @tags authorization
+   * @name SamlLoginCallback
+   * @request POST:/support
+   */
+  export namespace SamlLoginCallback {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = GoogleSAMLPayload
+    export type RequestHeaders = {
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = any
   }
 }
 

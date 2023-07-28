@@ -1,9 +1,8 @@
-import { isAttributeOwned, isAttributeRevoked } from '@/utils/attribute.utils'
+import { isAttributeOwned } from '@/utils/attribute.utils'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute } from '@/router'
 import { useJwt } from '@/hooks/useJwt'
-import { AttributeMutations } from '@/api/attribute'
 import type { AttributeContainer } from '@/components/layout/containers'
 
 /**
@@ -14,10 +13,12 @@ export const useAgreementGetVerifiedAttributesActions = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
   const { mode } = useCurrentRoute()
   const { isAdmin } = useJwt()
-  const { partyAttributes, isAgreementEServiceMine, agreement } = useAgreementDetailsContext()
-
-  const { mutate: verifyAttribute } = AttributeMutations.useVerifyPartyAttribute()
-  const { mutate: revokeAttibute } = AttributeMutations.useRevokeVerifiedPartyAttribute()
+  const {
+    partyAttributes,
+    isAgreementEServiceMine,
+    agreement,
+    openAgreementVerifiedAttributeDrawer,
+  } = useAgreementDetailsContext()
 
   const ownedVerifiedAttributes = partyAttributes?.verified ?? []
 
@@ -29,23 +30,19 @@ export const useAgreementGetVerifiedAttributesActions = () => {
     // ... and only if the agreement is active, pending or suspended
     if (!['ACTIVE', 'PENDING', 'SUSPENDED'].includes(agreement.state)) return []
 
-    const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
-
-    const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes)
-    const isOwnedButRevoked = attribute && isAttributeRevoked('verified', attribute)
+    const isOwned = isAttributeOwned(
+      'verified',
+      attributeId,
+      ownedVerifiedAttributes,
+      agreement.producer.id
+    )
 
     const handleVerifyAttribute = (attributeId: string) => {
-      verifyAttribute({
-        partyId: agreement.consumer.id,
-        id: attributeId,
-      })
+      openAgreementVerifiedAttributeDrawer(attributeId, isOwned ? 'update' : 'verify')
     }
 
     const handleRevokeAttribute = (attributeId: string) => {
-      revokeAttibute({
-        partyId: agreement.consumer.id,
-        attributeId,
-      })
+      openAgreementVerifiedAttributeDrawer(attributeId, 'revoke')
     }
 
     const attributeActions: React.ComponentProps<typeof AttributeContainer>['actions'] = [
@@ -55,7 +52,7 @@ export const useAgreementGetVerifiedAttributesActions = () => {
       },
     ]
 
-    if (isOwned && !isOwnedButRevoked) {
+    if (isOwned) {
       attributeActions.push({
         label: t('verified.actions.revoke'),
         action: handleRevokeAttribute,

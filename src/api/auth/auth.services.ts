@@ -1,6 +1,7 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL, TEMP_USER_BLACKLIST_URL } from '@/config/env'
 import axios from 'axios'
+import type { SAMLTokenRequest, SessionToken } from '../api.generatedTypes'
 
 async function getBlacklist() {
   const response = await axios.get<string[]>(TEMP_USER_BLACKLIST_URL)
@@ -15,6 +16,15 @@ async function swapTokens(identity_token: string) {
   return response.data
 }
 
+async function swapSAMLToken(payload: SAMLTokenRequest) {
+  const response = await axiosInstance.post<SessionToken>(
+    `${BACKEND_FOR_FRONTEND_URL}/session/saml2/tokens`,
+    payload
+  )
+
+  return response.data
+}
+
 function authHealthCheck() {
   return axiosInstance.get(`${BACKEND_FOR_FRONTEND_URL}/status`)
 }
@@ -22,6 +32,7 @@ function authHealthCheck() {
 const AuthServices = {
   getBlacklist,
   swapTokens,
+  swapSAMLToken,
   authHealthCheck,
 }
 

@@ -5,7 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFCheckboxGroupProps = {
   sx?: SxProps
@@ -36,8 +36,8 @@ export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
   const error = formState.errors[name]?.message as string | undefined
 
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
-      {label && <FormLabel component="legend">{label}</FormLabel>}
+    <InputWrapper component="fieldset" error={error} sx={sx} infoLabel={infoLabel}>
+      <FormLabel component="legend">{label}</FormLabel>
       <FormGroup>
         <Controller
           name={name}

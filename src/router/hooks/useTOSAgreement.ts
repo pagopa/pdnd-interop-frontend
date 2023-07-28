@@ -1,29 +1,44 @@
-import { useJwt } from '@/hooks/useJwt'
 import React from 'react'
+import { OneTrustNoticesMutations, OneTrustNoticesQueries } from '@/api/one-trust-notices'
 
-export function useTOSAgreement(localStorageKey = 'acceptTOS') {
-  const getLocalStorageTOS = React.useCallback(() => {
-    return localStorage.getItem(localStorageKey)
-  }, [localStorageKey])
+export function useTOSAgreement() {
+  const { mutateAsync: acceptNotice } = OneTrustNoticesMutations.useAcceptPrivacyNotice()
 
-  const [tosAcceptedId, setTOSAcceptedId] = React.useState<string | null>(getLocalStorageTOS())
-  const { jwt } = useJwt()
+  const { data: userTOSConsent } = OneTrustNoticesQueries.useGetUserConsent('TOS')
+  const { data: userPPConsent } = OneTrustNoticesQueries.useGetUserConsent('PP')
 
-  React.useEffect(() => {
-    function listenForStorage() {
-      setTOSAcceptedId(getLocalStorageTOS)
-    }
-    window.addEventListener('storage', listenForStorage)
-    return () => {
-      window.removeEventListener('storage', listenForStorage)
-    }
-  }, [getLocalStorageTOS])
+  const hasAcceptedTOS = userTOSConsent?.firstAccept && userTOSConsent?.isUpdated
+  const hasAcceptedPP = userPPConsent?.firstAccept && userPPConsent?.isUpdated
+
+  const isTOSAccepted = !!(hasAcceptedTOS && hasAcceptedPP)
 
   const handleAcceptTOS = React.useCallback(() => {
-    const id = JSON.stringify({ id: jwt?.uid, timestamp: new Date().toISOString() })
-    setTOSAcceptedId(id)
-    localStorage.setItem(localStorageKey, id)
-  }, [localStorageKey, jwt?.uid])
+    if (isTOSAccepted) return
+    if (!userTOSConsent?.latestVersionId || !userPPConsent?.latestVersionId) return
 
-  return { isTOSAccepted: !!tosAcceptedId, handleAcceptTOS, tosAcceptedId }
+    const acceptPromises: Promise<unknown>[] = []
+
+    if (!hasAcceptedTOS) {
+      acceptPromises.push(
+        acceptNotice({ consentType: 'TOS', latestVersionId: userTOSConsent.latestVersionId })
+      )
+    }
+
+    if (!hasAcceptedPP) {
+      acceptPromises.push(
+        acceptNotice({ consentType: 'PP', latestVersionId: userPPConsent.latestVersionId })
+      )
+    }
+
+    Promise.all(acceptPromises)
+  }, [
+    isTOSAccepted,
+    userTOSConsent?.latestVersionId,
+    userPPConsent?.latestVersionId,
+    acceptNotice,
+    hasAcceptedTOS,
+    hasAcceptedPP,
+  ])
+
+  return { isTOSAccepted, handleAcceptTOS }
 }

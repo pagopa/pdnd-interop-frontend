@@ -134,6 +134,13 @@
         "success": "Il documento è stato scaricato correttamente. Lo trovi nella cartella dei download del tuo device",
         "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
       }
+    },
+    "downloadConsumerList": {
+      "loading": "Stiamo scaricando l’elenco richiesto. Attendere, prego",
+      "outcome": {
+        "success": "L’elenco è stato scaricato correttamente",
+        "error": "Non è stato possibile scaricare l’elenco. Per favore, riprova!"
+      }
     }
   },
   "attribute": {
@@ -153,6 +160,13 @@
       "confirmDialog": {
         "title": "Verifica attributo",
         "description": "Sei sicuro di voler verificare l'attributo?"
+      }
+    },
+    "updatingExpirationPartyAttribute": {
+      "loading": "Stiamo aggiornando la scadenza dell'attributo",
+      "outcome": {
+        "success": "La scadenza è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la scadenza. Per favore, riprova!"
       }
     },
     "revokeVerifiedPartyAttribute": {
@@ -212,11 +226,22 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
       }
     },
+    "submitToOwnEService": {
+      "loading": "Stiamo attivando la richiesta di fruizione",
+      "outcome": {
+        "success": "La richiesta è stata attivata correttamente",
+        "error": "Non è stato possibile attivare la richiesta. Per favore, riprova"
+      },
+      "confirmDialog": {
+        "title": "Conferma attivazione richiesta",
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà attivata. Il tuo ente è l'erogatore di questo e-service, non è necessario nessun controllo o approvazione degli attributi"
+      }
+    },
     "deleteDraft": {
       "loading": "Stiamo cancellando la bozza",
       "outcome": {
         "success": "La bozza richiesta è stata cancellata correttamente",
-        "error": "Non è stato possibile cancellare la richiesta. Per favore, riprova!"
+        "error": "Non è stato possibile cancellare la richiesta. Per favore, riprova"
       },
       "confirmDialog": {
         "title": "Conferma cancellazione richiesta",
@@ -279,15 +304,22 @@
         "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà sospesa. I client collegati a questa richiesta non avranno più accesso all'e-service in erogazione. La richiesta è riattivabile in qualsiasi momento da questa stessa pagina"
       }
     },
+    "archive": {
+      "loading": "Stiamo archiviando la richiesta",
+      "outcome": {
+        "success": "La richiesta di fruizione è stata archiviata correttamente",
+        "error": "Non è stato possibile archiviare la richiesta. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma archiviazione richiesta",
+        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà archiviata. Questa azione è irreversibile. I client collegati a questa richiesta non avranno più accesso all'e-service in erogazione. Sarà sempre possibile creare nuove richieste di fruizione per questo e-service"
+      }
+    },
     "upgrade": {
       "loading": "Stiamo aggiornando la richiesta",
       "outcome": {
         "success": "La richiesta di fruizione è stata aggiornata alla versione più recente dell'e-service",
         "error": "Non è stato possibile aggiornare la richiesta. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma aggiornamento richiesta",
-        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà aggiornata alla versione più recente dell'e-service attualmente disponibile. I client collegati a questa richiesta continueranno ad avere accesso all'e-service in erogazione, aggiornato all'ultima versione"
       }
     },
     "clone": {

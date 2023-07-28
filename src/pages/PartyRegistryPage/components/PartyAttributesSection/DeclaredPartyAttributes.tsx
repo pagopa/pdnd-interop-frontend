@@ -9,6 +9,7 @@ import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
 import { isAttributeRevoked } from '@/utils/attribute.utils'
 import { attributesHelpLink } from '@/config/constants'
+import type { DeclaredTenantAttribute } from '@/api/api.generatedTypes'
 
 export const DeclaredAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
@@ -32,19 +33,35 @@ export const DeclaredAttributes = () => {
 }
 
 const DeclaredAttributesList: React.FC = () => {
-  const { isAdmin } = useJwt()
-  const { t } = useTranslation('party', { keyPrefix: 'attributes.declared' })
-  const { t: tAttribute } = useTranslation('attribute')
-
   const { data } = PartyQueries.useGetActiveUserParty()
   const declaredAttributes = data?.attributes.declared ?? []
 
+  if (declaredAttributes.length === 0) {
+    return <EmptyAttributesAlert type="declared" />
+  }
+
+  return (
+    <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
+      {declaredAttributes.map((attribute) => (
+        <DeclaredAttributesListItem key={attribute.id} attribute={attribute} />
+      ))}
+    </Stack>
+  )
+}
+
+const DeclaredAttributesListItem: React.FC<{ attribute: DeclaredTenantAttribute }> = ({
+  attribute,
+}) => {
+  const { t } = useTranslation('party', { keyPrefix: 'attributes.declared' })
+  const { t: tAttribute } = useTranslation('attribute')
+
+  const { isAdmin } = useJwt()
   const { mutate: revokeDeclaredAttribute } = AttributeMutations.useRevokeDeclaredPartyAttribute()
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
 
-  function getAttributeActions(
-    isRevoked: boolean
-  ): Parameters<typeof AttributeContainer>[0]['actions'] {
+  const isRevoked = isAttributeRevoked('declared', attribute)
+
+  const actions = React.useMemo<React.ComponentProps<typeof AttributeContainer>['actions']>(() => {
     if (!isAdmin) return []
 
     if (!isRevoked)
@@ -68,28 +85,17 @@ const DeclaredAttributesList: React.FC = () => {
         },
       ]
     return []
-  }
-
-  if (declaredAttributes.length === 0) {
-    return <EmptyAttributesAlert type="declared" />
-  }
+  }, [isRevoked, revokeDeclaredAttribute, declareAttribute, t, isAdmin])
 
   return (
-    <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
-      {declaredAttributes.map((attribute) => {
-        const isRevoked = isAttributeRevoked('declared', attribute)
-        return (
-          <li key={attribute.id}>
-            <AttributeContainer
-              chipLabel={isRevoked ? tAttribute('group.manage.revokedByOwnParty') : undefined}
-              checked={!isAttributeRevoked('declared', attribute)}
-              actions={getAttributeActions(isRevoked)}
-              attribute={attribute}
-            />
-          </li>
-        )
-      })}
-    </Stack>
+    <li>
+      <AttributeContainer
+        chipLabel={isRevoked ? tAttribute('group.manage.revokedByOwnParty') : undefined}
+        checked={!isRevoked}
+        actions={actions}
+        attribute={attribute}
+      />
+    </li>
   )
 }
 

@@ -52,7 +52,8 @@
         "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
       },
       "revokedByProducer": "Attributo revocato da un erogatore",
-      "revokedByOwnParty": "Attributo revocato dal tuo ente"
+      "revokedByOwnParty": "Attributo revocato dal tuo ente",
+      "expirationDate": "Scadenza verifica: {{expirationDate}}"
     },
     "addBtn": "Aggiungi requisito",
     "cancelBtn": "Annulla",

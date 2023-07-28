@@ -42,6 +42,7 @@ describe('ConsumerDebugVoucherPage testing', () => {
   it('should render correctly when the debugVoucherValues are undefined', () => {
     const screen = renderWithApplicationContext(<ConsumerDebugVoucherPage />, {
       withReactQueryContext: true,
+      withRouterContext: true,
     })
 
     expect(screen.baseElement).toMatchSnapshot()
@@ -50,6 +51,7 @@ describe('ConsumerDebugVoucherPage testing', () => {
   it('should render correctly when the debugVoucherValues are defined', async () => {
     const screen = renderWithApplicationContext(<ConsumerDebugVoucherPage />, {
       withReactQueryContext: true,
+      withRouterContext: true,
     })
 
     const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')
@@ -70,6 +72,7 @@ describe('ConsumerDebugVoucherPage testing', () => {
   it('should render correctly when resetting to make new request', async () => {
     const screen = renderWithApplicationContext(<ConsumerDebugVoucherPage />, {
       withReactQueryContext: true,
+      withRouterContext: true,
     })
 
     const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')

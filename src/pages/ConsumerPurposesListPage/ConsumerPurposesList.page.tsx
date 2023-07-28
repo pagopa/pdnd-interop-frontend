@@ -30,8 +30,7 @@ const ConsumerPurposesListPage: React.FC = () => {
 
   const { data: producers } = EServiceQueries.useGetProducers(
     { offset: 0, limit: 50, q: producersAutocompleteText },
-    // PIN-3646 - Temporarly avoid fetching producers if the autocomplete text is less than 3 chars
-    { suspense: false, keepPreviousData: true, enabled: producersAutocompleteText.length > 2 }
+    { suspense: false, keepPreviousData: true }
   )
   const { data: eservices } = EServiceQueries.useGetProviderList(
     { q: eserviceAutocompleteText, limit: 50, offset: 0 },

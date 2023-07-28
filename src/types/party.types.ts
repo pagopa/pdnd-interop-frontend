@@ -1,6 +1,4 @@
-// import type { PartyRole } from '@/api/api.generatedTypes'
-
-export type UserProductRole = 'admin' | 'security' | 'api'
+export type UserProductRole = 'admin' | 'security' | 'api' | 'support'
 
 type JwtOrg = {
   name: string

@@ -1,18 +1,30 @@
 import { NotFoundError } from '@/utils/errors.utils'
 import type { QueryClientConfig } from '@tanstack/react-query'
 
+// 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
+const exponentialBackoffRetry = (attemptIndex: number) => {
+  return Math.min(1000 * 2 ** attemptIndex, 30 * 1000)
+}
+
 export const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
     queries: {
       suspense: true,
-      // avoids retries on status 404
-      retry(failureCount, error) {
-        if (error instanceof NotFoundError) {
-          return false
-        }
-        return failureCount < 2
-      },
+      retryDelay: exponentialBackoffRetry,
     },
-    mutations: { useErrorBoundary: false },
+    mutations: {
+      useErrorBoundary: false,
+      retry: (attemptIndex, error) => {
+        /**
+         * Retry only on 404 error mutation. This is needed
+         * for eventual consistency reasons.
+         */
+        if (error instanceof NotFoundError) {
+          return attemptIndex < 4
+        }
+        return false
+      },
+      retryDelay: exponentialBackoffRetry,
+    },
   },
 }

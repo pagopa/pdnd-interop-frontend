@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  SectionContainer,
-  AttributeContainer,
-  AttributeContainerSkeleton,
-  AttributeGroupContainer,
-} from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { Divider } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { CertifiedAttributes } from './CertifiedPartyAttributes'

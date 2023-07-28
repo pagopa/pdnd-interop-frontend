@@ -158,7 +158,47 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
           </div>
           <div
             class="MuiBox-root css-jta2rl"
-          />
+          >
+            <div
+              class="MuiBox-root css-9y6172"
+            >
+              <div
+                class="MuiBox-root css-1xhj18k"
+              >
+                <div
+                  class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
+                    data-testid="AccountBalanceRoundedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M4 11.5v4c0 .83.67 1.5 1.5 1.5S7 16.33 7 15.5v-4c0-.83-.67-1.5-1.5-1.5S4 10.67 4 11.5zm6 0v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM3.5 22h16c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-16c-.83 0-1.5.67-1.5 1.5S2.67 22 3.5 22zM16 11.5v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM10.57 1.49l-7.9 4.16c-.41.21-.67.64-.67 1.1C2 7.44 2.56 8 3.25 8h16.51C20.44 8 21 7.44 21 6.75c0-.46-.26-.89-.67-1.1l-7.9-4.16c-.58-.31-1.28-.31-1.86 0z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiBox-root css-11x1942"
+                >
+                  <h6
+                    aria-label=""
+                    class="MuiTypography-root MuiTypography-body1 css-15slehg-MuiTypography-root"
+                    data-mui-internal-clone-element="true"
+                  >
+                    orgName
+                  </h6>
+                  <span
+                    class="MuiTypography-root MuiTypography-caption css-1kz2qrr-MuiTypography-root"
+                  >
+                    userProductRole.admin
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -170,7 +210,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
       class="MuiBox-root css-ktdqii"
     >
       <div
-        class="MuiBox-root css-u24siw"
+        class="MuiBox-root css-6aqev1"
       />
     </main>
   </div>
@@ -441,7 +481,47 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
             </div>
             <div
               class="MuiBox-root css-jta2rl"
-            />
+            >
+              <div
+                class="MuiBox-root css-9y6172"
+              >
+                <div
+                  class="MuiBox-root css-1xhj18k"
+                >
+                  <div
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
+                      data-testid="AccountBalanceRoundedIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M4 11.5v4c0 .83.67 1.5 1.5 1.5S7 16.33 7 15.5v-4c0-.83-.67-1.5-1.5-1.5S4 10.67 4 11.5zm6 0v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM3.5 22h16c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-16c-.83 0-1.5.67-1.5 1.5S2.67 22 3.5 22zM16 11.5v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM10.57 1.49l-7.9 4.16c-.41.21-.67.64-.67 1.1C2 7.44 2.56 8 3.25 8h16.51C20.44 8 21 7.44 21 6.75c0-.46-.26-.89-.67-1.1l-7.9-4.16c-.58-.31-1.28-.31-1.86 0z"
+                      />
+                    </svg>
+                  </div>
+                  <div
+                    class="MuiBox-root css-11x1942"
+                  >
+                    <h6
+                      aria-label=""
+                      class="MuiTypography-root MuiTypography-body1 css-15slehg-MuiTypography-root"
+                      data-mui-internal-clone-element="true"
+                    >
+                      orgName
+                    </h6>
+                    <span
+                      class="MuiTypography-root MuiTypography-caption css-1kz2qrr-MuiTypography-root"
+                    >
+                      userProductRole.admin
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -453,46 +533,35 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
         class="MuiBox-root css-ktdqii"
       >
         <div
-          class="MuiBox-root css-u24siw"
+          class="MuiBox-root css-6aqev1"
         >
           <div
-            class="MuiBox-root css-1rr4qq7"
+            class="css-1v50wi4-MuiStack-root"
           >
             <div
-              class="css-1mure3k-MuiStack-root"
+              class="css-1otdgos-MuiStack-root"
             >
-              <div
-                class="MuiBox-root css-1rr4qq7"
+              <h1
+                class="MuiTypography-root MuiTypography-h3 css-fm0214-MuiTypography-root"
               >
-                <h1
-                  class="MuiTypography-root MuiTypography-h4 css-fatzjd-MuiTypography-root"
-                >
-                  default.title
-                </h1>
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-15nfii5-MuiTypography-root"
-                >
-                  default.description
-                </p>
-              </div>
-              <div
-                class="css-1yo1jo6-MuiStack-root"
+                default.title
+              </h1>
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-1wenj6t-MuiTypography-root"
+              >
+                default.description
+              </p>
+            </div>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation css-1tk6yq4-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              actions.reloadPage
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
-            </div>
-            <div
-              class="MuiBox-root css-h5fkc8"
-            >
-              <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation css-1tk6yq4-MuiButtonBase-root-MuiButton-root"
-                tabindex="0"
-                type="button"
-              >
-                actions.reloadPage
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </div>
+            </button>
           </div>
         </div>
       </main>
@@ -765,7 +834,47 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
             </div>
             <div
               class="MuiBox-root css-jta2rl"
-            />
+            >
+              <div
+                class="MuiBox-root css-9y6172"
+              >
+                <div
+                  class="MuiBox-root css-1xhj18k"
+                >
+                  <div
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
+                      data-testid="AccountBalanceRoundedIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M4 11.5v4c0 .83.67 1.5 1.5 1.5S7 16.33 7 15.5v-4c0-.83-.67-1.5-1.5-1.5S4 10.67 4 11.5zm6 0v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM3.5 22h16c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-16c-.83 0-1.5.67-1.5 1.5S2.67 22 3.5 22zM16 11.5v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM10.57 1.49l-7.9 4.16c-.41.21-.67.64-.67 1.1C2 7.44 2.56 8 3.25 8h16.51C20.44 8 21 7.44 21 6.75c0-.46-.26-.89-.67-1.1l-7.9-4.16c-.58-.31-1.28-.31-1.86 0z"
+                      />
+                    </svg>
+                  </div>
+                  <div
+                    class="MuiBox-root css-11x1942"
+                  >
+                    <h6
+                      aria-label=""
+                      class="MuiTypography-root MuiTypography-body1 css-15slehg-MuiTypography-root"
+                      data-mui-internal-clone-element="true"
+                    >
+                      orgName
+                    </h6>
+                    <span
+                      class="MuiTypography-root MuiTypography-caption css-1kz2qrr-MuiTypography-root"
+                    >
+                      userProductRole.admin
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

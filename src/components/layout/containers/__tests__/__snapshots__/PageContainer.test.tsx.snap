@@ -7,14 +7,21 @@ exports[`PageContainer > should match snapshot 1`] = `
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
-        />
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        />
+          class="css-1mure3k-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          />
+          <div
+            class="css-1yo1jo6-MuiStack-root"
+          />
+        </div>
       </div>
       <div
         class="MuiBox-root css-h5fkc8"
@@ -30,6 +37,9 @@ exports[`PageContainer > should match snapshot on loading state 1`] = `
     <div
       class="MuiBox-root css-0"
     >
+      <div
+        class="css-1qx01vb-MuiStack-root"
+      />
       <div
         class="css-1mure3k-MuiStack-root"
       >
@@ -70,48 +80,55 @@ exports[`PageContainer > should match snapshot with action menu 1`] = `
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
+          class="css-1mure3k-MuiStack-root"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          <div
+            class="MuiBox-root css-1rr4qq7"
           >
-            title
-          </h1>
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
-          >
-            description
-          </p>
-        </div>
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        >
-          <button
-            aria-haspopup="true"
-            aria-label="iconButtonAriaLabel"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
-            id=":r0:-composition-button"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
-              data-testid="MoreVertIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <h1
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
             >
-              <path
-                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+              title
+            </h1>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            >
+              description
+            </p>
+          </div>
+          <div
+            class="css-1yo1jo6-MuiStack-root"
+          >
+            <button
+              aria-haspopup="true"
+              aria-label="iconButtonAriaLabel"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
+              id=":r0:-composition-button"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
+                data-testid="MoreVertIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -129,45 +146,52 @@ exports[`PageContainer > should match snapshot with buttons 1`] = `
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
+          class="css-1mure3k-MuiStack-root"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          <div
+            class="MuiBox-root css-1rr4qq7"
           >
-            title
-          </h1>
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            <h1
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+            >
+              title
+            </h1>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            >
+              description
+            </p>
+          </div>
+          <div
+            class="css-1yo1jo6-MuiStack-root"
           >
-            description
-          </p>
-        </div>
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        >
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            button 1
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            button 2
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              button 1
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              button 2
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -185,20 +209,27 @@ exports[`PageContainer > should match snapshot with description 1`] = `
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
+          class="css-1mure3k-MuiStack-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+          <div
+            class="MuiBox-root css-1rr4qq7"
           >
-            description
-          </p>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            >
+              description
+            </p>
+          </div>
+          <div
+            class="css-1yo1jo6-MuiStack-root"
+          />
         </div>
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        />
       </div>
       <div
         class="MuiBox-root css-h5fkc8"
@@ -215,20 +246,27 @@ exports[`PageContainer > should match snapshot with title 1`] = `
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
+          class="css-1mure3k-MuiStack-root"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          <div
+            class="MuiBox-root css-1rr4qq7"
           >
-            title
-          </h1>
+            <h1
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+            >
+              title
+            </h1>
+          </div>
+          <div
+            class="css-1yo1jo6-MuiStack-root"
+          />
         </div>
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        />
       </div>
       <div
         class="MuiBox-root css-h5fkc8"
@@ -245,25 +283,32 @@ exports[`PageContainer > should match snapshot with title and description 1`] = 
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
+          class="css-1mure3k-MuiStack-root"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          <div
+            class="MuiBox-root css-1rr4qq7"
           >
-            title
-          </h1>
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
-          >
-            description
-          </p>
+            <h1
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+            >
+              title
+            </h1>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            >
+              description
+            </p>
+          </div>
+          <div
+            class="css-1yo1jo6-MuiStack-root"
+          />
         </div>
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        />
       </div>
       <div
         class="MuiBox-root css-h5fkc8"
@@ -280,38 +325,45 @@ exports[`PageContainer > should match snapshot with top info tooltip 1`] = `
       class="MuiBox-root css-0"
     >
       <div
-        class="css-1mure3k-MuiStack-root"
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1rr4qq7"
+          class="css-1mure3k-MuiStack-root"
         >
-          <h1
-            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          <div
+            class="MuiBox-root css-1rr4qq7"
           >
-            title
-          </h1>
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            <h1
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+            >
+              title
+            </h1>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            >
+              description
+            </p>
+          </div>
+          <div
+            class="css-1yo1jo6-MuiStack-root"
           >
-            description
-          </p>
-        </div>
-        <div
-          class="css-1yo1jo6-MuiStack-root"
-        >
-          <svg
-            aria-hidden="true"
-            aria-label="infoTooltip"
-            class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-kpimro-MuiSvgIcon-root"
-            data-mui-internal-clone-element="true"
-            data-testid="InfoOutlinedIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-            />
-          </svg>
+            <svg
+              aria-hidden="true"
+              aria-label="infoTooltip"
+              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-kpimro-MuiSvgIcon-root"
+              data-mui-internal-clone-element="true"
+              data-testid="InfoOutlinedIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+              />
+            </svg>
+          </div>
         </div>
       </div>
       <div
@@ -329,6 +381,9 @@ exports[`PageContainerSkeleton > should match snapshot 1`] = `
       class="MuiBox-root css-0"
     >
       <div
+        class="css-1qx01vb-MuiStack-root"
+      />
+      <div
         class="css-1mure3k-MuiStack-root"
       >
         <div
@@ -355,38 +410,6 @@ exports[`PageContainerSkeleton > should match snapshot 1`] = `
       </div>
       <div
         class="MuiBox-root css-h5fkc8"
-      />
-    </div>
-  </div>
-</body>
-`;
-
-exports[`StyledIntroSkeleton > should match snapshot 1`] = `
-<body>
-  <div>
-    <div
-      class="css-1mure3k-MuiStack-root"
-    >
-      <div
-        class="MuiBox-root css-1rr4qq7"
-      >
-        <h1
-          class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
-        >
-          <span
-            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-          />
-        </h1>
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
-        >
-          <span
-            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
-          />
-        </p>
-      </div>
-      <div
-        class="css-1yo1jo6-MuiStack-root"
       />
     </div>
   </div>

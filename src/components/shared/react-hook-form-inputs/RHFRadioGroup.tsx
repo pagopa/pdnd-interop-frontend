@@ -11,7 +11,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   label?: string

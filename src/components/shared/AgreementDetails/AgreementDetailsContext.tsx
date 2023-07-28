@@ -6,7 +6,6 @@ import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { AgreementQueries } from '@/api/agreement'
 import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
-import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { AttributeQueries } from '@/api/attribute'
 import type {
   Agreement,
@@ -14,6 +13,7 @@ import type {
   DeclaredTenantAttribute,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
+import noop from 'lodash/noop'
 
 type AgreementDetailsContextType = {
   agreement: Agreement | undefined
@@ -26,7 +26,19 @@ type AgreementDetailsContextType = {
       }
     | undefined
   isAgreementEServiceMine: boolean
-  canBeUpgraded: boolean
+  isAttachedDocsDrawerOpen: boolean
+  openAttachedDocsDrawer: VoidFunction
+  closeAttachedDocsDrawer: VoidFunction
+  agreementVerifiedAttributeDrawerState: {
+    isOpen: boolean
+    attributeId: string
+    type: 'revoke' | 'verify' | 'update'
+  }
+  openAgreementVerifiedAttributeDrawer: (
+    attributeId: string,
+    type: 'revoke' | 'verify' | 'update'
+  ) => void
+  closeAgreementVerifiedAttributeDrawer: VoidFunction
 }
 
 const initialState: AgreementDetailsContextType = {
@@ -34,7 +46,16 @@ const initialState: AgreementDetailsContextType = {
   isAgreementEServiceMine: false,
   descriptorAttributes: undefined,
   partyAttributes: undefined,
-  canBeUpgraded: false,
+  isAttachedDocsDrawerOpen: false,
+  openAttachedDocsDrawer: noop,
+  closeAttachedDocsDrawer: noop,
+  agreementVerifiedAttributeDrawerState: {
+    isOpen: false,
+    attributeId: '',
+    type: 'revoke',
+  },
+  openAgreementVerifiedAttributeDrawer: noop,
+  closeAgreementVerifiedAttributeDrawer: noop,
 }
 
 const { useContext, Provider } = createContext<AgreementDetailsContextType>(
@@ -58,10 +79,41 @@ const AgreementDetailsContextProvider: React.FC<{
     { enabled: !!(agreement?.eservice.id && agreement?.descriptorId) }
   )
 
+  const [isAttachedDocsDrawerOpen, setIsAttachedDocsDrawerOpen] = React.useState(false)
+
+  const openAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(true), [])
+  const closeAttachedDocsDrawer = React.useCallback(() => setIsAttachedDocsDrawerOpen(false), [])
+
+  const [agreementVerifiedAttributeDrawerState, setAgreementVerifiedAttributeDrawerState] =
+    React.useState<{
+      isOpen: boolean
+      attributeId: string
+      type: 'revoke' | 'verify' | 'update'
+    }>({
+      isOpen: false,
+      attributeId: '',
+      type: 'revoke',
+    })
+
+  const openAgreementVerifiedAttributeDrawer = React.useCallback(
+    (attributeId: string, type: 'revoke' | 'verify' | 'update') => {
+      setAgreementVerifiedAttributeDrawerState({
+        isOpen: true,
+        attributeId,
+        type,
+      })
+    },
+    []
+  )
+
+  const closeAgreementVerifiedAttributeDrawer = React.useCallback(() => {
+    setAgreementVerifiedAttributeDrawerState((prev) => ({ ...prev, isOpen: false }))
+  }, [])
+
   const partyId = mode === 'provider' ? agreement?.consumer.id : jwt?.organizationId
 
   const [{ data: certified }, { data: verified }, { data: declared }] =
-    AttributeQueries.useGetListParty(partyId, agreement?.producer.id)
+    AttributeQueries.useGetListParty(partyId)
 
   const providerValue = React.useMemo(() => {
     if (!agreement || !descriptor || mode === null) return initialState
@@ -69,7 +121,6 @@ const AgreementDetailsContextProvider: React.FC<{
     const descriptorAttributes = remapDescriptorAttributes(descriptor.attributes)
     const isAgreementEServiceMine = agreement.producer.id === agreement.consumer.id
 
-    const canBeUpgraded = canAgreementBeUpgraded(agreement, mode)
     const partyAttributes = {
       certified: certified?.attributes ?? [],
       verified: verified?.attributes ?? [],
@@ -81,9 +132,27 @@ const AgreementDetailsContextProvider: React.FC<{
       isAgreementEServiceMine,
       descriptorAttributes,
       partyAttributes,
-      canBeUpgraded,
+      isAttachedDocsDrawerOpen,
+      openAttachedDocsDrawer,
+      closeAttachedDocsDrawer,
+      agreementVerifiedAttributeDrawerState,
+      openAgreementVerifiedAttributeDrawer,
+      closeAgreementVerifiedAttributeDrawer,
     }
-  }, [agreement, descriptor, mode, certified, verified, declared])
+  }, [
+    agreement,
+    descriptor,
+    mode,
+    certified,
+    verified,
+    declared,
+    isAttachedDocsDrawerOpen,
+    openAttachedDocsDrawer,
+    closeAttachedDocsDrawer,
+    agreementVerifiedAttributeDrawerState,
+    openAgreementVerifiedAttributeDrawer,
+    closeAgreementVerifiedAttributeDrawer,
+  ])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

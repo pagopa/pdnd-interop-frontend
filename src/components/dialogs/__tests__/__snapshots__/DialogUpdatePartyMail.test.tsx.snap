@@ -51,7 +51,7 @@ exports[`DialogUpdatePartyMail testing > should match the snapshot 1`] = `
               subtitle
             </p>
             <div
-              class="MuiBox-root css-148qinw"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-18efzmf-MuiFormControl-root"
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -91,7 +91,7 @@ exports[`DialogUpdatePartyMail testing > should match the snapshot 1`] = `
               </div>
             </div>
             <div
-              class="MuiBox-root css-148qinw"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-18efzmf-MuiFormControl-root"
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -108,6 +108,7 @@ exports[`DialogUpdatePartyMail testing > should match the snapshot 1`] = `
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <input
+                    aria-describedby="description-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r4:"
@@ -130,11 +131,12 @@ exports[`DialogUpdatePartyMail testing > should match the snapshot 1`] = `
                   </fieldset>
                 </div>
               </div>
-              <p
-                class="MuiTypography-root MuiTypography-caption css-6n3pnq-MuiTypography-root"
+              <span
+                class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-contained css-1u3cfh2-MuiFormHelperText-root"
+                id="description-infoLabel"
               >
                 content.descriptionField.infoLabel
-              </p>
+              </span>
             </div>
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardWarning MuiAlert-standard css-1ot7o2q-MuiPaper-root-MuiAlert-root"

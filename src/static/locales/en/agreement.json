@@ -5,25 +5,33 @@
   "read": {
     "title": "Manage fruition request",
     "noPurposeAlert": "Your agreement request is active. <1>Create your first purpose</1>",
-    "updateGuide": {
-      "alertLabel": "A new version of <1>{{eserviceName}}</1> e-service is available. Before updating, read the guide below",
-      "title": "Upgrade guide",
-      "description": "It is possible to update the fruition request to the latest version of <1>{{eserviceName}}</1> e-service. Here are some useful informations",
-      "upgradeGuideLinkLabel": "Upgrade fuide",
-      "linksLabel": "Useful links",
-      "eserviceLinkLabel": "E-service card <1>{{eserviceName}}, version {{version}}</1>",
+    "noCertifiedAttributesForUpgradeTooltip": "Your party does not have the needed certified attributes in order to upgrade to the latest version",
+    "updateDrawer": {
+      "title": "Fruition request upgrade",
+      "subtitle": "A newer version of the e-service has been released and you can upgrade",
+      "eserviceNewVersion": {
+        "title": "The new version of the e-service",
+        "content": "See <1>{{eserviceName}}, version {{eserviceVersion}}</1> details."
+      },
+      "meaning": {
+        "title": "What does it mean to upgrade?",
+        "paragraph1": "When a provider publishes a new version of an e-service, it means that there are changes compared to the previous one. These changes may be administrative, technical, or both.",
+        "paragraph2": "Before upgrading, make sure you have aligned all your systems to the API specification of the new version of the e-service.",
+        "paragraph3": "Need more information? <1>Read the guide</1>."
+      },
+      "noAttributesAlert": "The new request will not be active immediately, your institution does not have all the necessary attributes. You will be asked to integrate the request before forwarding it to the provider.",
+      "upgradeTextFieldLabel": "Type “upgrade” to enable the button",
       "upgradeBtn": "Upgrade"
     },
-    "generalInformations": {
-      "title": "General Informations",
+    "summary": {
+      "title": "Summary",
       "eserviceField": {
         "label": "Request for",
         "goToEServiceBtn": "Go to e-service",
         "versionLabel": "version"
       },
       "providerField": {
-        "label": "Provider",
-        "infoLabel": "Max 1000 chars"
+        "label": "Provider"
       },
       "consumerField": {
         "label": "Consumer"
@@ -31,9 +39,24 @@
       "requestStatusField": {
         "label": "Request status"
       },
-      "printableCopyField": {
-        "label": "Printable copy",
-        "docLabel": "Fruition request"
+      "documentationField": {
+        "label": "Documentation",
+        "docLabel": "Agreement request"
+      },
+      "attachedDocsButtonLabel": "Show attached documents"
+    },
+    "attachedDocumentsDrawer": {
+      "title": "Attached documentation",
+      "subtitle": {
+        "consumer": "Contains all the documentation that you have sent to the supplier for the verification of the attributes",
+        "provider": "It contains all the documentation that the consuemr has sent you to verify the attributes"
+      },
+      "consumerMessage": {
+        "title": "Consumer message"
+      },
+      "attachedDocuments": {
+        "title": "Attached documents",
+        "noDocumentsLabel": "There are no attached documents"
       }
     },
     "consumerMessage": {
@@ -52,6 +75,36 @@
           "verify": "Verify attribute",
           "update": "Update verification",
           "revoke": "Revoke attribute"
+        },
+        "drawer": {
+          "verify": {
+            "title": "Verify attribute",
+            "subtitle": "With this verification you declare that the consumer owns the requested attribute.",
+            "form": {
+              "radioGroup": {
+                "label": "When does the verification of this attribute expire?",
+                "options": {
+                  "NO": "Without expiration",
+                  "YES": "Set the expiration date"
+                }
+              },
+              "datePicker": {
+                "label": "Set the expiration date"
+              }
+            },
+            "info": {
+              "title": "What happens when an attribute expires?",
+              "description": "To find out more, <1>read the guide.</1>"
+            }
+          },
+          "revoke": {
+            "title": "Revoke attribute",
+            "subtitle": "By revoking the attribute, you declare that the consumer no longer owns the indicated attribute.",
+            "info": {
+              "title": "What happens when I revoke an attribute?",
+              "description": "To find out more, <1>read the guide.</1>"
+            }
+          }
         }
       },
       "declared": {
@@ -75,14 +128,15 @@
       },
       "requestStatusField": {
         "label": "Request status"
-      }
+      },
+      "certifiedAttributesDrawerButtonLabel": "View certified attributes"
     },
     "attribute": {
       "subtitle": "You must own:"
     },
     "consumerNotes": {
       "title": "Message for provider",
-      "description": "If there are any groups of attributes marked with “or”, indicate in this message which of those you want to be recognized, based on the documentation you have uploaded. Enter any other useful notes",
+      "description": "Useful information to communicate to the provider for the verification of the attributes",
       "field": {
         "label": "Message",
         "infoLabel": "Max 1000 chars"
@@ -97,14 +151,9 @@
         "infoLabel": "Min 5 chars, max 60 chars"
       }
     },
-    "bottomPageActionCard": {
-      "title": "Quick publish",
-      "description": "Have you entered all the information for this agreement request? From here you can immediately publish a draft, or delete it. If you want to post later, just save the draft above or leave this page",
-      "cancelBtn": "Delete draft",
-      "submitBtn": "Publish agreement request",
-      "updateBtn": "Save draft"
-    },
-    "backToRequestsBtn": "Go back to requests"
+    "submitBtn": "Publish request",
+    "noCertifiedAttributesForSubmitTooltip": "Your party does not have the needed certified attributes in order to publish the agreement request",
+    "noDeclaredAttributesForSubmitTooltip": "To proceed with the publication, you must have activated all the required declared attributes"
   },
   "list": {
     "eserviceName": "{{name}}, version {{version}}",
@@ -138,6 +187,13 @@
     "subscriber": {
       "title": "Your requests",
       "description": "In this section, you can manage all the fruition requests you have sent to e-service Providers"
+    }
+  },
+  "drawers": {
+    "certifiedAttributes": {
+      "title": "Certified attributes required",
+      "description": "That is, the attributes certified by a <1>recognized authoritative source</1> required to subscribe to this version of the e-service",
+      "missingCertifiedAttributesAlert": "One or more authoritative sources have revoked one or more attributes necessary for the use of this e-service. If you think it's a mistake, check with them."
     }
   }
 }

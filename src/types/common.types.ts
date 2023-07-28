@@ -1,4 +1,6 @@
 import type { LANGUAGES } from '@/config/constants'
+import type { SvgIconComponent } from '@mui/icons-material'
+import type { ButtonProps } from '@mui/material'
 
 export type PagoPAEnvVars = {
   STAGE: 'DEV' | 'PROD' | 'UAT'
@@ -38,6 +40,13 @@ export type Consumer = 'consumer'
 export type ProviderOrConsumer = Provider | Consumer
 
 export type ActionItem = { action: VoidFunction; label: string }
+export type ActionItemButton = ActionItem & {
+  color?: ButtonProps['color']
+  icon?: SvgIconComponent
+  tooltip?: string
+  disabled?: boolean
+  variant?: ButtonProps['variant']
+}
 
 export type StepperStepComponentProps = {
   forward: (e?: React.SyntheticEvent, data?: Record<string, unknown>) => void
@@ -51,3 +60,37 @@ export type StepperStep = {
 }
 
 export type InputOption = { label: string; value: string | number }
+
+/**
+ * InputDescriptors describes the various labels and messages that can be
+ * associated to an input field.
+ * Label and infoLabel are used to describe the input field itself, while
+ * error and helperText are used to describe the input field's value.
+ */
+export type InputDescriptorKey = 'label' | 'infoLabel' | 'error' | 'helperText'
+export type InputDescriptors<TKey extends InputDescriptorKey = InputDescriptorKey> = Record<
+  TKey,
+  string | undefined
+>
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace OneTrustContent {
+  export type RootNode = {
+    node: 'root'
+    child: Array<Node>
+  }
+
+  export type ElementNode = {
+    node: 'element'
+    tag: string
+    child?: Array<Node>
+    attr?: { [key: string]: string | Array<string> }
+  }
+
+  export type TextNode = {
+    node: 'text'
+    text: string
+  }
+
+  export type Node = RootNode | ElementNode | TextNode
+}

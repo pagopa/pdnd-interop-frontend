@@ -30,10 +30,8 @@ export function Breadcrumbs() {
         SUBSCRIBE_PURPOSE_DETAILS:
           routeKey === 'SUBSCRIBE_PURPOSE_EDIT' ? false : routeLabels.SUBSCRIBE_PURPOSE_DETAILS,
 
-        /*
-         * Default route should never be included in breadcrumbs
-         */
         DEFAULT: false,
+        ASSISTENCE_PARTY_SELECTION: false,
       }}
     />
   )

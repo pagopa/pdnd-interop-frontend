@@ -76,7 +76,7 @@ function useGetPartyDeclaredList(partyId?: string) {
   )
 }
 
-function useGetListParty(partyId?: string, verifierId?: string, config = { suspense: true }) {
+function useGetListParty(partyId?: string, config = { suspense: true }) {
   return useQueries({
     queries: [
       {
@@ -122,11 +122,19 @@ function useVerifyPartyAttribute() {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
-    },
+    showConfirmationDialog: false,
+  })
+}
+
+function useUpdateVerifiedPartyAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.updatingExpirationPartyAttribute',
+  })
+  return useMutationWrapper(AttributeServices.updateVerifiedPartyAttribute, {
+    suppressSuccessToast: true,
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+    showConfirmationDialog: false,
   })
 }
 
@@ -138,11 +146,7 @@ function useRevokeVerifiedPartyAttribute() {
     suppressSuccessToast: true,
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
-    },
+    showConfirmationDialog: false,
   })
 }
 
@@ -192,6 +196,7 @@ export const AttributeQueries = {
 export const AttributeMutations = {
   useCreate,
   useVerifyPartyAttribute,
+  useUpdateVerifiedPartyAttribute,
   useRevokeVerifiedPartyAttribute,
   useDeclarePartyAttribute,
   useRevokeDeclaredPartyAttribute,

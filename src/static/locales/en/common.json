@@ -140,7 +140,8 @@
   "userProductRole": {
     "admin": "Administrator",
     "security": "Security operator",
-    "api": "API operator"
+    "api": "API operator",
+    "support": "Support"
   },
   "mode": {
     "provider": "provider",
@@ -164,6 +165,9 @@
   },
   "tos": {
     "title": "Terms of service"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy"
   },
   "notifications": {
     "title": "Notifications",

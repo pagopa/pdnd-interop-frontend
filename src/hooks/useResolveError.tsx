@@ -4,14 +4,15 @@ import { isRouteErrorResponse } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Redirect, Link } from '@/router'
 import {
+  AssistencePartySelectionError,
   NotAuthorizedError,
   NotFoundError,
-  ServerError,
   TokenExchangeError,
 } from '@/utils/errors.utils'
 import type { FallbackProps } from 'react-error-boundary'
 import { isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
+import { AxiosError } from 'axios'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -54,8 +55,8 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   if (error instanceof Error) {
     content = (
       <>
-        {reloadPageButton}
         {isDevelopment && <CodeBlock code={error?.stack || error.message || error?.name} />}
+        {reloadPageButton}
       </>
     )
   }
@@ -70,13 +71,13 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = backToHomeButton
   }
 
-  if (error instanceof ServerError) {
-    title = t('serverError.title')
-    description = t('serverError.description')
+  if (error instanceof AxiosError) {
+    title = t('axiosError.title')
+    description = t('axiosError.description')
     content = (
       <>
-        {retryQueryButton}
         {isDevelopment && <CodeBlock code={error.response ?? error} />}
+        {retryQueryButton}
       </>
     )
   }
@@ -84,7 +85,13 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   if (error instanceof TokenExchangeError) {
     title = t('tokenExchange.title')
     description = t('tokenExchange.description')
-    content = <>{backToSelfcareButton}</>
+    content = backToSelfcareButton
+  }
+
+  if (error instanceof AssistencePartySelectionError) {
+    title = t('assistencePartySelection.title')
+    description = t('assistencePartySelection.description')
+    content = null
   }
 
   if (!title) {

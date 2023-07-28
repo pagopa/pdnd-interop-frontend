@@ -6,10 +6,11 @@ import { fireEvent, render } from '@testing-library/react'
 import {
   createMockDebugVoucherRequest,
   createMockDebugVoucherResultPassed,
+  createMockDebugVoucherResultStep,
 } from '__mocks__/data/voucher.mocks'
 
 describe('DebugVoucherResults testing', () => {
-  it('should match snapshot', () => {
+  it('should match snapshot if isOpen is false', () => {
     mockDebugVoucherContext({
       request: createMockDebugVoucherRequest(),
       response: createMockDebugVoucherResultPassed(),
@@ -17,6 +18,26 @@ describe('DebugVoucherResults testing', () => {
     })
 
     const screen = render(<DebugVoucherResults />)
+
+    expect(screen.queryByText('stepDrawer.stepResultLabel')).not.toBeInTheDocument()
+
+    expect(screen.baseElement).toMatchSnapshot()
+  })
+
+  it('should match snapshot if isOpen is true', () => {
+    mockDebugVoucherContext({
+      response: createMockDebugVoucherResultPassed(),
+      request: createMockDebugVoucherRequest(),
+      debugVoucherStepDrawer: {
+        isOpen: true,
+        selectedStep: ['clientAssertionValidation', createMockDebugVoucherResultStep()],
+      },
+      goToNextStep: vi.fn(),
+    })
+
+    const screen = render(<DebugVoucherResults />)
+
+    expect(screen.queryByText('stepDrawer.stepResultLabel')).toBeInTheDocument()
 
     expect(screen.baseElement).toMatchSnapshot()
   })

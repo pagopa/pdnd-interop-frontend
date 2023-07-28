@@ -6,6 +6,7 @@ import {
   createVerifiedTenantAttribute,
   createMockRemappedDescriptorAttribute,
 } from '__mocks__/data/attribute.mocks'
+import { createMockAgreement } from '__mocks__/data/agreement.mocks'
 
 mockUseCurrentRoute({ mode: 'provider' })
 
@@ -74,5 +75,47 @@ describe('AgreementVerifiedAttributesSection', () => {
     })
 
     expect(screen.getByText('group.manage.revokedByProducer')).toBeInTheDocument()
+  })
+
+  it('should show expirationDate chip when attribute is verified and has an expirationDate', () => {
+    mockUseCurrentRoute({ mode: 'consumer' })
+    mockAgreementDetailsContext({
+      descriptorAttributes: {
+        certified: [],
+        verified: [createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-1-1' }] })],
+        declared: [],
+      },
+      agreement: createMockAgreement({
+        producer: { id: 'test-id-producer' },
+        consumer: { id: 'test-id-consumer' },
+      }),
+      partyAttributes: {
+        certified: [],
+        declared: [],
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'a-1-1',
+            verifiedBy: [
+              {
+                id: 'test-id-producer',
+                verificationDate: '2023-02-15T09:33:35.000Z',
+                expirationDate: '2023-02-20T09:33:35.000Z',
+              },
+            ],
+          }),
+        ],
+      },
+      agreementVerifiedAttributeDrawerState: {
+        isOpen: false,
+        attributeId: 'a-1-1',
+        type: 'update',
+      },
+    })
+
+    const screen = renderWithApplicationContext(<AgreementVerifiedAttributesSection />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.getByText('group.manage.expirationDate')).toBeInTheDocument()
   })
 })

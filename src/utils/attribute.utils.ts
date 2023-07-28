@@ -15,14 +15,15 @@ import type {
  * Checks if an attribute is revoked.
  * @param kind The kind of attribute to check.
  * @param attribute The attribute to check.
- * @param verifierId The id of the verifier, should only be passed in if the kind is 'verified'. If passed, the attribute is considered revoked if it is verified by him.
+ * @param verifierId The id of the verifier, should only be passed in if the kind is 'verified'. If passed, the attribute is considered revoked if it is verified by him,
+ * if not the attribute is considered revoked if it has been revoked at least once by any verifier.
  * @returns `true` if the attribute is considered revoked, false otherwise.
  */
 export function isAttributeRevoked(kind: 'certified', attribute: CertifiedTenantAttribute): boolean
 export function isAttributeRevoked(
   kind: 'verified',
   attribute: VerifiedTenantAttribute,
-  verifierId?: string
+  verifierId?: string | undefined
 ): boolean
 export function isAttributeRevoked(kind: 'declared', attribute: DeclaredTenantAttribute): boolean
 export function isAttributeRevoked(
@@ -35,18 +36,34 @@ export function isAttributeRevoked(
       return Boolean((attribute as CertifiedTenantAttribute).revocationTimestamp)
     case 'verified':
       /*
-       * If a verifierId is passed, the attribute is considered revoked if it is not verified by him
+       * If a verifierId is passed, the attribute is considered revoked if it is revoked by him.
+       *
+       * The attribute is considered revoked if it is in 'revokedBy' and not in 'verifiedBy' because
+       * when we re-verify an attribute, the record inside 'verifiedBy' is added again, but the record inside 'revokedBy' is not removed.
+       * There never is more than one entry in 'verifiedBy' array but there might be more than one in the revokedBy.
        */
+
+      const typedAttribute = attribute as VerifiedTenantAttribute
       if (verifierId) {
-        const isVerifiedByVerifier = (attribute as VerifiedTenantAttribute).verifiedBy.some(
+        const isInVerifiedBy = typedAttribute.verifiedBy.some(
           (verifier) => verifier.id === verifierId
         )
-        return !isVerifiedByVerifier
+
+        return !isInVerifiedBy
       }
+
       /*
-       *  if no verifierId is passed in, the attribute is considered revoked if it has no entries in 'verifiedBy'
+       * The attribute is considered revoked if it has been revoked at least once by any verifier.
+       * We use a map to avoid checking the same id twice.
+       *
+       * The attribute, in this case, is considered revoked if it is in 'revokedBy' and not in 'verifiedBy'
        */
-      return (attribute as VerifiedTenantAttribute).verifiedBy.length <= 0
+      const alreadyCheckedVerifierIds = new Map<string, boolean>()
+      return typedAttribute.revokedBy.some(({ id }) => {
+        if (alreadyCheckedVerifierIds.has(id)) return false
+        alreadyCheckedVerifierIds.set(id, true)
+        return !typedAttribute.verifiedBy.some((verifier) => verifier.id === id)
+      })
     case 'declared':
       return Boolean((attribute as DeclaredTenantAttribute).revocationTimestamp)
     default:
@@ -69,7 +86,8 @@ export function isAttributeOwned(
 export function isAttributeOwned(
   kind: 'verified',
   attributeId: string,
-  ownedAttributes: VerifiedTenantAttribute[]
+  ownedAttributes: VerifiedTenantAttribute[],
+  verifierId: string | undefined
 ): boolean
 export function isAttributeOwned(
   kind: 'declared',
@@ -82,7 +100,8 @@ export function isAttributeOwned(
   ownedAttributes:
     | VerifiedTenantAttribute[]
     | CertifiedTenantAttribute[]
-    | DeclaredTenantAttribute[]
+    | DeclaredTenantAttribute[],
+  verifierId?: string
 ) {
   const matchIndex = ownedAttributes.findIndex((a) => a.id === attributeId)
   const match = ownedAttributes[matchIndex]
@@ -94,14 +113,15 @@ export function isAttributeOwned(
   /**
    * If a match is found, last thing we need to check if it is revoked.
    * If it is, it is not considered "owned".
+   * For the verified attributes we check if verifiedBy has an entry which verifier id is the same as the verifierId passed.
    */
   switch (kind) {
     case 'certified':
-      return !isAttributeRevoked('certified', match as CertifiedTenantAttribute)
+      return !isAttributeRevoked('certified', match)
     case 'verified':
-      return !isAttributeRevoked('verified', match as VerifiedTenantAttribute)
+      return !isAttributeRevoked('verified', match as VerifiedTenantAttribute, verifierId)
     case 'declared':
-      return !isAttributeRevoked('declared', match as DeclaredTenantAttribute)
+      return !isAttributeRevoked('declared', match)
     default:
       throw new Error(`Unknown attribute kind: ${kind}`)
   }
@@ -123,29 +143,32 @@ export function isAttributeGroupFullfilled(
 export function isAttributeGroupFullfilled(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
-  attributesGroup: RemappedDescriptorAttribute
+  attributesGroup: RemappedDescriptorAttribute,
+  verifierId: string | undefined
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'declared',
   ownedAttributes: DeclaredTenantAttribute[],
   attributesGroup: RemappedDescriptorAttribute
 ): boolean
-export function isAttributeGroupFullfilled(
-  kind: AttributeKey,
-  ownedAttributes:
-    | VerifiedTenantAttribute[]
-    | CertifiedTenantAttribute[]
-    | DeclaredTenantAttribute[],
-  attributesGroup: RemappedDescriptorAttribute
+export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
+  kind: TAttributeKey,
+  ownedAttributes: TAttributeKey extends 'certified'
+    ? CertifiedTenantAttribute[]
+    : TAttributeKey extends 'verified'
+    ? VerifiedTenantAttribute[]
+    : DeclaredTenantAttribute[],
+  attributesGroup: RemappedDescriptorAttribute,
+  verifierId?: string
 ) {
   const isOwned = ({ id }: RemappedDescriptorAttribute['attributes'][0]) => {
     switch (kind) {
       case 'certified':
-        return isAttributeOwned(kind, id, ownedAttributes as CertifiedTenantAttribute[])
+        return isAttributeOwned(kind, id, ownedAttributes)
       case 'verified':
-        return isAttributeOwned(kind, id, ownedAttributes as VerifiedTenantAttribute[])
+        return isAttributeOwned(kind, id, ownedAttributes as VerifiedTenantAttribute[], verifierId)
       case 'declared':
-        return isAttributeOwned(kind, id, ownedAttributes as DeclaredTenantAttribute[])
+        return isAttributeOwned(kind, id, ownedAttributes)
       default:
         throw new Error(`Unknown attribute kind: ${kind}`)
     }
@@ -169,7 +192,8 @@ export function hasAllDescriptorAttributes(
 export function hasAllDescriptorAttributes(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
-  descriptorAttributes: Array<RemappedDescriptorAttribute>
+  descriptorAttributes: Array<RemappedDescriptorAttribute>,
+  verifierId: string | undefined
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: 'declared',
@@ -182,28 +206,22 @@ export function hasAllDescriptorAttributes(
     | VerifiedTenantAttribute[]
     | CertifiedTenantAttribute[]
     | DeclaredTenantAttribute[],
-  descriptorAttributes: Array<RemappedDescriptorAttribute>
+  descriptorAttributes: Array<RemappedDescriptorAttribute>,
+  verifierId?: string
 ) {
   const isGroupFullfilled = (attributesGroup: RemappedDescriptorAttribute) => {
     switch (kind) {
       case 'certified':
-        return isAttributeGroupFullfilled(
-          kind,
-          ownedAttributes as CertifiedTenantAttribute[],
-          attributesGroup
-        )
+        return isAttributeGroupFullfilled(kind, ownedAttributes, attributesGroup)
       case 'verified':
         return isAttributeGroupFullfilled(
           kind,
           ownedAttributes as VerifiedTenantAttribute[],
-          attributesGroup
+          attributesGroup,
+          verifierId
         )
       case 'declared':
-        return isAttributeGroupFullfilled(
-          kind,
-          ownedAttributes as DeclaredTenantAttribute[],
-          attributesGroup
-        )
+        return isAttributeGroupFullfilled(kind, ownedAttributes, attributesGroup)
       default:
         throw new Error(`Unknown attribute kind: ${kind}`)
     }

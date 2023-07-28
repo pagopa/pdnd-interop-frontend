@@ -1,4 +1,4 @@
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseCurrentRoute, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetAgreementsActions from '../useGetAgreementsActions'
 import { createMockAgreementListingItem, createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { createMemoryHistory } from 'history'
@@ -119,7 +119,7 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
     expect(result.current.actions[0].label).toBe('activate')
   })
 
-  it('shoud return provider suspend action if mode is provider and agreement has state SUSPENDED and is not suspendedByProducer', () => {
+  it('shoud return provider suspend and archive action if mode is provider and agreement has state SUSPENDED and is not suspendedByProducer', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: false,
@@ -135,8 +135,8 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
     expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('activate')
-    expect(result.current.actions[1].label).toBe('reject')
+    expect(result.current.actions[0].label).toBe('reject')
+    expect(result.current.actions[1].label).toBe('activate')
   })
 
   it('shoud not return any provider action if mode is provider and agreement has state ARCHIVED', () => {
@@ -173,33 +173,36 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
 
   /* consumer */
 
-  it('shoud return consumer suspend action if mode is consumer and agreement has state ACTIVE', () => {
+  it('shoud return consumer suspend and archived action if mode is consumer and agreement has state ACTIVE', () => {
     const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('suspend')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('suspend')
   })
 
-  it('shoud return consumer activate action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
+  it('shoud return consumer activate and archive action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByConsumer: true,
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('activate')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('activate')
   })
 
-  it('shoud return consumer suspend action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
+  it('shoud return consumer suspend and archive action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByConsumer: false,
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('suspend')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('suspend')
   })
 
   it('shoud not return any consumer action if mode is consumer and agreement has state PENDING', () => {
@@ -289,8 +292,8 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
     expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('activate')
-    expect(result.current.actions[1].label).toBe('reject')
+    expect(result.current.actions[0].label).toBe('reject')
+    expect(result.current.actions[1].label).toBe('activate')
   })
 
   it('shoud not return any provider action if mode is provider and agreement has state ARCHIVED', () => {
@@ -327,33 +330,36 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
 
   /* consumer */
 
-  it('shoud return consumer suspend action if mode is consumer and agreement has state ACTIVE', () => {
+  it('shoud return consumer suspend and archive action if mode is consumer and agreement has state ACTIVE', () => {
     const agreement = createMockAgreementListingItem({
       state: 'ACTIVE',
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('suspend')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('suspend')
   })
 
-  it('shoud return consumer activate action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
+  it('shoud return consumer activate and archive action if mode is consumer and agreement has state SUSPENDED and is suspendedByConsumer', () => {
     const agreement = createMockAgreementListingItem({
       state: 'SUSPENDED',
       suspendedByConsumer: true,
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('activate')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('activate')
   })
 
-  it('shoud return consumer suspend action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
+  it('shoud return consumer suspend and archive action if mode is consumer and agreement has state SUSPENDED and is not suspendedByConsumer', () => {
     const agreement = createMockAgreementListingItem({
       state: 'SUSPENDED',
       suspendedByConsumer: false,
     })
     const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('suspend')
+    expect(result.current.actions).toHaveLength(2)
+    expect(result.current.actions[0].label).toBe('archive')
+    expect(result.current.actions[1].label).toBe('suspend')
   })
 
   it('shoud not return any consumer action if mode is consumer and agreement has state PENDING', () => {
@@ -470,5 +476,29 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
 
     expect(history.location.pathname).toBe('/it/fruizione/richieste')
+  })
+
+  it('should not navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action if actual routeKey is SUBSCRIBE_AGREEMENT_LIST', async () => {
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_AGREEMENT_LIST' })
+    const agreement = createMockAgreement({
+      state: 'DRAFT',
+    })
+    const { result, history } = renderUseGetAgreementsActionsHook(agreement)
+    expect(result.current.actions).toHaveLength(1)
+
+    const deleteAction = result.current.actions[0]
+    expect(deleteAction.label).toBe('delete')
+
+    act(() => {
+      deleteAction.action()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
+
+    expect(history.location.pathname).toBe('/it/ente')
   })
 })

@@ -5,17 +5,26 @@
   "read": {
     "title": "Gestisci richiesta di fruizione",
     "noPurposeAlert": "La richiesta di fruizione è attiva. <1>Crea la tua prima finalità</1>",
-    "updateGuide": {
-      "alertLabel": "È disponibile una nuova versione dell’e-service <1>{{eserviceName}}</1>. Prima di effettuare l’aggiornamento, leggi la guida di seguito",
-      "title": "Guida all’aggiornamento",
-      "description": "È possibile aggiornare la richiesta di fruizione all’ultima versione dell’e-service <1>{{eserviceName}}</1>. Ecco alcune indicazioni utili",
-      "upgradeGuideLinkLabel": "Guida all'aggiornamento",
-      "linksLabel": "Link utili",
-      "eserviceLinkLabel": "Scheda e-service <1>{{eserviceName}}, versione {{version}}</1>",
+    "noCertifiedAttributesForUpgradeTooltip": "Il tuo ente non ha gli attributi certificati necessari per aggiornare all’ultima versione",
+    "updateDrawer": {
+      "title": "Aggiornamento richiesta di fruizione",
+      "subtitle": "È stata pubblicata una versione più recente dell’e-service e puoi effettuare l’aggiornamento",
+      "eserviceNewVersion": {
+        "title": "La nuova versione dell’e-service",
+        "content": "Vedi la scheda di <1>{{eserviceName}}, versione {{eserviceVersion}}</1>."
+      },
+      "meaning": {
+        "title": "Cosa significa effettuare l’aggiornamento?",
+        "paragraph1": "Quando un erogatore pubblica una nuova versione di un e-service, vuol dire che ci sono variazioni rispetto alla precedente. Queste modifiche possono essere di natura amministrativa, tecnica, o entrambe.",
+        "paragraph2": "Prima di effettuare l’aggiornamento, assicurati di aver allineato tutti i tuoi sistemi alla specifica API della nuova versione dell’e-service.",
+        "paragraph3": "Servono maggiori informazioni? <1>Leggi la guida</1>."
+      },
+      "noAttributesAlert": "La nuova richiesta non sarà attiva subito, il tuo ente non possiede tutti gli attributi necessari. Ti sarà chiesto di integrare la richiesta prima di inoltrarla all’erogatore.",
+      "upgradeTextFieldLabel": "Digita “aggiorna” per abilitare il bottone",
       "upgradeBtn": "Aggiorna"
     },
-    "generalInformations": {
-      "title": "Informazioni generali",
+    "summary": {
+      "title": "Riassunto",
       "eserviceField": {
         "label": "Richiesta relativa a",
         "goToEServiceBtn": "Vedi e-service",
@@ -30,9 +39,24 @@
       "requestStatusField": {
         "label": "Stato della richiesta"
       },
-      "printableCopyField": {
-        "label": "Copia stampabile",
+      "documentationField": {
+        "label": "Documentazione",
         "docLabel": "Richiesta di fruizione"
+      },
+      "attachedDocsButtonLabel": "Visualizza documentazione allegata"
+    },
+    "attachedDocumentsDrawer": {
+      "title": "Documentazione allegata",
+      "subtitle": {
+        "consumer": "Contiene tutta la documentazione che hai inoltrato all’erogatore per la verifica degli attributi",
+        "provider": "Contiene tutta la documentazione che il fruitore ti ha inoltrato per la verifica degli attributi"
+      },
+      "consumerMessage": {
+        "title": "Messaggio per l’erogatore"
+      },
+      "attachedDocuments": {
+        "title": "Documenti allegati",
+        "noDocumentsLabel": "Non ci sono documenti allegati"
       }
     },
     "consumerMessage": {
@@ -51,6 +75,36 @@
           "verify": "Verifica attributo",
           "update": "Aggiorna verifica",
           "revoke": "Revoca attributo"
+        },
+        "drawer": {
+          "verify": {
+            "title": "Verifica attributo",
+            "subtitle": "Con questa verifica dichiari che il fruitore possiede l’attributo richiesto.",
+            "form": {
+              "radioGroup": {
+                "label": "Quando scade la verifica di questo attributo?",
+                "options": {
+                  "NO": "Senza scadenza",
+                  "YES": "Imposta data di scadenza"
+                }
+              },
+              "datePicker": {
+                "label": "Imposta data di scadenza"
+              }
+            },
+            "info": {
+              "title": "Cosa succede quando scade un attributo?",
+              "description": "Per saperne di più, <1>leggi la guida.</1>"
+            }
+          },
+          "revoke": {
+            "title": "Revoca attributo",
+            "subtitle": "Revocando l’attributo, dichiari che il fruitore non possiede più l’attributo indicato.",
+            "info": {
+              "title": "Cosa succede quando revoco un attributo?",
+              "description": "Per saperne di più, <1>leggi la guida.</1>"
+            }
+          }
         }
       },
       "declared": {
@@ -74,14 +128,15 @@
       },
       "requestStatusField": {
         "label": "Stato della richiesta"
-      }
+      },
+      "certifiedAttributesDrawerButtonLabel": "Visualizza attributi certificati"
     },
     "attribute": {
       "subtitle": "Devi possedere:"
     },
     "consumerNotes": {
-      "title": "messaggio per l’erogatore",
-      "description": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili",
+      "title": "Messaggio per l’erogatore",
+      "description": "Informazioni utili da comunicare all'erogatore per la verifica degli attributi",
       "field": {
         "label": "Messaggio",
         "infoLabel": "Max 1000 caratteri"
@@ -96,13 +151,9 @@
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       }
     },
-    "bottomPageActionCard": {
-      "title": "Azioni rapide di pubblicazione",
-      "description": "Hai inserito tutte le informazioni per questa richiesta di fruizione? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
-      "cancelBtn": "Cancella bozza",
-      "submitBtn": "Inoltra richiesta di fruizione",
-      "updateBtn": "Salva bozza"
-    }
+    "submitBtn": "Inoltra richiesta",
+    "noCertifiedAttributesForSubmitTooltip": "Il tuo ente non ha gli attributi certificati necessari per inoltrare la richiesta",
+    "noDeclaredAttributesForSubmitTooltip": "Per procedere con l’inoltro, devi aver attivato tutti gli attributi dichiarati richiesti"
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",
@@ -136,6 +187,13 @@
     "subscriber": {
       "title": "Le tue richieste",
       "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
+    }
+  },
+  "drawers": {
+    "certifiedAttributes": {
+      "title": "Attributi certificati richiesti",
+      "description": "Ovvero gli attributi certificati da una <1>fonte autoritativa riconosciuta</1> richiesti per iscriversi a questa versione di e-service",
+      "missingCertifiedAttributesAlert": "Una o più fonti autoritative ti hanno revocato uno o più attributi necessari alla fruizione di questo e-service. Se pensi sia un errore, effettua una verifica presso di loro."
     }
   }
 }

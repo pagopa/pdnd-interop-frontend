@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
-import { mapValidationErrorMessages } from '@/utils/validation.utils'
+import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFAutocompleteInput<T> = { label: string; value: T }
 
@@ -81,8 +81,13 @@ export function _RHFAutocompleteBase<
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+    error,
+    infoLabel,
+  })
+
   return (
-    <InputWrapper error={error} sx={{ my: 0, ...sx }} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={{ my: 0, ...sx }} infoLabel={infoLabel} {...ids}>
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, tCommon)}
@@ -117,6 +122,7 @@ export function _RHFAutocompleteBase<
                   InputLabelProps={{ shrink: true, ...params.InputLabelProps }}
                   InputProps={{
                     ...params.InputProps,
+                    ...accessibilityProps,
                     endAdornment: (
                       <>
                         {loading ? <CircularProgress color="primary" size={20} /> : null}

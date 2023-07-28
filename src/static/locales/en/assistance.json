@@ -1,0 +1,10 @@
+{
+  "tenantSelection": {
+    "title": "Select the party to impersonate",
+    "subtitle": "If the party does not appear in the list, it means that it has not performed onboarding on the Area Riservata or the first access on PDND Interoperabilità",
+    "textFieldLabel": "Find party",
+    "nextButtonLabel": "Next",
+    "deselectButtonLabel": "Deselect party",
+    "noResultsLabel": "No results"
+  }
+}

@@ -3,7 +3,6 @@ import { PageBottomActionsContainer, PageContainer } from '@/components/layout/c
 import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { Link, useParams } from '@/router'
-import { formatTopSideActions } from '@/utils/common.utils'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -22,10 +21,8 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
   const { actions } = useGetAgreementsActions(agreement)
 
-  const topSideActions = formatTopSideActions(actions)
-
   return (
-    <PageContainer title={t('read.title')} topSideActions={topSideActions}>
+    <PageContainer title={t('read.title')} newTopSideActions={actions}>
       <AgreementDetails agreementId={agreementId} />
       <PageBottomActionsContainer>
         <Link as="button" variant="outlined" to={'PROVIDE_AGREEMENT_LIST'}>

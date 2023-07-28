@@ -17,6 +17,7 @@ import type {
   GetAgreementProducersParams,
   GetAgreementsParams,
 } from '../api.generatedTypes'
+import { waitFor } from '@/utils/common.utils'
 
 async function getList(params?: GetAgreementsParams) {
   const response = await axiosInstance.get<Agreements>(`${BACKEND_FOR_FRONTEND_URL}/agreements`, {
@@ -64,13 +65,7 @@ async function getConsumerEServiceList(params: GetAgreementEServiceConsumersPara
   return response.data
 }
 
-async function createDraft({
-  eserviceId,
-  descriptorId,
-}: {
-  eserviceName: string
-  eserviceVersion: string | undefined
-} & AgreementPayload) {
+async function createDraft({ eserviceId, descriptorId }: AgreementPayload) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements`,
     { eserviceId, descriptorId }
@@ -89,6 +84,17 @@ async function submitDraft({
     { consumerNotes }
   )
   return response.data
+}
+
+/**
+ * This is used to subscribe to an e-service that is owned by the subscriber itself.
+ * It skips the draft creation and directly submits the agreement.
+ */
+async function submitToOwnEService({ eserviceId, descriptorId }: AgreementPayload) {
+  const response = await createDraft({ eserviceId, descriptorId })
+  //!!! Temporary, in order to avoid eventual consistency issues.
+  await waitFor(2000)
+  return await submitDraft({ agreementId: response.id })
 }
 
 async function deleteDraft({ agreementId }: { agreementId: string }) {
@@ -175,6 +181,12 @@ async function suspend({ agreementId }: { agreementId: string }) {
   return response.data
 }
 
+async function archive({ agreementId }: { agreementId: string }) {
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/archive`
+  )
+}
+
 async function upgrade({ agreementId }: { agreementId: string }) {
   const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/upgrade`
@@ -206,6 +218,7 @@ const AgreementServices = {
   getConsumerEServiceList,
   createDraft,
   submitDraft,
+  submitToOwnEService,
   deleteDraft,
   updateDraft,
   downloadDraftDocument,
@@ -214,6 +227,7 @@ const AgreementServices = {
   activate,
   reject,
   suspend,
+  archive,
   upgrade,
   clone,
   downloadContract,
