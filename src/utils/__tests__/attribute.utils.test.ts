@@ -51,7 +51,11 @@ describe('attribute utils', () => {
 
     it('should be considered revoked if the attribute has at least been revoked once if no verifier is passed (verified)', () => {
       const attributeMock = createVerifiedTenantAttribute({
-        revokedBy: [{ id: 'verifier-id' }],
+        revokedBy: [
+          {
+            id: 'verifier-id',
+          },
+        ],
       })
       const result = isAttributeRevoked('verified', attributeMock)
       expect(result).toBe(true)
