@@ -76,10 +76,10 @@ exports[`AgreementVerifiedAttributesSection > should match snapshot when e-servi
           class="css-1p5q5e5-MuiStack-root"
         >
           <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-dxqih4-MuiPaper-root-MuiCard-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-bj42sx-MuiPaper-root-MuiCard-root"
           >
             <div
-              class="MuiCardHeader-root css-97snmn-MuiCardHeader-root"
+              class="MuiCardHeader-root css-1g82uv9-MuiCardHeader-root"
             >
               <div
                 class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
@@ -87,7 +87,7 @@ exports[`AgreementVerifiedAttributesSection > should match snapshot when e-servi
                 <span
                   class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
                 >
-                  group.manage.warning.verified.provider
+                  group.manage.success.provider
                 </span>
               </div>
             </div>
@@ -102,7 +102,19 @@ exports[`AgreementVerifiedAttributesSection > should match snapshot when e-servi
                 >
                   <div
                     class="css-1yo1jo6-MuiStack-root"
-                  />
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-4b67si-MuiSvgIcon-root"
+                      data-testid="CheckCircleIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                      />
+                    </svg>
+                  </div>
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
                   >

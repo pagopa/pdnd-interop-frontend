@@ -1,4 +1,4 @@
-import { isAttributeOwned, isAttributeRevoked } from '@/utils/attribute.utils'
+import { isAttributeOwned } from '@/utils/attribute.utils'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute } from '@/router'
@@ -30,16 +30,12 @@ export const useAgreementGetVerifiedAttributesActions = () => {
     // ... and only if the agreement is active, pending or suspended
     if (!['ACTIVE', 'PENDING', 'SUSPENDED'].includes(agreement.state)) return []
 
-    const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
-
     const isOwned = isAttributeOwned(
       'verified',
       attributeId,
       ownedVerifiedAttributes,
       agreement.producer.id
     )
-    const isOwnedButRevoked =
-      attribute && isAttributeRevoked('verified', attribute, agreement.producer.id)
 
     const handleVerifyAttribute = (attributeId: string) => {
       openAgreementVerifiedAttributeDrawer(attributeId, isOwned ? 'update' : 'verify')
@@ -56,7 +52,7 @@ export const useAgreementGetVerifiedAttributesActions = () => {
       },
     ]
 
-    if (isOwned && !isOwnedButRevoked) {
+    if (isOwned) {
       attributeActions.push({
         label: t('verified.actions.revoke'),
         action: handleRevokeAttribute,
