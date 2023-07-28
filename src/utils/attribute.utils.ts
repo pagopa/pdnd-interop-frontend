@@ -15,7 +15,8 @@ import type {
  * Checks if an attribute is revoked.
  * @param kind The kind of attribute to check.
  * @param attribute The attribute to check.
- * @param verifierId The id of the verifier, should only be passed in if the kind is 'verified'. If passed, the attribute is considered revoked if it is verified by him.
+ * @param verifierId The id of the verifier, should only be passed in if the kind is 'verified'. If passed, the attribute is considered revoked if it is verified by him,
+ * if not the attribute is considered revoked if it has been revoked at least once by any verifier.
  * @returns `true` if the attribute is considered revoked, false otherwise.
  */
 export function isAttributeRevoked(kind: 'certified', attribute: CertifiedTenantAttribute): boolean
@@ -56,9 +57,17 @@ export function isAttributeRevoked(
       }
 
       /*
-       *  if no verifierId is passed in, the attribute is considered revoked if it has at least one entry in 'revokedBy'
+       * The attribute is considered revoked if it has been revoked at least once by any verifier.
+       * We use a map to avoid checking the same id twice.
+       *
+       * The attribute, in this case, is considered revoked if it is in 'revokedBy' and not in 'verifiedBy'
        */
-      return typedAttribute.revokedBy.length > 0
+      const alreadyCheckedVerifierIds = new Map<string, boolean>()
+      return typedAttribute.revokedBy.some(({ id }) => {
+        if (alreadyCheckedVerifierIds.has(id)) return false
+        alreadyCheckedVerifierIds.set(id, true)
+        return !typedAttribute.verifiedBy.some((verifier) => verifier.id === id)
+      })
     case 'declared':
       return Boolean((attribute as DeclaredTenantAttribute).revocationTimestamp)
     default:

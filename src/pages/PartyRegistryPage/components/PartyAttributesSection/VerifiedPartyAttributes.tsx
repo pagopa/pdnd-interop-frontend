@@ -41,16 +41,18 @@ const VerifiedAttributesList: React.FC = () => {
   return (
     <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
       {verifiedAttributes.map((attribute) => {
-        // if it is verified and revoked by some provider then we need to show both
-        if (attribute.revokedBy.length > 0 && attribute.verifiedBy.length > 0) {
+        const isRevoked = isAttributeRevoked('verified', attribute)
+
+        // if it is verified and revoked at least once by some provider then we show both
+        if (isRevoked && attribute.verifiedBy.length > 0) {
           return (
             <React.Fragment key={attribute.id}>
-              <VerifiedAttributesListItem attribute={attribute} isRevoked={true} />
-              <VerifiedAttributesListItem attribute={attribute} isRevoked={false} />
+              <VerifiedAttributesListItem attribute={attribute} isRevoked />
+              <VerifiedAttributesListItem attribute={attribute} />
             </React.Fragment>
           )
         }
-        const isRevoked = isAttributeRevoked('verified', attribute)
+
         return (
           <VerifiedAttributesListItem
             key={attribute.id}
@@ -65,7 +67,7 @@ const VerifiedAttributesList: React.FC = () => {
 
 const VerifiedAttributesListItem: React.FC<{
   attribute: VerifiedTenantAttribute
-  isRevoked: boolean
+  isRevoked?: boolean
 }> = ({ attribute, isRevoked }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group.manage' })
 
