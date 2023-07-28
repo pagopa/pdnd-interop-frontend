@@ -133,7 +133,7 @@
     },
     "consumerNotes": {
       "title": "Message for provider",
-      "description": "If there are any groups of attributes marked with “or”, indicate in this message which of those you want to be recognized, based on the documentation you have uploaded. Enter any other useful notes",
+      "description": "Useful information to communicate to the provider for the verification of the attributes",
       "field": {
         "label": "Message",
         "infoLabel": "Max 1000 chars"

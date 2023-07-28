@@ -133,7 +133,7 @@
     },
     "consumerNotes": {
       "title": "Messaggio per l’erogatore",
-      "description": "Se ci sono gruppi di attributi contraddistinti da “oppure”, indica in questo messaggio quale tra quelli ti aspetti venga riconosciuto, in base alla documentazione che hai caricato. Inserisci eventuali altre note utili",
+      "description": "Informazioni utili da comunicare all'erogatore per la verifica degli attributi",
       "field": {
         "label": "Messaggio",
         "infoLabel": "Max 1000 caratteri"
