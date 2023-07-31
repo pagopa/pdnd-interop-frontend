@@ -1,5 +1,5 @@
 import React from 'react'
-import { type InferRouteKey, generateRoutes } from '@pagopa/interop-fe-commons'
+import { type InferRouteKey, InteropRouterBuilder } from '@pagopa/interop-fe-commons'
 import { createBrowserRouter } from 'react-router-dom'
 import {
   PartyRegistryPage,
@@ -36,292 +36,337 @@ import {
   AssistanceTenantSelectionErrorPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
+import type { LangCode } from '@/types/common.types'
+import type { UserProductRole } from '@/types/party.types'
 
-export const { routes, reactRouterDOMRoutes, hooks, components, utils } = generateRoutes(
-  {
-    LOGOUT: {
-      path: '/logout',
-      element: <LogoutPage />,
-      public: true,
-      hideSideNav: true,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    TOS: {
-      path: '/termini-di-servizio',
-      element: <TOSPage />,
-      public: true,
-      hideSideNav: true,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    PRIVACY_POLICY: {
-      path: '/privacy-policy',
-      element: <PrivacyPolicyPage />,
-      public: true,
-      hideSideNav: true,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    SECURITY_KEY_GUIDE: {
-      path: '/generazione-chiavi',
-      element: <SecurityKeyGuidePage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    NOTIFICATION: {
-      path: '/notifiche',
-      element: <NotificationsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    PROVIDE_ESERVICE_CREATE: {
-      path: '/erogazione/e-service/crea',
-      element: <ProviderEServiceCreatePage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'api'],
-    },
-    PROVIDE_ESERVICE_EDIT: {
-      path: '/erogazione/e-service/:eserviceId/:descriptorId/modifica',
-      element: <ProviderEServiceCreatePage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'api'],
-    },
-    PROVIDE_ESERVICE_MANAGE: {
-      path: '/erogazione/e-service/:eserviceId/:descriptorId',
-      element: <ProviderEServiceDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api'],
-    },
-    PROVIDE_ESERVICE_LIST: {
-      path: '/erogazione/e-service',
-      element: <ProviderEServiceListPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api'],
-    },
-    PROVIDE_AGREEMENT_READ: {
-      path: '/erogazione/richieste/:agreementId',
-      element: <ProviderAgreementDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api'],
-    },
-    PROVIDE_AGREEMENT_LIST: {
-      path: '/erogazione/richieste',
-      element: <ProviderAgreementsListPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api'],
-    },
-    PROVIDE_PURPOSE_LIST: {
-      path: '/erogazione/finalita',
-      element: <ProviderPurposesListPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api'],
-    },
-    PROVIDE_PURPOSE_DETAILS: {
-      path: '/erogazione/finalita/:purposeId',
-      element: <ProviderPurposeDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api'],
-    },
-    PROVIDE: {
-      path: '/erogazione',
-      redirect: 'PROVIDE_ESERVICE_LIST',
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api'],
-    },
-    SUBSCRIBE_CATALOG_VIEW: {
-      path: '/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
-      element: <ConsumerEServiceDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security', 'api'],
-    },
-    SUBSCRIBE_CATALOG_LIST: {
-      path: '/fruizione/catalogo-e-service',
-      element: <ConsumerEServiceCatalogPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security', 'api'],
-    },
-    SUBSCRIBE_PURPOSE_CREATE: {
-      path: '/fruizione/finalita/crea',
-      element: <ConsumerPurposeCreatePage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin'],
-    },
-    SUBSCRIBE_PURPOSE_EDIT: {
-      path: '/fruizione/finalita/:purposeId/modifica',
-      element: <ConsumerPurposeEditPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin'],
-    },
-    SUBSCRIBE_PURPOSE_DETAILS: {
-      path: '/fruizione/finalita/:purposeId',
-      element: <ConsumerPurposeDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security'],
-    },
-    SUBSCRIBE_PURPOSE_LIST: {
-      path: '/fruizione/finalita',
-      element: <ConsumerPurposesListPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security'],
-    },
-    SUBSCRIBE_CLIENT_OPERATOR_EDIT: {
-      path: '/fruizione/client/:clientId/operatori/:operatorId',
-      element: <OperatorDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'security'],
-    },
-    SUBSCRIBE_CLIENT_KEY_EDIT: {
-      path: '/fruizione/client/:clientId/chiavi/:kid',
-      element: <KeyDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'security'],
-    },
-    SUBSCRIBE_CLIENT_CREATE: {
-      path: '/fruizione/client/crea',
-      element: <ConsumerClientCreatePage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin'],
-    },
-    SUBSCRIBE_CLIENT_EDIT: {
-      path: '/fruizione/client/:clientId',
-      element: <ConsumerClientManagePage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security'],
-    },
-    SUBSCRIBE_CLIENT_LIST: {
-      path: '/fruizione/client',
-      element: <ConsumerClientListPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security'],
-    },
-    SUBSCRIBE_AGREEMENT_READ: {
-      path: '/fruizione/richieste/:agreementId',
-      element: <ConsumerAgreementDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security'],
-    },
-    SUBSCRIBE_AGREEMENT_LIST: {
-      path: '/fruizione/richieste',
-      element: <ConsumerAgreementsListPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security'],
-    },
-    SUBSCRIBE_AGREEMENT_EDIT: {
-      path: '/fruizione/richieste/:agreementId/modifica',
-      element: <ConsumerAgreementCreatePage />,
-      public: false,
-      hideSideNav: true,
-      authLevels: ['admin'],
-    },
-    SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT: {
-      path: '/fruizione/interop-m2m/:clientId/operatori/:operatorId',
-      element: <OperatorDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'security'],
-    },
-    SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT: {
-      path: '/fruizione/interop-m2m/:clientId/chiavi/:kid',
-      element: <KeyDetailsPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'security'],
-    },
-    SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE: {
-      path: '/fruizione/interop-m2m/crea',
-      element: <ConsumerClientCreatePage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin'],
-    },
-    SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT: {
-      path: '/fruizione/interop-m2m/:clientId',
-      element: <ConsumerClientManagePage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security'],
-    },
-    SUBSCRIBE_INTEROP_M2M: {
-      path: '/fruizione/interop-m2m',
-      element: <ConsumerClientM2MListPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security'],
-    },
-    SUBSCRIBE: {
-      path: '/fruizione',
-      redirect: 'SUBSCRIBE_CATALOG_LIST',
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'security', 'api'],
-    },
-    PARTY_REGISTRY: {
-      path: '/ente',
-      element: <PartyRegistryPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    ASSISTENCE_PARTY_SELECTION: {
-      path: '/assistenza/scelta-ente',
-      element: <AssistanceTenantSelectionPage />,
-      public: true,
-      hideSideNav: true,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    ASSISTENCE_PARTY_SELECTION_ERROR: {
-      path: '/assistenza/errore',
-      element: <AssistanceTenantSelectionErrorPage />,
-      public: true,
-      hideSideNav: true,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    NOT_FOUND: {
-      path: '/404',
-      element: <NotFoundPage />,
-      public: true,
-      hideSideNav: true,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    DEFAULT: {
-      path: '/',
-      redirect: 'SUBSCRIBE_CATALOG_LIST',
-      public: true,
-      hideSideNav: true,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-    SUBSCRIBE_DEBUG_VOUCHER: {
-      path: '/fruizione/debug-voucher',
-      element: <ConsumerDebugVoucherPage />,
-      public: false,
-      hideSideNav: false,
-      authLevels: ['admin', 'support', 'api', 'security'],
-    },
-  },
-  { languages: ['it', 'en'] }
-)
+export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
+  LangCode,
+  UserProductRole,
+  { hideSideNav: boolean }
+>({
+  languages: ['it', 'en'],
+})
+  .addRoute({
+    key: 'LOGOUT',
+    path: '/logout',
+    element: <LogoutPage />,
+    public: true,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'TOS',
+    path: '/termini-di-servizio',
+    element: <TOSPage />,
+    public: true,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'PRIVACY_POLICY',
+    path: '/privacy-policy',
+    element: <PrivacyPolicyPage />,
+    public: true,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'SECURITY_KEY_GUIDE',
+    path: '/generazione-chiavi',
+    element: <SecurityKeyGuidePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'NOTIFICATION',
+    path: '/notifiche',
+    element: <NotificationsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_CREATE',
+    path: '/erogazione/e-service/crea',
+    element: <ProviderEServiceCreatePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_EDIT',
+    path: '/erogazione/e-service/:eserviceId/:descriptorId/modifica',
+    element: <ProviderEServiceCreatePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_MANAGE',
+    path: '/erogazione/e-service/:eserviceId/:descriptorId',
+    element: <ProviderEServiceDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_LIST',
+    path: '/erogazione/e-service',
+    element: <ProviderEServiceListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_AGREEMENT_READ',
+    path: '/erogazione/richieste/:agreementId',
+    element: <ProviderAgreementDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_AGREEMENT_LIST',
+    path: '/erogazione/richieste',
+    element: <ProviderAgreementsListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_PURPOSE_LIST',
+    path: '/erogazione/finalita',
+    element: <ProviderPurposesListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_PURPOSE_DETAILS',
+    path: '/erogazione/finalita/:purposeId',
+    element: <ProviderPurposeDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE',
+    path: '/erogazione',
+    redirect: 'PROVIDE_ESERVICE_LIST',
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_CATALOG_VIEW',
+    path: '/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
+    element: <ConsumerEServiceDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security', 'api'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_CATALOG_LIST',
+    path: '/fruizione/catalogo-e-service',
+    element: <ConsumerEServiceCatalogPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security', 'api'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_CREATE',
+    path: '/fruizione/finalita/crea',
+    element: <ConsumerPurposeCreatePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_EDIT',
+    path: '/fruizione/finalita/:purposeId/modifica',
+    element: <ConsumerPurposeEditPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_DETAILS',
+    path: '/fruizione/finalita/:purposeId',
+    element: <ConsumerPurposeDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_LIST',
+    path: '/fruizione/finalita',
+    element: <ConsumerPurposesListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_CLIENT_OPERATOR_EDIT',
+    path: '/fruizione/client/:clientId/operatori/:operatorId',
+    element: <OperatorDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_CLIENT_KEY_EDIT',
+    path: '/fruizione/client/:clientId/chiavi/:kid',
+    element: <KeyDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_CLIENT_CREATE',
+    path: '/fruizione/client/crea',
+    element: <ConsumerClientCreatePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_CLIENT_EDIT',
+    path: '/fruizione/client/:clientId',
+    element: <ConsumerClientManagePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_CLIENT_LIST',
+    path: '/fruizione/client',
+    element: <ConsumerClientListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_AGREEMENT_READ',
+    path: '/fruizione/richieste/:agreementId',
+    element: <ConsumerAgreementDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_AGREEMENT_LIST',
+    path: '/fruizione/richieste',
+    element: <ConsumerAgreementsListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_AGREEMENT_EDIT',
+    path: '/fruizione/richieste/:agreementId/modifica',
+    element: <ConsumerAgreementCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT',
+    path: '/fruizione/interop-m2m/:clientId/operatori/:operatorId',
+    element: <OperatorDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT',
+    path: '/fruizione/interop-m2m/:clientId/chiavi/:kid',
+    element: <KeyDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE',
+    path: '/fruizione/interop-m2m/crea',
+    element: <ConsumerClientCreatePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT',
+    path: '/fruizione/interop-m2m/:clientId',
+    element: <ConsumerClientManagePage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_INTEROP_M2M',
+    path: '/fruizione/interop-m2m',
+    element: <ConsumerClientM2MListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE',
+    path: '/fruizione',
+    redirect: 'SUBSCRIBE_CATALOG_LIST',
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security', 'api'],
+  })
+  .addRoute({
+    key: 'PARTY_REGISTRY',
+    path: '/ente',
+    element: <PartyRegistryPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'ASSISTENCE_PARTY_SELECTION',
+    path: '/assistenza/scelta-ente',
+    element: <AssistanceTenantSelectionPage />,
+    public: true,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'ASSISTENCE_PARTY_SELECTION_ERROR',
+    path: '/assistenza/errore',
+    element: <AssistanceTenantSelectionErrorPage />,
+    public: true,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'NOT_FOUND',
+    path: '/404',
+    element: <NotFoundPage />,
+    public: true,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'DEFAULT',
+    path: '/',
+    redirect: 'SUBSCRIBE_CATALOG_LIST',
+    public: true,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_DEBUG_VOUCHER',
+    path: '/fruizione/debug-voucher',
+    element: <ConsumerDebugVoucherPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .build()
 
 export type RouteKey = InferRouteKey<typeof routes>
 
