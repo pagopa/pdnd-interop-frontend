@@ -12,14 +12,14 @@ import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute } from '@/router'
+import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
 
 const _RoutesWrapper: React.FC = () => {
   const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement()
   const { isPublic, routeKey } = useCurrentRoute()
 
   useScrollTopOnLocationChange()
-
-  const shouldHideSideNav = !!routes[routeKey].hideSideNav
+  useCheckSessionExpired()
 
   return (
     <>
@@ -28,7 +28,7 @@ const _RoutesWrapper: React.FC = () => {
         {!isTOSAccepted && !isPublic ? (
           <TOSAgreement onAcceptAgreement={handleAcceptTOS} />
         ) : (
-          <AppLayout hideSideNav={shouldHideSideNav}>
+          <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
               <React.Suspense fallback={<PageContainerSkeleton />}>
                 <AuthGuard>

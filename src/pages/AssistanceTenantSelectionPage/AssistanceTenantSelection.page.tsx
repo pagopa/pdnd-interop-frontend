@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography } from '@mui/material'
 import { TenantSelect, TenantSelectSkeleton } from './components/TenantSelect'
 import { useTranslation } from 'react-i18next'
 import { AssistencePartySelectionError } from '@/utils/errors.utils'
-import { AuthServicesHooks } from '@/api/auth'
+import { AuthHooks } from '@/api/auth'
 import { useAuth } from '@/stores'
 import type { CompactTenant } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
@@ -15,7 +15,7 @@ const AssistanceTenantSelectionPage: React.FC = () => {
   const navigate = useNavigate()
 
   const [selectedTenant, setSelectedTenant] = React.useState<CompactTenant | null>(null)
-  const { mutate: swapSAMLToken } = AuthServicesHooks.useSwapSAMLTokens()
+  const { mutate: swapSAMLToken } = AuthHooks.useSwapSAMLTokens()
 
   const saml2 = window.location.hash.split('#saml2=')[1]?.split('&')[0]
   if (!saml2) throw new AssistencePartySelectionError(`Missing saml2 (${saml2}) from query param`)
