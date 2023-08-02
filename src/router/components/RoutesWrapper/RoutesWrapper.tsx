@@ -11,14 +11,12 @@ import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
-import { useLoginAttempt } from '@/hooks/useLoginAttempt'
 import { routes, useCurrentRoute } from '@/router'
 
 const _RoutesWrapper: React.FC = () => {
   const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement()
   const { isPublic, routeKey } = useCurrentRoute()
 
-  useLoginAttempt()
   useScrollTopOnLocationChange()
 
   const shouldHideSideNav = !!routes[routeKey].hideSideNav
