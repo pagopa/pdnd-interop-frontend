@@ -56,7 +56,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
   const requestPolling = React.useCallback(() => {
     const refetchActiveQueries = () => {
-      queryClient.refetchQueries({ type: 'active' })
+      queryClient.refetchQueries({ type: 'active', stale: true })
     }
 
     clearExponentialInterval(activeQueriesPollingIntervalId)
