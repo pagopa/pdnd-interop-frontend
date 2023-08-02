@@ -12,8 +12,11 @@ import { STAGE } from './config/env'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import { useTranslation } from 'react-i18next'
 import { MaintenanceBanner } from './components/shared/MaintenanceBanner'
+import { AuthQueryKeys } from './api/auth'
+import AuthServices from './api/auth/auth.services'
 
 const queryClient = new QueryClient(queryClientConfig)
+queryClient.prefetchQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessionToken)
 
 function App() {
   const { t } = useTranslation('shared-components')
