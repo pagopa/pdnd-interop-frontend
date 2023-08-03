@@ -1,7 +1,7 @@
 import { useDialog } from '@/stores'
 import React from 'react'
-import { useJwt } from '../../hooks/useJwt'
 import { useCurrentRoute } from '@/router'
+import { AuthHooks } from '@/api/auth'
 
 /**
  * Checks for session expiration every second.
@@ -11,7 +11,7 @@ import { useCurrentRoute } from '@/router'
  */
 export function useCheckSessionExpired() {
   const { isPublic } = useCurrentRoute()
-  const { hasSessionExpired } = useJwt()
+  const { hasSessionExpired } = AuthHooks.useJwt()
   const { openDialog } = useDialog()
 
   const checkSessionExpiredInterval = React.useRef<number>()

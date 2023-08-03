@@ -2,17 +2,17 @@ import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
-import { useJwt } from './useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 import { useNavigate } from '@/router'
 import type { Purpose } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const navigate = useNavigate()
-  const { jwt, isAdmin } = useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
   const { mutate: suspendPurpose } = PurposeMutations.useSuspendVersion()

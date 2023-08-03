@@ -4,21 +4,28 @@ import AuthServices from './auth.services'
 import { STAGE } from '@/config/env'
 import { useCurrentRoute } from '@/router'
 import { useQuery } from '@tanstack/react-query'
+import { parseJwt } from './auth.utils'
 
 export enum AuthQueryKeys {
   GetSessionToken = 'GetSessionToken',
   GetBlacklist = 'GetBlacklist',
 }
 
-function useGetSessionToken() {
+function useJwt() {
   const { isPublic } = useCurrentRoute()
 
-  return useQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessionToken, {
-    staleTime: Infinity,
-    cacheTime: Infinity,
-    retry: false,
-    enabled: !isPublic,
-  })
+  const { data: sessionToken } = useQuery(
+    [AuthQueryKeys.GetSessionToken],
+    AuthServices.getSessionToken,
+    {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+      retry: false,
+      enabled: !isPublic,
+    }
+  )
+
+  return parseJwt(sessionToken)
 }
 
 function useGetBlacklist() {
@@ -42,7 +49,7 @@ function useSwapSAMLTokens() {
 }
 
 export const AuthHooks = {
-  useGetSessionToken,
+  useJwt,
   useGetBlacklist,
   useSwapSAMLTokens,
 }

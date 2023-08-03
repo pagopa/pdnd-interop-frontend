@@ -2,14 +2,14 @@ import { PurposeMutations } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
 import { useDialog } from '@/stores'
-import { useJwt } from './useJwt'
 import type { Purpose } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 function useGetProviderPurposesActions(purpose?: Purpose) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { openDialog } = useDialog()
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { mutate: suspendVersion } = PurposeMutations.useSuspendVersion()

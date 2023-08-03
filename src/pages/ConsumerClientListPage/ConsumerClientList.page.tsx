@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { ClientTable } from '@/components/shared/ClientTable'
 import { useNavigate } from '@/router'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
-import { useJwt } from '@/hooks/useJwt'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerClientListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerClientList' })
   const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const topSideActions: TopSideActions = {
     buttons: [

@@ -1,5 +1,4 @@
 import { AuthHooks } from '@/api/auth'
-import { useJwt } from '@/hooks/useJwt'
 import { useAuthGuard } from '@/router'
 import { NotAuthorizedError } from '@/utils/errors.utils'
 import React from 'react'
@@ -20,7 +19,7 @@ interface AuthGuardProps {
 export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const { isUserAuthorized } = useAuthGuard()
   const { data: blacklist } = AuthHooks.useGetBlacklist()
-  const { jwt, currentRoles } = useJwt()
+  const { jwt, currentRoles } = AuthHooks.useJwt()
 
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 

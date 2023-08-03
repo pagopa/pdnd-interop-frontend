@@ -1,8 +1,8 @@
 import React from 'react'
 import { AttributeQueries } from '@/api/attribute'
 import { EServiceQueries } from '@/api/eservice'
-import { useJwt } from './useJwt'
 import { hasAllDescriptorAttributes, remapDescriptorAttributes } from '@/utils/attribute.utils'
+import { AuthHooks } from '@/api/auth'
 
 /**
  * This hook checks if the user has all the attributes required from a descriptor.
@@ -13,7 +13,7 @@ export function useDescriptorAttributesPartyOwnership(
   eserviceId: string | undefined,
   descriptorId: string | undefined
 ) {
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
     eserviceId as string,
     descriptorId as string,

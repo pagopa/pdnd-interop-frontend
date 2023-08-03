@@ -1,10 +1,10 @@
 import { AgreementQueries } from '@/api/agreement'
 import type { AgreementListEntry } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
-import { useJwt } from '@/hooks/useJwt'
 import { Link } from '@/router'
 import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -16,7 +16,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
 }) => {
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const prefetchAgreement = AgreementQueries.usePrefetchSingle()
 

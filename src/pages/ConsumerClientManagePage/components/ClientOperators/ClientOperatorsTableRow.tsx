@@ -1,7 +1,6 @@
 import { ClientMutations, ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
-import { useJwt } from '@/hooks/useJwt'
 import { Link } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { Box, Skeleton } from '@mui/material'
@@ -10,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { Operator } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 interface ClientOperatorsTableRowProps {
   operator: Operator
@@ -22,7 +22,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
 }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('user')
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const clientKind = useClientKind()
   const { mutate: removeFromClient } = ClientMutations.useRemoveOperator()
   const prefetchOperator = ClientQueries.usePrefetchSingleOperator()

@@ -9,9 +9,9 @@ import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
 import { URL_FRAGMENTS } from '@/router/router.utils'
-import { useJwt } from '@/hooks/useJwt'
 import type { EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
+import { AuthHooks } from '@/api/auth'
 
 export type EServiceCreateStep1FormValues = {
   name: string
@@ -21,7 +21,7 @@ export type EServiceCreateStep1FormValues = {
 
 export const EServiceCreateStep1General: React.FC = () => {
   const { t } = useTranslation('eservice')
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
   const { eservice, descriptor, isNewEService, forward } = useEServiceCreateContext()
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()

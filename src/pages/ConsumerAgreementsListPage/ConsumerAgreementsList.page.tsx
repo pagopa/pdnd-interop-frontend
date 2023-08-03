@@ -1,7 +1,6 @@
 import { AgreementQueries } from '@/api/agreement'
 import type { GetAgreementsParams } from '@/api/api.generatedTypes'
 import { PageContainer } from '@/components/layout/containers'
-import { useJwt } from '@/hooks/useJwt'
 import {
   Filters,
   Pagination,
@@ -15,6 +14,7 @@ import {
   ConsumerAgreementsTable,
   ConsumerAgreementsTableSkeleton,
 } from './components/ConsumerAgreementsTable'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
@@ -22,7 +22,7 @@ const ConsumerAgreementsListPage: React.FC = () => {
   const [producersAutocompleteInput, setProducersAutocompleteInput] = useAutocompleteTextInput()
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
 
   const { data: producers } = AgreementQueries.useGetProducers(
     { offset: 0, limit: 50, q: producersAutocompleteInput },

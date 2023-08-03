@@ -1,12 +1,12 @@
 import { ClientMutations, ClientQueries } from '@/api/client'
 import { PartyQueries } from '@/api/party/party.hooks'
 import { useDialog } from '@/stores'
-import { useJwt } from '@/hooks/useJwt'
 import { Button, Stack } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ClientOperatorsTable, ClientOperatorsTableSkeleton } from './ClientOperatorsTable'
 import type { RelationshipInfo } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 interface ClientOperatorsProps {
   clientId: string
@@ -15,7 +15,7 @@ interface ClientOperatorsProps {
 export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) => {
   const { openDialog } = useDialog()
   const { t } = useTranslation('common')
-  const { jwt, isAdmin } = useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
   const prefetchUserList = PartyQueries.usePrefetchUsersList()
   const { mutateAsync: addOperator } = ClientMutations.useAddOperator()
 

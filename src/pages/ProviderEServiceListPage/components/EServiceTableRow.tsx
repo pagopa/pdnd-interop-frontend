@@ -8,9 +8,9 @@ import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
-import { useJwt } from '@/hooks/useJwt'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { ProducerEService } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -18,7 +18,7 @@ type EServiceTableRow = {
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { t } = useTranslation('common')
-  const { isAdmin, isOperatorAPI } = useJwt()
+  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
 
   const prefetchDescriptor = EServiceQueries.usePrefetchDescriptorProvider()
   const prefetchEService = EServiceQueries.usePrefetchSingle()

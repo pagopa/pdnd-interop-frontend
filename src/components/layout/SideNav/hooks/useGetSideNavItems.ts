@@ -1,9 +1,9 @@
 import React from 'react'
-import { useJwt } from '@/hooks/useJwt'
 import type { SideNavItemView } from '../SideNav'
 import EmailIcon from '@mui/icons-material/Email'
 import type { RouteKey } from '@/router'
 import { routes } from '@/router'
+import { AuthHooks } from '@/api/auth'
 
 const views = [
   {
@@ -28,7 +28,7 @@ const views = [
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles } = useJwt()
+  const { currentRoles } = AuthHooks.useJwt()
 
   return React.useMemo(() => {
     /**

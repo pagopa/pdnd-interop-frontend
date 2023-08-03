@@ -1,7 +1,6 @@
 import { ClientQueries, ClientQueryKeys } from '@/api/client'
 import ClientServices from '@/api/client/client.services'
 import { useDialog } from '@/stores'
-import { useJwt } from '@/hooks/useJwt'
 import { useQueries } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +8,7 @@ import identity from 'lodash/identity'
 import { Button, Stack } from '@mui/material'
 import { InfoTooltip, InfoTooltipSkeleton } from '@/components/shared/InfoTooltip'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
+import { AuthHooks } from '@/api/auth'
 
 interface ClientAddPublicKeyButtonProps {
   clientId: string
@@ -18,7 +18,7 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('key')
   const { openDialog } = useDialog()
-  const { jwt, isOperatorSecurity, isAdmin } = useJwt()
+  const { jwt, isOperatorSecurity, isAdmin } = AuthHooks.useJwt()
   const { data: users = [] } = ClientQueries.useGetOperatorsList(clientId)
 
   const userQueries = useQueries({

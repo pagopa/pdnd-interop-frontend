@@ -1,12 +1,12 @@
 import { isAttributeOwned } from '@/utils/attribute.utils'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from '@/hooks/useJwt'
 import { AttributeMutations } from '@/api/attribute'
 import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
+import { AuthHooks } from '@/api/auth'
 
 export const useGetConsumerDeclaredAttributesActions = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const { partyAttributes, agreement } = useConsumerAgreementCreateContentContext()
 
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()

@@ -1,10 +1,10 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
-import { useJwt } from '@/hooks/useJwt'
 import { PartyContactsSection, PartyAttributesSection } from './components'
+import { AuthHooks } from '@/api/auth'
 
 const PartyRegistryPage: React.FC = () => {
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const pageTitle = jwt?.organization.name ?? ''
 
   return (

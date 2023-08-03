@@ -2,8 +2,8 @@ import React from 'react'
 import { useDialog, useLoadingOverlay, useToastNotification } from '@/stores'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { UseMutationWrapper } from './react-query-wrappers.types'
-import { useJwt } from '@/hooks/useJwt'
 import { setExponentialInterval, clearExponentialInterval } from './react-query-wrappers.utils'
+import { AuthHooks } from '../auth'
 
 /**
  * Due to the backend's eventual consistency, after each mutation success, all the active queries are polled.
@@ -51,7 +51,7 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
   const { showToast } = useToastNotification()
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { openDialog, closeDialog } = useDialog()
-  const { hasSessionExpired } = useJwt()
+  const { hasSessionExpired } = AuthHooks.useJwt()
   const queryClient = useQueryClient()
 
   const requestPolling = React.useCallback(() => {

@@ -1,5 +1,4 @@
 import React from 'react'
-import { useJwt } from '@/hooks/useJwt'
 import { useNavigate } from '@/router'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
@@ -10,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
+import { AuthHooks } from '@/api/auth'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -82,7 +82,7 @@ export const Header = () => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
 
-  const { jwt, isSupport } = useJwt()
+  const { jwt, isSupport } = AuthHooks.useJwt()
 
   const queriesOptions = {
     suspense: false,

@@ -1,11 +1,10 @@
-import { AuthHooks } from '@/api/auth'
 import type { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 
 /**
  * Parse the JWT token and return the user informations stored in it
  */
-const parseJwt = memoize((token: string | undefined) => {
+export const parseJwt = memoize((token: string | undefined) => {
   const jwt = token ? (JSON.parse(window.atob(token.split('.')[1])) as JwtUser) : undefined
   const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
   const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
@@ -27,8 +26,3 @@ const parseJwt = memoize((token: string | undefined) => {
     hasSessionExpired,
   }
 })
-
-export const useJwt = () => {
-  const { data: sessionToken } = AuthHooks.useGetSessionToken()
-  return parseJwt(sessionToken)
-}

@@ -2,7 +2,6 @@ import { ClientQueries } from '@/api/client'
 import { PurposeQueries } from '@/api/purpose'
 import { Stepper } from '@/components/shared/Stepper'
 import { useActiveStep } from '@/hooks/useActiveStep'
-import { useJwt } from '@/hooks/useJwt'
 import { Link } from '@/router'
 import { Alert, Grid } from '@mui/material'
 import React from 'react'
@@ -14,6 +13,7 @@ import { ClientVoucherIntructionsPurposeSelect } from './ClientVoucherIntruction
 import { useSearchParams } from 'react-router-dom'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '@/components/shared/ApiInfoSection'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
+import { AuthHooks } from '@/api/auth'
 
 interface VoucherInstructionsProps {
   clientId: string
@@ -46,7 +46,7 @@ const InteropM2MVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ cli
 const ClientVoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientId }) => {
   const { activeStep, forward, back } = useActiveStep()
   const steps = useGetVoucherInstructionsSteps()
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const { t } = useTranslation('voucher')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'idLabels' })
   const { data: clientKeys = { keys: [] } } = ClientQueries.useGetKeyList(clientId)

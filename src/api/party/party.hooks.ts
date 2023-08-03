@@ -1,4 +1,3 @@
-import { useJwt } from '@/hooks/useJwt'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type {
@@ -10,6 +9,7 @@ import type {
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import { type UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 import PartyServices from './party.services'
+import { AuthHooks } from '../auth'
 
 export enum PartyQueryKeys {
   GetSingle = 'PartyGetSingle',
@@ -30,7 +30,7 @@ function useGetParty(partyId?: string) {
 }
 
 function useGetActiveUserParty() {
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   return useGetParty(jwt?.organizationId)
 }
 

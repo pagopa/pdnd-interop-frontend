@@ -2,8 +2,8 @@ import { isAttributeOwned } from '@/utils/attribute.utils'
 import { useAgreementDetailsContext } from '../AgreementDetailsContext'
 import { useTranslation } from 'react-i18next'
 import { useCurrentRoute } from '@/router'
-import { useJwt } from '@/hooks/useJwt'
 import { AttributeMutations } from '@/api/attribute'
+import { AuthHooks } from '@/api/auth'
 
 /**
  * Returns the actions for the declared attributes section inside the agreement details.
@@ -12,7 +12,7 @@ import { AttributeMutations } from '@/api/attribute'
 export const useAgreementGetDeclaredAttributesActions = () => {
   const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
   const { routeKey } = useCurrentRoute()
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const { partyAttributes, isAgreementEServiceMine, agreement } = useAgreementDetailsContext()
 
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()

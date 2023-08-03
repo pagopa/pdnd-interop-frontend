@@ -1,16 +1,16 @@
 import { PurposeQueries } from '@/api/purpose'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
-import { useJwt } from '@/hooks/useJwt'
 import { Alert } from '@mui/material'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 import { Spinner } from '@pagopa/interop-fe-commons'
+import { AuthHooks } from '@/api/auth'
 
 export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const { watch, setValue } = useFormContext<PurposeCreateFormValues>()
 
   const shouldRenderTemplateAutocomplete = watch('useTemplate')
