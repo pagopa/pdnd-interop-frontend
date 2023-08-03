@@ -67,12 +67,7 @@ const ConsumerClientCreatePage: React.FC = () => {
     >
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
-          <SectionContainer
-            newDesign
-            title={t('create.infoSectionTitle')}
-            sx={{ borderRadius: 2 }}
-            component="div"
-          >
+          <SectionContainer newDesign title={t('create.infoSectionTitle')} component="div">
             <RHFTextField
               focusOnMount={true}
               name="name"
@@ -81,7 +76,6 @@ const ConsumerClientCreatePage: React.FC = () => {
               inputProps={{ maxLength: 60 }}
               rules={{ required: true, minLength: 5 }}
               sx={{ my: 2 }}
-              InputLabelProps={{ shrink: undefined }}
             />
 
             <RHFTextField
@@ -91,7 +85,6 @@ const ConsumerClientCreatePage: React.FC = () => {
               multiline
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
-              InputLabelProps={{ shrink: undefined }}
               sx={{ my: 2 }}
             />
           </SectionContainer>
@@ -100,7 +93,6 @@ const ConsumerClientCreatePage: React.FC = () => {
             newDesign
             title={t('create.clientOperatorsSection.title')}
             description={t('create.clientOperatorsSection.description')}
-            sx={{ borderRadius: 2 }}
             component="div"
           >
             <OperatorsInputTable />
