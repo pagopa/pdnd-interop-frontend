@@ -1,9 +1,13 @@
-import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
+import {
+  type UseQueryOptions,
+  useMutation,
+  useQueries,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
 import type { Attribute, Attributes, GetAttributesParams } from '../api.generatedTypes'
-import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import { useAuthenticatedQuery } from '../hooks'
 
 export enum AttributeQueryKeys {
   GetList = 'AttributeGetList',
@@ -14,16 +18,16 @@ export enum AttributeQueryKeys {
   GetPartyList = 'AttributeGetPartyList',
 }
 
-function useGetList(params: GetAttributesParams, config?: UseQueryWrapperOptions<Attributes>) {
-  return useQueryWrapper(
+function useGetList(params: GetAttributesParams, config?: UseQueryOptions<Attributes>) {
+  return useAuthenticatedQuery(
     [AttributeQueryKeys.GetList, params],
     () => AttributeServices.getList(params),
     config
   )
 }
 
-function useGetSingle(attributeId: string, config?: UseQueryWrapperOptions<Attribute>) {
-  return useQueryWrapper(
+function useGetSingle(attributeId: string, config?: UseQueryOptions<Attribute>) {
+  return useAuthenticatedQuery(
     [AttributeQueryKeys.GetSingle, attributeId],
     () => AttributeServices.getSingle(attributeId),
     config
@@ -39,7 +43,7 @@ function usePrefetchSingle() {
 }
 
 function useGetPartyCertifiedList(partyId?: string) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [AttributeQueryKeys.GetPartyCertifiedList, partyId],
     () => AttributeServices.getPartyCertifiedList(partyId!),
     {
@@ -57,7 +61,7 @@ function usePrefetchPartyCertifiedList() {
 }
 
 function useGetPartyVerifiedList(partyId?: string) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [AttributeQueryKeys.GetPartyVerifiedList, partyId],
     () => AttributeServices.getPartyVerifiedList(partyId!),
     {
@@ -67,7 +71,7 @@ function useGetPartyVerifiedList(partyId?: string) {
 }
 
 function useGetPartyDeclaredList(partyId?: string) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [AttributeQueryKeys.GetPartyDeclaredList, partyId],
     () => AttributeServices.getPartyDeclaredList(partyId!),
     {

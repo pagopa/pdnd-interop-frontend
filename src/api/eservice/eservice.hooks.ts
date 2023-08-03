@@ -1,9 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useQueryWrapper } from '../react-query-wrappers'
 import EServiceServices from './eservice.services'
-import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
-import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import { useDownloadFile } from '../hooks/useDownloadFile'
 import type {
   CatalogEServices,
   CompactOrganizations,
@@ -15,6 +13,7 @@ import type {
   ProducerEServices,
   UpdateEServiceDescriptorSeed,
 } from '../api.generatedTypes'
+import { useAuthenticatedQuery } from '../hooks/useAuthenticatedQuery'
 
 export enum EServiceQueryKeys {
   GetCatalogList = 'EServiceGetCatalogList',
@@ -28,9 +27,9 @@ export enum EServiceQueryKeys {
 
 function useGetCatalogList(
   params: GetEServicesCatalogParams,
-  config?: UseQueryWrapperOptions<CatalogEServices>
+  config?: UseQueryOptions<CatalogEServices>
 ) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [EServiceQueryKeys.GetCatalogList, params],
     () => EServiceServices.getCatalogList(params),
     config
@@ -39,9 +38,9 @@ function useGetCatalogList(
 
 function useGetProviderList(
   params: GetProducerEServicesParams,
-  config?: UseQueryWrapperOptions<ProducerEServices>
+  config?: UseQueryOptions<ProducerEServices>
 ) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [EServiceQueryKeys.GetProviderList, params],
     () => EServiceServices.getProviderList(params),
     config
@@ -50,9 +49,9 @@ function useGetProviderList(
 
 function useGetConsumers(
   params: GetConsumersParams,
-  config?: UseQueryWrapperOptions<CompactOrganizations>
+  config?: UseQueryOptions<CompactOrganizations>
 ) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [EServiceQueryKeys.GetConsumers, params],
     () => EServiceServices.getConsumers(params),
     config
@@ -61,9 +60,9 @@ function useGetConsumers(
 
 function useGetProducers(
   params: GetProducersParams,
-  config?: UseQueryWrapperOptions<CompactOrganizations>
+  config?: UseQueryOptions<CompactOrganizations>
 ) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [EServiceQueryKeys.GetProducers, params],
     () => EServiceServices.getProducers(params),
     config
@@ -71,7 +70,7 @@ function useGetProducers(
 }
 
 function useGetSingle(eserviceId?: string, config?: { suspense?: boolean; enabled?: boolean }) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [EServiceQueryKeys.GetSingle, eserviceId],
     () => EServiceServices.getSingle(eserviceId!),
     { ...config, enabled: Boolean(eserviceId) && (config?.enabled ?? true) }
@@ -83,7 +82,7 @@ function useGetDescriptorCatalog(
   descriptorId: string,
   config?: { suspense?: boolean; enabled?: boolean }
 ) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [EServiceQueryKeys.GetDescriptorCatalog, eserviceId, descriptorId],
     () => EServiceServices.getDescriptorCatalog(eserviceId, descriptorId),
     config
@@ -95,7 +94,7 @@ function useGetDescriptorProvider(
   descriptorId?: string,
   config?: { suspense?: boolean; enabled?: boolean }
 ) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [EServiceQueryKeys.GetDescriptorProvider, eserviceId, descriptorId],
     () => EServiceServices.getDescriptorProvider(eserviceId!, descriptorId!),
     {

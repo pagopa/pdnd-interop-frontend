@@ -1,6 +1,6 @@
 import React from 'react'
 import { renderHook, screen } from '@testing-library/react'
-import { useQueryWrapper } from '../useQueryWrapper'
+import { useAuthenticatedQuery } from '../useAuthenticatedQuery'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { mockUseJwt, queryClientMock } from '@/utils/testing.utils'
 import { act } from 'react-dom/test-utils'
@@ -40,27 +40,39 @@ const wrapperWithErrorBoundary = ({ children }: { children: React.ReactNode }) =
   </QueryClientProvider>
 )
 
-describe('useQueryWrapper tests', () => {
-  it('Should not show error boundary when 404 error occurs', async () => {
-    /** Mocks useJwt returns a truthy value for jwt property */
-    mockUseJwt()
-    const { rerender } = renderHook(
-      () => useQueryWrapper(['TEST'], promiseRejectedMock, { skipThrowOn404Error: true }),
+describe('useAuthenticatedQuery tests', () => {
+  it('Should not fetch when useJwt jwt property is falsy', async () => {
+    const { result, rerender } = renderHook(
+      () => useAuthenticatedQuery(['TEST'], promiseResolvedMock),
       {
-        wrapper: wrapperWithErrorBoundary,
+        wrapper,
       }
     )
     await act(() => {
       rerender()
     })
+    expect(result.current.data).toEqual(undefined)
+  })
 
-    expect(screen.queryByText('Error boundary')).not.toBeInTheDocument()
+  it('Should fetch when useJwt jwt property is truthy', async () => {
+    /** Mocks useJwt returns a truthy value for jwt property */
+    mockUseJwt()
+    const { result, rerender } = renderHook(
+      () => useAuthenticatedQuery(['TEST'], promiseResolvedMock),
+      {
+        wrapper,
+      }
+    )
+    await act(() => {
+      rerender()
+    })
+    expect(result.current.data).toEqual('success')
   })
 
   it('Should show error boundary', async () => {
     /** Mocks useJwt returns a truthy value for jwt property */
     mockUseJwt()
-    const { rerender } = renderHook(() => useQueryWrapper(['TEST'], promiseRejectedMock), {
+    const { rerender } = renderHook(() => useAuthenticatedQuery(['TEST'], promiseRejectedMock), {
       wrapper: wrapperWithErrorBoundary,
     })
     await act(() => {

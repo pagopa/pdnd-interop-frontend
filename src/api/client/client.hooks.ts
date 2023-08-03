@@ -1,10 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
-import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
-import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import { useDownloadFile } from '../hooks/useDownloadFile'
 import type { CompactClients, GetClientsParams } from '../api.generatedTypes'
+import { NotFoundError } from '@/utils/errors.utils'
+import { useAuthenticatedQuery } from '../hooks'
 
 export enum ClientQueryKeys {
   GetList = 'ClientGetList',
@@ -16,8 +16,8 @@ export enum ClientQueryKeys {
   GetClientOperatorKeys = 'ClientGetClientOperatorKeys',
 }
 
-function useGetList(params: GetClientsParams, config?: UseQueryWrapperOptions<CompactClients>) {
-  return useQueryWrapper(
+function useGetList(params: GetClientsParams, config?: UseQueryOptions<CompactClients>) {
+  return useAuthenticatedQuery(
     [ClientQueryKeys.GetList, params],
     () => ClientServices.getList(params),
     config
@@ -25,7 +25,7 @@ function useGetList(params: GetClientsParams, config?: UseQueryWrapperOptions<Co
 }
 
 function useGetSingle(clientId: string, config = { suspense: true }) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [ClientQueryKeys.GetSingle, clientId],
     () => ClientServices.getSingle(clientId),
     config
@@ -41,17 +41,21 @@ function usePrefetchSingle() {
 }
 
 function useGetKeyList(clientId: string) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [ClientQueryKeys.GetKeyList, clientId],
     () => ClientServices.getKeyList(clientId),
     {
-      skipThrowOn404Error: true,
+      useErrorBoundary: (error) => {
+        // The error boundary is disabled for 404 errors because the `getKeyList` service
+        // returns 404 if the client has no keys associated.
+        return !(error instanceof NotFoundError)
+      },
     }
   )
 }
 
 function useGetSingleKey(clientId: string, kid: string, config = { suspense: true }) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [ClientQueryKeys.GetSingleKey, clientId, kid],
     () => ClientServices.getSingleKey(clientId, kid),
     config
@@ -67,7 +71,7 @@ function usePrefetchSingleKey() {
 }
 
 function useGetOperatorsList(clientId: string, config = { suspense: true }) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [ClientQueryKeys.GetOperatorsList, clientId],
     () => ClientServices.getOperatorList(clientId),
     config
@@ -75,7 +79,7 @@ function useGetOperatorsList(clientId: string, config = { suspense: true }) {
 }
 
 function useGetSingleOperator(relationshipId: string, config = { suspense: true }) {
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [ClientQueryKeys.GetSingleOperator, relationshipId],
     () => ClientServices.getSingleOperator(relationshipId),
     config
@@ -91,7 +95,7 @@ function usePrefetchSingleOperator() {
 }
 
 function useGetOperatorKeys(clientId: string, operatorId: string) {
-  return useQueryWrapper([ClientQueryKeys.GetClientOperatorKeys, clientId, operatorId], () =>
+  return useAuthenticatedQuery([ClientQueryKeys.GetClientOperatorKeys, clientId, operatorId], () =>
     ClientServices.getOperatorKeys(clientId, operatorId)
   )
 }

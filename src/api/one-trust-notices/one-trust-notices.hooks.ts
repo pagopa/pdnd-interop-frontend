@@ -1,10 +1,9 @@
 import { AuthHooks } from '@/api/auth'
 import { OneTrustNoticesServices } from './one-trust-notices.services'
-import { useQueryWrapper } from '../react-query-wrappers'
 import type { ConsentType, PrivacyNotice } from '../api.generatedTypes'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQuery } from '@tanstack/react-query'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import { useAuthenticatedQuery } from '../hooks'
 
 export enum OneTrustNoticesQueryKeys {
   GetUserConsent = 'GetUserConsent',
@@ -13,11 +12,8 @@ export enum OneTrustNoticesQueryKeys {
   GetTermsOfService = 'GetTermsOfService',
 }
 
-function useGetUserConsent(
-  consentType: ConsentType,
-  options?: UseQueryWrapperOptions<PrivacyNotice>
-) {
-  return useQueryWrapper(
+function useGetUserConsent(consentType: ConsentType, options?: UseQueryOptions<PrivacyNotice>) {
+  return useAuthenticatedQuery(
     [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
     () => OneTrustNoticesServices.getUserConsent({ consentType }),
     {
@@ -30,11 +26,11 @@ function useGetUserConsent(
 
 /**
  * This hook will get the content of the notice from the BFF and will be enabled only if the user is logged.
- * This is the default behaviour of the useQueryWrapper hook.
+ * This is the default behaviour of the useAuthenticatedQuery hook.
  */
 function useGetNoticeContent(consentType: ConsentType) {
   const { jwt, isLoadingSession } = AuthHooks.useJwt()
-  return useQueryWrapper(
+  return useAuthenticatedQuery(
     [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
     () => OneTrustNoticesServices.getNoticeContent({ consentType }),
     {
