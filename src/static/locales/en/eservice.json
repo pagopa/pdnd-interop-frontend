@@ -115,6 +115,21 @@
       "uploadBtn": "Upload"
     }
   },
+  "summary": {
+    "title": "{{eserviceName}}, version {{versionNumber}}",
+    "generalInformationSection": {
+      "title": "General informations"
+    },
+    "versionInformationSection": {
+      "title": "Version's informations"
+    },
+    "attributeVersion": {
+      "title": "Version access requirements"
+    },
+    "documentationSection": {
+      "title": "Version's documentations"
+    }
+  },
   "list": {
     "title": "E-Service Catalog",
     "description": "In this area you can explore all the catalog's e-services",

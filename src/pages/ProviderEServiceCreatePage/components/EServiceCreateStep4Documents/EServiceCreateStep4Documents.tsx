@@ -48,7 +48,13 @@ export const EServiceCreateStep4Documents: React.FC<ActiveStepProps> = () => {
           label: t('create.goToSummary'),
           type: 'button',
           onClick: () => {
-            navigate('PROVIDE_ESERVICE_LIST')
+            if (!descriptor) return
+            navigate('PROVIDE_ESERVICE_SUMMARY', {
+              params: {
+                eserviceId: descriptor.eservice.id,
+                descriptorId: descriptor.id,
+              },
+            })
           },
           endIcon: <ArrowForwardIcon />,
         }}

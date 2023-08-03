@@ -215,6 +215,7 @@
     "SECURITY_KEY_GUIDE": "How to upload public keys",
     "NOTIFICATION": "Notifications",
     "PROVIDE_ESERVICE_CREATE": "Create e-service",
+    "PROVIDE_ESERVICE_SUMMARY": "Summary",
     "PROVIDE_ESERVICE_EDIT": "Edit e-service",
     "PROVIDE_ESERVICE_MANAGE": "View e-service",
     "PROVIDE_ESERVICE_LIST": "Your e-services",

@@ -115,6 +115,21 @@
       "uploadBtn": "Carica"
     }
   },
+  "summary": {
+    "title": "{{eserviceName}}, versione {{versionNumber}}",
+    "generalInformationSection": {
+      "title": "Informazioni generali"
+    },
+    "versionInformationSection": {
+      "title": "Informazioni di versione"
+    },
+    "attributeVersion": {
+      "title": "Requisiti di accesso di versione"
+    },
+    "documentationSection": {
+      "title": "Documentazione di versione"
+    }
+  },
   "list": {
     "title": "Catalogo degli E-Service",
     "description": "In quest'area puoi esplorare tutti gli e-service nel catalogo",

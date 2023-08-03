@@ -214,6 +214,7 @@
     "SECURITY_KEY_GUIDE": "Come caricare le chiavi di sicurezza",
     "NOTIFICATION": "Notifiche",
     "PROVIDE_ESERVICE_CREATE": "Crea e-service",
+    "PROVIDE_ESERVICE_SUMMARY": "Riepilogo",
     "PROVIDE_ESERVICE_EDIT": "Modifica e-service",
     "PROVIDE_ESERVICE_MANAGE": "Visualizza e-service",
     "PROVIDE_ESERVICE_LIST": "I tuoi e-service",

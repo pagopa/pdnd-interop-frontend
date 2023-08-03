@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type' | 'label'> & {
   name: string
   label: string
+  labelType?: 'external' | 'shrink'
   infoLabel?: React.ReactNode
   focusOnMount?: boolean
   rules?: ControllerProps['rules']
@@ -27,6 +28,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   sx,
   name,
   label,
+  labelType = 'shrink',
   infoLabel,
   focusOnMount,
   multiline,
