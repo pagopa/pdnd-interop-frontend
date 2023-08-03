@@ -8,7 +8,6 @@ import { useQuery } from '@tanstack/react-query'
 export enum AuthQueryKeys {
   GetSessionToken = 'GetSessionToken',
   GetBlacklist = 'GetBlacklist',
-  SessionToken = 'AuthSessionToken',
 }
 
 function useGetSessionToken() {

@@ -2,7 +2,6 @@ import { OneTrustNoticesServices } from './one-trust-notices.services'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import type { ConsentType } from '../api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
-import { useAuth } from '@/stores'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 export enum OneTrustNoticesQueryKeys {
@@ -46,7 +45,6 @@ function useGetNoticeContent(consentType: ConsentType) {
  * The PP and ToS are public and should be accessible to everyone.
  */
 function useGetPublicNoticeContent(consentType: ConsentType) {
-  const { sessionToken, isLoadingSessionToken } = useAuth()
   const lang = useCurrentLanguage()
 
   return useQuery(
@@ -62,7 +60,6 @@ function useGetPublicNoticeContent(consentType: ConsentType) {
       retry: false,
       staleTime: Infinity,
       cacheTime: Infinity,
-      enabled: !isLoadingSessionToken && !sessionToken,
     }
   )
 }
