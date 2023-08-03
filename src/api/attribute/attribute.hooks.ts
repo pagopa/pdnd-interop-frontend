@@ -1,6 +1,6 @@
-import { useQueries, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import { useQueryWrapper } from '../react-query-wrappers'
 import AttributeServices from './attribute.services'
 import type { Attribute, Attributes, GetAttributesParams } from '../api.generatedTypes'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
@@ -103,13 +103,10 @@ function useGetListParty(partyId?: string, config = { suspense: true }) {
 
 function useCreate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'attribute.create' })
-  const queryClient = useQueryClient()
-  return useMutationWrapper(AttributeServices.create, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    onSuccess(data) {
-      queryClient.setQueryData([AttributeQueryKeys.GetSingle, data.id], data)
+  return useMutation(AttributeServices.create, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
     },
   })
 }
@@ -118,11 +115,11 @@ function useVerifyPartyAttribute() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.verifyPartyAttribute',
   })
-  return useMutationWrapper(AttributeServices.verifyPartyAttribute, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: false,
+  return useMutation(AttributeServices.verifyPartyAttribute, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
@@ -130,11 +127,11 @@ function useUpdateVerifiedPartyAttribute() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.updatingExpirationPartyAttribute',
   })
-  return useMutationWrapper(AttributeServices.updateVerifiedPartyAttribute, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: false,
+  return useMutation(AttributeServices.updateVerifiedPartyAttribute, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
@@ -142,11 +139,11 @@ function useRevokeVerifiedPartyAttribute() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.revokeVerifiedPartyAttribute',
   })
-  return useMutationWrapper(AttributeServices.revokeVerifiedPartyAttribute, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: false,
+  return useMutation(AttributeServices.revokeVerifiedPartyAttribute, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
@@ -154,14 +151,14 @@ function useDeclarePartyAttribute() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.declarePartyAttribute',
   })
-  return useMutationWrapper(AttributeServices.declarePartyAttribute, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(AttributeServices.declarePartyAttribute, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
@@ -170,14 +167,14 @@ function useRevokeDeclaredPartyAttribute() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.revokeDeclaredPartyAttribute',
   })
-  return useMutationWrapper(AttributeServices.revokeDeclaredPartyAttribute, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(AttributeServices.revokeDeclaredPartyAttribute, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }

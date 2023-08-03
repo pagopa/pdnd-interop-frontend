@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import { useQueryWrapper } from '../react-query-wrappers'
 import AuthServices from './auth.services'
 import { STAGE } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import { parseJwt } from './auth.utils'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
+import { useMutation } from '@tanstack/react-query'
 
 export enum AuthQueryKeys {
   GetSessionToken = 'GetSessionToken',
@@ -38,11 +39,11 @@ function useGetBlacklist() {
 }
 
 function useSwapSAMLTokens() {
-  const { t } = useTranslation('mutations-feedback')
-  return useMutationWrapper(AuthServices.swapSAMLToken, {
-    suppressErrorToast: true,
-    suppressSuccessToast: true,
-    loadingLabel: t('auth.loadingLabel'),
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'auth' })
+  return useMutation(AuthServices.swapSAMLToken, {
+    meta: {
+      loadingLabel: t('loadingLabel'),
+    },
   })
 }
 

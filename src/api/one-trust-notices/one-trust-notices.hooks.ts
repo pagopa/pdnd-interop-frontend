@@ -1,8 +1,8 @@
 import { AuthHooks } from '@/api/auth'
 import { OneTrustNoticesServices } from './one-trust-notices.services'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import { useQueryWrapper } from '../react-query-wrappers'
 import type { ConsentType, PrivacyNotice } from '../api.generatedTypes'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
@@ -75,11 +75,7 @@ function useGetPublicNoticeContent(consentType: ConsentType) {
 }
 
 function useAcceptPrivacyNotice() {
-  return useMutationWrapper(OneTrustNoticesServices.acceptPrivacyNotice, {
-    suppressSuccessToast: true,
-    suppressErrorToast: true,
-    suppressLoadingOverlay: true,
-  })
+  return useMutation(OneTrustNoticesServices.acceptPrivacyNotice, {})
 }
 
 export const OneTrustNoticesQueries = {

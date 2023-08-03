@@ -1,4 +1,4 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type {
   GetTenantsParams,
@@ -6,7 +6,7 @@ import type {
   SelfcareInstitution,
   Tenants,
 } from '../api.generatedTypes'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import { useQueryWrapper } from '../react-query-wrappers'
 import { type UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 import PartyServices from './party.services'
 import { AuthHooks } from '../auth'
@@ -72,10 +72,12 @@ function useGetProducts(config: UseQueryWrapperOptions<Array<{ id: string; name:
 
 function useUpdateMail() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'party.updateMail' })
-  return useMutationWrapper(PartyServices.updateMail, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(PartyServices.updateMail, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 

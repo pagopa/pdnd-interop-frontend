@@ -1,6 +1,6 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import { useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
@@ -98,55 +98,63 @@ function useGetOperatorKeys(clientId: string, operatorId: string) {
 
 function useCreate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.create' })
-  return useMutationWrapper(ClientServices.create, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(ClientServices.create, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useCreateInteropM2M() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.createInteropM2M' })
-  return useMutationWrapper(ClientServices.createInteropM2M, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(ClientServices.createInteropM2M, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useDelete() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.deleteOne' })
-  return useMutationWrapper(ClientServices.deleteOne, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(ClientServices.deleteOne, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
 
 function usePostKey() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.postKey' })
-  return useMutationWrapper(ClientServices.postKey, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(ClientServices.postKey, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useDeleteKey() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.deleteKey' })
-  return useMutationWrapper(ClientServices.deleteKey, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(ClientServices.deleteKey, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
@@ -162,24 +170,26 @@ function useAddOperator(
   config: { suppressSuccessToast: boolean } = { suppressSuccessToast: false }
 ) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.addOperator' })
-  return useMutationWrapper(ClientServices.addOperator, {
-    suppressSuccessToast: config.suppressSuccessToast,
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(ClientServices.addOperator, {
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useRemoveOperator() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.removeOperator' })
-  return useMutationWrapper(ClientServices.removeOperator, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(ClientServices.removeOperator, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }

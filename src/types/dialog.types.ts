@@ -44,7 +44,8 @@ export type DialogBasicProps = DialogDefaultProps & {
   title: string
   description?: string
   proceedLabel?: string
-  proceedCallback: VoidFunction
+  onProceed: VoidFunction
+  onCancel?: VoidFunction
   disabled?: boolean
 }
 

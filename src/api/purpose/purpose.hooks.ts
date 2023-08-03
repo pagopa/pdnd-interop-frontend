@@ -1,6 +1,6 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
+import { useQueryWrapper } from '../react-query-wrappers'
 import PurposeServices from './purpose.services'
 import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
 import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
@@ -79,42 +79,47 @@ function useGetRiskAnalysisVersion(
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
-  return useMutationWrapper(PurposeServices.createDraft, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(PurposeServices.createDraft, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateDraft' })
-  return useMutationWrapper(PurposeServices.updateDraft, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(PurposeServices.updateDraft, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useDeleteDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.deleteDraft' })
-  return useMutationWrapper(PurposeServices.deleteDraft, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(PurposeServices.deleteDraft, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
 
 function useCreateVersionDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createVersionDraft' })
-  return useMutationWrapper(PurposeServices.createVersionDraft, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(PurposeServices.createVersionDraft, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
@@ -122,10 +127,11 @@ function useUpdateVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateVersionDraft',
   })
-  return useMutationWrapper(PurposeServices.updateVersionDraft, {
-    suppressSuccessToast: true,
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(PurposeServices.updateVersionDraft, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
@@ -133,10 +139,12 @@ function useUpdateDailyCalls() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDailyCalls',
   })
-  return useMutationWrapper(PurposeServices.updateDailyCalls, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(PurposeServices.updateDailyCalls, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
@@ -144,10 +152,10 @@ function useUpdateVersionWaitingForApproval() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateVersionWaitingForApproval',
   })
-  return useMutationWrapper(PurposeServices.updateVersionWaitingForApproval, {
-    suppressSuccessToast: true,
-    suppressErrorToast: true,
-    loadingLabel: t('loading'),
+  return useMutation(PurposeServices.updateVersionWaitingForApproval, {
+    meta: {
+      loadingLabel: t('loading'),
+    },
   })
 }
 
@@ -161,93 +169,101 @@ function useDownloadRiskAnalysis() {
 
 function useSuspendVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.suspendVersion' })
-  return useMutationWrapper(PurposeServices.suspendVersion, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(PurposeServices.suspendVersion, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
 
 function useActivateVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.activateVersion' })
-  return useMutationWrapper(PurposeServices.activateVersion, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(PurposeServices.activateVersion, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
 
 function useArchiveVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.archiveVersion' })
-  return useMutationWrapper(PurposeServices.archiveVersion, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(PurposeServices.archiveVersion, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
 
 function useDeleteVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.deleteVersion' })
-  return useMutationWrapper(PurposeServices.deleteVersion, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(PurposeServices.deleteVersion, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
 
 function useClone() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.clone' })
-  return useMutationWrapper(PurposeServices.clone, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(PurposeServices.clone, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
 
 function useAddClient() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.addClient' })
-  return useMutationWrapper(PurposeServices.addClient, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(PurposeServices.addClient, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useRemoveClient() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.removeClient' })
-  return useMutationWrapper(PurposeServices.removeClient, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(PurposeServices.removeClient, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }

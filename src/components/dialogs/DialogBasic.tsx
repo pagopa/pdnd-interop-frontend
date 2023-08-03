@@ -14,7 +14,8 @@ import { useDialog } from '@/stores'
 export const DialogBasic: React.FC<DialogBasicProps> = ({
   title = 'Conferma azione',
   description,
-  proceedCallback,
+  onProceed,
+  onCancel,
   proceedLabel,
   disabled = false,
   maxWidth,
@@ -24,10 +25,20 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
+  const handleCancel = () => {
+    onCancel?.()
+    closeDialog()
+  }
+
+  const handleProceed = () => {
+    onProceed()
+    closeDialog()
+  }
+
   return (
     <Dialog
       open
-      onClose={closeDialog}
+      onClose={handleCancel}
       aria-labelledby={ariaLabelId}
       {...(description ? { 'aria-describedby': ariaDescriptionId } : {})}
       maxWidth={maxWidth}
@@ -48,10 +59,10 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
       )}
 
       <DialogActions>
-        <Button variant="outlined" onClick={closeDialog}>
+        <Button variant="outlined" onClick={handleCancel}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={proceedCallback} disabled={disabled}>
+        <Button variant="contained" onClick={handleProceed} disabled={disabled}>
           {proceedLabel ?? tCommon('confirm')}
         </Button>
       </DialogActions>
