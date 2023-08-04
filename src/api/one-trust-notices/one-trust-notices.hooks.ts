@@ -3,7 +3,6 @@ import { OneTrustNoticesServices } from './one-trust-notices.services'
 import type { ConsentType, PrivacyNotice } from '../api.generatedTypes'
 import { type UseQueryOptions, useMutation, useQuery } from '@tanstack/react-query'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { useAuthenticatedQuery } from '../hooks'
 
 export enum OneTrustNoticesQueryKeys {
   GetUserConsent = 'GetUserConsent',
@@ -13,35 +12,31 @@ export enum OneTrustNoticesQueryKeys {
 }
 
 function useGetUserConsent(consentType: ConsentType, options?: UseQueryOptions<PrivacyNotice>) {
-  return useAuthenticatedQuery(
-    [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
-    () => OneTrustNoticesServices.getUserConsent({ consentType }),
-    {
-      ...options,
-      staleTime: Infinity,
-      cacheTime: Infinity,
-    }
-  )
+  return useQuery({
+    queryKey: [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
+    queryFn: () => OneTrustNoticesServices.getUserConsent({ consentType }),
+    ...options,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  })
 }
 
 /**
  * This hook will get the content of the notice from the BFF and will be enabled only if the user is logged.
- * This is the default behaviour of the useAuthenticatedQuery hook.
+ * This is the default behaviour of the useQuery hook.
  */
 function useGetNoticeContent(consentType: ConsentType) {
   const { jwt, isLoadingSession } = AuthHooks.useJwt()
-  return useAuthenticatedQuery(
-    [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
-    () => OneTrustNoticesServices.getNoticeContent({ consentType }),
-    {
-      suspense: false,
-      useErrorBoundary: false,
-      retry: false,
-      staleTime: Infinity,
-      cacheTime: Infinity,
-      enabled: !!jwt && !isLoadingSession,
-    }
-  )
+  return useQuery({
+    queryKey: [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
+    queryFn: () => OneTrustNoticesServices.getNoticeContent({ consentType }),
+    suspense: false,
+    useErrorBoundary: false,
+    retry: false,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+    enabled: !!jwt && !isLoadingSession,
+  })
 }
 
 /**
@@ -52,22 +47,20 @@ function useGetPublicNoticeContent(consentType: ConsentType) {
   const { jwt, isLoadingSession } = AuthHooks.useJwt()
   const lang = useCurrentLanguage()
 
-  return useQuery(
-    [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
-    () =>
+  return useQuery({
+    queryKey: [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
+    queryFn: () =>
       OneTrustNoticesServices.getPublicNoticeContent({
         consentType: consentType.toLowerCase() as Lowercase<ConsentType>,
         lang,
       }),
-    {
-      suspense: false,
-      useErrorBoundary: false,
-      retry: false,
-      staleTime: Infinity,
-      cacheTime: Infinity,
-      enabled: !jwt && !isLoadingSession,
-    }
-  )
+    suspense: false,
+    useErrorBoundary: false,
+    retry: false,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+    enabled: !jwt && !isLoadingSession,
+  })
 }
 
 function useAcceptPrivacyNotice() {

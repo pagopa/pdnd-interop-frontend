@@ -1,4 +1,4 @@
-import { type UseQueryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type {
   GetTenantsParams,
@@ -8,7 +8,6 @@ import type {
 } from '../api.generatedTypes'
 import PartyServices from './party.services'
 import { AuthHooks } from '../auth'
-import { useAuthenticatedQuery } from '../hooks'
 
 export enum PartyQueryKeys {
   GetSingle = 'PartyGetSingle',
@@ -19,13 +18,11 @@ export enum PartyQueryKeys {
 }
 
 function useGetParty(partyId?: string) {
-  return useAuthenticatedQuery(
-    [PartyQueryKeys.GetSingle, partyId],
-    () => PartyServices.getParty(partyId!),
-    {
-      enabled: !!partyId,
-    }
-  )
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetSingle, partyId],
+    queryFn: () => PartyServices.getParty(partyId!),
+    enabled: !!partyId,
+  })
 }
 
 function useGetActiveUserParty() {
@@ -37,14 +34,12 @@ function useGetPartyUsersList(
   params: GetUserInstitutionRelationshipsParams,
   config = { suspense: false }
 ) {
-  return useAuthenticatedQuery(
-    [PartyQueryKeys.GetPartyUsersList, params],
-    () => PartyServices.getPartyUsersList(params),
-    {
-      enabled: !!params?.tenantId,
-      ...config,
-    }
-  )
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetPartyUsersList, params],
+    queryFn: () => PartyServices.getPartyUsersList(params),
+    enabled: !!params?.tenantId,
+    ...config,
+  })
 }
 
 function usePrefetchUsersList() {
@@ -58,19 +53,27 @@ function usePrefetchUsersList() {
 }
 
 function useGetTenants(params: GetTenantsParams, config: UseQueryOptions<Tenants>) {
-  return useAuthenticatedQuery(
-    [PartyQueryKeys.GetTenants, params],
-    () => PartyServices.getTenants(params),
-    config
-  )
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetTenants, params],
+    queryFn: () => PartyServices.getTenants(params),
+    ...config,
+  })
 }
 
 function useGetProducts(config: UseQueryOptions<Array<{ id: string; name: string }>>) {
-  return useAuthenticatedQuery(
-    [PartyQueryKeys.GetProducts],
-    () => PartyServices.getProducts(),
-    config
-  )
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetProducts],
+    queryFn: () => PartyServices.getProducts(),
+    ...config,
+  })
+}
+
+function useGetPartyList(config: UseQueryOptions<Array<SelfcareInstitution>>) {
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetPartyList],
+    queryFn: () => PartyServices.getPartyList(),
+    ...config,
+  })
 }
 
 function useUpdateMail() {
@@ -82,14 +85,6 @@ function useUpdateMail() {
       loadingLabel: t('loading'),
     },
   })
-}
-
-function useGetPartyList(config: UseQueryOptions<Array<SelfcareInstitution>>) {
-  return useAuthenticatedQuery(
-    [PartyQueryKeys.GetPartyList],
-    () => PartyServices.getPartyList(),
-    config
-  )
 }
 
 export const PartyQueries = {

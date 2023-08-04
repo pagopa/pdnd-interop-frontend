@@ -1,9 +1,8 @@
-import { type UseQueryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import PurposeServices from './purpose.services'
 import { useDownloadFile } from '../hooks/useDownloadFile'
 import type { GetConsumerPurposesParams, GetProducerPurposesParams } from '../api.generatedTypes'
-import { useAuthenticatedQuery } from '../hooks'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -16,33 +15,34 @@ function useGetProducersList(
   params: GetProducerPurposesParams,
   config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getProducersList>>>
 ) {
-  return useAuthenticatedQuery(
-    [PurposeQueryKeys.GetList, params],
-    () => PurposeServices.getProducersList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [PurposeQueryKeys.GetList, params],
+    queryFn: () => PurposeServices.getProducersList(params),
+    ...config,
+  })
 }
 
 function useGetConsumersList(
   params: GetConsumerPurposesParams,
   config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getConsumersList>>>
 ) {
-  return useAuthenticatedQuery(
-    [PurposeQueryKeys.GetList, params],
-    () => PurposeServices.getConsumersList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [PurposeQueryKeys.GetList, params],
+    queryFn: () => PurposeServices.getConsumersList(params),
+    ...config,
+  })
 }
 
 function useGetSingle(
   purposeId: string,
   config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getSingle>>>
 ) {
-  return useAuthenticatedQuery(
-    [PurposeQueryKeys.GetSingle, purposeId],
-    () => PurposeServices.getSingle(purposeId),
-    { enabled: !!purposeId, ...config }
-  )
+  return useQuery({
+    queryKey: [PurposeQueryKeys.GetSingle, purposeId],
+    queryFn: () => PurposeServices.getSingle(purposeId),
+    enabled: !!purposeId,
+    ...config,
+  })
 }
 
 function usePrefetchSingle() {
@@ -56,22 +56,22 @@ function usePrefetchSingle() {
 function useGetRiskAnalysisLatest(
   config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisLatest>>>
 ) {
-  return useAuthenticatedQuery(
-    [PurposeQueryKeys.GetRiskAnalysisLatest],
-    () => PurposeServices.getRiskAnalysisLatest(),
-    config
-  )
+  return useQuery({
+    queryKey: [PurposeQueryKeys.GetRiskAnalysisLatest],
+    queryFn: () => PurposeServices.getRiskAnalysisLatest(),
+    ...config,
+  })
 }
 
 function useGetRiskAnalysisVersion(
   riskAnalysisVersion: string,
   config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisVersion>>>
 ) {
-  return useAuthenticatedQuery(
-    [PurposeQueryKeys.GetRiskAnalysisVersion, riskAnalysisVersion],
-    () => PurposeServices.getRiskAnalysisVersion(riskAnalysisVersion),
-    config
-  )
+  return useQuery({
+    queryKey: [PurposeQueryKeys.GetRiskAnalysisVersion, riskAnalysisVersion],
+    queryFn: () => PurposeServices.getRiskAnalysisVersion(riskAnalysisVersion),
+    ...config,
+  })
 }
 
 function useCreateDraft() {

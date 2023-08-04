@@ -3,11 +3,11 @@ import {
   useMutation,
   useQueries,
   useQueryClient,
+  useQuery,
 } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import AttributeServices from './attribute.services'
 import type { Attribute, Attributes, GetAttributesParams } from '../api.generatedTypes'
-import { useAuthenticatedQuery } from '../hooks'
 
 export enum AttributeQueryKeys {
   GetList = 'AttributeGetList',
@@ -19,19 +19,19 @@ export enum AttributeQueryKeys {
 }
 
 function useGetList(params: GetAttributesParams, config?: UseQueryOptions<Attributes>) {
-  return useAuthenticatedQuery(
-    [AttributeQueryKeys.GetList, params],
-    () => AttributeServices.getList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [AttributeQueryKeys.GetList, params],
+    queryFn: () => AttributeServices.getList(params),
+    ...config,
+  })
 }
 
 function useGetSingle(attributeId: string, config?: UseQueryOptions<Attribute>) {
-  return useAuthenticatedQuery(
-    [AttributeQueryKeys.GetSingle, attributeId],
-    () => AttributeServices.getSingle(attributeId),
-    config
-  )
+  return useQuery({
+    queryKey: [AttributeQueryKeys.GetSingle, attributeId],
+    queryFn: () => AttributeServices.getSingle(attributeId),
+    ...config,
+  })
 }
 
 function usePrefetchSingle() {
@@ -43,13 +43,11 @@ function usePrefetchSingle() {
 }
 
 function useGetPartyCertifiedList(partyId?: string) {
-  return useAuthenticatedQuery(
-    [AttributeQueryKeys.GetPartyCertifiedList, partyId],
-    () => AttributeServices.getPartyCertifiedList(partyId!),
-    {
-      enabled: !!partyId,
-    }
-  )
+  return useQuery({
+    queryKey: [AttributeQueryKeys.GetPartyCertifiedList, partyId],
+    queryFn: () => AttributeServices.getPartyCertifiedList(partyId!),
+    enabled: !!partyId,
+  })
 }
 
 function usePrefetchPartyCertifiedList() {
@@ -61,23 +59,19 @@ function usePrefetchPartyCertifiedList() {
 }
 
 function useGetPartyVerifiedList(partyId?: string) {
-  return useAuthenticatedQuery(
-    [AttributeQueryKeys.GetPartyVerifiedList, partyId],
-    () => AttributeServices.getPartyVerifiedList(partyId!),
-    {
-      enabled: !!partyId,
-    }
-  )
+  return useQuery({
+    queryKey: [AttributeQueryKeys.GetPartyVerifiedList, partyId],
+    queryFn: () => AttributeServices.getPartyVerifiedList(partyId!),
+    enabled: !!partyId,
+  })
 }
 
 function useGetPartyDeclaredList(partyId?: string) {
-  return useAuthenticatedQuery(
-    [AttributeQueryKeys.GetPartyDeclaredList, partyId],
-    () => AttributeServices.getPartyDeclaredList(partyId!),
-    {
-      enabled: !!partyId,
-    }
-  )
+  return useQuery({
+    queryKey: [AttributeQueryKeys.GetPartyDeclaredList, partyId],
+    queryFn: () => AttributeServices.getPartyDeclaredList(partyId!),
+    enabled: !!partyId,
+  })
 }
 
 function useGetListParty(partyId?: string, config = { suspense: true }) {

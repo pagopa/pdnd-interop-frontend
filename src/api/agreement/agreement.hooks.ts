@@ -1,4 +1,4 @@
-import { type UseQueryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useDownloadFile } from '../hooks/useDownloadFile'
 import AgreementServices from './agreement.services'
@@ -14,7 +14,6 @@ import type {
   GetAgreementProducersParams,
   GetAgreementsParams,
 } from '../api.generatedTypes'
-import { useAuthenticatedQuery } from '../hooks'
 
 export enum AgreementQueryKeys {
   GetList = 'AgreementGetList',
@@ -26,41 +25,41 @@ export enum AgreementQueryKeys {
 }
 
 function useGetList(params: GetAgreementsParams, config: UseQueryOptions<Agreements>) {
-  return useAuthenticatedQuery(
-    [AgreementQueryKeys.GetList, params],
-    () => AgreementServices.getList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [AgreementQueryKeys.GetList, params],
+    queryFn: () => AgreementServices.getList(params),
+    ...config,
+  })
 }
 
 function useGetSingle(agreementId: string, config?: UseQueryOptions<Agreement>) {
-  return useAuthenticatedQuery(
-    [AgreementQueryKeys.GetSingle, agreementId],
-    () => AgreementServices.getSingle(agreementId),
-    config
-  )
+  return useQuery({
+    queryKey: [AgreementQueryKeys.GetSingle, agreementId],
+    queryFn: () => AgreementServices.getSingle(agreementId),
+    ...config,
+  })
 }
 
 function useGetProducers(
   params: GetAgreementProducersParams,
   config?: UseQueryOptions<CompactOrganizations>
 ) {
-  return useAuthenticatedQuery(
-    [AgreementQueryKeys.GetProducers, params],
-    () => AgreementServices.getProducers(params),
-    config
-  )
+  return useQuery({
+    queryKey: [AgreementQueryKeys.GetProducers, params],
+    queryFn: () => AgreementServices.getProducers(params),
+    ...config,
+  })
 }
 
 function useGetConsumers(
   params: GetAgreementConsumersParams,
   config?: UseQueryOptions<CompactOrganizations>
 ) {
-  return useAuthenticatedQuery(
-    [AgreementQueryKeys.GetConsumers, params],
-    () => AgreementServices.getConsumers(params),
-    config
-  )
+  return useQuery({
+    queryKey: [AgreementQueryKeys.GetConsumers, params],
+    queryFn: () => AgreementServices.getConsumers(params),
+    ...config,
+  })
 }
 
 function usePrefetchSingle() {
@@ -75,22 +74,22 @@ function useGetProducerEServiceList(
   params: GetAgreementEServiceProducersParams,
   config: UseQueryOptions<CompactEServicesLight>
 ) {
-  return useAuthenticatedQuery(
-    [AgreementQueryKeys.GetProducerEServiceList, params],
-    () => AgreementServices.getProducerEServiceList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [AgreementQueryKeys.GetProducerEServiceList, params],
+    queryFn: () => AgreementServices.getProducerEServiceList(params),
+    ...config,
+  })
 }
 
 function useGetConsumerEServiceList(
   params: GetAgreementEServiceConsumersParams,
   config: UseQueryOptions<CompactEServicesLight>
 ) {
-  return useAuthenticatedQuery(
-    [AgreementQueryKeys.GetConsumerEServiceList, params],
-    () => AgreementServices.getConsumerEServiceList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [AgreementQueryKeys.GetConsumerEServiceList, params],
+    queryFn: () => AgreementServices.getConsumerEServiceList(params),
+    ...config,
+  })
 }
 
 function useCreateDraft() {

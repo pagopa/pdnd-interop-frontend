@@ -1,10 +1,16 @@
-import { type UseQueryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import ClientServices from './client.services'
 import { useDownloadFile } from '../hooks/useDownloadFile'
-import type { CompactClients, GetClientsParams } from '../api.generatedTypes'
+import type {
+  Client,
+  CompactClients,
+  GetClientsParams,
+  Operators,
+  PublicKey,
+  RelationshipInfo,
+} from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
-import { useAuthenticatedQuery } from '../hooks'
 
 export enum ClientQueryKeys {
   GetList = 'ClientGetList',
@@ -17,19 +23,19 @@ export enum ClientQueryKeys {
 }
 
 function useGetList(params: GetClientsParams, config?: UseQueryOptions<CompactClients>) {
-  return useAuthenticatedQuery(
-    [ClientQueryKeys.GetList, params],
-    () => ClientServices.getList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetList, params],
+    queryFn: () => ClientServices.getList(params),
+    ...config,
+  })
 }
 
-function useGetSingle(clientId: string, config = { suspense: true }) {
-  return useAuthenticatedQuery(
-    [ClientQueryKeys.GetSingle, clientId],
-    () => ClientServices.getSingle(clientId),
-    config
-  )
+function useGetSingle(clientId: string, config?: UseQueryOptions<Client>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetSingle, clientId],
+    queryFn: () => ClientServices.getSingle(clientId),
+    ...config,
+  })
 }
 
 function usePrefetchSingle() {
@@ -41,25 +47,23 @@ function usePrefetchSingle() {
 }
 
 function useGetKeyList(clientId: string) {
-  return useAuthenticatedQuery(
-    [ClientQueryKeys.GetKeyList, clientId],
-    () => ClientServices.getKeyList(clientId),
-    {
-      useErrorBoundary: (error) => {
-        // The error boundary is disabled for 404 errors because the `getKeyList` service
-        // returns 404 if the client has no keys associated.
-        return !(error instanceof NotFoundError)
-      },
-    }
-  )
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetKeyList, clientId],
+    queryFn: () => ClientServices.getKeyList(clientId),
+    useErrorBoundary: (error) => {
+      // The error boundary is disabled for 404 errors because the `getKeyList` service
+      // returns 404 if the client has no keys associated.
+      return !(error instanceof NotFoundError)
+    },
+  })
 }
 
-function useGetSingleKey(clientId: string, kid: string, config = { suspense: true }) {
-  return useAuthenticatedQuery(
-    [ClientQueryKeys.GetSingleKey, clientId, kid],
-    () => ClientServices.getSingleKey(clientId, kid),
-    config
-  )
+function useGetSingleKey(clientId: string, kid: string, config?: UseQueryOptions<PublicKey>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetSingleKey, clientId, kid],
+    queryFn: () => ClientServices.getSingleKey(clientId, kid),
+    ...config,
+  })
 }
 
 function usePrefetchSingleKey() {
@@ -70,20 +74,20 @@ function usePrefetchSingleKey() {
     )
 }
 
-function useGetOperatorsList(clientId: string, config = { suspense: true }) {
-  return useAuthenticatedQuery(
-    [ClientQueryKeys.GetOperatorsList, clientId],
-    () => ClientServices.getOperatorList(clientId),
-    config
-  )
+function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Operators>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetOperatorsList, clientId],
+    queryFn: () => ClientServices.getOperatorList(clientId),
+    ...config,
+  })
 }
 
-function useGetSingleOperator(relationshipId: string, config = { suspense: true }) {
-  return useAuthenticatedQuery(
-    [ClientQueryKeys.GetSingleOperator, relationshipId],
-    () => ClientServices.getSingleOperator(relationshipId),
-    config
-  )
+function useGetSingleOperator(relationshipId: string, config?: UseQueryOptions<RelationshipInfo>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetSingleOperator, relationshipId],
+    queryFn: () => ClientServices.getSingleOperator(relationshipId),
+    ...config,
+  })
 }
 
 function usePrefetchSingleOperator() {
@@ -95,9 +99,10 @@ function usePrefetchSingleOperator() {
 }
 
 function useGetOperatorKeys(clientId: string, operatorId: string) {
-  return useAuthenticatedQuery([ClientQueryKeys.GetClientOperatorKeys, clientId, operatorId], () =>
-    ClientServices.getOperatorKeys(clientId, operatorId)
-  )
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetClientOperatorKeys, clientId, operatorId],
+    queryFn: () => ClientServices.getOperatorKeys(clientId, operatorId),
+  })
 }
 
 function useCreate() {

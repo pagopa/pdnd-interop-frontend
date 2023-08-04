@@ -1,4 +1,4 @@
-import { type UseQueryOptions, useMutation, useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import EServiceServices from './eservice.services'
 import { useDownloadFile } from '../hooks/useDownloadFile'
@@ -13,7 +13,6 @@ import type {
   ProducerEServices,
   UpdateEServiceDescriptorSeed,
 } from '../api.generatedTypes'
-import { useAuthenticatedQuery } from '../hooks/useAuthenticatedQuery'
 
 export enum EServiceQueryKeys {
   GetCatalogList = 'EServiceGetCatalogList',
@@ -29,52 +28,53 @@ function useGetCatalogList(
   params: GetEServicesCatalogParams,
   config?: UseQueryOptions<CatalogEServices>
 ) {
-  return useAuthenticatedQuery(
-    [EServiceQueryKeys.GetCatalogList, params],
-    () => EServiceServices.getCatalogList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [EServiceQueryKeys.GetCatalogList, params],
+    queryFn: () => EServiceServices.getCatalogList(params),
+    ...config,
+  })
 }
 
 function useGetProviderList(
   params: GetProducerEServicesParams,
   config?: UseQueryOptions<ProducerEServices>
 ) {
-  return useAuthenticatedQuery(
-    [EServiceQueryKeys.GetProviderList, params],
-    () => EServiceServices.getProviderList(params),
-    config
-  )
+  return useQuery({
+    queryKey: [EServiceQueryKeys.GetProviderList, params],
+    queryFn: () => EServiceServices.getProviderList(params),
+    ...config,
+  })
 }
 
 function useGetConsumers(
   params: GetConsumersParams,
   config?: UseQueryOptions<CompactOrganizations>
 ) {
-  return useAuthenticatedQuery(
-    [EServiceQueryKeys.GetConsumers, params],
-    () => EServiceServices.getConsumers(params),
-    config
-  )
+  return useQuery({
+    queryKey: [EServiceQueryKeys.GetConsumers, params],
+    queryFn: () => EServiceServices.getConsumers(params),
+    ...config,
+  })
 }
 
 function useGetProducers(
   params: GetProducersParams,
   config?: UseQueryOptions<CompactOrganizations>
 ) {
-  return useAuthenticatedQuery(
-    [EServiceQueryKeys.GetProducers, params],
-    () => EServiceServices.getProducers(params),
-    config
-  )
+  return useQuery({
+    queryKey: [EServiceQueryKeys.GetProducers, params],
+    queryFn: () => EServiceServices.getProducers(params),
+    ...config,
+  })
 }
 
 function useGetSingle(eserviceId?: string, config?: { suspense?: boolean; enabled?: boolean }) {
-  return useAuthenticatedQuery(
-    [EServiceQueryKeys.GetSingle, eserviceId],
-    () => EServiceServices.getSingle(eserviceId!),
-    { ...config, enabled: Boolean(eserviceId) && (config?.enabled ?? true) }
-  )
+  return useQuery({
+    queryKey: [EServiceQueryKeys.GetSingle, eserviceId],
+    queryFn: () => EServiceServices.getSingle(eserviceId!),
+    ...config,
+    enabled: Boolean(eserviceId) && (config?.enabled ?? true),
+  })
 }
 
 function useGetDescriptorCatalog(
@@ -82,11 +82,11 @@ function useGetDescriptorCatalog(
   descriptorId: string,
   config?: { suspense?: boolean; enabled?: boolean }
 ) {
-  return useAuthenticatedQuery(
-    [EServiceQueryKeys.GetDescriptorCatalog, eserviceId, descriptorId],
-    () => EServiceServices.getDescriptorCatalog(eserviceId, descriptorId),
-    config
-  )
+  return useQuery({
+    queryKey: [EServiceQueryKeys.GetDescriptorCatalog, eserviceId, descriptorId],
+    queryFn: () => EServiceServices.getDescriptorCatalog(eserviceId, descriptorId),
+    ...config,
+  })
 }
 
 function useGetDescriptorProvider(
@@ -94,14 +94,12 @@ function useGetDescriptorProvider(
   descriptorId?: string,
   config?: { suspense?: boolean; enabled?: boolean }
 ) {
-  return useAuthenticatedQuery(
-    [EServiceQueryKeys.GetDescriptorProvider, eserviceId, descriptorId],
-    () => EServiceServices.getDescriptorProvider(eserviceId!, descriptorId!),
-    {
-      enabled: Boolean(eserviceId && descriptorId) && (config?.enabled ?? true),
-      ...config,
-    }
-  )
+  return useQuery({
+    queryKey: [EServiceQueryKeys.GetDescriptorProvider, eserviceId, descriptorId],
+    queryFn: () => EServiceServices.getDescriptorProvider(eserviceId!, descriptorId!),
+    ...config,
+    enabled: Boolean(eserviceId && descriptorId) && (config?.enabled ?? true),
+  })
 }
 
 function usePrefetchSingle() {
