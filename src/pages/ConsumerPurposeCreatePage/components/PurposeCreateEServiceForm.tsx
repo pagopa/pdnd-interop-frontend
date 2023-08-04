@@ -1,9 +1,8 @@
 import type { PurposeSeed, RiskAnalysisForm } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
-import { PageBottomActionsContainer, SectionContainer } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
-import { Link, useNavigate } from '@/router'
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +11,8 @@ import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutoco
 import { PurposeCreateRiskAnalysisPreview } from './PurposeCreateRiskAnalysisPreview'
 import { PurposeCreateTemplateAutocomplete } from './PurposeCreateTemplateAutocomplete'
 import { AuthHooks } from '@/api/auth'
+import { useNavigate } from '@/router'
+import NoteAddIcon from '@mui/icons-material/NoteAdd'
 
 export type PurposeCreateFormValues = {
   eserviceId: string | null
@@ -94,28 +95,26 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <Grid container>
-          <Grid item xs={8}>
-            <SectionContainer>
-              <PurposeCreateEServiceAutocomplete />
-              {isEServiceSelected && (
-                <>
-                  <RHFSwitch name="useTemplate" label={t('create.isTemplateField.label')} />
-                  <PurposeCreateTemplateAutocomplete />
-                </>
-              )}
-            </SectionContainer>
-            <PurposeCreateRiskAnalysisPreview />
-          </Grid>
-        </Grid>
-        <PageBottomActionsContainer>
-          <Link as="button" type="button" variant="outlined" to="SUBSCRIBE_PURPOSE_LIST">
-            {t('create.backToListBtn')}
-          </Link>
-          <Button variant="contained" type="submit" disabled={isSubmitBtnDisabled}>
+        <SectionContainer newDesign title={t('create.preliminaryInformationSectionTitle')}>
+          <PurposeCreateEServiceAutocomplete />
+          {isEServiceSelected && (
+            <>
+              <RHFSwitch name="useTemplate" label={t('create.isTemplateField.label')} />
+              <PurposeCreateTemplateAutocomplete />
+            </>
+          )}
+        </SectionContainer>
+        <PurposeCreateRiskAnalysisPreview />
+        <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>
+          <Button
+            variant="contained"
+            type="submit"
+            disabled={isSubmitBtnDisabled}
+            startIcon={<NoteAddIcon />}
+          >
             {t('create.createNewPurposeBtn')}
           </Button>
-        </PageBottomActionsContainer>
+        </Stack>
       </Box>
     </FormProvider>
   )
