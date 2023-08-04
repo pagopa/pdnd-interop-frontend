@@ -13,7 +13,7 @@ async function swapTokens(identity_token: string) {
   return response.data
 }
 
-async function getSessionToken(): Promise<string> {
+async function getSessionToken(): Promise<string | undefined> {
   const resolveToken = (sessionToken: string) => {
     window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
     return sessionToken
@@ -51,7 +51,14 @@ async function getSessionToken(): Promise<string> {
     return resolveToken(sessionStorageToken)
   }
 
-  throw new TokenExchangeError()
+  /**
+   * If we reach this point we don't have a valid token yet.
+   * That could be fine if we are in a public route.
+   *
+   * If we are in a private route we will be redirected to the login page
+   * by the 401 response we will eventually get from the backend.
+   */
+  return undefined
 }
 
 async function swapSAMLToken(payload: SAMLTokenRequest) {

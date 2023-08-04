@@ -1,8 +1,10 @@
+import { AuthHooks } from '@/api/auth'
 import { OneTrustNoticesServices } from './one-trust-notices.services'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
-import type { ConsentType } from '../api.generatedTypes'
+import type { ConsentType, PrivacyNotice } from '../api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum OneTrustNoticesQueryKeys {
   GetUserConsent = 'GetUserConsent',
@@ -11,11 +13,15 @@ export enum OneTrustNoticesQueryKeys {
   GetTermsOfService = 'GetTermsOfService',
 }
 
-function useGetUserConsent(consentType: ConsentType) {
+function useGetUserConsent(
+  consentType: ConsentType,
+  options?: UseQueryWrapperOptions<PrivacyNotice>
+) {
   return useQueryWrapper(
     [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
     () => OneTrustNoticesServices.getUserConsent({ consentType }),
     {
+      ...options,
       staleTime: Infinity,
       cacheTime: Infinity,
     }
@@ -27,6 +33,7 @@ function useGetUserConsent(consentType: ConsentType) {
  * This is the default behaviour of the useQueryWrapper hook.
  */
 function useGetNoticeContent(consentType: ConsentType) {
+  const { jwt, isLoadingSession } = AuthHooks.useJwt()
   return useQueryWrapper(
     [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
     () => OneTrustNoticesServices.getNoticeContent({ consentType }),
@@ -36,6 +43,7 @@ function useGetNoticeContent(consentType: ConsentType) {
       retry: false,
       staleTime: Infinity,
       cacheTime: Infinity,
+      enabled: !!jwt && !isLoadingSession,
     }
   )
 }
@@ -45,6 +53,7 @@ function useGetNoticeContent(consentType: ConsentType) {
  * The PP and ToS are public and should be accessible to everyone.
  */
 function useGetPublicNoticeContent(consentType: ConsentType) {
+  const { jwt, isLoadingSession } = AuthHooks.useJwt()
   const lang = useCurrentLanguage()
 
   return useQuery(
@@ -60,6 +69,7 @@ function useGetPublicNoticeContent(consentType: ConsentType) {
       retry: false,
       staleTime: Infinity,
       cacheTime: Infinity,
+      enabled: !jwt && !isLoadingSession,
     }
   )
 }

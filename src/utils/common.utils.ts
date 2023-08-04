@@ -21,6 +21,15 @@ export function formatTopSideActions(
     : undefined
 }
 
+/**
+ * Check if the session has expired.
+ * @param exp The exp value of the JWT token
+ * @returns True if the session has expired, otherwise false
+ */
+export function hasSessionExpired(exp?: number) {
+  return exp && new Date() > new Date(exp * 1000)
+}
+
 export async function waitFor(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }

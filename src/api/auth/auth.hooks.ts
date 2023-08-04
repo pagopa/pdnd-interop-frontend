@@ -2,30 +2,28 @@ import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AuthServices from './auth.services'
 import { STAGE } from '@/config/env'
-import { useCurrentRoute } from '@/router'
 import { useQuery } from '@tanstack/react-query'
 import { parseJwt } from './auth.utils'
+import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum AuthQueryKeys {
   GetSessionToken = 'GetSessionToken',
   GetBlacklist = 'GetBlacklist',
 }
 
-function useJwt() {
-  const { isPublic } = useCurrentRoute()
-
-  const { data: sessionToken } = useQuery(
+function useJwt(options?: UseQueryWrapperOptions<string | undefined>) {
+  const { data: sessionToken, isLoading: isLoadingSession } = useQuery(
     [AuthQueryKeys.GetSessionToken],
     AuthServices.getSessionToken,
     {
       staleTime: Infinity,
       cacheTime: Infinity,
       retry: false,
-      enabled: !isPublic,
+      ...options,
     }
   )
 
-  return parseJwt(sessionToken)
+  return { ...parseJwt(sessionToken), isLoadingSession }
 }
 
 function useGetBlacklist() {

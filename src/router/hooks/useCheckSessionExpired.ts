@@ -1,7 +1,7 @@
 import { useDialog } from '@/stores'
 import React from 'react'
 import { useCurrentRoute } from '@/router'
-import { AuthHooks } from '@/api/auth'
+import { hasSessionExpired } from '@/utils/common.utils'
 
 /**
  * Checks for session expiration every second.
@@ -9,9 +9,8 @@ import { AuthHooks } from '@/api/auth'
  * If the current route is public, the session expiration check is not performed.
  * If the session has expired, opens the 'sessionExpired' dialog that redirects to the logout page.
  */
-export function useCheckSessionExpired() {
+export function useCheckSessionExpired(exp?: number) {
   const { isPublic } = useCurrentRoute()
-  const { hasSessionExpired } = AuthHooks.useJwt()
   const { openDialog } = useDialog()
 
   const checkSessionExpiredInterval = React.useRef<number>()
@@ -20,7 +19,7 @@ export function useCheckSessionExpired() {
     const checkSessionExpired = () => {
       if (isPublic) return
 
-      if (hasSessionExpired()) {
+      if (hasSessionExpired(exp)) {
         clearInterval(checkSessionExpiredInterval.current)
         openDialog({ type: 'sessionExpired' })
       }
@@ -31,5 +30,5 @@ export function useCheckSessionExpired() {
     return () => {
       clearInterval(checkSessionExpiredInterval.current)
     }
-  }, [openDialog, hasSessionExpired, isPublic])
+  }, [openDialog, isPublic, exp])
 }

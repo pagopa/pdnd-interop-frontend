@@ -13,17 +13,23 @@ import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute } from '@/router'
 import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
+import { AuthHooks } from '@/api/auth'
+import { FirstLoadingSpinner } from '@/components/shared/FirstLoadingSpinner'
 
 const _RoutesWrapper: React.FC = () => {
-  const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement()
   const { isPublic, routeKey } = useCurrentRoute()
 
+  const { jwt, isSupport, currentRoles, isLoadingSession } = AuthHooks.useJwt()
+  const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement(jwt, isSupport)
+
   useScrollTopOnLocationChange()
-  useCheckSessionExpired()
+  useCheckSessionExpired(jwt?.exp)
+
+  if (isLoadingSession && !isPublic) return <FirstLoadingSpinner />
 
   return (
     <>
-      <Header />
+      <Header jwt={jwt} isSupport={isSupport} />
       <Box sx={{ flex: 1 }}>
         {!isTOSAccepted && !isPublic ? (
           <TOSAgreement onAcceptAgreement={handleAcceptTOS} />
@@ -31,7 +37,7 @@ const _RoutesWrapper: React.FC = () => {
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
               <React.Suspense fallback={<PageContainerSkeleton />}>
-                <AuthGuard>
+                <AuthGuard jwt={jwt} currentRoles={currentRoles}>
                   <Outlet />
                 </AuthGuard>
               </React.Suspense>
@@ -39,7 +45,7 @@ const _RoutesWrapper: React.FC = () => {
           </AppLayout>
         )}
       </Box>
-      <Footer />
+      <Footer jwt={jwt} />
       <Dialog />
     </>
   )

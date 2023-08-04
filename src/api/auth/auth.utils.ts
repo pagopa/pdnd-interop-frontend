@@ -12,10 +12,6 @@ export const parseJwt = memoize((token: string | undefined) => {
   const isOperatorSecurity = currentRoles.includes('security')
   const isSupport = currentRoles.includes('support')
 
-  function hasSessionExpired() {
-    return jwt ? new Date() > new Date(jwt.exp * 1000) : false
-  }
-
   return {
     jwt,
     currentRoles,
@@ -23,6 +19,5 @@ export const parseJwt = memoize((token: string | undefined) => {
     isOperatorAPI,
     isOperatorSecurity,
     isSupport,
-    hasSessionExpired,
   }
 })
