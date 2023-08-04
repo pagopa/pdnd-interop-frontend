@@ -73,12 +73,12 @@ export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHo
         family_name: 'family_name',
         organizationId: 'organizationId',
       },
-      hasSessionExpired: () => false,
       isAdmin: true,
       isOperatorAPI: false,
       isOperatorSecurity: false,
       isSupport: false,
       currentRoles: [],
+      isLoadingSession: false,
     }),
     overwrites
   )
