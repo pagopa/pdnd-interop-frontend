@@ -4,7 +4,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <label
         class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
@@ -53,7 +53,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <label
         class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1kh4vj2-MuiFormLabel-root"
