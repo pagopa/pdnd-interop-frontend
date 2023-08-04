@@ -4,6 +4,7 @@
   "backToPurposeListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
+    "preliminaryInformationSectionTitle": "Informazioni preliminari",
     "isTemplateField": {
       "label": "Usa un template precompilato"
     },
@@ -46,13 +47,17 @@
     "backToListBtn": "Torna alle finalità",
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
-    "endWithSaveBtn": "Salva e torna alle finalità",
+    "endWithSaveBtn": "Vai al riepilogo",
     "eserviceProvider": "erogato da",
     "step1": {
       "title": "Informazioni generali",
       "nameField": {
         "label": "Nome della finalità (richiesto)",
         "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
+      },
+      "eserviceField": {
+        "label": "E-service da associare",
+        "infoLabel": "Puoi scegliere tra quelli per i quali hai una richiesta di fruizione attiva o sospesa"
       },
       "descriptionField": {
         "label": "Descrizione della finalità (richiesto)",
@@ -68,9 +73,6 @@
       "freeOfChargeReasonField": {
         "label": "Motivazione titolo gratuito (richiesto)",
         "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
-      },
-      "eserviceField": {
-        "label": "E-service da associare (richiesto)"
       },
       "dailyCallsField": {
         "label": "Numero di chiamate API/giorno (richiesto)",
@@ -126,12 +128,18 @@
       "tableHeadData": {
         "clientName": "Nome client"
       }
+    }
+  },
+  "summary": {
+    "title": "Riepilogo",
+    "generalInformationSection": {
+      "title": "Informazioni generali"
     },
-    "quickPublish": {
-      "title": "Azioni rapide di pubblicazione",
-      "description": "Hai inserito tutte le informazioni per questa finalità? Da qui puoi pubblicare immediatamente una bozza, oppure cancellarla. Se desideri pubblicare più tardi, salva solo la bozza sopra o abbandona questa pagina",
-      "publishBtn": "Pubblica bozza",
-      "deleteBtn": "Cancella bozza"
+    "riskAnalysisSection": {
+      "title": "Analisi del rischio"
+    },
+    "clientsSection": {
+      "title": "Client associati"
     }
   },
   "tablePurposeInEService": {

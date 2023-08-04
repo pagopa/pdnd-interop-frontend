@@ -226,6 +226,7 @@
     "SUBSCRIBE_CATALOG_LIST": "Catalogo e-service",
     "SUBSCRIBE_PURPOSE_CREATE": "Crea finalità",
     "SUBSCRIBE_PURPOSE_EDIT": "Modifica finalità",
+    "SUBSCRIBE_PURPOSE_SUMMARY": "Riepilogo finalità",
     "SUBSCRIBE_PURPOSE_DETAILS": "Gestisci singola finalità",
     "SUBSCRIBE_PURPOSE_LIST": "Le tue finalità",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Gestisci operatore del client e-service",
