@@ -1,5 +1,5 @@
 import axiosInstance from '@/config/axios'
-import { BACKEND_FOR_FRONTEND_URL, TEMP_USER_BLACKLIST_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL, TEMP_USER_BLACKLIST_URL, isDevelopment } from '@/config/env'
 import axios from 'axios'
 import type { SAMLTokenRequest, SessionToken } from '../api.generatedTypes'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
@@ -13,14 +13,14 @@ async function swapTokens(identity_token: string) {
   return response.data
 }
 
-async function getSessionToken(): Promise<string | undefined> {
+async function getSessionToken(): Promise<string | null> {
   const resolveToken = (sessionToken: string) => {
     window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
     return sessionToken
   }
 
   // 1. Check if there is a mock token: only used for dev purposes
-  if (MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+  if (isDevelopment && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
 
   // 2. See if we are coming from Self Care and have a new token
   const hasSelfCareIdentityToken = window.location.hash.includes('#id=')
@@ -58,7 +58,7 @@ async function getSessionToken(): Promise<string | undefined> {
    * If we are in a private route we will be redirected to the login page
    * by the 401 response we will eventually get from the backend.
    */
-  return undefined
+  return null
 }
 
 async function swapSAMLToken(payload: SAMLTokenRequest) {

@@ -13,8 +13,8 @@ import { queryClientConfig } from '../config/query-client'
 import { deepmerge } from '@mui/utils'
 import noop from 'lodash/noop'
 import { vi } from 'vitest'
-import * as useJwtHook from '@/hooks/useJwt'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
+import { AuthHooks } from '@/api/auth'
 
 const queryClientConfigMock: QueryClientConfig = deepmerge(
   {
@@ -52,9 +52,7 @@ export function createMockFactory<T>(defaultValue: T) {
  * Utility function to mock the useJwt hook
  * This mock is commonly used in tests that have a query mock that requires a valid jwt
  */
-export function mockUseJwt(
-  overwrites: RecursivePartial<ReturnType<typeof useJwtHook.useJwt>> = {}
-) {
+export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHooks.useJwt>> = {}) {
   const returnValue = deepmerge(
     cloneDeep({
       jwt: {
@@ -84,7 +82,7 @@ export function mockUseJwt(
     }),
     overwrites
   )
-  const useJwtSpy = vi.spyOn(useJwtHook, 'useJwt')
+  const useJwtSpy = vi.spyOn(AuthHooks, 'useJwt')
   useJwtSpy.mockReturnValue(returnValue)
   return useJwtSpy
 }

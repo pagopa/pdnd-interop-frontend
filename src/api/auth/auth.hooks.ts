@@ -11,7 +11,7 @@ export enum AuthQueryKeys {
   GetBlacklist = 'GetBlacklist',
 }
 
-function useJwt(options?: UseQueryWrapperOptions<string | undefined>) {
+function useJwt(options?: UseQueryWrapperOptions<string | null>) {
   const { data: sessionToken, isLoading: isLoadingSession } = useQuery(
     [AuthQueryKeys.GetSessionToken],
     AuthServices.getSessionToken,

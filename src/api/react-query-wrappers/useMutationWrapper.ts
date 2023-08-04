@@ -3,7 +3,6 @@ import { useDialog, useLoadingOverlay, useToastNotification } from '@/stores'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { UseMutationWrapper } from './react-query-wrappers.types'
 import { setExponentialInterval, clearExponentialInterval } from './react-query-wrappers.utils'
-import { AuthHooks } from '../auth'
 
 /**
  * Due to the backend's eventual consistency, after each mutation success, all the active queries are polled.
@@ -51,7 +50,6 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
   const { showToast } = useToastNotification()
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { openDialog, closeDialog } = useDialog()
-  const { hasSessionExpired } = AuthHooks.useJwt()
   const queryClient = useQueryClient()
 
   const requestPolling = React.useCallback(() => {
@@ -185,11 +183,6 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
 
   const mutate: typeof _mutate = React.useCallback(
     async (...args) => {
-      if (hasSessionExpired()) {
-        openDialog({ type: 'sessionExpired' })
-        return
-      }
-
       if (hasConfirmationDialogTitle && hasConfirmationDialogDescription) {
         const { confirmationDialogTitle, confirmationDialogDescription, proceedLabel } =
           getDialogConfig(args)
@@ -213,18 +206,11 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
       hasConfirmationDialogTitle,
       hasConfirmationDialogDescription,
       _wrapActionInDialog,
-      hasSessionExpired,
-      openDialog,
     ]
   )
 
   const mutateAsync: typeof _mutateAsync = React.useCallback(
     async (...args) => {
-      if (hasSessionExpired()) {
-        openDialog({ type: 'sessionExpired' })
-        return Promise.reject()
-      }
-
       if (hasConfirmationDialogTitle && hasConfirmationDialogDescription) {
         const { confirmationDialogTitle, confirmationDialogDescription, proceedLabel } =
           getDialogConfig(args)
@@ -249,8 +235,6 @@ export const useMutationWrapper: UseMutationWrapper = (mutationFn, options) => {
       hasConfirmationDialogTitle,
       hasConfirmationDialogDescription,
       _wrapActionInDialog,
-      hasSessionExpired,
-      openDialog,
     ]
   )
 
