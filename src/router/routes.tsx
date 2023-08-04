@@ -34,6 +34,7 @@ import {
   ConsumerDebugVoucherPage,
   AssistanceTenantSelectionPage,
   AssistanceTenantSelectionErrorPage,
+  ConsumerPurposeSummaryPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -179,7 +180,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/fruizione/finalita/crea',
     element: <ConsumerPurposeCreatePage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin'],
   })
   .addRoute({
@@ -187,7 +188,15 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/fruizione/finalita/:purposeId/modifica',
     element: <ConsumerPurposeEditPage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_SUMMARY',
+    path: '/fruizione/finalita/:purposeId/riepilogo',
+    element: <ConsumerPurposeSummaryPage />,
+    public: false,
+    hideSideNav: true,
     authLevels: ['admin'],
   })
   .addRoute({

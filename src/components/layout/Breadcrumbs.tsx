@@ -27,8 +27,11 @@ export function Breadcrumbs() {
         /*
          * The SUBSCRIBE_PURPOSE_DETAILS breadcrumb segment must not be visible in the SUBSCRIBE_PURPOSE_EDIT route
          */
-        SUBSCRIBE_PURPOSE_DETAILS:
-          routeKey === 'SUBSCRIBE_PURPOSE_EDIT' ? false : routeLabels.SUBSCRIBE_PURPOSE_DETAILS,
+        SUBSCRIBE_PURPOSE_DETAILS: ['SUBSCRIBE_PURPOSE_EDIT', 'SUBSCRIBE_PURPOSE_SUMMARY'].includes(
+          routeKey
+        )
+          ? false
+          : routeLabels.SUBSCRIBE_PURPOSE_DETAILS,
 
         DEFAULT: false,
         ASSISTENCE_PARTY_SELECTION: false,
