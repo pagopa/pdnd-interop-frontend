@@ -3,13 +3,13 @@ import { ClientMutations } from '@/api/client'
 import { useClientKind } from './useClientKind'
 import { useNavigate } from '@/router'
 import type { ActionItem } from '@/types/common.types'
-import { useJwt } from './useJwt'
 import type { Client, CompactClient } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 function useGetClientActions(client?: Client | CompactClient): { actions: Array<ActionItem> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const clientKind = useClientKind()
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const navigate = useNavigate()
   const { mutate: deleteClient } = ClientMutations.useDelete()
 

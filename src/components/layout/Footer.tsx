@@ -8,20 +8,23 @@ import type {
   PreLoginFooterLinksType,
 } from '@pagopa/mui-italia'
 import { LANGUAGES, pagoPaLink } from '@/config/constants'
-import { useJwt } from '@/hooks/useJwt'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useNavigate as useRRDNavigate } from 'react-router-dom'
+import type { JwtUser } from '@/types/party.types'
 
 type FooterLinksTypeMulti = Omit<FooterLinksType, 'label' | 'ariaLabel'> & { labelKey?: string }
 
-export const Footer = () => {
+type FooterProps = {
+  jwt?: JwtUser
+}
+
+export const Footer: React.FC<FooterProps> = ({ jwt }) => {
   const { t } = useTranslation('pagopa')
   const currentLanguage = useCurrentLanguage()
   const navigate = useNavigate()
   const rrdNavigate = useRRDNavigate()
-  const { jwt } = useJwt()
 
   function convertLinks(inputLinks: Array<FooterLinksTypeMulti>) {
     return inputLinks.map((l) => {
@@ -164,7 +167,7 @@ const FooterPostLogin = ({ companyLink, links }: FooterPostLoginProps): JSX.Elem
   </Box>
 )
 
-type FooterProps = LangSwitchProps & {
+type MUIItaliaFooterProps = LangSwitchProps & {
   /* Waiting for the type of control (see JwtUser above),
   we use a simple Boolean prop */
   loggedUser: boolean
@@ -185,7 +188,7 @@ export const MUIItaliaFooter = ({
   languages,
   onLanguageChanged,
   currentLangCode,
-}: FooterProps) => (
+}: MUIItaliaFooterProps) => (
   <Box component="footer">
     <FooterPostLogin
       companyLink={companyLink}

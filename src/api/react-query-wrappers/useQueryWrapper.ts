@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import type { UseQueryWrapper } from './react-query-wrappers.types'
-import { useJwt } from '@/hooks/useJwt'
 import { NotFoundError } from '@/utils/errors.utils'
 
 /**
@@ -13,8 +12,6 @@ import { NotFoundError } from '@/utils/errors.utils'
  *   This is needed because the `getKeyList` service of the ClientServices object returns 404 if the client has no keys associated.
  */
 export const useQueryWrapper: UseQueryWrapper = (key, queryFn, options) => {
-  const { jwt } = useJwt()
-
   return useQuery(key, queryFn, {
     useErrorBoundary: (error) => {
       if (options?.skipThrowOn404Error && error instanceof NotFoundError) {
@@ -23,7 +20,6 @@ export const useQueryWrapper: UseQueryWrapper = (key, queryFn, options) => {
       return true
     },
     // Disable the query if the jwt is not in session
-    enabled: !!jwt && (options?.enabled ?? true),
     ...options,
   })
 }

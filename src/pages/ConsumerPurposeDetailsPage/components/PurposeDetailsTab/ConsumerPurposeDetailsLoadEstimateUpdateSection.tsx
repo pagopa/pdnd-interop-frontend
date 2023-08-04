@@ -8,9 +8,9 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { useDialog } from '@/stores'
 import { purposeUpgradeGuideLink } from '@/config/constants'
 import { formatDateString, formatThousands } from '@/utils/format.utils'
-import { useJwt } from '@/hooks/useJwt'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import type { Purpose } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 interface ConsumerPurposeDetailsLoadEstimateUpdateSectionProps {
   purpose?: Purpose
@@ -20,7 +20,7 @@ export const ConsumerPurposeDetailsLoadEstimateUpdateSection: React.FC<
   ConsumerPurposeDetailsLoadEstimateUpdateSectionProps
 > = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.loadEstimateUpdate' })
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { openDialog } = useDialog()
 

@@ -13,13 +13,13 @@ import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import PeopleIcon from '@mui/icons-material/People'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from '@/hooks/useJwt'
 import { SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID } from '@/config/env'
 import { type RouteKey, useCurrentRoute, getParentRoutes } from '@/router'
 import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
 import { useGetSideNavItems } from './hooks/useGetSideNavItems'
+import { AuthHooks } from '@/api/auth'
 
 type View = {
   routeKey: RouteKey
@@ -33,14 +33,14 @@ export type SideNavItemView = View & {
 }
 
 export const SideNav = () => {
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   if (!jwt) return <SideNavSkeleton />
   return <_SideNav />
 }
 
 const _SideNav = () => {
   const { t } = useTranslation('shared-components')
-  const { jwt, isAdmin } = useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
   const { routeKey } = useCurrentRoute()
 
   const sideNavItems = useGetSideNavItems()

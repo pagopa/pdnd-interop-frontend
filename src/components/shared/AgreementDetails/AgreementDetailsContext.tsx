@@ -4,7 +4,6 @@ import { EServiceQueries } from '@/api/eservice'
 import { remapDescriptorAttributes } from '@/utils/attribute.utils'
 import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { AgreementQueries } from '@/api/agreement'
-import { useJwt } from '@/hooks/useJwt'
 import { useCurrentRoute } from '@/router'
 import { AttributeQueries } from '@/api/attribute'
 import type {
@@ -14,6 +13,7 @@ import type {
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 import noop from 'lodash/noop'
+import { AuthHooks } from '@/api/auth'
 
 type AgreementDetailsContextType = {
   agreement: Agreement | undefined
@@ -67,7 +67,7 @@ const AgreementDetailsContextProvider: React.FC<{
   agreementId: string
   children: React.ReactNode
 }> = ({ agreementId, children }) => {
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const { mode } = useCurrentRoute()
 
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)

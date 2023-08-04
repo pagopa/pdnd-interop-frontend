@@ -2,10 +2,28 @@ import { useTranslation } from 'react-i18next'
 import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AuthServices from './auth.services'
 import { STAGE } from '@/config/env'
+import { useQuery } from '@tanstack/react-query'
+import { parseJwt } from './auth.utils'
+import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum AuthQueryKeys {
+  GetSessionToken = 'GetSessionToken',
   GetBlacklist = 'GetBlacklist',
-  SessionToken = 'AuthSessionToken',
+}
+
+function useJwt(options?: UseQueryWrapperOptions<string | null>) {
+  const { data: sessionToken, isLoading: isLoadingSession } = useQuery(
+    [AuthQueryKeys.GetSessionToken],
+    AuthServices.getSessionToken,
+    {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+      retry: false,
+      ...options,
+    }
+  )
+
+  return { ...parseJwt(sessionToken), isLoadingSession }
 }
 
 function useGetBlacklist() {
@@ -19,21 +37,6 @@ function useGetBlacklist() {
   })
 }
 
-function useAuthHealthCheck({ enabled }: { enabled: boolean }) {
-  return useQueryWrapper([AuthQueryKeys.SessionToken], AuthServices.authHealthCheck, {
-    enabled,
-  })
-}
-
-function useSwapTokens() {
-  const { t } = useTranslation('mutations-feedback')
-  return useMutationWrapper((identityToken: string) => AuthServices.swapTokens(identityToken), {
-    suppressErrorToast: true,
-    suppressSuccessToast: true,
-    loadingLabel: t('auth.loadingLabel'),
-  })
-}
-
 function useSwapSAMLTokens() {
   const { t } = useTranslation('mutations-feedback')
   return useMutationWrapper(AuthServices.swapSAMLToken, {
@@ -43,9 +46,8 @@ function useSwapSAMLTokens() {
   })
 }
 
-export const AuthServicesHooks = {
+export const AuthHooks = {
+  useJwt,
   useGetBlacklist,
-  useAuthHealthCheck,
-  useSwapTokens,
   useSwapSAMLTokens,
 }

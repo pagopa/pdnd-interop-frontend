@@ -3,8 +3,8 @@ import { EServiceMutations } from '@/api/eservice'
 import { useNavigate } from '@/router'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from './useJwt'
 import type { ActionItem } from '@/types/common.types'
+import { AuthHooks } from '@/api/auth'
 
 export function useGetProviderEServiceActions(
   eserviceId?: string,
@@ -13,7 +13,7 @@ export function useGetProviderEServiceActions(
   draftDescriptorId?: string
 ) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin, isOperatorAPI } = useJwt()
+  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()

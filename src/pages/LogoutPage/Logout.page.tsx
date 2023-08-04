@@ -1,15 +1,12 @@
+import React from 'react'
 import { FE_LOGIN_URL } from '@/config/env'
-import { useAuth } from '@/stores'
+import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 
 const LogoutPage: React.FC = () => {
-  const { clearSessionToken } = useAuth()
-
-  const goToLoginPage = () => {
+  React.useEffect(() => {
+    window.localStorage.removeItem(STORAGE_KEY_SESSION_TOKEN)
     window.location.assign(FE_LOGIN_URL)
-  }
-
-  clearSessionToken()
-  goToLoginPage()
+  }, [])
 
   return null
 }

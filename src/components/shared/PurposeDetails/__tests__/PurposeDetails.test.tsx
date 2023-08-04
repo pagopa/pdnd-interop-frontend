@@ -1,8 +1,10 @@
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import React from 'react'
 import { PurposeDetails, PurposeDetailsSkeleton } from '../PurposeDetails'
 import { createMockPurpose } from '__mocks__/data/purpose.mocks'
 import { render } from '@testing-library/react'
+
+mockUseJwt()
 
 describe('PurposeDetails', () => {
   it('should match snapshot', () => {

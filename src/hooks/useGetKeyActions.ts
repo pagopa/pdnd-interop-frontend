@@ -3,11 +3,11 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { useNavigate } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from './useJwt'
+import { AuthHooks } from '@/api/auth'
 
 function useGetKeyActions(clientId: string, kid: string): { actions: Array<ActionItem> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isOperatorSecurity, isAdmin } = useJwt()
+  const { isOperatorSecurity, isAdmin } = AuthHooks.useJwt()
   const clientKind = useClientKind()
   const navigate = useNavigate()
   const downloadKey = ClientDownloads.useDownloadKey()

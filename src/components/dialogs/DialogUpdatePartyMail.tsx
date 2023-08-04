@@ -15,9 +15,9 @@ import { useDialog } from '@/stores'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { PartyMutations } from '@/api/party/party.hooks'
-import { useJwt } from '@/hooks/useJwt'
 import isEqual from 'lodash/isEqual'
 import { emailRegex } from '@/utils/form.utils'
+import { AuthHooks } from '@/api/auth'
 
 type UpdatePartyMailFormValues = {
   contactEmail: string
@@ -31,7 +31,7 @@ export const DialogUpdatePartyMail: React.FC<DialogUpdatePartyMailProps> = ({ de
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogUpdatePartyMail' })
   const { t: tCommon } = useTranslation('common')
   const { closeDialog } = useDialog()
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
 
   const { mutateAsync: updateMail } = PartyMutations.useUpdateMail()
 

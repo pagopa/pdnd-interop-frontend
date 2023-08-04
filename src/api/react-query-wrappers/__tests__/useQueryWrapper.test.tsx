@@ -30,18 +30,9 @@ afterEach(() => {
   queryClientMock.clear()
 })
 
-async function promiseResolvedMock() {
-  const response = await axiosInstance.get('/test-success')
-  return response.data
-}
-
 async function promiseRejectedMock() {
   return await axiosInstance.get('/test-404')
 }
-
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <QueryClientProvider client={queryClientMock}>{children}</QueryClientProvider>
-)
 
 const wrapperWithErrorBoundary = ({ children }: { children: React.ReactNode }) => (
   <QueryClientProvider client={queryClientMock}>
@@ -50,28 +41,6 @@ const wrapperWithErrorBoundary = ({ children }: { children: React.ReactNode }) =
 )
 
 describe('useQueryWrapper tests', () => {
-  it('Should not fetch when useJwt jwt property is falsy', async () => {
-    const { result, rerender } = renderHook(() => useQueryWrapper(['TEST'], promiseResolvedMock), {
-      wrapper,
-    })
-    await act(() => {
-      rerender()
-    })
-    expect(result.current.data).toEqual(undefined)
-  })
-
-  it('Should fetch when useJwt jwt property is truthy', async () => {
-    /** Mocks useJwt returns a truthy value for jwt property */
-    mockUseJwt()
-    const { result, rerender } = renderHook(() => useQueryWrapper(['TEST'], promiseResolvedMock), {
-      wrapper,
-    })
-    await act(() => {
-      rerender()
-    })
-    expect(result.current.data).toEqual('success')
-  })
-
   it('Should not show error boundary when 404 error occurs', async () => {
     /** Mocks useJwt returns a truthy value for jwt property */
     mockUseJwt()

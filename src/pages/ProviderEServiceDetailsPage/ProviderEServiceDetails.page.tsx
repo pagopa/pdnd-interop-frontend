@@ -8,7 +8,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
-import { useJwt } from '@/hooks/useJwt'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -54,7 +54,7 @@ const HasDraftDescriptorAlert: React.FC<{ descriptor: ProducerEServiceDescriptor
   descriptor,
 }) => {
   const { t } = useTranslation('eservice')
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   if (!descriptor.eservice.draftDescriptor || !isAdmin) return null
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
-import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { ProviderPurposesTable, ProviderPurposesTableSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
@@ -13,9 +12,10 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import type { GetProducerPurposesParams } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderPurposesListPage: React.FC = () => {
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'providerPurposesList' })
   const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'list.filters' })
 
@@ -104,7 +104,7 @@ const ProviderPurposesListPage: React.FC = () => {
 }
 
 const PurposesTableWrapper: React.FC<{ params: GetProducerPurposesParams }> = ({ params }) => {
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
 
   const { data, isFetching } = PurposeQueries.useGetProducersList(params, {
     suspense: false,

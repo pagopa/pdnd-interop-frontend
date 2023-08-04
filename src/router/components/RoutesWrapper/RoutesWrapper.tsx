@@ -11,29 +11,33 @@ import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
-import { useLoginAttempt } from '@/hooks/useLoginAttempt'
 import { routes, useCurrentRoute } from '@/router'
+import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
+import { AuthHooks } from '@/api/auth'
+import { FirstLoadingSpinner } from '@/components/shared/FirstLoadingSpinner'
 
 const _RoutesWrapper: React.FC = () => {
-  const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement()
   const { isPublic, routeKey } = useCurrentRoute()
 
-  useLoginAttempt()
-  useScrollTopOnLocationChange()
+  const { jwt, isSupport, currentRoles, isLoadingSession } = AuthHooks.useJwt()
+  const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement(jwt, isSupport)
 
-  const shouldHideSideNav = !!routes[routeKey].hideSideNav
+  useScrollTopOnLocationChange()
+  useCheckSessionExpired(jwt?.exp)
+
+  if (isLoadingSession && !isPublic) return <FirstLoadingSpinner />
 
   return (
     <>
-      <Header />
+      <Header jwt={jwt} isSupport={isSupport} />
       <Box sx={{ flex: 1 }}>
         {!isTOSAccepted && !isPublic ? (
           <TOSAgreement onAcceptAgreement={handleAcceptTOS} />
         ) : (
-          <AppLayout hideSideNav={shouldHideSideNav}>
+          <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
               <React.Suspense fallback={<PageContainerSkeleton />}>
-                <AuthGuard>
+                <AuthGuard jwt={jwt} currentRoles={currentRoles}>
                   <Outlet />
                 </AuthGuard>
               </React.Suspense>
@@ -41,7 +45,7 @@ const _RoutesWrapper: React.FC = () => {
           </AppLayout>
         )}
       </Box>
-      <Footer />
+      <Footer jwt={jwt} />
       <Dialog />
     </>
   )

@@ -1,20 +1,13 @@
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetConsumerPurposesActions from '../useGetConsumerPurposesActions'
 import { createMockPurpose } from '__mocks__/data/purpose.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act, fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
-import { vi } from 'vitest'
-import * as hooks from '@/hooks/useJwt'
 import type { Purpose } from '@/api/api.generatedTypes'
 
-const useJwtReturnDataMock = {
-  currentRoles: ['admin'],
-  isAdmin: true,
-  hasSessionExpired: () => false,
-} as unknown as ReturnType<typeof hooks.useJwt>
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
+mockUseJwt({ isAdmin: true })
 
 const server = setupServer(
   rest.post(

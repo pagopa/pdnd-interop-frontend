@@ -8,14 +8,14 @@ import {
 } from './components/OperatorGeneralInfoSection'
 import { OperatorKeysSection, OperatorKeysSectionSkeleton } from './components/OperatorKeysSection'
 import type { ActionItem } from '@/types/common.types'
-import { useJwt } from '@/hooks/useJwt'
 import { useTranslation } from 'react-i18next'
 import { formatTopSideActions } from '@/utils/common.utils'
 import { Grid } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
+import { AuthHooks } from '@/api/auth'
 
 const OperatorDetailsPage: React.FC = () => {
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const { mode } = useCurrentRoute()
   const clientKind = useClientKind()
   const { t } = useTranslation('user')

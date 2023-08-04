@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Button, Divider, Grid, Stack } from '@mui/material'
 import { useDialog } from '@/stores'
 import { PartyQueries } from '@/api/party/party.hooks'
-import { useJwt } from '@/hooks/useJwt'
 import { InformationContainer, InformationContainerSkeleton } from '@pagopa/interop-fe-commons'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
+import { AuthHooks } from '@/api/auth'
 
 export const PartyContactsSection: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
@@ -27,7 +27,7 @@ export const PartyContactsSection: React.FC = () => {
 const PartyContacts: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
   const { t: tCommon } = useTranslation('common')
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { openDialog } = useDialog()
 
@@ -66,7 +66,7 @@ const PartyContacts: React.FC = () => {
 }
 
 export const PartyContactsSkeleton: React.FC = () => {
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   return (
     <Stack spacing={2}>

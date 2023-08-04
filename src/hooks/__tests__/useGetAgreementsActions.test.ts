@@ -1,4 +1,8 @@
-import { mockUseCurrentRoute, renderHookWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseCurrentRoute,
+  mockUseJwt,
+  renderHookWithApplicationContext,
+} from '@/utils/testing.utils'
 import useGetAgreementsActions from '../useGetAgreementsActions'
 import { createMockAgreementListingItem, createMockAgreement } from '__mocks__/data/agreement.mocks'
 import { createMemoryHistory } from 'history'
@@ -7,16 +11,9 @@ import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
-import { vi } from 'vitest'
-import * as hooks from '@/hooks/useJwt'
-
-const useJwtReturnDataMock = {
-  currentRoles: ['admin'],
-  isAdmin: true,
-  hasSessionExpired: () => false,
-} as unknown as ReturnType<typeof hooks.useJwt>
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
 import type { Agreement, AgreementListEntry } from '@/api/api.generatedTypes'
+
+mockUseJwt({ isAdmin: true })
 
 const mockResAgreementId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 

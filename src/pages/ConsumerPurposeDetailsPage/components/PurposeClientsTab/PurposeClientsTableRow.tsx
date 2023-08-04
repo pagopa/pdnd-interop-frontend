@@ -1,9 +1,9 @@
 import type { Purpose } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 import { ClientQueries } from '@/api/client'
 import { PurposeMutations } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
-import { useJwt } from '@/hooks/useJwt'
 import { Link } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { Box, Skeleton } from '@mui/material'
@@ -22,7 +22,7 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
 }) => {
   const { t } = useTranslation('client')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { mutate: removeClientFromPurpose } = PurposeMutations.useRemoveClient()
   const prefetchClient = ClientQueries.usePrefetchSingle()

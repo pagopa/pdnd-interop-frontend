@@ -2,7 +2,6 @@ import type { PurposeSeed, RiskAnalysisForm } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, SectionContainer } from '@/components/layout/containers'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
-import { useJwt } from '@/hooks/useJwt'
 import { Link, useNavigate } from '@/router'
 import { Box, Button, Grid } from '@mui/material'
 import React from 'react'
@@ -12,6 +11,7 @@ import { useLocation } from 'react-router-dom'
 import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutocomplete'
 import { PurposeCreateRiskAnalysisPreview } from './PurposeCreateRiskAnalysisPreview'
 import { PurposeCreateTemplateAutocomplete } from './PurposeCreateTemplateAutocomplete'
+import { AuthHooks } from '@/api/auth'
 
 export type PurposeCreateFormValues = {
   eserviceId: string | null
@@ -22,7 +22,7 @@ export type PurposeCreateFormValues = {
 export const PurposeCreateEServiceForm: React.FC = () => {
   const { t } = useTranslation('purpose')
   const navigate = useNavigate()
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const { mutate: createPurposeDraft } = PurposeMutations.useCreateDraft()
   const { mutate: createVersionDraft } = PurposeMutations.useCreateVersionDraft()
   const location = useLocation()
