@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { EServiceProviderContacts } from '../EServiceProviderContacts'
 import { mockEServiceDetailsContext } from './test.commons'
-import { createMockEServiceDescriptorCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 
 describe('EServiceProviderContacts', () => {
   it('should match the snapshot', () => {

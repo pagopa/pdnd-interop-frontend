@@ -4,7 +4,7 @@ import {
   EServiceDetailsContextProvider,
   useEServiceDetailsContext,
 } from '../EServiceDetailsContext'
-import { createMockEServiceDescriptorCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 
 describe('EServiceDetailsContext', () => {
   it('should not return the agreement if it is rejected', () => {

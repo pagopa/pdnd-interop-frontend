@@ -38,7 +38,7 @@ exports[`Checks that InfoTooltip snapshots don't change > renders the tooltip me
     </svg>
   </div>
   <div
-    class="MuiTooltip-popper MuiTooltip-popperInteractive css-yem0l2-MuiPopper-root-MuiTooltip-popper MuiPopperUnstyled-root"
+    class="MuiTooltip-popper MuiTooltip-popperInteractive css-yem0l2-MuiPopper-root-MuiTooltip-popper MuiPopper-root"
     data-popper-escaped=""
     data-popper-placement="bottom"
     data-popper-reference-hidden=""

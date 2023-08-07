@@ -50,10 +50,10 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -70,7 +70,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
           class="MuiBox-root css-be40y1"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="MuiStack-root css-nen11g-MuiStack-root"
           >
             <span
               class="MuiTypography-root MuiTypography-label css-37jdci-MuiTypography-root"
@@ -158,10 +158,10 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -178,7 +178,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
           class="MuiBox-root css-be40y1"
         >
           <form
-            class="css-ozfu34-MuiStack-root"
+            class="MuiStack-root css-nmsl2c-MuiStack-root"
             novalidate=""
           >
             <div
@@ -374,10 +374,10 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -394,7 +394,7 @@ exports[`AgreementVerifiedAttributesDrawer tests > should match snapshot if type
           class="MuiBox-root css-be40y1"
         >
           <form
-            class="css-ozfu34-MuiStack-root"
+            class="MuiStack-root css-nmsl2c-MuiStack-root"
             novalidate=""
           >
             <div

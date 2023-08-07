@@ -2,7 +2,7 @@ import React from 'react'
 import { EServiceGeneralInfoSection } from '../EServiceGeneralInfoSection'
 import { mockEServiceDetailsContext } from './test.commons'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
-import { createMockEServiceDescriptorCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 
 describe('EServiceGeneralInfoSection', () => {
   it('should match the snapshot (admin)', () => {

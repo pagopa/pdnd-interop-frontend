@@ -56,7 +56,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       fireEvent.click(secondCell)
 
       const expectedDate = addDays(dateNow, 1).setMilliseconds(0)
-      expect(onChangeFn).toBeCalledWith(new Date(expectedDate))
+      expect(onChangeFn).toBeCalledWith(new Date(expectedDate), { validationError: null })
     }
 
     if (!isLastDayOfMonth(dateNow)) {
@@ -66,7 +66,7 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       fireEvent.click(secondCell)
 
       const expectedDate = addDays(dateNow, 1).setMilliseconds(0)
-      expect(onChangeFn).toBeCalledWith(new Date(expectedDate))
+      expect(onChangeFn).toBeCalledWith(new Date(expectedDate), { validationError: null })
     }
   })
 

@@ -9,7 +9,7 @@ import { AttributeQueries } from '@/api/attribute'
 import {
   createMockCompactAttribute,
   createMockRemappedDescriptorAttribute,
-} from '__mocks__/data/attribute.mocks'
+} from '@/../__mocks__/data/attribute.mocks'
 import { FormProvider, useForm } from 'react-hook-form'
 import { render } from '@testing-library/react'
 

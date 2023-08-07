@@ -1,6 +1,6 @@
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetConsumerPurposesActions from '../useGetConsumerPurposesActions'
-import { createMockPurpose } from '__mocks__/data/purpose.mocks'
+import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'

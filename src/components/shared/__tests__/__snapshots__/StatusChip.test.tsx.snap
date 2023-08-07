@@ -4,10 +4,10 @@ exports[`StatusChip > should match the snapshot (agreement - ACTIVE) 1`] = `
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -24,10 +24,10 @@ exports[`StatusChip > should match the snapshot (agreement - ARCHIVED) 1`] = `
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -44,10 +44,10 @@ exports[`StatusChip > should match the snapshot (agreement - DRAFT) 1`] = `
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -64,10 +64,10 @@ exports[`StatusChip > should match the snapshot (agreement - MISSING_CERTIFIED_A
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -84,10 +84,10 @@ exports[`StatusChip > should match the snapshot (agreement - PENDING) 1`] = `
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-xiyh2c-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -104,10 +104,10 @@ exports[`StatusChip > should match the snapshot (agreement - REJECTED) 1`] = `
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -124,10 +124,10 @@ exports[`StatusChip > should match the snapshot (agreement - suspended by all ) 
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -136,7 +136,7 @@ exports[`StatusChip > should match the snapshot (agreement - suspended by all ) 
         </span>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -145,7 +145,7 @@ exports[`StatusChip > should match the snapshot (agreement - suspended by all ) 
         </span>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -162,10 +162,10 @@ exports[`StatusChip > should match the snapshot (agreement - suspended by consum
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -174,7 +174,7 @@ exports[`StatusChip > should match the snapshot (agreement - suspended by consum
         </span>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -191,10 +191,10 @@ exports[`StatusChip > should match the snapshot (agreement - suspendedByConsumer
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -211,10 +211,10 @@ exports[`StatusChip > should match the snapshot (agreement - suspendedByPlatform
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -231,10 +231,10 @@ exports[`StatusChip > should match the snapshot (agreement - suspendedByPlatform
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -251,7 +251,7 @@ exports[`StatusChip > should match the snapshot (eservice - ARCHIVED) 1`] = `
 <body>
   <div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorInfo MuiChip-filledInfo css-1kvl34t-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorInfo MuiChip-filledInfo css-1xwlloq-MuiChip-root"
     >
       <span
         class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -267,7 +267,7 @@ exports[`StatusChip > should match the snapshot (eservice - DEPRECATED) 1`] = `
 <body>
   <div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorWarning MuiChip-filledWarning css-1cocbx6-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorWarning MuiChip-filledWarning css-15rgkvu-MuiChip-root"
     >
       <span
         class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -283,7 +283,7 @@ exports[`StatusChip > should match the snapshot (eservice - DRAFT) 1`] = `
 <body>
   <div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorInfo MuiChip-filledInfo css-1kvl34t-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorInfo MuiChip-filledInfo css-1xwlloq-MuiChip-root"
     >
       <span
         class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -299,7 +299,7 @@ exports[`StatusChip > should match the snapshot (eservice - PUBLISHED) 1`] = `
 <body>
   <div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1rq9bu9-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1dxej50-MuiChip-root"
     >
       <span
         class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -315,7 +315,7 @@ exports[`StatusChip > should match the snapshot (eservice - SUSPENDED) 1`] = `
 <body>
   <div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorError MuiChip-filledError css-xb328r-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorError MuiChip-filledError css-1ocy9f5-MuiChip-root"
     >
       <span
         class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -331,10 +331,10 @@ exports[`StatusChip > should match the snapshot (purpose - suspended by consumer
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -343,7 +343,7 @@ exports[`StatusChip > should match the snapshot (purpose - suspended by consumer
         </span>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -360,10 +360,10 @@ exports[`StatusChip > should match the snapshot (purpose - suspended by producer
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -372,7 +372,7 @@ exports[`StatusChip > should match the snapshot (purpose - suspended by producer
         </span>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -389,10 +389,10 @@ exports[`StatusChip > should match the snapshot (purpose - with current version 
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -401,7 +401,7 @@ exports[`StatusChip > should match the snapshot (purpose - with current version 
         </span>
       </div>
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -418,10 +418,10 @@ exports[`StatusChip > should match the snapshot (purpose - with only waiting for
 <body>
   <div>
     <div
-      class="css-w4z10b-MuiStack-root"
+      class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1u3lj9s-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"

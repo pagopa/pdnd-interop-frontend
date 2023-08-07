@@ -7,7 +7,7 @@ exports[`SectionContainer > should render correctly 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       />
       <div
         class="MuiBox-root css-zv7ju9"
@@ -24,7 +24,7 @@ exports[`SectionContainer > should render correctly with description 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <span
           class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
@@ -47,7 +47,7 @@ exports[`SectionContainer > should render correctly with title 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -70,7 +70,7 @@ exports[`SectionContainer > should render correctly with title and description 1
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"

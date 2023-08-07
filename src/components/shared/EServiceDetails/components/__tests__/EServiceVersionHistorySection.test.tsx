@@ -5,7 +5,7 @@ import * as router from '@/router'
 import { render } from '@testing-library/react'
 import { EServiceVersionHistorySection } from '../EServiceVersionHistorySection'
 import { mockEServiceDetailsContext } from './test.commons'
-import { createMockEServiceDescriptorCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 import type { CompactDescriptor } from '@/api/api.generatedTypes'
 import userEvent from '@testing-library/user-event'
 

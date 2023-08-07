@@ -50,10 +50,10 @@ exports[`Drawer test > Should render correctly with subtitle and button 1`] = `
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -149,10 +149,10 @@ exports[`Drawer test > Should render correctly with subtitle and without button 
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -234,10 +234,10 @@ exports[`Drawer test > Should render correctly without subtitle and button 1`] =
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"

@@ -9,7 +9,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { renderHook } from '@testing-library/react'
 import { vi } from 'vitest'
 import { useDescriptorAttributesPartyOwnership } from '../useDescriptorAttributesPartyOwnership'
-import { createMockEServiceDescriptorCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { mockUseJwt } from '@/utils/testing.utils'
 
 mockUseJwt()

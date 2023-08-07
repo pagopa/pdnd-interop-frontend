@@ -13,7 +13,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
@@ -25,10 +25,10 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1p5q5e5-MuiStack-root"
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
             >
               <div
-                class="css-19qjufr-MuiStack-root"
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-iuqs4u"
@@ -46,7 +46,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                     class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
                       href="/it/fruizione/catalogo-e-service/47f82055-77fd-4efd-8ed6-8a7d3021c879/b79fc9ac-2882-49bd-afd1-71f4284f117c"
                       target="_blank"
                     >
@@ -56,7 +56,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                 </div>
               </div>
               <div
-                class="css-19qjufr-MuiStack-root"
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-iuqs4u"
@@ -74,13 +74,13 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                     class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
                   >
                     <div
-                      class="css-w4z10b-MuiStack-root"
+                      class="MuiStack-root css-niqf4j-MuiStack-root"
                     >
                       <div
-                        class="css-w4z10b-MuiStack-root"
+                        class="MuiStack-root css-niqf4j-MuiStack-root"
                       >
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                         >
                           <span
                             class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -94,7 +94,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                 </div>
               </div>
               <div
-                class="css-19qjufr-MuiStack-root"
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-iuqs4u"
@@ -116,7 +116,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                 </div>
               </div>
               <div
-                class="css-19qjufr-MuiStack-root"
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-iuqs4u"
@@ -137,7 +137,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                       class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
                     >
                       <span
-                        class="css-ae0xht-MuiStack-root"
+                        class="MuiStack-root css-ae0xht-MuiStack-root"
                       >
                         <svg
                           aria-hidden="true"
@@ -170,7 +170,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
                 >
                   <span
-                    class="css-ae0xht-MuiStack-root"
+                    class="MuiStack-root css-ae0xht-MuiStack-root"
                   >
                     <svg
                       aria-hidden="true"
@@ -200,7 +200,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
@@ -223,7 +223,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -240,7 +240,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1p5q5e5-MuiStack-root"
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
             />
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -268,7 +268,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -285,7 +285,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1p5q5e5-MuiStack-root"
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
             />
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -313,7 +313,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -330,7 +330,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1p5q5e5-MuiStack-root"
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
             />
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -370,7 +370,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
@@ -382,10 +382,10 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1p5q5e5-MuiStack-root"
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
             >
               <div
-                class="css-19qjufr-MuiStack-root"
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-iuqs4u"
@@ -403,7 +403,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                     class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
                       href="/it/fruizione/catalogo-e-service/47f82055-77fd-4efd-8ed6-8a7d3021c879/b79fc9ac-2882-49bd-afd1-71f4284f117c"
                       target="_blank"
                     >
@@ -413,7 +413,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                 </div>
               </div>
               <div
-                class="css-19qjufr-MuiStack-root"
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-iuqs4u"
@@ -431,13 +431,13 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                     class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
                   >
                     <div
-                      class="css-w4z10b-MuiStack-root"
+                      class="MuiStack-root css-niqf4j-MuiStack-root"
                     >
                       <div
-                        class="css-w4z10b-MuiStack-root"
+                        class="MuiStack-root css-niqf4j-MuiStack-root"
                       >
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                         >
                           <span
                             class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -451,7 +451,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                 </div>
               </div>
               <div
-                class="css-19qjufr-MuiStack-root"
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-iuqs4u"
@@ -473,7 +473,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                 </div>
               </div>
               <div
-                class="css-19qjufr-MuiStack-root"
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-iuqs4u"
@@ -494,7 +494,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                       class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
                     >
                       <span
-                        class="css-ae0xht-MuiStack-root"
+                        class="MuiStack-root css-ae0xht-MuiStack-root"
                       >
                         <svg
                           aria-hidden="true"
@@ -527,7 +527,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                   class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
                 >
                   <span
-                    class="css-ae0xht-MuiStack-root"
+                    class="MuiStack-root css-ae0xht-MuiStack-root"
                   >
                     <svg
                       aria-hidden="true"
@@ -557,7 +557,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
@@ -580,7 +580,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -597,7 +597,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1p5q5e5-MuiStack-root"
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
             />
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -625,7 +625,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -642,7 +642,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1p5q5e5-MuiStack-root"
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
             />
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -670,7 +670,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -687,7 +687,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1p5q5e5-MuiStack-root"
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
             />
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"

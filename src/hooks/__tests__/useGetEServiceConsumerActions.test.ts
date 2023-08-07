@@ -8,7 +8,7 @@ import type {
 import {
   createMockEServiceCatalog,
   createMockEServiceDescriptorCatalog,
-} from '__mocks__/data/eservice.mocks'
+} from '@/../__mocks__/data/eservice.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'

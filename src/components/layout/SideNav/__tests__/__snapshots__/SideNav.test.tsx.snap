@@ -81,7 +81,7 @@ exports[`SideNav > should match the snapshot 1`] = `
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/notifiche"
             tabindex="0"
           >
@@ -118,7 +118,7 @@ exports[`SideNav > should match the snapshot 1`] = `
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/ente"
             tabindex="0"
           >
@@ -555,7 +555,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/notifiche"
             tabindex="0"
           >
@@ -592,7 +592,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/ente"
             tabindex="0"
           >
@@ -697,7 +697,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/notifiche"
             tabindex="0"
           >
@@ -734,7 +734,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/ente"
             tabindex="0"
           >
@@ -805,7 +805,7 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/notifiche"
             tabindex="0"
           >
@@ -842,7 +842,7 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-5mr9ey-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/ente"
             tabindex="0"
           >

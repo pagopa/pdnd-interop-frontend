@@ -2,7 +2,7 @@ import {
   createMockDebugVoucherResultFailed,
   createMockDebugVoucherResultPassed,
   createMockDebugVoucherResultStep,
-} from '__mocks__/data/voucher.mocks'
+} from '@/../__mocks__/data/voucher.mocks'
 import React from 'react'
 import { mockDebugVoucherContext } from './test.commons'
 import { fireEvent, render } from '@testing-library/react'

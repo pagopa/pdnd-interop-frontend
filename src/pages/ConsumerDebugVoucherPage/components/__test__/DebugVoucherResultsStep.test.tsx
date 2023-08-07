@@ -1,6 +1,6 @@
 import React from 'react'
 import { mockDebugVoucherContext } from './test.commons'
-import { createMockDebugVoucherResultStep } from '__mocks__/data/voucher.mocks'
+import { createMockDebugVoucherResultStep } from '@/../__mocks__/data/voucher.mocks'
 import { fireEvent, render } from '@testing-library/react'
 import { vi } from 'vitest'
 import { DebugVoucherResultsStep } from '../DebugVoucherResultsStep'

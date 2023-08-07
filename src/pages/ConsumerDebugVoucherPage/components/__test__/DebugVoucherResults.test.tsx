@@ -7,7 +7,7 @@ import {
   createMockDebugVoucherRequest,
   createMockDebugVoucherResultPassed,
   createMockDebugVoucherResultStep,
-} from '__mocks__/data/voucher.mocks'
+} from '@/../__mocks__/data/voucher.mocks'
 
 describe('DebugVoucherResults testing', () => {
   it('should match snapshot if isOpen is false', () => {

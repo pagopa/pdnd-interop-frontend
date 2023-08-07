@@ -5,7 +5,7 @@ import {
   createMockDebugVoucherResultFailed,
   createMockDebugVoucherResultPassed,
   createMockDebugVoucherResultStep,
-} from '__mocks__/data/voucher.mocks'
+} from '@/../__mocks__/data/voucher.mocks'
 import { vi } from 'vitest'
 import { renderHook } from '@testing-library/react'
 

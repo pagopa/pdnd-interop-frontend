@@ -21,7 +21,7 @@ exports[`AppLayout > should match snapshot 1`] = `
       class="MuiBox-root css-1y6z04t"
     >
       <div
-        class="css-1e5vhfl-MuiStack-root"
+        class="MuiStack-root css-1e5vhfl-MuiStack-root"
       >
         <nav
           class="MuiBox-root css-15sxj0r"

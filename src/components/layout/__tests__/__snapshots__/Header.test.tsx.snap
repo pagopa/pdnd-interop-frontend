@@ -5,13 +5,13 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
   <div>
     <header>
       <div
-        class="css-mmt77d-MuiStack-root"
+        class="MuiStack-root css-mmt77d-MuiStack-root"
       >
         <div
           class="MuiContainer-root css-19vyd0d-MuiContainer-root"
         >
           <div
-            class="css-hxrfoi-MuiStack-root"
+            class="MuiStack-root css-1fdhh1r-MuiStack-root"
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
@@ -25,7 +25,7 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
               PagoPA S.p.A.
             </a>
             <div
-              class="css-1y7pyux-MuiStack-root"
+              class="MuiStack-root css-1vtnvh5-MuiStack-root"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
@@ -38,16 +38,19 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
-                    data-testid="DescriptionIcon"
+                    data-testid="MenuBookIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                      d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"
+                    />
+                    <path
+                      d="M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99zM13 12.49v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.3-4.5.83zm4.5 1.84c-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26v-1.52c-.79-.16-1.64-.24-2.5-.24z"
                     />
                   </svg>
                 </span>
-                Documentazione
+                Manuale operativo
               </button>
               <button
                 aria-label="Documentazione"
@@ -58,12 +61,15 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
                 <svg
                   aria-hidden="true"
                   class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                  data-testid="DescriptionIcon"
+                  data-testid="MenuBookIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
                   <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                    d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"
+                  />
+                  <path
+                    d="M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99zM13 12.49v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.3-4.5.83zm4.5 1.84c-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26v-1.52c-.79-.16-1.64-.24-2.5-.24z"
                   />
                 </svg>
               </button>
@@ -129,32 +135,36 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
           class="MuiContainer-root css-19vyd0d-MuiContainer-root"
         >
           <div
-            class="css-176y9rv-MuiStack-root"
+            class="MuiStack-root css-cb5tcw-MuiStack-root"
           >
             <div
-              class="css-1yo1jo6-MuiStack-root"
+              class="MuiStack-root css-1d9cypr-MuiStack-root"
             >
               <div
-                class=" css-1wreeyw"
-                role="button"
-                tabindex="0"
+                class="MuiStack-root css-1sos3zc-MuiStack-root"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-shh5cd-MuiTypography-root"
+                <div
+                  class=" css-1wreeyw"
+                  role="button"
+                  tabindex="0"
                 >
-                  Interoperabilità
-                </p>
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
-                  data-testid="ArrowDropDownRoundedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="m8.71 11.71 2.59 2.59c.39.39 1.02.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H9.41c-.89 0-1.33 1.08-.7 1.71z"
-                  />
-                </svg>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-shh5cd-MuiTypography-root"
+                  >
+                    Interoperabilità
+                  </p>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
+                    data-testid="ArrowDropDownRoundedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m8.71 11.71 2.59 2.59c.39.39 1.02.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H9.41c-.89 0-1.33 1.08-.7 1.71z"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
             <div
@@ -167,19 +177,23 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <div
-                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                    class="MuiBox-root css-70qvj9"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
-                      data-testid="AccountBalanceRoundedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
+                    <div
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
                     >
-                      <path
-                        d="M4 11.5v4c0 .83.67 1.5 1.5 1.5S7 16.33 7 15.5v-4c0-.83-.67-1.5-1.5-1.5S4 10.67 4 11.5zm6 0v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM3.5 22h16c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-16c-.83 0-1.5.67-1.5 1.5S2.67 22 3.5 22zM16 11.5v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM10.57 1.49l-7.9 4.16c-.41.21-.67.64-.67 1.1C2 7.44 2.56 8 3.25 8h16.51C20.44 8 21 7.44 21 6.75c0-.46-.26-.89-.67-1.1l-7.9-4.16c-.58-.31-1.28-.31-1.86 0z"
-                      />
-                    </svg>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
+                        data-testid="AccountBalanceRoundedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M4 11.5v4c0 .83.67 1.5 1.5 1.5S7 16.33 7 15.5v-4c0-.83-.67-1.5-1.5-1.5S4 10.67 4 11.5zm6 0v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM3.5 22h16c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-16c-.83 0-1.5.67-1.5 1.5S2.67 22 3.5 22zM16 11.5v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM10.57 1.49l-7.9 4.16c-.41.21-.67.64-.67 1.1C2 7.44 2.56 8 3.25 8h16.51C20.44 8 21 7.44 21 6.75c0-.46-.26-.89-.67-1.1l-7.9-4.16c-.58-.31-1.28-.31-1.86 0z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                   <div
                     class="MuiBox-root css-11x1942"
@@ -213,13 +227,13 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
   <div>
     <header>
       <div
-        class="css-mmt77d-MuiStack-root"
+        class="MuiStack-root css-mmt77d-MuiStack-root"
       >
         <div
           class="MuiContainer-root css-19vyd0d-MuiContainer-root"
         >
           <div
-            class="css-hxrfoi-MuiStack-root"
+            class="MuiStack-root css-1fdhh1r-MuiStack-root"
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
@@ -233,7 +247,7 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
               PagoPA S.p.A.
             </a>
             <div
-              class="css-1y7pyux-MuiStack-root"
+              class="MuiStack-root css-1vtnvh5-MuiStack-root"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
@@ -246,16 +260,19 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
-                    data-testid="DescriptionIcon"
+                    data-testid="MenuBookIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                      d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"
+                    />
+                    <path
+                      d="M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99zM13 12.49v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.3-4.5.83zm4.5 1.84c-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26v-1.52c-.79-.16-1.64-.24-2.5-.24z"
                     />
                   </svg>
                 </span>
-                Documentazione
+                Manuale operativo
               </button>
               <button
                 aria-label="Documentazione"
@@ -266,12 +283,15 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
                 <svg
                   aria-hidden="true"
                   class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                  data-testid="DescriptionIcon"
+                  data-testid="MenuBookIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
                   <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                    d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"
+                  />
+                  <path
+                    d="M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99zM13 12.49v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.3-4.5.83zm4.5 1.84c-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26v-1.52c-.79-.16-1.64-.24-2.5-.24z"
                   />
                 </svg>
               </button>
@@ -337,41 +357,45 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
           class="MuiContainer-root css-19vyd0d-MuiContainer-root"
         >
           <div
-            class="css-176y9rv-MuiStack-root"
+            class="MuiStack-root css-cb5tcw-MuiStack-root"
           >
             <div
-              class="css-1yo1jo6-MuiStack-root"
+              class="MuiStack-root css-1d9cypr-MuiStack-root"
             >
               <div
-                class=" css-1wreeyw"
-                role="button"
-                tabindex="0"
+                class="MuiStack-root css-1sos3zc-MuiStack-root"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-shh5cd-MuiTypography-root"
+                <div
+                  class=" css-1wreeyw"
+                  role="button"
+                  tabindex="0"
                 >
-                  Interoperabilità
-                </p>
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
-                  data-testid="ArrowDropDownRoundedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-shh5cd-MuiTypography-root"
+                  >
+                    Interoperabilità
+                  </p>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
+                    data-testid="ArrowDropDownRoundedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m8.71 11.71 2.59 2.59c.39.39 1.02.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H9.41c-.89 0-1.33 1.08-.7 1.71z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-1juwzne-MuiChip-root"
                 >
-                  <path
-                    d="m8.71 11.71 2.59 2.59c.39.39 1.02.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H9.41c-.89 0-1.33 1.08-.7 1.71z"
-                  />
-                </svg>
-              </div>
-              <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-dhtkpn-MuiChip-root"
-              >
-                <span
-                  class="MuiChip-label MuiChip-labelSmall css-1xwenbi-MuiChip-label"
-                >
-                  supportChipLabel
-                </span>
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-1xwenbi-MuiChip-label"
+                  >
+                    supportChipLabel
+                  </span>
+                </div>
               </div>
             </div>
             <div
@@ -384,19 +408,23 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
                   class="MuiBox-root css-1xhj18k"
                 >
                   <div
-                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                    class="MuiBox-root css-70qvj9"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
-                      data-testid="AccountBalanceRoundedIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
+                    <div
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
                     >
-                      <path
-                        d="M4 11.5v4c0 .83.67 1.5 1.5 1.5S7 16.33 7 15.5v-4c0-.83-.67-1.5-1.5-1.5S4 10.67 4 11.5zm6 0v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM3.5 22h16c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-16c-.83 0-1.5.67-1.5 1.5S2.67 22 3.5 22zM16 11.5v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM10.57 1.49l-7.9 4.16c-.41.21-.67.64-.67 1.1C2 7.44 2.56 8 3.25 8h16.51C20.44 8 21 7.44 21 6.75c0-.46-.26-.89-.67-1.1l-7.9-4.16c-.58-.31-1.28-.31-1.86 0z"
-                      />
-                    </svg>
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
+                        data-testid="AccountBalanceRoundedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M4 11.5v4c0 .83.67 1.5 1.5 1.5S7 16.33 7 15.5v-4c0-.83-.67-1.5-1.5-1.5S4 10.67 4 11.5zm6 0v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM3.5 22h16c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-16c-.83 0-1.5.67-1.5 1.5S2.67 22 3.5 22zM16 11.5v4c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5zM10.57 1.49l-7.9 4.16c-.41.21-.67.64-.67 1.1C2 7.44 2.56 8 3.25 8h16.51C20.44 8 21 7.44 21 6.75c0-.46-.26-.89-.67-1.1l-7.9-4.16c-.58-.31-1.28-.31-1.86 0z"
+                        />
+                      </svg>
+                    </div>
                   </div>
                   <div
                     class="MuiBox-root css-11x1942"
@@ -430,13 +458,13 @@ exports[`Header > should match snapshot (not logged) 1`] = `
   <div>
     <header>
       <div
-        class="css-mmt77d-MuiStack-root"
+        class="MuiStack-root css-mmt77d-MuiStack-root"
       >
         <div
           class="MuiContainer-root css-19vyd0d-MuiContainer-root"
         >
           <div
-            class="css-hxrfoi-MuiStack-root"
+            class="MuiStack-root css-1fdhh1r-MuiStack-root"
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
@@ -450,7 +478,7 @@ exports[`Header > should match snapshot (not logged) 1`] = `
               PagoPA S.p.A.
             </a>
             <div
-              class="css-1y7pyux-MuiStack-root"
+              class="MuiStack-root css-1vtnvh5-MuiStack-root"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
@@ -463,16 +491,19 @@ exports[`Header > should match snapshot (not logged) 1`] = `
                   <svg
                     aria-hidden="true"
                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
-                    data-testid="DescriptionIcon"
+                    data-testid="MenuBookIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                      d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"
+                    />
+                    <path
+                      d="M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99zM13 12.49v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.3-4.5.83zm4.5 1.84c-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26v-1.52c-.79-.16-1.64-.24-2.5-.24z"
                     />
                   </svg>
                 </span>
-                Documentazione
+                Manuale operativo
               </button>
               <button
                 aria-label="Documentazione"
@@ -483,12 +514,15 @@ exports[`Header > should match snapshot (not logged) 1`] = `
                 <svg
                   aria-hidden="true"
                   class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                  data-testid="DescriptionIcon"
+                  data-testid="MenuBookIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
                   <path
-                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+                    d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"
+                  />
+                  <path
+                    d="M17.5 10.5c.88 0 1.73.09 2.5.26V9.24c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99zM13 12.49v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26V11.9c-.79-.15-1.64-.24-2.5-.24-1.7 0-3.24.3-4.5.83zm4.5 1.84c-1.7 0-3.24.29-4.5.83v1.66c1.13-.64 2.7-.99 4.5-.99.88 0 1.73.09 2.5.26v-1.52c-.79-.16-1.64-.24-2.5-.24z"
                   />
                 </svg>
               </button>
@@ -554,32 +588,36 @@ exports[`Header > should match snapshot (not logged) 1`] = `
           class="MuiContainer-root css-19vyd0d-MuiContainer-root"
         >
           <div
-            class="css-176y9rv-MuiStack-root"
+            class="MuiStack-root css-cb5tcw-MuiStack-root"
           >
             <div
-              class="css-1yo1jo6-MuiStack-root"
+              class="MuiStack-root css-1d9cypr-MuiStack-root"
             >
               <div
-                class=" css-1wreeyw"
-                role="button"
-                tabindex="0"
+                class="MuiStack-root css-1sos3zc-MuiStack-root"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 css-shh5cd-MuiTypography-root"
+                <div
+                  class=" css-1wreeyw"
+                  role="button"
+                  tabindex="0"
                 >
-                  Interoperabilità
-                </p>
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
-                  data-testid="ArrowDropDownRoundedIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="m8.71 11.71 2.59 2.59c.39.39 1.02.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H9.41c-.89 0-1.33 1.08-.7 1.71z"
-                  />
-                </svg>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 css-shh5cd-MuiTypography-root"
+                  >
+                    Interoperabilità
+                  </p>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1jxdcj3-MuiSvgIcon-root"
+                    data-testid="ArrowDropDownRoundedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m8.71 11.71 2.59 2.59c.39.39 1.02.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H9.41c-.89 0-1.33 1.08-.7 1.71z"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
             <div

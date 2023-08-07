@@ -1,5 +1,5 @@
 import React from 'react'
-import { createMockAgreement } from '__mocks__/data/agreement.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import { mockAgreementDetailsContext } from './test.commons'
 import {
   AgreementSummarySection,

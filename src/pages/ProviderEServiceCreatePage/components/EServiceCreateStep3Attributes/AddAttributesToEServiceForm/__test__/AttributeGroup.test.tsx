@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import {
   createMockCompactAttribute,
   createMockRemappedDescriptorAttribute,
-} from '__mocks__/data/attribute.mocks'
+} from '@/../__mocks__/data/attribute.mocks'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { fireEvent } from '@testing-library/react'
 

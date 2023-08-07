@@ -4,7 +4,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
 <body>
   <div>
     <div
-      class="css-678bp8-MuiStack-root"
+      class="MuiStack-root css-8mcjw0-MuiStack-root"
     >
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardSuccess MuiAlert-standard css-wnkddu-MuiPaper-root-MuiAlert-root"
@@ -44,7 +44,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-1okj3ks-MuiStack-root"
+          class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -56,7 +56,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
           class="MuiBox-root css-1yuhvjn"
         >
           <div
-            class="css-1p5q5e5-MuiStack-root"
+            class="MuiStack-root css-1sazv7p-MuiStack-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
@@ -69,10 +69,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
                 label.clientAssertionValidation
               </span>
               <div
-                class="css-bcexoh-MuiStack-root"
+                class="MuiStack-root css-1p3wpnr-MuiStack-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -104,10 +104,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
                 label.publicKeyRetrieve
               </span>
               <div
-                class="css-bcexoh-MuiStack-root"
+                class="MuiStack-root css-1p3wpnr-MuiStack-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -139,10 +139,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
                 label.clientAssertionSignatureVerification
               </span>
               <div
-                class="css-bcexoh-MuiStack-root"
+                class="MuiStack-root css-1p3wpnr-MuiStack-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -174,10 +174,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
                 label.platformStatesVerification
               </span>
               <div
-                class="css-bcexoh-MuiStack-root"
+                class="MuiStack-root css-1p3wpnr-MuiStack-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -205,7 +205,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-1okj3ks-MuiStack-root"
+          class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -222,10 +222,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
           class="MuiBox-root css-1yuhvjn"
         >
           <div
-            class="css-678bp8-MuiStack-root"
+            class="MuiStack-root css-8mcjw0-MuiStack-root"
           >
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"
@@ -247,7 +247,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
               </div>
             </div>
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"
@@ -269,7 +269,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
               </div>
             </div>
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"
@@ -299,7 +299,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
               </div>
             </div>
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"
@@ -358,7 +358,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
     aria-hidden="true"
   >
     <div
-      class="css-678bp8-MuiStack-root"
+      class="MuiStack-root css-8mcjw0-MuiStack-root"
     >
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardSuccess MuiAlert-standard css-wnkddu-MuiPaper-root-MuiAlert-root"
@@ -398,7 +398,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-1okj3ks-MuiStack-root"
+          class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -410,7 +410,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
           class="MuiBox-root css-1yuhvjn"
         >
           <div
-            class="css-1p5q5e5-MuiStack-root"
+            class="MuiStack-root css-1sazv7p-MuiStack-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
@@ -423,10 +423,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
                 label.clientAssertionValidation
               </span>
               <div
-                class="css-bcexoh-MuiStack-root"
+                class="MuiStack-root css-1p3wpnr-MuiStack-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -458,10 +458,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
                 label.publicKeyRetrieve
               </span>
               <div
-                class="css-bcexoh-MuiStack-root"
+                class="MuiStack-root css-1p3wpnr-MuiStack-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -493,10 +493,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
                 label.clientAssertionSignatureVerification
               </span>
               <div
-                class="css-bcexoh-MuiStack-root"
+                class="MuiStack-root css-1p3wpnr-MuiStack-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -528,10 +528,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
                 label.platformStatesVerification
               </span>
               <div
-                class="css-bcexoh-MuiStack-root"
+                class="MuiStack-root css-1p3wpnr-MuiStack-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -559,7 +559,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-1okj3ks-MuiStack-root"
+          class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
           <h2
             class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -576,10 +576,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
           class="MuiBox-root css-1yuhvjn"
         >
           <div
-            class="css-678bp8-MuiStack-root"
+            class="MuiStack-root css-8mcjw0-MuiStack-root"
           >
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"
@@ -601,7 +601,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
               </div>
             </div>
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"
@@ -623,7 +623,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
               </div>
             </div>
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"
@@ -653,7 +653,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
               </div>
             </div>
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"
@@ -744,10 +744,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -764,10 +764,10 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
           class="MuiBox-root css-be40y1"
         >
           <div
-            class="css-1p5q5e5-MuiStack-root"
+            class="MuiStack-root css-1sazv7p-MuiStack-root"
           >
             <div
-              class="css-3y1137-MuiStack-root"
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
@@ -775,7 +775,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
                 stepDrawer.stepResultLabel
               </p>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"

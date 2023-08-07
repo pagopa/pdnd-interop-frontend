@@ -5,8 +5,8 @@ import { AgreementVerifiedAttributesSection } from '../AgreementVerifiedAttribut
 import {
   createVerifiedTenantAttribute,
   createMockRemappedDescriptorAttribute,
-} from '__mocks__/data/attribute.mocks'
-import { createMockAgreement } from '__mocks__/data/agreement.mocks'
+} from '@/../__mocks__/data/attribute.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 
 mockUseCurrentRoute({ mode: 'provider' })
 

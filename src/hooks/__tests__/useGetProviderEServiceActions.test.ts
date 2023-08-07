@@ -1,4 +1,4 @@
-import { createMockEServiceProvider } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceProvider } from '@/../__mocks__/data/eservice.mocks'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { rest } from 'msw'

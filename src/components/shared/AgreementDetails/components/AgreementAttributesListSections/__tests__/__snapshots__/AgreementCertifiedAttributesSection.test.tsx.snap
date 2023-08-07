@@ -7,7 +7,7 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -24,7 +24,7 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         />
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -56,7 +56,7 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -73,7 +73,7 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <div
             class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-bj42sx-MuiPaper-root-MuiCard-root"
@@ -95,13 +95,13 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
               class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
             >
               <ul
-                class="css-zenfnj-MuiStack-root"
+                class="MuiStack-root css-slre3t-MuiStack-root"
               >
                 <div
-                  class="css-1yo1jo6-MuiStack-root"
+                  class="MuiStack-root css-1sos3zc-MuiStack-root"
                 >
                   <div
-                    class="css-1yo1jo6-MuiStack-root"
+                    class="MuiStack-root css-1sos3zc-MuiStack-root"
                   >
                     <svg
                       aria-hidden="true"
@@ -179,10 +179,10 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
                   </div>
                 </div>
                 <div
-                  class="css-1yo1jo6-MuiStack-root"
+                  class="MuiStack-root css-1sos3zc-MuiStack-root"
                 >
                   <div
-                    class="css-1yo1jo6-MuiStack-root"
+                    class="MuiStack-root css-1sos3zc-MuiStack-root"
                   />
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -270,13 +270,13 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
               class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
             >
               <ul
-                class="css-zenfnj-MuiStack-root"
+                class="MuiStack-root css-slre3t-MuiStack-root"
               >
                 <div
-                  class="css-1yo1jo6-MuiStack-root"
+                  class="MuiStack-root css-1sos3zc-MuiStack-root"
                 >
                   <div
-                    class="css-1yo1jo6-MuiStack-root"
+                    class="MuiStack-root css-1sos3zc-MuiStack-root"
                   />
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -342,10 +342,10 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
                   </div>
                 </div>
                 <div
-                  class="css-1yo1jo6-MuiStack-root"
+                  class="MuiStack-root css-1sos3zc-MuiStack-root"
                 >
                   <div
-                    class="css-1yo1jo6-MuiStack-root"
+                    class="MuiStack-root css-1sos3zc-MuiStack-root"
                   />
                   <div
                     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"

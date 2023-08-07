@@ -7,7 +7,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -19,7 +19,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
@@ -32,10 +32,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionValidation
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -67,10 +67,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.publicKeyRetrieve
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -102,10 +102,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionSignatureVerification
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-xiyh2c-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -140,7 +140,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -152,7 +152,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
@@ -165,10 +165,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionValidation
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -200,10 +200,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.publicKeyRetrieve
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -235,10 +235,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionSignatureVerification
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-xiyh2c-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -270,10 +270,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.platformStatesVerification
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-xiyh2c-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -308,7 +308,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -320,7 +320,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
@@ -333,10 +333,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionValidation
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -368,10 +368,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.publicKeyRetrieve
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -403,10 +403,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionSignatureVerification
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-uqjxnh-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-xiyh2c-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -441,7 +441,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -453,7 +453,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
@@ -466,10 +466,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionValidation
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -501,10 +501,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.publicKeyRetrieve
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -536,10 +536,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionSignatureVerification
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -574,7 +574,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -586,7 +586,7 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
@@ -599,10 +599,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionValidation
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -634,10 +634,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.publicKeyRetrieve
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -669,10 +669,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.clientAssertionSignatureVerification
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -704,10 +704,10 @@ exports[`DebugVoucherResultsStepsSection testing > should match snapshot if resu
               label.platformStatesVerification
             </span>
             <div
-              class="css-bcexoh-MuiStack-root"
+              class="MuiStack-root css-1p3wpnr-MuiStack-root"
             >
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"

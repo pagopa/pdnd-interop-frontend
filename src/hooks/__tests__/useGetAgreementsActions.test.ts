@@ -4,7 +4,10 @@ import {
   renderHookWithApplicationContext,
 } from '@/utils/testing.utils'
 import useGetAgreementsActions from '../useGetAgreementsActions'
-import { createMockAgreementListingItem, createMockAgreement } from '__mocks__/data/agreement.mocks'
+import {
+  createMockAgreementListingItem,
+  createMockAgreement,
+} from '../../../__mocks__/data/agreement.mocks'
 import { createMemoryHistory } from 'history'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'

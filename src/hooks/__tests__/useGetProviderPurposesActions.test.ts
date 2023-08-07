@@ -1,6 +1,6 @@
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetProviderPurposesActions from '../useGetProviderPurposesActions'
-import { createMockPurpose } from '__mocks__/data/purpose.mocks'
+import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import type { Purpose } from '@/api/api.generatedTypes'
 
 mockUseJwt({ isAdmin: true })

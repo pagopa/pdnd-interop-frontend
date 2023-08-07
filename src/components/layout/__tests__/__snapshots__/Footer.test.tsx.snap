@@ -13,12 +13,13 @@ exports[`Footer > should match snapshot 1`] = `
           class="MuiContainer-root css-1sppnl4-MuiContainer-root"
         >
           <div
-            class="css-cqb51a-MuiStack-root"
+            class="MuiStack-root css-7hd1re-MuiStack-root"
           >
-            <button
+            <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways MuiLink-button css-19hp9bx-MuiTypography-root-MuiLink-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-15pxl6o-MuiButtonBase-root-MuiButton-root"
               href="https://www.pagopa.it"
+              tabindex="0"
             >
               <svg
                 aria-labelledby="logo-pagoPA-company-titleID"
@@ -50,9 +51,12 @@ exports[`Footer > should match snapshot 1`] = `
                   PagoPA
                 </title>
               </svg>
-            </button>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </a>
             <div
-              class="css-eq56v9-MuiStack-root"
+              class="MuiStack-root css-1ylmxph-MuiStack-root"
             >
               <button
                 aria-label="footer.links.privacy.ariaLabel"
@@ -96,7 +100,7 @@ exports[`Footer > should match snapshot 1`] = `
             class="MuiTypography-root MuiTypography-caption css-il8o2f-MuiTypography-root"
           >
             <span
-              class="MuiTypography-root MuiTypography-inherit css-1u8atxi-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-inherit css-11xu8ks-MuiTypography-root"
             >
               PagoPA S.p.A.
             </span>

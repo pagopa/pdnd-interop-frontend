@@ -4,7 +4,7 @@ import { rest } from 'msw'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { DialogAddSecurityOperators } from '../DialogAddSecurityOperators'
 import { vi } from 'vitest'
-import { createMockSelfCareUser } from '__mocks__/data/user.mocks'
+import { createMockSelfCareUser } from '@/../__mocks__/data/user.mocks'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import userEvent from '@testing-library/user-event'
 

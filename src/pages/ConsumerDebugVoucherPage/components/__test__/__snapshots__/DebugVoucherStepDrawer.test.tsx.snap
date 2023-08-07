@@ -50,10 +50,10 @@ exports[`DebugVoucherStepDrawer testing > should match snapshot 1`] = `
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -70,10 +70,10 @@ exports[`DebugVoucherStepDrawer testing > should match snapshot 1`] = `
           class="MuiBox-root css-be40y1"
         >
           <div
-            class="css-1p5q5e5-MuiStack-root"
+            class="MuiStack-root css-1sazv7p-MuiStack-root"
           >
             <div
-              class="css-3y1137-MuiStack-root"
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
               <p
                 class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
@@ -81,7 +81,7 @@ exports[`DebugVoucherStepDrawer testing > should match snapshot 1`] = `
                 stepDrawer.stepResultLabel
               </p>
               <div
-                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-lwe8th-MuiChip-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
               >
                 <span
                   class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"

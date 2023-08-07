@@ -7,7 +7,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       />
       <div
         class="MuiBox-root css-zv7ju9"
@@ -16,7 +16,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -33,7 +33,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1lwbda4-MuiStack-root"
+              class="MuiStack-root css-v2woy3-MuiStack-root"
             >
               <div
                 class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -49,16 +49,16 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                   class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
                 >
                   <ul
-                    class="css-zenfnj-MuiStack-root"
+                    class="MuiStack-root css-slre3t-MuiStack-root"
                   >
                     <li
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -130,10 +130,10 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -205,10 +205,10 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -293,16 +293,16 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                   class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
                 >
                   <ul
-                    class="css-zenfnj-MuiStack-root"
+                    class="MuiStack-root css-slre3t-MuiStack-root"
                   >
                     <li
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -383,7 +383,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -400,7 +400,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1lwbda4-MuiStack-root"
+              class="MuiStack-root css-v2woy3-MuiStack-root"
             >
               <div
                 class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -416,16 +416,16 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                   class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
                 >
                   <ul
-                    class="css-zenfnj-MuiStack-root"
+                    class="MuiStack-root css-slre3t-MuiStack-root"
                   >
                     <li
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -497,10 +497,10 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -572,10 +572,10 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -660,16 +660,16 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                   class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
                 >
                   <ul
-                    class="css-zenfnj-MuiStack-root"
+                    class="MuiStack-root css-slre3t-MuiStack-root"
                   >
                     <li
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -750,7 +750,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -767,7 +767,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
             class="MuiBox-root css-1yuhvjn"
           >
             <div
-              class="css-1lwbda4-MuiStack-root"
+              class="MuiStack-root css-v2woy3-MuiStack-root"
             >
               <div
                 class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
@@ -783,16 +783,16 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                   class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
                 >
                   <ul
-                    class="css-zenfnj-MuiStack-root"
+                    class="MuiStack-root css-slre3t-MuiStack-root"
                   >
                     <li
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -864,10 +864,10 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -939,10 +939,10 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -1027,16 +1027,16 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot 1`] = 
                   class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
                 >
                   <ul
-                    class="css-zenfnj-MuiStack-root"
+                    class="MuiStack-root css-slre3t-MuiStack-root"
                   >
                     <li
                       class="MuiBox-root css-0"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <div
-                          class="css-1yo1jo6-MuiStack-root"
+                          class="MuiStack-root css-1sos3zc-MuiStack-root"
                         />
                         <div
                           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -1123,7 +1123,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot on no 
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       />
       <div
         class="MuiBox-root css-zv7ju9"
@@ -1132,7 +1132,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot on no 
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -1174,7 +1174,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot on no 
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -1216,7 +1216,7 @@ exports[`EServiceDescriptorAttributesSections > should match the snapshot on no 
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
             <h3
               class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
