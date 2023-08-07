@@ -4,7 +4,7 @@ import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.ut
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import type { Client } from '@/api/api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
