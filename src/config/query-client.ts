@@ -35,13 +35,14 @@ const { showToast } = useToastNotificationStore.getState()
 const { showOverlay, hideOverlay } = useLoadingOverlayStore.getState()
 const { openDialog } = useDialogStore.getState()
 
-const resolveMeta = (
-  mutation: Mutation<unknown, unknown, unknown>,
-  data?: unknown,
-  error?: unknown,
-  variables?: unknown,
+const resolveMeta = (query: {
+  mutation: Mutation<unknown, unknown, unknown>
+  data?: unknown
+  error?: unknown
+  variables?: unknown
   context?: unknown
-) => {
+}) => {
+  const { mutation, data, error, variables, context } = query
   const meta = mutation.meta as MutationMeta
 
   const loadingLabel =
@@ -153,7 +154,7 @@ const requestPolling = () => {
 }
 
 mutationCache.config.onMutate = async (variables, mutation) => {
-  const meta = resolveMeta(mutation, undefined, variables)
+  const meta = resolveMeta({ mutation, variables })
   if (meta.confirmationDialog) {
     const confirmed = await waitForUserConfirmation(meta.confirmationDialog)
     if (!confirmed) return Promise.reject(new CancellationError())
@@ -162,7 +163,7 @@ mutationCache.config.onMutate = async (variables, mutation) => {
 }
 
 mutationCache.config.onSuccess = (data, variables, context, mutation) => {
-  const meta = resolveMeta(mutation, data, undefined, variables, context)
+  const meta = resolveMeta({ mutation, data, variables, context })
   if (meta.successToastLabel) showToast(meta.successToastLabel, 'success')
   requestPolling()
 }
@@ -171,12 +172,12 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   // If the error is due to the user cancelling the mutation, do nothing.
   if (error instanceof CancellationError) return
 
-  const meta = resolveMeta(mutation, undefined, error, variables, context)
+  const meta = resolveMeta({ mutation, error, variables, context })
   if (meta.errorToastLabel) showToast(meta.errorToastLabel, 'error')
 }
 
 mutationCache.config.onSettled = (data, error, variables, context, mutation) => {
-  const meta = resolveMeta(mutation, data, error, variables, context)
+  const meta = resolveMeta({ mutation, data, error, variables, context })
   if (meta.loadingLabel) hideOverlay()
 }
 
