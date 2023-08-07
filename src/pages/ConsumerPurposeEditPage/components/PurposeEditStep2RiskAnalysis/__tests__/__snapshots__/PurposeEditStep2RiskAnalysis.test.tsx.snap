@@ -11,7 +11,7 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
       >
         <div
-          class="css-1okj3ks-MuiStack-root"
+          class="MuiStack-root css-jfdv4h-MuiStack-root"
         />
         <div
           class="MuiBox-root css-zv7ju9"
@@ -54,13 +54,13 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
         </div>
       </section>
       <div
-        class="css-1p5q5e5-MuiStack-root"
+        class="MuiStack-root css-1sazv7p-MuiStack-root"
       >
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
         >
           <div
-            class="css-1okj3ks-MuiStack-root"
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
           />
           <div
             class="MuiBox-root css-zv7ju9"
@@ -69,7 +69,7 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
               class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
             >
               <div
-                class="css-1b2nz6m-MuiStack-root"
+                class="MuiStack-root css-givlym-MuiStack-root"
               >
                 <label
                   class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
@@ -187,7 +187,7 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
         </div>
       </div>
       <div
-        class="css-jojnym-MuiStack-root"
+        class="MuiStack-root css-1itaudw-MuiStack-root"
       >
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1rwt2y5-MuiButtonBase-root-MuiButton-root"

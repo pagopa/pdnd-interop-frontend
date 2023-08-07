@@ -10,8 +10,6 @@ import type { AttributeKind } from '@/api/api.generatedTypes'
 
 type CreateNewAttributeFormValues = {
   name: string
-  code: string
-  origin: string
   description: string
   kind: AttributeKind
 }

@@ -50,10 +50,10 @@ exports[`AgreementAttachedDocumentsDrawer > should match the snapshot with docum
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -70,7 +70,7 @@ exports[`AgreementAttachedDocumentsDrawer > should match the snapshot with docum
           class="MuiBox-root css-be40y1"
         >
           <div
-            class="css-678bp8-MuiStack-root"
+            class="MuiStack-root css-8mcjw0-MuiStack-root"
           >
             <div
               class="MuiBox-root css-0"
@@ -98,7 +98,7 @@ exports[`AgreementAttachedDocumentsDrawer > should match the snapshot with docum
                 class="MuiBox-root css-1hw29i9"
               >
                 <ul
-                  class="css-gdcb2i-MuiStack-root"
+                  class="MuiStack-root css-1c1975n-MuiStack-root"
                 >
                   <li
                     class="MuiBox-root css-0"
@@ -107,7 +107,7 @@ exports[`AgreementAttachedDocumentsDrawer > should match the snapshot with docum
                       class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
                     >
                       <span
-                        class="css-ae0xht-MuiStack-root"
+                        class="MuiStack-root css-ae0xht-MuiStack-root"
                       >
                         <svg
                           aria-hidden="true"
@@ -193,10 +193,10 @@ exports[`AgreementAttachedDocumentsDrawer > should match the snapshot without do
         </button>
       </div>
       <div
-        class="css-139xa77-MuiStack-root"
+        class="MuiStack-root css-139xa77-MuiStack-root"
       >
         <div
-          class="css-xm2ers-MuiStack-root"
+          class="MuiStack-root css-1ldba7e-MuiStack-root"
         >
           <h6
             class="MuiTypography-root MuiTypography-h6 css-1y8v3j7-MuiTypography-root"
@@ -213,7 +213,7 @@ exports[`AgreementAttachedDocumentsDrawer > should match the snapshot without do
           class="MuiBox-root css-be40y1"
         >
           <div
-            class="css-678bp8-MuiStack-root"
+            class="MuiStack-root css-8mcjw0-MuiStack-root"
           >
             <div
               class="MuiBox-root css-0"

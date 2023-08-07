@@ -1,7 +1,10 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { createMockPurpose, createMockRiskAnalysisFormConfig } from '__mocks__/data/purpose.mocks'
+import {
+  createMockPurpose,
+  createMockRiskAnalysisFormConfig,
+} from '@/../__mocks__/data/purpose.mocks'
 import { vi } from 'vitest'
 import { PurposeEditStep2RiskAnalysis } from '../PurposeEditStep2RiskAnalysis'
 import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'

@@ -4,7 +4,7 @@ import { renderHook } from '@testing-library/react'
 import { vi } from 'vitest'
 import { useTOSAgreement } from '../useTOSAgreement'
 import { createMockPrivacyNotice } from '../../../../__mocks__/data/one-trust-notice.mocks'
-import { createMockJwtUser } from '__mocks__/data/user.mocks'
+import { createMockJwtUser } from '@/../__mocks__/data/user.mocks'
 
 const mockUseGetUserConsent = (data: { PP: PrivacyNotice; TOS: PrivacyNotice }) => {
   vi.spyOn(OneTrustNoticesQueries, 'useGetUserConsent').mockImplementation((type) => {

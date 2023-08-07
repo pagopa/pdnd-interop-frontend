@@ -9,7 +9,7 @@ import { fireEvent, waitFor } from '@testing-library/react'
 import {
   createMockDebugVoucherRequest,
   createMockDebugVoucherResultPassed,
-} from '__mocks__/data/voucher.mocks'
+} from '@/../__mocks__/data/voucher.mocks'
 import type { TokenGenerationValidationResult } from '@/api/api.generatedTypes'
 
 const response = createMockDebugVoucherResultPassed()

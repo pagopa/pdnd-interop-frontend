@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { StatusChip, StatusChipSkeleton } from '../StatusChip'
-import { createMockPurpose } from '__mocks__/data/purpose.mocks'
-import { createMockAgreementListingItem } from '__mocks__/data/agreement.mocks'
+import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
+import { createMockAgreementListingItem } from '@/../__mocks__/data/agreement.mocks'
 import { mockUseJwt } from '@/utils/testing.utils'
 
 mockUseJwt()

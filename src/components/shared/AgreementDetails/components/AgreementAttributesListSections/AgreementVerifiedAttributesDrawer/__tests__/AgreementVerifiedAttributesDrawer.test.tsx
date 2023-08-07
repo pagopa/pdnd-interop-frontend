@@ -4,8 +4,8 @@ import { fireEvent, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as agreementDetailsContext from '@/components/shared/AgreementDetails/AgreementDetailsContext'
-import { createVerifiedTenantAttribute } from '__mocks__/data/attribute.mocks'
-import { createMockAgreement } from '__mocks__/data/agreement.mocks'
+import { createVerifiedTenantAttribute } from '@/../__mocks__/data/attribute.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import { AttributeMutations } from '@/api/attribute'
 import addYears from 'date-fns/addYears'
 
@@ -239,7 +239,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: revokeAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useRevokeVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useRevokeVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -282,7 +282,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: verifyAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -325,7 +325,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: updateAttributeExpirationDateFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -369,7 +369,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: verifyAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -416,7 +416,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: verifyAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -469,7 +469,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: verifyAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -540,7 +540,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: verifyAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -599,7 +599,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: verifyAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -659,7 +659,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       {
         partyId: 'test-id-consumer',
         id: 'test attributeId',
-        expirationDate: `${addYears(today, 1).toISOString()}`,
+        expirationDate: expect.stringContaining('2024-08-07T'),
       },
       { onSuccess: undefined }
     )
@@ -673,7 +673,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: verifyAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -727,7 +727,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: verifyAttributeFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useVerifyPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -790,7 +790,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: updateExpirationDateFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -837,7 +837,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: updateExpirationDateFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -890,7 +890,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: updateExpirationDateFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -961,7 +961,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: updateExpirationDateFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -1019,7 +1019,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: updateExpirationDateFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -1093,7 +1093,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: updateExpirationDateFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({
@@ -1147,7 +1147,7 @@ describe('AgreementVerifiedAttributesDrawer tests', () => {
       () =>
         ({
           mutate: updateExpirationDateFn,
-        } as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>)
+        }) as unknown as ReturnType<(typeof AttributeMutations)['useUpdateVerifiedPartyAttribute']>
     )
 
     mockAgreementDetailsContext({

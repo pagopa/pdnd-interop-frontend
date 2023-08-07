@@ -7,13 +7,13 @@ import {
 import { vi } from 'vitest'
 import { EServiceQueries } from '@/api/eservice'
 import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
-import { createMockEServiceDescriptorCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 import {
   mockUseCurrentRoute,
   mockUseJwt,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
-import { createMockPurpose } from '__mocks__/data/purpose.mocks'
+import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 
 // EServiceQueries.useGetDescriptorCatalog
 const mockGetDescriptorCatalog = (data: CatalogEServiceDescriptor | undefined) =>

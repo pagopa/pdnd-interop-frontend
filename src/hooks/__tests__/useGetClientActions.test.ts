@@ -1,4 +1,4 @@
-import { createMockClient } from '__mocks__/data/client.mocks'
+import { createMockClient } from '@/../__mocks__/data/client.mocks'
 import useGetClientActions from '../useGetClientActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { rest } from 'msw'

@@ -4,7 +4,7 @@ import { EServiceDetails, EServiceDetailsSkeleton } from '../EServiceDetails'
 import {
   createMockEServiceDescriptorCatalog,
   createMockEServiceDescriptorProvider,
-} from '__mocks__/data/eservice.mocks'
+} from '@/../__mocks__/data/eservice.mocks'
 import { render } from '@testing-library/react'
 
 describe('EServiceDetails', () => {

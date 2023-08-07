@@ -7,7 +7,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -27,7 +27,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiBox-root css-0"
         >
           <div
-            class="css-1lwbda4-MuiStack-root"
+            class="MuiStack-root css-v2woy3-MuiStack-root"
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-otp1ie-MuiPaper-root-MuiCard-root"
@@ -74,16 +74,16 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
                 class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
               >
                 <ul
-                  class="css-1hy9l9p-MuiStack-root"
+                  class="MuiStack-root css-4mjv95-MuiStack-root"
                 >
                   <li
                     class="MuiBox-root css-0"
                   >
                     <div
-                      class="css-1yo1jo6-MuiStack-root"
+                      class="MuiStack-root css-1sos3zc-MuiStack-root"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <button
                           aria-label="removeAttributeAriaLabel"
@@ -201,10 +201,10 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           </div>
         </div>
         <div
-          class="css-1lwbda4-MuiStack-root"
+          class="MuiStack-root css-v2woy3-MuiStack-root"
         >
           <div
-            class="css-9v4aab-MuiStack-root"
+            class="MuiStack-root css-18y360j-MuiStack-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ugwy04-MuiButtonBase-root-MuiButton-root"
@@ -231,7 +231,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -251,7 +251,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiBox-root css-0"
         >
           <div
-            class="css-1lwbda4-MuiStack-root"
+            class="MuiStack-root css-v2woy3-MuiStack-root"
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-otp1ie-MuiPaper-root-MuiCard-root"
@@ -273,16 +273,16 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
                 class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
               >
                 <ul
-                  class="css-1hy9l9p-MuiStack-root"
+                  class="MuiStack-root css-4mjv95-MuiStack-root"
                 >
                   <li
                     class="MuiBox-root css-0"
                   >
                     <div
-                      class="css-1yo1jo6-MuiStack-root"
+                      class="MuiStack-root css-1sos3zc-MuiStack-root"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       />
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -356,10 +356,10 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           </div>
         </div>
         <div
-          class="css-1lwbda4-MuiStack-root"
+          class="MuiStack-root css-v2woy3-MuiStack-root"
         >
           <div
-            class="css-9v4aab-MuiStack-root"
+            class="MuiStack-root css-18y360j-MuiStack-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ugwy04-MuiButtonBase-root-MuiButton-root"
@@ -384,7 +384,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -404,7 +404,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiBox-root css-0"
         >
           <div
-            class="css-1lwbda4-MuiStack-root"
+            class="MuiStack-root css-v2woy3-MuiStack-root"
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-otp1ie-MuiPaper-root-MuiCard-root"
@@ -451,16 +451,16 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
                 class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
               >
                 <ul
-                  class="css-1hy9l9p-MuiStack-root"
+                  class="MuiStack-root css-4mjv95-MuiStack-root"
                 >
                   <li
                     class="MuiBox-root css-0"
                   >
                     <div
-                      class="css-1yo1jo6-MuiStack-root"
+                      class="MuiStack-root css-1sos3zc-MuiStack-root"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <button
                           aria-label="removeAttributeAriaLabel"
@@ -578,10 +578,10 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           </div>
         </div>
         <div
-          class="css-1lwbda4-MuiStack-root"
+          class="MuiStack-root css-v2woy3-MuiStack-root"
         >
           <div
-            class="css-9v4aab-MuiStack-root"
+            class="MuiStack-root css-18y360j-MuiStack-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ugwy04-MuiButtonBase-root-MuiButton-root"
@@ -618,7 +618,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -638,7 +638,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiBox-root css-0"
         >
           <div
-            class="css-1lwbda4-MuiStack-root"
+            class="MuiStack-root css-v2woy3-MuiStack-root"
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-otp1ie-MuiPaper-root-MuiCard-root"
@@ -660,16 +660,16 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
                 class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
               >
                 <ul
-                  class="css-1hy9l9p-MuiStack-root"
+                  class="MuiStack-root css-4mjv95-MuiStack-root"
                 >
                   <li
                     class="MuiBox-root css-0"
                   >
                     <div
-                      class="css-1yo1jo6-MuiStack-root"
+                      class="MuiStack-root css-1sos3zc-MuiStack-root"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       />
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -743,10 +743,10 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           </div>
         </div>
         <div
-          class="css-1lwbda4-MuiStack-root"
+          class="MuiStack-root css-v2woy3-MuiStack-root"
         >
           <div
-            class="css-9v4aab-MuiStack-root"
+            class="MuiStack-root css-18y360j-MuiStack-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ugwy04-MuiButtonBase-root-MuiButton-root"
@@ -779,7 +779,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -799,7 +799,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiBox-root css-0"
         >
           <div
-            class="css-1lwbda4-MuiStack-root"
+            class="MuiStack-root css-v2woy3-MuiStack-root"
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-otp1ie-MuiPaper-root-MuiCard-root"
@@ -846,16 +846,16 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
                 class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
               >
                 <ul
-                  class="css-1hy9l9p-MuiStack-root"
+                  class="MuiStack-root css-4mjv95-MuiStack-root"
                 >
                   <li
                     class="MuiBox-root css-0"
                   >
                     <div
-                      class="css-1yo1jo6-MuiStack-root"
+                      class="MuiStack-root css-1sos3zc-MuiStack-root"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       >
                         <button
                           aria-label="removeAttributeAriaLabel"
@@ -973,10 +973,10 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           </div>
         </div>
         <div
-          class="css-1lwbda4-MuiStack-root"
+          class="MuiStack-root css-v2woy3-MuiStack-root"
         >
           <div
-            class="css-9v4aab-MuiStack-root"
+            class="MuiStack-root css-18y360j-MuiStack-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ugwy04-MuiButtonBase-root-MuiButton-root"
@@ -1013,7 +1013,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h3
           class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
@@ -1033,7 +1033,7 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           class="MuiBox-root css-0"
         >
           <div
-            class="css-1lwbda4-MuiStack-root"
+            class="MuiStack-root css-v2woy3-MuiStack-root"
           >
             <div
               class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-otp1ie-MuiPaper-root-MuiCard-root"
@@ -1055,16 +1055,16 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
                 class="MuiCardContent-root css-1jqdwvk-MuiCardContent-root"
               >
                 <ul
-                  class="css-1hy9l9p-MuiStack-root"
+                  class="MuiStack-root css-4mjv95-MuiStack-root"
                 >
                   <li
                     class="MuiBox-root css-0"
                   >
                     <div
-                      class="css-1yo1jo6-MuiStack-root"
+                      class="MuiStack-root css-1sos3zc-MuiStack-root"
                     >
                       <div
-                        class="css-1yo1jo6-MuiStack-root"
+                        class="MuiStack-root css-1sos3zc-MuiStack-root"
                       />
                       <div
                         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -1138,10 +1138,10 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
           </div>
         </div>
         <div
-          class="css-1lwbda4-MuiStack-root"
+          class="MuiStack-root css-v2woy3-MuiStack-root"
         >
           <div
-            class="css-9v4aab-MuiStack-root"
+            class="MuiStack-root css-18y360j-MuiStack-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1ugwy04-MuiButtonBase-root-MuiButton-root"

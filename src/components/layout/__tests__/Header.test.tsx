@@ -3,7 +3,7 @@ import { Header } from '../Header'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
-import { createMockJwtUser } from '__mocks__/data/user.mocks'
+import { createMockJwtUser } from '@/../__mocks__/data/user.mocks'
 
 mockUseJwt()
 

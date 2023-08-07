@@ -2,7 +2,7 @@ import React from 'react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceVersionInfoSection } from '../EServiceVersionInfoSection'
 import { mockEServiceDetailsContext } from './test.commons'
-import { createMockEServiceDescriptorCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 
 describe('EServiceVersionInfoSection', () => {
   it('should match the snapshot', () => {

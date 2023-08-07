@@ -6,7 +6,7 @@ exports[`EServiceDocumentsListSection > should match the snapshot (consumer) 1`]
     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
   >
     <div
-      class="css-1okj3ks-MuiStack-root"
+      class="MuiStack-root css-jfdv4h-MuiStack-root"
     >
       <h2
         class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -18,7 +18,7 @@ exports[`EServiceDocumentsListSection > should match the snapshot (consumer) 1`]
       class="MuiBox-root css-1yuhvjn"
     >
       <ul
-        class="css-129j0b2-MuiStack-root"
+        class="MuiStack-root css-13r94rd-MuiStack-root"
       >
         <li
           class="MuiBox-root css-0"
@@ -27,7 +27,7 @@ exports[`EServiceDocumentsListSection > should match the snapshot (consumer) 1`]
             class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
           >
             <span
-              class="css-ae0xht-MuiStack-root"
+              class="MuiStack-root css-ae0xht-MuiStack-root"
             >
               <svg
                 aria-hidden="true"
@@ -55,7 +55,7 @@ exports[`EServiceDocumentsListSection > should match the snapshot (consumer) 1`]
             class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
           >
             <span
-              class="css-ae0xht-MuiStack-root"
+              class="MuiStack-root css-ae0xht-MuiStack-root"
             >
               <svg
                 aria-hidden="true"
@@ -88,7 +88,7 @@ exports[`EServiceDocumentsListSection > should match the snapshot (provider) 1`]
     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
   >
     <div
-      class="css-1okj3ks-MuiStack-root"
+      class="MuiStack-root css-jfdv4h-MuiStack-root"
     >
       <h2
         class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -100,7 +100,7 @@ exports[`EServiceDocumentsListSection > should match the snapshot (provider) 1`]
       class="MuiBox-root css-1yuhvjn"
     >
       <ul
-        class="css-129j0b2-MuiStack-root"
+        class="MuiStack-root css-13r94rd-MuiStack-root"
       >
         <li
           class="MuiBox-root css-0"
@@ -109,7 +109,7 @@ exports[`EServiceDocumentsListSection > should match the snapshot (provider) 1`]
             class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
           >
             <span
-              class="css-ae0xht-MuiStack-root"
+              class="MuiStack-root css-ae0xht-MuiStack-root"
             >
               <svg
                 aria-hidden="true"
@@ -137,7 +137,7 @@ exports[`EServiceDocumentsListSection > should match the snapshot (provider) 1`]
             class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
           >
             <span
-              class="css-ae0xht-MuiStack-root"
+              class="MuiStack-root css-ae0xht-MuiStack-root"
             >
               <svg
                 aria-hidden="true"

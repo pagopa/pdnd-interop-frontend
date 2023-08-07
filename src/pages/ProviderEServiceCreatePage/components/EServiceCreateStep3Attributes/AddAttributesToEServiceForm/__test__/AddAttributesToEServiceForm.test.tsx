@@ -11,7 +11,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import {
   createMockAttribute,
   createMockRemappedDescriptorAttribute,
-} from '__mocks__/data/attribute.mocks'
+} from '@/../__mocks__/data/attribute.mocks'
 import { AttributeQueries } from '@/api/attribute'
 import { Dialog } from '@/components/dialogs'
 import { QueryClientProvider } from '@tanstack/react-query'

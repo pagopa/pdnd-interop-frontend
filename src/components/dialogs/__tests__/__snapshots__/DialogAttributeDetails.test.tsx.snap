@@ -41,10 +41,10 @@ exports[`DialogAttributeDetails testing > should match the snapshot > full state
           class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
         >
           <div
-            class="css-1gw2iun-MuiStack-root"
+            class="MuiStack-root css-x6fbp7-MuiStack-root"
           >
             <div
-              class="css-nen11g-MuiStack-root"
+              class="MuiStack-root css-nen11g-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-1pdb85g"
@@ -66,7 +66,7 @@ exports[`DialogAttributeDetails testing > should match the snapshot > full state
               </div>
             </div>
             <div
-              class="css-nen11g-MuiStack-root"
+              class="MuiStack-root css-nen11g-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-1pdb85g"
@@ -177,10 +177,10 @@ exports[`DialogAttributeDetails testing > should match the snapshot > loading st
           class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
         >
           <div
-            class="css-1gw2iun-MuiStack-root"
+            class="MuiStack-root css-x6fbp7-MuiStack-root"
           >
             <div
-              class="css-19qjufr-MuiStack-root"
+              class="MuiStack-root css-1xcvc1q-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-iuqs4u"

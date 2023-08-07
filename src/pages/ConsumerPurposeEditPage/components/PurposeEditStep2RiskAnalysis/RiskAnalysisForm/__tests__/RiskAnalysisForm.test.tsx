@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from '../RiskAnalysisForm'
-import { createMockRiskAnalysisFormConfig } from '__mocks__/data/purpose.mocks'
+import { createMockRiskAnalysisFormConfig } from '@/../__mocks__/data/purpose.mocks'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 

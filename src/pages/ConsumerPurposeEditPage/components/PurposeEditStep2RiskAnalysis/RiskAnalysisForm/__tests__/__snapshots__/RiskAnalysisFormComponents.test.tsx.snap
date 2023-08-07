@@ -7,7 +7,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       />
       <div
         class="MuiBox-root css-zv7ju9"
@@ -16,7 +16,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
@@ -67,7 +67,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       />
       <div
         class="MuiBox-root css-zv7ju9"
@@ -76,7 +76,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
@@ -112,6 +112,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             </div>
             <input
               aria-hidden="true"
+              aria-invalid="false"
               aria-labelledby="2-label"
               class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
               name="2"
@@ -151,7 +152,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       />
       <div
         class="MuiBox-root css-zv7ju9"
@@ -160,7 +161,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
@@ -189,7 +190,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       />
       <div
         class="MuiBox-root css-zv7ju9"
@@ -198,7 +199,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
@@ -217,7 +218,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
           >
             <div
-              class="css-1npm2ob-MuiStack-root"
+              class="MuiStack-root css-1o800vy-MuiStack-root"
             >
               <span
                 class="MuiSwitch-root MuiSwitch-sizeMedium css-18tmeyj-MuiSwitch-root"
@@ -252,7 +253,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       />
       <div
         class="MuiBox-root css-zv7ju9"
@@ -261,7 +262,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <legend
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"

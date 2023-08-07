@@ -7,7 +7,7 @@ exports[`EServiceLinksSection > should match the snapshot 1`] = `
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
         <h2
           class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
@@ -19,7 +19,7 @@ exports[`EServiceLinksSection > should match the snapshot 1`] = `
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1r4x8sc-MuiStack-root"
+          class="MuiStack-root css-11zvfn9-MuiStack-root"
         >
           <a
             class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways css-1spaltq-MuiTypography-root-MuiLink-root"
