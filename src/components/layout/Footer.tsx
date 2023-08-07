@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, Box, Container, Link, Typography } from '@mui/material'
+import { Stack, Box, Container, Link, Typography, Button } from '@mui/material'
 import { FooterLegal, LogoPagoPACompany } from '@pagopa/mui-italia'
 import type {
   CompanyLinkType,
@@ -129,15 +129,14 @@ const FooterPostLogin = ({ companyLink, links }: FooterPostLoginProps): JSX.Elem
         sx={{ alignItems: 'center' }}
       >
         {companyLink && (
-          <Link
-            component="button"
+          <Button
             aria-label={companyLink?.ariaLabel}
             href={companyLink?.href}
             onClick={companyLink.onClick}
             sx={{ display: 'inline-flex' }}
           >
             <LogoPagoPACompany />
-          </Link>
+          </Button>
         )}
 
         <Stack

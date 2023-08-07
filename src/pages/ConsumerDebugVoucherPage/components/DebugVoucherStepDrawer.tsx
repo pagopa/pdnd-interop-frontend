@@ -47,9 +47,7 @@ const DebugVoucherStepDrawer: React.FC = () => {
         <List sx={{ listStyleType: 'disc', pl: 4 }}>
           {selectedStep?.[1].failures.map((failure, index) => (
             <ListItem key={index} sx={{ display: 'list-item', px: 0 }}>
-              <Typography variant="body2">
-                {t(`errors.${failure.code}` as unknown as TemplateStringsArray, failure.reason)}
-              </Typography>
+              <Typography variant="body2">{t(`errors.${failure.code}`, failure.reason)}</Typography>
             </ListItem>
           ))}
         </List>

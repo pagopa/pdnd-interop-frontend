@@ -30,10 +30,10 @@ const AgreementVerifiedAttributesDrawerForm: React.FC<
     })
   }
 
-  const handleDateChange = (selectedDate: number | null) => {
+  const handleDateChange = (selectedDate: Date | null) => {
     if (selectedDate) {
       setFormState((prev) => {
-        return { ...prev, expirationDate: new Date(selectedDate) }
+        return { ...prev, expirationDate: selectedDate }
       })
     }
   }
