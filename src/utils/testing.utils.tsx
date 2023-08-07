@@ -7,33 +7,11 @@ import { Route, Router, Routes } from 'react-router-dom'
 import { render, renderHook } from '@testing-library/react'
 import { LoadingOverlay, ToastNotification } from '@/components/layout'
 import { Dialog } from '@/components/dialogs'
-import { QueryClient } from '@tanstack/react-query'
-import type { QueryClientConfig } from '@tanstack/react-query'
-import { queryClientConfig } from '../config/query-client'
 import { deepmerge } from '@mui/utils'
-import noop from 'lodash/noop'
 import { vi } from 'vitest'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 import { AuthHooks } from '@/api/auth'
-
-const queryClientConfigMock: QueryClientConfig = deepmerge(
-  {
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-    // Disables logging
-    logger: {
-      log: noop,
-      warn: noop,
-      error: noop,
-    },
-  },
-  queryClientConfig
-)
-
-export const queryClientMock = new QueryClient(queryClientConfigMock)
+import { queryClient } from '@/config/query-client'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -134,7 +112,7 @@ function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
     )
 
     if (options.withReactQueryContext) {
-      result = <QueryClientProvider client={queryClientMock}>{result}</QueryClientProvider>
+      result = <QueryClientProvider client={queryClient}>{result}</QueryClientProvider>
     }
 
     if (options.withRouterContext) {

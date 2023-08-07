@@ -1,4 +1,4 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type {
   GetTenantsParams,
@@ -6,8 +6,6 @@ import type {
   SelfcareInstitution,
   Tenants,
 } from '../api.generatedTypes'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
-import { type UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 import PartyServices from './party.services'
 import { AuthHooks } from '../auth'
 
@@ -20,13 +18,11 @@ export enum PartyQueryKeys {
 }
 
 function useGetParty(partyId?: string) {
-  return useQueryWrapper(
-    [PartyQueryKeys.GetSingle, partyId],
-    () => PartyServices.getParty(partyId!),
-    {
-      enabled: !!partyId,
-    }
-  )
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetSingle, partyId],
+    queryFn: () => PartyServices.getParty(partyId!),
+    enabled: !!partyId,
+  })
 }
 
 function useGetActiveUserParty() {
@@ -38,14 +34,12 @@ function useGetPartyUsersList(
   params: GetUserInstitutionRelationshipsParams,
   config = { suspense: false }
 ) {
-  return useQueryWrapper(
-    [PartyQueryKeys.GetPartyUsersList, params],
-    () => PartyServices.getPartyUsersList(params),
-    {
-      enabled: !!params?.tenantId,
-      ...config,
-    }
-  )
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetPartyUsersList, params],
+    queryFn: () => PartyServices.getPartyUsersList(params),
+    enabled: !!params?.tenantId,
+    ...config,
+  })
 }
 
 function usePrefetchUsersList() {
@@ -58,29 +52,39 @@ function usePrefetchUsersList() {
   }
 }
 
-function useGetTenants(params: GetTenantsParams, config: UseQueryWrapperOptions<Tenants>) {
-  return useQueryWrapper(
-    [PartyQueryKeys.GetTenants, params],
-    () => PartyServices.getTenants(params),
-    config
-  )
+function useGetTenants(params: GetTenantsParams, config: UseQueryOptions<Tenants>) {
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetTenants, params],
+    queryFn: () => PartyServices.getTenants(params),
+    ...config,
+  })
 }
 
-function useGetProducts(config: UseQueryWrapperOptions<Array<{ id: string; name: string }>>) {
-  return useQueryWrapper([PartyQueryKeys.GetProducts], () => PartyServices.getProducts(), config)
+function useGetProducts(config: UseQueryOptions<Array<{ id: string; name: string }>>) {
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetProducts],
+    queryFn: () => PartyServices.getProducts(),
+    ...config,
+  })
+}
+
+function useGetPartyList(config: UseQueryOptions<Array<SelfcareInstitution>>) {
+  return useQuery({
+    queryKey: [PartyQueryKeys.GetPartyList],
+    queryFn: () => PartyServices.getPartyList(),
+    ...config,
+  })
 }
 
 function useUpdateMail() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'party.updateMail' })
-  return useMutationWrapper(PartyServices.updateMail, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(PartyServices.updateMail, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
-}
-
-function useGetPartyList(config: UseQueryWrapperOptions<Array<SelfcareInstitution>>) {
-  return useQueryWrapper([PartyQueryKeys.GetPartyList], () => PartyServices.getPartyList(), config)
 }
 
 export const PartyQueries = {

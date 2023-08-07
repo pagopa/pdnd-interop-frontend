@@ -1,10 +1,8 @@
 import { AuthHooks } from '@/api/auth'
 import { OneTrustNoticesServices } from './one-trust-notices.services'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import type { ConsentType, PrivacyNotice } from '../api.generatedTypes'
-import { useQuery } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQuery } from '@tanstack/react-query'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
 
 export enum OneTrustNoticesQueryKeys {
   GetUserConsent = 'GetUserConsent',
@@ -13,39 +11,32 @@ export enum OneTrustNoticesQueryKeys {
   GetTermsOfService = 'GetTermsOfService',
 }
 
-function useGetUserConsent(
-  consentType: ConsentType,
-  options?: UseQueryWrapperOptions<PrivacyNotice>
-) {
-  return useQueryWrapper(
-    [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
-    () => OneTrustNoticesServices.getUserConsent({ consentType }),
-    {
-      ...options,
-      staleTime: Infinity,
-      cacheTime: Infinity,
-    }
-  )
+function useGetUserConsent(consentType: ConsentType, options?: UseQueryOptions<PrivacyNotice>) {
+  return useQuery({
+    queryKey: [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
+    queryFn: () => OneTrustNoticesServices.getUserConsent({ consentType }),
+    ...options,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+  })
 }
 
 /**
  * This hook will get the content of the notice from the BFF and will be enabled only if the user is logged.
- * This is the default behaviour of the useQueryWrapper hook.
+ * This is the default behaviour of the useQuery hook.
  */
 function useGetNoticeContent(consentType: ConsentType) {
   const { jwt, isLoadingSession } = AuthHooks.useJwt()
-  return useQueryWrapper(
-    [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
-    () => OneTrustNoticesServices.getNoticeContent({ consentType }),
-    {
-      suspense: false,
-      useErrorBoundary: false,
-      retry: false,
-      staleTime: Infinity,
-      cacheTime: Infinity,
-      enabled: !!jwt && !isLoadingSession,
-    }
-  )
+  return useQuery({
+    queryKey: [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
+    queryFn: () => OneTrustNoticesServices.getNoticeContent({ consentType }),
+    suspense: false,
+    useErrorBoundary: false,
+    retry: false,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+    enabled: !!jwt && !isLoadingSession,
+  })
 }
 
 /**
@@ -56,30 +47,24 @@ function useGetPublicNoticeContent(consentType: ConsentType) {
   const { jwt, isLoadingSession } = AuthHooks.useJwt()
   const lang = useCurrentLanguage()
 
-  return useQuery(
-    [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
-    () =>
+  return useQuery({
+    queryKey: [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
+    queryFn: () =>
       OneTrustNoticesServices.getPublicNoticeContent({
         consentType: consentType.toLowerCase() as Lowercase<ConsentType>,
         lang,
       }),
-    {
-      suspense: false,
-      useErrorBoundary: false,
-      retry: false,
-      staleTime: Infinity,
-      cacheTime: Infinity,
-      enabled: !jwt && !isLoadingSession,
-    }
-  )
+    suspense: false,
+    useErrorBoundary: false,
+    retry: false,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+    enabled: !jwt && !isLoadingSession,
+  })
 }
 
 function useAcceptPrivacyNotice() {
-  return useMutationWrapper(OneTrustNoticesServices.acceptPrivacyNotice, {
-    suppressSuccessToast: true,
-    suppressErrorToast: true,
-    suppressLoadingOverlay: true,
-  })
+  return useMutation(OneTrustNoticesServices.acceptPrivacyNotice, {})
 }
 
 export const OneTrustNoticesQueries = {

@@ -1,6 +1,5 @@
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
 import { NotAuthorizedError, NotFoundError, TokenExchangeError } from '@/utils/errors.utils'
-import { queryClientMock } from '@/utils/testing.utils'
 import { createMemoryHistory } from '@remix-run/router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { render, waitFor } from '@testing-library/react'
@@ -9,6 +8,7 @@ import type { FallbackProps } from 'react-error-boundary'
 import { Route, Router, Routes } from 'react-router-dom'
 import useResolveError from '../useResolveError'
 import { AxiosError } from 'axios'
+import { queryClient } from '@/config/query-client'
 
 const TestErrorComponent: React.FC<FallbackProps> = (props) => {
   const { title, description, content } = useResolveError(props)
@@ -32,7 +32,7 @@ const PathTestComponent: React.FC<{ children: React.ReactNode }> = ({ children }
 
 const ErrorBoundaryTest: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <QueryClientProvider client={queryClientMock}>
+    <QueryClientProvider client={queryClient}>
       <Router location={history.location} navigator={history}>
         <Routes>
           <Route path="/" element={<PathTestComponent>{children}</PathTestComponent>} />

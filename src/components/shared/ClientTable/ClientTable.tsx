@@ -25,7 +25,6 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   const { data: clients } = ClientQueries.useGetList(params, {
     keepPreviousData: true,
     suspense: false,
-    skipThrowOn404Error: true,
   })
 
   return (
@@ -48,7 +47,7 @@ const ClientTableWrapper: React.FC<{
 }> = ({ params, clientKind }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t } = useTranslation('client')
-  const { data: clients } = ClientQueries.useGetList(params, { skipThrowOn404Error: true })
+  const { data: clients } = ClientQueries.useGetList(params)
 
   const headLabels = [tCommon('clientName'), '']
   const isEmpty = clients && clients.results.length === 0

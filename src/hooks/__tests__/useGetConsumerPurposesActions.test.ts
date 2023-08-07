@@ -4,7 +4,7 @@ import { createMockPurpose } from '__mocks__/data/purpose.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import { act, fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { act, fireEvent, screen, waitFor } from '@testing-library/react'
 import type { Purpose } from '@/api/api.generatedTypes'
 
 mockUseJwt({ isAdmin: true })
@@ -179,8 +179,8 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe('/it/fruizione/finalita/test-purpose-id/modifica')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/it/fruizione/finalita/test-purpose-id/modifica')
+    })
   })
 })
