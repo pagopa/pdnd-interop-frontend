@@ -4,7 +4,7 @@ import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.ut
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import type { Client } from '@/api/api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
@@ -83,9 +83,9 @@ describe('check if useGetClientActions returns the correct actions based on the 
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe('/it/fruizione/interop-m2m')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/it/fruizione/interop-m2m')
+    })
   })
 
   it('should navigate to SUBSCRIBE_CLIENT_LIST route after the delete action with client kind CONSUMER', async () => {
@@ -104,8 +104,8 @@ describe('check if useGetClientActions returns the correct actions based on the 
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe('/it/fruizione/client')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/it/fruizione/client')
+    })
   })
 })

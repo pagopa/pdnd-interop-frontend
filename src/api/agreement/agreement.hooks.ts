@@ -111,8 +111,12 @@ function useCreateDraft() {
           // For now the react-query TVariables generic is not being inferred.
           // This will be fixed in this pr: https://github.com/TanStack/query/pull/5804
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          description: ({ eserviceName, eserviceVersion }: any) =>
-            t('confirmDialog.description', { name: eserviceName, version: eserviceVersion }),
+          description: (variables: any) => {
+            return t('confirmDialog.description', {
+              name: variables.eserviceName,
+              version: variables.eserviceVersion,
+            })
+          },
           proceedLabel: t('confirmDialog.proceedLabel'),
         },
       },

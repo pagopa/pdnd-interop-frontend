@@ -5,7 +5,7 @@ import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import type { ProducerEService } from '@/api/api.generatedTypes'
 
 mockUseJwt({ isAdmin: true })
@@ -156,11 +156,11 @@ describe('useGetProviderEServiceTableActions tests', () => {
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe(
-      '/it/erogazione/e-service/6dbb7416-8315-4970-a6be-393a03d0a79d/fd09a069-81f8-4cb5-a302-64320e83a033/modifica'
-    )
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(
+        '/it/erogazione/e-service/6dbb7416-8315-4970-a6be-393a03d0a79d/fd09a069-81f8-4cb5-a302-64320e83a033/modifica'
+      )
+    })
   })
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on create new draft action success', async () => {
@@ -181,11 +181,11 @@ describe('useGetProviderEServiceTableActions tests', () => {
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe(
-      '/it/erogazione/e-service/ad474d35-7939-4bee-bde9-4e469cca1030/test-id/modifica'
-    )
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(
+        '/it/erogazione/e-service/ad474d35-7939-4bee-bde9-4e469cca1030/test-id/modifica'
+      )
+    })
   })
 
   it('should not return actions if the user is a security operator', () => {
