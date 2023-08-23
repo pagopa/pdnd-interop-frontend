@@ -6,12 +6,10 @@ import { useDialog } from '@/stores'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { AttributeMutations } from '@/api/attribute'
-import type { AttributeKind } from '@/api/api.generatedTypes'
 
 type CreateNewAttributeFormValues = {
   name: string
   description: string
-  kind: AttributeKind
 }
 
 export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> = ({
@@ -28,7 +26,6 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   const defaultValues = {
     name: '',
     description: '',
-    kind: attributeKey.toUpperCase() as AttributeKind,
   }
 
   const formMethods = useForm<CreateNewAttributeFormValues>({
