@@ -15,7 +15,6 @@ import type {
   RiskAnalysisFormConfig,
   WaitingForApprovalPurposeVersionUpdateContentSeed,
 } from '../api.generatedTypes'
-import { waitFor } from '@/utils/common.utils'
 
 async function getProducersList(params: GetProducerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
@@ -81,17 +80,6 @@ function deleteDraft({ purposeId }: { purposeId: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`)
 }
 
-async function createVersionDraft({
-  purposeId,
-  ...payload
-}: { purposeId: string } & PurposeVersionSeed) {
-  const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions`,
-    payload
-  )
-  return response.data
-}
-
 async function updateVersionDraft({
   purposeId,
   versionId,
@@ -104,12 +92,15 @@ async function updateVersionDraft({
   return response.data
 }
 
-async function updateDailyCalls(data: { purposeId: string; dailyCalls: number }) {
-  const newPurposeVersion = await createVersionDraft(data)
-  // This is a workaround to make sure the version is created before we try to activate it
-  // Will be removed when the backend will expose a way to create and activate a version in one call
-  await waitFor(2000)
-  return activateVersion({ purposeId: data.purposeId, versionId: newPurposeVersion.versionId })
+async function updateDailyCalls({
+  purposeId,
+  ...payload
+}: { purposeId: string } & PurposeVersionSeed) {
+  const response = await axiosInstance.post<PurposeVersionResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions`,
+    payload
+  )
+  return response.data
 }
 
 async function updateVersionWaitingForApproval({
@@ -196,7 +187,6 @@ const PurposeServices = {
   createDraft,
   updateDraft,
   deleteDraft,
-  createVersionDraft,
   updateVersionDraft,
   updateVersionWaitingForApproval,
   updateDailyCalls,
