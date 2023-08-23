@@ -1,4 +1,4 @@
-import type { CreatedResource, RelationshipInfo } from '@/api/api.generatedTypes'
+import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import { ClientMutations } from '@/api/client'
 import {
   PageBottomActionsContainer,
@@ -26,8 +26,8 @@ const ConsumerClientCreatePage: React.FC = () => {
   const { t } = useTranslation('client')
   const clientKind = useClientKind()
   const navigate = useNavigate()
-  const { mutateAsync: createClient } = ClientMutations.useCreate()
-  const { mutateAsync: createInteropM2MClient } = ClientMutations.useCreateInteropM2M()
+  const { mutate: createClient } = ClientMutations.useCreate()
+  const { mutate: createInteropM2MClient } = ClientMutations.useCreateInteropM2M()
 
   const formMethods = useForm<CreateClientFormValues>({
     defaultValues,
@@ -40,21 +40,20 @@ const ConsumerClientCreatePage: React.FC = () => {
       members: operators.map((operator) => operator.id),
     }
 
-    let data: CreatedResource | null = null
-
     if (clientKind === 'CONSUMER') {
-      data = await createClient(dataToPost)
+      createClient(dataToPost, {
+        onSuccess(data) {
+          navigate('SUBSCRIBE_CLIENT_EDIT', { params: { clientId: data.id } })
+        },
+      })
     }
 
     if (clientKind === 'API') {
-      data = await createInteropM2MClient(dataToPost)
-    }
-
-    if (data) {
-      const destination =
-        clientKind === 'CONSUMER' ? 'SUBSCRIBE_CLIENT_EDIT' : 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'
-
-      navigate(destination, { params: { clientId: data.id } })
+      createInteropM2MClient(dataToPost, {
+        onSuccess(data) {
+          navigate('SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT', { params: { clientId: data.id } })
+        },
+      })
     }
   }
 
