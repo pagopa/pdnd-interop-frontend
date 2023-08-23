@@ -48,9 +48,17 @@ async function getPartyDeclaredList(partyId: string) {
   return response.data
 }
 
-async function create(payload: AttributeSeed) {
+async function createVerified(payload: AttributeSeed) {
   const response = await axiosInstance.post<Attribute>(
-    `${BACKEND_FOR_FRONTEND_URL}/attributes`,
+    `${BACKEND_FOR_FRONTEND_URL}/verifiedAttributes`,
+    payload
+  )
+  return response.data
+}
+
+async function createDeclared(payload: AttributeSeed) {
+  const response = await axiosInstance.post<Attribute>(
+    `${BACKEND_FOR_FRONTEND_URL}/declaredAttributes`,
     payload
   )
   return response.data
@@ -105,7 +113,8 @@ const AttributeServices = {
   getPartyCertifiedList,
   getPartyVerifiedList,
   getPartyDeclaredList,
-  create,
+  createVerified,
+  createDeclared,
   verifyPartyAttribute,
   updateVerifiedPartyAttribute,
   revokeVerifiedPartyAttribute,

@@ -22,7 +22,8 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   const { t: tAttribute } = useTranslation('attribute')
   const { closeDialog } = useDialog()
 
-  const { mutate: createAttribute } = AttributeMutations.useCreate()
+  const { mutate: createVerifiedAttribute } = AttributeMutations.useCreateVerified()
+  const { mutate: createDeclaredAttribute } = AttributeMutations.useCreateDeclared()
 
   const defaultValues = {
     name: '',
@@ -35,7 +36,8 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   })
 
   const onSubmit = (values: CreateNewAttributeFormValues) => {
-    createAttribute(values, { onSuccess: closeDialog })
+    if (attributeKey === 'verified') createVerifiedAttribute(values, { onSuccess: closeDialog })
+    if (attributeKey === 'declared') createDeclaredAttribute(values, { onSuccess: closeDialog })
   }
 
   return (
