@@ -24,7 +24,6 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const navigate = useNavigate()
   const { jwt } = AuthHooks.useJwt()
   const { mutate: createPurposeDraft } = PurposeMutations.useCreateDraft()
-  const { mutate: createVersionDraft } = PurposeMutations.useCreateVersionDraft()
   const location = useLocation()
 
   const formMethods = useForm<PurposeCreateFormValues>({
@@ -81,15 +80,13 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       riskAnalysisForm,
       isFreeOfCharge: true,
       freeOfChargeReason: t('create.defaultPurpose.freeOfChargeReason'),
+      dailyCalls: 1,
     }
 
     createPurposeDraft(payloadCreatePurposeDraft, {
       onSuccess(data) {
         const purposeId = data.id
-        createVersionDraft(
-          { purposeId, dailyCalls: 1 },
-          { onSuccess: () => navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } }) }
-        )
+        navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
       },
     })
   }
