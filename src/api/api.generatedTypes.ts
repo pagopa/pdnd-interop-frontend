@@ -352,6 +352,7 @@ export interface Agreement {
   updatedAt?: string
   /** @format date-time */
   suspendedAt?: string
+  existsContactMail: boolean
 }
 
 export interface Agreements {
@@ -485,6 +486,11 @@ export interface PurposeSeed {
   description: string
   isFreeOfCharge: boolean
   freeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  dailyCalls: number
 }
 
 /** contains the expected payload for purpose version update. */
@@ -606,6 +612,16 @@ export interface Purpose {
   suspendedByProducer?: boolean
   isFreeOfCharge: boolean
   freeOfChargeReason?: string
+  /**
+   * maximum number of daily calls that this descriptor can afford.
+   * @format int32
+   */
+  dailyCallsPerConsumer: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   */
+  dailyCallsTotal: number
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -672,6 +688,7 @@ export interface EncodedClientKey {
 export interface ClientSeed {
   name: string
   description?: string
+  members: string[]
 }
 
 export interface CompactClient {
@@ -983,6 +1000,16 @@ export interface Tenants {
   pagination: Pagination
 }
 
+export interface TenantFeature {
+  /** Certifier Tenant Feature */
+  certifier?: Certifier
+}
+
+/** Certifier Tenant Feature */
+export interface Certifier {
+  certifierId: string
+}
+
 export interface CompactTenant {
   /** @format uuid */
   id: string
@@ -997,6 +1024,7 @@ export interface Tenant {
   /** @format uuid */
   selfcareId?: string
   externalId: ExternalId
+  features: TenantFeature[]
   /** @format date-time */
   createdAt: string
   /** @format date-time */
