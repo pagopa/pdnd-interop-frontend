@@ -176,6 +176,7 @@ const createMockAgreement = createMockFactory<Agreement>({
     name: 'PagoPa S.p.A.',
     selfcareId: '6b16be70-9230-4209-bd1f-7e5ae0eed289',
     updatedAt: '2023-02-15T09:33:35.838Z',
+    features: [],
   },
   consumerDocuments: [
     {
@@ -251,6 +252,7 @@ const createMockAgreement = createMockFactory<Agreement>({
     },
   ],
   isContractPresent: true,
+  existsContactMail: true,
 })
 
 const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
