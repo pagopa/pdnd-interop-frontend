@@ -83,7 +83,7 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
           ))}
         </Stack>
       </Box>
-      <Stack spacing={3}>
+      <Stack sx={{ mt: 3 }} spacing={3}>
         <Stack sx={{ mt: 2 }} direction="row" spacing={2}>
           <Button
             sx={{ fontWeight: 700 }}
