@@ -28,9 +28,6 @@ const ConsumerClientCreatePage: React.FC = () => {
   const navigate = useNavigate()
   const { mutateAsync: createClient } = ClientMutations.useCreate()
   const { mutateAsync: createInteropM2MClient } = ClientMutations.useCreateInteropM2M()
-  const { mutateAsync: addOperator } = ClientMutations.useAddOperator({
-    suppressSuccessToast: true,
-  })
 
   const formMethods = useForm<CreateClientFormValues>({
     defaultValues,
@@ -40,6 +37,7 @@ const ConsumerClientCreatePage: React.FC = () => {
     const dataToPost = {
       name,
       description,
+      members: operators.map((operator) => operator.id),
     }
 
     let data: CreatedResource | null = null
@@ -53,12 +51,6 @@ const ConsumerClientCreatePage: React.FC = () => {
     }
 
     if (data) {
-      await Promise.all(
-        operators.map((operator) =>
-          addOperator({ clientId: data!.id, relationshipId: operator.id })
-        )
-      )
-
       const destination =
         clientKind === 'CONSUMER' ? 'SUBSCRIBE_CLIENT_EDIT' : 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'
 
