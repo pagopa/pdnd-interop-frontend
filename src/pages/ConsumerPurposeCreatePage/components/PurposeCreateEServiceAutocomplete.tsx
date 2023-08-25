@@ -11,13 +11,15 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const selectedEServiceRef = React.useRef<CatalogEService | undefined>(undefined)
   const hasSetFirstEService = React.useRef(false)
 
-  const { setValue } = useFormContext()
+  const { setValue, watch } = useFormContext()
   const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
     useAutocompleteTextInput()
 
   function formatAutocompleteOptionLabel(eservice: CatalogEService) {
     return `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producer.name}`
   }
+
+  const selectedEServiceId = watch('eserviceId')
 
   /**
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected attribute name.
@@ -47,7 +49,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     {
       suspense: false,
       onSuccess(eservices) {
-        if (!hasSetFirstEService.current && eservices.results.length > 0) {
+        if (!selectedEServiceId && !hasSetFirstEService.current && eservices.results.length > 0) {
           setValue('eserviceId', eservices.results[0].id)
           selectedEServiceRef.current = eservices.results[0]
           hasSetFirstEService.current = true
