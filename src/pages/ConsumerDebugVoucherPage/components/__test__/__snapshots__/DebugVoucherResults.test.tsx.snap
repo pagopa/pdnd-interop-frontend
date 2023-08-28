@@ -46,11 +46,15 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
         <div
           class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
-          <h2
-            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          <div
+            class="MuiStack-root css-3y1137-MuiStack-root"
           >
-            title
-          </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            >
+              title
+            </h2>
+          </div>
         </div>
         <div
           class="MuiBox-root css-1yuhvjn"
@@ -207,11 +211,15 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
         <div
           class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
-          <h2
-            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          <div
+            class="MuiStack-root css-3y1137-MuiStack-root"
           >
-            title
-          </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            >
+              title
+            </h2>
+          </div>
           <span
             class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
           >
@@ -400,11 +408,15 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
         <div
           class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
-          <h2
-            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          <div
+            class="MuiStack-root css-3y1137-MuiStack-root"
           >
-            title
-          </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            >
+              title
+            </h2>
+          </div>
         </div>
         <div
           class="MuiBox-root css-1yuhvjn"
@@ -561,11 +573,15 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
         <div
           class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
-          <h2
-            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          <div
+            class="MuiStack-root css-3y1137-MuiStack-root"
           >
-            title
-          </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            >
+              title
+            </h2>
+          </div>
           <span
             class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
           >

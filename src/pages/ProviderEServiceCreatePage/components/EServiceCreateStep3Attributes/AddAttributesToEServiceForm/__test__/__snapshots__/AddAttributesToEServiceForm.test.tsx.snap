@@ -9,11 +9,15 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h3
-          class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          certified.label
-        </h3>
+          <h3
+            class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+          >
+            certified.label
+          </h3>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -233,11 +237,15 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h3
-          class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          certified.label
-        </h3>
+          <h3
+            class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+          >
+            certified.label
+          </h3>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -386,11 +394,15 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h3
-          class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          declared.label
-        </h3>
+          <h3
+            class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+          >
+            declared.label
+          </h3>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -620,11 +632,15 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h3
-          class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          declared.label
-        </h3>
+          <h3
+            class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+          >
+            declared.label
+          </h3>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -781,11 +797,15 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h3
-          class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          verified.label
-        </h3>
+          <h3
+            class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+          >
+            verified.label
+          </h3>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -1015,11 +1035,15 @@ exports[`Checks that AttributeGroup snapshot don't change > renders correctly wi
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h3
-          class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          verified.label
-        </h3>
+          <h3
+            class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+          >
+            verified.label
+          </h3>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >

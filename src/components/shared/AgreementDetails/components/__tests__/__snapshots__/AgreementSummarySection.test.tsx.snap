@@ -9,11 +9,15 @@ exports[`AgreementSummarySection > should match the snapshot (consumer) 1`] = `
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
@@ -201,11 +205,15 @@ exports[`AgreementSummarySection > should match the snapshot (provider) 1`] = `
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"

@@ -8,7 +8,11 @@ exports[`RiskAnalysisInputWrapper testing > should be render correclty with erro
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -49,7 +53,11 @@ exports[`RiskAnalysisInputWrapper testing > should be render correclty with info
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -90,7 +98,11 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly with erro
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -136,7 +148,11 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly with erro
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -187,7 +203,11 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly without d
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
