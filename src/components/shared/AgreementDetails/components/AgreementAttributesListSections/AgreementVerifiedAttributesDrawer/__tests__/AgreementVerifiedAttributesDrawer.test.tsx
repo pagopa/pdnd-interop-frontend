@@ -17,6 +17,7 @@ const defaultDrawerProps = {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import format from 'date-fns/format'
 
 mockUseJwt()
 vi.useFakeTimers().setSystemTime(new Date('2019-01-01'))
