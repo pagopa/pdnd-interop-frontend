@@ -7,7 +7,22 @@
       "label": "Indirizzo email"
     },
     "descriptionField": {
-      "label": "Descrizione"
+      "label": "Note"
+    },
+    "drawer": {
+      "title": {
+        "edit": "Modifica email di contatto",
+        "insert": "Inserimento email di contatto"
+      },
+      "subtitle": "L’indirizzo inserito non ha valore legale. Verrà mostrato su PDND Interoperabilità come punto di riferimento per facilitare lo scambio diretto di informazioni tra aderenti (es. richieste di supporto e chiarimento, ecc).",
+      "mailField": {
+        "label": "Indirizzo email ente (richiesto)"
+      },
+      "descriptionField": {
+        "label": "Note",
+        "infoLabel": "min 10 caratteri, max 250 caratteri"
+      },
+      "mailChangeAlert": "Le informazioni sull’interfaccia saranno aggiornate ma non sarà inviata una notifica a tutti gli aderenti delle modifiche apportate."
     }
   },
   "attributes": {
