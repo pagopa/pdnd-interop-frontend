@@ -1,9 +1,9 @@
 import React from 'react'
 import { AgreementMutations, AgreementQueries } from '@/api/agreement'
 import { PageContainer } from '@/components/layout/containers'
-import { useNavigate, useParams } from '@/router'
-import { useTranslation } from 'react-i18next'
-import { Button, Stack, Tooltip } from '@mui/material'
+import { Link, useNavigate, useParams } from '@/router'
+import { useTranslation, Trans } from 'react-i18next'
+import { Button, Stack, Tooltip, Alert } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import MailIcon from '@mui/icons-material/Mail'
 import SaveIcon from '@mui/icons-material/Save'
@@ -68,7 +68,10 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     )
   }
 
-  const canUserSubmitAgreementDraft = hasAllCertifiedAttributes && hasAllDeclaredAttributes
+  const canUserSubmitAgreementDraft =
+    hasAllCertifiedAttributes &&
+    hasAllDeclaredAttributes &&
+    agreement?.consumer.contactMail?.address !== undefined
 
   const getTooltipButtonTitle = () => {
     if (!hasAllCertifiedAttributes) {
@@ -76,6 +79,9 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     }
     if (!hasAllDeclaredAttributes) {
       return t('edit.noDeclaredAttributesForSubmitTooltip')
+    }
+    if (!agreement?.consumer.contactMail?.address) {
+      return t('edit.noContactEmailTooltip')
     }
   }
 
@@ -102,6 +108,14 @@ const ConsumerAgreementCreatePage: React.FC = () => {
           onConsumerNotesChange={setConsumerNotes}
         />
       </React.Suspense>
+
+      {!agreement?.consumer.contactMail?.address && (
+        <Alert severity="warning">
+          <Trans components={{ 1: <Link to="PARTY_REGISTRY" target="_blank" /> }}>
+            {t('edit.noContactEmailAlert')}
+          </Trans>
+        </Alert>
+      )}
 
       <Stack direction="row" spacing={1.5} sx={{ mt: 4, justifyContent: 'right' }}>
         <Button
