@@ -30,7 +30,6 @@ export const PartyContactsSection: React.FC = () => {
         <SectionContainer
           newDesign
           title={t('title')}
-          // description={t('description')}
           topSideActions={
             isAdmin
               ? [
@@ -72,7 +71,7 @@ const PartyContacts: React.FC<PartyContactsProps> = ({ isDrawerOpen, onCloseDraw
         <InformationContainer
           label={t('descriptionField.label')}
           content={email?.description || 'n/a'}
-          direction={email?.description && email.description.length > 50 ? 'column' : 'row'}
+          direction="column"
         />
       </Stack>
       <UpdatePartyMailDrawer
