@@ -8,6 +8,11 @@ import PublishIcon from '@mui/icons-material/Publish'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SummaryAccordion } from '../../components/shared/SummaryAccordion'
 import { PageContainer } from '@/components/layout/containers'
+import {
+  ConsumerPurposeSummaryClientsAccordion,
+  ConsumerPurposeSummaryGeneralInformationAccordion,
+  ConsumerPurposeSummaryRiskAnalysisAccordion,
+} from './components'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -71,13 +76,13 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     >
       <Stack spacing={3}>
         <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
-          <div>Summary</div>
+          {purpose && <ConsumerPurposeSummaryGeneralInformationAccordion purpose={purpose} />}
         </SummaryAccordion>
         <SummaryAccordion headline="2" title={t('summary.riskAnalysisSection.title')}>
-          <div>Summary</div>
+          {purpose && <ConsumerPurposeSummaryRiskAnalysisAccordion purpose={purpose} />}
         </SummaryAccordion>
         <SummaryAccordion headline="3" title={t('summary.clientsSection.title')}>
-          <div>Summary</div>
+          {purpose && <ConsumerPurposeSummaryClientsAccordion purpose={purpose} />}
         </SummaryAccordion>
       </Stack>
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
