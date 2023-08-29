@@ -64,7 +64,6 @@ export const PurposeEditEServiceAutocomplete: React.FC = () => {
 
   return (
     <RHFAutocompleteSingle
-      sx={{ pt: 2 }}
       loading={isInitialLoading}
       name="eserviceId"
       label={t('edit.step1.eserviceField.label')}
