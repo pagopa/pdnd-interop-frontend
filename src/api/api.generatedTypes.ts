@@ -707,6 +707,11 @@ export interface PurposeUpdateContent {
   isFreeOfCharge: boolean
   freeOfChargeReason?: string
   riskAnalysisForm?: RiskAnalysisForm
+  /**
+   * maximum number of daily calls that this version can perform.
+   * @format int32
+   */
+  dailyCalls: number
 }
 
 export interface Purposes {
@@ -876,13 +881,19 @@ export interface DescriptorAttributeValueSeed {
  * AttributeSeed
  * Models the attribute registry entry as payload response
  */
-export interface AttributeSeed {
-  /** identifies the unique code of this attribute on the registry */
-  code?: string
-  kind: AttributeKind
+export interface CertifiedAttributeSeed {
   description: string
-  /** represents the origin of this attribute (e.g.: IPA for the certified ones, etc.) */
+  name: string
+  code: string
   origin?: string
+}
+
+/**
+ * AttributeSeed
+ * Models the attribute registry entry as payload response
+ */
+export interface AttributeSeed {
+  description: string
   name: string
 }
 
@@ -938,16 +949,6 @@ export interface DeclaredAttribute {
   name: string
   /** @format date-time */
   creationTime: string
-}
-
-/** contains the expected payload for purpose version update. */
-export interface DraftPurposeVersionUpdateContent {
-  /**
-   * maximum number of daily calls that this version can perform.
-   * @format int32
-   * @min 0
-   */
-  dailyCalls: number
 }
 
 /**
@@ -1524,6 +1525,8 @@ export interface GetConsumerPurposesParams {
 export interface GetAttributesParams {
   /** Query to filter Attributes by name */
   q?: string
+  /** Query to filter Attributes by origin */
+  origin?: string
   limit: number
   offset: number
   /** Array of kinds */
@@ -3307,29 +3310,6 @@ export namespace Purposes {
     export type ResponseBody = PurposeVersionResource
   }
   /**
-   * No description
-   * @tags purposes
-   * @name UpdateDraftPurposeVersion
-   * @summary Update a purpose version in draft
-   * @request POST:/purposes/{purposeId}/versions/{versionId}/update/draft
-   * @secure
-   */
-  export namespace UpdateDraftPurposeVersion {
-    export type RequestParams = {
-      /** @format uuid */
-      purposeId: string
-      /** @format uuid */
-      versionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = DraftPurposeVersionUpdateContent
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = PurposeVersionResource
-  }
-  /**
    * @description Retrieve the Purpose
    * @tags purposes
    * @name GetPurpose
@@ -3565,6 +3545,69 @@ export namespace Consumer {
   }
 }
 
+export namespace CertifiedAttributes {
+  /**
+   * @description Creates the attribute passed as payload
+   * @tags attributes
+   * @name CreateCertifiedAttribute
+   * @summary Creates attribute
+   * @request POST:/certifiedAttributes
+   * @secure
+   */
+  export namespace CreateCertifiedAttribute {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = CertifiedAttributeSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Attribute
+  }
+}
+
+export namespace VerifiedAttributes {
+  /**
+   * @description Creates the attribute passed as payload
+   * @tags attributes
+   * @name CreateVerifiedAttribute
+   * @summary Creates verified attribute
+   * @request POST:/verifiedAttributes
+   * @secure
+   */
+  export namespace CreateVerifiedAttribute {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = AttributeSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Attribute
+  }
+}
+
+export namespace DeclaredAttributes {
+  /**
+   * @description Creates the attribute passed as payload
+   * @tags attributes
+   * @name CreateDeclaredAttribute
+   * @summary Creates declared attribute
+   * @request POST:/declaredAttributes
+   * @secure
+   */
+  export namespace CreateDeclaredAttribute {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = AttributeSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = Attribute
+  }
+}
+
 export namespace Attributes {
   /**
    * @description returns attributes
@@ -3579,6 +3622,8 @@ export namespace Attributes {
     export type RequestQuery = {
       /** Query to filter Attributes by name */
       q?: string
+      /** Query to filter Attributes by origin */
+      origin?: string
       limit: number
       offset: number
       /** Array of kinds */
@@ -3590,24 +3635,6 @@ export namespace Attributes {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = Attributes
-  }
-  /**
-   * @description Creates the attribute passed as payload
-   * @tags attributes
-   * @name CreateAttribute
-   * @summary Creates attribute
-   * @request POST:/attributes
-   * @secure
-   */
-  export namespace CreateAttribute {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = AttributeSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = Attribute
   }
   /**
    * @description returns the attribute with given ID, if any.
