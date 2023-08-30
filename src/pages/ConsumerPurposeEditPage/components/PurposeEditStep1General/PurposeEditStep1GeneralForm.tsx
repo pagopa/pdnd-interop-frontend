@@ -29,7 +29,6 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
-  const { mutate: updateVersionDraft } = PurposeMutations.useUpdateVersionDraft()
 
   const formMethods = useForm<PurposeEditStep1GeneralFormValues>({
     defaultValues,
@@ -46,12 +45,10 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
         freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
         riskAnalysisForm: purpose.riskAnalysisForm,
         purposeId,
+        dailyCalls: dailyCalls,
       },
       {
-        onSuccess(updatedPurpose) {
-          const versionId = updatedPurpose.versionId
-          updateVersionDraft({ purposeId, versionId, dailyCalls }, { onSuccess: forward })
-        },
+        onSuccess: forward,
       }
     )
   }

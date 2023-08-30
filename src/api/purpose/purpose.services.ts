@@ -2,7 +2,6 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
   CreatedResource,
-  DraftPurposeVersionUpdateContent,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
   Purpose,
@@ -78,18 +77,6 @@ async function updateDraft({
 
 function deleteDraft({ purposeId }: { purposeId: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`)
-}
-
-async function updateVersionDraft({
-  purposeId,
-  versionId,
-  ...payload
-}: { purposeId: string; versionId: string } & DraftPurposeVersionUpdateContent) {
-  const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/update/draft`,
-    payload
-  )
-  return response.data
 }
 
 async function updateDailyCalls({
@@ -187,7 +174,6 @@ const PurposeServices = {
   createDraft,
   updateDraft,
   deleteDraft,
-  updateVersionDraft,
   updateVersionWaitingForApproval,
   updateDailyCalls,
   downloadRiskAnalysis,

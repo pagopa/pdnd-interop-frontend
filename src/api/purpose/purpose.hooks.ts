@@ -109,18 +109,6 @@ function useDeleteDraft() {
   })
 }
 
-function useUpdateVersionDraft() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'purpose.updateVersionDraft',
-  })
-  return useMutation(PurposeServices.updateVersionDraft, {
-    meta: {
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
 function useUpdateDailyCalls() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDailyCalls',
@@ -266,7 +254,6 @@ export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
   useDeleteDraft,
-  useUpdateVersionDraft,
   useUpdateDailyCalls,
   useUpdateVersionWaitingForApproval,
   useSuspendVersion,
