@@ -6,6 +6,7 @@ import {
   Paper,
   Typography,
   Box,
+  Skeleton,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
@@ -48,4 +49,8 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
       </MUIAccordion>
     </Paper>
   )
+}
+
+export const SummaryAccordionSkeleton: React.FC = () => {
+  return <Skeleton variant="rectangular" height={114} sx={{ borderRadius: 4 }} component="div" />
 }

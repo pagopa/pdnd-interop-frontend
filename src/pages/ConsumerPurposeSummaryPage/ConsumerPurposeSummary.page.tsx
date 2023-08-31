@@ -6,7 +6,10 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
-import { SummaryAccordion } from '../../components/shared/SummaryAccordion'
+import {
+  SummaryAccordion,
+  SummaryAccordionSkeleton,
+} from '../../components/shared/SummaryAccordion'
 import { PageContainer } from '@/components/layout/containers'
 import {
   ConsumerPurposeSummaryClientsAccordion,
@@ -22,7 +25,9 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const navigate = useNavigate()
 
-  const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId)
+  const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId, {
+    suspense: false,
+  })
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
@@ -74,17 +79,25 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       isLoading={isInitialLoading}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
     >
-      <Stack spacing={3}>
-        <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
-          {purpose && <ConsumerPurposeSummaryGeneralInformationAccordion purpose={purpose} />}
-        </SummaryAccordion>
-        <SummaryAccordion headline="2" title={t('summary.riskAnalysisSection.title')}>
-          {purpose && <ConsumerPurposeSummaryRiskAnalysisAccordion purpose={purpose} />}
-        </SummaryAccordion>
-        <SummaryAccordion headline="3" title={t('summary.clientsSection.title')}>
-          {purpose && <ConsumerPurposeSummaryClientsAccordion purpose={purpose} />}
-        </SummaryAccordion>
-      </Stack>
+      {!purpose && isInitialLoading ? (
+        <Stack spacing={3}>
+          <SummaryAccordionSkeleton />
+          <SummaryAccordionSkeleton />
+          <SummaryAccordionSkeleton />
+        </Stack>
+      ) : (
+        <Stack spacing={3}>
+          <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
+            {purpose && <ConsumerPurposeSummaryGeneralInformationAccordion purpose={purpose} />}
+          </SummaryAccordion>
+          <SummaryAccordion headline="2" title={t('summary.riskAnalysisSection.title')}>
+            {purpose && <ConsumerPurposeSummaryRiskAnalysisAccordion purpose={purpose} />}
+          </SummaryAccordion>
+          <SummaryAccordion headline="3" title={t('summary.clientsSection.title')}>
+            {purpose && <ConsumerPurposeSummaryClientsAccordion purpose={purpose} />}
+          </SummaryAccordion>
+        </Stack>
+      )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
           startIcon={<DeleteOutlineIcon />}
