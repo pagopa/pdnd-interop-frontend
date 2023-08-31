@@ -109,29 +109,6 @@ function useDeleteDraft() {
   })
 }
 
-function useCreateVersionDraft() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createVersionDraft' })
-  return useMutation(PurposeServices.createVersionDraft, {
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
-function useUpdateVersionDraft() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'purpose.updateVersionDraft',
-  })
-  return useMutation(PurposeServices.updateVersionDraft, {
-    meta: {
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
 function useUpdateDailyCalls() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDailyCalls',
@@ -277,8 +254,6 @@ export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
   useDeleteDraft,
-  useCreateVersionDraft,
-  useUpdateVersionDraft,
   useUpdateDailyCalls,
   useUpdateVersionWaitingForApproval,
   useSuspendVersion,
