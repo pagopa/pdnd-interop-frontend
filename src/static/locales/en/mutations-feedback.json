@@ -365,12 +365,6 @@
         "description": "By clicking \"confirm\", this purpose will be deleted and it will not be recoverable. All the clients added to it will no longer be able to access the Provider e-service. It will always be possible to create new purposes"
       }
     },
-    "updateVersionDraft": {
-      "loading": "Updating purpose draft",
-      "outcome": {
-        "error": "The purpose draft could not be updated. Please, try again!"
-      }
-    },
     "updateDailyCalls": {
       "loading": "Updating daily calls",
       "outcome": {

@@ -366,12 +366,6 @@
         "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'e-service dell'erogatore. Sarà sempre possibile creare nuove finalità"
       }
     },
-    "updateVersionDraft": {
-      "loading": "Stiamo aggiornando la bozza",
-      "outcome": {
-        "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
-      }
-    },
     "updateDailyCalls": {
       "loading": "Stiamo aggiornando il numero di chiamate giornaliere",
       "outcome": {
