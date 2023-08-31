@@ -1,8 +1,10 @@
 import type { Purpose } from '@/api/api.generatedTypes'
-import { Stack, Typography } from '@mui/material'
+import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { Link } from '@/router'
+import { SectionContainer } from '@/components/layout/containers'
+import { useTranslation } from 'react-i18next'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purpose: Purpose
@@ -11,6 +13,8 @@ type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
 export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   ConsumerPurposeSummaryGeneralInformationAccordionProps
 > = ({ purpose }) => {
+  const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
+
   return (
     <Stack spacing={2}>
       <InformationContainer
@@ -22,35 +26,56 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
               descriptorId: purpose.eservice.descriptor.id,
             }}
             target="_blank"
-          >{`E-service ${purpose.eservice.name}, versione ${purpose.eservice.descriptor.version}`}</Link>
+          >
+            {t('eservice.value', {
+              name: purpose.eservice.name,
+              version: purpose.eservice.descriptor.version,
+            })}
+          </Link>
         }
         direction="row"
-        label={'E-service di riferimento'}
+        label={t('eservice.label')}
       />
       <InformationContainer
         content={purpose.eservice.producer.name}
         direction="row"
-        label={'Erogatore'}
-      />
-      <InformationContainer content={purpose.description} direction="row" label={'Descrizione'} />
-      <Typography sx={{ pt: 4, pb: 1 }} variant="sidenav">
-        Stima di carico
-      </Typography>
-      <InformationContainer
-        content={`${purpose.currentVersion?.dailyCalls} chiamate API/giorno`}
-        direction="row"
-        label={'Il tuo piano richiesto'}
+        label={t('producer.label')}
       />
       <InformationContainer
-        content={`${purpose.dailyCallsPerConsumer} chiamate API/giorno`}
+        content={purpose.description}
         direction="row"
-        label={"Soglia per fruitore imposta dall'erogatore"}
+        label={t('description.label')}
       />
-      <InformationContainer
-        content={`${purpose.dailyCallsTotal} chiamate API/giorno`}
-        direction="row"
-        label={"Soglia totale imposta dall'erogatore"}
-      />
+      <SectionContainer
+        newDesign
+        innerSection
+        sx={{ pt: 4 }}
+        title={t('loadEstimationSection.title')}
+      >
+        <Stack spacing={2}>
+          <InformationContainer
+            content={t('loadEstimationSection.dailyCalls.value', {
+              value: purpose.currentVersion?.dailyCalls,
+            })}
+            direction="row"
+            label={t('loadEstimationSection.dailyCalls.label')}
+          />
+          <InformationContainer
+            content={t('loadEstimationSection.dailyCallsPerConsumer.value', {
+              value: purpose.dailyCallsPerConsumer,
+            })}
+            direction="row"
+            label={t('loadEstimationSection.dailyCallsPerConsumer.label')}
+          />
+          <InformationContainer
+            content={t('loadEstimationSection.dailyCallsTotal.value', {
+              value: purpose.dailyCallsTotal,
+            })}
+            direction="row"
+            label={t('loadEstimationSection.dailyCallsTotal.label')}
+          />
+        </Stack>
+      </SectionContainer>
     </Stack>
   )
 }

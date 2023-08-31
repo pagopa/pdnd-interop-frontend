@@ -133,7 +133,32 @@
   "summary": {
     "title": "Riepilogo",
     "generalInformationSection": {
-      "title": "Informazioni generali"
+      "title": "Informazioni generali",
+      "eservice": {
+        "label": "E-service di riferimento",
+        "value": "{{name}}, versione {{version}}"
+      },
+      "producer": {
+        "label": "Erogatore"
+      },
+      "description": {
+        "label": "Descrizione"
+      },
+      "loadEstimationSection": {
+        "title": "Stima di carico",
+        "dailyCalls": {
+          "label": "Il tuo piano richiesto",
+          "value": "{{value}} chiamate API/giorno"
+        },
+        "dailyCallsPerConsumer": {
+          "label": "Soglia per fruitore imposta dall'erogatore",
+          "value": "{{value}} chiamate API/giorno"
+        },
+        "dailyCallsTotal": {
+          "label": "Soglia totale imposta dall'erogatore",
+          "value": "{{value}} chiamate API/giorno"
+        }
+      }
     },
     "riskAnalysisSection": {
       "title": "Analisi del rischio"

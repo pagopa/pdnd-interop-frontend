@@ -133,7 +133,32 @@
   "summary": {
     "title": "Summary",
     "generalInformationSection": {
-      "title": "General informations"
+      "title": "General informations",
+      "eservice": {
+        "label": "Reference e-service",
+        "value": "{{name}}, version {{version}}"
+      },
+      "producer": {
+        "label": "Provider"
+      },
+      "description": {
+        "label": "Description"
+      },
+      "loadEstimationSection": {
+        "title": "Load estimation",
+        "dailyCalls": {
+          "label": "Your required plan",
+          "value": "{{value}} calls API/day"
+        },
+        "dailyCallsPerConsumer": {
+          "label": "Threshold for user set by the provider",
+          "value": "{{value}} calls API/day"
+        },
+        "dailyCallsTotal": {
+          "label": "Total threshold set by the provider",
+          "value": "{{value}} calls API/day"
+        }
+      }
     },
     "riskAnalysisSection": {
       "title": "Risk analysis"
