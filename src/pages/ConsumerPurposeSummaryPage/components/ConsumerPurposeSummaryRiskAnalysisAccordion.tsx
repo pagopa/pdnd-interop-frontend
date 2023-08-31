@@ -1,7 +1,7 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { List, ListItem, ListItemText, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import React from 'react'
 
 type ConsumerPurposeSummaryRiskAnalysisAccordionProps = {
@@ -63,23 +63,21 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   if (!riskAnalysisTemplate) return null
   return (
     <>
-      <List>
+      <Stack spacing={3}>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
-          <ListItem sx={{ pl: 0 }} key={i}>
-            <ListItemText>
-              <Typography variant="body2">{question}</Typography>
-              {questionInfoLabel && (
-                <Typography variant="caption" color="grey">
-                  {questionInfoLabel}
-                </Typography>
-              )}
-              <Typography variant="body2" fontWeight={600}>
-                {answer}
+          <Box key={i}>
+            <Typography variant="body2">{question}</Typography>
+            {questionInfoLabel && (
+              <Typography variant="caption" color="grey" component="p">
+                {questionInfoLabel}
               </Typography>
-            </ListItemText>
-          </ListItem>
+            )}
+            <Typography variant="body2" fontWeight={600} mt={0.5}>
+              {answer}
+            </Typography>
+          </Box>
         ))}
-      </List>
+      </Stack>
     </>
   )
 }
