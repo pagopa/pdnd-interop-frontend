@@ -37,7 +37,7 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
             htmlFor={name}
             component={isInputGroup ? 'legend' : 'label'}
             id={labelId}
-            sx={{ fontWeight: 600, maxWidth: 600 }}
+            sx={{ fontWeight: 600 }}
           >
             {label}
           </FormLabel>
