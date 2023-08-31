@@ -47,14 +47,14 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
         <InformationContainer
           label={t('consumerThreshold.label')}
           content={t('consumerThreshold.value', {
-            value: formatThousands(purpose.dailyCallsPerConsumer ?? 0),
+            value: formatThousands(purpose.dailyCallsPerConsumer),
           })}
         />
 
         <InformationContainer
           label={t('totalThreshold.label')}
           content={t('totalThreshold.value', {
-            value: formatThousands(purpose.dailyCallsTotal ?? 0),
+            value: formatThousands(purpose.dailyCallsTotal),
           })}
         />
         <InformationContainer
