@@ -41,7 +41,7 @@ export function SectionContainer({
   return (
     <Paper
       component={component}
-      sx={{ bgcolor: 'white', p: !innerSection ? 3 : 0, mt: 2, ...sx }}
+      sx={{ bgcolor: 'white', p: !innerSection ? 3 : 0, mt: 2, borderRadius: 2, ...sx }}
       {...props}
     >
       <Stack spacing={1}>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Stack, Typography } from '@mui/material'
+import { Alert, Box, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
@@ -12,6 +12,8 @@ import {
 } from '../../../utils/risk-analysis-form.utils'
 import { RiskAnalysisFormComponents } from './RiskAnalysisFormComponents/RiskAnalysisFormComponents'
 import { StepActions } from '@/components/shared/StepActions'
+import SaveIcon from '@mui/icons-material/Save'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
@@ -67,11 +69,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
-        <SectionContainer>
-          <Typography component="h2" variant="h5">
-            {t('step2.title')}
-          </Typography>
-          <Typography color="text.secondary">{t('step2.description')}</Typography>
+        <SectionContainer newDesign title={t('step2.title')} description={t('step2.description')}>
           <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
             {t('step2.personalInfoAlert')}
           </Alert>
@@ -80,10 +78,16 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
           <RiskAnalysisFormComponents questions={questions} />
         </Stack>
         <StepActions
-          back={{ label: t('backWithoutSaveBtn'), type: 'button', onClick: onCancel }}
+          back={{
+            label: t('backWithoutSaveBtn'),
+            type: 'button',
+            onClick: onCancel,
+            startIcon: <ArrowBackIcon />,
+          }}
           forward={{
             label: t('forwardWithSaveBtn'),
             type: 'submit',
+            startIcon: <SaveIcon />,
           }}
         />
       </Box>

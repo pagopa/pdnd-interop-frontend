@@ -4,6 +4,7 @@
   "backToPurposeListBtn": "Baco to purposes",
   "create": {
     "emptyTitle": "Create purpose",
+    "preliminaryInformationSectionTitle": "Preliminary information",
     "isTemplateField": {
       "label": "Clone from template"
     },
@@ -46,13 +47,17 @@
     "backToListBtn": "Back to purpose list",
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
-    "endWithSaveBtn": "Save and go back to purposes",
+    "endWithSaveBtn": "Go to summary",
     "eserviceProvider": "provided by",
     "step1": {
       "title": "General information",
       "nameField": {
         "label": "Purpose name (required)",
         "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
+      },
+      "eserviceField": {
+        "label": "Related e-service",
+        "infoLabel": "You can choose among those for which you have an active or suspended agreement"
       },
       "descriptionField": {
         "label": "Purpose description (required)",
@@ -68,9 +73,6 @@
       "freeOfChargeReasonField": {
         "label": "Free of charge reason (richiesto)",
         "infoLabel": "It is requested to specify whether the provision of data is free of charge by virtue of an exemption/exclusion provided for by law or other. Min 10 characters, max 250 characters"
-      },
-      "eserviceField": {
-        "label": "Related e-service (required)"
       },
       "dailyCallsField": {
         "label": "Number of API calls/day (required)",
@@ -126,12 +128,43 @@
       "tableHeadData": {
         "clientName": "Client name"
       }
+    }
+  },
+  "summary": {
+    "title": "Summary",
+    "generalInformationSection": {
+      "title": "General informations",
+      "eservice": {
+        "label": "Reference e-service",
+        "value": "{{name}}, version {{version}}"
+      },
+      "producer": {
+        "label": "Provider"
+      },
+      "description": {
+        "label": "Description"
+      },
+      "loadEstimationSection": {
+        "title": "Load estimation",
+        "dailyCalls": {
+          "label": "Your required plan",
+          "value": "{{value}} calls API/day"
+        },
+        "dailyCallsPerConsumer": {
+          "label": "Threshold for user set by the provider",
+          "value": "{{value}} calls API/day"
+        },
+        "dailyCallsTotal": {
+          "label": "Total threshold set by the provider",
+          "value": "{{value}} calls API/day"
+        }
+      }
     },
-    "quickPublish": {
-      "title": "Quick publish options",
-      "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft above or leave this page",
-      "publishBtn": "Publish draft",
-      "deleteBtn": "Delete draft"
+    "riskAnalysisSection": {
+      "title": "Risk analysis"
+    },
+    "clientsSection": {
+      "title": "Associate clients"
     }
   },
   "tablePurposeInEService": {

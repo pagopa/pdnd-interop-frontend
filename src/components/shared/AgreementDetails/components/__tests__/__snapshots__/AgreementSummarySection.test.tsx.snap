@@ -4,7 +4,7 @@ exports[`AgreementSummarySection > should match the snapshot (consumer) 1`] = `
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -196,7 +196,7 @@ exports[`AgreementSummarySection > should match the snapshot (provider) 1`] = `
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"

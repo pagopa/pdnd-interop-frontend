@@ -45,7 +45,7 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
             class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"

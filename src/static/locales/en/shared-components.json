@@ -227,6 +227,7 @@
     "SUBSCRIBE_CATALOG_LIST": "E-service catalog",
     "SUBSCRIBE_PURPOSE_CREATE": "Create purpose",
     "SUBSCRIBE_PURPOSE_EDIT": "Edit purpose",
+    "SUBSCRIBE_PURPOSE_SUMMARY": "Purpose summary",
     "SUBSCRIBE_PURPOSE_DETAILS": "Manage purpose",
     "SUBSCRIBE_PURPOSE_LIST": "Your purpose",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Manage e-service client operator",

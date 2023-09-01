@@ -6,6 +6,8 @@ type ActionButton = {
   label: string
   type: 'button'
   onClick: VoidFunction
+  startIcon?: React.ReactNode
+  endIcon?: React.ReactNode
 }
 
 type ActionLink = {
@@ -13,12 +15,16 @@ type ActionLink = {
   type: 'link'
   to: RouteKey
   disabled?: boolean
+  startIcon?: React.ReactNode
+  endIcon?: React.ReactNode
 }
 
 type ActionSubmit = {
   label: string
   type: 'submit'
   disabled?: boolean
+  startIcon?: React.ReactNode
+  endIcon?: React.ReactNode
 }
 
 export type BackAction = ActionButton | ActionLink
@@ -51,7 +57,7 @@ export function StepActions({ back, forward }: StepActionsProps) {
   return (
     <Stack direction="row" justifyContent={getJustifyContentProp()} spacing={2} sx={{ mt: 5 }}>
       {back && (
-        <Button variant="outlined" {...backProps}>
+        <Button variant="outlined" {...backProps} startIcon={back.startIcon} endIcon={back.endIcon}>
           {back.label}
         </Button>
       )}
@@ -61,6 +67,8 @@ export function StepActions({ back, forward }: StepActionsProps) {
           variant="contained"
           {...forwardProps}
           type={forwardProps?.type as 'submit' | 'button'}
+          startIcon={forward.startIcon}
+          endIcon={forward.endIcon}
         >
           {forward.label}
         </Button>

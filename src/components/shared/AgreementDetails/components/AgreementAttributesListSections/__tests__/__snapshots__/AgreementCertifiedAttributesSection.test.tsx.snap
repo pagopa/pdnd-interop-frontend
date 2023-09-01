@@ -4,7 +4,7 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1od456z-MuiPaper-root"
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -53,7 +53,7 @@ exports[`AgreementCertifiedAttributesSection > should match snapshot when e-serv
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1od456z-MuiPaper-root"
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"

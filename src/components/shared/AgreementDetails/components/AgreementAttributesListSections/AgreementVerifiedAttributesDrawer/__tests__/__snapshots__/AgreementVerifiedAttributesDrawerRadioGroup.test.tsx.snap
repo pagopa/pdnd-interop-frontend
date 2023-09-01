@@ -4,7 +4,7 @@ exports[`AgreementVerifiedAttributesDrawerRadioGroup tests > should render corre
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <label
         class="MuiTypography-root MuiTypography-label css-1g3jo3m-MuiTypography-root"
