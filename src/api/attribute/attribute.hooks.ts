@@ -99,9 +99,19 @@ function useGetListParty(partyId?: string, config = { suspense: true }) {
   })
 }
 
-function useCreate() {
+function useCreateVerified() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'attribute.create' })
-  return useMutation(AttributeServices.create, {
+  return useMutation(AttributeServices.createVerified, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useCreateDeclared() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'attribute.create' })
+  return useMutation(AttributeServices.createDeclared, {
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -189,7 +199,8 @@ export const AttributeQueries = {
 }
 
 export const AttributeMutations = {
-  useCreate,
+  useCreateVerified,
+  useCreateDeclared,
   useVerifyPartyAttribute,
   useUpdateVerifiedPartyAttribute,
   useRevokeVerifiedPartyAttribute,
