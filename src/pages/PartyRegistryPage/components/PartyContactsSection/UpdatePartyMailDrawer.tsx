@@ -26,9 +26,6 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
   onClose,
   email,
 }) => {
-  // const ariaLabelId = React.useId()
-  // const ariaDescriptionId = React.useId()
-
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
@@ -63,11 +60,19 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
     }
   }
 
+  const handleCloseDrawer = () => {
+    onClose()
+    // Waiting for closing animation to end
+    setTimeout(() => {
+      formMethods.reset(defaultValues)
+    }, 200)
+  }
+
   return (
     <FormProvider {...formMethods}>
       <Drawer
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={handleCloseDrawer}
         title={email?.address ? t('drawer.title.edit') : t('drawer.title.insert')}
         subtitle={t('drawer.subtitle')}
         buttonAction={{
