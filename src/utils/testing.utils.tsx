@@ -50,6 +50,10 @@ export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHo
         name: 'name',
         family_name: 'family_name',
         organizationId: 'organizationId',
+        externalId: {
+          origin: 'IPA',
+          value: 'value',
+        },
       },
       isAdmin: true,
       isOperatorAPI: false,
@@ -57,6 +61,7 @@ export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHo
       isSupport: false,
       currentRoles: [],
       isLoadingSession: false,
+      isIPAOrganization: true,
     }),
     overwrites
   )

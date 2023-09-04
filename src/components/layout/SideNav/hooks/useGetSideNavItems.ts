@@ -28,13 +28,16 @@ const views = [
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles } = AuthHooks.useJwt()
+  const { currentRoles, isIPAOrganization } = AuthHooks.useJwt()
 
   return React.useMemo(() => {
     /**
-     * Checks if the user as the authorization level required to access a given route
+     * Checks if the user as the authorization level required to access a given route.
+     * The no-IPA organizations cannot access the PROVIDE routes.
      */
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
+      if (!isIPAOrganization && routeKey === 'PROVIDE') return false
+
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))
     }
@@ -56,5 +59,5 @@ export function useGetSideNavItems() {
 
       return [...acc, view]
     }, [])
-  }, [currentRoles])
+  }, [currentRoles, isIPAOrganization])
 }

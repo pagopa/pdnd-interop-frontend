@@ -10,7 +10,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
       >
         <section
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
         >
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -53,7 +53,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
           </div>
         </section>
         <section
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
         >
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -281,7 +281,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
           </div>
         </section>
         <section
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
         >
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -334,7 +334,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
       >
         <section
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
         >
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -497,7 +497,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -506,7 +506,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
         class="MuiBox-root css-zv7ju9"
       >
         <section
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1od456z-MuiPaper-root"
         >
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -548,7 +548,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
           class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
         />
         <section
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1od456z-MuiPaper-root"
         >
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -590,7 +590,7 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
           class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
         />
         <section
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1p6ecov-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1od456z-MuiPaper-root"
         >
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
