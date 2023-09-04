@@ -31,6 +31,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { hasAllCertifiedAttributes, hasAllDeclaredAttributes } =
     useDescriptorAttributesPartyOwnership(agreement?.eservice.id, agreement?.descriptorId)
 
+  const hasSetContactEmail = agreement && !!agreement?.consumer.contactMail?.address
+
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
       { agreementId, consumerNotes },
@@ -69,9 +71,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   }
 
   const canUserSubmitAgreementDraft =
-    hasAllCertifiedAttributes &&
-    hasAllDeclaredAttributes &&
-    agreement?.consumer.contactMail?.address !== undefined
+    hasAllCertifiedAttributes && hasAllDeclaredAttributes && hasSetContactEmail
 
   const getTooltipButtonTitle = () => {
     if (!hasAllCertifiedAttributes) {
@@ -80,7 +80,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     if (!hasAllDeclaredAttributes) {
       return t('edit.noDeclaredAttributesForSubmitTooltip')
     }
-    if (!agreement?.consumer.contactMail?.address) {
+    if (!hasSetContactEmail) {
       return t('edit.noContactEmailTooltip')
     }
   }
@@ -109,7 +109,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         />
       </React.Suspense>
 
-      {!agreement?.consumer.contactMail?.address && (
+      {!hasSetContactEmail && (
         <Alert sx={{ mt: 3 }} severity="warning">
           <Trans components={{ 1: <Link to="PARTY_REGISTRY" target="_blank" /> }}>
             {t('edit.noContactEmailAlert')}
