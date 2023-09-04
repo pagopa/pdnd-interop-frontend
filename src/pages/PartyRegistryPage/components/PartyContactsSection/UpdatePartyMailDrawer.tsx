@@ -62,10 +62,10 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
 
   const handleCloseDrawer = () => {
     onClose()
-    // Waiting for closing animation to end
-    setTimeout(() => {
-      formMethods.reset(defaultValues)
-    }, 200)
+  }
+
+  const handleTransitionExited = () => {
+    formMethods.reset(defaultValues)
   }
 
   return (
@@ -79,6 +79,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
           label: email?.address ? tCommon('actions.upgrade') : tCommon('actions.insert'),
           action: formMethods.handleSubmit(onSubmit),
         }}
+        onTransitionExited={handleTransitionExited}
       >
         <Stack spacing={4}>
           <Box component="form" noValidate>
