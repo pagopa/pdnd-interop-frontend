@@ -15,16 +15,13 @@ exports[`RiskAnalysisForm > should match the snapshot 1`] = `
         >
           <div
             class="MuiStack-root css-3y1137-MuiStack-root"
-          />
-        </div>
-        <div
-          class="MuiBox-root css-zv7ju9"
-        >
-          <h2
-            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
           >
-            step2.title
-          </h2>
+            <h2
+              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+            >
+              step2.title
+            </h2>
+          </div>
           <p
             class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
           >
