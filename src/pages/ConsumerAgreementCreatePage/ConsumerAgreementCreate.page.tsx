@@ -110,7 +110,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
       </React.Suspense>
 
       {!agreement?.consumer.contactMail?.address && (
-        <Alert severity="warning">
+        <Alert sx={{ mt: 3 }} severity="warning">
           <Trans components={{ 1: <Link to="PARTY_REGISTRY" target="_blank" /> }}>
             {t('edit.noContactEmailAlert')}
           </Trans>
