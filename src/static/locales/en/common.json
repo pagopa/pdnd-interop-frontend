@@ -56,7 +56,8 @@
     "updateCompletionDate": "Update attivation date",
     "confirmUpdate": "Confirm update",
     "filter": "Filter",
-    "cancelFilter": "Cancel filters"
+    "cancelFilter": "Cancel filters",
+    "insert": "Insert"
   },
   "table": {
     "headData": {

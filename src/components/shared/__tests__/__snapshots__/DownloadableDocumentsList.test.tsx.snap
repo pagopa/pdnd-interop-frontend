@@ -9,11 +9,15 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          Download
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            Download
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
@@ -93,11 +97,15 @@ exports[`DownloadableDocumentsList > should match snapshot on empty documents li
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          Download
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            Download
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"

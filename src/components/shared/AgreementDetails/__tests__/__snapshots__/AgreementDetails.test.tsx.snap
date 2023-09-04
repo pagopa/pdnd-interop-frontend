@@ -15,11 +15,15 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h2
-              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              title
-            </h2>
+              <h2
+                class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+              >
+                title
+              </h2>
+            </div>
           </div>
           <div
             class="MuiBox-root css-1yuhvjn"
@@ -202,11 +206,15 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -225,11 +233,15 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h3
-              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              certified.label
-            </h3>
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                certified.label
+              </h3>
+            </div>
             <p
               class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
             >
@@ -270,11 +282,15 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h3
-              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              verified.label
-            </h3>
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                verified.label
+              </h3>
+            </div>
             <p
               class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
             >
@@ -315,11 +331,15 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h3
-              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              declared.label
-            </h3>
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                declared.label
+              </h3>
+            </div>
             <p
               class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
             >
@@ -372,11 +392,15 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h2
-              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              title
-            </h2>
+              <h2
+                class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+              >
+                title
+              </h2>
+            </div>
           </div>
           <div
             class="MuiBox-root css-1yuhvjn"
@@ -559,11 +583,15 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -582,11 +610,15 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h3
-              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              certified.label
-            </h3>
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                certified.label
+              </h3>
+            </div>
             <p
               class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
             >
@@ -627,11 +659,15 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h3
-              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              verified.label
-            </h3>
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                verified.label
+              </h3>
+            </div>
             <p
               class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
             >
@@ -672,11 +708,15 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h3
-              class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              declared.label
-            </h3>
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                declared.label
+              </h3>
+            </div>
             <p
               class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
             >

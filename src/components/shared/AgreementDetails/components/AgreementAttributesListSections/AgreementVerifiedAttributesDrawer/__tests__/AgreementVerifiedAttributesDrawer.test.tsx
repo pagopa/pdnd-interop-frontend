@@ -8,15 +8,15 @@ import { createVerifiedTenantAttribute } from '@/../__mocks__/data/attribute.moc
 import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import { AttributeMutations } from '@/api/attribute'
 import addYears from 'date-fns/addYears'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
 const defaultDrawerProps = {
   type: 'update',
   isOpen: true,
   attributeId: 'test attributeId',
 }
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
-import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
 mockUseJwt()
 vi.useFakeTimers().setSystemTime(new Date('2019-01-01'))

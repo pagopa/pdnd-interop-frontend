@@ -9,11 +9,15 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot 1`] =
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
         <span
           class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
         >
@@ -146,11 +150,15 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot if cl
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
         <span
           class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
         >

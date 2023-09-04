@@ -2,12 +2,26 @@
   "loadingPartyDataLabel": "We are loading party's data",
   "contacts": {
     "title": "contacts",
-    "description": "The email to which you can contact your users directly or the providers of the services you use. You can associate a description to indicate how you wish to receive communications",
     "mailField": {
       "label": "Mail address"
     },
     "descriptionField": {
-      "label": "Description"
+      "label": "Notes"
+    },
+    "drawer": {
+      "title": {
+        "edit": "Change contact email",
+        "insert": "Insert contact email"
+      },
+      "subtitle": "The address entered has no legal value. It will be shown on PDND Interoperabilità as a reference point to facilitate the direct exchange of information between members (e.g. requests for support and clarification, etc.).",
+      "mailField": {
+        "label": "Party mail address (required)"
+      },
+      "descriptionField": {
+        "label": "Notes",
+        "infoLabel": "Min 10 chars, max 250 chars"
+      },
+      "mailChangeAlert": "The information on the interface will be updated but not all members will be notified of the changes made."
     }
   },
   "attributes": {

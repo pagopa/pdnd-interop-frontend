@@ -8,7 +8,11 @@ exports[`RiskAnalysisSwitch > should match snapshot 1`] = `
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -75,7 +79,11 @@ exports[`RiskAnalysisSwitch > should match snapshot if there is no label 1`] = `
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >

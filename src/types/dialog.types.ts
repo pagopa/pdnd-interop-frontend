@@ -22,7 +22,6 @@ export type DialogProps =
   | DialogRejectAgreementProps
   | DialogAddClientToPurposeProps
   | DialogCreateNewAttributeProps
-  | DialogUpdatePartyMailProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -80,12 +79,4 @@ export type DialogAddClientToPurposeProps = {
 export type DialogCreateNewAttributeProps = {
   type: 'createNewAttribute'
   attributeKey: AttributeKey
-}
-
-export type DialogUpdatePartyMailProps = {
-  type: 'updatePartyMail'
-  defaultValues?: {
-    contactEmail: string
-    description: string
-  }
 }

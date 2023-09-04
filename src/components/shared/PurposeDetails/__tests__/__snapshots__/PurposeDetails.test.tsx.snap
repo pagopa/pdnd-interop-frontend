@@ -15,11 +15,15 @@ exports[`PurposeDetails > should match snapshot 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h2
-              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              title
-            </h2>
+              <h2
+                class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+              >
+                title
+              </h2>
+            </div>
           </div>
           <div
             class="MuiBox-root css-1yuhvjn"
@@ -222,11 +226,15 @@ exports[`PurposeDetails > should match snapshot 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h2
-              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              label
-            </h2>
+              <h2
+                class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+              >
+                label
+              </h2>
+            </div>
           </div>
           <div
             class="MuiBox-root css-1yuhvjn"
@@ -275,11 +283,15 @@ exports[`PurposeDetails > should match snapshot 1`] = `
           <div
             class="MuiStack-root css-jfdv4h-MuiStack-root"
           >
-            <h2
-              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
             >
-              title
-            </h2>
+              <h2
+                class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+              >
+                title
+              </h2>
+            </div>
             <p
               class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
             >

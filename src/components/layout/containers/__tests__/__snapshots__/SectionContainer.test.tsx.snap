@@ -8,7 +8,11 @@ exports[`SectionContainer > should render correctly 1`] = `
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       />
@@ -26,6 +30,9 @@ exports[`SectionContainer > should render correctly with description 1`] = `
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
         <span
           class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
         >
@@ -49,11 +56,15 @@ exports[`SectionContainer > should render correctly with title 1`] = `
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
@@ -72,11 +83,15 @@ exports[`SectionContainer > should render correctly with title and description 1
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
         <span
           class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
         >

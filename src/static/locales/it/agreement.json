@@ -153,7 +153,9 @@
     },
     "submitBtn": "Inoltra richiesta",
     "noCertifiedAttributesForSubmitTooltip": "Il tuo ente non ha gli attributi certificati necessari per inoltrare la richiesta",
-    "noDeclaredAttributesForSubmitTooltip": "Per procedere con l’inoltro, devi aver attivato tutti gli attributi dichiarati richiesti"
+    "noDeclaredAttributesForSubmitTooltip": "Per procedere con l’inoltro, devi aver attivato tutti gli attributi dichiarati richiesti",
+    "noContactEmailTooltip": "Prima di inoltrare la richiesta, è obbligatorio che il tuo ente inserisca un’email di contatto",
+    "noContactEmailAlert": "Il tuo ente non ha un’email di contatto. <1>Clicca qui</1> per inserirla."
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",

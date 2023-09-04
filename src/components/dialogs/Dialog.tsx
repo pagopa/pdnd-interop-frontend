@@ -13,7 +13,6 @@ import type {
   DialogRejectAgreementProps,
   DialogSessionExpiredProps,
   DialogSetPurposeExpectedApprovalDateProps,
-  DialogUpdatePartyMailProps,
   DialogUpdatePurposeDailyCallsProps,
 } from '@/types/dialog.types'
 import { DialogUpdatePurposeDailyCalls } from './DialogUpdatePurposeDailyCalls'
@@ -23,7 +22,6 @@ import { DialogAddSecurityOperatorKey } from './DialogAddSecurityOperatorKey'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { DialogAddClientToPurpose } from './DialogAddClientToPurpose'
 import { DialogCreateNewAttribute } from './DialogCreateNewAttribute'
-import { DialogUpdatePartyMail } from './DialogUpdatePartyMail'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
 import { DialogError } from './DialogError'
 import { useDialogStore } from '@/stores'
@@ -38,8 +36,7 @@ function match<T>(
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
   onAddClientToPurpose: (props: DialogAddClientToPurposeProps) => T,
-  onCreateNewAttribute: (props: DialogCreateNewAttributeProps) => T,
-  onUpdatePartyMail: (props: DialogUpdatePartyMailProps) => T
+  onCreateNewAttribute: (props: DialogCreateNewAttributeProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -63,8 +60,6 @@ function match<T>(
         return onAddClientToPurpose(props)
       case 'createNewAttribute':
         return onCreateNewAttribute(props)
-      case 'updatePartyMail':
-        return onUpdatePartyMail(props)
     }
   }
 }
@@ -79,8 +74,7 @@ const _Dialog = match(
   (props) => <DialogAddSecurityOperatorKey {...props} />,
   (props) => <DialogRejectAgreement {...props} />,
   (props) => <DialogAddClientToPurpose {...props} />,
-  (props) => <DialogCreateNewAttribute {...props} />,
-  (props) => <DialogUpdatePartyMail {...props} />
+  (props) => <DialogCreateNewAttribute {...props} />
 )
 
 export const Dialog: React.FC = () => {

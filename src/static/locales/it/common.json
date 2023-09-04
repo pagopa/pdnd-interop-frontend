@@ -56,7 +56,8 @@
     "updateCompletionDate": "Aggiorna data di attivazione",
     "confirmUpdate": "Conferma aggiornamento",
     "filter": "Filtra",
-    "cancelFilter": "Annulla filtri"
+    "cancelFilter": "Annulla filtri",
+    "insert": "Inserisci"
   },
   "table": {
     "headData": {

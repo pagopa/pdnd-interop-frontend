@@ -8,7 +8,11 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -68,7 +72,11 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -153,7 +161,11 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -191,7 +203,11 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -254,7 +270,11 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
     >
       <div
         class="MuiStack-root css-jfdv4h-MuiStack-root"
-      />
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
