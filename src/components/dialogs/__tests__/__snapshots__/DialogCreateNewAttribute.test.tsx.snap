@@ -47,7 +47,7 @@ exports[`DialogCreateNewAttribute testing > should match the snapshot 1`] = `
             class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -95,14 +95,14 @@ exports[`DialogCreateNewAttribute testing > should match the snapshot 1`] = `
               </span>
             </div>
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+              class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
             >
               <div
                 class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
-                  data-shrink="true"
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+                  data-shrink="false"
                   for=":r4:"
                   id=":r4:-label"
                 >
@@ -133,7 +133,7 @@ exports[`DialogCreateNewAttribute testing > should match the snapshot 1`] = `
                     class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                   >
                     <legend
-                      class="css-14lo706"
+                      class="css-yjsfm1"
                     >
                       <span>
                         content.descriptionField.label

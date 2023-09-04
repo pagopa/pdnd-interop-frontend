@@ -19,7 +19,7 @@ exports[`RiskAnalysisInputWrapper testing > should be render correclty with erro
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>
@@ -60,7 +60,7 @@ exports[`RiskAnalysisInputWrapper testing > should be render correclty with info
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>
@@ -101,7 +101,7 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly with erro
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>
@@ -147,7 +147,7 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly with erro
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>
@@ -198,7 +198,7 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly without d
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>

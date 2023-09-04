@@ -75,7 +75,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
             </div>
           </div>
           <section
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
           >
             <div
               class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -201,7 +201,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
             </div>
           </section>
           <section
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
           >
             <div
               class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -390,7 +390,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
           novalidate=""
         >
           <section
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
           >
             <div
               class="MuiStack-root css-jfdv4h-MuiStack-root"
@@ -404,7 +404,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                 title
               </span>
               <div
-                class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+                class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
               >
                 <div
                   class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -451,14 +451,14 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                 </div>
               </div>
               <div
-                class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+                class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
               >
                 <div
                   class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
                 >
                   <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
-                    data-shrink="true"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+                    data-shrink="false"
                     for=":r1:"
                     id=":r1:-label"
                   >
@@ -480,7 +480,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                       class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                     >
                       <legend
-                        class="css-14lo706"
+                        class="css-yjsfm1"
                       >
                         <span>
                           clientIdLabel

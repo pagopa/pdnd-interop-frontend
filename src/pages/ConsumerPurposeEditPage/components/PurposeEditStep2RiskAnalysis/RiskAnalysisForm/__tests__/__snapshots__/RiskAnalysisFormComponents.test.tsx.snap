@@ -19,7 +19,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
               for="1"
               id="1-label"
             >
@@ -79,7 +79,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
               id="2-label"
             >
               test (edit.step2.validation.required)
@@ -164,7 +164,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
               id="3-label"
             >
               test (edit.step2.validation.required)
@@ -202,7 +202,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
               id="4-label"
             >
               test (edit.step2.validation.required)
@@ -265,7 +265,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             class="MuiStack-root css-givlym-MuiStack-root"
           >
             <legend
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
             >
               test (edit.step2.validation.required, edit.step2.validation.multipleChoice)
             </legend>
