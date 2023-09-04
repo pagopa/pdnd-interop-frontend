@@ -164,7 +164,8 @@
       "title": "Risk analysis"
     },
     "clientsSection": {
-      "title": "Associate clients"
+      "title": "Associate clients",
+      "empty": "Nessun client associato"
     }
   },
   "tablePurposeInEService": {

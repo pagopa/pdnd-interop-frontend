@@ -164,7 +164,8 @@
       "title": "Analisi del rischio"
     },
     "clientsSection": {
-      "title": "Client associati"
+      "title": "Client associati",
+      "empty": "No associated clients"
     }
   },
   "tablePurposeInEService": {
