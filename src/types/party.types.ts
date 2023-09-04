@@ -1,3 +1,5 @@
+import type { ExternalId } from '@/api/api.generatedTypes'
+
 export type UserProductRole = 'admin' | 'security' | 'api' | 'support'
 
 type JwtOrg = {
@@ -15,10 +17,7 @@ export type JwtUser = {
   iss: string
   jti: string
   nbf: number
-  externalId: {
-    origin: string
-    value: string
-  }
+  externalId?: ExternalId //TODO PIN-3870: make it not optional
   organization: JwtOrg
   selfcareId: string
   uid: string // the relationshipId between the user and the current institution
