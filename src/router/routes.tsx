@@ -101,7 +101,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/erogazione/e-service/:eserviceId/:descriptorId/modifica',
     element: <ProviderEServiceCreatePage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin', 'api'],
   })
   .addRoute({

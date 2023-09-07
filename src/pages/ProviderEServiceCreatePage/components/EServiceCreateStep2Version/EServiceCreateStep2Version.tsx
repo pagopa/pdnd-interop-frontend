@@ -11,11 +11,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import omit from 'lodash/omit'
-import type { AgreementApprovalPolicy } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/api/eservice/eservice.api.utils'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { payloadVerificationGuideLink } from '@/config/constants'
 
 export type EServiceCreateStep2FormValues = {
   audience: string
@@ -30,51 +30,40 @@ export type EServiceCreateStep2FormValues = {
 export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const navigate = useNavigate()
+
   const { eservice, descriptor, forward, back } = useEServiceCreateContext()
+
   const { mutate: createVersionDraft } = EServiceMutations.useCreateVersionDraft({
     suppressSuccessToast: true,
     showConfirmationDialog: false,
   })
+
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
-  let defaultValues: EServiceCreateStep2FormValues = {
-    version: '1',
-    audience: '',
-    voucherLifespan: 1,
-    description: '',
-    dailyCallsPerConsumer: 1,
-    dailyCallsTotal: 1,
-    agreementApprovalPolicy: true,
+  const defaultValues: EServiceCreateStep2FormValues = {
+    version: descriptor?.version ?? '1',
+    audience: descriptor?.audience?.[0] ?? '',
+    voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
+    description: descriptor?.description ?? '',
+    dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
+    dailyCallsTotal: descriptor?.dailyCallsTotal ?? 1,
+    agreementApprovalPolicy: descriptor?.agreementApprovalPolicy === 'MANUAL' ?? true,
   }
 
-  // Pre-fill if there is already a draft of the service available
-  if (descriptor) {
-    defaultValues = {
-      version: descriptor.version,
-      audience: descriptor.audience.length > 0 ? descriptor.audience[0] : '',
-      voucherLifespan: secondsToMinutes(descriptor.voucherLifespan),
-      description: descriptor?.description ?? '',
-      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer || 1,
-      dailyCallsTotal: descriptor.dailyCallsTotal || 1,
-      agreementApprovalPolicy: descriptor.agreementApprovalPolicy === 'MANUAL',
-    }
-  }
-
-  const formMethods = useForm({
-    defaultValues,
-  })
+  const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceCreateStep2FormValues) => {
     if (!eservice) return
+
     const newDescriptorData = {
       ...values,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       audience: [values.audience],
-      agreementApprovalPolicy: (values.agreementApprovalPolicy
-        ? 'MANUAL'
-        : 'AUTOMATIC') as AgreementApprovalPolicy,
+      agreementApprovalPolicy: values.agreementApprovalPolicy
+        ? ('MANUAL' as const)
+        : ('AUTOMATIC' as const),
     }
 
     // If nothing has changed skip the update call
@@ -102,6 +91,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
       )
       return
     }
+
     createVersionDraft(payload, {
       onSuccess(data) {
         navigate('PROVIDE_ESERVICE_EDIT', {
@@ -156,7 +146,9 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
                 name="audience"
                 label={t('step2.voucherSection.audienceField.label')}
                 infoLabel={
-                  <Trans components={{ 1: <Link href="/" target="_blank" /> }}>
+                  <Trans
+                    components={{ 1: <Link href={payloadVerificationGuideLink} target="_blank" /> }}
+                  >
                     {t('step2.voucherSection.audienceField.infoLabel')}
                   </Trans>
                 }

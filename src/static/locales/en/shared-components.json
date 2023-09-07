@@ -109,23 +109,6 @@
       "confirmLabel": "Add"
     }
   },
-  "dialogCreateNewAttribute": {
-    "title": "Create new attribute",
-    "content": {
-      "nameField": {
-        "label": "Attribute name (required)",
-        "infoLabel": "Min 5 chars, max 160 chars"
-      },
-      "descriptionField": {
-        "label": "Attribute description (required)",
-        "infoLabel": "Min 10 chars, max 250 chars"
-      }
-    },
-    "actions": {
-      "cancelLabel": "Undo",
-      "confirmLabel": "Create attribute"
-    }
-  },
   "dialogUpdatePartyMail": {
     "title": "Edit contacts",
     "subtitle": "You can change the contact email and the description of your organization. The change will be visible immediately",

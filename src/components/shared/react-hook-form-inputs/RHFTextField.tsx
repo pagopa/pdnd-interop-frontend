@@ -34,6 +34,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   multiline,
   onValueChange,
   rules,
+  size = 'small',
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -55,11 +56,25 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
           <MUITextField
             autoFocus={focusOnMount}
             {...props}
+            size={size}
             label={label}
             inputProps={{ ...props.inputProps, ...accessibilityProps }}
             multiline={multiline}
             rows={multiline ? 2.5 : undefined}
             error={!!error}
+            InputLabelProps={
+              labelType === 'external'
+                ? {
+                    shrink: false,
+                    sx: {
+                      position: 'static',
+                      transform: 'none',
+                      color: 'inherit',
+                      mb: 1.25,
+                    },
+                  }
+                : undefined
+            }
             onChange={(e) => {
               let value: string | number = e.target.value
               if (props.type === 'number') {

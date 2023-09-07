@@ -8,7 +8,6 @@ import type {
   DialogAddSecurityOperatorsProps,
   DialogAttributeDetailsProps,
   DialogBasicProps,
-  DialogCreateNewAttributeProps,
   DialogProps,
   DialogRejectAgreementProps,
   DialogSessionExpiredProps,
@@ -21,7 +20,6 @@ import { DialogAddSecurityOperators } from './DialogAddSecurityOperators'
 import { DialogAddSecurityOperatorKey } from './DialogAddSecurityOperatorKey'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { DialogAddClientToPurpose } from './DialogAddClientToPurpose'
-import { DialogCreateNewAttribute } from './DialogCreateNewAttribute'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
 import { DialogError } from './DialogError'
 import { useDialogStore } from '@/stores'
@@ -35,8 +33,7 @@ function match<T>(
   onAddSecurityOperator: (props: DialogAddSecurityOperatorsProps) => T,
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
-  onAddClientToPurpose: (props: DialogAddClientToPurposeProps) => T,
-  onCreateNewAttribute: (props: DialogCreateNewAttributeProps) => T
+  onAddClientToPurpose: (props: DialogAddClientToPurposeProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -58,8 +55,6 @@ function match<T>(
         return onRejectAgreement(props)
       case 'addClientToPurpose':
         return onAddClientToPurpose(props)
-      case 'createNewAttribute':
-        return onCreateNewAttribute(props)
     }
   }
 }
@@ -73,8 +68,7 @@ const _Dialog = match(
   (props) => <DialogAddSecurityOperators {...props} />,
   (props) => <DialogAddSecurityOperatorKey {...props} />,
   (props) => <DialogRejectAgreement {...props} />,
-  (props) => <DialogAddClientToPurpose {...props} />,
-  (props) => <DialogCreateNewAttribute {...props} />
+  (props) => <DialogAddClientToPurpose {...props} />
 )
 
 export const Dialog: React.FC = () => {

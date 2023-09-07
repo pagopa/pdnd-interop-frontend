@@ -79,8 +79,8 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
           ))}
         </Stack>
       </Box>
-      <Stack spacing={3}>
-        <Stack sx={{ mt: 2 }} direction="row" spacing={2}>
+      <Stack spacing={3} sx={{ mt: 2 }}>
+        <Stack direction="row" spacing={2}>
           <Button
             sx={{ fontWeight: 700 }}
             color="primary"

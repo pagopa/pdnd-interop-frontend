@@ -108,23 +108,6 @@
       "confirmLabel": "Aggiungi"
     }
   },
-  "dialogCreateNewAttribute": {
-    "title": "Crea nuovo attributo",
-    "content": {
-      "nameField": {
-        "label": "Nome dell'attributo (richiesto)",
-        "infoLabel": "Min 5 caratteri, max 160 caratteri"
-      },
-      "descriptionField": {
-        "label": "Descrizione dell'attributo (richiesto)",
-        "infoLabel": "Min 10 caratteri, max 250 caratteri"
-      }
-    },
-    "actions": {
-      "cancelLabel": "Annulla",
-      "confirmLabel": "Crea attributo"
-    }
-  },
   "dialogUpdatePartyMail": {
     "title": "Modifica contatti",
     "subtitle": "Puoi modificare la mail di contatto e la descrizione relativa al tuo ente. La modifica sarà immediatamente visibile",

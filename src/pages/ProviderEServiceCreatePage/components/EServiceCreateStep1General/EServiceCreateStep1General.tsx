@@ -11,7 +11,6 @@ import { EServiceMutations } from '@/api/eservice'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import type { EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
-import { AuthHooks } from '@/api/auth'
 import SaveIcon from '@mui/icons-material/Save'
 
 export type EServiceCreateStep1FormValues = {
@@ -22,64 +21,49 @@ export type EServiceCreateStep1FormValues = {
 
 export const EServiceCreateStep1General: React.FC = () => {
   const { t } = useTranslation('eservice')
-  const { jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
-  const { eservice, descriptor, isNewEService, forward } = useEServiceCreateContext()
+
+  const { eservice, descriptor, forward } = useEServiceCreateContext()
+
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
-  let defaultValues: EServiceCreateStep1FormValues = {
-    name: '',
-    description: '',
-    technology: 'REST',
+  const defaultValues: EServiceCreateStep1FormValues = {
+    name: eservice?.name ?? '',
+    description: eservice?.description ?? '',
+    technology: eservice?.technology ?? 'REST',
   }
 
-  if (!isNewEService && eservice) {
-    defaultValues = {
-      name: eservice.name,
-      description: eservice.description,
-      technology: eservice.technology,
-    }
-  }
-
-  const formMethods = useForm({
-    defaultValues,
-  })
+  const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceCreateStep1FormValues) => {
-    if (isNewEService) {
-      if (!jwt?.organizationId) return
-      createDraft(
-        { ...formValues },
-        {
-          onSuccess({ id }) {
-            navigate('PROVIDE_ESERVICE_EDIT', {
-              params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT },
-              replace: true,
-              state: { stepIndexDestination: 1 },
-            })
-            forward()
-          },
-        }
-      )
-      return
-    }
-
+    // If we are editing an existing e-service, we update the draft
     if (eservice) {
       // If nothing has changed skip the update call
       const isEServiceTheSame = compareObjects(formValues, eservice)
 
-      if (isEServiceTheSame) {
-        forward()
-        return
-      }
+      if (!isEServiceTheSame)
+        updateDraft({ eserviceId: eservice.id, ...formValues }, { onSuccess: forward })
+      else forward()
 
-      updateDraft({ eserviceId: eservice.id, ...formValues }, { onSuccess: forward })
+      return
     }
+
+    // If we are creating a new e-service, we create a new draft
+    createDraft(formValues, {
+      onSuccess({ id }) {
+        navigate('PROVIDE_ESERVICE_EDIT', {
+          params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT },
+          replace: true,
+          state: { stepIndexDestination: 1 },
+        })
+        forward()
+      },
+    })
   }
 
   const isEditable =
-    // case 1: new service
+    // case 1: new e-service
     !eservice ||
     // case 2: already existing service but no versions created
     (eservice && !descriptor) ||
@@ -88,7 +72,7 @@ export const EServiceCreateStep1General: React.FC = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <Alert severity="info" sx={{ mb: 3 }}>
+      <Alert severity="warning" sx={{ mb: 3 }}>
         {t('create.step1.firstVersionOnlyEditableInfo')}
       </Alert>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>

@@ -93,7 +93,7 @@ export function EServiceCreateStep4DocumentsDoc() {
 
   return (
     <Box>
-      <Stack spacing={2}>
+      <Stack spacing={2} sx={{ mt: 4 }}>
         {docs.length > 0 &&
           docs.map((doc) => (
             <DocumentContainer
@@ -135,7 +135,7 @@ export function EServiceCreateStep4DocumentsDoc() {
           </Box>
         </FormProvider>
       ) : (
-        <Button size="small" variant="text" onClick={handleShowFileInput}>
+        <Button sx={{ mt: 2 }} size="small" variant="text" onClick={handleShowFileInput}>
           {tCommon('addBtn')}
         </Button>
       )}

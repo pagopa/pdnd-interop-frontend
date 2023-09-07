@@ -24,3 +24,4 @@ export const manageEServiceGuideLink = `${documentationLink}/manuale-operativo/e
 export const purposeUpgradeGuideLink = `${documentationLink}/manuale-operativo/finalita`
 export const agreementUpgradeGuideLink = `${documentationLink}/manuale-operativo/richieste-di-fruizione#fruitore-aggiornare-una-richiesta-di-fruizione`
 export const clientKeyGuideLink = `${documentationLink}/manuale-operativo/client-e-materiale-crittografico`
+export const payloadVerificationGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#verifiche-sul-payload`

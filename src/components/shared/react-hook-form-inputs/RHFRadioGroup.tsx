@@ -47,7 +47,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       {label && (
-        <FormLabel sx={{ fontWeight: 600 }} id={labelId}>
+        <FormLabel sx={{ fontWeight: 600, mb: props.row ? 1 : 0 }} id={labelId}>
           {label}
         </FormLabel>
       )}

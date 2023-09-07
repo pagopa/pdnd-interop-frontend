@@ -9,7 +9,11 @@ import { useTranslation } from 'react-i18next'
 import { remapRemappedDescriptorAttributesToDescriptorAttributes } from '@/api/eservice/eservice.api.utils'
 import { StepActions } from '@/components/shared/StepActions'
 import type { UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
-import type { AttributeKey, RemappedDescriptorAttributes } from '@/types/attribute.types'
+import type {
+  AttributeKey,
+  RemappedDescriptorAttribute,
+  RemappedDescriptorAttributes,
+} from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
 import { useClonePreviousDescriptorAttributes } from '../../hooks/useClonePreviousDescriptorAttributes'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
@@ -24,9 +28,11 @@ export type EServiceCreateStep3FormValues = {
 export const EServiceCreateStep3Attributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { eservice, descriptor, attributes, forward, back } = useEServiceCreateContext()
+
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
+
   const [createAttributeCreateDrawerState, setCreateAttributeCreateDrawerState] = React.useState<{
     attributeKey: Exclude<AttributeKey, 'certified'>
     isOpen: boolean
@@ -44,9 +50,11 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
       setCreateAttributeCreateDrawerState({ attributeKey, isOpen: true })
     }
 
-  const formMethods = useForm({
-    defaultValues: { attributes: attributes ?? { certified: [], verified: [], declared: [] } },
-  })
+  const defaultValues: EServiceCreateStep3FormValues = {
+    attributes: attributes ?? { certified: [], verified: [], declared: [] },
+  }
+
+  const formMethods = useForm({ defaultValues })
 
   const { handleClonePreviousDescriptorAttributes, hasPreviousVersionNoAttributes } =
     useClonePreviousDescriptorAttributes(descriptor, formMethods.setValue)
@@ -58,11 +66,15 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
     )
 
     if (descriptor && attributes) {
+      function removeEmptyGroups(attributes: RemappedDescriptorAttribute[]) {
+        return attributes.filter((group) => group.attributes.length > 0)
+      }
+
       // Removes empty groups from the comparison
       const newAttributesToCompare = {
-        certified: values.attributes.certified.filter((group) => group.attributes.length > 0),
-        verified: values.attributes.verified.filter((group) => group.attributes.length > 0),
-        declared: values.attributes.declared.filter((group) => group.attributes.length > 0),
+        certified: removeEmptyGroups(values.attributes.certified),
+        verified: removeEmptyGroups(values.attributes.verified),
+        declared: removeEmptyGroups(values.attributes.declared),
       }
 
       const areAttributesEquals = compareObjects(newAttributesToCompare, attributes)

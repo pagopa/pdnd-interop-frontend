@@ -72,6 +72,7 @@ export function EServiceCreateStep4DocumentsInterface() {
   if (actualInterface) {
     return (
       <DocumentContainer
+        sx={{ mt: 4 }}
         doc={actualInterface}
         onDelete={handleDeleteInterface}
         onDownload={handleDownloadInterface}

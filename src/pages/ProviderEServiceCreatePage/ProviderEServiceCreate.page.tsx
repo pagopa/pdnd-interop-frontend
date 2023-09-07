@@ -104,7 +104,6 @@ const ProviderEServiceCreatePage: React.FC = () => {
         <EServiceCreateContextProvider
           eservice={eserviceData}
           descriptor={descriptor}
-          isNewEService={isNewEService}
           {...stepProps}
         >
           <Step />

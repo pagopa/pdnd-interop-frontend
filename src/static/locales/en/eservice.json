@@ -73,12 +73,10 @@
       "attributeCloneNoAttributesLabel": "There are no attribute to copy",
       "attributesAddBtn": "Add attribute",
       "attributesCreateBtn": "Create new attribute",
-      "createAttributeDialog": {
-        "verified": {
-          "title": "Create new verified attribute"
-        },
-        "certified": {
-          "title": "Create new certified attribute"
+      "createAttributeDrawer": {
+        "title": {
+          "verified": "Create new verified attribute",
+          "declared": "Create new declared attribute"
         },
         "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
         "nameField": {

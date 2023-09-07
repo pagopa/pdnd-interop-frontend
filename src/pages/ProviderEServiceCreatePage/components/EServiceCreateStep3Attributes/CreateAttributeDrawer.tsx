@@ -1,4 +1,3 @@
-import type { AttributeKind } from '@/api/api.generatedTypes'
 import { AttributeMutations } from '@/api/attribute'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -6,9 +5,10 @@ import type { AttributeKey } from '@/types/attribute.types'
 import { Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 type CreateAttributeDrawerProps = {
-  attributeKey: AttributeKey
+  attributeKey: Exclude<AttributeKey, 'certified'>
   isOpen: boolean
   onClose: () => void
 }
@@ -23,7 +23,10 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
   onClose,
   ...props
 }) => {
-  const { mutate: createAttribute } = AttributeMutations.useCreate()
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step3.createAttributeDrawer' })
+
+  const { mutate: createVerifiedAttribute } = AttributeMutations.useCreateVerified()
+  const { mutate: createDeclaredAttribute } = AttributeMutations.useCreateDeclared()
 
   const formMethods = useForm<CreateNewAttributeFormValues>({
     defaultValues: {
@@ -32,44 +35,41 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
     },
   })
 
-  const handleClose = () => {
-    formMethods.reset()
-    onClose()
-  }
-
   const onSubmit = formMethods.handleSubmit((values: CreateNewAttributeFormValues) => {
-    createAttribute(
-      { ...values, kind: attributeKey.toUpperCase() as AttributeKind },
-      { onSuccess: handleClose }
-    )
+    if (attributeKey === 'verified') createVerifiedAttribute(values, { onSuccess: onClose })
+    if (attributeKey === 'declared') createDeclaredAttribute(values, { onSuccess: onClose })
   })
 
   return (
     <FormProvider {...formMethods}>
       <Drawer
-        title="Crea nuovo attributo verificato"
-        subtitle="Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service"
-        // Check ddsadasdkas
+        title={t(`title.${attributeKey}`)}
+        subtitle={t('subtitle')}
         buttonAction={{
           action: onSubmit,
-          label: 'Crea attributo',
+          label: t('submitBtnLabel'),
         }}
-        onClose={handleClose}
+        onTransitionExited={formMethods.reset}
+        onClose={onClose}
         {...props}
       >
-        <Stack component="form" noValidate spacing={2}>
+        <Stack component="form" noValidate spacing={3}>
           <RHFTextField
-            label="Nome dell'attributo"
+            label={t('nameField.label')}
+            labelType="external"
             name="name"
             inputProps={{ maxLength: 160 }}
             rules={{ required: true, minLength: 5 }}
+            infoLabel={t('nameField.infoLabel')}
           />
           <RHFTextField
-            label="Descrizione dell’attributo"
+            label={t('descriptionField.label')}
+            labelType="external"
             multiline
             name="description"
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
+            infoLabel={t('descriptionField.infoLabel')}
           />
         </Stack>
       </Drawer>

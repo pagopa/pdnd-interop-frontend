@@ -1,6 +1,5 @@
 import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
-import type { AttributeKey } from './attribute.types'
 
 export type DialogContent = {
   title: string
@@ -21,7 +20,6 @@ export type DialogProps =
   | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
   | DialogAddClientToPurposeProps
-  | DialogCreateNewAttributeProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -74,9 +72,4 @@ export type DialogRejectAgreementProps = {
 export type DialogAddClientToPurposeProps = {
   type: 'addClientToPurpose'
   purposeId: string
-}
-
-export type DialogCreateNewAttributeProps = {
-  type: 'createNewAttribute'
-  attributeKey: AttributeKey
 }
