@@ -44,16 +44,6 @@
       "confirmLabel": "Confirm"
     }
   },
-  "dialogSetPurposeExpectedApprovalDate": {
-    "title": "Set estimated completion date",
-    "content": {
-      "message": "You can update it at any moment. Any change will be notified to the Subscriber"
-    },
-    "actions": {
-      "cancelLabel": "Undo",
-      "confirmLabel": "Set"
-    }
-  },
   "dialogAddSecurityOperators": {
     "title": "Add security operators",
     "content": {
