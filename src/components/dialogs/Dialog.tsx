@@ -11,11 +11,9 @@ import type {
   DialogProps,
   DialogRejectAgreementProps,
   DialogSessionExpiredProps,
-  DialogSetPurposeExpectedApprovalDateProps,
   DialogUpdatePurposeDailyCallsProps,
 } from '@/types/dialog.types'
 import { DialogUpdatePurposeDailyCalls } from './DialogUpdatePurposeDailyCalls'
-import { DialogSetPurposeExpectedApprovalDate } from './DialogSetPurposeExpectedApprovalDate'
 import { DialogAddSecurityOperators } from './DialogAddSecurityOperators'
 import { DialogAddSecurityOperatorKey } from './DialogAddSecurityOperatorKey'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
@@ -29,7 +27,6 @@ function match<T>(
   onShowAttributeDetails: (props: DialogAttributeDetailsProps) => T,
   onShowSessionExpired: (props: DialogSessionExpiredProps) => T,
   onUpdatePurposeDailyCalls: (props: DialogUpdatePurposeDailyCallsProps) => T,
-  onSetPurposeExpectedApprovalDate: (props: DialogSetPurposeExpectedApprovalDateProps) => T,
   onAddSecurityOperator: (props: DialogAddSecurityOperatorsProps) => T,
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
@@ -45,8 +42,6 @@ function match<T>(
         return onShowSessionExpired(props)
       case 'updatePurposeDailyCalls':
         return onUpdatePurposeDailyCalls(props)
-      case 'setPurposeExpectedApprovalDate':
-        return onSetPurposeExpectedApprovalDate(props)
       case 'addSecurityOperator':
         return onAddSecurityOperator(props)
       case 'addSecurityOperatorKey':
@@ -64,7 +59,6 @@ const _Dialog = match(
   (props) => <DialogAttributeDetails {...props} />,
   (props) => <DialogSessionExpired {...props} />,
   (props) => <DialogUpdatePurposeDailyCalls {...props} />,
-  (props) => <DialogSetPurposeExpectedApprovalDate {...props} />,
   (props) => <DialogAddSecurityOperators {...props} />,
   (props) => <DialogAddSecurityOperatorKey {...props} />,
   (props) => <DialogRejectAgreement {...props} />,

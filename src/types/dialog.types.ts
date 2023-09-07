@@ -15,7 +15,6 @@ export type DialogProps =
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
   | DialogUpdatePurposeDailyCallsProps
-  | DialogSetPurposeExpectedApprovalDateProps
   | DialogAddSecurityOperatorsProps
   | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
@@ -44,13 +43,6 @@ export type DialogBasicProps = DialogDefaultProps & {
   onProceed: VoidFunction
   onCancel?: VoidFunction
   disabled?: boolean
-}
-
-export type DialogSetPurposeExpectedApprovalDateProps = {
-  type: 'setPurposeExpectedApprovalDate'
-  purposeId: string
-  versionId: string
-  approvalDate?: string
 }
 
 export type DialogAddSecurityOperatorsProps = {
