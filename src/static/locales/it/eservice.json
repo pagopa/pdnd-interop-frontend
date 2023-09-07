@@ -115,17 +115,50 @@
   },
   "summary": {
     "title": "{{eserviceName}}, versione {{versionNumber}}",
-    "generalInformationSection": {
-      "title": "Informazioni generali"
+    "generalInfoSummary": {
+      "title": "Informazioni generali",
+      "description": {
+        "label": "Descrizione"
+      },
+      "apiTechnology": {
+        "label": "Tecnologia API"
+      }
     },
-    "versionInformationSection": {
-      "title": "Informazioni di versione"
+    "versionInfoSummary": {
+      "title": "Informazioni di versione",
+      "description": {
+        "label": "Descrizione"
+      },
+      "audience": {
+        "label": "Audience"
+      },
+      "voucherLifespan": {
+        "label": "Durata del voucher"
+      },
+      "dailyCallsPerConsumer": {
+        "label": "Soglia giornaliera chiamate API per fruitore",
+        "value": "{{value}} chiamate API/giorno"
+      },
+      "dailyCallsTotal": {
+        "label": "Soglia giornaliera totale chiamate API",
+        "value": "{{value}} chiamate API/giorno"
+      },
+      "manualApproval": {
+        "label": "Attivazione manuale richieste di fruizione",
+        "value": {
+          "true": "Sì",
+          "false": "No"
+        }
+      }
     },
-    "attributeVersion": {
+    "attributeVersionSummary": {
       "title": "Requisiti di accesso di versione"
     },
-    "documentationSection": {
-      "title": "Documentazione di versione"
+    "documentationSummary": {
+      "title": "Documentazione di versione",
+      "interface": {
+        "label": "Interfaccia OpenAPI"
+      }
     }
   },
   "list": {

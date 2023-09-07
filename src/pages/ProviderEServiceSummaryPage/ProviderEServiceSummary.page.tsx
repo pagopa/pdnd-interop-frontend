@@ -8,6 +8,11 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion } from '@/components/shared/SummaryAccordion'
+import {
+  ProviderEServiceDocumentationSummary,
+  ProviderEServiceGeneralInfoSummary,
+  ProviderEServiceVersionInfoSummary,
+} from './components'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -61,8 +66,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     )
   }
 
-  console.log({ descriptor })
-
   return (
     <PageContainer
       title={t('summary.title', {
@@ -77,17 +80,17 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       statusChip={{ for: 'eservice', state: 'DRAFT' }}
     >
       <Stack spacing={3}>
-        <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
+        <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
+          {descriptor && <ProviderEServiceGeneralInfoSummary descriptor={descriptor} />}
+        </SummaryAccordion>
+        <SummaryAccordion headline="2" title={t('summary.versionInfoSummary.title')}>
+          {descriptor && <ProviderEServiceVersionInfoSummary descriptor={descriptor} />}
+        </SummaryAccordion>
+        <SummaryAccordion headline="3" title={t('summary.attributeVersionSummary.title')}>
           <div>Summary</div>
         </SummaryAccordion>
-        <SummaryAccordion headline="2" title={t('summary.versionInformationSection.title')}>
-          <div>Summary</div>
-        </SummaryAccordion>
-        <SummaryAccordion headline="3" title={t('summary.attributeVersion.title')}>
-          <div>Summary</div>
-        </SummaryAccordion>
-        <SummaryAccordion headline="4" title={t('summary.documentationSection.title')}>
-          <div>Summary</div>
+        <SummaryAccordion headline="4" title={t('summary.documentationSummary.title')}>
+          {descriptor && <ProviderEServiceDocumentationSummary descriptor={descriptor} />}
         </SummaryAccordion>
       </Stack>
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
