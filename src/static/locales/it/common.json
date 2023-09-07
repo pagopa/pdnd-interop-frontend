@@ -102,10 +102,7 @@
     "purpose": {
       "DRAFT": "in bozza",
       "ACTIVE": "attiva",
-      "SUSPENDED": {
-        "byConsumer": "sospesa dal fruitore",
-        "byProducer": "sospesa dall'erogatore"
-      },
+      "SUSPENDED": "sospesa",
       "WAITING_FOR_APPROVAL": "in aggiornamento",
       "ARCHIVED": "archiviata"
     },

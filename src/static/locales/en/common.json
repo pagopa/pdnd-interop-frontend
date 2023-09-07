@@ -102,10 +102,7 @@
     "purpose": {
       "DRAFT": "draft",
       "ACTIVE": "active",
-      "SUSPENDED": {
-        "byConsumer": "suspended by consumer",
-        "byProducer": "suspended by producer"
-      },
+      "SUSPENDED": "suspended",
       "WAITING_FOR_APPROVAL": "awaiting evaluation",
       "ARCHIVED": "archived"
     },
