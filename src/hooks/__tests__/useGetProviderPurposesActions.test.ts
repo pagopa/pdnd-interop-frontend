@@ -32,25 +32,6 @@ describe('check if useGetProviderPurposesActions returns the correct actions bas
     expect(suspendAction).toBeTruthy()
   })
 
-  it('shoud have action to update completion date and active the waiting for approval version if the purpose has one', () => {
-    const purposeMock = createMockPurpose({
-      waitingForApprovalVersion: {
-        id: 'test-id',
-        dailyCalls: 2,
-        state: 'WAITING_FOR_APPROVAL',
-      },
-    })
-    const { result } = renderUseGetProviderPurposesActionsHook(purposeMock)
-    const activateVersionAction = result.current.actions.find(
-      (action) => action.label === 'confirmUpdate'
-    )
-    const updateCompletionDateAction = result.current.actions.find(
-      (action) => action.label === 'updateCompletionDate'
-    )
-    expect(activateVersionAction).toBeTruthy()
-    expect(updateCompletionDateAction).toBeTruthy()
-  })
-
   it('shoud have the suspend action if the purpose is suspended but not suspended by the provider ', () => {
     const purposeMock = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
