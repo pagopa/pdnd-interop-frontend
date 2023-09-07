@@ -305,5 +305,73 @@
     },
     "archivedPurposeAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
     "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service"
+  },
+  "providerView": {
+    "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione il fruitore non potrà accedere ai dati erogati attraverso l’API.",
+    "waitingForApprovalAlert": "Il fruitore ha richiesto un adeguamento della stima di carico che richiede la tua approvazione.",
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "eServiceField": {
+          "label": "E-service di riferimento",
+          "value": "{{name}}, versione {{version}}"
+        },
+        "consumerField": {
+          "label": "Fruitore"
+        },
+        "descriptionField": {
+          "label": "Descrizione della finalità"
+        },
+        "riskAnalysis": {
+          "fileName": "Analisi del rischio",
+          "link": {
+            "label": "Scarica analisi del rischio"
+          }
+        },
+        "agreementLink": {
+          "label": "Vai a richiesta di fruizione"
+        }
+      },
+      "loadEstimate": {
+        "title": "Stima di carico",
+        "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
+        "planCard": {
+          "title": {
+            "activePlan": "Il piano attivo del fruitore",
+            "waitingForApprovalPlan": "Il cambio piano richiesto dal fruitore"
+          },
+          "subtitle": "Chiamate API/giorno",
+          "expectApprovalDateInfo": "Hai stimato di attivare questo adeguamento il giorno <strong>{{date}}</strong>",
+          "setApprovalDateLink": {
+            "insertLabel": "Inserisci data stimata di attivazione",
+            "modifyLabel": "Modifica data stimata di attivazione"
+          },
+          "activateUpdateLink": {
+            "label": "Attiva ora"
+          }
+        },
+        "thresholdsCard": {
+          "title": "Soglie da te previste",
+          "subtitle": "Chiamate API/giorno",
+          "dailyCallsPerConsumerField": {
+            "label": "Per singolo fruitore"
+          },
+          "dailyCallsTotalsField": {
+            "label": "Totali"
+          }
+        },
+        "drawer": {
+          "title": {
+            "insert": "Inserisci data di attivazione",
+            "modify": "Modifica data di attivazione"
+          },
+          "subtitle": "La data di attivazione non è legalmente vincolante per il tuo ente, ma fornisce un’indicazione utile al fruitore. Hai dubbi? <1>Consulta la guida</1>.",
+          "buttonActionLabel": {
+            "modify": "Applica modifica"
+          },
+          "alert": "L’adeguamento non verrà attivato automaticamente dalla piattaforma. Dovrà essere il tuo ente a farlo manualmente."
+        }
+      }
+    }
   }
 }
