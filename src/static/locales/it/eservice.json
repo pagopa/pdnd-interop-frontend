@@ -158,7 +158,8 @@
       "title": "Documentazione di versione",
       "interface": {
         "label": "Interfaccia OpenAPI"
-      }
+      },
+      "emptyLabel": "Nessun documento caricato"
     },
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"

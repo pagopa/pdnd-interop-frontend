@@ -1,6 +1,6 @@
 import React from 'react'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
@@ -20,6 +20,12 @@ export const ProviderEServiceDocumentationSummary: React.FC = () => {
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
 
   if (!descriptor) return null
+  if (!descriptor.interface && descriptor.docs.length === 0)
+    return (
+      <Typography variant="body2" color="text.secondary">
+        {t('emptyLabel')}
+      </Typography>
+    )
 
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(

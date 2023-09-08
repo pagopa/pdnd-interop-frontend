@@ -158,7 +158,8 @@
       "title": "Version's documentations",
       "interface": {
         "label": "OpenAPI Interface"
-      }
+      },
+      "emptyLabel": "No uploaded documents"
     },
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
