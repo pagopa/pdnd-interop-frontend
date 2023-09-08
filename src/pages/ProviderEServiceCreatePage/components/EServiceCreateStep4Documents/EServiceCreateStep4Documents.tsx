@@ -64,5 +64,10 @@ export const EServiceCreateStep4Documents: React.FC<ActiveStepProps> = () => {
 }
 
 export const EServiceCreateStep4DocumentsSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={600} />
+  return (
+    <>
+      <SectionContainerSkeleton height={365} />
+      <SectionContainerSkeleton height={178} />
+    </>
+  )
 }

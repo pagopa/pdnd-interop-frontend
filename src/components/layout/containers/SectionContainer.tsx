@@ -104,5 +104,5 @@ export function SectionContainer({
 }
 
 export const SectionContainerSkeleton: React.FC<SkeletonProps> = ({ sx, ...props }) => {
-  return <Skeleton variant="rectangular" sx={{ borderRadius: 1, mt: 2, ...sx }} {...props} />
+  return <Skeleton variant="rectangular" sx={{ borderRadius: 2, mt: 2, ...sx }} {...props} />
 }

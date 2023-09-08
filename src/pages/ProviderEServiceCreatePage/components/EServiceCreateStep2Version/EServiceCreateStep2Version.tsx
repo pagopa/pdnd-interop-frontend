@@ -222,5 +222,5 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
 }
 
 export const EServiceCreateStep2VersionSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={1010} />
+  return <SectionContainerSkeleton height={550} />
 }

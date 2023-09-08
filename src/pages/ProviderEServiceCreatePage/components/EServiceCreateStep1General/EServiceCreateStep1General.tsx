@@ -130,5 +130,14 @@ export const EServiceCreateStep1General: React.FC = () => {
 }
 
 export const EServiceCreateStep1GeneralSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={600} />
+  const { t } = useTranslation('eservice')
+
+  return (
+    <>
+      <Alert severity="warning" sx={{ mb: 3 }}>
+        {t('create.step1.firstVersionOnlyEditableInfo')}
+      </Alert>
+      <SectionContainerSkeleton height={354} />
+    </>
+  )
 }

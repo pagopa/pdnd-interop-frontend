@@ -164,5 +164,5 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
 }
 
 export const EServiceCreateStep3AttributesSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={600} />
+  return <SectionContainerSkeleton height={924} />
 }
