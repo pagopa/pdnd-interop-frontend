@@ -1,17 +1,20 @@
 import React from 'react'
-import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
+import { EServiceQueries } from '@/api/eservice'
+import { useParams } from '@/router'
 
-type ProviderEServiceGeneralInfoSummaryProps = {
-  descriptor: ProducerEServiceDescriptor
-}
-
-export const ProviderEServiceGeneralInfoSummary: React.FC<
-  ProviderEServiceGeneralInfoSummaryProps
-> = ({ descriptor }) => {
+export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
+  const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
+
+  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
+    params.eserviceId,
+    params.descriptorId
+  )
+
+  if (!descriptor) return null
 
   return (
     <Stack spacing={2}>

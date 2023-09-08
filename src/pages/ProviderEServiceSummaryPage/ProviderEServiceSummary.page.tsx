@@ -7,7 +7,7 @@ import { Button, Stack } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
-import { SummaryAccordion } from '@/components/shared/SummaryAccordion'
+import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import {
   ProviderEServiceDocumentationSummary,
   ProviderEServiceGeneralInfoSummary,
@@ -26,8 +26,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft()
 
   const { data: descriptor, isInitialLoading } = EServiceQueries.useGetDescriptorProvider(
-    params?.eserviceId,
-    params?.descriptorId,
+    params.eserviceId,
+    params.descriptorId,
     {
       suspense: false,
     }
@@ -81,18 +81,29 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       statusChip={{ for: 'eservice', state: 'DRAFT' }}
     >
       <Stack spacing={3}>
-        <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
-          {descriptor && <ProviderEServiceGeneralInfoSummary descriptor={descriptor} />}
-        </SummaryAccordion>
-        <SummaryAccordion headline="2" title={t('summary.versionInfoSummary.title')}>
-          {descriptor && <ProviderEServiceVersionInfoSummary descriptor={descriptor} />}
-        </SummaryAccordion>
-        <SummaryAccordion headline="3" title={t('summary.attributeVersionSummary.title')}>
-          {descriptor && <ProviderEServiceAttributeVersionSummary descriptor={descriptor} />}
-        </SummaryAccordion>
-        <SummaryAccordion headline="4" title={t('summary.documentationSummary.title')}>
-          {descriptor && <ProviderEServiceDocumentationSummary descriptor={descriptor} />}
-        </SummaryAccordion>
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
+            <ProviderEServiceGeneralInfoSummary />
+          </SummaryAccordion>
+        </React.Suspense>
+
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion headline="2" title={t('summary.versionInfoSummary.title')}>
+            <ProviderEServiceVersionInfoSummary />
+          </SummaryAccordion>
+        </React.Suspense>
+
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion headline="3" title={t('summary.attributeVersionSummary.title')}>
+            <ProviderEServiceAttributeVersionSummary />
+          </SummaryAccordion>
+        </React.Suspense>
+
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion headline="4" title={t('summary.documentationSummary.title')}>
+            <ProviderEServiceDocumentationSummary />
+          </SummaryAccordion>
+        </React.Suspense>
       </Stack>
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button

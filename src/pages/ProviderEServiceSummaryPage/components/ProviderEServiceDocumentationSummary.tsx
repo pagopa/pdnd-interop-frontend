@@ -1,22 +1,25 @@
 import React from 'react'
-import type { EServiceDoc, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
-import { EServiceDownloads } from '@/api/eservice'
+import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import { useParams } from '@/router'
 
-type ProviderEServiceDocumentationSummaryProps = {
-  descriptor: ProducerEServiceDescriptor
-}
-
-export const ProviderEServiceDocumentationSummary: React.FC<
-  ProviderEServiceDocumentationSummaryProps
-> = ({ descriptor }) => {
+export const ProviderEServiceDocumentationSummary: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.documentationSummary' })
+  const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
+
+  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
+    params.eserviceId,
+    params.descriptorId
+  )
 
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
+
+  if (!descriptor) return null
 
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
