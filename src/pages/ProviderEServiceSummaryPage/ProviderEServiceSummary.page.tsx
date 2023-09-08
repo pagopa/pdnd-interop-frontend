@@ -3,7 +3,7 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
 import { EServiceMutations, EServiceQueries } from '@/api/eservice'
-import { Button, Stack } from '@mui/material'
+import { Button, Stack, Tooltip } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -67,6 +67,18 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     )
   }
 
+  const canBePublished = () => {
+    return !!(
+      descriptor &&
+      descriptor.interface &&
+      descriptor.description &&
+      descriptor.audience[0] &&
+      descriptor.voucherLifespan &&
+      descriptor.dailyCallsPerConsumer &&
+      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer
+    )
+  }
+
   return (
     <PageContainer
       title={t('summary.title', {
@@ -117,11 +129,35 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
           {tCommon('editDraft')}
         </Button>
-        <Button startIcon={<PublishIcon />} variant="contained" onClick={handlePublishDraft}>
-          {tCommon('publish')}
-        </Button>
+        <PublishButton onClick={handlePublishDraft} disabled={!canBePublished()} />
       </Stack>
     </PageContainer>
+  )
+}
+
+type PublishButtonProps = {
+  disabled: boolean
+  onClick: VoidFunction
+}
+
+const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick }) => {
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t } = useTranslation('eservice', { keyPrefix: 'summary' })
+
+  const Wrapper = disabled
+    ? ({ children }: { children: React.ReactElement }) => (
+        <Tooltip arrow title={t('notPublishableTooltip.label')}>
+          <span tabIndex={disabled ? 0 : undefined}>{children}</span>
+        </Tooltip>
+      )
+    : React.Fragment
+
+  return (
+    <Wrapper>
+      <Button disabled={disabled} startIcon={<PublishIcon />} variant="contained" onClick={onClick}>
+        {tCommon('publish')}
+      </Button>
+    </Wrapper>
   )
 }
 

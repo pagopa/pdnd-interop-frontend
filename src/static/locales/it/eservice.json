@@ -159,6 +159,9 @@
       "interface": {
         "label": "Interfaccia OpenAPI"
       }
+    },
+    "notPublishableTooltip": {
+      "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
     }
   },
   "list": {
