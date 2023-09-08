@@ -5,13 +5,14 @@ import i18next from 'i18next'
 import type { LangCode } from '@/types/common.types'
 
 // Performs a trim operation on each string contained in the object
-const deepTrim = (object: any) => {
+const deepTrim = (object: string | Record<string, unknown>) => {
   if (typeof object === 'string') {
     return object.trim()
   }
+
   if (typeof object === 'object' && object !== null) {
     for (const key in object) {
-      object[key] = deepTrim(object[key])
+      object[key] = deepTrim(object[key] as string | Record<string, unknown>)
     }
   }
 
