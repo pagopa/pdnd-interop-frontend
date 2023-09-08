@@ -13,6 +13,7 @@ import {
   ProviderEServiceGeneralInfoSummary,
   ProviderEServiceVersionInfoSummary,
 } from './components'
+import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -87,7 +88,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           {descriptor && <ProviderEServiceVersionInfoSummary descriptor={descriptor} />}
         </SummaryAccordion>
         <SummaryAccordion headline="3" title={t('summary.attributeVersionSummary.title')}>
-          <div>Summary</div>
+          {descriptor && <ProviderEServiceAttributeVersionSummary descriptor={descriptor} />}
         </SummaryAccordion>
         <SummaryAccordion headline="4" title={t('summary.documentationSummary.title')}>
           {descriptor && <ProviderEServiceDocumentationSummary descriptor={descriptor} />}
