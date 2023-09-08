@@ -66,7 +66,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
     )
 
     if (descriptor && attributes) {
-      function removeEmptyGroups(attributes: RemappedDescriptorAttribute[]) {
+      const removeEmptyGroups = (attributes: RemappedDescriptorAttribute[]) => {
         return attributes.filter((group) => group.attributes.length > 0)
       }
 
