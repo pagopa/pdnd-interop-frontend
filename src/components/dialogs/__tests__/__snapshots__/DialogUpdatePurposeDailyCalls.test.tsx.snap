@@ -53,8 +53,8 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":r3:"
-                  id=":r3:-label"
+                  for="dailyCalls"
+                  id="dailyCalls-label"
                 >
                   content.dailyCallsField.label
                 </label>
@@ -65,7 +65,7 @@ exports[`DialogUpdatePurposeDailyCalls testing > should match the snapshot 1`] =
                     aria-describedby="dailyCalls-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r3:"
+                    id="dailyCalls"
                     min="1"
                     name="dailyCalls"
                     type="number"

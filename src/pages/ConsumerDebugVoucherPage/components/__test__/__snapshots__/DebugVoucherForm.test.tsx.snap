@@ -34,8 +34,8 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
-                for=":r0:"
-                id=":r0:-label"
+                for="clientAssertion"
+                id="clientAssertion-label"
               >
                 clientAssertionLabel
               </label>
@@ -45,7 +45,7 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
                 <textarea
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiInputBase-inputSizeSmall css-12tl3rr-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r0:"
+                  id="clientAssertion"
                   name="clientAssertion"
                   rows="2.5"
                   style="height: 0px; overflow: hidden;"
@@ -81,8 +81,8 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="false"
-                for=":r1:"
-                id=":r1:-label"
+                for="clientId"
+                id="clientId-label"
               >
                 clientIdLabel
               </label>
@@ -92,7 +92,7 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r1:"
+                  id="clientId"
                   name="clientId"
                   type="text"
                   value=""

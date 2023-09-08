@@ -12,8 +12,8 @@ exports[`determine whether the integration between react-hook-form and MUI’s T
         <label
           class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
           data-shrink="false"
-          for=":r4:"
-          id=":r4:-label"
+          for="testText"
+          id="testText-label"
         >
           input label
         </label>
@@ -23,7 +23,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s T
           <input
             aria-invalid="false"
             class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
-            id=":r4:"
+            id="testText"
             name="testText"
             type="text"
             value=""

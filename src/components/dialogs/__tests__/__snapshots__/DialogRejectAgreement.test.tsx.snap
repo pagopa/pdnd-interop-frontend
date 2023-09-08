@@ -53,8 +53,8 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":r3:"
-                  id=":r3:-label"
+                  for="reason"
+                  id="reason-label"
                 >
                   content.reason.label
                 </label>
@@ -65,7 +65,7 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                     aria-describedby="reason-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiInputBase-inputSizeSmall css-12tl3rr-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r3:"
+                    id="reason"
                     maxlength="1000"
                     name="reason"
                     rows="2.5"

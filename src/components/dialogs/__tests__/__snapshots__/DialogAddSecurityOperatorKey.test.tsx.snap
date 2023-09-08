@@ -53,8 +53,8 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
-                  for=":r3:"
-                  id=":r3:-label"
+                  for="name"
+                  id="name-label"
                 >
                   content.nameField.label
                 </label>
@@ -65,7 +65,7 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                     aria-describedby="name-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r3:"
+                    id="name"
                     maxlength="60"
                     name="name"
                     type="text"
@@ -101,8 +101,8 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="false"
-                  for=":r4:"
-                  id=":r4:-label"
+                  for="key"
+                  id="key-label"
                 >
                   content.keyField.label
                 </label>
@@ -112,7 +112,7 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                   <textarea
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiInputBase-inputSizeSmall css-12tl3rr-MuiInputBase-input-MuiOutlinedInput-input"
-                    id=":r4:"
+                    id="key"
                     name="key"
                     rows="2.5"
                     style="height: 0px; overflow: hidden;"
