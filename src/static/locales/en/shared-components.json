@@ -126,20 +126,6 @@
       "confirmLabel": "Create attribute"
     }
   },
-  "dialogUpdatePartyMail": {
-    "title": "Edit contacts",
-    "subtitle": "You can change the contact email and the description of your organization. The change will be visible immediately",
-    "content": {
-      "mailAddressField": {
-        "label": "Mail address (required)"
-      },
-      "descriptionField": {
-        "label": "Description",
-        "infoLabel": "Min 10 chars, max 160 chars"
-      }
-    },
-    "alertLabel": "Authorities are not notified of this change; it is recommended to keep an active redirect from the old to the new address for some time"
-  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -227,6 +213,7 @@
     "SUBSCRIBE_CATALOG_LIST": "E-service catalog",
     "SUBSCRIBE_PURPOSE_CREATE": "Create purpose",
     "SUBSCRIBE_PURPOSE_EDIT": "Edit purpose",
+    "SUBSCRIBE_PURPOSE_SUMMARY": "Purpose summary",
     "SUBSCRIBE_PURPOSE_DETAILS": "Manage purpose",
     "SUBSCRIBE_PURPOSE_LIST": "Your purpose",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Manage e-service client operator",

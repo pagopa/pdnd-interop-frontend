@@ -1,18 +1,18 @@
 import { SectionContainer } from '@/components/layout/containers'
-import { useJwt } from '@/hooks/useJwt'
 import { Link } from '@/router'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEServiceDetailsContext } from '../EServiceDetailsContext'
+import { AuthHooks } from '@/api/auth'
 
 export const EServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.generalInformations',
   })
   const { descriptor, agreement } = useEServiceDetailsContext()
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const agreementPath =
     agreement?.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'

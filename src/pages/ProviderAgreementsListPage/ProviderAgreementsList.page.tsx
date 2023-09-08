@@ -1,7 +1,6 @@
 import { AgreementQueries } from '@/api/agreement'
 import type { AgreementState, GetAgreementsParams } from '@/api/api.generatedTypes'
 import { PageContainer } from '@/components/layout/containers'
-import { useJwt } from '@/hooks/useJwt'
 import {
   Filters,
   Pagination,
@@ -12,6 +11,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProviderAgreementsTable, ProviderAgreementsTableSkeleton } from './components'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerAgreementsList' })
@@ -42,7 +42,7 @@ const ProviderAgreementsListPage: React.FC = () => {
       value: o.id,
     })) || []
 
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<

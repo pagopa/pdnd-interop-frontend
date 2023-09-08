@@ -1,8 +1,7 @@
 import React from 'react'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
-import { Button, IconButton, Skeleton } from '@mui/material'
+import { Button, Skeleton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useDialog } from '@/stores'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 
@@ -40,9 +39,13 @@ export const PurposeEditStep3AddClientsTable: React.FC<PurposeEditStep3AddClient
       >
         {clients.map((client, i) => (
           <TableRow key={i} cellData={[client.name]}>
-            <IconButton onClick={handleRemoveClient.bind(null, client.id)}>
-              <DeleteOutlineIcon fontSize="small" color="error" />
-            </IconButton>
+            <Button
+              onClick={handleRemoveClient.bind(null, client.id)}
+              variant="naked"
+              color="error"
+            >
+              {tCommon('actions.delete')}
+            </Button>
           </TableRow>
         ))}
       </Table>

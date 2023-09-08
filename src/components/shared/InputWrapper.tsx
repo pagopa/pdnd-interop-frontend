@@ -24,7 +24,7 @@ export const InputWrapper: React.FC<InputWrapperProps> = ({
   const helperTextSx = { fontWeight: 400, color: 'text.secondary', ml: 0, display: 'block' }
 
   return (
-    <FormControl fullWidth component={component} error={!!error} sx={{ my: 4, ...sx }}>
+    <FormControl fullWidth component={component} error={!!error} sx={{ my: 2, ...sx }}>
       {children}
 
       {error && (

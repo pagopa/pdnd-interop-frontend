@@ -16,6 +16,7 @@ export type DrawerProps = {
     color?: ButtonProps['color']
   }
   children: React.ReactNode
+  onTransitionExited?: VoidFunction
 }
 
 type HeaderDrawerProps = {
@@ -50,6 +51,7 @@ export const Drawer: React.FC<DrawerProps> = ({
   subtitle,
   buttonAction,
   children,
+  onTransitionExited,
 }) => {
   return (
     <MUIDrawer
@@ -58,6 +60,7 @@ export const Drawer: React.FC<DrawerProps> = ({
       open={isOpen}
       onClose={onClose}
       sx={{ zIndex: 100 }}
+      ModalProps={{ onTransitionExited: onTransitionExited }}
     >
       <HeaderDrawer onDrawerClose={onClose} />
       <Stack width={375} px={3} pt={2} flexGrow={1}>

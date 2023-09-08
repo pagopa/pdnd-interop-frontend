@@ -1,16 +1,9 @@
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetProviderPurposesActions from '../useGetProviderPurposesActions'
-import { createMockPurpose } from '__mocks__/data/purpose.mocks'
-import { vi } from 'vitest'
-import * as hooks from '@/hooks/useJwt'
+import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import type { Purpose } from '@/api/api.generatedTypes'
 
-const useJwtReturnDataMock = {
-  currentRoles: ['admin'],
-  isAdmin: true,
-  hasSessionExpired: () => false,
-} as unknown as ReturnType<typeof hooks.useJwt>
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
+mockUseJwt({ isAdmin: true })
 
 function renderUseGetProviderPurposesActionsHook(purpose?: Purpose) {
   return renderHookWithApplicationContext(() => useGetProviderPurposesActions(purpose), {

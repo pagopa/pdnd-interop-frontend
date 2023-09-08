@@ -4,7 +4,7 @@ exports[`DocumentContainer > should match snapshot 1`] = `
 <body>
   <div>
     <div
-      class="css-gmwslw-MuiStack-root"
+      class="MuiStack-root css-gmwslw-MuiStack-root"
     >
       <div
         class="MuiFormControl-root MuiFormControl-fullWidth css-o9ut6b-MuiFormControl-root"
@@ -13,7 +13,7 @@ exports[`DocumentContainer > should match snapshot 1`] = `
           class="MuiFormControl-root MuiTextField-root css-8rphz-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="true"
             for=":r0:"
             id=":r0:-label"
@@ -69,7 +69,7 @@ exports[`DocumentContainer > should match snapshot 1`] = `
         </div>
       </div>
       <div
-        class="css-qkqpx0-MuiStack-root"
+        class="MuiStack-root css-qkqpx0-MuiStack-root"
       />
     </div>
   </div>
@@ -80,7 +80,7 @@ exports[`DocumentContainer > should match snapshot with onDelete callback passed
 <body>
   <div>
     <div
-      class="css-gmwslw-MuiStack-root"
+      class="MuiStack-root css-gmwslw-MuiStack-root"
     >
       <div
         class="MuiFormControl-root MuiFormControl-fullWidth css-o9ut6b-MuiFormControl-root"
@@ -89,7 +89,7 @@ exports[`DocumentContainer > should match snapshot with onDelete callback passed
           class="MuiFormControl-root MuiTextField-root css-8rphz-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="true"
             for=":r3:"
             id=":r3:-label"
@@ -145,7 +145,7 @@ exports[`DocumentContainer > should match snapshot with onDelete callback passed
         </div>
       </div>
       <div
-        class="css-qkqpx0-MuiStack-root"
+        class="MuiStack-root css-qkqpx0-MuiStack-root"
       >
         <button
           aria-label="deleteDocument"
@@ -179,7 +179,7 @@ exports[`DocumentContainer > should match snapshot with onDownload callback pass
 <body>
   <div>
     <div
-      class="css-gmwslw-MuiStack-root"
+      class="MuiStack-root css-gmwslw-MuiStack-root"
     >
       <div
         class="MuiFormControl-root MuiFormControl-fullWidth css-o9ut6b-MuiFormControl-root"
@@ -188,7 +188,7 @@ exports[`DocumentContainer > should match snapshot with onDownload callback pass
           class="MuiFormControl-root MuiTextField-root css-8rphz-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="true"
             for=":r5:"
             id=":r5:-label"
@@ -244,7 +244,7 @@ exports[`DocumentContainer > should match snapshot with onDownload callback pass
         </div>
       </div>
       <div
-        class="css-qkqpx0-MuiStack-root"
+        class="MuiStack-root css-qkqpx0-MuiStack-root"
       >
         <button
           aria-label="downloadDocument"
@@ -278,7 +278,7 @@ exports[`DocumentContainer > should match snapshot with onUpdateDescription call
 <body>
   <div>
     <div
-      class="css-gmwslw-MuiStack-root"
+      class="MuiStack-root css-gmwslw-MuiStack-root"
     >
       <div
         class="MuiFormControl-root MuiFormControl-fullWidth css-o9ut6b-MuiFormControl-root"
@@ -287,7 +287,7 @@ exports[`DocumentContainer > should match snapshot with onUpdateDescription call
           class="MuiFormControl-root MuiTextField-root css-8rphz-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="true"
             for=":r1:"
             id=":r1:-label"
@@ -343,7 +343,7 @@ exports[`DocumentContainer > should match snapshot with onUpdateDescription call
         </div>
       </div>
       <div
-        class="css-qkqpx0-MuiStack-root"
+        class="MuiStack-root css-qkqpx0-MuiStack-root"
       >
         <button
           aria-label="editDocumentName"

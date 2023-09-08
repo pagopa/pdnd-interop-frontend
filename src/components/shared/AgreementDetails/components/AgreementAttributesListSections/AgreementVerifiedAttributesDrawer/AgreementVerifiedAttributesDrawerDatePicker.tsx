@@ -1,5 +1,5 @@
 import React from 'react'
-import { type SxProps, TextField, Typography } from '@mui/material'
+import { type SxProps, Typography } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -12,7 +12,7 @@ export type AgreementVerifiedAttributesDrawerDatePickerProps = {
   label: string
   sx?: SxProps
   value: Date
-  onChange: (selectedDate: number | null) => void
+  onChange: (selectedDate: Date | null) => void
 }
 
 export const AgreementVerifiedAttributesDrawerDatePicker: React.FC<
@@ -31,12 +31,14 @@ export const AgreementVerifiedAttributesDrawerDatePicker: React.FC<
           {label}
         </Typography>
         <DatePicker
-          renderInput={(params) => <TextField {...params} size="small" />}
-          value={value}
-          onChange={(value) => {
-            onChange(value)
+          slotProps={{
+            textField: {
+              size: 'small',
+            },
           }}
-          minDate={Date.now()}
+          value={value}
+          onChange={onChange}
+          minDate={new Date()}
           disablePast
         />
       </InputWrapper>

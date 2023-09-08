@@ -1,21 +1,17 @@
-import { useAuth } from '@/stores'
 import type { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 
 /**
  * Parse the JWT token and return the user informations stored in it
  */
-const parseJwt = memoize((token: string | null) => {
+export const parseJwt = memoize((token: string | null | undefined) => {
   const jwt = token ? (JSON.parse(window.atob(token.split('.')[1])) as JwtUser) : undefined
   const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
   const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
   const isOperatorAPI = currentRoles.includes('api')
   const isOperatorSecurity = currentRoles.includes('security')
   const isSupport = currentRoles.includes('support')
-
-  function hasSessionExpired() {
-    return jwt ? new Date() > new Date(jwt.exp * 1000) : false
-  }
+  const isIPAOrganization = jwt?.externalId?.origin ? jwt.externalId.origin === 'IPA' : true //TODO: PIN-3870
 
   return {
     jwt,
@@ -24,10 +20,6 @@ const parseJwt = memoize((token: string | null) => {
     isOperatorAPI,
     isOperatorSecurity,
     isSupport,
-    hasSessionExpired,
+    isIPAOrganization,
   }
 })
-
-export const useJwt = () => {
-  return parseJwt(useAuth().sessionToken)
-}

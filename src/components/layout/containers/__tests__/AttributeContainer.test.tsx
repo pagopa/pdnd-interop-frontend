@@ -6,7 +6,7 @@ import { fireEvent, render } from '@testing-library/react'
 import { AttributeQueries } from '@/api/attribute'
 import userEvent from '@testing-library/user-event'
 import type { Attribute } from '@/api/api.generatedTypes'
-import { createMockAttribute } from '__mocks__/data/attribute.mocks'
+import { createMockAttribute } from '@/../__mocks__/data/attribute.mocks'
 
 const mockUseGetSingleAttribute = ({
   isInitialLoading,

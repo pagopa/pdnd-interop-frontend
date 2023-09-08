@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { AgreementRejectedMessageSection } from '../AgreementRejectedMessageSection'
-import { createMockAgreement } from '__mocks__/data/agreement.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import { mockAgreementDetailsContext } from './test.commons'
 
 describe('AgreementRejectedMessageSection', () => {

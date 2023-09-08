@@ -2,7 +2,6 @@ import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
-import { useJwt } from '@/hooks/useJwt'
 import { useNavigate } from '@/router'
 import {
   Filters,
@@ -15,12 +14,13 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConsumerPurposesTable, ConsumerPurposesTableSkeleton } from './components'
 import type { GetConsumerPurposesParams } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposesList' })
   const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common')
-  const { jwt, isAdmin } = useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
   const navigate = useNavigate()
 
   const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] =
@@ -137,7 +137,7 @@ const ConsumerPurposesListPage: React.FC = () => {
 }
 
 const PurposesTableWrapper: React.FC<{ params: GetConsumerPurposesParams }> = ({ params }) => {
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
 
   const { data, isFetching } = PurposeQueries.useGetConsumersList(params, {
     suspense: false,

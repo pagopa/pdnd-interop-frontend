@@ -1,6 +1,6 @@
 import React from 'react'
 import { mockDebugVoucherContext } from './test.commons'
-import { createMockDebugVoucherRequest } from '__mocks__/data/voucher.mocks'
+import { createMockDebugVoucherRequest } from '@/../__mocks__/data/voucher.mocks'
 import { render } from '@testing-library/react'
 import { DebugVoucherResultsRequestSection } from '../DebugVoucherResultsRequestSection'
 

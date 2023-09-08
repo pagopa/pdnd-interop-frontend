@@ -1,22 +1,15 @@
-import { createMockClient } from '__mocks__/data/client.mocks'
+import { createMockClient } from '@/../__mocks__/data/client.mocks'
 import useGetClientActions from '../useGetClientActions'
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
-import { vi } from 'vitest'
-import * as hooks from '@/hooks/useJwt'
 import type { Client } from '@/api/api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
-const useJwtReturnDataMock = {
-  currentRoles: ['admin'],
-  isAdmin: true,
-  hasSessionExpired: () => false,
-} as unknown as ReturnType<typeof hooks.useJwt>
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
+mockUseJwt({ isAdmin: true })
 
 const server = setupServer(
   rest.delete(
@@ -90,9 +83,9 @@ describe('check if useGetClientActions returns the correct actions based on the 
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe('/it/fruizione/interop-m2m')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/it/fruizione/interop-m2m')
+    })
   })
 
   it('should navigate to SUBSCRIBE_CLIENT_LIST route after the delete action with client kind CONSUMER', async () => {
@@ -111,8 +104,8 @@ describe('check if useGetClientActions returns the correct actions based on the 
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe('/it/fruizione/client')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/it/fruizione/client')
+    })
   })
 })

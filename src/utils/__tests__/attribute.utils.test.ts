@@ -12,7 +12,7 @@ import {
   createMockGroupBackendAttribute,
   createMockSingleBackendAttribute,
   createVerifiedTenantAttribute,
-} from '__mocks__/data/attribute.mocks'
+} from '@/../__mocks__/data/attribute.mocks'
 import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 
 describe('attribute utils', () => {

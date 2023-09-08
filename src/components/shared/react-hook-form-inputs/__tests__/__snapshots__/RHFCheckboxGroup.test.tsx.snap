@@ -4,7 +4,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
 <body>
   <div>
     <fieldset
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <legend
         class="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"
@@ -124,7 +124,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
 <body>
   <div>
     <fieldset
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <legend
         class="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"

@@ -5,7 +5,6 @@ import { PageContainer } from '@/components/layout/containers'
 import { useNavigate } from '@/router'
 import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { EServiceQueries } from '@/api/eservice'
-import { useJwt } from '@/hooks/useJwt'
 import {
   Filters,
   Pagination,
@@ -14,13 +13,14 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list.filters' })
   const navigate = useNavigate()
-  const { isAdmin, isOperatorAPI } = useJwt()
+  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const [consumersAutocompleteInput, setConsumersAutocompleteInput] = useAutocompleteTextInput('')
 
   const { data: consumers } = EServiceQueries.useGetConsumers(

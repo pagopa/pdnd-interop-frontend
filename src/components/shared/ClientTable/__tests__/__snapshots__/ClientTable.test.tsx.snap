@@ -4,7 +4,7 @@ exports[`ClientTable > should match the snapshot 1`] = `
 <body>
   <div>
     <div
-      class="css-1m2za9r-MuiStack-root"
+      class="MuiStack-root css-1obrysa-MuiStack-root"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
@@ -216,7 +216,7 @@ exports[`ClientTable > should match the snapshot in empty state 1`] = `
 <body>
   <div>
     <div
-      class="css-1m2za9r-MuiStack-root"
+      class="MuiStack-root css-1obrysa-MuiStack-root"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
@@ -354,7 +354,7 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
 <body>
   <div>
     <div
-      class="css-1m2za9r-MuiStack-root"
+      class="MuiStack-root css-1obrysa-MuiStack-root"
     >
       <div
         class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"

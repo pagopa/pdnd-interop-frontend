@@ -1,9 +1,9 @@
 import React from 'react'
 import { AgreementMutations, AgreementQueries } from '@/api/agreement'
 import { PageContainer } from '@/components/layout/containers'
-import { useNavigate, useParams } from '@/router'
-import { useTranslation } from 'react-i18next'
-import { Button, Stack, Tooltip } from '@mui/material'
+import { Link, useNavigate, useParams } from '@/router'
+import { useTranslation, Trans } from 'react-i18next'
+import { Button, Stack, Tooltip, Alert } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import MailIcon from '@mui/icons-material/Mail'
 import SaveIcon from '@mui/icons-material/Save'
@@ -30,6 +30,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   const { hasAllCertifiedAttributes, hasAllDeclaredAttributes } =
     useDescriptorAttributesPartyOwnership(agreement?.eservice.id, agreement?.descriptorId)
+
+  const hasSetContactEmail = agreement && !!agreement?.consumer.contactMail?.address
 
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
@@ -68,7 +70,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     )
   }
 
-  const canUserSubmitAgreementDraft = hasAllCertifiedAttributes && hasAllDeclaredAttributes
+  const canUserSubmitAgreementDraft =
+    hasAllCertifiedAttributes && hasAllDeclaredAttributes && hasSetContactEmail
 
   const getTooltipButtonTitle = () => {
     if (!hasAllCertifiedAttributes) {
@@ -76,6 +79,9 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     }
     if (!hasAllDeclaredAttributes) {
       return t('edit.noDeclaredAttributesForSubmitTooltip')
+    }
+    if (!hasSetContactEmail) {
+      return t('edit.noContactEmailTooltip')
     }
   }
 
@@ -102,6 +108,14 @@ const ConsumerAgreementCreatePage: React.FC = () => {
           onConsumerNotesChange={setConsumerNotes}
         />
       </React.Suspense>
+
+      {!hasSetContactEmail && (
+        <Alert sx={{ mt: 3 }} severity="warning">
+          <Trans components={{ 1: <Link to="PARTY_REGISTRY" target="_blank" /> }}>
+            {t('edit.noContactEmailAlert')}
+          </Trans>
+        </Alert>
+      )}
 
       <Stack direction="row" spacing={1.5} sx={{ mt: 4, justifyContent: 'right' }}>
         <Button

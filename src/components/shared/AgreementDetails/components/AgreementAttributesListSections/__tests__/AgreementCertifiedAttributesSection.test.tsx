@@ -6,7 +6,7 @@ import { AgreementCertifiedAttributesSection } from '../AgreementCertifiedAttrib
 import {
   createCertifiedTenantAttribute,
   createMockRemappedDescriptorAttribute,
-} from '__mocks__/data/attribute.mocks'
+} from '@/../__mocks__/data/attribute.mocks'
 
 mockUseCurrentRoute({ mode: 'provider' })
 

@@ -3,13 +3,13 @@ import { AttributeContainer, AttributeContainerSkeleton } from '@/components/lay
 import { Link, Stack } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { PartyQueries } from '@/api/party/party.hooks'
-import { useJwt } from '@/hooks/useJwt'
 import { AttributeMutations } from '@/api/attribute'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
 import { isAttributeRevoked } from '@/utils/attribute.utils'
 import { attributesHelpLink } from '@/config/constants'
 import type { DeclaredTenantAttribute } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 export const DeclaredAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
@@ -55,7 +55,7 @@ const DeclaredAttributesListItem: React.FC<{ attribute: DeclaredTenantAttribute 
   const { t } = useTranslation('party', { keyPrefix: 'attributes.declared' })
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const { mutate: revokeDeclaredAttribute } = AttributeMutations.useRevokeDeclaredPartyAttribute()
   const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
 

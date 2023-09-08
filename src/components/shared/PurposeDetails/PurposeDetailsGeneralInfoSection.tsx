@@ -1,6 +1,5 @@
 import React from 'react'
 import type { Purpose } from '@/api/api.generatedTypes'
-import { EServiceQueries } from '@/api/eservice'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link, useCurrentRoute } from '@/router'
@@ -18,14 +17,6 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.generalInformations' })
   const { mode } = useCurrentRoute()
-
-  // This should not stay here, waiting to get the attributes from the purpose itself
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
-    purpose.eservice.id,
-    purpose.eservice.descriptor.id
-  )
-
-  if (!descriptor) return null
 
   return (
     <SectionContainer title={t('title')}>
@@ -56,14 +47,14 @@ export const PurposeDetailsGeneralInfoSection: React.FC<PurposeDetailsGeneralInf
         <InformationContainer
           label={t('consumerThreshold.label')}
           content={t('consumerThreshold.value', {
-            value: formatThousands(descriptor.dailyCallsPerConsumer ?? 0),
+            value: formatThousands(purpose.dailyCallsPerConsumer),
           })}
         />
 
         <InformationContainer
           label={t('totalThreshold.label')}
           content={t('totalThreshold.value', {
-            value: formatThousands(descriptor.dailyCallsTotal ?? 0),
+            value: formatThousands(purpose.dailyCallsTotal),
           })}
         />
         <InformationContainer

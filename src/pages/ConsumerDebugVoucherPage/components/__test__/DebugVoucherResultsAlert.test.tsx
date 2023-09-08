@@ -3,7 +3,7 @@ import { mockDebugVoucherContext } from './test.commons'
 import {
   createMockDebugVoucherResultFailed,
   createMockDebugVoucherResultPassed,
-} from '__mocks__/data/voucher.mocks'
+} from '@/../__mocks__/data/voucher.mocks'
 import DebugVoucherResultsAlert from '../DebugVoucherResultsAlert'
 import { render } from '@testing-library/react'
 

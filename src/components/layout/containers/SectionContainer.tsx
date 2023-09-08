@@ -1,4 +1,5 @@
-import { Box, Typography, Paper, Skeleton, Stack } from '@mui/material'
+import type { ActionItemButton } from '@/types/common.types'
+import { Box, Typography, Paper, Skeleton, Stack, Tooltip, Button } from '@mui/material'
 import type { PaperProps, SkeletonProps } from '@mui/material'
 import React from 'react'
 
@@ -15,6 +16,8 @@ interface SectionContainerProps extends PaperProps {
   descriptionTypographyProps?: TypographyProps
 
   innerSection?: boolean
+
+  topSideActions?: Array<ActionItemButton>
 
   /**
    * The `newDesign` prop is temporary and will be removed when the new section container design will be
@@ -33,6 +36,7 @@ export function SectionContainer({
   titleTypographyProps,
   descriptionTypographyProps,
   newDesign,
+  topSideActions,
   ...props
 }: SectionContainerProps) {
   const titleVariant = !newDesign ? 'overline' : innerSection ? 'sidenav' : 'h6'
@@ -41,19 +45,49 @@ export function SectionContainer({
   return (
     <Paper
       component={component}
-      sx={{ bgcolor: 'white', p: !innerSection ? 3 : 0, mt: 2, ...sx }}
+      sx={{ bgcolor: 'white', p: !innerSection ? 3 : 0, mt: 2, borderRadius: 2, ...sx }}
       {...props}
     >
       <Stack spacing={1}>
-        {title && (
-          <Typography
-            component={innerSection ? 'h3' : 'h2'}
-            variant={titleVariant}
-            {...titleTypographyProps}
-          >
-            {title}
-          </Typography>
-        )}
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          {title && (
+            <Typography
+              component={innerSection ? 'h3' : 'h2'}
+              variant={titleVariant}
+              {...titleTypographyProps}
+            >
+              {title}
+            </Typography>
+          )}
+          {topSideActions && (
+            <Stack direction="row" spacing={2}>
+              {topSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
+                const Wrapper = tooltip
+                  ? ({ children }: { children: React.ReactElement }) => (
+                      <Tooltip arrow title={tooltip}>
+                        <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
+                      </Tooltip>
+                    )
+                  : React.Fragment
+
+                return (
+                  <Wrapper key={i}>
+                    <Button
+                      onClick={action}
+                      variant="text"
+                      size="small"
+                      color={color}
+                      startIcon={Icon && <Icon />}
+                      {...props}
+                    >
+                      {label}
+                    </Button>
+                  </Wrapper>
+                )
+              })}
+            </Stack>
+          )}
+        </Stack>
         {description && (
           <Typography
             color="text.secondary"

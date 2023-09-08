@@ -1,5 +1,4 @@
 import React from 'react'
-import { useJwt } from '@/hooks/useJwt'
 import { useNavigate } from '@/router'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
@@ -77,12 +76,15 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
   return [selfcareProduct, ...productsFromBE]
 }
 
-export const Header = () => {
+type HeaderProps = {
+  jwt?: JwtUser
+  isSupport?: boolean
+}
+
+export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const navigate = useNavigate()
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
-
-  const { jwt, isSupport } = useJwt()
 
   const queriesOptions = {
     suspense: false,

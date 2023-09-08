@@ -1,6 +1,6 @@
 import React from 'react'
 import { CatalogCard, CatalogCardSkeleton } from '../CatalogCard'
-import { createMockEServiceCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

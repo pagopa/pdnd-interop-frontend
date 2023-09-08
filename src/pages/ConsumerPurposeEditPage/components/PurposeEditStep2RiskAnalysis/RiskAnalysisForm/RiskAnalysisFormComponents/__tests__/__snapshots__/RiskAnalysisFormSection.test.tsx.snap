@@ -4,11 +4,15 @@ exports[`RiskAnalysisInputWrapper testing > should be render correclty with erro
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
-      />
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -16,10 +20,10 @@ exports[`RiskAnalysisInputWrapper testing > should be render correclty with erro
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>
@@ -45,11 +49,15 @@ exports[`RiskAnalysisInputWrapper testing > should be render correclty with info
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
-      />
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -57,10 +65,10 @@ exports[`RiskAnalysisInputWrapper testing > should be render correclty with info
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>
@@ -86,11 +94,15 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly with erro
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
-      />
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -98,10 +110,10 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly with erro
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>
@@ -132,11 +144,15 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly with erro
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
-      />
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -144,10 +160,10 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly with erro
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-error css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>
@@ -183,11 +199,15 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly without d
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
-      />
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -195,10 +215,10 @@ exports[`RiskAnalysisInputWrapper testing > should be render correctly without d
           class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
         >
           <div
-            class="css-1b2nz6m-MuiStack-root"
+            class="MuiStack-root css-givlym-MuiStack-root"
           >
             <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1fypcmm-MuiFormLabel-root"
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
             >
               Test title
             </label>

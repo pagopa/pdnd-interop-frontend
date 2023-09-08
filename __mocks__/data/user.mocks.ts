@@ -21,6 +21,10 @@ const createMockJwtUser = createMockFactory<JwtUser>({
   name: 'name',
   family_name: 'family_name',
   organizationId: 'organizationId',
+  externalId: {
+    origin: 'IPA',
+    value: 'value',
+  },
 })
 
 const createMockSelfCareUser = createMockFactory<RelationshipInfo>({

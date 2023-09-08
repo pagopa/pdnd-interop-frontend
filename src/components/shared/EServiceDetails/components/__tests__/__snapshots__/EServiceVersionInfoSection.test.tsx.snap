@@ -4,25 +4,29 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -40,7 +44,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <div
-                  class="css-1q36rmd-MuiStack-root"
+                  class="MuiStack-root css-kdc3n8-MuiStack-root"
                 >
                   <span>
                     1
@@ -50,7 +54,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -68,7 +72,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1rq9bu9-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1dxej50-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -80,7 +84,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -102,7 +106,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -132,7 +136,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -154,7 +158,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -176,7 +180,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -198,7 +202,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -230,25 +234,29 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -266,13 +274,13 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <div
-                  class="css-1q36rmd-MuiStack-root"
+                  class="MuiStack-root css-kdc3n8-MuiStack-root"
                 >
                   <span>
                     1
                   </span>
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-filledPrimary css-1sz23ua-MuiChip-root"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-filledPrimary css-uy9ylj-MuiChip-root"
                   >
                     <span
                       class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -285,7 +293,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -303,7 +311,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1rq9bu9-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1dxej50-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -315,7 +323,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -337,7 +345,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -367,7 +375,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -389,7 +397,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -411,7 +419,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -433,7 +441,7 @@ exports[`EServiceVersionInfoSection > should match the snapshot when viewing des
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"

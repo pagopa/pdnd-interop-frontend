@@ -7,7 +7,13 @@ const ConsumerPurposeCreatePage: React.FC = () => {
   const { t } = useTranslation('purpose')
 
   return (
-    <PageContainer title={t('create.emptyTitle')}>
+    <PageContainer
+      title={t('create.emptyTitle')}
+      backToAction={{
+        label: t('create.backToListBtn'),
+        to: 'SUBSCRIBE_PURPOSE_LIST',
+      }}
+    >
       <PurposeCreateEServiceForm />
     </PageContainer>
   )

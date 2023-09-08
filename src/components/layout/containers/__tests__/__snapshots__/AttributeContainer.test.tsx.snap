@@ -4,10 +4,10 @@ exports[`AttributeContainer > should match snapshot 1`] = `
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       />
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -82,10 +82,10 @@ exports[`AttributeContainer > should match snapshot on opening accordion and loa
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       />
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -167,10 +167,10 @@ exports[`AttributeContainer > should match snapshot on opening accordion with lo
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       />
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -231,7 +231,7 @@ exports[`AttributeContainer > should match snapshot on opening accordion with lo
                     class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
                   >
                     <div
-                      class="css-1gw2iun-MuiStack-root"
+                      class="MuiStack-root css-x6fbp7-MuiStack-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
@@ -239,7 +239,7 @@ exports[`AttributeContainer > should match snapshot on opening accordion with lo
                         Attribute description
                       </p>
                       <div
-                        class="css-19qjufr-MuiStack-root"
+                        class="MuiStack-root css-1xcvc1q-MuiStack-root"
                       >
                         <div
                           class="MuiBox-root css-iuqs4u"
@@ -300,10 +300,10 @@ exports[`AttributeContainer > should match snapshot with actions 1`] = `
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       />
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -369,7 +369,7 @@ exports[`AttributeContainer > should match snapshot with actions 1`] = `
           </div>
         </div>
         <div
-          class="css-1x5gx3c-MuiStack-root"
+          class="MuiStack-root css-1x5gx3c-MuiStack-root"
         >
           <div
             class="MuiBox-root css-0"
@@ -378,7 +378,7 @@ exports[`AttributeContainer > should match snapshot with actions 1`] = `
             class="MuiCardActions-root css-1hll1z9-MuiCardActions-root"
           >
             <div
-              class="css-e53awj-MuiStack-root"
+              class="MuiStack-root css-pl8gqh-MuiStack-root"
             >
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeSmall MuiButton-nakedSizeSmall css-14wetfy-MuiButtonBase-root-MuiButton-root"
@@ -407,10 +407,10 @@ exports[`AttributeContainer > should match snapshot with checked icon 1`] = `
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       >
         <svg
           aria-hidden="true"
@@ -497,10 +497,10 @@ exports[`AttributeContainer > should match snapshot with chip label 1`] = `
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       />
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-xr63ld-MuiPaper-root-MuiCard-root"
@@ -566,13 +566,13 @@ exports[`AttributeContainer > should match snapshot with chip label 1`] = `
           </div>
         </div>
         <div
-          class="css-1x5gx3c-MuiStack-root"
+          class="MuiStack-root css-1x5gx3c-MuiStack-root"
         >
           <div
             class="MuiBox-root css-0"
           >
             <div
-              class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-w66kx-MuiChip-root"
+              class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorDefault MuiChip-filledDefault css-1e8dhvr-MuiChip-root"
             >
               <span
                 class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
@@ -585,7 +585,7 @@ exports[`AttributeContainer > should match snapshot with chip label 1`] = `
             class="MuiCardActions-root css-1hll1z9-MuiCardActions-root"
           >
             <div
-              class="css-e53awj-MuiStack-root"
+              class="MuiStack-root css-pl8gqh-MuiStack-root"
             />
           </div>
         </div>
@@ -599,10 +599,10 @@ exports[`AttributeContainer > should match snapshot with remove icon 1`] = `
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       >
         <button
           aria-label="removeAttributeAriaLabel"
@@ -699,10 +699,10 @@ exports[`AttributeContainerSkeleton > should match snapshot (checked) 1`] = `
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       >
         <span
           class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
@@ -722,10 +722,10 @@ exports[`AttributeContainerSkeleton > should match snapshot 1`] = `
 <body>
   <div>
     <div
-      class="css-1yo1jo6-MuiStack-root"
+      class="MuiStack-root css-1sos3zc-MuiStack-root"
     >
       <div
-        class="css-1yo1jo6-MuiStack-root"
+        class="MuiStack-root css-1sos3zc-MuiStack-root"
       />
       <span
         class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1dbrcok-MuiSkeleton-root"

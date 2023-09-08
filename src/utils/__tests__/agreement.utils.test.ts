@@ -1,11 +1,11 @@
-import { createMockAgreement } from '__mocks__/data/agreement.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import {
   canAgreementBeUpgraded,
   checkIfAlreadySubscribed,
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
 } from '../agreement.utils'
-import { createMockEServiceCatalog } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceCatalog } from '@/../__mocks__/data/eservice.mocks'
 
 describe('canAgreementBeUpgraded', () => {
   it('shoud always return false when the active descriptor of the eservice agreement is undefined', () => {

@@ -1,9 +1,9 @@
 import React from 'react'
-import { useJwt } from '@/hooks/useJwt'
 import type { SideNavItemView } from '../SideNav'
 import EmailIcon from '@mui/icons-material/Email'
 import type { RouteKey } from '@/router'
 import { routes } from '@/router'
+import { AuthHooks } from '@/api/auth'
 
 const views = [
   {
@@ -28,13 +28,16 @@ const views = [
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles } = useJwt()
+  const { currentRoles, isIPAOrganization } = AuthHooks.useJwt()
 
   return React.useMemo(() => {
     /**
-     * Checks if the user as the authorization level required to access a given route
+     * Checks if the user as the authorization level required to access a given route.
+     * The no-IPA organizations cannot access the PROVIDE routes.
      */
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
+      if (!isIPAOrganization && routeKey === 'PROVIDE') return false
+
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))
     }
@@ -56,5 +59,5 @@ export function useGetSideNavItems() {
 
       return [...acc, view]
     }, [])
-  }, [currentRoles])
+  }, [currentRoles, isIPAOrganization])
 }

@@ -5,7 +5,7 @@ import {
   PurposeDetailsDocumentListSectionSkeleton,
 } from '../PurposeDetailsDocumentListSection'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { createMockPurpose } from '__mocks__/data/purpose.mocks'
+import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { vi } from 'vitest'
 import { PurposeDownloads } from '@/api/purpose'
 import userEvent from '@testing-library/user-event'

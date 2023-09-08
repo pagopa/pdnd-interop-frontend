@@ -1,7 +1,9 @@
 import React from 'react'
 import { AppLayout } from '../AppLayout'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { vi } from 'vitest'
+
+mockUseJwt()
 
 vi.mock('../Breadcrumbs', () => {
   return { Breadcrumbs: () => <></> }

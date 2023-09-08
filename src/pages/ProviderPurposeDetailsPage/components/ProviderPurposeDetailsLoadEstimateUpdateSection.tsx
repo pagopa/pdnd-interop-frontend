@@ -9,7 +9,7 @@ import { formatDateString, formatThousands } from '@/utils/format.utils'
 import { useDialog } from '@/stores'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import type { Purpose } from '@/api/api.generatedTypes'
-import { useJwt } from '@/hooks/useJwt'
+import { AuthHooks } from '@/api/auth'
 
 interface ProviderPurposeDetailsLoadEstimateUpdateSectionProps {
   purpose?: Purpose
@@ -20,7 +20,7 @@ export const ProviderPurposeDetailsLoadEstimateUpdateSection: React.FC<
 > = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'view.sections.loadEstimateUpdate' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { openDialog } = useDialog()

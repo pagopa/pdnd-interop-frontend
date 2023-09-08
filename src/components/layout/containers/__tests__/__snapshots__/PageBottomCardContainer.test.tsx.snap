@@ -4,11 +4,15 @@ exports[`PageBottomCardContainer > should match the snapshot 1`] = `
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ofknlc-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-j2r86j-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
-      />
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -22,7 +26,7 @@ exports[`PageBottomCardContainer > should match the snapshot 1`] = `
           </h2>
         </div>
         <div
-          class="css-hhuesm-MuiStack-root"
+          class="MuiStack-root css-19l17dh-MuiStack-root"
         />
       </div>
     </section>
@@ -34,11 +38,15 @@ exports[`PageBottomCardContainer > should match the snapshot with description 1`
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ofknlc-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-j2r86j-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
-      />
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
       <div
         class="MuiBox-root css-zv7ju9"
       >
@@ -57,7 +65,7 @@ exports[`PageBottomCardContainer > should match the snapshot with description 1`
           </p>
         </div>
         <div
-          class="css-hhuesm-MuiStack-root"
+          class="MuiStack-root css-19l17dh-MuiStack-root"
         />
       </div>
     </section>

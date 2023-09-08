@@ -7,18 +7,18 @@ import type {
 import { useNavigate } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
-import { useJwt } from './useJwt'
 import {
   checkIfAlreadySubscribed,
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
 } from '@/utils/agreement.utils'
+import { AuthHooks } from '@/api/auth'
 
 function useGetEServiceConsumerActions(
   eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
   descriptor?: { id: string; state: EServiceDescriptorState; version: string }
 ) {
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const navigate = useNavigate()
   const { t } = useTranslation('eservice')
 

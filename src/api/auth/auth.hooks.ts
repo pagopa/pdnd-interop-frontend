@@ -1,15 +1,32 @@
 import { useTranslation } from 'react-i18next'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import AuthServices from './auth.services'
 import { STAGE } from '@/config/env'
+import { type UseQueryOptions, useQuery } from '@tanstack/react-query'
+import { parseJwt } from './auth.utils'
+import { useMutation } from '@tanstack/react-query'
 
 export enum AuthQueryKeys {
+  GetSessionToken = 'GetSessionToken',
   GetBlacklist = 'GetBlacklist',
-  SessionToken = 'AuthSessionToken',
+}
+
+function useJwt(config?: UseQueryOptions<string | null>) {
+  const { data: sessionToken, isLoading: isLoadingSession } = useQuery({
+    queryKey: [AuthQueryKeys.GetSessionToken],
+    queryFn: AuthServices.getSessionToken,
+    staleTime: Infinity,
+    cacheTime: Infinity,
+    retry: false,
+    ...config,
+  })
+
+  return { ...parseJwt(sessionToken), isLoadingSession }
 }
 
 function useGetBlacklist() {
-  return useQueryWrapper([AuthQueryKeys.GetBlacklist], AuthServices.getBlacklist, {
+  return useQuery({
+    queryKey: [AuthQueryKeys.GetBlacklist],
+    queryFn: AuthServices.getBlacklist,
     suspense: false,
     enabled: STAGE === 'PROD',
     useErrorBoundary: false,
@@ -19,33 +36,17 @@ function useGetBlacklist() {
   })
 }
 
-function useAuthHealthCheck({ enabled }: { enabled: boolean }) {
-  return useQueryWrapper([AuthQueryKeys.SessionToken], AuthServices.authHealthCheck, {
-    enabled,
-  })
-}
-
-function useSwapTokens() {
-  const { t } = useTranslation('mutations-feedback')
-  return useMutationWrapper((identityToken: string) => AuthServices.swapTokens(identityToken), {
-    suppressErrorToast: true,
-    suppressSuccessToast: true,
-    loadingLabel: t('auth.loadingLabel'),
-  })
-}
-
 function useSwapSAMLTokens() {
-  const { t } = useTranslation('mutations-feedback')
-  return useMutationWrapper(AuthServices.swapSAMLToken, {
-    suppressErrorToast: true,
-    suppressSuccessToast: true,
-    loadingLabel: t('auth.loadingLabel'),
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'auth' })
+  return useMutation(AuthServices.swapSAMLToken, {
+    meta: {
+      loadingLabel: t('loadingLabel'),
+    },
   })
 }
 
-export const AuthServicesHooks = {
+export const AuthHooks = {
+  useJwt,
   useGetBlacklist,
-  useAuthHealthCheck,
-  useSwapTokens,
   useSwapSAMLTokens,
 }

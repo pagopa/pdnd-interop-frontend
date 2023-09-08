@@ -4,7 +4,7 @@ exports[`Checks that InputWrapper snapshot don't change > renders correctly 1`] 
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <div
         class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -44,7 +44,7 @@ exports[`Checks that InputWrapper snapshot don't change > renders correctly with
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <div
         class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -89,7 +89,7 @@ exports[`Checks that InputWrapper snapshot don't change > renders correctly with
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <div
         class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
@@ -134,7 +134,7 @@ exports[`Checks that InputWrapper snapshot don't change > renders correctly with
 <body>
   <div>
     <div
-      class="MuiFormControl-root MuiFormControl-fullWidth css-95jnc3-MuiFormControl-root"
+      class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
       <div
         class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"

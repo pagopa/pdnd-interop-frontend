@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -8,6 +8,9 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { PurposeMutations } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
+import SaveIcon from '@mui/icons-material/Save'
+import { Stack } from '@mui/system'
+import { PurposeEditEServiceAutocomplete } from './PurposeEditEServiceAutocomplete'
 
 export type PurposeEditStep1GeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -29,14 +32,14 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
-  const { mutate: updateVersionDraft } = PurposeMutations.useUpdateVersionDraft()
 
   const formMethods = useForm<PurposeEditStep1GeneralFormValues>({
     defaultValues,
   })
 
   const onSubmit = (values: PurposeEditStep1GeneralFormValues) => {
-    const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
+    const { eserviceId, dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } =
+      values
     const isFreeOfChargeBool = isFreeOfCharge === 'SI'
     const purposeId = purpose.id
     updateDraft(
@@ -46,12 +49,11 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
         freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
         riskAnalysisForm: purpose.riskAnalysisForm,
         purposeId,
+        dailyCalls: dailyCalls,
+        eserviceId: eserviceId,
       },
       {
-        onSuccess(updatedPurpose) {
-          const versionId = updatedPurpose.versionId
-          updateVersionDraft({ purposeId, versionId, dailyCalls }, { onSuccess: forward })
-        },
+        onSuccess: forward,
       }
     )
   }
@@ -61,19 +63,19 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer>
-          <Typography component="h2" variant="h5">
-            {t('step1.title')}
-          </Typography>
+        <SectionContainer newDesign title={t('step1.title')}>
+          <Stack direction="row" spacing={1}>
+            <RHFTextField
+              name="title"
+              label={t('step1.nameField.label')}
+              infoLabel={t('step1.nameField.infoLabel')}
+              focusOnMount={true}
+              inputProps={{ maxLength: 60 }}
+              rules={{ required: true, minLength: 5 }}
+            />
 
-          <RHFTextField
-            name="title"
-            label={t('step1.nameField.label')}
-            infoLabel={t('step1.nameField.infoLabel')}
-            focusOnMount={true}
-            inputProps={{ maxLength: 60 }}
-            rules={{ required: true, minLength: 5 }}
-          />
+            <PurposeEditEServiceAutocomplete />
+          </Stack>
 
           <RHFTextField
             name="description"
@@ -115,12 +117,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
           />
         </SectionContainer>
         <StepActions
-          back={{
-            label: t('backToListBtn'),
-            type: 'link',
-            to: 'SUBSCRIBE_PURPOSE_LIST',
-          }}
-          forward={{ label: t('forwardWithSaveBtn'), type: 'submit' }}
+          forward={{ label: t('forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
         />
       </Box>
     </FormProvider>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { PartyQueries } from '@/api/party/party.hooks'
 import { useDialog } from '@/stores'
-import { useJwt } from '@/hooks/useJwt'
 import type { DialogAddSecurityOperatorsProps } from '@/types/dialog.types'
 import {
   Alert,
@@ -16,6 +15,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFAutocompleteMultiple } from '../shared/react-hook-form-inputs'
 import type { RelationshipInfo } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 type AddSecurityOperatorFormValues = {
   selectedOperators: Array<RelationshipInfo>
@@ -32,7 +32,7 @@ export const DialogAddSecurityOperators: React.FC<DialogAddSecurityOperatorsProp
   })
   const { closeDialog } = useDialog()
 
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const formMethods = useForm<AddSecurityOperatorFormValues>({
     defaultValues: {
       selectedOperators: [],

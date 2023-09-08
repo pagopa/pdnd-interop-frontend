@@ -1,5 +1,5 @@
 import { checkPurposeSuspendedByConsumer, getPurposeFailureReasons } from '../purpose.utils'
-import { createMockPurpose } from '__mocks__/data/purpose.mocks'
+import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 
 describe('checks if the getPurposeFailureReasons purpose util function work as expected', () => {
   it('should have no failure if the e-service is published, the agreement and the purpose current version are active', () => {

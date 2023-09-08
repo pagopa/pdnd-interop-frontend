@@ -2,7 +2,6 @@ import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { Stepper } from '@/components/shared/Stepper'
 import { useActiveStep } from '@/hooks/useActiveStep'
-import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import type { StepperStep } from '@/types/common.types'
 import { PurposeEditStep1General } from './components/PurposeEditStep1General'
@@ -23,13 +22,15 @@ const ConsumerPurposeEditPage: React.FC = () => {
   const stepProps = { forward, back }
 
   return (
-    <PageContainer title={t('edit.emptyTitle')}>
-      <Grid container>
-        <Grid item xs={8}>
-          <Stepper steps={steps} activeIndex={activeStep} />
-          <Step {...stepProps} />
-        </Grid>
-      </Grid>
+    <PageContainer
+      title={t('edit.emptyTitle')}
+      backToAction={{
+        label: t('edit.backToListBtn'),
+        to: 'SUBSCRIBE_PURPOSE_LIST',
+      }}
+    >
+      <Stepper steps={steps} activeIndex={activeStep} />
+      <Step {...stepProps} />
     </PageContainer>
   )
 }

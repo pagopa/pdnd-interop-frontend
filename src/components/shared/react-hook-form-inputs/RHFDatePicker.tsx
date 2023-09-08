@@ -1,7 +1,7 @@
 import React from 'react'
 import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
-import { type SxProps, TextField } from '@mui/material'
+import { type SxProps } from '@mui/material'
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -10,7 +10,7 @@ import en from 'date-fns/locale/en-US'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
+import { mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFDatePickerProps = {
   name: string
@@ -26,7 +26,6 @@ export type RHFDatePickerProps = {
 
 export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
   name,
-  label,
   infoLabel,
   focusOnMount,
   sx,
@@ -41,26 +40,17 @@ export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
   const error = formState.errors[name]?.message as string | undefined
   const adapterLocale = { it, en }[lang]
 
-  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
-    label,
-    infoLabel,
-    error,
-  })
-
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={adapterLocale}>
-      <InputWrapper error={error} infoLabel={infoLabel} sx={sx} {...ids}>
+      <InputWrapper error={error} infoLabel={infoLabel} sx={sx}>
         <Controller
           name={name}
           rules={mapValidationErrorMessages(rules, t)}
           render={({ field: { onChange, ...fieldProps } }) => (
             <StaticDatePicker
-              label={label}
               displayStaticWrapperAs="desktop"
               autoFocus={focusOnMount}
-              renderInput={(params) => (
-                <TextField sx={inputSx} {...params} inputProps={accessibilityProps} />
-              )}
+              sx={inputSx}
               {...fieldProps}
               onChange={(value) => {
                 if (onValueChange) onValueChange(value)

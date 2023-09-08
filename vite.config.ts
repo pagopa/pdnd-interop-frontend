@@ -32,9 +32,6 @@ export default defineConfig(({ mode }) => {
       target: 'es2017',
       minify: mode !== 'development',
       sourcemap: mode === 'development',
-      rollupOptions: {
-        external,
-      },
       commonjsOptions: {
         /** 'auto' does not work very well for mui's icons-material package */
         defaultIsModuleExports(id) {
@@ -92,14 +89,6 @@ function setNonceAttToScripts(): PluginOption {
       },
     },
   }
-}
-
-/**
- * This helps to manually remove chunks of code of libraries that do not support treeshaking
- */
-function external(source: string) {
-  const chunksToRemove = []
-  return chunksToRemove.some((chunk) => source.includes(chunk))
 }
 
 function configurePreviewServer(): PluginOption {

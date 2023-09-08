@@ -1,7 +1,6 @@
 import React from 'react'
 import RoutesWrapper from '../RoutesWrapper'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import * as useLoginAttemptHook from '@/hooks/useLoginAttempt'
 import { vi } from 'vitest'
 import * as useTOSAgreement from '../../../hooks/useTOSAgreement'
 import {
@@ -12,7 +11,6 @@ import {
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 
-vi.spyOn(useLoginAttemptHook, 'useLoginAttempt').mockImplementation(vi.fn())
 const useTOSAgreementSpy = vi.spyOn(useTOSAgreement, 'useTOSAgreement')
 useTOSAgreementSpy.mockReturnValue({
   isTOSAccepted: true,

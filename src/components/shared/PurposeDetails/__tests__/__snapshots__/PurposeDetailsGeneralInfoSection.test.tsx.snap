@@ -4,25 +4,29 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -44,7 +48,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -62,10 +66,10 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <div
-                  class="css-w4z10b-MuiStack-root"
+                  class="MuiStack-root css-niqf4j-MuiStack-root"
                 >
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                   >
                     <span
                       class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -78,7 +82,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -100,7 +104,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -122,7 +126,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -144,7 +148,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -162,7 +166,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
                   href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
                   target="_blank"
                 >
@@ -172,7 +176,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -190,7 +194,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
                   href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
                   target="_blank"
                 >
@@ -200,7 +204,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -240,25 +244,29 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1p5q5e5-MuiStack-root"
+          class="MuiStack-root css-1sazv7p-MuiStack-root"
         >
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -280,7 +288,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -298,10 +306,10 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <div
-                  class="css-w4z10b-MuiStack-root"
+                  class="MuiStack-root css-niqf4j-MuiStack-root"
                 >
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-li422f-MuiChip-root"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                   >
                     <span
                       class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -314,7 +322,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -336,7 +344,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -358,7 +366,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -380,7 +388,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -398,7 +406,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
                   href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
                   target="_blank"
                 >
@@ -408,7 +416,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"
@@ -426,7 +434,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
                   href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
                   target="_blank"
                 >
@@ -436,7 +444,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
             </div>
           </div>
           <div
-            class="css-19qjufr-MuiStack-root"
+            class="MuiStack-root css-1xcvc1q-MuiStack-root"
           >
             <div
               class="MuiBox-root css-iuqs4u"

@@ -5,7 +5,6 @@ import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
-import { useJwt } from '@/hooks/useJwt'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 import type {
   Agreement,
@@ -17,6 +16,7 @@ import type {
   PurposeVersionState,
   RelationshipState,
 } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   PUBLISHED: 'success',
@@ -143,7 +143,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
 const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('common')
-  const { jwt } = useJwt()
+  const { jwt } = AuthHooks.useJwt()
 
   const purposeState = purpose.currentVersion?.state ?? 'DRAFT'
 

@@ -8,11 +8,11 @@ import type {
 import {
   createMockEServiceCatalog,
   createMockEServiceDescriptorCatalog,
-} from '__mocks__/data/eservice.mocks'
+} from '@/../__mocks__/data/eservice.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import { act, fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import { act, fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 
 const server = setupServer(
   rest.post(`${BACKEND_FOR_FRONTEND_URL}/agreements`, (_, res, ctx) => {
@@ -157,13 +157,17 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       result.current.createAgreementDraftAction!()
     })
 
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' })).toBeInTheDocument()
+    })
+
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe(`/it/fruizione/richieste/test-id/modifica`)
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(`/it/fruizione/richieste/test-id/modifica`)
+    })
   })
 
   it("should return the create agreement draft action if the user doesn't have an active agreement and the subscriber is the e-service provider", async () => {
@@ -188,6 +192,10 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
 
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await waitFor(() => {
+      expect(screen.getByRole('progressbar', { hidden: true })).toBeInTheDocument()
     })
 
     await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }), {

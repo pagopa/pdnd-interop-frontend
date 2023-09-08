@@ -5,7 +5,7 @@ import {
 } from '@/utils/testing.utils'
 import { mockAgreementDetailsContext } from '../../components/__tests__/test.commons'
 import { useAgreementGetDeclaredAttributesActions } from '../useAgreementGetDeclaredAttributesActions'
-import { createMockAgreement } from '__mocks__/data/agreement.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import { vi } from 'vitest'
 import { AttributeMutations } from '@/api/attribute'
 

@@ -1,10 +1,16 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useMutationWrapper, useQueryWrapper } from '../react-query-wrappers'
 import ClientServices from './client.services'
-import { useDownloadFile } from '../react-query-wrappers/useDownloadFile'
-import type { UseQueryWrapperOptions } from '../react-query-wrappers/react-query-wrappers.types'
-import type { CompactClients, GetClientsParams } from '../api.generatedTypes'
+import { useDownloadFile } from '../hooks/useDownloadFile'
+import type {
+  Client,
+  CompactClients,
+  GetClientsParams,
+  Operators,
+  PublicKey,
+  RelationshipInfo,
+} from '../api.generatedTypes'
+import { NotFoundError } from '@/utils/errors.utils'
 
 export enum ClientQueryKeys {
   GetList = 'ClientGetList',
@@ -16,20 +22,20 @@ export enum ClientQueryKeys {
   GetClientOperatorKeys = 'ClientGetClientOperatorKeys',
 }
 
-function useGetList(params: GetClientsParams, config?: UseQueryWrapperOptions<CompactClients>) {
-  return useQueryWrapper(
-    [ClientQueryKeys.GetList, params],
-    () => ClientServices.getList(params),
-    config
-  )
+function useGetList(params: GetClientsParams, config?: UseQueryOptions<CompactClients>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetList, params],
+    queryFn: () => ClientServices.getList(params),
+    ...config,
+  })
 }
 
-function useGetSingle(clientId: string, config = { suspense: true }) {
-  return useQueryWrapper(
-    [ClientQueryKeys.GetSingle, clientId],
-    () => ClientServices.getSingle(clientId),
-    config
-  )
+function useGetSingle(clientId: string, config?: UseQueryOptions<Client>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetSingle, clientId],
+    queryFn: () => ClientServices.getSingle(clientId),
+    ...config,
+  })
 }
 
 function usePrefetchSingle() {
@@ -41,21 +47,23 @@ function usePrefetchSingle() {
 }
 
 function useGetKeyList(clientId: string) {
-  return useQueryWrapper(
-    [ClientQueryKeys.GetKeyList, clientId],
-    () => ClientServices.getKeyList(clientId),
-    {
-      skipThrowOn404Error: true,
-    }
-  )
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetKeyList, clientId],
+    queryFn: () => ClientServices.getKeyList(clientId),
+    useErrorBoundary: (error) => {
+      // The error boundary is disabled for 404 errors because the `getKeyList` service
+      // returns 404 if the client has no keys associated.
+      return !(error instanceof NotFoundError)
+    },
+  })
 }
 
-function useGetSingleKey(clientId: string, kid: string, config = { suspense: true }) {
-  return useQueryWrapper(
-    [ClientQueryKeys.GetSingleKey, clientId, kid],
-    () => ClientServices.getSingleKey(clientId, kid),
-    config
-  )
+function useGetSingleKey(clientId: string, kid: string, config?: UseQueryOptions<PublicKey>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetSingleKey, clientId, kid],
+    queryFn: () => ClientServices.getSingleKey(clientId, kid),
+    ...config,
+  })
 }
 
 function usePrefetchSingleKey() {
@@ -66,20 +74,20 @@ function usePrefetchSingleKey() {
     )
 }
 
-function useGetOperatorsList(clientId: string, config = { suspense: true }) {
-  return useQueryWrapper(
-    [ClientQueryKeys.GetOperatorsList, clientId],
-    () => ClientServices.getOperatorList(clientId),
-    config
-  )
+function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Operators>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetOperatorsList, clientId],
+    queryFn: () => ClientServices.getOperatorList(clientId),
+    ...config,
+  })
 }
 
-function useGetSingleOperator(relationshipId: string, config = { suspense: true }) {
-  return useQueryWrapper(
-    [ClientQueryKeys.GetSingleOperator, relationshipId],
-    () => ClientServices.getSingleOperator(relationshipId),
-    config
-  )
+function useGetSingleOperator(relationshipId: string, config?: UseQueryOptions<RelationshipInfo>) {
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetSingleOperator, relationshipId],
+    queryFn: () => ClientServices.getSingleOperator(relationshipId),
+    ...config,
+  })
 }
 
 function usePrefetchSingleOperator() {
@@ -91,62 +99,71 @@ function usePrefetchSingleOperator() {
 }
 
 function useGetOperatorKeys(clientId: string, operatorId: string) {
-  return useQueryWrapper([ClientQueryKeys.GetClientOperatorKeys, clientId, operatorId], () =>
-    ClientServices.getOperatorKeys(clientId, operatorId)
-  )
+  return useQuery({
+    queryKey: [ClientQueryKeys.GetClientOperatorKeys, clientId, operatorId],
+    queryFn: () => ClientServices.getOperatorKeys(clientId, operatorId),
+  })
 }
 
 function useCreate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.create' })
-  return useMutationWrapper(ClientServices.create, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(ClientServices.create, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useCreateInteropM2M() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.createInteropM2M' })
-  return useMutationWrapper(ClientServices.createInteropM2M, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(ClientServices.createInteropM2M, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useDelete() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.deleteOne' })
-  return useMutationWrapper(ClientServices.deleteOne, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(ClientServices.deleteOne, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
 
 function usePostKey() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.postKey' })
-  return useMutationWrapper(ClientServices.postKey, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(ClientServices.postKey, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useDeleteKey() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.deleteKey' })
-  return useMutationWrapper(ClientServices.deleteKey, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(ClientServices.deleteKey, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
@@ -162,24 +179,26 @@ function useAddOperator(
   config: { suppressSuccessToast: boolean } = { suppressSuccessToast: false }
 ) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.addOperator' })
-  return useMutationWrapper(ClientServices.addOperator, {
-    suppressSuccessToast: config.suppressSuccessToast,
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
+  return useMutation(ClientServices.addOperator, {
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
   })
 }
 
 function useRemoveOperator() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.removeOperator' })
-  return useMutationWrapper(ClientServices.removeOperator, {
-    successToastLabel: t('outcome.success'),
-    errorToastLabel: t('outcome.error'),
-    loadingLabel: t('loading'),
-    showConfirmationDialog: true,
-    dialogConfig: {
-      title: t('confirmDialog.title'),
-      description: t('confirmDialog.description'),
+  return useMutation(ClientServices.removeOperator, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }

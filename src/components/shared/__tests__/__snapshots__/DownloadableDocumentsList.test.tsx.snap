@@ -4,22 +4,26 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          Download
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            Download
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"
       >
         <ul
-          class="css-129j0b2-MuiStack-root"
+          class="MuiStack-root css-13r94rd-MuiStack-root"
         >
           <li
             class="MuiBox-root css-0"
@@ -28,7 +32,7 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
               class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
             >
               <span
-                class="css-ae0xht-MuiStack-root"
+                class="MuiStack-root css-ae0xht-MuiStack-root"
               >
                 <svg
                   aria-hidden="true"
@@ -56,7 +60,7 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
               class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
             >
               <span
-                class="css-ae0xht-MuiStack-root"
+                class="MuiStack-root css-ae0xht-MuiStack-root"
               >
                 <svg
                   aria-hidden="true"
@@ -88,16 +92,20 @@ exports[`DownloadableDocumentsList > should match snapshot on empty documents li
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          Download
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+          >
+            Download
+          </h2>
+        </div>
       </div>
       <div
         class="MuiBox-root css-1yuhvjn"

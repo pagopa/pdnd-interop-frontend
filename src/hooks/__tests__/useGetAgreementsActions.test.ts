@@ -1,22 +1,22 @@
-import { mockUseCurrentRoute, renderHookWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseCurrentRoute,
+  mockUseJwt,
+  renderHookWithApplicationContext,
+} from '@/utils/testing.utils'
 import useGetAgreementsActions from '../useGetAgreementsActions'
-import { createMockAgreementListingItem, createMockAgreement } from '__mocks__/data/agreement.mocks'
+import {
+  createMockAgreementListingItem,
+  createMockAgreement,
+} from '../../../__mocks__/data/agreement.mocks'
 import { createMemoryHistory } from 'history'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
-import { vi } from 'vitest'
-import * as hooks from '@/hooks/useJwt'
-
-const useJwtReturnDataMock = {
-  currentRoles: ['admin'],
-  isAdmin: true,
-  hasSessionExpired: () => false,
-} as unknown as ReturnType<typeof hooks.useJwt>
-vi.spyOn(hooks, 'useJwt').mockImplementation(() => useJwtReturnDataMock)
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import type { Agreement, AgreementListEntry } from '@/api/api.generatedTypes'
+
+mockUseJwt({ isAdmin: true })
 
 const mockResAgreementId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
 
@@ -425,11 +425,11 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe(
-      '/it/fruizione/richieste/3fa85f64-5717-4562-b3fc-2c963f66afa6/modifica'
-    )
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(
+        '/it/fruizione/richieste/3fa85f64-5717-4562-b3fc-2c963f66afa6/modifica'
+      )
+    })
   })
 
   it('should navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action with mode consumer and agreement state DRAFT', async () => {
@@ -450,9 +450,9 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe('/it/fruizione/richieste')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/it/fruizione/richieste')
+    })
   })
 
   it('should navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action with mode consumer and agreement state MISSING_CERTIFIED_ATTRIBUTES', async () => {
@@ -473,9 +473,9 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe('/it/fruizione/richieste')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/it/fruizione/richieste')
+    })
   })
 
   it('should not navigate to SUBSCRIBE_AGREEMENT_LIST route after the delete action if actual routeKey is SUBSCRIBE_AGREEMENT_LIST', async () => {
@@ -497,8 +497,8 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe('/it/ente')
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/it/ente')
+    })
   })
 })

@@ -4,7 +4,6 @@ import { PurposeQueries } from '@/api/purpose'
 import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
 import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
-import { useJwt } from '@/hooks/useJwt'
 import { Link, useParams } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { Alert } from '@mui/material'
@@ -12,6 +11,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import NewReleasesIcon from '@mui/icons-material/NewReleases'
 import { AgreementUpgradeDrawer } from './components/AgreementUpgradeDrawer'
 import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerAgreementDetailsPage: React.FC = () => {
   return (
@@ -24,7 +24,7 @@ const ConsumerAgreementDetailsPage: React.FC = () => {
 const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common')
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const [isAgreementUpgradeDrawerOpen, setIsAgreementUpgradeDrawerOpen] = React.useState(false)
 

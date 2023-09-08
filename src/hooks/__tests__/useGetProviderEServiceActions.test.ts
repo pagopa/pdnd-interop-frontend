@@ -1,24 +1,14 @@
-import { createMockEServiceProvider } from '__mocks__/data/eservice.mocks'
+import { createMockEServiceProvider } from '@/../__mocks__/data/eservice.mocks'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react'
-import { vi } from 'vitest'
-import * as hooks from '@/hooks/useJwt'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import type { ProducerEService } from '@/api/api.generatedTypes'
 
-type UseJwtReturnType = ReturnType<typeof hooks.useJwt>
-
-const useJwtReturnDataMock = {
-  isAdmin: true,
-  hasSessionExpired: () => false,
-} as UseJwtReturnType
-
-const useJwtSpy = vi.spyOn(hooks, 'useJwt')
-useJwtSpy.mockReturnValue(useJwtReturnDataMock)
+mockUseJwt({ isAdmin: true })
 
 const server = setupServer(
   rest.post(
@@ -166,11 +156,11 @@ describe('useGetProviderEServiceTableActions tests', () => {
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe(
-      '/it/erogazione/e-service/6dbb7416-8315-4970-a6be-393a03d0a79d/fd09a069-81f8-4cb5-a302-64320e83a033/modifica'
-    )
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(
+        '/it/erogazione/e-service/6dbb7416-8315-4970-a6be-393a03d0a79d/fd09a069-81f8-4cb5-a302-64320e83a033/modifica'
+      )
+    })
   })
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on create new draft action success', async () => {
@@ -191,19 +181,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
-    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }))
-
-    expect(history.location.pathname).toBe(
-      '/it/erogazione/e-service/ad474d35-7939-4bee-bde9-4e469cca1030/test-id/modifica'
-    )
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(
+        '/it/erogazione/e-service/ad474d35-7939-4bee-bde9-4e469cca1030/test-id/modifica'
+      )
+    })
   })
 
   it('should not return actions if the user is a security operator', () => {
-    useJwtSpy.mockReturnValue({
-      isAdmin: false,
-      isSecurityOperator: true,
-      hasSessionExpired: () => false,
-    } as unknown as UseJwtReturnType)
+    mockUseJwt({ isAdmin: false, isOperatorSecurity: true })
 
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
@@ -213,11 +199,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should have the correct actions if the user is an api operator and the e-service has an active descriptor in PUBLISHED state and has no version draft', () => {
-    useJwtSpy.mockReturnValue({
-      isAdmin: false,
-      isOperatorAPI: true,
-      hasSessionExpired: () => false,
-    } as unknown as UseJwtReturnType)
+    mockUseJwt({ isAdmin: false, isOperatorAPI: true })
 
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
@@ -230,11 +212,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should have the correct actions if the user is an api operator and the e-service has an active descriptor in PUBLISHED state and has no version draft', () => {
-    useJwtSpy.mockReturnValue({
-      isAdmin: false,
-      isOperatorAPI: true,
-      hasSessionExpired: () => false,
-    } as unknown as UseJwtReturnType)
+    mockUseJwt({ isAdmin: false, isOperatorAPI: true })
 
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
@@ -248,11 +226,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should not have any actions if the user is an api operator and the e-service is in DEPRECATED state', () => {
-    useJwtSpy.mockReturnValue({
-      isAdmin: false,
-      isOperatorAPI: true,
-      hasSessionExpired: () => false,
-    } as unknown as UseJwtReturnType)
+    mockUseJwt({ isAdmin: false, isOperatorAPI: true })
 
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
@@ -262,11 +236,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if the user is an api operator and if the e-service has an active descriptor in SUSPENDED state and has no version draft', () => {
-    useJwtSpy.mockReturnValue({
-      isAdmin: false,
-      isOperatorAPI: true,
-      hasSessionExpired: () => false,
-    } as unknown as UseJwtReturnType)
+    mockUseJwt({ isAdmin: false, isOperatorAPI: true })
 
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
@@ -278,11 +248,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if the user is an api operator and if the e-service has an active descriptor in SUSPENDED state and has a version draft', () => {
-    useJwtSpy.mockReturnValue({
-      isAdmin: false,
-      isOperatorAPI: true,
-      hasSessionExpired: () => false,
-    } as unknown as UseJwtReturnType)
+    mockUseJwt({ isAdmin: false, isOperatorAPI: true })
 
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },

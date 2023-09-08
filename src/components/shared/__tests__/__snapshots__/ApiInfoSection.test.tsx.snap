@@ -4,16 +4,20 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
 <body>
   <div>
     <section
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1w5x330-MuiPaper-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
     >
       <div
-        class="css-1okj3ks-MuiStack-root"
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
       >
-        <h2
-          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
         >
-          title
-        </h2>
+          <h2
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+          >
+            title
+          </h2>
+        </div>
         <p
           class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
         >
@@ -24,10 +28,10 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
         class="MuiBox-root css-1yuhvjn"
       >
         <div
-          class="css-1okj3ks-MuiStack-root"
+          class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
           <div
-            class="css-nen11g-MuiStack-root"
+            class="MuiStack-root css-nen11g-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
@@ -72,7 +76,7 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-nen11g-MuiStack-root"
+            class="MuiStack-root css-nen11g-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
@@ -117,7 +121,7 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-nen11g-MuiStack-root"
+            class="MuiStack-root css-nen11g-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
@@ -162,7 +166,7 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-nen11g-MuiStack-root"
+            class="MuiStack-root css-nen11g-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
@@ -207,7 +211,7 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-nen11g-MuiStack-root"
+            class="MuiStack-root css-nen11g-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
@@ -252,7 +256,7 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-nen11g-MuiStack-root"
+            class="MuiStack-root css-nen11g-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
@@ -297,7 +301,7 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-nen11g-MuiStack-root"
+            class="MuiStack-root css-nen11g-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"

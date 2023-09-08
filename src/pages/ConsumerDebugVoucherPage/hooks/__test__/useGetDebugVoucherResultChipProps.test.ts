@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { useGetDebugVoucherResultChipProps } from '../useGetDebugVoucherResultChipProps'
-import { createMockDebugVoucherResultStep } from '__mocks__/data/voucher.mocks'
+import { createMockDebugVoucherResultStep } from '@/../__mocks__/data/voucher.mocks'
 
 describe('useGetDebugVoucherResultChipProps hook testing', () => {
   it('should return undefined if step is undefined', () => {

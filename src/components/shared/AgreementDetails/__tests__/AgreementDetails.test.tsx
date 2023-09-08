@@ -6,8 +6,8 @@ import {
   mockUseJwt,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
-import { createMockAgreement } from '__mocks__/data/agreement.mocks'
-import { createMockEServiceDescriptorProvider } from '__mocks__/data/eservice.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
+import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'

@@ -21,6 +21,15 @@ export function formatTopSideActions(
     : undefined
 }
 
+/**
+ * Check if the session has expired.
+ * @param exp The exp value of the JWT token
+ * @returns True if the session has expired, otherwise false
+ */
+export function hasSessionExpired(exp?: number) {
+  return exp && new Date() > new Date(exp * 1000)
+}
+
 export async function waitFor(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -107,5 +116,60 @@ export const parseHtmlJsonToReactNode = (
       return decodeHtml(json.text)
     default:
       break
+  }
+}
+
+class ExponentialInterval {
+  #action: VoidFunction
+  #duration: number
+
+  #isActive = true
+  #numRetry = 1
+  #totalWaitTime = 0
+  #_promise: Promise<void> | undefined
+
+  constructor(action: VoidFunction, duration: number) {
+    this.#action = action
+    this.#duration = duration
+
+    this.#_promise = this.#start()
+  }
+
+  #getTimeoutMs() {
+    return 2 ** (this.#numRetry + 1) * 100
+  }
+
+  async #start() {
+    while (this.#isActive && this.#totalWaitTime < this.#duration) {
+      const timeoutMs = this.#getTimeoutMs()
+      this.#totalWaitTime += timeoutMs
+      await waitFor(timeoutMs)
+      if (!this.#isActive) return
+      this.#numRetry += 1
+      this.#action()
+    }
+  }
+
+  cancel() {
+    this.#isActive = false
+  }
+}
+
+const exponentialIntervalInstances = new Map()
+
+export function setExponentialInterval(action: VoidFunction, duration: number) {
+  const instanceId = crypto.randomUUID()
+  const newInstance = new ExponentialInterval(action, duration)
+  exponentialIntervalInstances.set(instanceId, newInstance)
+  return instanceId
+}
+
+export function clearExponentialInterval(instanceId: string | undefined) {
+  if (!instanceId) return
+  const instance = exponentialIntervalInstances.get(instanceId)
+
+  if (instance) {
+    instance.cancel()
+    exponentialIntervalInstances.delete(instanceId)
   }
 }

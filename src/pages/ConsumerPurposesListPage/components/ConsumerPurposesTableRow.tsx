@@ -1,10 +1,10 @@
 import type { Purpose } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 import { PurposeQueries } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
-import { useJwt } from '@/hooks/useJwt'
 import { Link } from '@/router'
 import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('common')
   const prefetch = PurposeQueries.usePrefetchSingle()
-  const { isAdmin } = useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { actions } = useGetConsumerPurposesActions(purpose)
 

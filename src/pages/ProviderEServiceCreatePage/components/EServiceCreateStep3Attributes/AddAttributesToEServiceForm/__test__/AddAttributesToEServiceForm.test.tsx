@@ -11,11 +11,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import {
   createMockAttribute,
   createMockRemappedDescriptorAttribute,
-} from '__mocks__/data/attribute.mocks'
+} from '@/../__mocks__/data/attribute.mocks'
 import { AttributeQueries } from '@/api/attribute'
 import { Dialog } from '@/components/dialogs'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClientMock } from '@/utils/testing.utils'
+import { queryClient } from '@/config/query-client'
 
 const attribute = createMockAttribute()
 
@@ -45,7 +45,7 @@ const getInputWrapper = (
   }
 ) => {
   const InputWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <QueryClientProvider client={queryClientMock}>
+    <QueryClientProvider client={queryClient}>
       <Dialog />
       <FormProvider {...useForm<MockContext>({ defaultValues })}>{children}</FormProvider>
     </QueryClientProvider>

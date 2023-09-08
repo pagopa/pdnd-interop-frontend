@@ -1,6 +1,6 @@
 import React from 'react'
 import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
-import { createMockAttribute } from '__mocks__/data/attribute.mocks'
+import { createMockAttribute } from '@/../__mocks__/data/attribute.mocks'
 import { mockEServiceDetailsContext } from './test.commons'
 import { EServiceDescriptorAttributesSections } from '../EServiceDescriptorAttributesSections'
 import { renderWithApplicationContext } from '@/utils/testing.utils'

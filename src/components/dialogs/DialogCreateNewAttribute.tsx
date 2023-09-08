@@ -6,14 +6,10 @@ import { useDialog } from '@/stores'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { AttributeMutations } from '@/api/attribute'
-import type { AttributeKind } from '@/api/api.generatedTypes'
 
 type CreateNewAttributeFormValues = {
   name: string
-  code: string
-  origin: string
   description: string
-  kind: AttributeKind
 }
 
 export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> = ({
@@ -24,12 +20,12 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   const { t: tAttribute } = useTranslation('attribute')
   const { closeDialog } = useDialog()
 
-  const { mutate: createAttribute } = AttributeMutations.useCreate()
+  const { mutate: createVerifiedAttribute } = AttributeMutations.useCreateVerified()
+  const { mutate: createDeclaredAttribute } = AttributeMutations.useCreateDeclared()
 
   const defaultValues = {
     name: '',
     description: '',
-    kind: attributeKey.toUpperCase() as AttributeKind,
   }
 
   const formMethods = useForm<CreateNewAttributeFormValues>({
@@ -37,7 +33,8 @@ export const DialogCreateNewAttribute: React.FC<DialogCreateNewAttributeProps> =
   })
 
   const onSubmit = (values: CreateNewAttributeFormValues) => {
-    createAttribute(values, { onSuccess: closeDialog })
+    if (attributeKey === 'verified') createVerifiedAttribute(values, { onSuccess: closeDialog })
+    if (attributeKey === 'declared') createDeclaredAttribute(values, { onSuccess: closeDialog })
   }
 
   return (

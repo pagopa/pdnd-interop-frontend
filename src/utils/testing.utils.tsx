@@ -7,33 +7,11 @@ import { Route, Router, Routes } from 'react-router-dom'
 import { render, renderHook } from '@testing-library/react'
 import { LoadingOverlay, ToastNotification } from '@/components/layout'
 import { Dialog } from '@/components/dialogs'
-import { QueryClient } from '@tanstack/react-query'
-import type { QueryClientConfig } from '@tanstack/react-query'
-import { queryClientConfig } from '../config/query-client'
 import { deepmerge } from '@mui/utils'
-import noop from 'lodash/noop'
 import { vi } from 'vitest'
-import * as useJwtHook from '@/hooks/useJwt'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
-
-const queryClientConfigMock: QueryClientConfig = deepmerge(
-  {
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-    // Disables logging
-    logger: {
-      log: noop,
-      warn: noop,
-      error: noop,
-    },
-  },
-  queryClientConfig
-)
-
-export const queryClientMock = new QueryClient(queryClientConfigMock)
+import { AuthHooks } from '@/api/auth'
+import { queryClient } from '@/config/query-client'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -52,9 +30,7 @@ export function createMockFactory<T>(defaultValue: T) {
  * Utility function to mock the useJwt hook
  * This mock is commonly used in tests that have a query mock that requires a valid jwt
  */
-export function mockUseJwt(
-  overwrites: RecursivePartial<ReturnType<typeof useJwtHook.useJwt>> = {}
-) {
+export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHooks.useJwt>> = {}) {
   const returnValue = deepmerge(
     cloneDeep({
       jwt: {
@@ -74,17 +50,22 @@ export function mockUseJwt(
         name: 'name',
         family_name: 'family_name',
         organizationId: 'organizationId',
+        externalId: {
+          origin: 'IPA',
+          value: 'value',
+        },
       },
-      hasSessionExpired: () => false,
       isAdmin: true,
       isOperatorAPI: false,
       isOperatorSecurity: false,
       isSupport: false,
       currentRoles: [],
+      isLoadingSession: false,
+      isIPAOrganization: true,
     }),
     overwrites
   )
-  const useJwtSpy = vi.spyOn(useJwtHook, 'useJwt')
+  const useJwtSpy = vi.spyOn(AuthHooks, 'useJwt')
   useJwtSpy.mockReturnValue(returnValue)
   return useJwtSpy
 }
@@ -136,7 +117,7 @@ function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
     )
 
     if (options.withReactQueryContext) {
-      result = <QueryClientProvider client={queryClientMock}>{result}</QueryClientProvider>
+      result = <QueryClientProvider client={queryClient}>{result}</QueryClientProvider>
     }
 
     if (options.withRouterContext) {

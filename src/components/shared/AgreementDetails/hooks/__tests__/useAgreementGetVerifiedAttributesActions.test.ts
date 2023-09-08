@@ -5,8 +5,8 @@ import {
 } from '@/utils/testing.utils'
 import { mockAgreementDetailsContext } from '../../components/__tests__/test.commons'
 import { useAgreementGetVerifiedAttributesActions } from '../useAgreementGetVerifiedAttributesActions'
-import { createMockAgreement } from '__mocks__/data/agreement.mocks'
-import { createVerifiedTenantAttribute } from '__mocks__/data/attribute.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
+import { createVerifiedTenantAttribute } from '@/../__mocks__/data/attribute.mocks'
 import { act } from 'react-dom/test-utils'
 import { vi } from 'vitest'
 
