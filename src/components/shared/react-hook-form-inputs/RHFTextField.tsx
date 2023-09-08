@@ -56,6 +56,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
           <MUITextField
             autoFocus={focusOnMount}
             {...props}
+            id={name}
             size={size}
             label={label}
             inputProps={{ ...props.inputProps, ...accessibilityProps }}
@@ -71,6 +72,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
                       transform: 'none',
                       color: 'inherit',
                       mb: 1.25,
+                      pointerEvents: 'auto',
                     },
                   }
                 : undefined
