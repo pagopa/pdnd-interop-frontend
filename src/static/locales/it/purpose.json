@@ -165,7 +165,7 @@
     },
     "clientsSection": {
       "title": "Client associati",
-      "empty": "No associated clients"
+      "empty": "Nessun client associato"
     }
   },
   "tablePurposeInEService": {
