@@ -53,6 +53,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
         elevation={8}
         sx={{
           display: 'flex',
+          flex: 1,
           flexDirection: 'column',
           opacity: purpose.currentVersion?.state === 'ACTIVE' ? 1 : 0.5,
         }}
