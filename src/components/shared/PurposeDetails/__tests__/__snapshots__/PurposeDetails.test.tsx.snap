@@ -593,11 +593,11 @@ exports[`PurposeDetailsSkeleton > should match snapshot 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
           style="height: 336px;"
         />
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
           style="height: 107px;"
         />
       </div>
@@ -605,7 +605,7 @@ exports[`PurposeDetailsSkeleton > should match snapshot 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
           style="height: 500px;"
         />
       </div>

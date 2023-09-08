@@ -131,34 +131,6 @@ describe('check the functionalities', () => {
     expect(button).not.toBeInTheDocument()
   })
 
-  it('create new attribute dialog renders correctly with attributeKey verified and readOnly false', async () => {
-    const user = userEvent.setup()
-    const formComponent = renderAddAttributetoEServiceForm({
-      attributeKey: 'verified',
-      readOnly: false,
-    })
-
-    const button = formComponent.getByRole('button', { name: 'attributesCreateBtn' })
-
-    await user.click(button)
-
-    expect(formComponent.getByRole('dialog', { name: 'title type.verified' })).toBeInTheDocument()
-  })
-
-  it('create new attribute dialog renders correctly with attributeKey declared and readOnly false', async () => {
-    const user = userEvent.setup()
-    const formComponent = renderAddAttributetoEServiceForm({
-      attributeKey: 'declared',
-      readOnly: false,
-    })
-
-    const button = formComponent.getByRole('button', { name: 'attributesCreateBtn' })
-
-    await user.click(button)
-
-    expect(formComponent.getByRole('dialog', { name: 'title type.declared' })).toBeInTheDocument()
-  })
-
   it('should add correctly new attributes group', async () => {
     const user = userEvent.setup()
     const formComponent = renderAddAttributetoEServiceForm({

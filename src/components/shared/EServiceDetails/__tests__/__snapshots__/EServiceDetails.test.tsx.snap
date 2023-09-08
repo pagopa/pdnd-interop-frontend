@@ -695,15 +695,15 @@ exports[`EServiceDetailsSkeleton > should match the snapshot (consumer) 1`] = `
             class="MuiStack-root css-1sazv7p-MuiStack-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 102px;"
             />
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 471px;"
             />
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 150px;"
             />
           </div>
@@ -715,26 +715,26 @@ exports[`EServiceDetailsSkeleton > should match the snapshot (consumer) 1`] = `
             class="MuiStack-root css-1sazv7p-MuiStack-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 300px;"
             />
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 337px;"
             />
           </div>
         </div>
       </div>
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
         style="height: 320px;"
       />
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
         style="height: 320px;"
       />
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
         style="height: 320px;"
       />
       <div
@@ -744,7 +744,7 @@ exports[`EServiceDetailsSkeleton > should match the snapshot (consumer) 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
         >
           <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
             style="height: 150px;"
           />
         </div>
@@ -770,15 +770,15 @@ exports[`EServiceDetailsSkeleton > should match the snapshot (provider) 1`] = `
             class="MuiStack-root css-1sazv7p-MuiStack-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 102px;"
             />
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 471px;"
             />
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 150px;"
             />
           </div>
@@ -790,22 +790,22 @@ exports[`EServiceDetailsSkeleton > should match the snapshot (provider) 1`] = `
             class="MuiStack-root css-1sazv7p-MuiStack-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
               style="height: 194px;"
             />
           </div>
         </div>
       </div>
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
         style="height: 320px;"
       />
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
         style="height: 320px;"
       />
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
         style="height: 320px;"
       />
       <div
@@ -815,7 +815,7 @@ exports[`EServiceDetailsSkeleton > should match the snapshot (provider) 1`] = `
           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
         >
           <span
-            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
             style="height: 150px;"
           />
         </div>

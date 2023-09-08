@@ -51,7 +51,7 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                 class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-focused MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
                   for=":r3:"
                   id=":r3:-label"
@@ -59,21 +59,21 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                   content.reason.label
                 </label>
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl MuiInputBase-multiline css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root"
+                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-multiline css-1qxw4jt-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <textarea
                     aria-describedby="reason-infoLabel"
                     aria-invalid="false"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiInputBase-inputSizeSmall css-12tl3rr-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r3:"
                     maxlength="1000"
                     name="reason"
-                    rows="6"
+                    rows="2.5"
                     style="height: 0px; overflow: hidden;"
                   />
                   <textarea
                     aria-hidden="true"
-                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input"
+                    class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiInputBase-inputSizeSmall css-12tl3rr-MuiInputBase-input-MuiOutlinedInput-input"
                     readonly=""
                     style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
                     tabindex="-1"
