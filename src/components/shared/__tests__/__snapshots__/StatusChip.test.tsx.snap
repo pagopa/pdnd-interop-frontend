@@ -392,7 +392,17 @@ exports[`StatusChip > should match the snapshot (purpose - with only waiting for
   <div>
     <div
       class="MuiStack-root css-niqf4j-MuiStack-root"
-    />
+    >
+      <div
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-j2ob3e-MuiChip-root"
+      >
+        <span
+          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        >
+          status.purpose.WAITING_FOR_APPROVAL
+        </span>
+      </div>
+    </div>
   </div>
 </body>
 `;
