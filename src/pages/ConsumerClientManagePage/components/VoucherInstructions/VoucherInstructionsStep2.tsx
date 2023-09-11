@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
-import { AUTHORIZATION_SERVER_ACCESS_TOKEN_URL, FE_URL } from '@/config/env'
+import { AUTHORIZATION_SERVER_TOKEN_CREATION_URL, FE_URL } from '@/config/env'
 import { Alert, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
@@ -32,9 +32,9 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
         <InformationContainer
           sx={{ mt: 4 }}
           label={t('step2.authEndpoint.label')}
-          content={AUTHORIZATION_SERVER_ACCESS_TOKEN_URL}
+          content={AUTHORIZATION_SERVER_TOKEN_CREATION_URL}
           copyToClipboard={{
-            value: AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
+            value: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
             tooltipTitle: t('step2.authEndpoint.copySuccessFeedbackText'),
           }}
         />
@@ -86,7 +86,7 @@ export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = 
           activeLang="curl"
           entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
           scriptSubstitutionValues={{
-            AUTHORIZATION_SERVER_ACCESS_TOKEN_URL,
+            AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
             CLIENT_ID: clientId,
             CLIENT_ASSERTION_TYPE: CLIENT_ASSERTION_TYPE,
             GRANT_TYPE: GRANT_TYPE,

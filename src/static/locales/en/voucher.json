@@ -170,7 +170,7 @@
       "title": "Enter the fields of your request",
       "clientAssertionLabel": "Enter your client assertion (required)",
       "clientIdLabel": "Enter the client id",
-      "description": "The request will be forwarded to the authorization server endpoint: <strong>https://auth.dev.interop.pagopa.it/token.oauth2</strong>",
+      "description": "The request will be forwarded to the authorization server endpoint: <strong>{{ authServer }}</strong>",
       "submitBtn": "Submit request"
     },
     "result": {

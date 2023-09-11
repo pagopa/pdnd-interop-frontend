@@ -170,7 +170,7 @@
       "title": "Inserisci i campi della tua richiesta",
       "clientAssertionLabel": "Inserisci la tua client assertion (richiesto)",
       "clientIdLabel": "Inserisci il client id",
-      "description": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>https://auth.dev.interop.pagopa.it/token.oauth2</strong>",
+      "description": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",
       "submitBtn": "Inoltra richiesta"
     },
     "result": {
