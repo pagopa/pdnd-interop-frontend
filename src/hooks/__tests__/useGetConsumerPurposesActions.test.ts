@@ -59,7 +59,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions).toHaveLength(2)
 
-    const publishAction = result.current.actions.find((action) => action.label === 'publish')
+    const publishAction = result.current.actions.find((action) => action.label === 'activate')
     const deleteAction = result.current.actions.find((action) => action.label === 'delete')
 
     expect(publishAction).toBeTruthy()
@@ -82,7 +82,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(deleteAction).toBeTruthy()
   })
 
-  it('should return the delete daily calls update action if the purpose has more than one version and a waiting for approval version', () => {
+  it('should return the clone action if the purpose has one version and a waiting for approval version', () => {
     const purposeMock = createMockPurpose({
       waitingForApprovalVersion: {
         id: 'test-id',
@@ -98,7 +98,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(cloneAction).toBeTruthy()
   })
 
-  it('should return the updated daily calls update action if the purpose has more than one version and no waiting for approval version', () => {
+  it('should return the clone action if the purpose has one version and no waiting for approval version', () => {
     const purposeMock = createMockPurpose({ waitingForApprovalVersion: undefined })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
@@ -145,7 +145,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
 
-    const publishAction = result.current.actions.find((action) => action.label === 'publish')
+    const publishAction = result.current.actions.find((action) => action.label === 'activate')
     const cloneAction = result.current.actions.find((action) => action.label === 'clone')
 
     expect(publishAction).toBeTruthy()
