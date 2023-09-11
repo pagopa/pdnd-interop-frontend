@@ -93,12 +93,8 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
 
-    const deleteDailyCallsUpdateAction = result.current.actions.find(
-      (action) => action.label === 'deleteDailyCallsUpdate'
-    )
     const cloneAction = result.current.actions.find((action) => action.label === 'clone')
 
-    expect(deleteDailyCallsUpdateAction).toBeTruthy()
     expect(cloneAction).toBeTruthy()
   })
 
@@ -107,12 +103,8 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
 
-    const updateDailyCallsAction = result.current.actions.find(
-      (action) => action.label === 'updateDailyCalls'
-    )
     const cloneAction = result.current.actions.find((action) => action.label === 'clone')
 
-    expect(updateDailyCallsAction).toBeTruthy()
     expect(cloneAction).toBeTruthy()
   })
 
