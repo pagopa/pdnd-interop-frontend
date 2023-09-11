@@ -6,6 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { VoucherMutations } from '@/api/voucher'
 import type { AccessTokenRequest, TokenGenerationValidationResult } from '@/api/api.generatedTypes'
+import { AUTHORIZATION_SERVER_TOKEN_CREATION_URL } from '@/config/env'
 
 export type DebugVoucherFormValues = {
   clientAssertion: string
@@ -68,7 +69,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
                 strong: <Typography component="span" variant="inherit" fontWeight={700} />,
               }}
             >
-              {t('description')}
+              {t('description', { authServer: AUTHORIZATION_SERVER_TOKEN_CREATION_URL })}
             </Trans>
           </Typography>
         </SectionContainer>

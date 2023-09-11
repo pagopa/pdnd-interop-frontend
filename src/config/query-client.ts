@@ -13,7 +13,7 @@ declare module '@tanstack/react-query' {
     TData = unknown,
     TError = unknown,
     TVariables = unknown,
-    TContext = unknown
+    TContext = unknown,
   > {
     loadingLabel?: string | ((variables: TVariables) => string)
     successToastLabel?: string | ((data: TData, variables: TVariables, context: TContext) => string)
@@ -43,7 +43,9 @@ const resolveMeta = (query: {
   context?: unknown
 }) => {
   const { mutation, data, error, variables, context } = query
-  const meta = mutation.meta as MutationMeta
+  const meta = mutation.meta as MutationMeta | undefined
+
+  if (!meta) return {}
 
   const loadingLabel =
     typeof meta.loadingLabel === 'function' ? meta.loadingLabel(variables) : meta.loadingLabel
