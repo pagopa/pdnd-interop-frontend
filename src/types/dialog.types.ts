@@ -14,7 +14,6 @@ export type DialogProps =
   | DialogBasicProps
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
-  | DialogUpdatePurposeDailyCallsProps
   | DialogAddSecurityOperatorsProps
   | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
@@ -27,12 +26,6 @@ export type DialogAttributeDetailsProps = {
 
 export type DialogSessionExpiredProps = {
   type: 'sessionExpired'
-}
-
-export type DialogUpdatePurposeDailyCallsProps = {
-  type: 'updatePurposeDailyCalls'
-  purposeId: string
-  dailyCalls?: number
 }
 
 export type DialogBasicProps = DialogDefaultProps & {
