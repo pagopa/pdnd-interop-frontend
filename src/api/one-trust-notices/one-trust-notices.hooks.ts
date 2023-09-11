@@ -16,8 +16,6 @@ function useGetUserConsent(consentType: ConsentType, options?: UseQueryOptions<P
     queryKey: [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
     queryFn: () => OneTrustNoticesServices.getUserConsent({ consentType }),
     ...options,
-    staleTime: Infinity,
-    cacheTime: Infinity,
   })
 }
 
