@@ -167,7 +167,7 @@
   },
   "apiInfoSection": {
     "title": "Api di Interoperabilità",
-    "content": "Parametri utili per ottenere informazioni programmaticamente attraverso <1>i tuoi client api interop</1>",
+    "content": "Parametri utili per ottenere informazioni programmaticamente attraverso <1>i tuoi client API Interop</1>",
     "tooltipTitle": "Id copiato correttamente"
   },
   "environmentBanner": {
@@ -221,11 +221,11 @@
     "SUBSCRIBE_AGREEMENT_READ": "Gestisci richiesta",
     "SUBSCRIBE_AGREEMENT_LIST": "Le tue richieste",
     "SUBSCRIBE_AGREEMENT_EDIT": "Modifica richiesta",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT": "Gestisci operatore del client api interop",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT": "Gestisci chiave pubblica del client api interop",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE": "Crea client api interop",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT": "Gestisci client api interop",
-    "SUBSCRIBE_INTEROP_M2M": "I tuoi client api interop",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT": "Gestisci operatore del client API Interop",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT": "Gestisci chiave pubblica del client API Interop",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE": "Crea client API Interop",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT": "Gestisci client API Interop",
+    "SUBSCRIBE_INTEROP_M2M": "I tuoi client API Interop",
     "SUBSCRIBE": "Fruizione",
     "PARTY_REGISTRY": "Anagrafica ente",
     "NOT_FOUND": "Pagina non trovata",
