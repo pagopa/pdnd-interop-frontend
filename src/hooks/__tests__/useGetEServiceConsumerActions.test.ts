@@ -154,7 +154,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
-      result.current.createAgreementDraftAction!()
+      createAgreementDraftAction.action()
     })
 
     await waitFor(() => {
@@ -187,7 +187,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
-      result.current.createAgreementDraftAction!()
+      createAgreementDraftAction.action()
     })
 
     act(() => {
