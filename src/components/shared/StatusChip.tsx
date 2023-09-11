@@ -46,7 +46,7 @@ const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   DRAFT: 'info',
   ACTIVE: 'success',
   SUSPENDED: 'error',
-  WAITING_FOR_APPROVAL: 'info',
+  WAITING_FOR_APPROVAL: 'warning',
   ARCHIVED: 'info',
 }
 
@@ -167,6 +167,13 @@ const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
             />
           )}
         </>
+      )}
+      {purpose.waitingForApprovalVersion && !purpose.currentVersion && (
+        <Chip
+          size="small"
+          label={t('status.purpose.WAITING_FOR_APPROVAL')}
+          color={chipColors['purpose'][purpose.waitingForApprovalVersion.state]}
+        />
       )}
     </Stack>
   )

@@ -103,7 +103,7 @@
       "DRAFT": "draft",
       "ACTIVE": "active",
       "SUSPENDED": "suspended",
-      "WAITING_FOR_APPROVAL": "awaiting evaluation",
+      "WAITING_FOR_APPROVAL": "waiting for approval",
       "ARCHIVED": "archived"
     },
     "user": {
