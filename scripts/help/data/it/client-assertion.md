@@ -6,7 +6,7 @@ Sulla Piattaforma Interoperabilità, è possibile fare due tipi diversi di clien
 - [Come generare la client assertion per ottenere un token usabile sulle API di Interoperabilità?](#come-generare-la-client-assertion-per-ottenere-un-token-usabile-sulle-api-di-interoperabilita)
 - [Come generare la client assertion per ottenere un token usabile su un e-service?](#come-generare-la-client-assertion-per-ottenere-un-token-usabile-su-un-e-service)
 - FAQ
-  - [Perché non posso usare la stessa chiave per un client verso l'erogatore e un client api interop?](#perche-non-posso-usare-la-stessa-chiave-per-un-client-verso-lerogatore-e-un-client-api-interop)
+  - [Perché non posso usare la stessa chiave per un client verso l'erogatore e un client API Interop?](#perche-non-posso-usare-la-stessa-chiave-per-un-client-verso-lerogatore-e-un-client-api-interop)
 
 ## Cos'è una client assertion?
 
@@ -35,7 +35,7 @@ Un volta ottenuto il token firmato dalla Piattaforma Interoperabilità, questo s
 
 ## Come generare la client assertion per ottenere un token usabile su un e-service?
 
-La client assertion per staccare un token da spendere presso l'e-service di un ente erogatore deve contenere gli stessi campi indicati per la client assertion di un client api interop, con una differenza nel payload:
+La client assertion per staccare un token da spendere presso l'e-service di un ente erogatore deve contenere gli stessi campi indicati per la client assertion di un client API Interop, con una differenza nel payload:
 
 - purposeId: un campo in più che identifica la finalità per la quale si sta facendo la richiesta, reperibile sulla Piattaforma Interoperabilità
 

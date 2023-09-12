@@ -53,7 +53,7 @@
     }
   },
   "interopM2M": {
-    "title": "I tuoi client api interop",
+    "title": "I tuoi client API Interop",
     "description": "Gestisci i client per staccare voucher validi per interrogare le API di Interoperabilità"
   }
 }
