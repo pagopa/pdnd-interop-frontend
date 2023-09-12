@@ -70,7 +70,7 @@ export type InputOption = { label: string; value: string | number }
 export type InputDescriptorKey = 'label' | 'infoLabel' | 'error' | 'helperText'
 export type InputDescriptors<TKey extends InputDescriptorKey = InputDescriptorKey> = Record<
   TKey,
-  string | undefined
+  string | React.ReactNode | undefined
 >
 
 // eslint-disable-next-line @typescript-eslint/no-namespace

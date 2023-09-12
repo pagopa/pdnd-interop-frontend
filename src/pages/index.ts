@@ -1,5 +1,6 @@
 export { ProviderEServiceListPage } from './ProviderEServiceListPage'
 export { ProviderEServiceCreatePage } from './ProviderEServiceCreatePage'
+export { ProviderEServiceSummaryPage } from './ProviderEServiceSummaryPage'
 export { ProviderAgreementsListPage } from './ProviderAgreementsListPage'
 export { ProviderEServiceDetailsPage } from './ProviderEServiceDetailsPage'
 export { ProviderAgreementDetailsPage } from './ProviderAgreementDetailsPage'

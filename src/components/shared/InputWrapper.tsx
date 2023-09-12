@@ -4,7 +4,7 @@ import type { Theme, SxProps } from '@mui/material'
 
 type InputWrapperProps = {
   error?: string
-  infoLabel?: string | JSX.Element
+  infoLabel?: React.ReactNode
   sx?: SxProps<Theme>
   children: React.ReactNode
   infoLabelId?: string

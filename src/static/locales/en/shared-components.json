@@ -109,22 +109,19 @@
       "confirmLabel": "Add"
     }
   },
-  "dialogCreateNewAttribute": {
-    "title": "Create new attribute",
+  "dialogUpdatePartyMail": {
+    "title": "Edit contacts",
+    "subtitle": "You can change the contact email and the description of your organization. The change will be visible immediately",
     "content": {
-      "nameField": {
-        "label": "Attribute name (required)",
-        "infoLabel": "Min 5 chars, max 160 chars"
+      "mailAddressField": {
+        "label": "Mail address (required)"
       },
       "descriptionField": {
-        "label": "Attribute description (required)",
-        "infoLabel": "Min 10 chars, max 250 chars"
+        "label": "Description",
+        "infoLabel": "Min 10 chars, max 160 chars"
       }
     },
-    "actions": {
-      "cancelLabel": "Undo",
-      "confirmLabel": "Create attribute"
-    }
+    "alertLabel": "Authorities are not notified of this change; it is recommended to keep an active redirect from the old to the new address for some time"
   },
   "copyToClipboardButton": {
     "copy": "Copy",
@@ -201,6 +198,7 @@
     "SECURITY_KEY_GUIDE": "How to upload public keys",
     "NOTIFICATION": "Notifications",
     "PROVIDE_ESERVICE_CREATE": "Create e-service",
+    "PROVIDE_ESERVICE_SUMMARY": "Summary",
     "PROVIDE_ESERVICE_EDIT": "Edit e-service",
     "PROVIDE_ESERVICE_MANAGE": "View e-service",
     "PROVIDE_ESERVICE_LIST": "Your e-services",

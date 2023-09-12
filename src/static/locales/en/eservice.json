@@ -18,63 +18,77 @@
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "forwardWithoutSaveBtn": "Next",
-    "endWithSaveBtn": "Save draft and back to the e-services",
+    "goToSummary": "Go to summary",
     "step1": {
       "detailsTitle": "E-service details",
       "eserviceNameField": {
-        "label": "E-service name (required)",
-        "infoLabel": "If you have more than one e-service with the same name, give a little hint to tell them apart (e.g. \"TARI – for Municipalities\" e \"TARI - for Regions\"). Min 5 chars, max 60 chars"
+        "label": "E-service name"
       },
       "eserviceDescriptionField": {
-        "label": "E-service description (required)",
-        "infoLabel": "(e.g. \"Dedicated to the bodies that need ...\", or \"This e-service is for ...\"). Min 10 chars, max 250 chars"
+        "label": "What does this e-service allow you to do?"
       },
       "eserviceTechnologyField": {
-        "label": "Technology (required)"
+        "label": "What technology is your API built with?"
       },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
     },
     "step2": {
-      "versionTitle": "Version informations",
-      "versionField": {
-        "label": "Version number (required)",
-        "infoLabel": "Set automatically, not editable"
-      },
+      "versionTitle": "Informations for version {{versionNumber}}",
       "descriptionField": {
-        "label": "Version description (required)",
-        "infoLabel": "Min 10 chars, max 250 chars"
+        "label": "What changed in this version?"
       },
-      "audienceField": {
-        "label": "Audience (required)",
-        "infoLabel": "The content of this field will the audience (aud) that the Subscriber will send you inside the access token. With this id the Subscriber will tell the Provider which service it is looking for. Min 1 char, max 250 chars"
-      },
-      "voucherLifespanField": {
-        "label": "Voucher expiration (in minutes - required)",
-        "infoLabel": "Max value: 1440 minutes (24 hours)"
-      },
-      "dailyCallsPerConsumerField": {
-        "label": "API calls/day threshold for each Subscriber (required)",
-        "infoLabel": "The Subscriber declares its API calls estimate for each purpose. If the sum of the calls of all purposes will be over this threshold, you will have to approve manually each new purpose before it can be used to access your e-service"
-      },
-      "dailyCallsTotalField": {
-        "label": "Total API calls/day threshold (required)",
-        "infoLabel": "The total API calls that will be allowed per day, shared among all the Subscribers. If the sum of new purposes will go above this threshold, you will have to approve manually each new purpose before it can be used to access your e-service",
-        "validation": {
-          "min": "This value cannot be below the threshold set for the API calls/day for each Subscriber"
+      "voucherSection": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Validity duration (minutes)",
+          "infoLabel": "Max value: 1440 minuites (24 hours)"
+        },
+        "audienceField": {
+          "label": "Audience",
+          "infoLabel": "Represents the recipient of the voucher, i.e. your target resource. Doubts? <1>Read the guide</1>"
         }
       },
-      "agreementApprovalPolicyField": {
-        "label": "I want to reserve the right to manually check and activate all requests received for this version of the e-service"
+      "thresholdSection": {
+        "title": "Threshold of calls expected for consumers",
+        "dailyCallsPerConsumerField": {
+          "label": "API calls/day per consumer"
+        },
+        "dailyCallsTotalField": {
+          "label": "Total API calls/day",
+          "validation": {
+            "min": "This value cannot be below the threshold set for the API calls/day for each subscriber"
+          }
+        }
+      },
+      "agreementApprovalPolicySection": {
+        "title": "Do you want to manually activate all the fruition requests received?",
+        "label": "Yes, I will activate them manually"
       }
     },
     "step3": {
-      "attributesTitle": "Attributes",
-      "attributesDescription": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service.",
+      "attributesTitle": "Access requirements for version {{versionNumber}}",
+      "attributesDescription": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service",
       "attributeCloneBtn": "Copy attributes from previous version",
       "attributeCloneSuccess": "Attributes cloned correctly",
       "attributeCloneNoAttributesLabel": "There are no attribute to copy",
       "attributesAddBtn": "Add attribute",
-      "attributesCreateBtn": "Create new attribute"
+      "attributesCreateBtn": "Create new attribute",
+      "createAttributeDrawer": {
+        "title": {
+          "verified": "Create new verified attribute",
+          "declared": "Create new declared attribute"
+        },
+        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "nameField": {
+          "label": "Nome dell'attributo",
+          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+        },
+        "descriptionField": {
+          "label": "Descrizione dell'attributo",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri"
+        },
+        "submitBtnLabel": "Crea attributo"
+      }
     },
     "step4": {
       "interface": {
@@ -87,8 +101,7 @@
       },
       "documentation": {
         "title": "Documentation",
-        "description": "Upload the technical documents that can help implement the use of this e-service",
-        "noFileUploaded": "No file uploaded"
+        "description": "Upload the technical documents that can help implement the use of this e-service"
       },
       "uploadFileField": {
         "label": "Choose document"
@@ -98,13 +111,58 @@
         "infoLabel": "Min 5 chars, max 60 chars"
       },
       "uploadBtn": "Upload"
+    }
+  },
+  "summary": {
+    "title": "{{eserviceName}}, version {{versionNumber}}",
+    "generalInfoSummary": {
+      "title": "General informations",
+      "description": {
+        "label": "Description"
+      },
+      "apiTechnology": {
+        "label": "API Technology"
+      }
     },
-    "quickPublish": {
-      "title": "Quick publish",
-      "description": "If you are done editing, you can publish this draft immediately, or delete it. If you want to publish later, just save the draft at the end of the page",
-      "publishBtn": "Publish draft",
-      "deleteBtn": "Delete draft",
-      "noInterfaceTooltipLabel": "In order to publish the draft is madatory to upload an API Interface"
+    "versionInfoSummary": {
+      "title": "Version's informations",
+      "description": {
+        "label": "Description"
+      },
+      "audience": {
+        "label": "Audience"
+      },
+      "voucherLifespan": {
+        "label": "Voucher lifespan"
+      },
+      "dailyCallsPerConsumer": {
+        "label": "Daily calls per consumer",
+        "value": "{{value}} API calls per day"
+      },
+      "dailyCallsTotal": {
+        "label": "Total daily calls",
+        "value": "{{value}} API calls per day"
+      },
+      "manualApproval": {
+        "label": "Manual approval requests",
+        "value": {
+          "true": "Yes",
+          "false": "No"
+        }
+      }
+    },
+    "attributeVersionSummary": {
+      "title": "Version access requirements"
+    },
+    "documentationSummary": {
+      "title": "Version's documentations",
+      "interface": {
+        "label": "OpenAPI Interface"
+      },
+      "emptyLabel": "No uploaded documents"
+    },
+    "notPublishableTooltip": {
+      "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
     }
   },
   "list": {

@@ -46,7 +46,11 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
 
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
-      {label && <FormLabel id={labelId}>{label}</FormLabel>}
+      {label && (
+        <FormLabel sx={{ fontWeight: 600, mb: props.row ? 1 : 0 }} id={labelId}>
+          {label}
+        </FormLabel>
+      )}
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, t)}

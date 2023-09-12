@@ -7,6 +7,7 @@ import {
   Typography,
   Box,
   Skeleton,
+  Divider,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
@@ -45,7 +46,10 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
             </Typography>
           </Box>
         </AccordionSummary>
-        <AccordionDetails sx={{ px: 4 }}>{children}</AccordionDetails>
+        <AccordionDetails sx={{ px: 4, pb: 3 }}>
+          <Divider sx={{ mb: 3, mt: -1 }} />
+          {children}
+        </AccordionDetails>
       </MUIAccordion>
     </Paper>
   )

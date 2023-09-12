@@ -396,7 +396,7 @@ exports[`AgreementSummarySection > should match the snapshot with loading skelet
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
       style="height: 322px;"
     />
   </div>
@@ -407,7 +407,7 @@ exports[`AgreementSummarySectionSkeleton > should match the snapshot 1`] = `
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
       style="height: 322px;"
     />
   </div>

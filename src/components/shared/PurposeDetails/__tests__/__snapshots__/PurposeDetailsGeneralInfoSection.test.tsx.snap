@@ -484,7 +484,7 @@ exports[`PurposeDetailsGeneralInfoSectionSkeleton > should match snapshot  1`] =
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
       style="height: 336px;"
     />
   </div>

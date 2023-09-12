@@ -72,6 +72,7 @@ export function EServiceCreateStep4DocumentsInterface() {
   if (actualInterface) {
     return (
       <DocumentContainer
+        sx={{ mt: 4 }}
         doc={actualInterface}
         onDelete={handleDeleteInterface}
         onDownload={handleDownloadInterface}
@@ -96,6 +97,7 @@ export function EServiceCreateStep4DocumentsInterface() {
         />
 
         <RHFTextField
+          size="small"
           sx={{ my: 2 }}
           name="prettyName"
           label={t('create.step4.nameField.label')}

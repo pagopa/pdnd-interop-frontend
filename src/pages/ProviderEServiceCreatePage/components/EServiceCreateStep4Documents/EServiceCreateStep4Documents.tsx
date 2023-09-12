@@ -1,115 +1,73 @@
-import { EServiceMutations } from '@/api/eservice'
+import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { PageBottomActionsCardContainer } from '@/components/layout/containers/PageBottomCardContainer'
-import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { StepActions } from '@/components/shared/StepActions'
-import { useToastNotification } from '@/stores'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigate } from '@/router'
-import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceCreateStep4DocumentsDoc } from './EServiceCreateStep4DocumentsDoc'
 import { EServiceCreateStep4DocumentsInterface } from './EServiceCreateStep4DocumentsInterface'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 export const EServiceCreateStep4Documents: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
-  const { t: tMutations } = useTranslation('mutations-feedback')
   const navigate = useNavigate()
 
-  const { showToast } = useToastNotification()
   const { descriptor, back } = useEServiceCreateContext()
-
-  const { mutate: deleteVersion } = EServiceMutations.useDeleteVersionDraft()
-  const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft()
-
-  const goToProviderEServiceList = () => {
-    navigate('PROVIDE_ESERVICE_LIST')
-  }
-
-  const goToEServiceDetails = (eserviceId: string, descriptorId: string) => {
-    navigate('PROVIDE_ESERVICE_MANAGE', {
-      params: {
-        eserviceId: eserviceId,
-        descriptorId: descriptorId,
-      },
-    })
-  }
-
-  const handleDeleteVersion = () => {
-    if (!descriptor) return
-    deleteVersion(
-      { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
-      { onSuccess: goToProviderEServiceList }
-    )
-  }
-
-  const handlePublishVersion = () => {
-    if (!descriptor) return
-    publishVersion(
-      { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
-      { onSuccess: () => goToEServiceDetails(descriptor.eservice.id, descriptor.id) }
-    )
-  }
 
   const sectionDescription = `${t('create.step4.interface.description.before')} ${
     descriptor?.eservice.technology === 'REST' ? 'OpenAPI' : 'WSDL'
   }  ${t('create.step4.interface.description.after')}`
 
-  const hasInterface = !!descriptor?.interface
-
   return (
     <>
-      <SectionContainer>
-        <Typography component="h2" variant="h5">
-          {t('create.step4.interface.title')}
-        </Typography>
-        <Typography color="text.secondary">{sectionDescription}</Typography>
-
-        <Box sx={{ mt: 2 }}>
-          <EServiceCreateStep4DocumentsInterface />
-        </Box>
-
-        <Typography sx={{ mt: 8 }} component="h2" variant="h5">
-          {t('create.step4.documentation.title')}
-        </Typography>
-        <Typography color="text.secondary">
-          {t('create.step4.documentation.description')}
-        </Typography>
-        <Box sx={{ mt: 2 }}>
-          <EServiceCreateStep4DocumentsDoc />
-        </Box>
+      <SectionContainer
+        newDesign
+        title={t('create.step4.interface.title')}
+        description={sectionDescription}
+      >
+        <EServiceCreateStep4DocumentsInterface />
+      </SectionContainer>
+      <SectionContainer
+        newDesign
+        title={t('create.step4.documentation.title')}
+        description={t('create.step4.documentation.description')}
+      >
+        <EServiceCreateStep4DocumentsDoc />
       </SectionContainer>
 
       <StepActions
-        back={{ label: t('create.backWithoutSaveBtn'), type: 'button', onClick: back }}
+        back={{
+          label: t('create.backWithoutSaveBtn'),
+          type: 'button',
+          onClick: back,
+          startIcon: <ArrowBackIcon />,
+        }}
         forward={{
-          label: t('create.endWithSaveBtn'),
+          label: t('create.goToSummary'),
           type: 'button',
           onClick: () => {
-            showToast(tMutations('eservice.updateVersionDraft.outcome.success'), 'success')
-            navigate('PROVIDE_ESERVICE_LIST')
+            if (!descriptor) return
+            navigate('PROVIDE_ESERVICE_SUMMARY', {
+              params: {
+                eserviceId: descriptor.eservice.id,
+                descriptorId: descriptor.id,
+              },
+            })
           },
+          endIcon: <ArrowForwardIcon />,
         }}
       />
-
-      <PageBottomActionsCardContainer
-        title={t('create.quickPublish.title')}
-        description={t('create.quickPublish.description')}
-      >
-        <Button variant="outlined" onClick={handleDeleteVersion}>
-          {t('create.quickPublish.deleteBtn')}
-        </Button>
-        <Button disabled={!hasInterface} variant="contained" onClick={handlePublishVersion}>
-          {t('create.quickPublish.publishBtn')}
-        </Button>
-        {!hasInterface && <InfoTooltip label={t('create.quickPublish.noInterfaceTooltipLabel')} />}
-      </PageBottomActionsCardContainer>
     </>
   )
 }
 
 export const EServiceCreateStep4DocumentsSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={600} />
+  return (
+    <>
+      <SectionContainerSkeleton height={365} />
+      <SectionContainerSkeleton height={178} />
+    </>
+  )
 }

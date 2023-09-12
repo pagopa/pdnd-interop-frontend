@@ -9,7 +9,8 @@ import { useTranslation } from 'react-i18next'
 export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type' | 'label'> & {
   name: string
   label: string
-  infoLabel?: string
+  labelType?: 'external' | 'shrink'
+  infoLabel?: React.ReactNode
   focusOnMount?: boolean
   rules?: ControllerProps['rules']
 } & (
@@ -27,11 +28,13 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   sx,
   name,
   label,
+  labelType = 'shrink',
   infoLabel,
   focusOnMount,
   multiline,
   onValueChange,
   rules,
+  size = 'small',
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -53,11 +56,27 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
           <MUITextField
             autoFocus={focusOnMount}
             {...props}
+            id={name}
+            size={size}
             label={label}
             inputProps={{ ...props.inputProps, ...accessibilityProps }}
             multiline={multiline}
-            rows={multiline ? 6 : undefined}
+            rows={multiline ? 2.5 : undefined}
             error={!!error}
+            InputLabelProps={
+              labelType === 'external'
+                ? {
+                    shrink: false,
+                    sx: {
+                      position: 'static',
+                      transform: 'none',
+                      color: 'inherit',
+                      mb: 1.25,
+                      pointerEvents: 'auto',
+                    },
+                  }
+                : undefined
+            }
             onChange={(e) => {
               let value: string | number = e.target.value
               if (props.type === 'number') {
