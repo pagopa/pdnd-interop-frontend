@@ -27,7 +27,6 @@ const ConsumerClientListPage: React.FC = () => {
       title={t('title')}
       description={t('description')}
       newTopSideActions={isAdmin ? topSideActions : undefined}
-      // topSideActions={isAdmin ? topSideActions : undefined}
     >
       <ClientTable clientKind="CONSUMER" />
     </PageContainer>
