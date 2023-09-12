@@ -2,12 +2,12 @@ import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
-import { useParams } from '@/router'
+import { Link, useParams } from '@/router'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import type { AlertProps } from '@mui/material'
 import { Alert, Grid, Tab } from '@mui/material'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { PurposeClientsTab } from './components/PurposeClientsTab'
 import { PurposeDetailTabSkeleton, PurposeDetailsTab } from './components/PurposeDetailsTab'
 
@@ -26,7 +26,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   const isPurposeWaintingForApproval = Boolean(purpose?.waitingForApprovalVersion)
   const isPurposeActive = purpose?.currentVersion?.state === 'ACTIVE'
 
-  let alert: { severity: AlertProps['severity']; content: string } | undefined = undefined
+  let alert: { severity: AlertProps['severity']; content: React.ReactNode } | undefined = undefined
 
   if (isPurposeSuspended) {
     alert = {
@@ -42,10 +42,24 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
     }
   }
 
-  if (isPurposeActive && purpose.clients.length === 0) {
+  if (isPurposeActive && purpose.clients.length === 0 && !isPurposeWaintingForApproval) {
     alert = {
       severity: 'info',
-      content: t('consumerView.noClientsAlert'),
+      content: (
+        <Trans
+          components={{
+            1: (
+              <Link
+                to="SUBSCRIBE_PURPOSE_DETAILS"
+                params={{ purposeId }}
+                options={{ urlParams: { tab: 'clients' } }}
+              />
+            ),
+          }}
+        >
+          {t('consumerView.noClientsAlert')}
+        </Trans>
+      ),
     }
   }
 
