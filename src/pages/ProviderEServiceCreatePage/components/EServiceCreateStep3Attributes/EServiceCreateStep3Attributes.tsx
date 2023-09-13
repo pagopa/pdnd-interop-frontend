@@ -6,14 +6,13 @@ import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import { useTranslation } from 'react-i18next'
-import { remapRemappedDescriptorAttributesToDescriptorAttributes } from '@/api/eservice/eservice.api.utils'
 import { StepActions } from '@/components/shared/StepActions'
-import type { UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
 import type {
-  AttributeKey,
-  RemappedDescriptorAttribute,
-  RemappedDescriptorAttributes,
-} from '@/types/attribute.types'
+  DescriptorAttribute,
+  DescriptorAttributes,
+  UpdateEServiceDescriptorSeed,
+} from '@/api/api.generatedTypes'
+import type { AttributeKey } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
 import { useClonePreviousDescriptorAttributes } from '../../hooks/useClonePreviousDescriptorAttributes'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
@@ -22,12 +21,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from './CreateAttributeDrawer'
 
 export type EServiceCreateStep3FormValues = {
-  attributes: RemappedDescriptorAttributes
+  attributes: DescriptorAttributes
 }
 
 export const EServiceCreateStep3Attributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { eservice, descriptor, attributes, forward, back } = useEServiceCreateContext()
+  const { eservice, descriptor, forward, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -51,7 +50,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
     }
 
   const defaultValues: EServiceCreateStep3FormValues = {
-    attributes: attributes ?? { certified: [], verified: [], declared: [] },
+    attributes: descriptor?.attributes ?? { certified: [], verified: [], declared: [] },
   }
 
   const formMethods = useForm({ defaultValues })
@@ -61,13 +60,10 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
 
   const onSubmit = (values: EServiceCreateStep3FormValues) => {
     if (!eservice) return
-    const backendAttributes = remapRemappedDescriptorAttributesToDescriptorAttributes(
-      values.attributes
-    )
 
-    if (descriptor && attributes) {
-      const removeEmptyGroups = (attributes: RemappedDescriptorAttribute[]) => {
-        return attributes.filter((group) => group.attributes.length > 0)
+    if (descriptor) {
+      const removeEmptyGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
+        return attributes.filter((group) => group.length > 0)
       }
 
       // Removes empty groups from the comparison
@@ -77,7 +73,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
         declared: removeEmptyGroups(values.attributes.declared),
       }
 
-      const areAttributesEquals = compareObjects(newAttributesToCompare, attributes)
+      const areAttributesEquals = compareObjects(newAttributesToCompare, descriptor.attributes)
 
       if (areAttributesEquals) {
         forward()
@@ -91,7 +87,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
         dailyCallsTotal: descriptor.dailyCallsTotal,
         agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
         description: descriptor.description,
-        attributes: backendAttributes,
+        attributes: values.attributes,
       }
 
       updateVersionDraft(

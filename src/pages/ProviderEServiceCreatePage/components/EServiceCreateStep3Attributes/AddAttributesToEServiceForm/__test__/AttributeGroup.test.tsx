@@ -1,23 +1,15 @@
 import React from 'react'
 import { AttributeGroup, type AttributeGroupProps } from '../AttributeGroup'
-import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import {
-  createMockCompactAttribute,
-  createMockRemappedDescriptorAttribute,
-} from '@/../__mocks__/data/attribute.mocks'
+import { createMockDescriptorAttribute } from '@/../__mocks__/data/attribute.mocks'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { fireEvent } from '@testing-library/react'
+import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 
-const emptyGroup: RemappedDescriptorAttribute = {
-  attributes: [],
-  explicitAttributeVerification: false,
-}
+const emptyGroup: Array<DescriptorAttribute> = []
 
-const groupWithElements = createMockRemappedDescriptorAttribute({
-  attributes: [createMockCompactAttribute({ id: 'attribute-option' })],
-})
+const groupWithElements = [createMockDescriptorAttribute({ id: 'attribute-option' })]
 
 const commonProps: AttributeGroupProps = {
   groupIndex: 0,
@@ -235,7 +227,7 @@ describe("Checks that AttributeGroup snapshot don't change", () => {
 })
 
 describe('determine the element functionalities', () => {
-  it('should render correcly on isAttributeAutocompleteShown value changes', async () => {
+  it('should render correctly on isAttributeAutocompleteShown value changes', async () => {
     const user = userEvent.setup()
     const groupComponent = renderWithApplicationContext(
       <AttributeGroup
@@ -255,12 +247,7 @@ describe('determine the element functionalities', () => {
       //@ts-ignore
       ...(await vi.importActual('react-hook-form')),
       useFormContext: () => ({
-        watch: () => [
-          {
-            attributes: [],
-            explicitAttributeVerification: false,
-          },
-        ],
+        watch: () => [[]],
         setValue: vi.fn(),
         formState: {
           errors: {},

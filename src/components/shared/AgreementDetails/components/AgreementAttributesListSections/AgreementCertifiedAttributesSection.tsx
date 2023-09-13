@@ -1,7 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
-import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
   AttributeGroupContainer,
@@ -12,6 +11,7 @@ import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { isAttributeOwned, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
 import { attributesHelpLink } from '@/config/constants'
+import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 
 export const AgreementCertifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -25,7 +25,7 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
   const ownedCertifiedAttributes = partyAttributes?.certified ?? []
 
   function getGroupContainerProps(
-    group: RemappedDescriptorAttribute
+    group: Array<DescriptorAttribute>
   ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled(
       'certified',
@@ -65,7 +65,7 @@ export const AgreementCertifiedAttributesSection: React.FC = () => {
         {certifiedAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
             <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-              {group.attributes.map((attribute) => (
+              {group.map((attribute) => (
                 <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}

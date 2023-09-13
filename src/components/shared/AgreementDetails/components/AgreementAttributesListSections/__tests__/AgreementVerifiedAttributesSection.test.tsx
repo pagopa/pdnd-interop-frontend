@@ -3,8 +3,8 @@ import { mockUseCurrentRoute, renderWithApplicationContext } from '@/utils/testi
 import { mockAgreementDetailsContext } from '../../__tests__/test.commons'
 import { AgreementVerifiedAttributesSection } from '../AgreementVerifiedAttributesSection'
 import {
+  createMockDescriptorAttribute,
   createVerifiedTenantAttribute,
-  createMockRemappedDescriptorAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
 import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 
@@ -26,8 +26,14 @@ describe('AgreementVerifiedAttributesSection', () => {
       descriptorAttributes: {
         certified: [],
         verified: [
-          createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-1-1' }, { id: 'a-1-2' }] }),
-          createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-2-1' }, { id: 'a-2-2' }] }),
+          [
+            createMockDescriptorAttribute({ id: 'a-1-1' }),
+            createMockDescriptorAttribute({ id: 'a-1-2' }),
+          ],
+          [
+            createMockDescriptorAttribute({ id: 'a-2-1' }),
+            createMockDescriptorAttribute({ id: 'a-2-2' }),
+          ],
         ],
         declared: [],
       },
@@ -54,7 +60,7 @@ describe('AgreementVerifiedAttributesSection', () => {
     mockAgreementDetailsContext({
       descriptorAttributes: {
         certified: [],
-        verified: [createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-1-1' }] })],
+        verified: [[createMockDescriptorAttribute({ id: 'a-1-1' })]],
         declared: [],
       },
       partyAttributes: {
@@ -82,7 +88,7 @@ describe('AgreementVerifiedAttributesSection', () => {
     mockAgreementDetailsContext({
       descriptorAttributes: {
         certified: [],
-        verified: [createMockRemappedDescriptorAttribute({ attributes: [{ id: 'a-1-1' }] })],
+        verified: [[createMockDescriptorAttribute({ id: 'a-1-1' })]],
         declared: [],
       },
       agreement: createMockAgreement({

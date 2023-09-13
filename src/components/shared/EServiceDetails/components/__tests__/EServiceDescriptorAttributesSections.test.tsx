@@ -1,58 +1,85 @@
 import React from 'react'
-import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
-import { createMockAttribute } from '@/../__mocks__/data/attribute.mocks'
+import { createMockDescriptorAttribute } from '@/../__mocks__/data/attribute.mocks'
 import { mockEServiceDetailsContext } from './test.commons'
 import { EServiceDescriptorAttributesSections } from '../EServiceDescriptorAttributesSections'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 
-const descriptorAttributes: RemappedDescriptorAttributes = {
+const descriptorAttributes: DescriptorAttributes = {
   certified: [
-    {
-      attributes: [
-        createMockAttribute({ id: 'certified-group-1-1', kind: 'CERTIFIED' }),
-        createMockAttribute({ id: 'certified-group-1-2', kind: 'CERTIFIED' }),
-        createMockAttribute({ id: 'certified-group-1-3', kind: 'CERTIFIED' }),
-      ],
-      explicitAttributeVerification: false,
-    },
-    {
-      attributes: [createMockAttribute({ id: 'certified-group-2-1', kind: 'CERTIFIED' })],
-      explicitAttributeVerification: false,
-    },
+    [
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-1',
+        explicitAttributeVerification: false,
+      }),
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-2',
+        explicitAttributeVerification: false,
+      }),
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-3',
+        explicitAttributeVerification: false,
+      }),
+    ],
+    [
+      createMockDescriptorAttribute({
+        id: 'certified-group-2-1',
+        explicitAttributeVerification: false,
+      }),
+    ],
   ],
   verified: [
-    {
-      attributes: [
-        createMockAttribute({ id: 'verified-group-1-1', kind: 'VERIFIED' }),
-        createMockAttribute({ id: 'verified-group-1-2', kind: 'VERIFIED' }),
-        createMockAttribute({ id: 'verified-group-1-3', kind: 'VERIFIED' }),
-      ],
-      explicitAttributeVerification: false,
-    },
-    {
-      attributes: [createMockAttribute({ id: 'verified-group-2-1', kind: 'VERIFIED' })],
-      explicitAttributeVerification: false,
-    },
+    [
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-1',
+        explicitAttributeVerification: false,
+      }),
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-2',
+        explicitAttributeVerification: false,
+      }),
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-3',
+        explicitAttributeVerification: false,
+      }),
+    ],
+    [
+      createMockDescriptorAttribute({
+        id: 'certified-group-2-1',
+        explicitAttributeVerification: false,
+      }),
+    ],
   ],
   declared: [
-    {
-      attributes: [
-        createMockAttribute({ id: 'declared-group-1-1', kind: 'DECLARED' }),
-        createMockAttribute({ id: 'declared-group-1-2', kind: 'DECLARED' }),
-        createMockAttribute({ id: 'declared-group-1-3', kind: 'DECLARED' }),
-      ],
-      explicitAttributeVerification: false,
-    },
-    {
-      attributes: [createMockAttribute({ id: 'declared-group-2-1', kind: 'DECLARED' })],
-      explicitAttributeVerification: false,
-    },
+    [
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-1',
+        explicitAttributeVerification: false,
+      }),
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-2',
+        explicitAttributeVerification: false,
+      }),
+      createMockDescriptorAttribute({
+        id: 'certified-group-1-3',
+        explicitAttributeVerification: false,
+      }),
+    ],
+    [
+      createMockDescriptorAttribute({
+        id: 'certified-group-2-1',
+        explicitAttributeVerification: false,
+      }),
+    ],
   ],
 }
 
+const descriptor = createMockEServiceDescriptorCatalog({ attributes: descriptorAttributes })
+
 describe('EServiceDescriptorAttributesSections', () => {
   it('should match the snapshot', () => {
-    mockEServiceDetailsContext({ descriptorAttributes })
+    mockEServiceDetailsContext({ descriptor })
     const { baseElement } = renderWithApplicationContext(<EServiceDescriptorAttributesSections />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -62,7 +89,9 @@ describe('EServiceDescriptorAttributesSections', () => {
 
   it('should match the snapshot on no attributes', () => {
     mockEServiceDetailsContext({
-      descriptorAttributes: { certified: [], verified: [], declared: [] },
+      descriptor: createMockEServiceDescriptorCatalog({
+        attributes: { certified: [], verified: [], declared: [] },
+      }),
     })
     const { baseElement } = renderWithApplicationContext(<EServiceDescriptorAttributesSections />, {
       withReactQueryContext: true,

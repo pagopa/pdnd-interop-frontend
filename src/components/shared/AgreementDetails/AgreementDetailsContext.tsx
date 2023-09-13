@@ -1,8 +1,6 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import { EServiceQueries } from '@/api/eservice'
-import { remapDescriptorAttributes } from '@/utils/attribute.utils'
-import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 import { AgreementQueries } from '@/api/agreement'
 import { useCurrentRoute } from '@/router'
 import { AttributeQueries } from '@/api/attribute'
@@ -10,6 +8,7 @@ import type {
   Agreement,
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
+  DescriptorAttributes,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 import noop from 'lodash/noop'
@@ -18,7 +17,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 
 type AgreementDetailsContextType = {
   agreement: Agreement | undefined
-  descriptorAttributes: RemappedDescriptorAttributes | undefined
+  descriptorAttributes: DescriptorAttributes | undefined
   partyAttributes:
     | {
         certified: CertifiedTenantAttribute[]
@@ -120,7 +119,7 @@ const AgreementDetailsContextProvider: React.FC<{
   const providerValue = React.useMemo(() => {
     if (!agreement || !descriptor || mode === null) return initialState
 
-    const descriptorAttributes = remapDescriptorAttributes(descriptor.attributes)
+    const descriptorAttributes = descriptor.attributes
     const isAgreementEServiceMine = agreement.producer.id === agreement.consumer.id
 
     const partyAttributes = {
