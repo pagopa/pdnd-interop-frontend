@@ -252,7 +252,6 @@ const createMockAgreement = createMockFactory<Agreement>({
     },
   ],
   isContractPresent: true,
-  existsContactMail: true,
 })
 
 const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
