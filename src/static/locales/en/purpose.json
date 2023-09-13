@@ -311,6 +311,7 @@
   "providerView": {
     "suspendedAlert": "This purpose is suspended. Until it is reactivated, the user will not be able to access the data provided through the API.",
     "waitingForApprovalAlert": "The consumer has requested a load estimate update that requires your approval.",
+    "archivedPurposeAlert": "The user will not be able to obtain a voucher from PDND Interoperabilità for this purpose because it is archived.",
     "sections": {
       "generalInformations": {
         "title": "General informations",

@@ -26,6 +26,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 
   const isSuspended = purpose.currentVersion?.state === 'SUSPENDED'
+  const isArchived = purpose.currentVersion?.state === 'ARCHIVED'
 
   const waitingForApprovalVersion = purpose.waitingForApprovalVersion
 
@@ -55,7 +56,6 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
           display: 'flex',
           flex: 1,
           flexDirection: 'column',
-          opacity: purpose.currentVersion?.state === 'ACTIVE' ? 1 : 0.5,
         }}
       >
         <CardHeader
@@ -74,9 +74,11 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
           {waitingForApprovalVersion ? (
             <Stack direction="column" spacing={2}>
               <Stack direction="row" alignItems="end" spacing={1}>
-                <Typography variant="body2" sx={{ textDecorationLine: 'line-through' }}>
-                  {purpose.currentVersion?.dailyCalls}
-                </Typography>
+                {purpose.currentVersion && (
+                  <Typography variant="body2" sx={{ textDecorationLine: 'line-through' }}>
+                    {purpose.currentVersion?.dailyCalls}
+                  </Typography>
+                )}
                 <Typography variant="h4">{waitingForApprovalVersion.dailyCalls}</Typography>
               </Stack>
               {waitingForApprovalVersion.expectedApprovalDate && (
@@ -99,7 +101,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
               <IconLink
                 onClick={handleSetApprovalDate}
                 component="button"
-                disabled={isSuspended}
+                disabled={isSuspended || isArchived}
                 startIcon={<EditCalendarIcon />}
                 alignSelf="start"
               >
@@ -110,7 +112,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
               <IconLink
                 onClick={handleConfirmUpdate}
                 component="button"
-                disabled={isSuspended}
+                disabled={isSuspended || isArchived}
                 startIcon={<PlayCircleOutlineIcon />}
                 alignSelf="start"
               >

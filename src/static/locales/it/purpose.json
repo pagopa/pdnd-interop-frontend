@@ -309,6 +309,7 @@
   "providerView": {
     "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione il fruitore non potrà accedere ai dati erogati attraverso l’API.",
     "waitingForApprovalAlert": "Il fruitore ha richiesto un adeguamento della stima di carico che richiede la tua approvazione.",
+    "archivedPurposeAlert": "Il fruitore non potrà ottenere un voucher da PDND Interoperabilità per questa finalità perché è archiviata.",
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
