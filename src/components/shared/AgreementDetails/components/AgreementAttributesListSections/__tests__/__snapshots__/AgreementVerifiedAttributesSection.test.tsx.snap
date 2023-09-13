@@ -95,7 +95,9 @@ exports[`AgreementVerifiedAttributesSection > should match snapshot when e-servi
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
-                          />
+                          >
+                            Attribute Name
+                          </p>
                         </div>
                         <div
                           class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
@@ -164,7 +166,9 @@ exports[`AgreementVerifiedAttributesSection > should match snapshot when e-servi
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
-                          />
+                          >
+                            Attribute Name
+                          </p>
                         </div>
                         <div
                           class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
@@ -258,7 +262,9 @@ exports[`AgreementVerifiedAttributesSection > should match snapshot when e-servi
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
-                          />
+                          >
+                            Attribute Name
+                          </p>
                         </div>
                         <div
                           class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
@@ -327,7 +333,9 @@ exports[`AgreementVerifiedAttributesSection > should match snapshot when e-servi
                         >
                           <p
                             class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
-                          />
+                          >
+                            Attribute Name
+                          </p>
                         </div>
                         <div
                           class="MuiAccordionSummary-expandIconWrapper css-yw020d-MuiAccordionSummary-expandIconWrapper"
