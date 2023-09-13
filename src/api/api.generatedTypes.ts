@@ -352,7 +352,6 @@ export interface Agreement {
   updatedAt?: string
   /** @format date-time */
   suspendedAt?: string
-  existsContactMail: boolean
 }
 
 export interface Agreements {
@@ -842,17 +841,12 @@ export type EServiceDescriptorState =
 export type EServiceTechnology = 'REST' | 'SOAP'
 
 export interface DescriptorAttributes {
-  certified: DescriptorAttribute[]
-  declared: DescriptorAttribute[]
-  verified: DescriptorAttribute[]
+  certified: DescriptorAttribute[][]
+  declared: DescriptorAttribute[][]
+  verified: DescriptorAttribute[][]
 }
 
 export interface DescriptorAttribute {
-  single?: DescriptorAttributeValue
-  group?: DescriptorAttributeValue[]
-}
-
-export interface DescriptorAttributeValue {
   /** @format uuid */
   id: string
   name: string
@@ -861,17 +855,12 @@ export interface DescriptorAttributeValue {
 }
 
 export interface DescriptorAttributesSeed {
-  certified: DescriptorAttributeSeed[]
-  declared: DescriptorAttributeSeed[]
-  verified: DescriptorAttributeSeed[]
+  certified: DescriptorAttributeSeed[][]
+  declared: DescriptorAttributeSeed[][]
+  verified: DescriptorAttributeSeed[][]
 }
 
 export interface DescriptorAttributeSeed {
-  single?: DescriptorAttributeValueSeed
-  group?: DescriptorAttributeValueSeed[]
-}
-
-export interface DescriptorAttributeValueSeed {
   /** @format uuid */
   id: string
   explicitAttributeVerification: boolean
