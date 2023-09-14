@@ -258,7 +258,7 @@ exports[`RiskAnalysisFormSkeleton > should match snapshot 1`] = `
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
       style="height: 600px;"
     />
   </div>

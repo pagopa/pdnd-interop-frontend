@@ -50,14 +50,14 @@ exports[`PageContainer > should match snapshot on loading state 1`] = `
             class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
             />
           </h1>
           <p
             class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
             />
           </p>
         </div>
@@ -390,14 +390,14 @@ exports[`PageContainerSkeleton > should match snapshot 1`] = `
             class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
             />
           </h1>
           <p
             class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
           >
             <span
-              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+              class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
             />
           </p>
         </div>

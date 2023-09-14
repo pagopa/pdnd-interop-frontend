@@ -44,7 +44,7 @@ exports[`AgreementSummarySection > should match the snapshot (consumer) 1`] = `
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                   href="/it/fruizione/catalogo-e-service/47f82055-77fd-4efd-8ed6-8a7d3021c879/b79fc9ac-2882-49bd-afd1-71f4284f117c"
                   target="_blank"
                 >
@@ -240,7 +240,7 @@ exports[`AgreementSummarySection > should match the snapshot (provider) 1`] = `
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                   href="/it/fruizione/catalogo-e-service/47f82055-77fd-4efd-8ed6-8a7d3021c879/b79fc9ac-2882-49bd-afd1-71f4284f117c"
                   target="_blank"
                 >
@@ -396,7 +396,7 @@ exports[`AgreementSummarySection > should match the snapshot with loading skelet
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
       style="height: 322px;"
     />
   </div>
@@ -407,7 +407,7 @@ exports[`AgreementSummarySectionSkeleton > should match the snapshot 1`] = `
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
       style="height: 322px;"
     />
   </div>

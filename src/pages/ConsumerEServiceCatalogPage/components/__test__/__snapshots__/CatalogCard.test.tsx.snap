@@ -85,7 +85,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly the s
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-804lq0-MuiSkeleton-root"
       style="height: 410px;"
     />
   </div>

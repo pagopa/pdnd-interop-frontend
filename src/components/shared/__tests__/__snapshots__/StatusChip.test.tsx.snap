@@ -411,7 +411,7 @@ exports[`StatusChipSkeleton > should match the snapshot 1`] = `
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1k986ro-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1j397b1-MuiSkeleton-root"
       style="width: 54px; height: 23px;"
     />
   </div>

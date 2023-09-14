@@ -146,10 +146,10 @@ exports[`AttributeContainer > should match snapshot on opening accordion and loa
                     class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
                   >
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     />
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     />
                   </div>
                 </div>
@@ -705,12 +705,12 @@ exports[`AttributeContainerSkeleton > should match snapshot (checked) 1`] = `
         class="MuiStack-root css-1sos3zc-MuiStack-root"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-wkdwxb-MuiSkeleton-root"
           style="width: 23px; height: 23px;"
         />
       </div>
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1dbrcok-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-9yoy4u-MuiSkeleton-root"
         style="height: 51px;"
       />
     </div>
@@ -728,7 +728,7 @@ exports[`AttributeContainerSkeleton > should match snapshot 1`] = `
         class="MuiStack-root css-1sos3zc-MuiStack-root"
       />
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1dbrcok-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-9yoy4u-MuiSkeleton-root"
         style="height: 51px;"
       />
     </div>

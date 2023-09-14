@@ -100,7 +100,7 @@ exports[`Footer > should match snapshot 1`] = `
             class="MuiTypography-root MuiTypography-caption css-il8o2f-MuiTypography-root"
           >
             <span
-              class="MuiTypography-root MuiTypography-inherit css-11xu8ks-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-inherit css-fwa2a3-MuiTypography-root"
             >
               PagoPA S.p.A.
             </span>

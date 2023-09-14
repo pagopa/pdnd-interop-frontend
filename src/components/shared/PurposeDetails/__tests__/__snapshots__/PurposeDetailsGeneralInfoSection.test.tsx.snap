@@ -166,7 +166,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                   href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
                   target="_blank"
                 >
@@ -194,7 +194,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                   href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
                   target="_blank"
                 >
@@ -406,7 +406,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                   href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
                   target="_blank"
                 >
@@ -434,7 +434,7 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
                 class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                   href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
                   target="_blank"
                 >
@@ -484,7 +484,7 @@ exports[`PurposeDetailsGeneralInfoSectionSkeleton > should match snapshot  1`] =
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1u7iav8-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
       style="height: 336px;"
     />
   </div>

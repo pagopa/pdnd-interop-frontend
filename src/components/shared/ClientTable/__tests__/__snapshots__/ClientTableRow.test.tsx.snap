@@ -11,7 +11,7 @@ exports[`ClientTableRowSkeleton > should match the snapshot 1`] = `
       class="MuiTableCell-root MuiTableCell-sizeMedium css-hxqovd-MuiTableCell-root"
     >
       <span
-        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
         style="width: 440px;"
       />
     </td>
@@ -19,14 +19,14 @@ exports[`ClientTableRowSkeleton > should match the snapshot 1`] = `
       class="MuiTableCell-root MuiTableCell-alignRight MuiTableCell-sizeMedium css-1mrogcl-MuiTableCell-root"
     >
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
         style="width: 100px; height: 40px;"
       />
       <span
         class="MuiBox-root css-1ljwlp4"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
           style="width: 4px;"
         />
       </span>

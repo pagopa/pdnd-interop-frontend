@@ -454,7 +454,7 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -462,14 +462,14 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -482,7 +482,7 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -490,14 +490,14 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -510,7 +510,7 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -518,14 +518,14 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -538,7 +538,7 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -546,14 +546,14 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -566,7 +566,7 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -574,14 +574,14 @@ exports[`ClientTable > should match the snapshot in loading state 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -631,7 +631,7 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -639,14 +639,14 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -659,7 +659,7 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -667,14 +667,14 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -687,7 +687,7 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -695,14 +695,14 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -715,7 +715,7 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -723,14 +723,14 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>
@@ -743,7 +743,7 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1rpd3i8-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 440px;"
               />
             </td>
@@ -751,14 +751,14 @@ exports[`ClientTableSkeleton > should match the snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight MuiTableCell-sizeMedium css-2u9kxv-MuiTableCell-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
                 style="width: 100px; height: 40px;"
               />
               <span
                 class="MuiBox-root css-1ljwlp4"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-xz33d6-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-7mr00j-MuiSkeleton-root"
                   style="width: 4px;"
                 />
               </span>

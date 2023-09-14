@@ -50,7 +50,7 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                     class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                       href="/it/fruizione/catalogo-e-service/47f82055-77fd-4efd-8ed6-8a7d3021c879/b79fc9ac-2882-49bd-afd1-71f4284f117c"
                       target="_blank"
                     >
@@ -427,7 +427,7 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                     class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
                   >
                     <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                       href="/it/fruizione/catalogo-e-service/47f82055-77fd-4efd-8ed6-8a7d3021c879/b79fc9ac-2882-49bd-afd1-71f4284f117c"
                       target="_blank"
                     >

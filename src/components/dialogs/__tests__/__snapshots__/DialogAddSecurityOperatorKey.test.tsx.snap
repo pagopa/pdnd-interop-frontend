@@ -164,7 +164,7 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                 content.keyField.infoLabel.message
                  
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
                   href="/it/generazione-chiavi"
                   target="_blank"
                 >
