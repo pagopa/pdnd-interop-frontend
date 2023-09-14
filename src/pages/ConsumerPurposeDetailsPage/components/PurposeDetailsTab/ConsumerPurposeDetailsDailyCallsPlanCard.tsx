@@ -22,6 +22,7 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 
   const isSuspended = purpose.currentVersion?.state === 'SUSPENDED'
+  const isArchived = purpose.currentVersion?.state === 'ARCHIVED'
 
   const handleRequestPlanChange = () => {
     if (!isAdmin) return null
@@ -32,11 +33,6 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
     setIsDrawerOpen(false)
   }
 
-  /**
-   * TODO
-   * - drawer
-   */
-
   return (
     <>
       <Card
@@ -45,7 +41,6 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
           display: 'flex',
           flex: 1,
           flexDirection: 'column',
-          opacity: purpose.currentVersion?.state === 'ACTIVE' ? 1 : 0.5,
         }}
       >
         <CardHeader
@@ -62,12 +57,14 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
         />
         <CardContent sx={{ px: 3, pt: 1 }}>
           <Stack direction="column" spacing={2}>
-            <Typography variant="h4">{purpose.currentVersion?.dailyCalls}</Typography>
+            <Typography variant="h4">
+              {purpose.currentVersion?.dailyCalls ?? purpose.waitingForApprovalVersion?.dailyCalls}
+            </Typography>
             <Divider />
             <IconLink
               onClick={handleRequestPlanChange}
               component="button"
-              disabled={isSuspended}
+              disabled={isSuspended || isArchived}
               startIcon={<PlusOneIcon />}
               alignSelf="start"
             >
