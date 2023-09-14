@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Purpose } from '@/api/api.generatedTypes'
 import { PurposeQueries } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
@@ -5,13 +6,14 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions'
 import { Link } from '@/router'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Skeleton, Tooltip } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
+import ErrorIcon from '@mui/icons-material/Error'
 
 export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
-  const { t } = useTranslation('common')
+  const { t: tCommon } = useTranslation('common')
+  const { t } = useTranslation('purpose', { keyPrefix: 'list' })
   const prefetch = PurposeQueries.usePrefetchSingle()
 
   const { actions } = useGetProviderPurposesActions(purpose)
@@ -19,6 +21,8 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   const handlePrefetch = () => {
     prefetch(purpose.id)
   }
+
+  const hasWaitingForApprovalVersion = !!(purpose && purpose.waitingForApprovalVersion)
 
   return (
     <TableRow
@@ -28,17 +32,23 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
         <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
       ]}
     >
-      <Link
-        as="button"
-        onPointerEnter={handlePrefetch}
-        onFocusVisible={handlePrefetch}
-        variant="outlined"
-        size="small"
-        to="PROVIDE_PURPOSE_DETAILS"
-        params={{ purposeId: purpose.id }}
+      <Tooltip
+        open={hasWaitingForApprovalVersion ? undefined : false}
+        title={t('newVersionAvailableTooltip')}
       >
-        {t('actions.inspect')}
-      </Link>
+        <Link
+          as="button"
+          onPointerEnter={handlePrefetch}
+          onFocusVisible={handlePrefetch}
+          variant="outlined"
+          size="small"
+          to="PROVIDE_PURPOSE_DETAILS"
+          params={{ purposeId: purpose.id }}
+          endIcon={hasWaitingForApprovalVersion ? <ErrorIcon /> : undefined}
+        >
+          {tCommon('actions.inspect')}
+        </Link>
+      </Tooltip>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />
