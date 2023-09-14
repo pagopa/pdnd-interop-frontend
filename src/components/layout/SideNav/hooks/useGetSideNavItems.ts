@@ -7,11 +7,6 @@ import { AuthHooks } from '@/api/auth'
 
 const views = [
   {
-    routeKey: 'PROVIDE',
-    id: 'provider',
-    children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
-  },
-  {
     routeKey: 'SUBSCRIBE',
     id: 'subscriber',
     children: [
@@ -22,6 +17,11 @@ const views = [
       'SUBSCRIBE_INTEROP_M2M',
       'SUBSCRIBE_DEBUG_VOUCHER',
     ],
+  },
+  {
+    routeKey: 'PROVIDE',
+    id: 'provider',
+    children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
   },
   { routeKey: 'NOTIFICATION', StartIcon: EmailIcon },
   { routeKey: 'PARTY_REGISTRY' },

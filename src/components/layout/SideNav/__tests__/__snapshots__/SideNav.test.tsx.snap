@@ -24,7 +24,7 @@ exports[`SideNav > should match the snapshot 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                PROVIDE
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -58,7 +58,7 @@ exports[`SideNav > should match the snapshot 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                SUBSCRIBE
+                PROVIDE
               </p>
             </div>
             <svg
@@ -498,7 +498,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                PROVIDE
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -532,7 +532,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                SUBSCRIBE
+                PROVIDE
               </p>
             </div>
             <svg
@@ -640,7 +640,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                PROVIDE
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -674,7 +674,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                SUBSCRIBE
+                PROVIDE
               </p>
             </div>
             <svg
