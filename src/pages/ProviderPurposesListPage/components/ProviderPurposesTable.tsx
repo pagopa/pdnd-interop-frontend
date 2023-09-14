@@ -23,9 +23,7 @@ export const ProviderPurposesTable: React.FC<ProviderPurposesTableProps> = ({ pu
 
   return (
     <Table headLabels={headLabels} isEmpty={purposes && purposes.length === 0}>
-      {purposes?.map((purpose) => (
-        <ProviderPurposesTableRow key={purpose.id} purpose={purpose} />
-      ))}
+      {purposes?.map((purpose) => <ProviderPurposesTableRow key={purpose.id} purpose={purpose} />)}
     </Table>
   )
 }
