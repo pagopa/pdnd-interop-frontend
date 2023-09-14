@@ -22,7 +22,11 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
     prefetch(purpose.id)
   }
 
-  const hasWaitingForApprovalVersion = !!(purpose && purpose.waitingForApprovalVersion)
+  const hasWaitingForApprovalVersion = !!(
+    purpose &&
+    purpose.currentVersion &&
+    purpose.waitingForApprovalVersion
+  )
 
   return (
     <TableRow
