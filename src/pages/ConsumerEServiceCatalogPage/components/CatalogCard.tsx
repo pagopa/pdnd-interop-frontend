@@ -1,9 +1,7 @@
 import { EServiceQueries } from '@/api/eservice'
-import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { Link } from '@/router'
 import {
   Avatar,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -15,97 +13,18 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
-import { Tag } from '@pagopa/mui-italia'
-import type { Colors } from '@pagopa/mui-italia'
 import type { CatalogEService } from '@/api/api.generatedTypes'
-import {
-  checkIfAlreadySubscribed,
-  checkIfcanCreateAgreementDraft,
-  checkIfhasAlreadyAgreementDraft,
-} from '@/utils/agreement.utils'
 
 interface CatalogCardProps {
   eservice: CatalogEService
 }
 
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'tableEServiceCatalog' })
   const { t: tCommon } = useTranslation('common')
   const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
 
-  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(
-    eservice,
-    eservice.activeDescriptor?.state
-  )
-  const isMine = eservice.isMine
-  const isSubscribed = checkIfAlreadySubscribed(eservice)
-  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
-
-  const { createAgreementDraftAction, goToAgreementAction } = useGetEServiceConsumerActions(
-    eservice,
-    eservice.activeDescriptor
-  )
-
   const handlePrefetch = () => {
     prefetchEService(eservice.id, eservice.activeDescriptor?.id ?? '')
-  }
-
-  let secondaryAction:
-    | { label: string; action: VoidFunction; buttonType: 'naked' | 'contained' }
-    | undefined
-  let headerLabelAndTag: {
-    label: string
-    tag:
-      | {
-          label: string
-          color: string
-        }
-      | undefined
-  } = {
-    label: t('eserviceCardLabel'),
-    tag: undefined,
-  }
-
-  if (isSubscribed && goToAgreementAction) {
-    secondaryAction = {
-      label: t('handleRequest'),
-      action: goToAgreementAction,
-      buttonType: 'naked',
-    }
-    headerLabelAndTag = {
-      label: isMine ? t('myEserviceCardLabel') : t('eserviceCardLabel'),
-      tag: {
-        label: t('requestCompleted'),
-        color: 'success',
-      },
-    }
-  }
-
-  if (canCreateAgreementDraft && createAgreementDraftAction) {
-    secondaryAction = {
-      label: t('subscribe'),
-      action: createAgreementDraftAction,
-      buttonType: 'contained',
-    }
-    headerLabelAndTag = {
-      label: isMine ? t('myEserviceCardLabel') : t('eserviceCardLabel'),
-      tag: undefined,
-    }
-  }
-
-  if (hasAgreementDraft && goToAgreementAction) {
-    secondaryAction = {
-      label: t('editDraft'),
-      action: goToAgreementAction,
-      buttonType: 'contained',
-    }
-    headerLabelAndTag = {
-      label: t('eserviceCardLabel'),
-      tag: {
-        label: t('draftRequest'),
-        color: 'warning',
-      },
-    }
   }
 
   return (
@@ -115,50 +34,31 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        minHeight: 410,
       }}
     >
       <CardHeader
+        sx={{ p: 3, pb: 0 }}
         disableTypography={true}
         title={
-          <Stack
-            sx={{ minHeight: 29 }}
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography
-              variant="overline"
-              fontWeight={700}
-              textTransform="uppercase"
-              color="text.secondary"
-            >
-              {headerLabelAndTag.label}
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Avatar sx={{ bgcolor: 'background.default' }}>
+              <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
+            </Avatar>
+            <Typography variant="caption" color="text.secondary">
+              {eservice.producer.name}
             </Typography>
-            {headerLabelAndTag.tag && (
-              <Tag
-                value={headerLabelAndTag.tag.label}
-                color={headerLabelAndTag.tag.color as unknown as Colors | undefined}
-              />
-            )}
           </Stack>
         }
       />
-      <CardContent sx={{ minHeight: 150, alignItems: 'start' }}>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Avatar sx={{ bgcolor: 'background.default' }}>
-            <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
-          </Avatar>
-          <Typography variant="caption" color="text.secondary">
-            {eservice.producer.name}
-          </Typography>
-        </Stack>
-        <Typography variant="h6" color="text.primary" sx={{ marginTop: 3, marginBottom: 1 }}>
+      <CardContent sx={{ alignItems: 'start' }}>
+        <Typography variant="h6" color="text.primary" sx={{ marginBottom: 1 }}>
           {eservice.name}
         </Typography>
         <Typography variant="body1" color="text.primary" component="div">
           <p
             style={{
-              WebkitLineClamp: 4,
+              WebkitLineClamp: 5,
               WebkitBoxOrient: 'vertical',
               display: '-webkit-box',
               overflow: 'hidden',
@@ -173,8 +73,8 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         <Stack direction="row" spacing={2}>
           <Link
             as="button"
-            variant="text"
             size="small"
+            variant="contained"
             to="SUBSCRIBE_CATALOG_VIEW"
             params={{
               eserviceId: eservice.id,
@@ -185,23 +85,6 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
           >
             <span onPointerEnter={handlePrefetch}>{tCommon('actions.inspect')}</span>
           </Link>
-
-          {secondaryAction && secondaryAction.buttonType === 'naked' && (
-            <Button variant="text" size="small" color="primary" onClick={secondaryAction.action}>
-              {secondaryAction.label}
-            </Button>
-          )}
-
-          {secondaryAction && secondaryAction.buttonType === 'contained' && (
-            <Button
-              variant="contained"
-              size="small"
-              color="primary"
-              onClick={secondaryAction.action}
-            >
-              {secondaryAction.label}
-            </Button>
-          )}
         </Stack>
       </CardActions>
     </Card>
