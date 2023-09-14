@@ -1,7 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
-import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
   AttributeContainer,
   AttributeGroupContainer,
@@ -15,6 +14,7 @@ import {
 import { Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { useGetConsumerDeclaredAttributesActions } from '../hooks/useGetConsumerDeclaredAttributesActions'
+import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 
 const ConsumerAgreementCreateDeclaredAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -26,7 +26,7 @@ const ConsumerAgreementCreateDeclaredAttributesSection: React.FC = () => {
 
   const getDeclaredAttributeActions = useGetConsumerDeclaredAttributesActions()
   function getGroupContainerProps(
-    group: RemappedDescriptorAttribute
+    group: Array<DescriptorAttribute>
   ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled('declared', ownedDeclaredAttributes, group)
 
@@ -68,7 +68,7 @@ const ConsumerAgreementCreateDeclaredAttributesSection: React.FC = () => {
         {declaredAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
             <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-              {group.attributes.map((attribute) => (
+              {group.map((attribute) => (
                 <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}

@@ -68,9 +68,9 @@ describe('useDescriptorAttributesPartyOwnership', () => {
     mockUseGetDescriptorCatalog(
       createMockEServiceDescriptorCatalog({
         attributes: {
-          certified: [{ single: { id: 'certified-1' } }],
-          verified: [{ single: { id: 'verified-1' } }],
-          declared: [{ single: { id: 'declared-1' } }],
+          certified: [[{ id: 'certified-1' }]],
+          verified: [[{ id: 'verified-1' }]],
+          declared: [[{ id: 'declared-1' }]],
         },
         eservice: {
           isMine: true,

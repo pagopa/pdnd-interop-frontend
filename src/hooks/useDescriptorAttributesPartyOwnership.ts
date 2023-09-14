@@ -1,7 +1,7 @@
 import React from 'react'
 import { AttributeQueries } from '@/api/attribute'
 import { EServiceQueries } from '@/api/eservice'
-import { hasAllDescriptorAttributes, remapDescriptorAttributes } from '@/utils/attribute.utils'
+import { hasAllDescriptorAttributes } from '@/utils/attribute.utils'
 import { AuthHooks } from '@/api/auth'
 
 /**
@@ -40,25 +40,23 @@ export function useDescriptorAttributesPartyOwnership(
         hasAllVerifiedAttributes: true,
       }
 
-    const remapedDescriptorAttributes = remapDescriptorAttributes(descriptor.attributes)
-
     const hasAllCertifiedAttributes = hasAllDescriptorAttributes(
       'certified',
       ownedCertified.attributes,
-      remapedDescriptorAttributes.certified
+      descriptor.attributes.certified
     )
 
     const hasAllVerifiedAttributes = hasAllDescriptorAttributes(
       'verified',
       ownedVerified.attributes,
-      remapedDescriptorAttributes.verified,
+      descriptor.attributes.verified,
       descriptor.eservice.producer.id
     )
 
     const hasAllDeclaredAttributes = hasAllDescriptorAttributes(
       'declared',
       ownedDeclared.attributes,
-      remapedDescriptorAttributes.declared
+      descriptor.attributes.declared
     )
 
     return {

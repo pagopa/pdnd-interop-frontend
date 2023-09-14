@@ -1,5 +1,4 @@
 import React from 'react'
-import { remapDescriptorAttributes } from '@/utils/attribute.utils'
 import { ReadOnlyDescriptorAttributes } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
@@ -12,12 +11,7 @@ export const ProviderEServiceAttributeVersionSummary: React.FC = () => {
     params.descriptorId
   )
 
-  const descriptorAttributes = React.useMemo(() => {
-    if (!descriptor) return undefined
-    return remapDescriptorAttributes(descriptor.attributes)
-  }, [descriptor])
+  if (!descriptor) return null
 
-  if (!descriptorAttributes) return null
-
-  return <ReadOnlyDescriptorAttributes descriptorAttributes={descriptorAttributes} />
+  return <ReadOnlyDescriptorAttributes descriptorAttributes={descriptor.attributes} />
 }

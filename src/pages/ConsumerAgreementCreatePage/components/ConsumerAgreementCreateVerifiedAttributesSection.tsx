@@ -56,7 +56,7 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
                 color="warning"
               >
                 <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-                  {group.attributes.map((attribute) => (
+                  {group.map((attribute) => (
                     <AttributeContainer key={attribute.id} attribute={attribute} checked={false} />
                   ))}
                 </Stack>

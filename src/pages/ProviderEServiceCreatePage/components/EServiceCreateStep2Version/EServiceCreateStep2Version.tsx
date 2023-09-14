@@ -11,7 +11,6 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import omit from 'lodash/omit'
-import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/api/eservice/eservice.api.utils'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -82,11 +81,8 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
     }
 
     if (descriptor) {
-      const descriptorAttributeSeed = remapDescriptorAttributesToDescriptorAttributesSeed(
-        descriptor.attributes
-      )
       updateVersionDraft(
-        { ...payload, descriptorId: descriptor.id, attributes: descriptorAttributeSeed },
+        { ...payload, descriptorId: descriptor.id, attributes: descriptor.attributes },
         { onSuccess: forward }
       )
       return

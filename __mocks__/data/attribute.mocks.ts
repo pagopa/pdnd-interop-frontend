@@ -4,10 +4,8 @@ import type {
   CompactAttribute,
   DeclaredTenantAttribute,
   DescriptorAttribute,
-  DescriptorAttributeValue,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
-import type { RemappedDescriptorAttribute } from '../../src/types/attribute.types'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockAttribute = createMockFactory<Attribute>({
@@ -48,27 +46,11 @@ const createMockCompactAttribute = createMockFactory<CompactAttribute>({
   name: 'Attribute Name',
 })
 
-const createMockRemappedDescriptorAttribute = createMockFactory<RemappedDescriptorAttribute>({
-  attributes: [createMockCompactAttribute()],
-  explicitAttributeVerification: true,
-})
-
-const createMockBackendAttributeContent = createMockFactory<DescriptorAttributeValue>({
+const createMockDescriptorAttribute = createMockFactory<DescriptorAttribute>({
   id: 'id-party-attribute',
   name: 'Attribute Name',
   description: 'Attribute description',
   explicitAttributeVerification: true,
-})
-
-const createMockSingleBackendAttribute = createMockFactory<DescriptorAttribute>({
-  single: createMockBackendAttributeContent(),
-})
-
-const createMockGroupBackendAttribute = createMockFactory<DescriptorAttribute>({
-  group: [
-    createMockBackendAttributeContent(),
-    createMockBackendAttributeContent({ id: 'id-party-attribute-2' }),
-  ],
 })
 
 export {
@@ -77,7 +59,5 @@ export {
   createVerifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createMockCompactAttribute,
-  createMockRemappedDescriptorAttribute,
-  createMockSingleBackendAttribute,
-  createMockGroupBackendAttribute,
+  createMockDescriptorAttribute,
 }

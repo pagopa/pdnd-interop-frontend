@@ -1,23 +1,19 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Stack, Box, Divider, Link } from '@mui/material'
-import type {
-  AttributeKey,
-  RemappedDescriptorAttribute,
-  RemappedDescriptorAttributes,
-} from '@/types/attribute.types'
+import type { AttributeKey } from '@/types/attribute.types'
 import {
   SectionContainer,
   AttributeContainer,
   AttributeGroupContainer,
 } from '@/components/layout/containers'
-import type { CompactAttribute } from '@/api/api.generatedTypes'
+import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
 import { useCurrentRoute } from '@/router'
 import type { ProviderOrConsumer } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
 
 type ReadOnlyDescriptorAttributesProps = {
-  descriptorAttributes: RemappedDescriptorAttributes
+  descriptorAttributes: DescriptorAttributes
 }
 
 export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributesProps> = ({
@@ -71,7 +67,7 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
 }
 
 type AttributeGroupsListSectionProps = {
-  attributeGroups: Array<RemappedDescriptorAttribute>
+  attributeGroups: Array<Array<DescriptorAttribute>>
   title: string
   subtitle: React.ReactNode
   emptyLabel: string
@@ -88,7 +84,7 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
       {attributeGroups.length > 0 && (
         <Stack spacing={3}>
           {attributeGroups.map((attributeGroup, index) => (
-            <AttributeGroup key={index} attributes={attributeGroup.attributes} index={index} />
+            <AttributeGroup key={index} attributes={attributeGroup} index={index} />
           ))}
         </Stack>
       )}
@@ -98,7 +94,7 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
 }
 
 type AttributeGroup = {
-  attributes: Array<CompactAttribute>
+  attributes: Array<DescriptorAttribute>
   index: number
 }
 

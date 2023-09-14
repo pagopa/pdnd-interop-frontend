@@ -1,7 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useAgreementDetailsContext } from '../../AgreementDetailsContext'
-import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
   SectionContainer,
   AttributeGroupContainer,
@@ -17,6 +16,7 @@ import {
 } from '@/utils/attribute.utils'
 import { useAgreementGetDeclaredAttributesActions } from '../../hooks/useAgreementGetDeclaredAttributesActions'
 import { attributesHelpLink } from '@/config/constants'
+import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 
 export const AgreementDeclaredAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -32,7 +32,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
   const getDeclaredAttributeActions = useAgreementGetDeclaredAttributesActions()
 
   function getGroupContainerProps(
-    group: RemappedDescriptorAttribute
+    group: Array<DescriptorAttribute>
   ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled('declared', ownedDeclaredAttributes, group)
 
@@ -76,7 +76,7 @@ export const AgreementDeclaredAttributesSection: React.FC = () => {
         {declaredAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
             <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-              {group.attributes.map((attribute) => (
+              {group.map((attribute) => (
                 <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}

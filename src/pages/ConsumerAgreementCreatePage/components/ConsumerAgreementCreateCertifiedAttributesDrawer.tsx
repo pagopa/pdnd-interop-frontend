@@ -1,12 +1,12 @@
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
 import { Drawer } from '@/components/shared/Drawer'
 import { attributesHelpLink } from '@/config/constants'
-import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import { isAttributeGroupFullfilled, isAttributeOwned } from '@/utils/attribute.utils'
 import { Alert, Link, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
+import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 
 const ConsumerAgreementCreateCertifiedAttributesDrawer: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -24,7 +24,7 @@ const ConsumerAgreementCreateCertifiedAttributesDrawer: React.FC = () => {
   const ownedCertifiedAttributes = partyAttributes?.certified ?? []
 
   function getGroupContainerProps(
-    group: RemappedDescriptorAttribute
+    group: Array<DescriptorAttribute>
   ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled(
       'certified',
@@ -69,7 +69,7 @@ const ConsumerAgreementCreateCertifiedAttributesDrawer: React.FC = () => {
         {certifiedAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
             <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-              {group.attributes.map((attribute) => (
+              {group.map((attribute) => (
                 <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
