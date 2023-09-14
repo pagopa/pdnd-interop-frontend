@@ -25,7 +25,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
 
   const waitingForApprovalVersion = purpose.waitingForApprovalVersion
 
-  if (!waitingForApprovalVersion || !isAdmin) return null
+  if (!waitingForApprovalVersion || !isAdmin || !purpose.currentVersion) return null
 
   function handleDeleteDailyCallsUpdate() {
     if (!purpose?.waitingForApprovalVersion) return
@@ -39,7 +39,6 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        opacity: purpose.currentVersion?.state === 'ACTIVE' ? 1 : 0.5,
       }}
     >
       <CardHeader
