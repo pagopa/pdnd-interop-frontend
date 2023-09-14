@@ -118,6 +118,7 @@ export const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
     queries: {
       suspense: true,
+      useErrorBoundary: true,
       retryDelay: exponentialBackoffRetry,
     },
     mutations: {
