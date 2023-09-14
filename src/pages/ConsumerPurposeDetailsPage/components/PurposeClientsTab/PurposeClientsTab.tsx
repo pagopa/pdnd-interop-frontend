@@ -1,9 +1,10 @@
 import { useDialog } from '@/stores'
-import { Alert, Button, Stack } from '@mui/material'
+import { Alert, Button, Stack, Tooltip } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { PurposeClientsTable, PurposeClientsTableSkeleton } from './PurposeClientsTable'
 import { AuthHooks } from '@/api/auth'
+import PlusOneIcon from '@mui/icons-material/PlusOne'
 
 interface PurposeClientsTabProps {
   purposeId: string
@@ -27,13 +28,22 @@ export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
 
   return (
     <>
-      {isAdmin && (
-        <Stack sx={{ mb: 2 }} alignItems="end">
-          <Button variant="contained" size="small" onClick={handleOpenAddClientToPurposeDialog}>
+      <Stack sx={{ mb: 2 }} alignItems="end">
+        <Tooltip
+          arrow
+          title={isAdmin ? undefined : t('consumerView.addClientToPurposeDisableTooltip.label')}
+        >
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleOpenAddClientToPurposeDialog}
+            startIcon={<PlusOneIcon />}
+            disabled={!isAdmin}
+          >
             {tCommon('addBtn')}
           </Button>
-        </Stack>
-      )}
+        </Tooltip>
+      </Stack>
       <React.Suspense fallback={<PurposeClientsTableSkeleton />}>
         <PurposeClientsTable purposeId={purposeId} />
       </React.Suspense>
