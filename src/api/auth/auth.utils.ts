@@ -11,7 +11,7 @@ export const parseJwt = memoize((token: string | null | undefined) => {
   const isOperatorAPI = currentRoles.includes('api')
   const isOperatorSecurity = currentRoles.includes('security')
   const isSupport = currentRoles.includes('support')
-  const isIPAOrganization = jwt?.externalId?.origin ? jwt.externalId.origin === 'IPA' : true //TODO: PIN-3870
+  const isIPAOrganization = jwt ? jwt.externalId.origin === 'IPA' : true
 
   return {
     jwt,
