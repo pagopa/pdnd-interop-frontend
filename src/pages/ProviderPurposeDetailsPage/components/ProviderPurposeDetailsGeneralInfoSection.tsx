@@ -1,6 +1,6 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
-import { useNavigate } from '@/router'
+import { useNavigate, Link } from '@/router'
 import { Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -42,10 +42,20 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
       <Stack spacing={2}>
         <InformationContainer
           label={t('eServiceField.label')}
-          content={t('eServiceField.value', {
-            name: purpose.eservice.name,
-            version: purpose.eservice.descriptor.version,
-          })}
+          content={
+            <Link
+              to="PROVIDE_ESERVICE_MANAGE"
+              params={{
+                eserviceId: purpose.eservice.id,
+                descriptorId: purpose.eservice.descriptor.id,
+              }}
+            >
+              {t('eServiceField.value', {
+                name: purpose.eservice.name,
+                version: purpose.eservice.descriptor.version,
+              })}
+            </Link>
+          }
         />
         <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
         <InformationContainer
