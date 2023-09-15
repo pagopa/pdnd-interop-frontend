@@ -24,9 +24,7 @@ export const ConsumerPurposesTable: React.FC<ConsumerPurposesTableProps> = ({ pu
 
   return (
     <Table headLabels={headLabels} isEmpty={purposes && purposes.length === 0}>
-      {purposes?.map((purpose) => (
-        <ConsumerPurposesTableRow key={purpose.id} purpose={purpose} />
-      ))}
+      {purposes?.map((purpose) => <ConsumerPurposesTableRow key={purpose.id} purpose={purpose} />)}
     </Table>
   )
 }
