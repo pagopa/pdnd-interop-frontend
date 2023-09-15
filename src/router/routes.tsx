@@ -23,7 +23,6 @@ import {
   ConsumerClientCreatePage,
   SecurityKeyGuidePage,
   ConsumerPurposeCreatePage,
-  NotificationsPage,
   ConsumerAgreementCreatePage,
   NotFoundPage,
   ConsumerClientManagePage,
@@ -76,14 +75,6 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'SECURITY_KEY_GUIDE',
     path: '/generazione-chiavi',
     element: <SecurityKeyGuidePage />,
-    public: false,
-    hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
-  })
-  .addRoute({
-    key: 'NOTIFICATION',
-    path: '/notifiche',
-    element: <NotificationsPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security'],

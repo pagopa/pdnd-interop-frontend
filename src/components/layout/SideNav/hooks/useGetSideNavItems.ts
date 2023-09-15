@@ -1,6 +1,5 @@
 import React from 'react'
 import type { SideNavItemView } from '../SideNav'
-import EmailIcon from '@mui/icons-material/Email'
 import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
@@ -23,7 +22,6 @@ const views = [
     id: 'provider',
     children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
   },
-  { routeKey: 'NOTIFICATION', StartIcon: EmailIcon },
   { routeKey: 'PARTY_REGISTRY' },
 ] as const
 

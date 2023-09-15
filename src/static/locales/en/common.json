@@ -170,10 +170,6 @@
   "privacyPolicy": {
     "title": "Privacy Policy"
   },
-  "notifications": {
-    "title": "Notifications",
-    "tempAlert": "The notifications feature is currently being developed"
-  },
   "securityKeyGuide": {
     "title": "How to generate and upload security keys"
   },

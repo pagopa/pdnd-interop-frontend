@@ -170,10 +170,6 @@
   "privacyPolicy": {
     "title": "Privacy Policy"
   },
-  "notifications": {
-    "title": "Notifiche",
-    "tempAlert": "Le funzionalità di notifica sono attualmente in sviluppo"
-  },
   "securityKeyGuide": {
     "title": "Generare e caricare chiavi di sicurezza"
   },
