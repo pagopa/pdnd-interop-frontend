@@ -6,7 +6,6 @@ import { EServiceGeneralInfoSection } from './components/EServiceGeneralInfoSect
 import { EServiceVersionInfoSection } from './components/EServiceVersionInfoSection'
 import { EServiceLinksSection } from './components/EServiceLinksSection'
 import { EServiceVersionHistorySection } from './components/EServiceVersionHistorySection'
-import { EServiceDescriptorAttributesSections } from './components/EServiceDescriptorAttributesSections'
 import { EServiceDocumentsListSection } from './components/EServiceDocumentsListSection'
 import { EServiceProviderContacts } from './components/EServiceProviderContacts'
 import type {
@@ -15,7 +14,8 @@ import type {
 } from '@/api/api.generatedTypes'
 import { ApiInfoSection, ApiInfoSectionSkeleton } from '../ApiInfoSection'
 import { useTranslation } from 'react-i18next'
-import { SectionContainerSkeleton } from '@/components/layout/containers'
+import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
+import { ReadOnlyDescriptorAttributes } from '../ReadOnlyDescriptorAttributes'
 
 type EServiceDetailsProps = {
   descriptor: CatalogEServiceDescriptor | ProducerEServiceDescriptor
@@ -51,7 +51,9 @@ export const EServiceDetails: React.FC<EServiceDetailsProps> = ({ descriptor }) 
         </Grid>
       </Grid>
 
-      <EServiceDescriptorAttributesSections />
+      <SectionContainer newDesign component="div">
+        <ReadOnlyDescriptorAttributes descriptorAttributes={descriptor.attributes} />
+      </SectionContainer>
 
       <Grid spacing={2} container>
         <Grid item xs={6}>
