@@ -1,9 +1,8 @@
 import React from 'react'
-import { Button, IconButton, Stack } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { CreateClientFormValues } from '../ConsumerClientCreate.page'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useDialog } from '@/stores'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import type { RelationshipInfo } from '@/api/api.generatedTypes'
@@ -44,9 +43,13 @@ const OperatorsInputTable: React.FC = () => {
       >
         {operators.map((operator) => (
           <TableRow key={operator.id} cellData={[`${operator.name} ${operator.familyName}`]}>
-            <IconButton onClick={handleRemoveOperator.bind(null, operator.id)}>
-              <DeleteOutlineIcon color="error" fontSize="small" />
-            </IconButton>
+            <Button
+              onClick={handleRemoveOperator.bind(null, operator.id)}
+              variant="naked"
+              color="error"
+            >
+              {tCommon('actions.delete')}
+            </Button>
           </TableRow>
         ))}
       </Table>

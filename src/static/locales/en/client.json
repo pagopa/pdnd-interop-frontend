@@ -20,13 +20,16 @@
       "label": "Client description (required)",
       "infoLabel": "Min 10 chars, max 250 chars"
     },
-    "clientOperatorsSectionTitle": "Security operators",
+    "clientOperatorsSection": {
+      "title": "Security operators",
+      "description": "You can manage the security operators in every moment, still after the creation"
+    },
     "operatorsTable": {
       "noDataLabel": "No operator added"
     },
     "actions": {
-      "createLabel": "Create client",
-      "backToClientsLabel": "Back to the clients list"
+      "createLabel": "Create",
+      "backToClientsLabel": "Back to the clients"
     }
   },
   "edit": {

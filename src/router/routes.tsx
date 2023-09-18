@@ -236,7 +236,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/fruizione/client/crea',
     element: <ConsumerClientCreatePage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin'],
   })
   .addRoute({
@@ -300,7 +300,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/fruizione/interop-m2m/crea',
     element: <ConsumerClientCreatePage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin'],
   })
   .addRoute({

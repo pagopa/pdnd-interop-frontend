@@ -38,17 +38,6 @@ describe('useGetSideNavItems', () => {
           "routeKey": "PROVIDE",
         },
         {
-          "StartIcon": {
-            "$$typeof": Symbol(react.memo),
-            "compare": null,
-            "type": {
-              "$$typeof": Symbol(react.forward_ref),
-              "render": [Function],
-            },
-          },
-          "routeKey": "NOTIFICATION",
-        },
-        {
           "routeKey": "PARTY_REGISTRY",
         },
       ]
@@ -79,17 +68,6 @@ describe('useGetSideNavItems', () => {
           "routeKey": "PROVIDE",
         },
         {
-          "StartIcon": {
-            "$$typeof": Symbol(react.memo),
-            "compare": null,
-            "type": {
-              "$$typeof": Symbol(react.forward_ref),
-              "render": [Function],
-            },
-          },
-          "routeKey": "NOTIFICATION",
-        },
-        {
           "routeKey": "PARTY_REGISTRY",
         },
       ]
@@ -101,35 +79,24 @@ describe('useGetSideNavItems', () => {
     const { result } = renderHook(() => useGetSideNavItems())
 
     expect(result.current).toMatchInlineSnapshot(`
-    [
-      {
-        "children": [
-          "SUBSCRIBE_CATALOG_LIST",
-          "SUBSCRIBE_AGREEMENT_LIST",
-          "SUBSCRIBE_PURPOSE_LIST",
-          "SUBSCRIBE_CLIENT_LIST",
-          "SUBSCRIBE_INTEROP_M2M",
-          "SUBSCRIBE_DEBUG_VOUCHER",
-        ],
-        "id": "subscriber",
-        "routeKey": "SUBSCRIBE",
-      },
-      {
-        "StartIcon": {
-          "$$typeof": Symbol(react.memo),
-          "compare": null,
-          "type": {
-            "$$typeof": Symbol(react.forward_ref),
-            "render": [Function],
-          },
+      [
+        {
+          "children": [
+            "SUBSCRIBE_CATALOG_LIST",
+            "SUBSCRIBE_AGREEMENT_LIST",
+            "SUBSCRIBE_PURPOSE_LIST",
+            "SUBSCRIBE_CLIENT_LIST",
+            "SUBSCRIBE_INTEROP_M2M",
+            "SUBSCRIBE_DEBUG_VOUCHER",
+          ],
+          "id": "subscriber",
+          "routeKey": "SUBSCRIBE",
         },
-        "routeKey": "NOTIFICATION",
-      },
-      {
-        "routeKey": "PARTY_REGISTRY",
-      },
-    ]
-  `)
+        {
+          "routeKey": "PARTY_REGISTRY",
+        },
+      ]
+    `)
   })
 
   it('Should match the snapshot on security and api operator roles', async () => {
@@ -158,17 +125,6 @@ describe('useGetSideNavItems', () => {
           ],
           "id": "provider",
           "routeKey": "PROVIDE",
-        },
-        {
-          "StartIcon": {
-            "$$typeof": Symbol(react.memo),
-            "compare": null,
-            "type": {
-              "$$typeof": Symbol(react.forward_ref),
-              "render": [Function],
-            },
-          },
-          "routeKey": "NOTIFICATION",
         },
         {
           "routeKey": "PARTY_REGISTRY",
@@ -205,17 +161,6 @@ describe('useGetSideNavItems', () => {
           "routeKey": "PROVIDE",
         },
         {
-          "StartIcon": {
-            "$$typeof": Symbol(react.memo),
-            "compare": null,
-            "type": {
-              "$$typeof": Symbol(react.forward_ref),
-              "render": [Function],
-            },
-          },
-          "routeKey": "NOTIFICATION",
-        },
-        {
           "routeKey": "PARTY_REGISTRY",
         },
       ]
@@ -250,17 +195,6 @@ describe('useGetSideNavItems', () => {
           "routeKey": "PROVIDE",
         },
         {
-          "StartIcon": {
-            "$$typeof": Symbol(react.memo),
-            "compare": null,
-            "type": {
-              "$$typeof": Symbol(react.forward_ref),
-              "render": [Function],
-            },
-          },
-          "routeKey": "NOTIFICATION",
-        },
-        {
           "routeKey": "PARTY_REGISTRY",
         },
       ]
@@ -293,17 +227,6 @@ describe('useGetSideNavItems', () => {
           ],
           "id": "provider",
           "routeKey": "PROVIDE",
-        },
-        {
-          "StartIcon": {
-            "$$typeof": Symbol(react.memo),
-            "compare": null,
-            "type": {
-              "$$typeof": Symbol(react.forward_ref),
-              "render": [Function],
-            },
-          },
-          "routeKey": "NOTIFICATION",
         },
         {
           "routeKey": "PARTY_REGISTRY",
