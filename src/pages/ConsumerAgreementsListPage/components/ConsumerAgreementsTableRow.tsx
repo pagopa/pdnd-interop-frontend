@@ -28,6 +28,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
 
   // The `canBeUpgraded` property that comes from the BE does not take into account the
   // agreement state, we may need to ask the BE to add this check.
+  // This will be solved with PIN-3973.
   const canBeUpgraded = ['ACTIVE', 'SUSPENDED'].includes(agreement.state) && agreement.canBeUpgraded
   const isAgreementEditable = isAdmin && agreement.state === 'DRAFT'
 
