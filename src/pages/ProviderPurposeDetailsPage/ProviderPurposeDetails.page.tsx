@@ -5,7 +5,7 @@ import { useParams } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProviderPurposeDetailsGeneralInfoSection } from './components/ProviderPurposeDetailsGeneralInfoSection'
-import { Alert, Grid } from '@mui/material'
+import { Alert, Grid, Stack } from '@mui/material'
 import { ProviderPurposeDetailsLoadEstimateSection } from './components/ProviderPurposeDetailsLoadEstimateSection'
 import useGetPurposeStateAlertProps from './hooks/useGetPurposeStateAlertProps'
 
@@ -30,17 +30,13 @@ const ProviderPurposeDetailsPage: React.FC = () => {
         to: 'PROVIDE_PURPOSE_LIST',
       }}
     >
-      <Grid container spacing={3}>
-        {alertProps && (
-          <Grid item xs={8}>
-            <Alert severity={alertProps.severity}>{alertProps.content}</Alert>
-          </Grid>
-        )}
+      <Grid container>
         <Grid item xs={8}>
-          {purpose && <ProviderPurposeDetailsGeneralInfoSection purpose={purpose} />}
-        </Grid>
-        <Grid item xs={8}>
-          {purpose && <ProviderPurposeDetailsLoadEstimateSection purpose={purpose} />}
+          <Stack spacing={3}>
+            {alertProps && <Alert severity={alertProps.severity}>{alertProps.content}</Alert>}
+            {purpose && <ProviderPurposeDetailsGeneralInfoSection purpose={purpose} />}
+            {purpose && <ProviderPurposeDetailsLoadEstimateSection purpose={purpose} />}
+          </Stack>
         </Grid>
       </Grid>
     </PageContainer>
