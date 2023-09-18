@@ -58,7 +58,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoadin
       <PageContainerBreadcrumbs {...props} />
       {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
       <PageContainerActions {...props} />
-      <Box sx={{ mt: 4 }}>{children}</Box>
+      <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
   )
 }
@@ -71,7 +71,7 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
     <Box>
       <PageContainerBreadcrumbs backToAction={backToAction} />
       <PageContainerIntroSkeleton />
-      <Box sx={{ mt: 4 }}>{children}</Box>
+      <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
   )
 }

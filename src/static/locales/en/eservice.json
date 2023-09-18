@@ -190,6 +190,8 @@
   },
   "read": {
     "alert": {
+      "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
+      "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived.",
       "youAreTheProvider": "You are the provider of this e-service",
       "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this e-service",
       "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
@@ -203,13 +205,27 @@
     "sections": {
       "generalInformations": {
         "title": "General informations",
-        "agreementField": {
-          "label": "Fruition request",
-          "link": {
-            "label": "Go to"
-          }
+        "producer": {
+          "label": "Producer"
         },
-        "technology": "Technology"
+        "version": {
+          "label": "You are watching version number {{ versionNumber }}"
+        },
+        "eserviceDescription": {
+          "label": "E-Service description"
+        },
+        "descriptorDescription": {
+          "label": "Version description"
+        },
+        "bottomActions": {
+          "navigateVersions": "Navigate to another e-service version",
+          "showTechnicalDetails": "Show e-service technical details",
+          "showProducerContacts": "Show producer contacts"
+        }
+      },
+      "attributes": {
+        "title": "Attributes",
+        "description": "Below are all the certified, verified or declared attributes that are required for the use of the E-service."
       },
       "versionInformations": {
         "title": "Informazioni di versione",
@@ -251,6 +267,33 @@
       "contacts": {
         "title": "provider's contacts"
       }
+    },
+    "drawers": {
+      "technicalInfoDrawer": {
+        "title": "E-Service technical informations",
+        "technology": "Technology",
+        "audience": "Audience",
+        "voucherLifespan": "Voucher lifespan",
+        "dailyCallsPerConsumer": "Per subscriber threshold",
+        "dailyCallsTotal": "Total threshold",
+        "callsPerDay": "API calls/day",
+        "documentation": "Documentation",
+        "usefulLinks": {
+          "title": "Useful links",
+          "integrateEService": "How do I integrate an e-service?"
+        }
+      },
+      "producerContactsInfoDrawer": {
+        "title": "Producer contacts",
+        "email": "Email contact",
+        "notes": "Notes"
+      },
+      "versionSelectorDrawer": {
+        "title": "Navigate to another e-service version",
+        "label": "Select version",
+        "currentVersion": "{{ versionNum }} - current versino",
+        "goToSelectedVersion": "Go to the selected version"
+      }
     }
   },
   "tableEServiceCatalog": {
@@ -261,6 +304,7 @@
     "goToRequestCta": "Go to the fruition request",
     "subscribe": "Request fruition",
     "editDraft": "Complete request",
+    "inspect": "Inspect request",
     "handleRequest": "Handle request",
     "eserviceCardLabel": "E-SERVICE",
     "myEserviceCardLabel": "E-SERVICE DA TE EROGATO",

@@ -190,6 +190,8 @@
   },
   "read": {
     "alert": {
+      "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
+      "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata.",
       "youAreTheProvider": "Sei l'erogatore di questo e-service",
       "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
       "alreadySubscribed": "Non puoi iscriverti a questo e-service perché sei già iscritto",
@@ -203,13 +205,27 @@
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
-        "agreementField": {
-          "label": "Richiesta di fruizione",
-          "link": {
-            "label": "Vai"
-          }
+        "producer": {
+          "label": "Erogatore"
         },
-        "technology": "Tecnologia"
+        "version": {
+          "label": "Stai vedendo la versione {{ versionNumber }}"
+        },
+        "eserviceDescription": {
+          "label": "Descrizione dell'e-service"
+        },
+        "descriptorDescription": {
+          "label": "Descrizione della versione"
+        },
+        "bottomActions": {
+          "navigateVersions": "Naviga a un’altra versione dell’e-service",
+          "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
+          "showProducerContacts": "Visualizza i contatti dell’erogatore"
+        }
+      },
+      "attributes": {
+        "title": "Attributi",
+        "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service."
       },
       "versionInformations": {
         "title": "Informazioni di versione",
@@ -251,6 +267,33 @@
       "contacts": {
         "title": "contatti dell'erogatore"
       }
+    },
+    "drawers": {
+      "technicalInfoDrawer": {
+        "title": "Specifiche tecniche e-service",
+        "technology": "Tecnologia",
+        "audience": "Audience",
+        "voucherLifespan": "Durata del voucher",
+        "dailyCallsPerConsumer": "Soglia per Fruitore",
+        "dailyCallsTotal": "Soglia totale",
+        "callsPerDay": "chiamate API/giorno",
+        "documentation": "Documentazione",
+        "usefulLinks": {
+          "title": "Link utili",
+          "integrateEService": "Come faccio a integrare un e-service?"
+        }
+      },
+      "producerContactsInfoDrawer": {
+        "title": "Contatti dell'erogatore",
+        "email": "Email di contatto",
+        "notes": "Note"
+      },
+      "versionSelectorDrawer": {
+        "title": "Naviga ad un’altra versione dell’e-service",
+        "label": "Seleziona versione",
+        "currentVersion": "{{ versionNum }} - versione corrente",
+        "goToSelectedVersion": "Vai alla versione selezionata"
+      }
     }
   },
   "tableEServiceCatalog": {
@@ -261,6 +304,7 @@
     "goToRequestCta": "Vai alla richiesta",
     "subscribe": "Richiedi fruizione",
     "editDraft": "Completa richiesta",
+    "inspect": "Visualizza richiesta",
     "handleRequest": "Gestisci richiesta",
     "eserviceCardLabel": "E-SERVICE",
     "myEserviceCardLabel": "E-SERVICE DA TE EROGATO",
