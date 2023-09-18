@@ -1,5 +1,5 @@
 import type { Purpose } from '@/api/api.generatedTypes'
-import { SectionContainer } from '@/components/layout/containers'
+import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { useNavigate, Link } from '@/router'
 import { Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
@@ -85,4 +85,8 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
       </Stack>
     </SectionContainer>
   )
+}
+
+export const ProviderPurposeDetailsGeneralInfoSectionSkeleton: React.FC = () => {
+  return <SectionContainerSkeleton height={317} />
 }

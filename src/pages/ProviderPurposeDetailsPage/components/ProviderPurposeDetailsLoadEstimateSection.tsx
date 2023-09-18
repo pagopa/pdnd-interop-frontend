@@ -1,5 +1,5 @@
 import type { Purpose } from '@/api/api.generatedTypes'
-import { SectionContainer } from '@/components/layout/containers'
+import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import React from 'react'
 import { ProviderPurposeDetailsDailyCallsThresholdsCard } from './ProviderPurposeDetailsDailyCallsThresholdsCard'
 import { ProviderPurposeDetailsDailyCallsPlanCard } from './ProviderPurposeDetailsDailyCallsPlanCard'
@@ -28,4 +28,8 @@ export const ProviderPurposeDetailsLoadEstimateSection: React.FC<
       </Stack>
     </SectionContainer>
   )
+}
+
+export const ProviderPurposeDetailsLoadEstimateSectionSkeleton: React.FC = () => {
+  return <SectionContainerSkeleton height={620} />
 }

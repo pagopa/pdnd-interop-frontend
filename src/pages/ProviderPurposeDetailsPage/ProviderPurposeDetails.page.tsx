@@ -4,9 +4,15 @@ import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions
 import { useParams } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ProviderPurposeDetailsGeneralInfoSection } from './components/ProviderPurposeDetailsGeneralInfoSection'
+import {
+  ProviderPurposeDetailsGeneralInfoSection,
+  ProviderPurposeDetailsGeneralInfoSectionSkeleton,
+} from './components/ProviderPurposeDetailsGeneralInfoSection'
 import { Alert, Grid, Stack } from '@mui/material'
-import { ProviderPurposeDetailsLoadEstimateSection } from './components/ProviderPurposeDetailsLoadEstimateSection'
+import {
+  ProviderPurposeDetailsLoadEstimateSection,
+  ProviderPurposeDetailsLoadEstimateSectionSkeleton,
+} from './components/ProviderPurposeDetailsLoadEstimateSection'
 import useGetPurposeStateAlertProps from './hooks/useGetPurposeStateAlertProps'
 
 const ProviderPurposeDetailsPage: React.FC = () => {
@@ -32,14 +38,27 @@ const ProviderPurposeDetailsPage: React.FC = () => {
     >
       <Grid container>
         <Grid item xs={8}>
-          <Stack spacing={3}>
-            {alertProps && <Alert severity={alertProps.severity}>{alertProps.content}</Alert>}
-            {purpose && <ProviderPurposeDetailsGeneralInfoSection purpose={purpose} />}
-            {purpose && <ProviderPurposeDetailsLoadEstimateSection purpose={purpose} />}
-          </Stack>
+          {!purpose ? (
+            <ProviderPurposeDetailsPageSkeleton />
+          ) : (
+            <Stack spacing={3}>
+              {alertProps && <Alert severity={alertProps.severity}>{alertProps.content}</Alert>}
+              <ProviderPurposeDetailsGeneralInfoSection purpose={purpose} />
+              <ProviderPurposeDetailsLoadEstimateSection purpose={purpose} />
+            </Stack>
+          )}
         </Grid>
       </Grid>
     </PageContainer>
+  )
+}
+
+const ProviderPurposeDetailsPageSkeleton: React.FC = () => {
+  return (
+    <Stack spacing={3}>
+      <ProviderPurposeDetailsGeneralInfoSectionSkeleton />
+      <ProviderPurposeDetailsLoadEstimateSectionSkeleton />
+    </Stack>
   )
 }
 
