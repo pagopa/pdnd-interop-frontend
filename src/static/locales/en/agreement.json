@@ -182,14 +182,7 @@
         "label": "Find by provider"
       }
     },
-    "provider": {
-      "title": "Fruition requests",
-      "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your e-services"
-    },
-    "subscriber": {
-      "title": "Your requests",
-      "description": "In this section, you can manage all the fruition requests you have sent to e-service Providers"
-    }
+    "upgradableAgreementTooltip": "A new version of this e-service is available. Access the agreement to update it"
   },
   "drawers": {
     "certifiedAttributes": {
