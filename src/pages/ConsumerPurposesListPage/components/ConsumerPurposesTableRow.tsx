@@ -39,7 +39,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        to={isPurposeEditable ? 'SUBSCRIBE_PURPOSE_EDIT' : 'SUBSCRIBE_PURPOSE_DETAILS'}
+        to={isPurposeEditable ? 'SUBSCRIBE_PURPOSE_SUMMARY' : 'SUBSCRIBE_PURPOSE_DETAILS'}
         params={{ purposeId: purpose.id }}
       >
         {t(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}
