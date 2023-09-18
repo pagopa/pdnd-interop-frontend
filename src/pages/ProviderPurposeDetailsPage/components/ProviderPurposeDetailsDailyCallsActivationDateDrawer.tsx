@@ -32,12 +32,6 @@ export const ProviderPurposeDetailsDailyCallsActivationDateDrawer: React.FC<
 
   const waitingForApprovalVersion = purpose.waitingForApprovalVersion
 
-  const defaultValues: ExpectedApprovalDateFormValues = {
-    expectedApprovalDate: waitingForApprovalVersion?.expectedApprovalDate
-      ? new Date(waitingForApprovalVersion.expectedApprovalDate)
-      : undefined,
-  }
-
   const title = waitingForApprovalVersion?.expectedApprovalDate
     ? t('title.modify')
     : t('title.insert')
@@ -46,9 +40,14 @@ export const ProviderPurposeDetailsDailyCallsActivationDateDrawer: React.FC<
     ? t('buttonActionLabel.modify')
     : tCommon('actions.insert')
 
-  const formMethods = useForm<ExpectedApprovalDateFormValues>({
-    defaultValues: defaultValues,
-  })
+  const formMethods = useForm<ExpectedApprovalDateFormValues>()
+
+  const expectedApprovalDate = purpose.waitingForApprovalVersion?.expectedApprovalDate
+
+  React.useEffect(() => {
+    expectedApprovalDate &&
+      formMethods.setValue('expectedApprovalDate', new Date(expectedApprovalDate))
+  }, [expectedApprovalDate, formMethods])
 
   const onSubmit = async ({ expectedApprovalDate }: ExpectedApprovalDateFormValues) => {
     if (!waitingForApprovalVersion) return null
@@ -60,10 +59,6 @@ export const ProviderPurposeDetailsDailyCallsActivationDateDrawer: React.FC<
       },
       { onSuccess: onClose }
     )
-  }
-
-  const handleTransitionExited = () => {
-    formMethods.reset(defaultValues)
   }
 
   return (
@@ -82,7 +77,6 @@ export const ProviderPurposeDetailsDailyCallsActivationDateDrawer: React.FC<
           </Trans>
         }
         buttonAction={{ label: buttonActionLabel, action: formMethods.handleSubmit(onSubmit) }}
-        onTransitionExited={handleTransitionExited}
       >
         <Stack spacing={3}>
           <RHFDatePicker sx={{ my: 0 }} name="expectedApprovalDate" />
