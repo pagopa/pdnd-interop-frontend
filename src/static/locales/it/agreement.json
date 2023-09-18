@@ -182,7 +182,8 @@
         "label": "Cerca per erogatore"
       },
       "upgradableAgreementTooltip": "È disponibile una nuova versione di questo e-service. Accedi alla richiesta per aggiornare"
-    }
+    },
+    "upgradableAgreementTooltip": "È disponibile una nuova versione di questo e-service. Accedi alla richiesta per aggiornare"
   },
   "drawers": {
     "certifiedAttributes": {
