@@ -11,9 +11,9 @@ import ContactMailIcon from '@mui/icons-material/ContactMail'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ConsumerEServiceTechnicalInfoDrawer } from './ConsumerEServiceTechnicalInfoDrawer'
 import { ConsumerEServiceProducerContactsDrawer } from './ConsumerEServiceProducerContactsDrawer'
-import { ConsumerEServiceVersionSelectorDrawer } from './ConsumerEServiceVersionSelectorDrawer'
+import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 
-export const ConsumerEServiceDetails: React.FC = () => {
+export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.generalInformations',
   })
@@ -73,6 +73,11 @@ export const ConsumerEServiceDetails: React.FC = () => {
             content={descriptor.eservice.producer.name}
           />
           <InformationContainer
+            label={t('version.label', { versionNumber: descriptor.version })}
+            content={descriptor.version}
+            direction="column"
+          />
+          <InformationContainer
             label={t('eserviceDescription.label')}
             content={descriptor.eservice.description}
             direction="column"
@@ -94,7 +99,7 @@ export const ConsumerEServiceDetails: React.FC = () => {
         onClose={closeProducerContactsDrawer}
         descriptor={descriptor}
       />
-      <ConsumerEServiceVersionSelectorDrawer
+      <EServiceVersionSelectorDrawer
         isOpen={isVersionSelectorDrawerOpen}
         onClose={closeVersionSelectorDrawer}
         descriptor={descriptor}
@@ -103,6 +108,6 @@ export const ConsumerEServiceDetails: React.FC = () => {
   )
 }
 
-export const ConsumerEServiceDetailsSkeleton = () => {
+export const ConsumerEServiceGeneralInfoSectionSkeleton = () => {
   return <SectionContainerSkeleton height={499} />
 }

@@ -1,21 +1,27 @@
-import { EServiceQueries } from '@/api/eservice'
-import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { EServiceDetails, EServiceDetailsSkeleton } from '@/components/shared/EServiceDetails'
-import { Link, useParams } from '@/router'
-import { formatTopSideActions } from '@/utils/common.utils'
-import { Alert } from '@mui/material'
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { EServiceQueries } from '@/api/eservice'
+import { PageContainer } from '@/components/layout/containers'
+import { useParams } from '@/router'
+import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsAlerts'
+import { Grid } from '@mui/material'
+import {
+  ProviderEServiceDescriptorAttributes,
+  ProviderEServiceDescriptorAttributesSkeleton,
+} from './components/ProviderEServiceDescriptorAttributes'
+import {
+  ProviderEServiceGeneralInfoSection,
+  ProviderEServiceGeneralInfoSectionSkeleton,
+} from './components/ProviderEServiceGeneralInfoSection'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
-import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
-import { AuthHooks } from '@/api/auth'
+import { useTranslation } from 'react-i18next'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
-  const { data: descriptor, isLoading: isLoadingDescriptor } =
-    EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, { suspense: false })
+  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, {
+    suspense: false,
+  })
 
   const { actions } = useGetProviderEServiceActions(
     descriptor?.eservice.id,
@@ -24,59 +30,29 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptor?.eservice.draftDescriptor?.id
   )
 
-  const topSideActions = formatTopSideActions(actions)
-
   return (
     <PageContainer
       title={descriptor?.eservice.name || ''}
-      description={descriptor?.eservice?.description}
-      topSideActions={topSideActions}
-      isLoading={isLoadingDescriptor}
+      newTopSideActions={actions}
+      isLoading={!descriptor}
+      statusChip={descriptor ? { for: 'eservice', state: descriptor?.state } : undefined}
+      backToAction={{
+        label: t('actions.backToListLabel'),
+        to: 'PROVIDE_ESERVICE_LIST',
+      }}
     >
-      {descriptor && (
-        <>
-          <HasDraftDescriptorAlert descriptor={descriptor} />
-          <EServiceDetails descriptor={descriptor} />
-        </>
-      )}
-      {(!descriptor || isLoadingDescriptor) && <EServiceDetailsSkeleton />}
-
-      <PageBottomActionsContainer>
-        <Link as="button" to="PROVIDE_ESERVICE_LIST" variant="outlined">
-          {t('read.actions.backToListLabel')}
-        </Link>
-      </PageBottomActionsContainer>
+      <ProviderEServiceDetailsAlerts descriptor={descriptor} />
+      <Grid container>
+        <Grid item xs={8}>
+          <React.Suspense fallback={<ProviderEServiceGeneralInfoSectionSkeleton />}>
+            <ProviderEServiceGeneralInfoSection />
+          </React.Suspense>
+          <React.Suspense fallback={<ProviderEServiceDescriptorAttributesSkeleton />}>
+            <ProviderEServiceDescriptorAttributes />
+          </React.Suspense>
+        </Grid>
+      </Grid>
     </PageContainer>
-  )
-}
-
-const HasDraftDescriptorAlert: React.FC<{ descriptor: ProducerEServiceDescriptor }> = ({
-  descriptor,
-}) => {
-  const { t } = useTranslation('eservice')
-  const { isAdmin } = AuthHooks.useJwt()
-
-  if (!descriptor.eservice.draftDescriptor || !isAdmin) return null
-
-  return (
-    <Alert sx={{ mt: 2 }} severity="info">
-      <Trans
-        components={{
-          1: (
-            <Link
-              to="PROVIDE_ESERVICE_EDIT"
-              params={{
-                eserviceId: descriptor.eservice.id,
-                descriptorId: descriptor.eservice.draftDescriptor.id,
-              }}
-              state={{ stepIndexDestination: 1 }}
-            />
-          ),
-        }}
-      >
-        {t('read.alert.hasNewVersionDraft')}
-      </Trans>
-    </Alert>
   )
 }
 

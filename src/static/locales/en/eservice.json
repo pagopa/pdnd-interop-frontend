@@ -217,9 +217,11 @@
         "descriptorDescription": {
           "label": "Version description"
         },
+        "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
         "bottomActions": {
           "navigateVersions": "Navigate to another e-service version",
           "showTechnicalDetails": "Show e-service technical details",
+          "downloadConsumerList": "Download consumer list",
           "showProducerContacts": "Show producer contacts"
         }
       },
