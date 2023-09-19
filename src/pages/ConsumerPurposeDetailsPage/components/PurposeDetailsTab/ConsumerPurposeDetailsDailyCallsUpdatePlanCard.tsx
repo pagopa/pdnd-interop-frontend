@@ -1,6 +1,6 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { IconLink } from '@/components/shared/IconLink'
-import { Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { AuthHooks } from '@/api/auth'
@@ -53,9 +53,11 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
           </Stack>
         }
       />
-      <CardContent sx={{ px: 3, pt: 1 }}>
-        <Stack direction="column" spacing={2}>
-          <Typography variant="h4">{waitingForApprovalVersion.dailyCalls}</Typography>
+      <CardContent sx={{ px: 3, pt: 1, display: 'flex', flexGrow: 1 }}>
+        <Stack direction="column" spacing={2} flexGrow={1}>
+          <Box flexGrow={1}>
+            <Typography variant="h4">{waitingForApprovalVersion.dailyCalls}</Typography>
+          </Box>
           {waitingForApprovalVersion.expectedApprovalDate && (
             <Typography variant="body2">
               <Trans

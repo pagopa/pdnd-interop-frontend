@@ -77,7 +77,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
         </IconLink>
         <IconLink
           onClick={() =>
-            navigate('PROVIDE_AGREEMENT_READ', { params: { agreementId: purpose.agreement.id } })
+            navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: purpose.agreement.id } })
           }
           component="button"
           startIcon={<LinkIcon />}
