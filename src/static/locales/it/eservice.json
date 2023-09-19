@@ -191,12 +191,7 @@
   "read": {
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
-      "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata.",
-      "youAreTheProvider": "Sei l'erogatore di questo e-service",
-      "missingCertifiedAttributes": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
-      "alreadySubscribed": "Non puoi iscriverti a questo e-service perché sei già iscritto",
-      "hasAgreementDraft": "Possiedi già una richiesta in bozza per questo e-service",
-      "hasNewVersionDraft": "Questo e-service ha una nuova versione in bozza. Puoi modificarla <1>qui</1>"
+      "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata."
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
@@ -228,46 +223,6 @@
       "attributes": {
         "title": "Attributi",
         "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service."
-      },
-      "versionInformations": {
-        "title": "Informazioni di versione",
-        "actualVersion": "Stai vedendo la versione",
-        "versionStatus": "Stato della versione",
-        "currentVersionChipLabel": "versione corrente",
-        "description": "Descrizione",
-        "audience": "Audience",
-        "audienceDescription": "L’audience che il Fruitore dovrà indicare nel voucher per identificare il servizio",
-        "voucherLifespan": "Durata del voucher",
-        "dailyCallsPerConsumer": "Soglia per Fruitore",
-        "dailyCallsTotal": "Soglia totale",
-        "callsPerDay": "chiamate/giorno",
-        "agreementApprovalPolicy": {
-          "label": "Attivazione richiesta di fruizione",
-          "AUTOMATIC": "Automatica",
-          "MANUAL": "Manuale"
-        }
-      },
-      "usefulLinks": {
-        "title": "Link utili",
-        "manageEServiceGuideLink": "Come implemento e gestisco un e-service?",
-        "verifyVoucherGuideLink": "Come faccio a verificare un voucher?",
-        "wellKnownLink": "URL .well-known"
-      },
-      "documentsList": {
-        "consumerListButtonLabel": "Scarica l’elenco dei fruitori dell’e-service",
-        "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv"
-      },
-      "versionHistory": {
-        "title": "Storico delle versioni",
-        "historyField": {
-          "title": "Cambia versione",
-          "label": "Seleziona una versione",
-          "option": "v{{version}}"
-        },
-        "submitBtn": "Vai alla scheda"
-      },
-      "contacts": {
-        "title": "contatti dell'erogatore"
       }
     },
     "drawers": {

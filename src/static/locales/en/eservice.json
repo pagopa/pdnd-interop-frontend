@@ -191,12 +191,7 @@
   "read": {
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
-      "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived.",
-      "youAreTheProvider": "You are the provider of this e-service",
-      "missingCertifiedAttributes": "Your party is missing at least one of the certified attributes required to subscribe this e-service",
-      "alreadySubscribed": "You can't subscribe again as you are already a Subscriber of this e-service",
-      "hasAgreementDraft": "You already have an agreement draft for this e-service",
-      "hasNewVersionDraft": "This e-service has a new version draft. You can edit it <1>here</1>"
+      "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived."
     },
     "actions": {
       "backToListLabel": "Back to the e-services",
@@ -228,46 +223,6 @@
       "attributes": {
         "title": "Attributes",
         "description": "Below are all the certified, verified or declared attributes that are required for the use of the E-service."
-      },
-      "versionInformations": {
-        "title": "Informazioni di versione",
-        "actualVersion": "You are viewing version",
-        "currentVersionChipLabel": "current version",
-        "versionStatus": "Version status",
-        "description": "Description",
-        "audience": "Audience",
-        "audienceDescription": "The audience that the subscriber must register in the voucher to identify the service",
-        "voucherLifespan": "Voucher lifespan",
-        "dailyCallsPerConsumer": "Per subscriber threshold",
-        "dailyCallsTotal": "Total threshold",
-        "callsPerDay": "API calls/day",
-        "agreementApprovalPolicy": {
-          "label": "Fruition request activation",
-          "AUTOMATIC": "Automatic",
-          "MANUAL": "Manual"
-        }
-      },
-      "usefulLinks": {
-        "title": "useful links",
-        "manageEServiceGuideLink": "How do I implement and manage an e-service?",
-        "verifyVoucherGuideLink": "How do I verify a voucher?",
-        "wellKnownLink": "URL .well-known"
-      },
-      "documentsList": {
-        "consumerListButtonLabel": "Download e-service's consumer list",
-        "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv"
-      },
-      "versionHistory": {
-        "title": "Version history",
-        "historyField": {
-          "title": "Change version",
-          "label": "Select a version",
-          "option": "v{{version}}"
-        },
-        "submitBtn": "Go to page"
-      },
-      "contacts": {
-        "title": "provider's contacts"
       }
     },
     "drawers": {
