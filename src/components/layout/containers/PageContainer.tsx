@@ -57,7 +57,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoadin
     <Box>
       <PageContainerBreadcrumbs {...props} />
       {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
-      <PageContainerActions {...props} />
+      {!isLoading && <PageContainerActions {...props} />}
       <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
   )
@@ -190,8 +190,6 @@ export const PageContainerIntroSkeleton: React.FC = () => {
           <Skeleton />
         </Typography>
       </Box>
-
-      <Stack direction="row" alignItems="center" spacing={2}></Stack>
     </Stack>
   )
 }

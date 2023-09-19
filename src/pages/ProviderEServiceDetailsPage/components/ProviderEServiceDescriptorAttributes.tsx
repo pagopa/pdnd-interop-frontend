@@ -21,5 +21,5 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
 }
 
 export const ProviderEServiceDescriptorAttributesSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={500} />
+  return <SectionContainerSkeleton height={1000} />
 }

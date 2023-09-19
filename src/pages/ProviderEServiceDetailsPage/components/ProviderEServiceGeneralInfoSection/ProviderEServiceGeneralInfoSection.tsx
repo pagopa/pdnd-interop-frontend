@@ -105,5 +105,5 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 }
 
 export const ProviderEServiceGeneralInfoSectionSkeleton = () => {
-  return <SectionContainerSkeleton height={499} />
+  return <SectionContainerSkeleton sx={{ mt: 4 }} height={383} />
 }
