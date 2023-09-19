@@ -43,16 +43,6 @@
       "confirmLabel": "Conferma"
     }
   },
-  "dialogSetPurposeExpectedApprovalDate": {
-    "title": "Imposta data di completamento stimata",
-    "content": {
-      "message": "Questa data verrà indicata al fruitore come data di attivazione della finalità. Potrai aggiornarla in qualsiasi momento"
-    },
-    "actions": {
-      "cancelLabel": "Annulla",
-      "confirmLabel": "Imposta"
-    }
-  },
   "dialogAddSecurityOperators": {
     "title": "Aggiungi membri del client",
     "content": {

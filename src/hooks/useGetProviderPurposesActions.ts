@@ -1,46 +1,25 @@
 import { PurposeMutations } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
-import type { ActionItem } from '@/types/common.types'
-import { useDialog } from '@/stores'
+import type { ActionItemButton } from '@/types/common.types'
 import type { Purpose } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 
 function useGetProviderPurposesActions(purpose?: Purpose) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
-  const { openDialog } = useDialog()
   const { isAdmin } = AuthHooks.useJwt()
 
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { mutate: suspendVersion } = PurposeMutations.useSuspendVersion()
 
-  const waitingForApprovalVersion = purpose?.waitingForApprovalVersion
   const currentVersion = purpose?.currentVersion
 
-  const actions: Array<ActionItem> = []
+  const actions: Array<ActionItemButton> = []
 
   if (!purpose || purpose?.currentVersion?.state === 'ARCHIVED' || !isAdmin) {
     return { actions }
-  }
-
-  if (waitingForApprovalVersion) {
-    actions.push(
-      {
-        action: () =>
-          activateVersion({ purposeId: purpose.id, versionId: waitingForApprovalVersion.id }),
-        label: t('confirmUpdate'),
-      },
-      {
-        action: () =>
-          openDialog({
-            type: 'setPurposeExpectedApprovalDate',
-            purposeId: purpose.id,
-            versionId: waitingForApprovalVersion.id,
-            approvalDate: waitingForApprovalVersion.expectedApprovalDate,
-          }),
-        label: t('updateCompletionDate'),
-      }
-    )
   }
 
   const isSuspended = currentVersion && currentVersion.state === 'SUSPENDED'
@@ -50,6 +29,9 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
     actions.push({
       action: () => suspendVersion({ purposeId: purpose.id, versionId: currentVersion.id }),
       label: t('suspend'),
+      color: 'error',
+      icon: PauseCircleOutlineIcon,
+      variant: 'naked',
     })
   }
 
@@ -57,6 +39,9 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
     actions.push({
       action: () => activateVersion({ purposeId: purpose.id, versionId: currentVersion.id }),
       label: t('activate'),
+      color: 'primary',
+      icon: PlayCircleOutlineIcon,
+      variant: 'naked',
     })
   }
 

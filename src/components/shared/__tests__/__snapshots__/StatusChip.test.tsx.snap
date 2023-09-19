@@ -339,16 +339,7 @@ exports[`StatusChip > should match the snapshot (purpose - suspended by consumer
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
         >
-          status.purpose.SUSPENDED.byConsumer
-        </span>
-      </div>
-      <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
-      >
-        <span
-          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-        >
-          status.purpose.WAITING_FOR_APPROVAL
+          status.purpose.SUSPENDED
         </span>
       </div>
     </div>
@@ -368,16 +359,7 @@ exports[`StatusChip > should match the snapshot (purpose - suspended by producer
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
         >
-          status.purpose.SUSPENDED.byProducer
-        </span>
-      </div>
-      <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
-      >
-        <span
-          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-        >
-          status.purpose.WAITING_FOR_APPROVAL
+          status.purpose.SUSPENDED
         </span>
       </div>
     </div>
@@ -400,15 +382,6 @@ exports[`StatusChip > should match the snapshot (purpose - with current version 
           status.purpose.ACTIVE
         </span>
       </div>
-      <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
-      >
-        <span
-          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-        >
-          status.purpose.WAITING_FOR_APPROVAL
-        </span>
-      </div>
     </div>
   </div>
 </body>
@@ -421,7 +394,7 @@ exports[`StatusChip > should match the snapshot (purpose - with only waiting for
       class="MuiStack-root css-niqf4j-MuiStack-root"
     >
       <div
-        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorInfo MuiChip-filledInfo css-1330q9i-MuiChip-root"
+        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-j2ob3e-MuiChip-root"
       >
         <span
           class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
