@@ -31,17 +31,17 @@ export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDraw
     (d) => d.state !== 'DRAFT'
   )
 
-  const steps = descriptorsWithoutDraftVersion.length
+  const numVersions = descriptorsWithoutDraftVersion.length
 
   const marks = React.useMemo<Mark[]>(() => {
-    return Array.from({ length: steps }).map((_, index) => ({
+    return Array.from({ length: numVersions }).map((_, index) => ({
       value: -(index + 1),
       label:
         (index + 1).toString() === descriptor.version
           ? t('currentVersion', { versionNum: index + 1 })
           : '',
     }))
-  }, [steps, descriptor.version, t])
+  }, [numVersions, descriptor.version, t])
 
   const handleReset = () => {
     setSelectedVersion(Number(descriptor.version))
@@ -61,8 +61,11 @@ export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDraw
     onClose()
   }
 
+  if (numVersions <= 1) return null
+
   return (
     <Drawer
+      key={descriptor.id}
       title={t('title')}
       isOpen={isOpen}
       onClose={onClose}
@@ -89,7 +92,7 @@ export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDraw
         size="small"
         value={-selectedVersion}
         max={-1}
-        min={-steps}
+        min={-numVersions}
         step={null}
         marks={marks}
         scale={(x) => -x}

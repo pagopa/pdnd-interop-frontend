@@ -36,9 +36,9 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
         to: 'SUBSCRIBE_CATALOG_LIST',
       }}
     >
-      <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
       <Grid container>
         <Grid item xs={8}>
+          <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
           <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
             <ConsumerEServiceGeneralInfoSection />
           </React.Suspense>

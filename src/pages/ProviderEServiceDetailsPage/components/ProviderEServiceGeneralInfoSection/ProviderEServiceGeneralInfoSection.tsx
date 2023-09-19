@@ -46,30 +46,39 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     )
   }
 
+  const hasSingleVersion =
+    descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1
+
+  const navigateVersionsAction = {
+    startIcon: <FileCopyIcon fontSize="small" />,
+    component: 'button',
+    onClick: openVersionSelectorDrawer,
+    label: t('bottomActions.navigateVersions'),
+  }
+
+  const downloadConsumerListAction = {
+    startIcon: <DownloadIcon fontSize="small" />,
+    component: 'button',
+    onClick: handleDownloadConsumerList,
+    label: t('bottomActions.downloadConsumerList'),
+  }
+
+  const showTechnicalDetailsAction = {
+    startIcon: <EngineeringIcon fontSize="small" />,
+    component: 'button',
+    onClick: openTechnicalInfoDrawer,
+    label: t('bottomActions.showTechnicalDetails'),
+  }
+
   return (
     <>
       <SectionContainer
         newDesign
         title={t('title')}
         bottomActions={[
-          {
-            startIcon: <FileCopyIcon fontSize="small" />,
-            component: 'button',
-            onClick: openVersionSelectorDrawer,
-            label: t('bottomActions.navigateVersions'),
-          },
-          {
-            startIcon: <DownloadIcon fontSize="small" />,
-            component: 'button',
-            onClick: handleDownloadConsumerList,
-            label: t('bottomActions.downloadConsumerList'),
-          },
-          {
-            startIcon: <EngineeringIcon fontSize="small" />,
-            component: 'button',
-            onClick: openTechnicalInfoDrawer,
-            label: t('bottomActions.showTechnicalDetails'),
-          },
+          ...(!hasSingleVersion ? [navigateVersionsAction] : []),
+          downloadConsumerListAction,
+          showTechnicalDetailsAction,
         ]}
       >
         <Stack spacing={2}>

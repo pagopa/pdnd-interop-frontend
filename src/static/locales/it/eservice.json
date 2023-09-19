@@ -248,7 +248,7 @@
       "versionSelectorDrawer": {
         "title": "Naviga ad un’altra versione dell’e-service",
         "label": "Seleziona versione",
-        "currentVersion": "{{ versionNum }} - versione corrente",
+        "currentVersion": "{{ versionNum }} - versione visualizzata",
         "goToSelectedVersion": "Vai alla versione selezionata"
       }
     }

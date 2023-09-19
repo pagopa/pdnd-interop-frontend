@@ -41,9 +41,9 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         to: 'PROVIDE_ESERVICE_LIST',
       }}
     >
-      <ProviderEServiceDetailsAlerts descriptor={descriptor} />
       <Grid container>
         <Grid item xs={8}>
+          <ProviderEServiceDetailsAlerts descriptor={descriptor} />
           <React.Suspense fallback={<ProviderEServiceGeneralInfoSectionSkeleton />}>
             <ProviderEServiceGeneralInfoSection />
           </React.Suspense>

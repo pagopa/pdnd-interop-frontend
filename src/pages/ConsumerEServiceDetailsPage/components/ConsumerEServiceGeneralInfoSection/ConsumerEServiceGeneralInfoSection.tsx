@@ -41,30 +41,41 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
 
   if (!descriptor) return null
 
+  const hasSingleVersion =
+    descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1
+
+  const hasContactInformations = !!descriptor.eservice.mail
+
+  const navigateVersionsAction = {
+    startIcon: <FileCopyIcon fontSize="small" />,
+    component: 'button',
+    onClick: openVersionSelectorDrawer,
+    label: t('bottomActions.navigateVersions'),
+  }
+
+  const showTechnicalDetailsAction = {
+    startIcon: <EngineeringIcon fontSize="small" />,
+    component: 'button',
+    onClick: openTechnicalInfoDrawer,
+    label: t('bottomActions.showTechnicalDetails'),
+  }
+
+  const showProducerContactsAction = {
+    startIcon: <ContactMailIcon fontSize="small" />,
+    component: 'button',
+    onClick: openProducerContactsDrawer,
+    label: t('bottomActions.showProducerContacts'),
+  }
+
   return (
     <>
       <SectionContainer
         newDesign
         title={t('title')}
         bottomActions={[
-          {
-            startIcon: <FileCopyIcon fontSize="small" />,
-            component: 'button',
-            onClick: openVersionSelectorDrawer,
-            label: t('bottomActions.navigateVersions'),
-          },
-          {
-            startIcon: <EngineeringIcon fontSize="small" />,
-            component: 'button',
-            onClick: openTechnicalInfoDrawer,
-            label: t('bottomActions.showTechnicalDetails'),
-          },
-          {
-            startIcon: <ContactMailIcon fontSize="small" />,
-            component: 'button',
-            onClick: openProducerContactsDrawer,
-            label: t('bottomActions.showProducerContacts'),
-          },
+          ...(!hasSingleVersion ? [navigateVersionsAction] : []),
+          showTechnicalDetailsAction,
+          ...(hasContactInformations ? [showProducerContactsAction] : []),
         ]}
       >
         <Stack spacing={2}>
