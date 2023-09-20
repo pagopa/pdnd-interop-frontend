@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Grid, Stack } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { AgreementDetailsContextProvider } from './AgreementDetailsContext'
 import {
   AgreementSummarySection,
