@@ -24,7 +24,7 @@ exports[`SideNav > should match the snapshot 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                PROVIDE
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -58,7 +58,7 @@ exports[`SideNav > should match the snapshot 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                SUBSCRIBE
+                PROVIDE
               </p>
             </div>
             <svg
@@ -77,43 +77,6 @@ exports[`SideNav > should match the snapshot 1`] = `
             />
           </div>
         </div>
-        <li
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
-        >
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-            href="/it/notifiche"
-            tabindex="0"
-          >
-            <div
-              class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                data-testid="EmailIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
-                />
-              </svg>
-            </div>
-            <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
-              >
-                NOTIFICATION
-              </p>
-            </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </a>
-        </li>
         <li
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
@@ -498,7 +461,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                PROVIDE
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -532,7 +495,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                SUBSCRIBE
+                PROVIDE
               </p>
             </div>
             <svg
@@ -551,43 +514,6 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
             />
           </div>
         </div>
-        <li
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
-        >
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-            href="/it/notifiche"
-            tabindex="0"
-          >
-            <div
-              class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                data-testid="EmailIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
-                />
-              </svg>
-            </div>
-            <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
-              >
-                NOTIFICATION
-              </p>
-            </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </a>
-        </li>
         <li
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
@@ -640,7 +566,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                PROVIDE
+                SUBSCRIBE
               </p>
             </div>
             <svg
@@ -674,7 +600,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
               <p
                 class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
               >
-                SUBSCRIBE
+                PROVIDE
               </p>
             </div>
             <svg
@@ -693,43 +619,6 @@ exports[`SideNav > should match the snapshot while user is security and api oper
             />
           </div>
         </div>
-        <li
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
-        >
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-            href="/it/notifiche"
-            tabindex="0"
-          >
-            <div
-              class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                data-testid="EmailIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
-                />
-              </svg>
-            </div>
-            <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
-              >
-                NOTIFICATION
-              </p>
-            </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </a>
-        </li>
         <li
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
@@ -801,43 +690,6 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
             />
           </div>
         </div>
-        <li
-          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
-        >
-          <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-            href="/it/notifiche"
-            tabindex="0"
-          >
-            <div
-              class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                data-testid="EmailIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
-                />
-              </svg>
-            </div>
-            <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
-            >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
-              >
-                NOTIFICATION
-              </p>
-            </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </a>
-        </li>
         <li
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >

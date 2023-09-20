@@ -41,9 +41,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                PagoPa S.p.A.
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  PagoPa S.p.A.
+                </span>
               </p>
             </div>
           </div>
@@ -63,21 +67,25 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                <div
-                  class="MuiStack-root css-niqf4j-MuiStack-root"
+                <span
+                  class="MuiBox-root css-13o7eu2"
                 >
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
+                    class="MuiStack-root css-niqf4j-MuiStack-root"
                   >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    <div
+                      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                     >
-                      status.purpose.ACTIVE
-                    </span>
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                      >
+                        status.purpose.ACTIVE
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </span>
               </div>
             </div>
           </div>
@@ -97,9 +105,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                dailyCallsEstimateField.value
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  dailyCallsEstimateField.value
+                </span>
               </p>
             </div>
           </div>
@@ -119,9 +131,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                consumerThreshold.value
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  consumerThreshold.value
+                </span>
               </p>
             </div>
           </div>
@@ -141,9 +157,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                totalThreshold.value
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  totalThreshold.value
+                </span>
               </p>
             </div>
           </div>
@@ -163,15 +183,19 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
-                  href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
-                  target="_blank"
+                <span
+                  class="MuiBox-root css-13o7eu2"
                 >
-                  eServiceField.value
-                </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
+                    href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
+                    target="_blank"
+                  >
+                    eServiceField.value
+                  </a>
+                </span>
               </div>
             </div>
           </div>
@@ -191,15 +215,19 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
-                  href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
-                  target="_blank"
+                <span
+                  class="MuiBox-root css-13o7eu2"
                 >
-                  agreementField.link.label
-                </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
+                    href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
+                    target="_blank"
+                  >
+                    agreementField.link.label
+                  </a>
+                </span>
               </div>
             </div>
           </div>
@@ -227,9 +255,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (consumer) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                isFreeOfChargeField.no
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  isFreeOfChargeField.no
+                </span>
               </p>
             </div>
           </div>
@@ -281,9 +313,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                PagoPa S.p.A.
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  PagoPa S.p.A.
+                </span>
               </p>
             </div>
           </div>
@@ -303,21 +339,25 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                <div
-                  class="MuiStack-root css-niqf4j-MuiStack-root"
+                <span
+                  class="MuiBox-root css-13o7eu2"
                 >
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
+                    class="MuiStack-root css-niqf4j-MuiStack-root"
                   >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    <div
+                      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                     >
-                      status.purpose.ACTIVE
-                    </span>
+                      <span
+                        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                      >
+                        status.purpose.ACTIVE
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </span>
               </div>
             </div>
           </div>
@@ -337,9 +377,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                dailyCallsEstimateField.value
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  dailyCallsEstimateField.value
+                </span>
               </p>
             </div>
           </div>
@@ -359,9 +403,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                consumerThreshold.value
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  consumerThreshold.value
+                </span>
               </p>
             </div>
           </div>
@@ -381,9 +429,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                totalThreshold.value
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  totalThreshold.value
+                </span>
               </p>
             </div>
           </div>
@@ -403,15 +455,19 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
-                  href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
-                  target="_blank"
+                <span
+                  class="MuiBox-root css-13o7eu2"
                 >
-                  eServiceField.value
-                </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
+                    href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
+                    target="_blank"
+                  >
+                    eServiceField.value
+                  </a>
+                </span>
               </div>
             </div>
           </div>
@@ -431,15 +487,19 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
-                  href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
-                  target="_blank"
+                <span
+                  class="MuiBox-root css-13o7eu2"
                 >
-                  agreementField.link.label
-                </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
+                    href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
+                    target="_blank"
+                  >
+                    agreementField.link.label
+                  </a>
+                </span>
               </div>
             </div>
           </div>
@@ -467,9 +527,13 @@ exports[`PurposeDetailsGeneralInfoSection > should match snapshot (provider) 1`]
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                isFreeOfChargeField.no
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  isFreeOfChargeField.no
+                </span>
               </p>
             </div>
           </div>

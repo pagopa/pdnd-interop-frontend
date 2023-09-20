@@ -41,15 +41,19 @@ exports[`EServiceGeneralInfoSection > should match the snapshot (admin) 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
-                  href="/it/fruizione/richieste/agreement-id/modifica"
-                  target="_blank"
+                <span
+                  class="MuiBox-root css-13o7eu2"
                 >
-                  agreementField.link.label
-                </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
+                    href="/it/fruizione/richieste/agreement-id/modifica"
+                    target="_blank"
+                  >
+                    agreementField.link.label
+                  </a>
+                </span>
               </div>
             </div>
           </div>
@@ -69,9 +73,13 @@ exports[`EServiceGeneralInfoSection > should match the snapshot (admin) 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                REST
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  REST
+                </span>
               </p>
             </div>
           </div>
@@ -123,15 +131,19 @@ exports[`EServiceGeneralInfoSection > should match the snapshot (not admin) 1`] 
               class="MuiBox-root css-1rr4qq7"
             >
               <div
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
-                  href="/it/fruizione/richieste/agreement-id"
-                  target="_blank"
+                <span
+                  class="MuiBox-root css-13o7eu2"
                 >
-                  agreementField.link.label
-                </a>
+                  <a
+                    class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
+                    href="/it/fruizione/richieste/agreement-id"
+                    target="_blank"
+                  >
+                    agreementField.link.label
+                  </a>
+                </span>
               </div>
             </div>
           </div>
@@ -151,9 +163,13 @@ exports[`EServiceGeneralInfoSection > should match the snapshot (not admin) 1`] 
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                REST
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  REST
+                </span>
               </p>
             </div>
           </div>

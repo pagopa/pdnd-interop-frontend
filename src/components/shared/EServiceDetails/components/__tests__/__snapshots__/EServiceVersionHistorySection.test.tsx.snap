@@ -38,84 +38,88 @@ exports[`EServiceVersionHistorySection > should match the snapshot 1`] = `
             class="MuiBox-root css-1rr4qq7"
           >
             <div
-              class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
             >
-              <form
-                class="MuiBox-root css-0"
-                novalidate=""
+              <span
+                class="MuiBox-root css-13o7eu2"
               >
-                <div
-                  class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
+                <form
+                  class="MuiBox-root css-0"
+                  novalidate=""
                 >
-                  <label
-                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
-                    data-shrink="true"
-                    id="selectedDescriptorId-label"
-                  >
-                    historyField.label
-                  </label>
                   <div
-                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                    class="MuiFormControl-root MuiFormControl-fullWidth css-aiigof-MuiFormControl-root"
                   >
+                    <label
+                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                      data-shrink="true"
+                      id="selectedDescriptorId-label"
+                    >
+                      historyField.label
+                    </label>
                     <div
-                      aria-expanded="false"
-                      aria-haspopup="listbox"
-                      aria-labelledby="selectedDescriptorId-label mui-component-select-selectedDescriptorId"
-                      class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-                      id="mui-component-select-selectedDescriptorId"
-                      role="button"
-                      tabindex="0"
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
                     >
-                      <span
-                        class="notranslate"
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        aria-labelledby="selectedDescriptorId-label mui-component-select-selectedDescriptorId"
+                        class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                        id="mui-component-select-selectedDescriptorId"
+                        role="button"
+                        tabindex="0"
                       >
-                        ​
-                      </span>
-                    </div>
-                    <input
-                      aria-hidden="true"
-                      aria-invalid="false"
-                      class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-                      name="selectedDescriptorId"
-                      tabindex="-1"
-                      value="ec94e366-cbb2-4203-ac07-95acf5289a31"
-                    />
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
-                      data-testid="ArrowDropDownIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M7 10l5 5 5-5z"
-                      />
-                    </svg>
-                    <fieldset
-                      aria-hidden="true"
-                      class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                    >
-                      <legend
-                        class="css-14lo706"
-                      >
-                        <span>
-                          historyField.label
+                        <span
+                          class="notranslate"
+                        >
+                          ​
                         </span>
-                      </legend>
-                    </fieldset>
+                      </div>
+                      <input
+                        aria-hidden="true"
+                        aria-invalid="false"
+                        class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                        name="selectedDescriptorId"
+                        tabindex="-1"
+                        value="ec94e366-cbb2-4203-ac07-95acf5289a31"
+                      />
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+                        data-testid="ArrowDropDownIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M7 10l5 5 5-5z"
+                        />
+                      </svg>
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend
+                          class="css-14lo706"
+                        >
+                          <span>
+                            historyField.label
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
                   </div>
-                </div>
-                <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge css-1vfi1qr-MuiButtonBase-root-MuiButton-root"
-                  tabindex="0"
-                  type="submit"
-                >
-                  submitBtn
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </form>
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge css-1vfi1qr-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    submitBtn
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </form>
+              </span>
             </div>
           </div>
         </div>

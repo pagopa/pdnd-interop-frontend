@@ -47,9 +47,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    REST
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      REST
+                    </span>
                   </p>
                 </div>
               </div>
@@ -94,24 +98,28 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <div
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    <div
-                      class="MuiStack-root css-kdc3n8-MuiStack-root"
+                    <span
+                      class="MuiBox-root css-13o7eu2"
                     >
-                      <span>
-                        1
-                      </span>
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-filledPrimary css-uy9ylj-MuiChip-root"
+                        class="MuiStack-root css-kdc3n8-MuiStack-root"
                       >
-                        <span
-                          class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
-                        >
-                          currentVersionChipLabel
+                        <span>
+                          1
                         </span>
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-filledPrimary css-uy9ylj-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+                          >
+                            currentVersionChipLabel
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -131,17 +139,21 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <div
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    <div
-                      class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1dxej50-MuiChip-root"
+                    <span
+                      class="MuiBox-root css-13o7eu2"
                     >
-                      <span
-                        class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+                      <div
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1dxej50-MuiChip-root"
                       >
-                        status.eservice.PUBLISHED
-                      </span>
-                    </div>
+                        <span
+                          class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+                        >
+                          status.eservice.PUBLISHED
+                        </span>
+                      </div>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -161,9 +173,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    Lorem
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      Lorem
+                    </span>
                   </p>
                 </div>
               </div>
@@ -191,9 +207,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    Lorem
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      Lorem
+                    </span>
                   </p>
                 </div>
               </div>
@@ -213,9 +233,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    1 time.minute
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      1 time.minute
+                    </span>
                   </p>
                 </div>
               </div>
@@ -235,9 +259,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    1 callsPerDay
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      1 callsPerDay
+                    </span>
                   </p>
                 </div>
               </div>
@@ -257,9 +285,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    1 callsPerDay
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      1 callsPerDay
+                    </span>
                   </p>
                 </div>
               </div>
@@ -279,9 +311,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    agreementApprovalPolicy.MANUAL
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      agreementApprovalPolicy.MANUAL
+                    </span>
                   </p>
                 </div>
               </div>
@@ -373,13 +409,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
               class="MuiStack-root css-jfdv4h-MuiStack-root"
             >
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     eserviceId
                   </p>
@@ -388,9 +424,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    03d0c725-47e5-4ec5-8ecd-1a1f3ce45d29
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      03d0c725-47e5-4ec5-8ecd-1a1f3ce45d29
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -418,13 +458,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                 </div>
               </div>
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     descriptorId
                   </p>
@@ -433,9 +473,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    ec94e366-cbb2-4203-ac07-95acf5289a31
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      ec94e366-cbb2-4203-ac07-95acf5289a31
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -463,13 +507,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                 </div>
               </div>
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     providerId
                   </p>
@@ -478,9 +522,13 @@ exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    ad474d35-7939-4bee-bde9-4e469cca1030
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      ad474d35-7939-4bee-bde9-4e469cca1030
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
