@@ -173,12 +173,6 @@
     "noDataLabel": "Nessuna finalità da evadere",
     "awaitingLabel": "In attesa di presa in carico"
   },
-  "tablePurpose": {
-    "actions": {
-      "updateDailyCalls": "Aggiorna stima di carico",
-      "deleteDailyCallsUpdate": "Elimina aggiornamento stima di carico"
-    }
-  },
   "list": {
     "title": "Le tue finalità",
     "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato",
@@ -202,7 +196,7 @@
         "optionLabels": {
           "ACTIVE": "Attiva",
           "SUSPENDED": "Sospesa",
-          "WAITING_FOR_APPROVAL": "In aggiornamento",
+          "WAITING_FOR_APPROVAL": "In attesa di approvazione",
           "ARCHIVED": "Archiviata"
         }
       }
@@ -371,6 +365,81 @@
             "modify": "Applica modifica"
           },
           "alert": "L’adeguamento non verrà attivato automaticamente dalla piattaforma. Dovrà essere il tuo ente a farlo manualmente."
+        }
+      }
+    }
+  },
+  "consumerView": {
+    "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione non potrai accedere ai dati resi disponibili attraverso l’API.",
+    "waitingForApprovalAlert": "Questa finalità è in attesa di approvazione. Fino alla sua attivazione da parte dell’erogatore non potrai accedere ai dati resi disponibili attraverso l’API.",
+    "archivedPurposeAlert": "Questa finalità è archiviata. Non puoi accedere ai dati resi disponibili attraverso l’API. Potrai sempre <1>crearne una nuova.</1>",
+    "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service",
+    "addClientToPurposeDisableTooltip": {
+      "label": "Solamente un amministratore può gestire i membri di un client"
+    },
+    "tabs": {
+      "ariaLabel": "Due tab diverse per i dettagli della finalità e i client associati",
+      "details": "Dettagli finalità",
+      "clients": "Client associati"
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "eServiceField": {
+          "label": "E-service di riferimento",
+          "value": "{{name}}, versione {{version}}"
+        },
+        "providerField": {
+          "label": "Erogatore"
+        },
+        "descriptionField": {
+          "label": "Descrizione della finalità"
+        },
+        "riskAnalysis": {
+          "fileName": "Analisi del rischio",
+          "link": {
+            "label": "Scarica analisi del rischio"
+          }
+        },
+        "agreementLink": {
+          "label": "Vai a richiesta di fruizione"
+        }
+      },
+      "loadEstimate": {
+        "title": "Stima di carico",
+        "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
+        "planCard": {
+          "title": "Il piano attivo del fruitore",
+          "subtitle": "Chiamate API/giorno",
+          "changePlanRequestLink": {
+            "label": "Richiedi cambio di piano"
+          }
+        },
+        "updatePlanCard": {
+          "title": "Il cambio di piano che hai richiesto",
+          "subtitle": "Chiamate API/giorno",
+          "expectApprovalDateInfo": "Hai stimato di attivare questo adeguamento il giorno <strong>{{date}}</strong>",
+          "removeChangePlanRequestLink": {
+            "label": "Elimina richiesta"
+          }
+        },
+        "drawer": {
+          "title": "Richiedi adeguamento",
+          "subtitle": "La tua stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>. Se il nuovo valore supera almeno una delle soglie imposte dall’erogatore, dovrà essere approvata prima di divenire attiva. Hai dubbi? <1>Consulta la guida</1>.",
+          "dailyCallsFormField": {
+            "label": "Nuova stima di carico",
+            "infoLable": "Numero di chiamate API/giorno stimate"
+          }
+        },
+        "thresholdsCard": {
+          "title": "Soglie previste dall'erogatore",
+          "subtitle": "Chiamate API/giorno",
+          "dailyCallsPerConsumerField": {
+            "label": "Per singolo fruitore"
+          },
+          "dailyCallsTotalsField": {
+            "label": "Totali"
+          }
         }
       }
     }

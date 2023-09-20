@@ -11,9 +11,7 @@ import type {
   DialogProps,
   DialogRejectAgreementProps,
   DialogSessionExpiredProps,
-  DialogUpdatePurposeDailyCallsProps,
 } from '@/types/dialog.types'
-import { DialogUpdatePurposeDailyCalls } from './DialogUpdatePurposeDailyCalls'
 import { DialogAddSecurityOperators } from './DialogAddSecurityOperators'
 import { DialogAddSecurityOperatorKey } from './DialogAddSecurityOperatorKey'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
@@ -26,7 +24,6 @@ function match<T>(
   onBasic: (props: DialogBasicProps) => T,
   onShowAttributeDetails: (props: DialogAttributeDetailsProps) => T,
   onShowSessionExpired: (props: DialogSessionExpiredProps) => T,
-  onUpdatePurposeDailyCalls: (props: DialogUpdatePurposeDailyCallsProps) => T,
   onAddSecurityOperator: (props: DialogAddSecurityOperatorsProps) => T,
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
@@ -40,8 +37,6 @@ function match<T>(
         return onShowAttributeDetails(props)
       case 'sessionExpired':
         return onShowSessionExpired(props)
-      case 'updatePurposeDailyCalls':
-        return onUpdatePurposeDailyCalls(props)
       case 'addSecurityOperator':
         return onAddSecurityOperator(props)
       case 'addSecurityOperatorKey':
@@ -58,7 +53,6 @@ const _Dialog = match(
   (props) => <DialogBasic {...props} />,
   (props) => <DialogAttributeDetails {...props} />,
   (props) => <DialogSessionExpired {...props} />,
-  (props) => <DialogUpdatePurposeDailyCalls {...props} />,
   (props) => <DialogAddSecurityOperators {...props} />,
   (props) => <DialogAddSecurityOperatorKey {...props} />,
   (props) => <DialogRejectAgreement {...props} />,

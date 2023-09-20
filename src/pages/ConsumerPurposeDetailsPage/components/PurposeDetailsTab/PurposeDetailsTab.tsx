@@ -1,55 +1,28 @@
 import React from 'react'
-import { Alert } from '@mui/material'
-import {
-  ConsumerPurposeDetailsLoadEstimateUpdateSection,
-  ConsumerPurposeDetailsLoadEstimateUpdateSectionSkeleton,
-} from './ConsumerPurposeDetailsLoadEstimateUpdateSection'
-import { PurposeQueries } from '@/api/purpose'
-import { Trans, useTranslation } from 'react-i18next'
-import { Link } from '@/router'
-import {
-  PurposeDetails,
-  PurposeDetailsSkeleton,
-} from '@/components/shared/PurposeDetails/PurposeDetails'
+import type { Purpose } from '@/api/api.generatedTypes'
+import { ConsumerPurposeDetailsGeneralInfoSection } from './ConsumerPurposeDetailsGeneralInfoSection'
+import { ConsumerPurposeDetailsLoadEstimateSection } from './ConsumerPurposeDetailsLoadEstimateSection'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
+import { Stack } from '@mui/material'
 
 interface PurposeDetailsTabProps {
-  purposeId: string
+  purpose: Purpose
 }
 
-export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({ purposeId }) => {
-  const { t } = useTranslation('purpose', { keyPrefix: 'view' })
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
-
+export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({ purpose }) => {
   return (
-    <>
-      <PurposeDetails purpose={purpose} />
-      <ConsumerPurposeDetailsLoadEstimateUpdateSection purpose={purpose} />
-      {purpose?.currentVersion?.state !== 'ARCHIVED' && purpose?.clients.length === 0 && (
-        <Alert sx={{ mt: 2 }} severity="info">
-          <Trans
-            components={{
-              1: (
-                <Link
-                  to="SUBSCRIBE_PURPOSE_DETAILS"
-                  params={{ purposeId }}
-                  options={{ urlParams: { tab: 'clients' } }}
-                />
-              ),
-            }}
-          >
-            {t('noClientsAlert')}
-          </Trans>
-        </Alert>
-      )}
-    </>
+    <Stack spacing={3}>
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />
+      <ConsumerPurposeDetailsLoadEstimateSection purpose={purpose} />
+    </Stack>
   )
 }
 
-export const PurposeDetailsTabSkeleton: React.FC = () => {
+export const PurposeDetailTabSkeleton: React.FC = () => {
   return (
-    <>
-      <PurposeDetailsSkeleton />
-      <ConsumerPurposeDetailsLoadEstimateUpdateSectionSkeleton />
-    </>
+    <Stack spacing={3}>
+      <SectionContainerSkeleton height={317} />
+      <SectionContainerSkeleton height={538} />
+    </Stack>
   )
 }
