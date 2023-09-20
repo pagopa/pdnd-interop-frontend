@@ -1,13 +1,13 @@
 import React from 'react'
-import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Alert, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-type ConsumerEServiceDetailsAlertsProps = {
-  descriptor: CatalogEServiceDescriptor | undefined
+type ProviderEServiceDetailsAlertsProps = {
+  descriptor: ProducerEServiceDescriptor | undefined
 }
 
-export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAlertsProps> = ({
+export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAlertsProps> = ({
   descriptor,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.alert' })

@@ -5,7 +5,7 @@ import type {
   EServiceDescriptorState,
 } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
-import type { ActionItem } from '@/types/common.types'
+import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import {
   checkIfAlreadySubscribed,
@@ -13,14 +13,19 @@ import {
   checkIfhasAlreadyAgreementDraft,
 } from '@/utils/agreement.utils'
 import { AuthHooks } from '@/api/auth'
+import SendIcon from '@mui/icons-material/Send'
+import PendingActionsIcon from '@mui/icons-material/PendingActions'
+import ArticleIcon from '@mui/icons-material/Article'
+import noop from 'lodash/noop'
 
 function useGetEServiceConsumerActions(
   eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
   descriptor?: { id: string; state: EServiceDescriptorState; version: string }
 ) {
-  const { isAdmin } = AuthHooks.useJwt()
-  const navigate = useNavigate()
   const { t } = useTranslation('eservice')
+  const { isAdmin } = AuthHooks.useJwt()
+
+  const navigate = useNavigate()
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
@@ -30,18 +35,24 @@ function useGetEServiceConsumerActions(
   const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
   const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor?.state)
 
-  const actions: Array<ActionItem> = []
+  const actions: Array<ActionItemButton> = []
 
-  if (!eservice || !descriptor) {
-    return { actions }
+  if (!eservice || !descriptor || !isAdmin) return { actions: [] satisfies Array<ActionItemButton> }
+
+  const handleInspectAgreementAction = () => {
+    if (!eservice.agreement) return
+    navigate('SUBSCRIBE_AGREEMENT_READ', {
+      params: {
+        agreementId: eservice.agreement.id,
+      },
+    })
   }
 
-  const handleGoToAgreementAction = () => {
-    const routeKey = hasAgreementDraft ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
-
-    navigate(routeKey, {
+  const handleEditAgreementAction = () => {
+    if (!eservice.agreement) return
+    navigate('SUBSCRIBE_AGREEMENT_EDIT', {
       params: {
-        agreementId: eservice.agreement?.id as string,
+        agreementId: eservice.agreement.id,
       },
     })
   }
@@ -84,19 +95,64 @@ function useGetEServiceConsumerActions(
     )
   }
 
-  if (isAdmin && (isSubscribed || hasAgreementDraft)) {
-    // If there is an valid agreement for this e-service add a "Go to Agreement" action
-    actions.push({
-      action: handleGoToAgreementAction,
-      label: t('tableEServiceCatalog.goToRequestCta'),
-    })
+  if (isSubscribed) {
+    return {
+      actions: [
+        {
+          action: handleInspectAgreementAction,
+          label: t('tableEServiceCatalog.inspect'),
+          icon: ArticleIcon,
+        },
+      ],
+    }
   }
 
-  if (canCreateAgreementDraft && isAdmin) {
-    actions.push({
-      action: handleCreateAgreementDraftAction,
-      label: t('tableEServiceCatalog.subscribe'),
-    })
+  if (hasAgreementDraft) {
+    return {
+      actions: [
+        {
+          action: handleEditAgreementAction,
+          label: t('tableEServiceCatalog.editDraft'),
+          icon: PendingActionsIcon,
+        },
+      ],
+    }
+  }
+
+  if (canCreateAgreementDraft) {
+    return {
+      actions: [
+        {
+          action: handleCreateAgreementDraftAction,
+          label: t('tableEServiceCatalog.subscribe'),
+          icon: SendIcon,
+        },
+      ],
+    }
+  }
+
+  const shouldShowhasMissingAttributesTooltip =
+    // ...the e-service is not owned by the active party...
+    !isMine &&
+    // ... the party doesn't own all the certified attributes required...
+    !eservice.hasCertifiedAttributes &&
+    // ... the e-service's latest active descriptor is the actual descriptor the user is viewing...
+    eservice.activeDescriptor?.id === descriptor?.id &&
+    /// ... and it is not archived.
+    descriptor?.state !== 'ARCHIVED'
+
+  if (shouldShowhasMissingAttributesTooltip) {
+    return {
+      actions: [
+        {
+          action: noop,
+          label: t('tableEServiceCatalog.subscribe'),
+          icon: SendIcon,
+          disabled: true,
+          tooltip: 'Il tuo ente non ha gli attributi certificati necessari per iscriversi',
+        },
+      ],
+    }
   }
 
   return { actions }

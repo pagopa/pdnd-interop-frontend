@@ -164,38 +164,38 @@ exports[`AgreementDetails > should match the snapshot (consumer) 1`] = `
                   </div>
                 </div>
               </div>
-              <hr
-                class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
-              />
-              <div
-                class="MuiBox-root css-0"
-              >
-                <button
-                  class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
-                >
-                  <span
-                    class="MuiStack-root css-ae0xht-MuiStack-root"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="FolderIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
-                      />
-                    </svg>
-                     
-                    <span>
-                      attachedDocsButtonLabel
-                    </span>
-                     
-                  </span>
-                </button>
-              </div>
             </div>
+          </div>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-ctpjxq-MuiDivider-root"
+          />
+          <div
+            class="MuiStack-root css-t7dxg7-MuiStack-root"
+          >
+            <button
+              class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
+            >
+              <span
+                class="MuiStack-root css-ae0xht-MuiStack-root"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="FolderIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+                  />
+                </svg>
+                 
+                <span>
+                  attachedDocsButtonLabel
+                </span>
+                 
+              </span>
+            </button>
           </div>
         </section>
       </div>
@@ -541,38 +541,38 @@ exports[`AgreementDetails > should match the snapshot (producer) 1`] = `
                   </div>
                 </div>
               </div>
-              <hr
-                class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
-              />
-              <div
-                class="MuiBox-root css-0"
-              >
-                <button
-                  class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
-                >
-                  <span
-                    class="MuiStack-root css-ae0xht-MuiStack-root"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                      data-testid="FolderIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
-                      />
-                    </svg>
-                     
-                    <span>
-                      attachedDocsButtonLabel
-                    </span>
-                     
-                  </span>
-                </button>
-              </div>
             </div>
+          </div>
+          <hr
+            class="MuiDivider-root MuiDivider-fullWidth css-ctpjxq-MuiDivider-root"
+          />
+          <div
+            class="MuiStack-root css-t7dxg7-MuiStack-root"
+          >
+            <button
+              class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
+            >
+              <span
+                class="MuiStack-root css-ae0xht-MuiStack-root"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="FolderIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+                  />
+                </svg>
+                 
+                <span>
+                  attachedDocsButtonLabel
+                </span>
+                 
+              </span>
+            </button>
           </div>
         </section>
       </div>

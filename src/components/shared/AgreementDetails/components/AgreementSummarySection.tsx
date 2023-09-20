@@ -1,6 +1,6 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { Link, useCurrentRoute } from '@/router'
-import { Box, Divider, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,7 +28,18 @@ export const AgreementSummarySection: React.FC = () => {
   }`
 
   return (
-    <SectionContainer newDesign title={t('title')}>
+    <SectionContainer
+      newDesign
+      title={t('title')}
+      bottomActions={[
+        {
+          onClick: openAttachedDocsDrawer,
+          component: 'button',
+          startIcon: <FolderIcon />,
+          label: t('attachedDocsButtonLabel'),
+        },
+      ]}
+    >
       <Stack spacing={2}>
         <InformationContainer
           content={
@@ -80,14 +91,6 @@ export const AgreementSummarySection: React.FC = () => {
             label={t('documentationField.label')}
           />
         )}
-
-        <Divider />
-
-        <Box>
-          <IconLink onClick={openAttachedDocsDrawer} component="button" startIcon={<FolderIcon />}>
-            {t('attachedDocsButtonLabel')}
-          </IconLink>
-        </Box>
       </Stack>
     </SectionContainer>
   )

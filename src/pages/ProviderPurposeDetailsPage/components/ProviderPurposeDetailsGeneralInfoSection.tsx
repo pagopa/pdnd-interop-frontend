@@ -1,13 +1,12 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { useNavigate, Link } from '@/router'
-import { Divider, Stack } from '@mui/material'
+import { Link, useGeneratePath } from '@/router'
+import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import LinkIcon from '@mui/icons-material/Link'
 import { PurposeDownloads } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
-import { IconLink } from '@/components/shared/IconLink'
 import DownloadIcon from '@mui/icons-material/Download'
 
 type ProviderPurposeDetailsGeneralInfoSectionProps = {
@@ -21,7 +20,7 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     keyPrefix: 'providerView.sections.generalInformations',
   })
 
-  const navigate = useNavigate()
+  const generatePath = useGeneratePath()
 
   const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
 
@@ -38,7 +37,24 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
   }
 
   return (
-    <SectionContainer title={t('title')} newDesign>
+    <SectionContainer
+      title={t('title')}
+      newDesign
+      bottomActions={[
+        {
+          label: t('riskAnalysis.link.label'),
+          component: 'button',
+          onClick: handleDownloadDocument,
+          startIcon: <DownloadIcon />,
+        },
+        {
+          label: t('agreementLink.label'),
+          href:
+            '/ui' + generatePath('PROVIDE_AGREEMENT_READ', { agreementId: purpose.agreement.id }),
+          startIcon: <LinkIcon />,
+        },
+      ]}
+    >
       <Stack spacing={2}>
         <InformationContainer
           label={t('eServiceField.label')}
@@ -63,25 +79,6 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
           direction="column"
           content={purpose.description}
         />
-        <Divider />
-        <IconLink
-          onClick={handleDownloadDocument}
-          component="button"
-          startIcon={<DownloadIcon />}
-          alignSelf="start"
-        >
-          {t('riskAnalysis.link.label')}
-        </IconLink>
-        <IconLink
-          onClick={() =>
-            navigate('PROVIDE_AGREEMENT_READ', { params: { agreementId: purpose.agreement.id } })
-          }
-          component="button"
-          startIcon={<LinkIcon />}
-          alignSelf="start"
-        >
-          {t('agreementLink.label')}
-        </IconLink>
       </Stack>
     </SectionContainer>
   )

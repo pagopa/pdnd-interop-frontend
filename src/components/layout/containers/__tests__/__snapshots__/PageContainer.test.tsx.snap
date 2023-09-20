@@ -24,7 +24,7 @@ exports[`PageContainer > should match snapshot 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>
@@ -61,12 +61,9 @@ exports[`PageContainer > should match snapshot on loading state 1`] = `
             />
           </p>
         </div>
-        <div
-          class="MuiStack-root css-1sos3zc-MuiStack-root"
-        />
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>
@@ -132,7 +129,7 @@ exports[`PageContainer > should match snapshot with action menu 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>
@@ -195,7 +192,7 @@ exports[`PageContainer > should match snapshot with buttons 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>
@@ -232,7 +229,7 @@ exports[`PageContainer > should match snapshot with description 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>
@@ -269,7 +266,7 @@ exports[`PageContainer > should match snapshot with title 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>
@@ -311,7 +308,7 @@ exports[`PageContainer > should match snapshot with title and description 1`] = 
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>
@@ -367,7 +364,7 @@ exports[`PageContainer > should match snapshot with top info tooltip 1`] = `
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>
@@ -404,12 +401,9 @@ exports[`PageContainerSkeleton > should match snapshot 1`] = `
             />
           </p>
         </div>
-        <div
-          class="MuiStack-root css-1sos3zc-MuiStack-root"
-        />
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       />
     </div>
   </div>

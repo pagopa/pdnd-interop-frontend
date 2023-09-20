@@ -35,7 +35,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       >
         <div
           class="MuiStack-root css-8mcjw0-MuiStack-root"
@@ -391,7 +391,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
         </div>
       </div>
       <div
-        class="MuiBox-root css-h5fkc8"
+        class="MuiBox-root css-164r41r"
       >
         <form
           class="MuiBox-root css-0"
