@@ -1,6 +1,6 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
-import { Link, useNavigate } from '@/router'
+import { Link, useGeneratePath } from '@/router'
 import { Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -21,7 +21,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     keyPrefix: 'consumerView.sections.generalInformations',
   })
 
-  const navigate = useNavigate()
+  const generatePath = useGeneratePath()
 
   const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
 
@@ -76,10 +76,9 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           {t('riskAnalysis.link.label')}
         </IconLink>
         <IconLink
-          onClick={() =>
-            navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: purpose.agreement.id } })
+          href={
+            '/ui' + generatePath('SUBSCRIBE_AGREEMENT_READ', { agreementId: purpose.agreement.id })
           }
-          component="button"
           startIcon={<LinkIcon />}
           alignSelf="start"
         >

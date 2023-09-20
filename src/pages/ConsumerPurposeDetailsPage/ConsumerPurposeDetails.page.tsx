@@ -67,23 +67,21 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
           <Tab label={t('consumerView.tabs.clients')} value="clients" />
         </TabList>
 
-        <Grid container>
-          <Grid item xs={8}>
-            <TabPanel value="details">
+        <TabPanel value="details">
+          <Grid container>
+            <Grid item xs={8}>
               {purpose && !isLoading ? (
                 <PurposeDetailsTab purpose={purpose} />
               ) : (
                 <PurposeDetailTabSkeleton />
               )}
-            </TabPanel>
+            </Grid>
           </Grid>
+        </TabPanel>
 
-          <Grid item xs={12}>
-            <TabPanel value="clients">
-              <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
-            </TabPanel>
-          </Grid>
-        </Grid>
+        <TabPanel value="clients">
+          <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
+        </TabPanel>
       </TabContext>
     </PageContainer>
   )
