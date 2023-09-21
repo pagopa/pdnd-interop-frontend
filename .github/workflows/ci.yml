@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16.15.0]
+        node: [18.15.0]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16.15.0]
+        node: [18.15.0]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
