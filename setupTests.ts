@@ -12,7 +12,8 @@ afterEach(() => {
 vi.spyOn(global.console, 'error').mockImplementation(() => vi.fn())
 vi.spyOn(global.console, 'warn').mockImplementation(() => vi.fn())
 
-global.crypto.randomUUID = () => Math.random().toString()
+global.crypto.randomUUID = () =>
+  Math.random().toString() as `${string}-${string}-${string}-${string}-${string}`
 
 vi.stubGlobal('scroll', vi.fn())
 vi.mock('zustand')

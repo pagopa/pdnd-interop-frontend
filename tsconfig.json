@@ -18,8 +18,9 @@
     "paths": {
       "@/*": ["src/*"],
     },
+    "types": ["vitest/globals"],
   },
-  "include": ["src"],
+  "include": ["src", "./setupTests.ts"],
   "exclude": [
     // "./src/**/__tests__/**",
     "__mocks__",
