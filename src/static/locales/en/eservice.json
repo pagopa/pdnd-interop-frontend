@@ -204,7 +204,7 @@
           "label": "Producer"
         },
         "version": {
-          "label": "You are watching version number {{ versionNumber }}"
+          "label": "You are watching version number"
         },
         "eserviceDescription": {
           "label": "E-Service description"
