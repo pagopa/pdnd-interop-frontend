@@ -30,17 +30,6 @@
       "exitLabel": "Esci"
     }
   },
-  "dialogAddSecurityOperators": {
-    "title": "Aggiungi membri del client",
-    "content": {
-      "autocompleteLabel": "Utenti selezionati",
-      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client"
-    },
-    "actions": {
-      "cancelLabel": "Annulla",
-      "confirmLabel": "Aggiungi"
-    }
-  },
   "dialogAddSecurityOperatorKeys": {
     "title": "Carica nuova chiave pubblica",
     "content": {
