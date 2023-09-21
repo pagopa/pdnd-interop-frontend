@@ -18,3 +18,10 @@ global.crypto.randomUUID = () =>
 vi.stubGlobal('scroll', vi.fn())
 vi.mock('zustand')
 vi.mock('react-i18next')
+
+process.env = {
+  ...process.env,
+  // This is needed in order to make the tests work.
+  // The chosen REACT_APP_API_HOST value is random and could be any string.
+  REACT_APP_API_HOST: 'http://localhost:8080',
+}
