@@ -114,6 +114,118 @@
       }
     }
   },
+  "providerRead": {
+    "title": "Gestisci richiesta di fruizione",
+    "suspendedAlert": {
+      "byProducer": "Questa richiesta di fruizione è stata sospesa da EROGATORE. Fino alla sua riattivazione non sarà possibile accedere ai dati.",
+      "byConsumer": "Questa richiesta di fruizione è stata sospesa da FRUITORE. Fino alla sua riattivazione non sarà possibile accedere ai dati.",
+      "byPlatform": "Questa richiesta di fruizione è stata sospesa da PIATTAFORMA. Fino alla sua riattivazione non sarà possibile accedere ai dati."
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "eServiceField": {
+          "label": "Richiesta per l’e-service",
+          "value": "{{name}}, versione {{version}}"
+        },
+        "consumerField": {
+          "label": "Fruitore"
+        },
+        "rejectionMessageField": {
+          "label": "Motivazione del rifiuto"
+        },
+        "documentation": {
+          "fileName": "Richiesta di fruizione",
+          "link": {
+            "label": "Scarica richiesta di fruizione"
+          }
+        },
+        "certifiedAttributeLink": {
+          "label": "Visualizza attributi certificati"
+        },
+        "declaredAttributeLink": {
+          "label": "Visualizza attributi dichiarati"
+        },
+        "consumerDetailsLink": {
+          "label": "Visualizza dettagli fruitore"
+        },
+        "contactDrawer": {
+          "title": "Contatti del fruitore",
+          "emailField": {
+            "label": "Email di contatto"
+          },
+          "notesField": {
+            "label": "Note"
+          }
+        },
+        "attributesDrawer": {
+          "title": {
+            "certified": "Attributi certificati richiesti",
+            "declared": "Attributi dichiarati richiesti"
+          },
+          "subtitle": {
+            "certified": "Ovvero gli attributi certificati da una <1>fonte autoritativa riconosciuta</1> richiesti per iscriversi a questa versione di e-service"
+          }
+        }
+      },
+      "attributesSectionsList": {
+        "verifiedSection": {
+          "documentationLink": {
+            "label": "Visualizza documentazione allegata"
+          },
+          "documentationDrawer": {
+            "title": "Documentazione",
+            "subtitle": "La documentazione che il fruitore ha allegato per vedersi riconosciuti gli attributi verificati richiesti per questa versione di e-service",
+            "attachedDocuments": {
+              "title": "Documentazione",
+              "noDocumentsLabel": "Non ci sono documenti allegati"
+            },
+            "consumerMessage": {
+              "title": "Messaggio per l’erogatore",
+              "description": "Note utili a supporto riportate dal fruitore"
+            }
+          },
+          "attributes": {
+            "actions": {
+              "verify": "Verifica attributo",
+              "update": "Aggiorna verifica",
+              "revoke": "Revoca attributo"
+            },
+            "attributesDrawer": {
+              "verify": {
+                "title": "Verifica attributo",
+                "subtitle": "Con questa verifica dichiari che il fruitore possiede l’attributo richiesto.",
+                "form": {
+                  "radioGroup": {
+                    "label": "Quando scade la verifica di questo attributo?",
+                    "options": {
+                      "NO": "Senza scadenza",
+                      "YES": "Imposta data di scadenza"
+                    }
+                  },
+                  "datePicker": {
+                    "label": "Imposta data di scadenza"
+                  }
+                },
+                "info": {
+                  "title": "Cosa succede quando scade un attributo?",
+                  "description": "Per saperne di più, <1>leggi la guida.</1>"
+                }
+              },
+              "revoke": {
+                "title": "Revoca attributo",
+                "subtitle": "Revocando l’attributo, dichiari che il fruitore non possiede più l’attributo indicato.",
+                "info": {
+                  "title": "Cosa succede quando revoco un attributo?",
+                  "description": "Per saperne di più, <1>leggi la guida.</1>"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "edit": {
     "title": "Gestisci richiesta di fruizione",
     "generalInformations": {
