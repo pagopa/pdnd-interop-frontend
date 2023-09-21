@@ -17,7 +17,7 @@
     "title": "Errore del server",
     "description": "Si è verificato un errore nella gestione della richiesta. Per favore, riprova."
   },
-  "notAuthorized": {
+  "forbidden": {
     "title": "Non autorizzato",
     "description": "Non possiedi le autorizzazioni necessarie per visualizzare la pagina."
   },

@@ -5,12 +5,13 @@ import { Button } from '@mui/material'
 import { Redirect, Link } from '@/router'
 import {
   AssistencePartySelectionError,
-  NotAuthorizedError,
+  ForbiddenError,
   NotFoundError,
   TokenExchangeError,
+  UnauthorizedError,
 } from '@/utils/errors.utils'
 import type { FallbackProps } from 'react-error-boundary'
-import { isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
+import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
 
@@ -65,9 +66,9 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     content = <Redirect to="NOT_FOUND" />
   }
 
-  if (error instanceof NotAuthorizedError) {
-    title = t('notAuthorized.title')
-    description = t('notAuthorized.description')
+  if (error instanceof ForbiddenError) {
+    title = t('forbidden.title')
+    description = t('forbidden.description')
     content = backToHomeButton
   }
 
@@ -100,6 +101,10 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
 
   if (!description) {
     description = t('default.description')!
+  }
+
+  if (error instanceof UnauthorizedError) {
+    window.location.assign(FE_LOGIN_URL)
   }
 
   return { title, description, content }

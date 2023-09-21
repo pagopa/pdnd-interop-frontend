@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
-import { NotAuthorizedError, NotFoundError } from '@/utils/errors.utils'
+import { UnauthorizedError, NotFoundError } from '@/utils/errors.utils'
 import i18next from 'i18next'
 import type { LangCode } from '@/types/common.types'
 
@@ -77,7 +77,7 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(new NotFoundError())
     }
     if (isAxiosError && error.response?.status === 401) {
-      return Promise.reject(new NotAuthorizedError())
+      return Promise.reject(new UnauthorizedError())
     }
 
     return Promise.reject(error)

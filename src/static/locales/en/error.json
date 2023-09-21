@@ -17,7 +17,7 @@
     "title": "Server Error",
     "description": "There was an error while handling the request. Please reload the page."
   },
-  "notAuthorized": {
+  "forbidden": {
     "title": "Not authorized",
     "description": "You don't have the necessary permissions to view the page."
   },
