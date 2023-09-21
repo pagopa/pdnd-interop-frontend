@@ -20,7 +20,7 @@ export const ProviderAgreementDetailsVerifiedAttributesDrawerForm: React.FC<
 > = ({ formState, setFormState, verifier }) => {
   const { t } = useTranslation('agreement', {
     keyPrefix:
-      'providerRead.sections.attributesSectionsList.verifiedSection.attributesDrawer.verify',
+      'providerRead.sections.attributesSectionsList.verifiedSection.attributes.attributesDrawer.verify',
   })
   const handleRadioChange = (selectedValue: string) => {
     setFormState((prev) => {
