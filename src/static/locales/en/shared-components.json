@@ -31,6 +31,17 @@
       "exitLabel": "Exit"
     }
   },
+  "dialogAddSecurityOperators": {
+    "title": "Add security operators",
+    "content": {
+      "autocompleteLabel": "Selected operators",
+      "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Aggiungi"
+    }
+  },
   "dialogAddSecurityOperatorKeys": {
     "title": "Upload new public key",
     "content": {

@@ -1,3 +1,4 @@
+import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -13,6 +14,7 @@ export type DialogProps =
   | DialogBasicProps
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
+  | DialogAddSecurityOperatorsProps
   | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
   | DialogAddClientToPurposeProps
@@ -34,6 +36,12 @@ export type DialogBasicProps = DialogDefaultProps & {
   onProceed: VoidFunction
   onCancel?: VoidFunction
   disabled?: boolean
+}
+
+export type DialogAddSecurityOperatorsProps = {
+  type: 'addSecurityOperator'
+  excludeOperatorsIdsList: Array<string>
+  onSubmit: (relationshipIds: Array<RelationshipInfo>) => void
 }
 
 export type DialogAddSecurityOperatorKeyProps = {
