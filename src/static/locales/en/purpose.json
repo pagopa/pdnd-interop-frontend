@@ -75,8 +75,7 @@
         "infoLabel": "It is requested to specify whether the provision of data is free of charge by virtue of an exemption/exclusion provided for by law or other. Min 10 characters, max 250 characters"
       },
       "dailyCallsField": {
-        "label": "Number of API calls/day (required)",
-        "infoLabel": "Your estimate of API calls/day you will make. This value will contribute to the e-service Provider threshold to guarantee the Provider's infrastructure can sustain the load. If this value goes over any of the threshold, the Provider will approve this purpose manually before it goes into effect"
+        "label": "How many API calls do you expect to make per day?"
       }
     },
     "step2": {
@@ -165,7 +164,8 @@
     },
     "clientsSection": {
       "title": "Associate clients",
-      "empty": "No associated clients"
+      "empty": "No associated clients",
+      "infoAlert": "You will always be able to modify the clients to be associated with this purpose, even after its publication."
     }
   },
   "tablePurposeInEService": {
