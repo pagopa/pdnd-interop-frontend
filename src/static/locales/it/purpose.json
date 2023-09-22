@@ -75,8 +75,7 @@
         "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
       },
       "dailyCallsField": {
-        "label": "Numero di chiamate API/giorno (richiesto)",
-        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
+        "label": "Quante chiamate API/giorno stimi di effettuare?"
       }
     },
     "step2": {
@@ -165,7 +164,8 @@
     },
     "clientsSection": {
       "title": "Client associati",
-      "empty": "No associated clients"
+      "empty": "Nessun client associato",
+      "infoAlert": "Potrai sempre modificare i client da associare a questa finalità, anche dopo la sua pubblicazione."
     }
   },
   "tablePurposeInEService": {
