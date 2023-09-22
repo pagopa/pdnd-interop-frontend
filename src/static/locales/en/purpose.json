@@ -22,7 +22,7 @@
     "consumerName": "This template was created by",
     "purposeTitle": "Purpose name",
     "purposeDescription": "Purpose description",
-    "createNewPurposeBtn": "Create purpose draft",
+    "createNewPurposeBtn": "Create draft",
     "backToListBtn": "Back to purpose list",
     "defaultPurpose": {
       "title": "New purpose",
