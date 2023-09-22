@@ -204,7 +204,7 @@
           "label": "Erogatore"
         },
         "version": {
-          "label": "Stai vedendo la versione {{ versionNumber }}"
+          "label": "Stai vedendo la versione"
         },
         "eserviceDescription": {
           "label": "Descrizione dell'e-service"

@@ -81,7 +81,7 @@ exports[`SideNav > should match the snapshot 1`] = `
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/ente"
             tabindex="0"
           >
@@ -240,7 +240,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
                 class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                   style="width: 120px;"
                 />
               </p>
@@ -274,7 +274,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
                 class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                   style="width: 120px;"
                 />
               </p>
@@ -304,7 +304,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -320,7 +320,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -336,7 +336,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -352,7 +352,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -368,7 +368,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -386,7 +386,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 160px;"
               />
             </p>
@@ -402,7 +402,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 160px;"
               />
             </p>
@@ -425,7 +425,7 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 160px;"
               />
             </p>
@@ -518,7 +518,7 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/ente"
             tabindex="0"
           >
@@ -623,7 +623,7 @@ exports[`SideNav > should match the snapshot while user is security and api oper
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/ente"
             tabindex="0"
           >
@@ -694,7 +694,7 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
         >
           <a
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
             href="/it/ente"
             tabindex="0"
           >
@@ -740,7 +740,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
                 class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                   style="width: 120px;"
                 />
               </p>
@@ -774,7 +774,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
                 class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                   style="width: 120px;"
                 />
               </p>
@@ -804,7 +804,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -820,7 +820,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -836,7 +836,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -852,7 +852,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -868,7 +868,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
                   class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
                 >
                   <span
-                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     style="width: 160px;"
                   />
                 </p>
@@ -886,7 +886,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 160px;"
               />
             </p>
@@ -902,7 +902,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 160px;"
               />
             </p>
@@ -925,7 +925,7 @@ exports[`SideNavSkeleton > should match the snapshot 1`] = `
               class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
             >
               <span
-                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 style="width: 160px;"
               />
             </p>

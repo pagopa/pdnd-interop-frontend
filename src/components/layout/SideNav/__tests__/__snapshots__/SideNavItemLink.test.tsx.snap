@@ -4,7 +4,7 @@ exports[`SideNavItemLink > should match the snapshot 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
       href="/it/termini-di-servizio"
       tabindex="0"
     >
@@ -29,7 +29,7 @@ exports[`SideNavItemLink > should match the snapshot indented 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
       href="/it/termini-di-servizio"
       tabindex="0"
     >
@@ -54,7 +54,7 @@ exports[`SideNavItemLink > should match the snapshot selected 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-r7j27y-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1rhg01k-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
       href="/it/termini-di-servizio"
       tabindex="0"
     >
@@ -79,7 +79,7 @@ exports[`SideNavItemLink > should match the snapshot with EndIcon 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
       href="/it/termini-di-servizio"
       tabindex="0"
     >
@@ -119,7 +119,7 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
       href="/it/termini-di-servizio"
       tabindex="0"
     >
@@ -159,7 +159,7 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon and EndIcon 
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-r7j27y-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1rhg01k-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
       href="/it/termini-di-servizio"
       tabindex="0"
     >
@@ -223,7 +223,7 @@ exports[`SideNavItemLinkSkeleton > should match the snapshot 1`] = `
           class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
         >
           <span
-            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
             style="width: 160px;"
           />
         </p>

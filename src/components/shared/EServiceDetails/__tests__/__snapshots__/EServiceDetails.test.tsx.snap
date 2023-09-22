@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PurposeDetails > should match snapshot 1`] = `
+exports[`EServiceDetails > should match the snapshot (consumer) 1`] = `
 <body>
   <div>
     <div
@@ -40,45 +40,7 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
                   >
-                    purposeStatusField.label
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <div
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-13o7eu2"
-                    >
-                      <div
-                        class="MuiStack-root css-niqf4j-MuiStack-root"
-                      >
-                        <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
-                        >
-                          <span
-                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                          >
-                            status.purpose.ACTIVE
-                          </span>
-                        </div>
-                      </div>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1xcvc1q-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-iuqs4u"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-                  >
-                    dailyCallsEstimateField.label
+                    technology
                   </p>
                 </div>
                 <div
@@ -90,157 +52,7 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                     <span
                       class="MuiBox-root css-13o7eu2"
                     >
-                      dailyCallsEstimateField.value
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1xcvc1q-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-iuqs4u"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-                  >
-                    consumerThreshold.label
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-13o7eu2"
-                    >
-                      consumerThreshold.value
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1xcvc1q-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-iuqs4u"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-                  >
-                    totalThreshold.label
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-13o7eu2"
-                    >
-                      totalThreshold.value
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1xcvc1q-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-iuqs4u"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-                  >
-                    eServiceField.label
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <div
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-13o7eu2"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
-                        href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
-                        target="_blank"
-                      >
-                        eServiceField.value
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1xcvc1q-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-iuqs4u"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-                  >
-                    agreementField.label
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <div
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-13o7eu2"
-                    >
-                      <a
-                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
-                        href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
-                        target="_blank"
-                      >
-                        agreementField.link.label
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1xcvc1q-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-iuqs4u"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-                  >
-                    isFreeOfChargeField.label
-                  </p>
-                  <hr
-                    class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
-                  />
-                  <span
-                    class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
-                  >
-                    isFreeOfChargeField.labelDescription
-                  </span>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-13o7eu2"
-                    >
-                      isFreeOfChargeField.no
+                      REST
                     </span>
                   </p>
                 </div>
@@ -260,7 +72,271 @@ exports[`PurposeDetails > should match snapshot 1`] = `
               <h2
                 class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
               >
-                label
+                title
+              </h2>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <div
+              class="MuiStack-root css-1sazv7p-MuiStack-root"
+            >
+              <div
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    actualVersion
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <div
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                  >
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      <div
+                        class="MuiStack-root css-kdc3n8-MuiStack-root"
+                      >
+                        <span>
+                          1
+                        </span>
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorPrimary MuiChip-filledPrimary css-uy9ylj-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+                          >
+                            currentVersionChipLabel
+                          </span>
+                        </div>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    versionStatus
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <div
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                  >
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      <div
+                        class="MuiChip-root MuiChip-filled MuiChip-sizeMedium MuiChip-colorSuccess MuiChip-filledSuccess css-1dxej50-MuiChip-root"
+                      >
+                        <span
+                          class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
+                        >
+                          status.eservice.PUBLISHED
+                        </span>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    description
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                  >
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      Lorem
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    audience
+                  </p>
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+                  />
+                  <span
+                    class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+                  >
+                    audienceDescription
+                  </span>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                  >
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      Lorem
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    voucherLifespan
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                  >
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      1 time.minute
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    dailyCallsPerConsumer
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                  >
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      1 callsPerDay
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    dailyCallsTotal
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                  >
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      1 callsPerDay
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div
+                class="MuiStack-root css-1xcvc1q-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-iuqs4u"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    agreementApprovalPolicy.label
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1rr4qq7"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                  >
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      agreementApprovalPolicy.MANUAL
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+        >
+          <div
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
+          >
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
+            >
+              <h2
+                class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+              >
+                Download
               </h2>
             </div>
           </div>
@@ -292,7 +368,7 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                     </svg>
                      
                     <span>
-                      downloadRiskAnalysisLabel
+                      Specifica API
                     </span>
                      
                   </span>
@@ -353,7 +429,7 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                     <span
                       class="MuiBox-root css-k1s5lc"
                     >
-                      dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e
+                      03d0c725-47e5-4ec5-8ecd-1a1f3ce45d29
                     </span>
                     <button
                       aria-label="Copia"
@@ -402,105 +478,7 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                     <span
                       class="MuiBox-root css-k1s5lc"
                     >
-                      cd80bfe6-54be-493a-aaa1-6bb2b54545f8
-                    </span>
-                    <button
-                      aria-label="Copia"
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
-                      data-mui-internal-clone-element="true"
-                      role="button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-                        data-testid="ContentCopyIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-                        />
-                      </svg>
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
-                    </button>
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1rbj9z8-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-1pdb85g"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
-                  >
-                    agreementId
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-k1s5lc"
-                    >
-                      3ec3875a-cf24-450a-b94b-550ca2ec5e86
-                    </span>
-                    <button
-                      aria-label="Copia"
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
-                      data-mui-internal-clone-element="true"
-                      role="button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-                        data-testid="ContentCopyIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-                        />
-                      </svg>
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
-                    </button>
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1rbj9z8-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-1pdb85g"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
-                  >
-                    purposeId
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-k1s5lc"
-                    >
-                      e46c7d27-18a0-40db-b7f9-ae8652355e8e
+                      ec94e366-cbb2-4203-ac07-95acf5289a31
                     </span>
                     <button
                       aria-label="Copia"
@@ -549,56 +527,7 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                     <span
                       class="MuiBox-root css-k1s5lc"
                     >
-                      6b16be70-9230-4209-bd1f-7e5ae0eed289
-                    </span>
-                    <button
-                      aria-label="Copia"
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
-                      data-mui-internal-clone-element="true"
-                      role="button"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-                        data-testid="ContentCopyIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-                        />
-                      </svg>
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
-                    </button>
-                  </p>
-                </div>
-              </div>
-              <div
-                class="MuiStack-root css-1rbj9z8-MuiStack-root"
-              >
-                <div
-                  class="MuiBox-root css-1pdb85g"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
-                  >
-                    consumerId
-                  </p>
-                </div>
-                <div
-                  class="MuiBox-root css-1rr4qq7"
-                >
-                  <p
-                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
-                  >
-                    <span
-                      class="MuiBox-root css-k1s5lc"
-                    >
-                      6b16be70-9230-4209-bd1f-7e5ae0eed289
+                      ad474d35-7939-4bee-bde9-4e469cca1030
                     </span>
                     <button
                       aria-label="Copia"
@@ -631,35 +560,313 @@ exports[`PurposeDetails > should match snapshot 1`] = `
         </section>
       </div>
     </div>
-  </div>
-</body>
-`;
-
-exports[`PurposeDetailsSkeleton > should match snapshot 1`] = `
-<body>
-  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+    >
+      <div
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-zv7ju9"
+      >
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1od456z-MuiPaper-root"
+        >
+          <div
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
+          >
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                certified.label
+              </h3>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              certified.description
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.consumer
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
+        />
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1od456z-MuiPaper-root"
+        >
+          <div
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
+          >
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                verified.label
+              </h3>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              verified.description
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.consumer
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth css-1iknwlx-MuiDivider-root"
+        />
+        <section
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1od456z-MuiPaper-root"
+        >
+          <div
+            class="MuiStack-root css-jfdv4h-MuiStack-root"
+          >
+            <div
+              class="MuiStack-root css-3y1137-MuiStack-root"
+            >
+              <h3
+                class="MuiTypography-root MuiTypography-sidenav css-37jdci-MuiTypography-root"
+              >
+                declared.label
+              </h3>
+            </div>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+            >
+              declared.description
+            </p>
+          </div>
+          <div
+            class="MuiBox-root css-1yuhvjn"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root css-8yd19h-MuiPaper-root-MuiCard-root"
+            >
+              <div
+                class="MuiCardHeader-root css-9zb0zf-MuiCardHeader-root"
+              >
+                <div
+                  class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-body1 MuiCardHeader-title css-153kzzj-MuiTypography-root"
+                  >
+                    noAttributesRequiredAlert.consumer
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
-      >
-        <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
-          style="height: 336px;"
-        />
-        <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
-          style="height: 107px;"
-        />
-      </div>
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`EServiceDetails > should match the snapshot (provider) 1`] = `
+<body>
+  <div />
+</body>
+`;
+
+exports[`EServiceDetailsSkeleton > should match the snapshot (consumer) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiStack-root css-11zvfn9-MuiStack-root"
+    >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
       >
-        <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
-          style="height: 500px;"
-        />
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+        >
+          <div
+            class="MuiStack-root css-1sazv7p-MuiStack-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 102px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 471px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 150px;"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+        >
+          <div
+            class="MuiStack-root css-1sazv7p-MuiStack-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 300px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 337px;"
+            />
+          </div>
+        </div>
+      </div>
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+            style="height: 150px;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`EServiceDetailsSkeleton > should match the snapshot (provider) 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiStack-root css-11zvfn9-MuiStack-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+        >
+          <div
+            class="MuiStack-root css-1sazv7p-MuiStack-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 102px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 471px;"
+            />
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 150px;"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+        >
+          <div
+            class="MuiStack-root css-1sazv7p-MuiStack-root"
+          >
+            <span
+              class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+              style="height: 194px;"
+            />
+          </div>
+        </div>
+      </div>
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <span
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+        style="height: 320px;"
+      />
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
+            style="height: 150px;"
+          />
+        </div>
       </div>
     </div>
   </div>

@@ -146,10 +146,10 @@ exports[`AttributeContainer > should match snapshot on opening accordion and loa
                     class="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
                   >
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     />
                     <span
-                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                      class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                     />
                   </div>
                 </div>
@@ -239,13 +239,13 @@ exports[`AttributeContainer > should match snapshot on opening accordion with lo
                         Attribute description
                       </p>
                       <div
-                        class="MuiStack-root css-1xcvc1q-MuiStack-root"
+                        class="MuiStack-root css-185s2x1-MuiStack-root"
                       >
                         <div
                           class="MuiBox-root css-iuqs4u"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                           >
                             attributeIdLabel
                           </p>
@@ -254,9 +254,13 @@ exports[`AttributeContainer > should match snapshot on opening accordion with lo
                           class="MuiBox-root css-1rr4qq7"
                         >
                           <p
-                            class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                           >
-                            test-id
+                            <span
+                              class="MuiBox-root css-k1s5lc"
+                            >
+                              test-id
+                            </span>
                             <button
                               aria-label="Copia"
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -705,12 +709,12 @@ exports[`AttributeContainerSkeleton > should match snapshot (checked) 1`] = `
         class="MuiStack-root css-1sos3zc-MuiStack-root"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-wkdwxb-MuiSkeleton-root"
           style="width: 23px; height: 23px;"
         />
       </div>
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1dbrcok-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-9yoy4u-MuiSkeleton-root"
         style="height: 51px;"
       />
     </div>
@@ -728,7 +732,7 @@ exports[`AttributeContainerSkeleton > should match snapshot 1`] = `
         class="MuiStack-root css-1sos3zc-MuiStack-root"
       />
       <span
-        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1dbrcok-MuiSkeleton-root"
+        class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-9yoy4u-MuiSkeleton-root"
         style="height: 51px;"
       />
     </div>

@@ -59,20 +59,24 @@ exports[`DialogAttributeDetails testing > should match the snapshot > full state
                 class="MuiBox-root css-1rr4qq7"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                 >
-                  description
+                  <span
+                    class="MuiBox-root css-13o7eu2"
+                  >
+                    description
+                  </span>
                 </p>
               </div>
             </div>
             <div
-              class="MuiStack-root css-nen11g-MuiStack-root"
+              class="MuiStack-root css-1rbj9z8-MuiStack-root"
             >
               <div
                 class="MuiBox-root css-1pdb85g"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                 >
                   content.attributeIdField.label
                 </p>
@@ -81,9 +85,13 @@ exports[`DialogAttributeDetails testing > should match the snapshot > full state
                 class="MuiBox-root css-1rr4qq7"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                 >
-                  id
+                  <span
+                    class="MuiBox-root css-k1s5lc"
+                  >
+                    id
+                  </span>
                   <button
                     aria-label="Copia"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -186,17 +194,17 @@ exports[`DialogAttributeDetails testing > should match the snapshot > loading st
                 class="MuiBox-root css-iuqs4u"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 />
               </div>
               <div
                 class="MuiBox-root css-1rr4qq7"
               >
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 />
                 <span
-                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1e1x4vv-MuiSkeleton-root"
                 />
               </div>
             </div>

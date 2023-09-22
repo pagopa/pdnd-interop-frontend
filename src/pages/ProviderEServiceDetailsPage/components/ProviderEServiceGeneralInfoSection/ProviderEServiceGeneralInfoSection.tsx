@@ -83,7 +83,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
       >
         <Stack spacing={2}>
           <InformationContainer
-            label={t('version.label', { versionNumber: descriptor.version })}
+            label={t('version.label')}
             content={descriptor.version}
             direction="column"
           />
