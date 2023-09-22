@@ -1,5 +1,5 @@
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
-import { NotAuthorizedError, NotFoundError, TokenExchangeError } from '@/utils/errors.utils'
+import { NotFoundError, TokenExchangeError, ForbiddenError } from '@/utils/errors.utils'
 import { createMemoryHistory } from '@remix-run/router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { render, waitFor } from '@testing-library/react'
@@ -71,13 +71,13 @@ describe('', () => {
     })
   })
 
-  it('should correctly resolve the NotAuthorizedError throw', () => {
-    const screen = render(<ThrowErrorComponent error={new NotAuthorizedError()} />, {
+  it('should correctly resolve the ForbiddenError throw', () => {
+    const screen = render(<ThrowErrorComponent error={new ForbiddenError()} />, {
       wrapper: ErrorBoundaryTest,
     })
 
-    expect(screen.getByText('notAuthorized.title')).toBeInTheDocument()
-    expect(screen.getByText('notAuthorized.description')).toBeInTheDocument()
+    expect(screen.getByText('forbidden.title')).toBeInTheDocument()
+    expect(screen.getByText('forbidden.description')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'actions.backToHome' })).toBeInTheDocument()
   })
 
