@@ -20,11 +20,9 @@ export const ProviderAgreementDetailsAttributesDrawer: React.FC<
     keyPrefix: 'providerRead.sections.generalInformations.attributesDrawer',
   })
 
-  const { agreement, descriptorAttributes } = useProviderAgreementDetailsContext()
+  const { agreement } = useProviderAgreementDetailsContext()
 
   if (!agreement) return null
-
-  const attributeGroups = descriptorAttributes?.[attributeType]
 
   const subtitle =
     attributeType === 'certified' ? (
@@ -46,10 +44,10 @@ export const ProviderAgreementDetailsAttributesDrawer: React.FC<
       title={t(`title.${attributeType}`)}
       subtitle={subtitle}
     >
-      {attributeType === 'certified' && attributeGroups && (
+      {attributeType === 'certified' && (
         <ProviderAgreementDetailsAttributesDrawerCertifiedAttributesSection />
       )}
-      {attributeType === 'declared' && attributeGroups && (
+      {attributeType === 'declared' && (
         <ProviderAgreementDetailsAttributesDrawerDeclaredAttributesSection />
       )}
     </Drawer>
