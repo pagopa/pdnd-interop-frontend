@@ -10,7 +10,7 @@ export const ProviderAgreementDetailsAttributesSectionsList: React.FC = () => {
   const { agreement, descriptorAttributes } = useProviderAgreementDetailsContext()
 
   if (!agreement || !descriptorAttributes)
-    return <ProviderAgreementDetailsAttributesSectionsSkeleton />
+    return <ProviderAgreementDetailsAttributesSectionsListSkeleton />
 
   const isPending = agreement.state === 'PENDING'
 
@@ -23,7 +23,7 @@ export const ProviderAgreementDetailsAttributesSectionsList: React.FC = () => {
   )
 }
 
-export const ProviderAgreementDetailsAttributesSectionsSkeleton: React.FC = () => {
+export const ProviderAgreementDetailsAttributesSectionsListSkeleton: React.FC = () => {
   return (
     <Stack spacing={3}>
       <SectionContainerSkeleton height={300} />

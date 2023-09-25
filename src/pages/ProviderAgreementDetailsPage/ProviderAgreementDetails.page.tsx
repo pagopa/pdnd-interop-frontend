@@ -11,7 +11,7 @@ import {
 import { Alert, Grid, Stack } from '@mui/material'
 import {
   ProviderAgreementDetailsAttributesSectionsList,
-  ProviderAgreementDetailsAttributesSectionsSkeleton,
+  ProviderAgreementDetailsAttributesSectionsListSkeleton,
 } from './components/ProviderAgreementDetailsAttributesSectionsList/ProviderAgreementDetailsAttributesSectionsList'
 import { ProviderAgreementDetailsContextProvider } from './components/ProviderAgreementDetailsContext'
 
@@ -76,7 +76,7 @@ const ProviderAgreementDetailsPageContentSkeleton: React.FC = () => {
         <Grid item xs={8}>
           <Stack spacing={3}>
             <ProviderAgreementDetailsGeneralInfoSectionSkeleton />
-            <ProviderAgreementDetailsAttributesSectionsSkeleton />
+            <ProviderAgreementDetailsAttributesSectionsListSkeleton />
           </Stack>
         </Grid>
       </Grid>
