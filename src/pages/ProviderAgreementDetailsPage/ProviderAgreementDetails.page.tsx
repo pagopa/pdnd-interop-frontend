@@ -12,7 +12,7 @@ import { Alert, Grid, Stack } from '@mui/material'
 import {
   ProviderAgreementDetailsAttributesSectionsList,
   ProviderAgreementDetailsAttributesSectionsSkeleton,
-} from './components/ProviderAgreementDetailsAttributesSectionList/ProviderAgreementDetailsAttributesSectionsList'
+} from './components/ProviderAgreementDetailsAttributesSectionsList/ProviderAgreementDetailsAttributesSectionsList'
 import { ProviderAgreementDetailsContextProvider } from './components/ProviderAgreementDetailsContext'
 
 const ProviderAgreementDetailsPage: React.FC = () => {
