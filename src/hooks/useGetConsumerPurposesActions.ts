@@ -95,6 +95,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     label: tCommon('delete'),
     action: handleDeleteDraft,
     icon: DeleteOutlineIcon,
+    color: 'error',
   }
 
   if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
