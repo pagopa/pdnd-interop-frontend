@@ -15,7 +15,7 @@ const ConsumerClientM2MListPage: React.FC = () => {
 
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('SUBSCRIBE_CLIENT_CREATE'),
+      action: () => navigate('SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE'),
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
