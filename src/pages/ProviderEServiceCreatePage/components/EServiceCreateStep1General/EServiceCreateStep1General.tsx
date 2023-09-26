@@ -13,10 +13,22 @@ import type { EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 
+/**
+ * Mock waiting for BE
+ * TODO remove when BE generatedTypes is updated with Mode type
+ */
+type Mode = 'DELIVER' | 'RECEIVE'
+/**
+ * Mock waiting for BE
+ * TODO remove when eservice has field mode
+ */
+const mode = 'DELIVER'
+
 export type EServiceCreateStep1FormValues = {
   name: string
   description: string
   technology: EServiceTechnology
+  mode: Mode
 }
 
 export const EServiceCreateStep1General: React.FC = () => {
@@ -32,6 +44,7 @@ export const EServiceCreateStep1General: React.FC = () => {
     name: eservice?.name ?? '',
     description: eservice?.description ?? '',
     technology: eservice?.technology ?? 'REST',
+    mode: mode ?? 'DELIVER', // TODO replace with eservice.mode when ready
   }
 
   const formMethods = useForm({ defaultValues })
@@ -106,6 +119,25 @@ export const EServiceCreateStep1General: React.FC = () => {
             options={[
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
+            ]}
+            disabled={!isEditable}
+            rules={{ required: true }}
+            sx={{ mb: 0, mt: 3 }}
+          />
+
+          <RHFRadioGroup
+            name="mode"
+            row
+            label={t('create.step1.eserviceModeField.label')}
+            options={[
+              {
+                label: t('create.step1.eserviceModeField.options.DELIVER'),
+                value: 'DELIVER',
+              },
+              {
+                label: t('create.step1.eserviceModeField.options.RECEIVE'),
+                value: 'RECEIVE',
+              },
             ]}
             disabled={!isEditable}
             rules={{ required: true }}
