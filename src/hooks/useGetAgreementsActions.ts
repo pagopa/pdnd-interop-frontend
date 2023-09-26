@@ -10,6 +10,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CloseIcon from '@mui/icons-material/Close'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import ArchiveIcon from '@mui/icons-material/Archive'
+import NewReleasesIcon from '@mui/icons-material/NewReleases'
 import { AuthHooks } from '@/api/auth'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
@@ -28,6 +29,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
+  const { mutate: upgradeAgreement } = AgreementMutations.useUpgrade()
 
   if (!agreement || mode === null || !isAdmin) return { actions: [] }
 
@@ -106,8 +108,39 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
     icon: ContentCopyIcon,
   }
 
+  const handleUpgrade = () => {
+    upgradeAgreement(
+      { agreementId: agreement.id },
+      {
+        onSuccess(data) {
+          /**
+           * When the subscriber is missing one or more verified/declared attributes,
+           * the new agreement is created as a DRAFT instead of being submitted to
+           * the provider. When this happens, the subscriber should be presented with
+           * the "draft edit" view of the agreement.
+           */
+          const agreementView =
+            data.state === 'DRAFT' ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'
+
+          navigate(agreementView, {
+            params: {
+              agreementId: data.id,
+            },
+          })
+        },
+      }
+    )
+  }
+  const upgradeAction: ActionItemButton = {
+    action: handleUpgrade,
+    label: t('upgrade'),
+    icon: NewReleasesIcon,
+    // variant: 'contained', // TODO
+    color: 'warning',
+  }
+
   const consumerOnlyActions: AgreementActions = {
-    ACTIVE: [archiveAction, suspendAction],
+    ACTIVE: [upgradeAction, archiveAction, suspendAction],
     SUSPENDED: [archiveAction, agreement.suspendedByConsumer ? activateAction : suspendAction],
     PENDING: [],
     ARCHIVED: [],
