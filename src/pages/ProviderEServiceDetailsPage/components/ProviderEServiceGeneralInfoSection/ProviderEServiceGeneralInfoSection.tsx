@@ -82,11 +82,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         ]}
       >
         <Stack spacing={2}>
-          <InformationContainer
-            label={t('version.label')}
-            content={descriptor.version}
-            direction="column"
-          />
+          <InformationContainer label={t('version.label')} content={descriptor.version} />
           <InformationContainer
             label={t('eserviceDescription.label')}
             content={descriptor.eservice.description}
