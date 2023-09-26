@@ -31,29 +31,6 @@
       "exitLabel": "Exit"
     }
   },
-  "dialogUpdatePurposeDailyCalls": {
-    "title": "Update number of API calls/day",
-    "content": {
-      "dailyCallsField": {
-        "label": "Number of API calls/day (required)",
-        "infoLabel": "Your estimated number of API calls per day. This value will add up until it meets one of the thresholds set by the Provider. When it does, the Provider will have to manually approve any further purpose or change in API calls/day to guarantee the technical sustainability of the e-service"
-      }
-    },
-    "actions": {
-      "cancelLabel": "Undo",
-      "confirmLabel": "Confirm"
-    }
-  },
-  "dialogSetPurposeExpectedApprovalDate": {
-    "title": "Set estimated completion date",
-    "content": {
-      "message": "You can update it at any moment. Any change will be notified to the Subscriber"
-    },
-    "actions": {
-      "cancelLabel": "Undo",
-      "confirmLabel": "Set"
-    }
-  },
   "dialogAddSecurityOperators": {
     "title": "Add security operators",
     "content": {
@@ -109,22 +86,19 @@
       "confirmLabel": "Add"
     }
   },
-  "dialogCreateNewAttribute": {
-    "title": "Create new attribute",
+  "dialogUpdatePartyMail": {
+    "title": "Edit contacts",
+    "subtitle": "You can change the contact email and the description of your organization. The change will be visible immediately",
     "content": {
-      "nameField": {
-        "label": "Attribute name (required)",
-        "infoLabel": "Min 5 chars, max 160 chars"
+      "mailAddressField": {
+        "label": "Mail address (required)"
       },
       "descriptionField": {
-        "label": "Attribute description (required)",
-        "infoLabel": "Min 10 chars, max 250 chars"
+        "label": "Description",
+        "infoLabel": "Min 10 chars, max 160 chars"
       }
     },
-    "actions": {
-      "cancelLabel": "Undo",
-      "confirmLabel": "Create attribute"
-    }
+    "alertLabel": "Authorities are not notified of this change; it is recommended to keep an active redirect from the old to the new address for some time"
   },
   "copyToClipboardButton": {
     "copy": "Copy",
@@ -199,8 +173,8 @@
     "TOS": "Terms of service",
     "PRIVACY_POLICY": "Privacy policy",
     "SECURITY_KEY_GUIDE": "How to upload public keys",
-    "NOTIFICATION": "Notifications",
     "PROVIDE_ESERVICE_CREATE": "Create e-service",
+    "PROVIDE_ESERVICE_SUMMARY": "Summary",
     "PROVIDE_ESERVICE_EDIT": "Edit e-service",
     "PROVIDE_ESERVICE_MANAGE": "View e-service",
     "PROVIDE_ESERVICE_LIST": "Your e-services",
@@ -224,11 +198,11 @@
     "SUBSCRIBE_AGREEMENT_READ": "Manage request",
     "SUBSCRIBE_AGREEMENT_LIST": "Your requests",
     "SUBSCRIBE_AGREEMENT_EDIT": "Edit request",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT": "Manage interop api client operator",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT": "Manage interop api client public key",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE": "Create interop api client",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT": "Manage interop api client",
-    "SUBSCRIBE_INTEROP_M2M": "Your api interop clients",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT": "Manage Interop API client operator",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT": "Manage Interop API client public key",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE": "Create Interop API client",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT": "Manage Interop API client",
+    "SUBSCRIBE_INTEROP_M2M": "Your Interop API clients",
     "SUBSCRIBE": "Subscriber",
     "PARTY_REGISTRY": "Party registry",
     "NOT_FOUND": "Page not found",

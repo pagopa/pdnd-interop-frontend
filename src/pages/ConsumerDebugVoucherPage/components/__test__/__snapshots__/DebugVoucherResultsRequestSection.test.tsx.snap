@@ -46,9 +46,13 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot 1`] =
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test request client id
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  test request client id
+                </span>
               </p>
             </div>
           </div>
@@ -68,9 +72,13 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot 1`] =
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test request client assertion
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  test request client assertion
+                </span>
               </p>
             </div>
           </div>
@@ -98,9 +106,13 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot 1`] =
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                </span>
               </p>
             </div>
           </div>
@@ -128,9 +140,13 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot 1`] =
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                client_credentials
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  client_credentials
+                </span>
               </p>
             </div>
           </div>
@@ -187,9 +203,13 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot if cl
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test request client assertion
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  test request client assertion
+                </span>
               </p>
             </div>
           </div>
@@ -217,9 +237,13 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot if cl
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                </span>
               </p>
             </div>
           </div>
@@ -247,9 +271,13 @@ exports[`DebugVoucherResultsRequestSection testing > should match snapshot if cl
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                client_credentials
+                <span
+                  class="MuiBox-root css-13o7eu2"
+                >
+                  client_credentials
+                </span>
               </p>
             </div>
           </div>

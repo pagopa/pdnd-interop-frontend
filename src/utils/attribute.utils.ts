@@ -1,13 +1,8 @@
-import type {
-  AttributeKey,
-  RemappedDescriptorAttribute,
-  RemappedDescriptorAttributes,
-} from './../types/attribute.types'
+import type { AttributeKey } from './../types/attribute.types'
 import type {
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   DescriptorAttribute,
-  DescriptorAttributes,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 
@@ -138,18 +133,18 @@ export function isAttributeOwned(
 export function isAttributeGroupFullfilled(
   kind: 'certified',
   ownedAttributes: CertifiedTenantAttribute[],
-  attributesGroup: RemappedDescriptorAttribute
+  attributesGroup: Array<DescriptorAttribute>
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
-  attributesGroup: RemappedDescriptorAttribute,
+  attributesGroup: Array<DescriptorAttribute>,
   verifierId: string | undefined
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'declared',
   ownedAttributes: DeclaredTenantAttribute[],
-  attributesGroup: RemappedDescriptorAttribute
+  attributesGroup: Array<DescriptorAttribute>
 ): boolean
 export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
   kind: TAttributeKey,
@@ -158,10 +153,10 @@ export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
     : TAttributeKey extends 'verified'
     ? VerifiedTenantAttribute[]
     : DeclaredTenantAttribute[],
-  attributesGroup: RemappedDescriptorAttribute,
+  attributesGroup: Array<DescriptorAttribute>,
   verifierId?: string
 ) {
-  const isOwned = ({ id }: RemappedDescriptorAttribute['attributes'][0]) => {
+  const isOwned = ({ id }: DescriptorAttribute) => {
     switch (kind) {
       case 'certified':
         return isAttributeOwned(kind, id, ownedAttributes)
@@ -174,7 +169,7 @@ export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
     }
   }
 
-  return attributesGroup.attributes.some(isOwned)
+  return attributesGroup.some(isOwned)
 }
 
 /**
@@ -187,18 +182,18 @@ export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
 export function hasAllDescriptorAttributes(
   kind: 'certified',
   ownedAttributes: CertifiedTenantAttribute[],
-  descriptorAttributes: Array<RemappedDescriptorAttribute>
+  descriptorAttributes: Array<Array<DescriptorAttribute>>
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: 'verified',
   ownedAttributes: VerifiedTenantAttribute[],
-  descriptorAttributes: Array<RemappedDescriptorAttribute>,
+  descriptorAttributes: Array<Array<DescriptorAttribute>>,
   verifierId: string | undefined
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: 'declared',
   ownedAttributes: DeclaredTenantAttribute[],
-  descriptorAttributes: Array<RemappedDescriptorAttribute>
+  descriptorAttributes: Array<Array<DescriptorAttribute>>
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: AttributeKey,
@@ -206,10 +201,10 @@ export function hasAllDescriptorAttributes(
     | VerifiedTenantAttribute[]
     | CertifiedTenantAttribute[]
     | DeclaredTenantAttribute[],
-  descriptorAttributes: Array<RemappedDescriptorAttribute>,
+  descriptorAttributes: Array<Array<DescriptorAttribute>>,
   verifierId?: string
 ) {
-  const isGroupFullfilled = (attributesGroup: RemappedDescriptorAttribute) => {
+  const isGroupFullfilled = (attributesGroup: Array<DescriptorAttribute>) => {
     switch (kind) {
       case 'certified':
         return isAttributeGroupFullfilled(kind, ownedAttributes, attributesGroup)
@@ -228,56 +223,4 @@ export function hasAllDescriptorAttributes(
   }
 
   return descriptorAttributes.every(isGroupFullfilled)
-}
-
-/**
- * This function remaps the e-service attributes from the backend to the frontend.
- * The backend returns the attributes in a format that is not suitable for the frontend.
- * @param backendAttributes The e-service attributes from the backend.
- * @returns The e-service attributes in a format suitable for the frontend.
- *
- * @deprecated Should be removed when the backend updated the attribute structure.
- */
-export function remapDescriptorAttributes(
-  backendAttributes: DescriptorAttributes
-): RemappedDescriptorAttributes {
-  const descriptorAttributeToRemappedDescriptorAttribute = (
-    descriptorAttribute: DescriptorAttribute
-  ): RemappedDescriptorAttribute => {
-    const isSingle = descriptorAttribute.hasOwnProperty('single')
-
-    if (isSingle) {
-      const single = descriptorAttribute.single!
-      const { id, explicitAttributeVerification, name } = single
-      return {
-        attributes: [{ id, name }],
-        explicitAttributeVerification,
-      }
-    }
-
-    const group = descriptorAttribute.group
-    return {
-      attributes: [
-        ...group!.map(({ id, name }) => ({
-          id,
-          name,
-        })),
-      ],
-      explicitAttributeVerification: group![0].explicitAttributeVerification,
-    }
-  }
-
-  const certified = backendAttributes.certified.map((descriptorAttribute) => {
-    return descriptorAttributeToRemappedDescriptorAttribute(descriptorAttribute)
-  })
-
-  const verified = backendAttributes.verified.map((descriptorAttribute) => {
-    return descriptorAttributeToRemappedDescriptorAttribute(descriptorAttribute)
-  })
-
-  const declared = backendAttributes.declared.map((descriptorAttribute) => {
-    return descriptorAttributeToRemappedDescriptorAttribute(descriptorAttribute)
-  })
-
-  return { certified, verified, declared }
 }

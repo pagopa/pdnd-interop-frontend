@@ -20,13 +20,16 @@
       "label": "Descrizione del client (richiesto)",
       "infoLabel": "Min 10 caratteri, max 250 caratteri"
     },
-    "clientOperatorsSectionTitle": "Membri del client",
+    "clientOperatorsSection": {
+      "title": "Membri del client",
+      "description": "Potrai gestire i membri del client in ogni momento, anche dopo la creazione"
+    },
     "operatorsTable": {
       "noDataLabel": "Nessun utente aggiunto"
     },
     "actions": {
-      "createLabel": "Crea client",
-      "backToClientsLabel": "Torna alla lista dei client"
+      "createLabel": "Crea",
+      "backToClientsLabel": "Torna ai client"
     }
   },
   "edit": {
@@ -53,7 +56,7 @@
     }
   },
   "interopM2M": {
-    "title": "I tuoi client api interop",
+    "title": "I tuoi client API Interop",
     "description": "Gestisci i client per staccare voucher validi per interrogare le API di Interoperabilità"
   }
 }

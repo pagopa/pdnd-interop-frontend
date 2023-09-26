@@ -325,7 +325,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
           class="MuiTypography-root MuiTypography-caption css-ptkddl-MuiTypography-root"
         >
           <span
-            class="MuiTypography-root MuiTypography-inherit css-924lu4-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-inherit css-kl6h57-MuiTypography-root"
           >
             PagoPA S.p.A.
           </span>
@@ -695,7 +695,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
             class="MuiTypography-root MuiTypography-caption css-ptkddl-MuiTypography-root"
           >
             <span
-              class="MuiTypography-root MuiTypography-inherit css-924lu4-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-inherit css-kl6h57-MuiTypography-root"
             >
               PagoPA S.p.A.
             </span>
@@ -1066,7 +1066,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
             class="MuiTypography-root MuiTypography-caption css-ptkddl-MuiTypography-root"
           >
             <span
-              class="MuiTypography-root MuiTypography-inherit css-924lu4-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-inherit css-kl6h57-MuiTypography-root"
             >
               PagoPA S.p.A.
             </span>

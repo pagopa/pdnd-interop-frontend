@@ -4,7 +4,7 @@ exports[`Checks that ButtonSkeleton snapshots don't change > renders large varia
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
       style="width: 140px; height: 56px;"
     />
   </div>
@@ -15,7 +15,7 @@ exports[`Checks that ButtonSkeleton snapshots don't change > renders medium vari
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
       style="width: 120px; height: 48px;"
     />
   </div>
@@ -26,7 +26,7 @@ exports[`Checks that ButtonSkeleton snapshots don't change > renders small varia
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1sfb4pw-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-12uuhtm-MuiSkeleton-root"
       style="width: 100px; height: 40px;"
     />
   </div>

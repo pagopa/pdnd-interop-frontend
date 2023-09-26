@@ -8,7 +8,6 @@ import {
   AttributeContainer,
 } from '@/components/layout/containers'
 import { Link, Stack } from '@mui/material'
-import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import {
   isAttributeOwned,
   isAttributeGroupFullfilled,
@@ -18,6 +17,7 @@ import type { ProviderOrConsumer } from '@/types/common.types'
 import { useAgreementGetVerifiedAttributesActions } from '../../hooks/useAgreementGetVerifiedAttributesActions'
 import { attributesHelpLink } from '@/config/constants'
 import AgreementVerifiedAttributesDrawer from './AgreementVerifiedAttributesDrawer/AgreementVerifiedAttributesDrawer'
+import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 
 export const AgreementVerifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
@@ -51,7 +51,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
   }
 
   function getGroupContainerProps(
-    group: RemappedDescriptorAttribute
+    group: Array<DescriptorAttribute>
   ): React.ComponentProps<typeof AttributeGroupContainer> {
     const isGroupFulfilled = isAttributeGroupFullfilled(
       'verified',
@@ -91,7 +91,7 @@ export const AgreementVerifiedAttributesSection: React.FC = () => {
           {verifiedAttributeGroups.map((group, i) => (
             <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
               <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-                {group.attributes.map((attribute) => (
+                {group.map((attribute) => (
                   <AttributeContainer
                     key={attribute.id}
                     attribute={attribute}

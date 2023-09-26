@@ -1,15 +1,15 @@
 import { PurposeQueries } from '@/api/purpose'
-import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
+import { PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
 import { Link, useParams } from '@/router'
-import { formatTopSideActions } from '@/utils/common.utils'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab } from '@mui/material'
+import { Alert, Grid, Tab } from '@mui/material'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { PurposeClientsTab } from './components/PurposeClientsTab'
-import { PurposeDetailsTab, PurposeDetailsTabSkeleton } from './components/PurposeDetailsTab'
+import { PurposeDetailTabSkeleton, PurposeDetailsTab } from './components/PurposeDetailsTab'
+import useGetPurposeStateAlertProps from './hooks/useGetPurposeStateAlertProps'
 
 const ConsumerPurposeDetailsPage: React.FC = () => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
@@ -19,42 +19,70 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
   const { actions } = useGetConsumerPurposesActions(purpose)
-  const topSideActions = formatTopSideActions(actions)
 
   const isPurposeArchived = purpose?.currentVersion?.state === 'ARCHIVED'
+
+  const alertProps = useGetPurposeStateAlertProps(purpose)
 
   return (
     <PageContainer
       title={purpose?.title}
       description={purpose?.description}
       isLoading={isLoading}
-      topSideActions={topSideActions}
+      newTopSideActions={actions}
+      statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
+      backToAction={{
+        label: t('backToPurposeListBtn'),
+        to: 'SUBSCRIBE_PURPOSE_LIST',
+      }}
     >
+      {alertProps && (
+        <Alert severity={alertProps.severity} sx={{ mb: 3 }}>
+          {alertProps.link ? (
+            <Trans
+              components={{
+                1: (
+                  <Link
+                    to={alertProps.link.to}
+                    params={alertProps.link.params}
+                    options={alertProps.link.options}
+                  />
+                ),
+              }}
+            >
+              {t('consumerView.noClientsAlert')}
+            </Trans>
+          ) : (
+            alertProps.content
+          )}
+        </Alert>
+      )}
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}
-          aria-label={t('view.tabs.ariaLabel')}
+          aria-label={t('consumerView.tabs.ariaLabel')}
           variant="fullWidth"
         >
-          <Tab label={t('view.tabs.details')} value="details" />
-          <Tab label={t('view.tabs.clients')} value="clients" />
+          <Tab label={t('consumerView.tabs.details')} value="details" />
+          <Tab label={t('consumerView.tabs.clients')} value="clients" />
         </TabList>
 
         <TabPanel value="details">
-          <React.Suspense fallback={<PurposeDetailsTabSkeleton />}>
-            <PurposeDetailsTab purposeId={purposeId} />
-          </React.Suspense>
+          <Grid container>
+            <Grid item xs={8}>
+              {purpose && !isLoading ? (
+                <PurposeDetailsTab purpose={purpose} />
+              ) : (
+                <PurposeDetailTabSkeleton />
+              )}
+            </Grid>
+          </Grid>
         </TabPanel>
 
         <TabPanel value="clients">
           <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
         </TabPanel>
       </TabContext>
-      <PageBottomActionsContainer>
-        <Link variant="outlined" to="SUBSCRIBE_PURPOSE_LIST" as="button">
-          {t('backToPurposeListBtn')}
-        </Link>
-      </PageBottomActionsContainer>
     </PageContainer>
   )
 }

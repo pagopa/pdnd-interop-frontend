@@ -68,9 +68,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(3)
-    expect(result.current.actions[0].label).toBe('suspend')
-    expect(result.current.actions[1].label).toBe('clone')
-    expect(result.current.actions[2].label).toBe('createNewDraft')
+    expect(result.current.actions[0].label).toBe('clone')
+    expect(result.current.actions[1].label).toBe('createNewDraft')
+    expect(result.current.actions[2].label).toBe('suspend')
   })
 
   it('should return the correct actions if the e-service has an active descriptor in PUBLISHED state and has a version draft', () => {
@@ -80,10 +80,10 @@ describe('useGetProviderEServiceTableActions tests', () => {
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(4)
-    expect(result.current.actions[0].label).toBe('suspend')
-    expect(result.current.actions[1].label).toBe('clone')
-    expect(result.current.actions[2].label).toBe('editDraft')
-    expect(result.current.actions[3].label).toBe('deleteDraft')
+    expect(result.current.actions[0].label).toBe('clone')
+    expect(result.current.actions[1].label).toBe('editDraft')
+    expect(result.current.actions[2].label).toBe('deleteDraft')
+    expect(result.current.actions[3].label).toBe('suspend')
   })
 
   it('should return no actions if the e-service has an active descriptor in ARCHIVED state', () => {

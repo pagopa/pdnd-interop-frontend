@@ -1,14 +1,17 @@
 import { PurposeMutations } from '@/api/purpose'
-import { useDialog } from '@/stores'
 import { useTranslation } from 'react-i18next'
-import type { ActionItem } from '@/types/common.types'
+import type { ActionItemButton } from '@/types/common.types'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 import { useNavigate } from '@/router'
 import type { Purpose } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import ArchiveIcon from '@mui/icons-material/Archive'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
-  const { t } = useTranslation('purpose', { keyPrefix: 'tablePurpose.actions' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const navigate = useNavigate()
@@ -19,8 +22,6 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { mutate: clonePurpose } = PurposeMutations.useClone()
   const { mutate: activatePurpose } = PurposeMutations.useActivateVersion()
   const { mutate: deletePurposeDraft } = PurposeMutations.useDeleteDraft()
-  const { mutate: deletePurposeVersion } = PurposeMutations.useDeleteVersion()
-  const { openDialog } = useDialog()
 
   if (!purpose || !isAdmin) return { actions: [] }
 
@@ -32,9 +33,10 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     }
   }
 
-  const archiveAction = {
+  const archiveAction: ActionItemButton = {
     label: tCommon('archive'),
     action: handleArchive,
+    icon: ArchiveIcon,
   }
 
   function handleSuspend() {
@@ -45,9 +47,11 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     }
   }
 
-  const suspendAction = {
+  const suspendAction: ActionItemButton = {
     label: tCommon('suspend'),
     action: handleSuspend,
+    icon: PauseCircleOutlineIcon,
+    color: 'error',
   }
 
   function handleActivate() {
@@ -58,9 +62,10 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     }
   }
 
-  const activateAction = {
-    label: tCommon('publish'),
+  const activateAction: ActionItemButton = {
+    label: tCommon('activate'),
     action: handleActivate,
+    icon: PlayCircleOutlineIcon,
   }
 
   function handleClone() {
@@ -75,9 +80,10 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     )
   }
 
-  const cloneAction = {
+  const cloneAction: ActionItemButton = {
     label: tCommon('clone'),
     action: handleClone,
+    icon: ContentCopyIcon,
   }
 
   function handleDeleteDraft() {
@@ -85,33 +91,11 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     deletePurposeDraft({ purposeId: purpose.id })
   }
 
-  const deleteAction = {
+  const deleteAction: ActionItemButton = {
     label: tCommon('delete'),
     action: handleDeleteDraft,
-  }
-
-  function handleDeleteDailyCallsUpdate() {
-    if (!purpose?.waitingForApprovalVersion) return
-    deletePurposeVersion({ purposeId: purpose.id, versionId: purpose.waitingForApprovalVersion.id })
-  }
-
-  const deleteDailyCallsUpdateAction = {
-    label: t('deleteDailyCallsUpdate'),
-    action: handleDeleteDailyCallsUpdate,
-  }
-
-  function handleUpdateDailyCalls() {
-    if (!purpose?.currentVersion) return
-    openDialog({
-      type: 'updatePurposeDailyCalls',
-      purposeId: purpose.id,
-      dailyCalls: purpose.currentVersion?.dailyCalls,
-    })
-  }
-
-  const updateDailyCallsAction = {
-    label: t('updateDailyCalls'),
-    action: handleUpdateDailyCalls,
+    icon: DeleteOutlineIcon,
+    color: 'error',
   }
 
   if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
@@ -128,15 +112,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
 
   // If the currentVestion is not ARCHIVED or in DRAFT...
 
-  const actions: Array<ActionItem> = [archiveAction, cloneAction]
-
-  if (purpose?.waitingForApprovalVersion) {
-    actions.push(deleteDailyCallsUpdateAction)
-  }
-
-  if (!purpose.waitingForApprovalVersion) {
-    actions.push(updateDailyCallsAction)
-  }
+  const actions: Array<ActionItemButton> = [archiveAction, cloneAction]
 
   const isSuspended = purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
   const isActive = purpose?.currentVersion && purpose?.currentVersion.state === 'ACTIVE'

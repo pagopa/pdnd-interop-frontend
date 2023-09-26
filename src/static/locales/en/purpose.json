@@ -165,7 +165,7 @@
     },
     "clientsSection": {
       "title": "Associate clients",
-      "empty": "Nessun client associato"
+      "empty": "No associated clients"
     }
   },
   "tablePurposeInEService": {
@@ -173,16 +173,11 @@
     "noDataLabel": "No purpose awaiting dispatch",
     "awaitingLabel": "Awaiting taking charge"
   },
-  "tablePurpose": {
-    "actions": {
-      "updateDailyCalls": "Update number of daily API calls",
-      "deleteDailyCallsUpdate": "Delete update to number of daily calls"
-    }
-  },
   "list": {
     "title": "Your purposes",
     "description": "In this section you can manage all the purposes you have created",
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
+    "newVersionAvailableTooltip": "The consumer has requested an adjustment that requires your approval. Access the purpose for more details",
     "filters": {
       "nameField": {
         "label": "Find by purpose name"
@@ -201,7 +196,7 @@
         "optionLabels": {
           "ACTIVE": "Active",
           "SUSPENDED": "Suspended",
-          "WAITING_FOR_APPROVAL": "Awaiting evaluation",
+          "WAITING_FOR_APPROVAL": "Waiting for approval",
           "ARCHIVED": "Archived"
         }
       }
@@ -306,5 +301,149 @@
     },
     "archivedPurposeAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
     "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service"
+  },
+  "providerView": {
+    "suspendedAlert": "This purpose is suspended. Until it is reactivated, the user will not be able to access the data provided through the API.",
+    "waitingForApprovalAlert": "The consumer has requested a load estimate update that requires your approval.",
+    "archivedPurposeAlert": "The user will not be able to obtain a voucher from PDND Interoperabilità for this purpose because it is archived.",
+    "sections": {
+      "generalInformations": {
+        "title": "General informations",
+        "eServiceField": {
+          "label": "E-service",
+          "value": "{{name}}, version {{version}}"
+        },
+        "consumerField": {
+          "label": "Consumer"
+        },
+        "descriptionField": {
+          "label": "Purpose description"
+        },
+        "riskAnalysis": {
+          "fileName": "Risk analysis",
+          "link": {
+            "label": "Download risk analysis"
+          }
+        },
+        "agreementLink": {
+          "label": "Go to agreement"
+        }
+      },
+      "loadEstimate": {
+        "title": "Load estimate",
+        "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
+        "planCard": {
+          "title": {
+            "activePlan": "Consumer active plan",
+            "waitingForApprovalPlan": "The plan change requested by the user"
+          },
+          "subtitle": "API calls/day",
+          "expectApprovalDateInfo": "You estimated to activate this update on the day <strong>{{date}}</strong>",
+          "setApprovalDateLink": {
+            "insertLabel": "Enter estimated activation date",
+            "modifyLabel": "Change estimated activation date"
+          },
+          "activateUpdateLink": {
+            "label": "Activate now"
+          }
+        },
+        "thresholdsCard": {
+          "title": "Thresholds set by you",
+          "subtitle": "API calls/day",
+          "dailyCallsPerConsumerField": {
+            "label": "For single consumer"
+          },
+          "dailyCallsTotalsField": {
+            "label": "Totals"
+          }
+        },
+        "drawer": {
+          "title": {
+            "insert": "Enter activation date",
+            "modify": "Change activation date"
+          },
+          "subtitle": "The activation date is not legally binding for your institution, but provides a useful indication for the user. Do you have any doubts? <1>Read the guide</1>.",
+          "buttonActionLabel": {
+            "modify": "Apply change"
+          },
+          "alert": "The update will not be activated automatically by the platform. Your organization will have to do it manually."
+        }
+      }
+    }
+  },
+  "consumerView": {
+    "suspendedAlert": "This purpose is suspended. Until it is reactivated you will not be able to access the data made available through the API.",
+    "waitingForApprovalAlert": "This purpose is awaiting approval. Until its activation by the provider you will not be able to access the data made available through the API.",
+    "archivedPurposeAlert": "This purpose is archived. You cannot access the data made available through the API. You can always <1>create a new one.</1>",
+    "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service",
+    "addClientToPurposeDisableTooltip": {
+      "label": "Only an administrator can manage members of a client"
+    },
+    "tabs": {
+      "ariaLabel": "Two different tabs for purposes details and associated clients",
+      "details": "Purpose details",
+      "clients": "Associated clients"
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "eServiceField": {
+          "label": "E-service",
+          "value": "{{name}}, version {{version}}"
+        },
+        "providerField": {
+          "label": "Provider"
+        },
+        "descriptionField": {
+          "label": "Purpose description"
+        },
+        "riskAnalysis": {
+          "fileName": "Risk analysis",
+          "link": {
+            "label": "Download risk analysis"
+          }
+        },
+        "agreementLink": {
+          "label": "Go to agreement"
+        }
+      },
+      "loadEstimate": {
+        "title": "Load estimate",
+        "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
+        "planCard": {
+          "title": "Consumer active plan",
+          "subtitle": "API calls/day",
+          "changePlanRequestLink": {
+            "label": "Request a change of plan"
+          }
+        },
+        "updatePlanCard": {
+          "title": "The plan change you requested",
+          "subtitle": "API calls/day",
+          "expectApprovalDateInfo": "You estimated to activate this update on the day <strong>{{date}}</strong>",
+          "removeChangePlanRequestLink": {
+            "label": "Delete request"
+          }
+        },
+        "drawer": {
+          "title": "Request update",
+          "subtitle": "Your current estimate is <strong>{{dailyCalls}} API calls/day</strong>. If the new value exceeds at least one of the thresholds imposed by the provider, it must be approved before becoming active. Do you have any doubts? <1>Read the guide</1>.",
+          "dailyCallsFormField": {
+            "label": "New load estimate",
+            "infoLable": "Estimated number of API calls/day"
+          }
+        },
+        "thresholdsCard": {
+          "title": "Thresholds set by provider",
+          "subtitle": "API calls/day",
+          "dailyCallsPerConsumerField": {
+            "label": "For single consumer"
+          },
+          "dailyCallsTotalsField": {
+            "label": "Totals"
+          }
+        }
+      }
+    }
   }
 }

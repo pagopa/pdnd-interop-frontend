@@ -57,7 +57,7 @@ export function StepActions({ back, forward }: StepActionsProps) {
   return (
     <Stack direction="row" justifyContent={getJustifyContentProp()} spacing={2} sx={{ mt: 5 }}>
       {back && (
-        <Button variant="outlined" {...backProps} startIcon={back.startIcon} endIcon={back.endIcon}>
+        <Button variant="outlined" startIcon={back.startIcon} endIcon={back.endIcon} {...backProps}>
           {back.label}
         </Button>
       )}
@@ -65,10 +65,10 @@ export function StepActions({ back, forward }: StepActionsProps) {
       {forward && (
         <Button
           variant="contained"
-          {...forwardProps}
-          type={forwardProps?.type as 'submit' | 'button'}
           startIcon={forward.startIcon}
           endIcon={forward.endIcon}
+          {...forwardProps}
+          type={forwardProps?.type as 'submit' | 'button'}
         >
           {forward.label}
         </Button>

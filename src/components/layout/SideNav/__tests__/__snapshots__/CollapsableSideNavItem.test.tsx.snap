@@ -135,7 +135,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - not select
                 class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
                   href="/it/erogazione/richieste"
                   tabindex="0"
                 >
@@ -157,7 +157,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - not select
                 class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
                   href="/it/erogazione/e-service"
                   tabindex="0"
                 >
@@ -237,7 +237,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - selected) 
                 class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-r7j27y-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1rhg01k-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
                   href="/it/erogazione/richieste"
                   tabindex="0"
                 >
@@ -259,7 +259,7 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - selected) 
                 class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
               >
                 <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-uouv2j-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
+                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
                   href="/it/erogazione/e-service"
                   tabindex="0"
                 >

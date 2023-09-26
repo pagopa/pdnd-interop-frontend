@@ -23,7 +23,6 @@ import {
   ConsumerClientCreatePage,
   SecurityKeyGuidePage,
   ConsumerPurposeCreatePage,
-  NotificationsPage,
   ConsumerAgreementCreatePage,
   NotFoundPage,
   ConsumerClientManagePage,
@@ -35,6 +34,7 @@ import {
   AssistanceTenantSelectionPage,
   AssistanceTenantSelectionErrorPage,
   ConsumerPurposeSummaryPage,
+  ProviderEServiceSummaryPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -80,19 +80,11 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
-    key: 'NOTIFICATION',
-    path: '/notifiche',
-    element: <NotificationsPage />,
-    public: false,
-    hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
-  })
-  .addRoute({
     key: 'PROVIDE_ESERVICE_CREATE',
     path: '/erogazione/e-service/crea',
     element: <ProviderEServiceCreatePage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin', 'api'],
   })
   .addRoute({
@@ -100,8 +92,16 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/erogazione/e-service/:eserviceId/:descriptorId/modifica',
     element: <ProviderEServiceCreatePage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_SUMMARY',
+    path: '/erogazione/e-service/:eserviceId/:descriptorId/modifica/riepilogo',
+    element: <ProviderEServiceSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_MANAGE',
@@ -236,7 +236,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/fruizione/client/crea',
     element: <ConsumerClientCreatePage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin'],
   })
   .addRoute({
@@ -300,7 +300,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/fruizione/interop-m2m/crea',
     element: <ConsumerClientCreatePage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin'],
   })
   .addRoute({

@@ -63,7 +63,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        to={isEServiceEditable ? 'PROVIDE_ESERVICE_EDIT' : 'PROVIDE_ESERVICE_MANAGE'}
+        to={isEServiceEditable ? 'PROVIDE_ESERVICE_SUMMARY' : 'PROVIDE_ESERVICE_MANAGE'}
         params={{
           eserviceId: eservice.id,
           descriptorId:

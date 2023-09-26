@@ -31,13 +31,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
           class="MuiStack-root css-jfdv4h-MuiStack-root"
         >
           <div
-            class="MuiStack-root css-nen11g-MuiStack-root"
+            class="MuiStack-root css-1rbj9z8-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
               >
                 eserviceId
               </p>
@@ -46,9 +46,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test-eserviceId
+                <span
+                  class="MuiBox-root css-k1s5lc"
+                >
+                  test-eserviceId
+                </span>
                 <button
                   aria-label="Copia"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -76,13 +80,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="MuiStack-root css-nen11g-MuiStack-root"
+            class="MuiStack-root css-1rbj9z8-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
               >
                 descriptorId
               </p>
@@ -91,9 +95,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test-descriptorId
+                <span
+                  class="MuiBox-root css-k1s5lc"
+                >
+                  test-descriptorId
+                </span>
                 <button
                   aria-label="Copia"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -121,13 +129,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="MuiStack-root css-nen11g-MuiStack-root"
+            class="MuiStack-root css-1rbj9z8-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
               >
                 agreementId
               </p>
@@ -136,9 +144,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test-agreementId
+                <span
+                  class="MuiBox-root css-k1s5lc"
+                >
+                  test-agreementId
+                </span>
                 <button
                   aria-label="Copia"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -166,13 +178,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="MuiStack-root css-nen11g-MuiStack-root"
+            class="MuiStack-root css-1rbj9z8-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
               >
                 purposeId
               </p>
@@ -181,9 +193,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test-purposeId
+                <span
+                  class="MuiBox-root css-k1s5lc"
+                >
+                  test-purposeId
+                </span>
                 <button
                   aria-label="Copia"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -211,13 +227,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="MuiStack-root css-nen11g-MuiStack-root"
+            class="MuiStack-root css-1rbj9z8-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
               >
                 clientId
               </p>
@@ -226,9 +242,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test-clientId
+                <span
+                  class="MuiBox-root css-k1s5lc"
+                >
+                  test-clientId
+                </span>
                 <button
                   aria-label="Copia"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -256,13 +276,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="MuiStack-root css-nen11g-MuiStack-root"
+            class="MuiStack-root css-1rbj9z8-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
               >
                 providerId
               </p>
@@ -271,9 +291,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test-providerId
+                <span
+                  class="MuiBox-root css-k1s5lc"
+                >
+                  test-providerId
+                </span>
                 <button
                   aria-label="Copia"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -301,13 +325,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
             </div>
           </div>
           <div
-            class="MuiStack-root css-nen11g-MuiStack-root"
+            class="MuiStack-root css-1rbj9z8-MuiStack-root"
           >
             <div
               class="MuiBox-root css-1pdb85g"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
               >
                 consumerId
               </p>
@@ -316,9 +340,13 @@ exports[`ApiInfoSection > should match snapshot 1`] = `
               class="MuiBox-root css-1rr4qq7"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
               >
-                test-consumerId
+                <span
+                  class="MuiBox-root css-k1s5lc"
+                >
+                  test-consumerId
+                </span>
                 <button
                   aria-label="Copia"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"

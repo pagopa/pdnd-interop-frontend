@@ -47,21 +47,25 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <div
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    <div
-                      class="MuiStack-root css-niqf4j-MuiStack-root"
+                    <span
+                      class="MuiBox-root css-13o7eu2"
                     >
                       <div
-                        class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
+                        class="MuiStack-root css-niqf4j-MuiStack-root"
                       >
-                        <span
-                          class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
                         >
-                          status.purpose.ACTIVE
-                        </span>
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                          >
+                            status.purpose.ACTIVE
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -81,9 +85,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    dailyCallsEstimateField.value
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      dailyCallsEstimateField.value
+                    </span>
                   </p>
                 </div>
               </div>
@@ -103,9 +111,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    consumerThreshold.value
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      consumerThreshold.value
+                    </span>
                   </p>
                 </div>
               </div>
@@ -125,9 +137,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    totalThreshold.value
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      totalThreshold.value
+                    </span>
                   </p>
                 </div>
               </div>
@@ -147,15 +163,19 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <div
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
-                      href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
-                      target="_blank"
+                    <span
+                      class="MuiBox-root css-13o7eu2"
                     >
-                      eServiceField.value
-                    </a>
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
+                        href="/it/erogazione/e-service/dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e/cd80bfe6-54be-493a-aaa1-6bb2b54545f8"
+                        target="_blank"
+                      >
+                        eServiceField.value
+                      </a>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -175,15 +195,19 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <div
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    <a
-                      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1bhi0za-MuiTypography-root-MuiLink-root"
-                      href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
-                      target="_blank"
+                    <span
+                      class="MuiBox-root css-13o7eu2"
                     >
-                      agreementField.link.label
-                    </a>
+                      <a
+                        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
+                        href="/it/erogazione/richieste/3ec3875a-cf24-450a-b94b-550ca2ec5e86"
+                        target="_blank"
+                      >
+                        agreementField.link.label
+                      </a>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -211,9 +235,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    isFreeOfChargeField.no
+                    <span
+                      class="MuiBox-root css-13o7eu2"
+                    >
+                      isFreeOfChargeField.no
+                    </span>
                   </p>
                 </div>
               </div>
@@ -305,13 +333,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
               class="MuiStack-root css-jfdv4h-MuiStack-root"
             >
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     eserviceId
                   </p>
@@ -320,9 +348,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -350,13 +382,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     descriptorId
                   </p>
@@ -365,9 +397,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    cd80bfe6-54be-493a-aaa1-6bb2b54545f8
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      cd80bfe6-54be-493a-aaa1-6bb2b54545f8
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -395,13 +431,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     agreementId
                   </p>
@@ -410,9 +446,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    3ec3875a-cf24-450a-b94b-550ca2ec5e86
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      3ec3875a-cf24-450a-b94b-550ca2ec5e86
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -440,13 +480,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     purposeId
                   </p>
@@ -455,9 +495,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    e46c7d27-18a0-40db-b7f9-ae8652355e8e
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      e46c7d27-18a0-40db-b7f9-ae8652355e8e
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -485,13 +529,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     providerId
                   </p>
@@ -500,9 +544,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    6b16be70-9230-4209-bd1f-7e5ae0eed289
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      6b16be70-9230-4209-bd1f-7e5ae0eed289
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -530,13 +578,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="MuiStack-root css-nen11g-MuiStack-root"
+                class="MuiStack-root css-1rbj9z8-MuiStack-root"
               >
                 <div
                   class="MuiBox-root css-1pdb85g"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1xwhmis-MuiTypography-root"
                   >
                     consumerId
                   </p>
@@ -545,9 +593,13 @@ exports[`PurposeDetails > should match snapshot 1`] = `
                   class="MuiBox-root css-1rr4qq7"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 css-hoiwr4-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
                   >
-                    6b16be70-9230-4209-bd1f-7e5ae0eed289
+                    <span
+                      class="MuiBox-root css-k1s5lc"
+                    >
+                      6b16be70-9230-4209-bd1f-7e5ae0eed289
+                    </span>
                     <button
                       aria-label="Copia"
                       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-vqczhe-MuiButtonBase-root-MuiIconButton-root"
@@ -593,11 +645,11 @@ exports[`PurposeDetailsSkeleton > should match snapshot 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
           style="height: 336px;"
         />
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
           style="height: 107px;"
         />
       </div>
@@ -605,7 +657,7 @@ exports[`PurposeDetailsSkeleton > should match snapshot 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+          class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
           style="height: 500px;"
         />
       </div>

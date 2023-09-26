@@ -1,18 +1,15 @@
 import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import { ClientMutations } from '@/api/client'
-import {
-  PageBottomActionsContainer,
-  PageContainer,
-  SectionContainer,
-} from '@/components/layout/containers'
+import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useClientKind } from '@/hooks/useClientKind'
-import { Link, useNavigate } from '@/router'
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { useNavigate } from '@/router'
+import { Box, Button, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import OperatorsInputTable from './components/OperatorsInputTable'
+import PublishIcon from '@mui/icons-material/Publish'
 
 export type CreateClientFormValues = {
   name: string
@@ -60,51 +57,52 @@ const ConsumerClientCreatePage: React.FC = () => {
   const backToRoute = clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST'
 
   return (
-    <PageContainer title={t('create.title')} description={t('create.description')}>
+    <PageContainer
+      title={t('create.title')}
+      description={t('create.description')}
+      backToAction={{
+        label: t('create.actions.backToClientsLabel'),
+        to: backToRoute,
+      }}
+    >
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
-          <Grid container>
-            <Grid item xs={8}>
-              <SectionContainer>
-                <Typography sx={{ mb: 2 }} component="h2" variant="h5">
-                  {t('create.infoSectionTitle')}
-                </Typography>
+          <SectionContainer newDesign title={t('create.infoSectionTitle')} component="div">
+            <RHFTextField
+              focusOnMount={true}
+              name="name"
+              label={t('create.nameField.label')}
+              infoLabel={t('create.nameField.infoLabel')}
+              inputProps={{ maxLength: 60 }}
+              rules={{ required: true, minLength: 5 }}
+              sx={{ my: 2 }}
+            />
 
-                <RHFTextField
-                  focusOnMount={true}
-                  name="name"
-                  label={t('create.nameField.label')}
-                  infoLabel={t('create.nameField.infoLabel')}
-                  inputProps={{ maxLength: 60 }}
-                  rules={{ required: true, minLength: 5 }}
-                />
+            <RHFTextField
+              name="description"
+              label={t('create.descriptionField.label')}
+              infoLabel={t('create.descriptionField.infoLabel')}
+              multiline
+              inputProps={{ maxLength: 250 }}
+              rules={{ required: true, minLength: 10 }}
+              sx={{ my: 2 }}
+            />
+          </SectionContainer>
 
-                <RHFTextField
-                  name="description"
-                  label={t('create.descriptionField.label')}
-                  infoLabel={t('create.descriptionField.infoLabel')}
-                  multiline
-                  inputProps={{ maxLength: 250 }}
-                  rules={{ required: true, minLength: 10 }}
-                />
-
-                <Typography sx={{ my: 4 }} component="h2" variant="h5">
-                  {t('create.clientOperatorsSectionTitle')}
-                </Typography>
-
-                <OperatorsInputTable />
-              </SectionContainer>
-            </Grid>
-          </Grid>
+          <SectionContainer
+            newDesign
+            title={t('create.clientOperatorsSection.title')}
+            description={t('create.clientOperatorsSection.description')}
+            component="div"
+          >
+            <OperatorsInputTable />
+          </SectionContainer>
         </FormProvider>
-        <PageBottomActionsContainer>
-          <Link as="button" variant="outlined" to={backToRoute}>
-            {t('create.actions.backToClientsLabel')}
-          </Link>
-          <Button variant="contained" type="submit">
+        <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>
+          <Button variant="contained" type="submit" startIcon={<PublishIcon />}>
             {t('create.actions.createLabel')}
           </Button>
-        </PageBottomActionsContainer>
+        </Stack>
       </Box>
     </PageContainer>
   )

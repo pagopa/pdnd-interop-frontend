@@ -88,7 +88,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     )
     expect(result.current.actions).toHaveLength(1)
     const goToAgreementAction = result.current.actions[0]!
-    expect(goToAgreementAction.label).toBe('tableEServiceCatalog.goToRequestCta')
+    expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
 
     goToAgreementAction.action()
     expect(history.location.pathname).toBe(`/it/fruizione/richieste/${eserviceMock.agreement?.id}`)
@@ -111,7 +111,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     )
     expect(result.current.actions).toHaveLength(1)
     const goToAgreementAction = result.current.actions[0]!
-    expect(goToAgreementAction.label).toBe('tableEServiceCatalog.goToRequestCta')
+    expect(goToAgreementAction.label).toBe('tableEServiceCatalog.editDraft')
 
     goToAgreementAction.action()
     expect(history.location.pathname).toBe(
@@ -154,7 +154,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
-      result.current.createAgreementDraftAction!()
+      createAgreementDraftAction.action()
     })
 
     await waitFor(() => {
@@ -187,7 +187,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
-      result.current.createAgreementDraftAction!()
+      createAgreementDraftAction.action()
     })
 
     act(() => {

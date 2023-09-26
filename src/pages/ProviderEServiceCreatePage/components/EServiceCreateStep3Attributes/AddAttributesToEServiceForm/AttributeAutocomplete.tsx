@@ -5,7 +5,7 @@ import type { AttributeKey } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { Attribute, AttributeKind, CompactAttribute } from '@/api/api.generatedTypes'
+import type { AttributeKind, DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import type { EServiceCreateStep3FormValues } from '..'
 
@@ -15,7 +15,7 @@ export type AttributeAutocompleteProps = {
   handleHideAutocomplete: VoidFunction
 }
 
-type AttributeAutocompleteFormValues = { attribute: null | Attribute | CompactAttribute }
+type AttributeAutocompleteFormValues = { attribute: null | DescriptorAttribute }
 
 export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   groupIndex,
@@ -65,7 +65,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   const handleAddAttributeToGroup = handleSubmit(({ attribute }) => {
     if (!attribute) return
     const newAttributeGroups = [...attributeGroups]
-    newAttributeGroups[groupIndex].attributes.push(attribute)
+    newAttributeGroups[groupIndex].push(attribute)
     setValue(`attributes.${attributeKey}`, newAttributeGroups)
     handleHideAutocomplete()
   })
@@ -73,7 +73,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   const options = React.useMemo(() => {
     const attributes = data?.results ?? []
     const attributesAlreadyInGroups = attributeGroups.reduce(
-      (acc, group) => [...acc, ...group.attributes.map(({ id }) => id)],
+      (acc, group) => [...acc, ...group.map(({ id }) => id)],
       [] as Array<string>
     )
     return attributes

@@ -1,6 +1,6 @@
 import React from 'react'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
-import { Alert, Stack, Box, Button } from '@mui/material'
+import { Stack, Box, Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
@@ -92,9 +92,9 @@ export function EServiceCreateStep4DocumentsDoc() {
   }
 
   return (
-    <Box sx={{ mb: 3 }}>
-      <Stack spacing={2} sx={{ mb: 3 }}>
-        {docs.length > 0 ? (
+    <Box>
+      <Stack spacing={2} sx={{ mt: 4, mb: docs.length > 0 ? 2 : 0 }}>
+        {docs.length > 0 &&
           docs.map((doc) => (
             <DocumentContainer
               key={doc.id}
@@ -103,10 +103,7 @@ export function EServiceCreateStep4DocumentsDoc() {
               onDelete={handleDeleteDocument}
               onDownload={handleDownloadDocument}
             />
-          ))
-        ) : (
-          <Alert severity="info">{t('create.step4.documentation.noFileUploaded')}</Alert>
-        )}
+          ))}
       </Stack>
 
       {showWriteDocInput ? (
@@ -121,6 +118,7 @@ export function EServiceCreateStep4DocumentsDoc() {
             <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
 
             <RHFTextField
+              size="small"
               sx={{ my: 2 }}
               name="prettyName"
               label={t('create.step4.nameField.label')}
@@ -137,7 +135,7 @@ export function EServiceCreateStep4DocumentsDoc() {
           </Box>
         </FormProvider>
       ) : (
-        <Button variant="contained" size="small" onClick={handleShowFileInput}>
+        <Button size="small" variant="text" onClick={handleShowFileInput}>
           {tCommon('addBtn')}
         </Button>
       )}

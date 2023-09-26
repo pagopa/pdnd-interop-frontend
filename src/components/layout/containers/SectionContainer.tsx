@@ -1,5 +1,6 @@
+import { IconLink } from '@/components/shared/IconLink'
 import type { ActionItemButton } from '@/types/common.types'
-import { Box, Typography, Paper, Skeleton, Stack, Tooltip, Button } from '@mui/material'
+import { Box, Typography, Paper, Skeleton, Stack, Tooltip, Button, Divider } from '@mui/material'
 import type { PaperProps, SkeletonProps } from '@mui/material'
 import React from 'react'
 
@@ -18,6 +19,7 @@ interface SectionContainerProps extends PaperProps {
   innerSection?: boolean
 
   topSideActions?: Array<ActionItemButton>
+  bottomActions?: Array<Omit<React.ComponentProps<typeof IconLink>, 'children'> & { label: string }>
 
   /**
    * The `newDesign` prop is temporary and will be removed when the new section container design will be
@@ -37,6 +39,7 @@ export function SectionContainer({
   descriptionTypographyProps,
   newDesign,
   topSideActions,
+  bottomActions,
   ...props
 }: SectionContainerProps) {
   const titleVariant = !newDesign ? 'overline' : innerSection ? 'sidenav' : 'h6'
@@ -99,10 +102,22 @@ export function SectionContainer({
         )}
       </Stack>
       <Box sx={{ mt: !!(title || description) ? 2 : 0 }}>{children}</Box>
+      {bottomActions && bottomActions.length > 0 && (
+        <>
+          <Divider sx={{ my: 2 }} />
+          <Stack alignItems="start" spacing={1.5}>
+            {bottomActions.map(({ label, ...props }, i) => (
+              <IconLink key={i} {...props}>
+                {label}
+              </IconLink>
+            ))}
+          </Stack>
+        </>
+      )}
     </Paper>
   )
 }
 
 export const SectionContainerSkeleton: React.FC<SkeletonProps> = ({ sx, ...props }) => {
-  return <Skeleton variant="rectangular" sx={{ borderRadius: 1, mt: 2, ...sx }} {...props} />
+  return <Skeleton variant="rectangular" sx={{ borderRadius: 2, mt: 2, ...sx }} {...props} />
 }

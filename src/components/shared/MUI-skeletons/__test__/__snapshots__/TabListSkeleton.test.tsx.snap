@@ -4,7 +4,7 @@ exports[`Checks that TabListSkeleton snapshots don't change > renders correctly 
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-8u432z-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1pt7h9u-MuiSkeleton-root"
       style="height: 48px;"
     />
   </div>

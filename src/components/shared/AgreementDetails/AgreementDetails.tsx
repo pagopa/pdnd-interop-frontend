@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Stack } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { AgreementDetailsContextProvider } from './AgreementDetailsContext'
 import {
   AgreementSummarySection,
@@ -35,7 +35,7 @@ export const AgreementDetails: React.FC<AgreementDetailsProps> = ({ agreementId 
 
 export const AgreementDetailsSkeleton: React.FC = () => {
   return (
-    <Stack sx={{ mt: 6 }} spacing={2}>
+    <Box sx={{ mt: 7 }}>
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <AgreementSummarySectionSkeleton />
@@ -43,6 +43,6 @@ export const AgreementDetailsSkeleton: React.FC = () => {
       </Grid>
 
       <AgreementAttributesListSectionsSkeleton />
-    </Stack>
+    </Box>
   )
 }

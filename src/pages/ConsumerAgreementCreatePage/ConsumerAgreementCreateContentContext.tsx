@@ -4,17 +4,16 @@ import type {
   Agreement,
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
+  DescriptorAttributes,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 import { AgreementQueries } from '@/api/agreement'
 import noop from 'lodash/noop'
 import { EServiceQueries } from '@/api/eservice'
-import { remapDescriptorAttributes } from '@/utils/attribute.utils'
-import type { RemappedDescriptorAttributes } from '@/types/attribute.types'
 
 type ConsumerAgreementCreateContentContextType = {
   agreement: Agreement | undefined
-  descriptorAttributes: RemappedDescriptorAttributes | undefined
+  descriptorAttributes: DescriptorAttributes | undefined
   partyAttributes:
     | {
         certified: CertifiedTenantAttribute[]
@@ -66,7 +65,7 @@ const ConsumerAgreementCreateContentContextProvider: React.FC<{
   const providerValue = React.useMemo(() => {
     if (!agreement || !descriptor) return initialState
 
-    const descriptorAttributes = remapDescriptorAttributes(descriptor.attributes)
+    const descriptorAttributes = descriptor.attributes
 
     const partyAttributes = {
       certified: agreement?.consumer.attributes.certified ?? [],

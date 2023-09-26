@@ -110,7 +110,7 @@ exports[`SectionContainerSkeleton > should render correctly 1`] = `
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-4i8vzz-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-1q3jyn0-MuiSkeleton-root"
     />
   </div>
 </body>

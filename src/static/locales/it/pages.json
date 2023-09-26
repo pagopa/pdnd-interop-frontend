@@ -5,7 +5,7 @@
   },
   "consumerAgreementsList": {
     "title": "Le tue richieste",
-    "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto presso Enti erogatori"
+    "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto"
   },
   "providerEServiceList": {
     "title": "I tuoi e-service",
@@ -21,11 +21,11 @@
   },
   "consumerClientList": {
     "title": "I tuoi client e-service",
-    "description": "In quest'area puoi i trovare e gestire tutti i client e-service che hai creato"
+    "description": "Qui puoi gestire i client che ti permettono di ottenere un voucher spendibile presso le API degli e-service degli erogatori"
   },
   "consumerClientM2MList": {
-    "title": "I tuoi client api interop",
-    "description": "Gestisci i client per staccare voucher validi per interrogare le API di Interoperabilità"
+    "title": "I tuoi client API Interop",
+    "description": "Qui puoi gestire i client che ti permettono di ottenere un voucher spendibile presso le API di PDND Interoperabilità"
   },
   "providerPurposesList": {
     "title": "Finalità",

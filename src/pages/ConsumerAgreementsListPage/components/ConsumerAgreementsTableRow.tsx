@@ -1,3 +1,4 @@
+import React from 'react'
 import { AgreementQueries } from '@/api/agreement'
 import type { AgreementListEntry } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
@@ -6,10 +7,10 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { Link } from '@/router'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Skeleton, Tooltip } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
+import UpdateIcon from '@mui/icons-material/Update'
 
 export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntry }> = ({
   agreement,
@@ -25,6 +26,10 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const eservice = agreement.eservice
   const descriptor = agreement.descriptor
 
+  // The `canBeUpgraded` property that comes from the BE does not take into account the
+  // agreement state, we may need to ask the BE to add this check.
+  // This will be solved with PIN-3973.
+  const canBeUpgraded = ['ACTIVE', 'SUSPENDED'].includes(agreement.state) && agreement.canBeUpgraded
   const isAgreementEditable = isAdmin && agreement.state === 'DRAFT'
 
   const handlePrefetch = () => {
@@ -39,17 +44,20 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
         <StatusChip key={agreement.id} for="agreement" agreement={agreement} />,
       ]}
     >
-      <Link
-        as="button"
-        onPointerEnter={handlePrefetch}
-        onFocusVisible={handlePrefetch}
-        variant="outlined"
-        size="small"
-        to={isAgreementEditable ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'}
-        params={{ agreementId: agreement.id }}
-      >
-        {tCommon(isAgreementEditable ? 'edit' : 'inspect')}
-      </Link>
+      <Tooltip open={canBeUpgraded ? undefined : false} title={t('upgradableAgreementTooltip')}>
+        <Link
+          as="button"
+          onPointerEnter={handlePrefetch}
+          onFocusVisible={handlePrefetch}
+          variant="outlined"
+          size="small"
+          to={isAgreementEditable ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'}
+          params={{ agreementId: agreement.id }}
+          endIcon={canBeUpgraded ? <UpdateIcon /> : undefined}
+        >
+          {tCommon(isAgreementEditable ? 'edit' : 'inspect')}
+        </Link>
+      </Tooltip>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

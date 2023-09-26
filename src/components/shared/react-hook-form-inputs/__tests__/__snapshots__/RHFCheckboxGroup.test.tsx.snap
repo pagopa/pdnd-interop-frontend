@@ -16,7 +16,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
@@ -50,7 +50,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
@@ -84,7 +84,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
@@ -138,7 +138,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
@@ -172,7 +172,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"
@@ -206,7 +206,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s C
           class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-5g7fen-MuiFormControlLabel-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               class="PrivateSwitchBase-input css-1m9pwf3"

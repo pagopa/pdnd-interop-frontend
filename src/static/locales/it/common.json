@@ -1,7 +1,7 @@
 {
   "noDataLabel": "Nessun risultato",
   "productTitle": "Interoperabilità",
-  "addBtn": "+ Aggiungi",
+  "addBtn": "Aggiungi",
   "closeBtn": "Chiudi",
   "howLink": "Come funziona?",
   "createNewBtn": "Crea nuovo",
@@ -48,7 +48,7 @@
     "verify": "Verifica",
     "revoke": "Revoca",
     "confirm": "Conferma",
-    "createNewDraft": "Crea bozza nuova versione",
+    "createNewDraft": "Crea bozza",
     "saveDraft": "Salva bozza",
     "backToCatalog": "Torna al catalogo",
     "editDraft": "Modifica bozza",
@@ -102,11 +102,8 @@
     "purpose": {
       "DRAFT": "in bozza",
       "ACTIVE": "attiva",
-      "SUSPENDED": {
-        "byConsumer": "sospesa dal fruitore",
-        "byProducer": "sospesa dall'erogatore"
-      },
-      "WAITING_FOR_APPROVAL": "in aggiornamento",
+      "SUSPENDED": "sospesa",
+      "WAITING_FOR_APPROVAL": "in attesa di approvazione",
       "ARCHIVED": "archiviata"
     },
     "user": {
@@ -169,10 +166,6 @@
   },
   "privacyPolicy": {
     "title": "Privacy Policy"
-  },
-  "notifications": {
-    "title": "Notifiche",
-    "tempAlert": "Le funzionalità di notifica sono attualmente in sviluppo"
   },
   "securityKeyGuide": {
     "title": "Generare e caricare chiavi di sicurezza"

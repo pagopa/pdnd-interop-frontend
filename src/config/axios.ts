@@ -1,17 +1,18 @@
 import axios from 'axios'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
-import { NotAuthorizedError, NotFoundError } from '@/utils/errors.utils'
+import { UnauthorizedError, NotFoundError } from '@/utils/errors.utils'
 import i18next from 'i18next'
 import type { LangCode } from '@/types/common.types'
 
 // Performs a trim operation on each string contained in the object
-const deepTrim = (object: any) => {
+const deepTrim = (object: string | Record<string, unknown>) => {
   if (typeof object === 'string') {
     return object.trim()
   }
+
   if (typeof object === 'object' && object !== null) {
     for (const key in object) {
-      object[key] = deepTrim(object[key])
+      object[key] = deepTrim(object[key] as string | Record<string, unknown>)
     }
   }
 
@@ -76,7 +77,7 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(new NotFoundError())
     }
     if (isAxiosError && error.response?.status === 401) {
-      return Promise.reject(new NotAuthorizedError())
+      return Promise.reject(new UnauthorizedError())
     }
 
     return Promise.reject(error)

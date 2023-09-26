@@ -21,11 +21,11 @@
   },
   "consumerClientList": {
     "title": "Your e-service clients",
-    "description": "In this section you can manage all the e-service clients you have created"
+    "description": "Here you can manage the clients that allow you to obtain a voucher that can be spent at the providers' e-service APIs"
   },
   "consumerClientM2MList": {
-    "title": "Your interop api clients",
-    "description": "Manage the clients used to obtain vouchers to interrogate the Interoperability API"
+    "title": "Your Interop API clients",
+    "description": "Here you can manage the clients that allow you to obtain a voucher that can be spent at the PDND Interoperabilità API"
   },
   "providerPurposesList": {
     "title": "Purposes",

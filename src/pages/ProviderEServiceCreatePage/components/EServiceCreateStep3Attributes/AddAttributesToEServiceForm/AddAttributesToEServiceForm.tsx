@@ -5,30 +5,26 @@ import { Trans, useTranslation } from 'react-i18next'
 import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
-import { useDialog } from '@/stores'
 import { AttributeGroup } from './AttributeGroup'
 import type { EServiceCreateStep3FormValues } from '..'
 
 export type AddAttributesToEServiceFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
+  openCreateAttributeDrawer?: VoidFunction
 }
 
 export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormProps> = ({
   attributeKey,
   readOnly,
+  openCreateAttributeDrawer,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: `create.step3` })
   const { t: tAttribute } = useTranslation('attribute')
-  const { openDialog } = useDialog()
 
   const { watch, setValue } = useFormContext<EServiceCreateStep3FormValues>()
 
   const attributeGroups = watch(`attributes.${attributeKey}`)
-
-  const handleOpenCreateNewAttributeDialog = () => {
-    openDialog({ type: 'createNewAttribute', attributeKey })
-  }
 
   const handleRemoveAttributesGroup = (groupIndex: number) => {
     const newAttributeGroups = attributeGroups.filter((_, i) => i !== groupIndex)
@@ -38,16 +34,12 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
   }
 
   const handleAddAttributesGroup = () => {
-    setValue(
-      `attributes.${attributeKey}`,
-      [...attributeGroups, { explicitAttributeVerification: false, attributes: [] }],
-      { shouldValidate: false }
-    )
+    setValue(`attributes.${attributeKey}`, [...attributeGroups, []], { shouldValidate: false })
   }
 
   const handleRemoveAttributeFromGroup = (attributeId: string, groupIndex: number) => {
     const newAttributeGroups = [...attributeGroups]
-    newAttributeGroups[groupIndex].attributes = newAttributeGroups[groupIndex].attributes.filter(
+    newAttributeGroups[groupIndex] = newAttributeGroups[groupIndex].filter(
       (attributeFilter) => attributeFilter.id !== attributeId
     )
     setValue(`attributes.${attributeKey}`, newAttributeGroups, {
@@ -83,8 +75,8 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
           ))}
         </Stack>
       </Box>
-      <Stack sx={{ mt: 3 }} spacing={3}>
-        <Stack sx={{ mt: 2 }} direction="row" spacing={2}>
+      <Stack spacing={3} sx={{ mt: 2 }}>
+        <Stack direction="row" spacing={2}>
           <Button
             sx={{ fontWeight: 700 }}
             color="primary"
@@ -102,7 +94,7 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
               color="primary"
               type="button"
               variant="outlined"
-              onClick={handleOpenCreateNewAttributeDialog}
+              onClick={openCreateAttributeDrawer}
               disabled={readOnly}
             >
               {t('attributesCreateBtn')}

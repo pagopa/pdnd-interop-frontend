@@ -2,7 +2,7 @@ import React from 'react'
 import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
 import { type SxProps } from '@mui/material'
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import it from 'date-fns/locale/it'
@@ -47,8 +47,12 @@ export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
           name={name}
           rules={mapValidationErrorMessages(rules, t)}
           render={({ field: { onChange, ...fieldProps } }) => (
-            <StaticDatePicker
-              displayStaticWrapperAs="desktop"
+            <DatePicker
+              slotProps={{
+                textField: {
+                  size: 'small',
+                },
+              }}
               autoFocus={focusOnMount}
               sx={inputSx}
               {...fieldProps}
@@ -56,6 +60,8 @@ export const RHFDatePicker: React.FC<RHFDatePickerProps> = ({
                 if (onValueChange) onValueChange(value)
                 onChange(value)
               }}
+              minDate={new Date()}
+              disablePast
             />
           )}
         />

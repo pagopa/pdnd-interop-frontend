@@ -1,4 +1,3 @@
-import { remapDescriptorAttributes } from '@/utils/attribute.utils'
 import React from 'react'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
@@ -31,27 +30,21 @@ export function useClonePreviousDescriptorAttributes(
 
   const handleClonePreviousDescriptorAttributes = React.useCallback(() => {
     if (!previousVersionDescriptor) return
-    const remappedPreviousVersionDescriptorAttributes = remapDescriptorAttributes(
-      previousVersionDescriptor.attributes
-    )
 
-    setValue('attributes.certified', remappedPreviousVersionDescriptorAttributes.certified)
-    setValue('attributes.verified', remappedPreviousVersionDescriptorAttributes.verified)
-    setValue('attributes.declared', remappedPreviousVersionDescriptorAttributes.declared)
+    setValue('attributes.certified', previousVersionDescriptor.attributes.certified)
+    setValue('attributes.verified', previousVersionDescriptor.attributes.verified)
+    setValue('attributes.declared', previousVersionDescriptor.attributes.declared)
 
     showToast(t('attributeCloneSuccess'), 'success')
   }, [previousVersionDescriptor, setValue, t, showToast])
 
   const hasPreviousVersionNoAttributes = React.useMemo(() => {
     if (!previousVersionDescriptor) return false
-    const remappedPreviousVersionDescriptorAttributes = remapDescriptorAttributes(
-      previousVersionDescriptor.attributes
-    )
 
     return (
-      !remappedPreviousVersionDescriptorAttributes.certified.length &&
-      !remappedPreviousVersionDescriptorAttributes.verified.length &&
-      !remappedPreviousVersionDescriptorAttributes.declared.length
+      !previousVersionDescriptor.attributes.certified.length &&
+      !previousVersionDescriptor.attributes.verified.length &&
+      !previousVersionDescriptor.attributes.declared.length
     )
   }, [previousVersionDescriptor])
 

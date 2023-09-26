@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
+import { UnauthorizedError } from '@/utils/errors.utils'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -88,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const queriesOptions = {
     suspense: false,
-    useErrorBoundary: false,
+    useErrorBoundary: (error: unknown) => error instanceof UnauthorizedError,
     retry: false,
     staleTime: Infinity,
     cacheTime: Infinity,

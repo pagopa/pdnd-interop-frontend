@@ -5,17 +5,17 @@ import {
   AddAttributesToEServiceForm,
   type AddAttributesToEServiceFormProps,
 } from '../AddAttributesToEServiceForm'
-import type { RemappedDescriptorAttribute } from '@/types/attribute.types'
 import { render } from '@testing-library/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import {
   createMockAttribute,
-  createMockRemappedDescriptorAttribute,
+  createMockDescriptorAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
 import { AttributeQueries } from '@/api/attribute'
 import { Dialog } from '@/components/dialogs'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/config/query-client'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 
 const attribute = createMockAttribute()
 
@@ -28,19 +28,15 @@ vi.spyOn(AttributeQueries, 'usePrefetchSingle').mockReturnValue(
 )
 
 type MockContext = {
-  attributes: {
-    certified: RemappedDescriptorAttribute[]
-    verified: RemappedDescriptorAttribute[]
-    declared: RemappedDescriptorAttribute[]
-  }
+  attributes: DescriptorAttributes
 }
 
 const getInputWrapper = (
   defaultValues: MockContext = {
     attributes: {
-      certified: [createMockRemappedDescriptorAttribute()],
-      verified: [createMockRemappedDescriptorAttribute()],
-      declared: [createMockRemappedDescriptorAttribute()],
+      certified: [[createMockDescriptorAttribute()]],
+      verified: [[createMockDescriptorAttribute()]],
+      declared: [[createMockDescriptorAttribute()]],
     },
   }
 ) => {
@@ -129,34 +125,6 @@ describe('check the functionalities', () => {
     const button = formComponent.queryByRole('button', { name: 'createBtn' })
 
     expect(button).not.toBeInTheDocument()
-  })
-
-  it('create new attribute dialog renders correctly with attributeKey verified and readOnly false', async () => {
-    const user = userEvent.setup()
-    const formComponent = renderAddAttributetoEServiceForm({
-      attributeKey: 'verified',
-      readOnly: false,
-    })
-
-    const button = formComponent.getByRole('button', { name: 'attributesCreateBtn' })
-
-    await user.click(button)
-
-    expect(formComponent.getByRole('dialog', { name: 'title type.verified' })).toBeInTheDocument()
-  })
-
-  it('create new attribute dialog renders correctly with attributeKey declared and readOnly false', async () => {
-    const user = userEvent.setup()
-    const formComponent = renderAddAttributetoEServiceForm({
-      attributeKey: 'declared',
-      readOnly: false,
-    })
-
-    const button = formComponent.getByRole('button', { name: 'attributesCreateBtn' })
-
-    await user.click(button)
-
-    expect(formComponent.getByRole('dialog', { name: 'title type.declared' })).toBeInTheDocument()
   })
 
   it('should add correctly new attributes group', async () => {

@@ -5,7 +5,6 @@ import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
-import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 import type {
   Agreement,
   AgreementListEntry,
@@ -16,7 +15,6 @@ import type {
   PurposeVersionState,
   RelationshipState,
 } from '@/api/api.generatedTypes'
-import { AuthHooks } from '@/api/auth'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   PUBLISHED: 'success',
@@ -48,7 +46,7 @@ const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   DRAFT: 'info',
   ACTIVE: 'success',
   SUSPENDED: 'error',
-  WAITING_FOR_APPROVAL: 'info',
+  WAITING_FOR_APPROVAL: 'warning',
   ARCHIVED: 'info',
 }
 
@@ -143,36 +141,22 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
 const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('common')
-  const { jwt } = AuthHooks.useJwt()
 
   const purposeState = purpose.currentVersion?.state ?? 'DRAFT'
 
   const isPurposeSuspended =
     purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
-  const isPurposeSuspendedByProvider = purpose.suspendedByProducer
 
-  const isPurposeSuspendedByConsumer = checkPurposeSuspendedByConsumer(purpose, jwt?.organizationId)
   return (
     <Stack direction="row" spacing={1}>
       {purpose.currentVersion && (
         <>
           {isPurposeSuspended ? (
-            <>
-              {isPurposeSuspendedByConsumer && (
-                <Chip
-                  size="small"
-                  label={t(`status.purpose.SUSPENDED.byConsumer`)}
-                  color={chipColors['purpose'][purposeState]}
-                />
-              )}
-              {isPurposeSuspendedByProvider && (
-                <Chip
-                  size="small"
-                  label={t(`status.purpose.SUSPENDED.byProducer`)}
-                  color={chipColors['purpose'][purposeState]}
-                />
-              )}
-            </>
+            <Chip
+              size="small"
+              label={t('status.purpose.SUSPENDED')}
+              color={chipColors['purpose'][purposeState]}
+            />
           ) : (
             <Chip
               size="small"
@@ -184,11 +168,11 @@ const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
           )}
         </>
       )}
-      {purpose.waitingForApprovalVersion && (
+      {purpose.waitingForApprovalVersion && !purpose.currentVersion && (
         <Chip
           size="small"
-          label={t(`status.purpose.WAITING_FOR_APPROVAL`)}
-          color={chipColors['purpose']['WAITING_FOR_APPROVAL']}
+          label={t('status.purpose.WAITING_FOR_APPROVAL')}
+          color={chipColors['purpose'][purpose.waitingForApprovalVersion.state]}
         />
       )}
     </Stack>

@@ -1,6 +1,5 @@
 import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
-import type { AttributeKey } from './attribute.types'
 
 export type DialogContent = {
   title: string
@@ -15,13 +14,10 @@ export type DialogProps =
   | DialogBasicProps
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
-  | DialogUpdatePurposeDailyCallsProps
-  | DialogSetPurposeExpectedApprovalDateProps
   | DialogAddSecurityOperatorsProps
   | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
   | DialogAddClientToPurposeProps
-  | DialogCreateNewAttributeProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -32,12 +28,6 @@ export type DialogSessionExpiredProps = {
   type: 'sessionExpired'
 }
 
-export type DialogUpdatePurposeDailyCallsProps = {
-  type: 'updatePurposeDailyCalls'
-  purposeId: string
-  dailyCalls?: number
-}
-
 export type DialogBasicProps = DialogDefaultProps & {
   type: 'basic'
   title: string
@@ -46,13 +36,6 @@ export type DialogBasicProps = DialogDefaultProps & {
   onProceed: VoidFunction
   onCancel?: VoidFunction
   disabled?: boolean
-}
-
-export type DialogSetPurposeExpectedApprovalDateProps = {
-  type: 'setPurposeExpectedApprovalDate'
-  purposeId: string
-  versionId: string
-  approvalDate?: string
 }
 
 export type DialogAddSecurityOperatorsProps = {
@@ -74,9 +57,4 @@ export type DialogRejectAgreementProps = {
 export type DialogAddClientToPurposeProps = {
   type: 'addClientToPurpose'
   purposeId: string
-}
-
-export type DialogCreateNewAttributeProps = {
-  type: 'createNewAttribute'
-  attributeKey: AttributeKey
 }

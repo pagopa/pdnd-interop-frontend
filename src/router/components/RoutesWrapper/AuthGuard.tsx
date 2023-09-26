@@ -1,7 +1,7 @@
 import { AuthHooks } from '@/api/auth'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
-import { NotAuthorizedError } from '@/utils/errors.utils'
+import { ForbiddenError } from '@/utils/errors.utils'
 import React from 'react'
 
 interface AuthGuardProps {
@@ -39,7 +39,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
       // If the user organization is not an IPA, he can't access the provider routes
       (mode === 'provider' && !isIPAOrganization))
   ) {
-    throw new NotAuthorizedError()
+    throw new ForbiddenError()
   }
 
   return <>{children}</>

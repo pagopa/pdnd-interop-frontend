@@ -4,59 +4,45 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly agree
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1j1g2lg-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1nel5pz-MuiPaper-root-MuiCard-root"
     >
       <div
-        class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+        class="MuiCardHeader-root css-q0gjs9-MuiCardHeader-root"
       >
         <div
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="MuiStack-root css-1hci2t4-MuiStack-root"
+            class="MuiStack-root css-kdc3n8-MuiStack-root"
           >
-            <span
-              class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
+            <div
+              class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
             >
-              eserviceCardLabel
-            </span>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
+                data-testid="AccountBalanceIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
+                />
+              </svg>
+            </div>
             <span
-              class="css-16f3kn9"
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
             >
-              draftRequest
+              Agenzia per L'Italia Digitale
             </span>
           </div>
         </div>
       </div>
       <div
-        class="MuiCardContent-root css-1ddsn86-MuiCardContent-root"
+        class="MuiCardContent-root css-mcflu5-MuiCardContent-root"
       >
-        <div
-          class="MuiStack-root css-kdc3n8-MuiStack-root"
-        >
-          <div
-            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
-              data-testid="AccountBalanceIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
-              />
-            </svg>
-          </div>
-          <span
-            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-          >
-            Agenzia per L'Italia Digitale
-          </span>
-        </div>
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1pcitua-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-mql35v-MuiTypography-root"
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
@@ -64,7 +50,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly agree
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
           <p
-            style="-webkit-line-clamp: 4; display: -webkit-box; overflow: hidden;"
+            style="-webkit-line-clamp: 5; display: -webkit-box; overflow: hidden;"
           >
             lorem ipsum
           </p>
@@ -77,7 +63,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly agree
           class="MuiStack-root css-pl8gqh-MuiStack-root"
         >
           <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
           >
@@ -88,16 +74,6 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly agree
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
           </a>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            editDraft
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -109,7 +85,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly the s
 <body>
   <div>
     <span
-      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-x2pee1-MuiSkeleton-root"
+      class="MuiSkeleton-root MuiSkeleton-rectangular MuiSkeleton-pulse css-804lq0-MuiSkeleton-root"
       style="height: 410px;"
     />
   </div>
@@ -120,59 +96,45 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1j1g2lg-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1nel5pz-MuiPaper-root-MuiCard-root"
     >
       <div
-        class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+        class="MuiCardHeader-root css-q0gjs9-MuiCardHeader-root"
       >
         <div
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="MuiStack-root css-1hci2t4-MuiStack-root"
+            class="MuiStack-root css-kdc3n8-MuiStack-root"
           >
-            <span
-              class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
+            <div
+              class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
             >
-              eserviceCardLabel
-            </span>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
+                data-testid="AccountBalanceIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
+                />
+              </svg>
+            </div>
             <span
-              class="css-1k8a9y0"
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
             >
-              requestCompleted
+              Agenzia per L'Italia Digitale
             </span>
           </div>
         </div>
       </div>
       <div
-        class="MuiCardContent-root css-1ddsn86-MuiCardContent-root"
+        class="MuiCardContent-root css-mcflu5-MuiCardContent-root"
       >
-        <div
-          class="MuiStack-root css-kdc3n8-MuiStack-root"
-        >
-          <div
-            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
-              data-testid="AccountBalanceIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
-              />
-            </svg>
-          </div>
-          <span
-            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-          >
-            Agenzia per L'Italia Digitale
-          </span>
-        </div>
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1pcitua-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-mql35v-MuiTypography-root"
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
@@ -180,7 +142,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
           <p
-            style="-webkit-line-clamp: 4; display: -webkit-box; overflow: hidden;"
+            style="-webkit-line-clamp: 5; display: -webkit-box; overflow: hidden;"
           >
             lorem ipsum
           </p>
@@ -193,7 +155,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiStack-root css-pl8gqh-MuiStack-root"
         >
           <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
           >
@@ -204,16 +166,6 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
           </a>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            handleRequest
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -225,54 +177,45 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1j1g2lg-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1nel5pz-MuiPaper-root-MuiCard-root"
     >
       <div
-        class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+        class="MuiCardHeader-root css-q0gjs9-MuiCardHeader-root"
       >
         <div
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="MuiStack-root css-1hci2t4-MuiStack-root"
+            class="MuiStack-root css-kdc3n8-MuiStack-root"
           >
-            <span
-              class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
+            <div
+              class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
             >
-              myEserviceCardLabel
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
+                data-testid="AccountBalanceIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
+                />
+              </svg>
+            </div>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+            >
+              Agenzia per L'Italia Digitale
             </span>
           </div>
         </div>
       </div>
       <div
-        class="MuiCardContent-root css-1ddsn86-MuiCardContent-root"
+        class="MuiCardContent-root css-mcflu5-MuiCardContent-root"
       >
-        <div
-          class="MuiStack-root css-kdc3n8-MuiStack-root"
-        >
-          <div
-            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
-              data-testid="AccountBalanceIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
-              />
-            </svg>
-          </div>
-          <span
-            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-          >
-            Agenzia per L'Italia Digitale
-          </span>
-        </div>
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1pcitua-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-mql35v-MuiTypography-root"
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
@@ -280,7 +223,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
           <p
-            style="-webkit-line-clamp: 4; display: -webkit-box; overflow: hidden;"
+            style="-webkit-line-clamp: 5; display: -webkit-box; overflow: hidden;"
           >
             lorem ipsum
           </p>
@@ -293,7 +236,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiStack-root css-pl8gqh-MuiStack-root"
         >
           <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
           >
@@ -304,16 +247,6 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
           </a>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            subscribe
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -325,54 +258,45 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1j1g2lg-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1nel5pz-MuiPaper-root-MuiCard-root"
     >
       <div
-        class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+        class="MuiCardHeader-root css-q0gjs9-MuiCardHeader-root"
       >
         <div
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="MuiStack-root css-1hci2t4-MuiStack-root"
+            class="MuiStack-root css-kdc3n8-MuiStack-root"
           >
-            <span
-              class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
+            <div
+              class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
             >
-              eserviceCardLabel
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
+                data-testid="AccountBalanceIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
+                />
+              </svg>
+            </div>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+            >
+              Agenzia per L'Italia Digitale
             </span>
           </div>
         </div>
       </div>
       <div
-        class="MuiCardContent-root css-1ddsn86-MuiCardContent-root"
+        class="MuiCardContent-root css-mcflu5-MuiCardContent-root"
       >
-        <div
-          class="MuiStack-root css-kdc3n8-MuiStack-root"
-        >
-          <div
-            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
-              data-testid="AccountBalanceIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
-              />
-            </svg>
-          </div>
-          <span
-            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-          >
-            Agenzia per L'Italia Digitale
-          </span>
-        </div>
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1pcitua-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-mql35v-MuiTypography-root"
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
@@ -380,7 +304,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
           <p
-            style="-webkit-line-clamp: 4; display: -webkit-box; overflow: hidden;"
+            style="-webkit-line-clamp: 5; display: -webkit-box; overflow: hidden;"
           >
             lorem ipsum
           </p>
@@ -393,7 +317,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiStack-root css-pl8gqh-MuiStack-root"
         >
           <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
           >
@@ -404,16 +328,6 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
           </a>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            subscribe
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -425,59 +339,45 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1j1g2lg-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1nel5pz-MuiPaper-root-MuiCard-root"
     >
       <div
-        class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+        class="MuiCardHeader-root css-q0gjs9-MuiCardHeader-root"
       >
         <div
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="MuiStack-root css-1hci2t4-MuiStack-root"
+            class="MuiStack-root css-kdc3n8-MuiStack-root"
           >
-            <span
-              class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
+            <div
+              class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
             >
-              myEserviceCardLabel
-            </span>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
+                data-testid="AccountBalanceIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
+                />
+              </svg>
+            </div>
             <span
-              class="css-1k8a9y0"
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
             >
-              requestCompleted
+              Agenzia per L'Italia Digitale
             </span>
           </div>
         </div>
       </div>
       <div
-        class="MuiCardContent-root css-1ddsn86-MuiCardContent-root"
+        class="MuiCardContent-root css-mcflu5-MuiCardContent-root"
       >
-        <div
-          class="MuiStack-root css-kdc3n8-MuiStack-root"
-        >
-          <div
-            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
-              data-testid="AccountBalanceIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
-              />
-            </svg>
-          </div>
-          <span
-            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-          >
-            Agenzia per L'Italia Digitale
-          </span>
-        </div>
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1pcitua-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-mql35v-MuiTypography-root"
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
@@ -485,7 +385,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
           <p
-            style="-webkit-line-clamp: 4; display: -webkit-box; overflow: hidden;"
+            style="-webkit-line-clamp: 5; display: -webkit-box; overflow: hidden;"
           >
             lorem ipsum
           </p>
@@ -498,7 +398,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiStack-root css-pl8gqh-MuiStack-root"
         >
           <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
           >
@@ -509,16 +409,6 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
           </a>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            handleRequest
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -530,54 +420,45 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1j1g2lg-MuiPaper-root-MuiCard-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiCard-root css-1nel5pz-MuiPaper-root-MuiCard-root"
     >
       <div
-        class="MuiCardHeader-root css-185gdzj-MuiCardHeader-root"
+        class="MuiCardHeader-root css-q0gjs9-MuiCardHeader-root"
       >
         <div
           class="MuiCardHeader-content css-1qbkelo-MuiCardHeader-content"
         >
           <div
-            class="MuiStack-root css-1hci2t4-MuiStack-root"
+            class="MuiStack-root css-kdc3n8-MuiStack-root"
           >
-            <span
-              class="MuiTypography-root MuiTypography-overline css-idy08m-MuiTypography-root"
+            <div
+              class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
             >
-              myEserviceCardLabel
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
+                data-testid="AccountBalanceIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
+                />
+              </svg>
+            </div>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+            >
+              Agenzia per L'Italia Digitale
             </span>
           </div>
         </div>
       </div>
       <div
-        class="MuiCardContent-root css-1ddsn86-MuiCardContent-root"
+        class="MuiCardContent-root css-mcflu5-MuiCardContent-root"
       >
-        <div
-          class="MuiStack-root css-kdc3n8-MuiStack-root"
-        >
-          <div
-            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-ax6k3r-MuiAvatar-root"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-7p6gym-MuiSvgIcon-root"
-              data-testid="AccountBalanceIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zm-5-9L2 6v2h20V6z"
-              />
-            </svg>
-          </div>
-          <span
-            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
-          >
-            Agenzia per L'Italia Digitale
-          </span>
-        </div>
         <h6
-          class="MuiTypography-root MuiTypography-h6 css-1pcitua-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-h6 css-mql35v-MuiTypography-root"
         >
           !! -- CAMMELLO -- Test 18/10 [1]
         </h6>
@@ -585,7 +466,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiTypography-root MuiTypography-body1 css-1gqyz35-MuiTypography-root"
         >
           <p
-            style="-webkit-line-clamp: 4; display: -webkit-box; overflow: hidden;"
+            style="-webkit-line-clamp: 5; display: -webkit-box; overflow: hidden;"
           >
             lorem ipsum
           </p>
@@ -598,7 +479,7 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
           class="MuiStack-root css-pl8gqh-MuiStack-root"
         >
           <a
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             href="/it/fruizione/catalogo-e-service/ad474d35-7939-4bee-bde9-4e469cca1030/e9762e42-129a-4b07-9b2e-9614998ef9b8"
             tabindex="0"
           >
@@ -609,16 +490,6 @@ exports[`Checks that CatalogCard snapshot don't change > renders correctly with 
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
           </a>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            subscribe
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
         </div>
       </div>
     </div>
