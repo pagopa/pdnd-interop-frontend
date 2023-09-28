@@ -2,13 +2,13 @@ import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import type { StepperStep } from '@/types/common.types'
 import {
-  EServiceCreateStep1General,
-  EServiceCreateStep1GeneralSkeleton,
-} from './components/EServiceCreateStep1General'
+  EServiceCreateStepGeneral,
+  EServiceCreateStepGeneralSkeleton,
+} from './components/EServiceCreateStepGeneral'
 import {
-  EServiceCreateStep2Version,
-  EServiceCreateStep2VersionSkeleton,
-} from './components/EServiceCreateStep2Version'
+  EServiceCreateStepVersion,
+  EServiceCreateStepVersionSkeleton,
+} from './components/EServiceCreateStepVersion'
 import {
   EServiceCreateStep4Documents,
   EServiceCreateStep4DocumentsSkeleton,
@@ -96,9 +96,9 @@ const ProviderEServiceCreatePage: React.FC = () => {
   )
 
   const stepsLoadingSkeletons = [
-    <EServiceCreateStep1GeneralSkeleton key={1} />,
-    <EServiceCreateStep2VersionSkeleton key={2} />,
-    <EServiceCreateStep3AttributesSkeleton key={3} />,
+    <EServiceCreateStepGeneralSkeleton key={1} />,
+    <EServiceCreateStepVersionSkeleton key={2} />,
+    <EServiceCreateStepAttributesSkeleton key={3} />,
     <EServiceCreateStep4DocumentsSkeleton key={4} />,
   ]
 

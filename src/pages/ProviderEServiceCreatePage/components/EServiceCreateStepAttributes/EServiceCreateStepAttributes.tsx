@@ -20,11 +20,11 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from './CreateAttributeDrawer'
 
-export type EServiceCreateStep3FormValues = {
+export type EServiceCreateStepAttributesFormValues = {
   attributes: DescriptorAttributes
 }
 
-export const EServiceCreateStep3Attributes: React.FC = () => {
+export const EServiceCreateStepAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { eservice, descriptor, forward, back } = useEServiceCreateContext()
 
@@ -49,7 +49,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
       setCreateAttributeCreateDrawerState({ attributeKey, isOpen: true })
     }
 
-  const defaultValues: EServiceCreateStep3FormValues = {
+  const defaultValues: EServiceCreateStepAttributesFormValues = {
     attributes: descriptor?.attributes ?? { certified: [], verified: [], declared: [] },
   }
 
@@ -58,7 +58,7 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
   const { handleClonePreviousDescriptorAttributes, hasPreviousVersionNoAttributes } =
     useClonePreviousDescriptorAttributes(descriptor, formMethods.setValue)
 
-  const onSubmit = (values: EServiceCreateStep3FormValues) => {
+  const onSubmit = (values: EServiceCreateStepAttributesFormValues) => {
     if (!eservice) return
 
     if (descriptor) {
@@ -159,6 +159,6 @@ export const EServiceCreateStep3Attributes: React.FC = () => {
   )
 }
 
-export const EServiceCreateStep3AttributesSkeleton: React.FC = () => {
+export const EServiceCreateStepAttributesSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={924} />
 }
