@@ -10,9 +10,9 @@ import {
   EServiceCreateStepVersionSkeleton,
 } from './components/EServiceCreateStepVersion'
 import {
-  EServiceCreateStep4Documents,
-  EServiceCreateStep4DocumentsSkeleton,
-} from './components/EServiceCreateStep4Documents'
+  EServiceCreateStepDocuments,
+  EServiceCreateStepDocumentsSkeleton,
+} from './components/EServiceCreateStepDocuments'
 import { useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { Redirect, useParams } from '@/router'
@@ -99,7 +99,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
     <EServiceCreateStepGeneralSkeleton key={1} />,
     <EServiceCreateStepVersionSkeleton key={2} />,
     <EServiceCreateStepAttributesSkeleton key={3} />,
-    <EServiceCreateStep4DocumentsSkeleton key={4} />,
+    <EServiceCreateStepDocumentsSkeleton key={4} />,
   ]
 
   const intro = isNewEService
