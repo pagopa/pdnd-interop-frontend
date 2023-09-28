@@ -13,14 +13,14 @@ import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 
-export type EServiceCreateStep1FormValues = {
+export type EServiceCreateStepGeneralFormValues = {
   name: string
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
 }
 
-export const EServiceCreateStep1General: React.FC = () => {
+export const EServiceCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
@@ -29,7 +29,7 @@ export const EServiceCreateStep1General: React.FC = () => {
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
-  const defaultValues: EServiceCreateStep1FormValues = {
+  const defaultValues: EServiceCreateStepGeneralFormValues = {
     name: eservice?.name ?? '',
     description: eservice?.description ?? '',
     technology: eservice?.technology ?? 'REST',
@@ -38,7 +38,7 @@ export const EServiceCreateStep1General: React.FC = () => {
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (formValues: EServiceCreateStep1FormValues) => {
+  const onSubmit = (formValues: EServiceCreateStepGeneralFormValues) => {
     // If we are editing an existing e-service, we update the draft
     if (eservice) {
       // If nothing has changed skip the update call
@@ -151,7 +151,7 @@ export const EServiceCreateStep1General: React.FC = () => {
   )
 }
 
-export const EServiceCreateStep1GeneralSkeleton: React.FC = () => {
+export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
   const { t } = useTranslation('eservice')
 
   return (
