@@ -16,7 +16,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { payloadVerificationGuideLink } from '@/config/constants'
 
-export type EServiceCreateStep2FormValues = {
+export type EServiceCreateStepVersionFormValues = {
   audience: string
   version: string
   voucherLifespan: number
@@ -26,7 +26,7 @@ export type EServiceCreateStep2FormValues = {
   agreementApprovalPolicy: boolean
 }
 
-export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
+export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const navigate = useNavigate()
 
@@ -41,7 +41,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
     suppressSuccessToast: true,
   })
 
-  const defaultValues: EServiceCreateStep2FormValues = {
+  const defaultValues: EServiceCreateStepVersionFormValues = {
     version: descriptor?.version ?? '1',
     audience: descriptor?.audience?.[0] ?? '',
     voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
@@ -53,7 +53,7 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (values: EServiceCreateStep2FormValues) => {
+  const onSubmit = (values: EServiceCreateStepVersionFormValues) => {
     if (!eservice) return
 
     const newDescriptorData = {
@@ -217,6 +217,6 @@ export const EServiceCreateStep2Version: React.FC<ActiveStepProps> = () => {
   )
 }
 
-export const EServiceCreateStep2VersionSkeleton: React.FC = () => {
+export const EServiceCreateStepVersionSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={550} />
 }
