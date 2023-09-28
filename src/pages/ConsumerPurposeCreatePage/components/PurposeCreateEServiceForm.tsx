@@ -1,7 +1,8 @@
 import type { PurposeSeed, RiskAnalysisForm } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Button, Stack } from '@mui/material'
+import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
+import { Box, Button, Divider, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -10,11 +11,25 @@ import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutoco
 import { AuthHooks } from '@/api/auth'
 import { useNavigate } from '@/router'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
+import { PurposeCreateProviderPurposeAutocomplete } from './PurposeCreateProviderPurposeAutocomplete'
+import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAnalysis'
+
+/**
+ * Mock waiting for BE
+ * TODO remove when BE generatedTypes is updated with Mode type
+ */
+type Mode = 'DELIVER' | 'RECEIVE'
+/**
+ * Mock waiting for BE
+ * TODO remove when eservice has field mode
+ */
+let mode: Mode = 'RECEIVE'
 
 export type PurposeCreateFormValues = {
   eserviceId: string | null
   useTemplate: boolean
   templateId: string | null
+  providerPurposeId: string | null
 }
 
 export const PurposeCreateEServiceForm: React.FC = () => {
@@ -31,6 +46,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       eserviceId: new URLSearchParams(location.search).get('e-service') ?? '',
       useTemplate: false,
       templateId: null,
+      providerPurposeId: null,
     },
   })
 
@@ -39,12 +55,20 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const useTemplate = formMethods.watch('useTemplate')
   // const isEServiceSelected = !!selectedEService
 
+  const selectedProviderPurposeId = formMethods.watch('providerPurposeId')
+  const isProviderPurposeSelected = !!selectedProviderPurposeId
+
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId!, {
     suspense: false,
     enabled: !!purposeId,
   })
 
-  // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
+  // const { data: eservice } = EServiceQueries.useGetSingle(selectedEService!, {
+  //   suspense: false,
+  //   enabled: !!selectedEService,
+  // })
+
+  const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
   const onSubmit = ({ eserviceId }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eserviceId) return
@@ -94,15 +118,34 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer newDesign title={t('create.preliminaryInformationSectionTitle')}>
           <PurposeCreateEServiceAutocomplete />
-          {/* {isEServiceSelected && (
+          {/* TODO sostituire mode come eservice.mode */}
+          {isEServiceSelected && mode === 'DELIVER' && (
             <>
               <RHFSwitch name="useTemplate" label={t('create.isTemplateField.label')} />
               <PurposeCreateTemplateAutocomplete />
             </>
           )} */}
         </SectionContainer>
-        {/* <PurposeCreateRiskAnalysisPreview />*/}
-
+        <PurposeCreateRiskAnalysisPreview />
+        {isEServiceSelected && mode === 'RECEIVE' && (
+          <SectionContainer
+            newDesign
+            title={'TODO Finalità da utilizzare'}
+            description={
+              'TODO L’e-service selezionato prevede che sia l’erogatore a ricevere dati dai fruitori. Puoi selezionare tra le finalità proposte dall’erogatore quella per la quale intendi inviare dati al suo e-service.'
+            }
+          >
+            <Stack spacing={3}>
+              <PurposeCreateProviderPurposeAutocomplete />
+              {isProviderPurposeSelected && (
+                <>
+                  <Divider />
+                  <PurposeCreateProviderRiskAnalysis />
+                </>
+              )}
+            </Stack>
+          </SectionContainer>
+        )}
         <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>
           <Button variant="contained" type="submit" startIcon={<NoteAddIcon />}>
             {t('create.createNewPurposeBtn')}
