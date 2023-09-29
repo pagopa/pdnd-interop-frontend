@@ -59,8 +59,8 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
         <Grid item xs={8}>
           <ProviderAgreementDetailsContextProvider agreement={agreement}>
             <Stack spacing={3}>
-              {agreement && <ProviderAgreementDetailsGeneralInfoSection />}
-              {agreement && <ProviderAgreementDetailsAttributesSectionsList />}
+              <ProviderAgreementDetailsGeneralInfoSection />
+              <ProviderAgreementDetailsAttributesSectionsList />
             </Stack>
           </ProviderAgreementDetailsContextProvider>
         </Grid>
