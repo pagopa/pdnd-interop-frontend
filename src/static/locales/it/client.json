@@ -42,7 +42,7 @@
   "edit": {
     "tabs": {
       "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento del voucher, i membri del client e le chiavi pubbliche",
-      "voucher": "Istruzioni ottenimento voucher",
+      "voucher": "Come ottengo un voucher?",
       "clientOperators": "Membri del client",
       "publicKeys": "Chiavi pubbliche"
     },

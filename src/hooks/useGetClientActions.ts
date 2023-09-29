@@ -2,11 +2,14 @@ import { useTranslation } from 'react-i18next'
 import { ClientMutations } from '@/api/client'
 import { useClientKind } from './useClientKind'
 import { useNavigate } from '@/router'
-import type { ActionItem } from '@/types/common.types'
+import type { ActionItemButton } from '@/types/common.types'
 import type { Client, CompactClient } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 
-function useGetClientActions(client?: Client | CompactClient): { actions: Array<ActionItem> } {
+function useGetClientActions(client?: Client | CompactClient): {
+  actions: Array<ActionItemButton>
+} {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const clientKind = useClientKind()
   const { isAdmin } = AuthHooks.useJwt()
@@ -29,9 +32,11 @@ function useGetClientActions(client?: Client | CompactClient): { actions: Array<
     )
   }
 
-  const deleteClientAction = {
+  const deleteClientAction: ActionItemButton = {
     action: handleDeleteClient,
     label: t('delete'),
+    icon: DeleteOutlineIcon,
+    color: 'error',
   }
 
   return { actions: [deleteClientAction] }

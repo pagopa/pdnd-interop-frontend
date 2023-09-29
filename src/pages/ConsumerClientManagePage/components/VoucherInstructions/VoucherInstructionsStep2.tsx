@@ -1,108 +1,193 @@
 import React from 'react'
+import { Box, Link, Stack, Typography } from '@mui/material'
 import { SectionContainer } from '@/components/layout/containers'
-import { StepActions } from '@/components/shared/StepActions'
-import { AUTHORIZATION_SERVER_TOKEN_CREATION_URL, FE_URL } from '@/config/env'
-import { Alert, Stack } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
+import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
 import { useClientKind } from '@/hooks/useClientKind'
-import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
 import { CodeSnippetPreview } from './CodeSnippetPreview'
+import { StepActions } from '@/components/shared/StepActions'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { Link } from '@/router'
+import { useVoucherInstructionsContext } from './VoucherInstructionsContext'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
-const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
-const GRANT_TYPE = 'client_credentials'
+const CLIENT_ASSERTION_TYP = 'JWT'
+const CLIENT_ASSERTION_ALG = 'RS256'
 
-export const VoucherInstructionsStep2: React.FC<VoucherInstructionsStepProps> = ({
-  back,
-  forward,
-  clientId,
-}) => {
+export const VoucherInstructionsStep2: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
+
+  const { selectedPurposeId, selectedKeyId, clientId, goToNextStep, goToPreviousStep } =
+    useVoucherInstructionsContext()
+
+  const filename =
+    clientKind === 'CONSUMER' ? 'create_client_assertion.py' : 'create_m2m_client_assertion.py'
+
+  const downloadUrl = `${FE_URL}/data/it/${filename}`
 
   return (
     <>
       <SectionContainer
+        newDesign
         title={t('step2.title')}
-        description={t(
-          `step2.${clientKind === 'CONSUMER' ? 'consumerDescription' : 'apiDescription.message'}`
-        )}
+        description={
+          <>
+            {t('step2.description.label')}{' '}
+            <Link
+              href="https://datatracker.ietf.org/doc/html/rfc7521"
+              target="_blank"
+              rel="noreferrer"
+              title={t('step2.description.link.title')}
+            >
+              {t('step2.description.link.label')}
+            </Link>
+          </>
+        }
       >
-        <InformationContainer
-          sx={{ mt: 4 }}
-          label={t('step2.authEndpoint.label')}
-          content={AUTHORIZATION_SERVER_TOKEN_CREATION_URL}
-          copyToClipboard={{
-            value: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
-            tooltipTitle: t('step2.authEndpoint.copySuccessFeedbackText'),
-          }}
-        />
+        <SectionContainer newDesign innerSection title={t('step2.assertionHeader.title')}>
+          <Stack spacing={4}>
+            <InformationContainer
+              label={t('step2.assertionHeader.kidField.label')}
+              labelDescription={t('step2.assertionHeader.kidField.description')}
+              content={selectedKeyId!}
+              copyToClipboard={{
+                value: selectedKeyId!,
+                tooltipTitle: t('step2.assertionHeader.kidField.copySuccessFeedbackText'),
+              }}
+            />
+
+            <InformationContainer
+              label={t('step2.assertionHeader.algField.label')}
+              labelDescription={t('step2.assertionHeader.algField.description')}
+              content={CLIENT_ASSERTION_ALG}
+              copyToClipboard={{
+                value: CLIENT_ASSERTION_ALG,
+                tooltipTitle: t('step2.assertionHeader.algField.copySuccessFeedbackText'),
+              }}
+            />
+
+            <InformationContainer
+              label={t('step2.assertionHeader.typField.label')}
+              labelDescription={t('step2.assertionHeader.typField.description')}
+              content={CLIENT_ASSERTION_TYP}
+              copyToClipboard={{
+                value: CLIENT_ASSERTION_TYP,
+                tooltipTitle: t('step2.assertionHeader.typField.copySuccessFeedbackText'),
+              }}
+            />
+          </Stack>
+        </SectionContainer>
+        <SectionContainer newDesign innerSection title={t('step2.assertionPayload.title')}>
+          <Stack spacing={4}>
+            <InformationContainer
+              label={t('step2.assertionPayload.issField.label')}
+              labelDescription={t('step2.assertionPayload.issField.description')}
+              content={clientId}
+              copyToClipboard={{
+                value: clientId,
+                tooltipTitle: t('step2.assertionPayload.issField.copySuccessFeedbackText'),
+              }}
+            />
+
+            <InformationContainer
+              label={t('step2.assertionPayload.subField.label')}
+              labelDescription={t('step2.assertionPayload.subField.description')}
+              content={clientId}
+              copyToClipboard={{
+                value: clientId,
+                tooltipTitle: t('step2.assertionPayload.subField.copySuccessFeedbackText'),
+              }}
+            />
+            <InformationContainer
+              label={t('step2.assertionPayload.audField.label')}
+              labelDescription={t('step2.assertionPayload.audField.description')}
+              content={CLIENT_ASSERTION_JWT_AUDIENCE}
+              copyToClipboard={{
+                value: CLIENT_ASSERTION_JWT_AUDIENCE,
+                tooltipTitle: t('step2.assertionPayload.audField.copySuccessFeedbackText'),
+              }}
+            />
+            {clientKind === 'CONSUMER' && selectedPurposeId && (
+              <InformationContainer
+                label={t('step2.assertionPayload.purposeIdField.label')}
+                labelDescription={t('step2.assertionPayload.purposeIdField.description')}
+                content={selectedPurposeId}
+                copyToClipboard={{
+                  value: selectedPurposeId,
+                  tooltipTitle: t('step2.assertionPayload.purposeIdField.copySuccessFeedbackText'),
+                }}
+              />
+            )}
+            <InformationContainer
+              label={t('step2.assertionPayload.jtiField.label')}
+              labelDescription={t('step2.assertionPayload.jtiField.description')}
+              content={t('step2.assertionPayload.jtiField.suggestionLabel')}
+            />
+            <InformationContainer
+              label={t('step2.assertionPayload.iatField.label')}
+              labelDescription={t('step2.assertionPayload.iatField.description')}
+              content={t('step2.assertionPayload.iatField.suggestionLabel')}
+            />
+            <InformationContainer
+              label={t('step2.assertionPayload.expField.label')}
+              labelDescription={t('step2.assertionPayload.expField.description')}
+              content={t('step2.assertionPayload.expField.suggestionLabel')}
+            />
+          </Stack>
+        </SectionContainer>
       </SectionContainer>
+      <SectionContainer newDesign title={t('step2.assertionScript.title')}>
+        <Box sx={{ pl: 2 }} component="ol">
+          <Typography component="li">{t('step2.assertionScript.steps.1')}</Typography>
+          <Typography component="li">
+            <Trans components={{ 1: <Link download href={downloadUrl} /> }}>
+              {t('step2.assertionScript.steps.2', { filename })}
+            </Trans>
+          </Typography>
+          <Typography component="li">{t('step2.assertionScript.steps.3')}</Typography>
+          <Typography component="li">{t('step2.assertionScript.steps.4')}</Typography>
+          <Typography component="li">{t('step2.assertionScript.steps.5')}</Typography>
+        </Box>
 
-      <SectionContainer title={t('step2.requestBody.title')}>
-        <Stack sx={{ mt: 4 }} spacing={4}>
-          <InformationContainer
-            label={t('step2.requestBody.clientIdField.label')}
-            content={clientId}
-            copyToClipboard={{
-              value: clientId,
-              tooltipTitle: t('step2.requestBody.clientIdField.copySuccessFeedbackText'),
-            }}
-          />
-          <InformationContainer
-            label={t('step2.requestBody.clientAssertionField.label')}
-            content={t('step2.requestBody.clientAssertionField.suggestionLabel')}
-          />
-
-          <InformationContainer
-            label={t('step2.requestBody.clientAssertionTypeField.label')}
-            labelDescription={t('step2.requestBody.clientAssertionTypeField.description')}
-            content={CLIENT_ASSERTION_TYPE}
-            copyToClipboard={{
-              value: CLIENT_ASSERTION_TYPE,
-              tooltipTitle: t('step2.requestBody.clientAssertionTypeField.copySuccessFeedbackText'),
-            }}
-          />
-          <InformationContainer
-            label={t('step2.requestBody.grantTypeField.label')}
-            labelDescription={t('step2.requestBody.grantTypeField.description')}
-            content={GRANT_TYPE}
-            copyToClipboard={{
-              value: GRANT_TYPE,
-              tooltipTitle: t('step2.requestBody.grantTypeField.copySuccessFeedbackText'),
-            }}
-          />
-        </Stack>
-      </SectionContainer>
-
-      <SectionContainer
-        title={t('step2.voucherScript.title')}
-        description={t('step2.voucherScript.description')}
-      >
         <CodeSnippetPreview
-          sx={{ mt: 4 }}
-          title={t('step2.voucherScript.exampleLabel')}
-          activeLang="curl"
-          entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
+          sx={{ mt: 2 }}
+          title={t('step2.assertionScript.exampleLabel')}
+          activeLang={'python'}
+          entries={[
+            {
+              url: `${FE_URL}/data/it/${
+                clientKind === 'CONSUMER' ? 'voucher-python-invoke' : 'voucher-python-m2m-invoke'
+              }.txt`,
+              value: 'python',
+            },
+          ]}
           scriptSubstitutionValues={{
-            AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
-            CLIENT_ID: clientId,
-            CLIENT_ASSERTION_TYPE: CLIENT_ASSERTION_TYPE,
-            GRANT_TYPE: GRANT_TYPE,
+            INSERISCI_VALORE_KID: selectedKeyId!,
+            INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
+            INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
+            INSERISCI_VALORE_ISS: clientId,
+            INSERISCI_VALORE_SUB: clientId,
+            INSERISCI_VALORE_AUD: CLIENT_ASSERTION_JWT_AUDIENCE,
+            INSERISCI_VALORE_PUR: selectedPurposeId ?? '',
           }}
         />
-
-        <Alert severity="info" sx={{ mt: 4, mb: 4 }}>
-          {t('step2.debugVoucherAlert.description')}{' '}
-          <Link to={'SUBSCRIBE_DEBUG_VOUCHER'}>{t('step2.debugVoucherAlert.link.label')}</Link>
-        </Alert>
-
-        <StepActions
-          back={{ label: t('backBtn'), type: 'button', onClick: back }}
-          forward={{ label: t('proceedBtn'), type: 'button', onClick: forward }}
-        />
+        <Typography>{t('step2.assertionScript.steps.result')}</Typography>
       </SectionContainer>
+      <StepActions
+        back={{
+          label: t('backBtn'),
+          type: 'button',
+          onClick: goToPreviousStep,
+          startIcon: <ArrowBackIcon />,
+        }}
+        forward={{
+          label: t('proceedBtn'),
+          type: 'button',
+          onClick: goToNextStep,
+          endIcon: <ArrowForwardIcon />,
+        }}
+      />
     </>
   )
 }
