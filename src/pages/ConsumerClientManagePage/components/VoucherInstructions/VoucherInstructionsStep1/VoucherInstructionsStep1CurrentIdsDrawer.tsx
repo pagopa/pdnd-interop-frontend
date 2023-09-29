@@ -15,7 +15,7 @@ type VoucherInstructionsStep1CurrentIdsDrawerProps = {
 export const VoucherInstructionsStep1CurrentIdsDrawer: React.FC<
   VoucherInstructionsStep1CurrentIdsDrawerProps
 > = ({ isOpen, onClose }) => {
-  const { t } = useTranslation('voucher', { keyPrefix: 'new-step1.currentIdsDrawer' })
+  const { t } = useTranslation('voucher', { keyPrefix: 'step1.currentIdsDrawer' })
 
   const { clientId, selectedPurposeId } = useVoucherInstructionsContext()
   const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId!, {
