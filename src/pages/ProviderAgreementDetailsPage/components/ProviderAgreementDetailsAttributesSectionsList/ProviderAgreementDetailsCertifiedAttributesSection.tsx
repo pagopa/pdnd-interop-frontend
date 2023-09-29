@@ -59,11 +59,12 @@ export const ProviderAgreementDetailsCertifiedAttributesSection: React.FC = () =
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
             <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
               {group.map((attribute) => (
-                <AttributeContainer
-                  key={attribute.id}
-                  attribute={attribute}
-                  checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes)}
-                />
+                <li key={attribute.id}>
+                  <AttributeContainer
+                    attribute={attribute}
+                    checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes)}
+                  />
+                </li>
               ))}
             </Stack>
           </AttributeGroupContainer>
