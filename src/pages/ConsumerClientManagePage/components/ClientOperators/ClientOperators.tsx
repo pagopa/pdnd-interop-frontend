@@ -45,6 +45,11 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
     })
   }
 
+  const handleOpenAddOperatorDialog = () => {
+    if (!canAddOperator) return
+    openDrawer()
+  }
+
   return (
     <>
       <Stack sx={{ mb: 2 }} alignItems="end">
@@ -57,7 +62,7 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
               disabled={!canAddOperator}
               variant="contained"
               size="small"
-              onClick={openDrawer}
+              onClick={handleOpenAddOperatorDialog}
               onPointerEnter={handlePrefetchUserList}
               onFocusVisible={handlePrefetchUserList}
               startIcon={<PlusOneIcon />}
