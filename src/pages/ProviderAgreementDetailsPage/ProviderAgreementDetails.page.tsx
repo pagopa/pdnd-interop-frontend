@@ -1,10 +1,19 @@
 import { AgreementQueries } from '@/api/agreement'
-import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { AgreementDetails, AgreementDetailsSkeleton } from '@/components/shared/AgreementDetails'
+import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
-import { Link, useParams } from '@/router'
+import { useParams } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  ProviderAgreementDetailsGeneralInfoSection,
+  ProviderAgreementDetailsGeneralInfoSectionSkeleton,
+} from './components/ProviderAgreementDetailsGeneralInfoSection/ProviderAgreementDetailsGeneralInfoSection'
+import { Alert, Grid, Stack } from '@mui/material'
+import {
+  ProviderAgreementDetailsAttributesSectionsList,
+  ProviderAgreementDetailsAttributesSectionsListSkeleton,
+} from './components/ProviderAgreementDetailsAttributesSectionsList/ProviderAgreementDetailsAttributesSectionsList'
+import { ProviderAgreementDetailsContextProvider } from './components/ProviderAgreementDetailsContext'
 
 const ProviderAgreementDetailsPage: React.FC = () => {
   return (
@@ -21,29 +30,56 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
   const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
   const { actions } = useGetAgreementsActions(agreement)
 
+  const suspendedBy = React.useMemo(() => {
+    if (agreement?.suspendedByProducer) return 'byProducer'
+    if (agreement?.suspendedByConsumer) return 'byConsumer'
+    if (agreement?.suspendedByPlatform) return 'byPlatform'
+  }, [agreement])
+
   return (
-    <PageContainer title={t('read.title')} newTopSideActions={actions}>
-      <AgreementDetails agreementId={agreementId} />
-      <PageBottomActionsContainer>
-        <Link as="button" variant="outlined" to={'PROVIDE_AGREEMENT_LIST'}>
-          {t('backToRequestsBtn')}
-        </Link>
-      </PageBottomActionsContainer>
+    <PageContainer
+      title={t('providerRead.title')}
+      newTopSideActions={actions}
+      backToAction={{ label: t('backToRequestsBtn'), to: 'PROVIDE_AGREEMENT_LIST' }}
+      statusChip={
+        agreement
+          ? {
+              for: 'agreement',
+              agreement,
+            }
+          : undefined
+      }
+    >
+      {agreement && agreement.state === 'SUSPENDED' && suspendedBy && (
+        <Alert sx={{ mb: 3 }} severity="error">
+          {t(`providerRead.suspendedAlert.${suspendedBy}`)}
+        </Alert>
+      )}
+      <Grid container>
+        <Grid item xs={8}>
+          <ProviderAgreementDetailsContextProvider agreement={agreement}>
+            <Stack spacing={3}>
+              <ProviderAgreementDetailsGeneralInfoSection />
+              <ProviderAgreementDetailsAttributesSectionsList />
+            </Stack>
+          </ProviderAgreementDetailsContextProvider>
+        </Grid>
+      </Grid>
     </PageContainer>
   )
 }
 
 const ProviderAgreementDetailsPageContentSkeleton: React.FC = () => {
-  const { t } = useTranslation('agreement')
-
   return (
-    <PageContainer title={t('read.title')}>
-      <AgreementDetailsSkeleton />
-      <PageBottomActionsContainer>
-        <Link as="button" variant="outlined" to={'PROVIDE_AGREEMENT_LIST'}>
-          {t('backToRequestsBtn')}
-        </Link>
-      </PageBottomActionsContainer>
+    <PageContainer isLoading={true}>
+      <Grid container spacing={3}>
+        <Grid item xs={8}>
+          <Stack spacing={3}>
+            <ProviderAgreementDetailsGeneralInfoSectionSkeleton />
+            <ProviderAgreementDetailsAttributesSectionsListSkeleton />
+          </Stack>
+        </Grid>
+      </Grid>
     </PageContainer>
   )
 }
