@@ -28,7 +28,7 @@
       "noDataLabel": "Nessun utente aggiunto"
     },
     "addOperatorsDrawer": {
-      "title": "Aggiungi membri del client",
+      "title": "Aggiungi membri al client",
       "autocompleteInput": {
         "label": "Utenti selezionati"
       },
