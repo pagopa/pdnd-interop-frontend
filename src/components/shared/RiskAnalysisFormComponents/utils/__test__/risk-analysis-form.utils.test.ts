@@ -206,7 +206,7 @@ describe('Risk analysis form utils', () => {
     })
   })
 
-  const tPurposeMock = ((str: string) => str) as TFunction<'purpose'>
+  const tSharedComponentsMock = ((str: string) => str) as TFunction<'shared-components'>
 
   describe('formatRiskAnalysisInputLabel', () => {
     it('should contain the required label if the question is required', () => {
@@ -216,7 +216,7 @@ describe('Risk analysis form utils', () => {
         required: true,
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisInputLabel(question, 'it', tPurposeMock)
+      const result = formatRiskAnalysisInputLabel(question, 'it', tSharedComponentsMock)
 
       expect(result).toContain('edit.step2.validation.required')
     })
@@ -228,7 +228,7 @@ describe('Risk analysis form utils', () => {
         required: false,
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisInputLabel(question, 'it', tPurposeMock)
+      const result = formatRiskAnalysisInputLabel(question, 'it', tSharedComponentsMock)
 
       expect(result).toContain('edit.step2.validation.multipleChoice')
     })
@@ -243,7 +243,7 @@ describe('Risk analysis form utils', () => {
       const result = formatRiskAnalysisInputLabel(
         question,
         'it',
-        ((str: string) => str) as TFunction<'purpose'>
+        ((str: string) => str) as TFunction<'shared-components'>
       )
 
       expect(result).toContain(
@@ -278,7 +278,7 @@ describe('Risk analysis form utils', () => {
         validation: undefined,
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisHerlperText(question, tPurposeMock)
+      const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
       expect(result).toBeUndefined()
     })
 
@@ -287,7 +287,7 @@ describe('Risk analysis form utils', () => {
         validation: { maxLength: 40 },
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisHerlperText(question, tPurposeMock)
+      const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
       expect(result).toEqual('edit.step2.validation.maxLength')
     })
   })

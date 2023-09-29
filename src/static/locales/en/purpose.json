@@ -89,30 +89,10 @@
           }
         }
       },
-      "multiCheckboxField": {
-        "validation": {
-          "mixed": {
-            "required": "Choose at least one option"
-          }
-        }
-      },
-      "riskAnalysisSwitch": {
-        "validation": {
-          "boolean": {
-            "isValue": "Please confirm"
-          }
-        }
-      },
-      "emptyLabel": "No available values",
       "pa": {
         "v2": {
           "blockingButtonLabel": "Go to API Catalog"
         }
-      },
-      "validation": {
-        "maxLength": "Max {{num}} characters",
-        "required": "required",
-        "multipleChoice": "multiple choice"
       },
       "versionMismatchDialog": {
         "title": "Risk analysis update",

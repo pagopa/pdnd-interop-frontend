@@ -89,30 +89,10 @@
           }
         }
       },
-      "multiCheckboxField": {
-        "validation": {
-          "mixed": {
-            "required": "Seleziona almeno un'opzione"
-          }
-        }
-      },
-      "riskAnalysisSwitch": {
-        "validation": {
-          "boolean": {
-            "isValue": "Si prega di confermare"
-          }
-        }
-      },
-      "emptyLabel": "Nessun valore disponibile",
       "pa": {
         "v2": {
           "blockingButtonLabel": "Vai sul Catalogo API"
         }
-      },
-      "validation": {
-        "maxLength": "Max {{num}} caratteri",
-        "required": "richiesto",
-        "multipleChoice": "scelta multipla"
       },
       "versionMismatchDialog": {
         "title": "Aggiornamento analisi del rischio",

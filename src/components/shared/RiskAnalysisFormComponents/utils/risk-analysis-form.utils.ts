@@ -157,7 +157,7 @@ export function getRiskAnalysisDefaultValues(
 export function formatRiskAnalysisInputLabel(
   question: FormConfigQuestion,
   lang: LangCode,
-  t: TFunction<'purpose'>
+  t: TFunction<'shared-components'>
 ) {
   const isRequired = question.required
   const isMultipleChoice = question.dataType === 'MULTI'
@@ -167,11 +167,11 @@ export function formatRiskAnalysisInputLabel(
   const labelValidation: Array<string> = []
 
   if (isRequired) {
-    labelValidation.push(t('edit.step2.validation.required'))
+    labelValidation.push(t('riskAnalysis.formComponents.validation.required'))
   }
 
   if (isMultipleChoice) {
-    labelValidation.push(t('edit.step2.validation.multipleChoice'))
+    labelValidation.push(t('riskAnalysis.formComponents.validation.multipleChoice'))
   }
 
   if (labelValidation.length > 0) {
@@ -203,12 +203,12 @@ export function formatRiskAnalysisInputInfoLabel(question: FormConfigQuestion, l
  */
 export function formatRiskAnalysisHerlperText(
   question: FormConfigQuestion,
-  t: TFunction<'purpose'>
+  t: TFunction<'shared-components'>
 ) {
   const maxLength = question.validation?.maxLength
 
   if (maxLength) {
-    return t('edit.step2.validation.maxLength', { num: maxLength })
+    return t('riskAnalysis.formComponents.validation.maxLength', { num: maxLength })
   }
 }
 

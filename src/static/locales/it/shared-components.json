@@ -167,6 +167,30 @@
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer"
   },
+  "riskAnalysis": {
+    "formComponents": {
+      "emptyLabel": "Nessun valore disponibile",
+      "multiCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Seleziona almeno un'opzione"
+          }
+        }
+      },
+      "riskAnalysisSwitch": {
+        "validation": {
+          "boolean": {
+            "isValue": "Si prega di confermare"
+          }
+        }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} caratteri",
+        "required": "richiesto",
+        "multipleChoice": "scelta multipla"
+      }
+    }
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",
