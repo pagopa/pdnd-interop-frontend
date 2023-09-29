@@ -1,6 +1,6 @@
 import React from 'react'
 import type { FormConfigQuestion } from '@/api/api.generatedTypes'
-import type { Answers, Questions } from '../../../../types/risk-analysis-form.types'
+import type { Answers, Questions } from './types/risk-analysis-form.types'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
@@ -9,7 +9,7 @@ import {
   formatRiskAnalysisInputLabel,
   formatRiskAnalysisHerlperText,
   getRiskAnalysisInputOptions,
-} from '@/pages/ConsumerPurposeEditPage/utils/risk-analysis-form.utils'
+} from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
 import { RiskAnalysisSwitch } from './RiskAnalysisSwitch'
 import { RiskAnalysisSelect } from './RiskAnalysisSelect'
 import { RiskAnalysisTextField } from './RiskAnalysisTextField'
