@@ -34,6 +34,18 @@
       },
       "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client"
     },
+    "addPublicKeyDrawer": {
+      "title": "Inserisci nuova chiave pubblica",
+      "description": "Non sai come fare per creare un set di materiale crittografico? <1>Consulta la guida</1>.",
+      "nameInput": {
+        "label": "Nome della chiave (richiesto)",
+        "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min. 5 caratteri, max. 60 caratteri"
+      },
+      "publicKeyInput": {
+        "label": "Chiave pubblica (richiesto)"
+      },
+      "insertAction": "Inserisci"
+    },
     "actions": {
       "createLabel": "Crea",
       "backToClientsLabel": "Torna ai client"

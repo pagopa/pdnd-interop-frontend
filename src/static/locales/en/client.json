@@ -34,6 +34,18 @@
       },
       "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
     },
+    "addPublicKeyDrawer": {
+      "title": "Insert new public key",
+      "description": "Don't know how to create a set of cryptographic material? <1>Check the guide</1>.",
+      "nameInput": {
+        "label": "Key name (required)",
+        "infoLabel": "It will help you tell them apart. Min. 5 characters, max. 60 characters"
+      },
+      "publicKeyInput": {
+        "label": "Public key (required)"
+      },
+      "insertAction": "Insert"
+    },
     "actions": {
       "createLabel": "Create",
       "backToClientsLabel": "Back to the clients"

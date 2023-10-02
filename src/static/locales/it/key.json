@@ -31,6 +31,6 @@
     }
   },
   "list": {
-    "adminEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente membro di questo client"
+    "adminEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente nella tab «Membri del client»"
   }
 }
