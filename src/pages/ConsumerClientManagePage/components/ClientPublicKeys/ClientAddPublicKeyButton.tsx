@@ -5,7 +5,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
 import { Button, Stack, Tooltip } from '@mui/material'
-import { InfoTooltipSkeleton } from '@/components/shared/InfoTooltip'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { AuthHooks } from '@/api/auth'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
@@ -40,7 +39,7 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
 
   return (
     <>
-      <Stack sx={{ mb: 2 }} direction="row" justifyContent="end" alignItems="center" spacing={2}>
+      <Stack sx={{ mb: 2 }} direction="row" justifyContent="end" alignItems="center">
         <Tooltip
           open={isAdmin && !isAdminInClient ? undefined : false}
           title={t('list.adminEnableInfo')}
@@ -68,8 +67,7 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
 export const ClientAddPublicKeyButtonSkeleton: React.FC = () => {
   return (
     <Stack sx={{ mb: 2 }} direction="row" justifyContent="end" alignItems="center" spacing={2}>
-      <InfoTooltipSkeleton />
-      <ButtonSkeleton size="small" width={103} />
+      <ButtonSkeleton size="small" width={116} />
     </Stack>
   )
 }
