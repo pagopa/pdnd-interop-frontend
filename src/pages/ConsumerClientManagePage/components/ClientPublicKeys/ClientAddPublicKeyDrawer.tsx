@@ -68,7 +68,6 @@ export const ClientAddPublicKeyDrawer: React.FC<ClientAddPublicKeyDrawerProps> =
             label={t('publicKeyInput.label')}
             labelType="external"
             multiline
-            rows={12}
             sx={{ mb: 2 }}
             rules={{ required: true }}
           />
