@@ -1,8 +1,7 @@
 import React from 'react'
-import { ClientQueries } from '@/api/client'
 import { Stepper } from '@/components/shared/Stepper'
 import { useActiveStep } from '@/hooks/useActiveStep'
-import { Alert, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
@@ -20,13 +19,7 @@ interface VoucherInstructionsProps {
 export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ clientId }) => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
-
-  const { data: clientKeys } = ClientQueries.useGetKeyList(clientId)
-  const { data: client } = ClientQueries.useGetSingle(clientId)
-
   const { activeStep, forward, back } = useActiveStep()
-
-  const purposes = client?.purposes
 
   const steps = [
     { label: t('step1.stepperLabel'), component: VoucherInstructionsStep1 },
@@ -41,14 +34,6 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ client
 
   const { component: Step } = steps[activeStep]
 
-  if (clientKind === 'CONSUMER' && (!purposes || purposes.length === 0)) {
-    return <Alert severity="info">{t('noPurposesLabel')}.</Alert>
-  }
-
-  if (!clientKeys || (clientKeys && Boolean(clientKeys.keys.length === 0))) {
-    return <Alert severity="info">{t('noKeysLabel')}</Alert>
-  }
-
   const contextProps = {
     goToPreviousStep: back,
     goToNextStep: forward,
@@ -60,20 +45,13 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ client
       <Grid container>
         <Grid item xs={8}>
           <Stepper steps={steps} activeIndex={activeStep} />
-          <Step />
+          <React.Suspense
+            fallback={<SectionContainerSkeleton height={clientKind === 'CONSUMER' ? 356 : 297} />}
+          >
+            <Step />
+          </React.Suspense>
         </Grid>
       </Grid>
     </VoucherInstructionsContextProvider>
-  )
-}
-
-export const VoucherInstructionsSkeleton: React.FC = () => {
-  return (
-    <Grid spacing={2} container>
-      <Grid item xs={8}>
-        <SectionContainerSkeleton height={111} />
-        <SectionContainerSkeleton height={600} />
-      </Grid>
-    </Grid>
   )
 }

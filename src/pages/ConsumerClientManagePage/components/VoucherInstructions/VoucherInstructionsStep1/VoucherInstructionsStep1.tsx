@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { Alert, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { ClientQueries } from '@/api/client'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
@@ -44,6 +44,14 @@ export const VoucherInstructionsStep1: React.FC = () => {
 
   const canGoToNextStep =
     clientKind === 'CONSUMER' ? !!(selectedKeyId && selectedPurposeId) : !!selectedKeyId
+
+  if (clientKind === 'CONSUMER' && (!purposes || purposes.length === 0)) {
+    return <Alert severity="info">{t('noPurposesLabel')}.</Alert>
+  }
+
+  if (!clientKeys || (clientKeys && Boolean(clientKeys.keys.length === 0))) {
+    return <Alert severity="info">{t('noKeysLabel')}</Alert>
+  }
 
   return (
     <>

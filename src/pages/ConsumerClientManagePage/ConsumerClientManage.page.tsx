@@ -6,7 +6,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { VoucherInstructions, VoucherInstructionsSkeleton } from './components/VoucherInstructions'
+import { VoucherInstructions } from './components/VoucherInstructions'
 import { useClientKind } from '@/hooks/useClientKind'
 import { ClientOperators } from './components/ClientOperators'
 import { ClientPublicKeys } from './components/ClientPublicKeys'
@@ -43,9 +43,7 @@ const ConsumerClientManagePage: React.FC = () => {
         </TabList>
 
         <TabPanel value="voucher">
-          <React.Suspense fallback={<VoucherInstructionsSkeleton />}>
-            <VoucherInstructions clientId={clientId} />
-          </React.Suspense>
+          <VoucherInstructions clientId={clientId} />
         </TabPanel>
 
         <TabPanel value="clientOperators">
