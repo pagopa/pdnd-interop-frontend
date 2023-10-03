@@ -25,13 +25,14 @@ import {
   EServiceCreateStep3AttributesSkeleton,
 } from './components/EServiceCreateStep3Attributes'
 import { Typography } from '@mui/material'
+import type { EServiceMode } from '@/api/api.generatedTypes'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
   const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
-  const [eserviceMode, setEserviceMode] = React.useState<'DELIVER' | 'RECEIVE'>('DELIVER')
+  const [eserviceMode, setEserviceMode] = React.useState<EServiceMode>('DELIVER')
 
   const handleEserviceModeChange = (value: string) => {
     setEserviceMode(value as 'DELIVER' | 'RECEIVE')
@@ -58,7 +59,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
    */
   const eserviceData = isDraftEService ? eservice : descriptor?.eservice
 
-  const TestComponent: React.FC = () => <Typography>AAAAAA test</Typography>
+  const TestComponent: React.FC = () => <Typography>AAAAAA test</Typography> //TODO
 
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
@@ -70,7 +71,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStep1General },
-          { label: 'Purpose step', component: TestComponent },
+          { label: 'Purpose step', component: TestComponent }, // TODO
           { label: t('create.stepper.step2Label'), component: EServiceCreateStep2Version },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStep3Attributes },
           { label: t('create.stepper.step4Label'), component: EServiceCreateStep4Documents },

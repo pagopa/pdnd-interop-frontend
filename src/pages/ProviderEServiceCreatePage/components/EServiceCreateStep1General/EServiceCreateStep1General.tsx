@@ -9,26 +9,15 @@ import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
 import { URL_FRAGMENTS } from '@/router/router.utils'
-import type { EServiceTechnology } from '@/api/api.generatedTypes'
+import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
-
-/**
- * Mock waiting for BE
- * TODO remove when BE generatedTypes is updated with Mode type
- */
-type Mode = 'DELIVER' | 'RECEIVE'
-/**
- * Mock waiting for BE
- * TODO remove when eservice has field mode
- */
-const mode = 'DELIVER'
 
 export type EServiceCreateStep1FormValues = {
   name: string
   description: string
   technology: EServiceTechnology
-  mode: Mode
+  mode: EServiceMode
 }
 
 export const EServiceCreateStep1General: React.FC = () => {
@@ -44,7 +33,7 @@ export const EServiceCreateStep1General: React.FC = () => {
     name: eservice?.name ?? '',
     description: eservice?.description ?? '',
     technology: eservice?.technology ?? 'REST',
-    mode: mode ?? 'DELIVER', // TODO replace with eservice.mode when ready
+    mode: eservice?.mode ?? 'DELIVER',
   }
 
   const formMethods = useForm({ defaultValues })

@@ -54,7 +54,7 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
 
         <InformationContainer
           label={t('mode.label')}
-          content={t(`mode.value.${'DELIVER'}`)} // TODO replace with descriptor.eservice.mode
+          content={t(`mode.value.${descriptor.eservice.mode}`)}
           direction="column"
         />
       </Stack>
