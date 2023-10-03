@@ -79,11 +79,11 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
             </Typography>
           </Box>
         ))}
-        {/* TODO remove comment when purpose updated {purpose.riskAnalysisId && (
+        {purpose.riskAnalysisId && (
           <Alert variant="outlined" severity="info">
             {t('providerRiskAnalysisAlert')}
           </Alert>
-        )} */}
+        )}
       </Stack>
     </>
   )
