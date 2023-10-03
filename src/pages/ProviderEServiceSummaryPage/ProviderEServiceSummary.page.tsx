@@ -14,6 +14,7 @@ import {
   ProviderEServiceVersionInfoSummary,
 } from './components'
 import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
+import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -99,20 +100,37 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
 
+        {descriptor?.eservice.mode === 'RECEIVE' && (
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion headline="2" title={'TODO Finalità'}>
+              <ProviderEServiceRiskAnalysisSummaryList />
+            </SummaryAccordion>
+          </React.Suspense>
+        )}
+
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="2" title={t('summary.versionInfoSummary.title')}>
+          <SummaryAccordion
+            headline={descriptor?.eservice.mode === 'RECEIVE' ? '3' : '2'}
+            title={t('summary.versionInfoSummary.title')}
+          >
             <ProviderEServiceVersionInfoSummary />
           </SummaryAccordion>
         </React.Suspense>
 
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="3" title={t('summary.attributeVersionSummary.title')}>
+          <SummaryAccordion
+            headline={descriptor?.eservice.mode === 'RECEIVE' ? '4' : '3'}
+            title={t('summary.attributeVersionSummary.title')}
+          >
             <ProviderEServiceAttributeVersionSummary />
           </SummaryAccordion>
         </React.Suspense>
 
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="4" title={t('summary.documentationSummary.title')}>
+          <SummaryAccordion
+            headline={descriptor?.eservice.mode === 'RECEIVE' ? '5' : '4'}
+            title={t('summary.documentationSummary.title')}
+          >
             <ProviderEServiceDocumentationSummary />
           </SummaryAccordion>
         </React.Suspense>
