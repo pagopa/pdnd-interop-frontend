@@ -9,8 +9,11 @@ type EServiceCreateContextType = {
   onEserviceModeChange: (value: string) => void
   back: VoidFunction
   forward: VoidFunction
-  isRiskAnalysisFormOpen: boolean
-  openRiskAnalysisForm: VoidFunction
+  RiskAnalysisFormState: {
+    isOpen: boolean
+    riskAnalysisId: string | undefined
+  }
+  openRiskAnalysisForm: (riskAnalysisId?: string) => void
   closeRiskAnalysisForm: VoidFunction
 }
 
@@ -20,7 +23,10 @@ const initialState: EServiceCreateContextType = {
   onEserviceModeChange: noop,
   back: noop,
   forward: noop,
-  isRiskAnalysisFormOpen: false,
+  RiskAnalysisFormState: {
+    isOpen: false,
+    riskAnalysisId: undefined,
+  },
   openRiskAnalysisForm: noop,
   closeRiskAnalysisForm: noop,
 }
@@ -47,19 +53,40 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   back,
   forward,
 }) => {
-  const [isRiskAnalysisFormOpen, setIsRiskAnalysisFormOpen] = React.useState<boolean>(false)
+  const [RiskAnalysisFormState, setRiskAnalysisFormState] = React.useState<{
+    isOpen: boolean
+    riskAnalysisId: string | undefined
+  }>({
+    isOpen: false,
+    riskAnalysisId: undefined,
+  })
 
-  const openRiskAnalysisForm = () => {
-    setIsRiskAnalysisFormOpen(true)
+  const openRiskAnalysisForm = (riskAnalysisId?: string) => {
+    setRiskAnalysisFormState({
+      isOpen: true,
+      riskAnalysisId: riskAnalysisId,
+    })
   }
 
   const closeRiskAnalysisForm = () => {
-    setIsRiskAnalysisFormOpen(false)
+    setRiskAnalysisFormState({
+      isOpen: false,
+      riskAnalysisId: undefined,
+    })
   }
 
   const providerValue = React.useMemo(() => {
-    return { eservice, descriptor, onEserviceModeChange, back, forward }
-  }, [eservice, descriptor, onEserviceModeChange, back, forward])
+    return {
+      eservice,
+      descriptor,
+      onEserviceModeChange,
+      back,
+      forward,
+      RiskAnalysisFormState,
+      openRiskAnalysisForm,
+      closeRiskAnalysisForm,
+    }
+  }, [eservice, descriptor, onEserviceModeChange, back, forward, RiskAnalysisFormState])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

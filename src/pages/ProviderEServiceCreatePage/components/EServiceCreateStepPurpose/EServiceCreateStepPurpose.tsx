@@ -12,14 +12,14 @@ import { EServiceCreateStepPurposeRiskAnalysis } from './EServiceCreateStepPurpo
 export const EServiceCreateStepPurpose: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
 
-  const { eservice, descriptor, forward, back, isRiskAnalysisFormOpen } = useEServiceCreateContext()
+  const { eservice, forward, back, RiskAnalysisFormState } = useEServiceCreateContext()
 
   return (
     <>
       <Alert severity="warning" sx={{ mb: 3 }}>
         {t('step1.firstVersionOnlyEditableInfo')} {/* TODO cambiare le stringhe */}
       </Alert>
-      {!isRiskAnalysisFormOpen ? (
+      {!RiskAnalysisFormState.isOpen ? (
         <>
           <SectionContainer
             newDesign
