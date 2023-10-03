@@ -21,8 +21,7 @@ import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisForm
 
 export type EServiceCreateStepPurposeRiskAnalysisFormValues = {
   name: string
-  answers: Answers
-}
+} & Answers
 
 type EServiceCreateStepPurposeRiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
@@ -47,7 +46,7 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
   const formMethods = useForm<EServiceCreateStepPurposeRiskAnalysisFormValues>({
     defaultValues: {
       name: '',
-      answers: defaultValues,
+      ...defaultValues,
     },
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
@@ -70,9 +69,11 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
 
   const handleSubmit = formMethods.handleSubmit((values) => {
     const currentQuestionsIds = Object.keys(questions)
-    const validAnswers = getValidAnswers(currentQuestionsIds, values.answers)
 
-    onSubmit(values.name, validAnswers)
+    const { name, ...answers } = values
+    const validAnswers = getValidAnswers(currentQuestionsIds, answers)
+
+    onSubmit(name, validAnswers)
   })
 
   return (
