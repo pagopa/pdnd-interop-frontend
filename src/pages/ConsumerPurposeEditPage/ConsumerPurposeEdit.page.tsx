@@ -19,17 +19,16 @@ const ConsumerPurposeEditPage: React.FC = () => {
     suspense: false,
   })
 
-  const steps: Array<StepperStep> =
-    /*TODO use this when purpose is ready purpose?.riskAnalysisId */ false
-      ? [
-          { label: t('edit.stepper.step1Label'), component: PurposeEditStep1General },
-          { label: t('edit.stepper.step3Label'), component: PurposeEditStep3Clients },
-        ]
-      : [
-          { label: t('edit.stepper.step1Label'), component: PurposeEditStep1General },
-          { label: t('edit.stepper.step2Label'), component: PurposeEditStep2RiskAnalysis },
-          { label: t('edit.stepper.step3Label'), component: PurposeEditStep3Clients },
-        ]
+  const steps: Array<StepperStep> = purpose?.riskAnalysisId
+    ? [
+        { label: t('edit.stepper.step1Label'), component: PurposeEditStep1General },
+        { label: t('edit.stepper.step3Label'), component: PurposeEditStep3Clients },
+      ]
+    : [
+        { label: t('edit.stepper.step1Label'), component: PurposeEditStep1General },
+        { label: t('edit.stepper.step2Label'), component: PurposeEditStep2RiskAnalysis },
+        { label: t('edit.stepper.step3Label'), component: PurposeEditStep3Clients },
+      ]
 
   const { component: Step } = steps[activeStep]
   const stepProps = { forward, back }
