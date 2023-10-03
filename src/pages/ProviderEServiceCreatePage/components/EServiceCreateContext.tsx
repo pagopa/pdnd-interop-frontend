@@ -9,6 +9,9 @@ type EServiceCreateContextType = {
   onEserviceModeChange: (value: string) => void
   back: VoidFunction
   forward: VoidFunction
+  isRiskAnalysisFormOpen: boolean
+  openRiskAnalysisForm: VoidFunction
+  closeRiskAnalysisForm: VoidFunction
 }
 
 const initialState: EServiceCreateContextType = {
@@ -17,6 +20,9 @@ const initialState: EServiceCreateContextType = {
   onEserviceModeChange: noop,
   back: noop,
   forward: noop,
+  isRiskAnalysisFormOpen: false,
+  openRiskAnalysisForm: noop,
+  closeRiskAnalysisForm: noop,
 }
 
 const { useContext, Provider } = createContext<EServiceCreateContextType>(
@@ -41,6 +47,16 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   back,
   forward,
 }) => {
+  const [isRiskAnalysisFormOpen, setIsRiskAnalysisFormOpen] = React.useState<boolean>(false)
+
+  const openRiskAnalysisForm = () => {
+    setIsRiskAnalysisFormOpen(true)
+  }
+
+  const closeRiskAnalysisForm = () => {
+    setIsRiskAnalysisFormOpen(false)
+  }
+
   const providerValue = React.useMemo(() => {
     return { eservice, descriptor, onEserviceModeChange, back, forward }
   }, [eservice, descriptor, onEserviceModeChange, back, forward])
