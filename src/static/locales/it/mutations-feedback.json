@@ -75,6 +75,31 @@
         "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
       }
     },
+    "addEServiceRiskAnalysis": {
+      "loading": "Stiamo associando la risk analysis all'e-service",
+      "outcome": {
+        "success": "Nuova risk analysis associata correttamente",
+        "error": "Non è stato possibile associare la nuova risk analysis all'e-service. Assicurarsi che non esista già ed eventualmente ritentare"
+      }
+    },
+    "updateEServiceRiskAnalysis": {
+      "loading": "Stiamo aggiornando la risk analysis",
+      "outcome": {
+        "success": "La nuova risk analysis è disponibile",
+        "error": "Non è stato possibile aggiornare la risk analysis. Assicurarsi di aver compilato tutti i campi e riprovare"
+      }
+    },
+    "deleteEServiceRiskAnalysis": {
+      "loading": "Stiamo rimuovendo la risk analysis dall'e-service",
+      "outcome": {
+        "success": "La risk analysis è stata rimossa correttamente dall'e-service",
+        "error": "Non è stato possibile rimuovere la risk analysis dall'e-service. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione risk analysis dall'e-service",
+        "description": "La risk analysis sarà rimossa da questo e-service."
+      }
+    },
     "suspendVersion": {
       "loading": "Stiamo sospendendo la versione",
       "outcome": {
@@ -364,6 +389,12 @@
       "confirmDialog": {
         "title": "Conferma cancellazione finalità",
         "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'e-service dell'erogatore. Sarà sempre possibile creare nuove finalità"
+      }
+    },
+    "createDraftForReceiveEService": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile creare la bozza di finalità. Per favore, riprova!"
       }
     },
     "updateDailyCalls": {
