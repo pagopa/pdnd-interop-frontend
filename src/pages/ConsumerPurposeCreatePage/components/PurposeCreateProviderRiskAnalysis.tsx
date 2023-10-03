@@ -71,46 +71,46 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
 
   // const riskAnalysisTemplate = purpose?.riskAnalysisForm?.answers
 
-  // const questions: Array<QuestionItem> = React.useMemo(() => {
-  //   if (!riskAnalysisTemplate || !riskAnalysisConfig) return []
+  const questions: Array<QuestionItem> = React.useMemo(() => {
+    if (!riskAnalysisTemplate || !riskAnalysisConfig) return []
 
-  //   // Answers in this form
-  //   const answerIds = Object.keys(riskAnalysisTemplate)
+    // Answers in this form
+    const answerIds = Object.keys(riskAnalysisTemplate)
 
-  //   // Corresponding questions
-  //   const questionsWithAnswer = riskAnalysisConfig.questions.filter(({ id }) =>
-  //     answerIds.includes(id)
-  //   )
+    // Corresponding questions
+    const questionsWithAnswer = riskAnalysisConfig.questions.filter(({ id }) =>
+      answerIds.includes(id)
+    )
 
-  //   const answers = questionsWithAnswer.map(({ label, options, id, visualType, infoLabel }) => {
-  //     const question = label[currentLanguage]
+    const answers = questionsWithAnswer.map(({ label, options, id, visualType, infoLabel }) => {
+      const question = label[currentLanguage]
 
-  //     const questionInfoLabel = infoLabel?.[currentLanguage]
+      const questionInfoLabel = infoLabel?.[currentLanguage]
 
-  //     // Get the value of the answer
-  //     // The value can be of three types: plain text, multiple options, single option
-  //     const answerValue = riskAnalysisTemplate[id]
+      // Get the value of the answer
+      // The value can be of three types: plain text, multiple options, single option
+      const answerValue = riskAnalysisTemplate[id]
 
-  //     // Plain text: this value comes from a text field
-  //     if (visualType === 'text') {
-  //       return { question, answer: answerValue[0] }
-  //     }
+      // Plain text: this value comes from a text field
+      if (visualType === 'text') {
+        return { question, answer: answerValue[0] }
+      }
 
-  //     // Multiple options: this value comes from a multiple choice checkbox
-  //     const selectedOptions = options?.filter(({ value }) => answerValue.includes(String(value)))
-  //     const answer = selectedOptions?.map((o) => o.label[currentLanguage]).join(', ') ?? ''
+      // Multiple options: this value comes from a multiple choice checkbox
+      const selectedOptions = options?.filter(({ value }) => answerValue.includes(String(value)))
+      const answer = selectedOptions?.map((o) => o.label[currentLanguage]).join(', ') ?? ''
 
-  //     return { question, answer, questionInfoLabel }
-  //   })
+      return { question, answer, questionInfoLabel }
+    })
 
-  //   return answers
-  // }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage])
+    return answers
+  }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage])
 
-  // if (!riskAnalysisTemplate) return null
+  if (!riskAnalysisTemplate) return null
 
   return (
     <SectionContainer newDesign innerSection title="Analisi del rischio">
-      {/* {questions.map(({ question, answer, questionInfoLabel }, i) => (
+      {questions.map(({ question, answer, questionInfoLabel }, i) => (
         <Box key={i}>
           <Typography variant="body2">{question}</Typography>
           {questionInfoLabel && (
@@ -122,7 +122,7 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
             {answer}
           </Typography>
         </Box>
-      ))} */}
+      ))}
       <Typography>{selectedProviderPurposeId}</Typography>
     </SectionContainer>
   )
