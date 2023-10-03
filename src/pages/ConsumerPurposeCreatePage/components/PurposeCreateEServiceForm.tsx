@@ -13,17 +13,7 @@ import { useNavigate } from '@/router'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import { PurposeCreateProviderPurposeAutocomplete } from './PurposeCreateProviderPurposeAutocomplete'
 import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAnalysis'
-
-/**
- * Mock waiting for BE
- * TODO remove when BE generatedTypes is updated with Mode type
- */
-type Mode = 'DELIVER' | 'RECEIVE'
-/**
- * Mock waiting for BE
- * TODO remove when eservice has field mode
- */
-let mode: Mode = 'RECEIVE'
+import { EServiceQueries } from '@/api/eservice'
 
 export type PurposeCreateFormValues = {
   eserviceId: string | null
@@ -63,10 +53,15 @@ export const PurposeCreateEServiceForm: React.FC = () => {
     enabled: !!purposeId,
   })
 
-  // const { data: eservice } = EServiceQueries.useGetSingle(selectedEService!, {
-  //   suspense: false,
-  //   enabled: !!selectedEService,
-  // })
+  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
+    selectedEService!,
+    purpose!.eservice.descriptor.id,
+    {
+      suspense: false,
+      enabled: !!selectedEService,
+    }
+  )
+  const mode = descriptor?.eservice.mode
 
   const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
@@ -118,7 +113,6 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer newDesign title={t('create.preliminaryInformationSectionTitle')}>
           <PurposeCreateEServiceAutocomplete />
-          {/* TODO sostituire mode come eservice.mode */}
           {isEServiceSelected && mode === 'DELIVER' && (
             <>
               <RHFSwitch name="useTemplate" label={t('create.isTemplateField.label')} />
