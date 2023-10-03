@@ -24,11 +24,18 @@ import {
   EServiceCreateStep3Attributes,
   EServiceCreateStep3AttributesSkeleton,
 } from './components/EServiceCreateStep3Attributes'
+import { Typography } from '@mui/material'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
   const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
+
+  const [eserviceMode, setEserviceMode] = React.useState<'DELIVER' | 'RECEIVE'>('DELIVER')
+
+  const handleEserviceModeChange = (value: string) => {
+    setEserviceMode(value as 'DELIVER' | 'RECEIVE')
+  }
 
   const isNewEService = !params?.eserviceId
   const isDraftEService = !isNewEService && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
@@ -51,12 +58,23 @@ const ProviderEServiceCreatePage: React.FC = () => {
    */
   const eserviceData = isDraftEService ? eservice : descriptor?.eservice
 
-  const steps: Array<StepperStep> = [
-    { label: t('create.stepper.step1Label'), component: EServiceCreateStep1General },
-    { label: t('create.stepper.step2Label'), component: EServiceCreateStep2Version },
-    { label: t('create.stepper.step3Label'), component: EServiceCreateStep3Attributes },
-    { label: t('create.stepper.step4Label'), component: EServiceCreateStep4Documents },
-  ]
+  const TestComponent: React.FC = () => <Typography>AAAAAA test</Typography>
+
+  const steps: Array<StepperStep> =
+    eserviceMode === 'DELIVER'
+      ? [
+          { label: t('create.stepper.step1Label'), component: EServiceCreateStep1General },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStep2Version },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStep3Attributes },
+          { label: t('create.stepper.step4Label'), component: EServiceCreateStep4Documents },
+        ]
+      : [
+          { label: t('create.stepper.step1Label'), component: EServiceCreateStep1General },
+          { label: 'Purpose step', component: TestComponent },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStep2Version },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStep3Attributes },
+          { label: t('create.stepper.step4Label'), component: EServiceCreateStep4Documents },
+        ]
 
   const { component: Step } = steps[activeStep]
 
@@ -104,6 +122,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
         <EServiceCreateContextProvider
           eservice={eserviceData}
           descriptor={descriptor}
+          onEserviceModeChange={handleEserviceModeChange}
           {...stepProps}
         >
           <Step />

@@ -6,6 +6,7 @@ import type { ProducerEServiceDescriptor, ProducerEServiceDetails } from '@/api/
 type EServiceCreateContextType = {
   eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
   descriptor: ProducerEServiceDescriptor | undefined
+  onEserviceModeChange: (value: string) => void
   back: VoidFunction
   forward: VoidFunction
 }
@@ -13,6 +14,7 @@ type EServiceCreateContextType = {
 const initialState: EServiceCreateContextType = {
   eservice: undefined,
   descriptor: undefined,
+  onEserviceModeChange: noop,
   back: noop,
   forward: noop,
 }
@@ -26,6 +28,7 @@ type EServiceCreateContextProviderProps = {
   children: React.ReactNode
   eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
   descriptor: ProducerEServiceDescriptor | undefined
+  onEserviceModeChange: (value: string) => void
   back: VoidFunction
   forward: VoidFunction
 }
@@ -34,12 +37,13 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   children,
   eservice,
   descriptor,
+  onEserviceModeChange,
   back,
   forward,
 }) => {
   const providerValue = React.useMemo(() => {
-    return { eservice, descriptor, back, forward }
-  }, [eservice, descriptor, back, forward])
+    return { eservice, descriptor, onEserviceModeChange, back, forward }
+  }, [eservice, descriptor, onEserviceModeChange, back, forward])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

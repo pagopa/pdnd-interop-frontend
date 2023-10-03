@@ -35,7 +35,7 @@ export const EServiceCreateStep1General: React.FC = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
-  const { eservice, descriptor, forward } = useEServiceCreateContext()
+  const { eservice, descriptor, forward, onEserviceModeChange } = useEServiceCreateContext()
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
@@ -142,6 +142,7 @@ export const EServiceCreateStep1General: React.FC = () => {
             disabled={!isEditable}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
+            onValueChange={onEserviceModeChange}
           />
         </SectionContainer>
 
