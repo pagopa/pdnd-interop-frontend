@@ -5,33 +5,72 @@ import {
 } from './EServiceCreateStepPurposeRiskAnalysisForm'
 import { useEServiceCreateContext } from '../../EServiceCreateContext'
 import { PurposeQueries } from '@/api/purpose'
-
-// TODO like the PurposeEditStep2RiskAnalysis
+import { EServiceMutations } from '@/api/eservice'
 
 export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
-  const { closeRiskAnalysisForm } = useEServiceCreateContext()
+  const { RiskAnalysisFormState, closeRiskAnalysisForm, eservice } = useEServiceCreateContext()
 
-  const { data: riskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
+  const { mutate: addEServiceRiskAnalysis } = EServiceMutations.useAddEServiceRiskAnalysis()
+  const { mutate: updateEServiceRiskAnalysis } = EServiceMutations.useUpdateEServiceRiskAnalysis()
+
+  const { data: riskAnalysisLatest } = PurposeQueries.useGetRiskAnalysisLatest({
     suspense: false,
   })
 
-  if (!riskAnalysis) return <RiskAnalysisFormSkeleton />
+  if (!riskAnalysisLatest || !eservice) return <RiskAnalysisFormSkeleton />
+
+  const riskAnalysisToEdit = eservice.riskAnalysis.find(
+    (item) => item.id === RiskAnalysisFormState.riskAnalysisId
+  )
 
   const handleCancel = () => {
-    console.log('TODO function integration')
     closeRiskAnalysisForm()
   }
 
   const handleSubmit = (name: string, answers: Record<string, string[]>) => {
-    console.log('TODO implement function')
-    // then onSuccess
-    closeRiskAnalysisForm()
+    if (RiskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
+      updateEServiceRiskAnalysis(
+        {
+          eserviceId: eservice.id,
+          riskAnalysisId: RiskAnalysisFormState.riskAnalysisId,
+          name: name,
+          riskAnalysisForm: {
+            version: riskAnalysisToEdit.riskAnalysisForm.version,
+            answers: answers,
+          },
+        },
+        {
+          onSuccess() {
+            closeRiskAnalysisForm()
+          },
+        }
+      )
+    }
+
+    if (!RiskAnalysisFormState.riskAnalysisId) {
+      addEServiceRiskAnalysis(
+        {
+          eserviceId: eservice.id,
+          name: name,
+          riskAnalysisForm: {
+            version: riskAnalysisLatest.version,
+            answers: answers,
+          },
+        },
+        {
+          onSuccess() {
+            closeRiskAnalysisForm()
+          },
+        }
+      )
+    }
   }
 
   return (
     <EServiceCreateStepPurposeRiskAnalysisForm
-      defaultAnswers={{}}
-      riskAnalysis={riskAnalysis}
+      defaultName={riskAnalysisToEdit?.name}
+      defaultAnswers={riskAnalysisToEdit?.riskAnalysisForm.answers}
+      riskAnalysis={riskAnalysisLatest}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
     />
