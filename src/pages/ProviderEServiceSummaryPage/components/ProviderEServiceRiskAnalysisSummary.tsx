@@ -1,45 +1,54 @@
-import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
+import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useParams } from '@/router'
-import { Box, Stack, Typography } from '@mui/material'
+import { URL_FRAGMENTS } from '@/router/router.utils'
+import { Box, List, ListItem, ListItemText, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
 type ProviderEServiceRiskAnalysisSummaryProps = {
-  riskAnalysisTemplate: any
+  riskAnalysisId: string
 }
 
 export const ProviderEServiceRiskAnalysisSummary: React.FC<
   ProviderEServiceRiskAnalysisSummaryProps
-> = ({ riskAnalysisTemplate }) => {
+> = ({ riskAnalysisId }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.TODOriskAnalysisSummary' })
   const { t: tCommon } = useTranslation('common')
   const currentLanguage = useCurrentLanguage()
-  // const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  // const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
-  //   params.eserviceId,
-  //   params.descriptorId
-  // )
+  const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  // const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-  //   purpose?.riskAnalysisForm?.version as string,
-  //   {
-  //     suspense: false,
-  //     enabled: !!purpose?.riskAnalysisForm?.version,
-  //   }
-  // ) TODO per eservice
-  const riskAnalysisConfig: RiskAnalysisFormConfig = {
-    version: '1',
-    questions: [],
-  }
+  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
+    params.eserviceId,
+    params.descriptorId,
+    {
+      suspense: false,
+      enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
+    }
+  )
 
-  // const riskAnalysisTemplate = /* descriptor?.eservice?.riskAnalysisForm?.answers */ undefined
+  const { data: eservice } = EServiceQueries.useGetSingle(params.eserviceId, {
+    suspense: false,
+    enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
+  })
 
-  // if (!descriptor || !riskAnalysisTemplate) return null
+  const riskAnalysis = descriptor
+    ? descriptor?.eservice.riskAnalysis.find((item) => item.id === riskAnalysisId)
+    : eservice?.riskAnalysis.find((item) => item.id === riskAnalysisId)
+
+  const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
+    riskAnalysis!.riskAnalysisForm.version,
+    {
+      suspense: false,
+      enabled: !!riskAnalysis?.riskAnalysisForm.version,
+    }
+  )
+
+  const riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
     if (!riskAnalysisTemplate || !riskAnalysisConfig) return []
@@ -76,23 +85,27 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
     return answers
   }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage])
 
+  if ((!descriptor && !eservice) || !riskAnalysisTemplate) return null
+
   return (
     <>
-      <Stack spacing={3}>
+      <List>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
-          <Box key={i}>
-            <Typography variant="body2">{question}</Typography>
-            {questionInfoLabel && (
-              <Typography variant="caption" color="grey" component="p">
-                {questionInfoLabel}
+          <ListItem key={i} sx={{ pl: 0 }}>
+            <ListItemText>
+              <Typography variant="body2">{question}</Typography>
+              {questionInfoLabel && (
+                <Typography variant="caption" color="grey" component="p">
+                  {questionInfoLabel}
+                </Typography>
+              )}
+              <Typography variant="body2" fontWeight={600} mt={0.5}>
+                {answer}
               </Typography>
-            )}
-            <Typography variant="body2" fontWeight={600} mt={0.5}>
-              {answer}
-            </Typography>
-          </Box>
+            </ListItemText>
+          </ListItem>
         ))}
-      </Stack>
+      </List>
     </>
   )
 }
