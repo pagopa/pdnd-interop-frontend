@@ -5,16 +5,14 @@ import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 import { EServiceQueries } from '@/api/eservice'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 
-// TODO vedi PurposeCreateEServiceAutocomplete per come è fatto
-
-export const PurposeCreateProviderPurposeAutocomplete: React.FC = () => {
+export const PurposeCreateProviderRiskAnalysisAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { setValue, watch } = useFormContext<PurposeCreateFormValues>()
 
   const selectedEServiceId = watch('eserviceId')
 
   React.useEffect(() => {
-    setValue('providerPurposeId', null)
+    setValue('providerRiskAnalysisId', null)
   }, [selectedEServiceId, setValue])
 
   const { data: eservices, isInitialLoading } = EServiceQueries.useGetCatalogList(
@@ -51,7 +49,7 @@ export const PurposeCreateProviderPurposeAutocomplete: React.FC = () => {
       key={selectedEServiceId}
       sx={{ my: 0 }}
       loading={isInitialLoading || isLoadingEService}
-      name="providerPurposeId"
+      name="providerRiskAnalysisId"
       label={'TODO Finalità da utilizzare'}
       options={autocompleteOptions}
     />
