@@ -81,7 +81,7 @@ function deleteDraft({ purposeId }: { purposeId: string }) {
 }
 
 async function createDraftForReceiveEService(payload: PurposeEServiceSeed) {
-  const response = await axiosInstance.post<Purpose>(
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/reverse/purposes`,
     payload
   )
