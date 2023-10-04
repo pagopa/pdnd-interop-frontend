@@ -4,24 +4,29 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
-
-/**
- * TODO remove when BE is updated
- */
-// const purposes = []
-const purposes = [{ name: 'mock1' }]
+import { EServiceMutations } from '@/api/eservice'
 
 export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
 
   const { eservice, openRiskAnalysisForm } = useEServiceCreateContext()
 
+  const { mutate: deleteRiskAnalysis } = EServiceMutations.useDeleteEServiceRiskAnalysis()
+
   const headLabels = ['TODO purposes', '']
   // const headLabels = []
 
   const handleAddNewPurpose = () => {
-    console.log('TODO function to add new purpose')
     openRiskAnalysisForm()
+  }
+
+  const handleEditPurpose = (riskAnalysisId: string) => {
+    openRiskAnalysisForm(riskAnalysisId)
+  }
+
+  const handleDeletePurpose = (riskAnalysisId: string) => {
+    if (!eservice) return
+    deleteRiskAnalysis({ eserviceId: eservice.id, riskAnalysisId: riskAnalysisId })
   }
 
   return (
@@ -31,17 +36,17 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
         headLabels={headLabels}
         noDataLabel={'TODO Nessuna finalità aggiunta'}
       >
-        {eservice?.riskAnalysis.map((purpose, i) => (
-          <TableRow key={purpose.id} cellData={[purpose.name]}>
+        {eservice?.riskAnalysis.map((riskAnalysis) => (
+          <TableRow key={riskAnalysis.id} cellData={[riskAnalysis.name]}>
             <Button
-              onClick={() => console.log('TODO function to edit purpose')}
+              onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
               variant="naked"
               sx={{ mr: 3 }}
             >
               {tCommon('actions.edit')}
             </Button>
             <Button
-              onClick={() => console.log('TODO function to remove purpose from list')}
+              onClick={handleDeletePurpose.bind(null, riskAnalysis.id)}
               variant="naked"
               color="error"
             >
