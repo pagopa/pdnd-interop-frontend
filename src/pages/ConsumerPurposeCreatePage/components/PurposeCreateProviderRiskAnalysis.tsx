@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 import { useFormContext } from 'react-hook-form'
 import { PurposeQueries } from '@/api/purpose'
-import { Box, Typography } from '@mui/material'
+import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { SectionContainer } from '@/components/layout/containers'
 import { EServiceQueries } from '@/api/eservice'
 
@@ -15,61 +15,24 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
   const currentLanguage = useCurrentLanguage()
   const { watch } = useFormContext<PurposeCreateFormValues>()
 
-  const selectedProviderPurposeId = watch('providerPurposeId')
+  const selectedProviderRiskAnalysisId = watch('providerRiskAnalysisId')
 
   const selectedEServiceId = watch('eserviceId')
-  // const { data: eservices } = EServiceQueries.useGetCatalogList(
-  //   {
-  //     agreementStates: ['ACTIVE'],
-  //     // e-service might also be on 'DEPRECATED' state
-  //     states: ['PUBLISHED'],
-  //     limit: 50,
-  //     offset: 0,
-  //   },
-  //   {
-  //     suspense: false,
-  //   }
-  // )
-  // const selectedEServiceDescriptorId = eservices?.results.find(
-  //   (eservice) => eservice.id === selectedEServiceId
-  // )?.activeDescriptor?.id
-  // const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
-  //   selectedEServiceId!,
-  //   selectedEServiceDescriptorId!,
-  //   { suspense: false, enabled: !!selectedEServiceId && !!selectedEServiceDescriptorId }
-  // )
 
-  /**
-   * TODO probabile soluzione
-   * const riskAnalysis = GET /eservices/{eserviceId}/riskAnalysis/{riskAnalysisId}
-   * eserviceId: selectedEServiceId - riskAnalysisId: selectedProviderPurposeId
-   */
-  // const riskAnalysisAnswers = riskAnalysis.answers
+  const { data: riskAnalysis } = EServiceQueries.useGetEServiceRiskAnalysis(
+    selectedEServiceId!,
+    selectedProviderRiskAnalysisId!,
+    { suspense: false, enabled: !!selectedEServiceId && !!selectedProviderRiskAnalysisId }
+  )
+  const /*TODO riskAnalysisAnswers */ riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
 
-  // const { data: purpose } = PurposeQueries.useGetSingle(purposeId!, {
-  //   suspense: false,
-  //   enabled: !!purposeId,
-  // })
-  // const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-  //   purpose?.riskAnalysisForm?.version as string,
-  //   {
-  //     suspense: false,
-  //     enabled: !!purpose?.riskAnalysisForm?.version,
-  //   }
-  // )
-
-  /**
-   * TODO probabile versione da usare
-   */
-  // const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-  //   riskAnalysis.version as string,
-  //   {
-  //     suspense: false,
-  //     enabled: riskAnalysis.version,
-  //   }
-  // )
-
-  // const riskAnalysisTemplate = purpose?.riskAnalysisForm?.answers
+  const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
+    riskAnalysis?.riskAnalysisForm.version as string,
+    {
+      suspense: false,
+      enabled: !!riskAnalysis?.riskAnalysisForm.version,
+    }
+  )
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
     if (!riskAnalysisTemplate || !riskAnalysisConfig) return []
@@ -109,21 +72,24 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
   if (!riskAnalysisTemplate) return null
 
   return (
-    <SectionContainer newDesign innerSection title="Analisi del rischio">
-      {questions.map(({ question, answer, questionInfoLabel }, i) => (
-        <Box key={i}>
-          <Typography variant="body2">{question}</Typography>
-          {questionInfoLabel && (
-            <Typography variant="caption" color="grey" component="p">
-              {questionInfoLabel}
-            </Typography>
-          )}
-          <Typography variant="body2" fontWeight={600} mt={0.5}>
-            {answer}
-          </Typography>
-        </Box>
-      ))}
-      <Typography>{selectedProviderPurposeId}</Typography>
+    <SectionContainer newDesign innerSection title="TODO Analisi del rischio">
+      <List>
+        {questions.map(({ question, answer, questionInfoLabel }, i) => (
+          <ListItem key={i} sx={{ pl: 0 }}>
+            <ListItemText>
+              <Typography variant="body2">{question}</Typography>
+              {questionInfoLabel && (
+                <Typography variant="caption" color="grey" component="p">
+                  {questionInfoLabel}
+                </Typography>
+              )}
+              <Typography variant="body2" fontWeight={600} mt={0.5}>
+                {answer}
+              </Typography>
+            </ListItemText>
+          </ListItem>
+        ))}
+      </List>
     </SectionContainer>
   )
 }
