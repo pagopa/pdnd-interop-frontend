@@ -121,6 +121,18 @@ function useCreateDraftForReceiveEService() {
   })
 }
 
+function useUpdateDraftForReceiveEService() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.updateDraft',
+  })
+  return useMutation(PurposeServices.updateDraftForReceiveEService, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useUpdateDailyCalls() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDailyCalls',
@@ -267,6 +279,7 @@ export const PurposeMutations = {
   useUpdateDraft,
   useDeleteDraft,
   useCreateDraftForReceiveEService,
+  useUpdateDraftForReceiveEService,
   useUpdateDailyCalls,
   useUpdateVersionWaitingForApproval,
   useSuspendVersion,

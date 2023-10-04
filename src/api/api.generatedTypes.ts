@@ -765,6 +765,19 @@ export interface PurposeUpdateContent {
   dailyCalls: number
 }
 
+/** contains the expected payload for purpose update. */
+export interface ReversePurposeUpdateContent {
+  title: string
+  description: string
+  isFreeOfCharge: boolean
+  freeOfChargeReason?: string
+  /**
+   * maximum number of daily calls that this version can perform.
+   * @format int32
+   */
+  dailyCalls: number
+}
+
 export interface Purposes {
   results: Purpose[]
   pagination: Pagination
@@ -2927,6 +2940,29 @@ export namespace Reverse {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Updates a reverse Purpose
+   * @tags purposes
+   * @name UpdateReversePurpose
+   * @request POST:/reverse/purposes/{purposeId}
+   * @secure
+   */
+  export namespace UpdateReversePurpose {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = ReversePurposeUpdateContent
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+      'X-Forwarded-For'?: string
+    }
+    export type ResponseBody = PurposeVersionResource
   }
 }
 
