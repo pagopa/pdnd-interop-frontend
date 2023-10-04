@@ -218,7 +218,7 @@ describe('Risk analysis form utils', () => {
 
       const result = formatRiskAnalysisInputLabel(question, 'it', tSharedComponentsMock)
 
-      expect(result).toContain('edit.step2.validation.required')
+      expect(result).toContain('riskAnalysis.formComponents.validation.required')
     })
 
     it('should contain the multiple choice label if the question is of multiple choices', () => {
@@ -230,7 +230,7 @@ describe('Risk analysis form utils', () => {
 
       const result = formatRiskAnalysisInputLabel(question, 'it', tSharedComponentsMock)
 
-      expect(result).toContain('edit.step2.validation.multipleChoice')
+      expect(result).toContain('riskAnalysis.formComponents.validation.multipleChoice')
     })
 
     it('should both required and multiple choice labels separated by a comma if the question has both', () => {
@@ -247,7 +247,7 @@ describe('Risk analysis form utils', () => {
       )
 
       expect(result).toContain(
-        'edit.step2.validation.required, edit.step2.validation.multipleChoice'
+        'riskAnalysis.formComponents.validation.required, riskAnalysis.formComponents.validation.multipleChoice'
       )
     })
   })
@@ -288,7 +288,7 @@ describe('Risk analysis form utils', () => {
       } as FormConfigQuestion
 
       const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
-      expect(result).toEqual('edit.step2.validation.maxLength')
+      expect(result).toEqual('riskAnalysis.formComponents.validation.maxLength')
     })
   })
 
