@@ -24,6 +24,7 @@ export type EServiceCreateStepPurposeRiskAnalysisFormValues = {
 } & Answers
 
 type EServiceCreateStepPurposeRiskAnalysisFormProps = {
+  defaultName: string | undefined
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
   onSubmit: (name: string, answers: Record<string, string[]>) => void
@@ -32,7 +33,7 @@ type EServiceCreateStepPurposeRiskAnalysisFormProps = {
 
 export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
   EServiceCreateStepPurposeRiskAnalysisFormProps
-> = ({ defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
+> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' }) // TODO stringhe
 
   const [_, startTransition] = React.useTransition()
@@ -45,7 +46,7 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
 
   const formMethods = useForm<EServiceCreateStepPurposeRiskAnalysisFormValues>({
     defaultValues: {
-      name: '',
+      name: defaultName ?? '',
       ...defaultValues,
     },
     mode: 'onSubmit',
