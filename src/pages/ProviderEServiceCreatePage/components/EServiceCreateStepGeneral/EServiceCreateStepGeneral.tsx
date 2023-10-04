@@ -56,6 +56,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       onSuccess({ id }) {
         navigate('PROVIDE_ESERVICE_EDIT', {
           params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT },
+          urlParams: { mode: formValues.mode },
           replace: true,
           state: { stepIndexDestination: 1 },
         })
