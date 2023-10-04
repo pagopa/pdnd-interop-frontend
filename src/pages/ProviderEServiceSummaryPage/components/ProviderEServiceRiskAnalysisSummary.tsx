@@ -16,7 +16,7 @@ type ProviderEServiceRiskAnalysisSummaryProps = {
 export const ProviderEServiceRiskAnalysisSummary: React.FC<
   ProviderEServiceRiskAnalysisSummaryProps
 > = ({ riskAnalysisId }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'summary.TODOriskAnalysisSummary' })
+  const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' }) // TODO riskAnalysisSummary strings
   const { t: tCommon } = useTranslation('common')
   const currentLanguage = useCurrentLanguage()
 
