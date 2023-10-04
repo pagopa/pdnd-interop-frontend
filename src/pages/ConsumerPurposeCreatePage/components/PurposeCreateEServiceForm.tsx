@@ -1,7 +1,6 @@
 import type { PurposeEServiceSeed, PurposeSeed, RiskAnalysisForm } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
-import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 import { Box, Button, Divider, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -82,7 +81,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   )
   const mode = descriptor?.eservice.mode
 
-  const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose) // TODO
+  // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
   const onSubmit = ({ eserviceId, providerRiskAnalysisId }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eserviceId) return
@@ -156,14 +155,14 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer newDesign title={t('create.preliminaryInformationSectionTitle')}>
           <PurposeCreateEServiceAutocomplete />
-          {isEServiceSelected && mode === 'DELIVER' && (
+          {/* {isEServiceSelected && mode === 'DELIVER' && (
             <>
               <RHFSwitch name="useTemplate" label={t('create.isTemplateField.label')} />
               <PurposeCreateTemplateAutocomplete />
             </>
           )} */}
         </SectionContainer>
-        <PurposeCreateRiskAnalysisPreview />
+        {/* <PurposeCreateRiskAnalysisPreview /> */}
         {isEServiceSelected && mode === 'RECEIVE' && (
           <SectionContainer
             newDesign
