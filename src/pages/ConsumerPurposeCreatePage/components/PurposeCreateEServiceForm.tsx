@@ -1,4 +1,4 @@
-import type { PurposeSeed, RiskAnalysisForm } from '@/api/api.generatedTypes'
+import type { PurposeEServiceSeed, PurposeSeed, RiskAnalysisForm } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
@@ -11,7 +11,7 @@ import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutoco
 import { AuthHooks } from '@/api/auth'
 import { useNavigate } from '@/router'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
-import { PurposeCreateProviderPurposeAutocomplete } from './PurposeCreateProviderPurposeAutocomplete'
+import { PurposeCreateProviderRiskAnalysisAutocomplete } from './PurposeCreateProviderRiskAnalysisAutocomplete'
 import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAnalysis'
 import { EServiceQueries } from '@/api/eservice'
 
@@ -19,7 +19,7 @@ export type PurposeCreateFormValues = {
   eserviceId: string | null
   useTemplate: boolean
   templateId: string | null
-  providerPurposeId: string | null
+  providerRiskAnalysisId: string | null
 }
 
 export const PurposeCreateEServiceForm: React.FC = () => {
@@ -27,6 +27,8 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const navigate = useNavigate()
   const { jwt } = AuthHooks.useJwt()
   const { mutate: createPurposeDraft } = PurposeMutations.useCreateDraft()
+  const { mutate: createPurposeDraftForReceiveEService } =
+    PurposeMutations.useCreateDraftForReceiveEService()
   const location = useLocation()
 
   const formMethods = useForm<PurposeCreateFormValues>({
@@ -36,36 +38,53 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       eserviceId: new URLSearchParams(location.search).get('e-service') ?? '',
       useTemplate: false,
       templateId: null,
-      providerPurposeId: null,
+      providerRiskAnalysisId: null,
     },
   })
 
-  // const selectedEService = formMethods.watch('eserviceId')
+  const selectedEServiceId = formMethods.watch('eserviceId')
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
-  // const isEServiceSelected = !!selectedEService
+  const isEServiceSelected = !!selectedEServiceId
 
-  const selectedProviderPurposeId = formMethods.watch('providerPurposeId')
-  const isProviderPurposeSelected = !!selectedProviderPurposeId
+  const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
+  const isProviderPurposeSelected = !!selectedProviderRiskAnalysisId
 
   const { data: purpose } = PurposeQueries.useGetSingle(purposeId!, {
     suspense: false,
     enabled: !!purposeId,
   })
 
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
-    selectedEService!,
-    purpose!.eservice.descriptor.id,
+  const { data: eservices } = EServiceQueries.useGetCatalogList(
+    {
+      agreementStates: ['ACTIVE'],
+      // e-service might also be on 'DEPRECATED' state
+      states: ['PUBLISHED'],
+      limit: 50,
+      offset: 0,
+    },
     {
       suspense: false,
-      enabled: !!selectedEService,
+    }
+  )
+
+  const selectedEServiceDescriptorId = eservices?.results.find(
+    (eservice) => eservice.id === selectedEServiceId
+  )?.activeDescriptor?.id
+
+  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
+    selectedEServiceId!,
+    selectedEServiceDescriptorId!,
+    {
+      suspense: false,
+      enabled: !!selectedEServiceId && !!selectedEServiceDescriptorId,
     }
   )
   const mode = descriptor?.eservice.mode
 
-  const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
+  const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose) // TODO
 
-  const onSubmit = ({ eserviceId }: PurposeCreateFormValues) => {
+  const onSubmit = ({ eserviceId, providerRiskAnalysisId }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eserviceId) return
 
     /**
@@ -89,23 +108,47 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       riskAnalysisForm = purpose.riskAnalysisForm
     }
 
-    const payloadCreatePurposeDraft: PurposeSeed = {
-      consumerId: jwt?.organizationId,
-      eserviceId,
-      title,
-      description,
-      riskAnalysisForm,
-      isFreeOfCharge: true,
-      freeOfChargeReason: t('create.defaultPurpose.freeOfChargeReason'),
-      dailyCalls: 1,
+    if (mode === 'RECEIVE') {
+      if (!providerRiskAnalysisId) return
+
+      const payloadCreatePurposeDraft: PurposeEServiceSeed = {
+        consumerId: jwt?.organizationId,
+        eserviceId,
+        title,
+        description,
+        isFreeOfCharge: true,
+        freeOfChargeReason: t('create.defaultPurpose.freeOfChargeReason'),
+        dailyCalls: 1,
+        riskAnalysisId: providerRiskAnalysisId,
+      }
+
+      createPurposeDraftForReceiveEService(payloadCreatePurposeDraft, {
+        onSuccess(data) {
+          const purposeId = data.id
+          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
+        },
+      })
     }
 
-    createPurposeDraft(payloadCreatePurposeDraft, {
-      onSuccess(data) {
-        const purposeId = data.id
-        navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
-      },
-    })
+    if (mode === 'DELIVER') {
+      const payloadCreatePurposeDraft: PurposeSeed = {
+        consumerId: jwt?.organizationId,
+        eserviceId,
+        title,
+        description,
+        riskAnalysisForm,
+        isFreeOfCharge: true,
+        freeOfChargeReason: t('create.defaultPurpose.freeOfChargeReason'),
+        dailyCalls: 1,
+      }
+
+      createPurposeDraft(payloadCreatePurposeDraft, {
+        onSuccess(data) {
+          const purposeId = data.id
+          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
+        },
+      })
+    }
   }
 
   return (
@@ -130,7 +173,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
             }
           >
             <Stack spacing={3}>
-              <PurposeCreateProviderPurposeAutocomplete />
+              <PurposeCreateProviderRiskAnalysisAutocomplete />
               {isProviderPurposeSelected && (
                 <>
                   <Divider />
