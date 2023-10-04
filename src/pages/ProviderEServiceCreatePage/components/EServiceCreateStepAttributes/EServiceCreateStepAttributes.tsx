@@ -80,6 +80,18 @@ export const EServiceCreateStepAttributes: React.FC = () => {
         return
       }
 
+      // TEMP: Horrible temp hack implemented by Ruggero in a hurry to deploy
+      const remapAttrs = (attrGroups: DescriptorAttribute[][]) => {
+        return attrGroups.map((attrGroup) => {
+          return attrGroup.map((a) => ({ id: a.id, explicitAttributeVerification: true }))
+        })
+      }
+      const attributes = {
+        certified: remapAttrs(values.attributes.certified),
+        verified: remapAttrs(values.attributes.verified),
+        declared: remapAttrs(values.attributes.declared),
+      }
+
       const payload: UpdateEServiceDescriptorSeed = {
         audience: descriptor.audience,
         voucherLifespan: descriptor.voucherLifespan,
@@ -87,7 +99,7 @@ export const EServiceCreateStepAttributes: React.FC = () => {
         dailyCallsTotal: descriptor.dailyCallsTotal,
         agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
         description: descriptor.description,
-        attributes: values.attributes,
+        attributes: attributes,
       }
 
       updateVersionDraft(

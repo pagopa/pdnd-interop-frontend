@@ -30,6 +30,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 }) => {
   const { t } = useTranslation('purpose')
   const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
+  const { mutate: updateDraftForReceive } = PurposeMutations.useUpdateDraftForReceiveEService()
 
   const formMethods = useForm<PurposeEditStep1GeneralFormValues>({
     defaultValues,
@@ -39,19 +40,27 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
     const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
     const isFreeOfChargeBool = isFreeOfCharge === 'SI'
     const purposeId = purpose.id
-    updateDraft(
-      {
-        ...updateDraftPayload,
-        isFreeOfCharge: isFreeOfChargeBool,
-        freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
-        riskAnalysisForm: purpose.riskAnalysisForm,
-        purposeId,
-        dailyCalls: dailyCalls,
-      },
-      {
-        onSuccess: forward,
-      }
-    )
+
+    // The endpoint to call depends on whether the e-service is
+    // in RECEIVE or DELIVER mode
+    const isReceive = !!purpose.riskAnalysisId
+
+    const requestPayload = {
+      ...updateDraftPayload,
+      isFreeOfCharge: isFreeOfChargeBool,
+      freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
+      purposeId,
+      dailyCalls: dailyCalls,
+    }
+
+    if (isReceive) {
+      updateDraftForReceive(requestPayload, { onSuccess: forward })
+    } else {
+      updateDraft(
+        { ...requestPayload, riskAnalysisForm: purpose.riskAnalysisForm },
+        { onSuccess: forward }
+      )
+    }
   }
 
   const isFreeOfCharge = formMethods.watch('isFreeOfCharge')
