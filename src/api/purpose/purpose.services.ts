@@ -6,6 +6,7 @@ import type {
   GetProducerPurposesParams,
   Purpose,
   PurposeAdditionDetailsSeed,
+  PurposeEServiceSeed,
   Purposes,
   PurposeSeed,
   PurposeUpdateContent,
@@ -77,6 +78,14 @@ async function updateDraft({
 
 function deleteDraft({ purposeId }: { purposeId: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`)
+}
+
+async function createDraftForReceiveEService(payload: PurposeEServiceSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/reverse/purposes`,
+    payload
+  )
+  return response.data
 }
 
 async function updateDailyCalls({
@@ -174,6 +183,7 @@ const PurposeServices = {
   createDraft,
   updateDraft,
   deleteDraft,
+  createDraftForReceiveEService,
   updateVersionWaitingForApproval,
   updateDailyCalls,
   downloadRiskAnalysis,

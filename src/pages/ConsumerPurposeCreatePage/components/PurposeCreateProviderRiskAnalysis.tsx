@@ -1,31 +1,38 @@
-import type { Purpose } from '@/api/api.generatedTypes'
-import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { Alert, Box, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
-type ConsumerPurposeSummaryRiskAnalysisAccordionProps = {
-  purpose: Purpose
-}
+import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import { useFormContext } from 'react-hook-form'
+import { PurposeQueries } from '@/api/purpose'
+import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
+import { SectionContainer } from '@/components/layout/containers'
+import { EServiceQueries } from '@/api/eservice'
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
-export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
-  ConsumerPurposeSummaryRiskAnalysisAccordionProps
-> = ({ purpose }) => {
-  const { t } = useTranslation('purpose', { keyPrefix: 'summary.riskAnalysisSection' })
+export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
+  const { t } = useTranslation('purpose', { keyPrefix: 'create' })
   const currentLanguage = useCurrentLanguage()
+  const { watch } = useFormContext<PurposeCreateFormValues>()
+
+  const selectedProviderRiskAnalysisId = watch('providerRiskAnalysisId')
+
+  const selectedEServiceId = watch('eserviceId')
+
+  const { data: riskAnalysis } = EServiceQueries.useGetEServiceRiskAnalysis(
+    selectedEServiceId!,
+    selectedProviderRiskAnalysisId!,
+    { suspense: false, enabled: !!selectedEServiceId && !!selectedProviderRiskAnalysisId }
+  )
+  const /*TODO riskAnalysisAnswers */ riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
 
   const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    purpose.riskAnalysisForm?.version as string,
+    riskAnalysis?.riskAnalysisForm.version as string,
     {
       suspense: false,
-      enabled: !!purpose.riskAnalysisForm?.version,
+      enabled: !!riskAnalysis?.riskAnalysisForm.version,
     }
   )
-
-  const riskAnalysisTemplate = purpose?.riskAnalysisForm?.answers
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
     if (!riskAnalysisTemplate || !riskAnalysisConfig) return []
@@ -63,28 +70,26 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage])
 
   if (!riskAnalysisTemplate) return null
+
   return (
-    <>
-      <Stack spacing={3}>
+    <SectionContainer newDesign innerSection title="TODO Analisi del rischio">
+      <List>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
-          <Box key={i}>
-            <Typography variant="body2">{question}</Typography>
-            {questionInfoLabel && (
-              <Typography variant="caption" color="grey" component="p">
-                {questionInfoLabel}
+          <ListItem key={i} sx={{ pl: 0 }}>
+            <ListItemText>
+              <Typography variant="body2">{question}</Typography>
+              {questionInfoLabel && (
+                <Typography variant="caption" color="grey" component="p">
+                  {questionInfoLabel}
+                </Typography>
+              )}
+              <Typography variant="body2" fontWeight={600} mt={0.5}>
+                {answer}
               </Typography>
-            )}
-            <Typography variant="body2" fontWeight={600} mt={0.5}>
-              {answer}
-            </Typography>
-          </Box>
+            </ListItemText>
+          </ListItem>
         ))}
-        {purpose.riskAnalysisId && (
-          <Alert variant="outlined" severity="info">
-            {t('providerRiskAnalysisAlert')}
-          </Alert>
-        )}
-      </Stack>
-    </>
+      </List>
+    </SectionContainer>
   )
 }

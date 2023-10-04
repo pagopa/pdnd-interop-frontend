@@ -9,34 +9,36 @@ import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
 import { URL_FRAGMENTS } from '@/router/router.utils'
-import type { EServiceTechnology } from '@/api/api.generatedTypes'
+import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 
-export type EServiceCreateStep1FormValues = {
+export type EServiceCreateStepGeneralFormValues = {
   name: string
   description: string
   technology: EServiceTechnology
+  mode: EServiceMode
 }
 
-export const EServiceCreateStep1General: React.FC = () => {
+export const EServiceCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
-  const { eservice, descriptor, forward } = useEServiceCreateContext()
+  const { eservice, descriptor, forward, onEserviceModeChange } = useEServiceCreateContext()
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
-  const defaultValues: EServiceCreateStep1FormValues = {
+  const defaultValues: EServiceCreateStepGeneralFormValues = {
     name: eservice?.name ?? '',
     description: eservice?.description ?? '',
     technology: eservice?.technology ?? 'REST',
+    mode: eservice?.mode ?? 'DELIVER',
   }
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (formValues: EServiceCreateStep1FormValues) => {
+  const onSubmit = (formValues: EServiceCreateStepGeneralFormValues) => {
     // If we are editing an existing e-service, we update the draft
     if (eservice) {
       // If nothing has changed skip the update call
@@ -54,6 +56,7 @@ export const EServiceCreateStep1General: React.FC = () => {
       onSuccess({ id }) {
         navigate('PROVIDE_ESERVICE_EDIT', {
           params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT },
+          urlParams: { mode: formValues.mode },
           replace: true,
           state: { stepIndexDestination: 1 },
         })
@@ -111,6 +114,26 @@ export const EServiceCreateStep1General: React.FC = () => {
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
           />
+
+          <RHFRadioGroup
+            name="mode"
+            row
+            label={t('create.step1.eserviceModeField.label')}
+            options={[
+              {
+                label: t('create.step1.eserviceModeField.options.DELIVER'),
+                value: 'DELIVER',
+              },
+              {
+                label: t('create.step1.eserviceModeField.options.RECEIVE'),
+                value: 'RECEIVE',
+              },
+            ]}
+            disabled={!isEditable}
+            rules={{ required: true }}
+            sx={{ mb: 0, mt: 3 }}
+            onValueChange={onEserviceModeChange}
+          />
         </SectionContainer>
 
         <StepActions
@@ -129,7 +152,7 @@ export const EServiceCreateStep1General: React.FC = () => {
   )
 }
 
-export const EServiceCreateStep1GeneralSkeleton: React.FC = () => {
+export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
   const { t } = useTranslation('eservice')
 
   return (

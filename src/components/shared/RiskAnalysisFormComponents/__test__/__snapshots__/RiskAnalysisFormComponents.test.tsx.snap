@@ -27,7 +27,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
               for="1"
               id="1-label"
             >
-              test (edit.step2.validation.required)
+              test (riskAnalysis.formComponents.validation.required)
             </label>
             <span
               class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
@@ -90,7 +90,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
               id="2-label"
             >
-              test (edit.step2.validation.required)
+              test (riskAnalysis.formComponents.validation.required)
             </label>
             <span
               class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
@@ -179,7 +179,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
               id="3-label"
             >
-              test (edit.step2.validation.required)
+              test (riskAnalysis.formComponents.validation.required)
             </label>
             <span
               class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
@@ -221,7 +221,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
               id="4-label"
             >
-              test (edit.step2.validation.required)
+              test (riskAnalysis.formComponents.validation.required)
             </label>
             <span
               class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
@@ -287,7 +287,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             <legend
               class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
             >
-              test (edit.step2.validation.required, edit.step2.validation.multipleChoice)
+              test (riskAnalysis.formComponents.validation.required, riskAnalysis.formComponents.validation.multipleChoice)
             </legend>
             <span
               class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"

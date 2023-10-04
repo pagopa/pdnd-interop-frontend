@@ -6,7 +6,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { AttributeGroup } from './AttributeGroup'
-import type { EServiceCreateStep3FormValues } from '..'
+import type { EServiceCreateStepAttributesFormValues } from '..'
 
 export type AddAttributesToEServiceFormProps = {
   attributeKey: AttributeKey
@@ -22,7 +22,7 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
   const { t } = useTranslation('eservice', { keyPrefix: `create.step3` })
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { watch, setValue } = useFormContext<EServiceCreateStep3FormValues>()
+  const { watch, setValue } = useFormContext<EServiceCreateStepAttributesFormValues>()
 
   const attributeGroups = watch(`attributes.${attributeKey}`)
 

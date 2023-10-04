@@ -30,6 +30,13 @@
       "eserviceTechnologyField": {
         "label": "What technology is your API built with?"
       },
+      "eserviceModeField": {
+        "label": "Does the e-service deliver or receive data?",
+        "options": {
+          "DELIVER": "Deliver",
+          "RECEIVE": "Receive"
+        }
+      },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
     },
     "step2": {
@@ -234,6 +241,13 @@
         "dailyCallsPerConsumer": "Per subscriber threshold",
         "dailyCallsTotal": "Total threshold",
         "callsPerDay": "API calls/day",
+        "mode": {
+          "label": "Does the e-service deliver or receive data?",
+          "value": {
+            "DELIVER": "Deliver",
+            "RECEIVE": "Receive"
+          }
+        },
         "documentation": "Documentation",
         "usefulLinks": {
           "title": "Useful links",

@@ -7,7 +7,7 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { AttributeKind, DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import type { EServiceCreateStep3FormValues } from '..'
+import type { EServiceCreateStepAttributesFormValues } from '..'
 
 export type AttributeAutocompleteProps = {
   groupIndex: number
@@ -25,7 +25,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
 
-  const { watch, setValue } = useFormContext<EServiceCreateStep3FormValues>()
+  const { watch, setValue } = useFormContext<EServiceCreateStepAttributesFormValues>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
   const attributeAutocompleteFormMethods = useForm<AttributeAutocompleteFormValues>({

@@ -89,30 +89,10 @@
           }
         }
       },
-      "multiCheckboxField": {
-        "validation": {
-          "mixed": {
-            "required": "Choose at least one option"
-          }
-        }
-      },
-      "riskAnalysisSwitch": {
-        "validation": {
-          "boolean": {
-            "isValue": "Please confirm"
-          }
-        }
-      },
-      "emptyLabel": "No available values",
       "pa": {
         "v2": {
           "blockingButtonLabel": "Go to API Catalog"
         }
-      },
-      "validation": {
-        "maxLength": "Max {{num}} characters",
-        "required": "required",
-        "multipleChoice": "multiple choice"
       },
       "versionMismatchDialog": {
         "title": "Risk analysis update",
@@ -160,7 +140,8 @@
       }
     },
     "riskAnalysisSection": {
-      "title": "Risk analysis"
+      "title": "Risk analysis",
+      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
     },
     "clientsSection": {
       "title": "Associate clients",

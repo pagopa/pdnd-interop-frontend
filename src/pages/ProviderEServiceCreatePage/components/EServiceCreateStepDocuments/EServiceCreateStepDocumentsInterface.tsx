@@ -10,19 +10,19 @@ import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 
-type EServiceCreateStep4DocumentsInterfaceFormValues = {
+type EServiceCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
   prettyName: string
 }
 
-export function EServiceCreateStep4DocumentsInterface() {
+export function EServiceCreateStepDocumentsInterface() {
   const { t } = useTranslation('eservice')
   const { descriptor } = useEServiceCreateContext()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
 
-  const defaultValues: EServiceCreateStep4DocumentsInterfaceFormValues = {
+  const defaultValues: EServiceCreateStepDocumentsInterfaceFormValues = {
     interfaceDoc: null,
     prettyName: t('create.step4.interface.prettyName'),
   }
@@ -37,7 +37,7 @@ export function EServiceCreateStep4DocumentsInterface() {
   const onSubmit = ({
     interfaceDoc,
     prettyName,
-  }: EServiceCreateStep4DocumentsInterfaceFormValues) => {
+  }: EServiceCreateStepDocumentsInterfaceFormValues) => {
     if (!interfaceDoc || !descriptor) return
     uploadDocument({
       eserviceId: descriptor.eservice.id,

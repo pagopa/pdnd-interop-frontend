@@ -9,6 +9,8 @@ import type {
   CreateEServiceDocumentPayload,
   EServiceDescriptorSeed,
   EServiceDoc,
+  EServiceRiskAnalysis,
+  EServiceRiskAnalysisSeed,
   EServiceSeed,
   GetConsumersParams,
   GetEServicesCatalogParams,
@@ -189,6 +191,57 @@ function deleteVersionDraft({
   )
 }
 
+function addEServiceRiskAnalysis({
+  eserviceId,
+  ...payload
+}: {
+  eserviceId: string
+} & EServiceRiskAnalysisSeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/riskAnalysis`,
+    payload
+  )
+}
+
+async function getEServiceRiskAnalysis({
+  eserviceId,
+  riskAnalysisId,
+}: {
+  eserviceId: string
+  riskAnalysisId: string
+}) {
+  const response = await axiosInstance.get<EServiceRiskAnalysis>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/riskAnalysis/${riskAnalysisId}`
+  )
+  return response.data
+}
+
+function updateEServiceRiskAnalysis({
+  eserviceId,
+  riskAnalysisId,
+  ...payload
+}: {
+  eserviceId: string
+  riskAnalysisId: string
+} & EServiceRiskAnalysisSeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/riskAnalysis/${riskAnalysisId}`,
+    payload
+  )
+}
+
+function deleteEServiceRiskAnalysis({
+  eserviceId,
+  riskAnalysisId,
+}: {
+  eserviceId: string
+  riskAnalysisId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/riskAnalysis/${riskAnalysisId}`
+  )
+}
+
 async function postVersionDraftDocument({
   eserviceId,
   descriptorId,
@@ -281,6 +334,10 @@ const EServiceServices = {
   suspendVersion,
   reactivateVersion,
   deleteVersionDraft,
+  addEServiceRiskAnalysis,
+  getEServiceRiskAnalysis,
+  updateEServiceRiskAnalysis,
+  deleteEServiceRiskAnalysis,
   postVersionDraftDocument,
   deleteVersionDraftDocument,
   updateVersionDraftDocumentDescription,

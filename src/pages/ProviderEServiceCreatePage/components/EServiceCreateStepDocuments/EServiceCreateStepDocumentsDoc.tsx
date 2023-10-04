@@ -10,17 +10,17 @@ import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 
-type EServiceCreateStep4DocumentsDocFormValues = {
+type EServiceCreateStepDocumentsDocFormValues = {
   doc: File | null
   prettyName: string
 }
 
-const defaultValues: EServiceCreateStep4DocumentsDocFormValues = {
+const defaultValues: EServiceCreateStepDocumentsDocFormValues = {
   doc: null,
   prettyName: '',
 }
 
-export function EServiceCreateStep4DocumentsDoc() {
+export function EServiceCreateStepDocumentsDoc() {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
   const { descriptor } = useEServiceCreateContext()
@@ -46,7 +46,7 @@ export function EServiceCreateStep4DocumentsDoc() {
     shouldUnregister: true,
   })
 
-  const onSubmit = ({ doc, prettyName }: EServiceCreateStep4DocumentsDocFormValues) => {
+  const onSubmit = ({ doc, prettyName }: EServiceCreateStepDocumentsDocFormValues) => {
     if (!doc || !descriptor) return
     uploadDocument(
       {

@@ -30,6 +30,13 @@
       "eserviceTechnologyField": {
         "label": "Con quale tecnologia è costruita la tua API?"
       },
+      "eserviceModeField": {
+        "label": "L’e-service eroga o riceve dati?",
+        "options": {
+          "DELIVER": "Eroga",
+          "RECEIVE": "Riceve"
+        }
+      },
       "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service"
     },
     "step2": {
@@ -234,6 +241,13 @@
         "dailyCallsPerConsumer": "Soglia per Fruitore",
         "dailyCallsTotal": "Soglia totale",
         "callsPerDay": "chiamate API/giorno",
+        "mode": {
+          "label": "L’e-service riceve o eroga dati?",
+          "value": {
+            "DELIVER": "Eroga",
+            "RECEIVE": "Riceve"
+          }
+        },
         "documentation": "Documentazione",
         "usefulLinks": {
           "title": "Link utili",

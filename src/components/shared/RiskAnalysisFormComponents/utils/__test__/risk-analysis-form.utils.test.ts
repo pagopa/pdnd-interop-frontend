@@ -206,7 +206,7 @@ describe('Risk analysis form utils', () => {
     })
   })
 
-  const tPurposeMock = ((str: string) => str) as TFunction<'purpose'>
+  const tSharedComponentsMock = ((str: string) => str) as TFunction<'shared-components'>
 
   describe('formatRiskAnalysisInputLabel', () => {
     it('should contain the required label if the question is required', () => {
@@ -216,9 +216,9 @@ describe('Risk analysis form utils', () => {
         required: true,
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisInputLabel(question, 'it', tPurposeMock)
+      const result = formatRiskAnalysisInputLabel(question, 'it', tSharedComponentsMock)
 
-      expect(result).toContain('edit.step2.validation.required')
+      expect(result).toContain('riskAnalysis.formComponents.validation.required')
     })
 
     it('should contain the multiple choice label if the question is of multiple choices', () => {
@@ -228,9 +228,9 @@ describe('Risk analysis form utils', () => {
         required: false,
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisInputLabel(question, 'it', tPurposeMock)
+      const result = formatRiskAnalysisInputLabel(question, 'it', tSharedComponentsMock)
 
-      expect(result).toContain('edit.step2.validation.multipleChoice')
+      expect(result).toContain('riskAnalysis.formComponents.validation.multipleChoice')
     })
 
     it('should both required and multiple choice labels separated by a comma if the question has both', () => {
@@ -243,11 +243,11 @@ describe('Risk analysis form utils', () => {
       const result = formatRiskAnalysisInputLabel(
         question,
         'it',
-        ((str: string) => str) as TFunction<'purpose'>
+        ((str: string) => str) as TFunction<'shared-components'>
       )
 
       expect(result).toContain(
-        'edit.step2.validation.required, edit.step2.validation.multipleChoice'
+        'riskAnalysis.formComponents.validation.required, riskAnalysis.formComponents.validation.multipleChoice'
       )
     })
   })
@@ -278,7 +278,7 @@ describe('Risk analysis form utils', () => {
         validation: undefined,
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisHerlperText(question, tPurposeMock)
+      const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
       expect(result).toBeUndefined()
     })
 
@@ -287,8 +287,8 @@ describe('Risk analysis form utils', () => {
         validation: { maxLength: 40 },
       } as FormConfigQuestion
 
-      const result = formatRiskAnalysisHerlperText(question, tPurposeMock)
-      expect(result).toEqual('edit.step2.validation.maxLength')
+      const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
+      expect(result).toEqual('riskAnalysis.formComponents.validation.maxLength')
     })
   })
 

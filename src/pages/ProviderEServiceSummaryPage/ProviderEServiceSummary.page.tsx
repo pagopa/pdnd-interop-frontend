@@ -14,6 +14,8 @@ import {
   ProviderEServiceVersionInfoSummary,
 } from './components'
 import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
+import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
+import { URL_FRAGMENTS } from '@/router/router.utils'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -23,6 +25,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const navigate = useNavigate()
 
   const { mutate: deleteVersion } = EServiceMutations.useDeleteVersionDraft()
+  const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft()
 
   const { data: descriptor, isInitialLoading } = EServiceQueries.useGetDescriptorProvider(
@@ -30,25 +33,54 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     params.descriptorId,
     {
       suspense: false,
+      enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
     }
   )
 
+  const { data: eservice, isInitialLoading: isEServiceInitialLoading } =
+    EServiceQueries.useGetSingle(params.eserviceId, {
+      suspense: false,
+      enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
+    })
+
   const handleDeleteDraft = () => {
-    if (!descriptor) return
-    deleteVersion(
-      { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
-      { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') }
-    )
+    if (descriptor) {
+      deleteVersion(
+        { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
+        { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') }
+      )
+      return
+    }
+
+    if (eservice) {
+      deleteDraft(
+        { eserviceId: eservice.id },
+        { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') }
+      )
+      return
+    }
   }
 
   const handleEditDraft = () => {
-    if (!descriptor) return
-    navigate('PROVIDE_ESERVICE_EDIT', {
-      params: {
-        eserviceId: descriptor.eservice.id,
-        descriptorId: descriptor.id,
-      },
-    })
+    if (descriptor) {
+      navigate('PROVIDE_ESERVICE_EDIT', {
+        params: {
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+        },
+      })
+      return
+    }
+
+    if (eservice) {
+      navigate('PROVIDE_ESERVICE_EDIT', {
+        params: {
+          eserviceId: eservice.id,
+          descriptorId: URL_FRAGMENTS.FIRST_DRAFT,
+        },
+      })
+      return
+    }
   }
 
   const handlePublishDraft = () => {
@@ -79,17 +111,19 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     )
   }
 
+  const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE' || eservice?.mode === 'RECEIVE'
+
   return (
     <PageContainer
       title={t('summary.title', {
-        eserviceName: descriptor?.eservice.name,
-        versionNumber: descriptor?.version,
+        eserviceName: descriptor?.eservice.name ?? eservice?.name,
+        versionNumber: descriptor?.version ?? '1',
       })}
       backToAction={{
         label: t('backToListBtn'),
         to: 'PROVIDE_ESERVICE_LIST',
       }}
-      isLoading={isInitialLoading}
+      isLoading={isInitialLoading || isEServiceInitialLoading}
       statusChip={{ for: 'eservice', state: 'DRAFT' }}
     >
       <Stack spacing={3}>
@@ -99,20 +133,37 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
 
+        {isReceiveMode && (
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion headline="2" title={'TODO Finalità'}>
+              <ProviderEServiceRiskAnalysisSummaryList />
+            </SummaryAccordion>
+          </React.Suspense>
+        )}
+
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="2" title={t('summary.versionInfoSummary.title')}>
+          <SummaryAccordion
+            headline={isReceiveMode ? '3' : '2'}
+            title={t('summary.versionInfoSummary.title')}
+          >
             <ProviderEServiceVersionInfoSummary />
           </SummaryAccordion>
         </React.Suspense>
 
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="3" title={t('summary.attributeVersionSummary.title')}>
+          <SummaryAccordion
+            headline={isReceiveMode ? '4' : '3'}
+            title={t('summary.attributeVersionSummary.title')}
+          >
             <ProviderEServiceAttributeVersionSummary />
           </SummaryAccordion>
         </React.Suspense>
 
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="4" title={t('summary.documentationSummary.title')}>
+          <SummaryAccordion
+            headline={isReceiveMode ? '5' : '4'}
+            title={t('summary.documentationSummary.title')}
+          >
             <ProviderEServiceDocumentationSummary />
           </SummaryAccordion>
         </React.Suspense>

@@ -1,6 +1,6 @@
 import React from 'react'
 import type { FormConfigQuestion } from '@/api/api.generatedTypes'
-import type { Answers, Questions } from '../../../../types/risk-analysis-form.types'
+import type { Answers, Questions } from './types/risk-analysis-form.types'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
@@ -9,7 +9,7 @@ import {
   formatRiskAnalysisInputLabel,
   formatRiskAnalysisHerlperText,
   getRiskAnalysisInputOptions,
-} from '@/pages/ConsumerPurposeEditPage/utils/risk-analysis-form.utils'
+} from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
 import { RiskAnalysisSwitch } from './RiskAnalysisSwitch'
 import { RiskAnalysisSelect } from './RiskAnalysisSelect'
 import { RiskAnalysisTextField } from './RiskAnalysisTextField'
@@ -23,7 +23,7 @@ import { RiskAnalysisRadioGroup } from './RiskAnalysisRadioGroup'
  * @returns Array of components that should be rendered inside the form
  * */
 export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({ questions }) => {
-  const { t } = useTranslation('purpose')
+  const { t } = useTranslation('shared-components', { keyPrefix: 'riskAnalysis' })
   const lang = useCurrentLanguage()
   const answers = useFormContext<Answers>().watch()
 
@@ -65,7 +65,7 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
             <RiskAnalysisSelect
               {...commonProps}
               options={inputOptions}
-              emptyLabel={t('edit.step2.emptyLabel')}
+              emptyLabel={t('formComponents.emptyLabel')}
               rules={{ required: true }}
             />
           )
@@ -78,7 +78,7 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
               rules={{
                 validate: (value) =>
                   (typeof value !== 'undefined' && value.length > 0) ||
-                  t('edit.step2.multiCheckboxField.validation.mixed.required'),
+                  t('formComponents.multiCheckboxField.validation.mixed.required'),
               }}
             />
           )
@@ -100,7 +100,7 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
               rules={{
                 validate: (value) =>
                   (typeof value === 'boolean' && value === true) ||
-                  t('edit.step2.riskAnalysisSwitch.validation.boolean.isValue'),
+                  t('formComponents.riskAnalysisSwitch.validation.boolean.isValue'),
               }}
             />
           )

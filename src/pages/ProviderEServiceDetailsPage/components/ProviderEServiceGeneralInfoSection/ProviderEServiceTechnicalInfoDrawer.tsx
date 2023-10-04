@@ -51,6 +51,12 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
           content={`${descriptor.dailyCallsTotal} ${t('callsPerDay')}`}
           direction="column"
         />
+
+        <InformationContainer
+          label={t('mode.label')}
+          content={t(`mode.value.${descriptor.eservice.mode}`)}
+          direction="column"
+        />
       </Stack>
     </Drawer>
   )

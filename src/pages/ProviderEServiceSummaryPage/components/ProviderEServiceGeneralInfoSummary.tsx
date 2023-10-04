@@ -4,6 +4,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
+import { URL_FRAGMENTS } from '@/router/router.utils'
 
 export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
@@ -11,20 +12,29 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
 
   const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
     params.eserviceId,
-    params.descriptorId
+    params.descriptorId,
+    {
+      suspense: false,
+      enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
+    }
   )
 
-  if (!descriptor) return null
+  const { data: eservice } = EServiceQueries.useGetSingle(params.eserviceId, {
+    suspense: false,
+    enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
+  })
+
+  if (!descriptor && !eservice) return null
 
   return (
     <Stack spacing={2}>
       <InformationContainer
         label={t('description.label')}
-        content={descriptor.eservice.description}
+        content={(descriptor?.eservice.description ?? eservice?.description)!}
       />
       <InformationContainer
         label={t('apiTechnology.label')}
-        content={descriptor.eservice.technology}
+        content={(descriptor?.eservice.technology ?? eservice?.technology)!}
       />
     </Stack>
   )
