@@ -21,22 +21,19 @@ import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import {
-  EServiceCreateStep3Attributes,
-  EServiceCreateStep3AttributesSkeleton,
-} from './components/EServiceCreateStep3Attributes'
-import { Typography } from '@mui/material'
-import type { EServiceMode } from '@/api/api.generatedTypes'
+  EServiceCreateStepAttributes,
+  EServiceCreateStepAttributesSkeleton,
+} from './components/EServiceCreateStepAttributes'
+import {
+  EServiceCreateStepPurpose,
+  EServiceCreateStepPurposeSkeleton,
+} from './components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
+import { useSearchParams } from 'react-router-dom'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
   const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
-
-  const [eserviceMode, setEserviceMode] = React.useState<EServiceMode>('DELIVER')
-
-  const handleEserviceModeChange = (value: string) => {
-    setEserviceMode(value as 'DELIVER' | 'RECEIVE')
-  }
 
   const isNewEService = !params?.eserviceId
   const isDraftEService = !isNewEService && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
@@ -59,7 +56,18 @@ const ProviderEServiceCreatePage: React.FC = () => {
    */
   const eserviceData = isDraftEService ? eservice : descriptor?.eservice
 
-  const TestComponent: React.FC = () => <Typography>AAAAAA test</Typography> //TODO
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const handleEserviceModeChange = (value: string) => {
+    setSearchParams((prev) => {
+      prev.set('mode', value)
+      return prev
+    })
+  }
+
+  const eserviceMode = eserviceData?.mode
+    ? eserviceData.mode
+    : searchParams.get('mode') ?? 'DELIVER'
 
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
@@ -70,11 +78,11 @@ const ProviderEServiceCreatePage: React.FC = () => {
           { label: t('create.stepper.step4Label'), component: EServiceCreateStep4Documents },
         ]
       : [
-          { label: t('create.stepper.step1Label'), component: EServiceCreateStep1General },
-          { label: 'Purpose step', component: TestComponent }, // TODO
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStep2Version },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStep3Attributes },
-          { label: t('create.stepper.step4Label'), component: EServiceCreateStep4Documents },
+          { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
+          { label: 'Purpose step', component: EServiceCreateStepPurpose },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
+          { label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
         ]
 
   const { component: Step } = steps[activeStep]
@@ -95,12 +103,21 @@ const ProviderEServiceCreatePage: React.FC = () => {
     (isDraftDescriptor && !isLoadingDescriptor && descriptor)
   )
 
-  const stepsLoadingSkeletons = [
-    <EServiceCreateStepGeneralSkeleton key={1} />,
-    <EServiceCreateStepVersionSkeleton key={2} />,
-    <EServiceCreateStepAttributesSkeleton key={3} />,
-    <EServiceCreateStepDocumentsSkeleton key={4} />,
-  ]
+  const stepsLoadingSkeletons =
+    eserviceMode === 'DELIVER'
+      ? [
+          <EServiceCreateStepGeneralSkeleton key={1} />,
+          <EServiceCreateStepVersionSkeleton key={2} />,
+          <EServiceCreateStepAttributesSkeleton key={3} />,
+          <EServiceCreateStepDocumentsSkeleton key={4} />,
+        ]
+      : [
+          <EServiceCreateStepGeneralSkeleton key={1} />,
+          <EServiceCreateStepPurposeSkeleton key={2} />,
+          <EServiceCreateStepVersionSkeleton key={3} />,
+          <EServiceCreateStepAttributesSkeleton key={4} />,
+          <EServiceCreateStepDocumentsSkeleton key={5} />,
+        ]
 
   const intro = isNewEService
     ? { title: t('create.emptyTitle') }
