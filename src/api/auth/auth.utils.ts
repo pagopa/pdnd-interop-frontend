@@ -14,7 +14,7 @@ export const parseJwt = memoize((token: string | null | undefined) => {
 
   // We assume that the user is from IPA if the token is a support token
   // because support JWT tokens have no externalId field.
-  const isIPAOrganization = isSupport || (jwt?.externalId && jwt.externalId.origin === 'IPA')
+  const isIPAOrganization = !!(isSupport || (jwt?.externalId && jwt.externalId.origin === 'IPA'))
 
   return {
     jwt,
