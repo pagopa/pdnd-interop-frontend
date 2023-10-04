@@ -72,10 +72,10 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
       ? [
-          { label: t('create.stepper.step1Label'), component: EServiceCreateStep1General },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStep2Version },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStep3Attributes },
-          { label: t('create.stepper.step4Label'), component: EServiceCreateStep4Documents },
+          { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
+          { label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
