@@ -27,14 +27,13 @@ export const ProviderEServiceRiskAnalysisSummaryList: React.FC = () => {
   const riskAnalysisList = (descriptor?.eservice.riskAnalysis ?? eservice?.riskAnalysis)!
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} divider={<Divider flexItem />}>
       {riskAnalysisList.map((riskAnalysis, i) => (
         <Stack key={riskAnalysis.id} spacing={3}>
           <Typography variant="h6" fontWeight={700}>{`TODO ${i + 1}/${riskAnalysisList.length} - ${
             riskAnalysis.name
           }`}</Typography>
           <ProviderEServiceRiskAnalysisSummary riskAnalysisId={riskAnalysis.id} />
-          {i !== riskAnalysisList.length - 1 && <Divider />}
         </Stack>
       ))}
     </Stack>

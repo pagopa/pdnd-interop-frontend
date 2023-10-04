@@ -9,7 +9,7 @@ type EServiceCreateContextType = {
   onEserviceModeChange: (value: string) => void
   back: VoidFunction
   forward: VoidFunction
-  RiskAnalysisFormState: {
+  riskAnalysisFormState: {
     isOpen: boolean
     riskAnalysisId: string | undefined
   }
@@ -23,7 +23,7 @@ const initialState: EServiceCreateContextType = {
   onEserviceModeChange: noop,
   back: noop,
   forward: noop,
-  RiskAnalysisFormState: {
+  riskAnalysisFormState: {
     isOpen: false,
     riskAnalysisId: undefined,
   },
@@ -53,7 +53,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   back,
   forward,
 }) => {
-  const [RiskAnalysisFormState, setRiskAnalysisFormState] = React.useState<{
+  const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<{
     isOpen: boolean
     riskAnalysisId: string | undefined
   }>({
@@ -82,11 +82,11 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       onEserviceModeChange,
       back,
       forward,
-      RiskAnalysisFormState,
+      riskAnalysisFormState,
       openRiskAnalysisForm,
       closeRiskAnalysisForm,
     }
-  }, [eservice, descriptor, onEserviceModeChange, back, forward, RiskAnalysisFormState])
+  }, [eservice, descriptor, onEserviceModeChange, back, forward, riskAnalysisFormState])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

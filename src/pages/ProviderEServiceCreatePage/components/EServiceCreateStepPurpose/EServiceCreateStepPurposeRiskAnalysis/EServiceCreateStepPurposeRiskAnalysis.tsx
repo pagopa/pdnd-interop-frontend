@@ -8,7 +8,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { EServiceMutations } from '@/api/eservice'
 
 export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
-  const { RiskAnalysisFormState, closeRiskAnalysisForm, eservice } = useEServiceCreateContext()
+  const { riskAnalysisFormState, closeRiskAnalysisForm, eservice } = useEServiceCreateContext()
 
   const { mutate: addEServiceRiskAnalysis } = EServiceMutations.useAddEServiceRiskAnalysis()
   const { mutate: updateEServiceRiskAnalysis } = EServiceMutations.useUpdateEServiceRiskAnalysis()
@@ -20,7 +20,7 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
   if (!riskAnalysisLatest || !eservice) return <RiskAnalysisFormSkeleton />
 
   const riskAnalysisToEdit = eservice.riskAnalysis.find(
-    (item) => item.id === RiskAnalysisFormState.riskAnalysisId
+    (item) => item.id === riskAnalysisFormState.riskAnalysisId
   )
 
   const handleCancel = () => {
@@ -28,11 +28,11 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
   }
 
   const handleSubmit = (name: string, answers: Record<string, string[]>) => {
-    if (RiskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
+    if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
       updateEServiceRiskAnalysis(
         {
           eserviceId: eservice.id,
-          riskAnalysisId: RiskAnalysisFormState.riskAnalysisId,
+          riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
           name: name,
           riskAnalysisForm: {
             version: riskAnalysisToEdit.riskAnalysisForm.version,
@@ -47,7 +47,7 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
       )
     }
 
-    if (!RiskAnalysisFormState.riskAnalysisId) {
+    if (!riskAnalysisFormState.riskAnalysisId) {
       addEServiceRiskAnalysis(
         {
           eserviceId: eservice.id,
