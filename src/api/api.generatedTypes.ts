@@ -2926,7 +2926,7 @@ export namespace Reverse {
       'X-Correlation-Id': string
       'X-Forwarded-For'?: string
     }
-    export type ResponseBody = Purpose
+    export type ResponseBody = CreatedResource
   }
 }
 
