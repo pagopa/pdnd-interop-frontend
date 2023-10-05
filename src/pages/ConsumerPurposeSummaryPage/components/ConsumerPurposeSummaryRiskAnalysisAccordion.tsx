@@ -1,8 +1,9 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { Box, Stack, Typography } from '@mui/material'
+import { Alert, Box, Stack, Typography } from '@mui/material'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 type ConsumerPurposeSummaryRiskAnalysisAccordionProps = {
   purpose: Purpose
@@ -13,13 +14,14 @@ type QuestionItem = { question: string; answer: string; questionInfoLabel?: stri
 export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   ConsumerPurposeSummaryRiskAnalysisAccordionProps
 > = ({ purpose }) => {
+  const { t } = useTranslation('purpose', { keyPrefix: 'summary.riskAnalysisSection' })
   const currentLanguage = useCurrentLanguage()
 
   const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    purpose?.riskAnalysisForm?.version as string,
+    purpose.riskAnalysisForm?.version as string,
     {
       suspense: false,
-      enabled: !!purpose?.riskAnalysisForm?.version,
+      enabled: !!purpose.riskAnalysisForm?.version,
     }
   )
 
@@ -77,6 +79,11 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
             </Typography>
           </Box>
         ))}
+        {purpose.riskAnalysisId && (
+          <Alert variant="outlined" severity="info">
+            {t('providerRiskAnalysisAlert')}
+          </Alert>
+        )}
       </Stack>
     </>
   )

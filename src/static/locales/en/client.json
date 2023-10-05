@@ -27,6 +27,13 @@
     "operatorsTable": {
       "noDataLabel": "No operator added"
     },
+    "addOperatorsDrawer": {
+      "title": "Add security operators",
+      "autocompleteInput": {
+        "label": "Selected operators"
+      },
+      "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
+    },
     "actions": {
       "createLabel": "Create",
       "backToClientsLabel": "Back to the clients"

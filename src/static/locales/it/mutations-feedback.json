@@ -75,6 +75,31 @@
         "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
       }
     },
+    "addEServiceRiskAnalysis": {
+      "loading": "Stiamo salvando la finalità",
+      "outcome": {
+        "success": "La finalità è stata salvata correttamente",
+        "error": "Non è stato possibile salvare la finalità. Per favore, riprova!"
+      }
+    },
+    "updateEServiceRiskAnalysis": {
+      "loading": "Stiamo aggiornando la finalità",
+      "outcome": {
+        "success": "La finalità è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la finalità. Assicurati di aver compilato tutti i campi e riprova!"
+      }
+    },
+    "deleteEServiceRiskAnalysis": {
+      "loading": "Stiamo eliminando la finalità",
+      "outcome": {
+        "success": "La finalità è stata eliminata correttamente",
+        "error": "Non è stato possibile eliminare la finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma eliminazione finalità",
+        "description": "Cliccando \"conferma\" la finalità sarà eliminata da questo e-service."
+      }
+    },
     "suspendVersion": {
       "loading": "Stiamo sospendendo la versione",
       "outcome": {
@@ -364,6 +389,12 @@
       "confirmDialog": {
         "title": "Conferma cancellazione finalità",
         "description": "Cliccando \"conferma\" questa finalità verrà cancellata e non sarà più recuperabile. Tutti i client ad essa associata non potranno più accedere all'e-service dell'erogatore. Sarà sempre possibile creare nuove finalità"
+      }
+    },
+    "createDraftForReceiveEService": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile creare la bozza di finalità. Per favore, riprova!"
       }
     },
     "updateDailyCalls": {

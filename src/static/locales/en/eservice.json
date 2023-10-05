@@ -12,6 +12,7 @@
     "stepper": {
       "step1Label": "General",
       "step2Label": "Version",
+      "step2ReceiveLabel": "Purpose",
       "step3Label": "Attributes",
       "step4Label": "Documentation"
     },
@@ -30,7 +31,40 @@
       "eserviceTechnologyField": {
         "label": "What technology is your API built with?"
       },
+      "eserviceModeField": {
+        "label": "Does the e-service deliver or receive data?",
+        "options": {
+          "DELIVER": "Deliver",
+          "RECEIVE": "Receive"
+        }
+      },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
+    },
+    "stepPurpose": {
+      "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+      "purposeTableSection": {
+        "title": "Purpose",
+        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+        "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+        "purposeTable": {
+          "noDataLabel": "No added purpose"
+        }
+      },
+      "riskAnalysis": {
+        "riskAnalysisNameSection": {
+          "title": "Purpose",
+          "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
+          "nameField": {
+            "label": "Purpose name",
+            "infoLabel": "Max 60 chars"
+          }
+        },
+        "riskAnalysisSection": {
+          "title": "Risk analysis",
+          "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
+          "personalDataAlert": "Be careful not to enter personal data in the free text fields"
+        }
+      }
     },
     "step2": {
       "versionTitle": "Informations for version {{versionNumber}}",
@@ -123,6 +157,10 @@
       "apiTechnology": {
         "label": "API Technology"
       }
+    },
+    "riskAnalysisSummaryList": {
+      "title": "Purpose",
+      "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
     "versionInfoSummary": {
       "title": "Version's informations",
@@ -234,6 +272,13 @@
         "dailyCallsPerConsumer": "Per subscriber threshold",
         "dailyCallsTotal": "Total threshold",
         "callsPerDay": "API calls/day",
+        "mode": {
+          "label": "Does the e-service deliver or receive data?",
+          "value": {
+            "DELIVER": "Deliver",
+            "RECEIVE": "Receive"
+          }
+        },
         "documentation": "Documentation",
         "usefulLinks": {
           "title": "Useful links",

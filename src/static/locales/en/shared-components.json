@@ -168,6 +168,30 @@
   "drawer": {
     "closeIconAriaLabel": "Close the drawer"
   },
+  "riskAnalysis": {
+    "formComponents": {
+      "emptyLabel": "No available values",
+      "multiCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Choose at least one option"
+          }
+        }
+      },
+      "riskAnalysisSwitch": {
+        "validation": {
+          "boolean": {
+            "isValue": "Please confirm"
+          }
+        }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} characters",
+        "required": "required",
+        "multipleChoice": "multiple choice"
+      }
+    }
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of service",

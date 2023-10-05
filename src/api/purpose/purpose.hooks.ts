@@ -109,6 +109,30 @@ function useDeleteDraft() {
   })
 }
 
+function useCreateDraftForReceiveEService() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.createDraftForReceiveEService',
+  })
+  return useMutation(PurposeServices.createDraftForReceiveEService, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateDraftForReceiveEService() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.updateDraft',
+  })
+  return useMutation(PurposeServices.updateDraftForReceiveEService, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useUpdateDailyCalls() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDailyCalls',
@@ -254,6 +278,8 @@ export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
   useDeleteDraft,
+  useCreateDraftForReceiveEService,
+  useUpdateDraftForReceiveEService,
   useUpdateDailyCalls,
   useUpdateVersionWaitingForApproval,
   useSuspendVersion,

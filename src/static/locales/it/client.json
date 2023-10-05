@@ -27,6 +27,13 @@
     "operatorsTable": {
       "noDataLabel": "Nessun utente aggiunto"
     },
+    "addOperatorsDrawer": {
+      "title": "Aggiungi membri del client",
+      "autocompleteInput": {
+        "label": "Utenti selezionati"
+      },
+      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client"
+    },
     "actions": {
       "createLabel": "Crea",
       "backToClientsLabel": "Torna ai client"
