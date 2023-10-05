@@ -106,8 +106,8 @@ export function EServiceCreateStepDocumentsInterface() {
         />
 
         <Stack direction="row" justifyContent="flex-end">
-          <Button type="submit" variant="contained">
-            <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step4.uploadBtn')}
+          <Button type="submit" variant="contained" startIcon={<UploadFileIcon fontSize="small" />}>
+            {t('create.step4.uploadBtn')}
           </Button>
         </Stack>
       </Box>
