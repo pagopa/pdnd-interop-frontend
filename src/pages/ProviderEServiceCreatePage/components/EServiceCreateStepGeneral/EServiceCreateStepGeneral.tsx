@@ -12,6 +12,7 @@ import { URL_FRAGMENTS } from '@/router/router.utils'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -133,6 +134,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             !areEServiceGeneralInfoEditable
               ? {
                   label: t('create.forwardWithoutSaveBtn'),
+                  endIcon: <ArrowForwardIcon />,
                   onClick: forward,
                   type: 'button',
                 }
