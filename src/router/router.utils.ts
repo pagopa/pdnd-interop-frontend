@@ -1,7 +1,7 @@
 import type { ProviderOrConsumer } from '@/types/common.types'
 import memoize from 'lodash/memoize'
 
-export const URL_FRAGMENTS: Record<string, string> = {
+export const URL_FRAGMENTS = {
   FIRST_DRAFT: 'prima-bozza',
   EDIT: 'modifica',
 } as const

@@ -9,15 +9,15 @@
   },
   "certified": {
     "label": "Certified Attributes",
-    "description": "Attributes <1>recognized to members by an authoritative source</1>."
+    "description": "Attributes certified by a <1>recognized authoritative source.</1>"
   },
   "verified": {
     "label": "Verified Attributes",
-    "description": "Attributes <1>recognized by the providers to the users following an investigation<1/>. Alternatively, PDND Interoperability offers the possibility for lenders to rely on the investigations carried out by other lenders, if available."
+    "description": "Attributes verified <1>by other organizations for the same consumer</1> with the possibility of requesting verification from the provider. For each attribute check or revoke..."
   },
   "declared": {
     "label": "Declared Attributes",
-    "description": "Attributes of which <1>the user declares possession<1/>, acknowledging them under his own responsibility with a self-declaration."
+    "description": "Attributes declared by the consumer under his own responsibility during the request for use. A provider check is not necessary."
   },
   "noAttributesRequiredAlert": {
     "provider": "Your organization does not require {{attributeKey}} attributes",

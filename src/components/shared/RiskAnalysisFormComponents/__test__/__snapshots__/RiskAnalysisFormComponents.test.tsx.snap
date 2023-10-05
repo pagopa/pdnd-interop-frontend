@@ -1,0 +1,306 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+    >
+      <div
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-zv7ju9"
+      >
+        <div
+          class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        >
+          <div
+            class="MuiStack-root css-givlym-MuiStack-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
+              for="1"
+              id="1-label"
+            >
+              test (riskAnalysis.formComponents.validation.required)
+            </label>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+              id="1-infoLabel"
+            >
+              test
+            </span>
+          </div>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-1lami19-MuiInputBase-root-MuiOutlinedInput-root"
+          >
+            <input
+              aria-describedby="1-infoLabel"
+              aria-invalid="false"
+              aria-labelledby="1-label"
+              class="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+              id="1"
+              name="1"
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-ihdtdm"
+              >
+                <span
+                  class="notranslate"
+                >
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+    >
+      <div
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-zv7ju9"
+      >
+        <div
+          class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        >
+          <div
+            class="MuiStack-root css-givlym-MuiStack-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
+              id="2-label"
+            >
+              test (riskAnalysis.formComponents.validation.required)
+            </label>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+              id="2-infoLabel"
+            >
+              test
+            </span>
+          </div>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-4sh67-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+          >
+            <div
+              aria-describedby="2-infoLabel"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="2"
+              class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+              id="2"
+              role="button"
+              tabindex="0"
+            >
+              <span
+                class="notranslate"
+              >
+                ​
+              </span>
+            </div>
+            <input
+              aria-hidden="true"
+              aria-invalid="false"
+              aria-labelledby="2-label"
+              class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+              name="2"
+              tabindex="-1"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+              data-testid="ArrowDropDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-ihdtdm"
+              >
+                <span
+                  class="notranslate"
+                >
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+    >
+      <div
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-zv7ju9"
+      >
+        <div
+          class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        >
+          <div
+            class="MuiStack-root css-givlym-MuiStack-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
+              id="3-label"
+            >
+              test (riskAnalysis.formComponents.validation.required)
+            </label>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+              id="3-infoLabel"
+            >
+              test
+            </span>
+          </div>
+          <div
+            aria-describedby="3-infoLabel"
+            aria-labelledby="3-label"
+            class="MuiFormGroup-root css-1w0y3ky-MuiFormGroup-root"
+            id="3"
+            role="radiogroup"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+    >
+      <div
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-zv7ju9"
+      >
+        <div
+          class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        >
+          <div
+            class="MuiStack-root css-givlym-MuiStack-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
+              id="4-label"
+            >
+              test (riskAnalysis.formComponents.validation.required)
+            </label>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+              id="4-infoLabel"
+            >
+              test
+            </span>
+          </div>
+          <label
+            class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
+          >
+            <div
+              class="MuiStack-root css-1o800vy-MuiStack-root"
+            >
+              <span
+                class="MuiSwitch-root MuiSwitch-sizeMedium css-18tmeyj-MuiSwitch-root"
+              >
+                <span
+                  class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+                >
+                  <input
+                    aria-describedby="4-infoLabel"
+                    class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                    id="4"
+                    name="4"
+                    type="checkbox"
+                  />
+                  <span
+                    class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                  />
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </span>
+                <span
+                  class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                />
+              </span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    <fieldset
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+    >
+      <div
+        class="MuiStack-root css-jfdv4h-MuiStack-root"
+      >
+        <div
+          class="MuiStack-root css-3y1137-MuiStack-root"
+        />
+      </div>
+      <div
+        class="MuiBox-root css-zv7ju9"
+      >
+        <div
+          class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        >
+          <div
+            class="MuiStack-root css-givlym-MuiStack-root"
+          >
+            <legend
+              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-j6w7dp-MuiFormLabel-root"
+            >
+              test (riskAnalysis.formComponents.validation.required, riskAnalysis.formComponents.validation.multipleChoice)
+            </legend>
+            <span
+              class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+            >
+              test
+            </span>
+          </div>
+          <div
+            class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+          />
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</body>
+`;

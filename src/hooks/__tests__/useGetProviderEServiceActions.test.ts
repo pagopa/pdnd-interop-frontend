@@ -45,7 +45,8 @@ function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerES
         descriptorMock.id,
         descriptorMock.activeDescriptor?.state,
         descriptorMock.activeDescriptor?.id,
-        descriptorMock.draftDescriptor?.id
+        descriptorMock.draftDescriptor?.id,
+        descriptorMock.mode
       ),
     {
       withReactQueryContext: true,

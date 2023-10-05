@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, Button } from '@mui/material'
+import { Stack, Button, Tooltip } from '@mui/material'
 import { Link, type RouteKey } from '@/router'
 
 type ActionButton = {
@@ -8,6 +8,8 @@ type ActionButton = {
   onClick: VoidFunction
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
+  disabled?: boolean
+  tooltip?: string
 }
 
 type ActionLink = {
@@ -17,6 +19,7 @@ type ActionLink = {
   disabled?: boolean
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
+  tooltip?: string
 }
 
 type ActionSubmit = {
@@ -25,6 +28,7 @@ type ActionSubmit = {
   disabled?: boolean
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
+  tooltip?: string
 }
 
 export type BackAction = ActionButton | ActionLink
@@ -39,10 +43,10 @@ export function StepActions({ back, forward }: StepActionsProps) {
   const forwardProps =
     forward &&
     (forward.type === 'button'
-      ? { onClick: forward.onClick }
-      : { type: 'submit', disabled: forward?.disabled })
+      ? { onClick: forward.onClick, disabled: forward.disabled }
+      : { type: 'submit', disabled: forward.disabled })
   const backProps =
-    back && back.type === 'link' ? { component: Link, to: back.to } : { onClick: back?.onClick }
+    back && (back.type === 'link' ? { component: Link, to: back.to } : { onClick: back.onClick })
 
   const getJustifyContentProp = () => {
     if (back && forward) return 'space-between'
@@ -57,21 +61,34 @@ export function StepActions({ back, forward }: StepActionsProps) {
   return (
     <Stack direction="row" justifyContent={getJustifyContentProp()} spacing={2} sx={{ mt: 5 }}>
       {back && (
-        <Button variant="outlined" startIcon={back.startIcon} endIcon={back.endIcon} {...backProps}>
-          {back.label}
-        </Button>
+        <Tooltip open={back.tooltip ? undefined : false} title={back.tooltip}>
+          <span tabIndex={back.disabled ? 0 : undefined}>
+            <Button
+              variant="outlined"
+              startIcon={back.startIcon}
+              endIcon={back.endIcon}
+              {...backProps}
+            >
+              {back.label}
+            </Button>
+          </span>
+        </Tooltip>
       )}
 
       {forward && (
-        <Button
-          variant="contained"
-          startIcon={forward.startIcon}
-          endIcon={forward.endIcon}
-          {...forwardProps}
-          type={forwardProps?.type as 'submit' | 'button'}
-        >
-          {forward.label}
-        </Button>
+        <Tooltip arrow open={forward.tooltip ? undefined : false} title={forward.tooltip}>
+          <span tabIndex={forward.disabled ? 0 : undefined}>
+            <Button
+              variant="contained"
+              startIcon={forward.startIcon}
+              endIcon={forward.endIcon}
+              {...forwardProps}
+              type={forwardProps?.type as 'submit' | 'button'}
+            >
+              {forward.label}
+            </Button>
+          </span>
+        </Tooltip>
       )}
     </Stack>
   )
