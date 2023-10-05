@@ -34,7 +34,7 @@ type EServiceCreateStepPurposeRiskAnalysisFormProps = {
 export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
   EServiceCreateStepPurposeRiskAnalysisFormProps
 > = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
-  const { t } = useTranslation('purpose', { keyPrefix: 'edit' }) // TODO stringhe
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
 
   const [_, startTransition] = React.useTransition()
   const [defaultValues, __] = React.useState<Answers>(() =>
@@ -82,15 +82,13 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
       <Box component="form" noValidate onSubmit={handleSubmit}>
         <SectionContainer
           newDesign
-          title={'TODO Finalità'}
-          description={
-            'TODO Indica un caso d’uso per i quali intendi raccogliere dati e compila l’analisi del rischio.'
-          }
+          title={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.title')}
+          description={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.description')}
         >
           <RHFTextField
             name="name"
-            label={'TODO Nome della finalità'}
-            infoLabel={'TODO Massimo 60 caratteri'}
+            label={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.nameField.label')}
+            infoLabel={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.nameField.infoLabel')}
             focusOnMount
             inputProps={{ maxLength: 60 }}
             rules={{ required: true }}
@@ -98,13 +96,11 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
         </SectionContainer>
         <SectionContainer
           newDesign
-          title={'TODO Analisi del rischio'}
-          description={
-            'TODO Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.'
-          }
+          title={t('stepPurpose.riskAnalysis.riskAnalysisSection.title')}
+          description={t('stepPurpose.riskAnalysis.riskAnalysisSection.description')}
         >
           <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
-            {'TODO Attenzione non inserire dati personali all’interno dei campi liberi di testo'}
+            {t('stepPurpose.riskAnalysis.riskAnalysisSection.personalDataAlert')}
           </Alert>
         </SectionContainer>
         <Stack spacing={2}>
@@ -112,13 +108,13 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
         </Stack>
         <StepActions
           back={{
-            label: t('backWithoutSaveBtn') /* TODO */,
+            label: t('backWithoutSaveBtn'),
             type: 'button',
             onClick: onCancel,
             startIcon: <ArrowBackIcon />,
           }}
           forward={{
-            label: t('forwardWithSaveBtn') /* TODO */,
+            label: t('forwardWithSaveBtn'),
             type: 'submit',
             startIcon: <SaveIcon />,
           }}

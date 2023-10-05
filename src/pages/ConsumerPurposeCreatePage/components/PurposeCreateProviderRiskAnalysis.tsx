@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next'
 import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 import { useFormContext } from 'react-hook-form'
 import { PurposeQueries } from '@/api/purpose'
-import { Box, List, ListItem, ListItemText, Typography } from '@mui/material'
+import { List, ListItem, ListItemText, Typography } from '@mui/material'
 import { SectionContainer } from '@/components/layout/containers'
 import { EServiceQueries } from '@/api/eservice'
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
 export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
-  const { t } = useTranslation('purpose', { keyPrefix: 'create' })
+  const { t } = useTranslation('purpose', { keyPrefix: 'create.eserviceRiskAnalysisSection' })
   const currentLanguage = useCurrentLanguage()
   const { watch } = useFormContext<PurposeCreateFormValues>()
 
@@ -24,7 +24,7 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
     selectedProviderRiskAnalysisId!,
     { suspense: false, enabled: !!selectedEServiceId && !!selectedProviderRiskAnalysisId }
   )
-  const /*TODO riskAnalysisAnswers */ riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
+  const riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
 
   const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
     riskAnalysis?.riskAnalysisForm.version as string,
@@ -72,7 +72,7 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
   if (!riskAnalysisTemplate) return null
 
   return (
-    <SectionContainer newDesign innerSection title="TODO Analisi del rischio">
+    <SectionContainer newDesign innerSection title={t('riskAnalysis.title')}>
       <List>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
           <ListItem key={i} sx={{ pl: 0 }}>

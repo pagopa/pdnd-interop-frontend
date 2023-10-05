@@ -76,28 +76,28 @@
       }
     },
     "addEServiceRiskAnalysis": {
-      "loading": "Stiamo associando la risk analysis all'e-service",
+      "loading": "Stiamo associando l'analisi del rischio all'e-service",
       "outcome": {
-        "success": "Nuova risk analysis associata correttamente",
-        "error": "Non è stato possibile associare la nuova risk analysis all'e-service. Assicurarsi che non esista già ed eventualmente ritentare"
+        "success": "Nuova analisi del rischio associata correttamente",
+        "error": "Non è stato possibile associare la nuova analisi del rischio all'e-service. Assicurarsi che non esista già ed eventualmente ritentare"
       }
     },
     "updateEServiceRiskAnalysis": {
-      "loading": "Stiamo aggiornando la risk analysis",
+      "loading": "Stiamo aggiornando l'analisi del rischio",
       "outcome": {
-        "success": "La nuova risk analysis è disponibile",
-        "error": "Non è stato possibile aggiornare la risk analysis. Assicurarsi di aver compilato tutti i campi e riprovare"
+        "success": "La nuova analisi del rischio è disponibile",
+        "error": "Non è stato possibile aggiornare l'analisi del rischio. Assicurarsi di aver compilato tutti i campi e riprovare"
       }
     },
     "deleteEServiceRiskAnalysis": {
-      "loading": "Stiamo rimuovendo la risk analysis dall'e-service",
+      "loading": "Stiamo rimuovendo l'analisi del rischio dall'e-service",
       "outcome": {
-        "success": "La risk analysis è stata rimossa correttamente dall'e-service",
-        "error": "Non è stato possibile rimuovere la risk analysis dall'e-service. Per favore, riprova!"
+        "success": "L'analisi del rischio è stata rimossa correttamente dall'e-service",
+        "error": "Non è stato possibile rimuovere l'analisi del rischio dall'e-service. Per favore, riprova!"
       },
       "confirmDialog": {
-        "title": "Conferma rimozione risk analysis dall'e-service",
-        "description": "La risk analysis sarà rimossa da questo e-service."
+        "title": "Conferma rimozione analisi del rischio dall'e-service",
+        "description": "L'analisi del rischio sarà rimossa da questo e-service."
       }
     },
     "suspendVersion": {

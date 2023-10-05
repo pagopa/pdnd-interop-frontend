@@ -3,9 +3,8 @@ import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useParams } from '@/router'
 import { URL_FRAGMENTS } from '@/router/router.utils'
-import { Box, List, ListItem, ListItemText, Stack, Typography } from '@mui/material'
+import { List, ListItem, ListItemText, Typography } from '@mui/material'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
@@ -16,8 +15,6 @@ type ProviderEServiceRiskAnalysisSummaryProps = {
 export const ProviderEServiceRiskAnalysisSummary: React.FC<
   ProviderEServiceRiskAnalysisSummaryProps
 > = ({ riskAnalysisId }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' }) // TODO riskAnalysisSummary strings
-  const { t: tCommon } = useTranslation('common')
   const currentLanguage = useCurrentLanguage()
 
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()

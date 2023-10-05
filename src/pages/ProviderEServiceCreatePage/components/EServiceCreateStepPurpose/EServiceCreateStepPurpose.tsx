@@ -17,16 +17,14 @@ export const EServiceCreateStepPurpose: React.FC = () => {
   return (
     <>
       <Alert severity="warning" sx={{ mb: 3 }}>
-        {t('step1.firstVersionOnlyEditableInfo')} {/* TODO cambiare le stringhe */}
+        {t('stepPurpose.firstVersionOnlyEditableInfoAlert')}
       </Alert>
       {!riskAnalysisFormState.isOpen ? (
         <>
           <SectionContainer
             newDesign
-            title={'TODO Finalità'}
-            description={
-              'TODO Indica i casi d’uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un’analisi del rischio.'
-            }
+            title={t('stepPurpose.purposeTableSection.title')}
+            description={t('stepPurpose.purposeTableSection.description')}
           >
             <EServiceCreateStepPurposeAddPurposesTable />
           </SectionContainer>
@@ -45,7 +43,7 @@ export const EServiceCreateStepPurpose: React.FC = () => {
               disabled: eservice?.riskAnalysis.length === 0,
               tooltip:
                 eservice?.riskAnalysis.length === 0
-                  ? 'TODO È necessario indicare almeno una finalità per proseguire'
+                  ? t('stepPurpose.purposeTableSection.noSelectedPurposesTooltip')
                   : undefined,
             }}
           />
@@ -58,12 +56,12 @@ export const EServiceCreateStepPurpose: React.FC = () => {
 }
 
 export const EServiceCreateStepPurposeSkeleton: React.FC = () => {
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.stepPurpose' })
 
   return (
     <>
       <Alert severity="warning" sx={{ mb: 3 }}>
-        {t('create.step1.firstVersionOnlyEditableInfo')}
+        {t('firstVersionOnlyEditableInfoAlert')}
       </Alert>
       <SectionContainerSkeleton height={246} />
     </>

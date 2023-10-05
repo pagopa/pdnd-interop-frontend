@@ -39,6 +39,32 @@
       },
       "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service"
     },
+    "stepPurpose": {
+      "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service",
+      "purposeTableSection": {
+        "title": "Finalità",
+        "description": "Indica i casi d’uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un’analisi del rischio.",
+        "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
+        "purposeTable": {
+          "noDataLabel": "Nessuna finalità aggiunta"
+        }
+      },
+      "riskAnalysis": {
+        "riskAnalysisNameSection": {
+          "title": "Finalità",
+          "description": "Indica un caso d’uso per i quali intendi raccogliere dati e compila l’analisi del rischio.",
+          "nameField": {
+            "label": "Nome della finalità",
+            "infoLabel": "Massimo 60 caratteri"
+          }
+        },
+        "riskAnalysisSection": {
+          "title": "Analisi del rischio",
+          "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
+          "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo"
+        }
+      }
+    },
     "step2": {
       "versionTitle": "Informazioni per la versione {{versionNumber}}",
       "descriptionField": {
@@ -130,6 +156,10 @@
       "apiTechnology": {
         "label": "Tecnologia API"
       }
+    },
+    "riskAnalysisSummaryList": {
+      "title": "Finalità",
+      "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
     "versionInfoSummary": {
       "title": "Informazioni di versione",

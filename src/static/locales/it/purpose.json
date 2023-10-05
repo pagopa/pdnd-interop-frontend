@@ -17,6 +17,16 @@
     "eserviceField": {
       "label": "E-service da associare"
     },
+    "eserviceRiskAnalysisSection": {
+      "title": "Finalità da utilizzare",
+      "description": "L’e-service selezionato prevede che sia l’erogatore a ricevere dati dai fruitori. Puoi selezionare tra le finalità proposte dall’erogatore quella per la quale intendi inviare dati al suo e-service.",
+      "riskAnalysis": {
+        "title": "Analisi del rischio"
+      },
+      "purposeField": {
+        "label": "Finalità da utilizzare"
+      }
+    },
     "purposeInfoTitle": "Contenuto del template selezionato",
     "purposePreviewTitle": "Contenuto del template selezionato",
     "consumerName": "Questo template è stato creato da",
@@ -80,7 +90,7 @@
     },
     "step2": {
       "title": "Analisi del rischio",
-      "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare",
+      "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
       "singleCheckboxField": {
         "validation": {

@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,14 +7,14 @@ import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 
 export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'create.stepPurpose.purposeTableSection.purposeTable',
+  })
   const { t: tCommon } = useTranslation('common')
 
   const { eservice, openRiskAnalysisForm } = useEServiceCreateContext()
 
   const { mutate: deleteRiskAnalysis } = EServiceMutations.useDeleteEServiceRiskAnalysis()
-
-  const headLabels = ['TODO purposes', '']
-  // const headLabels = []
 
   const handleAddNewPurpose = () => {
     openRiskAnalysisForm()
@@ -33,11 +33,18 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
     <>
       <Table
         isEmpty={eservice?.riskAnalysis.length === 0}
-        headLabels={headLabels}
-        noDataLabel={'TODO Nessuna finalità aggiunta'}
+        headLabels={[]}
+        noDataLabel={t('noDataLabel')}
       >
         {eservice?.riskAnalysis.map((riskAnalysis) => (
-          <TableRow key={riskAnalysis.id} cellData={[riskAnalysis.name]}>
+          <TableRow
+            key={riskAnalysis.id}
+            cellData={[
+              <Typography key={riskAnalysis.id} variant="body1" fontWeight={600}>
+                {riskAnalysis.name}
+              </Typography>,
+            ]}
+          >
             <Button
               onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
               variant="naked"
