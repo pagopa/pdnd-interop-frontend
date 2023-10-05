@@ -76,28 +76,28 @@
       }
     },
     "addEServiceRiskAnalysis": {
-      "loading": "Stiamo associando l'analisi del rischio all'e-service",
+      "loading": "Stiamo salvando la finalità",
       "outcome": {
-        "success": "Nuova analisi del rischio associata correttamente",
-        "error": "Non è stato possibile associare la nuova analisi del rischio all'e-service. Assicurarsi che non esista già ed eventualmente ritentare"
+        "success": "La finalità è stata salvata correttamente",
+        "error": "Non è stato possibile salvare la finalità. Per favore, riprova!"
       }
     },
     "updateEServiceRiskAnalysis": {
-      "loading": "Stiamo aggiornando l'analisi del rischio",
+      "loading": "Stiamo aggiornando la finalità",
       "outcome": {
-        "success": "La nuova analisi del rischio è disponibile",
-        "error": "Non è stato possibile aggiornare l'analisi del rischio. Assicurarsi di aver compilato tutti i campi e riprovare"
+        "success": "La finalità è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la finalità. Assicurati di aver compilato tutti i campi e riprova!"
       }
     },
     "deleteEServiceRiskAnalysis": {
-      "loading": "Stiamo rimuovendo l'analisi del rischio dall'e-service",
+      "loading": "Stiamo eliminando la finalità",
       "outcome": {
-        "success": "L'analisi del rischio è stata rimossa correttamente dall'e-service",
-        "error": "Non è stato possibile rimuovere l'analisi del rischio dall'e-service. Per favore, riprova!"
+        "success": "La finalità è stata eliminata correttamente",
+        "error": "Non è stato possibile eliminare la finalità. Per favore, riprova!"
       },
       "confirmDialog": {
-        "title": "Conferma rimozione analisi del rischio dall'e-service",
-        "description": "L'analisi del rischio sarà rimossa da questo e-service."
+        "title": "Conferma eliminazione finalità",
+        "description": "Cliccando \"conferma\" la finalità sarà eliminata da questo e-service."
       }
     },
     "suspendVersion": {
