@@ -62,7 +62,6 @@ exports[`DialogSecurityOperatorKey testing > should match the snapshot 1`] = `
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <input
-                    aria-describedby="name-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
                     id="name"
