@@ -1,11 +1,16 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
-import type { ProducerEServiceDescriptor, ProducerEServiceDetails } from '@/api/api.generatedTypes'
+import type {
+  EServiceMode,
+  ProducerEServiceDescriptor,
+  ProducerEServiceDetails,
+} from '@/api/api.generatedTypes'
 
 type EServiceCreateContextType = {
   eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
   descriptor: ProducerEServiceDescriptor | undefined
+  eserviceMode: EServiceMode
   onEserviceModeChange: (value: string) => void
   back: VoidFunction
   forward: VoidFunction
@@ -20,6 +25,7 @@ type EServiceCreateContextType = {
 const initialState: EServiceCreateContextType = {
   eservice: undefined,
   descriptor: undefined,
+  eserviceMode: 'DELIVER',
   onEserviceModeChange: noop,
   back: noop,
   forward: noop,
@@ -40,6 +46,7 @@ type EServiceCreateContextProviderProps = {
   children: React.ReactNode
   eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
   descriptor: ProducerEServiceDescriptor | undefined
+  eserviceMode: EServiceMode
   onEserviceModeChange: (value: string) => void
   back: VoidFunction
   forward: VoidFunction
@@ -49,6 +56,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   children,
   eservice,
   descriptor,
+  eserviceMode,
   onEserviceModeChange,
   back,
   forward,
@@ -79,6 +87,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
     return {
       eservice,
       descriptor,
+      eserviceMode,
       onEserviceModeChange,
       back,
       forward,
@@ -86,7 +95,15 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       openRiskAnalysisForm,
       closeRiskAnalysisForm,
     }
-  }, [eservice, descriptor, onEserviceModeChange, back, forward, riskAnalysisFormState])
+  }, [
+    eservice,
+    descriptor,
+    eserviceMode,
+    onEserviceModeChange,
+    back,
+    forward,
+    riskAnalysisFormState,
+  ])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

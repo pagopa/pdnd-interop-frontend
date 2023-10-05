@@ -29,6 +29,7 @@ import {
   EServiceCreateStepPurposeSkeleton,
 } from './components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
 import { useSearchParams } from 'react-router-dom'
+import type { EServiceMode } from '@/api/api.generatedTypes'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -65,9 +66,18 @@ const ProviderEServiceCreatePage: React.FC = () => {
     })
   }
 
-  const eserviceMode = eserviceData?.mode
-    ? eserviceData.mode
-    : searchParams.get('mode') ?? 'DELIVER'
+  React.useEffect(() => {
+    eserviceData?.mode &&
+      setSearchParams((prev) => {
+        prev.set('mode', eserviceData.mode)
+        return prev
+      })
+
+    // `setSearchParams` is not referentially stable *sigh*
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eserviceData?.mode])
+
+  const eserviceMode: EServiceMode = (searchParams.get('mode') as EServiceMode) ?? 'DELIVER'
 
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
@@ -140,6 +150,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
         <EServiceCreateContextProvider
           eservice={eserviceData}
           descriptor={descriptor}
+          eserviceMode={eserviceMode}
           onEserviceModeChange={handleEserviceModeChange}
           {...stepProps}
         >
