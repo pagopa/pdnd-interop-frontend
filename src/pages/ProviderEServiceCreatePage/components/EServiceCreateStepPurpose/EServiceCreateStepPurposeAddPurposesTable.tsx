@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -37,7 +37,14 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
         noDataLabel={t('noDataLabel')}
       >
         {eservice?.riskAnalysis.map((riskAnalysis) => (
-          <TableRow key={riskAnalysis.id} cellData={[riskAnalysis.name]}>
+          <TableRow
+            key={riskAnalysis.id}
+            cellData={[
+              <Typography key={riskAnalysis.id} variant="body1" fontWeight={600}>
+                {riskAnalysis.name}
+              </Typography>,
+            ]}
+          >
             <Button
               onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
               variant="naked"
