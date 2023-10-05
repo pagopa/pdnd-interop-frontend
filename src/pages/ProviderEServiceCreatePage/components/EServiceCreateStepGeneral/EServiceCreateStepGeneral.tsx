@@ -24,7 +24,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
-  const { eservice, descriptor, forward, onEserviceModeChange } = useEServiceCreateContext()
+  const { eservice, descriptor, forward, eserviceMode, onEserviceModeChange } =
+    useEServiceCreateContext()
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
@@ -33,7 +34,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     name: eservice?.name ?? '',
     description: eservice?.description ?? '',
     technology: eservice?.technology ?? 'REST',
-    mode: eservice?.mode ?? 'DELIVER',
+    mode: eserviceMode,
   }
 
   const formMethods = useForm({ defaultValues })
