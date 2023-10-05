@@ -12,6 +12,7 @@
     "stepper": {
       "step1Label": "Generale",
       "step2Label": "Versione",
+      "step2ReceiveLabel": "Finalità",
       "step3Label": "Attributi",
       "step4Label": "Documentazione"
     },
