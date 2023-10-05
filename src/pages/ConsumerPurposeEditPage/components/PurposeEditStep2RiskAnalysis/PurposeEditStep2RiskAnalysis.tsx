@@ -49,6 +49,7 @@ export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back, 
         riskAnalysisForm: { version: riskAnalysis.version, answers },
         freeOfChargeReason: purpose.freeOfChargeReason,
         isFreeOfCharge: purpose.isFreeOfCharge,
+        eserviceId: purpose.eservice.id,
         dailyCalls: purpose.currentVersion!.dailyCalls, // the current version is always present due to it being set in step 1
       },
       { onSuccess: forward }

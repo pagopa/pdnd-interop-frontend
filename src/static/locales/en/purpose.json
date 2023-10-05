@@ -17,22 +17,12 @@
     "eserviceField": {
       "label": "Choose e-service"
     },
-    "eserviceRiskAnalysisSection": {
-      "title": "Choose purpose",
-      "description": "The selected e-service requires the provider to receive data from users. You can select from the purposes proposed by the provider the one for which you intend to send data to its e-service.",
-      "riskAnalysis": {
-        "title": "Risk analysis"
-      },
-      "purposeField": {
-        "label": "Choose purpose"
-      }
-    },
     "purposeInfoTitle": "Selected template informations",
     "purposePreviewTitle": "Selected template content",
     "consumerName": "This template was created by",
     "purposeTitle": "Purpose name",
     "purposeDescription": "Purpose description",
-    "createNewPurposeBtn": "Create draft",
+    "createNewPurposeBtn": "Create purpose draft",
     "backToListBtn": "Back to purpose list",
     "defaultPurpose": {
       "title": "New purpose",
@@ -85,7 +75,8 @@
         "infoLabel": "It is requested to specify whether the provision of data is free of charge by virtue of an exemption/exclusion provided for by law or other. Min 10 characters, max 250 characters"
       },
       "dailyCallsField": {
-        "label": "How many API calls do you expect to make per day?"
+        "label": "Number of API calls/day (required)",
+        "infoLabel": "Your estimate of API calls/day you will make. This value will contribute to the e-service Provider threshold to guarantee the Provider's infrastructure can sustain the load. If this value goes over any of the threshold, the Provider will approve this purpose manually before it goes into effect"
       }
     },
     "step2": {
@@ -99,10 +90,30 @@
           }
         }
       },
+      "multiCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Choose at least one option"
+          }
+        }
+      },
+      "riskAnalysisSwitch": {
+        "validation": {
+          "boolean": {
+            "isValue": "Please confirm"
+          }
+        }
+      },
+      "emptyLabel": "No available values",
       "pa": {
         "v2": {
           "blockingButtonLabel": "Go to API Catalog"
         }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} characters",
+        "required": "required",
+        "multipleChoice": "multiple choice"
       },
       "versionMismatchDialog": {
         "title": "Risk analysis update",
@@ -150,13 +161,11 @@
       }
     },
     "riskAnalysisSection": {
-      "title": "Risk analysis",
-      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
+      "title": "Risk analysis"
     },
     "clientsSection": {
       "title": "Associate clients",
-      "empty": "No associated clients",
-      "infoAlert": "You will always be able to modify the clients to be associated with this purpose, even after its publication."
+      "empty": "No associated clients"
     }
   },
   "tablePurposeInEService": {

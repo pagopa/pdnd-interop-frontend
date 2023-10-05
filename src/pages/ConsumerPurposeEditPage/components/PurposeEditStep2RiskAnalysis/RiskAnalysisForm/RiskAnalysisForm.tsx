@@ -4,19 +4,16 @@ import { Alert, Box, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
-import { StepActions } from '@/components/shared/StepActions'
-import SaveIcon from '@mui/icons-material/Save'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import type {
-  Answers,
-  Questions,
-} from '@/components/shared/RiskAnalysisFormComponents/types/risk-analysis-form.types'
+import type { Answers, Questions } from '../../../types/risk-analysis-form.types'
 import {
   getRiskAnalysisDefaultValues,
   getUpdatedQuestions,
   getValidAnswers,
-} from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
-import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
+} from '../../../utils/risk-analysis-form.utils'
+import { RiskAnalysisFormComponents } from './RiskAnalysisFormComponents/RiskAnalysisFormComponents'
+import { StepActions } from '@/components/shared/StepActions'
+import SaveIcon from '@mui/icons-material/Save'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>

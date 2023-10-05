@@ -17,22 +17,12 @@
     "eserviceField": {
       "label": "E-service da associare"
     },
-    "eserviceRiskAnalysisSection": {
-      "title": "Finalità da utilizzare",
-      "description": "L’e-service selezionato prevede che sia l’erogatore a ricevere dati dai fruitori. Puoi selezionare tra le finalità proposte dall’erogatore quella per la quale intendi inviare dati al suo e-service.",
-      "riskAnalysis": {
-        "title": "Analisi del rischio"
-      },
-      "purposeField": {
-        "label": "Finalità da utilizzare"
-      }
-    },
     "purposeInfoTitle": "Contenuto del template selezionato",
     "purposePreviewTitle": "Contenuto del template selezionato",
     "consumerName": "Questo template è stato creato da",
     "purposeTitle": "Nome finalità",
     "purposeDescription": "Descrizione finalità",
-    "createNewPurposeBtn": "Crea bozza",
+    "createNewPurposeBtn": "Crea bozza finalità",
     "backToListBtn": "Torna alle finalità",
     "defaultPurpose": {
       "title": "Nuova finalità",
@@ -85,12 +75,13 @@
         "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
       },
       "dailyCallsField": {
-        "label": "Quante chiamate API/giorno stimi di effettuare?"
+        "label": "Numero di chiamate API/giorno (richiesto)",
+        "infoLabel": "Il numero di chiamate al giorno che stimi di effettuare. Questo valore contribuirà a definire una soglia oltre la quale l'erogatore dovrà approvare manualmente nuove finalità per garantire la sostenibilità tecnica dell'e-service"
       }
     },
     "step2": {
       "title": "Analisi del rischio",
-      "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
+      "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
       "singleCheckboxField": {
         "validation": {
@@ -99,10 +90,30 @@
           }
         }
       },
+      "multiCheckboxField": {
+        "validation": {
+          "mixed": {
+            "required": "Seleziona almeno un'opzione"
+          }
+        }
+      },
+      "riskAnalysisSwitch": {
+        "validation": {
+          "boolean": {
+            "isValue": "Si prega di confermare"
+          }
+        }
+      },
+      "emptyLabel": "Nessun valore disponibile",
       "pa": {
         "v2": {
           "blockingButtonLabel": "Vai sul Catalogo API"
         }
+      },
+      "validation": {
+        "maxLength": "Max {{num}} caratteri",
+        "required": "richiesto",
+        "multipleChoice": "scelta multipla"
       },
       "versionMismatchDialog": {
         "title": "Aggiornamento analisi del rischio",
@@ -150,13 +161,11 @@
       }
     },
     "riskAnalysisSection": {
-      "title": "Analisi del rischio",
-      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
+      "title": "Analisi del rischio"
     },
     "clientsSection": {
       "title": "Client associati",
-      "empty": "Nessun client associato",
-      "infoAlert": "Potrai sempre modificare i client da associare a questa finalità, anche dopo la sua pubblicazione."
+      "empty": "Nessun client associato"
     }
   },
   "tablePurposeInEService": {

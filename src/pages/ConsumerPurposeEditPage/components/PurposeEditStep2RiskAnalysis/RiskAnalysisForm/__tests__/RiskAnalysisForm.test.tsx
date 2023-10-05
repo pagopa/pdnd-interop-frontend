@@ -37,9 +37,7 @@ describe('RiskAnalysisForm', () => {
     )
 
     expect(
-      screen.getByRole('textbox', {
-        name: 'Question 2 (riskAnalysis.formComponents.validation.required)',
-      })
+      screen.getByRole('textbox', { name: 'Question 2 (edit.step2.validation.required)' })
     ).toBeInTheDocument()
   })
 
@@ -63,9 +61,7 @@ describe('RiskAnalysisForm', () => {
     )
 
     await user.type(
-      screen.getByRole('textbox', {
-        name: 'Question 2 (riskAnalysis.formComponents.validation.required)',
-      }),
+      screen.getByRole('textbox', { name: 'Question 2 (edit.step2.validation.required)' }),
       'Some text'
     )
     fireEvent.click(screen.getByRole('button', { name: 'forwardWithSaveBtn' }))

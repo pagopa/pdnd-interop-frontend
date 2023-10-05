@@ -9,10 +9,12 @@ import { PurposeMutations } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
+import { Stack } from '@mui/system'
+import { PurposeEditEServiceAutocomplete } from './PurposeEditEServiceAutocomplete'
 
 export type PurposeEditStep1GeneralFormValues = Omit<
   PurposeUpdateContent,
-  'riskAnalysisForm' | 'isFreeOfCharge' | 'eserviceId'
+  'riskAnalysisForm' | 'isFreeOfCharge'
 > & {
   dailyCalls: number
   isFreeOfCharge: 'SI' | 'NO'
@@ -28,39 +30,32 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   defaultValues,
   forward,
 }) => {
-  const { t } = useTranslation('purpose')
+  const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
-  const { mutate: updateDraftForReceive } = PurposeMutations.useUpdateDraftForReceiveEService()
 
   const formMethods = useForm<PurposeEditStep1GeneralFormValues>({
     defaultValues,
   })
 
   const onSubmit = (values: PurposeEditStep1GeneralFormValues) => {
-    const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
+    const { eserviceId, dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } =
+      values
     const isFreeOfChargeBool = isFreeOfCharge === 'SI'
     const purposeId = purpose.id
-
-    // The endpoint to call depends on whether the e-service is
-    // in RECEIVE or DELIVER mode
-    const isReceive = !!purpose.riskAnalysisId
-
-    const requestPayload = {
-      ...updateDraftPayload,
-      isFreeOfCharge: isFreeOfChargeBool,
-      freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
-      purposeId,
-      dailyCalls: dailyCalls,
-    }
-
-    if (isReceive) {
-      updateDraftForReceive(requestPayload, { onSuccess: forward })
-    } else {
-      updateDraft(
-        { ...requestPayload, riskAnalysisForm: purpose.riskAnalysisForm },
-        { onSuccess: forward }
-      )
-    }
+    updateDraft(
+      {
+        ...updateDraftPayload,
+        isFreeOfCharge: isFreeOfChargeBool,
+        freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
+        riskAnalysisForm: purpose.riskAnalysisForm,
+        purposeId,
+        dailyCalls: dailyCalls,
+        eserviceId: eserviceId,
+      },
+      {
+        onSuccess: forward,
+      }
+    )
   }
 
   const isFreeOfCharge = formMethods.watch('isFreeOfCharge')
@@ -68,20 +63,24 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer newDesign title={t('edit.step1.title')}>
-          <RHFTextField
-            name="title"
-            label={t('edit.step1.nameField.label')}
-            infoLabel={t('edit.step1.nameField.infoLabel')}
-            focusOnMount
-            inputProps={{ maxLength: 60 }}
-            rules={{ required: true, minLength: 5 }}
-          />
+        <SectionContainer newDesign title={t('step1.title')}>
+          <Stack direction="row" spacing={1}>
+            <RHFTextField
+              name="title"
+              label={t('step1.nameField.label')}
+              infoLabel={t('step1.nameField.infoLabel')}
+              focusOnMount={true}
+              inputProps={{ maxLength: 60 }}
+              rules={{ required: true, minLength: 5 }}
+            />
+
+            <PurposeEditEServiceAutocomplete />
+          </Stack>
 
           <RHFTextField
             name="description"
-            label={t('edit.step1.descriptionField.label')}
-            infoLabel={t('edit.step1.descriptionField.infoLabel')}
+            label={t('step1.descriptionField.label')}
+            infoLabel={t('step1.descriptionField.infoLabel')}
             multiline
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
@@ -89,18 +88,18 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 
           <RHFRadioGroup
             name="isFreeOfCharge"
-            label={t('edit.step1.isFreeOfChargeField.label')}
+            label={t('step1.isFreeOfChargeField.label')}
             options={[
-              { label: t('edit.step1.isFreeOfChargeField.options.SI'), value: 'SI' },
-              { label: t('edit.step1.isFreeOfChargeField.options.NO'), value: 'NO' },
+              { label: t('step1.isFreeOfChargeField.options.SI'), value: 'SI' },
+              { label: t('step1.isFreeOfChargeField.options.NO'), value: 'NO' },
             ]}
           />
 
           {isFreeOfCharge === 'SI' && (
             <RHFTextField
               name="freeOfChargeReason"
-              label={t('edit.step1.freeOfChargeReasonField.label')}
-              infoLabel={t('edit.step1.freeOfChargeReasonField.infoLabel')}
+              label={t('step1.freeOfChargeReasonField.label')}
+              infoLabel={t('step1.freeOfChargeReasonField.infoLabel')}
               multiline
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
@@ -109,7 +108,8 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 
           <RHFTextField
             name="dailyCalls"
-            label={t('edit.step1.dailyCallsField.label')}
+            label={t('step1.dailyCallsField.label')}
+            infoLabel={t('step1.dailyCallsField.infoLabel')}
             type="number"
             inputProps={{ min: '1' }}
             sx={{ mb: 0 }}
@@ -117,8 +117,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
           />
         </SectionContainer>
         <StepActions
-          back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToPurposeListBtn'), type: 'link' }}
-          forward={{ label: t('edit.forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
+          forward={{ label: t('forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
         />
       </Box>
     </FormProvider>

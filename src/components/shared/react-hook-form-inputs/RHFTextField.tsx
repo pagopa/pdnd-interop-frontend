@@ -55,6 +55,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
         render={({ field: { ref, onChange: _onChange, ...fieldProps } }) => (
           <MUITextField
             autoFocus={focusOnMount}
+            {...props}
             id={name}
             size={size}
             label={label}
@@ -87,7 +88,6 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
             }}
             inputRef={ref}
             {...fieldProps}
-            {...props}
           />
         )}
       />

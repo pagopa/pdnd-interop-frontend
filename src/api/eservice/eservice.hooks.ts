@@ -6,7 +6,6 @@ import type {
   CatalogEServices,
   CompactOrganizations,
   EServiceDescriptorSeed,
-  EServiceRiskAnalysisSeed,
   GetConsumersParams,
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
@@ -23,7 +22,6 @@ export enum EServiceQueryKeys {
   GetDescriptorProvider = 'EServiceGetDescriptorProvider',
   GetConsumers = 'EServiceGetConsumers',
   GetProducers = 'EServiceGetProducers',
-  GetEServiceRiskAnalysis = 'EServiceGetRiskAnalysis',
 }
 
 function useGetCatalogList(
@@ -297,81 +295,6 @@ function useDeleteVersionDraft() {
   })
 }
 
-function useAddEServiceRiskAnalysis(config = { suppressSuccessToast: false }) {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.addEServiceRiskAnalysis',
-  })
-  return useMutation(
-    (
-      payload: {
-        eserviceId: string
-      } & EServiceRiskAnalysisSeed
-    ) => EServiceServices.addEServiceRiskAnalysis(payload),
-    {
-      meta: {
-        successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
-        errorToastLabel: t('outcome.error'),
-        loadingLabel: t('loading'),
-      },
-    }
-  )
-}
-
-function useGetEServiceRiskAnalysis(
-  eserviceId?: string,
-  riskAnalysisId?: string,
-  config?: { suspense?: boolean; enabled?: boolean }
-) {
-  return useQuery({
-    queryKey: [EServiceQueryKeys.GetEServiceRiskAnalysis, eserviceId, riskAnalysisId],
-    queryFn: () =>
-      EServiceServices.getEServiceRiskAnalysis({
-        eserviceId: eserviceId!,
-        riskAnalysisId: riskAnalysisId!,
-      }),
-    ...config,
-    enabled: Boolean(eserviceId && riskAnalysisId) && (config?.enabled ?? true),
-  })
-}
-
-function useUpdateEServiceRiskAnalysis(config = { suppressSuccessToast: false }) {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateEServiceRiskAnalysis',
-  })
-  return useMutation(
-    (
-      payload: {
-        eserviceId: string
-        riskAnalysisId: string
-      } & EServiceRiskAnalysisSeed
-    ) => EServiceServices.updateEServiceRiskAnalysis(payload),
-    {
-      meta: {
-        successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
-        errorToastLabel: t('outcome.error'),
-        loadingLabel: t('loading'),
-      },
-    }
-  )
-}
-
-function useDeleteEServiceRiskAnalysis() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.deleteEServiceRiskAnalysis',
-  })
-  return useMutation(EServiceServices.deleteEServiceRiskAnalysis, {
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
-    },
-  })
-}
-
 function usePostVersionDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.postVersionDraftDocument',
@@ -437,7 +360,6 @@ export const EServiceQueries = {
   useGetSingle,
   useGetConsumers,
   useGetProducers,
-  useGetEServiceRiskAnalysis,
   usePrefetchSingle,
   usePrefetchDescriptorCatalog,
   usePrefetchDescriptorProvider,
@@ -454,9 +376,6 @@ export const EServiceMutations = {
   useSuspendVersion,
   useReactivateVersion,
   useDeleteVersionDraft,
-  useAddEServiceRiskAnalysis,
-  useUpdateEServiceRiskAnalysis,
-  useDeleteEServiceRiskAnalysis,
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,
   useUpdateVersionDraftDocumentDescription,

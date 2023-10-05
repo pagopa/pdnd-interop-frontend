@@ -27,8 +27,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptor?.eservice.id,
     descriptor?.state,
     descriptor?.id,
-    descriptor?.eservice.draftDescriptor?.id,
-    descriptor?.eservice.mode
+    descriptor?.eservice.draftDescriptor?.id
   )
 
   return (

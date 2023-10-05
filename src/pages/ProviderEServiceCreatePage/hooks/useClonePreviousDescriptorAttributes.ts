@@ -4,11 +4,11 @@ import { EServiceQueries } from '@/api/eservice'
 import { useToastNotification } from '@/stores'
 import type { UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { EServiceCreateStepAttributesFormValues } from '../components/EServiceCreateStepAttributes/EServiceCreateStepAttributes'
+import type { EServiceCreateStep3FormValues } from '../components/EServiceCreateStep3Attributes/EServiceCreateStep3Attributes'
 
 export function useClonePreviousDescriptorAttributes(
   currentDescriptor: ProducerEServiceDescriptor | undefined,
-  setValue: UseFormSetValue<EServiceCreateStepAttributesFormValues>
+  setValue: UseFormSetValue<EServiceCreateStep3FormValues>
 ) {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step3' })
   const { showToast } = useToastNotification()
