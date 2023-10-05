@@ -3,6 +3,9 @@ import type {
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   DescriptorAttribute,
+  DescriptorAttributeSeed,
+  DescriptorAttributes,
+  DescriptorAttributesSeed,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 
@@ -223,4 +226,26 @@ export function hasAllDescriptorAttributes(
   }
 
   return descriptorAttributes.every(isGroupFullfilled)
+}
+
+/**
+ * This should be temporary, it is here because from the BFF we get the attributes in a different
+ * format than the one we need to send to the API.
+ * @param descriptorAttributes - The attributes to remap.
+ * @returns The remapped attributes.
+ */
+export const remapDescriptorAttributesToDescriptorAttributesSeed = (
+  descriptorAttributes: DescriptorAttributes
+): DescriptorAttributesSeed => {
+  const remapAttribute = (attr: DescriptorAttribute[][]): DescriptorAttributeSeed[][] => {
+    return attr.map((attrGroup) => {
+      return attrGroup.map((a) => ({ id: a.id, explicitAttributeVerification: true }))
+    })
+  }
+
+  return {
+    certified: remapAttribute(descriptorAttributes.certified),
+    verified: remapAttribute(descriptorAttributes.verified),
+    declared: remapAttribute(descriptorAttributes.declared),
+  }
 }

@@ -19,6 +19,7 @@ import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from './CreateAttributeDrawer'
+import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 
 export type EServiceCreateStepAttributesFormValues = {
   attributes: DescriptorAttributes
@@ -80,18 +81,6 @@ export const EServiceCreateStepAttributes: React.FC = () => {
         return
       }
 
-      // TEMP: Horrible temp hack implemented by Ruggero in a hurry to deploy
-      const remapAttrs = (attrGroups: DescriptorAttribute[][]) => {
-        return attrGroups.map((attrGroup) => {
-          return attrGroup.map((a) => ({ id: a.id, explicitAttributeVerification: true }))
-        })
-      }
-      const attributes = {
-        certified: remapAttrs(values.attributes.certified),
-        verified: remapAttrs(values.attributes.verified),
-        declared: remapAttrs(values.attributes.declared),
-      }
-
       const payload: UpdateEServiceDescriptorSeed = {
         audience: descriptor.audience,
         voucherLifespan: descriptor.voucherLifespan,
@@ -99,7 +88,7 @@ export const EServiceCreateStepAttributes: React.FC = () => {
         dailyCallsTotal: descriptor.dailyCallsTotal,
         agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
         description: descriptor.description,
-        attributes: attributes,
+        attributes: remapDescriptorAttributesToDescriptorAttributesSeed(values.attributes),
       }
 
       updateVersionDraft(

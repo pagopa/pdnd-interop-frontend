@@ -15,6 +15,7 @@ import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { payloadVerificationGuideLink } from '@/config/constants'
+import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 
 export type EServiceCreateStepVersionFormValues = {
   audience: string
@@ -82,7 +83,11 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
 
     if (descriptor) {
       updateVersionDraft(
-        { ...payload, descriptorId: descriptor.id, attributes: descriptor.attributes },
+        {
+          ...payload,
+          descriptorId: descriptor.id,
+          attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
+        },
         { onSuccess: forward }
       )
       return
