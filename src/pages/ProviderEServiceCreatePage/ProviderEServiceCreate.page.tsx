@@ -28,7 +28,6 @@ import {
   EServiceCreateStepPurpose,
   EServiceCreateStepPurposeSkeleton,
 } from './components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
-import { useSearchParams } from 'react-router-dom'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 
 const ProviderEServiceCreatePage: React.FC = () => {
@@ -39,6 +38,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const isNewEService = !params?.eserviceId
   const isDraftEService = !isNewEService && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
   const isDraftDescriptor = !isNewEService && params?.descriptorId && !isDraftEService
+
+  const [selectedEServiceMode, setSelectedEServiceMode] = React.useState<EServiceMode | undefined>()
 
   const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(
     params?.eserviceId,
@@ -57,27 +58,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
    */
   const eserviceData = isDraftEService ? eservice : descriptor?.eservice
 
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const handleEserviceModeChange = (value: string) => {
-    setSearchParams((prev) => {
-      prev.set('mode', value)
-      return prev
-    })
-  }
-
-  React.useEffect(() => {
-    eserviceData?.mode &&
-      setSearchParams((prev) => {
-        prev.set('mode', eserviceData.mode)
-        return prev
-      })
-
-    // `setSearchParams` is not referentially stable *sigh*
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eserviceData?.mode])
-
-  const eserviceMode: EServiceMode = (searchParams.get('mode') as EServiceMode) ?? 'DELIVER'
+  const eserviceMode = selectedEServiceMode || eserviceData?.mode || 'DELIVER'
 
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
@@ -151,7 +132,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           eservice={eserviceData}
           descriptor={descriptor}
           eserviceMode={eserviceMode}
-          onEserviceModeChange={handleEserviceModeChange}
+          onEserviceModeChange={setSelectedEServiceMode}
           {...stepProps}
         >
           <Step />
