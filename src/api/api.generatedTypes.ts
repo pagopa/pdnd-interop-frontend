@@ -611,6 +611,8 @@ export interface ProducerEService {
   /** @format uuid */
   id: string
   name: string
+  /** Risk Analysis Mode */
+  mode: EServiceMode
   activeDescriptor?: CompactDescriptor
   draftDescriptor?: CompactDescriptor
 }
