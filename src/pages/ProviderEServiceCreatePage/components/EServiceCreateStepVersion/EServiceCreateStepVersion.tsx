@@ -48,7 +48,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
     description: descriptor?.description ?? '',
     dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
     dailyCallsTotal: descriptor?.dailyCallsTotal ?? 1,
-    agreementApprovalPolicy: descriptor?.agreementApprovalPolicy === 'MANUAL' ?? true,
+    agreementApprovalPolicy: descriptor ? descriptor.agreementApprovalPolicy === 'MANUAL' : true,
   }
 
   const formMethods = useForm({ defaultValues })
