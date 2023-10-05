@@ -57,7 +57,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       onSuccess({ id }) {
         navigate('PROVIDE_ESERVICE_EDIT', {
           params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT },
-          urlParams: { mode: formValues.mode },
           replace: true,
           state: { stepIndexDestination: 1 },
         })
@@ -133,7 +132,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             disabled={!isEditable}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
-            onValueChange={onEserviceModeChange}
+            onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
           />
         </SectionContainer>
 

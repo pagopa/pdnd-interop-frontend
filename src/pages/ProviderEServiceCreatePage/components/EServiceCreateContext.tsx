@@ -11,7 +11,7 @@ type EServiceCreateContextType = {
   eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
   descriptor: ProducerEServiceDescriptor | undefined
   eserviceMode: EServiceMode
-  onEserviceModeChange: (value: string) => void
+  onEserviceModeChange: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
   riskAnalysisFormState: {
@@ -47,7 +47,7 @@ type EServiceCreateContextProviderProps = {
   eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
   descriptor: ProducerEServiceDescriptor | undefined
   eserviceMode: EServiceMode
-  onEserviceModeChange: (value: string) => void
+  onEserviceModeChange: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
 }
