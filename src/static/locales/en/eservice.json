@@ -12,6 +12,7 @@
     "stepper": {
       "step1Label": "General",
       "step2Label": "Version",
+      "step2ReceiveLabel": "Purpose",
       "step3Label": "Attributes",
       "step4Label": "Documentation"
     },
