@@ -9,15 +9,15 @@
   },
   "certified": {
     "label": "Attributi Certificati",
-    "description": "Ovvero attributi certificati da una <1>fonte autoritativa riconosciuta.</1>"
+    "description": "Ovvero attributi <1>riconosciuti da una fonte autoritativa agli aderenti</1>."
   },
   "verified": {
     "label": "Attributi Verificati",
-    "description": "Ovvero attributi verificati <1>da altre organizzazioni per lo stesso fruitore</1> con la possibilità di richiedere una verifica dall’erogatore. Per ogni attributo verifica o revoca..."
+    "description": "Ovvero attributi <1>riconosciuti dagli erogatori ai fruitori a seguito di un’istruttoria</1>. In alternativa, PDND Interoperabilità offre la possibilità agli erogatori di fare affidamento sulle istruttorie effettuate da altri erogatori, qualora disponibili."
   },
   "declared": {
     "label": "Attributi Dichiarati",
-    "description": "Ovvero attributi dichiarati dal fruitore sotto propria responsabilità durante la richiesta di fruizione. Non è necessaria una verifica dell’erogatore."
+    "description": "Ovvero attributi <1>dei quali il fruitore dichiara il possesso</1>, riconoscendoseli sotto la propria responsabilità con un’autodichiarazione."
   },
   "noAttributesRequiredAlert": {
     "provider": "Il tuo ente non richiede attributi {{attributeKey}}",

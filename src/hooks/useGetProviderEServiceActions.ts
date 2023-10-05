@@ -1,4 +1,4 @@
-import type { EServiceDescriptorState, EServiceMode } from '@/api/api.generatedTypes'
+import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { useNavigate } from '@/router'
 import { minutesToSeconds } from '@/utils/format.utils'
@@ -17,8 +17,7 @@ export function useGetProviderEServiceActions(
   eserviceId: string | undefined,
   descriptorState: EServiceDescriptorState | undefined,
   activeDescriptorId: string | undefined,
-  draftDescriptorId: string | undefined,
-  mode: EServiceMode | undefined
+  draftDescriptorId: string | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
@@ -136,7 +135,7 @@ export function useGetProviderEServiceActions(
         onSuccess({ id }) {
           navigate('PROVIDE_ESERVICE_EDIT', {
             params: { eserviceId, descriptorId: id },
-            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+            state: { stepIndexDestination: 1 },
           })
         },
       }
@@ -153,7 +152,7 @@ export function useGetProviderEServiceActions(
     if (draftDescriptorId)
       navigate('PROVIDE_ESERVICE_EDIT', {
         params: { eserviceId, descriptorId: draftDescriptorId },
-        state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+        state: { stepIndexDestination: 1 },
       })
   }
 

@@ -108,8 +108,6 @@ export interface UpdateEServiceSeed {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  /** Risk Analysis Mode */
-  mode: EServiceMode
 }
 
 export interface EServiceSeed {
@@ -117,8 +115,6 @@ export interface EServiceSeed {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  /** Risk Analysis Mode */
-  mode: EServiceMode
 }
 
 export interface UpdateEServiceDescriptorSeed {
@@ -244,9 +240,6 @@ export interface CatalogDescriptorEService {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  /** Risk Analysis Mode */
-  mode: EServiceMode
-  riskAnalysis: EServiceRiskAnalysis[]
   descriptors: CompactDescriptor[]
   agreement?: CompactAgreement
   isMine: boolean
@@ -263,26 +256,6 @@ export interface ProducerEServiceDetails {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  /** Risk Analysis Mode */
-  mode: EServiceMode
-  riskAnalysis: EServiceRiskAnalysis[]
-}
-
-/** Risk Analysis Mode */
-export type EServiceMode = 'RECEIVE' | 'DELIVER'
-
-export interface EServiceRiskAnalysisSeed {
-  name: string
-  riskAnalysisForm: RiskAnalysisForm
-}
-
-export interface EServiceRiskAnalysis {
-  /** @format uuid */
-  id: string
-  name: string
-  riskAnalysisForm: RiskAnalysisForm
-  /** @format date-time */
-  createdAt: string
 }
 
 export interface ProducerEServiceDescriptor {
@@ -326,9 +299,6 @@ export interface ProducerDescriptorEService {
   description: string
   /** EService Descriptor State */
   technology: EServiceTechnology
-  /** Risk Analysis Mode */
-  mode: EServiceMode
-  riskAnalysis: EServiceRiskAnalysis[]
   descriptors: CompactDescriptor[]
   draftDescriptor?: CompactDescriptor
   mail?: Mail
@@ -522,25 +492,6 @@ export interface PurposeSeed {
   dailyCalls: number
 }
 
-/** contains the expected payload for purpose creation. */
-export interface PurposeEServiceSeed {
-  /** @format uuid */
-  eserviceId: string
-  /** @format uuid */
-  consumerId: string
-  /** @format uuid */
-  riskAnalysisId: string
-  title: string
-  description: string
-  isFreeOfCharge: boolean
-  freeOfChargeReason?: string
-  /**
-   * @format int32
-   * @min 0
-   */
-  dailyCalls: number
-}
-
 /** contains the expected payload for purpose version update. */
 export interface WaitingForApprovalPurposeVersionUpdateContentSeed {
   /**
@@ -554,10 +505,7 @@ export interface CompactOrganization {
   /** @format uuid */
   id: string
   name: string
-  kind?: TenantKind
 }
-
-export type TenantKind = 'PA' | 'PRIVATE' | 'GSP'
 
 export interface CompactOrganizations {
   results: CompactOrganization[]
@@ -611,8 +559,6 @@ export interface ProducerEService {
   /** @format uuid */
   id: string
   name: string
-  /** Risk Analysis Mode */
-  mode: EServiceMode
   activeDescriptor?: CompactDescriptor
   draftDescriptor?: CompactDescriptor
 }
@@ -652,8 +598,6 @@ export interface Purpose {
   title: string
   description: string
   consumer: CompactOrganization
-  /** @format uuid */
-  riskAnalysisId?: string
   riskAnalysisForm?: RiskAnalysisForm
   eservice: CompactPurposeEService
   agreement: CompactAgreement
@@ -757,22 +701,11 @@ export interface CompactClient {
 export interface PurposeUpdateContent {
   title: string
   description: string
+  /** @format uuid */
+  eserviceId: string
   isFreeOfCharge: boolean
   freeOfChargeReason?: string
   riskAnalysisForm?: RiskAnalysisForm
-  /**
-   * maximum number of daily calls that this version can perform.
-   * @format int32
-   */
-  dailyCalls: number
-}
-
-/** contains the expected payload for purpose update. */
-export interface ReversePurposeUpdateContent {
-  title: string
-  description: string
-  isFreeOfCharge: boolean
-  freeOfChargeReason?: string
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
@@ -1620,19 +1553,6 @@ export interface GetClientsParams {
    * @max 50
    */
   limit: number
-}
-
-export interface GetClientKeysParams {
-  /**
-   * comma separated sequence of relationship IDs
-   * @default []
-   */
-  relationshipIds?: string[]
-  /**
-   * ID of Client
-   * @format uuid
-   */
-  clientId: string
 }
 
 export namespace Agreements {
@@ -2663,117 +2583,6 @@ export namespace Eservices {
     }
     export type ResponseBody = CreatedResource
   }
-  /**
-   * No description
-   * @tags eservices
-   * @name AddRiskAnalysisToEService
-   * @summary add a risk analysis to an EService
-   * @request POST:/eservices/{eServiceId}/riskAnalysis
-   * @secure
-   */
-  export namespace AddRiskAnalysisToEService {
-    export type RequestParams = {
-      /**
-       * the eservice id
-       * @format uuid
-       */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceRiskAnalysisSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * No description
-   * @tags eservices
-   * @name GetEServiceRiskAnalysis
-   * @summary get EService risk analysis
-   * @request GET:/eservices/{eServiceId}/riskAnalysis/{riskAnalysisId}
-   * @secure
-   */
-  export namespace GetEServiceRiskAnalysis {
-    export type RequestParams = {
-      /**
-       * the eservice id
-       * @format uuid
-       */
-      eServiceId: string
-      /**
-       * the risk analysis id
-       * @format uuid
-       */
-      riskAnalysisId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = EServiceRiskAnalysis
-  }
-  /**
-   * No description
-   * @tags eservices
-   * @name UpdateEServiceRiskAnalysis
-   * @summary update EService risk analysis
-   * @request POST:/eservices/{eServiceId}/riskAnalysis/{riskAnalysisId}
-   * @secure
-   */
-  export namespace UpdateEServiceRiskAnalysis {
-    export type RequestParams = {
-      /**
-       * the eservice id
-       * @format uuid
-       */
-      eServiceId: string
-      /**
-       * the risk analysis id
-       * @format uuid
-       */
-      riskAnalysisId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceRiskAnalysisSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * No description
-   * @tags eservices
-   * @name DeleteEServiceRiskAnalysis
-   * @summary delete EService risk analysis
-   * @request DELETE:/eservices/{eServiceId}/riskAnalysis/{riskAnalysisId}
-   * @secure
-   */
-  export namespace DeleteEServiceRiskAnalysis {
-    export type RequestParams = {
-      /**
-       * the eservice id
-       * @format uuid
-       */
-      eServiceId: string
-      /**
-       * the risk analysis id
-       * @format uuid
-       */
-      riskAnalysisId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = void
-  }
 }
 
 export namespace Producers {
@@ -2921,50 +2730,6 @@ export namespace Producers {
       'X-Forwarded-For'?: string
     }
     export type ResponseBody = ProducerEServiceDescriptor
-  }
-}
-
-export namespace Reverse {
-  /**
-   * @description create a purposes with an EService risk analysis
-   * @tags purposes
-   * @name CreatePurposeForReceiveEservice
-   * @summary create a purposes with an EService risk analysis
-   * @request POST:/reverse/purposes
-   * @secure
-   */
-  export namespace CreatePurposeForReceiveEservice {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = PurposeEServiceSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = CreatedResource
-  }
-  /**
-   * @description Updates a reverse Purpose
-   * @tags purposes
-   * @name UpdateReversePurpose
-   * @request POST:/reverse/purposes/{purposeId}
-   * @secure
-   */
-  export namespace UpdateReversePurpose {
-    export type RequestParams = {
-      /**
-       * the purpose id
-       * @format uuid
-       */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = ReversePurposeUpdateContent
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
-    }
-    export type ResponseBody = PurposeVersionResource
   }
 }
 
@@ -4224,13 +3989,7 @@ export namespace Clients {
        */
       clientId: string
     }
-    export type RequestQuery = {
-      /**
-       * comma separated sequence of relationship IDs
-       * @default []
-       */
-      relationshipIds?: string[]
-    }
+    export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string

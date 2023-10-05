@@ -62,6 +62,7 @@ exports[`DialogRejectAgreement testing > should match the snapshot 1`] = `
                   class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-focused MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-multiline css-1qxw4jt-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <textarea
+                    aria-describedby="reason-infoLabel"
                     aria-invalid="false"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiInputBase-inputSizeSmall css-12tl3rr-MuiInputBase-input-MuiOutlinedInput-input"
                     id="reason"

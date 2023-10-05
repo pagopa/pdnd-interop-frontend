@@ -75,31 +75,6 @@
         "description": "You will not be able to delete an e-service version after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or make it deprecated when a new version is published"
       }
     },
-    "addEServiceRiskAnalysis": {
-      "loading": "Adding the risk analysis to this e-service",
-      "outcome": {
-        "success": "New risk analysis added successfully",
-        "error": "The risk analysis could not be added. Please make sure this risk analysis exists and try again!"
-      }
-    },
-    "updateEServiceRiskAnalysis": {
-      "loading": "Updating risk analysis",
-      "outcome": {
-        "success": "New risk analysis updated successfully",
-        "error": "The new risk analysis could not be updated. Make sure all the required fields are filled in the original risk analysis and try again, please!"
-      }
-    },
-    "deleteEServiceRiskAnalysis": {
-      "loading": "Removing the risk analysis from this e-service",
-      "outcome": {
-        "success": "Risk analysis removed successfully",
-        "error": "The risk analysis could not be removed from the e-service. Please, try again!"
-      },
-      "confirmDialog": {
-        "title": "Confirm risk analysis removal from e-service",
-        "description": "The risk analysis will be deleted from this e-service."
-      }
-    },
     "suspendVersion": {
       "loading": "Suspending e-service version",
       "outcome": {
@@ -388,12 +363,6 @@
       "confirmDialog": {
         "title": "Confirm purpose deletion",
         "description": "By clicking \"confirm\", this purpose will be deleted and it will not be recoverable. All the clients added to it will no longer be able to access the Provider e-service. It will always be possible to create new purposes"
-      }
-    },
-    "createDraftForReceiveEService": {
-      "loading": "Creating purpose draft",
-      "outcome": {
-        "error": "The purpose draft could not be created. Please, try again!"
       }
     },
     "updateDailyCalls": {

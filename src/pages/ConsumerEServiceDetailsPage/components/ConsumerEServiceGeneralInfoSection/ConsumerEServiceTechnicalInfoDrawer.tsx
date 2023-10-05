@@ -74,12 +74,6 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
         />
 
         <InformationContainer
-          label={t('mode.label')}
-          content={t(`mode.value.${descriptor.eservice.mode}`)}
-          direction="column"
-        />
-
-        <InformationContainer
           label={t('documentation')}
           content={
             <Stack spacing={1} mt={1} alignItems="start">

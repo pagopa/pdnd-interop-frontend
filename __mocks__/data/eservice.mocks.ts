@@ -12,14 +12,11 @@ const createMockEServiceRead = createMockFactory<ProducerEServiceDetails>({
   name: '-- CAMMELLO --',
   description: 'Lore ipsum',
   technology: 'REST',
-  mode: 'DELIVER',
-  riskAnalysis: [],
 })
 
 const createMockEServiceProvider = createMockFactory<ProducerEService>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
   name: '-- CAMMELLO --',
-  mode: 'DELIVER',
 })
 
 const createMockEServiceCatalog = createMockFactory<CatalogEService>({
@@ -73,8 +70,6 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     isSubscribed: false,
     name: '!! -- CAMMELLO -- Test 18/10 [1] - clone',
     technology: 'REST',
-    mode: 'DELIVER',
-    riskAnalysis: [],
   },
   id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
   interface: {
@@ -113,8 +108,6 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
     id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
     name: '-- LUMACA -- test 20/10 [4]\t',
     technology: 'REST',
-    mode: 'DELIVER',
-    riskAnalysis: [],
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   interface: {
