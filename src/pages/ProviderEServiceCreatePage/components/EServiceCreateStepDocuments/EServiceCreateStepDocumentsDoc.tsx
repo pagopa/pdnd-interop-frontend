@@ -9,6 +9,7 @@ import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
+import AddIcon from '@mui/icons-material/Add'
 
 type EServiceCreateStepDocumentsDocFormValues = {
   doc: File | null
@@ -135,7 +136,12 @@ export function EServiceCreateStepDocumentsDoc() {
           </Box>
         </FormProvider>
       ) : (
-        <Button size="small" variant="text" onClick={handleShowFileInput}>
+        <Button
+          startIcon={<AddIcon fontSize="small" />}
+          size="small"
+          variant="text"
+          onClick={handleShowFileInput}
+        >
           {tCommon('addBtn')}
         </Button>
       )}
