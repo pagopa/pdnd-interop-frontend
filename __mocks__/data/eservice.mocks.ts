@@ -19,6 +19,7 @@ const createMockEServiceRead = createMockFactory<ProducerEServiceDetails>({
 const createMockEServiceProvider = createMockFactory<ProducerEService>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
   name: '-- CAMMELLO --',
+  mode: 'DELIVER',
 })
 
 const createMockEServiceCatalog = createMockFactory<CatalogEService>({
