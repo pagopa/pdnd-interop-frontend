@@ -6,7 +6,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 
 export const PurposeCreateProviderRiskAnalysisAutocomplete: React.FC = () => {
-  const { t } = useTranslation('purpose')
+  const { t } = useTranslation('purpose', { keyPrefix: 'create.eserviceRiskAnalysisSection' })
   const { setValue, watch } = useFormContext<PurposeCreateFormValues>()
 
   const selectedEServiceId = watch('eserviceId')
@@ -50,7 +50,7 @@ export const PurposeCreateProviderRiskAnalysisAutocomplete: React.FC = () => {
       sx={{ my: 0 }}
       loading={isInitialLoading || isLoadingEService}
       name="providerRiskAnalysisId"
-      label={'TODO Finalità da utilizzare'}
+      label={t('purposeField.label')}
       options={autocompleteOptions}
     />
   )

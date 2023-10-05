@@ -135,7 +135,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
         {isReceiveMode && (
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion headline="2" title={'TODO Finalità'}>
+            <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
               <ProviderEServiceRiskAnalysisSummaryList />
             </SummaryAccordion>
           </React.Suspense>

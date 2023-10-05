@@ -166,10 +166,8 @@ export const PurposeCreateEServiceForm: React.FC = () => {
         {isEServiceSelected && mode === 'RECEIVE' && (
           <SectionContainer
             newDesign
-            title={'TODO Finalità da utilizzare'}
-            description={
-              'TODO L’e-service selezionato prevede che sia l’erogatore a ricevere dati dai fruitori. Puoi selezionare tra le finalità proposte dall’erogatore quella per la quale intendi inviare dati al suo e-service.'
-            }
+            title={t('create.eserviceRiskAnalysisSection.title')}
+            description={t('create.eserviceRiskAnalysisSection.description')}
           >
             <Stack spacing={3}>
               <PurposeCreateProviderRiskAnalysisAutocomplete />

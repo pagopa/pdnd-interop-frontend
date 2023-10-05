@@ -7,14 +7,14 @@ import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 
 export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'create.stepPurpose.purposeTableSection.purposeTable',
+  })
   const { t: tCommon } = useTranslation('common')
 
   const { eservice, openRiskAnalysisForm } = useEServiceCreateContext()
 
   const { mutate: deleteRiskAnalysis } = EServiceMutations.useDeleteEServiceRiskAnalysis()
-
-  const headLabels = ['TODO purposes', '']
-  // const headLabels = []
 
   const handleAddNewPurpose = () => {
     openRiskAnalysisForm()
@@ -33,8 +33,8 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
     <>
       <Table
         isEmpty={eservice?.riskAnalysis.length === 0}
-        headLabels={headLabels}
-        noDataLabel={'TODO Nessuna finalità aggiunta'}
+        headLabels={[]}
+        noDataLabel={t('noDataLabel')}
       >
         {eservice?.riskAnalysis.map((riskAnalysis) => (
           <TableRow key={riskAnalysis.id} cellData={[riskAnalysis.name]}>
