@@ -12,7 +12,8 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
   })
   const { t: tCommon } = useTranslation('common')
 
-  const { eservice, openRiskAnalysisForm } = useEServiceCreateContext()
+  const { eservice, openRiskAnalysisForm, areEServiceGeneralInfoEditable } =
+    useEServiceCreateContext()
 
   const { mutate: deleteRiskAnalysis } = EServiceMutations.useDeleteEServiceRiskAnalysis()
 
@@ -47,6 +48,7 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
           >
             <Button
               onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
+              disabled={!areEServiceGeneralInfoEditable}
               variant="naked"
               sx={{ mr: 3 }}
             >
@@ -54,6 +56,7 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
             </Button>
             <Button
               onClick={handleDeletePurpose.bind(null, riskAnalysis.id)}
+              disabled={!areEServiceGeneralInfoEditable}
               variant="naked"
               color="error"
             >
@@ -65,6 +68,7 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
       <Button
         sx={{ mt: 2 }}
         variant="contained"
+        disabled={!areEServiceGeneralInfoEditable}
         startIcon={<PlusOneIcon />}
         size="small"
         onClick={handleAddNewPurpose}

@@ -14,6 +14,7 @@ type EServiceCreateContextType = {
   onEserviceModeChange: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
+  areEServiceGeneralInfoEditable: boolean
   riskAnalysisFormState: {
     isOpen: boolean
     riskAnalysisId: string | undefined
@@ -29,6 +30,7 @@ const initialState: EServiceCreateContextType = {
   onEserviceModeChange: noop,
   back: noop,
   forward: noop,
+  areEServiceGeneralInfoEditable: true,
   riskAnalysisFormState: {
     isOpen: false,
     riskAnalysisId: undefined,
@@ -84,11 +86,21 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   }
 
   const providerValue = React.useMemo(() => {
+    const areEServiceGeneralInfoEditable = Boolean(
+      // case 1: new e-service
+      !eservice ||
+        // case 2: already existing service but no versions created
+        (eservice && !descriptor) ||
+        // case 3: already existing service and version, but version is 1 and still a draft
+        (eservice && descriptor && descriptor.version === '1' && descriptor.state === 'DRAFT')
+    )
+
     return {
       eservice,
       descriptor,
       eserviceMode,
       onEserviceModeChange,
+      areEServiceGeneralInfoEditable,
       back,
       forward,
       riskAnalysisFormState,

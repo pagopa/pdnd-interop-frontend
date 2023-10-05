@@ -12,6 +12,7 @@ import { URL_FRAGMENTS } from '@/router/router.utils'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -24,7 +25,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
-  const { eservice, descriptor, forward, eserviceMode, onEserviceModeChange } =
+  const { eservice, areEServiceGeneralInfoEditable, forward, eserviceMode, onEserviceModeChange } =
     useEServiceCreateContext()
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
@@ -65,14 +66,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     })
   }
 
-  const isEditable =
-    // case 1: new e-service
-    !eservice ||
-    // case 2: already existing service but no versions created
-    (eservice && !descriptor) ||
-    // case 3: already existing service and version, but version is 1 and still a draft
-    (eservice && descriptor && descriptor.version === '1' && descriptor.state === 'DRAFT')
-
   return (
     <FormProvider {...formMethods}>
       <Alert severity="warning" sx={{ mb: 3 }}>
@@ -83,7 +76,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           <RHFTextField
             label={t('create.step1.eserviceNameField.label')}
             name="name"
-            disabled={!isEditable}
+            disabled={!areEServiceGeneralInfoEditable}
             rules={{ required: true, minLength: 5 }}
             focusOnMount
             inputProps={{ maxLength: 60 }}
@@ -95,7 +88,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             label={t('create.step1.eserviceDescriptionField.label')}
             name="description"
             multiline
-            disabled={!isEditable}
+            disabled={!areEServiceGeneralInfoEditable}
             size="small"
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
@@ -110,7 +103,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
             ]}
-            disabled={!isEditable}
+            disabled={!areEServiceGeneralInfoEditable}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
           />
@@ -129,7 +122,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 value: 'RECEIVE',
               },
             ]}
-            disabled={!isEditable}
+            disabled={!areEServiceGeneralInfoEditable}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
@@ -138,9 +131,10 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
         <StepActions
           forward={
-            !isEditable
+            !areEServiceGeneralInfoEditable
               ? {
                   label: t('create.forwardWithoutSaveBtn'),
+                  endIcon: <ArrowForwardIcon />,
                   onClick: forward,
                   type: 'button',
                 }
