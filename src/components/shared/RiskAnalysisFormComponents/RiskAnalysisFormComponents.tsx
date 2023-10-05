@@ -23,7 +23,7 @@ import { RiskAnalysisRadioGroup } from './RiskAnalysisRadioGroup'
  * @returns Array of components that should be rendered inside the form
  * */
 export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({ questions }) => {
-  const { t } = useTranslation('shared-components', { keyPrefix: 'riskAnalysis' })
+  const { t } = useTranslation('shared-components')
   const lang = useCurrentLanguage()
   const answers = useFormContext<Answers>().watch()
 
@@ -65,7 +65,7 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
             <RiskAnalysisSelect
               {...commonProps}
               options={inputOptions}
-              emptyLabel={t('formComponents.emptyLabel')}
+              emptyLabel={t('riskAnalysis.formComponents.emptyLabel')}
               rules={{ required: true }}
             />
           )
@@ -78,7 +78,7 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
               rules={{
                 validate: (value) =>
                   (typeof value !== 'undefined' && value.length > 0) ||
-                  t('formComponents.multiCheckboxField.validation.mixed.required'),
+                  t('riskAnalysis.formComponents.multiCheckboxField.validation.mixed.required'),
               }}
             />
           )
@@ -100,7 +100,7 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
               rules={{
                 validate: (value) =>
                   (typeof value === 'boolean' && value === true) ||
-                  t('formComponents.riskAnalysisSwitch.validation.boolean.isValue'),
+                  t('riskAnalysis.formComponents.riskAnalysisSwitch.validation.boolean.isValue'),
               }}
             />
           )
