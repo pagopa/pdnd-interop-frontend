@@ -167,7 +167,7 @@
   },
   "consumerDebugVoucher": {
     "edit": {
-      "title": "Inserisci i campi della tua richiesta",
+      "title": "Dati della richiesta al server",
       "clientAssertionLabel": "Inserisci la tua client assertion (richiesto)",
       "clientIdLabel": "Inserisci il client id",
       "description": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",
