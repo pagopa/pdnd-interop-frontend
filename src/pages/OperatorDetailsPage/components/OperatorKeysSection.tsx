@@ -24,7 +24,7 @@ export const OperatorKeysSection: React.FC<OperatorKeysSectionProps> = ({
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT' : 'SUBSCRIBE_CLIENT_KEY_EDIT'
 
   return (
-    <SectionContainer title={t('edit.associatedKeysField.label')}>
+    <SectionContainer title={t('edit.associatedKeysField.label')} newDesign>
       <Stack spacing={2}>
         {operatorKeys.map(({ keyId, name }, i) => (
           <Link

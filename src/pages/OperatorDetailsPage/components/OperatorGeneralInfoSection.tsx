@@ -23,7 +23,7 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
   }
 
   return (
-    <SectionContainer title={t('generalInformations')}>
+    <SectionContainer title={t('generalInformations')} newDesign>
       <Stack spacing={2}>
         <InformationContainer
           label={t('taxCodeField.label')}

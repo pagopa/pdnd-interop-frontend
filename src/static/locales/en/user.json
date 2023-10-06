@@ -16,7 +16,7 @@
       "label": "Role"
     },
     "productRoleField": {
-      "label": "Permission"
+      "label": "PDND Interoparabilità product role"
     },
     "statusField": {
       "label": "User status"
