@@ -54,6 +54,7 @@
     "manageDraft": "Manage draft",
     "deleteDraft": "Delete draft",
     "publishDraft": "Publish draft",
+    "editDraft": "Edit draft",
     "updateCompletionDate": "Update attivation date",
     "confirmUpdate": "Confirm update",
     "filter": "Filter",
