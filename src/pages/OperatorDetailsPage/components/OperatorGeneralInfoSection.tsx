@@ -17,10 +17,7 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
   const { t: tCommon } = useTranslation('common')
 
   const { data: operator } = ClientQueries.useGetSingleOperator(operatorId)
-
-  if (!operator) {
-    return null
-  }
+  if (!operator) return null
 
   return (
     <SectionContainer title={t('generalInformations')} newDesign>
