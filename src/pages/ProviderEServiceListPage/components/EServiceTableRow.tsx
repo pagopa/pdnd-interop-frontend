@@ -73,7 +73,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
             URL_FRAGMENTS.FIRST_DRAFT,
         }}
       >
-        {t(`actions.${isEServiceEditable ? 'edit' : 'inspect'}`)}
+        {t(`actions.${isEServiceEditable ? 'manageDraft' : 'inspect'}`)}
       </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
