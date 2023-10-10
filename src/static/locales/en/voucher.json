@@ -167,7 +167,7 @@
   },
   "consumerDebugVoucher": {
     "edit": {
-      "title": "Enter the fields of your request",
+      "title": "Server request data",
       "clientAssertionLabel": "Enter your client assertion (required)",
       "clientIdLabel": "Enter the client id",
       "description": "The request will be forwarded to the authorization server endpoint: <strong>{{ authServer }}</strong>",
