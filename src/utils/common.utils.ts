@@ -55,7 +55,7 @@ export function createContext<ContextValue>(name: string, defaultValue: ContextV
  */
 export function compareObjects<
   TObjectToCompare extends object,
-  TObject extends { [TKey in keyof TObjectToCompare]?: unknown }
+  TObject extends { [TKey in keyof TObjectToCompare]?: unknown },
 >(object: TObject, objectToCompare: TObjectToCompare) {
   return getKeys(object).every((key) =>
     isEqual(object[key], objectToCompare[key as keyof TObjectToCompare])
