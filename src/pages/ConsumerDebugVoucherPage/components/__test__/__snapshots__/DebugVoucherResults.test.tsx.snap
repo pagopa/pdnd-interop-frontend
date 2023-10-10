@@ -50,7 +50,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
             class="MuiStack-root css-3y1137-MuiStack-root"
           >
             <h2
-              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
             >
               title
             </h2>
@@ -215,16 +215,16 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is false 
             class="MuiStack-root css-3y1137-MuiStack-root"
           >
             <h2
-              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
             >
               title
             </h2>
           </div>
-          <span
-            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
           >
             description
-          </span>
+          </p>
         </div>
         <div
           class="MuiBox-root css-1yuhvjn"
@@ -428,7 +428,7 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
             class="MuiStack-root css-3y1137-MuiStack-root"
           >
             <h2
-              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
             >
               title
             </h2>
@@ -593,16 +593,16 @@ exports[`DebugVoucherResults testing > should match snapshot if isOpen is true 1
             class="MuiStack-root css-3y1137-MuiStack-root"
           >
             <h2
-              class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
             >
               title
             </h2>
           </div>
-          <span
-            class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
           >
             description
-          </span>
+          </p>
         </div>
         <div
           class="MuiBox-root css-1yuhvjn"

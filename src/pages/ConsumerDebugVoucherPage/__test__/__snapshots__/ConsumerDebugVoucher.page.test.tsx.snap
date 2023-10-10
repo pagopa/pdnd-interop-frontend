@@ -84,7 +84,7 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                 class="MuiStack-root css-3y1137-MuiStack-root"
               >
                 <h2
-                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
                 >
                   title
                 </h2>
@@ -214,16 +214,16 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
                 class="MuiStack-root css-3y1137-MuiStack-root"
               >
                 <h2
-                  class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
                 >
                   title
                 </h2>
               </div>
-              <span
-                class="MuiTypography-root MuiTypography-caption css-ol7wxs-MuiTypography-root"
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
               >
                 description
-              </span>
+              </p>
             </div>
             <div
               class="MuiBox-root css-1yuhvjn"
@@ -421,16 +421,17 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
             >
               <div
                 class="MuiStack-root css-3y1137-MuiStack-root"
-              />
+              >
+                <h2
+                  class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+                >
+                  title
+                </h2>
+              </div>
             </div>
             <div
-              class="MuiBox-root css-zv7ju9"
+              class="MuiBox-root css-1yuhvjn"
             >
-              <span
-                class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
-              >
-                title
-              </span>
               <div
                 class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
               >

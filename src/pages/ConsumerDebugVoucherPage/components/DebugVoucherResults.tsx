@@ -16,11 +16,8 @@ export const DebugVoucherResults: React.FC = () => {
     <>
       <Stack spacing={4}>
         <DebugVoucherResultsAlert />
-
         <DebugVoucherResultsStepsSection />
-
         <DebugVoucherResultsRequestSection />
-
         <DebugVoucherStepDrawer />
       </Stack>
 
