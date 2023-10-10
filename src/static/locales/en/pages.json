@@ -33,6 +33,6 @@
   },
   "consumerDebugVoucher": {
     "title": "Voucher debug",
-    "description": "If you can't get a voucher and you don't know why, you can debug in this view"
+    "description": "If you can't get a voucher and don't know why, you can debug with this simulator and understand possible errors"
   }
 }
