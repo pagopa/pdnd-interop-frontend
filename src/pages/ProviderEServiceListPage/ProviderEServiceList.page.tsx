@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { EServiceTable, EServiceTableSkeleton } from './components'
 import { PageContainer } from '@/components/layout/containers'
 import { useNavigate } from '@/router'
-import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { EServiceQueries } from '@/api/eservice'
 import {
   Filters,
@@ -14,6 +13,8 @@ import {
 } from '@pagopa/interop-fe-commons'
 import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import PlusOneIcon from '@mui/icons-material/PlusOne'
+import type { ActionItemButton } from '@/types/common.types'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
@@ -55,23 +56,20 @@ const ProviderEServiceListPage: React.FC = () => {
     keepPreviousData: true,
   })
 
-  const topSideActions: TopSideActions = {
-    buttons: [
-      {
-        action: () => {
-          navigate('PROVIDE_ESERVICE_CREATE')
-        },
-        label: tCommon('createNewBtn'),
-        variant: 'contained',
-      },
-    ],
-  }
+  const topSideActions: Array<ActionItemButton> = [
+    {
+      action: () => navigate('PROVIDE_ESERVICE_CREATE'),
+      label: tCommon('createNewBtn'),
+      variant: 'contained',
+      icon: PlusOneIcon,
+    },
+  ]
 
   return (
     <PageContainer
       title={t('title')}
       description={t('description')}
-      topSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
+      newTopSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <EServiceTableWrapper params={queryParams} />
