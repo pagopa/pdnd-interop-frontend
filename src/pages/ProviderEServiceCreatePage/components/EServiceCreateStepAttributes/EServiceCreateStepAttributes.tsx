@@ -27,7 +27,7 @@ export type EServiceCreateStepAttributesFormValues = {
 
 export const EServiceCreateStepAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { eservice, descriptor, forward, back } = useEServiceCreateContext()
+  const { descriptor, forward, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -60,47 +60,41 @@ export const EServiceCreateStepAttributes: React.FC = () => {
     useClonePreviousDescriptorAttributes(descriptor, formMethods.setValue)
 
   const onSubmit = (values: EServiceCreateStepAttributesFormValues) => {
-    if (!eservice) return
+    if (!descriptor) return
 
-    if (descriptor) {
-      const removeEmptyGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
-        return attributes.filter((group) => group.length > 0)
-      }
+    const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
+      return attributes.filter((group) => group.length > 0)
+    }
 
-      // Removes empty groups from the comparison
-      const newAttributesToCompare = {
-        certified: removeEmptyGroups(values.attributes.certified),
-        verified: removeEmptyGroups(values.attributes.verified),
-        declared: removeEmptyGroups(values.attributes.declared),
-      }
+    const attributes = {
+      certified: removeEmptyAttributeGroups(values.attributes.certified),
+      verified: removeEmptyAttributeGroups(values.attributes.verified),
+      declared: removeEmptyAttributeGroups(values.attributes.declared),
+    }
 
-      const areAttributesEquals = compareObjects(newAttributesToCompare, descriptor.attributes)
+    const areAttributesEquals = compareObjects(attributes, descriptor.attributes)
 
-      if (areAttributesEquals) {
-        forward()
-        return
-      }
-
-      const payload: UpdateEServiceDescriptorSeed = {
-        audience: descriptor.audience,
-        voucherLifespan: descriptor.voucherLifespan,
-        dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
-        dailyCallsTotal: descriptor.dailyCallsTotal,
-        agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-        description: descriptor.description,
-        attributes: remapDescriptorAttributesToDescriptorAttributesSeed(values.attributes),
-      }
-
-      updateVersionDraft(
-        {
-          ...payload,
-          eserviceId: eservice.id,
-          descriptorId: descriptor.id,
-        },
-        { onSuccess: forward }
-      )
+    if (areAttributesEquals) {
+      forward()
       return
     }
+
+    const payload: UpdateEServiceDescriptorSeed & {
+      eserviceId: string
+      descriptorId: string
+    } = {
+      audience: descriptor.audience,
+      voucherLifespan: descriptor.voucherLifespan,
+      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+      dailyCallsTotal: descriptor.dailyCallsTotal,
+      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+      description: descriptor.description,
+      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
+    }
+
+    updateVersionDraft(payload, { onSuccess: forward })
   }
 
   return (
