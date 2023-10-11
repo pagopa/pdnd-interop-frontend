@@ -1,11 +1,13 @@
 import { ClientDownloads, ClientMutations } from '@/api/client'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useNavigate } from '@/router'
-import type { ActionItem } from '@/types/common.types'
+import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { AuthHooks } from '@/api/auth'
+import DownloadIcon from '@mui/icons-material/Download'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 
-function useGetKeyActions(clientId: string, kid: string): { actions: Array<ActionItem> } {
+function useGetKeyActions(clientId: string, kid: string): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { isOperatorSecurity, isAdmin } = AuthHooks.useJwt()
   const clientKind = useClientKind()
@@ -38,8 +40,8 @@ function useGetKeyActions(clientId: string, kid: string): { actions: Array<Actio
 
   return {
     actions: [
-      { action: handleDownloadKey, label: t('download') },
-      { action: handleDeleteKey, label: t('delete') },
+      { action: handleDownloadKey, label: t('download'), icon: DownloadIcon },
+      { action: handleDeleteKey, label: t('delete'), color: 'error', icon: DeleteOutlineIcon },
     ],
   }
 }
