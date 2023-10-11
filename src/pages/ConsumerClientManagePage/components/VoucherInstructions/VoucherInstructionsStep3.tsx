@@ -1,107 +1,127 @@
 import React from 'react'
-import { EServiceQueries } from '@/api/eservice'
 import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
-import { API_GATEWAY_INTEFACE_URL } from '@/config/env'
-import { Link } from '@/router'
-import { Link as MUILink, Skeleton, Stack } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { AUTHORIZATION_SERVER_TOKEN_CREATION_URL, FE_URL } from '@/config/env'
+import { Alert, Divider, Stack, Typography, Link as MUILink } from '@mui/material'
+import { Trans, useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
-import type { VoucherInstructionsStepProps } from '../../types/voucher-instructions.types'
+import { CodeSnippetPreview } from './CodeSnippetPreview'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { Link } from '@/router'
+import { useVoucherInstructionsContext } from './VoucherInstructionsContext'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
-export const VoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = (props) => {
-  const clientKind = useClientKind()
-  if (clientKind === 'CONSUMER') {
-    return <ClientVoucherInstructionsStep3 {...props} />
-  }
-  return <InteropM2MVoucherInstructionsStep3 {...props} />
-}
+const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+const GRANT_TYPE = 'client_credentials'
 
-const ClientVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = ({
-  purpose,
-  back,
-}) => {
+export const VoucherInstructionsStep3: React.FC = () => {
   const { t } = useTranslation('voucher')
+  const clientKind = useClientKind()
 
-  const { data: descriptor, isLoading: isLoadingDescriptor } =
-    EServiceQueries.useGetDescriptorCatalog(
-      purpose?.eservice.id as string,
-      purpose?.eservice.descriptor.id as string,
-      { enabled: !!(purpose?.eservice.id && purpose?.eservice.descriptor.id), suspense: false }
-    )
-
-  const descriptorAudience = descriptor && descriptor.audience[0]
+  const { clientId, goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
 
   return (
-    <SectionContainer
-      title={t('step3.consumer.title')}
-      description={t('step3.consumer.description')}
-    >
-      <Stack spacing={4} sx={{ my: 4 }}>
-        <InformationContainer
-          label={t('step3.consumer.audField.label')}
-          labelDescription={t('step3.consumer.audField.description')}
-          content={
-            <>
-              {isLoadingDescriptor && !descriptorAudience && <Skeleton width={200} />}
-              {descriptorAudience}
-            </>
-          }
-          copyToClipboard={
-            descriptorAudience
-              ? {
-                  value: descriptorAudience,
-                  tooltipTitle: t('step3.consumer.audField.copySuccessFeedbackText'),
-                }
-              : undefined
-          }
+    <>
+      <SectionContainer
+        newDesign
+        title={t('step3.title')}
+        description={t(
+          `step3.${clientKind === 'CONSUMER' ? 'consumerDescription' : 'apiDescription'}`
+        )}
+      >
+        <SectionContainer newDesign innerSection title={t('step3.authEndpoint.label')}>
+          <InformationContainer
+            label="URL"
+            content={AUTHORIZATION_SERVER_TOKEN_CREATION_URL}
+            copyToClipboard={{
+              value: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+              tooltipTitle: t('step3.authEndpoint.copySuccessFeedbackText'),
+            }}
+          />
+        </SectionContainer>
+        <Divider sx={{ my: 1 }} />
+        <SectionContainer newDesign innerSection title={t('step3.requestBody.title')}>
+          <Stack spacing={2}>
+            <InformationContainer
+              label={t('step3.requestBody.clientIdField.label')}
+              content={clientId}
+              copyToClipboard={{
+                value: clientId,
+                tooltipTitle: t('step3.requestBody.clientIdField.copySuccessFeedbackText'),
+              }}
+            />
+            <InformationContainer
+              label={t('step3.requestBody.clientAssertionField.label')}
+              content={t('step3.requestBody.clientAssertionField.suggestionLabel')}
+            />
+
+            <InformationContainer
+              label={t('step3.requestBody.clientAssertionTypeField.label')}
+              labelDescription={t('step3.requestBody.clientAssertionTypeField.description')}
+              content={CLIENT_ASSERTION_TYPE}
+              copyToClipboard={{
+                value: CLIENT_ASSERTION_TYPE,
+                tooltipTitle: t(
+                  'step3.requestBody.clientAssertionTypeField.copySuccessFeedbackText'
+                ),
+              }}
+            />
+            <InformationContainer
+              label={t('step3.requestBody.grantTypeField.label')}
+              labelDescription={t('step3.requestBody.grantTypeField.description')}
+              content={GRANT_TYPE}
+              copyToClipboard={{
+                value: GRANT_TYPE,
+                tooltipTitle: t('step3.requestBody.grantTypeField.copySuccessFeedbackText'),
+              }}
+            />
+          </Stack>
+        </SectionContainer>
+      </SectionContainer>
+
+      <SectionContainer newDesign title={t('step3.voucherScript.title')}>
+        <Typography>
+          <Trans
+            components={{
+              1: <MUILink href="https://formulae.brew.sh/formula/curl" target="_blank" />,
+            }}
+          >
+            {t('step3.voucherScript.guide')}
+          </Trans>
+        </Typography>
+        <CodeSnippetPreview
+          sx={{ mt: 2 }}
+          title={t('step3.voucherScript.exampleLabel')}
+          activeLang="curl"
+          entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
+          scriptSubstitutionValues={{
+            AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+            CLIENT_ID: clientId,
+            CLIENT_ASSERTION_TYPE: CLIENT_ASSERTION_TYPE,
+            GRANT_TYPE: GRANT_TYPE,
+          }}
         />
 
-        {purpose && (
-          <InformationContainer
-            label={t('step3.consumer.eserviceDetailsField.label')}
-            content={
-              <Link
-                to="SUBSCRIBE_CATALOG_VIEW"
-                params={{
-                  eserviceId: purpose.eservice.id,
-                  descriptorId: purpose.eservice.descriptor.id,
-                }}
-                target="_blank"
-              >
-                {purpose.eservice.name}
-              </Link>
-            }
-          />
-        )}
-      </Stack>
-
-      <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />
-    </SectionContainer>
-  )
-}
-
-const InteropM2MVoucherInstructionsStep3: React.FC<VoucherInstructionsStepProps> = ({ back }) => {
-  const { t } = useTranslation('voucher')
-
-  return (
-    <SectionContainer title={t('step3.api.title')} description={t('step3.api.description')}>
-      <InformationContainer
-        sx={{ my: 4 }}
-        label={t('step3.api.apiField.label')}
-        content={
-          <MUILink
-            href={API_GATEWAY_INTEFACE_URL}
-            target="_blank"
-            rel="noreferrer"
-            title={t('step3.api.apiField.link.title')}
-          >
-            {t('step3.api.apiField.link.label')}
-          </MUILink>
-        }
+        <Alert severity="info" sx={{ mt: 4 }}>
+          {t('step3.debugVoucherAlert.description')}{' '}
+          <Link to={'SUBSCRIBE_DEBUG_VOUCHER'}>{t('step3.debugVoucherAlert.link.label')}</Link>
+        </Alert>
+      </SectionContainer>
+      <StepActions
+        back={{
+          label: t('backBtn'),
+          type: 'button',
+          onClick: goToPreviousStep,
+          startIcon: <ArrowBackIcon />,
+        }}
+        forward={{
+          label: t('proceedBtn'),
+          type: 'button',
+          onClick: goToNextStep,
+          endIcon: <ArrowForwardIcon />,
+        }}
       />
-      <StepActions back={{ label: t('backBtn'), type: 'button', onClick: back }} />
-    </SectionContainer>
+    </>
   )
 }
