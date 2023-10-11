@@ -169,6 +169,7 @@
     "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato",
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
     "newVersionAvailableTooltip": "Il fruitore ha richiesto un adeguamento che richiede la tua approvazione. Accedi alla finalità per maggiori dettagli",
+    "waitingForApprovalVersionTooltip": "Hai richiesto un adeguamento che richiede l’approvazione dell’erogatore. Accedi alla finalità per maggiori dettagli",
     "filters": {
       "nameField": {
         "label": "Cerca per nome finalità"
