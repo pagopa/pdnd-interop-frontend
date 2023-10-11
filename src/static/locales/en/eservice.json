@@ -311,6 +311,8 @@
     "eserviceCardLabel": "E-SERVICE",
     "myEserviceCardLabel": "E-SERVICE DA TE EROGATO",
     "requestCompleted": "Request completed",
-    "draftRequest": "Draft request"
+    "draftRequest": "Draft request",
+    "eserviceSuspendedTooltip": "It is currently not possible to submit new requests, the e-service is suspended",
+    "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
   }
 }
