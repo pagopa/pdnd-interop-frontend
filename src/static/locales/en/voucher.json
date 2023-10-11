@@ -179,8 +179,8 @@
     }
   },
   "step4": {
-    "consumerStepperLabel": "E-service details",
-    "apiStepperLabel": "API gateway details",
+    "consumerStepperLabel": "E-service access",
+    "apiStepperLabel": "API Interop access",
     "CONSUMER": {
       "title": "Congratulations!",
       "description": "You can access the data made available by the provider.",
@@ -188,8 +188,8 @@
     },
     "API": {
       "title": "Congratulations!",
-      "description": "You can access the data made available by the provider.",
-      "actionLabel": "Go to the e-service tab"
+      "description": "You can access the PDND Interoperabilità API.",
+      "actionLabel": "Download OpenAPI interface"
     }
   },
   "consumerDebugVoucher": {
