@@ -178,8 +178,8 @@
     }
   },
   "step4": {
-    "consumerStepperLabel": "Dettagli e-service",
-    "apiStepperLabel": "Dettagli API gateway",
+    "consumerStepperLabel": "Accesso e-service",
+    "apiStepperLabel": "Accesso API Interop",
     "CONSUMER": {
       "title": "Congratulazioni!",
       "description": "Puoi accedere ai dati messi a disposizione dall’erogatore.",
@@ -187,8 +187,8 @@
     },
     "API": {
       "title": "Congratulazioni!",
-      "description": "Puoi accedere ai dati messi a disposizione dall’erogatore.",
-      "actionLabel": "Vai alla scheda e-service"
+      "description": "Puoi accedere all’API di PDND Interoperabilità.",
+      "actionLabel": "Scarica l’interfaccia OpenAPI"
     }
   },
   "consumerDebugVoucher": {
