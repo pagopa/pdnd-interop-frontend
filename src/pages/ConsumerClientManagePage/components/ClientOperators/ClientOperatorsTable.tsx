@@ -14,7 +14,6 @@ export const ClientOperatorsTable: React.FC<ClientOperatorsTableProps> = ({ clie
   const { data: operators = [] } = ClientQueries.useGetOperatorsList(clientId)
 
   const headLabels = [tCommon('table.headData.userName'), '']
-
   const isEmpty = !operators || operators.length === 0
 
   return (

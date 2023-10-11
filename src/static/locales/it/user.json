@@ -3,6 +3,7 @@
   "loadingMultiLabel": "Stiamo caricando la lista degli operatori",
   "noMultiDataLabel": "Non ci sono operatori disponibili",
   "backToMemberListBtn": "Torna alla lista membri",
+  "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
   "actions": {
     "removeFromClient": "Rimuovi dal client"
   },

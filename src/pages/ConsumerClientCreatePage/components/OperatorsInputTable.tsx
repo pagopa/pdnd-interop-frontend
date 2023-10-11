@@ -6,8 +6,8 @@ import type { CreateClientFormValues } from '../ConsumerClientCreate.page'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
-import { AddOperatorsDrawer } from './AddOperatorsDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
+import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')
@@ -67,7 +67,7 @@ const OperatorsInputTable: React.FC = () => {
           {tCommon('addBtn')}
         </Button>
       </Stack>
-      <AddOperatorsDrawer
+      <AddOperatorsToClientDrawer
         isOpen={isAddOperatorDrawerOpen}
         onClose={closeAddOperatorDrawer}
         excludeOperatorsIdsList={operators.map(({ id }) => id)}

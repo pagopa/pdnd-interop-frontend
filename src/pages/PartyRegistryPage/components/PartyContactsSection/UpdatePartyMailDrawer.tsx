@@ -37,9 +37,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
     description: email?.description ?? '',
   }
 
-  const formMethods = useForm<UpdatePartyMailFormValues>({
-    defaultValues: defaultValues ?? { contactEmail: '', description: '' },
-  })
+  const formMethods = useForm<UpdatePartyMailFormValues>({ defaultValues })
 
   const onSubmit = (values: UpdatePartyMailFormValues) => {
     if (!jwt?.organizationId) return

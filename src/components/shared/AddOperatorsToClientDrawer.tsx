@@ -19,7 +19,7 @@ type AddOperatorsDrawerProps = {
   onSubmit: (relationshipIds: Array<RelationshipInfo>) => void
 }
 
-export const AddOperatorsDrawer: React.FC<AddOperatorsDrawerProps> = ({
+export const AddOperatorsToClientDrawer: React.FC<AddOperatorsDrawerProps> = ({
   isOpen,
   onClose,
   excludeOperatorsIdsList,
@@ -83,6 +83,8 @@ export const AddOperatorsDrawer: React.FC<AddOperatorsDrawerProps> = ({
           <RHFAutocompleteMultiple
             focusOnMount
             label={t('autocompleteInput.label')}
+            labelType="external"
+            size="small"
             name="selectedOperators"
             options={options}
             loading={isLoadingAllPartyOperators}
