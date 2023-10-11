@@ -28,11 +28,23 @@
       "noDataLabel": "Nessun utente aggiunto"
     },
     "addOperatorsDrawer": {
-      "title": "Aggiungi membri del client",
+      "title": "Aggiungi membri al client",
       "autocompleteInput": {
         "label": "Utenti selezionati"
       },
       "adminAlert": "Se vuoi caricare chiavi pubbliche per questo client, aggiungi anche te stesso al client"
+    },
+    "addPublicKeyDrawer": {
+      "title": "Inserisci nuova chiave pubblica",
+      "description": "Non sai come fare per creare un set di materiale crittografico? <1>Consulta la guida</1>.",
+      "nameInput": {
+        "label": "Nome della chiave (richiesto)",
+        "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min. 5 caratteri, max. 60 caratteri"
+      },
+      "publicKeyInput": {
+        "label": "Chiave pubblica (richiesto)"
+      },
+      "insertAction": "Inserisci"
     },
     "actions": {
       "createLabel": "Crea",
@@ -42,7 +54,7 @@
   "edit": {
     "tabs": {
       "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento del voucher, i membri del client e le chiavi pubbliche",
-      "voucher": "Istruzioni ottenimento voucher",
+      "voucher": "Come ottengo un voucher?",
       "clientOperators": "Membri del client",
       "publicKeys": "Chiavi pubbliche"
     },

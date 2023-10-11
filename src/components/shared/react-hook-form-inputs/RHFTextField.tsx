@@ -35,6 +35,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   onValueChange,
   rules,
   size = 'small',
+  rows,
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -60,7 +61,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
             label={label}
             inputProps={{ ...props.inputProps, ...accessibilityProps }}
             multiline={multiline}
-            rows={multiline ? 2.5 : undefined}
+            rows={multiline && !rows ? 2.5 : rows}
             error={!!error}
             InputLabelProps={
               labelType === 'external'

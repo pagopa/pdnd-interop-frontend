@@ -3,6 +3,7 @@
   "loadingMultiLabel": "Loading operators",
   "noMultiDataLabel": "No operator available",
   "backToMemberListBtn": "Back to members list",
+  "actionReservedToAdminTooltip": "This actions is reserved to user with administrator permissions",
   "actions": {
     "removeFromClient": "Remove from client"
   },
