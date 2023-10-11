@@ -1,11 +1,13 @@
 import { ClientQueries } from '@/api/client'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
+import { clientKeyGuideLink } from '@/config/constants'
 import { formatDateString } from '@/utils/format.utils'
 import { Alert, Grid } from '@mui/material'
 import { Stack } from '@mui/system'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 type KeyGeneralInfoSectionProps = {
   clientId: string
@@ -19,7 +21,18 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
   return (
     <Grid container>
       <Grid item xs={7}>
-        <SectionContainer title={t('title')}>
+        <SectionContainer
+          newDesign
+          title={t('title')}
+          bottomActions={[
+            {
+              label: t('goToTechnicalDocButton'),
+              target: '_blank',
+              href: clientKeyGuideLink,
+              startIcon: <OpenInNewIcon fontSize="small" />,
+            },
+          ]}
+        >
           <Stack spacing={2}>
             <InformationContainer
               label={t('creationDateField.label')}
@@ -63,7 +76,7 @@ export const KeyGeneralInfoSectionSkeleton = () => {
   return (
     <Grid container>
       <Grid item xs={7}>
-        <SectionContainerSkeleton height={227} />
+        <SectionContainerSkeleton sx={{ mt: 4 }} height={318} />
       </Grid>
     </Grid>
   )

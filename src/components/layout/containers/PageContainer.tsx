@@ -15,16 +15,20 @@ export type TopSideActions = {
   actionMenu?: Array<ActionItem>
 }
 
+export type PageBackToAction = {
+  label: string
+  to: RouteKey
+  params?: Record<string, string>
+  urlParams?: Record<string, string>
+}
+
 type PageContainerActionsProps = {
   statusChip?: React.ComponentProps<typeof StatusChip>
   newTopSideActions?: Array<ActionItemButton>
 }
 
 type PageContainerBreadcrumbsProps = {
-  backToAction?: {
-    label: string
-    to: RouteKey
-  }
+  backToAction?: PageBackToAction
 }
 
 type PageContainerIntroProps = {
@@ -46,10 +50,7 @@ type PageContainerProps = {
 
 type PageContainerSkeletonProps = {
   children?: React.ReactNode
-  backToAction?: {
-    label: string
-    to: RouteKey
-  }
+  backToAction?: PageBackToAction
 }
 
 export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
@@ -121,6 +122,10 @@ const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ bac
         // @ts-ignore
         <Link
           to={backToAction.to}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          params={backToAction.params}
+          options={backToAction.urlParams ? { urlParams: backToAction.urlParams } : undefined}
           as="button"
           startIcon={<ArrowBackIcon />}
           size="small"
