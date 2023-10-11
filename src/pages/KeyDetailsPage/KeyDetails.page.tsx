@@ -1,9 +1,8 @@
 import React from 'react'
 import { ClientQueries } from '@/api/client'
-import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { Link, useParams } from '@/router'
+import { PageContainer } from '@/components/layout/containers'
+import { useParams } from '@/router'
 import { Trans, useTranslation } from 'react-i18next'
-import { formatTopSideActions } from '@/utils/common.utils'
 import { useClientKind } from '@/hooks/useClientKind'
 import {
   KeyGeneralInfoSectionSkeleton,
@@ -28,10 +27,19 @@ const KeyDetailsPage: React.FC = () => {
   })
 
   const { actions } = useGetKeyActions(clientId, kid)
-  const topSideActions = formatTopSideActions(actions, { variant: 'contained' })
 
   return (
-    <PageContainer isLoading={isLoading} title={publicKey?.name} topSideActions={topSideActions}>
+    <PageContainer
+      isLoading={isLoading}
+      title={publicKey?.name}
+      newTopSideActions={actions}
+      backToAction={{
+        label: t('backToKeyListBtn'),
+        to: backToOperatorsListRouteKey,
+        params: { clientId },
+        urlParams: { tab: 'publicKeys' },
+      }}
+    >
       <React.Suspense fallback={<KeyGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (
           <Alert severity="error">
@@ -42,17 +50,6 @@ const KeyDetailsPage: React.FC = () => {
         )}
         <KeyGeneralInfoSection clientId={clientId} kid={kid} />
       </React.Suspense>
-      <PageBottomActionsContainer>
-        <Link
-          as="button"
-          variant="outlined"
-          to={backToOperatorsListRouteKey}
-          params={{ clientId }}
-          options={{ urlParams: { tab: 'publicKeys' } }}
-        >
-          {t('backToKeyListBtn')}
-        </Link>
-      </PageBottomActionsContainer>
     </PageContainer>
   )
 }
