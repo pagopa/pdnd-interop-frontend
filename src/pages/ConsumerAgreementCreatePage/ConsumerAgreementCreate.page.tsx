@@ -87,7 +87,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   return (
     <PageContainer
-      title={t('read.title')}
+      title={t('edit.title')}
       statusChip={
         agreement
           ? {

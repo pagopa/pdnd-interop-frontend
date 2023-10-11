@@ -123,7 +123,7 @@
     },
     "sections": {
       "generalInformations": {
-        "title": "Informazioni generali",
+        "title": "General Informations",
         "eServiceField": {
           "label": "Request for e-service",
           "value": "{{name}}, version {{version}}"
@@ -220,6 +220,74 @@
                   "description": "To find out more, <1>read the guide.</1>"
                 }
               }
+            }
+          }
+        }
+      }
+    }
+  },
+  "consumerRead": {
+    "title": "Manage agreement",
+    "suspendedAlert": {
+      "byProducer": "This agreement has been suspended by the PROVIDER. Until it is reactivated it will not be possible to access the data.",
+      "byConsumer": "This agreement has been suspended by the CONSUMER. Until it is reactivated it will not be possible to access the data.",
+      "byPlatform": "This agreement has been suspended by the PLATFORM. Until it is reactivated it will not be possible to access the data."
+    },
+    "noCertifiedAttributesForUpgradeTooltip": "There is an update available but your organization does not have the minimum requirements to perform it.",
+    "sections": {
+      "generalInformations": {
+        "title": "General Informations",
+        "eServiceField": {
+          "label": "Request for e-service",
+          "value": "{{name}}, version {{version}}"
+        },
+        "providerField": {
+          "label": "Provider"
+        },
+        "rejectionMessageField": {
+          "label": "Reason for rejection"
+        },
+        "documentation": {
+          "fileName": "Agreement request",
+          "link": {
+            "label": "Download agreement request"
+          }
+        },
+        "certifiedAttributeLink": {
+          "label": "View certified attributes"
+        },
+        "providerDetailsLink": {
+          "label": "View provider details"
+        },
+        "contactDrawer": {
+          "title": "Provider contacts",
+          "emailField": {
+            "label": "Contact email"
+          },
+          "notesField": {
+            "label": "Notes"
+          }
+        },
+        "attributesDrawer": {
+          "title": "Certified attributes required",
+          "subtitle": "That is, the attributes certified by a <1>recognized authoritative source</1> required to subscribe to this version of the e-service"
+        }
+      },
+      "attributesSectionsList": {
+        "verifiedSection": {
+          "documentationLink": {
+            "label": "View attached documentation"
+          },
+          "documentationDrawer": {
+            "title": "Documentation",
+            "subtitle": "The documentation that the user has attached to be recognized with the verified attributes required for this version of e-service",
+            "attachedDocuments": {
+              "title": "Documentation",
+              "noDocumentsLabel": "There are no attached documents"
+            },
+            "consumerMessage": {
+              "title": "Message for provider",
+              "description": "Useful supporting notes reported by the consumer"
             }
           }
         }
