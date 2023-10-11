@@ -18,8 +18,8 @@ export const ConsumerAgreementDetailsDocumentationDrawer: React.FC<
   ConsumerAgreementDetailsDocumentationDrawerProps
 > = ({ isOpen, onClose }) => {
   const { t } = useTranslation('agreement', {
-    keyPrefix: 'providerRead.sections.attributesSectionsList.verifiedSection.documentationDrawer',
-  }) // TODO strings
+    keyPrefix: 'consumerRead.sections.attributesSectionsList.verifiedSection.documentationDrawer',
+  })
 
   const { agreement } = useConsumerAgreementDetailsContext()
 
@@ -41,10 +41,10 @@ export const ConsumerAgreementDetailsDocumentationDrawer: React.FC<
   }
 
   return (
-    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('TODO title')}>
+    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('title')}>
       <Stack spacing={3}>
         <Box>
-          <Typography variant="body2">{t('TODO attachedDocuments.title')}</Typography>
+          <Typography variant="body2">{t('attachedDocuments.title')}</Typography>
           <Box sx={{ mt: 1 }}>
             {docs.length > 0 ? (
               <Stack
@@ -67,16 +67,16 @@ export const ConsumerAgreementDetailsDocumentationDrawer: React.FC<
               </Stack>
             ) : (
               <Typography variant="body2" color="text.secondary">
-                {t('TODO attachedDocuments.noDocumentsLabel')}
+                {t('attachedDocuments.noDocumentsLabel')}
               </Typography>
             )}
           </Box>
         </Box>
         {agreement.consumerNotes && (
           <Box>
-            <Typography variant="body2">{t('TODO consumerMessage.title')}</Typography>
+            <Typography variant="body2">{t('consumerMessage.title')}</Typography>
             <Divider />
-            <Typography variant="caption">{t('TODO consumerMessage.description')}</Typography>
+            <Typography variant="caption">{t('consumerMessage.description')}</Typography>
             <Typography sx={{ mt: 1.5 }} variant="body2" fontWeight={600}>
               {agreement.consumerNotes}
             </Typography>

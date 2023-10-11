@@ -22,7 +22,7 @@ import { ConsumerAgreementDetailsDocumentationDrawer } from './ConsumerAgreement
 export const ConsumerAgreementDetailsVerifiedAttributesSection: React.FC = () => {
   const { t: tAttribute } = useTranslation('attribute')
   const { t } = useTranslation('agreement', {
-    keyPrefix: 'providerRead.sections.attributesSectionsList.verifiedSection',
+    keyPrefix: 'consumerRead.sections.attributesSectionsList.verifiedSection',
   })
 
   const { agreement, descriptorAttributes } = useConsumerAgreementDetailsContext()

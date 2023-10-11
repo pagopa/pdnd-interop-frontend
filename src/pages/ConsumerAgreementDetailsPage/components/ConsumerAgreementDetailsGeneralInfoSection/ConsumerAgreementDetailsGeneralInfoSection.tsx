@@ -16,8 +16,8 @@ import { ConsumerAgreementDetailsCertifiedAttributesDrawer } from './ConsumerAgr
 
 export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
-    keyPrefix: 'providerRead.sections.generalInformations',
-  }) // TODO stringhe
+    keyPrefix: 'consumerRead.sections.generalInformations',
+  })
   const { agreement } = useConsumerAgreementDetailsContext()
   const downloadContract = AgreementDownloads.useDownloadContract()
 
@@ -46,15 +46,15 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   }
 
   const handleDownloadDocument = () => {
-    downloadContract({ agreementId: agreement.id }, `${t('TODO documentation.fileName')}.pdf`)
+    downloadContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
   }
 
   return (
     <>
-      <SectionContainer title={'TODO Informazioni generali'} newDesign>
+      <SectionContainer title={t('title')} newDesign>
         <Stack spacing={2}>
           <InformationContainer
-            label={'TODO Richiesta per l’e-service'}
+            label={t('eServiceField.label')}
             content={
               <Link
                 to="SUBSCRIBE_CATALOG_VIEW"
@@ -63,17 +63,20 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
                   descriptorId: agreement.descriptorId,
                 }}
               >
-                {t('TODO eServiceField.value', {
+                {t('eServiceField.value', {
                   name: agreement.eservice.name,
                   version: agreement.eservice.version,
                 })}
               </Link>
             }
           />
-          <InformationContainer label={'TODO Erogatore'} content={agreement.producer.name} />
+          <InformationContainer
+            label={t('providerField.label')}
+            content={agreement.producer.name}
+          />
           {agreement.state === 'REJECTED' && agreement.rejectionReason && (
             <InformationContainer
-              label={t('TODO rejectionMessageField.label')}
+              label={t('rejectionMessageField.label')}
               direction="column"
               content={agreement.rejectionReason}
             />
@@ -88,7 +91,7 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
                   startIcon={<DownloadIcon />}
                   alignSelf="start"
                 >
-                  {t('TODO documentation.link.label')}
+                  {t('documentation.link.label')}
                 </IconLink>
               )}
               {agreement.state === 'PENDING' && (
@@ -99,10 +102,11 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
                     startIcon={<RuleIcon />}
                     alignSelf="start"
                   >
-                    {t('TODO certifiedAttributeLink.label')}
+                    {t('certifiedAttributeLink.label')}
                   </IconLink>
                 </>
               )}
+              {/* TODO decomment when BE is ready
               {agreement.consumer.contactMail && (
                 <IconLink
                   onClick={handleOpenContactDrawer}
@@ -110,21 +114,21 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
                   startIcon={<ContactMailIcon />}
                   alignSelf="start"
                 >
-                  {t('TODO consumerDetailsLink.label')}
+                  {t('TODO providerDetailsLink.label')}
                 </IconLink>
-              )}
+              )} */}
             </>
           )}
         </Stack>
       </SectionContainer>
-      {/* {agreement.consumer.contactMail && (
+      {/* TODO decomment when BE is ready
+      {agreement.consumer.contactMail && (
         <ConsumerAgreementDetailsContactDrawer
           isOpen={isContactDrawerOpen}
           onClose={closeContactDrawer}
           contact={agreement.consumer.contactMail}
         />
-      )}
-      TODO aspettare che facciano l'arricchimento della struttura dati */}
+      )} */}
       <ConsumerAgreementDetailsCertifiedAttributesDrawer
         isOpen={isCertifiedAttributeDrawerOpen}
         onClose={closeCertifiedAttributeDrawer}

@@ -15,9 +15,9 @@ type ConsumerAgreementDetailsCertifiedAttributesDrawerProps = {
 export const ConsumerAgreementDetailsCertifiedAttributesDrawer: React.FC<
   ConsumerAgreementDetailsCertifiedAttributesDrawerProps
 > = ({ isOpen, onClose }) => {
-  // const { t } = useTranslation('agreement', {
-  //   keyPrefix: 'providerRead.sections.generalInformations.attributesDrawer',
-  // }) TODO stringhe
+  const { t } = useTranslation('agreement', {
+    keyPrefix: 'consumerRead.sections.generalInformations.attributesDrawer',
+  })
   const { t: tAttribute } = useTranslation('attribute')
 
   const { agreement, descriptorAttributes } = useConsumerAgreementDetailsContext()
@@ -55,12 +55,7 @@ export const ConsumerAgreementDetailsCertifiedAttributesDrawer: React.FC<
   }
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      onClose={handleCloseDrawer}
-      title={'TODO title'}
-      subtitle={'TODO subtitle'}
-    >
+    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('title')} subtitle={t('subtitle')}>
       <Stack spacing={2}>
         {certifiedAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>

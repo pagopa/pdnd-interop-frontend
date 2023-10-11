@@ -14,25 +14,25 @@ type ConsumerAgreementDetailsContactDrawerProps = {
 export const ConsumerAgreementDetailsContactDrawer: React.FC<
   ConsumerAgreementDetailsContactDrawerProps
 > = ({ isOpen, onClose, contact }) => {
-  // const { t } = useTranslation('agreement', {
-  //   keyPrefix: 'providerRead.sections.generalInformations.contactDrawer',
-  // }) TODO stringhe
+  const { t } = useTranslation('agreement', {
+    keyPrefix: 'consumerRead.sections.generalInformations.contactDrawer',
+  })
 
   const handleCloseDrawer = () => {
     onClose()
   }
 
   return (
-    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={'TODO title'}>
+    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('title')}>
       <Stack spacing={2}>
         <InformationContainer
-          label={t('TODO emailField.label')}
+          label={t('emailField.label')}
           direction="column"
           content={contact.address}
         />
         {contact.description && (
           <InformationContainer
-            label={t('TODO notesField.label')}
+            label={t('notesField.label')}
             direction="column"
             content={contact.description}
           />
