@@ -1,7 +1,6 @@
 import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
-import type { TopSideActions } from '@/components/layout/containers/PageContainer'
 import { useNavigate } from '@/router'
 import {
   Filters,
@@ -15,6 +14,8 @@ import { useTranslation } from 'react-i18next'
 import { ConsumerPurposesTable, ConsumerPurposesTableSkeleton } from './components'
 import type { GetConsumerPurposesParams } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import type { ActionItemButton } from '@/types/common.types'
+import PlusOneIcon from '@mui/icons-material/PlusOne'
 
 const ConsumerPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposesList' })
@@ -107,24 +108,23 @@ const ConsumerPurposesListPage: React.FC = () => {
 
   const hasNotActiveEService = activeEServices?.results.length === 0 ?? true
 
-  const topSideActions: TopSideActions = {
-    infoTooltip:
-      !activeEServices && hasNotActiveEService ? tPurpose('cantCreatePurposeTooltip') : undefined,
-    buttons: [
-      {
-        action: () => navigate('SUBSCRIBE_PURPOSE_CREATE'),
-        label: tCommon('createNewBtn'),
-        variant: 'contained',
-        disabled: hasNotActiveEService,
-      },
-    ],
-  }
+  const topSideActions: Array<ActionItemButton> = [
+    {
+      action: () => navigate('SUBSCRIBE_PURPOSE_CREATE'),
+      label: tCommon('createNewBtn'),
+      icon: PlusOneIcon,
+      variant: 'contained',
+      disabled: hasNotActiveEService,
+      tooltip:
+        !activeEServices && hasNotActiveEService ? tPurpose('cantCreatePurposeTooltip') : undefined,
+    },
+  ]
 
   return (
     <PageContainer
       title={t('title')}
       description={t('description')}
-      topSideActions={isAdmin ? topSideActions : undefined}
+      newTopSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />
