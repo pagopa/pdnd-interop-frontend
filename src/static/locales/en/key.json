@@ -26,7 +26,8 @@
         "label": "Client id (clientId)",
         "copySuccessFeedbackText": "Id copied successfully"
       },
-      "operatorDeletedAlertMessage": "Warning! The operator that uploaded this key has been removed from this client or party. It is advised to delete this key and replace it with a new one"
+      "operatorDeletedAlertMessage": "Warning! The operator that uploaded this key has been removed from this client or party. It is advised to delete this key and replace it with a new one",
+      "goToTechnicalDocButton": "Go to technical documentation"
     }
   },
   "list": {
