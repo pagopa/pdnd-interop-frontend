@@ -100,6 +100,30 @@
     },
     "alertLabel": "Authorities are not notified of this change; it is recommended to keep an active redirect from the old to the new address for some time"
   },
+  "dialogUpgradeAgreementVersion": {
+    "title": "Update agreement",
+    "content": {
+      "subtitle": "A more recent version of the e-service <1>{{eservice}}, version {{version}}</1>, provided by {{provider}}, has been published.",
+      "description": {
+        "title": "What does it mean?",
+        "content": "When a provider publishes a new version of an e-service, there are variations compared to the previous one. These changes may be administrative, technical, or both. Do you have any doubts? <1>See the guide.</1>"
+      },
+      "checkboxesForm": {
+        "title": "What is recommended to do before updating?",
+        "attributesCheckLabel": "The administrators verified compliance with the requirements (attributes) requested by the provider.",
+        "apiIntegrationCheckLabel": "The technicians have verified that your integration corresponds to the updated API of the e-service.",
+        "testEnvCheckLabel": "The technicians tested the integration with the updated e-service in a test environment (if available)."
+      },
+      "missingVerifiedOrDeclaredAttributesAlert": "The new request will not be active immediately, your organization does not have all the necessary attributes. A draft will be produced which you will be asked to integrate. Once done, you can forward it to the provider to request the update."
+    },
+    "actions": {
+      "cancelLabel": "Cancel",
+      "upgrade": {
+        "label": "Upgrade",
+        "notAllCheckboxCheckedTooltip": "To be able to update, tick all the checkboxes above"
+      }
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
