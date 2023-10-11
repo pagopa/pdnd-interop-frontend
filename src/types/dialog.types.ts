@@ -1,4 +1,4 @@
-import type { RelationshipInfo } from '@/api/api.generatedTypes'
+import type { Agreement, RelationshipInfo } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -18,6 +18,7 @@ export type DialogProps =
   | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
   | DialogAddClientToPurposeProps
+  | DialogUpgradeAgreementVersionProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -57,4 +58,10 @@ export type DialogRejectAgreementProps = {
 export type DialogAddClientToPurposeProps = {
   type: 'addClientToPurpose'
   purposeId: string
+}
+
+export type DialogUpgradeAgreementVersionProps = {
+  type: 'upgradeAgreementVersion'
+  agreement: Agreement
+  hasMissingAttributes: boolean
 }

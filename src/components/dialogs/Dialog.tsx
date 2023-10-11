@@ -11,6 +11,7 @@ import type {
   DialogProps,
   DialogRejectAgreementProps,
   DialogSessionExpiredProps,
+  DialogUpgradeAgreementVersionProps,
 } from '@/types/dialog.types'
 import { DialogAddSecurityOperators } from './DialogAddSecurityOperators'
 import { DialogAddSecurityOperatorKey } from './DialogAddSecurityOperatorKey'
@@ -19,6 +20,7 @@ import { DialogAddClientToPurpose } from './DialogAddClientToPurpose'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
 import { DialogError } from './DialogError'
 import { useDialogStore } from '@/stores'
+import { DialogUpgradeAgreementVersion } from './DialogUpgradeAgreementVersion'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -27,7 +29,8 @@ function match<T>(
   onAddSecurityOperator: (props: DialogAddSecurityOperatorsProps) => T,
   onAddSecurityOperatorKey: (props: DialogAddSecurityOperatorKeyProps) => T,
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
-  onAddClientToPurpose: (props: DialogAddClientToPurposeProps) => T
+  onAddClientToPurpose: (props: DialogAddClientToPurposeProps) => T,
+  onUpgradeAgreementVersion: (props: DialogUpgradeAgreementVersionProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -45,6 +48,8 @@ function match<T>(
         return onRejectAgreement(props)
       case 'addClientToPurpose':
         return onAddClientToPurpose(props)
+      case 'upgradeAgreementVersion':
+        return onUpgradeAgreementVersion(props)
     }
   }
 }
@@ -56,7 +61,8 @@ const _Dialog = match(
   (props) => <DialogAddSecurityOperators {...props} />,
   (props) => <DialogAddSecurityOperatorKey {...props} />,
   (props) => <DialogRejectAgreement {...props} />,
-  (props) => <DialogAddClientToPurpose {...props} />
+  (props) => <DialogAddClientToPurpose {...props} />,
+  (props) => <DialogUpgradeAgreementVersion {...props} />
 )
 
 export const Dialog: React.FC = () => {
