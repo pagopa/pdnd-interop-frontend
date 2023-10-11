@@ -9,6 +9,7 @@ interface AuthGuardProps {
   jwt?: JwtUser
   currentRoles: UserProductRole[]
   isIPAOrganization: boolean
+  isSupport: boolean
 }
 
 /**
@@ -25,6 +26,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   jwt,
   currentRoles,
   isIPAOrganization,
+  isSupport,
 }) => {
   const { isUserAuthorized } = useAuthGuard()
   const { mode } = useCurrentRoute()
@@ -32,13 +34,16 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
-  if (
-    jwt &&
-    (!isUserAuthorized(currentRoles) ||
-      isInBlacklist ||
-      // If the user organization is not an IPA, he can't access the provider routes
-      (mode === 'provider' && !isIPAOrganization))
-  ) {
+  function isUserAllowedToAccessRoute() {
+    const isAuthorized = isUserAuthorized(currentRoles)
+    const isInProvidersRoutes = mode === 'provider'
+    // If the user is in a provider route, he can access it if he is a support or if he is in an IPA organization
+    const canAccessProviderRoutes = isIPAOrganization || isSupport
+
+    return isAuthorized && !isInBlacklist && !(isInProvidersRoutes && !canAccessProviderRoutes)
+  }
+
+  if (jwt && !isUserAllowedToAccessRoute()) {
     throw new ForbiddenError()
   }
 
