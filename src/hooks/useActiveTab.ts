@@ -6,7 +6,10 @@ export const useActiveTab = (defaultTab: string) => {
   const activeTab = searchParams.get('tab') || defaultTab
 
   const updateActiveTab = (_: unknown, newTab: string) => {
-    setSearchParams({ ...Object.fromEntries(searchParams), tab: newTab })
+    setSearchParams((prev) => {
+      prev.set('tab', newTab)
+      return prev
+    })
   }
 
   return { activeTab, updateActiveTab }
