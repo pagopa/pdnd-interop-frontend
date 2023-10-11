@@ -7,33 +7,19 @@ import { Button, Stack, Typography } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { SectionContainer } from '@/components/layout/containers'
-import { useNavigate } from '@/router'
+import { Link } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
+import { API_GATEWAY_INTEFACE_URL } from '@/config/env'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const { selectedPurposeId, goToPreviousStep } = useVoucherInstructionsContext()
-  const navigate = useNavigate()
 
   const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId!, {
     enabled: !!selectedPurposeId,
     suspense: false,
   })
-
-  const handleAction = () => {
-    if (!purpose) return
-
-    if (clientKind === 'CONSUMER')
-      navigate('SUBSCRIBE_CATALOG_VIEW', {
-        params: {
-          eserviceId: purpose.eservice.id,
-          descriptorId: purpose.eservice.descriptor.id,
-        },
-      })
-
-    if (clientKind === 'API') console.log('TODO')
-  }
 
   return (
     <>
@@ -46,9 +32,25 @@ export const VoucherInstructionsStep4: React.FC = () => {
             </Typography>
             <Typography variant="body2">{t(`step4.${clientKind}.description`)}</Typography>
           </Stack>
-          <Button onClick={handleAction} variant="contained" color="primary">
-            {t(`step4.${clientKind}.actionLabel`)}
-          </Button>
+          {purpose && clientKind === 'CONSUMER' && (
+            <Link
+              to="SUBSCRIBE_CATALOG_VIEW"
+              params={{
+                eserviceId: purpose.eservice.id,
+                descriptorId: purpose.eservice.descriptor.id,
+              }}
+              as="button"
+              variant="contained"
+              color="primary"
+            >
+              {t(`step4.${clientKind}.actionLabel`)}
+            </Link>
+          )}
+          {clientKind === 'API' && (
+            <Button href={API_GATEWAY_INTEFACE_URL} download variant="contained" color="primary">
+              {t(`step4.${clientKind}.actionLabel`)}
+            </Button>
+          )}
         </Stack>
       </SectionContainer>
       <StepActions
