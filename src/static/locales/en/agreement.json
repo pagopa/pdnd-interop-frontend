@@ -334,6 +334,7 @@
     "submitBtn": "Publish request",
     "noCertifiedAttributesForSubmitTooltip": "Your party does not have the needed certified attributes in order to publish the agreement request",
     "noDeclaredAttributesForSubmitTooltip": "To proceed with the publication, you must have activated all the required declared attributes",
+    "suspendedEServiceTooltip": "Your institution does not have the certified attributes necessary to register",
     "noContactEmailTooltip": "Before submitting the request, it is mandatory for your organization to enter a contact email",
     "noContactEmailAlert": "Il tuo ente non ha un’email di contatto. <1>Clicca qui</1> per inserirla."
   },
