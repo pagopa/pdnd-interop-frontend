@@ -6,19 +6,24 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
 import { Link } from '@/router'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Skeleton, Tooltip } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import PendingActionsIcon from '@mui/icons-material/PendingActions'
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('purpose')
+  const { t: tCommon } = useTranslation('common')
   const prefetch = PurposeQueries.usePrefetchSingle()
   const { isAdmin } = AuthHooks.useJwt()
 
   const { actions } = useGetConsumerPurposesActions(purpose)
 
   const isPurposeEditable = purpose?.currentVersion?.state === 'DRAFT' && isAdmin
+  const hasWaitingForApprovalVersion = !!(
+    purpose.currentVersion && purpose.waitingForApprovalVersion
+  )
 
   const handlePrefetch = () => {
     prefetch(purpose.id)
@@ -33,17 +38,25 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
         <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
       ]}
     >
-      <Link
-        as="button"
-        onPointerEnter={handlePrefetch}
-        onFocusVisible={handlePrefetch}
-        variant="outlined"
-        size="small"
-        to={isPurposeEditable ? 'SUBSCRIBE_PURPOSE_SUMMARY' : 'SUBSCRIBE_PURPOSE_DETAILS'}
-        params={{ purposeId: purpose.id }}
+      <Tooltip
+        open={hasWaitingForApprovalVersion ? undefined : false}
+        title={t('list.waitingForApprovalVersionTooltip')}
       >
-        {t(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}
-      </Link>
+        <span tabIndex={hasWaitingForApprovalVersion ? 0 : undefined}>
+          <Link
+            as="button"
+            onPointerEnter={handlePrefetch}
+            onFocusVisible={handlePrefetch}
+            variant="outlined"
+            size="small"
+            to={isPurposeEditable ? 'SUBSCRIBE_PURPOSE_SUMMARY' : 'SUBSCRIBE_PURPOSE_DETAILS'}
+            endIcon={hasWaitingForApprovalVersion ? <PendingActionsIcon /> : undefined}
+            params={{ purposeId: purpose.id }}
+          >
+            {tCommon(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}
+          </Link>
+        </span>
+      </Tooltip>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />
