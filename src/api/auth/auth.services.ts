@@ -27,7 +27,7 @@ async function getSessionToken(): Promise<string | null> {
   if (hasSelfCareIdentityToken) {
     const selfCareIdentityToken = window.location.hash.replace('#id=', '')
     // Remove token from hash
-    history.replaceState({}, document.title, window.location.href.split('#')[0])
+    location.hash = ''
     try {
       const result = await swapTokens(selfCareIdentityToken)
       return resolveToken(result.session_token)
