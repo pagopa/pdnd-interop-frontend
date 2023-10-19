@@ -7,6 +7,7 @@ import { AuthHooks } from '@/api/auth'
 import { Trans, useTranslation } from 'react-i18next'
 import format from 'date-fns/format'
 import { PurposeMutations } from '@/api/purpose'
+import { formatThousands } from '@/utils/format.utils'
 
 type ConsumerPurposeDetailsDailyCallsUpdatePlanCardProps = {
   purpose: Purpose
@@ -56,7 +57,9 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
       <CardContent sx={{ px: 3, pt: 1, display: 'flex', flexGrow: 1 }}>
         <Stack direction="column" spacing={2} flexGrow={1}>
           <Box flexGrow={1}>
-            <Typography variant="h4">{waitingForApprovalVersion.dailyCalls}</Typography>
+            <Typography variant="h4">
+              {formatThousands(waitingForApprovalVersion.dailyCalls)}
+            </Typography>
           </Box>
           {waitingForApprovalVersion.expectedApprovalDate && (
             <Typography variant="body2">
