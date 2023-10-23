@@ -282,7 +282,10 @@
         "documentation": "Documentazione",
         "usefulLinks": {
           "title": "Link utili",
-          "integrateEService": "Come faccio a integrare un e-service?"
+          "integrateEService": "Come faccio a integrare un e-service?",
+          "implementAndManageEService": "Come implemento e gestisco un e-service?",
+          "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
+          "wellKnown": "URL .well-known"
         }
       },
       "producerContactsInfoDrawer": {
