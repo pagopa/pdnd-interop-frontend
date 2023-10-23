@@ -5,6 +5,13 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { secondsToMinutes } from '@/utils/format.utils'
+import { IconLink } from '@/components/shared/IconLink'
+import {
+  implementAndManageEServiceGuideLink,
+  voucherVerificationGuideLink,
+} from '@/config/constants'
+import { WELL_KNOWN_URLS } from '@/config/env'
+import LaunchIcon from '@mui/icons-material/Launch'
 
 type ProviderEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
@@ -58,6 +65,36 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
         <InformationContainer
           label={t('mode.label')}
           content={t(`mode.value.${descriptor.eservice.mode}`)}
+          direction="column"
+        />
+
+        <InformationContainer
+          label={t('usefulLinks.title')}
+          content={
+            <Stack alignItems="start" mt={1} spacing={0.5}>
+              <IconLink
+                href={implementAndManageEServiceGuideLink}
+                target="_blank"
+                startIcon={<LaunchIcon fontSize="small" />}
+              >
+                {t('usefulLinks.implementAndManageEService')}
+              </IconLink>
+              <IconLink
+                href={voucherVerificationGuideLink}
+                target="_blank"
+                startIcon={<LaunchIcon fontSize="small" />}
+              >
+                {t('usefulLinks.verifyVoucher')}
+              </IconLink>
+              <IconLink
+                href={WELL_KNOWN_URLS[0]}
+                target="_blank"
+                startIcon={<LaunchIcon fontSize="small" />}
+              >
+                {t('usefulLinks.wellKnown')}
+              </IconLink>
+            </Stack>
+          }
           direction="column"
         />
       </Stack>
