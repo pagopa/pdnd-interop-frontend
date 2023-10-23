@@ -9,6 +9,7 @@ import { AuthHooks } from '@/api/auth'
 import { ProviderPurposeDetailsDailyCallsActivationDateDrawer } from './ProviderPurposeDetailsDailyCallsActivationDateDrawer'
 import { Trans, useTranslation } from 'react-i18next'
 import format from 'date-fns/format'
+import { formatThousands } from '@/utils/format.utils'
 
 type ProviderPurposeDetailsDailyCallsPlanCardProps = {
   purpose: Purpose
@@ -79,7 +80,9 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                     {purpose.currentVersion?.dailyCalls}
                   </Typography>
                 )}
-                <Typography variant="h4">{waitingForApprovalVersion.dailyCalls}</Typography>
+                <Typography variant="h4">
+                  {formatThousands(waitingForApprovalVersion.dailyCalls)}
+                </Typography>
               </Stack>
               {waitingForApprovalVersion.expectedApprovalDate && (
                 <Typography variant="body2">
@@ -120,7 +123,9 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
               </IconLink>
             </Stack>
           ) : (
-            <Typography variant="h4">{purpose.currentVersion?.dailyCalls}</Typography>
+            <Typography variant="h4">
+              {formatThousands(purpose.currentVersion!.dailyCalls)}
+            </Typography>
           )}
         </CardContent>
       </Card>
