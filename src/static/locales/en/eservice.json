@@ -282,7 +282,10 @@
         "documentation": "Documentation",
         "usefulLinks": {
           "title": "Useful links",
-          "integrateEService": "How do I integrate an e-service?"
+          "integrateEService": "How do I integrate an e-service?",
+          "implementAndManageEService": "How do I implement and manage an e-service?",
+          "verifyVoucher": "How do I verify a consumer's voucher?",
+          "wellKnown": "URL .well-known"
         }
       },
       "producerContactsInfoDrawer": {
