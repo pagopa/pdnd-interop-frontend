@@ -1,3 +1,4 @@
+import { formatThousands } from '@/utils/format.utils'
 import { Card, CardContent, CardHeader, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -37,11 +38,11 @@ export const ProviderPurposeDetailsDailyCallsThresholdsCard: React.FC<
       <CardContent sx={{ px: 3, pt: 1 }}>
         <Stack direction="row" spacing={3}>
           <Stack direction="column" flex={1}>
-            <Typography variant="h4">{dailyCallsPerConsumer}</Typography>
+            <Typography variant="h4">{formatThousands(dailyCallsPerConsumer)}</Typography>
             <Typography variant="body2">{t('dailyCallsPerConsumerField.label')}</Typography>
           </Stack>
           <Stack direction="column" flex={1}>
-            <Typography variant="h4">{dailyCallsTotal}</Typography>
+            <Typography variant="h4">{formatThousands(dailyCallsTotal)}</Typography>
             <Typography variant="body2">{t('dailyCallsTotalsField.label')}</Typography>
           </Stack>
         </Stack>

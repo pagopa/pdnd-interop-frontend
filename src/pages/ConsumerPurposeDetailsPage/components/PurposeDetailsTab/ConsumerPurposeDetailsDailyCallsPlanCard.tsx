@@ -7,6 +7,7 @@ import { AuthHooks } from '@/api/auth'
 import { useTranslation } from 'react-i18next'
 import { ConsumerPurposeDetailsDailyCallsUpdateDrawer } from './ConsumerPurposeDetailsDailyCallsUpdateDrawer'
 import { Box } from '@mui/system'
+import { formatThousands } from '@/utils/format.utils'
 
 type ConsumerPurposeDetailsDailyCallsPlanCardProps = {
   purpose: Purpose
@@ -60,8 +61,10 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
           <Stack direction="column" spacing={2} flexGrow={1}>
             <Box flexGrow={1}>
               <Typography variant="h4">
-                {purpose.currentVersion?.dailyCalls ??
-                  purpose.waitingForApprovalVersion?.dailyCalls}
+                {formatThousands(
+                  purpose.currentVersion?.dailyCalls ??
+                    purpose.waitingForApprovalVersion!.dailyCalls
+                )}
               </Typography>
             </Box>
             <Divider />
