@@ -5,7 +5,14 @@
   "backToMemberListBtn": "Back to members list",
   "actionReservedToAdminTooltip": "This actions is reserved to user with administrator permissions",
   "actions": {
-    "removeFromClient": "Remove from client"
+    "removeFromClient": {
+      "label": "Remove from client",
+      "tooltip": "The operation is permitted only to users with administrator permissions"
+    },
+    "delete": {
+      "label": "Delete",
+      "tooltip": "The operation is permitted only to users with administrator permissions"
+    }
   },
   "edit": {
     "generalInformations": "General informations",
@@ -16,7 +23,7 @@
       "label": "Role"
     },
     "productRoleField": {
-      "label": "Permission"
+      "label": "Permissions on PDND Interoperability"
     },
     "statusField": {
       "label": "User status"
@@ -24,6 +31,9 @@
     "associatedKeysField": {
       "label": "Associated keys",
       "noDataLabel": "No key associated"
+    },
+    "operatorKeysLink": {
+      "label": "Go to the view of the keys associated with the user"
     }
   },
   "list": {

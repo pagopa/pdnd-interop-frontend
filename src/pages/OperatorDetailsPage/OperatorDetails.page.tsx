@@ -1,25 +1,26 @@
 import React from 'react'
-import { ClientMutations, ClientQueries } from '@/api/client'
-import { PageBottomActionsContainer, PageContainer } from '@/components/layout/containers'
-import { Link, useCurrentRoute, useParams } from '@/router'
+import { ClientQueries } from '@/api/client'
+import { PageContainer } from '@/components/layout/containers'
+import { useCurrentRoute, useParams } from '@/router'
 import {
   OperatorGeneralInfoSection,
   OperatorGeneralInfoSectionSkeleton,
 } from './components/OperatorGeneralInfoSection'
-import { OperatorKeysSection, OperatorKeysSectionSkeleton } from './components/OperatorKeysSection'
-import type { ActionItem } from '@/types/common.types'
+import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
-import { formatTopSideActions } from '@/utils/common.utils'
 import { Grid } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import { AuthHooks } from '@/api/auth'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { useDialog } from '@/stores'
 
 const OperatorDetailsPage: React.FC = () => {
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
   const { mode } = useCurrentRoute()
   const clientKind = useClientKind()
   const { t } = useTranslation('user')
-  const { mutate: removeOperatorFromClient } = ClientMutations.useRemoveOperator()
+  const { openDialog } = useDialog()
 
   const { clientId: clientId, operatorId } = useParams<
     'SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT' | 'SUBSCRIBE_CLIENT_OPERATOR_EDIT'
@@ -30,46 +31,68 @@ const OperatorDetailsPage: React.FC = () => {
 
   const operatorFullname = `${operator?.name} ${operator?.familyName}`
 
-  const actions: Array<ActionItem> = []
+  const handleOpenDeleteDialog = () => {
+    if (!jwt?.selfcareId) return
 
-  if (mode === 'consumer' && isAdmin) {
-    actions.push({
-      action: removeOperatorFromClient.bind(null, { clientId, relationshipId: operatorId }),
-      label: t('actions.removeFromClient'),
+    openDialog({
+      type: 'deleteOperator',
+      selfcareId: jwt.selfcareId,
+      userId: operatorId,
     })
   }
 
-  const topSideActions = formatTopSideActions(actions, { variant: 'contained' })
+  const handleOpenRemoveOperatorFromClientDialog = () => {
+    openDialog({
+      type: 'removeOperatorFromClient',
+      clientId: clientId,
+      relationshipId: operatorId,
+    })
+  }
+
+  const actions: Array<ActionItemButton> = []
+
+  if (mode === 'consumer') {
+    actions.push({
+      action: handleOpenRemoveOperatorFromClientDialog,
+      label: t('actions.removeFromClient.label'),
+      color: 'error',
+      icon: RemoveCircleOutlineIcon,
+      disabled: !isAdmin,
+      tooltip: !isAdmin ? t('actions.removeFromClient.tooltip') : undefined,
+    })
+
+    actions.push({
+      action: handleOpenDeleteDialog,
+      label: t('actions.delete.label'),
+      color: 'error',
+      icon: DeleteOutlineIcon,
+      disabled: !isAdmin,
+      tooltip: !isAdmin ? t('actions.delete.tooltip') : undefined,
+    })
+  }
+
   const backToOperatorsListRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
 
   return (
-    <PageContainer isLoading={isLoading} title={operatorFullname} topSideActions={topSideActions}>
+    <PageContainer
+      isLoading={isLoading}
+      title={operatorFullname}
+      newTopSideActions={actions}
+      backToAction={{
+        label: t('backToMemberListBtn'),
+        to: backToOperatorsListRouteKey,
+        urlParams: { tab: 'clientOperators' },
+        params: { clientId },
+      }}
+    >
       <Grid spacing={2} container>
         <Grid item xs={7}>
           <React.Suspense fallback={<OperatorGeneralInfoSectionSkeleton />}>
             <OperatorGeneralInfoSection operatorId={operatorId} />
           </React.Suspense>
         </Grid>
-        <Grid item xs={5}>
-          {operator?.product.role === 'security' && (
-            <React.Suspense fallback={<OperatorKeysSectionSkeleton />}>
-              <OperatorKeysSection clientId={clientId} operatorId={operatorId} />
-            </React.Suspense>
-          )}
-        </Grid>
       </Grid>
-      <PageBottomActionsContainer>
-        <Link
-          as="button"
-          variant="outlined"
-          to={backToOperatorsListRouteKey}
-          params={{ clientId }}
-          options={{ urlParams: { tab: 'clientOperators' } }}
-        >
-          {t('backToMemberListBtn')}
-        </Link>
-      </PageBottomActionsContainer>
     </PageContainer>
   )
 }

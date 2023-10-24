@@ -1,8 +1,8 @@
-import { ClientMutations, ClientQueries } from '@/api/client'
+import { ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Link } from '@/router'
-import type { ActionItem } from '@/types/common.types'
+import type { ActionItemButton } from '@/types/common.types'
 import { Box, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +10,9 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { Operator } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { useDialog } from '@/stores'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 
 interface ClientOperatorsTableRowProps {
   operator: Operator
@@ -20,21 +23,49 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   operator,
   clientId,
 }) => {
+  const { isAdmin, jwt } = AuthHooks.useJwt()
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('user')
-  const { isAdmin } = AuthHooks.useJwt()
   const clientKind = useClientKind()
-  const { mutate: removeFromClient } = ClientMutations.useRemoveOperator()
+  const { openDialog } = useDialog()
   const prefetchOperator = ClientQueries.usePrefetchSingleOperator()
 
-  const actions: Array<ActionItem> = []
+  const handleOpenDeleteDialog = () => {
+    if (!jwt?.selfcareId) return
 
-  if (isAdmin) {
-    actions.push({
-      action: removeFromClient.bind(null, { clientId, relationshipId: operator.relationshipId }),
-      label: t('actions.removeFromClient'),
+    openDialog({
+      type: 'deleteOperator',
+      selfcareId: jwt.selfcareId,
+      userId: operator.relationshipId,
     })
   }
+
+  const handleOpenRemoveOperatorFromClientDialog = () => {
+    openDialog({
+      type: 'removeOperatorFromClient',
+      clientId: clientId,
+      relationshipId: operator.relationshipId,
+    })
+  }
+
+  const actions: Array<ActionItemButton> = [
+    {
+      action: handleOpenRemoveOperatorFromClientDialog,
+      label: t('actions.removeFromClient.label'),
+      color: 'error',
+      icon: RemoveCircleOutlineIcon,
+      disabled: !isAdmin,
+      tooltip: !isAdmin ? t('actions.removeFromClient.tooltip') : undefined,
+    },
+    {
+      action: handleOpenDeleteDialog,
+      label: t('actions.delete.label'),
+      color: 'error',
+      icon: DeleteOutlineIcon,
+      disabled: !isAdmin,
+      tooltip: !isAdmin ? t('actions.delete.tooltip') : undefined,
+    },
+  ]
 
   const handlePrefetchOperator = () => {
     prefetchOperator(operator.relationshipId)
