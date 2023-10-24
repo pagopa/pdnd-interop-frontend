@@ -79,7 +79,7 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
             </Typography>
           </Box>
         ))}
-        {purpose.riskAnalysisId && (
+        {purpose.riskAnalysisForm?.riskAnalysisId && (
           <Alert variant="outlined" severity="info">
             {t('providerRiskAnalysisAlert')}
           </Alert>
