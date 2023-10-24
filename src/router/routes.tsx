@@ -101,7 +101,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'],
+    authLevels: ['admin', 'api'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_MANAGE',
