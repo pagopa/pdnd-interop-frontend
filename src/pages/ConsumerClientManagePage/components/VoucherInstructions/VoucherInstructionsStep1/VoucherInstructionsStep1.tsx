@@ -27,7 +27,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { data: clientKeys = { keys: [] } } = ClientQueries.useGetKeyList(clientId)
+  const { data: clientKeys = { keys: [] } } = ClientQueries.useGetKeyList({ clientId })
   const { data: client } = ClientQueries.useGetSingle(clientId)
 
   const purposeSelectLabelId = React.useId()

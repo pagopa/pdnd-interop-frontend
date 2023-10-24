@@ -6,15 +6,21 @@ import {
   ClientPublicKeysTableRow,
   ClientPublicKeysTableRowSkeleton,
 } from './ClientPublicKeysTableRow'
+import type { GetClientKeysParams } from '@/api/api.generatedTypes'
 
 type ClientPublicKeysTableProps = {
-  clientId: string
+  params: GetClientKeysParams
 }
 
-export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ clientId }) => {
+export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ params }) => {
   const { t: tCommon } = useTranslation('common')
 
-  const { data } = ClientQueries.useGetKeyList(clientId)
+  const { clientId } = params
+
+  const { data } = ClientQueries.useGetKeyList(params, {
+    suspense: false,
+    enabled: !!params.clientId,
+  })
   const publicKeys = data?.keys || []
 
   const headLabels = [
