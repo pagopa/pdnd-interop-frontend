@@ -26,6 +26,7 @@ const getPartyList = (
     productRole: (party.userProductRoles as Array<UserProductRole>)
       .map((role) => t(`userProductRole.${role}`))
       .join(', '),
+    parentName: party.parent,
   })
 
   if (parties && parties.length > 0) {
@@ -38,6 +39,7 @@ const getPartyList = (
         id: jwt.selfcareId,
         description: jwt.organization.name,
         userProductRoles: jwt.organization.roles.map((r) => r.role),
+        parent: jwt.routeParent?.description,
       }),
     ]
   }
