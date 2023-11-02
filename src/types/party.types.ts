@@ -24,4 +24,5 @@ export type JwtUser = {
   name: string
   family_name: string
   organizationId: string
+  routeParent?: { id: string; description: string }
 }
