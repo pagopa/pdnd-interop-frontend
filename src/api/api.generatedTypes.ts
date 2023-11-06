@@ -1698,7 +1698,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Agreements
   }
@@ -1716,7 +1715,6 @@ export namespace Agreements {
     export type RequestBody = AgreementPayload
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -1748,7 +1746,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CompactOrganizations
   }
@@ -1780,7 +1777,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CompactOrganizations
   }
@@ -1804,7 +1800,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Agreement
   }
@@ -1828,7 +1823,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -1852,7 +1846,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Agreement
   }
@@ -1876,7 +1869,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -1897,7 +1889,6 @@ export namespace Agreements {
     export type RequestBody = AddAgreementConsumerDocumentPayload
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = File
   }
@@ -1920,7 +1911,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = File
   }
@@ -1943,7 +1933,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -1967,7 +1956,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = File
   }
@@ -1991,7 +1979,6 @@ export namespace Agreements {
     export type RequestBody = AgreementSubmissionPayload
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Agreement
   }
@@ -2015,7 +2002,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Agreement
   }
@@ -2039,7 +2025,6 @@ export namespace Agreements {
     export type RequestBody = AgreementRejectionPayload
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Agreement
   }
@@ -2063,7 +2048,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2087,7 +2071,6 @@ export namespace Agreements {
     export type RequestBody = AgreementUpdatePayload
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Agreement
   }
@@ -2111,7 +2094,6 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Agreement
   }
@@ -2166,7 +2148,6 @@ export namespace Catalog {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CatalogEServices
   }
@@ -2195,7 +2176,6 @@ export namespace Catalog {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CatalogEServiceDescriptor
   }
@@ -2228,7 +2208,6 @@ export namespace Consumers {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CompactOrganizations
   }
@@ -2260,7 +2239,6 @@ export namespace Consumers {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CompactEServicesLight
   }
@@ -2281,7 +2259,6 @@ export namespace Eservices {
     export type RequestBody = EServiceSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -2305,7 +2282,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = File
   }
@@ -2334,7 +2310,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2363,7 +2338,6 @@ export namespace Eservices {
     export type RequestBody = UpdateEServiceDescriptorSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -2387,7 +2361,6 @@ export namespace Eservices {
     export type RequestBody = EServiceDescriptorSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -2416,7 +2389,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2445,7 +2417,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2474,7 +2445,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2503,7 +2473,6 @@ export namespace Eservices {
     export type RequestBody = CreateEServiceDocumentPayload
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -2537,7 +2506,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2562,7 +2530,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = File
   }
@@ -2591,7 +2558,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedEServiceDescriptor
   }
@@ -2625,7 +2591,6 @@ export namespace Eservices {
     export type RequestBody = UpdateEServiceDescriptorDocumentSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = EServiceDoc
   }
@@ -2649,7 +2614,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2673,7 +2637,6 @@ export namespace Eservices {
     export type RequestBody = UpdateEServiceSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -2697,7 +2660,6 @@ export namespace Eservices {
     export type RequestBody = EServiceRiskAnalysisSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2726,7 +2688,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = EServiceRiskAnalysis
   }
@@ -2755,7 +2716,6 @@ export namespace Eservices {
     export type RequestBody = EServiceRiskAnalysisSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2784,7 +2744,6 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -2810,7 +2769,6 @@ export namespace Producers {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CompactOrganizations
   }
@@ -2847,7 +2805,6 @@ export namespace Producers {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = ProducerEServices
   }
@@ -2879,7 +2836,6 @@ export namespace Producers {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CompactEServicesLight
   }
@@ -2903,7 +2859,6 @@ export namespace Producers {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = ProducerEServiceDetails
   }
@@ -2932,7 +2887,6 @@ export namespace Producers {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = ProducerEServiceDescriptor
   }
@@ -2953,7 +2907,6 @@ export namespace Reverse {
     export type RequestBody = PurposeEServiceSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -2976,7 +2929,6 @@ export namespace Reverse {
     export type RequestBody = ReversePurposeUpdateContent
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PurposeVersionResource
   }
@@ -2996,7 +2948,6 @@ export namespace Session {
     export type RequestBody = IdentityToken
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = SessionToken
   }
@@ -3014,7 +2965,6 @@ export namespace Session {
     export type RequestBody = SAMLTokenRequest
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = SessionToken
   }
@@ -3064,7 +3014,6 @@ export namespace Tenants {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = RelationshipsResponse
   }
@@ -3259,7 +3208,6 @@ export namespace Tenants {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Tenant
   }
@@ -3283,7 +3231,6 @@ export namespace Tenants {
     export type RequestBody = TenantDelta
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -3308,7 +3255,6 @@ export namespace Tenants {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Tenants
   }
@@ -3329,7 +3275,6 @@ export namespace Tools {
     export type RequestBody = AccessTokenRequest
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = TokenGenerationValidationResult
   }
@@ -3373,7 +3318,6 @@ export namespace Purposes {
     export type RequestBody = PurposeSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -3394,7 +3338,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PurposeVersionResource
   }
@@ -3417,7 +3360,6 @@ export namespace Purposes {
     export type RequestBody = PurposeVersionSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PurposeVersionResource
   }
@@ -3451,7 +3393,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = File
   }
@@ -3474,7 +3415,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PurposeVersionResource
   }
@@ -3497,7 +3437,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PurposeVersionResource
   }
@@ -3520,7 +3459,6 @@ export namespace Purposes {
     export type RequestBody = WaitingForApprovalPurposeVersionUpdateContentSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PurposeVersionResource
   }
@@ -3543,7 +3481,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PurposeVersionResource
   }
@@ -3566,7 +3503,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Purpose
   }
@@ -3589,7 +3525,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -3612,7 +3547,6 @@ export namespace Purposes {
     export type RequestBody = PurposeUpdateContent
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PurposeVersionResource
   }
@@ -3635,7 +3569,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -3652,7 +3585,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = RiskAnalysisFormConfig
   }
@@ -3674,7 +3606,6 @@ export namespace Purposes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = RiskAnalysisFormConfig
   }
@@ -3727,7 +3658,6 @@ export namespace Producer {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Purposes
   }
@@ -3780,7 +3710,6 @@ export namespace Consumer {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Purposes
   }
@@ -3801,7 +3730,6 @@ export namespace CertifiedAttributes {
     export type RequestBody = CertifiedAttributeSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Attribute
   }
@@ -3822,7 +3750,6 @@ export namespace VerifiedAttributes {
     export type RequestBody = AttributeSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Attribute
   }
@@ -3843,7 +3770,6 @@ export namespace DeclaredAttributes {
     export type RequestBody = AttributeSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Attribute
   }
@@ -3873,7 +3799,6 @@ export namespace Attributes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Attributes
   }
@@ -3897,7 +3822,6 @@ export namespace Attributes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Attribute
   }
@@ -3920,7 +3844,6 @@ export namespace Attributes {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Attribute
   }
@@ -3962,7 +3885,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CompactClients
   }
@@ -3986,7 +3908,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Client
   }
@@ -4010,7 +3931,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -4039,7 +3959,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -4065,7 +3984,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PublicKey
   }
@@ -4091,7 +4009,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -4120,7 +4037,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -4149,7 +4065,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -4173,7 +4088,6 @@ export namespace Clients {
     export type RequestBody = PurposeAdditionDetailsSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -4197,7 +4111,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = Operators
   }
@@ -4221,7 +4134,6 @@ export namespace Clients {
     export type RequestBody = KeysSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -4251,7 +4163,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PublicKeys
   }
@@ -4277,7 +4188,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = EncodedClientKey
   }
@@ -4306,7 +4216,6 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PublicKeys
   }
@@ -4360,7 +4269,6 @@ export namespace ClientsConsumer {
     export type RequestBody = ClientSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -4381,7 +4289,6 @@ export namespace ClientsApi {
     export type RequestBody = ClientSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = CreatedResource
   }
@@ -4404,7 +4311,6 @@ export namespace User {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = PrivacyNotice
   }
@@ -4424,7 +4330,6 @@ export namespace User {
     export type RequestBody = PrivacyNoticeSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = void
   }
@@ -4447,7 +4352,6 @@ export namespace PrivacyNotices {
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
-      'X-Forwarded-For'?: string
     }
     export type ResponseBody = File
   }
@@ -4464,9 +4368,7 @@ export namespace Support {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = GoogleSAMLPayload
-    export type RequestHeaders = {
-      'X-Forwarded-For'?: string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = any
   }
 }
