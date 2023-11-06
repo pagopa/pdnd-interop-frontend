@@ -124,6 +124,14 @@
       }
     }
   },
+  "DialogDeleteOperator": {
+    "title": "Forwarding to Reserved Area for user removal",
+    "description": "User operations on all products managed by PagoPA take place through the Reserved Area portal. By clicking \"confirm\", you will be redirected to the Reserved Area page to manage the selected user."
+  },
+  "DialogRemoveOperatorFromClient": {
+    "title": "Confirm user removal",
+    "description": "By clicking “confirm”, the current user will be removed from the current client and will no longer have access to it. For continuity, all keys uploaded by this user will remain available in the client. For safety reasons, it is recommended to replace them and discard the old ones. Do you have any doubts? <1>Read the guide</1>."
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"

@@ -5,9 +5,11 @@ import { useDownloadFile } from '../hooks/useDownloadFile'
 import type {
   Client,
   CompactClients,
+  GetClientKeysParams,
   GetClientsParams,
   Operators,
   PublicKey,
+  PublicKeys,
   RelationshipInfo,
 } from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
@@ -46,15 +48,16 @@ function usePrefetchSingle() {
     )
 }
 
-function useGetKeyList(clientId: string) {
+function useGetKeyList(params: GetClientKeysParams, config?: UseQueryOptions<PublicKeys>) {
   return useQuery({
-    queryKey: [ClientQueryKeys.GetKeyList, clientId],
-    queryFn: () => ClientServices.getKeyList(clientId),
+    queryKey: [ClientQueryKeys.GetKeyList, params],
+    queryFn: () => ClientServices.getKeyList(params),
     useErrorBoundary: (error) => {
       // The error boundary is disabled for 404 errors because the `getKeyList` service
       // returns 404 if the client has no keys associated.
       return !(error instanceof NotFoundError)
     },
+    ...config,
   })
 }
 
@@ -195,10 +198,6 @@ function useRemoveOperator() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
     },
   })
 }

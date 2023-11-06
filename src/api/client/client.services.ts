@@ -6,6 +6,7 @@ import type {
   CompactClients,
   CreatedResource,
   EncodedClientKey,
+  GetClientKeysParams,
   GetClientsParams,
   KeysSeed,
   Operators,
@@ -28,9 +29,10 @@ async function getSingle(clientId: string) {
   return response.data
 }
 
-async function getKeyList(clientId: string) {
+async function getKeyList({ clientId, ...params }: GetClientKeysParams) {
   const response = await axiosInstance.get<PublicKeys>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys`,
+    { params }
   )
   return response.data
 }

@@ -545,10 +545,6 @@
       "outcome": {
         "success": "User removed successfully",
         "error": "The user could not be removed from the client. Please, try again!"
-      },
-      "confirmDialog": {
-        "title": "Confirm operation removal from client",
-        "description": "The operator will be removed from this client. The keys uploaded for this client can still be used to access the e-services the client is related to. You can always remove them manually from the public keys list for this client"
       }
     }
   },
