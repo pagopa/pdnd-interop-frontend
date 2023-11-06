@@ -6,8 +6,10 @@ import type {
   DialogAddClientToPurposeProps,
   DialogAttributeDetailsProps,
   DialogBasicProps,
+  DialogDeleteOperatorProps,
   DialogProps,
   DialogRejectAgreementProps,
+  DialogRemoveOperatorFromClientProps,
   DialogSessionExpiredProps,
   DialogUpgradeAgreementVersionProps,
 } from '@/types/dialog.types'
@@ -17,6 +19,8 @@ import { ErrorBoundary } from '../shared/ErrorBoundary'
 import { DialogError } from './DialogError'
 import { useDialogStore } from '@/stores'
 import { DialogUpgradeAgreementVersion } from './DialogUpgradeAgreementVersion'
+import { DialogRemoveOperatorFromClient } from './DialogRemoveOperatorFromClient'
+import { DialogDeleteOperator } from './DialogDeleteOperator'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -24,7 +28,9 @@ function match<T>(
   onShowSessionExpired: (props: DialogSessionExpiredProps) => T,
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
   onAddClientToPurpose: (props: DialogAddClientToPurposeProps) => T,
-  onUpgradeAgreementVersion: (props: DialogUpgradeAgreementVersionProps) => T
+  onUpgradeAgreementVersion: (props: DialogUpgradeAgreementVersionProps) => T,
+  onDeleteOperator: (props: DialogDeleteOperatorProps) => T,
+  onRemoveOperatorFromClient: (props: DialogRemoveOperatorFromClientProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -40,6 +46,10 @@ function match<T>(
         return onAddClientToPurpose(props)
       case 'upgradeAgreementVersion':
         return onUpgradeAgreementVersion(props)
+      case 'deleteOperator':
+        return onDeleteOperator(props)
+      case 'removeOperatorFromClient':
+        return onRemoveOperatorFromClient(props)
     }
   }
 }
@@ -50,7 +60,9 @@ const _Dialog = match(
   (props) => <DialogSessionExpired {...props} />,
   (props) => <DialogRejectAgreement {...props} />,
   (props) => <DialogAddClientToPurpose {...props} />,
-  (props) => <DialogUpgradeAgreementVersion {...props} />
+  (props) => <DialogUpgradeAgreementVersion {...props} />,
+  (props) => <DialogDeleteOperator {...props} />,
+  (props) => <DialogRemoveOperatorFromClient {...props} />
 )
 
 export const Dialog: React.FC = () => {

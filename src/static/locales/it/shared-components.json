@@ -123,6 +123,14 @@
       }
     }
   },
+  "DialogDeleteOperator": {
+    "title": "Inoltro ad Area Riservata per rimozione utente",
+    "description": "Le operazioni sulle utenze su tutti i prodotti gestiti da PagoPA avvengono attraverso il portale Area Riservata. Cliccando \"conferma\", verrai reindirizzato alla pagina di Area Riservata per gestire l'utente selezionato."
+  },
+  "DialogRemoveOperatorFromClient": {
+    "title": "Conferma rimozione utente",
+    "description": "Cliccando “conferma”, l’utente corrente sarà rimosso dal client corrente e non vi avrà più accesso. Per continuità, tutte le chiavi caricate da quest’utente rimarranno disponibili nel client. Per questioni di sicurezza, si raccomanda di sostituirle e di eliminare quelle vecchie. Hai dubbi? <1>Leggi la guida</1>."
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"

@@ -61,6 +61,11 @@
     "actions": {
       "deleteLabel": "Delete client",
       "backToClientsLabel": "Back to the clients list"
+    },
+    "filters": {
+      "operatorField": {
+        "label": "Search by user"
+      }
     }
   },
   "list": {

@@ -17,6 +17,8 @@ export type DialogProps =
   | DialogRejectAgreementProps
   | DialogAddClientToPurposeProps
   | DialogUpgradeAgreementVersionProps
+  | DialogDeleteOperatorProps
+  | DialogRemoveOperatorFromClientProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -51,4 +53,16 @@ export type DialogUpgradeAgreementVersionProps = {
   type: 'upgradeAgreementVersion'
   agreement: Agreement
   hasMissingAttributes: boolean
+}
+
+export type DialogDeleteOperatorProps = {
+  type: 'deleteOperator'
+  selfcareId: string
+  userId: string
+}
+
+export type DialogRemoveOperatorFromClientProps = {
+  type: 'removeOperatorFromClient'
+  clientId: string
+  relationshipId: string
 }
