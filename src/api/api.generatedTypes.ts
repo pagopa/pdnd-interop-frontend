@@ -273,7 +273,7 @@ export type EServiceMode = 'RECEIVE' | 'DELIVER'
 
 export interface EServiceRiskAnalysisSeed {
   name: string
-  riskAnalysisForm: RiskAnalysisForm
+  riskAnalysisForm: RiskAnalysisFormSeed
 }
 
 export interface EServiceRiskAnalysis {
@@ -510,7 +510,7 @@ export interface PurposeSeed {
   eserviceId: string
   /** @format uuid */
   consumerId: string
-  riskAnalysisForm?: RiskAnalysisForm
+  riskAnalysisForm?: RiskAnalysisFormSeed
   title: string
   description: string
   isFreeOfCharge: boolean
@@ -555,6 +555,7 @@ export interface CompactOrganization {
   id: string
   name: string
   kind?: TenantKind
+  contactMail?: Mail
 }
 
 export type TenantKind = 'PA' | 'PRIVATE' | 'GSP'
@@ -644,6 +645,8 @@ export interface SelfcareInstitution {
   description: string
   /** User's roles on product */
   userProductRoles: string[]
+  /** The name of the root parent */
+  parent?: string
 }
 
 export interface Purpose {
@@ -652,8 +655,6 @@ export interface Purpose {
   title: string
   description: string
   consumer: CompactOrganization
-  /** @format uuid */
-  riskAnalysisId?: string
   riskAnalysisForm?: RiskAnalysisForm
   eservice: CompactPurposeEService
   agreement: CompactAgreement
@@ -759,7 +760,7 @@ export interface PurposeUpdateContent {
   description: string
   isFreeOfCharge: boolean
   freeOfChargeReason?: string
-  riskAnalysisForm?: RiskAnalysisForm
+  riskAnalysisForm?: RiskAnalysisFormSeed
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
@@ -860,6 +861,13 @@ export interface RelationshipInfo {
 export type RelationshipsResponse = RelationshipInfo[]
 
 export interface RiskAnalysisForm {
+  version: string
+  answers: any
+  /** @format uuid */
+  riskAnalysisId?: string
+}
+
+export interface RiskAnalysisFormSeed {
   version: string
   answers: any
 }

@@ -19,7 +19,7 @@ const ConsumerPurposeEditPage: React.FC = () => {
     suspense: false,
   })
 
-  const steps: Array<StepperStep> = purpose?.riskAnalysisId
+  const steps: Array<StepperStep> = purpose?.riskAnalysisForm?.riskAnalysisId
     ? [
         { label: t('edit.stepper.step1Label'), component: PurposeEditStep1General },
         { label: t('edit.stepper.step3Label'), component: PurposeEditStep3Clients },
