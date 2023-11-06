@@ -20,6 +20,7 @@ export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ pa
   const { data } = ClientQueries.useGetKeyList(params, {
     suspense: false,
     enabled: !!params.clientId,
+    keepPreviousData: true,
   })
   const publicKeys = data?.keys || []
 
