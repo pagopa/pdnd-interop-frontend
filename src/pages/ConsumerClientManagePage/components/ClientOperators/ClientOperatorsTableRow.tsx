@@ -2,7 +2,6 @@ import { ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Link } from '@/router'
-import type { ActionItemButton } from '@/types/common.types'
 import { Box, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,9 +9,7 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { Operator } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { useDialog } from '@/stores'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActions'
 
 interface ClientOperatorsTableRowProps {
   operator: Operator
@@ -23,49 +20,12 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   operator,
   clientId,
 }) => {
-  const { isAdmin, jwt } = AuthHooks.useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const { t: tCommon } = useTranslation('common')
-  const { t } = useTranslation('user')
   const clientKind = useClientKind()
-  const { openDialog } = useDialog()
   const prefetchOperator = ClientQueries.usePrefetchSingleOperator()
 
-  const handleOpenDeleteDialog = () => {
-    if (!jwt?.selfcareId) return
-
-    openDialog({
-      type: 'deleteOperator',
-      selfcareId: jwt.selfcareId,
-      userId: operator.relationshipId,
-    })
-  }
-
-  const handleOpenRemoveOperatorFromClientDialog = () => {
-    openDialog({
-      type: 'removeOperatorFromClient',
-      clientId: clientId,
-      relationshipId: operator.relationshipId,
-    })
-  }
-
-  const actions: Array<ActionItemButton> = [
-    {
-      action: handleOpenRemoveOperatorFromClientDialog,
-      label: t('actions.removeFromClient.label'),
-      color: 'error',
-      icon: RemoveCircleOutlineIcon,
-      disabled: !isAdmin,
-      tooltip: !isAdmin ? t('actions.removeFromClient.tooltip') : undefined,
-    },
-    {
-      action: handleOpenDeleteDialog,
-      label: t('actions.delete.label'),
-      color: 'error',
-      icon: DeleteOutlineIcon,
-      disabled: !isAdmin,
-      tooltip: !isAdmin ? t('actions.delete.tooltip') : undefined,
-    },
-  ]
+  const { actions } = useGetClientOperatorsActions(operator.relationshipId, clientId)
 
   const handlePrefetchOperator = () => {
     prefetchOperator(operator.relationshipId)
@@ -91,7 +51,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
       </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-        <ActionMenu actions={actions} />
+        <ActionMenu actions={isAdmin ? actions : []} />
       </Box>
     </TableRow>
   )
