@@ -106,29 +106,27 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
                   </IconLink>
                 </>
               )}
-              {/* TODO decomment when BE is ready
-              {agreement.consumer.contactMail && (
+              {agreement.producer.contactMail && (
                 <IconLink
                   onClick={handleOpenContactDrawer}
                   component="button"
                   startIcon={<ContactMailIcon />}
                   alignSelf="start"
                 >
-                  {t('TODO providerDetailsLink.label')}
+                  {t('providerDetailsLink.label')}
                 </IconLink>
-              )} */}
+              )}
             </>
           )}
         </Stack>
       </SectionContainer>
-      {/* TODO decomment when BE is ready
-      {agreement.consumer.contactMail && (
+      {agreement.producer.contactMail && (
         <ConsumerAgreementDetailsContactDrawer
           isOpen={isContactDrawerOpen}
           onClose={closeContactDrawer}
-          contact={agreement.consumer.contactMail}
+          contact={agreement.producer.contactMail}
         />
-      )} */}
+      )}
       <ConsumerAgreementDetailsCertifiedAttributesDrawer
         isOpen={isCertifiedAttributeDrawerOpen}
         onClose={closeCertifiedAttributeDrawer}
