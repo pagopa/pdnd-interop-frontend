@@ -1,17 +1,11 @@
 import React from 'react'
-import { Stack, Box, Container, Link, Typography, Button } from '@mui/material'
-import { FooterLegal, LogoPagoPACompany } from '@pagopa/mui-italia'
-import type {
-  CompanyLinkType,
-  FooterLinksType,
-  LangSwitchProps,
-  PreLoginFooterLinksType,
-} from '@pagopa/mui-italia'
+import { Typography } from '@mui/material'
+import { Footer as MUIItaliaFooter } from '@pagopa/mui-italia'
+import type { FooterLinksType } from '@pagopa/mui-italia'
 import { LANGUAGES, pagoPaLink } from '@/config/constants'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { useNavigate as useRRDNavigate } from 'react-router-dom'
 import type { JwtUser } from '@/types/party.types'
 
 type FooterLinksTypeMulti = Omit<FooterLinksType, 'label' | 'ariaLabel'> & { labelKey?: string }
@@ -24,7 +18,6 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
   const { t } = useTranslation('pagopa')
   const currentLanguage = useCurrentLanguage()
   const navigate = useNavigate()
-  const rrdNavigate = useRRDNavigate()
 
   function convertLinks(inputLinks: Array<FooterLinksTypeMulti>) {
     return inputLinks.map((l) => {
@@ -95,107 +88,8 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
       }}
       onLanguageChanged={handleLanguageChange}
       currentLangCode={currentLanguage}
-      onExit={() => (href: string, linkType: string) => {
-        if (linkType === 'internal') {
-          rrdNavigate(href)
-        } else {
-          window.open(href, '_blank')
-        }
-      }}
       languages={LANGUAGES}
       hideProductsColumn={true}
     />
   )
 }
-
-type FooterPostLoginProps = LangSwitchProps & {
-  companyLink: CompanyLinkType
-  links: Array<FooterLinksType>
-}
-
-const FooterPostLogin = ({ companyLink, links }: FooterPostLoginProps): JSX.Element => (
-  <Box
-    sx={{
-      borderTop: 1,
-      borderColor: 'divider',
-      backgroundColor: 'background.paper',
-    }}
-  >
-    <Container maxWidth={false} sx={{ py: { xs: 3, md: 2 } }}>
-      <Stack
-        spacing={{ xs: 4, md: 3 }}
-        direction={{ xs: 'column', md: 'row' }}
-        justifyContent="space-between"
-        sx={{ alignItems: 'center' }}
-      >
-        {companyLink && (
-          <Button
-            aria-label={companyLink?.ariaLabel}
-            href={companyLink?.href}
-            onClick={companyLink.onClick}
-            sx={{ display: 'inline-flex' }}
-          >
-            <LogoPagoPACompany />
-          </Button>
-        )}
-
-        <Stack
-          spacing={{ xs: 1, md: 3 }}
-          direction={{ xs: 'column', md: 'row' }}
-          sx={{ alignItems: 'center' }}
-        >
-          {links.map(({ href, label, ariaLabel, onClick, linkType }, i) => (
-            <Link
-              aria-label={ariaLabel}
-              component={href ? 'a' : 'button'}
-              href={href}
-              onClick={onClick}
-              key={i}
-              target={linkType === 'external' ? '_blank' : undefined}
-              underline="none"
-              color="text.primary"
-              sx={{ display: 'inline-block' }}
-              variant="subtitle2"
-            >
-              {label}
-            </Link>
-          ))}
-        </Stack>
-      </Stack>
-    </Container>
-  </Box>
-)
-
-type MUIItaliaFooterProps = LangSwitchProps & {
-  /* Waiting for the type of control (see JwtUser above),
-  we use a simple Boolean prop */
-  loggedUser: boolean
-  companyLink: CompanyLinkType
-  postLoginLinks: Array<FooterLinksType>
-  preLoginLinks: PreLoginFooterLinksType
-  legalInfo: JSX.Element | Array<JSX.Element>
-  onExit?: (exitAction: () => void) => void
-  productsJsonUrl?: string
-  onProductsJsonFetchError?: (reason: unknown) => void
-  hideProductsColumn?: boolean
-}
-
-export const MUIItaliaFooter = ({
-  companyLink,
-  postLoginLinks,
-  legalInfo,
-  languages,
-  onLanguageChanged,
-  currentLangCode,
-}: MUIItaliaFooterProps) => (
-  <Box component="footer">
-    <FooterPostLogin
-      companyLink={companyLink}
-      links={postLoginLinks}
-      languages={languages}
-      onLanguageChanged={onLanguageChanged}
-      currentLangCode={currentLangCode}
-    />
-    <FooterLegal content={legalInfo} />
-  </Box>
-)
