@@ -39,7 +39,7 @@ const getPartyList = (
         id: jwt.selfcareId,
         description: jwt.organization.name,
         userProductRoles: jwt.organization.roles.map((r) => r.role),
-        parent: jwt.routeParent?.description,
+        parent: jwt.rootParent?.description,
       }),
     ]
   }
