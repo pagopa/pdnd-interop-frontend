@@ -11,7 +11,6 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
 export const DialogDeleteOperator: React.FC<DialogDeleteOperatorProps> = ({
   selfcareId,
@@ -22,7 +21,6 @@ export const DialogDeleteOperator: React.FC<DialogDeleteOperatorProps> = ({
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', { keyPrefix: 'DialogDeleteOperator' })
-  const navigate = useNavigate()
 
   const selfcareUserPageUrl = `${SELFCARE_BASE_URL}/dashboard/${selfcareId}/users/${userId}`
 
@@ -31,7 +29,7 @@ export const DialogDeleteOperator: React.FC<DialogDeleteOperatorProps> = ({
   }
 
   const handleProceed = () => {
-    navigate(selfcareUserPageUrl)
+    window.location.assign(selfcareUserPageUrl)
     closeDialog()
   }
 
