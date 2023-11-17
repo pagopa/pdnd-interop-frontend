@@ -9,10 +9,10 @@ import type {
   GetClientKeysParams,
   GetClientsParams,
   KeysSeed,
-  Operators,
   PublicKey,
   PublicKeys,
-  RelationshipInfo,
+  TenantUser,
+  Users,
 } from '../api.generatedTypes'
 
 async function getList(params: GetClientsParams) {
@@ -45,22 +45,22 @@ async function getSingleKey(clientId: string, kid: string) {
 }
 
 async function getOperatorList(clientId: string) {
-  const response = await axiosInstance.get<Operators>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/operators`
+  const response = await axiosInstance.get<Users>(
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`
   )
   return response.data
 }
 
-async function getSingleOperator(relationshipId: string) {
-  const response = await axiosInstance.get<RelationshipInfo>(
-    `${BACKEND_FOR_FRONTEND_URL}/relationships/${relationshipId}`
+async function getSingleOperator(userId: string) {
+  const response = await axiosInstance.get<TenantUser>(
+    `${BACKEND_FOR_FRONTEND_URL}/users/${userId}`
   )
   return response.data
 }
 
-async function getOperatorKeys(clientId: string, operatorId: string) {
+async function getOperatorKeys(clientId: string, userId: string) {
   const response = await axiosInstance.get<PublicKeys>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/relationships/${operatorId}/keys`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users/${userId}/keys`
   )
   return response.data.keys
 }
@@ -104,29 +104,15 @@ function deleteKey({ clientId, kid }: { clientId: string; kid: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys/${kid}`)
 }
 
-async function addOperator({
-  clientId,
-  relationshipId,
-}: {
-  clientId: string
-  relationshipId: string
-}) {
+async function addOperator({ clientId, userId }: { clientId: string; userId: string }) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/relationships/${relationshipId}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users/${userId}`
   )
   return response.data
 }
 
-function removeOperator({
-  clientId,
-  relationshipId,
-}: {
-  clientId: string
-  relationshipId: string
-}) {
-  return axiosInstance.delete(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/relationships/${relationshipId}`
-  )
+function removeOperator({ clientId, userId }: { clientId: string; userId: string }) {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users/${userId}`)
 }
 
 const ClientServices = {

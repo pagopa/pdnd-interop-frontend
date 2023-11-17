@@ -7,10 +7,10 @@ import type {
   CompactClients,
   GetClientKeysParams,
   GetClientsParams,
-  Operators,
   PublicKey,
   PublicKeys,
-  RelationshipInfo,
+  TenantUser,
+  Users,
 } from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
 
@@ -77,7 +77,7 @@ function usePrefetchSingleKey() {
     )
 }
 
-function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Operators>) {
+function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Users>) {
   return useQuery({
     queryKey: [ClientQueryKeys.GetOperatorsList, clientId],
     queryFn: () => ClientServices.getOperatorList(clientId),
@@ -85,19 +85,19 @@ function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Operator
   })
 }
 
-function useGetSingleOperator(relationshipId: string, config?: UseQueryOptions<RelationshipInfo>) {
+function useGetSingleOperator(userId: string, config?: UseQueryOptions<TenantUser>) {
   return useQuery({
-    queryKey: [ClientQueryKeys.GetSingleOperator, relationshipId],
-    queryFn: () => ClientServices.getSingleOperator(relationshipId),
+    queryKey: [ClientQueryKeys.GetSingleOperator, userId],
+    queryFn: () => ClientServices.getSingleOperator(userId),
     ...config,
   })
 }
 
 function usePrefetchSingleOperator() {
   const queryClient = useQueryClient()
-  return (relationshipId: string) =>
-    queryClient.prefetchQuery([ClientQueryKeys.GetSingleOperator, relationshipId], () =>
-      ClientServices.getSingleOperator(relationshipId)
+  return (userId: string) =>
+    queryClient.prefetchQuery([ClientQueryKeys.GetSingleOperator, userId], () =>
+      ClientServices.getSingleOperator(userId)
     )
 }
 
