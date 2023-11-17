@@ -8,7 +8,7 @@ import { Trans, useTranslation } from 'react-i18next'
 
 export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromClientProps> = ({
   clientId,
-  relationshipId,
+  userId,
 }) => {
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
@@ -22,7 +22,7 @@ export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromCl
   }
 
   const handleProceed = () => {
-    removeOperatorFromClient({ clientId, relationshipId })
+    removeOperatorFromClient({ clientId, userId })
     closeDialog()
   }
 

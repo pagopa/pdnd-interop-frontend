@@ -24,15 +24,15 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const userQueries = useQueries({
-    queries: users.map(({ relationshipId }) => {
+    queries: users.map(({ userId }) => {
       return {
-        queryKey: [ClientQueryKeys.GetSingleOperator, relationshipId],
-        queryFn: () => ClientServices.getSingleOperator(relationshipId),
+        queryKey: [ClientQueryKeys.GetSingleOperator, userId],
+        queryFn: () => ClientServices.getSingleOperator(userId),
       }
     }),
   })
 
-  const usersId = userQueries.map(({ data }) => data?.from).filter(identity)
+  const usersId = userQueries.map(({ data }) => data?.userId).filter(identity)
 
   const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
   const canAddKey = isOperatorSecurity || (isAdmin && isAdminInClient)

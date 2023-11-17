@@ -1,4 +1,4 @@
-import type { RelationshipInfo } from '@/api/api.generatedTypes'
+import type { TenantUser } from '@/api/api.generatedTypes'
 import type { JwtUser } from '@/types/party.types'
 import { createMockFactory } from '@/utils/testing.utils'
 
@@ -27,18 +27,13 @@ const createMockJwtUser = createMockFactory<JwtUser>({
   },
 })
 
-const createMockSelfCareUser = createMockFactory<RelationshipInfo>({
-  createdAt: '2022-09-30T15:03:41.078Z',
+const createMockSelfCareUser = createMockFactory<TenantUser>({
   familyName: 'Rossi',
-  from: 'b7f6b32e-6252-4994-ac7b-47622e674e5a',
-  id: 'f59e65fa-1b94-4e53-ae46-a3f60d446ebd',
+  userId: 'b7f6b32e-6252-4994-ac7b-47622e674e5a',
   name: 'Mario',
-  product: { createdAt: '2022-09-30T15:03:41.078Z', id: 'prod-interop', role: 'admin' },
-  role: 'DELEGATE',
-  state: 'ACTIVE',
+  roles: ['DELEGATE'],
   taxCode: 'MRORSSR78M21B354T',
-  to: '1962d21c-c701-4805-93f6-53a877898756',
-  updatedAt: '2022-09-30T15:04:42.738Z',
+  tenantId: '1962d21c-c701-4805-93f6-53a877898756',
 })
 
 export { createMockJwtUser, createMockSelfCareUser }

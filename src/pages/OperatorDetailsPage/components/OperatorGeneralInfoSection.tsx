@@ -34,7 +34,9 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
 
   const handleGoToOperatorKeys = () => {
-    const relationshipIdsActiveFilter = [[`${operator.name} ${operator.familyName}`, operator.id]]
+    const relationshipIdsActiveFilter = [
+      [`${operator.name} ${operator.familyName}`, operator.userId],
+    ]
     navigate(backToOperatorsListRouteKey, {
       params: { clientId },
       urlParams: {

@@ -7,12 +7,12 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import type { Operator } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActions'
+import type { User } from '@/api/api.generatedTypes'
 
 interface ClientOperatorsTableRowProps {
-  operator: Operator
+  operator: User
   clientId: string
 }
 
@@ -25,10 +25,10 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   const clientKind = useClientKind()
   const prefetchOperator = ClientQueries.usePrefetchSingleOperator()
 
-  const { actions } = useGetClientOperatorsActions(operator.relationshipId, clientId)
+  const { actions } = useGetClientOperatorsActions(operator.userId, clientId)
 
   const handlePrefetchOperator = () => {
-    prefetchOperator(operator.relationshipId)
+    prefetchOperator(operator.userId)
   }
 
   const inspectRouteKey =
@@ -37,11 +37,11 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
       : 'SUBSCRIBE_CLIENT_OPERATOR_EDIT'
 
   return (
-    <TableRow cellData={[`${operator.name} ${operator.familyName}`]}>
+    <TableRow cellData={[`${operator.name} ${operator.surname}`]}>
       <Link
         as="button"
         to={inspectRouteKey}
-        params={{ clientId, operatorId: operator.relationshipId }}
+        params={{ clientId, operatorId: operator.userId }}
         variant="outlined"
         size="small"
         onPointerEnter={handlePrefetchOperator}

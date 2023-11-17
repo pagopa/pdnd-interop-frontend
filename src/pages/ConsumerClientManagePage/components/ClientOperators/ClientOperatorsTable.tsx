@@ -19,11 +19,7 @@ export const ClientOperatorsTable: React.FC<ClientOperatorsTableProps> = ({ clie
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
       {operators.map((operator) => (
-        <ClientOperatorsTableRow
-          key={operator.relationshipId}
-          operator={operator}
-          clientId={clientId}
-        />
+        <ClientOperatorsTableRow key={operator.userId} operator={operator} clientId={clientId} />
       ))}
     </Table>
   )
