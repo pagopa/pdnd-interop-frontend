@@ -236,6 +236,11 @@ export interface ClientPurpose {
   eservice: CompactEService
 }
 
+export interface PurposeCloneSeed {
+  /** @format uuid */
+  eserviceId: string
+}
+
 export interface CatalogDescriptorEService {
   /** @format uuid */
   id: string
@@ -605,9 +610,6 @@ export interface Pagination {
   totalCount: number
 }
 
-/** Represents the generic available role types for the relationship */
-export type PartyRole = 'MANAGER' | 'DELEGATE' | 'SUB_DELEGATE' | 'OPERATOR'
-
 export interface ProducerEService {
   /** @format uuid */
   id: string
@@ -685,34 +687,7 @@ export interface PurposeAdditionDetailsSeed {
   purposeId: string
 }
 
-/** Represents the Client Operator state */
-export type OperatorState = 'ACTIVE' | 'SUSPENDED' | 'DELETED'
-
-/** Represents the generic available role types for the relationship */
-export type OperatorRole = 'MANAGER' | 'DELEGATE' | 'SUB_DELEGATE' | 'OPERATOR'
-
-/** Models a Client Operator */
-export interface Operator {
-  /** @format uuid */
-  relationshipId: string
-  taxCode: string
-  name: string
-  familyName: string
-  /** Represents the generic available role types for the relationship */
-  role: OperatorRole
-  product: RelationshipProduct
-  /** Represents the Client Operator state */
-  state: OperatorState
-}
-
-export type Operators = Operator[]
-
-export interface RelationshipProduct {
-  id: string
-  role: string
-  /** @format date-time */
-  createdAt: string
-}
+export type Users = User[]
 
 export type KeysSeed = KeySeed[]
 
@@ -834,31 +809,18 @@ export type PurposeVersionState =
   | 'WAITING_FOR_APPROVAL'
   | 'ARCHIVED'
 
-/** Represents the party relationship state */
-export type RelationshipState = 'PENDING' | 'ACTIVE' | 'SUSPENDED' | 'DELETED' | 'REJECTED'
-
-export interface RelationshipInfo {
+export interface TenantUser {
   /** @format uuid */
-  id: string
+  userId: string
   /** @format uuid */
-  from: string
-  /** @format uuid */
-  to: string
+  tenantId: string
   name: string
   familyName: string
   taxCode: string
-  /** Represents the generic available role types for the relationship */
-  role: PartyRole
-  product: ProductInfo
-  /** Represents the party relationship state */
-  state: RelationshipState
-  /** @format date-time */
-  createdAt?: string
-  /** @format date-time */
-  updatedAt?: string
+  roles: string[]
 }
 
-export type RelationshipsResponse = RelationshipInfo[]
+export type TenantUsers = TenantUser[]
 
 export interface RiskAnalysisForm {
   version: string
@@ -1218,19 +1180,19 @@ export interface TokenGenerationValidationEService {
 export interface PublicKey {
   keyId: string
   name: string
-  /** Contains some details about operator */
-  operator: SelfcareUser
+  /** Contains some details about user */
+  user: User
   /** @format date-time */
   createdAt: string
   isOrphan: boolean
 }
 
-/** Contains some details about operator */
-export interface SelfcareUser {
+/** Contains some details about user */
+export interface User {
   /** @format uuid */
-  relationshipId: string
+  userId: string
   name: string
-  familyName: string
+  surname: string
 }
 
 export interface PublicKeys {
@@ -1486,7 +1448,7 @@ export interface GetAgreementEServiceConsumersParams {
   limit: number
 }
 
-export interface GetUserInstitutionRelationshipsParams {
+export interface GetInstitutionUsersParams {
   /**
    * the person identifier
    * @format uuid
@@ -1496,17 +1458,7 @@ export interface GetUserInstitutionRelationshipsParams {
    * comma separated sequence of role to filter the response with
    * @default []
    */
-  roles?: PartyRole[]
-  /**
-   * comma separated sequence of states to filter the response with
-   * @default []
-   */
-  states?: RelationshipState[]
-  /**
-   * comma separated sequence of product roles to filter the response with
-   * @default []
-   */
-  productRoles?: string[]
+  roles?: string[]
   /** filter applied to name/surname */
   query?: string
   /**
@@ -1611,10 +1563,10 @@ export interface GetClientsParams {
   /** Query to filter Clients by name */
   q?: string
   /**
-   * comma separated sequence of relationship IDs
+   * comma separated sequence of user IDs
    * @default []
    */
-  relationshipIds?: string[]
+  userIds?: string[]
   /** type of Client to be retrieved */
   kind?: ClientKind
   /**
@@ -1632,10 +1584,10 @@ export interface GetClientsParams {
 
 export interface GetClientKeysParams {
   /**
-   * comma separated sequence of relationship IDs
+   * comma separated sequence of user IDs
    * @default []
    */
-  relationshipIds?: string[]
+  userIds?: string[]
   /**
    * ID of Client
    * @format uuid
@@ -2973,13 +2925,13 @@ export namespace Session {
 export namespace Tenants {
   /**
    * @description Return ok
-   * @tags party
-   * @name GetUserInstitutionRelationships
-   * @summary returns the relationships related to the institution
-   * @request GET:/tenants/{tenantId}/relationships
+   * @tags selfcare
+   * @name GetInstitutionUsers
+   * @summary returns the users related to the institution
+   * @request GET:/tenants/{tenantId}/users
    * @secure
    */
-  export namespace GetUserInstitutionRelationships {
+  export namespace GetInstitutionUsers {
     export type RequestParams = {
       /**
        * The internal identifier of the tenant
@@ -2997,17 +2949,7 @@ export namespace Tenants {
        * comma separated sequence of role to filter the response with
        * @default []
        */
-      roles?: PartyRole[]
-      /**
-       * comma separated sequence of states to filter the response with
-       * @default []
-       */
-      states?: RelationshipState[]
-      /**
-       * comma separated sequence of product roles to filter the response with
-       * @default []
-       */
-      productRoles?: string[]
+      roles?: string[]
       /** filter applied to name/surname */
       query?: string
     }
@@ -3015,7 +2957,7 @@ export namespace Tenants {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = RelationshipsResponse
+    export type ResponseBody = TenantUsers
   }
   /**
    * @description Gets certified attributes for institution using internal institution id
@@ -3026,6 +2968,7 @@ export namespace Tenants {
    * @secure
    */
   export namespace GetCertifiedAttributes {
+    //TODO sono arrivato qua
     export type RequestParams = {
       /**
        * The internal identifier of the tenant
@@ -3280,27 +3223,27 @@ export namespace Tools {
   }
 }
 
-export namespace Relationships {
+export namespace Users {
   /**
-   * @description Gets relationship
-   * @tags party
-   * @name GetRelationship
-   * @summary Gets the corresponding relationship
-   * @request GET:/relationships/{relationshipId}
+   * @description Gets user
+   * @tags selfcare
+   * @name GetUser
+   * @summary Gets the corresponding user
+   * @request GET:/users/{userId}
    * @secure
    */
-  export namespace GetRelationship {
+  export namespace GetUser {
     export type RequestParams = {
       /**
-       * The identifier of the relationship
+       * The identifier of the user
        * @format uuid
        */
-      relationshipId: string
+      userId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = RelationshipInfo
+    export type ResponseBody = TenantUser
   }
 }
 
@@ -3335,7 +3278,7 @@ export namespace Purposes {
       purposeId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = never
+    export type RequestBody = PurposeCloneSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
@@ -3864,10 +3807,10 @@ export namespace Clients {
       /** Query to filter Clients by name */
       q?: string
       /**
-       * comma separated sequence of relationship IDs
+       * comma separated sequence of user IDs
        * @default []
        */
-      relationshipIds?: string[]
+      userIds?: string[]
       /** type of Client to be retrieved */
       kind?: ClientKind
       /**
@@ -4013,14 +3956,14 @@ export namespace Clients {
     export type ResponseBody = void
   }
   /**
-   * @description Binds a security operator belonging to a consumer to a Client
+   * @description Binds a security user belonging to a consumer to a Client
    * @tags clients
-   * @name ClientOperatorRelationshipBinding
-   * @summary Binds an Operator relationship to a Client
-   * @request POST:/clients/{clientId}/relationships/{relationshipId}
+   * @name AddUserToClient
+   * @summary Binds an user to a Client
+   * @request POST:/clients/{clientId}/users/{userId}
    * @secure
    */
-  export namespace ClientOperatorRelationshipBinding {
+  export namespace AddUserToClient {
     export type RequestParams = {
       /**
        * The Client id
@@ -4028,10 +3971,10 @@ export namespace Clients {
        */
       clientId: string
       /**
-       * The identifier of the relationship between the security operator and the consumer
+       * The identifier of the user between the security user and the consumer
        * @format uuid
        */
-      relationshipId: string
+      userId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never
@@ -4041,14 +3984,14 @@ export namespace Clients {
     export type ResponseBody = CreatedResource
   }
   /**
-   * @description Removes an operator relationship from a Client
+   * @description Removes an user from a Client
    * @tags clients
-   * @name RemoveClientOperatorRelationship
-   * @summary Remove an operator relationship from a Client
-   * @request DELETE:/clients/{clientId}/relationships/{relationshipId}
+   * @name RemoveUserFromClient
+   * @summary Remove an user from a Client
+   * @request DELETE:/clients/{clientId}/users/{userId}
    * @secure
    */
-  export namespace RemoveClientOperatorRelationship {
+  export namespace RemoveUserFromClient {
     export type RequestParams = {
       /**
        * The Client id
@@ -4056,10 +3999,10 @@ export namespace Clients {
        */
       clientId: string
       /**
-       * The identifier of the relationship between the security operator and the consumer
+       * The identifier of the user between the security user and the consumer
        * @format uuid
        */
-      relationshipId: string
+      userId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never
@@ -4092,17 +4035,17 @@ export namespace Clients {
     export type ResponseBody = void
   }
   /**
-   * @description List client operators
+   * @description List client users
    * @tags clients
-   * @name GetClientOperators
-   * @summary List client operators
-   * @request GET:/clients/{clientId}/operators
+   * @name GetClientUsers
+   * @summary List client users
+   * @request GET:/clients/{clientId}/users
    * @secure
    */
-  export namespace GetClientOperators {
+  export namespace GetClientUsers {
     export type RequestParams = {
       /**
-       * ID of Client the operators belong to
+       * ID of Client the users belong to
        * @format uuid
        */
       clientId: string
@@ -4112,7 +4055,7 @@ export namespace Clients {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = Operators
+    export type ResponseBody = Users
   }
   /**
    * @description Creates one or more keys for the corresponding client.
@@ -4155,10 +4098,10 @@ export namespace Clients {
     }
     export type RequestQuery = {
       /**
-       * comma separated sequence of relationship IDs
+       * comma separated sequence of user IDs
        * @default []
        */
-      relationshipIds?: string[]
+      userIds?: string[]
     }
     export type RequestBody = never
     export type RequestHeaders = {
@@ -4192,14 +4135,14 @@ export namespace Clients {
     export type ResponseBody = EncodedClientKey
   }
   /**
-   * @description Given a relationship and a client it returns its corresponding set of keys, if any
+   * @description Given a user and a client it returns its corresponding set of keys, if any
    * @tags clients
-   * @name GetClientRelationshipKeys
-   * @summary Returns a set of keys by relationship ID and client ID.
-   * @request GET:/clients/{clientId}/relationships/{relationshipId}/keys
+   * @name GetClientUserKeys
+   * @summary Returns a set of keys by user ID and client ID.
+   * @request GET:/clients/{clientId}/users/{userId}/keys
    * @secure
    */
-  export namespace GetClientRelationshipKeys {
+  export namespace GetClientUserKeys {
     export type RequestParams = {
       /**
        * ID of the client holding the key
@@ -4207,10 +4150,10 @@ export namespace Clients {
        */
       clientId: string
       /**
-       * ID of the Relationship that the added keys MUST belong to
+       * ID of the User that the added keys MUST belong to
        * @format uuid
        */
-      relationshipId: string
+      userId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never
