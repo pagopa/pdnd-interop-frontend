@@ -9,9 +9,10 @@ function useGetPurposeStateAlertProps(
 
   if (!purpose) return undefined
 
-  const isSuspended = purpose?.currentVersion?.state === 'SUSPENDED'
-  const isWaintingForApproval = Boolean(purpose?.waitingForApprovalVersion)
-  const isArchived = purpose?.currentVersion?.state === 'ARCHIVED'
+  const isSuspended = purpose.currentVersion?.state === 'SUSPENDED'
+  const isWaintingForApproval =
+    Boolean(purpose.waitingForApprovalVersion) && Boolean(purpose.currentVersion)
+  const isArchived = purpose.currentVersion?.state === 'ARCHIVED'
 
   if (isSuspended) {
     return {
