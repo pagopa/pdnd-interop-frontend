@@ -1,13 +1,12 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { Link, useGeneratePath } from '@/router'
-import { Divider, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import LinkIcon from '@mui/icons-material/Link'
 import { PurposeDownloads } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
-import { IconLink } from '@/components/shared/IconLink'
 import DownloadIcon from '@mui/icons-material/Download'
 
 type ConsumerPurposeDetailsGeneralInfoSectionProps = {
@@ -38,7 +37,26 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
   }
 
   return (
-    <SectionContainer title={t('title')} newDesign>
+    <SectionContainer
+      title={t('title')}
+      newDesign
+      bottomActions={[
+        {
+          startIcon: <DownloadIcon fontSize="small" />,
+          label: t('riskAnalysis.link.label'),
+          component: 'button',
+          type: 'button',
+          onClick: { handleDownloadDocument },
+        },
+        {
+          startIcon: <LinkIcon fontSize="small" />,
+          label: t('agreementLink.label'),
+          href:
+            '/ui' + generatePath('SUBSCRIBE_AGREEMENT_READ', { agreementId: purpose.agreement.id }),
+          target: '_blank',
+        },
+      ]}
+    >
       <Stack spacing={2}>
         <InformationContainer
           label={t('eServiceField.label')}
@@ -66,24 +84,6 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           direction="column"
           content={purpose.description}
         />
-        <Divider />
-        <IconLink
-          onClick={handleDownloadDocument}
-          component="button"
-          startIcon={<DownloadIcon />}
-          alignSelf="start"
-        >
-          {t('riskAnalysis.link.label')}
-        </IconLink>
-        <IconLink
-          href={
-            '/ui' + generatePath('SUBSCRIBE_AGREEMENT_READ', { agreementId: purpose.agreement.id })
-          }
-          startIcon={<LinkIcon />}
-          alignSelf="start"
-        >
-          {t('agreementLink.label')}
-        </IconLink>
       </Stack>
     </SectionContainer>
   )
