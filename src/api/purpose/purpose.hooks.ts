@@ -2,7 +2,11 @@ import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@ta
 import { useTranslation } from 'react-i18next'
 import PurposeServices from './purpose.services'
 import { useDownloadFile } from '../hooks/useDownloadFile'
-import type { GetConsumerPurposesParams, GetProducerPurposesParams } from '../api.generatedTypes'
+import type {
+  GetConsumerPurposesParams,
+  GetProducerPurposesParams,
+  RetrieveRiskAnalysisConfigurationByVersionParams,
+} from '../api.generatedTypes'
 
 export enum PurposeQueryKeys {
   GetList = 'PurposeGetList',
@@ -64,12 +68,12 @@ function useGetRiskAnalysisLatest(
 }
 
 function useGetRiskAnalysisVersion(
-  riskAnalysisVersion: string,
+  params: RetrieveRiskAnalysisConfigurationByVersionParams,
   config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisVersion>>>
 ) {
   return useQuery({
-    queryKey: [PurposeQueryKeys.GetRiskAnalysisVersion, riskAnalysisVersion],
-    queryFn: () => PurposeServices.getRiskAnalysisVersion(riskAnalysisVersion),
+    queryKey: [PurposeQueryKeys.GetRiskAnalysisVersion, params],
+    queryFn: () => PurposeServices.getRiskAnalysisVersion(params),
     ...config,
   })
 }

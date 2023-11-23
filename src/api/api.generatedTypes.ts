@@ -1635,6 +1635,12 @@ export interface GetClientKeysParams {
   clientId: string
 }
 
+export interface RetrieveRiskAnalysisConfigurationByVersionParams {
+  /** @format uuid */
+  eserviceId: string
+  riskAnalysisVersion: string
+}
+
 export namespace Agreements {
   /**
    * @description retrieves a list of agreements
@@ -3653,7 +3659,10 @@ export namespace Purposes {
     export type RequestParams = {
       riskAnalysisVersion: string
     }
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      /** @format uuid */
+      eserviceId: string
+    }
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string

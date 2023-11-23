@@ -27,10 +27,13 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
   const riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
 
   const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    riskAnalysis?.riskAnalysisForm.version as string,
+    {
+      riskAnalysisVersion: riskAnalysis?.riskAnalysisForm.version as string,
+      eserviceId: selectedEServiceId!,
+    },
     {
       suspense: false,
-      enabled: !!riskAnalysis?.riskAnalysisForm.version,
+      enabled: !!riskAnalysis?.riskAnalysisForm.version && !!selectedEServiceId,
     }
   )
 

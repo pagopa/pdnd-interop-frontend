@@ -12,6 +12,7 @@ import type {
   PurposeUpdateContent,
   PurposeVersionResource,
   PurposeVersionSeed,
+  RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
   WaitingForApprovalPurposeVersionUpdateContentSeed,
@@ -51,9 +52,13 @@ async function getRiskAnalysisLatest() {
   return response.data
 }
 
-async function getRiskAnalysisVersion(riskAnalysisVersion: string) {
+async function getRiskAnalysisVersion({
+  riskAnalysisVersion,
+  ...params
+}: RetrieveRiskAnalysisConfigurationByVersionParams) {
   const response = await axiosInstance.get<RiskAnalysisFormConfig>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/version/${riskAnalysisVersion}`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/version/${riskAnalysisVersion}`,
+    { params }
   )
   return response.data
 }
