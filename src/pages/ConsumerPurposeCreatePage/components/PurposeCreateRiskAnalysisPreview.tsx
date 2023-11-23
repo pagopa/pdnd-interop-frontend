@@ -22,10 +22,13 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
     enabled: !!purposeId,
   })
   const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    purpose?.riskAnalysisForm?.version as string,
+    {
+      riskAnalysisVersion: purpose?.riskAnalysisForm?.version as string,
+      eserviceId: purpose?.eservice.id as string,
+    },
     {
       suspense: false,
-      enabled: !!purpose?.riskAnalysisForm?.version,
+      enabled: !!purpose?.riskAnalysisForm?.version && !!purpose?.eservice.id,
     }
   )
 

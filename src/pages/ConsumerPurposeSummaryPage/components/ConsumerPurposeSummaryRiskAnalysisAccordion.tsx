@@ -18,7 +18,10 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   const currentLanguage = useCurrentLanguage()
 
   const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    purpose.riskAnalysisForm?.version as string,
+    {
+      riskAnalysisVersion: purpose.riskAnalysisForm?.version as string,
+      eserviceId: purpose.eservice.id,
+    },
     {
       suspense: false,
       enabled: !!purpose.riskAnalysisForm?.version,
