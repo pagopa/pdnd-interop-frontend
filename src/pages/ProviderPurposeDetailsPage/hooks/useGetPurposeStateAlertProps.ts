@@ -10,7 +10,7 @@ function useGetPurposeStateAlertProps(
   if (!purpose) return undefined
 
   const isSuspended = purpose.currentVersion?.state === 'SUSPENDED'
-  const isWaintingForApproval =
+  const isUpgradePending =
     Boolean(purpose.waitingForApprovalVersion) && Boolean(purpose.currentVersion)
   const isArchived = purpose.currentVersion?.state === 'ARCHIVED'
 
@@ -21,7 +21,7 @@ function useGetPurposeStateAlertProps(
     }
   }
 
-  if (isWaintingForApproval) {
+  if (isUpgradePending) {
     return {
       severity: 'warning',
       content: t('waitingForApprovalAlert'),
