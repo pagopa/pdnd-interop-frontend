@@ -1,5 +1,5 @@
 import React from 'react'
-import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { EServiceDoc, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
@@ -11,6 +11,9 @@ import {
 } from '@/config/constants'
 import { WELL_KNOWN_URLS } from '@/config/env'
 import LaunchIcon from '@mui/icons-material/Launch'
+import AttachFileIcon from '@mui/icons-material/AttachFile'
+import { EServiceDownloads } from '@/api/eservice'
+import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type ProviderEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
@@ -23,6 +26,21 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
 > = ({ descriptor, isOpen, onClose }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.technicalInfoDrawer' })
   const { t: tCommon } = useTranslation('common')
+
+  const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
+
+  const docs = [descriptor.interface, ...descriptor.docs]
+
+  const handleDownloadDocument = (document: EServiceDoc) => {
+    downloadDocument(
+      {
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        documentId: document.id,
+      },
+      getDownloadDocumentName(document)
+    )
+  }
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title={t('title')}>
@@ -62,6 +80,28 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
         <InformationContainer
           label={t('mode.label')}
           content={t(`mode.value.${descriptor.eservice.mode}`)}
+          direction="column"
+        />
+
+        <InformationContainer
+          label={t('documentation')}
+          content={
+            <Stack alignItems="start" mt={1} spacing={0.5}>
+              {docs.map((doc) => {
+                if (!doc) return null
+                return (
+                  <IconLink
+                    key={doc.id}
+                    component="button"
+                    onClick={handleDownloadDocument.bind(null, doc)}
+                    startIcon={<AttachFileIcon fontSize="small" />}
+                  >
+                    {doc.prettyName}
+                  </IconLink>
+                )
+              })}
+            </Stack>
+          }
           direction="column"
         />
 
