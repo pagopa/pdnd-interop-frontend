@@ -21,7 +21,6 @@ import {
   LogoutPage,
   KeyDetailsPage,
   ConsumerClientCreatePage,
-  SecurityKeyGuidePage,
   ConsumerPurposeCreatePage,
   ConsumerAgreementCreatePage,
   NotFoundPage,
@@ -69,14 +68,6 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <PrivacyPolicyPage />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
-  })
-  .addRoute({
-    key: 'SECURITY_KEY_GUIDE',
-    path: '/generazione-chiavi',
-    element: <SecurityKeyGuidePage />,
-    public: false,
-    hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({

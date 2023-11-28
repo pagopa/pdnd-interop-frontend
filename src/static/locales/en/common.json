@@ -169,9 +169,6 @@
   "privacyPolicy": {
     "title": "Privacy Policy"
   },
-  "securityKeyGuide": {
-    "title": "How to generate and upload security keys"
-  },
   "error": {},
   "idLabels": {
     "eserviceId": "eserviceId",

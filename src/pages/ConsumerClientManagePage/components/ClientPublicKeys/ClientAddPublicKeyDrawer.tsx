@@ -1,8 +1,8 @@
 import { ClientMutations } from '@/api/client'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
-import { Link } from '@/router'
-import { Stack } from '@mui/material'
+import { generateKeyGuideLink } from '@/config/constants'
+import { Link, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -43,7 +43,11 @@ export const ClientAddPublicKeyDrawer: React.FC<ClientAddPublicKeyDrawerProps> =
         onClose={onClose}
         title={t('title')}
         subtitle={
-          <Trans components={{ 1: <Link to="SECURITY_KEY_GUIDE" target="_blank" /> }}>
+          <Trans
+            components={{
+              1: <Link underline="hover" href={generateKeyGuideLink} target="_blank" />,
+            }}
+          >
             {t('description')}
           </Trans>
         }
