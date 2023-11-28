@@ -139,15 +139,23 @@ export const VoucherInstructionsStep2: React.FC = () => {
       </SectionContainer>
       <SectionContainer newDesign title={t('step2.assertionScript.title')}>
         <Box sx={{ pl: 2 }} component="ol">
-          <Typography component="li">{t('step2.assertionScript.steps.1')}</Typography>
-          <Typography component="li">
+          <Typography component="li" variant="body2">
+            {t('step2.assertionScript.steps.1')}
+          </Typography>
+          <Typography component="li" variant="body2">
             <Trans components={{ 1: <Link download href={downloadUrl} /> }}>
               {t('step2.assertionScript.steps.2', { filename })}
             </Trans>
           </Typography>
-          <Typography component="li">{t('step2.assertionScript.steps.3')}</Typography>
-          <Typography component="li">{t('step2.assertionScript.steps.4')}</Typography>
-          <Typography component="li">{t('step2.assertionScript.steps.5')}</Typography>
+          <Typography component="li" variant="body2">
+            {t('step2.assertionScript.steps.3')}
+          </Typography>
+          <Typography component="li" variant="body2">
+            {t('step2.assertionScript.steps.4')}
+          </Typography>
+          <Typography component="li" variant="body2">
+            {t('step2.assertionScript.steps.5')}
+          </Typography>
         </Box>
 
         <CodeSnippetPreview
@@ -172,7 +180,9 @@ export const VoucherInstructionsStep2: React.FC = () => {
             INSERISCI_VALORE_PUR: selectedPurposeId ?? '',
           }}
         />
-        <Typography>{t('step2.assertionScript.steps.result')}</Typography>
+        <Typography sx={{ mt: 2 }} variant="body2">
+          {t('step2.assertionScript.steps.result')}
+        </Typography>
       </SectionContainer>
       <StepActions
         back={{
