@@ -34,6 +34,7 @@ import {
   AssistanceTenantSelectionErrorPage,
   ConsumerPurposeSummaryPage,
   ProviderEServiceSummaryPage,
+  AssistancePage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -364,6 +365,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerDebugVoucherPage />,
     public: false,
     hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'ASSISTANCE',
+    path: '/assistenza',
+    element: <AssistancePage />,
+    public: false,
+    hideSideNav: true,
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .build()

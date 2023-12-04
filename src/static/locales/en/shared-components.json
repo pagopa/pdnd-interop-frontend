@@ -264,6 +264,7 @@
     "SUBSCRIBE_DEBUG_VOUCHER": "Voucher debug",
     "ASSISTENCE_PARTY_SELECTION": "Party selection",
     "ASSISTENCE_PARTY_SELECTION_ERROR": "Party selection error",
+    "ASSISTANCE": "Assistance",
     "DEFAULT": ""
   }
 }
