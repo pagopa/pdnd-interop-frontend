@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from '@/router'
-import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
+import { documentationLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
 import { FE_LOGIN_URL, SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID, STAGE } from '@/config/env'
 import { PartyQueries } from '@/api/party/party.hooks'
@@ -146,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
           navigate('LOGOUT')
         }}
         onAssistanceClick={() => {
-          window.open(assistanceLink)
+          navigate('ASSISTANCE')
         }}
         onDocumentationClick={() => {
           window.open(documentationLink, '_blank')
