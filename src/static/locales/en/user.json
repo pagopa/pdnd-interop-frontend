@@ -16,9 +16,6 @@
   },
   "edit": {
     "generalInformations": "General informations",
-    "taxCodeField": {
-      "label": "Tax code"
-    },
     "roleField": {
       "label": "Role"
     },
