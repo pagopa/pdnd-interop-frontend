@@ -3,9 +3,9 @@ import axiosInstance from '@/config/axios'
 import type {
   GetInstitutionUsersParams,
   GetTenantsParams,
+  MailSeed,
   SelfcareInstitution,
   Tenant,
-  TenantDelta,
   TenantUsers,
   Tenants,
 } from '../api.generatedTypes'
@@ -45,8 +45,8 @@ function updateMail({
   ...payload
 }: {
   partyId: string
-} & TenantDelta) {
-  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`, payload)
+} & MailSeed) {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/mails`, payload)
 }
 
 async function getPartyList() {

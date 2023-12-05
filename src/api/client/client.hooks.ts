@@ -5,12 +5,12 @@ import { useDownloadFile } from '../hooks/useDownloadFile'
 import type {
   Client,
   CompactClients,
+  CompactUsers,
   GetClientKeysParams,
   GetClientsParams,
   PublicKey,
   PublicKeys,
-  TenantUser,
-  Users,
+  User,
 } from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
 
@@ -77,7 +77,7 @@ function usePrefetchSingleKey() {
     )
 }
 
-function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Users>) {
+function useGetOperatorsList(clientId: string, config?: UseQueryOptions<CompactUsers>) {
   return useQuery({
     queryKey: [ClientQueryKeys.GetOperatorsList, clientId],
     queryFn: () => ClientServices.getOperatorList(clientId),
@@ -85,7 +85,7 @@ function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Users>) 
   })
 }
 
-function useGetSingleOperator(userId: string, config?: UseQueryOptions<TenantUser>) {
+function useGetSingleOperator(userId: string, config?: UseQueryOptions<User>) {
   return useQuery({
     queryKey: [ClientQueryKeys.GetSingleOperator, userId],
     queryFn: () => ClientServices.getSingleOperator(userId),

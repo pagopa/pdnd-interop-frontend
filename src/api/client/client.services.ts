@@ -4,6 +4,7 @@ import type {
   Client,
   ClientSeed,
   CompactClients,
+  CompactUsers,
   CreatedResource,
   EncodedClientKey,
   GetClientKeysParams,
@@ -11,8 +12,7 @@ import type {
   KeysSeed,
   PublicKey,
   PublicKeys,
-  TenantUser,
-  Users,
+  User,
 } from '../api.generatedTypes'
 
 async function getList(params: GetClientsParams) {
@@ -45,16 +45,14 @@ async function getSingleKey(clientId: string, kid: string) {
 }
 
 async function getOperatorList(clientId: string) {
-  const response = await axiosInstance.get<Users>(
+  const response = await axiosInstance.get<CompactUsers>(
     `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`
   )
   return response.data
 }
 
 async function getSingleOperator(userId: string) {
-  const response = await axiosInstance.get<TenantUser>(
-    `${BACKEND_FOR_FRONTEND_URL}/users/${userId}`
-  )
+  const response = await axiosInstance.get<User>(`${BACKEND_FOR_FRONTEND_URL}/users/${userId}`)
   return response.data
 }
 
