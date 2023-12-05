@@ -16,6 +16,7 @@ const createMockPurpose = createMockFactory<Purpose>({
     id: 'dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e',
     name: 'Test Attributi 2 - Ste',
     producer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
+    mode: 'DELIVER',
   },
   id: 'e46c7d27-18a0-40db-b7f9-ae8652355e8e',
   riskAnalysisForm: {

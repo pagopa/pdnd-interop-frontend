@@ -1,4 +1,4 @@
-import type { TenantUser } from '@/api/api.generatedTypes'
+import type { User } from '@/api/api.generatedTypes'
 import type { JwtUser } from '@/types/party.types'
 import { createMockFactory } from '@/utils/testing.utils'
 
@@ -27,12 +27,11 @@ const createMockJwtUser = createMockFactory<JwtUser>({
   },
 })
 
-const createMockSelfCareUser = createMockFactory<TenantUser>({
+const createMockSelfCareUser = createMockFactory<User>({
   familyName: 'Rossi',
   userId: 'b7f6b32e-6252-4994-ac7b-47622e674e5a',
   name: 'Mario',
   roles: ['DELEGATE'],
-  taxCode: 'MRORSSR78M21B354T',
   tenantId: '1962d21c-c701-4805-93f6-53a877898756',
 })
 
