@@ -407,12 +407,6 @@ export interface AgreementUpdatePayload {
   consumerNotes: string
 }
 
-/** Tenant Delta model */
-export interface TenantDelta {
-  contactEmail: string
-  description?: string
-}
-
 /** contains the information for agreement creation. */
 export interface AgreementSubmissionPayload {
   consumerNotes?: string
@@ -497,6 +491,8 @@ export interface CompactPurposeEService {
   name: string
   producer: CompactOrganization
   descriptor: CompactDescriptor
+  /** Risk Analysis Mode */
+  mode: EServiceMode
 }
 
 /** contains the expected payload for purpose version creation. */
@@ -687,7 +683,7 @@ export interface PurposeAdditionDetailsSeed {
   purposeId: string
 }
 
-export type Users = User[]
+export type CompactUsers = CompactUser[]
 
 export type KeysSeed = KeySeed[]
 
@@ -809,18 +805,17 @@ export type PurposeVersionState =
   | 'WAITING_FOR_APPROVAL'
   | 'ARCHIVED'
 
-export interface TenantUser {
+export interface User {
   /** @format uuid */
   userId: string
   /** @format uuid */
   tenantId: string
   name: string
   familyName: string
-  taxCode: string
   roles: string[]
 }
 
-export type TenantUsers = TenantUser[]
+export type TenantUsers = User[]
 
 export interface RiskAnalysisForm {
   version: string
@@ -1021,6 +1016,15 @@ export interface ExternalId {
   value: string
 }
 
+export type MailKind = 'CONTACT_EMAIL' | 'DIGITAL_ADDRESS'
+
+/** A specific kind of mail */
+export interface MailSeed {
+  kind: MailKind
+  address: string
+  description?: string
+}
+
 /** Tenants */
 export interface Tenants {
   results: CompactTenant[]
@@ -1059,7 +1063,12 @@ export interface Tenant {
   name: string
   attributes: TenantAttributes
   contactMail?: Mail
+  /** @format date-time */
+  onboardedAt?: string
+  subUnitType?: TenantUnitType
 }
+
+export type TenantUnitType = 'AOO' | 'UO'
 
 export interface TenantAttributes {
   declared: DeclaredTenantAttribute[]
@@ -1181,18 +1190,18 @@ export interface PublicKey {
   keyId: string
   name: string
   /** Contains some details about user */
-  user: User
+  user: CompactUser
   /** @format date-time */
   createdAt: string
   isOrphan: boolean
 }
 
 /** Contains some details about user */
-export interface User {
+export interface CompactUser {
   /** @format uuid */
   userId: string
   name: string
-  surname: string
+  familyName: string
 }
 
 export interface PublicKeys {
@@ -1351,6 +1360,8 @@ export interface GetEServicesCatalogParams {
    * @default []
    */
   agreementStates?: AgreementState[]
+  /** EService Mode filter */
+  mode?: EServiceMode
   /**
    * @format int32
    * @min 0
@@ -2085,6 +2096,8 @@ export namespace Catalog {
        * @default []
        */
       agreementStates?: AgreementState[]
+      /** EService Mode filter */
+      mode?: EServiceMode
       /**
        * @format int32
        * @min 0
@@ -2968,7 +2981,6 @@ export namespace Tenants {
    * @secure
    */
   export namespace GetCertifiedAttributes {
-    //TODO sono arrivato qua
     export type RequestParams = {
       /**
        * The internal identifier of the tenant
@@ -3155,23 +3167,48 @@ export namespace Tenants {
     export type ResponseBody = Tenant
   }
   /**
-   * @description Updates the content of the tenant
+   * No description
    * @tags tenants
-   * @name UpdateTenant
-   * @summary Updates the content of the tenant
-   * @request POST:/tenants/{tenantId}
+   * @name AddTenantMail
+   * @summary Add a tenant mail
+   * @request POST:/tenants/{tenantId}/mails
    * @secure
    */
-  export namespace UpdateTenant {
+  export namespace AddTenantMail {
     export type RequestParams = {
       /**
-       * The internal identifier of the tenant
+       * the tenant id
        * @format uuid
        */
       tenantId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = TenantDelta
+    export type RequestBody = MailSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name DeleteTenantMail
+   * @summary Delete a tenant mail
+   * @request DELETE:/tenants/{tenantId}/mails/{mailId}
+   * @secure
+   */
+  export namespace DeleteTenantMail {
+    export type RequestParams = {
+      /**
+       * the tenant id
+       * @format uuid
+       */
+      tenantId: string
+      /** the mail id */
+      mailId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
@@ -3243,7 +3280,7 @@ export namespace Users {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = TenantUser
+    export type ResponseBody = User
   }
 }
 
@@ -4055,7 +4092,7 @@ export namespace Clients {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = Users
+    export type ResponseBody = CompactUsers
   }
   /**
    * @description Creates one or more keys for the corresponding client.
