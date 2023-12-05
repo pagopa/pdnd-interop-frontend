@@ -14,6 +14,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { EServiceDownloads } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import { secondsToMinutes } from '@/utils/format.utils'
 
 type ProviderEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
@@ -42,6 +43,8 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
     )
   }
 
+  const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
+
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title={t('title')}>
       <Stack spacing={3}>
@@ -59,8 +62,8 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
 
         <InformationContainer
           label={t('voucherLifespan')}
-          content={`${descriptor.voucherLifespan} ${tCommon('time.minute', {
-            count: descriptor.voucherLifespan,
+          content={`${voucherLifespan} ${tCommon('time.minute', {
+            count: voucherLifespan,
           })}`}
           direction="column"
         />

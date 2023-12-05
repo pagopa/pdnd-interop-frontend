@@ -10,6 +10,7 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { manageEServiceGuideLink } from '@/config/constants'
+import { secondsToMinutes } from '@/utils/format.utils'
 
 type ConsumerEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
@@ -38,6 +39,8 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
     )
   }
 
+  const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
+
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title={t('title')}>
       <Stack spacing={3}>
@@ -55,8 +58,8 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
 
         <InformationContainer
           label={t('voucherLifespan')}
-          content={`${descriptor.voucherLifespan} ${tCommon('time.minute', {
-            count: descriptor.voucherLifespan,
+          content={`${voucherLifespan} ${tCommon('time.minute', {
+            count: voucherLifespan,
           })}`}
           direction="column"
         />
