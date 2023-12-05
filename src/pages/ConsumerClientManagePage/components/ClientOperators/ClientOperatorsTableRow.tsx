@@ -9,10 +9,10 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { AuthHooks } from '@/api/auth'
 import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActions'
-import type { User } from '@/api/api.generatedTypes'
+import type { CompactUser } from '@/api/api.generatedTypes'
 
 interface ClientOperatorsTableRowProps {
-  operator: User
+  operator: CompactUser
   clientId: string
 }
 
@@ -37,7 +37,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
       : 'SUBSCRIBE_CLIENT_OPERATOR_EDIT'
 
   return (
-    <TableRow cellData={[`${operator.name} ${operator.surname}`]}>
+    <TableRow cellData={[`${operator.name} ${operator.familyName}`]}>
       <Link
         as="button"
         to={inspectRouteKey}

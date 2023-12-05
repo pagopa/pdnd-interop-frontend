@@ -6,7 +6,7 @@ import {
 import { ClientPublicKeysTable, ClientPublicKeysTableSkeleton } from './ClientPublicKeysTable'
 import { Filters, useFilters } from '@pagopa/interop-fe-commons'
 import { ClientQueries } from '@/api/client'
-import type { GetClientKeysParams, User } from '@/api/api.generatedTypes'
+import type { CompactUser, GetClientKeysParams } from '@/api/api.generatedTypes'
 import { useTranslation } from 'react-i18next'
 
 interface ClientPublicKeysProps {
@@ -20,8 +20,8 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
   })
 
   const userOptions =
-    currentOperators.map((o: User) => ({
-      label: `${o.name} ${o.surname}`,
+    currentOperators.map((o: CompactUser) => ({
+      label: `${o.name} ${o.familyName}`,
       value: o.userId,
     })) || []
 

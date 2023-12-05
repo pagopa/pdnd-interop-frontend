@@ -50,7 +50,7 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
             </Tooltip>
           )}
         </>,
-        `${publicKey.user.name} ${publicKey.user.surname}`,
+        `${publicKey.user.name} ${publicKey.user.familyName}`,
         formatDateString(publicKey.createdAt),
       ]}
     >
