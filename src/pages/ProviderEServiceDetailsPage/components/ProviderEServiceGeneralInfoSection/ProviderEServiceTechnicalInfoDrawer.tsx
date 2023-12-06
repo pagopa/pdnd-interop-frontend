@@ -4,6 +4,7 @@ import { Drawer } from '@/components/shared/Drawer'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
+import { secondsToMinutes } from '@/utils/format.utils'
 
 type ProviderEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
@@ -16,6 +17,8 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
 > = ({ descriptor, isOpen, onClose }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.technicalInfoDrawer' })
   const { t: tCommon } = useTranslation('common')
+
+  const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title={t('title')}>
@@ -34,8 +37,8 @@ export const ProviderEServiceTechnicalInfoDrawer: React.FC<
 
         <InformationContainer
           label={t('voucherLifespan')}
-          content={`${descriptor.voucherLifespan} ${tCommon('time.minute', {
-            count: descriptor.voucherLifespan,
+          content={`${voucherLifespan} ${tCommon('time.minute', {
+            count: voucherLifespan,
           })}`}
           direction="column"
         />
