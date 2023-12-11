@@ -1,4 +1,4 @@
-import type { TenantUser } from '@/api/api.generatedTypes'
+import type { Users } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { PartyQueries } from '@/api/party'
 import { Drawer } from '@/components/shared/Drawer'
@@ -9,14 +9,14 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 type AddSecurityOperatorFormValues = {
-  selectedOperators: Array<TenantUser>
+  selectedOperators: Users
 }
 
 type AddOperatorsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   excludeOperatorsIdsList: Array<string>
-  onSubmit: (relationshipIds: Array<TenantUser>) => void
+  onSubmit: (relationshipIds: Users) => void
 }
 
 export const AddOperatorsToClientDrawer: React.FC<AddOperatorsDrawerProps> = ({

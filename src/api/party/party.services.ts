@@ -6,8 +6,8 @@ import type {
   MailSeed,
   SelfcareInstitution,
   Tenant,
-  TenantUsers,
   Tenants,
+  Users,
 } from '../api.generatedTypes'
 
 async function getParty(partyId: string) {
@@ -16,7 +16,7 @@ async function getParty(partyId: string) {
 }
 
 async function getPartyUsersList({ tenantId, ...params }: GetInstitutionUsersParams) {
-  const response = await axiosInstance.get<TenantUsers>(
+  const response = await axiosInstance.get<Users>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/users`,
     {
       params,

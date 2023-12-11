@@ -7,7 +7,7 @@ import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
-import type { TenantUser } from '@/api/api.generatedTypes'
+import type { Users } from '@/api/api.generatedTypes'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')
@@ -29,7 +29,7 @@ const OperatorsInputTable: React.FC = () => {
     setValue('operators', newOperators)
   }
 
-  const handleAddOperator = (newOperators: Array<TenantUser>) => {
+  const handleAddOperator = (newOperators: Users) => {
     setValue('operators', [...operators, ...newOperators])
   }
 

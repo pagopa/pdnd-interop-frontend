@@ -9,12 +9,12 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import OperatorsInputTable from './components/OperatorsInputTable'
 import PublishIcon from '@mui/icons-material/Publish'
-import type { TenantUser } from '@/api/api.generatedTypes'
+import type { Users } from '@/api/api.generatedTypes'
 
 export type CreateClientFormValues = {
   name: string
   description: string
-  operators: Array<TenantUser>
+  operators: Users
 }
 
 const defaultValues: CreateClientFormValues = { name: '', description: '', operators: [] }
