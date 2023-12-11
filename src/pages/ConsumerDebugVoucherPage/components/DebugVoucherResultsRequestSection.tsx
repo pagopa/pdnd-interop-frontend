@@ -12,7 +12,7 @@ export const DebugVoucherResultsRequestSection: React.FC = () => {
   const { request } = useDebugVoucherContext()
 
   return (
-    <SectionContainer title={t('title')} description={t('description')}>
+    <SectionContainer title={t('title')} description={t('description')} newDesign>
       <Stack spacing={4}>
         {request.client_id && (
           <InformationContainer label={t('clientId.label')} content={request.client_id} />

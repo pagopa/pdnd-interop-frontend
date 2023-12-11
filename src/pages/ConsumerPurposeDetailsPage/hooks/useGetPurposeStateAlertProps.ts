@@ -20,9 +20,10 @@ function useGetPurposeStateAlertProps(purpose: Purpose | undefined):
 
   if (!purpose) return undefined
 
-  const isPurposeSuspended = purpose?.currentVersion?.state === 'SUSPENDED'
-  const isPurposeWaintingForApproval = Boolean(purpose?.waitingForApprovalVersion)
-  const isPurposeActive = purpose?.currentVersion?.state === 'ACTIVE'
+  const isPurposeSuspended = purpose.currentVersion?.state === 'SUSPENDED'
+  const isFirstVersionPending =
+    Boolean(purpose.waitingForApprovalVersion) && Boolean(!purpose.currentVersion)
+  const isPurposeActive = purpose.currentVersion?.state === 'ACTIVE'
   const isPurposeArchived = purpose.currentVersion?.state === 'ARCHIVED'
 
   if (isPurposeSuspended) {
@@ -32,7 +33,7 @@ function useGetPurposeStateAlertProps(purpose: Purpose | undefined):
     }
   }
 
-  if (isPurposeWaintingForApproval) {
+  if (isFirstVersionPending) {
     return {
       severity: 'warning',
       content: t('waitingForApprovalAlert'),

@@ -242,9 +242,8 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
         >
           <a
             aria-label="Vai al sito di PagoPA S.p.A."
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation css-abel2m-MuiButtonBase-root-MuiButton-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-l3n9cu-MuiTypography-root-MuiLink-root"
             href="https://www.pagopa.it"
-            tabindex="0"
           >
             <svg
               aria-labelledby="logo-pagoPA-company-titleID"
@@ -276,41 +275,70 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
                 PagoPA
               </title>
             </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </a>
           <div
             class="MuiStack-root css-1ylmxph-MuiStack-root"
           >
-            <button
+            <a
               aria-label="footer.links.privacy.ariaLabel"
-              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone MuiLink-button css-11wyedp-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+              href="javascript:void(0)"
             >
               footer.links.privacy.label
-            </button>
+            </a>
             <a
               aria-label="footer.links.dataProtection.ariaLabel"
               class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
               href="https://privacyportal-de.onetrust.com/webform/77f17844-04c3-4969-a11d-462ee77acbe1/9ab6533d-be4a-482e-929a-0d8d2ab29df8"
-              target="_blank"
             >
               footer.links.dataProtection.label
             </a>
-            <button
+            <a
               aria-label="footer.links.terms.ariaLabel"
-              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone MuiLink-button css-11wyedp-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+              href="javascript:void(0)"
             >
               footer.links.terms.label
-            </button>
+            </a>
             <a
               aria-label="footer.links.a11y.ariaLabel"
               class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
               href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
-              target="_blank"
             >
               footer.links.a11y.label
             </a>
+            <div
+              class="MuiBox-root css-0"
+            >
+              <button
+                aria-haspopup="true"
+                aria-label="lingua"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-1fvp8dp-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiBox-root css-13brihr"
+                >
+                  <span
+                    class="MuiTypography-root MuiTypography-subtitle2 css-1cu4ovj-MuiTypography-root"
+                  >
+                    Italiano
+                  </span>
+                </span>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                  data-testid="KeyboardArrowDownRoundedIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.12 9.29 12 13.17l3.88-3.88c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-4.59 4.59c-.39.39-1.02.39-1.41 0L6.7 10.7a.9959.9959 0 0 1 0-1.41c.39-.38 1.03-.39 1.42 0z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -612,9 +640,8 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation css-abel2m-MuiButtonBase-root-MuiButton-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-l3n9cu-MuiTypography-root-MuiLink-root"
               href="https://www.pagopa.it"
-              tabindex="0"
             >
               <svg
                 aria-labelledby="logo-pagoPA-company-titleID"
@@ -646,41 +673,70 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
                   PagoPA
                 </title>
               </svg>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </a>
             <div
               class="MuiStack-root css-1ylmxph-MuiStack-root"
             >
-              <button
+              <a
                 aria-label="footer.links.privacy.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone MuiLink-button css-11wyedp-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                href="javascript:void(0)"
               >
                 footer.links.privacy.label
-              </button>
+              </a>
               <a
                 aria-label="footer.links.dataProtection.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
                 href="https://privacyportal-de.onetrust.com/webform/77f17844-04c3-4969-a11d-462ee77acbe1/9ab6533d-be4a-482e-929a-0d8d2ab29df8"
-                target="_blank"
               >
                 footer.links.dataProtection.label
               </a>
-              <button
+              <a
                 aria-label="footer.links.terms.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone MuiLink-button css-11wyedp-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                href="javascript:void(0)"
               >
                 footer.links.terms.label
-              </button>
+              </a>
               <a
                 aria-label="footer.links.a11y.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
                 href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
-                target="_blank"
               >
                 footer.links.a11y.label
               </a>
+              <div
+                class="MuiBox-root css-0"
+              >
+                <button
+                  aria-haspopup="true"
+                  aria-label="lingua"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-1fvp8dp-MuiButtonBase-root-MuiButton-root"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiBox-root css-13brihr"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-subtitle2 css-1cu4ovj-MuiTypography-root"
+                    >
+                      Italiano
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                    data-testid="KeyboardArrowDownRoundedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M8.12 9.29 12 13.17l3.88-3.88c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-4.59 4.59c-.39.39-1.02.39-1.41 0L6.7 10.7a.9959.9959 0 0 1 0-1.41c.39-.38 1.03-.39 1.42 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -983,9 +1039,8 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-disableElevation css-abel2m-MuiButtonBase-root-MuiButton-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-l3n9cu-MuiTypography-root-MuiLink-root"
               href="https://www.pagopa.it"
-              tabindex="0"
             >
               <svg
                 aria-labelledby="logo-pagoPA-company-titleID"
@@ -1017,41 +1072,70 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
                   PagoPA
                 </title>
               </svg>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </a>
             <div
               class="MuiStack-root css-1ylmxph-MuiStack-root"
             >
-              <button
+              <a
                 aria-label="footer.links.privacy.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone MuiLink-button css-11wyedp-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                href="javascript:void(0)"
               >
                 footer.links.privacy.label
-              </button>
+              </a>
               <a
                 aria-label="footer.links.dataProtection.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
                 href="https://privacyportal-de.onetrust.com/webform/77f17844-04c3-4969-a11d-462ee77acbe1/9ab6533d-be4a-482e-929a-0d8d2ab29df8"
-                target="_blank"
               >
                 footer.links.dataProtection.label
               </a>
-              <button
+              <a
                 aria-label="footer.links.terms.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone MuiLink-button css-11wyedp-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                href="javascript:void(0)"
               >
                 footer.links.terms.label
-              </button>
+              </a>
               <a
                 aria-label="footer.links.a11y.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
                 href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
-                target="_blank"
               >
                 footer.links.a11y.label
               </a>
+              <div
+                class="MuiBox-root css-0"
+              >
+                <button
+                  aria-haspopup="true"
+                  aria-label="lingua"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-1fvp8dp-MuiButtonBase-root-MuiButton-root"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiBox-root css-13brihr"
+                  >
+                    <span
+                      class="MuiTypography-root MuiTypography-subtitle2 css-1cu4ovj-MuiTypography-root"
+                    >
+                      Italiano
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-y3v3gx-MuiSvgIcon-root"
+                    data-testid="KeyboardArrowDownRoundedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M8.12 9.29 12 13.17l3.88-3.88c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-4.59 4.59c-.39.39-1.02.39-1.41 0L6.7 10.7a.9959.9959 0 0 1 0-1.41c.39-.38 1.03-.39 1.42 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>

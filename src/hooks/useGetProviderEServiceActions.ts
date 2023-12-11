@@ -57,7 +57,7 @@ export function useGetProviderEServiceActions(
 
   const publishDraftAction: ActionItemButton = {
     action: handlePublishDraft,
-    label: t('publish'),
+    label: t('publishDraft'),
     icon: CheckCircleOutlineIcon,
   }
 
@@ -159,7 +159,7 @@ export function useGetProviderEServiceActions(
 
   const editDraftAction: ActionItemButton = {
     action: handleEditDraft,
-    label: t('editDraft'),
+    label: t('manageDraft'),
     icon: PendingActionsIcon,
   }
 

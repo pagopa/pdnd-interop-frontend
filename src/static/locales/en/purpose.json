@@ -169,6 +169,7 @@
     "description": "In this section you can manage all the purposes you have created",
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
     "newVersionAvailableTooltip": "The consumer has requested an adjustment that requires your approval. Access the purpose for more details",
+    "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires approval from the provider. Access the purpose for more details",
     "filters": {
       "nameField": {
         "label": "Find by purpose name"

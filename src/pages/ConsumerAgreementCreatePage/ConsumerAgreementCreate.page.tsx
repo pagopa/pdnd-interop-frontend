@@ -32,6 +32,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     useDescriptorAttributesPartyOwnership(agreement?.eservice.id, agreement?.descriptorId)
 
   const hasSetContactEmail = agreement && !!agreement?.consumer.contactMail?.address
+  const isEServiceSuspended = agreement?.eservice.activeDescriptor?.state === 'SUSPENDED'
 
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
@@ -71,7 +72,10 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   }
 
   const canUserSubmitAgreementDraft =
-    hasAllCertifiedAttributes && hasAllDeclaredAttributes && hasSetContactEmail
+    hasAllCertifiedAttributes &&
+    hasAllDeclaredAttributes &&
+    hasSetContactEmail &&
+    !isEServiceSuspended
 
   const getTooltipButtonTitle = () => {
     if (!hasAllCertifiedAttributes) {
@@ -83,11 +87,14 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     if (!hasSetContactEmail) {
       return t('edit.noContactEmailTooltip')
     }
+    if (isEServiceSuspended) {
+      return t('edit.suspendedEServiceTooltip')
+    }
   }
 
   return (
     <PageContainer
-      title={t('read.title')}
+      title={t('edit.title')}
       statusChip={
         agreement
           ? {

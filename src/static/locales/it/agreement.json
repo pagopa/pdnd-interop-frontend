@@ -226,6 +226,74 @@
       }
     }
   },
+  "consumerRead": {
+    "title": "Gestisci richiesta di fruizione",
+    "suspendedAlert": {
+      "byProducer": "Questa richiesta di fruizione è stata sospesa da EROGATORE. Fino alla sua riattivazione non sarà possibile accedere ai dati.",
+      "byConsumer": "Questa richiesta di fruizione è stata sospesa da FRUITORE. Fino alla sua riattivazione non sarà possibile accedere ai dati.",
+      "byPlatform": "Questa richiesta di fruizione è stata sospesa da PIATTAFORMA. Fino alla sua riattivazione non sarà possibile accedere ai dati."
+    },
+    "noCertifiedAttributesForUpgradeTooltip": "C’è un aggiornamento disponibile ma il tuo ente non possiede i requisiti minimi per effettuarlo.",
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni generali",
+        "eServiceField": {
+          "label": "Richiesta per l’e-service",
+          "value": "{{name}}, versione {{version}}"
+        },
+        "providerField": {
+          "label": "Erogatore"
+        },
+        "rejectionMessageField": {
+          "label": "Motivazione del rifiuto"
+        },
+        "documentation": {
+          "fileName": "Richiesta di fruizione",
+          "link": {
+            "label": "Scarica richiesta di fruizione"
+          }
+        },
+        "certifiedAttributeLink": {
+          "label": "Visualizza attributi certificati"
+        },
+        "providerDetailsLink": {
+          "label": "Visualizza dettagli erogatore"
+        },
+        "contactDrawer": {
+          "title": "Contatti dell'erogatore",
+          "emailField": {
+            "label": "Email di contatto"
+          },
+          "notesField": {
+            "label": "Note"
+          }
+        },
+        "attributesDrawer": {
+          "title": "Attributi certificati richiesti",
+          "subtitle": "Ovvero gli attributi certificati da una <1>fonte autoritativa riconosciuta</1> richiesti per iscriversi a questa versione di e-service"
+        }
+      },
+      "attributesSectionsList": {
+        "verifiedSection": {
+          "documentationLink": {
+            "label": "Visualizza documentazione allegata"
+          },
+          "documentationDrawer": {
+            "title": "Documentazione",
+            "subtitle": "La documentazione che il fruitore ha allegato per vedersi riconosciuti gli attributi verificati richiesti per questa versione di e-service",
+            "attachedDocuments": {
+              "title": "Documentazione",
+              "noDocumentsLabel": "Non ci sono documenti allegati"
+            },
+            "consumerMessage": {
+              "title": "Messaggio per l’erogatore",
+              "description": "Note utili a supporto riportate dal fruitore"
+            }
+          }
+        }
+      }
+    }
+  },
   "edit": {
     "title": "Gestisci richiesta di fruizione",
     "generalInformations": {
@@ -266,6 +334,7 @@
     "submitBtn": "Inoltra richiesta",
     "noCertifiedAttributesForSubmitTooltip": "Il tuo ente non ha gli attributi certificati necessari per inoltrare la richiesta",
     "noDeclaredAttributesForSubmitTooltip": "Per procedere con l’inoltro, devi aver attivato tutti gli attributi dichiarati richiesti",
+    "suspendedEServiceTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
     "noContactEmailTooltip": "Prima di inoltrare la richiesta, è obbligatorio che il tuo ente inserisca un’email di contatto",
     "noContactEmailAlert": "Il tuo ente non ha un’email di contatto. <1>Clicca qui</1> per inserirla."
   },

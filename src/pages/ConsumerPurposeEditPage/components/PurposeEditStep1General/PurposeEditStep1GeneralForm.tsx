@@ -43,7 +43,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 
     // The endpoint to call depends on whether the e-service is
     // in RECEIVE or DELIVER mode
-    const isReceive = !!purpose.riskAnalysisId
+    const isReceive = !!purpose.riskAnalysisForm?.riskAnalysisId
 
     const requestPayload = {
       ...updateDraftPayload,

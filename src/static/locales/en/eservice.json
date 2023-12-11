@@ -282,7 +282,10 @@
         "documentation": "Documentation",
         "usefulLinks": {
           "title": "Useful links",
-          "integrateEService": "How do I integrate an e-service?"
+          "integrateEService": "How do I integrate an e-service?",
+          "implementAndManageEService": "How do I implement and manage an e-service?",
+          "verifyVoucher": "How do I verify a consumer's voucher?",
+          "wellKnown": "URL .well-known"
         }
       },
       "producerContactsInfoDrawer": {
@@ -311,6 +314,8 @@
     "eserviceCardLabel": "E-SERVICE",
     "myEserviceCardLabel": "E-SERVICE DA TE EROGATO",
     "requestCompleted": "Request completed",
-    "draftRequest": "Draft request"
+    "draftRequest": "Draft request",
+    "eserviceSuspendedTooltip": "It is currently not possible to submit new requests, the e-service is suspended",
+    "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
   }
 }

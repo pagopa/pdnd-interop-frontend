@@ -1,13 +1,13 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
+  GetInstitutionUsersParams,
   GetTenantsParams,
-  GetUserInstitutionRelationshipsParams,
-  RelationshipsResponse,
+  MailSeed,
   SelfcareInstitution,
   Tenant,
-  TenantDelta,
   Tenants,
+  Users,
 } from '../api.generatedTypes'
 
 async function getParty(partyId: string) {
@@ -15,9 +15,9 @@ async function getParty(partyId: string) {
   return response.data
 }
 
-async function getPartyUsersList({ tenantId, ...params }: GetUserInstitutionRelationshipsParams) {
-  const response = await axiosInstance.get<RelationshipsResponse>(
-    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/relationships`,
+async function getPartyUsersList({ tenantId, ...params }: GetInstitutionUsersParams) {
+  const response = await axiosInstance.get<Users>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/users`,
     {
       params,
     }
@@ -45,8 +45,8 @@ function updateMail({
   ...payload
 }: {
   partyId: string
-} & TenantDelta) {
-  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`, payload)
+} & MailSeed) {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/mails`, payload)
 }
 
 async function getPartyList() {

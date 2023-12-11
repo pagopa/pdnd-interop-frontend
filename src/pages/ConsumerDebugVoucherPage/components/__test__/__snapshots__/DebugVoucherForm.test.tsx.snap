@@ -15,16 +15,17 @@ exports[`DebugVoucherForm testing > should render correclty 1`] = `
         >
           <div
             class="MuiStack-root css-3y1137-MuiStack-root"
-          />
+          >
+            <h2
+              class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+            >
+              title
+            </h2>
+          </div>
         </div>
         <div
-          class="MuiBox-root css-zv7ju9"
+          class="MuiBox-root css-1yuhvjn"
         >
-          <span
-            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
-          >
-            title
-          </span>
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
           >

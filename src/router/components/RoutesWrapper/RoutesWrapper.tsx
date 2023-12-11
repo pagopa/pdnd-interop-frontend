@@ -40,6 +40,7 @@ const _RoutesWrapper: React.FC = () => {
                 <AuthGuard
                   jwt={jwt}
                   isIPAOrganization={isIPAOrganization}
+                  isSupport={isSupport}
                   currentRoles={currentRoles}
                 >
                   <Outlet />

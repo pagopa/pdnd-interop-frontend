@@ -48,11 +48,13 @@
     "verify": "Verify",
     "revoke": "Revoke",
     "confirm": "Confirm",
-    "createNewDraft": "Create new draft version",
+    "createNewDraft": "Create draft",
     "saveDraft": "Save draft",
     "backToCatalog": "Back to catalog",
-    "editDraft": "Edit draft",
+    "manageDraft": "Manage draft",
     "deleteDraft": "Delete draft",
+    "publishDraft": "Publish draft",
+    "editDraft": "Edit draft",
     "updateCompletionDate": "Update attivation date",
     "confirmUpdate": "Confirm update",
     "filter": "Filter",
@@ -166,9 +168,6 @@
   },
   "privacyPolicy": {
     "title": "Privacy Policy"
-  },
-  "securityKeyGuide": {
-    "title": "How to generate and upload security keys"
   },
   "error": {},
   "idLabels": {

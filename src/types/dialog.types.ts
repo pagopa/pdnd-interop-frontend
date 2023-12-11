@@ -1,4 +1,4 @@
-import type { RelationshipInfo } from '@/api/api.generatedTypes'
+import type { Agreement } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -14,10 +14,11 @@ export type DialogProps =
   | DialogBasicProps
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
-  | DialogAddSecurityOperatorsProps
-  | DialogAddSecurityOperatorKeyProps
   | DialogRejectAgreementProps
   | DialogAddClientToPurposeProps
+  | DialogUpgradeAgreementVersionProps
+  | DialogDeleteOperatorProps
+  | DialogRemoveOperatorFromClientProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -38,17 +39,6 @@ export type DialogBasicProps = DialogDefaultProps & {
   disabled?: boolean
 }
 
-export type DialogAddSecurityOperatorsProps = {
-  type: 'addSecurityOperator'
-  excludeOperatorsIdsList: Array<string>
-  onSubmit: (relationshipIds: Array<RelationshipInfo>) => void
-}
-
-export type DialogAddSecurityOperatorKeyProps = {
-  type: 'addSecurityOperatorKey'
-  clientId: string
-}
-
 export type DialogRejectAgreementProps = {
   type: 'rejectAgreement'
   agreementId: string
@@ -57,4 +47,22 @@ export type DialogRejectAgreementProps = {
 export type DialogAddClientToPurposeProps = {
   type: 'addClientToPurpose'
   purposeId: string
+}
+
+export type DialogUpgradeAgreementVersionProps = {
+  type: 'upgradeAgreementVersion'
+  agreement: Agreement
+  hasMissingAttributes: boolean
+}
+
+export type DialogDeleteOperatorProps = {
+  type: 'deleteOperator'
+  selfcareId: string
+  userId: string
+}
+
+export type DialogRemoveOperatorFromClientProps = {
+  type: 'removeOperatorFromClient'
+  clientId: string
+  userId: string
 }

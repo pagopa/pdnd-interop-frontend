@@ -34,6 +34,7 @@ function useGetEServiceConsumerActions(
   const isSubscribed = checkIfAlreadySubscribed(eservice)
   const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
   const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor?.state)
+  const isSuspended = descriptor?.state === 'SUSPENDED'
 
   const actions: Array<ActionItemButton> = []
 
@@ -126,6 +127,8 @@ function useGetEServiceConsumerActions(
           action: handleCreateAgreementDraftAction,
           label: t('tableEServiceCatalog.subscribe'),
           icon: SendIcon,
+          disabled: isSuspended,
+          tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
         },
       ],
     }
@@ -149,7 +152,7 @@ function useGetEServiceConsumerActions(
           label: t('tableEServiceCatalog.subscribe'),
           icon: SendIcon,
           disabled: true,
-          tooltip: 'Il tuo ente non ha gli attributi certificati necessari per iscriversi',
+          tooltip: t('tableEServiceCatalog.missingCertifiedAttributesTooltip'),
         },
       ],
     }

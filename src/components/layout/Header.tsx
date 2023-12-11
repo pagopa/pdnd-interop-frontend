@@ -26,6 +26,7 @@ const getPartyList = (
     productRole: (party.userProductRoles as Array<UserProductRole>)
       .map((role) => t(`userProductRole.${role}`))
       .join(', '),
+    parentName: party.parent,
   })
 
   if (parties && parties.length > 0) {
@@ -38,6 +39,7 @@ const getPartyList = (
         id: jwt.selfcareId,
         description: jwt.organization.name,
         userProductRoles: jwt.organization.roles.map((r) => r.role),
+        parent: jwt.rootParent?.description,
       }),
     ]
   }
@@ -144,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
           navigate('LOGOUT')
         }}
         onAssistanceClick={() => {
-          window.open(assistanceLink)
+          window.open(assistanceLink, '_blank')
         }}
         onDocumentationClick={() => {
           window.open(documentationLink, '_blank')

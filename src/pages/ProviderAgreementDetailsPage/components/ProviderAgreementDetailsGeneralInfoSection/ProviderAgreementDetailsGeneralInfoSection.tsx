@@ -1,7 +1,6 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { IconLink } from '@/components/shared/IconLink'
 import { Link } from '@/router'
-import { Divider, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -58,9 +57,50 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
     downloadContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
   }
 
+  const actions = []
+
+  if (agreement.isContractPresent) {
+    actions.push({
+      startIcon: <DownloadIcon fontSize="small" />,
+      label: t('documentation.link.label'),
+      component: 'button',
+      type: 'button',
+      onClick: handleDownloadDocument,
+    })
+  }
+
+  if (agreement.state === 'PENDING') {
+    actions.push(
+      {
+        startIcon: <RuleIcon fontSize="small" />,
+        label: t('certifiedAttributeLink.label'),
+        component: 'button',
+        type: 'button',
+        onClick: handleOpenAttributesDrawer.bind(null, 'certified'),
+      },
+      {
+        startIcon: <RuleIcon fontSize="small" />,
+        label: t('declaredAttributeLink.label'),
+        component: 'button',
+        type: 'button',
+        onClick: handleOpenAttributesDrawer.bind(null, 'declared'),
+      }
+    )
+  }
+
+  if (agreement.consumer.contactMail) {
+    actions.push({
+      startIcon: <ContactMailIcon fontSize="small" />,
+      label: t('consumerDetailsLink.label'),
+      component: 'button',
+      type: 'button',
+      onClick: handleOpenContactDrawer,
+    })
+  }
+
   return (
     <>
-      <SectionContainer title={t('title')} newDesign>
+      <SectionContainer title={t('title')} newDesign bottomActions={actions}>
         <Stack spacing={2}>
           <InformationContainer
             label={t('eServiceField.label')}
@@ -89,47 +129,6 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
               direction="column"
               content={agreement.rejectionReason}
             />
-          )}
-          <Divider />
-          {agreement.isContractPresent && (
-            <IconLink
-              onClick={handleDownloadDocument}
-              component="button"
-              startIcon={<DownloadIcon />}
-              alignSelf="start"
-            >
-              {t('documentation.link.label')}
-            </IconLink>
-          )}
-          {agreement.state === 'PENDING' && (
-            <>
-              <IconLink
-                onClick={handleOpenAttributesDrawer.bind(null, 'certified')}
-                component="button"
-                startIcon={<RuleIcon />}
-                alignSelf="start"
-              >
-                {t('certifiedAttributeLink.label')}
-              </IconLink>
-              <IconLink
-                onClick={handleOpenAttributesDrawer.bind(null, 'declared')}
-                component="button"
-                startIcon={<RuleIcon />}
-                alignSelf="start"
-              >
-                {t('declaredAttributeLink.label')}
-              </IconLink>
-            </>
-          )}
-          {agreement.consumer.contactMail && (
-            <IconLink
-              onClick={handleOpenContactDrawer}
-              component="button"
-              startIcon={<ContactMailIcon />}
-              alignSelf="start"
-            >
-              {t('consumerDetailsLink.label')}
-            </IconLink>
           )}
         </Stack>
       </SectionContainer>

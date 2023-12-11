@@ -1,18 +1,18 @@
-import { ClientMutations, ClientQueries } from '@/api/client'
+import { ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Link } from '@/router'
-import type { ActionItem } from '@/types/common.types'
 import { Box, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import type { Operator } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActions'
+import type { CompactUser } from '@/api/api.generatedTypes'
 
 interface ClientOperatorsTableRowProps {
-  operator: Operator
+  operator: CompactUser
   clientId: string
 }
 
@@ -20,24 +20,15 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   operator,
   clientId,
 }) => {
-  const { t: tCommon } = useTranslation('common')
-  const { t } = useTranslation('user')
   const { isAdmin } = AuthHooks.useJwt()
+  const { t: tCommon } = useTranslation('common')
   const clientKind = useClientKind()
-  const { mutate: removeFromClient } = ClientMutations.useRemoveOperator()
   const prefetchOperator = ClientQueries.usePrefetchSingleOperator()
 
-  const actions: Array<ActionItem> = []
-
-  if (isAdmin) {
-    actions.push({
-      action: removeFromClient.bind(null, { clientId, relationshipId: operator.relationshipId }),
-      label: t('actions.removeFromClient'),
-    })
-  }
+  const { actions } = useGetClientOperatorsActions(operator.userId, clientId)
 
   const handlePrefetchOperator = () => {
-    prefetchOperator(operator.relationshipId)
+    prefetchOperator(operator.userId)
   }
 
   const inspectRouteKey =
@@ -50,7 +41,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
       <Link
         as="button"
         to={inspectRouteKey}
-        params={{ clientId, operatorId: operator.relationshipId }}
+        params={{ clientId, operatorId: operator.userId }}
         variant="outlined"
         size="small"
         onPointerEnter={handlePrefetchOperator}
@@ -60,7 +51,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
       </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-        <ActionMenu actions={actions} />
+        <ActionMenu actions={isAdmin ? actions : []} />
       </Box>
     </TableRow>
   )

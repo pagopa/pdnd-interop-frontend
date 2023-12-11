@@ -6,7 +6,8 @@
     "label": "Stiamo caricando le chiavi disponibili",
     "error": "Non è stato possibile caricare le chiavi"
   },
-  "noPurposesLabel": "Non ci sono finalità disponibili",
+  "noPurposesLabel": "Questo client non è associato a nessuna finalità",
+  "noKeysLabel": "Questo client non contiene chiavi pubbliche",
   "createPurposeBtn": "Crea una nuova finalità",
   "choosePurposeBtn": "scegli la finalità da associare",
   "or": "oppure",
@@ -22,6 +23,39 @@
     "linkLabel": "tab delle chiavi pubbliche"
   },
   "step1": {
+    "stepperLabel": "Selezione parametri",
+    "title": {
+      "API": "Seleziona chiave pubblica",
+      "CONSUMER": "Seleziona finalità e chiave pubblica"
+    },
+    "description": "Serve a mostrarti i parametri corretti per valorizzare la client assertion",
+    "purposeSelectInput": {
+      "label": "Scegli la finalità da utilizzare"
+    },
+    "keySelectInput": {
+      "label": "Scegli la chiave pubblica da utilizzare"
+    },
+    "goToTechnicalDocsLabel": "Vai alla documentazione tecnica",
+    "showCurrentSelectionIds": "Visualizza id per la selezione corrente",
+    "currentIdsDrawer": {
+      "title": "Visualizza id selezione corrente",
+      "subtitle": "Parametri utili per ottenere informazioni attraverso le API di PDND Interoperabilità. Hai dubbi? <1>Consulta la guida</1>.",
+      "eserviceIdDescription": "L’id dell’e-service collegato alla finalità selezionata",
+      "descriptorIdDescription": "L’id della versione dell’e-service collegata alla finalità selezionata",
+      "agreementIdDescription": "L’id della richiesta di fruizione collegata alla finalità selezionata",
+      "purposeIdDescription": "L’id della finalità selezionata",
+      "clientIdDescription": "L’id di questo client",
+      "producerOrganizationId": {
+        "label": "organizationId (erogatore)",
+        "description": "L’id dell’ente erogatore"
+      },
+      "consumerOrganizationId": {
+        "label": "organizationId (fruitore)",
+        "description": "L’id del tuo ente"
+      }
+    }
+  },
+  "step2": {
     "stepperLabel": "Client assertion",
     "title": "Client assertion",
     "description": {
@@ -36,7 +70,7 @@
       "title": "Header dell'asserzione",
       "kidField": {
         "label": "KID",
-        "description": "La chiave pubblica corrispondente a quella privata che userai per firmare l’asserzione",
+        "description": "L’id della chiave selezionata nel passaggio precedente",
         "copySuccessFeedbackText": "Id copiato correttamente"
       },
       "algField": {
@@ -54,27 +88,27 @@
       "title": "Payload dell'asserzione",
       "issField": {
         "label": "ISS",
-        "description": "L’issuer, in questo caso l'id del client",
+        "description": "L’issuer della richiesta; in questo caso l’id di questo client",
         "copySuccessFeedbackText": "Id copiato correttamente"
       },
       "subField": {
         "label": "SUB",
-        "description": "Il subject, in questo caso sempre l'id del client",
+        "description": "Il subject della richiesta, in questo caso sempre l'id del client",
         "copySuccessFeedbackText": "Id copiato correttamente"
       },
       "audField": {
         "label": "AUD",
-        "description": "L'audience",
+        "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       },
       "purposeIdField": {
         "label": "PurposeId",
-        "description": "L’id della finalità per la quale si richiederà di accedere alle risorse dell’erogatore",
+        "description": "L’id della finalità selezionata nel passaggio precedente",
         "copySuccessFeedbackText": "Id copiato correttamente"
       },
       "jtiField": {
         "label": "JTI",
-        "description": "Il JWT ID, un id unico (uuid) random assegnato da chi vuole creare il token, serve per tracciare il token stesso. È cura del chiamante assicurarsi che l'id sia unico",
+        "description": "Un id unico (UUID) random generato da chi vuole creare il token. Serve per identificare il token stesso",
         "suggestionLabel": "Questo parametro devi generarlo tu. Valore esempio: 261cd445-3da6-421b-9ef4-7ba556efda5f"
       },
       "iatField": {
@@ -89,18 +123,23 @@
       }
     },
     "assertionScript": {
-      "title": "Script esempio per generare un'asserzione",
-      "exampleLabel": "Esempio di utilizzo",
-      "tempMoreLanguagesAlert": "Saranno aggiunti script esempio in altri linguaggi"
+      "title": "Esempio per generare una client assertion",
+      "steps": {
+        "1": "Crea una cartella e nominala “client_assertion_test”",
+        "2": "Inserisci nella cartella lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
+        "3": "Crea una cartella “keys” e inserisci al suo interno la chiave privata, nominandola “client-test-keypair.rsa.priv”",
+        "4": "Apri il terminale e naviga fino alla cartella client_assertion_test",
+        "5": "Incolla il comando sotto e premi invio",
+        "result": "Ottieni così una client assertion firmata con la tua chiave privata. Attenzione: la chiave privata deve corrispondere alla pubblica che hai selezionato nel passaggio precedente."
+      },
+      "exampleLabel": "Esempio di utilizzo"
     }
   },
-  "step2": {
+  "step3": {
     "stepperLabel": "Voucher",
-    "title": "Voucher",
+    "title": "Richiesta voucher",
     "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l'e-service dell’erogatore",
-    "apiDescription": {
-      "message": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l’API gateway di Interoperabilità"
-    },
+    "apiDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l’API gateway di Interoperabilità",
     "authEndpoint": {
       "label": "Endpoint authorization server",
       "copySuccessFeedbackText": "URL copiata correttamente"
@@ -117,18 +156,18 @@
       },
       "clientAssertionTypeField": {
         "label": "Client_assertion_type",
-        "description": "Il formato della client assertion, come indicato in RFC",
+        "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       },
       "grantTypeField": {
         "label": "Grant_type",
-        "description": "La tipologia di flusso utilizzato, come indicato in RFC",
+        "description": "L’id della finalità selezionata nel passaggio precedente",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       }
     },
     "voucherScript": {
       "title": "Esempio di cURL",
-      "description": "Sostituisci il segnaposto con l’asserzione che hai ottenuto allo step precedente e lancia la cURL",
+      "guide": "Apri il terminale, sostituisci il segnaposto LA_TUA_CLIENT_ASSERTION con l’asserzione che hai ottenuto allo step precedente e lancia la cURL. Se non hai cURL, <1>puoi installarlo</1> da Brew.",
       "exampleLabel": "cURL di esempio"
     },
     "debugVoucherAlert": {
@@ -138,36 +177,23 @@
       }
     }
   },
-  "step3": {
-    "consumerStepperLabel": "Dettagli e-service",
-    "apiStepperLabel": "Dettagli API gateway",
-    "consumer": {
-      "title": "Accesso all’e-service dell’erogatore",
-      "description": "A questo punto il voucher ottenuto è spendibile presso l'e-service dell’erogatore",
-      "audField": {
-        "label": "AUD",
-        "description": "L'audience dell'e-service dell'erogatore",
-        "copySuccessFeedbackText": "Id copiato correttamente"
-      },
-      "eserviceDetailsField": {
-        "label": "Dettagli e-service"
-      }
+  "step4": {
+    "consumerStepperLabel": "Accesso e-service",
+    "apiStepperLabel": "Accesso API Interop",
+    "CONSUMER": {
+      "title": "Congratulazioni!",
+      "description": "Puoi accedere ai dati messi a disposizione dall’erogatore.",
+      "actionLabel": "Vai alla scheda e-service"
     },
-    "api": {
-      "title": "Accesso all’API gateway di Interoperabilità",
-      "description": "A questo punto il voucher ottenuto è spendibile presso l’API gateway di Interoperabilità",
-      "apiField": {
-        "label": "Link al documento di interfaccia",
-        "link": {
-          "label": "Interfaccia OpenAPI",
-          "title": "Link alla specifica OpenAPI dell'API gateway di Interoperabilità"
-        }
-      }
+    "API": {
+      "title": "Congratulazioni!",
+      "description": "Puoi accedere all’API di PDND Interoperabilità.",
+      "actionLabel": "Scarica l’interfaccia OpenAPI"
     }
   },
   "consumerDebugVoucher": {
     "edit": {
-      "title": "Inserisci i campi della tua richiesta",
+      "title": "Dati della richiesta al server",
       "clientAssertionLabel": "Inserisci la tua client assertion (richiesto)",
       "clientIdLabel": "Inserisci il client id",
       "description": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",

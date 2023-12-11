@@ -25,10 +25,11 @@ export type RHFAutocompleteBaseProps<
   T,
   Multiple extends boolean | undefined,
   DisableClearable extends boolean | undefined,
-  FreeSolo extends boolean | undefined
+  FreeSolo extends boolean | undefined,
 > = Omit<AutocompleteProps<T, Multiple, DisableClearable, FreeSolo, 'div'>, 'renderInput'> & {
   name: string
   label: string
+  labelType?: 'external' | 'shrink'
   infoLabel?: string
   focusOnMount?: boolean
   getOptionValue?: (option: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => unknown
@@ -45,10 +46,11 @@ export function _RHFAutocompleteBase<
   T,
   Multiple extends boolean | undefined,
   DisableClearable extends boolean | undefined,
-  FreeSolo extends boolean | undefined
+  FreeSolo extends boolean | undefined,
 >({
   name,
   infoLabel,
+  labelType = 'shrink',
   sx,
   label,
   focusOnMount,
@@ -119,7 +121,21 @@ export function _RHFAutocompleteBase<
                   placeholder={placeholder ?? '...'}
                   {...params}
                   autoFocus={focusOnMount}
-                  InputLabelProps={{ shrink: true, ...params.InputLabelProps }}
+                  InputLabelProps={{
+                    ...(labelType === 'external'
+                      ? {
+                          shrink: false,
+                          sx: {
+                            position: 'static',
+                            transform: 'none',
+                            color: 'inherit',
+                            mb: 1.25,
+                            pointerEvents: 'auto',
+                          },
+                        }
+                      : { shrink: true }),
+                    ...params.InputLabelProps,
+                  }}
                   InputProps={{
                     ...params.InputProps,
                     ...accessibilityProps,

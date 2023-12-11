@@ -99,6 +99,38 @@
     },
     "alertLabel": "Agli enti non viene notificata questa modifica; si consiglia di mantenere un redirect attivo dal vecchio al nuovo indirizzo per qualche tempo"
   },
+  "dialogUpgradeAgreementVersion": {
+    "title": "Aggiornamento richiesta di fruizione",
+    "content": {
+      "subtitle": "È stata pubblicata una versione più recente dell’e-service <1>{{eservice}}, versione {{version}}</1>, erogata da {{provider}}.",
+      "description": {
+        "title": "Cosa significa?",
+        "content": "Quando un erogatore pubblica una nuova versione di un e-service, ci sono variazioni rispetto alla precedente. Queste modifiche possono essere di natura amministrativa, tecnica, o entrambe. Hai dubbi? <1>Consulta la guida.</1>"
+      },
+      "checkboxesForm": {
+        "title": "Cosa è consigliato di fare prima di aggiornare?",
+        "attributesCheckLabel": "Gli amministrativi hanno verificato l’aderenza ai requisiti (attributi) richiesti dall’erogatore.",
+        "apiIntegrationCheckLabel": "I tecnici hanno verificato che la tua integrazione corrisponda all’API aggiornata dell’e-service.",
+        "testEnvCheckLabel": "I tecnici hanno testato l’integrazione con l’e-service aggiornato in ambiente di collaudo (se disponibile)."
+      },
+      "missingVerifiedOrDeclaredAttributesAlert": "La nuova richiesta non sarà attiva subito, il tuo ente non possiede tutti gli attributi necessari. Verrà prodotta una bozza che ti sarà chiesto di integrare. Una volta fatto, potrai inoltrarla all’erogatore per richiedere l’aggiornamento."
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "upgrade": {
+        "label": "Aggiorna",
+        "notAllCheckboxCheckedTooltip": "Per poter aggiornare, spunta tutte le caselle di controllo sopra"
+      }
+    }
+  },
+  "DialogDeleteOperator": {
+    "title": "Inoltro ad Area Riservata per rimozione utente",
+    "description": "Le operazioni sulle utenze su tutti i prodotti gestiti da PagoPA avvengono attraverso il portale Area Riservata. Cliccando \"conferma\", verrai reindirizzato alla pagina di Area Riservata per gestire l'utente selezionato."
+  },
+  "DialogRemoveOperatorFromClient": {
+    "title": "Conferma rimozione utente",
+    "description": "Cliccando “conferma”, l’utente corrente sarà rimosso dal client corrente e non vi avrà più accesso. Per continuità, tutte le chiavi caricate da quest’utente rimarranno disponibili nel client. Per questioni di sicurezza, si raccomanda di sostituirle e di eliminare quelle vecchie. Hai dubbi? <1>Leggi la guida</1>."
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
@@ -195,7 +227,6 @@
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",
     "PRIVACY_POLICY": "Privacy policy",
-    "SECURITY_KEY_GUIDE": "Come caricare le chiavi di sicurezza",
     "PROVIDE_ESERVICE_CREATE": "Crea e-service",
     "PROVIDE_ESERVICE_SUMMARY": "Riepilogo",
     "PROVIDE_ESERVICE_EDIT": "Modifica e-service",

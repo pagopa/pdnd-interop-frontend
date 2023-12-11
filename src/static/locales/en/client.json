@@ -34,6 +34,18 @@
       },
       "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
     },
+    "addPublicKeyDrawer": {
+      "title": "Insert new public key",
+      "description": "Don't know how to create a set of cryptographic material? <1>Check the guide</1>.",
+      "nameInput": {
+        "label": "Key name (required)",
+        "infoLabel": "It will help you tell them apart. Min. 5 characters, max. 60 characters"
+      },
+      "publicKeyInput": {
+        "label": "Public key (required)"
+      },
+      "insertAction": "Insert"
+    },
     "actions": {
       "createLabel": "Create",
       "backToClientsLabel": "Back to the clients"
@@ -42,13 +54,18 @@
   "edit": {
     "tabs": {
       "ariaLabel": "Three different tabs with the instructions to obtain a voucher, for client members and public keys",
-      "voucher": "Voucher instructions",
+      "voucher": "How do I obtain a voucher?",
       "clientOperators": "Client members",
       "publicKeys": "Public keys"
     },
     "actions": {
       "deleteLabel": "Delete client",
       "backToClientsLabel": "Back to the clients list"
+    },
+    "filters": {
+      "operatorField": {
+        "label": "Search by user"
+      }
     }
   },
   "list": {

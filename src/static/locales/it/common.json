@@ -51,8 +51,10 @@
     "createNewDraft": "Crea bozza",
     "saveDraft": "Salva bozza",
     "backToCatalog": "Torna al catalogo",
-    "editDraft": "Modifica bozza",
+    "manageDraft": "Gestisci bozza",
     "deleteDraft": "Elimina bozza",
+    "publishDraft": "Pubblica bozza",
+    "editDraft": "Modifica bozza",
     "updateCompletionDate": "Aggiorna data di attivazione",
     "confirmUpdate": "Conferma aggiornamento",
     "filter": "Filtra",
@@ -166,9 +168,6 @@
   },
   "privacyPolicy": {
     "title": "Privacy Policy"
-  },
-  "securityKeyGuide": {
-    "title": "Generare e caricare chiavi di sicurezza"
   },
   "error": {},
   "idLabels": {

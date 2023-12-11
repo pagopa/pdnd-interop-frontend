@@ -282,7 +282,10 @@
         "documentation": "Documentazione",
         "usefulLinks": {
           "title": "Link utili",
-          "integrateEService": "Come faccio a integrare un e-service?"
+          "integrateEService": "Come faccio a integrare un e-service?",
+          "implementAndManageEService": "Come implemento e gestisco un e-service?",
+          "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
+          "wellKnown": "URL .well-known"
         }
       },
       "producerContactsInfoDrawer": {
@@ -311,6 +314,8 @@
     "eserviceCardLabel": "E-SERVICE",
     "myEserviceCardLabel": "E-SERVICE DA TE EROGATO",
     "requestCompleted": "Richiesta completata",
-    "draftRequest": "Richiesta in bozza"
+    "draftRequest": "Richiesta in bozza",
+    "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
+    "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
   }
 }

@@ -6,7 +6,8 @@
     "label": "Loading available keys",
     "error": "Keys could not be loaded"
   },
-  "noPurposesLabel": "No purpose found",
+  "noPurposesLabel": "This client is not associated with any purposes",
+  "noKeysLabel": "This client does not contain any public keys",
   "createPurposeBtn": "Create a new purpose purpose",
   "choosePurposeBtn": "associate a purpose",
   "or": "or",
@@ -22,6 +23,39 @@
     "linkLabel": "the public keys tab"
   },
   "step1": {
+    "stepperLabel": "Parameters selection",
+    "title": {
+      "API": "Select public key",
+      "CONSUMER": "Select purpose and public key"
+    },
+    "description": "It is used to show you the correct parameters to enhance the client assertion",
+    "purposeSelectInput": {
+      "label": "Choose the purpose to use"
+    },
+    "keySelectInput": {
+      "label": "Choose the public key to use"
+    },
+    "goToTechnicalDocsLabel": "Go to the technical documentation",
+    "showCurrentSelectionIds": "Show current selection ids",
+    "currentIdsDrawer": {
+      "title": "View current selection ids",
+      "subtitle": "Useful parameters to obtain information through the PDND Interoperabilità APIs. Do you have any doubts? <1>Consult the guide</1>.",
+      "eserviceIdDescription": "The id of the e-service connected to the selected purpose",
+      "descriptorIdDescription": "The id of the e-service version connected to the selected purpose",
+      "agreementIdDescription": "The id of the fruition request connected to the selected purpose",
+      "purposeIdDescription": "The id of the selected purpose",
+      "clientIdDescription": "The id of this client",
+      "producerOrganizationId": {
+        "label": "organizationId (provider)",
+        "description": "The id of the provider organization"
+      },
+      "consumerOrganizationId": {
+        "label": "organizationId (consumer)",
+        "description": "The id of your organization"
+      }
+    }
+  },
+  "step2": {
     "stepperLabel": "Client assertion",
     "title": "Client assertion",
     "description": {
@@ -36,7 +70,7 @@
       "title": "Assertion header",
       "kidField": {
         "label": "KID",
-        "description": "The public key that corresponds to the private key you will use to sign the assertion",
+        "description": "The id of the selected key in the previous step.",
         "copySuccessFeedbackText": "Id copied successfully"
       },
       "algField": {
@@ -90,17 +124,23 @@
     },
     "assertionScript": {
       "title": "Example script to generate an assertion",
+      "steps": {
+        "1": "Create a folder and name it “client_assertion_test”",
+        "2": "Insert the <1>{{ filename }}</1> script into the folder (Python 3.8 is required)",
+        "3": "Create a “keys” folder and insert the private key inside, naming it “client-test-keypair.rsa.priv”",
+        "4": "Open the terminal and navigate to the client_assertion_test folder",
+        "5": "Paste the command below and press enter",
+        "result": "This is how you obtain a client assertion signed with your private key. Note: the private key must correspond to the public key you selected in the previous step."
+      },
       "exampleLabel": "Usage example",
       "tempMoreLanguagesAlert": "More script with examples in other languages will be added"
     }
   },
-  "step2": {
+  "step3": {
     "stepperLabel": "Voucher",
-    "title": "Voucher",
+    "title": "Voucher request",
     "consumerDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make a voucher request towards the Interoperability authorization server. It all is fine, a voucher will be generated. It can be spent on the Provider e-service",
-    "apiDescription": {
-      "message": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make a voucher request towards the Interoperability authorization server. It all is fine, a voucher will be generated. It can be spent on the Provider e-service"
-    },
+    "apiDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make a voucher request towards the Interoperability authorization server. It all is fine, a voucher will be generated. It can be spent on the Provider e-service",
     "authEndpoint": {
       "label": "Authorization server endpoint",
       "copySuccessFeedbackText": "URL copied successfully"
@@ -117,18 +157,18 @@
       },
       "clientAssertionTypeField": {
         "label": "Client_assertion_type",
-        "description": "The client assertion format, as stated in the RFC",
+        "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
         "copySuccessFeedbackText": "String copied successfully"
       },
       "grantTypeField": {
         "label": "Grant_type",
-        "description": "The flow used, as stated in the RFC",
+        "description": "The selected purpose id of the previous step",
         "copySuccessFeedbackText": "String copied successfully"
       }
     },
     "voucherScript": {
       "title": "cURL example",
-      "description": "Replace the placeholder with the assertion obtained at step 1 and run the cURL",
+      "guide": "Open the terminal, replace the placeholder LA_TUA_CLIENT_ASSERTION with the assertion you obtained in the previous step and launch the cURL. If you don't have cURL, <1>you can install it</1> from Brew.",
       "exampleLabel": "example cURL"
     },
     "debugVoucherAlert": {
@@ -138,36 +178,23 @@
       }
     }
   },
-  "step3": {
-    "consumerStepperLabel": "E-service details",
-    "apiStepperLabel": "API gateway details",
-    "consumer": {
-      "title": "Access the Provider e-service",
-      "description": "The voucher obtained can be spent on the Provider e-service",
-      "audField": {
-        "label": "AUD",
-        "description": "The audience of the Provider e-service",
-        "copySuccessFeedbackText": "Id copied successfully"
-      },
-      "eserviceDetailsField": {
-        "label": "E-service details"
-      }
+  "step4": {
+    "consumerStepperLabel": "E-service access",
+    "apiStepperLabel": "API Interop access",
+    "CONSUMER": {
+      "title": "Congratulations!",
+      "description": "You can access the data made available by the provider.",
+      "actionLabel": "Go to the e-service tab"
     },
-    "api": {
-      "title": "Interoperability API gateway access",
-      "description": "The voucher obtained can be spent on the Interoperability API gateway",
-      "apiField": {
-        "label": "Link to the document's interface",
-        "link": {
-          "label": "OpenAPI Interface",
-          "title": "Link to the Interoperability API gateway OpenAPI file specification"
-        }
-      }
+    "API": {
+      "title": "Congratulations!",
+      "description": "You can access the PDND Interoperabilità API.",
+      "actionLabel": "Download OpenAPI interface"
     }
   },
   "consumerDebugVoucher": {
     "edit": {
-      "title": "Enter the fields of your request",
+      "title": "Server request data",
       "clientAssertionLabel": "Enter your client assertion (required)",
       "clientIdLabel": "Enter the client id",
       "description": "The request will be forwarded to the authorization server endpoint: <strong>{{ authServer }}</strong>",

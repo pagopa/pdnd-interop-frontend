@@ -1,8 +1,8 @@
 import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type {
+  GetInstitutionUsersParams,
   GetTenantsParams,
-  GetUserInstitutionRelationshipsParams,
   SelfcareInstitution,
   Tenants,
 } from '../api.generatedTypes'
@@ -30,10 +30,7 @@ function useGetActiveUserParty() {
   return useGetParty(jwt?.organizationId)
 }
 
-function useGetPartyUsersList(
-  params: GetUserInstitutionRelationshipsParams,
-  config = { suspense: false }
-) {
+function useGetPartyUsersList(params: GetInstitutionUsersParams, config = { suspense: false }) {
   return useQuery({
     queryKey: [PartyQueryKeys.GetPartyUsersList, params],
     queryFn: () => PartyServices.getPartyUsersList(params),
@@ -45,7 +42,7 @@ function useGetPartyUsersList(
 function usePrefetchUsersList() {
   const queryClient = useQueryClient()
 
-  return (params: GetUserInstitutionRelationshipsParams) => {
+  return (params: GetInstitutionUsersParams) => {
     queryClient.prefetchQuery([PartyQueryKeys.GetPartyUsersList, params], () =>
       PartyServices.getPartyUsersList(params)
     )

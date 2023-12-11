@@ -5,10 +5,12 @@ import { useDownloadFile } from '../hooks/useDownloadFile'
 import type {
   Client,
   CompactClients,
+  CompactUsers,
+  GetClientKeysParams,
   GetClientsParams,
-  Operators,
   PublicKey,
-  RelationshipInfo,
+  PublicKeys,
+  User,
 } from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
 
@@ -46,15 +48,16 @@ function usePrefetchSingle() {
     )
 }
 
-function useGetKeyList(clientId: string) {
+function useGetKeyList(params: GetClientKeysParams, config?: UseQueryOptions<PublicKeys>) {
   return useQuery({
-    queryKey: [ClientQueryKeys.GetKeyList, clientId],
-    queryFn: () => ClientServices.getKeyList(clientId),
+    queryKey: [ClientQueryKeys.GetKeyList, params],
+    queryFn: () => ClientServices.getKeyList(params),
     useErrorBoundary: (error) => {
       // The error boundary is disabled for 404 errors because the `getKeyList` service
       // returns 404 if the client has no keys associated.
       return !(error instanceof NotFoundError)
     },
+    ...config,
   })
 }
 
@@ -74,7 +77,7 @@ function usePrefetchSingleKey() {
     )
 }
 
-function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Operators>) {
+function useGetOperatorsList(clientId: string, config?: UseQueryOptions<CompactUsers>) {
   return useQuery({
     queryKey: [ClientQueryKeys.GetOperatorsList, clientId],
     queryFn: () => ClientServices.getOperatorList(clientId),
@@ -82,19 +85,19 @@ function useGetOperatorsList(clientId: string, config?: UseQueryOptions<Operator
   })
 }
 
-function useGetSingleOperator(relationshipId: string, config?: UseQueryOptions<RelationshipInfo>) {
+function useGetSingleOperator(userId: string, config?: UseQueryOptions<User>) {
   return useQuery({
-    queryKey: [ClientQueryKeys.GetSingleOperator, relationshipId],
-    queryFn: () => ClientServices.getSingleOperator(relationshipId),
+    queryKey: [ClientQueryKeys.GetSingleOperator, userId],
+    queryFn: () => ClientServices.getSingleOperator(userId),
     ...config,
   })
 }
 
 function usePrefetchSingleOperator() {
   const queryClient = useQueryClient()
-  return (relationshipId: string) =>
-    queryClient.prefetchQuery([ClientQueryKeys.GetSingleOperator, relationshipId], () =>
-      ClientServices.getSingleOperator(relationshipId)
+  return (userId: string) =>
+    queryClient.prefetchQuery([ClientQueryKeys.GetSingleOperator, userId], () =>
+      ClientServices.getSingleOperator(userId)
     )
 }
 
@@ -195,10 +198,6 @@ function useRemoveOperator() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
     },
   })
 }

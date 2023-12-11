@@ -14,17 +14,12 @@ export const ClientOperatorsTable: React.FC<ClientOperatorsTableProps> = ({ clie
   const { data: operators = [] } = ClientQueries.useGetOperatorsList(clientId)
 
   const headLabels = [tCommon('table.headData.userName'), '']
-
   const isEmpty = !operators || operators.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
       {operators.map((operator) => (
-        <ClientOperatorsTableRow
-          key={operator.relationshipId}
-          operator={operator}
-          clientId={clientId}
-        />
+        <ClientOperatorsTableRow key={operator.userId} operator={operator} clientId={clientId} />
       ))}
     </Table>
   )
