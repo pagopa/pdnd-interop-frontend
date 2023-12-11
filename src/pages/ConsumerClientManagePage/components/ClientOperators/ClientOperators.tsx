@@ -8,7 +8,7 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 import { ClientMutations, ClientQueries } from '@/api/client'
-import type { RelationshipInfo } from '@/api/api.generatedTypes'
+import type { Users } from '@/api/api.generatedTypes'
 
 interface ClientOperatorsProps {
   clientId: string
@@ -27,20 +27,19 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
     suspense: false,
   })
 
-  const handleSubmit = async (operators: Array<RelationshipInfo>) => {
-    await Promise.all(operators.map(({ id }) => addOperator({ clientId, relationshipId: id })))
+  const handleSubmit = async (operators: Users) => {
+    await Promise.all(operators.map(({ userId }) => addOperator({ clientId, userId })))
     closeDrawer()
   }
 
-  const excludeOperatorsIdsList = currentOperators.map(({ relationshipId }) => relationshipId)
+  const excludeOperatorsIdsList = currentOperators.map(({ userId }) => userId)
 
   const canAddOperator = isAdmin
 
   const handlePrefetchUserList = () => {
     if (!canAddOperator) return
     prefetchUserList({
-      productRoles: ['admin', 'security'],
-      states: ['ACTIVE'],
+      roles: ['admin', 'security'],
       tenantId: jwt?.organizationId as string,
     })
   }

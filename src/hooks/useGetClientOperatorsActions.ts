@@ -10,7 +10,7 @@ import type { ActionItemButton } from '@/types/common.types'
  * This is because the OperatorDetails page shows the actions even if the user is not an admin.
  * The actions buttons in this case are disabled.
  */
-export function useGetClientOperatorsActions(relationshipId: string, clientId: string) {
+export function useGetClientOperatorsActions(userId: string, clientId: string) {
   const { t } = useTranslation('user')
   const { openDialog } = useDialog()
 
@@ -23,7 +23,7 @@ export function useGetClientOperatorsActions(relationshipId: string, clientId: s
     openDialog({
       type: 'deleteOperator',
       selfcareId: jwt.selfcareId,
-      userId: relationshipId,
+      userId,
     })
   }
 
@@ -33,7 +33,7 @@ export function useGetClientOperatorsActions(relationshipId: string, clientId: s
     openDialog({
       type: 'removeOperatorFromClient',
       clientId: clientId,
-      relationshipId,
+      userId,
     })
   }
 

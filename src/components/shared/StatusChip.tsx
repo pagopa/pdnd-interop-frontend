@@ -10,10 +10,8 @@ import type {
   AgreementListEntry,
   AgreementState,
   EServiceDescriptorState,
-  OperatorState,
   Purpose,
   PurposeVersionState,
-  RelationshipState,
 } from '@/api/api.generatedTypes'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
@@ -34,14 +32,6 @@ const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
   MISSING_CERTIFIED_ATTRIBUTES: 'error',
 }
 
-const CHIP_COLORS_USER: Record<OperatorState | RelationshipState, MUIColor> = {
-  DELETED: 'warning',
-  ACTIVE: 'success',
-  SUSPENDED: 'error',
-  PENDING: 'warning',
-  REJECTED: 'error',
-}
-
 const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   DRAFT: 'info',
   ACTIVE: 'success',
@@ -54,7 +44,6 @@ const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
-  user: CHIP_COLORS_USER,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &

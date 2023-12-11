@@ -64,5 +64,5 @@ export type DialogDeleteOperatorProps = {
 export type DialogRemoveOperatorFromClientProps = {
   type: 'removeOperatorFromClient'
   clientId: string
-  relationshipId: string
+  userId: string
 }

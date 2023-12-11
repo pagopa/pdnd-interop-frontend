@@ -40,7 +40,7 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
             />
             <InformationContainer
               label={t('uploaderField.label')}
-              content={`${publicKey?.operator.name ?? ''} ${publicKey?.operator.familyName ?? ''}`}
+              content={`${publicKey?.user.name ?? ''} ${publicKey?.user.familyName ?? ''}`}
             />
             <InformationContainer
               label={t('kidField.label')}

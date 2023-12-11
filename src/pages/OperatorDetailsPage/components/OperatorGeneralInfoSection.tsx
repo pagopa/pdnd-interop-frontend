@@ -1,6 +1,5 @@
 import React from 'react'
 import { ClientQueries } from '@/api/client'
-import { Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
@@ -34,7 +33,9 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
 
   const handleGoToOperatorKeys = () => {
-    const relationshipIdsActiveFilter = [[`${operator.name} ${operator.familyName}`, operator.id]]
+    const relationshipIdsActiveFilter = [
+      [`${operator.name} ${operator.familyName}`, operator.userId],
+    ]
     navigate(backToOperatorsListRouteKey, {
       params: { clientId },
       urlParams: {
@@ -43,6 +44,13 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
       },
     })
   }
+
+  const userRoles = operator.roles.reduce((prev, role) => {
+    if (prev === '') return tCommon(`userProductRole.${role as UserProductRole}`)
+
+    const res = `${prev}, ${tCommon(`userProductRole.${role as UserProductRole}`)}`
+    return res
+  }, '')
 
   return (
     <SectionContainer
@@ -57,17 +65,7 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
         },
       ]}
     >
-      <Stack spacing={2}>
-        <InformationContainer
-          label={t('taxCodeField.label')}
-          sx={{ mt: 0 }}
-          content={operator.taxCode}
-        />
-        <InformationContainer
-          label={t('productRoleField.label')}
-          content={tCommon(`userProductRole.${operator.product.role as UserProductRole}`)}
-        />
-      </Stack>
+      <InformationContainer label={t('productRoleField.label')} content={userRoles} />
     </SectionContainer>
   )
 }

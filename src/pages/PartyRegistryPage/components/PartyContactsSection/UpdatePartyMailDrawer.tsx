@@ -46,7 +46,8 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
       updateMail(
         {
           partyId: jwt.organizationId,
-          contactEmail: contactEmail,
+          address: contactEmail,
+          kind: 'CONTACT_EMAIL',
           description: description || undefined,
         },
         {

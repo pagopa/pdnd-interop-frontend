@@ -4,10 +4,10 @@ import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { CreateClientFormValues } from '../ConsumerClientCreate.page'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
-import type { RelationshipInfo } from '@/api/api.generatedTypes'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
+import type { Users } from '@/api/api.generatedTypes'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')
@@ -25,11 +25,11 @@ const OperatorsInputTable: React.FC = () => {
   const headLabels = [tCommon('table.headData.userName'), '']
 
   const handleRemoveOperator = (operatorId: string) => {
-    const newOperators = operators.filter((o) => o.id !== operatorId)
+    const newOperators = operators.filter((o) => o.userId !== operatorId)
     setValue('operators', newOperators)
   }
 
-  const handleAddOperator = (newOperators: Array<RelationshipInfo>) => {
+  const handleAddOperator = (newOperators: Users) => {
     setValue('operators', [...operators, ...newOperators])
   }
 
@@ -45,9 +45,9 @@ const OperatorsInputTable: React.FC = () => {
         noDataLabel={t('create.operatorsTable.noDataLabel')}
       >
         {operators.map((operator) => (
-          <TableRow key={operator.id} cellData={[`${operator.name} ${operator.familyName}`]}>
+          <TableRow key={operator.userId} cellData={[`${operator.name} ${operator.familyName}`]}>
             <Button
-              onClick={handleRemoveOperator.bind(null, operator.id)}
+              onClick={handleRemoveOperator.bind(null, operator.userId)}
               variant="naked"
               color="error"
             >
@@ -70,7 +70,7 @@ const OperatorsInputTable: React.FC = () => {
       <AddOperatorsToClientDrawer
         isOpen={isAddOperatorDrawerOpen}
         onClose={closeAddOperatorDrawer}
-        excludeOperatorsIdsList={operators.map(({ id }) => id)}
+        excludeOperatorsIdsList={operators.map(({ userId }) => userId)}
         onSubmit={handleAddOperator}
       />
     </>
