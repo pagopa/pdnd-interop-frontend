@@ -815,7 +815,7 @@ export interface User {
   roles: string[]
 }
 
-export type TenantUsers = User[]
+export type Users = User[]
 
 export interface RiskAnalysisForm {
   version: string
@@ -2970,7 +2970,7 @@ export namespace Tenants {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = TenantUsers
+    export type ResponseBody = Users
   }
   /**
    * @description Gets certified attributes for institution using internal institution id
