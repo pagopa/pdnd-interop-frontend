@@ -146,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
           navigate('LOGOUT')
         }}
         onAssistanceClick={() => {
-          window.open(assistanceLink)
+          window.open(assistanceLink, '_blank')
         }}
         onDocumentationClick={() => {
           window.open(documentationLink, '_blank')
