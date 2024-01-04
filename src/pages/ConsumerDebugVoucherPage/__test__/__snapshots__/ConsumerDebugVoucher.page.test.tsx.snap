@@ -29,9 +29,6 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
               description
             </p>
           </div>
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
-          />
         </div>
       </div>
       <div
@@ -409,9 +406,6 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
               description
             </p>
           </div>
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
-          />
         </div>
       </div>
       <div

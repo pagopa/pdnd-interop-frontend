@@ -13,7 +13,7 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
           class="MuiStack-root css-3y1137-MuiStack-root"
         >
           <h2
-            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
           >
             Download
           </h2>
@@ -101,7 +101,7 @@ exports[`DownloadableDocumentsList > should match snapshot on empty documents li
           class="MuiStack-root css-3y1137-MuiStack-root"
         >
           <h2
-            class="MuiTypography-root MuiTypography-overline css-b3fch5-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
           >
             Download
           </h2>

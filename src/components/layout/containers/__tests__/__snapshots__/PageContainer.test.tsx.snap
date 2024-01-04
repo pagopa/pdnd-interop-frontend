@@ -18,9 +18,6 @@ exports[`PageContainer > should match snapshot 1`] = `
           <div
             class="MuiBox-root css-1rr4qq7"
           />
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
-          />
         </div>
       </div>
       <div
@@ -70,72 +67,6 @@ exports[`PageContainer > should match snapshot on loading state 1`] = `
 </body>
 `;
 
-exports[`PageContainer > should match snapshot with action menu 1`] = `
-<body>
-  <div>
-    <div
-      class="MuiBox-root css-0"
-    >
-      <div
-        class="MuiStack-root css-zayqnb-MuiStack-root"
-      />
-      <div
-        class="MuiBox-root css-0"
-      >
-        <div
-          class="MuiStack-root css-1pj1j6w-MuiStack-root"
-        >
-          <div
-            class="MuiBox-root css-1rr4qq7"
-          >
-            <h1
-              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
-            >
-              title
-            </h1>
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
-            >
-              description
-            </p>
-          </div>
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
-          >
-            <button
-              aria-haspopup="true"
-              aria-label="iconButtonAriaLabel"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-11ghgbe-MuiButtonBase-root-MuiIconButton-root"
-              id=":r0:-composition-button"
-              tabindex="0"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-1bptiuh-MuiSvgIcon-root"
-                data-testid="MoreVertIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                />
-              </svg>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiBox-root css-164r41r"
-      />
-    </div>
-  </div>
-</body>
-`;
-
 exports[`PageContainer > should match snapshot with buttons 1`] = `
 <body>
   <div>
@@ -165,30 +96,37 @@ exports[`PageContainer > should match snapshot with buttons 1`] = `
               description
             </p>
           </div>
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
+        </div>
+      </div>
+      <div
+        class="MuiStack-root css-ku676e-MuiStack-root"
+      >
+        <div
+          class="MuiBox-root css-0"
+        />
+        <div
+          class="MuiBox-root css-0"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
           >
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              button 1
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              button 2
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
-          </div>
+            1
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            2
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
         </div>
       </div>
       <div
@@ -223,9 +161,6 @@ exports[`PageContainer > should match snapshot with description 1`] = `
               description
             </p>
           </div>
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
-          />
         </div>
       </div>
       <div
@@ -260,9 +195,6 @@ exports[`PageContainer > should match snapshot with title 1`] = `
               title
             </h1>
           </div>
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
-          />
         </div>
       </div>
       <div
@@ -301,65 +233,6 @@ exports[`PageContainer > should match snapshot with title and description 1`] = 
             >
               description
             </p>
-          </div>
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
-          />
-        </div>
-      </div>
-      <div
-        class="MuiBox-root css-164r41r"
-      />
-    </div>
-  </div>
-</body>
-`;
-
-exports[`PageContainer > should match snapshot with top info tooltip 1`] = `
-<body>
-  <div>
-    <div
-      class="MuiBox-root css-0"
-    >
-      <div
-        class="MuiStack-root css-zayqnb-MuiStack-root"
-      />
-      <div
-        class="MuiBox-root css-0"
-      >
-        <div
-          class="MuiStack-root css-1pj1j6w-MuiStack-root"
-        >
-          <div
-            class="MuiBox-root css-1rr4qq7"
-          >
-            <h1
-              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
-            >
-              title
-            </h1>
-            <p
-              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
-            >
-              description
-            </p>
-          </div>
-          <div
-            class="MuiStack-root css-1sos3zc-MuiStack-root"
-          >
-            <svg
-              aria-hidden="true"
-              aria-label="infoTooltip"
-              class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeSmall css-kpimro-MuiSvgIcon-root"
-              data-mui-internal-clone-element="true"
-              data-testid="InfoOutlinedIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
-            </svg>
           </div>
         </div>
       </div>
