@@ -22,7 +22,6 @@ export const EServiceCreateStepPurpose: React.FC = () => {
       {!riskAnalysisFormState.isOpen ? (
         <>
           <SectionContainer
-            newDesign
             title={t('stepPurpose.purposeTableSection.title')}
             description={t('stepPurpose.purposeTableSection.description')}
           >
