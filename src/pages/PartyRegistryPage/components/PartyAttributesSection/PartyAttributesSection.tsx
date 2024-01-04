@@ -12,12 +12,7 @@ export const PartyAttributesSection: React.FC = () => {
   return (
     <Grid container>
       <Grid item xs={8}>
-        <SectionContainer
-          newDesign
-          component="div"
-          title={t('title')}
-          description={t('description')}
-        >
+        <SectionContainer component="div" title={t('title')} description={t('description')}>
           <Divider sx={{ my: 3 }} />
           <CertifiedAttributes />
           <Divider sx={{ my: 3 }} />

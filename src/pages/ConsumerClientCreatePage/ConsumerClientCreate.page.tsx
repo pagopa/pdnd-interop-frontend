@@ -67,7 +67,7 @@ const ConsumerClientCreatePage: React.FC = () => {
     >
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
-          <SectionContainer newDesign title={t('create.infoSectionTitle')} component="div">
+          <SectionContainer title={t('create.infoSectionTitle')} component="div">
             <RHFTextField
               focusOnMount={true}
               name="name"
@@ -90,7 +90,6 @@ const ConsumerClientCreatePage: React.FC = () => {
           </SectionContainer>
 
           <SectionContainer
-            newDesign
             title={t('create.clientOperatorsSection.title')}
             description={t('create.clientOperatorsSection.description')}
             component="div"

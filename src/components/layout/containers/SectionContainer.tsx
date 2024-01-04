@@ -20,12 +20,6 @@ interface SectionContainerProps extends PaperProps {
 
   topSideActions?: Array<ActionItemButton>
   bottomActions?: Array<Omit<React.ComponentProps<typeof IconLink>, 'children'> & { label: string }>
-
-  /**
-   * The `newDesign` prop is temporary and will be removed when the new section container design will be
-   * implemented in the overall application.
-   */
-  newDesign?: boolean
 }
 
 export function SectionContainer({
@@ -37,13 +31,12 @@ export function SectionContainer({
   component = 'section',
   titleTypographyProps,
   descriptionTypographyProps,
-  newDesign,
   topSideActions,
   bottomActions,
   ...props
 }: SectionContainerProps) {
-  const titleVariant = !newDesign ? 'overline' : innerSection ? 'sidenav' : 'h6'
-  const descriptionVariant = newDesign ? 'body2' : 'caption'
+  const titleVariant = innerSection ? 'sidenav' : 'h6'
+  const descriptionVariant = 'body2'
 
   return (
     <Paper

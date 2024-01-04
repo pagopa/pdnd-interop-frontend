@@ -80,7 +80,7 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
   emptyLabel,
 }) => {
   return (
-    <SectionContainer newDesign innerSection title={title} description={subtitle}>
+    <SectionContainer innerSection title={title} description={subtitle}>
       {attributeGroups.length > 0 && (
         <Stack spacing={3}>
           {attributeGroups.map((attributeGroup, index) => (

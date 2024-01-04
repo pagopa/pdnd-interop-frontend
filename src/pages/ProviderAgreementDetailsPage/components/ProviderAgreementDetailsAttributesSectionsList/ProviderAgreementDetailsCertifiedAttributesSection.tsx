@@ -44,7 +44,6 @@ export const ProviderAgreementDetailsCertifiedAttributesSection: React.FC = () =
 
   return (
     <SectionContainer
-      newDesign
       title={tAttribute('certified.label')}
       description={
         <Trans

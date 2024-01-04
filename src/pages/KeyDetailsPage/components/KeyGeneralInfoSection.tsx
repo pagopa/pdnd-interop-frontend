@@ -22,7 +22,6 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
     <Grid container>
       <Grid item xs={7}>
         <SectionContainer
-          newDesign
           title={t('title')}
           bottomActions={[
             {

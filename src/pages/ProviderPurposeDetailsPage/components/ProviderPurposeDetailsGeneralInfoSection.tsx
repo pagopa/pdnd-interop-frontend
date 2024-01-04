@@ -47,7 +47,6 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
   return (
     <SectionContainer
       title={t('title')}
-      newDesign
       bottomActions={[
         ...(!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument
           ? []

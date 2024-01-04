@@ -81,7 +81,6 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
         <SectionContainer
-          newDesign
           title={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.title')}
           description={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.description')}
         >
@@ -95,7 +94,6 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
           />
         </SectionContainer>
         <SectionContainer
-          newDesign
           title={t('stepPurpose.riskAnalysis.riskAnalysisSection.title')}
           description={t('stepPurpose.riskAnalysis.riskAnalysisSection.description')}
         >

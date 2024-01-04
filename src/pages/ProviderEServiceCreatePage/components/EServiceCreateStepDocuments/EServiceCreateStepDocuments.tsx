@@ -22,15 +22,10 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
 
   return (
     <>
-      <SectionContainer
-        newDesign
-        title={t('create.step4.interface.title')}
-        description={sectionDescription}
-      >
+      <SectionContainer title={t('create.step4.interface.title')} description={sectionDescription}>
         <EServiceCreateStepDocumentsInterface />
       </SectionContainer>
       <SectionContainer
-        newDesign
         title={t('create.step4.documentation.title')}
         description={t('create.step4.documentation.description')}
       >

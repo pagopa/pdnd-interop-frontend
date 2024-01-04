@@ -22,7 +22,6 @@ const ConsumerAgreementCreateAgreementGeneralInformation: React.FC = () => {
 
   return (
     <SectionContainer
-      newDesign
       title={t('title')}
       bottomActions={[
         {

@@ -49,7 +49,6 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
 
   return (
     <SectionContainer
-      newDesign
       innerSection
       title={tAttribute(`${attributeKey}.label`)}
       description={

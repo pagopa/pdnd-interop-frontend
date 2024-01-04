@@ -102,7 +102,6 @@ export const EServiceCreateStepAttributes: React.FC = () => {
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <SectionContainer
-            newDesign
             title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
             description={t('step3.attributesDescription')}
           >

@@ -68,7 +68,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer newDesign title={t('edit.step1.title')}>
+        <SectionContainer title={t('edit.step1.title')}>
           <RHFTextField
             name="title"
             label={t('edit.step1.nameField.label')}

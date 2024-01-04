@@ -7,7 +7,7 @@ export const AttributesContainer: React.FC<{
   children: React.ReactNode
 }> = ({ title, description, children }) => {
   return (
-    <SectionContainer newDesign innerSection title={title} description={description}>
+    <SectionContainer innerSection title={title} description={description}>
       {children}
     </SectionContainer>
   )

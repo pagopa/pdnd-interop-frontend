@@ -53,7 +53,6 @@ const ConsumerAgreementCreateDeclaredAttributesSection: React.FC = () => {
 
   return (
     <SectionContainer
-      newDesign
       title={tAttribute('declared.label')}
       description={
         <Trans

@@ -29,7 +29,6 @@ export const VoucherInstructionsStep2: React.FC = () => {
   return (
     <>
       <SectionContainer
-        newDesign
         title={t('step2.title')}
         description={
           <>
@@ -45,7 +44,7 @@ export const VoucherInstructionsStep2: React.FC = () => {
           </>
         }
       >
-        <SectionContainer newDesign innerSection title={t('step2.assertionHeader.title')}>
+        <SectionContainer innerSection title={t('step2.assertionHeader.title')}>
           <Stack spacing={4}>
             <InformationContainer
               label={t('step2.assertionHeader.kidField.label')}
@@ -78,7 +77,7 @@ export const VoucherInstructionsStep2: React.FC = () => {
             />
           </Stack>
         </SectionContainer>
-        <SectionContainer newDesign innerSection title={t('step2.assertionPayload.title')}>
+        <SectionContainer innerSection title={t('step2.assertionPayload.title')}>
           <Stack spacing={4}>
             <InformationContainer
               label={t('step2.assertionPayload.issField.label')}
@@ -137,7 +136,7 @@ export const VoucherInstructionsStep2: React.FC = () => {
           </Stack>
         </SectionContainer>
       </SectionContainer>
-      <SectionContainer newDesign title={t('step2.assertionScript.title')}>
+      <SectionContainer title={t('step2.assertionScript.title')}>
         <Box sx={{ pl: 2 }} component="ol">
           <Typography component="li" variant="body2">
             {t('step2.assertionScript.steps.1')}
