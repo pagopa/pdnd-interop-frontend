@@ -125,7 +125,7 @@ const ConsumerPurposesListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      newTopSideActions={isAdmin ? topSideActions : undefined}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />

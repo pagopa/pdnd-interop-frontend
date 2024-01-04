@@ -39,7 +39,7 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
   return (
     <PageContainer
       title={t('providerRead.title')}
-      newTopSideActions={actions}
+      topSideActions={actions}
       backToAction={{ label: t('backToRequestsBtn'), to: 'PROVIDE_AGREEMENT_LIST' }}
       statusChip={
         agreement

@@ -32,7 +32,7 @@ const KeyDetailsPage: React.FC = () => {
     <PageContainer
       isLoading={isLoading}
       title={publicKey?.name}
-      newTopSideActions={actions}
+      topSideActions={actions}
       backToAction={{
         label: t('backToKeyListBtn'),
         to: backToOperatorsListRouteKey,

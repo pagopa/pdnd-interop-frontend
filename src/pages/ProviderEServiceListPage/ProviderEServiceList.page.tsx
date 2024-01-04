@@ -69,7 +69,7 @@ const ProviderEServiceListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      newTopSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
+      topSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <EServiceTableWrapper params={queryParams} />

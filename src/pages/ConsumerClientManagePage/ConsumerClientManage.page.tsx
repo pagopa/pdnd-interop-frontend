@@ -28,7 +28,7 @@ const ConsumerClientManagePage: React.FC = () => {
     <PageContainer
       title={client?.name ?? ''}
       description={client?.description}
-      newTopSideActions={actions}
+      topSideActions={actions}
       isLoading={isLoadingClient}
       backToAction={{
         label: t('actions.backToClientsLabel'),

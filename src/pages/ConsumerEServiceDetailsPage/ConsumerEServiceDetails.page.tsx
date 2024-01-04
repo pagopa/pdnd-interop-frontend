@@ -28,7 +28,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   return (
     <PageContainer
       title={descriptor?.eservice.name || ''}
-      newTopSideActions={actions}
+      topSideActions={actions}
       isLoading={!descriptor}
       statusChip={descriptor ? { for: 'eservice', state: descriptor?.state } : undefined}
       backToAction={{
