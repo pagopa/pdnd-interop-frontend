@@ -35,9 +35,6 @@ export function SectionContainer({
   bottomActions,
   ...props
 }: SectionContainerProps) {
-  const titleVariant = innerSection ? 'sidenav' : 'h6'
-  const descriptionVariant = 'body2'
-
   return (
     <Paper
       component={component}
@@ -49,7 +46,7 @@ export function SectionContainer({
           {title && (
             <Typography
               component={innerSection ? 'h3' : 'h2'}
-              variant={titleVariant}
+              variant={innerSection ? 'sidenav' : 'h6'}
               {...titleTypographyProps}
             >
               {title}
@@ -85,11 +82,7 @@ export function SectionContainer({
           )}
         </Stack>
         {description && (
-          <Typography
-            color="text.secondary"
-            variant={descriptionVariant}
-            {...descriptionTypographyProps}
-          >
+          <Typography color="text.secondary" variant="body2" {...descriptionTypographyProps}>
             {description}
           </Typography>
         )}
