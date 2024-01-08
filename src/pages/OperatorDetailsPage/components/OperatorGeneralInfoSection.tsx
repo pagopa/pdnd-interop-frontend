@@ -59,7 +59,7 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
       bottomActions={[
         {
           label: t('operatorKeysLink.label'),
-          startIcon: <OpenInNewIcon />,
+          startIcon: <OpenInNewIcon fontSize="small" />,
           component: 'button',
           onClick: handleGoToOperatorKeys,
         },

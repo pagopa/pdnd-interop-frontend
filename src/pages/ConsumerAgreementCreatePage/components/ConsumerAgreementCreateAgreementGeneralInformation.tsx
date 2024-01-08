@@ -28,7 +28,7 @@ const ConsumerAgreementCreateAgreementGeneralInformation: React.FC = () => {
         {
           onClick: openCertifiedAttributesDrawer,
           component: 'button',
-          startIcon: <RuleIcon />,
+          startIcon: <RuleIcon fontSize="small" />,
           label: t('certifiedAttributesDrawerButtonLabel'),
         },
       ]}
