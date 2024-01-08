@@ -71,7 +71,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   function handleClone() {
     if (!purpose) return
     clonePurpose(
-      { purposeId: purpose.id },
+      { purposeId: purpose.id, eserviceId: purpose.eservice.id },
       {
         onSuccess({ purposeId }) {
           navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })

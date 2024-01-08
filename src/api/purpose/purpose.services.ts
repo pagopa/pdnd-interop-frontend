@@ -6,6 +6,7 @@ import type {
   GetProducerPurposesParams,
   Purpose,
   PurposeAdditionDetailsSeed,
+  PurposeCloneSeed,
   PurposeEServiceSeed,
   Purposes,
   PurposeSeed,
@@ -172,9 +173,10 @@ function deleteVersion({ purposeId, versionId }: { purposeId: string; versionId:
   )
 }
 
-async function clone({ purposeId }: { purposeId: string }) {
+async function clone({ purposeId, ...payload }: { purposeId: string } & PurposeCloneSeed) {
   const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/clone`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/clone`,
+    payload
   )
   return response.data
 }
