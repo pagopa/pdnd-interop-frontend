@@ -46,7 +46,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           label: t('riskAnalysis.link.label'),
           component: 'button',
           type: 'button',
-          onClick: { handleDownloadDocument },
+          onClick: handleDownloadDocument,
         },
         {
           startIcon: <LinkIcon fontSize="small" />,
