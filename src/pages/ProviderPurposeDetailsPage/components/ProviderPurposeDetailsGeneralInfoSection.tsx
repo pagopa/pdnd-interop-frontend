@@ -36,22 +36,27 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     )
   }
 
+  const downloadRiskAnalysisDocumentAction = {
+    label: t('riskAnalysis.link.label'),
+    component: 'button',
+    type: 'button',
+    onClick: handleDownloadDocument,
+    startIcon: <DownloadIcon fontSize="small" />,
+  }
+
   return (
     <SectionContainer
       title={t('title')}
       newDesign
       bottomActions={[
-        {
-          label: t('riskAnalysis.link.label'),
-          component: 'button',
-          onClick: handleDownloadDocument,
-          startIcon: <DownloadIcon />,
-        },
+        ...(!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument
+          ? []
+          : [downloadRiskAnalysisDocumentAction]),
         {
           label: t('agreementLink.label'),
           href:
             '/ui' + generatePath('PROVIDE_AGREEMENT_READ', { agreementId: purpose.agreement.id }),
-          startIcon: <LinkIcon />,
+          startIcon: <LinkIcon fontSize="small" />,
         },
       ]}
     >
