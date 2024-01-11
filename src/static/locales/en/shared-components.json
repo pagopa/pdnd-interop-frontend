@@ -2,11 +2,6 @@
   "header": {
     "supportChipLabel": "PagoPA Support"
   },
-  "styledDialogBasic": {
-    "actions": {
-      "cancelLabel": "Undo"
-    }
-  },
   "dialogAttributeDetails": {
     "content": {
       "descriptionField": {
@@ -16,10 +11,6 @@
         "label": "Attribute Id",
         "tooltipTitle": "Id successfully copied"
       }
-    },
-    "loading": "We are loading the attribute",
-    "actions": {
-      "closeBtn": "Close"
     }
   },
   "dialogSessionExpired": {
@@ -29,37 +20,6 @@
     },
     "actions": {
       "exitLabel": "Exit"
-    }
-  },
-  "dialogAddSecurityOperators": {
-    "title": "Add security operators",
-    "content": {
-      "autocompleteLabel": "Selected operators",
-      "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
-    },
-    "actions": {
-      "cancelLabel": "Annulla",
-      "confirmLabel": "Aggiungi"
-    }
-  },
-  "dialogAddSecurityOperatorKeys": {
-    "title": "Upload new public key",
-    "content": {
-      "nameField": {
-        "label": "Key name (required)",
-        "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
-      },
-      "keyField": {
-        "label": "Public key (required)",
-        "infoLabel": {
-          "message": "If you don't know how to create the keys? Follow the",
-          "linkLabel": "guide"
-        }
-      }
-    },
-    "actions": {
-      "cancelLabel": "Undo",
-      "confirmLabel": "Upload"
     }
   },
   "dialogRejectAgreement": {
@@ -78,27 +38,12 @@
   "dialogAddClientToPurpose": {
     "title": "Add clients",
     "content": {
-      "autocompleteLabel": "Selected clients",
-      "loadingMessage": "Loading clients to associate to purpose"
+      "autocompleteLabel": "Selected clients"
     },
     "actions": {
       "cancelLabel": "Undo",
       "confirmLabel": "Add"
     }
-  },
-  "dialogUpdatePartyMail": {
-    "title": "Edit contacts",
-    "subtitle": "You can change the contact email and the description of your organization. The change will be visible immediately",
-    "content": {
-      "mailAddressField": {
-        "label": "Mail address (required)"
-      },
-      "descriptionField": {
-        "label": "Description",
-        "infoLabel": "Min 10 chars, max 160 chars"
-      }
-    },
-    "alertLabel": "Authorities are not notified of this change; it is recommended to keep an active redirect from the old to the new address for some time"
   },
   "dialogUpgradeAgreementVersion": {
     "title": "Update agreement",
@@ -124,17 +69,13 @@
       }
     }
   },
-  "DialogDeleteOperator": {
+  "dialogDeleteOperator": {
     "title": "Forwarding to Reserved Area for user removal",
     "description": "User operations on all products managed by PagoPA take place through the Reserved Area portal. By clicking \"confirm\", you will be redirected to the Reserved Area page to manage the selected user."
   },
-  "DialogRemoveOperatorFromClient": {
+  "dialogRemoveOperatorFromClient": {
     "title": "Confirm user removal",
     "description": "By clicking “confirm”, the current user will be removed from the current client and will no longer have access to it. For continuity, all keys uploaded by this user will remain available in the client. For safety reasons, it is recommended to replace them and discard the old ones. Do you have any doubts? <1>Read the guide</1>."
-  },
-  "copyToClipboardButton": {
-    "copy": "Copy",
-    "copied": "Copied"
   },
   "sidenav": {
     "userExternalLinkLabel": "Users",
@@ -146,14 +87,8 @@
   "downloadableDocumentList": {
     "noDataLabel": "No documents available"
   },
-  "inlineClipboard": {
-    "defaultSuccessFeedbackText": "Message copied successfully"
-  },
   "codeSnippetPreview": {
     "successFeedbackText": "Script copied successfully"
-  },
-  "codeLanguagePicker": {
-    "languageLabel": "Language"
   },
   "autocompleteMultiple": {
     "loadingLabel": "Searching...",

@@ -1,26 +1,14 @@
 {
-  "backToClientBtn": "Torna al client",
   "backBtn": "Indietro",
   "proceedBtn": "Avanti",
-  "keysLoading": {
-    "label": "Stiamo caricando le chiavi disponibili",
-    "error": "Non è stato possibile caricare le chiavi"
-  },
   "noPurposesLabel": "Questo client non è associato a nessuna finalità",
   "noKeysLabel": "Questo client non contiene chiavi pubbliche",
-  "createPurposeBtn": "Crea una nuova finalità",
-  "choosePurposeBtn": "scegli la finalità da associare",
-  "or": "oppure",
   "choosePurposeLabel": "Scegli la finalità da utilizzare",
   "purposeFailureMessage": "Attenzione! Non sarà possibile ottenere un voucher per questa finalità. In una o più componenti della pipeline è stato sospeso il servizio. Le componenti sospese sono:",
   "purposeFailureReason": {
     "eservice": "E-service",
     "agreement": "accordo di fruizione",
     "purpose": "finalità"
-  },
-  "uploadKey": {
-    "message": "Non ci sono chiavi disponibili, non è possibile ottenere un voucher. Per caricare la tua prima chiave, vai alla",
-    "linkLabel": "tab delle chiavi pubbliche"
   },
   "step1": {
     "stepperLabel": "Selezione parametri",
@@ -65,7 +53,6 @@
         "title": "Link alla specifica RFC7521"
       }
     },
-    "choosePublicKeyLabel": "Scegli la chiave pubblica da utilizzare",
     "assertionHeader": {
       "title": "Header dell'asserzione",
       "kidField": {

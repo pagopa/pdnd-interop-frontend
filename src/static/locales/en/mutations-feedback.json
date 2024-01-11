@@ -1,11 +1,4 @@
 {
-  "default": {
-    "loading": "Please wait a moment...",
-    "outcome": {
-      "success": "Operation completed successfully!",
-      "error": "An error was encountered. Please try again."
-    }
-  },
   "auth": {
     "loadingLabel": "We are authenticating this session. Please, wait"
   },
@@ -13,14 +6,12 @@
     "createDraft": {
       "loading": "Creating draft",
       "outcome": {
-        "success": "Draft created successfully",
         "error": "Draft could not be created. Make sure you have filled all the required fields and try again!"
       }
     },
     "updateDraft": {
       "loading": "Updating draft",
       "outcome": {
-        "success": "Draft updated successfully",
         "error": "Draft could not be updated. Make sure you have filled all the required fields and try again!"
       }
     },
@@ -142,21 +133,18 @@
     "deleteVersionDraftDocument": {
       "loading": "Deleting document",
       "outcome": {
-        "success": "Document deleted successfully",
         "error": "The document could not be deleted. Please, try again!"
       }
     },
     "updateVersionDraftDocumentDescription": {
       "loading": "Updating document name",
       "outcome": {
-        "success": "Document name updated successfully",
         "error": "The document name could not be updated. Please, try again!"
       }
     },
     "downloadVersionDraftDocument": {
       "loading": "Downloading document",
       "outcome": {
-        "success": "Document downloaded successfully. You can find it in the Download folder of your device",
         "error": "The document could not be downloaded. Please, try again!"
       }
     },
@@ -172,43 +160,30 @@
     "create": {
       "loading": "Saving new attribute",
       "outcome": {
-        "success": "New attributed saved successfully. It can now be added to your e-service",
         "error": "The attribute could not be saved. Please, try again!"
       }
     },
     "verifyPartyAttribute": {
       "loading": "Verifying the attribute",
       "outcome": {
-        "success": "The attribute was verified successfully",
         "error": "The attribute could not be verified. Please, try again!"
-      },
-      "confirmDialog": {
-        "title": "Verify attribute",
-        "description": "Are you sure you want to verify the attribute?"
       }
     },
     "updatingExpirationPartyAttribute": {
       "loading": "Updating the attribute expiration date",
       "outcome": {
-        "success": "The expiration date was updated successfully",
         "error": "The expiration date could not be updated. Please, try again!"
       }
     },
     "revokeVerifiedPartyAttribute": {
       "loading": "Revoking verified attribute",
       "outcome": {
-        "success": "Verified attribute revoked successfully.",
         "error": "The verified attribute could not be revoked. Please, try again!"
-      },
-      "confirmDialog": {
-        "title": "Revoke attribute",
-        "description": "Are you sure you want to revoke the attribute?"
       }
     },
     "declarePartyAttribute": {
       "loading": "Confirming declared attribute",
       "outcome": {
-        "success": "Declared attribute confirmed successfully.",
         "error": "The declared attribute could not be confirmed. Please, try again!"
       },
       "confirmDialog": {
@@ -219,7 +194,6 @@
     "revokeDeclaredPartyAttribute": {
       "loading": "Revoking declared attribute",
       "outcome": {
-        "success": "Declared attribute revoked successfully.",
         "error": "The declared attribute could not be revoked. Please, try again!"
       },
       "confirmDialog": {
@@ -289,7 +263,6 @@
     "uploadDraftDocument": {
       "loading": "Uploading document",
       "outcome": {
-        "success": "Document uploaded successfully",
         "error": "The document could not be uploaded. Please, try again!"
       }
     },
@@ -360,7 +333,6 @@
     "downloadContract": {
       "loading": "Downloading fruition request document",
       "outcome": {
-        "success": "The fruition request document was downloaded successfully",
         "error": "The fruition request document could not be downloaded. Please, try again!"
       }
     }
@@ -375,7 +347,6 @@
     "updateDraft": {
       "loading": "Updating purpose draft",
       "outcome": {
-        "success": "The purpose draft was updated successfully",
         "error": "The purpose draft could not be updated. Please, try again!"
       }
     },

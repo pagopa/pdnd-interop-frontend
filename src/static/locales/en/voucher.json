@@ -1,26 +1,14 @@
 {
-  "backToClientBtn": "Back to the client",
   "backBtn": "Back",
   "proceedBtn": "Proceed",
-  "keysLoading": {
-    "label": "Loading available keys",
-    "error": "Keys could not be loaded"
-  },
   "noPurposesLabel": "This client is not associated with any purposes",
   "noKeysLabel": "This client does not contain any public keys",
-  "createPurposeBtn": "Create a new purpose purpose",
-  "choosePurposeBtn": "associate a purpose",
-  "or": "or",
   "choosePurposeLabel": "Choose the purpose to use",
   "purposeFailureMessage": "Warning! It will not be possible to obtain a voucher for this purpose. One or more components are currently suspended. Suspended components:",
   "purposeFailureReason": {
     "eservice": "E-service",
     "agreement": "fruition agreement",
     "purpose": "purpose"
-  },
-  "uploadKey": {
-    "message": "No keys found, it will not be possible to obtain a voucher. To upload your first key, go to",
-    "linkLabel": "the public keys tab"
   },
   "step1": {
     "stepperLabel": "Parameters selection",
@@ -65,7 +53,6 @@
         "title": "Link to the spec RFC7521"
       }
     },
-    "choosePublicKeyLabel": "Choose public key",
     "assertionHeader": {
       "title": "Assertion header",
       "kidField": {
@@ -132,8 +119,7 @@
         "5": "Paste the command below and press enter",
         "result": "This is how you obtain a client assertion signed with your private key. Note: the private key must correspond to the public key you selected in the previous step."
       },
-      "exampleLabel": "Usage example",
-      "tempMoreLanguagesAlert": "More script with examples in other languages will be added"
+      "exampleLabel": "Usage example"
     }
   },
   "step3": {

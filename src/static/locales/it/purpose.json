@@ -1,7 +1,5 @@
 {
-  "loadingSingleLabel": "Stiamo caricando la tua finalità",
-  "loadingMultiLabel": "Stiamo caricando la lista delle finalità",
-  "backToPurposeListBtn": "Torna alle finalità",
+  "backToListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
     "preliminaryInformationSectionTitle": "Informazioni preliminari",
@@ -10,7 +8,6 @@
     },
     "purposeField": {
       "label": "Template da utilizzare",
-      "compiledBy": "{{title}} creata da {{consumerName}}",
       "noDataLabel": "Nessun template disponibile per questo e-service",
       "loadingLabel": "Stiamo caricando i template"
     },
@@ -28,12 +25,9 @@
       }
     },
     "purposeInfoTitle": "Contenuto del template selezionato",
-    "purposePreviewTitle": "Contenuto del template selezionato",
-    "consumerName": "Questo template è stato creato da",
     "purposeTitle": "Nome finalità",
     "purposeDescription": "Descrizione finalità",
     "createNewPurposeBtn": "Crea bozza",
-    "backToListBtn": "Torna alle finalità",
     "defaultPurpose": {
       "title": "Nuova finalità",
       "description": "Lorem ipsum dolor sit amet...",
@@ -43,18 +37,11 @@
   },
   "edit": {
     "emptyTitle": "Modifica finalità",
-    "noAgreementsAlert": {
-      "message": "Non si possono creare finalità perché non ci sono servizi associabili. Per iscriverti al tuo primo e-service",
-      "link": {
-        "label": "visita il catalogo"
-      }
-    },
     "stepper": {
       "step1Label": "Generale",
       "step2Label": "Analisi del rischio",
       "step3Label": "Client"
     },
-    "backToListBtn": "Torna alle finalità",
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
     "endWithSaveBtn": "Vai al riepilogo",
@@ -65,10 +52,6 @@
         "label": "Nome della finalità (richiesto)",
         "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
       },
-      "eserviceField": {
-        "label": "E-service da associare",
-        "infoLabel": "Puoi scegliere tra quelli per i quali hai una richiesta di fruizione attiva o sospesa"
-      },
       "descriptionField": {
         "label": "Descrizione della finalità (richiesto)",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
@@ -76,7 +59,7 @@
       "isFreeOfChargeField": {
         "label": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente E-service è a titolo gratuito (richiesto)",
         "options": {
-          "SI": "Sì",
+          "YES": "Sì",
           "NO": "No"
         }
       },
@@ -92,18 +75,6 @@
       "title": "Analisi del rischio",
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
-      "singleCheckboxField": {
-        "validation": {
-          "mixed": {
-            "required": "Il campo è obbligatorio"
-          }
-        }
-      },
-      "pa": {
-        "v2": {
-          "blockingButtonLabel": "Vai sul Catalogo API"
-        }
-      },
       "versionMismatchDialog": {
         "title": "Aggiornamento analisi del rischio",
         "description": "C'è una nuova versione di analisi del rischio disponibile. Quella compilata in precedenza è obsoleta e non può più essere usata. Se clicchi “Aggiorna”, tutti i campi che non sono cambiati ed erano stati compilati li troverai già compilati nella nuova versione",
@@ -159,14 +130,7 @@
       "infoAlert": "Potrai sempre modificare i client da associare a questa finalità, anche dopo la sua pubblicazione."
     }
   },
-  "tablePurposeInEService": {
-    "loadingLabel": "Stiamo caricando le finalità in attesa di evasione",
-    "noDataLabel": "Nessuna finalità da evadere",
-    "awaitingLabel": "In attesa di presa in carico"
-  },
   "list": {
-    "title": "Le tue finalità",
-    "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato",
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
     "newVersionAvailableTooltip": "Il fruitore ha richiesto un adeguamento che richiede la tua approvazione. Accedi alla finalità per maggiori dettagli",
     "waitingForApprovalVersionTooltip": "Hai richiesto un adeguamento che richiede l’approvazione dell’erogatore. Accedi alla finalità per maggiori dettagli",
@@ -193,104 +157,6 @@
         }
       }
     }
-  },
-  "view": {
-    "actions": {
-      "backToList": "Torna alle finalità"
-    },
-    "tabs": {
-      "ariaLabel": "Due tab diverse per i dettagli della finalità e i client associati",
-      "details": "Dettagli finalità",
-      "clients": "Client associati"
-    },
-    "sections": {
-      "generalInformations": {
-        "title": "Informazioni generali",
-        "eServiceField": {
-          "label": "E-service di riferimento",
-          "value": "{{name}}, versione {{version}}"
-        },
-        "consumerField": {
-          "label": "Finalità presentata da"
-        },
-        "providerField": {
-          "label": "Erogatore"
-        },
-        "purposeStatusField": {
-          "label": "Stato della finalità"
-        },
-        "agreementField": {
-          "label": "Richiesta di fruizione",
-          "link": {
-            "label": "Vedi richiesta"
-          }
-        },
-        "dailyCallsEstimateField": {
-          "label": "Stima di carico corrente",
-          "value": "{{value}} chiamate/giorno"
-        },
-        "consumerThreshold": {
-          "label": "Soglia per fruitore",
-          "value": "{{value}} chiamate/giorno"
-        },
-        "totalThreshold": {
-          "label": "Soglia totale",
-          "value": "{{value}} chiamate/giorno"
-        },
-        "isFreeOfChargeField": {
-          "label": "Finalità a titolo gratuito",
-          "labelDescription": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente e-service è a titolo gratuito",
-          "yes": "Sì",
-          "no": "No"
-        },
-        "freeOfChargeReasonField": {
-          "label": "Motivazione titolo gratuito"
-        }
-      },
-      "loadEstimateUpdate": {
-        "title": "Aggiornamento della stima di carico",
-        "consumerDescription": "Se cambiassero le condizioni, puoi aggiornare la tua stima di carico in qualsiasi momento",
-        "providerDescription": "Il fruitore ha fatto una richiesta di aggiornamento della stima di carico che eccede una delle soglie che hai fissato",
-        "dateEstimateField": {
-          "label": "Data di attivazione stimata",
-          "consumerDescription": "La data entro la quale l’erogatore prevede di attivare questa nuova stima di carico",
-          "providerDescription": "La data entro la quale prevedi di attivare questa nuova stima di carico",
-          "emptyLabel": "non inserita"
-        },
-        "loadEstimateRequestedField": {
-          "consumerLabel": "Stima di carico da te richiesta",
-          "providerLabel": "Stima di carico richiesta",
-          "value": "{{value}} chiamate/giorno"
-        },
-        "faq": [
-          {
-            "summary": "Come funziona il meccanismo di aggiornamento del carico?",
-            "details": "Nel corso del tempo, le necessità del fruitore in termini di utilizzo del tuo e-service potrebbero cambiare. Può quindi decidere di aggiornare la stima di carico per una finalità già presentata. Se la nuova stima rispetta tutte le soglie impostate dall’erogatore, la finalità vecchia con la nuova soglia sarà attivata automaticamente. In caso contrario, l’erogatore la troverà tra quelle “in attesa di approvazione”. Fino a che la nuova soglia non viene attivata, il fruitore può continuare ad utilizzare la finalità attiva con la soglia precedente."
-          },
-          {
-            "summary": "Come funziona l’attivazione di una nuova stima di carico sopra soglia?",
-            "details": "Quando all’erogatore arriva una nuova stima di carico che supera una o più delle soglie impostate, la versione della finalità che eccede viene indicata “in attesa di approvazione”. Può quindi fare due cose: programmare una data stimata di approvazione, oppure attivarla subito."
-          },
-          {
-            "summary": "La data di attivazione impostata è vincolante?",
-            "details": "No, serve come indicazione al fruitore. Una volta impostata una data, l’erogatore potrà sempre modificarla. Allo scadere del tempo, la nuova stima di carico non sarà attivata automaticamente, verrà solo ricordato all’erogatore che era prevista un’attivazione. L’attivazione di una finalità che supera una o più soglie è sempre e solo manuale ad opera dell’erogatore. L’azione di attivazione è irreversibile."
-          }
-        ],
-        "linksField": {
-          "label": "Link utili",
-          "upgradeGuideLink": {
-            "label": "Guida all’aggiornamento"
-          }
-        },
-        "updateDailyCalls": "Aggiorna stima"
-      },
-      "downloadDocuments": {
-        "label": "Download",
-        "downloadRiskAnalysisLabel": "Analisi del rischio"
-      }
-    },
-    "archivedPurposeAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
-    "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service"
   },
   "providerView": {
     "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione il fruitore non potrà accedere ai dati erogati attraverso l’API.",
@@ -365,6 +231,7 @@
     "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione non potrai accedere ai dati resi disponibili attraverso l’API.",
     "waitingForApprovalAlert": "Questa finalità è in attesa di approvazione. Fino alla sua attivazione da parte dell’erogatore non potrai accedere ai dati resi disponibili attraverso l’API.",
     "archivedPurposeAlert": "Questa finalità è archiviata. Non puoi accedere ai dati resi disponibili attraverso l’API. Potrai sempre <1>crearne una nuova.</1>",
+    "archivedPurposeClientsAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
     "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service",
     "addClientToPurposeDisableTooltip": {
       "label": "Solamente un amministratore può gestire i membri di un client"

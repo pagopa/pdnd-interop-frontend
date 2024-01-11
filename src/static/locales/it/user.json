@@ -1,7 +1,4 @@
 {
-  "loadingSingleLabel": "Stiamo caricando l'operatore",
-  "loadingMultiLabel": "Stiamo caricando la lista degli operatori",
-  "noMultiDataLabel": "Non ci sono operatori disponibili",
   "backToMemberListBtn": "Torna alla lista membri",
   "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
   "actions": {
@@ -16,28 +13,11 @@
   },
   "edit": {
     "generalInformations": "Informazioni generali",
-    "roleField": {
-      "label": "Ruolo"
-    },
     "productRoleField": {
       "label": "Permessi su PDND Interoperabilità"
     },
-    "statusField": {
-      "label": "Stato dell'utenza"
-    },
-    "associatedKeysField": {
-      "label": "Chiavi associate",
-      "noDataLabel": "Nessuna chiave associata"
-    },
     "operatorKeysLink": {
       "label": "Vai alla vista delle chiavi associate all’utente"
-    }
-  },
-  "list": {
-    "provider": {
-      "title": "Operatori API dell'ente",
-      "description": "In quest’area puoi trovare e gestire tutti gli operatori API che sono stati abilitati alla gestione degli e-service dell'ente",
-      "tempAlertMessage": "Se l'operatore non è in elenco, in questa fase di test contattaci per aggiungerlo"
     }
   }
 }

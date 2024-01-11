@@ -1,7 +1,4 @@
 {
-  "loadingSingleLabel": "Loading key",
-  "loadingMultiLabel": "Loading keys",
-  "noMultiDataLabel": "No key available",
   "backToKeyListBtn": "Back to key list",
   "tableKey": {
     "operatorDeletedWarning": {

@@ -1,11 +1,4 @@
 {
-  "default": {
-    "loading": "Un attimo solo...",
-    "outcome": {
-      "success": "Operazione effettuata con successo!",
-      "error": "È stato riscontrato un errore. Per favore, riprova."
-    }
-  },
   "auth": {
     "loadingLabel": "Stiamo autenticando la sessione. Attendere, prego"
   },
@@ -13,14 +6,12 @@
     "createDraft": {
       "loading": "Stiamo creando la bozza",
       "outcome": {
-        "success": "La bozza è stata creata correttamente",
         "error": "Non è stato possibile creare la bozza. Verifica di aver compilato i campi richiesti e riprova!"
       }
     },
     "updateDraft": {
       "loading": "Stiamo aggiornando la bozza",
       "outcome": {
-        "success": "La bozza è stata aggiornata correttamente",
         "error": "Non è stato possibile aggiornare la bozza. Verifica di aver compilato i campi richiesti e riprova!"
       }
     },
@@ -142,21 +133,18 @@
     "deleteVersionDraftDocument": {
       "loading": "Stiamo eliminando il documento",
       "outcome": {
-        "success": "Il documento è stato eliminato correttamente",
         "error": "Non è stato possibile eliminare il documento. Per favore, riprova!"
       }
     },
     "updateVersionDraftDocumentDescription": {
       "loading": "Stiamo aggiornando la descrizione del documento",
       "outcome": {
-        "success": "La descrizione è stata aggiornata correttamente",
         "error": "Non è stato possibile aggiornare la descrizione. Per favore, riprova!"
       }
     },
     "downloadVersionDraftDocument": {
       "loading": "Stiamo scaricando il documento",
       "outcome": {
-        "success": "Il documento è stato scaricato correttamente. Lo trovi nella cartella dei download del tuo device",
         "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
       }
     },
@@ -172,43 +160,30 @@
     "create": {
       "loading": "Stiamo salvando il nuovo attributo",
       "outcome": {
-        "success": "Adesso puoi aggiungere l'attributo al tuo e-service",
         "error": "Non è stato possibile creare il nuovo attributo. Per favore, riprova!"
       }
     },
     "verifyPartyAttribute": {
       "loading": "Stiamo verificando l'attributo",
       "outcome": {
-        "success": "L'attributo è ora stato verificato",
         "error": "Non è stato possibile verificare l'attributo. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Verifica attributo",
-        "description": "Sei sicuro di voler verificare l'attributo?"
       }
     },
     "updatingExpirationPartyAttribute": {
       "loading": "Stiamo aggiornando la scadenza dell'attributo",
       "outcome": {
-        "success": "La scadenza è stata aggiornata correttamente",
         "error": "Non è stato possibile aggiornare la scadenza. Per favore, riprova!"
       }
     },
     "revokeVerifiedPartyAttribute": {
       "loading": "Stiamo revocando la verifica dell'attributo",
       "outcome": {
-        "success": "Verifica all'attributo revocata con successo.",
         "error": "Non è stato possibile revocare l'attributo. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Revoca attributo",
-        "description": "Sei sicuro di voler revocare l'attributo?"
       }
     },
     "declarePartyAttribute": {
       "loading": "Stiamo confermando l'attributo dichiarato",
       "outcome": {
-        "success": "Attributo dichiarato confermato con successo.",
         "error": "Non è stato possibile confermare l'attributo. Per favore, riprova!"
       },
       "confirmDialog": {
@@ -219,7 +194,6 @@
     "revokeDeclaredPartyAttribute": {
       "loading": "Stiamo revocando l'attributo dichiarato",
       "outcome": {
-        "success": "Attributo dichiarato revocato con successo.",
         "error": "Non è stato possibile revocare l'attributo. Per favore, riprova!"
       },
       "confirmDialog": {
@@ -283,14 +257,12 @@
     "downloadDraftDocument": {
       "loading": "Stiamo scaricando il documento",
       "outcome": {
-        "success": "Il documento è stato scaricato correttamente",
         "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
       }
     },
     "uploadDraftDocument": {
       "loading": "Stiamo caricando il documento",
       "outcome": {
-        "success": "Il documento è stato caricato correttamente",
         "error": "Non è stato possibile caricare il documento. Per favore, riprova!"
       }
     },
@@ -361,7 +333,6 @@
     "downloadContract": {
       "loading": "Stiamo scaricando il documento della richiesta",
       "outcome": {
-        "success": "Il documento della richiesta di fruizione è stato scaricato correttamente",
         "error": "Non è stato possibile scaricare il documento della richiesta. Per favore, riprova!"
       }
     }
@@ -376,7 +347,6 @@
     "updateDraft": {
       "loading": "Stiamo aggiornando la bozza",
       "outcome": {
-        "success": "La bozza di finalità è stata aggiornata correttamente",
         "error": "Non è stato possibile aggiornare la bozza di finalità. Per favore, riprova!"
       }
     },
