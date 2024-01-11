@@ -31,13 +31,13 @@ export const ConsumerAgreementDetailsCertifiedAttributesSection: React.FC = () =
 
     if (isGroupFulfilled) {
       return {
-        title: tAttribute(`group.manage.success.provider`),
+        title: tAttribute(`group.manage.success.consumer`),
         color: 'success',
       }
     }
 
     return {
-      title: tAttribute(`group.manage.error.provider`),
+      title: tAttribute(`group.manage.error.consumer`),
       color: 'error',
     }
   }
@@ -71,7 +71,7 @@ export const ConsumerAgreementDetailsCertifiedAttributesSection: React.FC = () =
       </Stack>
       {certifiedAttributeGroups.length === 0 && (
         <AttributeGroupContainer
-          title={tAttribute(`noAttributesRequiredAlert.provider`, {
+          title={tAttribute(`noAttributesRequiredAlert.consumer`, {
             attributeKey: tAttribute(`type.certified_other`),
           })}
           color="gray"
