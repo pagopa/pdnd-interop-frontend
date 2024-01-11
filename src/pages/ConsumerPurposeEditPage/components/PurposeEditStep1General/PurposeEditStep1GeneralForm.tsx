@@ -15,7 +15,7 @@ export type PurposeEditStep1GeneralFormValues = Omit<
   'riskAnalysisForm' | 'isFreeOfCharge' | 'eserviceId'
 > & {
   dailyCalls: number
-  isFreeOfCharge: 'SI' | 'NO'
+  isFreeOfCharge: 'YES' | 'NO'
 }
 
 type PurposeEditStep1GeneralFormProps = ActiveStepProps & {
@@ -38,7 +38,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 
   const onSubmit = (values: PurposeEditStep1GeneralFormValues) => {
     const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
-    const isFreeOfChargeBool = isFreeOfCharge === 'SI'
+    const isFreeOfChargeBool = isFreeOfCharge === 'YES'
     const purposeId = purpose.id
 
     // The endpoint to call depends on whether the e-service is
@@ -91,12 +91,12 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
             name="isFreeOfCharge"
             label={t('edit.step1.isFreeOfChargeField.label')}
             options={[
-              { label: t('edit.step1.isFreeOfChargeField.options.SI'), value: 'SI' },
+              { label: t('edit.step1.isFreeOfChargeField.options.YES'), value: 'YES' },
               { label: t('edit.step1.isFreeOfChargeField.options.NO'), value: 'NO' },
             ]}
           />
 
-          {isFreeOfCharge === 'SI' && (
+          {isFreeOfCharge === 'YES' && (
             <RHFTextField
               name="freeOfChargeReason"
               label={t('edit.step1.freeOfChargeReasonField.label')}
@@ -117,7 +117,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
           />
         </SectionContainer>
         <StepActions
-          back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToPurposeListBtn'), type: 'link' }}
+          back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
           forward={{ label: t('edit.forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
         />
       </Box>

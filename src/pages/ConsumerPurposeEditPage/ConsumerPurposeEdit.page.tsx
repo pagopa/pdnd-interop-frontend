@@ -38,7 +38,7 @@ const ConsumerPurposeEditPage: React.FC = () => {
       title={t('edit.emptyTitle')}
       isLoading={isLoadingPurpose}
       backToAction={{
-        label: t('edit.backToListBtn'),
+        label: t('backToListBtn'),
         to: 'SUBSCRIBE_PURPOSE_LIST',
       }}
     >

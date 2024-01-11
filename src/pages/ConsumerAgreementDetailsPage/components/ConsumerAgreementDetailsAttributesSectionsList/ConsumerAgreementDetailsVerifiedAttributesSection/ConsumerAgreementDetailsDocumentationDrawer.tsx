@@ -41,7 +41,7 @@ export const ConsumerAgreementDetailsDocumentationDrawer: React.FC<
   }
 
   return (
-    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('title')}>
+    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('title')} subtitle={t('subtitle')}>
       <Stack spacing={3}>
         <Box>
           <Typography variant="body2">{t('attachedDocuments.title')}</Typography>

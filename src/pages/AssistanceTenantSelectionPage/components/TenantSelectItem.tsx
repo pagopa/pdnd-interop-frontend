@@ -52,7 +52,7 @@ export const TenantSelectItem: React.FC<TenantSelectItemProps> = ({
             <AccountBalanceIcon sx={{ color: '#bdbdbd' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={tenant.name} secondary={t('userRole.MANAGER')} />
+        <ListItemText primary={tenant.name} secondary={t('userProductRole.admin')} />
       </Wrapper>
     </ListItem>
   )
