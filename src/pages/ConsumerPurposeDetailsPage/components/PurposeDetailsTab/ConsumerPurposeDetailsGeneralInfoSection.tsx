@@ -36,18 +36,22 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     )
   }
 
+  const downloadRiskAnalysisDocumentAction = {
+    startIcon: <DownloadIcon fontSize="small" />,
+    label: t('riskAnalysis.link.label'),
+    component: 'button',
+    type: 'button',
+    onClick: handleDownloadDocument,
+  }
+
   return (
     <SectionContainer
       title={t('title')}
       newDesign
       bottomActions={[
-        {
-          startIcon: <DownloadIcon fontSize="small" />,
-          label: t('riskAnalysis.link.label'),
-          component: 'button',
-          type: 'button',
-          onClick: { handleDownloadDocument },
-        },
+        ...(!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument
+          ? []
+          : [downloadRiskAnalysisDocumentAction]),
         {
           startIcon: <LinkIcon fontSize="small" />,
           label: t('agreementLink.label'),

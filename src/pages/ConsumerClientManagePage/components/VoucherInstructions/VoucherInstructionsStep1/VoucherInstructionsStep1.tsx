@@ -62,13 +62,13 @@ export const VoucherInstructionsStep1: React.FC = () => {
           description={t('step1.description')}
           bottomActions={[
             {
-              startIcon: <OpenInNewIcon />,
+              startIcon: <OpenInNewIcon fontSize="small" />,
               label: t('step1.goToTechnicalDocsLabel'),
               href: verifyVoucherGuideLink,
               target: '_blank',
             },
             {
-              startIcon: <ApiIcon />,
+              startIcon: <ApiIcon fontSize="small" />,
               label: t('step1.showCurrentSelectionIds'),
               component: 'button',
               type: 'button',
