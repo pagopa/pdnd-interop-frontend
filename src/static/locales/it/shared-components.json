@@ -69,6 +69,14 @@
       }
     }
   },
+  "dialogClonePurpose": {
+    "title": "Conferma clonazione finalità",
+    "description": "Verrà creata una nuova finalità in stato di bozza con le stesse caratteristiche di quella selezionata.  Seleziona l’e-service al quale associarla.",
+    "eserviceField": {
+      "label": "Seleziona e-service",
+      "eserviceProvider": "erogato da"
+    }
+  },
   "dialogDeleteOperator": {
     "title": "Inoltro ad Area Riservata per rimozione utente",
     "description": "Le operazioni sulle utenze su tutti i prodotti gestiti da PagoPA avvengono attraverso il portale Area Riservata. Cliccando \"conferma\", verrai reindirizzato alla pagina di Area Riservata per gestire l'utente selezionato."

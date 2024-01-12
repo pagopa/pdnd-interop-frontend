@@ -20,6 +20,7 @@ export type DialogProps =
   | DialogDeleteOperatorProps
   | DialogRemoveOperatorFromClientProps
   | DialogRevokeCertifiedAttributeProps
+  | DialogClonePurposeProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -71,4 +72,10 @@ export type DialogRemoveOperatorFromClientProps = {
 export type DialogRevokeCertifiedAttributeProps = {
   type: 'revokeCertifiedAttribute'
   attribute: RequesterCertifiedAttribute
+}
+
+export type DialogClonePurposeProps = {
+  type: 'clonePurpose'
+  purposeId: string
+  eserviceId: string
 }
