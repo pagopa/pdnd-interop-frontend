@@ -104,11 +104,11 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
 
   // If the currentVestion is not ARCHIVED or in DRAFT...
 
-  if (purpose.eservice.mode === 'DELIVER') {
-    return { actions: [archiveAction, cloneAction] }
-  }
-
   const actions: Array<ActionItemButton> = [archiveAction]
+
+  if (purpose.eservice.mode === 'DELIVER') {
+    actions.push(cloneAction)
+  }
 
   const isSuspended = purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
   const isActive = purpose?.currentVersion && purpose?.currentVersion.state === 'ACTIVE'
