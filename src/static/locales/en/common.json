@@ -51,7 +51,8 @@
       "keyName": "Key name",
       "keyUploader": "Uploaded by",
       "keyUploadDate": "Creation date",
-      "userName": "Name and surname"
+      "userName": "Name and surname",
+      "attributes": "Certified attributes"
     }
   },
   "status": {

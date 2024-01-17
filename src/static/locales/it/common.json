@@ -51,7 +51,8 @@
       "keyName": "Chiave",
       "keyUploader": "Caricata da",
       "keyUploadDate": "Data di creazione",
-      "userName": "Nome e cognome"
+      "userName": "Nome e cognome",
+      "attributes": "Attributi certificati"
     }
   },
   "status": {
