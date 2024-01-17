@@ -3,6 +3,7 @@ import type { SideNavItemView } from '../SideNav'
 import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
+import { PartyQueries } from '@/api/party'
 
 const views = [
   {
@@ -22,11 +23,13 @@ const views = [
     id: 'provider',
     children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
   },
-  { routeKey: 'PARTY_REGISTRY' },
+  { routeKey: 'TENANT', id: 'tenant', children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER'] },
 ] as const
 
 export function useGetSideNavItems() {
   const { currentRoles, isIPAOrganization, isSupport } = AuthHooks.useJwt()
+
+  const { data } = PartyQueries.useGetActiveUserParty() // TODO idea per gestione certifier
 
   return React.useMemo(() => {
     /**
@@ -35,6 +38,8 @@ export function useGetSideNavItems() {
      */
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
       if (!isSupport && !isIPAOrganization && routeKey === 'PROVIDE') return false
+
+      if (/* data.certifierId */ false && routeKey === 'TENANT_CERTIFIER') return false // TODO idea per gestione certifier
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))
