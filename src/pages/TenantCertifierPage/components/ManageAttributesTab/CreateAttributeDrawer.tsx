@@ -17,8 +17,8 @@ type CreateNewAttributeFormValues = {
 }
 
 export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
+  isOpen,
   onClose,
-  ...props
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.manageTab.drawer' })
 
@@ -48,7 +48,7 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
         }}
         onTransitionExited={formMethods.reset}
         onClose={onClose}
-        {...props}
+        isOpen={isOpen}
       >
         <Stack component="form" noValidate spacing={3}>
           <RHFTextField
