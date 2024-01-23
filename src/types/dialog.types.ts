@@ -19,6 +19,7 @@ export type DialogProps =
   | DialogUpgradeAgreementVersionProps
   | DialogDeleteOperatorProps
   | DialogRemoveOperatorFromClientProps
+  | DialogRevokeCertifiedAttributeProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -65,4 +66,10 @@ export type DialogRemoveOperatorFromClientProps = {
   type: 'removeOperatorFromClient'
   clientId: string
   userId: string
+}
+
+export type DialogRevokeCertifiedAttributeProps = {
+  type: 'revokeCertifiedAttribute'
+  tenant: { id: string; name: string } //TODO type corretto
+  attribute: { id: string; name: string } //TODO type corretto
 }
