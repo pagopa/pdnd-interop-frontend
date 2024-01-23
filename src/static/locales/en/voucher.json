@@ -272,6 +272,7 @@
         "8026": "The client assertion is valid but the purpose for which you are requesting the voucher is not active",
         "8027": "The client assertion is valid but the e-service version for which you are requesting the voucher is not active",
         "8028": "The client assertion is valid but the agreement for which you are requesting the voucher is not active",
+        "8033": "The kid field is not filled in correctly. The kid can only consist of alphanumeric characters, hyphens and underscores. The one sent contains unrecognized special characters",
         "8099": "The key id you specified (kid) is not part of the client you specified as client id"
       }
     }
