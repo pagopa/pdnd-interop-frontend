@@ -5,6 +5,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
 import { ManageAttributesTab } from './components/ManageAttributesTab/ManageAttributesTab'
 import { useTranslation } from 'react-i18next'
+import { AssignAttributesTab } from './components/AssignAttributesTab/AssignAttributesTab'
 
 const TenantCertifierPage: React.FC = () => {
   const { t: tPages } = useTranslation('pages', { keyPrefix: 'tenantCertifier' })
@@ -26,6 +27,10 @@ const TenantCertifierPage: React.FC = () => {
 
         <TabPanel value="manage">
           <ManageAttributesTab />
+        </TabPanel>
+
+        <TabPanel value="assign">
+          <AssignAttributesTab />
         </TabPanel>
       </TabContext>
     </PageContainer>
