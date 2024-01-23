@@ -43,9 +43,7 @@ export const API_GATEWAY_INTEFACE_URL = getEnvVar(
 )
 export const BACKEND_FOR_FRONTEND_URL = getEnvVar(
   'BACKEND_FOR_FRONTEND_URL',
-  isDevelopment
-    ? `${SERVICE_VERSION}/backend-for-frontend`
-    : `backend-for-frontend/${SERVICE_VERSION}`
+  `${SERVICE_VERSION}/backend-for-frontend`
 )
 export const AUTHORIZATION_SERVER_TOKEN_CREATION_URL = getEnvVar(
   'AUTHORIZATION_SERVER_TOKEN_CREATION_URL',
