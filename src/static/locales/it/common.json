@@ -52,7 +52,9 @@
       "keyUploader": "Caricata da",
       "keyUploadDate": "Data di creazione",
       "userName": "Nome e cognome",
-      "attributes": "Attributi certificati"
+      "certifiedAttributes": "Attributi certificati",
+      "assigneeTenant": "Ente assegnatario",
+      "certifiedAttribute": "Attributo certificato"
     }
   },
   "status": {

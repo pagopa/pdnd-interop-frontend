@@ -52,7 +52,9 @@
       "keyUploader": "Uploaded by",
       "keyUploadDate": "Creation date",
       "userName": "Name and surname",
-      "attributes": "Certified attributes"
+      "certifiedAttributes": "Certified attributes",
+      "assigneeTenant": "Assignee tenant",
+      "certifiedAttribute": "Certified attribute"
     }
   },
   "status": {
