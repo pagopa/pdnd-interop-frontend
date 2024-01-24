@@ -1,12 +1,5 @@
 {
   "backToListBtn": "Back to the e-services",
-  "status": {
-    "PUBLISHED": "active",
-    "DRAFT": "draft",
-    "SUSPENDED": "suspended",
-    "ARCHIVED": "archived",
-    "DEPRECATED": "deprecated"
-  },
   "create": {
     "emptyTitle": "Create e-service",
     "stepper": {
@@ -204,9 +197,6 @@
     }
   },
   "list": {
-    "title": "E-Service Catalog",
-    "description": "In this area you can explore all the catalog's e-services",
-    "inspectAction": "Inspect",
     "filters": {
       "nameField": {
         "label": "Find by name"
@@ -217,13 +207,6 @@
       "consumerField": {
         "label": "Find by consumer"
       }
-    }
-  },
-  "manage": {
-    "tabs": {
-      "ariaLabel": "Two different tabs for e-service details and load estimate as stated by the Subscribers",
-      "details": "E-service details",
-      "purposeAwaitingApproval": "Purposes to activate"
     }
   },
   "read": {
@@ -302,19 +285,9 @@
     }
   },
   "tableEServiceCatalog": {
-    "youAreTheProvider": "You are the Provider",
-    "alreadySubscribed": "Already subscribed",
-    "agreementInDraft": "You have an agreement draft",
-    "cannotSubscribe": "You cannot subscribe",
-    "goToRequestCta": "Go to the fruition request",
     "subscribe": "Request fruition",
     "editDraft": "Complete request",
     "inspect": "Inspect request",
-    "handleRequest": "Handle request",
-    "eserviceCardLabel": "E-SERVICE",
-    "myEserviceCardLabel": "E-SERVICE DA TE EROGATO",
-    "requestCompleted": "Request completed",
-    "draftRequest": "Draft request",
     "eserviceSuspendedTooltip": "It is currently not possible to submit new requests, the e-service is suspended",
     "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
   }

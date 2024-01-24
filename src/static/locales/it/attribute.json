@@ -1,8 +1,5 @@
 {
   "type": {
-    "certified_one": "certificato",
-    "verified_one": "verificato",
-    "declared_one": "dichiarato",
     "certified_other": "certificati",
     "verified_other": "verificati",
     "declared_other": "dichiarati"
@@ -23,10 +20,6 @@
     "provider": "Il tuo ente non richiede attributi {{attributeKey}}",
     "consumer": "L'erogatore non richiede attributi {{attributeKey}}"
   },
-  "title": "attributo {{num}}:",
-  "or": "oppure",
-  "showInfoSrLabel": "Mostra informazioni attributo",
-  "mustOwn": "Devi possedere:",
   "group": {
     "read": {
       "provider": "Il fruitore dovrà possedere almeno uno dei seguenti attributi",
@@ -56,13 +49,6 @@
       "expirationDate": "Scadenza verifica: {{expirationDate}}"
     },
     "addBtn": "Aggiungi requisito",
-    "cancelBtn": "Annulla",
-    "confirmDeclaredAttributeBtn": "Conferma",
-    "or": "oppure",
-    "deleteSrLabel": "Elimina attributo",
-    "deleteGroupSrLabel": "Elimina gruppo di attributi",
-    "showInfoSrLabel": "Mostra informazioni attributo",
-    "canRequireVerification": "Per questo attributo sfrutta le verifiche effettuate da altri erogatori",
     "autocompleteInput": {
       "label": "Aggiungi attributo al gruppo",
       "placeholder": "Inserisci nome attributo"

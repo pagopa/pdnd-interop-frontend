@@ -73,7 +73,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     <PageContainer
       title={t('summary.title')}
       backToAction={{
-        label: t('edit.backToListBtn'),
+        label: t('backToListBtn'),
         to: 'SUBSCRIBE_PURPOSE_LIST',
       }}
       isLoading={isInitialLoading}

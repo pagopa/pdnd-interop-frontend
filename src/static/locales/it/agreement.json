@@ -1,119 +1,5 @@
 {
-  "loadingSingleLabel": "Stiamo caricando la richiesta",
-  "loadingMultiLabel": "Stiamo caricando la lista di richieste",
   "backToRequestsBtn": "Torna alle richieste",
-  "read": {
-    "title": "Gestisci richiesta di fruizione",
-    "noPurposeAlert": "La richiesta di fruizione è attiva. <1>Crea la tua prima finalità</1>",
-    "noCertifiedAttributesForUpgradeTooltip": "Il tuo ente non ha gli attributi certificati necessari per aggiornare all’ultima versione",
-    "updateDrawer": {
-      "title": "Aggiornamento richiesta di fruizione",
-      "subtitle": "È stata pubblicata una versione più recente dell’e-service e puoi effettuare l’aggiornamento",
-      "eserviceNewVersion": {
-        "title": "La nuova versione dell’e-service",
-        "content": "Vedi la scheda di <1>{{eserviceName}}, versione {{eserviceVersion}}</1>."
-      },
-      "meaning": {
-        "title": "Cosa significa effettuare l’aggiornamento?",
-        "paragraph1": "Quando un erogatore pubblica una nuova versione di un e-service, vuol dire che ci sono variazioni rispetto alla precedente. Queste modifiche possono essere di natura amministrativa, tecnica, o entrambe.",
-        "paragraph2": "Prima di effettuare l’aggiornamento, assicurati di aver allineato tutti i tuoi sistemi alla specifica API della nuova versione dell’e-service.",
-        "paragraph3": "Servono maggiori informazioni? <1>Leggi la guida</1>."
-      },
-      "noAttributesAlert": "La nuova richiesta non sarà attiva subito, il tuo ente non possiede tutti gli attributi necessari. Ti sarà chiesto di integrare la richiesta prima di inoltrarla all’erogatore.",
-      "upgradeTextFieldLabel": "Digita “aggiorna” per abilitare il bottone",
-      "upgradeBtn": "Aggiorna"
-    },
-    "summary": {
-      "title": "Riassunto",
-      "eserviceField": {
-        "label": "Richiesta relativa a",
-        "goToEServiceBtn": "Vedi e-service",
-        "versionLabel": "versione"
-      },
-      "providerField": {
-        "label": "Erogatore"
-      },
-      "consumerField": {
-        "label": "Fruitore"
-      },
-      "requestStatusField": {
-        "label": "Stato della richiesta"
-      },
-      "documentationField": {
-        "label": "Documentazione",
-        "docLabel": "Richiesta di fruizione"
-      },
-      "attachedDocsButtonLabel": "Visualizza documentazione allegata"
-    },
-    "attachedDocumentsDrawer": {
-      "title": "Documentazione allegata",
-      "subtitle": {
-        "consumer": "Contiene tutta la documentazione che hai inoltrato all’erogatore per la verifica degli attributi",
-        "provider": "Contiene tutta la documentazione che il fruitore ti ha inoltrato per la verifica degli attributi"
-      },
-      "consumerMessage": {
-        "title": "Messaggio per l’erogatore"
-      },
-      "attachedDocuments": {
-        "title": "Documenti allegati",
-        "noDocumentsLabel": "Non ci sono documenti allegati"
-      }
-    },
-    "consumerMessage": {
-      "title": "Messaggio per l’erogatore"
-    },
-    "rejectionMessage": {
-      "title": "Motivazione rifiuto richiesta di fruizione",
-      "description": "L'erogatore ha motivato così il rifiuto di attivare questa richiesta di fruizione. Il fruitore potrà sempre presentarne una nuova"
-    },
-    "attributes": {
-      "title": "Attributi",
-      "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’e-service.",
-      "howLink": "Come funziona?",
-      "verified": {
-        "actions": {
-          "verify": "Verifica attributo",
-          "update": "Aggiorna verifica",
-          "revoke": "Revoca attributo"
-        },
-        "drawer": {
-          "verify": {
-            "title": "Verifica attributo",
-            "subtitle": "Con questa verifica dichiari che il fruitore possiede l’attributo richiesto.",
-            "form": {
-              "radioGroup": {
-                "label": "Quando scade la verifica di questo attributo?",
-                "options": {
-                  "NO": "Senza scadenza",
-                  "YES": "Imposta data di scadenza"
-                }
-              },
-              "datePicker": {
-                "label": "Imposta data di scadenza"
-              }
-            },
-            "info": {
-              "title": "Cosa succede quando scade un attributo?",
-              "description": "Per saperne di più, <1>leggi la guida.</1>"
-            }
-          },
-          "revoke": {
-            "title": "Revoca attributo",
-            "subtitle": "Revocando l’attributo, dichiari che il fruitore non possiede più l’attributo indicato.",
-            "info": {
-              "title": "Cosa succede quando revoco un attributo?",
-              "description": "Per saperne di più, <1>leggi la guida.</1>"
-            }
-          }
-        }
-      },
-      "declared": {
-        "actions": {
-          "declare": "Dichiara attributo"
-        }
-      }
-    }
-  },
   "providerRead": {
     "title": "Gestisci richiesta di fruizione",
     "suspendedAlert": {
@@ -290,6 +176,11 @@
               "description": "Note utili a supporto riportate dal fruitore"
             }
           }
+        },
+        "declaredSection": {
+          "actions": {
+            "declare": "Dichiara attributo"
+          }
         }
       }
     }
@@ -300,19 +191,12 @@
       "title": "Informazioni generali",
       "eserviceField": {
         "label": "Richiesta relativa a",
-        "goToEServiceBtn": "Vedi e-service",
         "versionLabel": "versione"
       },
       "providerField": {
         "label": "Erogatore"
       },
-      "requestStatusField": {
-        "label": "Stato della richiesta"
-      },
       "certifiedAttributesDrawerButtonLabel": "Visualizza attributi certificati"
-    },
-    "attribute": {
-      "subtitle": "Devi possedere:"
     },
     "consumerNotes": {
       "title": "Messaggio per l’erogatore",
@@ -361,8 +245,7 @@
       },
       "providerField": {
         "label": "Cerca per erogatore"
-      },
-      "upgradableAgreementTooltip": "È disponibile una nuova versione di questo e-service. Accedi alla richiesta per aggiornare"
+      }
     },
     "upgradableAgreementTooltip": "È disponibile una nuova versione di questo e-service. Accedi alla richiesta per aggiornare"
   },

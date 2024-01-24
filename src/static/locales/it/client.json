@@ -1,6 +1,4 @@
 {
-  "loadingSingleLabel": "Stiamo caricando il client",
-  "loadingMultiLabel": "Stiamo caricando la lista dei client",
   "noMultiDataLabel": "Non ci sono client disponibili",
   "tableClientInPurpose": {
     "actions": {
@@ -59,7 +57,6 @@
       "publicKeys": "Chiavi pubbliche"
     },
     "actions": {
-      "deleteLabel": "Elimina client",
       "backToClientsLabel": "Torna alla lista dei client"
     },
     "filters": {
@@ -73,14 +70,6 @@
       "nameField": {
         "label": "Cerca per nome"
       }
-    },
-    "consumer": {
-      "title": "I tuoi client e-service",
-      "description": "In quest'area puoi i trovare e gestire tutti i client e-service che hai creato"
     }
-  },
-  "interopM2M": {
-    "title": "I tuoi client API Interop",
-    "description": "Gestisci i client per staccare voucher validi per interrogare le API di Interoperabilità"
   }
 }

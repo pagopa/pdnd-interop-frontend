@@ -80,6 +80,7 @@ const ConsumerPurposesListPage: React.FC = () => {
           value: 'WAITING_FOR_APPROVAL',
         },
         { label: tPurpose('filters.statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
+        { label: tPurpose('filters.statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
       ],
     },
   ])

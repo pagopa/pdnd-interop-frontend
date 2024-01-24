@@ -1,7 +1,5 @@
 {
-  "loadingSingleLabel": "Loading purpose",
-  "loadingMultiLabel": "Loading purposes",
-  "backToPurposeListBtn": "Baco to purposes",
+  "backToListBtn": "Back to purposes",
   "create": {
     "emptyTitle": "Create purpose",
     "preliminaryInformationSectionTitle": "Preliminary information",
@@ -10,7 +8,6 @@
     },
     "purposeField": {
       "label": "Choose template",
-      "compiledBy": "{{title}} created by {{consumerName}}",
       "noDataLabel": "No templates available for this e-service",
       "loadingLabel": "We are loading the templates"
     },
@@ -28,12 +25,9 @@
       }
     },
     "purposeInfoTitle": "Selected template informations",
-    "purposePreviewTitle": "Selected template content",
-    "consumerName": "This template was created by",
     "purposeTitle": "Purpose name",
     "purposeDescription": "Purpose description",
     "createNewPurposeBtn": "Create draft",
-    "backToListBtn": "Back to purpose list",
     "defaultPurpose": {
       "title": "New purpose",
       "description": "Lorem ipsum dolor sit amet...",
@@ -43,18 +37,11 @@
   },
   "edit": {
     "emptyTitle": "Edit purpose",
-    "noAgreementsAlert": {
-      "message": "No purpose can be created as there are no available e-service. To subscribe to your first e-service",
-      "link": {
-        "label": "explore the catalog"
-      }
-    },
     "stepper": {
       "step1Label": "General",
       "step2Label": "Risk assessment",
       "step3Label": "Client"
     },
-    "backToListBtn": "Back to purpose list",
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "endWithSaveBtn": "Go to summary",
@@ -65,10 +52,6 @@
         "label": "Purpose name (required)",
         "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
       },
-      "eserviceField": {
-        "label": "Related e-service",
-        "infoLabel": "You can choose among those for which you have an active or suspended agreement"
-      },
       "descriptionField": {
         "label": "Purpose description (required)",
         "infoLabel": "Min 10 chars, max 250 chars"
@@ -76,7 +59,7 @@
       "isFreeOfChargeField": {
         "label": "Indicate whether access to the data made available with the use of this e-service is free of charge (required)",
         "options": {
-          "SI": "Yes",
+          "YES": "Yes",
           "NO": "No"
         }
       },
@@ -92,18 +75,6 @@
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
       "personalInfoAlert": "Warning: do not put personal data inside text fields",
-      "singleCheckboxField": {
-        "validation": {
-          "mixed": {
-            "required": "Required field"
-          }
-        }
-      },
-      "pa": {
-        "v2": {
-          "blockingButtonLabel": "Go to API Catalog"
-        }
-      },
       "versionMismatchDialog": {
         "title": "Risk analysis update",
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
@@ -159,14 +130,7 @@
       "infoAlert": "You will always be able to modify the clients to be associated with this purpose, even after its publication."
     }
   },
-  "tablePurposeInEService": {
-    "loadingLabel": "Loading purposes awaiting dispatch",
-    "noDataLabel": "No purpose awaiting dispatch",
-    "awaitingLabel": "Awaiting taking charge"
-  },
   "list": {
-    "title": "Your purposes",
-    "description": "In this section you can manage all the purposes you have created",
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
     "newVersionAvailableTooltip": "The consumer has requested an adjustment that requires your approval. Access the purpose for more details",
     "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires approval from the provider. Access the purpose for more details",
@@ -193,106 +157,6 @@
         }
       }
     }
-  },
-  "view": {
-    "actions": {
-      "updateDailyCalls": "Update daily calls",
-      "deleteDailyCallsUpdate": "Delete daily calls update",
-      "backToList": "Back to the purposes list"
-    },
-    "tabs": {
-      "ariaLabel": "Two different tabs for purposes details and associated clients",
-      "details": "Purpose details",
-      "clients": "Associated clients"
-    },
-    "sections": {
-      "generalInformations": {
-        "title": "General informations",
-        "eServiceField": {
-          "label": "E-service",
-          "value": "{{name}}, version {{version}}"
-        },
-        "consumerField": {
-          "label": "Purpose presented by"
-        },
-        "providerField": {
-          "label": "Provider"
-        },
-        "purposeStatusField": {
-          "label": "Purpose statys"
-        },
-        "agreementField": {
-          "label": "Fruition request",
-          "link": {
-            "label": "See request"
-          }
-        },
-        "dailyCallsEstimateField": {
-          "label": "Current load estimate",
-          "value": "{{value}} call per day"
-        },
-        "consumerThreshold": {
-          "label": "Per subscriber threshold",
-          "value": "{{value}} call per day"
-        },
-        "totalThreshold": {
-          "label": "Total threshold",
-          "value": "{{value}} call per day"
-        },
-        "isFreeOfChargeField": {
-          "label": "Free of charge purpose",
-          "labelDescription": "Indicate whether access to the data made available with the use of this e-service is free of charge",
-          "yes": "Yes",
-          "no": "No"
-        },
-        "freeOfChargeReasonField": {
-          "label": "Free of charge reason"
-        }
-      },
-      "loadEstimateUpdate": {
-        "title": "Load estimation update",
-        "consumerDescription": "If conditions change, you can update your load estimate at any time",
-        "providerDescription": "The consumer made a daily calls update request that exceeds the limits",
-        "dateEstimateField": {
-          "label": "Activation date estimate",
-          "consumerDescription": "The date by which the provider plans to activate this new load estimate",
-          "providerDescription": "The date by which you expect to activate this new load estimate",
-          "emptyLabel": "not inserted"
-        },
-        "loadEstimateRequestedField": {
-          "consumerLabel": "Load estimate requested by you",
-          "providerLabel": "Requested load estimate",
-          "value": "{{value}} calls per day"
-        },
-        "faq": [
-          {
-            "summary": "How does the load update mechanism work?",
-            "details": "Over time, the subscriber's needs in terms of using your e-service may change. He can then decide to update the load estimate for a purpose already presented. If the new estimate respects all the thresholds set by the provider, the old purpose with the new threshold will be activated automatically. Otherwise, the provider will find it among those \"awaiting approval\". Until the new threshold is activated, the subscriber can continue to use the active purpose with the previous threshold."
-          },
-          {
-            "summary": "How does the activation of a new load estimate above the threshold work?",
-            "details": "When the provider receives a new load estimate that exceeds one or more of the set thresholds, the version of the purpose that exceeds is indicated \"awaiting approval\". It can therefore do two things: schedule an estimated approval date, or activate it immediately."
-          },
-          {
-            "summary": "Is the activation date set binding?",
-            "details": "No, it serves as an indication to the subscriber. Once a date has been set, the provider can always change it. At the end of the time, the new load estimate will not be activated automatically, it will only be reminded to the provider that an activation was expected. The activation of a purpose that exceeds one or more thresholds is always and only manual by the provider. The activation action is irreversible."
-          }
-        ],
-        "linksField": {
-          "label": "Useful links",
-          "upgradeGuideLink": {
-            "label": "Update guire"
-          }
-        },
-        "updateDailyCalls": "Update estimate"
-      },
-      "downloadDocuments": {
-        "label": "Download",
-        "downloadRiskAnalysisLabel": "Risk analysis"
-      }
-    },
-    "archivedPurposeAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
-    "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service"
   },
   "providerView": {
     "suspendedAlert": "This purpose is suspended. Until it is reactivated, the user will not be able to access the data provided through the API.",
@@ -367,6 +231,7 @@
     "suspendedAlert": "This purpose is suspended. Until it is reactivated you will not be able to access the data made available through the API.",
     "waitingForApprovalAlert": "This purpose is awaiting approval. Until its activation by the provider you will not be able to access the data made available through the API.",
     "archivedPurposeAlert": "This purpose is archived. You cannot access the data made available through the API. You can always <1>create a new one.</1>",
+    "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
     "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service",
     "addClientToPurposeDisableTooltip": {
       "label": "Only an administrator can manage members of a client"

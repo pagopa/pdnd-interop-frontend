@@ -32,7 +32,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
       newTopSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
       backToAction={{
-        label: t('backToPurposeListBtn'),
+        label: t('backToListBtn'),
         to: 'SUBSCRIBE_PURPOSE_LIST',
       }}
     >

@@ -1,8 +1,5 @@
 {
   "type": {
-    "certified_one": "certified",
-    "verified_one": "verified",
-    "declared_one": "declared",
     "certified_other": "certified",
     "verified_other": "verified",
     "declared_other": "declared"
@@ -23,10 +20,6 @@
     "provider": "Your organization does not require {{attributeKey}} attributes",
     "consumer": "The provider does not require {{attributeKey}} attributes"
   },
-  "title": "attribute {{num}}:",
-  "or": "or",
-  "showInfoSrLabel": "Show attribute info",
-  "mustOwn": "Must own:",
   "group": {
     "read": {
       "provider": "The consumer must possess at least one of the following requirements",
@@ -56,13 +49,6 @@
       "expirationDate": "Verification expiration: {{expirationDate}}"
     },
     "addBtn": "Add requirement",
-    "cancelBtn": "Cancel",
-    "confirmDeclaredAttributeBtn": "Confirm",
-    "or": "or",
-    "deleteSrLabel": "Delete attribute",
-    "deleteGroupSrLabel": "Delete group attribute",
-    "showInfoSrLabel": "Show attribute info",
-    "canRequireVerification": "For this attribute use the verification made by other providers",
     "autocompleteInput": {
       "label": "Add attribute to group",
       "placeholder": "Insert attribute name"

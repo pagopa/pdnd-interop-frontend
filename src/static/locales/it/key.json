@@ -1,7 +1,4 @@
 {
-  "loadingSingleLabel": "Stiamo caricando la tua chiave",
-  "loadingMultiLabel": "Stiamo caricando la lista di chiavi",
-  "noMultiDataLabel": "Non ci sono chiavi disponibili",
   "backToKeyListBtn": "Torna alla lista delle chiavi",
   "tableKey": {
     "operatorDeletedWarning": {
