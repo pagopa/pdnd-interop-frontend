@@ -6,6 +6,7 @@ import { EmptyAttributesAlert } from './EmptyAttributesAlert'
 import { Link, Stack } from '@mui/material'
 import { AttributeContainer, AttributeContainerSkeleton } from '@/components/layout/containers'
 import { attributesHelpLink } from '@/config/constants'
+import { isAttributeRevoked } from '@/utils/attribute.utils'
 
 export const CertifiedAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'certified' })
@@ -29,20 +30,25 @@ export const CertifiedAttributes = () => {
 }
 
 const CertifiedAttributesList: React.FC = () => {
+  const { t } = useTranslation('attribute', { keyPrefix: 'group.manage' })
+
   const { data } = PartyQueries.useGetActiveUserParty()
   const CertifiedAttributes = data?.attributes.certified ?? []
-
   if (CertifiedAttributes.length === 0) {
     return <EmptyAttributesAlert type="certified" />
   }
 
   return (
     <Stack sx={{ listStyleType: 'none', pl: 0 }} component="ul" spacing={1}>
-      {CertifiedAttributes.map((attribute) => (
-        <li key={attribute.id}>
-          <AttributeContainer checked attribute={attribute} />
-        </li>
-      ))}
+      {CertifiedAttributes.map((attribute) => {
+        const isRevoked = isAttributeRevoked('certified', attribute)
+        const chipLabel = isRevoked ? t('revokedByCertifier') : undefined
+        return (
+          <li key={attribute.id}>
+            <AttributeContainer checked={!isRevoked} attribute={attribute} chipLabel={chipLabel} />
+          </li>
+        )
+      })}
     </Stack>
   )
 }

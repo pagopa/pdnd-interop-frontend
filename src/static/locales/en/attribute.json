@@ -44,6 +44,7 @@
         "provider": "The consumer has none of the following attributes",
         "consumer": "Your organization has none of the following attributes"
       },
+      "revokedByCertifier": "Attribute revoked by certifier",
       "revokedByProducer": "Attribute revoked by a producer",
       "revokedByOwnParty": "Attribute revoked by your own party",
       "expirationDate": "Verification expiration: {{expirationDate}}"
