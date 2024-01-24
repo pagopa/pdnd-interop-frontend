@@ -23,7 +23,6 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   const isPurposeArchived = purpose?.currentVersion?.state === 'ARCHIVED'
 
   const alertProps = useGetPurposeStateAlertProps(purpose)
-
   return (
     <PageContainer
       title={purpose?.title}
@@ -50,7 +49,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
                 ),
               }}
             >
-              {t('consumerView.noClientsAlert')}
+              {alertProps.content}
             </Trans>
           ) : (
             alertProps.content
