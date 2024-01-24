@@ -272,6 +272,7 @@
         "8026": "La client assertion è valida ma la finalità per la quale stai richiedendo il voucher non è attiva",
         "8027": "La client assertion è valida ma la versione di e-service per la quale stai richiedendo il voucher non è attiva",
         "8028": "La client assertion è valida ma la richiesta di fruizione per la quale stai richiedendo il voucher non è attiva",
+        "8033": "Il campo kid non è correttamente compilato. Il kid può essere costituito solo da caratteri alfanumerici, trattini e underscore. Quello inviato contiene caratteri speciali non riconosciuti",
         "8099": "L'id della chiave che hai indicato (kid) non fa parte del client che hai indicato come client id"
       }
     }
