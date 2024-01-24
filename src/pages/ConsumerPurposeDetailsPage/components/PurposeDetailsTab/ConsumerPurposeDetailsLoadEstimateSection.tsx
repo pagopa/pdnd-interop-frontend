@@ -19,7 +19,7 @@ export const ConsumerPurposeDetailsLoadEstimateSection: React.FC<
   })
 
   return (
-    <SectionContainer newDesign title={t('title')} description={t('description')}>
+    <SectionContainer title={t('title')} description={t('description')}>
       <Stack spacing={3}>
         <Stack direction="row" spacing={3}>
           <ConsumerPurposeDetailsDailyCallsPlanCard purpose={purpose} />

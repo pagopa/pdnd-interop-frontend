@@ -75,7 +75,7 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
   if (!riskAnalysisTemplate) return null
 
   return (
-    <SectionContainer newDesign innerSection title={t('riskAnalysis.title')}>
+    <SectionContainer innerSection title={t('riskAnalysis.title')}>
       <List>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
           <ListItem key={i} sx={{ pl: 0 }}>

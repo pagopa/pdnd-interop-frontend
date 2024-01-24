@@ -79,7 +79,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   return (
     <PageContainer
       title={t('consumerRead.title')}
-      newTopSideActions={actions}
+      topSideActions={actions}
       backToAction={{ label: t('backToRequestsBtn'), to: 'SUBSCRIBE_AGREEMENT_LIST' }}
       statusChip={
         agreement

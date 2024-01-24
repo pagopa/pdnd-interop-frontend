@@ -85,7 +85,6 @@ export const ConsumerAgreementDetailsVerifiedAttributesSection: React.FC = () =>
   return (
     <>
       <SectionContainer
-        newDesign
         title={tAttribute('verified.label')}
         description={
           <Trans

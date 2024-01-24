@@ -54,7 +54,6 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
 
   return (
     <SectionContainer
-      newDesign
       title={t('generalInformations')}
       bottomActions={[
         {

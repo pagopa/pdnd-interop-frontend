@@ -72,7 +72,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
-        <SectionContainer newDesign title={t('step2.title')} description={t('step2.description')}>
+        <SectionContainer title={t('step2.title')} description={t('step2.description')}>
           <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
             {t('step2.personalInfoAlert')}
           </Alert>

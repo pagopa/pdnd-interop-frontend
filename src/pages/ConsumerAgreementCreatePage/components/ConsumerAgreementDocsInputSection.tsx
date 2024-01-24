@@ -67,7 +67,7 @@ export const ConsumerAgreementDocsInputSection: React.FC<
   const docs = agreement?.consumerDocuments ?? []
 
   return (
-    <SectionContainer newDesign innerSection title={t('title')} description={t('description')}>
+    <SectionContainer innerSection title={t('title')} description={t('description')}>
       <Stack spacing={2}>
         {docs.map((doc) => (
           <DocumentContainer

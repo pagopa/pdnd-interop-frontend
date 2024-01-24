@@ -119,7 +119,6 @@ export const ProviderAgreementDetailsVerifiedAttributesSection: React.FC = () =>
   return (
     <>
       <SectionContainer
-        newDesign
         title={tAttribute('verified.label')}
         description={
           <Trans

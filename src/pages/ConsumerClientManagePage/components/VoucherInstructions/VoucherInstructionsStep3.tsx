@@ -24,13 +24,12 @@ export const VoucherInstructionsStep3: React.FC = () => {
   return (
     <>
       <SectionContainer
-        newDesign
         title={t('step3.title')}
         description={t(
           `step3.${clientKind === 'CONSUMER' ? 'consumerDescription' : 'apiDescription'}`
         )}
       >
-        <SectionContainer newDesign innerSection title={t('step3.authEndpoint.label')}>
+        <SectionContainer innerSection title={t('step3.authEndpoint.label')}>
           <InformationContainer
             label="URL"
             content={AUTHORIZATION_SERVER_TOKEN_CREATION_URL}
@@ -41,7 +40,7 @@ export const VoucherInstructionsStep3: React.FC = () => {
           />
         </SectionContainer>
         <Divider sx={{ my: 1 }} />
-        <SectionContainer newDesign innerSection title={t('step3.requestBody.title')}>
+        <SectionContainer innerSection title={t('step3.requestBody.title')}>
           <Stack spacing={2}>
             <InformationContainer
               label={t('step3.requestBody.clientIdField.label')}
@@ -80,7 +79,7 @@ export const VoucherInstructionsStep3: React.FC = () => {
         </SectionContainer>
       </SectionContainer>
 
-      <SectionContainer newDesign title={t('step3.voucherScript.title')}>
+      <SectionContainer title={t('step3.voucherScript.title')}>
         <Typography>
           <Trans
             components={{

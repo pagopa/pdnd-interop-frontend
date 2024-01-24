@@ -1,19 +1,11 @@
 import React from 'react'
 import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
-import type { ActionItem, ActionItemButton } from '@/types/common.types'
-import { ActionMenu } from '@/components/shared/ActionMenu'
-import { InfoTooltip } from '@/components/shared/InfoTooltip'
+import type { ActionItemButton } from '@/types/common.types'
 import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-
-export type TopSideActions = {
-  buttons: Array<ActionItemButton>
-  infoTooltip?: string
-  actionMenu?: Array<ActionItem>
-}
 
 export type PageBackToAction = {
   label: string
@@ -24,7 +16,7 @@ export type PageBackToAction = {
 
 type PageContainerActionsProps = {
   statusChip?: React.ComponentProps<typeof StatusChip>
-  newTopSideActions?: Array<ActionItemButton>
+  topSideActions?: Array<ActionItemButton>
 }
 
 type PageContainerBreadcrumbsProps = {
@@ -34,10 +26,6 @@ type PageContainerBreadcrumbsProps = {
 type PageContainerIntroProps = {
   title?: string
   description?: string
-  /**
-   * @deprecated use newTopSideActions instead for now, will be removed in the future
-   */
-  topSideActions?: TopSideActions
 }
 
 type PageContainerProps = {
@@ -77,11 +65,7 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   )
 }
 
-const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
-  title,
-  description,
-  topSideActions = null,
-}) => {
+const PageContainerIntro: React.FC<PageContainerIntroProps> = ({ title, description }) => {
   return (
     <Box>
       <Stack direction="row" alignItems="end" spacing={2}>
@@ -97,18 +81,6 @@ const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
             </Typography>
           )}
         </Box>
-
-        <Stack direction="row" alignItems="center" spacing={2}>
-          {topSideActions?.infoTooltip && <InfoTooltip label={topSideActions.infoTooltip} />}
-          {topSideActions?.buttons &&
-            topSideActions.buttons.map(({ action, label, ...props }, i) => (
-              <Button key={i} onClick={action} variant="outlined" size="small" {...props}>
-                {label}
-              </Button>
-            ))}
-
-          {topSideActions?.actionMenu && <ActionMenu actions={topSideActions.actionMenu} />}
-        </Stack>
       </Stack>
     </Box>
   )
@@ -141,9 +113,9 @@ const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ bac
 
 const PageContainerActions: React.FC<PageContainerActionsProps> = ({
   statusChip,
-  newTopSideActions,
+  topSideActions,
 }) => {
-  if (!statusChip && !newTopSideActions) return null
+  if (!statusChip && !topSideActions) return null
 
   return (
     <Stack
@@ -154,8 +126,8 @@ const PageContainerActions: React.FC<PageContainerActionsProps> = ({
     >
       <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
       <Box>
-        {newTopSideActions &&
-          newTopSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
+        {topSideActions &&
+          topSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
             const Wrapper = tooltip
               ? ({ children }: { children: React.ReactElement }) => (
                   <Tooltip arrow title={tooltip}>

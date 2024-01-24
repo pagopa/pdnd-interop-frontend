@@ -26,7 +26,7 @@ const ConsumerClientM2MListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      newTopSideActions={isAdmin ? topSideActions : undefined}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <ClientTable clientKind="API" />
     </PageContainer>

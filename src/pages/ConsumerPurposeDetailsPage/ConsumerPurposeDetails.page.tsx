@@ -29,7 +29,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
       title={purpose?.title}
       description={purpose?.description}
       isLoading={isLoading}
-      newTopSideActions={actions}
+      topSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
       backToAction={{
         label: t('backToListBtn'),

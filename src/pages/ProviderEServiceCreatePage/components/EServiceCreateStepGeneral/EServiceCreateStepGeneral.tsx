@@ -72,7 +72,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         {t('create.step1.firstVersionOnlyEditableInfo')}
       </Alert>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer newDesign title={t('create.step1.detailsTitle')} component="div">
+        <SectionContainer title={t('create.step1.detailsTitle')} component="div">
           <RHFTextField
             label={t('create.step1.eserviceNameField.label')}
             name="name"

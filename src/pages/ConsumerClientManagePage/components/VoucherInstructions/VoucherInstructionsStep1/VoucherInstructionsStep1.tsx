@@ -57,7 +57,6 @@ export const VoucherInstructionsStep1: React.FC = () => {
     <>
       <form onSubmit={handleSubmit}>
         <SectionContainer
-          newDesign
           title={t(`step1.title.${clientKind}`)}
           description={t('step1.description')}
           bottomActions={[

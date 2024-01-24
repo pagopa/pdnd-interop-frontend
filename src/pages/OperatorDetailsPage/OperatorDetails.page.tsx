@@ -32,7 +32,7 @@ const OperatorDetailsPage: React.FC = () => {
     <PageContainer
       isLoading={isLoading}
       title={operatorFullname}
-      newTopSideActions={actions}
+      topSideActions={actions}
       backToAction={{
         label: t('backToMemberListBtn'),
         to: backToOperatorsListRouteKey,
