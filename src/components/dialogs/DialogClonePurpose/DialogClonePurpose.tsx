@@ -21,10 +21,7 @@ type ClonePurposeFormValues = {
   eserviceId: string
 }
 
-export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({
-  purposeId,
-  eserviceId,
-}) => {
+export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeId, eservice }) => {
   const ariaLabelId = React.useId()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', {
@@ -36,7 +33,7 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({
 
   const formMethods = useForm<ClonePurposeFormValues>({
     defaultValues: {
-      eserviceId: eserviceId,
+      eserviceId: eservice.id,
     },
   })
 
@@ -60,7 +57,7 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({
           <DialogContent>
             <Stack spacing={2}>
               <Typography variant="body1">{t('description')}</Typography>
-              <DialogClonePurposeEServiceAutocomplete />
+              <DialogClonePurposeEServiceAutocomplete preselectedEservice={eservice} />
             </Stack>
           </DialogContent>
 

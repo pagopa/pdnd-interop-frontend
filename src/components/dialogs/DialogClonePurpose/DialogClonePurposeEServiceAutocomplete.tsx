@@ -4,20 +4,28 @@ import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-input
 import { useTranslation } from 'react-i18next'
 import { useFormContext } from 'react-hook-form'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { CatalogEService, CompactPurposeEService } from '@/api/api.generatedTypes'
 
-export const DialogClonePurposeEServiceAutocomplete: React.FC = () => {
+type DialogClonePurposeEServiceAutocompleteProps = {
+  preselectedEservice: CompactPurposeEService
+}
+
+export const DialogClonePurposeEServiceAutocomplete: React.FC<
+  DialogClonePurposeEServiceAutocompleteProps
+> = ({ preselectedEservice }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogClonePurpose',
   })
-  const selectedEServiceRef = React.useRef<CatalogEService | undefined>(undefined)
-  const hasSetFirstEService = React.useRef(false)
+  const selectedEServiceRef = React.useRef<CatalogEService | CompactPurposeEService | undefined>(
+    preselectedEservice
+  )
+  const hasSetFirstEService = React.useRef(true)
 
   const { setValue, watch } = useFormContext()
   const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
-    useAutocompleteTextInput()
+    useAutocompleteTextInput(preselectedEservice.name)
 
-  function formatAutocompleteOptionLabel(eservice: CatalogEService) {
+  function formatAutocompleteOptionLabel(eservice: CatalogEService | CompactPurposeEService) {
     return `${eservice.name} ${t('eserviceField.eserviceProvider')} ${eservice.producer.name}`
   }
 

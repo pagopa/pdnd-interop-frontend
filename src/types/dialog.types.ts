@@ -1,4 +1,8 @@
-import type { Agreement, RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
+import type {
+  Agreement,
+  RequesterCertifiedAttribute,
+  CompactPurposeEService,
+} from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -77,5 +81,5 @@ export type DialogRevokeCertifiedAttributeProps = {
 export type DialogClonePurposeProps = {
   type: 'clonePurpose'
   purposeId: string
-  eserviceId: string
+  eservice: CompactPurposeEService
 }

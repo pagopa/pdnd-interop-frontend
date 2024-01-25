@@ -69,7 +69,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
 
   function handleClone() {
     if (!purpose) return
-    openDialog({ type: 'clonePurpose', purposeId: purpose.id, eserviceId: purpose.eservice.id })
+    openDialog({ type: 'clonePurpose', purposeId: purpose.id, eservice: purpose.eservice })
   }
 
   const cloneAction: ActionItemButton = {
