@@ -1,5 +1,5 @@
 import React from 'react'
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { Grid, Stack } from '@mui/material'
 import { PartyQueries } from '@/api/party/party.hooks'
