@@ -6,6 +6,7 @@ import {
   PartyContactsSectionSkeleton,
 } from './components'
 import { AuthHooks } from '@/api/auth'
+import { PartyGeneralInfoSection } from './components/PartyGeneralInfoSection'
 
 const PartyRegistryPage: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
@@ -14,6 +15,7 @@ const PartyRegistryPage: React.FC = () => {
   return (
     <PageContainer title={pageTitle}>
       <React.Suspense fallback={<PartyContactsSectionSkeleton />}>
+        <PartyGeneralInfoSection />
         <PartyContactsSection />
       </React.Suspense>
       <PartyAttributesSection />

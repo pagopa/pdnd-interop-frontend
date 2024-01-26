@@ -1,4 +1,16 @@
 {
+  "generalInfo": {
+    "title": "Informazioni generali",
+    "digitalAddressField": {
+      "label": "Domicilio digitale"
+    },
+    "onBoardingDateField": {
+      "label": "Data di adesione"
+    },
+    "subUnitTypeField": {
+      "label": "Tipologia di ente"
+    }
+  },
   "contacts": {
     "title": "Contatti",
     "mailField": {
