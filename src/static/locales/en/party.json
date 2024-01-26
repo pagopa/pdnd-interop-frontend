@@ -1,8 +1,8 @@
 {
   "generalInfo": {
-    "title": "Informazioni generali",
+    "title": "General Information",
     "digitalAddressField": {
-      "label": "Domicilio digitale"
+      "label": "Digital Address"
     },
     "onBoardingDateField": {
       "label": "Date of joining"
