@@ -33,13 +33,3 @@ export const PartyGeneralInfoSection: React.FC = () => {
     </Grid>
   )
 }
-
-export const PartyContactsSectionSkeleton: React.FC = () => {
-  return (
-    <Grid container>
-      <Grid item xs={8}>
-        <SectionContainerSkeleton height={175} />
-      </Grid>
-    </Grid>
-  )
-}
