@@ -22,7 +22,7 @@ export const ManageAttributesTab: React.FC = () => {
 
   const { data: activeParty } = PartyQueries.useGetActiveUserParty()
   const defaultParams: Pick<GetAttributesParams, 'origin' | 'kinds'> = {
-    // origin: activeParty.cerifierId TODO
+    origin: activeParty?.features[0].certifier?.certifierId,
     kinds: ['CERTIFIED'],
   }
 
