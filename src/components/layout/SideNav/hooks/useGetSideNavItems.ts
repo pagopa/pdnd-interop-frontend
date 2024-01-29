@@ -29,7 +29,9 @@ const views = [
 export function useGetSideNavItems() {
   const { currentRoles, isIPAOrganization, isSupport } = AuthHooks.useJwt()
 
-  const { data } = PartyQueries.useGetActiveUserParty() // TODO idea per gestione certifier
+  const { data: tenant } = PartyQueries.useGetActiveUserParty()
+
+  const isCertifier = Boolean(tenant?.features[0].certifier?.certifierId)
 
   return React.useMemo(() => {
     /**
@@ -39,7 +41,7 @@ export function useGetSideNavItems() {
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
       if (!isSupport && !isIPAOrganization && routeKey === 'PROVIDE') return false
 
-      if (/* data.certifierId */ false && routeKey === 'TENANT_CERTIFIER') return false // TODO idea per gestione certifier
+      if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))
@@ -62,5 +64,5 @@ export function useGetSideNavItems() {
 
       return [...acc, view]
     }, [])
-  }, [currentRoles, isIPAOrganization, isSupport])
+  }, [currentRoles, isIPAOrganization, isSupport, isCertifier])
 }
