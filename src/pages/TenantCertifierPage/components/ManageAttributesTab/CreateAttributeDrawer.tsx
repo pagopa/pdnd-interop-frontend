@@ -22,7 +22,7 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.manageTab.drawer' })
 
-  const { mutate: createVerifiedAttribute } = AttributeMutations.useCreateVerified() // TODO creazione certificato
+  const { mutate: createCertifiedAttribute } = AttributeMutations.useCreateCertified()
 
   const formMethods = useForm<CreateNewAttributeFormValues>({
     defaultValues: {
@@ -32,9 +32,7 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
   })
 
   const onSubmit = formMethods.handleSubmit((values: CreateNewAttributeFormValues) => {
-    // createVerifiedAttribute(values, { onSuccess: onClose })
-    console.log('CREAZIONE ATTRIBUTO')
-    onClose()
+    createCertifiedAttribute(values, { onSuccess: onClose })
   })
 
   return (
