@@ -1,4 +1,4 @@
-import type { CompactAttribute } from '@/api/api.generatedTypes'
+import type { RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useDialog } from '@/stores'
 import { Button, Skeleton } from '@mui/material'
@@ -7,11 +7,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type AttributesTableRowProps = {
-  tenant: { id: string; name: string }
-  attribute: CompactAttribute
+  attribute: RequesterCertifiedAttribute
 }
 
-export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ tenant, attribute }) => {
+export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribute }) => {
   const { t } = useTranslation('common')
 
   const { openDialog } = useDialog()
@@ -19,14 +18,12 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ tenant, 
   const handleRevoke = () => {
     openDialog({
       type: 'revokeCertifiedAttribute',
-      tenant: tenant,
       attribute: attribute,
     })
-    console.log('REVOKE', attribute.id)
   }
 
   return (
-    <TableRow cellData={[tenant.name, attribute.name]}>
+    <TableRow cellData={[attribute.tenantName, attribute.attributeName]}>
       <Button variant="outlined" color="error" size="small" onClick={handleRevoke}>
         {t(`actions.revoke`)}
       </Button>

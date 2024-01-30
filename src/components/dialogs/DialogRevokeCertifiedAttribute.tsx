@@ -1,3 +1,4 @@
+import { AttributeMutations } from '@/api/attribute'
 import { useDialog } from '@/stores'
 import type { DialogRevokeCertifiedAttributeProps } from '@/types/dialog.types'
 import {
@@ -15,7 +16,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttributeProps> = ({
-  tenant,
   attribute,
 }) => {
   const ariaLabelId = React.useId()
@@ -25,6 +25,8 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRevokeCertifiedAttribute' })
 
   const [isConfirmCheckboxChecked, setIsConfirmCheckboxChecked] = React.useState<boolean>(false)
+
+  const { mutate: revokeCertifiedAttribute } = AttributeMutations.useRevokeCertifiedAttribute()
 
   const handleCheckBoxChange = () => {
     setIsConfirmCheckboxChecked((prev) => {
@@ -37,9 +39,10 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
   }
 
   const handleRevoke = () => {
-    // TODO revoke attribute mutation
-    console.log('REVOKE')
-    closeDialog()
+    revokeCertifiedAttribute(
+      { tenantId: attribute.tenantId, attributeId: attribute.attributeId },
+      { onSuccess: closeDialog }
+    )
   }
 
   return (
@@ -56,7 +59,10 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
       <DialogContent aria-describedby={ariaDescriptionId}>
         <Stack spacing={3}>
           <Typography variant="body1">
-            {t('content.description', { attributeName: attribute.name, tenantName: tenant.name })}
+            {t('content.description', {
+              attributeName: attribute.attributeName,
+              tenantName: attribute.tenantName,
+            })}
           </Typography>
           <FormControlLabel
             key={'confirmationCheckbox'}
