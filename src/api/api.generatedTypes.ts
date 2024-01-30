@@ -972,8 +972,8 @@ export interface DeclaredAttribute {
 
 export interface RequesterCertifiedAttribute {
   /** @format uuid */
-  id: string
-  name: string
+  tenantId: string
+  tenantName: string
   /** @format uuid */
   attributeId: string
   attributeName: string
