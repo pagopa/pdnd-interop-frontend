@@ -15,8 +15,8 @@ type AssignAttributeDrawerProps = {
 }
 
 type AssignAttributeFormValues = {
-  attribute: CompactAttribute | null //TODO
-  assigneeTenant: CompactTenant | null //TODO
+  attribute: CompactAttribute
+  tenant: CompactTenant
 }
 
 export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
@@ -25,21 +25,21 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.assignTab.drawer' })
 
-  const { mutate: createVerifiedAttribute } = AttributeMutations.useCreateVerified() // TODO assegnazione attributo certificato, da implementare
+  const { mutate: addCertifiedAttribute } = AttributeMutations.useAddCertifiedAttribute()
 
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
   const [tenantSearchParam, setTenantSearchParam] = useAutocompleteTextInput()
 
   const formMethods = useForm<AssignAttributeFormValues>({
     defaultValues: {
-      attribute: null,
-      assigneeTenant: null,
+      attribute: undefined,
+      tenant: undefined,
     },
   })
 
   const { watch } = formMethods
   const selectedAttribute = watch('attribute')
-  const selectedTenant = watch('assigneeTenant')
+  const selectedTenant = watch('tenant')
 
   /**
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected attribute name.
@@ -60,7 +60,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
       limit: 50,
       offset: 0,
       kinds: ['CERTIFIED'],
-      // origin: activeParty.certifierId
+      origin: activeParty?.features[0].certifier?.certifierId,
       q: getAttributeQ(),
     },
     {
@@ -73,9 +73,12 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
 
   const attributeOptions = attributes.map((attribute) => ({
     label: attribute.name,
-    value: attribute.id,
+    value: attribute,
   }))
 
+  /**
+   * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected tenant name.
+   */
   function getTenantQ() {
     let result = tenantSearchParam
 
@@ -101,13 +104,14 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
 
   const tenantOptions = tenants.map((tenant) => ({
     label: tenant.name,
-    value: tenant.id,
+    value: tenant,
   }))
 
   const onSubmit = formMethods.handleSubmit((values: AssignAttributeFormValues) => {
-    // assignAttribute(values, { onSuccess: onClose })
-    console.log('Assegnazione ATTRIBUTO')
-    onClose()
+    addCertifiedAttribute(
+      { id: values.attribute.id, tenantId: values.tenant.id },
+      { onSuccess: onClose }
+    )
   })
 
   return (
@@ -141,7 +145,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
             onInputChange={(_, value) => setTenantSearchParam(value)}
             sx={{ mb: 0, flex: 1 }}
             options={tenantOptions}
-            name="assigneeTenant"
+            name="tenant"
           />
         </Stack>
       </Drawer>
