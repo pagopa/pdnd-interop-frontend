@@ -35,7 +35,8 @@
     "deleteDraft": "Delete draft",
     "publishDraft": "Publish draft",
     "editDraft": "Edit draft",
-    "insert": "Insert"
+    "insert": "Insert",
+    "revoke": "Revoke"
   },
   "table": {
     "headData": {
