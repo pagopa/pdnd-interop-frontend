@@ -5,7 +5,7 @@ import { Pagination, usePagination } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import QueueIcon from '@mui/icons-material/Queue'
-import type { GetAttributesParams } from '@/api/api.generatedTypes'
+import type { GetRequesterCertifiedAttributesParams } from '@/api/api.generatedTypes'
 import { AssignAttributeDrawer } from './AssignAttributeDrawer'
 import { AttributesTable, AttributesTableSkeleton } from './AttributesTable'
 
@@ -16,13 +16,11 @@ export const AssignAttributesTab: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
-  const queryParams: GetAttributesParams = {
+  const queryParams: GetRequesterCertifiedAttributesParams = {
     ...paginationParams,
-    kinds: ['CERTIFIED'],
   }
 
-  // TODO mettere chiamata corretta. è una chiamata diversa che deve essere implementata
-  const { data } = AttributeQueries.useGetList(queryParams, {
+  const { data } = AttributeQueries.useGetRequesterCertifiedAttributesList(queryParams, {
     suspense: false,
     keepPreviousData: true,
   })
@@ -44,8 +42,10 @@ export const AssignAttributesTab: React.FC = () => {
   )
 }
 
-const AttributesTableWrapper: React.FC<{ params: GetAttributesParams }> = ({ params }) => {
-  const { data, isFetching } = AttributeQueries.useGetList(params, {
+const AttributesTableWrapper: React.FC<{ params: GetRequesterCertifiedAttributesParams }> = ({
+  params,
+}) => {
+  const { data, isFetching } = AttributeQueries.useGetRequesterCertifiedAttributesList(params, {
     suspense: false,
   })
 

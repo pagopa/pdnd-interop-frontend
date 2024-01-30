@@ -1,11 +1,11 @@
-import type { CompactAttribute } from '@/api/api.generatedTypes'
+import type { RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
 import { Table } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { AttributesTableRow, AttributesTableRowSkeleton } from './AttributesTableRow'
 
 type AttributesTableProps = {
-  attributes: Array<CompactAttribute>
+  attributes: Array<RequesterCertifiedAttribute>
 }
 
 export const AttributesTable: React.FC<AttributesTableProps> = ({ attributes }) => {
@@ -18,14 +18,7 @@ export const AttributesTable: React.FC<AttributesTableProps> = ({ attributes }) 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
       {attributes?.map((attribute) => (
-        <AttributesTableRow
-          key={attribute.id}
-          tenant={{
-            id: 'TODO tenant id - attribute.tenant.id',
-            name: 'TODO tenant name - attribute.tenant.name',
-          }}
-          attribute={attribute}
-        />
+        <AttributesTableRow key={attribute.attributeId} attribute={attribute} />
       ))}
     </Table>
   )
