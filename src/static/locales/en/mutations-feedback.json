@@ -161,7 +161,21 @@
       "loading": "Saving new attribute",
       "outcome": {
         "error": "The attribute could not be saved. Please, try again!",
-        "success": "The attribute had been created correctly"
+        "success": "The attribute has been created correctly"
+      }
+    },
+    "addCertifiedAttribute": {
+      "loading": "Assigning the attribute",
+      "outcome": {
+        "error": "The attribute could not be assigned. Please, try again!",
+        "success": "The attribute has been assigned correctly"
+      }
+    },
+    "revokeCertifiedAttribute": {
+      "loading": "Revoking certified attribute",
+      "outcome": {
+        "error": "The attribute could not be revoked. Please, try again!",
+        "success": "The attribute has been revoked successfully"
       }
     },
     "verifyPartyAttribute": {
