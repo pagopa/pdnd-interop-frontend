@@ -25,7 +25,7 @@ const TenantCertifierAttributeDetails: React.FC = () => {
     >
       <Grid container>
         <Grid item xs={8}>
-          <SectionContainer newDesign>
+          <SectionContainer>
             <InformationContainer
               direction="column"
               label={t('descriptionField.label')}
