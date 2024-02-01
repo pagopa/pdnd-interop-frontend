@@ -54,13 +54,13 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     return result
   }
 
-  const { data: activeParty } = PartyQueries.useGetActiveUserParty()
+  const { data: activeTenant } = PartyQueries.useGetActiveUserParty()
   const { data: attributesData } = AttributeQueries.useGetList(
     {
       limit: 50,
       offset: 0,
       kinds: ['CERTIFIED'],
-      origin: activeParty?.features[0].certifier?.certifierId,
+      origin: activeTenant?.features[0].certifier?.certifierId,
       q: getAttributeQ(),
     },
     {
@@ -102,10 +102,12 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
 
   const tenants = tenantsData?.results ?? []
 
-  const tenantOptions = tenants.map((tenant) => ({
-    label: tenant.name,
-    value: tenant,
-  }))
+  const tenantOptions = tenants
+    .filter((tenant) => tenant.id !== activeTenant?.id)
+    .map((tenant) => ({
+      label: tenant.name,
+      value: tenant,
+    }))
 
   const onSubmit = formMethods.handleSubmit((values: AssignAttributeFormValues) => {
     addCertifiedAttribute(
