@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttributeProps> = ({
   attribute,
@@ -58,11 +58,17 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
 
       <DialogContent aria-describedby={ariaDescriptionId}>
         <Stack spacing={3}>
-          <Typography variant="body1">
-            {t('content.description', {
-              attributeName: attribute.attributeName,
-              tenantName: attribute.tenantName,
-            })}
+          <Typography>
+            <Trans
+              components={{
+                strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+              }}
+            >
+              {t('content.description', {
+                attributeName: attribute.attributeName,
+                tenantName: attribute.tenantName,
+              })}
+            </Trans>
           </Typography>
           <FormControlLabel
             key={'confirmationCheckbox'}

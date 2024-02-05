@@ -80,7 +80,7 @@
   "dialogRevokeCertifiedAttribute": {
     "title": "Revoca attributo",
     "content": {
-      "description": "Se revochi l’attributo {{attributeName}} all’ente {{tenantName}}, questo perderà accesso a tutti gli e-service per i quali ha una richiesta di fruizione attiva, interrompendo immediatamente la fruizione del servizio.",
+      "description": "Se revochi l’attributo <strong>{{attributeName}}</strong> all’ente <strong>{{tenantName}}</strong>, questo perderà accesso a tutti gli e-service per i quali ha una richiesta di fruizione attiva, interrompendo immediatamente la fruizione del servizio.",
       "checkbox": "Confermo di aver compreso le conseguenze della revoca"
     }
   },

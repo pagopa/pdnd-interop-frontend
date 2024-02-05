@@ -80,7 +80,7 @@
   "dialogRevokeCertifiedAttribute": {
     "title": "Revoke attribute",
     "content": {
-      "description": "If you revoke the {{attributeName}} attribute from the {{tenantName}}, it will lose access to all the e-services for which it has an active request for use, immediately interrupting the use of the service.",
+      "description": "If you revoke the <strong>{{attributeName}}</strong> attribute from the <strong>{{tenantName}}</strong>, it will lose access to all the e-services for which it has an active request for use, immediately interrupting the use of the service.",
       "checkbox": "I confirm that I understand the consequences of revocation"
     }
   },
