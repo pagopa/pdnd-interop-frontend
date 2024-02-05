@@ -1,23 +1,27 @@
 import { AttributeQueries } from '@/api/attribute'
-import { PageContainer, SectionContainer } from '@/components/layout/containers'
+import {
+  PageContainer,
+  SectionContainer,
+  SectionContainerSkeleton,
+} from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { Grid } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const TenantCertifierAttributeDetails: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.attributeDetails' })
   const { attributeId } = useParams<'TENANT_CERTIFIER_ATTRIBUTE_DETAILS'>()
 
-  const { data: attribute } = AttributeQueries.useGetSingle(attributeId, { suspense: false })
-
-  if (!attribute) return null
+  const { data: attribute, isInitialLoading } = AttributeQueries.useGetSingle(attributeId, {
+    suspense: false,
+  })
 
   return (
     <PageContainer
       title={`${attribute?.name}`}
-      isLoading={!attribute}
+      isLoading={isInitialLoading}
       backToAction={{
         label: t('backToTenantCertifierBtn'),
         to: 'TENANT_CERTIFIER',
@@ -25,16 +29,35 @@ const TenantCertifierAttributeDetails: React.FC = () => {
     >
       <Grid container>
         <Grid item xs={8}>
-          <SectionContainer>
-            <InformationContainer
-              direction="column"
-              label={t('descriptionField.label')}
-              content={attribute?.description}
-            />
-          </SectionContainer>
+          <Suspense fallback={<SectionContainerSkeleton height={92} />}>
+            <TenantCertifierAttributeDetailsInfoSection attributeId={attributeId} />
+          </Suspense>
         </Grid>
       </Grid>
     </PageContainer>
+  )
+}
+
+type TenantCertifierAttributeDetailsInfoSectionProps = {
+  attributeId: string
+}
+
+const TenantCertifierAttributeDetailsInfoSection: React.FC<
+  TenantCertifierAttributeDetailsInfoSectionProps
+> = ({ attributeId }) => {
+  const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.attributeDetails' })
+  const { data: attribute } = AttributeQueries.useGetSingle(attributeId)
+
+  if (!attribute) return null
+
+  return (
+    <SectionContainer>
+      <InformationContainer
+        direction="column"
+        label={t('descriptionField.label')}
+        content={attribute.description}
+      />
+    </SectionContainer>
   )
 }
 
