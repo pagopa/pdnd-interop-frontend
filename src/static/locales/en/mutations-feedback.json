@@ -160,8 +160,7 @@
     "create": {
       "loading": "Saving new attribute",
       "outcome": {
-        "error": "The attribute could not be saved. Please, try again!",
-        "success": "The attribute had been created correctly"
+        "error": "The attribute could not be saved. Please, try again!"
       }
     },
     "verifyPartyAttribute": {

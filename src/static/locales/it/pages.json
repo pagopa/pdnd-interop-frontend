@@ -34,9 +34,5 @@
   "consumerDebugVoucher": {
     "title": "Debug della client assertion",
     "description": "Se non riesci ad ottenere un voucher e non sai perché, puoi effettuare il debugging con questo simulatore e capire i possibili errori"
-  },
-  "tenantCertifier": {
-    "title": "Ente certificatore",
-    "description": "In questa vista puoi gestire gli attributi certificati che hai creato e la loro assegnazione"
   }
 }

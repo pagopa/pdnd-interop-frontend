@@ -160,8 +160,7 @@
     "create": {
       "loading": "Stiamo salvando il nuovo attributo",
       "outcome": {
-        "error": "Non è stato possibile creare il nuovo attributo. Per favore, riprova!",
-        "success": "L’attributo è stato creato correttamente"
+        "error": "Non è stato possibile creare il nuovo attributo. Per favore, riprova!"
       }
     },
     "verifyPartyAttribute": {

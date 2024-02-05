@@ -34,8 +34,6 @@ import {
   AssistanceTenantSelectionErrorPage,
   ConsumerPurposeSummaryPage,
   ProviderEServiceSummaryPage,
-  TenantCertifierPage,
-  TenantCertifierAttributeDetails,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -322,7 +320,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'PARTY_REGISTRY',
-    path: '/aderente/anagrafica',
+    path: '/ente',
     element: <PartyRegistryPage />,
     public: false,
     hideSideNav: false,
@@ -367,30 +365,6 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api', 'security'],
-  })
-  .addRoute({
-    key: 'TENANT',
-    path: '/aderente',
-    redirect: 'PARTY_REGISTRY',
-    public: false,
-    hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
-  })
-  .addRoute({
-    key: 'TENANT_CERTIFIER',
-    path: '/aderente/certificatore',
-    element: <TenantCertifierPage />,
-    public: false,
-    hideSideNav: false,
-    authLevels: ['admin'],
-  })
-  .addRoute({
-    key: 'TENANT_CERTIFIER_ATTRIBUTE_DETAILS',
-    path: '/aderente/certificatore/attributi/:attributeId',
-    element: <TenantCertifierAttributeDetails />,
-    public: false,
-    hideSideNav: false,
-    authLevels: ['admin'],
   })
   .build()
 

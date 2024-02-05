@@ -62,7 +62,7 @@ function renderUseGetAgreementsActionsHook(
   }
 
   if (!historyType) {
-    memoryHistory.push(`/it/aderente`)
+    memoryHistory.push(`/it/ente`)
   }
 
   return renderHookWithApplicationContext(
@@ -498,7 +498,7 @@ describe('check if the onSuccess callbacks are called correclty after the clone 
     })
 
     await waitFor(() => {
-      expect(history.location.pathname).toBe('/it/aderente')
+      expect(history.location.pathname).toBe('/it/ente')
     })
   })
 })

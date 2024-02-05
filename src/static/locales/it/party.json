@@ -49,40 +49,5 @@
       "declareActionLabel": "Dichiara attributo",
       "revokeActionLabel": "Revoca attributo"
     }
-  },
-  "tenantCertifier": {
-    "tabs": {
-      "ariaLabel": "Due tab diverse per la gestione degli attributi certificati e per la loro assegnazione e revoca",
-      "manage": "Gestione attributi",
-      "assign": "Assegnazione attributi"
-    },
-    "manageTab": {
-      "filters": {
-        "nameField": {
-          "label": "Cerca per nome"
-        }
-      },
-      "drawer": {
-        "title": "Crea nuovo attributo certificato",
-        "subtitle": "Una volta creato, potrai assegnare e revocare questo attributo agli altri enti",
-        "submitBtnLabel": "Crea attributo",
-        "form": {
-          "nameField": {
-            "label": "Nome dell'attributo",
-            "infoLabel": "Min 5 caratteri, max 160 caratteri"
-          },
-          "descriptionField": {
-            "label": "Descrizione dell’attributo",
-            "infoLabel": "Min 10 caratteri, max 250 caratteri"
-          }
-        }
-      }
-    },
-    "attributeDetails": {
-      "descriptionField": {
-        "label": "Descrizione"
-      },
-      "backToTenantCertifierBtn": "Torna a ente certificatore"
-    }
   }
 }

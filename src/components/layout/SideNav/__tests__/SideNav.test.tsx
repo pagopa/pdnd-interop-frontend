@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   mockUseCurrentRoute,
-  mockUseGetActiveUserParty,
   mockUseJwt,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
@@ -17,57 +16,38 @@ vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnVal
 describe('SideNav', () => {
   it('should match the snapshot', () => {
     mockUseJwt({ isAdmin: true, currentRoles: ['admin'] })
-    mockUseGetActiveUserParty()
-    const { baseElement } = renderWithApplicationContext(<SideNav />, {
-      withRouterContext: true,
-    })
+    const { baseElement } = renderWithApplicationContext(<SideNav />, { withRouterContext: true })
     expect(baseElement).toMatchSnapshot()
   })
 
   it('should match the snapshot while user security operator', () => {
     mockUseJwt({ isAdmin: false, currentRoles: ['security'] })
-    mockUseGetActiveUserParty()
-    const { baseElement } = renderWithApplicationContext(<SideNav />, {
-      withRouterContext: true,
-    })
+    const { baseElement } = renderWithApplicationContext(<SideNav />, { withRouterContext: true })
     expect(baseElement).toMatchSnapshot()
   })
 
   it('should match the snapshot while user api operator', () => {
     mockUseJwt({ isAdmin: false, currentRoles: ['api'] })
-    mockUseGetActiveUserParty()
-    const { baseElement } = renderWithApplicationContext(<SideNav />, {
-      withRouterContext: true,
-    })
+    const { baseElement } = renderWithApplicationContext(<SideNav />, { withRouterContext: true })
     expect(baseElement).toMatchSnapshot()
   })
 
   it('should match the snapshot while user is security and api operator', () => {
     mockUseJwt({ isAdmin: false, currentRoles: ['api', 'security'] })
-    mockUseGetActiveUserParty()
-    const { baseElement } = renderWithApplicationContext(<SideNav />, {
-      withRouterContext: true,
-    })
+    const { baseElement } = renderWithApplicationContext(<SideNav />, { withRouterContext: true })
     expect(baseElement).toMatchSnapshot()
   })
 
   it('should match the snapshot in loading state (skeleton)', () => {
     mockUseJwt({ jwt: undefined })
-    mockUseGetActiveUserParty()
-    const { baseElement } = renderWithApplicationContext(<SideNav />, {
-      withRouterContext: true,
-    })
+    const { baseElement } = renderWithApplicationContext(<SideNav />, { withRouterContext: true })
     expect(baseElement).toMatchSnapshot()
   })
 
   it('should toggle collapsable menu items', async () => {
     mockUseJwt({ isAdmin: true, currentRoles: ['admin'] })
-    mockUseGetActiveUserParty()
-    const screen = renderWithApplicationContext(<SideNav />, {
-      withRouterContext: true,
-    })
+    const screen = renderWithApplicationContext(<SideNav />, { withRouterContext: true })
     const user = userEvent.setup()
-
     const collapsable = screen.getByRole('button', { name: 'PROVIDE' })
 
     await user.click(collapsable)
