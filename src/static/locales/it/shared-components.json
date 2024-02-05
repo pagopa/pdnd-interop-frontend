@@ -77,6 +77,17 @@
     "title": "Conferma rimozione utente",
     "description": "Cliccando “conferma”, l’utente corrente sarà rimosso dal client corrente e non vi avrà più accesso. Per continuità, tutte le chiavi caricate da quest’utente rimarranno disponibili nel client. Per questioni di sicurezza, si raccomanda di sostituirle e di eliminare quelle vecchie. Hai dubbi? <1>Leggi la guida</1>."
   },
+  "dialogRevokeCertifiedAttribute": {
+    "title": "Revoca attributo",
+    "content": {
+      "description": "Se revochi l’attributo <strong>{{attributeName}}</strong> all’ente <strong>{{tenantName}}</strong>, questo perderà accesso a tutti gli e-service per i quali ha una richiesta di fruizione attiva, interrompendo immediatamente la fruizione del servizio.",
+      "checkbox": "Confermo di aver compreso le conseguenze della revoca"
+    }
+  },
+  "copyToClipboardButton": {
+    "copy": "Copia",
+    "copied": "Copiato"
+  },
   "sidenav": {
     "userExternalLinkLabel": "Utenti",
     "groupsExternalLinkLabel": "Gruppi"

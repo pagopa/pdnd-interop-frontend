@@ -164,6 +164,20 @@
         "success": "L’attributo è stato creato correttamente"
       }
     },
+    "addCertifiedAttribute": {
+      "loading": "Stiamo assegnando l'attributo",
+      "outcome": {
+        "error": "Non è stato possibile assegnare l’attributo. Per favore, riprova",
+        "success": "L’attributo è stato assegnato correttamente"
+      }
+    },
+    "revokeCertifiedAttribute": {
+      "loading": "Stiamo revocando l'attributo certificato",
+      "outcome": {
+        "error": "Non è stato possibile revocare l’attributo. Per favore, riprova",
+        "success": "L’attributo è stato revocato correttamente"
+      }
+    },
     "verifyPartyAttribute": {
       "loading": "Stiamo verificando l'attributo",
       "outcome": {

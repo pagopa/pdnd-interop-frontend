@@ -37,6 +37,7 @@ export function useGetSideNavItems() {
     /**
      * Checks if the user as the authorization level required to access a given route.
      * The no-IPA organizations cannot access the PROVIDE routes.
+     * The no-certifier organizations cannot access the TENANT_CERTIFIER routes.
      */
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
       if (!isSupport && !isIPAOrganization && routeKey === 'PROVIDE') return false

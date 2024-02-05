@@ -10,6 +10,7 @@ import type {
   DialogProps,
   DialogRejectAgreementProps,
   DialogRemoveOperatorFromClientProps,
+  DialogRevokeCertifiedAttributeProps,
   DialogSessionExpiredProps,
   DialogUpgradeAgreementVersionProps,
 } from '@/types/dialog.types'
@@ -21,6 +22,7 @@ import { useDialogStore } from '@/stores'
 import { DialogUpgradeAgreementVersion } from './DialogUpgradeAgreementVersion'
 import { DialogRemoveOperatorFromClient } from './DialogRemoveOperatorFromClient'
 import { DialogDeleteOperator } from './DialogDeleteOperator'
+import { DialogRevokeCertifiedAttribute } from './DialogRevokeCertifiedAttribute'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -30,7 +32,8 @@ function match<T>(
   onAddClientToPurpose: (props: DialogAddClientToPurposeProps) => T,
   onUpgradeAgreementVersion: (props: DialogUpgradeAgreementVersionProps) => T,
   onDeleteOperator: (props: DialogDeleteOperatorProps) => T,
-  onRemoveOperatorFromClient: (props: DialogRemoveOperatorFromClientProps) => T
+  onRemoveOperatorFromClient: (props: DialogRemoveOperatorFromClientProps) => T,
+  onRevokeCertifiedAttribute: (props: DialogRevokeCertifiedAttributeProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -50,6 +53,8 @@ function match<T>(
         return onDeleteOperator(props)
       case 'removeOperatorFromClient':
         return onRemoveOperatorFromClient(props)
+      case 'revokeCertifiedAttribute':
+        return onRevokeCertifiedAttribute(props)
     }
   }
 }
@@ -62,7 +67,8 @@ const _Dialog = match(
   (props) => <DialogAddClientToPurpose {...props} />,
   (props) => <DialogUpgradeAgreementVersion {...props} />,
   (props) => <DialogDeleteOperator {...props} />,
-  (props) => <DialogRemoveOperatorFromClient {...props} />
+  (props) => <DialogRemoveOperatorFromClient {...props} />,
+  (props) => <DialogRevokeCertifiedAttribute {...props} />
 )
 
 export const Dialog: React.FC = () => {

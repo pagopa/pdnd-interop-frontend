@@ -78,6 +78,22 @@
         }
       }
     },
+    "assignTab": {
+      "assignAttributeBtn": "Assegna attributo",
+      "drawer": {
+        "title": "Assegna attributo",
+        "subtitle": "L’ente assegnatario potrà spendere l’attributo certificato selezionato per tutti gli e-service presenti su PDND Interoperabilità",
+        "submitBtnLabel": "Assegna attributo",
+        "form": {
+          "attributeField": {
+            "label": "Nome dell'attributo"
+          },
+          "tenantField": {
+            "label": "Ente assegnatario"
+          }
+        }
+      }
+    },
     "attributeDetails": {
       "descriptionField": {
         "label": "Descrizione"

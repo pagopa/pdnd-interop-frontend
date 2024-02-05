@@ -77,6 +77,17 @@
     "title": "Confirm user removal",
     "description": "By clicking “confirm”, the current user will be removed from the current client and will no longer have access to it. For continuity, all keys uploaded by this user will remain available in the client. For safety reasons, it is recommended to replace them and discard the old ones. Do you have any doubts? <1>Read the guide</1>."
   },
+  "dialogRevokeCertifiedAttribute": {
+    "title": "Revoke attribute",
+    "content": {
+      "description": "If you revoke the <strong>{{attributeName}}</strong> attribute from the <strong>{{tenantName}}</strong>, it will lose access to all the e-services for which it has an active request for use, immediately interrupting the use of the service.",
+      "checkbox": "I confirm that I understand the consequences of revocation"
+    }
+  },
+  "copyToClipboardButton": {
+    "copy": "Copy",
+    "copied": "Copied"
+  },
   "sidenav": {
     "userExternalLinkLabel": "Users",
     "groupsExternalLinkLabel": "Groups"
