@@ -116,6 +116,13 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     )
   })
 
+  const handleTransitionExited = () => {
+    formMethods.reset()
+
+    setAttributeSearchParam('')
+    setTenantSearchParam('')
+  }
+
   return (
     <FormProvider {...formMethods}>
       <Drawer
@@ -125,7 +132,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
           action: onSubmit,
           label: t('submitBtnLabel'),
         }}
-        onTransitionExited={formMethods.reset}
+        onTransitionExited={handleTransitionExited}
         onClose={onClose}
         isOpen={isOpen}
       >
