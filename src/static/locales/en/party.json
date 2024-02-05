@@ -78,6 +78,22 @@
         }
       }
     },
+    "assignTab": {
+      "assignAttributeBtn": "Assign attribute",
+      "drawer": {
+        "title": "Assign attribute",
+        "subtitle": "The assigned body will be able to use the selected certified attribute for all e-services present on PDND Interoperability",
+        "submitBtnLabel": "Assign attribute",
+        "form": {
+          "attributeField": {
+            "label": "Attribute name"
+          },
+          "tenantField": {
+            "label": "Assignee tenant"
+          }
+        }
+      }
+    },
     "attributeDetails": {
       "descriptionField": {
         "label": "Description"

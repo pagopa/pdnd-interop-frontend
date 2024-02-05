@@ -35,7 +35,8 @@
     "deleteDraft": "Elimina bozza",
     "publishDraft": "Pubblica bozza",
     "editDraft": "Modifica bozza",
-    "insert": "Inserisci"
+    "insert": "Inserisci",
+    "revoke": "Revoca"
   },
   "table": {
     "headData": {
@@ -52,7 +53,9 @@
       "keyUploader": "Caricata da",
       "keyUploadDate": "Data di creazione",
       "userName": "Nome e cognome",
-      "attributes": "Attributi certificati"
+      "certifiedAttributes": "Attributi certificati",
+      "assigneeTenant": "Ente assegnatario",
+      "certifiedAttribute": "Attributo certificato"
     }
   },
   "status": {
