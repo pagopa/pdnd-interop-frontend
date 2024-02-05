@@ -199,6 +199,9 @@
     "SUBSCRIBE_DEBUG_VOUCHER": "Voucher debug",
     "ASSISTENCE_PARTY_SELECTION": "Party selection",
     "ASSISTENCE_PARTY_SELECTION_ERROR": "Party selection error",
-    "DEFAULT": ""
+    "DEFAULT": "",
+    "TENANT": "Your party",
+    "TENANT_CERTIFIER": "Certifier party",
+    "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Inspect attribute"
   }
 }

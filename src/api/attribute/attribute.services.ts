@@ -4,6 +4,7 @@ import type {
   Attribute,
   AttributeSeed,
   Attributes,
+  CertifiedAttributeSeed,
   CertifiedAttributesResponse,
   DeclaredAttributesResponse,
   DeclaredTenantAttributeSeed,
@@ -44,6 +45,14 @@ async function getPartyVerifiedList(partyId: string) {
 async function getPartyDeclaredList(partyId: string) {
   const response = await axiosInstance.get<DeclaredAttributesResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/declared`
+  )
+  return response.data
+}
+
+async function createCertified(payload: CertifiedAttributeSeed) {
+  const response = await axiosInstance.post<Attribute>(
+    `${BACKEND_FOR_FRONTEND_URL}/certifiedAttributes`,
+    payload
   )
   return response.data
 }
@@ -113,6 +122,7 @@ const AttributeServices = {
   getPartyCertifiedList,
   getPartyVerifiedList,
   getPartyDeclaredList,
+  createCertified,
   createVerified,
   createDeclared,
   verifyPartyAttribute,

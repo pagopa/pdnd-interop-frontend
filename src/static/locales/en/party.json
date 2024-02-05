@@ -49,5 +49,40 @@
       "declareActionLabel": "Declare attribute",
       "revokeActionLabel": "Revoke attribute"
     }
+  },
+  "tenantCertifier": {
+    "tabs": {
+      "ariaLabel": "Two different tabs for managing certified attributes and for their assignment and revocation",
+      "manage": "Attribute management",
+      "assign": "Attribute assignment"
+    },
+    "manageTab": {
+      "filters": {
+        "nameField": {
+          "label": "Search by name"
+        }
+      },
+      "drawer": {
+        "title": "Create new certificate attribute",
+        "subtitle": "Once created, you can assign and revoke this attribute to other entities",
+        "submitBtnLabel": "Create attribute",
+        "form": {
+          "nameField": {
+            "label": "Attribute name",
+            "infoLabel": "Min 5 chars, max 160 chars"
+          },
+          "descriptionField": {
+            "label": "Attribute description",
+            "infoLabel": "Min 10 chars, max 250 chars"
+          }
+        }
+      }
+    },
+    "attributeDetails": {
+      "descriptionField": {
+        "label": "Description"
+      },
+      "backToTenantCertifierBtn": "Return to tenant certifier"
+    }
   }
 }

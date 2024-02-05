@@ -194,11 +194,14 @@
     "SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT": "Gestisci client API Interop",
     "SUBSCRIBE_INTEROP_M2M": "I tuoi client API Interop",
     "SUBSCRIBE": "Fruizione",
-    "PARTY_REGISTRY": "Anagrafica ente",
+    "PARTY_REGISTRY": "Anagrafica e attributi",
     "NOT_FOUND": "Pagina non trovata",
     "SUBSCRIBE_DEBUG_VOUCHER": "Debug client assertion",
     "ASSISTENCE_PARTY_SELECTION": "Selezione ente",
     "ASSISTENCE_PARTY_SELECTION_ERROR": "Errore selezione ente",
-    "DEFAULT": ""
+    "DEFAULT": "",
+    "TENANT": "Il tuo ente",
+    "TENANT_CERTIFIER": "Ente certificatore",
+    "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo"
   }
 }
