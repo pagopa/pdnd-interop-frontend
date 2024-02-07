@@ -60,7 +60,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
       limit: 50,
       offset: 0,
       kinds: ['CERTIFIED'],
-      origin: activeTenant?.features[0].certifier?.certifierId,
+      origin: activeTenant?.features[0]?.certifier?.certifierId,
       q: getAttributeQ(),
     },
     {
