@@ -225,7 +225,40 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
     >
       <div
         class="MuiBox-root css-6aqev1"
-      />
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          <div
+            class="MuiStack-root css-zayqnb-MuiStack-root"
+          />
+          <div
+            class="MuiStack-root css-1pj1j6w-MuiStack-root"
+          >
+            <div
+              class="MuiBox-root css-1rr4qq7"
+            >
+              <h1
+                class="MuiTypography-root MuiTypography-h4 css-fatzjd-MuiTypography-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-usfy4q-MuiSkeleton-root"
+                />
+              </h1>
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-15nfii5-MuiTypography-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-usfy4q-MuiSkeleton-root"
+                />
+              </p>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root css-164r41r"
+          />
+        </div>
+      </div>
     </main>
   </div>
   <footer
@@ -596,32 +629,36 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
           class="MuiBox-root css-6aqev1"
         >
           <div
-            class="MuiStack-root css-1x1sbk3-MuiStack-root"
+            class="MuiBox-root css-0"
           >
             <div
-              class="MuiStack-root css-1p52ilz-MuiStack-root"
+              class="MuiStack-root css-zayqnb-MuiStack-root"
+            />
+            <div
+              class="MuiStack-root css-1pj1j6w-MuiStack-root"
             >
-              <h1
-                class="MuiTypography-root MuiTypography-h3 css-fm0214-MuiTypography-root"
+              <div
+                class="MuiBox-root css-1rr4qq7"
               >
-                default.title
-              </h1>
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-1wenj6t-MuiTypography-root"
-              >
-                default.description
-              </p>
+                <h1
+                  class="MuiTypography-root MuiTypography-h4 css-fatzjd-MuiTypography-root"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-usfy4q-MuiSkeleton-root"
+                  />
+                </h1>
+                <p
+                  class="MuiTypography-root MuiTypography-body1 css-15nfii5-MuiTypography-root"
+                >
+                  <span
+                    class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-usfy4q-MuiSkeleton-root"
+                  />
+                </p>
+              </div>
             </div>
-            <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation css-1tk6yq4-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              actions.reloadPage
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
+            <div
+              class="MuiBox-root css-164r41r"
+            />
           </div>
         </div>
       </main>
