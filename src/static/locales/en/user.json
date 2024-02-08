@@ -1,7 +1,4 @@
 {
-  "loadingSingleLabel": "Loading operator",
-  "loadingMultiLabel": "Loading operators",
-  "noMultiDataLabel": "No operator available",
   "backToMemberListBtn": "Back to members list",
   "actionReservedToAdminTooltip": "This actions is reserved to user with administrator permissions",
   "actions": {
@@ -16,28 +13,11 @@
   },
   "edit": {
     "generalInformations": "General informations",
-    "roleField": {
-      "label": "Role"
-    },
     "productRoleField": {
       "label": "Permissions on PDND Interoperability"
     },
-    "statusField": {
-      "label": "User status"
-    },
-    "associatedKeysField": {
-      "label": "Associated keys",
-      "noDataLabel": "No key associated"
-    },
     "operatorKeysLink": {
       "label": "Go to the view of the keys associated with the user"
-    }
-  },
-  "list": {
-    "provider": {
-      "title": "Party API operators",
-      "description": "In this section, you can find all the API operators enabled to operate for this party. They can manage the lifecycle of your e-services",
-      "tempAlertMessage": "If the operator is not in the list, please get in touch with support to have it added"
     }
   }
 }

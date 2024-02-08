@@ -26,7 +26,7 @@ export const PurposeEditStep1General: React.FC<ActiveStepProps> = (props) => {
     title: purpose.title,
     description: purpose.description,
     dailyCalls: purpose.versions[0]?.dailyCalls ?? 1,
-    isFreeOfCharge: purpose.isFreeOfCharge ? 'SI' : 'NO',
+    isFreeOfCharge: purpose.isFreeOfCharge ? 'YES' : 'NO',
     freeOfChargeReason: purpose.freeOfChargeReason,
   }
 

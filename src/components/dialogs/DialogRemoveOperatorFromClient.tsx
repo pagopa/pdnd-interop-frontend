@@ -14,7 +14,7 @@ export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromCl
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('shared-components', { keyPrefix: 'DialogRemoveOperatorFromClient' })
+  const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRemoveOperatorFromClient' })
   const { mutate: removeOperatorFromClient } = ClientMutations.useRemoveOperator()
 
   const handleCancel = () => {

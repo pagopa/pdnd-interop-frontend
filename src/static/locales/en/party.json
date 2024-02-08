@@ -1,5 +1,16 @@
 {
-  "loadingPartyDataLabel": "We are loading party's data",
+  "generalInfo": {
+    "title": "General Information",
+    "digitalAddressField": {
+      "label": "Digital Address"
+    },
+    "onBoardingDateField": {
+      "label": "Date of joining"
+    },
+    "subUnitTypeField": {
+      "label": "Organization type"
+    }
+  },
   "contacts": {
     "title": "contacts",
     "mailField": {
@@ -37,6 +48,57 @@
       "noAttributesLabel": "You have not submitted any declared attributes",
       "declareActionLabel": "Declare attribute",
       "revokeActionLabel": "Revoke attribute"
+    }
+  },
+  "tenantCertifier": {
+    "tabs": {
+      "ariaLabel": "Two different tabs for managing certified attributes and for their assignment and revocation",
+      "manage": "Attribute management",
+      "assign": "Attribute assignment"
+    },
+    "manageTab": {
+      "filters": {
+        "nameField": {
+          "label": "Search by name"
+        }
+      },
+      "drawer": {
+        "title": "Create new certificate attribute",
+        "subtitle": "Once created, you can assign and revoke this attribute to other entities",
+        "submitBtnLabel": "Create attribute",
+        "form": {
+          "nameField": {
+            "label": "Attribute name",
+            "infoLabel": "Min 5 chars, max 160 chars"
+          },
+          "descriptionField": {
+            "label": "Attribute description",
+            "infoLabel": "Min 10 chars, max 250 chars"
+          }
+        }
+      }
+    },
+    "assignTab": {
+      "assignAttributeBtn": "Assign attribute",
+      "drawer": {
+        "title": "Assign attribute",
+        "subtitle": "The assigned body will be able to use the selected certified attribute for all e-services present on PDND Interoperability",
+        "submitBtnLabel": "Assign attribute",
+        "form": {
+          "attributeField": {
+            "label": "Attribute name"
+          },
+          "tenantField": {
+            "label": "Assignee tenant"
+          }
+        }
+      }
+    },
+    "attributeDetails": {
+      "descriptionField": {
+        "label": "Description"
+      },
+      "backToTenantCertifierBtn": "Return to tenant certifier"
     }
   }
 }

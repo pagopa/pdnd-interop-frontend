@@ -11,7 +11,7 @@ export const DebugVoucherResultsStepsSection: React.FC = () => {
   const { response } = useDebugVoucherContext()
 
   return (
-    <SectionContainer title={t('title')} newDesign>
+    <SectionContainer title={t('title')}>
       <Stack spacing={2}>
         <DebugVoucherResultsStep
           step={response.steps.clientAssertionValidation}

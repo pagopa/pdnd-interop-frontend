@@ -14,7 +14,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   if (!descriptor?.attributes) return null
 
   return (
-    <SectionContainer newDesign title={t('title')} description={t('description')}>
+    <SectionContainer title={t('title')} description={t('description')}>
       <ReadOnlyDescriptorAttributes descriptorAttributes={descriptor.attributes} />
     </SectionContainer>
   )

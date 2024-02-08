@@ -153,7 +153,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer newDesign title={t('create.preliminaryInformationSectionTitle')}>
+        <SectionContainer title={t('create.preliminaryInformationSectionTitle')}>
           <PurposeCreateEServiceAutocomplete />
           {/* {isEServiceSelected && mode === 'DELIVER' && (
             <>
@@ -165,7 +165,6 @@ export const PurposeCreateEServiceForm: React.FC = () => {
         {/* <PurposeCreateRiskAnalysisPreview /> */}
         {isEServiceSelected && mode === 'RECEIVE' && (
           <SectionContainer
-            newDesign
             title={t('create.eserviceRiskAnalysisSection.title')}
             description={t('create.eserviceRiskAnalysisSection.description')}
           >

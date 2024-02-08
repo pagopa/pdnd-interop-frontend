@@ -24,7 +24,8 @@ export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
     openDialog({ type: 'addClientToPurpose', purposeId })
   }
 
-  if (isPurposeArchived) return <Alert severity="info">{t('view.archivedPurposeAlert')}</Alert>
+  if (isPurposeArchived)
+    return <Alert severity="info">{t('consumerView.archivedPurposeClientsAlert')}</Alert>
 
   return (
     <>

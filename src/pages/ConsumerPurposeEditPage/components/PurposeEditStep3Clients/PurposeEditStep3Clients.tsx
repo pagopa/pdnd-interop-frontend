@@ -26,7 +26,7 @@ export const PurposeEditStep3Clients: React.FC<ActiveStepProps> = ({ back }) => 
 
   return (
     <>
-      <SectionContainer newDesign title={t('step3.title')}>
+      <SectionContainer title={t('step3.title')}>
         <React.Suspense fallback={<PurposeEditStep3AddClientsTableSkeleton />}>
           <PurposeEditStep3AddClientsTable purposeId={purposeId} />
         </React.Suspense>

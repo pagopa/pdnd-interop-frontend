@@ -7,7 +7,13 @@ import {
 } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import AttributeServices from './attribute.services'
-import type { Attribute, Attributes, GetAttributesParams } from '../api.generatedTypes'
+import type {
+  Attribute,
+  Attributes,
+  GetAttributesParams,
+  GetRequesterCertifiedAttributesParams,
+  RequesterCertifiedAttributes,
+} from '../api.generatedTypes'
 
 export enum AttributeQueryKeys {
   GetList = 'AttributeGetList',
@@ -16,12 +22,24 @@ export enum AttributeQueryKeys {
   GetPartyVerifiedList = 'AttributeGetPartyVerifiedList',
   GetPartyDeclaredList = 'AttributeGetPartyDeclaredList',
   GetPartyList = 'AttributeGetPartyList',
+  GetRequesterCertifiedAttributesList = 'AttributeGetRequesterCertifiedAttributesList',
 }
 
 function useGetList(params: GetAttributesParams, config?: UseQueryOptions<Attributes>) {
   return useQuery({
     queryKey: [AttributeQueryKeys.GetList, params],
     queryFn: () => AttributeServices.getList(params),
+    ...config,
+  })
+}
+
+function useGetRequesterCertifiedAttributesList(
+  params: GetRequesterCertifiedAttributesParams,
+  config?: UseQueryOptions<RequesterCertifiedAttributes>
+) {
+  return useQuery({
+    queryKey: [AttributeQueryKeys.GetRequesterCertifiedAttributesList, params],
+    queryFn: () => AttributeServices.getRequesterCertifiedAttributesList(params),
     ...config,
   })
 }
@@ -99,6 +117,17 @@ function useGetListParty(partyId?: string, config = { suspense: true }) {
   })
 }
 
+function useCreateCertified() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'attribute.create' })
+  return useMutation(AttributeServices.createCertified, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
 function useCreateVerified() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'attribute.create' })
   return useMutation(AttributeServices.createVerified, {
@@ -115,6 +144,32 @@ function useCreateDeclared() {
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useAddCertifiedAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.addCertifiedAttribute',
+  })
+  return useMutation(AttributeServices.addCertifiedAttribute, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
+function useRevokeCertifiedAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.revokeCertifiedAttribute',
+  })
+  return useMutation(AttributeServices.revokeCertifiedAttribute, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
     },
   })
 }
@@ -189,6 +244,7 @@ function useRevokeDeclaredPartyAttribute() {
 
 export const AttributeQueries = {
   useGetList,
+  useGetRequesterCertifiedAttributesList,
   useGetSingle,
   usePrefetchSingle,
   useGetPartyCertifiedList,
@@ -199,8 +255,11 @@ export const AttributeQueries = {
 }
 
 export const AttributeMutations = {
+  useCreateCertified,
   useCreateVerified,
   useCreateDeclared,
+  useAddCertifiedAttribute,
+  useRevokeCertifiedAttribute,
   useVerifyPartyAttribute,
   useUpdateVerifiedPartyAttribute,
   useRevokeVerifiedPartyAttribute,

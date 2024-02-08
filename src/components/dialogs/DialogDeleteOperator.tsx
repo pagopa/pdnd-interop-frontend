@@ -20,7 +20,7 @@ export const DialogDeleteOperator: React.FC<DialogDeleteOperatorProps> = ({
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('shared-components', { keyPrefix: 'DialogDeleteOperator' })
+  const { t } = useTranslation('shared-components', { keyPrefix: 'dialogDeleteOperator' })
 
   const selfcareUserPageUrl = `${SELFCARE_BASE_URL}/dashboard/${selfcareId}/users/${userId}`
 

@@ -30,7 +30,6 @@ export const PartyContactsSection: React.FC = () => {
     <Grid container>
       <Grid item xs={8}>
         <SectionContainer
-          newDesign
           title={t('title')}
           topSideActions={
             isAdmin

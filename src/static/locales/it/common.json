@@ -1,9 +1,6 @@
 {
-  "noDataLabel": "Nessun risultato",
-  "productTitle": "Interoperabilità",
   "addBtn": "Aggiungi",
   "closeBtn": "Chiudi",
-  "howLink": "Come funziona?",
   "createNewBtn": "Crea nuovo",
   "validation": {
     "mixed": {
@@ -18,20 +15,6 @@
       "max": "Il valore deve essere inferiore o uguale a {{max}}"
     }
   },
-  "mainNav": {
-    "ariaLabel": "Navigazione principale",
-    "userExternalLinkLabel": "Utenti"
-  },
-  "loading": {
-    "sessionToken": {
-      "label": "Stiamo autenticando la sessione. Attendere, prego"
-    }
-  },
-  "unauthorized": {
-    "title": "Autorizzazione insufficiente",
-    "description": "Spiacenti, non hai permessi sufficienti per accedere alla funzionalità richiesta",
-    "cta": "Torna alla home"
-  },
   "actions": {
     "suspend": "Sospendi",
     "activate": "Attiva",
@@ -45,21 +28,15 @@
     "download": "Scarica",
     "archive": "Archivia",
     "cancel": "Annulla",
-    "verify": "Verifica",
-    "revoke": "Revoca",
     "confirm": "Conferma",
     "createNewDraft": "Crea bozza",
     "saveDraft": "Salva bozza",
-    "backToCatalog": "Torna al catalogo",
     "manageDraft": "Gestisci bozza",
     "deleteDraft": "Elimina bozza",
     "publishDraft": "Pubblica bozza",
     "editDraft": "Modifica bozza",
-    "updateCompletionDate": "Aggiorna data di attivazione",
-    "confirmUpdate": "Conferma aggiornamento",
-    "filter": "Filtra",
-    "cancelFilter": "Annulla filtri",
-    "insert": "Inserisci"
+    "insert": "Inserisci",
+    "revoke": "Revoca"
   },
   "table": {
     "headData": {
@@ -68,7 +45,6 @@
       "purposeName": "Finalità",
       "providerName": "Erogatore",
       "subscriberName": "Fruitore",
-      "currentVersion": "Versione attuale",
       "version": "Versione",
       "status": "Stato",
       "agreementStatus": "Stato richiesta",
@@ -76,7 +52,10 @@
       "keyName": "Chiave",
       "keyUploader": "Caricata da",
       "keyUploadDate": "Data di creazione",
-      "userName": "Nome e cognome"
+      "userName": "Nome e cognome",
+      "certifiedAttributes": "Attributi certificati",
+      "assigneeTenant": "Ente assegnatario",
+      "certifiedAttribute": "Attributo certificato"
     }
   },
   "status": {
@@ -107,35 +86,7 @@
       "SUSPENDED": "sospesa",
       "WAITING_FOR_APPROVAL": "in attesa di approvazione",
       "ARCHIVED": "archiviata"
-    },
-    "user": {
-      "PENDING": "in attesa di approvazione",
-      "ACTIVE": "attivo",
-      "SUSPENDED": "sospeso",
-      "DELETED": "rimosso"
-    },
-    "attribute": {
-      "certified": {
-        "ACTIVE": "certificato",
-        "NOT_ACTIVE": "non certificato",
-        "REVOKED": "revocato"
-      },
-      "verified": {
-        "ACTIVE": "verificato",
-        "NOT_ACTIVE": "da verificare",
-        "REVOKED": "revocato"
-      },
-      "declared": {
-        "ACTIVE": "dichiarato",
-        "NOT_ACTIVE": "in attesa di conferma",
-        "REVOKED": "revocato"
-      }
     }
-  },
-  "userRole": {
-    "MANAGER": "Amministratore",
-    "DELEGATE": "Delegato",
-    "OPERATOR": "Operatore"
   },
   "userProductRole": {
     "admin": "Amministratore",
@@ -144,39 +95,13 @@
     "support": "Supporto"
   },
   "time": {
-    "second_one": "secondo",
-    "second_other": "secondi",
     "minute_one": "minuto",
-    "minute_other": "minuti",
-    "hour_one": "ora",
-    "hour_other": "ore"
-  },
-  "conjunctions": {
-    "and": "e",
-    "or": "o"
-  },
-  "mode": {
-    "provider": "erogazione",
-    "subscriber": "fruizione"
-  },
-  "help": {
-    "title": "Guida introduttiva",
-    "description": "In questa pagina puoi trovare informazioni utili per gestire le operazioni e i problemi più comuni. NB: questa guida sarà sostituita da un portale documentale all'entrata in esercizio della piattaforma"
+    "minute_other": "minuti"
   },
   "tos": {
     "title": "Termini di servizio"
   },
   "privacyPolicy": {
     "title": "Privacy Policy"
-  },
-  "error": {},
-  "idLabels": {
-    "eserviceId": "eserviceId",
-    "descriptorId": "descriptorId",
-    "agreementId": "agreementId",
-    "purposeId": "purposeId",
-    "clientId": "clientId",
-    "providerId": "organizationId (erogatore)",
-    "consumerId": "organizationId (fruitore)"
   }
 }

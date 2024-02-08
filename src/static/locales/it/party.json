@@ -1,5 +1,16 @@
 {
-  "loadingPartyDataLabel": "Stiamo caricando i dati dell'ente",
+  "generalInfo": {
+    "title": "Informazioni generali",
+    "digitalAddressField": {
+      "label": "Domicilio digitale"
+    },
+    "onBoardingDateField": {
+      "label": "Data di adesione"
+    },
+    "subUnitTypeField": {
+      "label": "Tipologia di ente"
+    }
+  },
   "contacts": {
     "title": "Contatti",
     "mailField": {
@@ -37,6 +48,57 @@
       "noAttributesLabel": "Non hai presentato nessun attributo dichiarato",
       "declareActionLabel": "Dichiara attributo",
       "revokeActionLabel": "Revoca attributo"
+    }
+  },
+  "tenantCertifier": {
+    "tabs": {
+      "ariaLabel": "Due tab diverse per la gestione degli attributi certificati e per la loro assegnazione e revoca",
+      "manage": "Gestione attributi",
+      "assign": "Assegnazione attributi"
+    },
+    "manageTab": {
+      "filters": {
+        "nameField": {
+          "label": "Cerca per nome"
+        }
+      },
+      "drawer": {
+        "title": "Crea nuovo attributo certificato",
+        "subtitle": "Una volta creato, potrai assegnare e revocare questo attributo agli altri enti",
+        "submitBtnLabel": "Crea attributo",
+        "form": {
+          "nameField": {
+            "label": "Nome dell'attributo",
+            "infoLabel": "Min 5 caratteri, max 160 caratteri"
+          },
+          "descriptionField": {
+            "label": "Descrizione dell’attributo",
+            "infoLabel": "Min 10 caratteri, max 250 caratteri"
+          }
+        }
+      }
+    },
+    "assignTab": {
+      "assignAttributeBtn": "Assegna attributo",
+      "drawer": {
+        "title": "Assegna attributo",
+        "subtitle": "L’ente assegnatario potrà spendere l’attributo certificato selezionato per tutti gli e-service presenti su PDND Interoperabilità",
+        "submitBtnLabel": "Assegna attributo",
+        "form": {
+          "attributeField": {
+            "label": "Nome dell'attributo"
+          },
+          "tenantField": {
+            "label": "Ente assegnatario"
+          }
+        }
+      }
+    },
+    "attributeDetails": {
+      "descriptionField": {
+        "label": "Descrizione"
+      },
+      "backToTenantCertifierBtn": "Torna a ente certificatore"
     }
   }
 }

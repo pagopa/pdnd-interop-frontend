@@ -1,4 +1,4 @@
-import type { Agreement } from '@/api/api.generatedTypes'
+import type { Agreement, RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -19,6 +19,7 @@ export type DialogProps =
   | DialogUpgradeAgreementVersionProps
   | DialogDeleteOperatorProps
   | DialogRemoveOperatorFromClientProps
+  | DialogRevokeCertifiedAttributeProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -65,4 +66,9 @@ export type DialogRemoveOperatorFromClientProps = {
   type: 'removeOperatorFromClient'
   clientId: string
   userId: string
+}
+
+export type DialogRevokeCertifiedAttributeProps = {
+  type: 'revokeCertifiedAttribute'
+  attribute: RequesterCertifiedAttribute
 }

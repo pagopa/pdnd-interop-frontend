@@ -905,8 +905,6 @@ export interface DescriptorAttributeSeed {
 export interface CertifiedAttributeSeed {
   description: string
   name: string
-  code: string
-  origin?: string
 }
 
 /**
@@ -970,6 +968,20 @@ export interface DeclaredAttribute {
   name: string
   /** @format date-time */
   creationTime: string
+}
+
+export interface RequesterCertifiedAttribute {
+  /** @format uuid */
+  tenantId: string
+  tenantName: string
+  /** @format uuid */
+  attributeId: string
+  attributeName: string
+}
+
+export interface RequesterCertifiedAttributes {
+  results: RequesterCertifiedAttribute[]
+  pagination: Pagination
 }
 
 /**
@@ -1206,6 +1218,11 @@ export interface CompactUser {
 
 export interface PublicKeys {
   keys: PublicKey[]
+}
+
+export interface CertifiedTenantAttributeSeed {
+  /** @format uuid */
+  id: string
 }
 
 export interface Problem {
@@ -1477,6 +1494,20 @@ export interface GetInstitutionUsersParams {
    * @format uuid
    */
   tenantId: string
+}
+
+export interface GetRequesterCertifiedAttributesParams {
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
 }
 
 export interface GetProducerPurposesParams {
@@ -2973,6 +3004,35 @@ export namespace Tenants {
     export type ResponseBody = Users
   }
   /**
+   * @description Retrieve the certified attributes
+   * @tags tenants
+   * @name GetRequesterCertifiedAttributes
+   * @summary Gets the certified attributes of the requester
+   * @request GET:/tenants/attributes/certified
+   * @secure
+   */
+  export namespace GetRequesterCertifiedAttributes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = RequesterCertifiedAttributes
+  }
+  /**
    * @description Gets certified attributes for institution using internal institution id
    * @tags tenants
    * @name GetCertifiedAttributes
@@ -2992,6 +3052,26 @@ export namespace Tenants {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = CertifiedAttributesResponse
+  }
+  /**
+   * @description Add a certified attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name AddCertifiedAttribute
+   * @request POST:/tenants/{tenantId}/attributes/certified
+   * @secure
+   */
+  export namespace AddCertifiedAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = CertifiedTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
   /**
    * @description Adds the declared attribute to the Institution
@@ -3089,6 +3169,31 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = VerifiedTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revoke a certified attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name RevokeCertifiedAttribute
+   * @request DELETE:/tenants/{tenantId}/attributes/certified/{attributeId}
+   * @secure
+   */
+  export namespace RevokeCertifiedAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = void
   }

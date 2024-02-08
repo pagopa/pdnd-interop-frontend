@@ -29,10 +29,10 @@ const ProviderPurposeDetailsPage: React.FC = () => {
     <PageContainer
       title={purpose?.title}
       isLoading={isLoading}
-      newTopSideActions={actions}
+      topSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
       backToAction={{
-        label: t('backToPurposeListBtn'),
+        label: t('backToListBtn'),
         to: 'PROVIDE_PURPOSE_LIST',
       }}
     >

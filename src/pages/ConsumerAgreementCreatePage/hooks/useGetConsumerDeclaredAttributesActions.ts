@@ -5,7 +5,9 @@ import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCr
 import { AuthHooks } from '@/api/auth'
 
 export const useGetConsumerDeclaredAttributesActions = () => {
-  const { t } = useTranslation('agreement', { keyPrefix: 'read.attributes' })
+  const { t } = useTranslation('agreement', {
+    keyPrefix: 'consumerRead.sections.attributesSectionsList.declaredSection.actions',
+  })
   const { isAdmin } = AuthHooks.useJwt()
   const { partyAttributes, agreement } = useConsumerAgreementCreateContentContext()
 
@@ -28,7 +30,7 @@ export const useGetConsumerDeclaredAttributesActions = () => {
 
     return [
       {
-        label: t('declared.actions.declare'),
+        label: t('declare'),
         action: handleDeclareAttribute,
       },
     ]

@@ -71,7 +71,7 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
 
   return (
     <>
-      <SectionContainer newDesign title={t('purposeInfoTitle')}>
+      <SectionContainer title={t('purposeInfoTitle')}>
         <DescriptionBlock label={t('purposeTitle')}>{purpose.title}</DescriptionBlock>
         <DescriptionBlock label={t('purposeDescription')}>{purpose.description}</DescriptionBlock>
 

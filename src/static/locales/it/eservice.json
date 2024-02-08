@@ -1,12 +1,5 @@
 {
   "backToListBtn": "Torna agli e-service",
-  "status": {
-    "PUBLISHED": "attivo",
-    "DRAFT": "in bozza",
-    "SUSPENDED": "sospeso",
-    "ARCHIVED": "archiviato",
-    "DEPRECATED": "deprecato"
-  },
   "create": {
     "emptyTitle": "Crea e-service",
     "stepper": {
@@ -204,9 +197,6 @@
     }
   },
   "list": {
-    "title": "Catalogo degli E-Service",
-    "description": "In quest'area puoi esplorare tutti gli e-service nel catalogo",
-    "inspectAction": "Ispeziona",
     "filters": {
       "nameField": {
         "label": "Cerca per nome"
@@ -217,13 +207,6 @@
       "consumerField": {
         "label": "Cerca per fruitore"
       }
-    }
-  },
-  "manage": {
-    "tabs": {
-      "ariaLabel": "Due tab diverse per i dettagli dell'e-service e le stime di carico indicate dai fruitori",
-      "details": "Dettagli dell'e-service",
-      "purposeAwaitingApproval": "Finalità da evadere"
     }
   },
   "read": {
@@ -302,19 +285,9 @@
     }
   },
   "tableEServiceCatalog": {
-    "youAreTheProvider": "Sei l'erogatore",
-    "alreadySubscribed": "Sei già iscritto",
-    "agreementInDraft": "Hai una richiesta in bozza",
-    "cannotSubscribe": "Non puoi iscriverti",
-    "goToRequestCta": "Vai alla richiesta",
     "subscribe": "Richiedi fruizione",
     "editDraft": "Completa richiesta",
     "inspect": "Visualizza richiesta",
-    "handleRequest": "Gestisci richiesta",
-    "eserviceCardLabel": "E-SERVICE",
-    "myEserviceCardLabel": "E-SERVICE DA TE EROGATO",
-    "requestCompleted": "Richiesta completata",
-    "draftRequest": "Richiesta in bozza",
     "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
     "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
   }

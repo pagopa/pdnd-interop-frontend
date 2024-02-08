@@ -39,7 +39,6 @@ export const ProviderAgreementDetailsDeclaredAttributesSection: React.FC = () =>
 
   return (
     <SectionContainer
-      newDesign
       title={tAttribute('declared.label')}
       description={tAttribute(`declared.description`)}
     >

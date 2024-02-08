@@ -71,13 +71,13 @@ export const ConsumerAgreementDetailsVerifiedAttributesSection: React.FC = () =>
 
     if (isGroupFulfilled) {
       return {
-        title: tAttribute(`group.manage.success.provider`),
+        title: tAttribute(`group.manage.success.consumer`),
         color: 'success',
       }
     }
 
     return {
-      title: tAttribute(`group.manage.warning.verified.provider`),
+      title: tAttribute(`group.manage.warning.verified.consumer`),
       color: 'warning',
     }
   }
@@ -85,7 +85,6 @@ export const ConsumerAgreementDetailsVerifiedAttributesSection: React.FC = () =>
   return (
     <>
       <SectionContainer
-        newDesign
         title={tAttribute('verified.label')}
         description={
           <Trans
@@ -117,7 +116,7 @@ export const ConsumerAgreementDetailsVerifiedAttributesSection: React.FC = () =>
           ))}
           {verifiedAttributeGroups.length === 0 && (
             <AttributeGroupContainer
-              title={tAttribute(`noAttributesRequiredAlert.provider`, {
+              title={tAttribute(`noAttributesRequiredAlert.consumer`, {
                 attributeKey: tAttribute(`type.verified_other`),
               })}
               color="gray"

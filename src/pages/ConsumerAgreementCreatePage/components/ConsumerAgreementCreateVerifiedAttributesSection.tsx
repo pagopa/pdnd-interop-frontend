@@ -28,7 +28,6 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
 
   return (
     <SectionContainer
-      newDesign
       sx={{ borderRadius: 2 }}
       title={tAttribute('verified.label')}
       description={

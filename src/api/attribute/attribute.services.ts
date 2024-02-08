@@ -4,10 +4,14 @@ import type {
   Attribute,
   AttributeSeed,
   Attributes,
+  CertifiedAttributeSeed,
   CertifiedAttributesResponse,
+  CertifiedTenantAttributeSeed,
   DeclaredAttributesResponse,
   DeclaredTenantAttributeSeed,
   GetAttributesParams,
+  GetRequesterCertifiedAttributesParams,
+  RequesterCertifiedAttributes,
   UpdateVerifiedTenantAttributeSeed,
   VerifiedAttributesResponse,
   VerifiedTenantAttributeSeed,
@@ -17,6 +21,16 @@ async function getList(params?: GetAttributesParams) {
   const response = await axiosInstance.get<Attributes>(`${BACKEND_FOR_FRONTEND_URL}/attributes`, {
     params,
   })
+  return response.data
+}
+
+async function getRequesterCertifiedAttributesList(params?: GetRequesterCertifiedAttributesParams) {
+  const response = await axiosInstance.get<RequesterCertifiedAttributes>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/attributes/certified`,
+    {
+      params,
+    }
+  )
   return response.data
 }
 
@@ -48,6 +62,14 @@ async function getPartyDeclaredList(partyId: string) {
   return response.data
 }
 
+async function createCertified(payload: CertifiedAttributeSeed) {
+  const response = await axiosInstance.post<Attribute>(
+    `${BACKEND_FOR_FRONTEND_URL}/certifiedAttributes`,
+    payload
+  )
+  return response.data
+}
+
 async function createVerified(payload: AttributeSeed) {
   const response = await axiosInstance.post<Attribute>(
     `${BACKEND_FOR_FRONTEND_URL}/verifiedAttributes`,
@@ -62,6 +84,28 @@ async function createDeclared(payload: AttributeSeed) {
     payload
   )
   return response.data
+}
+
+async function addCertifiedAttribute({
+  tenantId,
+  ...payload
+}: { tenantId: string } & CertifiedTenantAttributeSeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certified`,
+    payload
+  )
+}
+
+async function revokeCertifiedAttribute({
+  tenantId,
+  attributeId,
+}: {
+  tenantId: string
+  attributeId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certified/${attributeId}`
+  )
 }
 
 async function verifyPartyAttribute({
@@ -109,12 +153,16 @@ async function revokeDeclaredPartyAttribute({ attributeId }: { attributeId: stri
 
 const AttributeServices = {
   getList,
+  getRequesterCertifiedAttributesList,
   getSingle,
   getPartyCertifiedList,
   getPartyVerifiedList,
   getPartyDeclaredList,
+  createCertified,
   createVerified,
   createDeclared,
+  addCertifiedAttribute,
+  revokeCertifiedAttribute,
   verifyPartyAttribute,
   updateVerifiedPartyAttribute,
   revokeVerifiedPartyAttribute,

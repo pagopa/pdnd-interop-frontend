@@ -1,119 +1,5 @@
 {
-  "loadingSingleLabel": "Loading request",
-  "loadingMultiLabel": "Loading requests",
   "backToRequestsBtn": "Go back to requests",
-  "read": {
-    "title": "Manage fruition request",
-    "noPurposeAlert": "Your agreement request is active. <1>Create your first purpose</1>",
-    "noCertifiedAttributesForUpgradeTooltip": "Your party does not have the needed certified attributes in order to upgrade to the latest version",
-    "updateDrawer": {
-      "title": "Fruition request upgrade",
-      "subtitle": "A newer version of the e-service has been released and you can upgrade",
-      "eserviceNewVersion": {
-        "title": "The new version of the e-service",
-        "content": "See <1>{{eserviceName}}, version {{eserviceVersion}}</1> details."
-      },
-      "meaning": {
-        "title": "What does it mean to upgrade?",
-        "paragraph1": "When a provider publishes a new version of an e-service, it means that there are changes compared to the previous one. These changes may be administrative, technical, or both.",
-        "paragraph2": "Before upgrading, make sure you have aligned all your systems to the API specification of the new version of the e-service.",
-        "paragraph3": "Need more information? <1>Read the guide</1>."
-      },
-      "noAttributesAlert": "The new request will not be active immediately, your institution does not have all the necessary attributes. You will be asked to integrate the request before forwarding it to the provider.",
-      "upgradeTextFieldLabel": "Type “upgrade” to enable the button",
-      "upgradeBtn": "Upgrade"
-    },
-    "summary": {
-      "title": "Summary",
-      "eserviceField": {
-        "label": "Request for",
-        "goToEServiceBtn": "Go to e-service",
-        "versionLabel": "version"
-      },
-      "providerField": {
-        "label": "Provider"
-      },
-      "consumerField": {
-        "label": "Consumer"
-      },
-      "requestStatusField": {
-        "label": "Request status"
-      },
-      "documentationField": {
-        "label": "Documentation",
-        "docLabel": "Agreement request"
-      },
-      "attachedDocsButtonLabel": "Show attached documents"
-    },
-    "attachedDocumentsDrawer": {
-      "title": "Attached documentation",
-      "subtitle": {
-        "consumer": "Contains all the documentation that you have sent to the supplier for the verification of the attributes",
-        "provider": "It contains all the documentation that the consuemr has sent you to verify the attributes"
-      },
-      "consumerMessage": {
-        "title": "Consumer message"
-      },
-      "attachedDocuments": {
-        "title": "Attached documents",
-        "noDocumentsLabel": "There are no attached documents"
-      }
-    },
-    "consumerMessage": {
-      "title": "Message for provider"
-    },
-    "rejectionMessage": {
-      "title": "Fruition request rejection reason",
-      "description": "The provider states their reason for refusing to activate this fruition request. You can always submit a new one"
-    },
-    "attributes": {
-      "title": "Attributes",
-      "description": "All the certified, verified or declared attributes that are required for the use of the e-service are indicated below.",
-      "howLink": "How?",
-      "verified": {
-        "actions": {
-          "verify": "Verify attribute",
-          "update": "Update verification",
-          "revoke": "Revoke attribute"
-        },
-        "drawer": {
-          "verify": {
-            "title": "Verify attribute",
-            "subtitle": "With this verification you declare that the consumer owns the requested attribute.",
-            "form": {
-              "radioGroup": {
-                "label": "When does the verification of this attribute expire?",
-                "options": {
-                  "NO": "Without expiration",
-                  "YES": "Set the expiration date"
-                }
-              },
-              "datePicker": {
-                "label": "Set the expiration date"
-              }
-            },
-            "info": {
-              "title": "What happens when an attribute expires?",
-              "description": "To find out more, <1>read the guide.</1>"
-            }
-          },
-          "revoke": {
-            "title": "Revoke attribute",
-            "subtitle": "By revoking the attribute, you declare that the consumer no longer owns the indicated attribute.",
-            "info": {
-              "title": "What happens when I revoke an attribute?",
-              "description": "To find out more, <1>read the guide.</1>"
-            }
-          }
-        }
-      },
-      "declared": {
-        "actions": {
-          "declare": "Declare attribute"
-        }
-      }
-    }
-  },
   "providerRead": {
     "title": "Manage agreement",
     "suspendedAlert": {
@@ -290,6 +176,11 @@
               "description": "Useful supporting notes reported by the consumer"
             }
           }
+        },
+        "declaredSection": {
+          "actions": {
+            "declare": "Declare attribute"
+          }
         }
       }
     }
@@ -300,19 +191,12 @@
       "title": "General Informations",
       "eserviceField": {
         "label": "Request for",
-        "goToEServiceBtn": "Go to e-service",
         "versionLabel": "version"
       },
       "providerField": {
         "label": "Provider"
       },
-      "requestStatusField": {
-        "label": "Request status"
-      },
       "certifiedAttributesDrawerButtonLabel": "View certified attributes"
-    },
-    "attribute": {
-      "subtitle": "You must own:"
     },
     "consumerNotes": {
       "title": "Message for provider",

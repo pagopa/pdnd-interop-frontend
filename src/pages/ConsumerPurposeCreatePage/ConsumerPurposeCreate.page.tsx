@@ -10,7 +10,7 @@ const ConsumerPurposeCreatePage: React.FC = () => {
     <PageContainer
       title={t('create.emptyTitle')}
       backToAction={{
-        label: t('create.backToListBtn'),
+        label: t('backToListBtn'),
         to: 'SUBSCRIBE_PURPOSE_LIST',
       }}
     >

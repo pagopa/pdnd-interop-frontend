@@ -26,20 +26,19 @@ export const ConsumerAgreementDetailsDeclaredAttributesSection: React.FC = () =>
 
     if (isGroupFulfilled) {
       return {
-        title: tAttribute(`group.manage.success.provider`),
+        title: tAttribute(`group.manage.success.consumer`),
         color: 'success',
       }
     }
 
     return {
-      title: tAttribute(`group.manage.warning.declared.provider`),
+      title: tAttribute(`group.manage.warning.declared.consumer`),
       color: 'warning',
     }
   }
 
   return (
     <SectionContainer
-      newDesign
       title={tAttribute('declared.label')}
       description={tAttribute(`declared.description`)}
     >
@@ -60,7 +59,7 @@ export const ConsumerAgreementDetailsDeclaredAttributesSection: React.FC = () =>
       </Stack>
       {declaredAttributeGroups.length === 0 && (
         <AttributeGroupContainer
-          title={tAttribute(`noAttributesRequiredAlert.provider`, {
+          title={tAttribute(`noAttributesRequiredAlert.consumer`, {
             attributeKey: tAttribute(`type.declared_other`),
           })}
           color="gray"

@@ -1,25 +1,7 @@
 import React from 'react'
-import type { TopSideActions } from '@/components/layout/containers/PageContainer'
-import type { ActionItem, OneTrustContent } from '@/types/common.types'
-import type { ButtonProps } from '@mui/material'
+import type { OneTrustContent } from '@/types/common.types'
 import { getKeys } from '@/utils/array.utils'
 import isEqual from 'lodash/isEqual'
-
-/**
- * Top side actions are formatted with the first action as a button, and the
- * rest inside of an actionMenu.
- */
-export function formatTopSideActions(
-  actions: Array<ActionItem>,
-  buttonProps?: Omit<ButtonProps, keyof ActionItem | 'onClick'>
-): TopSideActions | undefined {
-  return actions.length > 0
-    ? {
-        buttons: [{ ...actions[0], ...buttonProps }],
-        actionMenu: actions.slice(1).length > 0 ? actions.slice(1) : undefined,
-      }
-    : undefined
-}
 
 /**
  * Check if the session has expired.

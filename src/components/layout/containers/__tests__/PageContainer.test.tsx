@@ -46,66 +46,15 @@ describe('PageContainer', () => {
     expect(screen.baseElement).toMatchSnapshot()
   })
 
-  it('should match snapshot with action menu', () => {
-    const screen = renderWithApplicationContext(
-      <PageContainer
-        title="title"
-        description="description"
-        topSideActions={{
-          buttons: [],
-          actionMenu: [
-            {
-              label: 'action 1',
-              action: vi.fn(),
-            },
-            {
-              label: 'action 2',
-              action: vi.fn(),
-            },
-          ],
-        }}
-      >
-        {}
-      </PageContainer>,
-      { withRouterContext: true }
-    )
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
-  it('should match snapshot with top info tooltip', () => {
-    const screen = renderWithApplicationContext(
-      <PageContainer
-        title="title"
-        description="description"
-        topSideActions={{
-          buttons: [],
-          infoTooltip: 'infoTooltip',
-        }}
-      >
-        {}
-      </PageContainer>,
-      { withRouterContext: true }
-    )
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
   it('should match snapshot with buttons', () => {
     const screen = renderWithApplicationContext(
       <PageContainer
         title="title"
         description="description"
-        topSideActions={{
-          buttons: [
-            {
-              label: 'button 1',
-              action: vi.fn(),
-            },
-            {
-              label: 'button 2',
-              action: vi.fn(),
-            },
-          ],
-        }}
+        topSideActions={[
+          { label: '1', action: vi.fn() },
+          { label: '2', action: vi.fn() },
+        ]}
       >
         {}
       </PageContainer>,

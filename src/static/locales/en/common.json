@@ -1,9 +1,6 @@
 {
-  "noDataLabel": "No results",
-  "productTitle": "Interoperability",
   "addBtn": "Add",
   "closeBtn": "Close",
-  "howLink": "How?",
   "createNewBtn": "Create new",
   "validation": {
     "mixed": {
@@ -18,20 +15,6 @@
       "max": "The value must be less or equal to {{max}}"
     }
   },
-  "mainNav": {
-    "ariaLabel": "Main navigation",
-    "userExternalLinkLabel": "Users"
-  },
-  "loading": {
-    "sessionToken": {
-      "label": "We are authenticating this session. Please, wait"
-    }
-  },
-  "unauthorized": {
-    "title": "Insufficient authorization",
-    "description": "Sorry, you don't have enough permissions to access this feature",
-    "cta": "Go back to the homepage"
-  },
   "actions": {
     "suspend": "Suspend",
     "activate": "Activate",
@@ -45,21 +28,15 @@
     "download": "Download",
     "archive": "Archive",
     "cancel": "Cancel",
-    "verify": "Verify",
-    "revoke": "Revoke",
     "confirm": "Confirm",
     "createNewDraft": "Create draft",
     "saveDraft": "Save draft",
-    "backToCatalog": "Back to catalog",
     "manageDraft": "Manage draft",
     "deleteDraft": "Delete draft",
     "publishDraft": "Publish draft",
     "editDraft": "Edit draft",
-    "updateCompletionDate": "Update attivation date",
-    "confirmUpdate": "Confirm update",
-    "filter": "Filter",
-    "cancelFilter": "Cancel filters",
-    "insert": "Insert"
+    "insert": "Insert",
+    "revoke": "Revoke"
   },
   "table": {
     "headData": {
@@ -68,7 +45,6 @@
       "purposeName": "Purpose",
       "providerName": "Provider",
       "subscriberName": "Subscriber",
-      "currentVersion": "Current version",
       "version": "Versione",
       "status": "Status",
       "agreementStatus": "Request status",
@@ -76,7 +52,10 @@
       "keyName": "Key name",
       "keyUploader": "Uploaded by",
       "keyUploadDate": "Creation date",
-      "userName": "Name and surname"
+      "userName": "Name and surname",
+      "certifiedAttributes": "Certified attributes",
+      "assigneeTenant": "Assignee tenant",
+      "certifiedAttribute": "Certified attribute"
     }
   },
   "status": {
@@ -107,35 +86,7 @@
       "SUSPENDED": "suspended",
       "WAITING_FOR_APPROVAL": "waiting for approval",
       "ARCHIVED": "archived"
-    },
-    "user": {
-      "PENDING": "awaiting approval",
-      "ACTIVE": "active",
-      "SUSPENDED": "suspended",
-      "DELETED": "deleted"
-    },
-    "attribute": {
-      "certified": {
-        "ACTIVE": "certified",
-        "NOT_ACTIVE": "not certified",
-        "REVOKED": "revoked"
-      },
-      "verified": {
-        "ACTIVE": "verified",
-        "NOT_ACTIVE": "to verify",
-        "REVOKED": "revoked"
-      },
-      "declared": {
-        "ACTIVE": "dichiarato",
-        "NOT_ACTIVE": "pending confirmation",
-        "REVOKED": "revoked"
-      }
     }
-  },
-  "userRole": {
-    "MANAGER": "Administrator",
-    "DELEGATE": "Delegate",
-    "OPERATOR": "Operator"
   },
   "userProductRole": {
     "admin": "Administrator",
@@ -143,40 +94,14 @@
     "api": "API operator",
     "support": "Support"
   },
-  "mode": {
-    "provider": "provider",
-    "subscriber": "subscriber"
-  },
   "time": {
-    "second_one": "second",
-    "second_other": "seconds",
     "minute_one": "minute",
-    "minute_other": "minutes",
-    "hour_one": "hour",
-    "hour_other": "hours"
-  },
-  "conjunctions": {
-    "and": "and",
-    "or": "or"
-  },
-  "help": {
-    "title": "Getting started",
-    "description": "In this page you can find useful information to manage some everyday operations and overcome problems. Please note that this guide will be replaced with a dedicated documentation website as soon as the platform goes into production"
+    "minute_other": "minutes"
   },
   "tos": {
     "title": "Terms of service"
   },
   "privacyPolicy": {
     "title": "Privacy Policy"
-  },
-  "error": {},
-  "idLabels": {
-    "eserviceId": "eserviceId",
-    "descriptorId": "descriptorId",
-    "agreementId": "agreementId",
-    "purposeId": "purposeId",
-    "clientId": "clientId",
-    "providerId": "organizationId (provider)",
-    "consumerId": "organizationId (consumer)"
   }
 }

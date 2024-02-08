@@ -80,6 +80,7 @@ const ConsumerPurposesListPage: React.FC = () => {
           value: 'WAITING_FOR_APPROVAL',
         },
         { label: tPurpose('filters.statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
+        { label: tPurpose('filters.statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
       ],
     },
   ])
@@ -124,7 +125,7 @@ const ConsumerPurposesListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      newTopSideActions={isAdmin ? topSideActions : undefined}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />

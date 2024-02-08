@@ -70,7 +70,6 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   return (
     <>
       <SectionContainer
-        newDesign
         title={t('title')}
         bottomActions={[
           ...(!hasSingleVersion ? [navigateVersionsAction] : []),

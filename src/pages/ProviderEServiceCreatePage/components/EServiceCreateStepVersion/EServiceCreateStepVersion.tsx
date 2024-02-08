@@ -49,7 +49,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
     description: descriptor?.description ?? '',
     dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
     dailyCallsTotal: descriptor?.dailyCallsTotal ?? 1,
-    agreementApprovalPolicy: descriptor ? descriptor.agreementApprovalPolicy === 'MANUAL' : true,
+    agreementApprovalPolicy: descriptor ? descriptor.agreementApprovalPolicy === 'MANUAL' : false,
   }
 
   const formMethods = useForm({ defaultValues })
@@ -110,7 +110,6 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
-          newDesign
           title={t('step2.versionTitle', { versionNumber: descriptor?.version ?? '1' })}
           component="div"
         >
@@ -124,12 +123,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
             rules={{ required: true, minLength: 10 }}
             sx={{ my: 0, mt: 1 }}
           />
-          <SectionContainer
-            newDesign
-            innerSection
-            title={t('step2.voucherSection.title')}
-            sx={{ mt: 3 }}
-          >
+          <SectionContainer innerSection title={t('step2.voucherSection.title')} sx={{ mt: 3 }}>
             <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
               <RHFTextField
                 size="small"
@@ -159,12 +153,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
               />
             </Stack>
           </SectionContainer>
-          <SectionContainer
-            newDesign
-            innerSection
-            title={t('step2.thresholdSection.title')}
-            sx={{ mt: 3 }}
-          >
+          <SectionContainer innerSection title={t('step2.thresholdSection.title')} sx={{ mt: 3 }}>
             <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
               <RHFTextField
                 size="small"
@@ -195,7 +184,6 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
           </SectionContainer>
 
           <SectionContainer
-            newDesign
             innerSection
             title={t('step2.agreementApprovalPolicySection.title')}
             sx={{ mt: 3 }}

@@ -51,7 +51,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer newDesign title={t('title')}>
+        <SectionContainer title={t('title')}>
           <RHFTextField
             name="clientAssertion"
             focusOnMount

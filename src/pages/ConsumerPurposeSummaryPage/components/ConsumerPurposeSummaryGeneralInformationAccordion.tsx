@@ -46,12 +46,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
         direction="row"
         label={t('description.label')}
       />
-      <SectionContainer
-        newDesign
-        innerSection
-        sx={{ pt: 4 }}
-        title={t('loadEstimationSection.title')}
-      >
+      <SectionContainer innerSection sx={{ pt: 4 }} title={t('loadEstimationSection.title')}>
         <Stack spacing={2}>
           <InformationContainer
             content={t('loadEstimationSection.dailyCalls.value', {

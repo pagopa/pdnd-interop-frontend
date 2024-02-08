@@ -1,26 +1,14 @@
 {
-  "backToClientBtn": "Torna al client",
   "backBtn": "Indietro",
   "proceedBtn": "Avanti",
-  "keysLoading": {
-    "label": "Stiamo caricando le chiavi disponibili",
-    "error": "Non è stato possibile caricare le chiavi"
-  },
   "noPurposesLabel": "Questo client non è associato a nessuna finalità",
   "noKeysLabel": "Questo client non contiene chiavi pubbliche",
-  "createPurposeBtn": "Crea una nuova finalità",
-  "choosePurposeBtn": "scegli la finalità da associare",
-  "or": "oppure",
   "choosePurposeLabel": "Scegli la finalità da utilizzare",
   "purposeFailureMessage": "Attenzione! Non sarà possibile ottenere un voucher per questa finalità. In una o più componenti della pipeline è stato sospeso il servizio. Le componenti sospese sono:",
   "purposeFailureReason": {
     "eservice": "E-service",
     "agreement": "accordo di fruizione",
     "purpose": "finalità"
-  },
-  "uploadKey": {
-    "message": "Non ci sono chiavi disponibili, non è possibile ottenere un voucher. Per caricare la tua prima chiave, vai alla",
-    "linkLabel": "tab delle chiavi pubbliche"
   },
   "step1": {
     "stepperLabel": "Selezione parametri",
@@ -65,7 +53,6 @@
         "title": "Link alla specifica RFC7521"
       }
     },
-    "choosePublicKeyLabel": "Scegli la chiave pubblica da utilizzare",
     "assertionHeader": {
       "title": "Header dell'asserzione",
       "kidField": {
@@ -285,6 +272,7 @@
         "8026": "La client assertion è valida ma la finalità per la quale stai richiedendo il voucher non è attiva",
         "8027": "La client assertion è valida ma la versione di e-service per la quale stai richiedendo il voucher non è attiva",
         "8028": "La client assertion è valida ma la richiesta di fruizione per la quale stai richiedendo il voucher non è attiva",
+        "8033": "Il campo kid non è correttamente compilato. Il kid può essere costituito solo da caratteri alfanumerici, trattini e underscore. Quello inviato contiene caratteri speciali non riconosciuti",
         "8099": "L'id della chiave che hai indicato (kid) non fa parte del client che hai indicato come client id"
       }
     }
