@@ -1,6 +1,6 @@
 import { AuthHooks } from '@/api/auth'
 import { PartyQueries } from '@/api/party/party.hooks'
-import { useAuthGuard, useCurrentRoute } from '@/router'
+import { RouteKey, useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { ForbiddenError } from '@/utils/errors.utils'
 import React from 'react'
@@ -36,18 +36,14 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
-  function isCertifierUserAllowedToAcessCertifierRoutes() {
+  function isUserAllowedToAccessCertifierRoutes() {
     const isCertifier = Boolean(tenant?.features[0]?.certifier?.certifierId)
-
+    const certifierRoutes: Array<RouteKey> = [
+      'TENANT_CERTIFIER',
+      'TENANT_CERTIFIER_ATTRIBUTE_DETAILS',
+    ]
     // The user can watch certifier's routes only if he is certifier
-    if (
-      !isCertifier &&
-      (routeKey === 'TENANT_CERTIFIER' || routeKey === 'TENANT_CERTIFIER_ATTRIBUTE_DETAILS')
-    ) {
-      return false
-    }
-
-    return true
+    return isCertifier || !certifierRoutes.includes(routeKey)
   }
 
   function isUserAllowedToAccessRoute() {
@@ -59,7 +55,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
     return isAuthorized && !isInBlacklist && !(isInProvidersRoutes && !canAccessProviderRoutes)
   }
 
-  if (jwt && (!isUserAllowedToAccessRoute() || !isCertifierUserAllowedToAcessCertifierRoutes())) {
+  if (jwt && (!isUserAllowedToAccessRoute() || !isUserAllowedToAccessCertifierRoutes())) {
     throw new ForbiddenError()
   }
 
