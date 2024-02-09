@@ -287,7 +287,10 @@
           "subtitle": "Your current estimate is <strong>{{dailyCalls}} API calls/day</strong>. If the new value exceeds at least one of the thresholds imposed by the provider, it must be approved before becoming active. Do you have any doubts? <1>Read the guide</1>.",
           "dailyCallsFormField": {
             "label": "New load estimate",
-            "infoLable": "Estimated number of API calls/day"
+            "infoLable": "Estimated number of API calls/day",
+            "validation": {
+              "sameValue": "The number of API calls/day requested must be different than the current one"
+            }
           }
         },
         "thresholdsCard": {
