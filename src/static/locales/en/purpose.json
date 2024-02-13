@@ -115,11 +115,6 @@
     "riskAnalysisSection": {
       "title": "Risk analysis",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
-    },
-    "clientsSection": {
-      "title": "Associate clients",
-      "empty": "No associated clients",
-      "infoAlert": "You will always be able to modify the clients to be associated with this purpose, even after its publication."
     }
   },
   "list": {
