@@ -84,6 +84,7 @@
   },
   "summary": {
     "title": "Riepilogo",
+    "clientsAlert": "All’interno del processo <strong>è stata rimossa l’associazione del client</strong>. Sarà possibile associare uno o più client solo dopo l’attivazione della finalità.",
     "generalInformationSection": {
       "title": "Informazioni generali",
       "eservice": {
@@ -216,7 +217,7 @@
   },
   "consumerView": {
     "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione non potrai accedere ai dati resi disponibili attraverso l’API.",
-    "waitingForApprovalAlert": "Questa finalità è in attesa di approvazione. Fino alla sua attivazione da parte dell’erogatore non potrai accedere ai dati resi disponibili attraverso l’API.",
+    "waitingForApprovalAlert": "Questa finalità è in attesa di approvazione. <strong>Fino alla sua attivazione</strong> da parte dell’erogatore <strong>non potrai accedere ai dati</strong> resi disponibili attraverso l’API e <strong>non potrai associare client</strong>.",
     "archivedPurposeAlert": "Questa finalità è archiviata. Non puoi accedere ai dati resi disponibili attraverso l’API. Potrai sempre <1>crearne una nuova.</1>",
     "archivedPurposeClientsAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
     "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service",

@@ -84,6 +84,7 @@
   },
   "summary": {
     "title": "Summary",
+    "clientsAlert": "<strong>The client association was removed</strong> within the process. It will be possible to associate one or more clients only after the activation of the purpose.",
     "generalInformationSection": {
       "title": "General informations",
       "eservice": {
@@ -216,7 +217,7 @@
   },
   "consumerView": {
     "suspendedAlert": "This purpose is suspended. Until it is reactivated you will not be able to access the data made available through the API.",
-    "waitingForApprovalAlert": "This purpose is awaiting approval. Until its activation by the provider you will not be able to access the data made available through the API.",
+    "waitingForApprovalAlert": "This scope is awaiting approval. <strong>Until its activation</strong> by the provider you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
     "archivedPurposeAlert": "This purpose is archived. You cannot access the data made available through the API. You can always <1>create a new one.</1>",
     "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
     "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service",
