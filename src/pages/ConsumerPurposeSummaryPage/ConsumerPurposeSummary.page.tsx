@@ -1,7 +1,7 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Button, Stack } from '@mui/material'
+import { Alert, Button, Stack, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -78,6 +78,15 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       isLoading={isInitialLoading}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
     >
+      <Alert severity="info" sx={{ mb: 3 }}>
+        <Trans
+          components={{
+            strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+          }}
+        >
+          {t('summary.clientsAlert')}
+        </Trans>
+      </Alert>
       {!purpose && isInitialLoading ? (
         <Stack spacing={3}>
           <SummaryAccordionSkeleton />
