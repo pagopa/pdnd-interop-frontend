@@ -5,7 +5,7 @@ import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { RiskAnalysisVersionMismatchDialog } from './RiskAnalysisForm'
 
-export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back, forward }) => {
+export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const navigate = useNavigate()
 
@@ -40,6 +40,14 @@ export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back, 
     )
   }
 
+  const goToSummary = () => {
+    navigate('SUBSCRIBE_PURPOSE_SUMMARY', {
+      params: {
+        purposeId: purposeId,
+      },
+    })
+  }
+
   const handleSubmit = (answers: Record<string, string[]>) => {
     updatePurpose(
       {
@@ -51,7 +59,7 @@ export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back, 
         isFreeOfCharge: purpose.isFreeOfCharge,
         dailyCalls: purpose.currentVersion!.dailyCalls, // the current version is always present due to it being set in step 1
       },
-      { onSuccess: forward }
+      { onSuccess: goToSummary }
     )
   }
 
