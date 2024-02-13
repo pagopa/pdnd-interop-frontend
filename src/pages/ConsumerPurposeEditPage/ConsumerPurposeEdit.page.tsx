@@ -4,8 +4,8 @@ import { Stepper } from '@/components/shared/Stepper'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { useTranslation } from 'react-i18next'
 import type { StepperStep } from '@/types/common.types'
-import { PurposeEditStep1General } from './components/PurposeEditStep1General'
-import { PurposeEditStep2RiskAnalysis } from './components/PurposeEditStep2RiskAnalysis'
+import { PurposeEditStepGeneral } from './components/PurposeEditStepGeneral'
+import { PurposeEditStepRiskAnalysis } from './components/PurposeEditStepRiskAnalysis'
 import { useParams } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
 
@@ -20,10 +20,10 @@ const ConsumerPurposeEditPage: React.FC = () => {
 
   // TODO refactor rimozione step + number dai nomi e sostituirlo con il nome dello step
   const steps: Array<StepperStep> = purpose?.riskAnalysisForm?.riskAnalysisId
-    ? [{ label: t('edit.stepper.step1Label'), component: PurposeEditStep1General }]
+    ? [{ label: t('edit.stepper.stepGeneralLabel'), component: PurposeEditStepGeneral }]
     : [
-        { label: t('edit.stepper.step1Label'), component: PurposeEditStep1General },
-        { label: t('edit.stepper.step2Label'), component: PurposeEditStep2RiskAnalysis },
+        { label: t('edit.stepper.stepGeneralLabel'), component: PurposeEditStepGeneral },
+        { label: t('edit.stepper.stepRiskAnalysisLabel'), component: PurposeEditStepRiskAnalysis },
       ]
 
   const { component: Step } = steps[activeStep]

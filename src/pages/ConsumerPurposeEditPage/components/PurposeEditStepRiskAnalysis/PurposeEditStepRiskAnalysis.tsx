@@ -5,7 +5,7 @@ import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { RiskAnalysisVersionMismatchDialog } from './RiskAnalysisForm'
 
-export const PurposeEditStep2RiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
+export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const navigate = useNavigate()
 

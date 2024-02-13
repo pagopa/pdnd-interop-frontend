@@ -38,14 +38,14 @@
   "edit": {
     "emptyTitle": "Edit purpose",
     "stepper": {
-      "step1Label": "General",
-      "step2Label": "Risk assessment"
+      "stepGeneralLabel": "General",
+      "stepRiskAnalysisLabel": "Risk assessment"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "endWithSaveBtn": "Go to summary",
     "eserviceProvider": "provided by",
-    "step1": {
+    "stepGeneral": {
       "title": "General information",
       "nameField": {
         "label": "Purpose name (required)",
@@ -70,7 +70,7 @@
         "label": "How many API calls do you expect to make per day?"
       }
     },
-    "step2": {
+    "stepRiskAnalysis": {
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
       "personalInfoAlert": "Warning: do not put personal data inside text fields",

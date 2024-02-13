@@ -6,7 +6,7 @@ import {
   createMockRiskAnalysisFormConfig,
 } from '@/../__mocks__/data/purpose.mocks'
 import { vi } from 'vitest'
-import { PurposeEditStep2RiskAnalysis } from '../PurposeEditStep2RiskAnalysis'
+import { PurposeEditStepRiskAnalysis } from '../PurposeEditStepRiskAnalysis'
 import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { fireEvent, waitFor } from '@testing-library/react'
 import { setupServer } from 'msw/node'
@@ -39,12 +39,12 @@ const mockUseGetRiskAnalysisLatest = (data?: RiskAnalysisFormConfig) => {
   } as unknown as ReturnType<typeof PurposeQueries.useGetRiskAnalysisLatest>)
 }
 
-describe('PurposeEditStep2RiskAnalysis', () => {
+describe('PurposeEditStepRiskAnalysis', () => {
   it('should match snapshot', () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig())
     const { baseElement } = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
     expect(baseElement).toMatchSnapshot()
@@ -54,7 +54,7 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     mockUseGetSinglePurpose(undefined)
     mockUseGetRiskAnalysisLatest(undefined)
     const { baseElement } = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
     expect(baseElement).toMatchSnapshot()
@@ -64,7 +64,7 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig({ version: '3.0' }))
     const screen = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
@@ -75,7 +75,7 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig({ version: '3.0' }))
     const screen = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
@@ -87,7 +87,7 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig({ version: '3.0' }))
     const screen = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
@@ -95,19 +95,21 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     expect(screen.getAllByRole('radio')[0]).toBeInTheDocument()
   })
 
-  it("should call the update purpose mutation when the form is submitted and navigate to the next step if it's successful", async () => {
+  it("should call the update purpose mutation when the form is submitted and navigate to the summary page if it's successful", async () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig())
     const forwardFn = vi.fn()
     const screen = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={forwardFn} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={forwardFn} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
     fireEvent.click(screen.getByRole('button', { name: 'forwardWithSaveBtn' }))
 
     await waitFor(() => {
-      expect(forwardFn).toHaveBeenCalled()
+      expect(screen.history.location.pathname).toEqual(
+        '/it/fruizione/finalita/e46c7d27-18a0-40db-b7f9-ae8652355e8e/riepilogo'
+      )
     })
   })
 })

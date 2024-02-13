@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
+exports[`RiskAnalysisForm > should match the snapshot 1`] = `
 <body>
   <div>
     <form
@@ -19,13 +19,13 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
             <h2
               class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
             >
-              step2.title
+              stepRiskAnalysis.title
             </h2>
           </div>
           <p
             class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
           >
-            step2.description
+            stepRiskAnalysis.description
           </p>
         </div>
         <div
@@ -53,7 +53,7 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
             <div
               class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
             >
-              step2.personalInfoAlert
+              stepRiskAnalysis.personalInfoAlert
             </div>
           </div>
         </div>
@@ -264,7 +264,7 @@ exports[`PurposeEditStep2RiskAnalysis > should match snapshot 1`] = `
 </body>
 `;
 
-exports[`PurposeEditStep2RiskAnalysis > should match snapshot on loading 1`] = `
+exports[`RiskAnalysisFormSkeleton > should match snapshot 1`] = `
 <body>
   <div>
     <span

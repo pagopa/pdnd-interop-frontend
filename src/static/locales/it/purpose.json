@@ -38,14 +38,14 @@
   "edit": {
     "emptyTitle": "Modifica finalità",
     "stepper": {
-      "step1Label": "Generale",
-      "step2Label": "Analisi del rischio"
+      "stepGeneralLabel": "Generale",
+      "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
     "endWithSaveBtn": "Vai al riepilogo",
     "eserviceProvider": "erogato da",
-    "step1": {
+    "stepGeneral": {
       "title": "Informazioni generali",
       "nameField": {
         "label": "Nome della finalità (richiesto)",
@@ -70,7 +70,7 @@
         "label": "Quante chiamate API/giorno stimi di effettuare?"
       }
     },
-    "step2": {
+    "stepRiskAnalysis": {
       "title": "Analisi del rischio",
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
