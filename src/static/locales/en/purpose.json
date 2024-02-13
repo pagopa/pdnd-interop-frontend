@@ -39,8 +39,7 @@
     "emptyTitle": "Edit purpose",
     "stepper": {
       "step1Label": "General",
-      "step2Label": "Risk assessment",
-      "step3Label": "Client"
+      "step2Label": "Risk assessment"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
@@ -80,13 +79,6 @@
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
         "proceedButtonLabel": "Update",
         "cancelButtonLabel": "Discard"
-      }
-    },
-    "step3": {
-      "title": "Associate clients",
-      "noDataLabel": "No client associated",
-      "tableHeadData": {
-        "clientName": "Client name"
       }
     }
   },

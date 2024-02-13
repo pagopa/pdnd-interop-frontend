@@ -39,8 +39,7 @@
     "emptyTitle": "Modifica finalità",
     "stepper": {
       "step1Label": "Generale",
-      "step2Label": "Analisi del rischio",
-      "step3Label": "Client"
+      "step2Label": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
@@ -80,13 +79,6 @@
         "description": "C'è una nuova versione di analisi del rischio disponibile. Quella compilata in precedenza è obsoleta e non può più essere usata. Se clicchi “Aggiorna”, tutti i campi che non sono cambiati ed erano stati compilati li troverai già compilati nella nuova versione",
         "proceedButtonLabel": "Aggiorna",
         "cancelButtonLabel": "Abbandona"
-      }
-    },
-    "step3": {
-      "title": "Associazione client",
-      "noDataLabel": "Nessun client associato",
-      "tableHeadData": {
-        "clientName": "Nome client"
       }
     }
   },
