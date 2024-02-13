@@ -9,6 +9,7 @@ import { PurposeMutations } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
+import { useNavigate } from '@/router'
 
 export type PurposeEditStep1GeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -31,10 +32,19 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   const { t } = useTranslation('purpose')
   const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
   const { mutate: updateDraftForReceive } = PurposeMutations.useUpdateDraftForReceiveEService()
+  const navigate = useNavigate()
 
   const formMethods = useForm<PurposeEditStep1GeneralFormValues>({
     defaultValues,
   })
+
+  const goToSummary = () => {
+    navigate('SUBSCRIBE_PURPOSE_SUMMARY', {
+      params: {
+        purposeId: purpose.id,
+      },
+    })
+  }
 
   const onSubmit = (values: PurposeEditStep1GeneralFormValues) => {
     const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
@@ -54,7 +64,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
     }
 
     if (isReceive) {
-      updateDraftForReceive(requestPayload, { onSuccess: forward })
+      updateDraftForReceive(requestPayload, { onSuccess: goToSummary })
     } else {
       updateDraft(
         { ...requestPayload, riskAnalysisForm: purpose.riskAnalysisForm },
