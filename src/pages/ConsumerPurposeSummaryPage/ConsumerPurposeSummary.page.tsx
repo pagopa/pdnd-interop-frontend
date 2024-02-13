@@ -12,7 +12,6 @@ import {
 } from '../../components/shared/SummaryAccordion'
 import { PageContainer } from '@/components/layout/containers'
 import {
-  ConsumerPurposeSummaryClientsAccordion,
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
@@ -83,7 +82,6 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         <Stack spacing={3}>
           <SummaryAccordionSkeleton />
           <SummaryAccordionSkeleton />
-          <SummaryAccordionSkeleton />
         </Stack>
       ) : (
         <Stack spacing={3}>
@@ -92,9 +90,6 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
           <SummaryAccordion headline="2" title={t('summary.riskAnalysisSection.title')}>
             {purpose && <ConsumerPurposeSummaryRiskAnalysisAccordion purpose={purpose} />}
-          </SummaryAccordion>
-          <SummaryAccordion headline="3" title={t('summary.clientsSection.title')}>
-            {purpose && <ConsumerPurposeSummaryClientsAccordion purpose={purpose} />}
           </SummaryAccordion>
         </Stack>
       )}
