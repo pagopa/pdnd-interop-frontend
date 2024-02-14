@@ -125,7 +125,7 @@ export function useGetProviderEServiceActions(
         description: 'Descrizione nuova versione...',
         dailyCallsPerConsumer: 1,
         dailyCallsTotal: 1,
-        agreementApprovalPolicy: 'MANUAL',
+        agreementApprovalPolicy: 'AUTOMATIC',
         attributes: {
           certified: [],
           declared: [],
