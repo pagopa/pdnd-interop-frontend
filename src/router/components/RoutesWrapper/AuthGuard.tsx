@@ -5,7 +5,7 @@ import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { ForbiddenError } from '@/utils/errors.utils'
 import React from 'react'
 
-interface AuthGuardProps {
+export interface AuthGuardProps {
   children: React.ReactNode
   jwt?: JwtUser
   currentRoles: UserProductRole[]
@@ -47,6 +47,8 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   }
 
   function isUserAllowedToAccessRoute() {
+    // IsUserAuthorized method check if is user with specific role has the right to see certain page
+    // or if the route is public.
     const isAuthorized = isUserAuthorized(currentRoles)
     const isInProvidersRoutes = mode === 'provider'
     // If the user is in a provider route, he can access it if he is a support or if he is in an IPA organization
@@ -54,7 +56,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 
     return isAuthorized && !isInBlacklist && !(isInProvidersRoutes && !canAccessProviderRoutes)
   }
-
+  // JWT will be undefined just in case route is public.
   if (jwt && (!isUserAllowedToAccessRoute() || !isUserAllowedToAccessCertifierRoutes())) {
     throw new ForbiddenError()
   }
