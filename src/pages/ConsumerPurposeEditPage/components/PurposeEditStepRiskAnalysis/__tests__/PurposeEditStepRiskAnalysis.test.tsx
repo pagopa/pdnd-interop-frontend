@@ -96,20 +96,21 @@ describe('PurposeEditStepRiskAnalysis', () => {
   })
 
   it("should call the update purpose mutation when the form is submitted and navigate to the summary page if it's successful", async () => {
-    mockUseGetSinglePurpose(createMockPurpose())
+    const purposeMock = createMockPurpose()
+    mockUseGetSinglePurpose(purposeMock)
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig())
-    const forwardFn = vi.fn()
     const screen = renderWithApplicationContext(
-      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={forwardFn} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
     fireEvent.click(screen.getByRole('button', { name: 'forwardWithSaveBtn' }))
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).toEqual(
-        '/it/fruizione/finalita/e46c7d27-18a0-40db-b7f9-ae8652355e8e/riepilogo'
+      expect(screen.history.location.pathname).toBe(
+        `/it/fruizione/finalita/${purposeMock.id}/riepilogo`
       )
     })
+    // TODO risolvere questo test che fallisce
   })
 })
