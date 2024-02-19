@@ -12,6 +12,7 @@ import { fireEvent, waitFor } from '@testing-library/react'
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import * as router from '@/router'
 
 const server = setupServer(
   rest.post(`${BACKEND_FOR_FRONTEND_URL}/purposes/:purposeId`, (_, res, ctx) => {
@@ -99,6 +100,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const purposeMock = createMockPurpose()
     mockUseGetSinglePurpose(purposeMock)
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig())
+    vi.spyOn(router, 'useParams').mockReturnValue({ purposeId: purposeMock.id })
     const screen = renderWithApplicationContext(
       <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
