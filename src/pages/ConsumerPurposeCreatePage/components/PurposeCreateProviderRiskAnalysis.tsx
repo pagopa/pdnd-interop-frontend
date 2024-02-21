@@ -17,7 +17,7 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
 
   const selectedProviderRiskAnalysisId = watch('providerRiskAnalysisId')
 
-  const selectedEServiceId = watch('eserviceId')
+  const selectedEServiceId = watch('eservice')?.id
 
   const { data: riskAnalysis } = EServiceQueries.useGetEServiceRiskAnalysis(
     selectedEServiceId!,

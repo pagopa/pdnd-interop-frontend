@@ -1,11 +1,15 @@
-import type { PurposeEServiceSeed, PurposeSeed, RiskAnalysisForm } from '@/api/api.generatedTypes'
+import type {
+  CatalogEService,
+  PurposeEServiceSeed,
+  PurposeSeed,
+  RiskAnalysisForm,
+} from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Divider, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
 import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutocomplete'
 import { AuthHooks } from '@/api/auth'
 import { useNavigate } from '@/router'
@@ -15,7 +19,7 @@ import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAn
 import { EServiceQueries } from '@/api/eservice'
 
 export type PurposeCreateFormValues = {
-  eserviceId: string | null
+  eservice: CatalogEService | null
   useTemplate: boolean
   templateId: string | null
   providerRiskAnalysisId: string | null
@@ -28,23 +32,21 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const { mutate: createPurposeDraft } = PurposeMutations.useCreateDraft()
   const { mutate: createPurposeDraftForReceiveEService } =
     PurposeMutations.useCreateDraftForReceiveEService()
-  const location = useLocation()
 
   const formMethods = useForm<PurposeCreateFormValues>({
     defaultValues: {
-      // get the default value of the e-service to associate to the purpose from the "e-service" url param,
-      // if it is present
-      eserviceId: new URLSearchParams(location.search).get('e-service') ?? '',
+      eservice: null,
       useTemplate: false,
       templateId: null,
       providerRiskAnalysisId: null,
     },
   })
 
-  const selectedEServiceId = formMethods.watch('eserviceId')
+  const selectedEService = formMethods.watch('eservice')
+  const selectedEServiceId = selectedEService?.id
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
-  const isEServiceSelected = !!selectedEServiceId
+  const isEServiceSelected = !!selectedEService
 
   const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
   const isProviderPurposeSelected = !!selectedProviderRiskAnalysisId
@@ -56,6 +58,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
   const { data: eservices } = EServiceQueries.useGetCatalogList(
     {
+      q: selectedEService?.name,
       agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
       states: ['PUBLISHED'],
@@ -83,8 +86,8 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
-  const onSubmit = ({ eserviceId, providerRiskAnalysisId }: PurposeCreateFormValues) => {
-    if (!jwt?.organizationId || !eserviceId) return
+  const onSubmit = ({ eservice, providerRiskAnalysisId }: PurposeCreateFormValues) => {
+    if (!jwt?.organizationId || !eservice) return
 
     /**
      * An e-service cannot have two purposes with the same title.
@@ -112,7 +115,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
       const payloadCreatePurposeDraft: PurposeEServiceSeed = {
         consumerId: jwt?.organizationId,
-        eserviceId,
+        eserviceId: eservice.id,
         title,
         description,
         isFreeOfCharge: true,
@@ -132,7 +135,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
     if (mode === 'DELIVER') {
       const payloadCreatePurposeDraft: PurposeSeed = {
         consumerId: jwt?.organizationId,
-        eserviceId,
+        eserviceId: eservice.id,
         title,
         description,
         riskAnalysisForm,
