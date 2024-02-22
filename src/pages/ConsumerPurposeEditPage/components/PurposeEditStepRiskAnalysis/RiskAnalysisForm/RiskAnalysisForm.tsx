@@ -91,7 +91,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
             startIcon: <ArrowBackIcon />,
           }}
           forward={{
-            label: t('forwardWithSaveBtn'),
+            label: t('endWithSaveBtn'),
             type: 'submit',
             startIcon: <SaveIcon />,
           }}

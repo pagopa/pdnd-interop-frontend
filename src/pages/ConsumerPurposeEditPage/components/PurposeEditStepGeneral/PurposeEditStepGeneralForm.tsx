@@ -34,6 +34,10 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
   const { mutate: updateDraftForReceive } = PurposeMutations.useUpdateDraftForReceiveEService()
   const navigate = useNavigate()
 
+  // The endpoint to call depends on whether the e-service is
+  // in RECEIVE or DELIVER mode
+  const isReceive = !!purpose.riskAnalysisForm?.riskAnalysisId
+
   const formMethods = useForm<PurposeEditStepGeneralFormValues>({
     defaultValues,
   })
@@ -50,10 +54,6 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
     const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
     const isFreeOfChargeBool = isFreeOfCharge === 'YES'
     const purposeId = purpose.id
-
-    // The endpoint to call depends on whether the e-service is
-    // in RECEIVE or DELIVER mode
-    const isReceive = !!purpose.riskAnalysisForm?.riskAnalysisId
 
     const requestPayload = {
       ...updateDraftPayload,
@@ -128,7 +128,11 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
         </SectionContainer>
         <StepActions
           back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
-          forward={{ label: t('edit.forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
+          forward={{
+            label: isReceive ? t('edit.endWithSaveBtn') : t('edit.forwardWithSaveBtn'),
+            type: 'submit',
+            startIcon: <SaveIcon />,
+          }}
         />
       </Box>
     </FormProvider>
