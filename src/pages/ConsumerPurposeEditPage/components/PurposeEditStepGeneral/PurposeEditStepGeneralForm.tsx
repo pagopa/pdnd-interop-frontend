@@ -9,8 +9,9 @@ import { PurposeMutations } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
+import { useNavigate } from '@/router'
 
-export type PurposeEditStep1GeneralFormValues = Omit<
+export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
   'riskAnalysisForm' | 'isFreeOfCharge' | 'eserviceId'
 > & {
@@ -18,12 +19,12 @@ export type PurposeEditStep1GeneralFormValues = Omit<
   isFreeOfCharge: 'YES' | 'NO'
 }
 
-type PurposeEditStep1GeneralFormProps = ActiveStepProps & {
+type PurposeEditStepGeneralFormProps = ActiveStepProps & {
   purpose: Purpose
-  defaultValues: PurposeEditStep1GeneralFormValues
+  defaultValues: PurposeEditStepGeneralFormValues
 }
 
-const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = ({
+const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
   purpose,
   defaultValues,
   forward,
@@ -31,19 +32,28 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   const { t } = useTranslation('purpose')
   const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
   const { mutate: updateDraftForReceive } = PurposeMutations.useUpdateDraftForReceiveEService()
+  const navigate = useNavigate()
 
-  const formMethods = useForm<PurposeEditStep1GeneralFormValues>({
+  // The endpoint to call depends on whether the e-service is
+  // in RECEIVE or DELIVER mode
+  const isReceive = !!purpose.riskAnalysisForm?.riskAnalysisId
+
+  const formMethods = useForm<PurposeEditStepGeneralFormValues>({
     defaultValues,
   })
 
-  const onSubmit = (values: PurposeEditStep1GeneralFormValues) => {
+  const goToSummary = () => {
+    navigate('SUBSCRIBE_PURPOSE_SUMMARY', {
+      params: {
+        purposeId: purpose.id,
+      },
+    })
+  }
+
+  const onSubmit = (values: PurposeEditStepGeneralFormValues) => {
     const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
     const isFreeOfChargeBool = isFreeOfCharge === 'YES'
     const purposeId = purpose.id
-
-    // The endpoint to call depends on whether the e-service is
-    // in RECEIVE or DELIVER mode
-    const isReceive = !!purpose.riskAnalysisForm?.riskAnalysisId
 
     const requestPayload = {
       ...updateDraftPayload,
@@ -54,7 +64,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
     }
 
     if (isReceive) {
-      updateDraftForReceive(requestPayload, { onSuccess: forward })
+      updateDraftForReceive(requestPayload, { onSuccess: goToSummary })
     } else {
       updateDraft(
         { ...requestPayload, riskAnalysisForm: purpose.riskAnalysisForm },
@@ -68,11 +78,11 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer title={t('edit.step1.title')}>
+        <SectionContainer title={t('edit.stepGeneral.title')}>
           <RHFTextField
             name="title"
-            label={t('edit.step1.nameField.label')}
-            infoLabel={t('edit.step1.nameField.infoLabel')}
+            label={t('edit.stepGeneral.nameField.label')}
+            infoLabel={t('edit.stepGeneral.nameField.infoLabel')}
             focusOnMount
             inputProps={{ maxLength: 60 }}
             rules={{ required: true, minLength: 5 }}
@@ -80,8 +90,8 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 
           <RHFTextField
             name="description"
-            label={t('edit.step1.descriptionField.label')}
-            infoLabel={t('edit.step1.descriptionField.infoLabel')}
+            label={t('edit.stepGeneral.descriptionField.label')}
+            infoLabel={t('edit.stepGeneral.descriptionField.infoLabel')}
             multiline
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
@@ -89,18 +99,18 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 
           <RHFRadioGroup
             name="isFreeOfCharge"
-            label={t('edit.step1.isFreeOfChargeField.label')}
+            label={t('edit.stepGeneral.isFreeOfChargeField.label')}
             options={[
-              { label: t('edit.step1.isFreeOfChargeField.options.YES'), value: 'YES' },
-              { label: t('edit.step1.isFreeOfChargeField.options.NO'), value: 'NO' },
+              { label: t('edit.stepGeneral.isFreeOfChargeField.options.YES'), value: 'YES' },
+              { label: t('edit.stepGeneral.isFreeOfChargeField.options.NO'), value: 'NO' },
             ]}
           />
 
           {isFreeOfCharge === 'YES' && (
             <RHFTextField
               name="freeOfChargeReason"
-              label={t('edit.step1.freeOfChargeReasonField.label')}
-              infoLabel={t('edit.step1.freeOfChargeReasonField.infoLabel')}
+              label={t('edit.stepGeneral.freeOfChargeReasonField.label')}
+              infoLabel={t('edit.stepGeneral.freeOfChargeReasonField.infoLabel')}
               multiline
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
@@ -109,7 +119,7 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
 
           <RHFTextField
             name="dailyCalls"
-            label={t('edit.step1.dailyCallsField.label')}
+            label={t('edit.stepGeneral.dailyCallsField.label')}
             type="number"
             inputProps={{ min: '1' }}
             sx={{ mb: 0 }}
@@ -118,15 +128,19 @@ const PurposeEditStep1GeneralForm: React.FC<PurposeEditStep1GeneralFormProps> = 
         </SectionContainer>
         <StepActions
           back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
-          forward={{ label: t('edit.forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
+          forward={{
+            label: isReceive ? t('edit.endWithSaveBtn') : t('edit.forwardWithSaveBtn'),
+            type: 'submit',
+            startIcon: <SaveIcon />,
+          }}
         />
       </Box>
     </FormProvider>
   )
 }
 
-export const PurposeEditStep1GeneralFormSkeleton: React.FC = () => {
+export const PurposeEditStepGeneralFormSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={680} />
 }
 
-export default PurposeEditStep1GeneralForm
+export default PurposeEditStepGeneralForm

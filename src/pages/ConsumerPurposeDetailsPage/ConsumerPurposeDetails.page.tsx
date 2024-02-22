@@ -4,7 +4,7 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
 import { Link, useParams } from '@/router'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Alert, Grid, Tab } from '@mui/material'
+import { Alert, Grid, Tab, Typography } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { PurposeClientsTab } from './components/PurposeClientsTab'
@@ -38,23 +38,22 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
     >
       {alertProps && (
         <Alert severity={alertProps.severity} sx={{ mb: 3 }}>
-          {alertProps.link ? (
-            <Trans
-              components={{
-                1: (
-                  <Link
-                    to={alertProps.link.to}
-                    params={alertProps.link.params}
-                    options={alertProps.link.options}
-                  />
-                ),
-              }}
-            >
-              {t('consumerView.noClientsAlert')}
-            </Trans>
-          ) : (
-            alertProps.content
-          )}
+          <Trans
+            components={{
+              1: alertProps.link ? (
+                <Link
+                  to={alertProps.link!.to}
+                  params={alertProps.link!.params}
+                  options={alertProps.link!.options}
+                />
+              ) : (
+                <Typography component="span" variant="inherit" />
+              ),
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+            }}
+          >
+            {alertProps.content}
+          </Trans>
         </Alert>
       )}
       <TabContext value={activeTab}>

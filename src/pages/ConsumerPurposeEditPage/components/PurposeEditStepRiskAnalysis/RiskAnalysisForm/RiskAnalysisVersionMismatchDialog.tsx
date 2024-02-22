@@ -10,7 +10,9 @@ type RiskAnalysisVersionMismatchDialogProps = {
 export const RiskAnalysisVersionMismatchDialog: React.FC<
   RiskAnalysisVersionMismatchDialogProps
 > = ({ onProceed, onRefuse }) => {
-  const { t } = useTranslation('purpose', { keyPrefix: 'edit.step2.versionMismatchDialog' })
+  const { t } = useTranslation('purpose', {
+    keyPrefix: 'edit.stepRiskAnalysis.versionMismatchDialog',
+  })
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
 

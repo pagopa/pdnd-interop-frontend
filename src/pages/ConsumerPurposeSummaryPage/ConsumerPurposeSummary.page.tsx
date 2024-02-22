@@ -1,7 +1,7 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Button, Stack } from '@mui/material'
+import { Alert, Button, Stack, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -12,7 +12,6 @@ import {
 } from '../../components/shared/SummaryAccordion'
 import { PageContainer } from '@/components/layout/containers'
 import {
-  ConsumerPurposeSummaryClientsAccordion,
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
@@ -79,9 +78,17 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       isLoading={isInitialLoading}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
     >
+      <Alert severity="info" sx={{ mb: 3 }}>
+        <Trans
+          components={{
+            strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+          }}
+        >
+          {t('summary.clientsAlert')}
+        </Trans>
+      </Alert>
       {!purpose && isInitialLoading ? (
         <Stack spacing={3}>
-          <SummaryAccordionSkeleton />
           <SummaryAccordionSkeleton />
           <SummaryAccordionSkeleton />
         </Stack>
@@ -92,9 +99,6 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
           <SummaryAccordion headline="2" title={t('summary.riskAnalysisSection.title')}>
             {purpose && <ConsumerPurposeSummaryRiskAnalysisAccordion purpose={purpose} />}
-          </SummaryAccordion>
-          <SummaryAccordion headline="3" title={t('summary.clientsSection.title')}>
-            {purpose && <ConsumerPurposeSummaryClientsAccordion purpose={purpose} />}
           </SummaryAccordion>
         </Stack>
       )}

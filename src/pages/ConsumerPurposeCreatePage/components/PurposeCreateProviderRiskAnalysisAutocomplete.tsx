@@ -9,7 +9,8 @@ export const PurposeCreateProviderRiskAnalysisAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'create.eserviceRiskAnalysisSection' })
   const { setValue, watch } = useFormContext<PurposeCreateFormValues>()
 
-  const selectedEServiceId = watch('eserviceId')
+  const selectedEService = watch('eservice')
+  const selectedEServiceId = selectedEService?.id
 
   React.useEffect(() => {
     setValue('providerRiskAnalysisId', null)
@@ -17,6 +18,7 @@ export const PurposeCreateProviderRiskAnalysisAutocomplete: React.FC = () => {
 
   const { data: eservices, isInitialLoading } = EServiceQueries.useGetCatalogList(
     {
+      q: selectedEService?.name,
       agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
       states: ['PUBLISHED'],

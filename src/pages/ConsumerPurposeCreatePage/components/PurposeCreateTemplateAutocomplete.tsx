@@ -14,7 +14,7 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   const { watch, setValue } = useFormContext<PurposeCreateFormValues>()
 
   const shouldRenderTemplateAutocomplete = watch('useTemplate')
-  const selectedEServiceId = watch('eserviceId')
+  const selectedEServiceId = watch('eservice')?.id
 
   React.useEffect(() => {
     setValue('templateId', null)
