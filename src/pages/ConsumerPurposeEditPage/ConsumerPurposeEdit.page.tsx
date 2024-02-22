@@ -18,7 +18,6 @@ const ConsumerPurposeEditPage: React.FC = () => {
     suspense: false,
   })
 
-  // TODO refactor rimozione step + number dai nomi e sostituirlo con il nome dello step
   const steps: Array<StepperStep> = purpose?.riskAnalysisForm?.riskAnalysisId
     ? [{ label: t('edit.stepper.stepGeneralLabel'), component: PurposeEditStepGeneral }]
     : [

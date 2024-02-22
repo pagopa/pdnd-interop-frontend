@@ -113,6 +113,5 @@ describe('PurposeEditStepRiskAnalysis', () => {
         `/it/fruizione/finalita/${purposeMock.id}/riepilogo`
       )
     })
-    // TODO risolvere questo test che fallisce
   })
 })
