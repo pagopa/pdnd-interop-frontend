@@ -287,7 +287,10 @@
           "subtitle": "La tua stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>. Se il nuovo valore supera almeno una delle soglie imposte dall’erogatore, dovrà essere approvata prima di divenire attiva. Hai dubbi? <1>Consulta la guida</1>.",
           "dailyCallsFormField": {
             "label": "Nuova stima di carico",
-            "infoLable": "Numero di chiamate API/giorno stimate"
+            "infoLable": "Numero di chiamate API/giorno stimate",
+            "validation": {
+              "sameValue": "Il numero di chiamate API/giorno richiesto deve essere diverso da quello attuale"
+            }
           }
         },
         "thresholdsCard": {
