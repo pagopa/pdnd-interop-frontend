@@ -86,7 +86,7 @@ describe('AuthGuard', () => {
     expect(getByText('error')).toBeInTheDocument()
   })
 
-  it("Should render Error component when user try to access on provider's route but he don't have right to do it", () => {
+  it("Should render Error component when user try to access on provider's route but he doesn't have right to do it", () => {
     const props: AuthGuardTestProps = {
       ...defaultProps,
       isIPAOrganization: false,
