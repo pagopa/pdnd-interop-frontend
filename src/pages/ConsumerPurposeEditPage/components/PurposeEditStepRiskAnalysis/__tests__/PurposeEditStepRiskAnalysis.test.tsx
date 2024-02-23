@@ -106,7 +106,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
       { withRouterContext: true, withReactQueryContext: true }
     )
 
-    fireEvent.click(screen.getByRole('button', { name: 'forwardWithSaveBtn' }))
+    fireEvent.click(screen.getByRole('button', { name: 'endWithSaveBtn' }))
 
     await waitFor(() => {
       expect(screen.history.location.pathname).toBe(
