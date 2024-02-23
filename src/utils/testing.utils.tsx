@@ -83,7 +83,7 @@ export function mockUseGetActiveUserParty(
       data: {
         id: 'id',
         externalId: { origin: 'test', value: 'test' },
-        features: [{ certifier: { certifierId: 'certifierId' } }],
+        features: [],
         createdAt: '2021-01-01T00:00:00Z',
         name: 'test',
         attributes: { declared: [], verified: [], certified: [] },
@@ -91,10 +91,11 @@ export function mockUseGetActiveUserParty(
     }),
     overwrites
   )
+
   const useGetActiveUserPartySpy = vi.spyOn(PartyQueries, 'useGetActiveUserParty')
-  useGetActiveUserPartySpy.mockReturnValue({ returnValue } as unknown as ReturnType<
-    typeof PartyQueries.useGetActiveUserParty
-  >)
+  useGetActiveUserPartySpy.mockReturnValue(
+    returnValue as unknown as ReturnType<typeof PartyQueries.useGetActiveUserParty>
+  )
   return useGetActiveUserPartySpy
 }
 

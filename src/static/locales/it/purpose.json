@@ -38,15 +38,14 @@
   "edit": {
     "emptyTitle": "Modifica finalità",
     "stepper": {
-      "step1Label": "Generale",
-      "step2Label": "Analisi del rischio",
-      "step3Label": "Client"
+      "stepGeneralLabel": "Generale",
+      "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
     "endWithSaveBtn": "Vai al riepilogo",
     "eserviceProvider": "erogato da",
-    "step1": {
+    "stepGeneral": {
       "title": "Informazioni generali",
       "nameField": {
         "label": "Nome della finalità (richiesto)",
@@ -71,7 +70,7 @@
         "label": "Quante chiamate API/giorno stimi di effettuare?"
       }
     },
-    "step2": {
+    "stepRiskAnalysis": {
       "title": "Analisi del rischio",
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
@@ -81,17 +80,11 @@
         "proceedButtonLabel": "Aggiorna",
         "cancelButtonLabel": "Abbandona"
       }
-    },
-    "step3": {
-      "title": "Associazione client",
-      "noDataLabel": "Nessun client associato",
-      "tableHeadData": {
-        "clientName": "Nome client"
-      }
     }
   },
   "summary": {
     "title": "Riepilogo",
+    "clientsAlert": "All’interno del processo <strong>è stata rimossa l’associazione del client</strong>. Sarà possibile associare uno o più client solo dopo l’attivazione della finalità.",
     "generalInformationSection": {
       "title": "Informazioni generali",
       "eservice": {
@@ -123,11 +116,6 @@
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
-    },
-    "clientsSection": {
-      "title": "Client associati",
-      "empty": "Nessun client associato",
-      "infoAlert": "Potrai sempre modificare i client da associare a questa finalità, anche dopo la sua pubblicazione."
     }
   },
   "list": {
@@ -229,7 +217,7 @@
   },
   "consumerView": {
     "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione non potrai accedere ai dati resi disponibili attraverso l’API.",
-    "waitingForApprovalAlert": "Questa finalità è in attesa di approvazione. Fino alla sua attivazione da parte dell’erogatore non potrai accedere ai dati resi disponibili attraverso l’API.",
+    "waitingForApprovalAlert": "Questa finalità è in attesa di approvazione. <strong>Fino alla sua attivazione</strong> da parte dell’erogatore <strong>non potrai accedere ai dati</strong> resi disponibili attraverso l’API e <strong>non potrai associare client</strong>.",
     "archivedPurposeAlert": "Questa finalità è archiviata. Non puoi accedere ai dati resi disponibili attraverso l’API. Potrai sempre <1>crearne una nuova.</1>",
     "archivedPurposeClientsAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
     "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service",
@@ -287,7 +275,10 @@
           "subtitle": "La tua stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>. Se il nuovo valore supera almeno una delle soglie imposte dall’erogatore, dovrà essere approvata prima di divenire attiva. Hai dubbi? <1>Consulta la guida</1>.",
           "dailyCallsFormField": {
             "label": "Nuova stima di carico",
-            "infoLable": "Numero di chiamate API/giorno stimate"
+            "infoLable": "Numero di chiamate API/giorno stimate",
+            "validation": {
+              "sameValue": "Il numero di chiamate API/giorno richiesto deve essere diverso da quello attuale"
+            }
           }
         },
         "thresholdsCard": {

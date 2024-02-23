@@ -14,12 +14,11 @@ type ConsumerPurposeDetailsDailyCallsUpdateDrawerProps = {
   purpose: Purpose
   isOpen: boolean
   onClose: VoidFunction
-  dailyCalls?: number
 }
 
 export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
   ConsumerPurposeDetailsDailyCallsUpdateDrawerProps
-> = ({ purpose, isOpen, onClose, dailyCalls = 1 }) => {
+> = ({ purpose, isOpen, onClose }) => {
   const { t } = useTranslation('purpose', {
     keyPrefix: 'consumerView.sections.loadEstimate.drawer',
   })
@@ -30,7 +29,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
   const { mutate: updateDailyCalls } = PurposeMutations.useUpdateDailyCalls()
 
   const defaultValues: UpdateDailyCallsFormValues = {
-    dailyCalls,
+    dailyCalls: purpose.currentVersion?.dailyCalls ?? 1,
   }
 
   const formMethods = useForm<UpdateDailyCallsFormValues>({
@@ -76,7 +75,13 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
           infoLabel={t('dailyCallsFormField.infoLable')}
           focusOnMount={true}
           inputProps={{ min: '1' }}
-          rules={{ required: true, min: 1 }}
+          rules={{
+            required: true,
+            min: 1,
+            validate: (value) =>
+              value !== purpose.currentVersion?.dailyCalls ||
+              t('dailyCallsFormField.validation.sameValue'),
+          }}
         />
       </Drawer>
     </FormProvider>

@@ -25,6 +25,7 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
 
   const isSuspended = purpose.currentVersion?.state === 'SUSPENDED'
   const isArchived = purpose.currentVersion?.state === 'ARCHIVED'
+  const isWaitingForApproval = Boolean(purpose.waitingForApprovalVersion)
 
   const handleRequestPlanChange = () => {
     if (!isAdmin) return null
@@ -67,16 +68,19 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
                 )}
               </Typography>
             </Box>
-            <Divider />
-            <IconLink
-              onClick={handleRequestPlanChange}
-              component="button"
-              disabled={isSuspended || isArchived}
-              startIcon={<PlusOneIcon />}
-              alignSelf="start"
-            >
-              {t('changePlanRequestLink.label')}
-            </IconLink>
+            {!(isSuspended || isArchived || isWaitingForApproval) && (
+              <>
+                <Divider />
+                <IconLink
+                  onClick={handleRequestPlanChange}
+                  component="button"
+                  startIcon={<PlusOneIcon />}
+                  alignSelf="start"
+                >
+                  {t('changePlanRequestLink.label')}
+                </IconLink>
+              </>
+            )}
           </Stack>
         </CardContent>
       </Card>

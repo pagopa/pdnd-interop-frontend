@@ -68,7 +68,7 @@ describe('RiskAnalysisForm', () => {
       }),
       'Some text'
     )
-    fireEvent.click(screen.getByRole('button', { name: 'forwardWithSaveBtn' }))
+    fireEvent.click(screen.getByRole('button', { name: 'endWithSaveBtn' }))
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({

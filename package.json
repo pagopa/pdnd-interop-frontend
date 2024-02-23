@@ -1,6 +1,6 @@
 {
   "name": "interop-dashboard-frontend",
-  "version": "1.0.46",
+  "version": "1.0.47",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -71,7 +71,7 @@
     "rollup-plugin-visualizer": "^5.9.2",
     "swagger-typescript-api": "^13.0.3",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9",
+    "vite": "^4.5.2",
     "vitest": "^0.34.4"
   }
 }

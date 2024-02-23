@@ -44,6 +44,7 @@
         "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
         "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
       },
+      "revokedByCertifier": "Attributo revocato dal certificatore",
       "revokedByProducer": "Attributo revocato da un erogatore",
       "revokedByOwnParty": "Attributo revocato dal tuo ente",
       "expirationDate": "Scadenza verifica: {{expirationDate}}"

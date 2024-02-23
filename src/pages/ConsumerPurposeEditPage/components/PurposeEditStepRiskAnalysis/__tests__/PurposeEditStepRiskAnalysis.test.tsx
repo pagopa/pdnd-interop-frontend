@@ -6,12 +6,13 @@ import {
   createMockRiskAnalysisFormConfig,
 } from '@/../__mocks__/data/purpose.mocks'
 import { vi } from 'vitest'
-import { PurposeEditStep2RiskAnalysis } from '../PurposeEditStep2RiskAnalysis'
+import { PurposeEditStepRiskAnalysis } from '../PurposeEditStepRiskAnalysis'
 import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { fireEvent, waitFor } from '@testing-library/react'
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import * as router from '@/router'
 
 const server = setupServer(
   rest.post(`${BACKEND_FOR_FRONTEND_URL}/purposes/:purposeId`, (_, res, ctx) => {
@@ -39,12 +40,12 @@ const mockUseGetRiskAnalysisLatest = (data?: RiskAnalysisFormConfig) => {
   } as unknown as ReturnType<typeof PurposeQueries.useGetRiskAnalysisLatest>)
 }
 
-describe('PurposeEditStep2RiskAnalysis', () => {
+describe('PurposeEditStepRiskAnalysis', () => {
   it('should match snapshot', () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig())
     const { baseElement } = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
     expect(baseElement).toMatchSnapshot()
@@ -54,7 +55,7 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     mockUseGetSinglePurpose(undefined)
     mockUseGetRiskAnalysisLatest(undefined)
     const { baseElement } = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
     expect(baseElement).toMatchSnapshot()
@@ -64,7 +65,7 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig({ version: '3.0' }))
     const screen = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
@@ -75,7 +76,7 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig({ version: '3.0' }))
     const screen = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
@@ -87,7 +88,7 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     mockUseGetSinglePurpose(createMockPurpose())
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig({ version: '3.0' }))
     const screen = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
@@ -95,19 +96,22 @@ describe('PurposeEditStep2RiskAnalysis', () => {
     expect(screen.getAllByRole('radio')[0]).toBeInTheDocument()
   })
 
-  it("should call the update purpose mutation when the form is submitted and navigate to the next step if it's successful", async () => {
-    mockUseGetSinglePurpose(createMockPurpose())
+  it("should call the update purpose mutation when the form is submitted and navigate to the summary page if it's successful", async () => {
+    const purposeMock = createMockPurpose()
+    mockUseGetSinglePurpose(purposeMock)
     mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig())
-    const forwardFn = vi.fn()
+    vi.spyOn(router, 'useParams').mockReturnValue({ purposeId: purposeMock.id })
     const screen = renderWithApplicationContext(
-      <PurposeEditStep2RiskAnalysis activeStep={1} back={vi.fn()} forward={forwardFn} />,
+      <PurposeEditStepRiskAnalysis activeStep={1} back={vi.fn()} forward={vi.fn()} />,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
-    fireEvent.click(screen.getByRole('button', { name: 'forwardWithSaveBtn' }))
+    fireEvent.click(screen.getByRole('button', { name: 'endWithSaveBtn' }))
 
     await waitFor(() => {
-      expect(forwardFn).toHaveBeenCalled()
+      expect(screen.history.location.pathname).toBe(
+        `/it/fruizione/finalita/${purposeMock.id}/riepilogo`
+      )
     })
   })
 })
