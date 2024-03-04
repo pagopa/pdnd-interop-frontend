@@ -29,7 +29,7 @@ const _RoutesWrapper: React.FC = () => {
 
   return (
     <>
-      <Header jwt={jwt} isSupport={isSupport} />
+      <Header />
       <Box sx={{ flex: 1 }}>
         {!isTOSAccepted && !isPublic ? (
           <TOSAgreement onAcceptAgreement={handleAcceptTOS} />

@@ -3,12 +3,10 @@ import { Header } from '../Header'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
-import { createMockJwtUser } from '@/../__mocks__/data/user.mocks'
-
-mockUseJwt()
 
 describe('Header', () => {
   it('should match snapshot (not logged)', () => {
+    mockUseJwt({ jwt: undefined, isSupport: false })
     const tree = renderWithApplicationContext(
       <ThemeProvider theme={theme}>
         <Header />
@@ -22,9 +20,10 @@ describe('Header', () => {
   })
 
   it('should match snapshot (logged - not support)', () => {
+    mockUseJwt({ isSupport: false })
     const tree = renderWithApplicationContext(
       <ThemeProvider theme={theme}>
-        <Header jwt={createMockJwtUser()} />
+        <Header />
       </ThemeProvider>,
       {
         withRouterContext: true,
@@ -35,9 +34,10 @@ describe('Header', () => {
   })
 
   it('should match snapshot (logged - support)', () => {
+    mockUseJwt({ isSupport: true })
     const tree = renderWithApplicationContext(
       <ThemeProvider theme={theme}>
-        <Header jwt={createMockJwtUser()} isSupport />
+        <Header />
       </ThemeProvider>,
       {
         withRouterContext: true,

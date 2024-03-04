@@ -10,6 +10,7 @@ import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { UnauthorizedError } from '@/utils/errors.utils'
+import { AuthHooks } from '@/api/auth'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -79,15 +80,11 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
   return [selfcareProduct, ...productsFromBE]
 }
 
-type HeaderProps = {
-  jwt?: JwtUser
-  isSupport?: boolean
-}
-
-export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
+export const Header: React.FC = () => {
   const navigate = useNavigate()
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
+  const { jwt, isSupport } = AuthHooks.useJwt()
 
   const queriesOptions = {
     suspense: false,
