@@ -62,6 +62,7 @@ export const WELL_KNOWN_URLS =
 export const SELFCARE_BASE_URL =
   isProduction && PAGOPA_ENV ? PAGOPA_ENV.SELFCARE_BASE_URL : 'https://uat.selfcare.pagopa.it'
 
-export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
+// export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
+export const STAGE = 'CERT' // TODO remove because is to test without BE
 
 export const SELFCARE_INTEROP_PROD_ID = `prod-interop${STAGE === 'UAT' ? '-coll' : ''}`
