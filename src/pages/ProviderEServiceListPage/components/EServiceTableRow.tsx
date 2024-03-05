@@ -28,7 +28,9 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     eservice.activeDescriptor?.state,
     eservice.activeDescriptor?.id,
     eservice.draftDescriptor?.id,
-    eservice.mode
+    eservice.mode,
+    1, //TODO eservice.activeDescriptor.dailyCallsPerConsumer
+    1 //TODO eservice.activeDescriptor.dailyCallsTotal
   )
 
   const isEServiceInDraft = !eservice.activeDescriptor

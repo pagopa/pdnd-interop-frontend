@@ -18,7 +18,9 @@ export function useGetProviderEServiceActions(
   descriptorState: EServiceDescriptorState | undefined,
   activeDescriptorId: string | undefined,
   draftDescriptorId: string | undefined,
-  mode: EServiceMode | undefined
+  mode: EServiceMode | undefined,
+  dailyCallsPerConsumer: number | undefined,
+  dailyCallsTotal: number | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
@@ -123,8 +125,8 @@ export function useGetProviderEServiceActions(
         voucherLifespan: minutesToSeconds(1),
         audience: [],
         description: 'Descrizione nuova versione...',
-        dailyCallsPerConsumer: 1,
-        dailyCallsTotal: 1,
+        dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
+        dailyCallsTotal: dailyCallsTotal ?? 1,
         agreementApprovalPolicy: 'AUTOMATIC',
         attributes: {
           certified: [],
