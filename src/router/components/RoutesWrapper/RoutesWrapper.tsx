@@ -19,7 +19,8 @@ import { FirstLoadingSpinner } from '@/components/shared/FirstLoadingSpinner'
 const _RoutesWrapper: React.FC = () => {
   const { isPublic, routeKey } = useCurrentRoute()
 
-  const { jwt, isSupport, currentRoles, isLoadingSession, isIPAOrganization } = AuthHooks.useJwt()
+  const { jwt, isSupport, currentRoles, isLoadingSession, isOrganizationAllowedToProduce } =
+    AuthHooks.useJwt()
   const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement(jwt, isSupport)
 
   useScrollTopOnLocationChange()
@@ -39,7 +40,7 @@ const _RoutesWrapper: React.FC = () => {
               <React.Suspense fallback={<PageContainerSkeleton />}>
                 <AuthGuard
                   jwt={jwt}
-                  isIPAOrganization={isIPAOrganization}
+                  isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
                   isSupport={isSupport}
                   currentRoles={currentRoles}
                 >
