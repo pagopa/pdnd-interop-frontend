@@ -1,6 +1,6 @@
 import type { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
 
-const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
+export const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 
 export const isDevelopment = !!(import.meta.env.MODE === 'development')
 export const isProduction = !!(import.meta.env.MODE === 'production')
@@ -65,3 +65,6 @@ export const SELFCARE_BASE_URL =
 export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
 
 export const SELFCARE_INTEROP_PROD_ID = `prod-interop${STAGE === 'UAT' ? '-coll' : ''}`
+
+// export const PRODUCER_ALLOWED_ORIGINS = PAGOPA_ENV?.PRODUCER_ALLOWED_ORIGINS ?? 'IPA'
+export const PRODUCER_ALLOWED_ORIGINS = 'IPA,ANAC,IVASS,SELC,INFOCAMERE' // TODO remove because is to test without BE
