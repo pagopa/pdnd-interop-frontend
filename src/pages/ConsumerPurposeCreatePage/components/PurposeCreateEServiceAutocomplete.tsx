@@ -52,6 +52,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
       onSuccess(eservices) {
         if (!selectedEServiceId && !hasSetFirstEService.current && eservices.results.length > 0) {
           setValue('eservice', eservices.results[0])
+          setEserviceAutocompleteTextInput(formatAutocompleteOptionLabel(eservices.results[0]))
           selectedEServiceRef.current = eservices.results[0]
           hasSetFirstEService.current = true
         }
@@ -69,7 +70,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
       loading={isInitialLoading}
-      name="eserviceId"
+      name="eservice"
       label={t('create.eserviceField.label')}
       options={autocompleteOptions}
       onValueChange={(value) => {
