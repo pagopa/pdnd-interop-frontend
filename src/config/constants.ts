@@ -1,3 +1,5 @@
+import { SELFCARE_INTEROP_PROD_ID } from './env'
+
 export const DEFAULT_LANG = 'it'
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
 export const SIDENAV_WIDTH = 340
@@ -17,7 +19,7 @@ export const pagoPaLink = {
 }
 
 export const documentationLink = 'https://docs.pagopa.it/interoperabilita-1'
-export const assistanceLink = 'https://selfcare.pagopa.it/assistenza'
+export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${SELFCARE_INTEROP_PROD_ID}`
 export const attributesHelpLink = `${documentationLink}/manuale-operativo/attributi`
 export const verifyVoucherGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher`
 export const manageEServiceGuideLink = `${documentationLink}/manuale-operativo/e-service`
