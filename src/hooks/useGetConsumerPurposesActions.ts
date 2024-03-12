@@ -2,7 +2,6 @@ import { PurposeMutations } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
-import { useNavigate } from '@/router'
 import type { Purpose } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import ArchiveIcon from '@mui/icons-material/Archive'
@@ -10,16 +9,16 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
+import { useDialog } from '@/stores'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-
-  const navigate = useNavigate()
   const { jwt, isAdmin } = AuthHooks.useJwt()
+
+  const { openDialog } = useDialog()
 
   const { mutate: archivePurpose } = PurposeMutations.useArchiveVersion()
   const { mutate: suspendPurpose } = PurposeMutations.useSuspendVersion()
-  const { mutate: clonePurpose } = PurposeMutations.useClone()
   const { mutate: activatePurpose } = PurposeMutations.useActivateVersion()
   const { mutate: deletePurposeDraft } = PurposeMutations.useDeleteDraft()
 
@@ -70,14 +69,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
 
   function handleClone() {
     if (!purpose) return
-    clonePurpose(
-      { purposeId: purpose.id, eserviceId: purpose.eservice.id },
-      {
-        onSuccess({ purposeId }) {
-          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
-        },
-      }
-    )
+    openDialog({ type: 'clonePurpose', purposeId: purpose.id, eservice: purpose.eservice })
   }
 
   const cloneAction: ActionItemButton = {
@@ -102,7 +94,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     return { actions: [deleteAction] }
   }
 
-  if (purpose?.currentVersion?.state === 'ARCHIVED') {
+  if (purpose?.currentVersion?.state === 'ARCHIVED' && purpose.eservice.mode === 'DELIVER') {
     return { actions: [cloneAction] }
   }
 
@@ -112,7 +104,11 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
 
   // If the currentVestion is not ARCHIVED or in DRAFT...
 
-  const actions: Array<ActionItemButton> = [archiveAction, cloneAction]
+  const actions: Array<ActionItemButton> = [archiveAction]
+
+  if (purpose.eservice.mode === 'DELIVER') {
+    actions.push(cloneAction)
+  }
 
   const isSuspended = purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
   const isActive = purpose?.currentVersion && purpose?.currentVersion.state === 'ACTIVE'

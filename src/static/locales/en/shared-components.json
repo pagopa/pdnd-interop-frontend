@@ -69,6 +69,14 @@
       }
     }
   },
+  "dialogClonePurpose": {
+    "title": "Confirm cloning purpose",
+    "description": "A new purpose will be created in draft status with the same characteristics as the one selected. Select the e-service to which to associate it.",
+    "eserviceField": {
+      "label": "Select e-service",
+      "eserviceProvider": "provided by"
+    }
+  },
   "dialogDeleteOperator": {
     "title": "Forwarding to Reserved Area for user removal",
     "description": "User operations on all products managed by PagoPA take place through the Reserved Area portal. By clicking \"confirm\", you will be redirected to the Reserved Area page to manage the selected user."

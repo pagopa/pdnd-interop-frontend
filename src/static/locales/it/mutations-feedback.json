@@ -447,10 +447,6 @@
       "outcome": {
         "success": "La finalità è stata clonata correttamente",
         "error": "Non è stato possibile clonare la finalità. Per favore, riprova!"
-      },
-      "confirmDialog": {
-        "title": "Conferma clonazione finalità",
-        "description": "Verrà creata una nuova finalità con le stesse caratteristiche di quella selezionata. La nuova finalità sarà in stato di bozza"
       }
     },
     "addClient": {
