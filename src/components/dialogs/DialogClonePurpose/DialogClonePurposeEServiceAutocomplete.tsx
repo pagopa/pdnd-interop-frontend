@@ -21,13 +21,13 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
   )
   const hasSetFirstEService = React.useRef(true)
 
-  const { setValue, watch } = useFormContext()
-  const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
-    useAutocompleteTextInput(preselectedEservice.name)
-
   function formatAutocompleteOptionLabel(eservice: CatalogEService | CompactPurposeEService) {
     return `${eservice.name} ${t('eserviceField.eserviceProvider')} ${eservice.producer.name}`
   }
+
+  const { setValue, watch } = useFormContext()
+  const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
+    useAutocompleteTextInput(formatAutocompleteOptionLabel(preselectedEservice))
 
   const selectedEServiceId = watch('eserviceId')
 
@@ -62,6 +62,7 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
       onSuccess(eservices) {
         if (!selectedEServiceId && !hasSetFirstEService.current && eservices.results.length > 0) {
           setValue('eserviceId', eservices.results[0].id)
+          setEserviceAutocompleteTextInput(formatAutocompleteOptionLabel(eservices.results[0]))
           selectedEServiceRef.current = eservices.results[0]
           hasSetFirstEService.current = true
         }
