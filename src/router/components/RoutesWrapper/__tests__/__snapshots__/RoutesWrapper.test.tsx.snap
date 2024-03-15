@@ -53,7 +53,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
             </button>
             <button
               aria-label="Documentazione"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-u78awm-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
@@ -275,7 +275,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
             <a
               aria-label="footer.links.privacy.ariaLabel"
               class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-              href="javascript:void(0)"
+              href="#!"
             >
               footer.links.privacy.label
             </a>
@@ -289,7 +289,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
             <a
               aria-label="footer.links.terms.ariaLabel"
               class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-              href="javascript:void(0)"
+              href="#!"
             >
               footer.links.terms.label
             </a>
@@ -415,7 +415,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-u78awm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -637,7 +637,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
               <a
                 aria-label="footer.links.privacy.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-                href="javascript:void(0)"
+                href="#!"
               >
                 footer.links.privacy.label
               </a>
@@ -651,7 +651,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
               <a
                 aria-label="footer.links.terms.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-                href="javascript:void(0)"
+                href="#!"
               >
                 footer.links.terms.label
               </a>
@@ -778,7 +778,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-u78awm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -996,7 +996,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
               <a
                 aria-label="footer.links.privacy.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-                href="javascript:void(0)"
+                href="#!"
               >
                 footer.links.privacy.label
               </a>
@@ -1010,7 +1010,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
               <a
                 aria-label="footer.links.terms.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-                href="javascript:void(0)"
+                href="#!"
               >
                 footer.links.terms.label
               </a>
