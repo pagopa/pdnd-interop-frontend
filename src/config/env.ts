@@ -66,5 +66,4 @@ export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
 
 export const SELFCARE_INTEROP_PROD_ID = `prod-interop${STAGE === 'UAT' ? '-coll' : ''}`
 
-// export const PRODUCER_ALLOWED_ORIGINS = PAGOPA_ENV?.PRODUCER_ALLOWED_ORIGINS ?? 'IPA'
-export const PRODUCER_ALLOWED_ORIGINS = 'IPA,ANAC,IVASS,SELC,INFOCAMERE' // TODO remove because is to test without BE
+export const PRODUCER_ALLOWED_ORIGINS = PAGOPA_ENV?.PRODUCER_ALLOWED_ORIGINS ?? 'IPA'
