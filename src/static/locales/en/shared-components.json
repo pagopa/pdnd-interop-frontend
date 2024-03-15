@@ -129,7 +129,7 @@
   "environmentBanner": {
     "content": {
       "uat": "Testing environment. Do not use real data.",
-      "cert": "Attestation environment for private entities: be careful, the data does not have to be real"
+      "att": "Attestation environment for private entities: be careful, the data does not have to be real"
     }
   },
   "maintenanceBanner": {

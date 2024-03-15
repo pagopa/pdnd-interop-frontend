@@ -33,10 +33,10 @@ function App() {
     }
   }
 
-  if (STAGE === 'CERT') {
+  if (STAGE === 'ATT') {
     envBannerProps = {
       bgColor: 'info',
-      message: t('environmentBanner.content.cert'),
+      message: t('environmentBanner.content.att'),
       icon: <PrivacyTipIcon fontSize="small" />,
     }
   }

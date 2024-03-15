@@ -129,7 +129,7 @@
   "environmentBanner": {
     "content": {
       "uat": "Ambiente di collaudo. Non utilizzare dati reali.",
-      "cert": "Ambiente di attestazione per enti privati: attenzione i dati non devono essere reali"
+      "att": "Ambiente di attestazione per enti privati: attenzione i dati non devono essere reali"
     }
   },
   "maintenanceBanner": {
