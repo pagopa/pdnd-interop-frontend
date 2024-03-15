@@ -16,23 +16,18 @@ import { AuthQueryKeys } from './api/auth'
 import AuthServices from './api/auth/auth.services'
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
+import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
 
 queryClient.prefetchQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessionToken)
 
 function App() {
   const { t } = useTranslation('shared-components')
 
-  let envBannerProps: // TODO make exportable the EnvironmentBannerProps type
-  | {
-        bgColor: EnvironmentBannerProps['bgColor']
-        message: string
-        icon?: React.ReactNode
-      }
-    | undefined = undefined
+  let envBannerProps: EnvironmentBannerProps | undefined = undefined
 
   if (STAGE === 'UAT') {
     envBannerProps = {
-      bgColor: 'warning.extraLight',
+      bgColor: 'warning',
       message: t('environmentBanner.content.uat'),
       icon: <WarningAmberIcon fontSize="small" />,
     }
@@ -40,7 +35,7 @@ function App() {
 
   if (STAGE === 'CERT') {
     envBannerProps = {
-      bgColor: 'background.default', // TODO wait to know the right color from Design
+      bgColor: 'info',
       message: t('environmentBanner.content.cert'),
       icon: <PrivacyTipIcon fontSize="small" />,
     }
