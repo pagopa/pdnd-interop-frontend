@@ -22,9 +22,9 @@ queryClient.prefetchQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessi
 function App() {
   const { t } = useTranslation('shared-components')
 
-  let envBannerProps: /* EnvironmentBannerProps */
+  let envBannerProps: // TODO make exportable the EnvironmentBannerProps type
   | {
-        env: 'test' | 'prod' // TODO mettere il bgColor
+        bgColor: EnvironmentBannerProps['bgColor']
         message: string
         icon?: React.ReactNode
       }
@@ -32,7 +32,7 @@ function App() {
 
   if (STAGE === 'UAT') {
     envBannerProps = {
-      env: 'test',
+      bgColor: 'warning.extraLight',
       message: t('environmentBanner.content.uat'),
       icon: <WarningAmberIcon fontSize="small" />,
     }
@@ -40,7 +40,7 @@ function App() {
 
   if (STAGE === 'CERT') {
     envBannerProps = {
-      env: 'test',
+      bgColor: 'background.default', // TODO wait to know the right color from Design
       message: t('environmentBanner.content.cert'),
       icon: <PrivacyTipIcon fontSize="small" />,
     }
