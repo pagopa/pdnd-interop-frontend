@@ -19,7 +19,7 @@ mockUseCurrentRoute({
 type AuthGuardTestProps = Omit<AuthGuardProps, 'children'>
 const defaultProps: AuthGuardTestProps = {
   jwt: createMockJwtUser(),
-  isIPAOrganization: true,
+  isOrganizationAllowedToProduce: true,
   isSupport: false,
   currentRoles: ['admin'],
 }
@@ -64,7 +64,7 @@ describe('AuthGuard', () => {
   it('Should be able to render children component if user is an "IPAOrganization" and he is authorized to access', () => {
     const props: AuthGuardTestProps = {
       ...defaultProps,
-      isIPAOrganization: true,
+      isOrganizationAllowedToProduce: true,
     }
     mockUseGetActiveUserParty()
 
@@ -89,7 +89,7 @@ describe('AuthGuard', () => {
   it("Should render Error component when user try to access on provider's route but he doesn't have right to do it", () => {
     const props: AuthGuardTestProps = {
       ...defaultProps,
-      isIPAOrganization: false,
+      isOrganizationAllowedToProduce: false,
       isSupport: false,
     }
 
