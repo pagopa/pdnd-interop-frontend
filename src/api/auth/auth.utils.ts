@@ -1,3 +1,4 @@
+import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
 import type { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 
@@ -11,7 +12,9 @@ export const parseJwt = memoize((token: string | null | undefined) => {
   const isOperatorAPI = currentRoles.includes('api')
   const isOperatorSecurity = currentRoles.includes('security')
   const isSupport = currentRoles.includes('support')
-  const isIPAOrganization = !!(jwt?.externalId && jwt.externalId.origin === 'IPA')
+  const isOrganizationAllowedToProduce = !!(
+    jwt?.externalId && PRODUCER_ALLOWED_ORIGINS.includes(jwt.externalId.origin)
+  )
 
   return {
     jwt,
@@ -20,6 +23,6 @@ export const parseJwt = memoize((token: string | null | undefined) => {
     isOperatorAPI,
     isOperatorSecurity,
     isSupport,
-    isIPAOrganization,
+    isOrganizationAllowedToProduce,
   }
 })

@@ -127,7 +127,10 @@
     "tooltipTitle": "Id copiato correttamente"
   },
   "environmentBanner": {
-    "content": "Ambiente di collaudo. Non utilizzare dati reali."
+    "content": {
+      "uat": "Ambiente di collaudo. Non utilizzare dati reali.",
+      "att": "Ambiente di attestazione per enti privati: attenzione i dati non devono essere reali"
+    }
   },
   "maintenanceBanner": {
     "titleTestEnv": "Manutenzione programmata ambiente di collaudo",

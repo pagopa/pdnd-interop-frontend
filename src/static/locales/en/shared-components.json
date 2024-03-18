@@ -127,7 +127,10 @@
     "tooltipTitle": "Id successfully copied"
   },
   "environmentBanner": {
-    "content": "Testing environment. Do not use real data."
+    "content": {
+      "uat": "Testing environment. Do not use real data.",
+      "att": "Attestation environment for private entities: be careful, the data does not have to be real"
+    }
   },
   "maintenanceBanner": {
     "titleTestEnv": "Scheduled maintenance for test environment",

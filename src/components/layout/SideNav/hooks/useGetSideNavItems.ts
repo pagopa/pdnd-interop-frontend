@@ -27,7 +27,7 @@ const views = [
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles, isIPAOrganization, isSupport } = AuthHooks.useJwt()
+  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { data: tenant } = PartyQueries.useGetActiveUserParty()
 
@@ -40,7 +40,7 @@ export function useGetSideNavItems() {
      * The no-certifier organizations cannot access the TENANT_CERTIFIER routes.
      */
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
-      if (!isSupport && !isIPAOrganization && routeKey === 'PROVIDE') return false
+      if (!isSupport && !isOrganizationAllowedToProduce && routeKey === 'PROVIDE') return false
 
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
 
@@ -65,5 +65,5 @@ export function useGetSideNavItems() {
 
       return [...acc, view]
     }, [])
-  }, [currentRoles, isIPAOrganization, isSupport, isCertifier])
+  }, [currentRoles, isOrganizationAllowedToProduce, isSupport, isCertifier])
 }

@@ -272,7 +272,7 @@ describe('useGetSideNavItems', () => {
   })
 
   it("should not include 'PROVIDE' routes if the user is not an IPA organization", () => {
-    mockUseJwt({ currentRoles: ['admin'], isIPAOrganization: false })
+    mockUseJwt({ currentRoles: ['admin'], isOrganizationAllowedToProduce: false })
     mockUseGetActiveUserParty()
     const { result } = renderHook(() => useGetSideNavItems())
 

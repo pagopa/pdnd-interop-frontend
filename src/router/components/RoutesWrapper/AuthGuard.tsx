@@ -1,6 +1,7 @@
 import { AuthHooks } from '@/api/auth'
 import { PartyQueries } from '@/api/party/party.hooks'
-import { RouteKey, useAuthGuard, useCurrentRoute } from '@/router'
+import type { RouteKey } from '@/router'
+import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { ForbiddenError } from '@/utils/errors.utils'
 import React from 'react'
@@ -9,7 +10,7 @@ export interface AuthGuardProps {
   children: React.ReactNode
   jwt?: JwtUser
   currentRoles: UserProductRole[]
-  isIPAOrganization: boolean
+  isOrganizationAllowedToProduce: boolean
   isSupport: boolean
 }
 
@@ -26,7 +27,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   children,
   jwt,
   currentRoles,
-  isIPAOrganization,
+  isOrganizationAllowedToProduce,
   isSupport,
 }) => {
   const { isUserAuthorized } = useAuthGuard()
@@ -52,7 +53,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
     const isAuthorized = isUserAuthorized(currentRoles)
     const isInProvidersRoutes = mode === 'provider'
     // If the user is in a provider route, he can access it if he is a support or if he is in an IPA organization
-    const canAccessProviderRoutes = isIPAOrganization || isSupport
+    const canAccessProviderRoutes = isOrganizationAllowedToProduce || isSupport
 
     return isAuthorized && !isInBlacklist && !(isInProvidersRoutes && !canAccessProviderRoutes)
   }

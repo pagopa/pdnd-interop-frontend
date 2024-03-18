@@ -151,6 +151,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         onDocumentationClick={() => {
           window.open(documentationLink, '_blank')
         }}
+        enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
       />
 
       <HeaderProduct
