@@ -3,7 +3,7 @@ import type { SvgIconComponent } from '@mui/icons-material'
 import type { ButtonProps } from '@mui/material'
 
 export type PagoPAEnvVars = {
-  STAGE: 'DEV' | 'PROD' | 'UAT'
+  STAGE: 'DEV' | 'PROD' | 'UAT' | 'ATT' | 'QA'
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
   BACKEND_FOR_FRONTEND_URL: string
   SELFCARE_LOGIN_URL: string
