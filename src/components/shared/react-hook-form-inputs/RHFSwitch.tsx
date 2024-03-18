@@ -53,36 +53,38 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
 
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
-      <FormLabel sx={{ color: 'text.primary', ...formLabelSxProps }}>
-        <Typography
-          htmlFor={ids.labelId}
-          id={ids.labelId}
-          sx={typographyLabelSxProps}
-          component="label"
-          variant="body1"
-        >
-          {label}
-        </Typography>
-        <Box>
-          <Controller
-            name={name}
-            rules={mapValidationErrorMessages(rules, t)}
-            render={({ field: { value, ref, onChange, ...fieldProps } }) => (
+      <Controller
+        name={name}
+        rules={mapValidationErrorMessages(rules, t)}
+        render={({ field: { value, ref, onChange, ...fieldProps } }) => (
+          <Box
+            onClick={() => {
+              if (onValueChange) onValueChange(!value)
+              onChange(!value)
+            }}
+          >
+            <FormLabel sx={{ color: 'text.primary', ...formLabelSxProps }}>
+              <Typography
+                htmlFor={ids.labelId}
+                id={ids.labelId}
+                sx={typographyLabelSxProps}
+                component="label"
+                variant="body1"
+              >
+                {label}
+              </Typography>
+
               <MUISwitch
                 {...props}
                 {...fieldProps}
                 inputProps={{ ...props.inputProps, ...accessibilityProps }}
-                onChange={(e) => {
-                  if (onValueChange) onValueChange(e.target.checked)
-                  onChange(e.target.checked)
-                }}
                 checked={value}
                 inputRef={ref}
               />
-            )}
-          />
-        </Box>
-      </FormLabel>
+            </FormLabel>
+          </Box>
+        )}
+      />
     </InputWrapper>
   )
 }
