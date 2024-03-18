@@ -6,44 +6,48 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
-      <label
-        class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
+      <div
+        class="MuiBox-root css-1443u2l"
       >
         <label
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          for="test-label"
-          id="test-label"
+          class="MuiFormLabel-root MuiFormLabel-colorPrimary css-l38uzw-MuiFormLabel-root"
         >
-          label
-        </label>
-        <div
-          class="MuiBox-root css-0"
-        >
-          <span
-            class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+          <label
+            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+            for="test-label"
+            id="test-label"
+          >
+            label
+          </label>
+          <div
+            class="MuiBox-root css-0"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
             >
-              <input
-                aria-labelledby="test-label"
-                class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
-                name="test"
-                type="checkbox"
-              />
               <span
-                class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-              />
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+              >
+                <input
+                  aria-labelledby="test-label"
+                  class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                  name="test"
+                  type="checkbox"
+                />
+                <span
+                  class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                />
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
               <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
               />
             </span>
-            <span
-              class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
-            />
-          </span>
-        </div>
-      </label>
+          </div>
+        </label>
+      </div>
     </div>
   </div>
 </body>
@@ -55,44 +59,48 @@ exports[`determine whether the integration between react-hook-form and MUI’s S
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth css-cq5a0p-MuiFormControl-root"
     >
-      <label
-        class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1kh4vj2-MuiFormLabel-root"
+      <div
+        class="MuiBox-root css-1443u2l"
       >
         <label
-          class="MuiTypography-root MuiTypography-body1 css-1th83v5-MuiTypography-root"
-          for="test-label"
-          id="test-label"
+          class="MuiFormLabel-root MuiFormLabel-colorPrimary css-1kh4vj2-MuiFormLabel-root"
         >
-          label
-        </label>
-        <div
-          class="MuiBox-root css-0"
-        >
-          <span
-            class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+          <label
+            class="MuiTypography-root MuiTypography-body1 css-1th83v5-MuiTypography-root"
+            for="test-label"
+            id="test-label"
+          >
+            label
+          </label>
+          <div
+            class="MuiBox-root css-0"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
             >
-              <input
-                aria-labelledby="test-label"
-                class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
-                name="test"
-                type="checkbox"
-              />
               <span
-                class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-              />
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+              >
+                <input
+                  aria-labelledby="test-label"
+                  class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                  name="test"
+                  type="checkbox"
+                />
+                <span
+                  class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                />
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
               <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
               />
             </span>
-            <span
-              class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
-            />
-          </span>
-        </div>
-      </label>
+          </div>
+        </label>
+      </div>
     </div>
   </div>
 </body>
