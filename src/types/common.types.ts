@@ -14,6 +14,7 @@ export type PagoPAEnvVars = {
   CLIENT_ASSERTION_JWT_AUDIENCE: string
   WELL_KNOWN_URLS: string
   SELFCARE_BASE_URL: string
+  PRODUCER_ALLOWED_ORIGINS: string
 }
 
 export type ExtendedWindow = Window & {
