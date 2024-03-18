@@ -1,4 +1,4 @@
-import { PAGOPA_ENV, PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
+import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
 import type { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 
