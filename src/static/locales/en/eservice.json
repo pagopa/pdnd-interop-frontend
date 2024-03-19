@@ -241,12 +241,66 @@
           "showProducerContacts": "Show producer contacts"
         }
       },
+      "technicalInformations": {
+        "title": "E-service technical specifications",
+        "description": "In this section you can check the specifications of the e-service and make changes.",
+        "technology": "Technology",
+        "audience": "Audience",
+        "mode": {
+          "label": "E-service mode",
+          "labelDescription": "Receive / Deliver",
+          "value": {
+            "DELIVER": "Deliver",
+            "RECEIVE": "Receive"
+          }
+        },
+        "thresholds": {
+          "title": "Voucher lifespan and thresholds",
+          "voucherLifespan": {
+            "label": "Voucher lifespan",
+            "labelDescription": "in minutes"
+          },
+          "dailyCallsPerConsumer": {
+            "label": "Per subscriber threshold",
+            "labelDescription": "API calls/day"
+          },
+          "dailyCallsTotal": {
+            "label": "Total threshold",
+            "labelDescription": "API calls/day"
+          }
+        },
+        "documentation": {
+          "title": "Documentation"
+        },
+        "usefulLinks": {
+          "title": "Useful links",
+          "implementAndManageEService": "How do I implement and manage an e-service?",
+          "verifyVoucher": "How do I verify a consumer's voucher?",
+          "wellKnown": "URL .well-known"
+        }
+      },
       "attributes": {
         "title": "Attributes",
         "description": "Below are all the certified, verified or declared attributes that are required for the use of the E-service."
       }
     },
     "drawers": {
+      "updateThresholdsDrawer": {
+        "title": "Change voucher lifespan and thresholds",
+        "subtitle": "From this panel you can update the parameters of your e-service version. The changes made will take effect immediately.",
+        "voucherLifespanField": {
+          "label": "Voucher lifespan",
+          "infoLabel": "in minutes"
+        },
+        "dailyCallsPerConsumerField": {
+          "label": "Per subscriber threshold",
+          "infoLabel": "API calls/day"
+        },
+        "dailyCallsTotalField": {
+          "label": "Total threshold",
+          "infoLabel": "API calls/day"
+        }
+      },
       "technicalInfoDrawer": {
         "title": "E-Service technical informations",
         "technology": "Technology",
