@@ -121,6 +121,26 @@ export interface EServiceSeed {
   mode: EServiceMode
 }
 
+export interface UpdateEServiceDescriptorQuotas {
+  /**
+   * @format int32
+   * @min 0
+   */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford.
+   * @format int32
+   * @min 0
+   */
+  dailyCallsPerConsumer: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 0
+   */
+  dailyCallsTotal: number
+}
+
 export interface UpdateEServiceDescriptorSeed {
   description?: string
   audience: string[]
@@ -1448,6 +1468,11 @@ export interface GetAgreementEServiceProducersParams {
   /** Query to filter EServices by name */
   q?: string
   /**
+   * comma separated sequence of states
+   * @default []
+   */
+  states?: AgreementState[]
+  /**
    * @format int32
    * @min 0
    */
@@ -1587,7 +1612,10 @@ export interface GetAttributesParams {
   origin?: string
   limit: number
   offset: number
-  /** Array of kinds */
+  /**
+   * Array of kinds
+   * @default []
+   */
   kinds: AttributeKind[]
 }
 
@@ -2391,6 +2419,34 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
+   * @name UpdateDescriptor
+   * @summary Publish the selected descriptor.
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/update
+   * @secure
+   */
+  export namespace UpdateDescriptor {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceDescriptorQuotas
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
    * @name PublishDescriptor
    * @summary Publish the selected descriptor.
    * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/publish
@@ -2818,6 +2874,11 @@ export namespace Producers {
       /** Query to filter EServices by name */
       q?: string
       /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: AgreementState[]
+      /**
        * @format int32
        * @min 0
        */
@@ -3127,7 +3188,9 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {}
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
     export type ResponseBody = DeclaredAttributesResponse
   }
   /**
@@ -3148,7 +3211,9 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {}
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
     export type ResponseBody = VerifiedAttributesResponse
   }
   /**
@@ -3162,14 +3227,16 @@ export namespace Tenants {
   export namespace VerifyVerifiedAttribute {
     export type RequestParams = {
       /**
-       * Tenant id
+       * The internal identifier of the tenant
        * @format uuid
        */
       tenantId: string
     }
     export type RequestQuery = {}
     export type RequestBody = VerifiedTenantAttributeSeed
-    export type RequestHeaders = {}
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
     export type ResponseBody = void
   }
   /**
@@ -3878,7 +3945,10 @@ export namespace Attributes {
       origin?: string
       limit: number
       offset: number
-      /** Array of kinds */
+      /**
+       * Array of kinds
+       * @default []
+       */
       kinds: AttributeKind[]
     }
     export type RequestBody = never
