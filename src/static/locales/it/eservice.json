@@ -241,12 +241,66 @@
           "showProducerContacts": "Visualizza i contatti dell’erogatore"
         }
       },
+      "technicalInformations": {
+        "title": "Specifiche tecniche e-service",
+        "description": "In questa sezione potrai verificare le specifiche dell’e-service ed apportare modifiche.",
+        "technology": "Tecnologia",
+        "audience": "Audience",
+        "mode": {
+          "label": "Tipologia e-service",
+          "labelDescription": "Riceve / Eroga",
+          "value": {
+            "DELIVER": "Eroga",
+            "RECEIVE": "Riceve"
+          }
+        },
+        "thresholds": {
+          "title": "Durata voucher e soglie",
+          "voucherLifespan": {
+            "label": "Durata del voucher",
+            "labelDescription": "in minuti"
+          },
+          "dailyCallsPerConsumer": {
+            "label": "Soglia per Fruitore",
+            "labelDescription": "chiamate API/giorno"
+          },
+          "dailyCallsTotal": {
+            "label": "Soglia totale",
+            "labelDescription": "chiamate API/giorno"
+          }
+        },
+        "documentation": {
+          "title": "Documentazione"
+        },
+        "usefulLinks": {
+          "title": "Link utili",
+          "implementAndManageEService": "Come implemento e gestisco un e-service?",
+          "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
+          "wellKnown": "URL .well-known"
+        }
+      },
       "attributes": {
         "title": "Attributi",
         "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service."
       }
     },
     "drawers": {
+      "updateThresholdsDrawer": {
+        "title": "Modifica durata voucher e soglie",
+        "subtitle": "Da questo pannello puoi aggiornare i parametri della tua versione di e-service. Le modifiche apportate avranno effetto da subito.",
+        "voucherLifespanField": {
+          "label": "Durata del voucher",
+          "infoLabel": "in minuti"
+        },
+        "dailyCallsPerConsumerField": {
+          "label": "Soglia per fruitori",
+          "infoLabel": "Chiamate API/giorno"
+        },
+        "dailyCallsTotalField": {
+          "label": "Soglia totale",
+          "infoLabel": "Chiamate API/giorno"
+        }
+      },
       "technicalInfoDrawer": {
         "title": "Specifiche tecniche e-service",
         "technology": "Tecnologia",

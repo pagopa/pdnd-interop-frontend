@@ -113,6 +113,13 @@
         "description": "Cliccando \"conferma\" questa versione di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione di e-service potranno nuovamente usufruirne"
       }
     },
+    "updateVersion": {
+      "loading": "Stiamo aggiornando le informazioni",
+      "outcome": {
+        "success": "Le informazioni richieste sono state aggiornate correttamente",
+        "error": "Non è stato possibile aggiornare le informazioni richieste. Per favore, riprova!"
+      }
+    },
     "deleteVersionDraft": {
       "loading": "Stiamo cancellando la bozza",
       "outcome": {
