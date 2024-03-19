@@ -14,6 +14,10 @@ import {
 } from './components/ProviderEServiceGeneralInfoSection'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { useTranslation } from 'react-i18next'
+import {
+  ProviderEServiceTechnicalInfoSection,
+  ProviderEServiceTechnicalInfoSectionSkeleton,
+} from './components/ProviderEServiceTechnicalInfoSection'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -47,6 +51,9 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         <Grid item xs={8}>
           <React.Suspense fallback={<ProviderEServiceGeneralInfoSectionSkeleton />}>
             <ProviderEServiceGeneralInfoSection />
+          </React.Suspense>
+          <React.Suspense fallback={<ProviderEServiceTechnicalInfoSectionSkeleton />}>
+            <ProviderEServiceTechnicalInfoSection />
           </React.Suspense>
           <React.Suspense fallback={<ProviderEServiceDescriptorAttributesSkeleton />}>
             <ProviderEServiceDescriptorAttributes />
