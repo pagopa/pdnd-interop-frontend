@@ -45,12 +45,6 @@ export function useGetProviderEServiceActions(
     color: 'error',
   }
 
-  if (!activeDescriptorId && !draftDescriptorId) {
-    return {
-      actions: [deleteDraftAction],
-    }
-  }
-
   const handlePublishDraft = () => {
     if (draftDescriptorId) publishDraft({ eserviceId, descriptorId: draftDescriptorId })
   }
@@ -150,11 +144,11 @@ export function useGetProviderEServiceActions(
   }
 
   const handleEditDraft = () => {
-    if (draftDescriptorId)
-      navigate('PROVIDE_ESERVICE_EDIT', {
+    if (draftDescriptorId) {
+      navigate('PROVIDE_ESERVICE_SUMMARY', {
         params: { eserviceId, descriptorId: draftDescriptorId },
-        state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
       })
+    }
   }
 
   const editDraftAction: ActionItemButton = {
@@ -163,33 +157,35 @@ export function useGetProviderEServiceActions(
     icon: PendingActionsIcon,
   }
 
+  const deleteAction = !activeDescriptorId ? deleteDraftAction : deleteVersionDraftAction
+
   const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
     PUBLISHED: [
       cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
+      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
       suspendAction,
     ],
     ARCHIVED: [],
     DEPRECATED: [suspendAction],
-    DRAFT: [publishDraftAction, deleteVersionDraftAction],
+    DRAFT: !hasVersionDraft ? [deleteAction] : [publishDraftAction, deleteAction],
     SUSPENDED: [
       reactivateAction,
       cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
+      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
     ],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
     PUBLISHED: [
       cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
+      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
     ],
     ARCHIVED: [],
     DEPRECATED: [],
-    DRAFT: [publishDraftAction, deleteVersionDraftAction],
+    DRAFT: !hasVersionDraft ? [deleteAction] : [publishDraftAction, deleteAction],
     SUSPENDED: [
       cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteVersionDraftAction]),
+      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
     ],
   }
 
