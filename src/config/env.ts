@@ -64,7 +64,15 @@ export const SELFCARE_BASE_URL =
 
 export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
 
-export const SELFCARE_INTEROP_PROD_ID = `prod-interop${STAGE === 'UAT' ? '-coll' : ''}`
+export const SELFCARE_INTEROP_PROD_ID = {
+  UAT: 'prod-interop-coll',
+  PROD: 'prod-interop',
+  ATT: 'prod-interop-atst',
+  // DEV and QA are actually irrelevant. They are set to "prod-interop"
+  // just to avoid breaking the product dropdown in the UI
+  DEV: 'prod-interop',
+  QA: 'prod-interop',
+}[STAGE]
 
 export const PRODUCER_ALLOWED_ORIGINS = PAGOPA_ENV?.PRODUCER_ALLOWED_ORIGINS.split(',')
   .map((o) => o.trim())
