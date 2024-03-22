@@ -13,13 +13,14 @@ import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import PeopleIcon from '@mui/icons-material/People'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { useTranslation } from 'react-i18next'
-import { SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID } from '@/config/env'
+import { SELFCARE_BASE_URL } from '@/config/env'
 import { type RouteKey, useCurrentRoute, getParentRoutes } from '@/router'
 import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
 import { useGetSideNavItems } from './hooks/useGetSideNavItems'
 import { AuthHooks } from '@/api/auth'
+import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 
 type View = {
   routeKey: RouteKey
@@ -57,7 +58,7 @@ const _SideNav = () => {
   const [openId, setOpenId] = useState<string | null>(isActive)
 
   const selfcareUsersPageUrl =
-    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${SELFCARE_INTEROP_PROD_ID}`
+    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
 
   const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
 
