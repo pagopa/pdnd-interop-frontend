@@ -1,6 +1,6 @@
 {
   "name": "interop-dashboard-frontend",
-  "version": "1.0.49",
+  "version": "1.0.50",
   "type": "module",
   "scripts": {
     "dev": "vite",
