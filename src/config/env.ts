@@ -1,5 +1,4 @@
 import type { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
-import { getCurrentSelfCareProduct } from '@/utils/common.utils'
 
 export const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 
@@ -64,8 +63,6 @@ export const SELFCARE_BASE_URL =
   isProduction && PAGOPA_ENV ? PAGOPA_ENV.SELFCARE_BASE_URL : 'https://uat.selfcare.pagopa.it'
 
 export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
-
-export const SELFCARE_INTEROP_PROD_ID = getCurrentSelfCareProduct()
 
 export const PRODUCER_ALLOWED_ORIGINS = PAGOPA_ENV?.PRODUCER_ALLOWED_ORIGINS.split(',')
   .map((o) => o.trim())

@@ -157,7 +157,7 @@ export function clearExponentialInterval(instanceId: string | undefined) {
   }
 }
 
-export function getCurrentSelfCareProduct() {
+export function getCurrentSelfCareProductId() {
   switch (STAGE) {
     case 'PROD':
       return 'prod-interop'

@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from '@/router'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
-import { FE_LOGIN_URL, SELFCARE_BASE_URL, SELFCARE_INTEROP_PROD_ID, STAGE } from '@/config/env'
+import { FE_LOGIN_URL, SELFCARE_BASE_URL, STAGE } from '@/config/env'
 import { PartyQueries } from '@/api/party/party.hooks'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
@@ -10,6 +10,7 @@ import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { UnauthorizedError } from '@/utils/errors.utils'
+import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -61,7 +62,7 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
   }
 
   const interopProduct: ProductSwitchItem = {
-    id: SELFCARE_INTEROP_PROD_ID,
+    id: getCurrentSelfCareProductId(),
     title: `Interoperabilità${STAGE === 'UAT' ? ' Collaudo' : ''}`,
     productUrl: '',
     linkType: 'internal',
@@ -113,7 +114,9 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const handleSelectParty = (party: PartySwitchItem) => {
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id}&productId=${SELFCARE_INTEROP_PROD_ID}`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${
+        party.id
+      }&productId=${getCurrentSelfCareProductId()}`
     )
   }
 
@@ -161,7 +164,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         onSelectedParty={handleSelectParty}
         onSelectedProduct={handleSelectProduct}
         partyId={selfcareId}
-        productId={SELFCARE_INTEROP_PROD_ID}
+        productId={getCurrentSelfCareProductId()}
         productsList={productList}
         partyList={partyList}
         {...headerChipProps}
