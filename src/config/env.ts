@@ -64,8 +64,6 @@ export const SELFCARE_BASE_URL =
 
 export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
 
-export const SELFCARE_INTEROP_PROD_ID = `prod-interop${STAGE === 'UAT' ? '-coll' : ''}`
-
 export const PRODUCER_ALLOWED_ORIGINS = PAGOPA_ENV?.PRODUCER_ALLOWED_ORIGINS.split(',')
   .map((o) => o.trim())
   .filter(Boolean) ?? ['IPA']
