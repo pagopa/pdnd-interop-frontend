@@ -20,6 +20,7 @@ import type {
   ProducerEServiceDetails,
   ProducerEServices,
   UpdateEServiceDescriptorDocumentSeed,
+  UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
@@ -191,6 +192,20 @@ function deleteVersionDraft({
   )
 }
 
+function updateVersion({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & UpdateEServiceDescriptorQuotas) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/update`,
+    payload
+  )
+}
+
 function addEServiceRiskAnalysis({
   eserviceId,
   ...payload
@@ -332,6 +347,7 @@ const EServiceServices = {
   updateVersionDraft,
   publishVersionDraft,
   suspendVersion,
+  updateVersion,
   reactivateVersion,
   deleteVersionDraft,
   addEServiceRiskAnalysis,
