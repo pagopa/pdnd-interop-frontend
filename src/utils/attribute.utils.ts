@@ -47,7 +47,12 @@ export function isAttributeRevoked(
           (verifier) => verifier.id === verifierId
         )
 
-        return !isInVerifiedBy
+        if (isInVerifiedBy) return false
+        const isInRevokedBy = typedAttribute.revokedBy.some(
+          (verifier) => verifier.id === verifierId
+        )
+        if (isInRevokedBy) return true
+        return false
       }
 
       /*
@@ -117,7 +122,9 @@ export function isAttributeOwned(
     case 'certified':
       return !isAttributeRevoked('certified', match)
     case 'verified':
-      return !isAttributeRevoked('verified', match as VerifiedTenantAttribute, verifierId)
+      return (match as VerifiedTenantAttribute).verifiedBy.some(
+        (verifier) => verifier.id === verifierId
+      )
     case 'declared':
       return !isAttributeRevoked('declared', match)
     default:
