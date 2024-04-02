@@ -28,6 +28,8 @@
     }
   },
   "list": {
-    "adminEnableInfo": "Add yourself as a member of this client before you can upload a key"
+    "adminEnableInfo": "Add yourself as a member of this client before you can upload a key",
+    "publicKeyLimitInfo": "You have reached the maximum number of keys for this client",
+    "supportDisableInfo": "The support user is not authorized to add keys"
   }
 }

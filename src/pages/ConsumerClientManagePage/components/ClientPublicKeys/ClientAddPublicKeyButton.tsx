@@ -18,7 +18,7 @@ interface ClientAddPublicKeyButtonProps {
 export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> = ({ clientId }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('key')
-  const { jwt, isOperatorSecurity, isAdmin } = AuthHooks.useJwt()
+  const { jwt, isSupport, isAdmin } = AuthHooks.useJwt()
   const { data: users = [] } = ClientQueries.useGetOperatorsList(clientId)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -35,21 +35,73 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const usersId = userQueries.map(({ data }) => data?.userId).filter(identity)
 
   const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
-  const canAddKey = isOperatorSecurity || (isAdmin && isAdminInClient)
+
+  const { data } = ClientQueries.useGetKeyList(
+    { clientId },
+    {
+      suspense: false,
+      keepPreviousData: true,
+    }
+  )
+  const publicKeys = data?.keys || []
+  const publicKeysLimit = 100
+  const hasReachedPublicKeysLimit = publicKeys.length >= publicKeysLimit
+
+  /**
+   * There are no conditions about operator API because it doesn't have the necessary router permissions to navigate to this page
+   * The conditions to add keys are:
+   * - do not be support
+   * - be admin and be added in the client
+   * - you have not reached the limit of keys that can be added (it is fixed to 100)
+   */
+  const canNotAddKey = isSupport || (isAdmin && !isAdminInClient) || hasReachedPublicKeysLimit
+
+  const getTooltipProps = () => {
+    let tooltipProps: { open: boolean | undefined; title: string } = {
+      open: false,
+      title: '',
+    }
+
+    if (hasReachedPublicKeysLimit) {
+      tooltipProps = {
+        open: undefined,
+        title: t('list.publicKeyLimitInfo'),
+      }
+
+      return tooltipProps
+    }
+
+    if (isAdmin && !isAdminInClient) {
+      tooltipProps = {
+        open: undefined,
+        title: t('list.adminEnableInfo'),
+      }
+
+      return tooltipProps
+    }
+
+    if (isSupport) {
+      tooltipProps = {
+        open: undefined,
+        title: t('list.supportDisableInfo'),
+      }
+
+      return tooltipProps
+    }
+
+    return tooltipProps
+  }
 
   return (
     <>
       <Stack sx={{ mb: 2 }} direction="row" justifyContent="end" alignItems="center">
-        <Tooltip
-          open={isAdmin && !isAdminInClient ? undefined : false}
-          title={t('list.adminEnableInfo')}
-        >
+        <Tooltip {...getTooltipProps()}>
           <span>
             <Button
               startIcon={<PlusOneIcon />}
               variant="contained"
               size="small"
-              disabled={!canAddKey}
+              disabled={canNotAddKey}
               onClick={openDrawer}
             >
               {tCommon('addBtn')}
@@ -57,7 +109,7 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
           </span>
         </Tooltip>
       </Stack>
-      {canAddKey && (
+      {!canNotAddKey && (
         <ClientAddPublicKeyDrawer isOpen={isOpen} onClose={closeDrawer} clientId={clientId} />
       )}
     </>
