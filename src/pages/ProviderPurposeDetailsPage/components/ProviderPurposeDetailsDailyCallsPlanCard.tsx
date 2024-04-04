@@ -1,6 +1,15 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { IconLink } from '@/components/shared/IconLink'
-import { Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Stack,
+  Typography,
+} from '@mui/material'
 import React from 'react'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import EditCalendarIcon from '@mui/icons-material/EditCalendar'
@@ -59,31 +68,56 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
           flexDirection: 'column',
         }}
       >
-        <CardHeader
-          sx={{ px: 3, pt: 3, pb: 1 }}
-          disableTypography={true}
-          title={
-            <Stack spacing={1}>
-              <Typography variant="sidenav">{title}</Typography>
-              <Typography color="text.secondary" variant="body2">
-                {t('subtitle')}
-              </Typography>
-            </Stack>
-          }
-        />
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <CardHeader
+            sx={{ px: 3, pt: 3, pb: 1 }} // TODO metterli nello stack sopra
+            disableTypography={true}
+            title={
+              <Stack spacing={1}>
+                <Typography variant="sidenav">{title}</Typography>
+                <Typography color="text.secondary" variant="body2">
+                  {t('subtitle')}
+                </Typography>
+              </Stack>
+            }
+          />
+          {/* TODO mettere il margin/padding nello stack sopra */}
+          <Stack direction="row" spacing={2} sx={{ mr: 3 }}>
+            <Button
+              onClick={handleConfirmUpdate}
+              variant="naked"
+              size="small"
+              color="primary"
+              startIcon={<PlayCircleOutlineIcon />}
+              disabled={isSuspended || isArchived}
+            >
+              {t('activateUpdateButtonLabel.label')}
+            </Button>
+          </Stack>
+        </Stack>
         <CardContent sx={{ px: 3, pt: 1 }}>
           {waitingForApprovalVersion ? (
             <Stack direction="column" spacing={2}>
-              <Stack direction="row" alignItems="end" spacing={1}>
-                {purpose.currentVersion && (
-                  <Typography variant="body2" sx={{ textDecorationLine: 'line-through' }}>
-                    {purpose.currentVersion?.dailyCalls}
+              <Stack direction="row" alignItems="space-between">
+                <Box flex={1}>
+                  <Typography variant="h4">
+                    {formatThousands(waitingForApprovalVersion.dailyCalls)}
                   </Typography>
+                  <Typography variant="body2">{t('waitingForApprovalPlan.label')}</Typography>
+                </Box>
+
+                {purpose.currentVersion && (
+                  <Box flex={1}>
+                    <Typography variant="h4" color="text.secondary" fontWeight={400}>
+                      {formatThousands(purpose.currentVersion?.dailyCalls)}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {t('currentPlan.label')}
+                    </Typography>
+                  </Box>
                 )}
-                <Typography variant="h4">
-                  {formatThousands(waitingForApprovalVersion.dailyCalls)}
-                </Typography>
               </Stack>
+              <Divider />
               {waitingForApprovalVersion.expectedApprovalDate && (
                 <Typography variant="body2">
                   <Trans
@@ -100,7 +134,6 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                   </Trans>
                 </Typography>
               )}
-              <Divider />
               <IconLink
                 onClick={handleSetApprovalDate}
                 component="button"
@@ -111,15 +144,6 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                 {waitingForApprovalVersion.expectedApprovalDate
                   ? t('setApprovalDateLink.modifyLabel')
                   : t('setApprovalDateLink.insertLabel')}
-              </IconLink>
-              <IconLink
-                onClick={handleConfirmUpdate}
-                component="button"
-                disabled={isSuspended || isArchived}
-                startIcon={<PlayCircleOutlineIcon />}
-                alignSelf="start"
-              >
-                {t('activateUpdateLink.label')}
               </IconLink>
             </Stack>
           ) : (
