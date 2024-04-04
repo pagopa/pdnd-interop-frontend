@@ -82,18 +82,20 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
             }
           />
           {/* TODO mettere il margin/padding nello stack sopra */}
-          <Stack direction="row" spacing={2} sx={{ mr: 3 }}>
-            <Button
-              onClick={handleConfirmUpdate}
-              variant="naked"
-              size="small"
-              color="primary"
-              startIcon={<PlayCircleOutlineIcon />}
-              disabled={isSuspended || isArchived}
-            >
-              {t('activateUpdateButtonLabel.label')}
-            </Button>
-          </Stack>
+          {waitingForApprovalVersion && (
+            <Stack direction="row" spacing={2} sx={{ mr: 3 }}>
+              <Button
+                onClick={handleConfirmUpdate}
+                variant="naked"
+                size="small"
+                color="primary"
+                startIcon={<PlayCircleOutlineIcon />}
+                disabled={isSuspended || isArchived}
+              >
+                {t('activateUpdateButtonLabel.label')}
+              </Button>
+            </Stack>
+          )}
         </Stack>
         <CardContent sx={{ px: 3, pt: 1 }}>
           {waitingForApprovalVersion ? (
