@@ -36,13 +36,17 @@ const ProviderPurposeDetailsPage: React.FC = () => {
         to: 'PROVIDE_PURPOSE_LIST',
       }}
     >
+      {alertProps && (
+        <Alert severity={alertProps.severity} sx={{ mb: 3 }}>
+          {alertProps.content}
+        </Alert>
+      )}
       <Grid container>
         <Grid item xs={8}>
           {!purpose ? (
             <ProviderPurposeDetailsPageSkeleton />
           ) : (
             <Stack spacing={3}>
-              {alertProps && <Alert severity={alertProps.severity}>{alertProps.content}</Alert>}
               <ProviderPurposeDetailsGeneralInfoSection purpose={purpose} />
               <ProviderPurposeDetailsLoadEstimateSection purpose={purpose} />
             </Stack>
