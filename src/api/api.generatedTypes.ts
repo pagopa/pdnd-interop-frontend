@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+/** models the reject payload for this purpose version. */
+export interface RejectPurposeVersionPayload {
+  rejectionReason: string
+}
+
 export interface GoogleSAMLPayload {
   /** SAML response */
   SAMLResponse: string
@@ -822,6 +827,7 @@ export type PurposeVersionState =
   | 'ACTIVE'
   | 'DRAFT'
   | 'SUSPENDED'
+  | 'REJECTED'
   | 'WAITING_FOR_APPROVAL'
   | 'ARCHIVED'
 
@@ -3547,6 +3553,28 @@ export namespace Purposes {
       'X-Correlation-Id': string
     }
     export type ResponseBody = File
+  }
+  /**
+   * @description reject the purpose version by id
+   * @tags purposes
+   * @name RejectPurposeVersion
+   * @summary Reject Purpose Version
+   * @request POST:/purposes/{purposeId}/versions/{versionId}/reject
+   * @secure
+   */
+  export namespace RejectPurposeVersion {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeId: string
+      /** @format uuid */
+      versionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectPurposeVersionPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
   }
   /**
    * @description archives the purpose version by id
