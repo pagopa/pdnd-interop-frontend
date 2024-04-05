@@ -68,35 +68,30 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
           flexDirection: 'column',
         }}
       >
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <CardHeader
-            sx={{ px: 3, pt: 3, pb: 1 }} // TODO metterli nello stack sopra
-            disableTypography={true}
-            title={
-              <Stack spacing={1}>
-                <Typography variant="sidenav">{title}</Typography>
-                <Typography color="text.secondary" variant="body2">
-                  {t('subtitle')}
-                </Typography>
-              </Stack>
-            }
-          />
-          {/* TODO mettere il margin/padding nello stack sopra */}
-          {waitingForApprovalVersion && (
-            <Stack direction="row" spacing={2} sx={{ mr: 3 }}>
-              <Button
-                onClick={handleConfirmUpdate}
-                variant="naked"
-                size="small"
-                color="primary"
-                startIcon={<PlayCircleOutlineIcon />}
-                disabled={isSuspended || isArchived}
-              >
-                {t('activateUpdateButtonLabel.label')}
-              </Button>
-            </Stack>
-          )}
-        </Stack>
+        <CardHeader
+          titleTypographyProps={{ variant: 'sidenav' }}
+          title={title}
+          subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary' }}
+          subheader={t('subtitle')}
+          action={
+            waitingForApprovalVersion && (
+              <>
+                <Button
+                  onClick={handleConfirmUpdate}
+                  variant="naked"
+                  size="small"
+                  color="primary"
+                  startIcon={<PlayCircleOutlineIcon />}
+                  disabled={isSuspended || isArchived}
+                  sx={{ mr: 1 }}
+                >
+                  {t('activateUpdateButtonLabel.label')}
+                </Button>
+              </>
+            )
+          }
+          sx={{ px: 3, pt: 3, pb: 1 }}
+        />
         <CardContent sx={{ px: 3, pt: 1 }}>
           {waitingForApprovalVersion ? (
             <Stack direction="column" spacing={2}>
