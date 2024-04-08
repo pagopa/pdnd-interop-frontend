@@ -35,6 +35,29 @@
       "confirmLabel": "Reject"
     }
   },
+  "dialogRejectPurposeVersion": {
+    "title": {
+      "changePlan": "Reject purpose plan change",
+      "newPurpose": "Reject purpose"
+    },
+    "subtitle": {
+      "changePlan": "By refusing this plan change, the user will still be able to continue using the previously available plan.",
+      "newPurpose": "By rejecting this purpose, the user will not be able to access your e-service data."
+    },
+    "content": {
+      "reason": {
+        "label": "Reason",
+        "infoLabel": {
+          "changePlan": "Enter the reason why you reject the plan change. Min 10 characters, max 250 characters",
+          "newPurpose": "Enter the reason why you reject the purpose. Min 10 characters, max 250 characters"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Cancel",
+      "confirmLabel": "Reject"
+    }
+  },
   "dialogAddClientToPurpose": {
     "title": "Add clients",
     "content": {
