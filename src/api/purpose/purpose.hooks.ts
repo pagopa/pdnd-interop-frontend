@@ -229,6 +229,17 @@ function useDeleteVersion() {
   })
 }
 
+function useRejectVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.rejectVersion' })
+  return useMutation(PurposeServices.rejectVersion, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useClone() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.clone' })
   return useMutation(PurposeServices.clone, {
@@ -286,6 +297,7 @@ export const PurposeMutations = {
   useActivateVersion,
   useArchiveVersion,
   useDeleteVersion,
+  useRejectVersion,
   useClone,
   useAddClient,
   useRemoveClient,
