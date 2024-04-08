@@ -76,6 +76,7 @@ const ProviderPurposesListPage: React.FC = () => {
         },
         { label: tPurpose('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
         { label: tPurpose('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
+        { label: tPurpose('statusField.optionLabels.REJECTED'), value: 'REJECTED' },
       ],
     },
   ])
