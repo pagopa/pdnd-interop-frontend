@@ -38,6 +38,7 @@ const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   SUSPENDED: 'error',
   WAITING_FOR_APPROVAL: 'warning',
   ARCHIVED: 'info',
+  REJECTED: 'error',
 }
 
 const chipColors = {
@@ -131,37 +132,25 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('common')
 
-  const purposeState = purpose.currentVersion?.state ?? 'DRAFT'
+  const currentVersionState = purpose.currentVersion?.state ?? 'DRAFT'
 
-  const isPurposeSuspended =
-    purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
+  const waitingForApprovalVersionState =
+    purpose.waitingForApprovalVersion?.state ?? 'WAITING_FOR_APPROVAL'
 
   return (
     <Stack direction="row" spacing={1}>
       {purpose.currentVersion && (
-        <>
-          {isPurposeSuspended ? (
-            <Chip
-              size="small"
-              label={t('status.purpose.SUSPENDED')}
-              color={chipColors['purpose'][purposeState]}
-            />
-          ) : (
-            <Chip
-              size="small"
-              label={t(
-                `status.purpose.${purposeState as Exclude<PurposeVersionState, 'SUSPENDED'>}`
-              )}
-              color={chipColors['purpose'][purposeState]}
-            />
-          )}
-        </>
+        <Chip
+          size="small"
+          label={t(`status.purpose.${currentVersionState}`)}
+          color={chipColors['purpose'][currentVersionState]}
+        />
       )}
       {purpose.waitingForApprovalVersion && !purpose.currentVersion && (
         <Chip
           size="small"
-          label={t('status.purpose.WAITING_FOR_APPROVAL')}
-          color={chipColors['purpose'][purpose.waitingForApprovalVersion.state]}
+          label={t(`status.purpose.${waitingForApprovalVersionState}`)}
+          color={chipColors['purpose'][waitingForApprovalVersionState]}
         />
       )}
     </Stack>
