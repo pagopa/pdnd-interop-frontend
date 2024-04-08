@@ -443,6 +443,13 @@
         "description": "By clicking \"confirm\", the update to the number of API calls/day for this purpose will be deleted. This purpose can still be used with the former number of API calls/day declared"
       }
     },
+    "rejectVersion": {
+      "loading": "Rejecting purpose",
+      "outcome": {
+        "success": "The purpose was rejected successfully",
+        "error": "The purpose could not be rejected. Please, try again!"
+      }
+    },
     "downloadRiskAnalysis": {
       "loading": "Downloading risk analysis document",
       "outcome": {
