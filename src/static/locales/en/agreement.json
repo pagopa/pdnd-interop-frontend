@@ -119,6 +119,7 @@
       "byConsumer": "This agreement has been suspended by the CONSUMER. Until it is reactivated it will not be possible to access the data.",
       "byPlatform": "This agreement has been suspended by the PLATFORM. Until it is reactivated it will not be possible to access the data."
     },
+    "noPurposeAlert": "To access the data <1>create your first purpose</1>.",
     "noCertifiedAttributesForUpgradeTooltip": "There is an update available but your organization does not have the minimum requirements to perform it.",
     "sections": {
       "generalInformations": {
