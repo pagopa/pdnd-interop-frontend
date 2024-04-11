@@ -85,6 +85,7 @@
   "summary": {
     "title": "Summary",
     "clientsAlert": "<strong>The client association was removed</strong> within the process. It will be possible to associate one or more clients only after the activation of the purpose.",
+    "obsoleteRiskAnalysisAlert": "Risk analysis is outdated. It is not possible activate this purpose. Delete draft purpose and create a new purpose",
     "generalInformationSection": {
       "title": "General informations",
       "eservice": {
