@@ -15,6 +15,7 @@ import {
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
+import useGetRiskAnalysisVersionAlertProps from './hooks/useGetRiskAnalysisVersionAlertProps'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -27,6 +28,22 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId, {
     suspense: false,
   })
+
+  const { data: riskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
+    suspense: false,
+  })
+
+  const alertListProps = useGetRiskAnalysisVersionAlertProps({
+    purposeRiskAnalysisVersion: purpose?.riskAnalysisForm?.version,
+    latestRiskAnalysisVersion: riskAnalysis?.version,
+  })
+
+  /* 
+    If latestRiskAnalysisVersion is not the same of purpose risk analysis version, this mean that riskAnalysis is obsolete 
+    so ui need disabled edit and publish buttons
+  */
+  const isRiskAnlysisObsolete =
+    riskAnalysis && purpose && riskAnalysis?.version !== purpose?.riskAnalysisForm?.version
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
@@ -78,15 +95,18 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       isLoading={isInitialLoading}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
     >
-      <Alert severity="info" sx={{ mb: 3 }}>
-        <Trans
-          components={{
-            strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-          }}
-        >
-          {t('summary.clientsAlert')}
-        </Trans>
-      </Alert>
+      {alertListProps &&
+        alertListProps.map((alert, index) => (
+          <Alert key={index} severity={alert.severity} sx={{ mb: 3 }}>
+            <Trans
+              components={{
+                strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+              }}
+            >
+              {alert.content}
+            </Trans>
+          </Alert>
+        ))}
       {!purpose && isInitialLoading ? (
         <Stack spacing={3}>
           <SummaryAccordionSkeleton />
@@ -111,10 +131,20 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         >
           {tCommon('deleteDraft')}
         </Button>
-        <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+        <Button
+          startIcon={<CreateIcon />}
+          variant="text"
+          onClick={handleEditDraft}
+          disabled={isRiskAnlysisObsolete}
+        >
           {tCommon('editDraft')}
         </Button>
-        <Button startIcon={<PublishIcon />} variant="contained" onClick={handlePublishDraft}>
+        <Button
+          startIcon={<PublishIcon />}
+          variant="contained"
+          onClick={handlePublishDraft}
+          disabled={isRiskAnlysisObsolete}
+        >
           {tCommon('publish')}
         </Button>
       </Stack>
