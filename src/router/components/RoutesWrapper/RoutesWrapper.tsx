@@ -32,9 +32,7 @@ const _RoutesWrapper: React.FC = () => {
     <>
       <Header jwt={jwt} isSupport={isSupport} />
       <Box sx={{ flex: 1 }}>
-        {!isTOSAccepted && !isPublic ? (
-          <TOSAgreement onAcceptAgreement={handleAcceptTOS} />
-        ) : (
+
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
               <React.Suspense fallback={<PageContainerSkeleton />}>
@@ -49,7 +47,7 @@ const _RoutesWrapper: React.FC = () => {
               </React.Suspense>
             </ErrorBoundary>
           </AppLayout>
-        )}
+
       </Box>
       <Footer jwt={jwt} />
       <Dialog />

@@ -57,14 +57,6 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
-    key: 'TOS',
-    path: '/termini-di-servizio',
-    element: <TOSPage />,
-    public: true,
-    hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
-  })
-  .addRoute({
     key: 'PRIVACY_POLICY',
     path: '/privacy-policy',
     element: <PrivacyPolicyPage />,
