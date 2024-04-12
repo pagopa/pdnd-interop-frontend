@@ -1,4 +1,4 @@
-import { PurposeMutations } from '@/api/purpose'
+import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
@@ -22,6 +22,10 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { mutate: clonePurpose } = PurposeMutations.useClone()
   const { mutate: activatePurpose } = PurposeMutations.useActivateVersion()
   const { mutate: deletePurposeDraft } = PurposeMutations.useDeleteDraft()
+
+  const { data: riskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
+    suspense: false,
+  })
 
   if (!purpose || !isAdmin) return { actions: [] }
 
@@ -107,7 +111,11 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   }
 
   if (purpose?.currentVersion?.state === 'DRAFT') {
-    return { actions: [activateAction, deleteAction] }
+    const actions = [deleteAction]
+    if (purpose.riskAnalysisForm?.version === riskAnalysis?.version) {
+      actions.push(activateAction)
+    }
+    return { actions }
   }
 
   // If the currentVestion is not ARCHIVED or in DRAFT...
