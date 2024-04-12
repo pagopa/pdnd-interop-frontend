@@ -15,7 +15,7 @@ import {
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
-import useGetRiskAnalysisVersionAlertProps from './hooks/useGetRiskAnalysisVersionAlertProps'
+import useGetPurposeSummaryAlertProps from './hooks/useGetRiskAnalysisVersionAlertProps'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -29,21 +29,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     suspense: false,
   })
 
-  const { data: riskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
-    suspense: false,
-  })
-
-  const alertListProps = useGetRiskAnalysisVersionAlertProps({
-    purposeRiskAnalysisVersion: purpose?.riskAnalysisForm?.version,
-    latestRiskAnalysisVersion: riskAnalysis?.version,
-  })
-
-  /* 
-    If latestRiskAnalysisVersion is not the same of purpose risk analysis version, this mean that riskAnalysis is obsolete 
-    so ui need disabled edit and publish buttons
-  */
-  const isRiskAnlysisObsolete =
-    riskAnalysis && purpose && riskAnalysis?.version !== purpose?.riskAnalysisForm?.version
+  const alertProps = useGetPurposeSummaryAlertProps(purposeId)
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
@@ -95,18 +81,17 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       isLoading={isInitialLoading}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
     >
-      {alertListProps &&
-        alertListProps.map((alert, index) => (
-          <Alert key={index} severity={alert.severity} sx={{ mb: 3 }}>
-            <Trans
-              components={{
-                strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-              }}
-            >
-              {alert.content}
-            </Trans>
-          </Alert>
-        ))}
+      {alertProps && (
+        <Alert severity={alertProps.severity} sx={{ mb: 3 }}>
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+            }}
+          >
+            {alertProps.content}
+          </Trans>
+        </Alert>
+      )}
       {!purpose && isInitialLoading ? (
         <Stack spacing={3}>
           <SummaryAccordionSkeleton />
@@ -135,7 +120,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           startIcon={<CreateIcon />}
           variant="text"
           onClick={handleEditDraft}
-          disabled={isRiskAnlysisObsolete}
+          disabled={!alertProps || alertProps?.isRiskAnalysisVersionObsolete}
         >
           {tCommon('editDraft')}
         </Button>
@@ -143,7 +128,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           startIcon={<PublishIcon />}
           variant="contained"
           onClick={handlePublishDraft}
-          disabled={isRiskAnlysisObsolete}
+          disabled={!alertProps || alertProps?.isRiskAnalysisVersionObsolete}
         >
           {tCommon('publish')}
         </Button>

@@ -1,38 +1,43 @@
+import { PurposeQueries } from '@/api/purpose'
 import type { AlertProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 type AlertResponse = {
   severity: AlertProps['severity']
   content: AlertProps['children']
+  isRiskAnalysisVersionObsolete?: boolean
 }
-function useGetRiskAnalysisVersionAlertProps({
-  purposeRiskAnalysisVersion,
-  latestRiskAnalysisVersion,
-}: {
-  purposeRiskAnalysisVersion?: string
-  latestRiskAnalysisVersion?: string
-}): Array<AlertResponse> {
+function useGetPurposeSummaryAlertProps(purposeId: string): AlertResponse | undefined {
   const { t } = useTranslation('purpose', { keyPrefix: 'summary' })
-  let alertProps: Array<AlertResponse> = [
-    {
-      severity: 'info',
-      content: t('clientsAlert'),
-    },
-  ]
 
-  if (!purposeRiskAnalysisVersion || !latestRiskAnalysisVersion) return alertProps
+  const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId, {
+    suspense: false,
+  })
 
-  if (purposeRiskAnalysisVersion !== latestRiskAnalysisVersion) {
-    alertProps = [
-      ...alertProps,
-      {
-        severity: 'warning',
-        content: t('obsoleteRiskAnalysisAlert'),
-      },
-    ]
+  const { data: riskAnalysis, isInitialLoading: isRiskAnalysisLoading } =
+    PurposeQueries.useGetRiskAnalysisLatest({
+      suspense: false,
+    })
+
+  if (isInitialLoading || isRiskAnalysisLoading) return undefined
+
+  /* 
+    If latestRiskAnalysisVersion is not the same of purpose risk analysis version, this mean that riskAnalysis is obsolete 
+    so ui need disabled edit and publish buttons
+  */
+  if (purpose?.riskAnalysisForm?.version !== riskAnalysis?.version) {
+    return {
+      severity: 'warning',
+      content: t('obsoleteRiskAnalysisAlert'),
+      isRiskAnalysisVersionObsolete: true,
+    }
   }
 
-  return alertProps
+  return {
+    severity: 'info',
+    content: t('clientsAlert'),
+    isRiskAnalysisVersionObsolete: false,
+  }
 }
 
-export default useGetRiskAnalysisVersionAlertProps
+export default useGetPurposeSummaryAlertProps
