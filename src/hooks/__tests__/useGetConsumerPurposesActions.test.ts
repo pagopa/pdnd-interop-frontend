@@ -1,11 +1,15 @@
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import useGetConsumerPurposesActions from '../useGetConsumerPurposesActions'
-import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
+import {
+  createMockPurpose,
+  createMockRiskAnalysisFormConfig,
+} from '@/../__mocks__/data/purpose.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act, fireEvent, screen, waitFor } from '@testing-library/react'
-import type { Purpose } from '@/api/api.generatedTypes'
+import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
+import { PurposeQueries } from '@/api/purpose'
 
 mockUseJwt({ isAdmin: true })
 
@@ -31,6 +35,12 @@ afterAll(() => {
   server.close()
 })
 
+const mockUseGetRiskAnalysisLatest = (data?: RiskAnalysisFormConfig) => {
+  vi.spyOn(PurposeQueries, 'useGetRiskAnalysisLatest').mockReturnValue({
+    data,
+  } as unknown as ReturnType<typeof PurposeQueries.useGetRiskAnalysisLatest>)
+}
+
 function renderUseGetConsumerPurposesActionsHook(purpose?: Purpose) {
   return renderHookWithApplicationContext(() => useGetConsumerPurposesActions(purpose), {
     withReactQueryContext: true,
@@ -54,8 +64,12 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(cloneAction).toBeTruthy()
   })
 
-  it('should return the publish and delete functions if the current version is in draft', () => {
+  it('should return the publish and delete functions if the current version is in draft and risk analysis is not obsolete', () => {
     const purposeMock = createMockPurpose({ currentVersion: { state: 'DRAFT' } })
+    mockUseGetRiskAnalysisLatest(
+      createMockRiskAnalysisFormConfig({ version: purposeMock.riskAnalysisForm?.version })
+    )
+
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions).toHaveLength(2)
 
@@ -63,6 +77,20 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     const deleteAction = result.current.actions.find((action) => action.label === 'delete')
 
     expect(publishAction).toBeTruthy()
+    expect(deleteAction).toBeTruthy()
+  })
+
+  it('should return only delete function if the current version is in draft and risk analysis is obsolete', () => {
+    const purposeMock = createMockPurpose({
+      currentVersion: { state: 'DRAFT' },
+      riskAnalysisForm: { version: '3.0' },
+    })
+    mockUseGetRiskAnalysisLatest(createMockRiskAnalysisFormConfig({ version: '2.0' }))
+
+    const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+    expect(result.current.actions).toHaveLength(1)
+
+    const deleteAction = result.current.actions.find((action) => action.label === 'delete')
     expect(deleteAction).toBeTruthy()
   })
 
