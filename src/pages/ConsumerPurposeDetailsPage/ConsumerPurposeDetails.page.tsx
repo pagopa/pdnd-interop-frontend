@@ -42,9 +42,9 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
             components={{
               1: alertProps.link ? (
                 <Link
-                  to={alertProps.link!.to}
-                  params={alertProps.link!.params}
-                  options={alertProps.link!.options}
+                  to={alertProps.link.to}
+                  params={alertProps.link.params}
+                  options={alertProps.link.options}
                 />
               ) : (
                 <Typography component="span" variant="inherit" />
