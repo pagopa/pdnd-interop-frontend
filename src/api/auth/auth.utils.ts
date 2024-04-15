@@ -2,6 +2,8 @@ import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
 import type { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 
+export type ParsedJwt = ReturnType<typeof parseJwt>
+
 /**
  * Parse the JWT token and return the user informations stored in it
  */
