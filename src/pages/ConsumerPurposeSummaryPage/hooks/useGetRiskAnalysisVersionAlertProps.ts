@@ -2,12 +2,13 @@ import { PurposeQueries } from '@/api/purpose'
 import type { AlertProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-type AlertResponse = {
-  severity: AlertProps['severity']
-  content: AlertProps['children']
-  isRiskAnalysisVersionObsolete?: boolean
-}
-function useGetPurposeSummaryAlertProps(purposeId: string): AlertResponse | undefined {
+function useGetPurposeSummaryAlertProps(purposeId: string):
+  | {
+      severity: AlertProps['severity']
+      content: AlertProps['children']
+      isRiskAnalysisVersionObsolete?: boolean
+    }
+  | undefined {
   const { t } = useTranslation('purpose', { keyPrefix: 'summary' })
 
   const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId, {
