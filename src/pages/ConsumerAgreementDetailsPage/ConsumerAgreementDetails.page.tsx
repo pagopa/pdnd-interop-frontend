@@ -2,10 +2,10 @@ import React from 'react'
 import { AgreementQueries } from '@/api/agreement'
 import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
-import { useParams } from '@/router'
+import { Link, useParams } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
-import { Alert, Grid, Stack } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Alert, Grid, Stack, Typography } from '@mui/material'
+import { Trans, useTranslation } from 'react-i18next'
 import NewReleasesIcon from '@mui/icons-material/NewReleases'
 import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
 import { AuthHooks } from '@/api/auth'
@@ -19,6 +19,7 @@ import {
   ConsumerAgreementDetailsAttributesSectionsListSkeleton,
 } from './components/ConsumerAgreementDetailsAttributesSectionsList/ConsumerAgreementDetailsAttributesSectionsList'
 import { useDialog } from '@/stores'
+import { useGetConsumerAgreementAlertProps } from './hooks/useGetConsumerAgreementAlertProps'
 
 const ConsumerAgreementDetailsPage: React.FC = () => {
   return (
@@ -40,11 +41,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
 
   const { actions } = useGetAgreementsActions(agreement)
 
-  const suspendedBy = React.useMemo(() => {
-    if (agreement?.suspendedByProducer) return 'byProducer'
-    if (agreement?.suspendedByConsumer) return 'byConsumer'
-    if (agreement?.suspendedByPlatform) return 'byPlatform'
-  }, [agreement])
+  const alertProps = useGetConsumerAgreementAlertProps(agreement)
 
   const isEserviceMine = agreement?.consumer.id === agreement?.producer.id
   const { hasAllCertifiedAttributes, hasAllDeclaredAttributes, hasAllVerifiedAttributes } =
@@ -90,9 +87,24 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
           : undefined
       }
     >
-      {agreement && agreement.state === 'SUSPENDED' && suspendedBy && (
-        <Alert sx={{ mb: 3 }} severity="error">
-          {t(`consumerRead.suspendedAlert.${suspendedBy}`)}
+      {alertProps && (
+        <Alert sx={{ mb: 3 }} severity={alertProps.severity}>
+          <Trans
+            components={{
+              1: alertProps.link ? (
+                <Link
+                  to={alertProps.link.to}
+                  params={alertProps.link.params}
+                  options={alertProps.link.options}
+                />
+              ) : (
+                <Typography component="span" variant="inherit" />
+              ),
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+            }}
+          >
+            {alertProps.content}
+          </Trans>
         </Alert>
       )}
       <Grid container>
