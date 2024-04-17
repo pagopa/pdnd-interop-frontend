@@ -1,9 +1,9 @@
 import React from 'react'
 import { AgreementMutations, AgreementQueries } from '@/api/agreement'
 import { PageContainer } from '@/components/layout/containers'
-import { Link, useNavigate, useParams } from '@/router'
+import { useNavigate, useParams } from '@/router'
 import { useTranslation, Trans } from 'react-i18next'
-import { Button, Stack, Tooltip, Alert } from '@mui/material'
+import { Button, Stack, Tooltip, Alert, Link } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import MailIcon from '@mui/icons-material/Mail'
 import SaveIcon from '@mui/icons-material/Save'
@@ -12,6 +12,7 @@ import {
   ConsumerAgreementCreateContent,
   ConsumerAgreementCreateContentSkeleton,
 } from './components/ConsumerAgreementCreateContent'
+import { useGetConsumerAgreementCreateAlertProps } from './hooks/useGetConsumerAgreementCreateAlertProps'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -33,6 +34,11 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   const hasSetContactEmail = agreement && !!agreement?.consumer.contactMail?.address
   const isEServiceSuspended = agreement?.eservice.activeDescriptor?.state === 'SUSPENDED'
+
+  const eserviceActiveDescriptor = agreement?.eservice.activeDescriptor
+  const hasNewEserviceVersion =
+    eserviceActiveDescriptor &&
+    parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
 
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
@@ -75,7 +81,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     hasAllCertifiedAttributes &&
     hasAllDeclaredAttributes &&
     hasSetContactEmail &&
-    !isEServiceSuspended
+    !isEServiceSuspended &&
+    !hasNewEserviceVersion
 
   const getTooltipButtonTitle = () => {
     if (!hasAllCertifiedAttributes) {
@@ -91,6 +98,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
       return t('edit.suspendedEServiceTooltip')
     }
   }
+
+  const alertProps = useGetConsumerAgreementCreateAlertProps(agreement)
 
   return (
     <PageContainer
@@ -108,6 +117,26 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         to: 'SUBSCRIBE_AGREEMENT_LIST',
       }}
     >
+      {alertProps && (
+        <Alert sx={{ mb: 3 }} severity={alertProps.severity}>
+          <Trans
+            components={{
+              1: (
+                <Link
+                  onClick={alertProps.action}
+                  underline="hover"
+                  sx={{
+                    cursor: 'pointer',
+                  }}
+                />
+              ),
+            }}
+          >
+            {alertProps.content}
+          </Trans>
+        </Alert>
+      )}
+
       <React.Suspense fallback={<ConsumerAgreementCreateContentSkeleton />}>
         <ConsumerAgreementCreateContent
           agreementId={agreementId}
@@ -115,14 +144,6 @@ const ConsumerAgreementCreatePage: React.FC = () => {
           onConsumerNotesChange={setConsumerNotes}
         />
       </React.Suspense>
-
-      {!hasSetContactEmail && (
-        <Alert sx={{ mt: 3 }} severity="warning">
-          <Trans components={{ 1: <Link to="PARTY_REGISTRY" target="_blank" /> }}>
-            {t('edit.noContactEmailAlert')}
-          </Trans>
-        </Alert>
-      )}
 
       <Stack direction="row" spacing={1.5} sx={{ mt: 4, justifyContent: 'right' }}>
         <Button
@@ -133,26 +154,30 @@ const ConsumerAgreementCreatePage: React.FC = () => {
         >
           {tCommon('actions.deleteDraft')}
         </Button>
-        <Button
-          onClick={handleUpdateAgreementDraft}
-          variant="text"
-          color="primary"
-          startIcon={<SaveIcon />}
-        >
-          {tCommon('actions.saveDraft')}
-        </Button>
-        <Tooltip arrow title={getTooltipButtonTitle()}>
-          <span tabIndex={!canUserSubmitAgreementDraft ? 0 : undefined}>
+        {!hasNewEserviceVersion && (
+          <>
             <Button
-              disabled={!canUserSubmitAgreementDraft}
-              onClick={handleSubmitAgreementDraft}
-              variant="contained"
-              startIcon={<MailIcon />}
+              onClick={handleUpdateAgreementDraft}
+              variant="text"
+              color="primary"
+              startIcon={<SaveIcon />}
             >
-              {t('edit.submitBtn')}
+              {tCommon('actions.saveDraft')}
             </Button>
-          </span>
-        </Tooltip>
+            <Tooltip arrow title={getTooltipButtonTitle()}>
+              <span tabIndex={!canUserSubmitAgreementDraft ? 0 : undefined}>
+                <Button
+                  disabled={!canUserSubmitAgreementDraft}
+                  onClick={handleSubmitAgreementDraft}
+                  variant="contained"
+                  startIcon={<MailIcon />}
+                >
+                  {t('edit.submitBtn')}
+                </Button>
+              </span>
+            </Tooltip>
+          </>
+        )}
       </Stack>
     </PageContainer>
   )
