@@ -15,6 +15,7 @@ import type {
   DialogRevokeCertifiedAttributeProps,
   DialogSessionExpiredProps,
   DialogUpgradeAgreementVersionProps,
+  DialogSetTenantMailProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { DialogAddClientToPurpose } from './DialogAddClientToPurpose'
@@ -27,6 +28,7 @@ import { DialogDeleteOperator } from './DialogDeleteOperator'
 import { DialogRevokeCertifiedAttribute } from './DialogRevokeCertifiedAttribute'
 import { DialogClonePurpose } from './DialogClonePurpose/DialogClonePurpose'
 import { DialogRejectPurposeVersion } from './DialogRejectPurposeVersion'
+import { DialogSetTenantMail } from './DialogSetTenantMail'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -39,7 +41,8 @@ function match<T>(
   onRemoveOperatorFromClient: (props: DialogRemoveOperatorFromClientProps) => T,
   onRevokeCertifiedAttribute: (props: DialogRevokeCertifiedAttributeProps) => T,
   onClonePurpose: (props: DialogClonePurposeProps) => T,
-  onRejectPurposeVersion: (props: DialogRejectPurposeVersionProps) => T
+  onRejectPurposeVersion: (props: DialogRejectPurposeVersionProps) => T,
+  onSetTenantMail: (props: DialogSetTenantMailProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -65,6 +68,8 @@ function match<T>(
         return onClonePurpose(props)
       case 'rejectPurposeVersion':
         return onRejectPurposeVersion(props)
+      case 'setTenantMail':
+        return onSetTenantMail(props)
     }
   }
 }
@@ -81,6 +86,7 @@ const _Dialog = match(
   (props) => <DialogRevokeCertifiedAttribute {...props} />,
   (props) => <DialogClonePurpose {...props} />,
   (props) => <DialogRejectPurposeVersion {...props} />
+  (props) => <DialogSetTenantMail {...props} />
 )
 
 export const Dialog: React.FC = () => {
