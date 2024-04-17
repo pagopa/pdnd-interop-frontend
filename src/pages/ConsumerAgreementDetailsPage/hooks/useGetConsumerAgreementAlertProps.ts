@@ -43,6 +43,13 @@ export function useGetConsumerAgreementAlertProps(agreement: Agreement | undefin
     }
   }
 
+  if (agreement.state === 'MISSING_CERTIFIED_ATTRIBUTES') {
+    return {
+      severity: 'warning',
+      content: t('consumerRead.missingCertifiedAttributesAlert'),
+    }
+  }
+
   const isWithoutPurposes =
     purposes?.results.length === 0 ||
     purposes?.results.every((purpose) => purpose.currentVersion?.state === 'ARCHIVED')
