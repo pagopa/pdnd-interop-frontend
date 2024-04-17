@@ -84,6 +84,19 @@
       "checkbox": "I confirm that I understand the consequences of revocation"
     }
   },
+  "dialogSetTenantMail": {
+    "title": "Insertion of contact email",
+    "description": "The address entered has no legal value. It will be shown on PDND Interoperability as a reference point to facilitate the direct exchange of information between members (e.g. requests for support and clarification, etc.)",
+    "content": {
+      "mailField": {
+        "label": "Contact email (required)"
+      },
+      "descriptionField": {
+        "label": "Notes",
+        "infoLabel": "Min 10 characters, max 250 characters"
+      }
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
