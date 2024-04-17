@@ -20,6 +20,7 @@ export type DialogProps =
   | DialogDeleteOperatorProps
   | DialogRemoveOperatorFromClientProps
   | DialogRevokeCertifiedAttributeProps
+  | DialogSetTenantMailProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -71,4 +72,8 @@ export type DialogRemoveOperatorFromClientProps = {
 export type DialogRevokeCertifiedAttributeProps = {
   type: 'revokeCertifiedAttribute'
   attribute: RequesterCertifiedAttribute
+}
+
+export type DialogSetTenantMailProps = {
+  type: 'setTenantMail'
 }
