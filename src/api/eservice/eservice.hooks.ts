@@ -280,6 +280,17 @@ function useReactivateVersion() {
   })
 }
 
+function useUpdateVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+  return useMutation(EServiceServices.updateVersion, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useDeleteVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraft',
@@ -453,6 +464,7 @@ export const EServiceMutations = {
   usePublishVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
+  useUpdateVersion,
   useDeleteVersionDraft,
   useAddEServiceRiskAnalysis,
   useUpdateEServiceRiskAnalysis,
