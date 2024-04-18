@@ -111,7 +111,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
     expect(result.current.actions[0].label).toBe('publishDraft')
-    expect(result.current.actions[1].label).toBe('deleteDraft')
+    expect(result.current.actions[1].label).toBe('delete')
   })
 
   it('should return the correct actions if the e-service has an active descriptor in SUSPENDED state and has no version draft', () => {
