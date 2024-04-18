@@ -7,6 +7,8 @@ import {
   createVerifiedTenantAttribute,
   createMockDescriptorAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
+import subDays from 'date-fns/subDays'
+import { addDays } from 'date-fns'
 
 describe('attribute utils', () => {
   describe('isAttributeRevoked', () => {
@@ -100,6 +102,23 @@ describe('attribute utils', () => {
     it('should not be considered owned if the attribute is in the owned attribute array but it is revoked (certified)', () => {
       const attributeMock = createCertifiedTenantAttribute({ revocationTimestamp: 'timestamp' })
       const result = isAttributeOwned('certified', 'attribute-id', [attributeMock])
+      expect(result).toBe(false)
+    })
+
+    it('should not be considered owned if the attribute is in the owned attribute array, it is not revoked (verified) but attribute is expired', () => {
+      const now = Date.now()
+      const start = subDays(now, 1)
+
+      const attributeMock = createVerifiedTenantAttribute({
+        id: 'attribute-id-test',
+        verifiedBy: [{ id: 'attribute-id', extensionDate: start.toISOString() }],
+      })
+      const result = isAttributeOwned(
+        'verified',
+        'attribute-id-test',
+        [attributeMock],
+        'attribute-id'
+      )
       expect(result).toBe(false)
     })
 
