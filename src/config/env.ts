@@ -2,9 +2,12 @@ import type { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
 
 export const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
 
+export const NODE_ENV = import.meta.env.MODE
 export const isDevelopment = !!(import.meta.env.MODE === 'development')
 export const isProduction = !!(import.meta.env.MODE === 'production')
 export const isTest = !!(import.meta.env.MODE === 'test')
+
+export const TEST_MIXPANEL_PROJECT_ID = import.meta.env.REACT_APP_TEST_MIXPANEL_PROJECT_ID
 
 if (!PAGOPA_ENV && !isTest) {
   console.warn('pagopa_env not available.')
@@ -28,7 +31,8 @@ export const INTEROP_RESOURCES_BASE_URL =
 export const ONETRUST_DOMAIN_SCRIPT_ID = (
   isProduction && PAGOPA_ENV ? PAGOPA_ENV.ONETRUST_DOMAIN_SCRIPT_ID : DEV_ONETRUST_DOMAIN_SCRIPT_ID
 ) as string
-export const MIXPANEL_PROJECT_ID = isProduction && PAGOPA_ENV ? PAGOPA_ENV.MIXPANEL_PROJECT_ID : ''
+export const MIXPANEL_PROJECT_ID =
+  isProduction && PAGOPA_ENV ? PAGOPA_ENV.MIXPANEL_PROJECT_ID : TEST_MIXPANEL_PROJECT_ID
 
 export const TEMP_USER_BLACKLIST_URL = `${INTEROP_RESOURCES_BASE_URL}/temp-blacklist.json`
 
