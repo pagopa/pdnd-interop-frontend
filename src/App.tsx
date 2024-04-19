@@ -17,6 +17,7 @@ import AuthServices from './api/auth/auth.services'
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
+import { useTracking } from './hooks/useTracking'
 
 queryClient.prefetchQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessionToken)
 
@@ -24,6 +25,9 @@ function App() {
   const { t } = useTranslation('shared-components')
 
   let envBannerProps: EnvironmentBannerProps | undefined = undefined
+
+  // Setup MixPanel tracking
+  useTracking()
 
   if (STAGE === 'UAT') {
     envBannerProps = {
