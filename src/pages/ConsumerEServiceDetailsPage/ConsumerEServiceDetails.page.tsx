@@ -17,6 +17,7 @@ import {
 import { trackEvent } from '@/utils/mixPanel.utils'
 import { NODE_ENV } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
+// import mixpanel from 'mixpanel-browser'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -30,12 +31,23 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
 
   const isTracked = React.useRef(false)
+  // TODO controlla se possibile evitare di chiamare il trackEvent se non ho accettato i cookies
+  // TODO controlla perchè viene chiamato due volte ogni tanto
   if (descriptor && jwt && isTracked.current === false) {
     trackEvent('INTEROP_CATALOG_READ', NODE_ENV, {
       tenantId: jwt.organizationId,
       eserviceId: descriptor.eservice.id,
       descriptorId: descriptor.id,
     })
+
+    // To track only the specific page view with the specified props
+    // mixpanel.track_pageview({
+    //   tenantId: jwt.organizationId,
+    //   eserviceId: descriptor.eservice.id,
+    //   descriptorId: descriptor.id,
+    // })
+
+    console.log('HERE we go again', isTracked.current)
 
     isTracked.current = true
   }
