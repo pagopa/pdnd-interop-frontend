@@ -18,6 +18,7 @@ import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
 import { useTracking } from './hooks/useTracking'
+import { initOneTrust } from './utils/oneTrust.utils'
 
 queryClient.prefetchQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessionToken)
 
@@ -25,6 +26,9 @@ function App() {
   const { t } = useTranslation('shared-components')
 
   let envBannerProps: EnvironmentBannerProps | undefined = undefined
+
+  // Setup OneTrust
+  initOneTrust()
 
   // Setup MixPanel tracking
   useTracking()
