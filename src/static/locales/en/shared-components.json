@@ -115,6 +115,13 @@
       "checkbox": "I confirm that I understand the consequences of revocation"
     }
   },
+  "drawerRejectReason": {
+    "title": "Rejected reason",
+    "rejectedReasonLabel": "Description",
+    "rejectedValueLabel": "Rejected value",
+    "defaultServiceString": "---\n\nThank you for your cooperation,\n\nthe Interoperabilità Team.",
+    "guideLinkLabel": "For further doubts and information. Go to the manual."
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"

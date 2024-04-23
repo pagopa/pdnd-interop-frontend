@@ -141,7 +141,8 @@
           "ACTIVE": "Active",
           "SUSPENDED": "Suspended",
           "WAITING_FOR_APPROVAL": "Waiting for approval",
-          "ARCHIVED": "Archived"
+          "ARCHIVED": "Archived",
+          "REJECTED": "Rejected"
         }
       }
     }
@@ -150,6 +151,8 @@
     "suspendedAlert": "This purpose is suspended. Until it is reactivated, the user will not be able to access the data provided through the API.",
     "waitingForApprovalAlert": "The consumer has requested a load estimate update which requires your approval. Check the “Load Estimate” section.",
     "archivedPurposeAlert": "The user will not be able to obtain a voucher from PDND Interoperabilità for this purpose because it is archived.",
+    "rejectedPurposeAlert": "This purpose has been rejected. <1>Read here the reject reason</1>.",
+    "rejectedUpdatePlanInfoAlert": "A change of plan for this purpose was rejected. Check the “Load Estimate” section.",
     "sections": {
       "generalInformations": {
         "title": "General informations",
@@ -176,10 +179,14 @@
       "loadEstimate": {
         "title": "Load estimate",
         "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
+        "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
         "planCard": {
           "title": {
             "activePlan": "Consumer active plan",
-            "waitingForApprovalPlan": "The plan change requested by the user"
+            "waitingForApprovalPlan": {
+              "changePlan": "The plan change requested by the consumer",
+              "newPurpose": "The plan requested by the consumer"
+            }
           },
           "subtitle": "API calls/day",
           "expectApprovalDateInfo": "You estimated to activate this update on the day <strong>{{date}}</strong>",
@@ -187,14 +194,20 @@
             "insertLabel": "Enter estimated activation date",
             "modifyLabel": "Change estimated activation date"
           },
-          "activateUpdateButtonLabel": {
+          "activateVersionButtonLabel": {
             "label": "Activate now"
+          },
+          "rejectVersionButtonLabel": {
+            "label": "Reject"
           },
           "currentPlan": {
             "label": "Current plan"
           },
           "waitingForApprovalPlan": {
-            "label": "New plan required"
+            "label": {
+              "changePlan": "New required plan",
+              "newPurpose": "Required plan"
+            }
           }
         },
         "thresholdsCard": {
@@ -226,6 +239,8 @@
     "waitingForApprovalAlert": "This scope is awaiting approval. <strong>Until its activation</strong> by the provider you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
     "archivedPurposeAlert": "This purpose is archived. You cannot access the data made available through the API. You can always <1>create a new one.</1>",
     "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
+    "rejectedPurposeAlert": "This purpose has been rejected. <2>Read here the reject reason</2>.",
+    "rejectedUpdatePlanInfoAlert": "A change of plan for this purpose was rejected. Check the “Load Estimate” section in <1>Purpose Details</1>.",
     "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service",
     "addClientToPurposeDisableTooltip": {
       "label": "Only an administrator can manage members of a client"
@@ -261,6 +276,7 @@
       "loadEstimate": {
         "title": "Load estimate",
         "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
+        "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
         "planCard": {
           "title": "Consumer active plan",
           "subtitle": "API calls/day",

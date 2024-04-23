@@ -115,6 +115,13 @@
       "checkbox": "Confermo di aver compreso le conseguenze della revoca"
     }
   },
+  "drawerRejectReason": {
+    "title": "Motivo del rifiuto",
+    "rejectedReasonLabel": "Descrizione",
+    "rejectedValueLabel": "Valore rifiutato",
+    "defaultServiceString": "---\n\nGrazie per la collaborazione,\n\nil Team di Interoperabilità.",
+    "guideLinkLabel": "Per ulteriori dubbi e informazioni. Vai al manuale."
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
