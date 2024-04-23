@@ -81,7 +81,6 @@ const ProviderPurposeDetailsPage: React.FC = () => {
           onClose={closeDrawer}
           rejectReason={purpose.rejectedVersion.rejectionReason}
           rejectedValue={purpose.rejectedVersion.dailyCalls}
-          guideLink={'www.google.com'} // TODO link alla guida
         />
       )}
     </PageContainer>

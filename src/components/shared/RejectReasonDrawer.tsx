@@ -10,7 +10,7 @@ type RejectReasonDrawerProps = {
   rejectedValue?: number
   isOpen: boolean
   onClose: VoidFunction
-  guideLink: string
+  guideLink?: string
 }
 
 export const RejectReasonDrawer: React.FC<RejectReasonDrawerProps> = ({
@@ -40,9 +40,11 @@ export const RejectReasonDrawer: React.FC<RejectReasonDrawerProps> = ({
         <Typography variant="body2" component="pre">
           {t('defaultServiceString')}
         </Typography>
-        <Link variant="body2" underline="hover" href={guideLink} target="_blank">
-          {t('guideLinkLabel')}
-        </Link>
+        {guideLink && (
+          <Link variant="body2" underline="hover" href={guideLink} target="_blank">
+            {t('guideLinkLabel')}
+          </Link>
+        )}
       </Stack>
     </Drawer>
   )
