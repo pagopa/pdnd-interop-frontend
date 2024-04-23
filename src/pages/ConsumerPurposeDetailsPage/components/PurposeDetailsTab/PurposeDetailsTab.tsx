@@ -7,13 +7,20 @@ import { Stack } from '@mui/material'
 
 interface PurposeDetailsTabProps {
   purpose: Purpose
+  openRejectReasonDrawer: VoidFunction
 }
 
-export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({ purpose }) => {
+export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({
+  purpose,
+  openRejectReasonDrawer,
+}) => {
   return (
     <Stack spacing={3}>
       <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />
-      <ConsumerPurposeDetailsLoadEstimateSection purpose={purpose} />
+      <ConsumerPurposeDetailsLoadEstimateSection
+        purpose={purpose}
+        openRejectReasonDrawer={openRejectReasonDrawer}
+      />
     </Stack>
   )
 }

@@ -3,17 +3,19 @@ import { PageContainer } from '@/components/layout/containers'
 import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions'
 import { useParams } from '@/router'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import {
   ProviderPurposeDetailsGeneralInfoSection,
   ProviderPurposeDetailsGeneralInfoSectionSkeleton,
 } from './components/ProviderPurposeDetailsGeneralInfoSection'
-import { Alert, Grid, Stack } from '@mui/material'
+import { Alert, Grid, Link, Stack, Typography } from '@mui/material'
 import {
   ProviderPurposeDetailsLoadEstimateSection,
   ProviderPurposeDetailsLoadEstimateSectionSkeleton,
 } from './components/ProviderPurposeDetailsLoadEstimateSection'
 import useGetPurposeStateAlertProps from './hooks/useGetPurposeStateAlertProps'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 
 const ProviderPurposeDetailsPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -22,6 +24,8 @@ const ProviderPurposeDetailsPage: React.FC = () => {
   const { data: purpose, isLoading } = PurposeQueries.useGetSingle(purposeId, { suspense: false })
 
   const { actions } = useGetProviderPurposesActions(purpose)
+
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const alertProps = useGetPurposeStateAlertProps(purpose)
 
@@ -37,8 +41,23 @@ const ProviderPurposeDetailsPage: React.FC = () => {
       }}
     >
       {alertProps && (
-        <Alert severity={alertProps.severity} sx={{ mb: 3 }}>
-          {alertProps.content}
+        <Alert severity={alertProps.severity} sx={{ mb: 3 }} variant={alertProps.variant}>
+          <Typography variant="body2">
+            <Trans
+              components={{
+                1: (
+                  <Link
+                    onClick={openDrawer}
+                    variant="body2"
+                    fontWeight={700}
+                    sx={{ cursor: 'pointer' }}
+                  />
+                ),
+              }}
+            >
+              {alertProps.content}
+            </Trans>
+          </Typography>
         </Alert>
       )}
       <Grid container>
@@ -48,11 +67,23 @@ const ProviderPurposeDetailsPage: React.FC = () => {
           ) : (
             <Stack spacing={3}>
               <ProviderPurposeDetailsGeneralInfoSection purpose={purpose} />
-              <ProviderPurposeDetailsLoadEstimateSection purpose={purpose} />
+              <ProviderPurposeDetailsLoadEstimateSection
+                purpose={purpose}
+                openRejectReasonDrawer={openDrawer}
+              />
             </Stack>
           )}
         </Grid>
       </Grid>
+      {purpose && purpose.rejectedVersion?.rejectionReason && (
+        <RejectReasonDrawer
+          isOpen={isOpen}
+          onClose={closeDrawer}
+          rejectReason={purpose.rejectedVersion.rejectionReason}
+          rejectedValue={purpose.rejectedVersion.dailyCalls}
+          guideLink={'www.google.com'} // TODO link alla guida
+        />
+      )}
     </PageContainer>
   )
 }
