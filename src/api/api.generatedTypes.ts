@@ -687,6 +687,8 @@ export interface Purpose {
   clients: CompactClient[]
   /** business representation of a purpose version */
   waitingForApprovalVersion?: PurposeVersion
+  /** business representation of a purpose version */
+  rejectedVersion?: PurposeVersion
   suspendedByConsumer?: boolean
   suspendedByProducer?: boolean
   isFreeOfCharge: boolean
@@ -804,6 +806,7 @@ export interface PurposeVersion {
    */
   dailyCalls: number
   riskAnalysisDocument?: PurposeVersionDocument
+  rejectionReason?: string
 }
 
 export interface PurposeVersionDocument {
