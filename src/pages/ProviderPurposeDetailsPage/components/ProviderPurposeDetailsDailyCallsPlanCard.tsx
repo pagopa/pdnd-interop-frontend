@@ -50,9 +50,17 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
   const waitingForApprovalVersion = purpose.waitingForApprovalVersion
   const isChangePlanRequest = Boolean(waitingForApprovalVersion) && Boolean(purpose.currentVersion)
 
-  const title = waitingForApprovalVersion
-    ? t(`title.waitingForApprovalPlan.${isChangePlanRequest ? 'changePlan' : 'newPurpose'}`)
-    : t('title.activePlan')
+  const rejectedVersion = purpose.rejectedVersion
+  const isNewPurposeRejected = Boolean(rejectedVersion) && !Boolean(purpose.currentVersion)
+
+  const title = React.useMemo(() => {
+    if (waitingForApprovalVersion)
+      return t(`title.waitingForApprovalPlan.${isChangePlanRequest ? 'changePlan' : 'newPurpose'}`)
+
+    if (isNewPurposeRejected) return t('title.rejectedPlan')
+
+    return t('title.activePlan')
+  }, [isChangePlanRequest, isNewPurposeRejected, t, waitingForApprovalVersion])
 
   const handleSetApprovalDate = () => {
     if (!waitingForApprovalVersion || !isAdmin) return null
@@ -121,7 +129,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
           sx={{ px: 3, pt: 3, pb: 1 }}
         />
         <CardContent sx={{ px: 3, pt: 1 }}>
-          {waitingForApprovalVersion ? (
+          {waitingForApprovalVersion && (
             <Stack direction="column" spacing={2}>
               <Stack direction="row" alignItems="space-between">
                 <Box flex={1}>
@@ -177,7 +185,13 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                   : t('setApprovalDateLink.insertLabel')}
               </IconLink>
             </Stack>
-          ) : (
+          )}
+          {isNewPurposeRejected && (
+            <Typography variant="h4">
+              {formatThousands(purpose.rejectedVersion!.dailyCalls)}
+            </Typography>
+          )}
+          {!waitingForApprovalVersion && !isNewPurposeRejected && (
             <Typography variant="h4">
               {formatThousands(purpose.currentVersion!.dailyCalls)}
             </Typography>

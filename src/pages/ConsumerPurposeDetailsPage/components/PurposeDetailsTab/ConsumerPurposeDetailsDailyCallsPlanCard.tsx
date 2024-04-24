@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { ConsumerPurposeDetailsDailyCallsUpdateDrawer } from './ConsumerPurposeDetailsDailyCallsUpdateDrawer'
 import { Box } from '@mui/system'
 import { formatThousands } from '@/utils/format.utils'
+import { useDrawerState } from '@/hooks/useDrawerState'
 
 type ConsumerPurposeDetailsDailyCallsPlanCardProps = {
   purpose: Purpose
@@ -21,19 +22,43 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
   })
   const { isAdmin } = AuthHooks.useJwt()
 
-  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const isSuspended = purpose.currentVersion?.state === 'SUSPENDED'
   const isArchived = purpose.currentVersion?.state === 'ARCHIVED'
-  const isWaitingForApproval = Boolean(purpose.waitingForApprovalVersion)
+
+  const waitingForApprovalVersion = purpose.waitingForApprovalVersion
+  const isNewPurposeWaitingForApproval =
+    Boolean(waitingForApprovalVersion) && !Boolean(purpose.currentVersion)
+
+  const rejectedVersion = purpose.rejectedVersion
+  const isNewPurposeRejected = Boolean(rejectedVersion) && !Boolean(purpose.currentVersion)
+
+  const title = React.useMemo(() => {
+    if (waitingForApprovalVersion) return t(`title.waitingForApprovalPlan`)
+
+    if (isNewPurposeRejected) return t('title.rejectedPlan')
+
+    return t('title.activePlan')
+  }, [isNewPurposeRejected, t, waitingForApprovalVersion])
+
+  const dailyCalls = React.useMemo(() => {
+    if (isNewPurposeWaitingForApproval) return waitingForApprovalVersion!.dailyCalls
+
+    if (isNewPurposeRejected) return rejectedVersion!.dailyCalls
+
+    return purpose.currentVersion!.dailyCalls
+  }, [
+    isNewPurposeRejected,
+    isNewPurposeWaitingForApproval,
+    purpose.currentVersion,
+    rejectedVersion,
+    waitingForApprovalVersion,
+  ])
 
   const handleRequestPlanChange = () => {
     if (!isAdmin) return null
-    setIsDrawerOpen(true)
-  }
-
-  const handleCloseDrawer = () => {
-    setIsDrawerOpen(false)
+    openDrawer()
   }
 
   return (
@@ -48,27 +73,17 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
       >
         <CardHeader
           sx={{ px: 3, pt: 3, pb: 1 }}
-          disableTypography={true}
-          title={
-            <Stack spacing={1}>
-              <Typography variant="sidenav">{t('title')}</Typography>
-              <Typography color="text.secondary" variant="body2">
-                {t('subtitle')}
-              </Typography>
-            </Stack>
-          }
+          titleTypographyProps={{ variant: 'sidenav' }}
+          title={title}
+          subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary' }}
+          subheader={t('subtitle')}
         />
         <CardContent sx={{ px: 3, pt: 1, display: 'flex', flexGrow: 1 }}>
           <Stack direction="column" spacing={2} flexGrow={1}>
             <Box flexGrow={1}>
-              <Typography variant="h4">
-                {formatThousands(
-                  purpose.currentVersion?.dailyCalls ??
-                    purpose.waitingForApprovalVersion!.dailyCalls
-                )}
-              </Typography>
+              <Typography variant="h4">{formatThousands(dailyCalls)}</Typography>
             </Box>
-            {!(isSuspended || isArchived || isWaitingForApproval) && (
+            {!(isSuspended || isArchived || waitingForApprovalVersion || rejectedVersion) && (
               <>
                 <Divider />
                 <IconLink
@@ -85,8 +100,8 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
         </CardContent>
       </Card>
       <ConsumerPurposeDetailsDailyCallsUpdateDrawer
-        isOpen={isDrawerOpen}
-        onClose={handleCloseDrawer}
+        isOpen={isOpen}
+        onClose={closeDrawer}
         purpose={purpose}
       />
     </>

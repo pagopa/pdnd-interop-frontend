@@ -44,15 +44,10 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
     >
       <CardHeader
         sx={{ px: 3, pt: 3, pb: 1 }}
-        disableTypography={true}
-        title={
-          <Stack spacing={1}>
-            <Typography variant="sidenav">{t('title')}</Typography>
-            <Typography color="text.secondary" variant="body2">
-              {t('subtitle')}
-            </Typography>
-          </Stack>
-        }
+        titleTypographyProps={{ variant: 'sidenav' }}
+        title={t('title')}
+        subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary' }}
+        subheader={t('subtitle')}
       />
       <CardContent sx={{ px: 3, pt: 1, display: 'flex', flexGrow: 1 }}>
         <Stack direction="column" spacing={2} flexGrow={1}>
