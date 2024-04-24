@@ -186,7 +186,8 @@
             "waitingForApprovalPlan": {
               "changePlan": "Il cambio piano richiesto dal fruitore",
               "newPurpose": "Il piano richiesto dal fruitore"
-            }
+            },
+            "rejectedPlan": "Il piano richiesto dal fruitore"
           },
           "subtitle": "Chiamate API/giorno",
           "expectApprovalDateInfo": "Hai stimato di attivare questo adeguamento il giorno <strong>{{date}}</strong>",
@@ -278,7 +279,11 @@
         "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
         "rejectedUpdatePlanAlert": "Il cambio piano è stato rifiutato. <1>Leggi qui i motivi del rifiuto</1>.",
         "planCard": {
-          "title": "Il piano attivo del fruitore",
+          "title": {
+            "activePlan": "Il piano attivo del fruitore",
+            "waitingForApprovalPlan": "Il piano richiesto dal fruitore",
+            "rejectedPlan": "Il piano richiesto dal fruitore"
+          },
           "subtitle": "Chiamate API/giorno",
           "changePlanRequestLink": {
             "label": "Richiedi cambio di piano"

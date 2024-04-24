@@ -186,7 +186,8 @@
             "waitingForApprovalPlan": {
               "changePlan": "The plan change requested by the consumer",
               "newPurpose": "The plan requested by the consumer"
-            }
+            },
+            "rejectedPlan": "The plan requested by the consumer"
           },
           "subtitle": "API calls/day",
           "expectApprovalDateInfo": "You estimated to activate this update on the day <strong>{{date}}</strong>",
@@ -278,7 +279,11 @@
         "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
         "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
         "planCard": {
-          "title": "Consumer active plan",
+          "title": {
+            "activePlan": "Consumer active plan",
+            "waitingForApprovalPlan": "Consumer requeste plan",
+            "rejectedPlan": "Consumer requested plan"
+          },
           "subtitle": "API calls/day",
           "changePlanRequestLink": {
             "label": "Request a change of plan"
