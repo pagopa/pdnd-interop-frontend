@@ -137,6 +137,8 @@ const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const waitingForApprovalVersionState =
     purpose.waitingForApprovalVersion?.state ?? 'WAITING_FOR_APPROVAL'
 
+  const rejectedVersionState = purpose.rejectedVersion?.state ?? 'REJECTED'
+
   return (
     <Stack direction="row" spacing={1}>
       {purpose.currentVersion && (
@@ -151,6 +153,13 @@ const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
           size="small"
           label={t(`status.purpose.${waitingForApprovalVersionState}`)}
           color={chipColors['purpose'][waitingForApprovalVersionState]}
+        />
+      )}
+      {purpose.rejectedVersion && !purpose.currentVersion && (
+        <Chip
+          size="small"
+          label={t(`status.purpose.${rejectedVersionState}`)}
+          color={chipColors['purpose'][rejectedVersionState]}
         />
       )}
     </Stack>
