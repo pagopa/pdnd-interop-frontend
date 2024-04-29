@@ -5,7 +5,8 @@ export function initOneTrust() {
   const scriptEl = document.createElement('script')
   scriptEl.setAttribute(
     'src',
-    INTEROP_RESOURCES_BASE_URL + '/onetrust/oneTrust_test/scripttemplates/otSDKStub.js'
+    INTEROP_RESOURCES_BASE_URL +
+      `/onetrust/oneTrust_${isDevelopment ? 'test' : 'production'}/scripttemplates/otSDKStub.js`
   )
   scriptEl.setAttribute('type', 'text/javascript')
   scriptEl.setAttribute('charset', 'UTF-8')
