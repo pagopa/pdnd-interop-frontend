@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import AuthServices from './auth.services'
 import { STAGE } from '@/config/env'
 import { type UseQueryOptions, useQuery } from '@tanstack/react-query'
-import type { ParsedJwt } from './auth.utils'
+import { parseJwt } from './auth.utils'
 import { useMutation } from '@tanstack/react-query'
 
 export enum AuthQueryKeys {
@@ -10,7 +10,7 @@ export enum AuthQueryKeys {
   GetBlacklist = 'GetBlacklist',
 }
 
-function useJwt(config?: UseQueryOptions<ParsedJwt | null>) {
+function useJwt(config?: UseQueryOptions<string | null>) {
   const { data: sessionToken, isLoading: isLoadingSession } = useQuery({
     queryKey: [AuthQueryKeys.GetSessionToken],
     queryFn: AuthServices.getSessionToken,
@@ -20,7 +20,7 @@ function useJwt(config?: UseQueryOptions<ParsedJwt | null>) {
     ...config,
   })
 
-  return { ...(sessionToken as ParsedJwt), isLoadingSession }
+  return { ...parseJwt(sessionToken), isLoadingSession }
 }
 
 function useGetBlacklist() {
