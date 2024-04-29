@@ -33,7 +33,7 @@ const ConsumerPurposesListPage: React.FC = () => {
     { offset: 0, limit: 50, q: producersAutocompleteText },
     { suspense: false, keepPreviousData: true }
   )
-  const { data: eservices } = EServiceQueries.useGetProviderList(
+  const { data: eservices } = EServiceQueries.useGetCatalogList(
     { q: eserviceAutocompleteText, limit: 50, offset: 0 },
     { suspense: false, keepPreviousData: true }
   )
