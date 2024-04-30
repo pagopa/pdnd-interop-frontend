@@ -1,5 +1,42 @@
 import mixpanel from 'mixpanel-browser'
-import type { MixPanelEventName, MixPanelEvent } from '@/types/mixPanelEvents.types'
+import { MIXPANEL_PROJECT_ID, NODE_ENV } from '@/config/env'
+import type { ExtendedWindow } from '@/types/common.types'
+import { useTrackingStore } from '@/stores/tracking.store'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const OneTrust: any
+declare const OnetrustActiveGroups: string
+const global = window as unknown as ExtendedWindow
+// target cookies (Mixpanel)
+const targCookiesGroup = 'C0002'
+
+/**
+ * React hook that sets up Mixpanel tracking based on OneTrust consent settings.
+ * It listens for changes in OneTrust consent and checks for the presence of a
+ * specific cookie value to determine whether to initialize Mixpanel tracking.
+ */
+export function setupTracking() {
+  // OneTrust callback at first time
+  global.OptanonWrapper = function () {
+    OneTrust.OnConsentChanged(function () {
+      if (OnetrustActiveGroups.indexOf(targCookiesGroup) > -1) {
+        // TODO vedere che forse questo cambiamento viene fatto troppo presto e mixpanel non è ancora inizializzato
+        useTrackingStore.setState({ areCookiesAccepted: true }, true)
+        mixpanelInit(MIXPANEL_PROJECT_ID, NODE_ENV)
+      }
+    })
+  }
+  // check mixpanel cookie consent in cookie
+  const OTCookieValue: string =
+    document.cookie.split('; ').find((row) => row.startsWith('OptanonConsent=')) || ''
+  const checkValue = `${targCookiesGroup}%3A1`
+
+  if (OTCookieValue.indexOf(checkValue) > -1) {
+    // TODO vedere che forse questo cambiamento viene fatto troppo presto e mixpanel non è ancora inizializzato
+    useTrackingStore.setState({ areCookiesAccepted: true }, true)
+    mixpanelInit(MIXPANEL_PROJECT_ID, NODE_ENV)
+  }
+}
 
 /**
  * Function that initialize Mixpanel (must be called once)
@@ -29,38 +66,5 @@ export function mixpanelInit(mixpanelToken: string, nodeEnv: string): void {
       // track_pageview: 'full-url',
     })
     mixpanel.identify(mixpanel.get_distinct_id())
-  }
-}
-
-/**
- * Function that tracks event
- * @param eventName event name to track
- * @param nodeEnv current environment
- * @param properties event data
- */
-export function trackEvent<
-  TMixPanelEventName extends MixPanelEventName,
-  TMixPanelProperties extends Extract<
-    MixPanelEvent,
-    { eventName: TMixPanelEventName }
-  >['properties'],
->(
-  eventName: TMixPanelEventName,
-  nodeEnv: string,
-  ...properties: TMixPanelProperties extends undefined ? [] : [properties: TMixPanelProperties]
-): void {
-  if (nodeEnv === 'test') {
-    return
-  } else if (!nodeEnv || nodeEnv === 'development') {
-    // eslint-disable-next-line no-console
-    console.log(eventName, properties)
-  } else {
-    // TODO possibly put in an if-condition to avoid the try/catch
-    try {
-      mixpanel.track(eventName, properties)
-    } catch (err: unknown) {
-      // eslint-disable-next-line no-console
-      console.log('CATCH', eventName, properties, err)
-    }
   }
 }
