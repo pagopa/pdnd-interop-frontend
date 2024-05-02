@@ -4,6 +4,7 @@ import axios from 'axios'
 import type { SAMLTokenRequest, SessionToken } from '../api.generatedTypes'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { TokenExchangeError } from '@/utils/errors.utils'
+import { isJwtExpired } from './auth.utils'
 
 async function swapTokens(identity_token: string) {
   const response = await axiosInstance.post<{ session_token: string }>(
@@ -15,6 +16,11 @@ async function swapTokens(identity_token: string) {
 
 async function getSessionToken(): Promise<string | null> {
   const resolveToken = (sessionToken: string) => {
+    // Check if session has expired. In that case, we need to remove token from localStorage
+    if (isJwtExpired(sessionToken)) {
+      window.localStorage.removeItem(STORAGE_KEY_SESSION_TOKEN)
+      return null
+    }
     window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
     return sessionToken
   }
