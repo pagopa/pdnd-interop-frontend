@@ -1,5 +1,6 @@
 import { useTrackingConsent } from '@/stores/tracking.store'
 import type { MixPanelEvent, MixPanelEventName } from '@/types/mixPanelEvents.types'
+import mixpanel from 'mixpanel-browser'
 
 export function useMixPanel() {
   const areCookieAccepted = useTrackingConsent()
@@ -17,17 +18,13 @@ export function useMixPanel() {
       { eventName: TMixPanelEventName }
     >['properties'],
   >(
-    isPageFirstRender: React.MutableRefObject<boolean>,
     eventName: TMixPanelEventName,
     ...properties: TMixPanelProperties extends undefined ? [] : [properties: TMixPanelProperties]
   ): void {
-    if (!isPageFirstRender) return
-
     if (areCookieAccepted) {
       try {
-        // mixpanel.track_pageview(properties, { event_name: eventName })
+        mixpanel.track_pageview(properties, { event_name: eventName })
         console.log('Ho accettato i cookie, tracko il pageView:', eventName, properties)
-        isPageFirstRender.current = false
       } catch (err: unknown) {
         // eslint-disable-next-line no-console
         console.log('CATCH', eventName, properties, err)
@@ -63,7 +60,7 @@ export function useMixPanel() {
 
     if (areCookieAccepted) {
       try {
-        // mixpanel.track(eventName, properties)
+        mixpanel.track(eventName, properties)
         console.log("Ho accettato i cookie, tracko l'evento:", eventName, properties)
       } catch (err: unknown) {
         // eslint-disable-next-line no-console

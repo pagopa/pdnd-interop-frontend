@@ -14,10 +14,8 @@ import {
   ConsumerEServiceGeneralInfoSection,
   ConsumerEServiceGeneralInfoSectionSkeleton,
 } from './components/ConsumerEServiceGeneralInfoSection'
-import { trackEvent } from '@/utils/mixPanel.utils'
-import { NODE_ENV } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
-// import mixpanel from 'mixpanel-browser'
+import { useMixPanel } from '@/hooks/useMixPanel'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -30,27 +28,19 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
 
   const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
 
-  const isTracked = React.useRef(false)
-  // TODO controlla se possibile evitare di chiamare il trackEvent se non ho accettato i cookies
-  // TODO controlla perchè viene chiamato due volte ogni tanto
-  if (descriptor && jwt && isTracked.current === false) {
-    trackEvent('INTEROP_CATALOG_READ', NODE_ENV, {
-      tenantId: jwt.organizationId,
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-    })
+  const { trackPageView } = useMixPanel()
 
-    // To track only the specific page view with the specified props
-    // mixpanel.track_pageview({
-    //   tenantId: jwt.organizationId,
-    //   eserviceId: descriptor.eservice.id,
-    //   descriptorId: descriptor.id,
-    // })
-
-    console.log('HERE we go again', isTracked.current)
-
-    isTracked.current = true
-  }
+  React.useEffect(() => {
+    if (descriptor && jwt) {
+      // To track only the specific page view with the specified props
+      trackPageView('INTEROP_CATALOG_READ', {
+        tenantId: jwt.organizationId,
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [descriptor, trackPageView])
 
   return (
     <PageContainer

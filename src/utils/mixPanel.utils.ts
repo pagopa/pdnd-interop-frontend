@@ -21,8 +21,8 @@ export function setupTracking() {
     OneTrust.OnConsentChanged(function () {
       if (OnetrustActiveGroups.indexOf(targCookiesGroup) > -1) {
         // TODO vedere che forse questo cambiamento viene fatto troppo presto e mixpanel non è ancora inizializzato
-        useTrackingStore.setState({ areCookiesAccepted: true }, true)
         mixpanelInit(MIXPANEL_PROJECT_ID, NODE_ENV)
+        useTrackingStore.setState({ areCookiesAccepted: true }, true)
       }
     })
   }
@@ -33,8 +33,8 @@ export function setupTracking() {
 
   if (OTCookieValue.indexOf(checkValue) > -1) {
     // TODO vedere che forse questo cambiamento viene fatto troppo presto e mixpanel non è ancora inizializzato
-    useTrackingStore.setState({ areCookiesAccepted: true }, true)
     mixpanelInit(MIXPANEL_PROJECT_ID, NODE_ENV)
+    useTrackingStore.setState({ areCookiesAccepted: true }, true)
   }
 }
 
