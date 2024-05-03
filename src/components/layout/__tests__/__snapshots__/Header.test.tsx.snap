@@ -54,7 +54,7 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-u78awm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -236,7 +236,7 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-u78awm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -427,7 +427,7 @@ exports[`Header > should match snapshot (not logged) 1`] = `
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-u78awm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
