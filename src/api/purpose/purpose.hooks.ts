@@ -236,10 +236,6 @@ function useClone() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
     },
   })
 }

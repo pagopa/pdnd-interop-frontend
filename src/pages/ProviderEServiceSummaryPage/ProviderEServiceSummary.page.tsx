@@ -44,17 +44,23 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     })
 
   const handleDeleteDraft = () => {
-    if (descriptor) {
-      deleteVersion(
-        { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
+    const hasNoDescriptors = !descriptor
+    const hasOnlyOneDraft =
+      descriptor && descriptor.state === 'DRAFT' && descriptor.eservice.descriptors.length === 0
+    const hasMoreDescriptorsWithLastDraft =
+      descriptor && descriptor.state === 'DRAFT' && descriptor.eservice.descriptors.length > 0
+
+    if (eservice && (hasNoDescriptors || hasOnlyOneDraft)) {
+      deleteDraft(
+        { eserviceId: eservice.id },
         { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') }
       )
       return
     }
 
-    if (eservice) {
-      deleteDraft(
-        { eserviceId: eservice.id },
+    if (hasMoreDescriptorsWithLastDraft) {
+      deleteVersion(
+        { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
         { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') }
       )
       return
@@ -68,6 +74,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           eserviceId: descriptor.eservice.id,
           descriptorId: descriptor.id,
         },
+        state: { stepIndexDestination: 1 },
       })
       return
     }

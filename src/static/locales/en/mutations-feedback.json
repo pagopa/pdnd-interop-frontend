@@ -113,6 +113,13 @@
         "description": "By clicking \"confirm\",  this e-service version will be reactivated. All the Subscribers that have an active fruition request for this e-service version will be able to access it"
       }
     },
+    "updateVersion": {
+      "loading": "Updating the information",
+      "outcome": {
+        "success": "The requested information has been updated successfully",
+        "error": "The requested information could not be updated. Please try again!"
+      }
+    },
     "deleteVersionDraft": {
       "loading": "Deleting e-service version draft",
       "outcome": {
@@ -447,10 +454,6 @@
       "outcome": {
         "success": "The purpose draft was cloned successfully",
         "error": "The purpose could not be cloned. Please, try again!"
-      },
-      "confirmDialog": {
-        "title": "Confirm cloning purpose",
-        "description": "A new purpose will be created with the same characteristics as the selected one. The new purpose will be in draft status"
       }
     },
     "addClient": {

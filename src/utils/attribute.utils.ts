@@ -42,12 +42,18 @@ export function isAttributeRevoked(
        */
 
       const typedAttribute = attribute as VerifiedTenantAttribute
+
       if (verifierId) {
         const isInVerifiedBy = typedAttribute.verifiedBy.some(
           (verifier) => verifier.id === verifierId
         )
 
-        return !isInVerifiedBy
+        if (isInVerifiedBy) return false
+        const isInRevokedBy = typedAttribute.revokedBy.some(
+          (verifier) => verifier.id === verifierId
+        )
+        if (isInRevokedBy) return true
+        return false
       }
 
       /*
@@ -57,6 +63,7 @@ export function isAttributeRevoked(
        * The attribute, in this case, is considered revoked if it is in 'revokedBy' and not in 'verifiedBy'
        */
       const alreadyCheckedVerifierIds = new Map<string, boolean>()
+
       return typedAttribute.revokedBy.some(({ id }) => {
         if (alreadyCheckedVerifierIds.has(id)) return false
         alreadyCheckedVerifierIds.set(id, true)
@@ -103,6 +110,7 @@ export function isAttributeOwned(
 ) {
   const matchIndex = ownedAttributes.findIndex((a) => a.id === attributeId)
   const match = ownedAttributes[matchIndex]
+
   /**
    * If no match is found, means that the tenant does not own the attribute.
    */
@@ -111,13 +119,15 @@ export function isAttributeOwned(
   /**
    * If a match is found, last thing we need to check if it is revoked.
    * If it is, it is not considered "owned".
-   * For the verified attributes we check if verifiedBy has an entry which verifier id is the same as the verifierId passed.
+   * For the verified attributes we check if verifiedBy has an entry which verifier id is the same as the verifierId passed. Also
+   * we check if the attribute is expired.
    */
+
   switch (kind) {
     case 'certified':
       return !isAttributeRevoked('certified', match)
     case 'verified':
-      return !isAttributeRevoked('verified', match as VerifiedTenantAttribute, verifierId)
+      return !isOwnedVerifiedAttributeExpired(match as VerifiedTenantAttribute, verifierId)
     case 'declared':
       return !isAttributeRevoked('declared', match)
     default:
@@ -248,4 +258,22 @@ export const remapDescriptorAttributesToDescriptorAttributesSeed = (
     verified: remapAttribute(descriptorAttributes.verified),
     declared: remapAttribute(descriptorAttributes.declared),
   }
+}
+
+/**
+ * Checks if a owned verified attribute  is expired based on extensionDate
+ *
+ * @param attribute - The attribute to check.
+ * @param verifierId - The ID of the verifier (optional).
+ * @return {boolean} True if the attribute is expired, false otherwise.
+ */
+const isOwnedVerifiedAttributeExpired = (
+  attribute: VerifiedTenantAttribute,
+  verifierId?: string
+): boolean => {
+  const today = Date.now()
+  return attribute.verifiedBy.some(
+    (it) =>
+      it.id === verifierId && it.extensionDate && new Date(it.extensionDate).getTime() <= today
+  )
 }

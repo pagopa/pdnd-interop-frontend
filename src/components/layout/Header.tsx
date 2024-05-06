@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
-import { UnauthorizedError } from '@/utils/errors.utils'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 
 /**
@@ -92,10 +91,10 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const queriesOptions = {
     suspense: false,
-    useErrorBoundary: (error: unknown) => error instanceof UnauthorizedError,
     retry: false,
     staleTime: Infinity,
     cacheTime: Infinity,
+    enabled: !!jwt,
   }
 
   const { data: parties } = PartyQueries.useGetPartyList(queriesOptions)
