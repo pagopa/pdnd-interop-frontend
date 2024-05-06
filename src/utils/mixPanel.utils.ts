@@ -20,7 +20,6 @@ export function setupTracking() {
   global.OptanonWrapper = function () {
     OneTrust.OnConsentChanged(function () {
       if (OnetrustActiveGroups.indexOf(targCookiesGroup) > -1) {
-        // TODO vedere che forse questo cambiamento viene fatto troppo presto e mixpanel non è ancora inizializzato
         mixpanelInit(MIXPANEL_PROJECT_ID, NODE_ENV)
         useTrackingStore.setState({ areCookiesAccepted: true }, true)
       }
@@ -32,7 +31,6 @@ export function setupTracking() {
   const checkValue = `${targCookiesGroup}%3A1`
 
   if (OTCookieValue.indexOf(checkValue) > -1) {
-    // TODO vedere che forse questo cambiamento viene fatto troppo presto e mixpanel non è ancora inizializzato
     mixpanelInit(MIXPANEL_PROJECT_ID, NODE_ENV)
     useTrackingStore.setState({ areCookiesAccepted: true }, true)
   }
@@ -41,7 +39,9 @@ export function setupTracking() {
 /**
  * Function that initialize Mixpanel (must be called once)
  */
-export function mixpanelInit(mixpanelToken: string, nodeEnv: string): void {
+export function mixpanelInit(mixpanelToken: string | undefined, nodeEnv: string): void {
+  if (!mixpanelToken) return console.log('Mixpanel token not available.')
+
   if (!nodeEnv || nodeEnv === 'development') {
     // eslint-disable-next-line no-console
     console.log('Mixpanel events mock on console log.')
