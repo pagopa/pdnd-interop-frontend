@@ -17,8 +17,16 @@ import AuthServices from './api/auth/auth.services'
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
+import { initOneTrust } from './utils/oneTrust.utils'
+import { setupTracking } from './utils/mixPanel.utils'
 
 queryClient.prefetchQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessionToken)
+
+// Setup OneTrust
+initOneTrust()
+
+// Setup MixPanel tracking
+setupTracking()
 
 function App() {
   const { t } = useTranslation('shared-components')
