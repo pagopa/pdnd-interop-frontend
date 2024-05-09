@@ -6,7 +6,7 @@ import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { ForbiddenError } from '@/utils/errors.utils'
 import React from 'react'
 
-export interface AuthGuardProps {
+export interface AuthorizationGuardProps {
   children: React.ReactNode
   jwt?: JwtUser
   currentRoles: UserProductRole[]
@@ -23,7 +23,7 @@ export interface AuthGuardProps {
  *
  * The blacklist is used to prevent access to the application for a specific organization.
  */
-export const AuthGuard: React.FC<AuthGuardProps> = ({
+export const AuthorizationGuard: React.FC<AuthorizationGuardProps> = ({
   children,
   jwt,
   currentRoles,
