@@ -7,21 +7,19 @@ import useScrollTopOnLocationChange from '../../hooks/useScrollTopOnLocationChan
 import { Box } from '@mui/material'
 import { AuthGuard } from './AuthGuard'
 import { ErrorBoundary } from '../../../components/shared/ErrorBoundary'
-import TOSAgreement from './TOSAgreement'
-import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute } from '@/router'
 import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
 import { AuthHooks } from '@/api/auth'
 import { FirstLoadingSpinner } from '@/components/shared/FirstLoadingSpinner'
+import { TOSAgreementGuard } from './TOSAgreementGuard'
 
 const _RoutesWrapper: React.FC = () => {
   const { isPublic, routeKey } = useCurrentRoute()
 
   const { jwt, isSupport, currentRoles, isLoadingSession, isOrganizationAllowedToProduce } =
     AuthHooks.useJwt()
-  const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement(jwt, isSupport)
 
   useScrollTopOnLocationChange()
   useCheckSessionExpired(jwt?.exp)
@@ -32,9 +30,7 @@ const _RoutesWrapper: React.FC = () => {
     <>
       <Header jwt={jwt} isSupport={isSupport} />
       <Box sx={{ flex: 1 }}>
-        {!isTOSAccepted && !isPublic ? (
-          <TOSAgreement onAcceptAgreement={handleAcceptTOS} />
-        ) : (
+        <TOSAgreementGuard jwt={jwt} isPublic={isPublic} isSupport={isSupport}>
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
               <React.Suspense fallback={<PageContainerSkeleton />}>
@@ -49,7 +45,7 @@ const _RoutesWrapper: React.FC = () => {
               </React.Suspense>
             </ErrorBoundary>
           </AppLayout>
-        )}
+        </TOSAgreementGuard>
       </Box>
       <Footer jwt={jwt} />
       <Dialog />

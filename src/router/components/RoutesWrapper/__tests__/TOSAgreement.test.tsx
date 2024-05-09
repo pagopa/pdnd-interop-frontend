@@ -1,7 +1,7 @@
 import React from 'react'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import TOSAgreement from '@/router/components/RoutesWrapper/TOSAgreement'
+import TOSAgreement from '@/router/components/RoutesWrapper/TOSAgreementGuard'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 const mockAcceptAgreement = vi.fn()
