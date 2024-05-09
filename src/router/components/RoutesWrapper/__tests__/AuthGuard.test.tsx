@@ -4,8 +4,8 @@ import {
   mockUseGetActiveUserParty,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
-import type { AuthGuardProps } from '../AuthGuard'
-import { AuthGuard } from '../AuthGuard'
+import type { AuthGuardProps } from '../AuthorizationGuard'
+import { AuthGuard } from '../AuthorizationGuard'
 import { createMockJwtUser } from '@/../__mocks__/data/user.mocks'
 import { ErrorBoundary } from 'react-error-boundary'
 import * as router from '@/router'

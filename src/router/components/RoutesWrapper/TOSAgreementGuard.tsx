@@ -68,7 +68,7 @@ export const TOSAgreementGuard: React.FC<TOSAgreementGuardProps> = ({
     Promise.all(acceptPromises)
   }
 
-  if (jwt && !isTOSAccepted && !isPublic) {
+  if (jwt && !isTOSAccepted && !isPublic && !isSupport) {
     return (
       <PagoPATOSAgreement
         sx={{ height: '100%' }}
