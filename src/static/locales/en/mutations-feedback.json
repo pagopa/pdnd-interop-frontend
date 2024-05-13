@@ -396,9 +396,6 @@
         "error": "The daily calls could not be updated. Please, try again!"
       }
     },
-    "updateVersionWaitingForApproval": {
-      "loading": "Updating estimated publishing date"
-    },
     "suspendVersion": {
       "loading": "Suspending purpose",
       "outcome": {
