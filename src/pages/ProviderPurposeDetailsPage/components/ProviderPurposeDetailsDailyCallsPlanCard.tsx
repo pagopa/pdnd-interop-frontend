@@ -1,26 +1,12 @@
 import type { Purpose } from '@/api/api.generatedTypes'
-import { IconLink } from '@/components/shared/IconLink'
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Stack, Typography } from '@mui/material'
 import React from 'react'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
-import EditCalendarIcon from '@mui/icons-material/EditCalendar'
 import CloseIcon from '@mui/icons-material/Close'
 import { PurposeMutations } from '@/api/purpose'
 import { AuthHooks } from '@/api/auth'
-import { ProviderPurposeDetailsDailyCallsActivationDateDrawer } from './ProviderPurposeDetailsDailyCallsActivationDateDrawer'
-import { Trans, useTranslation } from 'react-i18next'
-import format from 'date-fns/format'
+import { useTranslation } from 'react-i18next'
 import { formatThousands } from '@/utils/format.utils'
-import { useDrawerState } from '@/hooks/useDrawerState'
 import { useDialog } from '@/stores'
 
 type ProviderPurposeDetailsDailyCallsPlanCardProps = {
@@ -35,12 +21,6 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
   })
   const { isAdmin } = AuthHooks.useJwt()
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
-
-  const {
-    isOpen: isActivationDateDrawerOpen,
-    openDrawer: openActivationDateDrawer,
-    closeDrawer: closeActivationDateDrawer,
-  } = useDrawerState()
 
   const { openDialog } = useDialog()
 
@@ -61,11 +41,6 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
 
     return t('title.activePlan')
   }, [isChangePlanRequest, isNewPurposeRejected, t, waitingForApprovalVersion])
-
-  const handleSetApprovalDate = () => {
-    if (!waitingForApprovalVersion || !isAdmin) return null
-    openActivationDateDrawer()
-  }
 
   const handleConfirmUpdate = () => {
     if (!waitingForApprovalVersion || !isAdmin) return null
@@ -130,60 +105,30 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
         />
         <CardContent sx={{ px: 3, pt: 1 }}>
           {waitingForApprovalVersion && (
-            <Stack direction="column" spacing={2}>
-              <Stack direction="row" alignItems="space-between">
+            <Stack direction="row" alignItems="space-between">
+              <Box flex={1}>
+                <Typography variant="h4">
+                  {formatThousands(waitingForApprovalVersion.dailyCalls)}
+                </Typography>
+                <Typography variant="body2">
+                  {t(
+                    `waitingForApprovalPlan.label.${
+                      isChangePlanRequest ? 'changePlan' : 'newPurpose'
+                    }`
+                  )}
+                </Typography>
+              </Box>
+
+              {purpose.currentVersion && (
                 <Box flex={1}>
-                  <Typography variant="h4">
-                    {formatThousands(waitingForApprovalVersion.dailyCalls)}
+                  <Typography variant="h4" color="text.secondary" fontWeight={400}>
+                    {formatThousands(purpose.currentVersion?.dailyCalls)}
                   </Typography>
-                  <Typography variant="body2">
-                    {t(
-                      `waitingForApprovalPlan.label.${
-                        isChangePlanRequest ? 'changePlan' : 'newPurpose'
-                      }`
-                    )}
+                  <Typography variant="body2" color="text.secondary">
+                    {t('currentPlan.label')}
                   </Typography>
                 </Box>
-
-                {purpose.currentVersion && (
-                  <Box flex={1}>
-                    <Typography variant="h4" color="text.secondary" fontWeight={400}>
-                      {formatThousands(purpose.currentVersion?.dailyCalls)}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {t('currentPlan.label')}
-                    </Typography>
-                  </Box>
-                )}
-              </Stack>
-              <Divider />
-              {waitingForApprovalVersion.expectedApprovalDate && (
-                <Typography variant="body2">
-                  <Trans
-                    components={{
-                      strong: <Typography component="span" variant="inherit" fontWeight={700} />,
-                    }}
-                  >
-                    {t('expectApprovalDateInfo', {
-                      date: format(
-                        new Date(waitingForApprovalVersion.expectedApprovalDate),
-                        'dd/MM/yyyy'
-                      ),
-                    })}
-                  </Trans>
-                </Typography>
               )}
-              <IconLink
-                onClick={handleSetApprovalDate}
-                component="button"
-                disabled={isSuspended || isArchived}
-                startIcon={<EditCalendarIcon />}
-                alignSelf="start"
-              >
-                {waitingForApprovalVersion.expectedApprovalDate
-                  ? t('setApprovalDateLink.modifyLabel')
-                  : t('setApprovalDateLink.insertLabel')}
-              </IconLink>
             </Stack>
           )}
           {isNewPurposeRejected && (
@@ -198,11 +143,6 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
           )}
         </CardContent>
       </Card>
-      <ProviderPurposeDetailsDailyCallsActivationDateDrawer
-        isOpen={isActivationDateDrawerOpen}
-        onClose={closeActivationDateDrawer}
-        purpose={purpose}
-      />
     </>
   )
 }
