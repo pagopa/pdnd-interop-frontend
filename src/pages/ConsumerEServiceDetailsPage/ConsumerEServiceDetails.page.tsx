@@ -15,7 +15,7 @@ import {
   ConsumerEServiceGeneralInfoSectionSkeleton,
 } from './components/ConsumerEServiceGeneralInfoSection'
 import { AuthHooks } from '@/api/auth'
-import { useMixPanel } from '@/hooks/useMixPanel'
+import { useTrackPageViewEvent } from '@/config/tracking'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -28,19 +28,11 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
 
   const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
 
-  const { trackPageView } = useMixPanel()
-
-  React.useEffect(() => {
-    if (descriptor && jwt) {
-      // To track only the specific page view with the specified props
-      trackPageView('INTEROP_CATALOG_READ', {
-        tenantId: jwt.organizationId,
-        eserviceId: descriptor.eservice.id,
-        descriptorId: descriptor.id,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [descriptor, trackPageView])
+  useTrackPageViewEvent('INTEROP_CATALOG_READ', {
+    tenantId: jwt?.organizationId,
+    eserviceId: descriptor?.eservice.id,
+    descriptorId: descriptor?.id,
+  })
 
   return (
     <PageContainer
