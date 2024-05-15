@@ -4,8 +4,10 @@ import {
   MIXPANEL_PROJECT_ID,
   NODE_ENV,
   ONETRUST_DOMAIN_SCRIPT_ID,
+  STAGE,
 } from './env'
 import type { ExtendedWindow } from '@/types/common.types'
+import type { UserProductRole } from '@/types/party.types'
 
 // This should be an union of all the possible mixpanel events
 type MixPanelEvent = {
@@ -17,9 +19,10 @@ type MixPanelCatalogReadEventProps = {
   tenantId: string // This is the id that identifies who is invoking the event
   eserviceId: string
   descriptorId: string
+  roles: Array<UserProductRole>
 }
 
-const isTrackingEnabled = NODE_ENV === 'production' /* && STAGE !== 'PROD' */
+const isTrackingEnabled = NODE_ENV === 'production' && STAGE === 'PROD'
 
 export const { trackEvent, useTrackPageViewEvent } = initTracking<MixPanelEvent>({
   enabled: isTrackingEnabled,

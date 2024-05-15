@@ -20,7 +20,7 @@ import { useTrackPageViewEvent } from '@/config/tracking'
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, currentRoles } = AuthHooks.useJwt()
 
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId, {
     suspense: false,
@@ -32,6 +32,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
     tenantId: jwt?.organizationId,
     eserviceId: descriptor?.eservice.id,
     descriptorId: descriptor?.id,
+    roles: currentRoles,
   })
 
   return (
