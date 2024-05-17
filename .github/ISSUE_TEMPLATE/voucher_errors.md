@@ -6,15 +6,9 @@ labels: voucher-errors
 
 ---
 
-Per favore, compila quello che puoi dei campi seguenti. Ci aiuti ad assisterti più rapidamente.
-NB: la tua client assertion è un'informazione sensibile: non inserirla all'interno di questa issue. Ogni richiesta contenente informazioni riservate o sensibili sarà rimossa senza preavviso dagli amministratori.
+**All'interno del back office di Interoperabilità è possibile fare debug delle tue client assertion in autonomia. Trovi la funzionalità sotto "Fruizione" > "Debug client assertion".**
 
-**Step di auto-debug**
-Prima di aprire un issue, puoi effettuare le seguenti verifiche per escludere un errore di configurazione:
-1. Se stai richiedendo un voucher per un e-service, il `purposeId` inserito è quello corretto?
-2. il `client_id` inserito nella richiesta al server autorizzativo corrisponde al valore inserito come subject (campo `SUB`) nella client assertion?
-3. la chiave privata con la quale è stata firmata la client assertion corrisponde alla pubblica (campo `KID`) depositata su PDND Interoperabilità?
-4. la chiave con la quale firmi l'asserzione (campo `KID`) è inserita all'interno del client che hai indicato (campo `SUB`)?
+Attenzione: la tua client assertion è un'informazione sensibile. Non inserirla all'interno di questa issue. Ogni richiesta contenente informazioni riservate o sensibili sarà rimossa senza preavviso dagli amministratori.
 
 **Il codice IPA del tuo ente**
 Se non lo sai, lo trovi così: 
