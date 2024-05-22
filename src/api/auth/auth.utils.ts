@@ -1,6 +1,5 @@
 import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
 import type { JwtUser } from '@/types/party.types'
-import { hasSessionExpired } from '@/utils/common.utils'
 import memoize from 'lodash/memoize'
 
 export type ParsedJwt = ReturnType<typeof parseJwt>
@@ -29,9 +28,3 @@ export const parseJwt = memoize((token: string | null | undefined) => {
     isOrganizationAllowedToProduce,
   }
 })
-
-export function isJwtExpired(sessionToken: string) {
-  const parsedJwt = parseJwt(sessionToken)
-
-  return hasSessionExpired(parsedJwt.jwt?.exp)
-}
