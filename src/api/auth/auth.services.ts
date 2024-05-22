@@ -25,7 +25,7 @@ async function getSessionToken(): Promise<string | null> {
       return null
     }
     window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
-    if (parsedJwt.jwt) setMixpanelIdentifier(parsedJwt.jwt?.selfcareId) // TODO quale è l'id dell'utente autenticato?
+    if (parsedJwt.jwt) setMixpanelIdentifier(parsedJwt.jwt?.uid)
     return sessionToken
   }
 
