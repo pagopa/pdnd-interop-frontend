@@ -22,7 +22,7 @@
     "@mui/material": "^5.14.9",
     "@mui/system": "^5.14.9",
     "@mui/x-date-pickers": "^6.13.0",
-    "@pagopa/interop-fe-commons": "^1.4.1",
+    "@pagopa/interop-fe-commons": "^1.4.2",
     "@pagopa/mui-italia": "^1.2.0",
     "@tanstack/react-query": "^4.35.3",
     "@tanstack/react-query-devtools": "^4.35.3",
