@@ -21,7 +21,7 @@ type MixPanelCatalogReadEventProps = {
   descriptorId: string
 }
 
-const isTrackingEnabled = NODE_ENV === 'production' && STAGE === 'DEV'
+const isTrackingEnabled = NODE_ENV === 'production' && STAGE === 'PROD'
 
 const getTrackingDefaultProps = () => {
   const sessionToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
