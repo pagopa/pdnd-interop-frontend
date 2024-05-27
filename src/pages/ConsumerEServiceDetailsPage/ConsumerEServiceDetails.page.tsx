@@ -14,13 +14,11 @@ import {
   ConsumerEServiceGeneralInfoSection,
   ConsumerEServiceGeneralInfoSectionSkeleton,
 } from './components/ConsumerEServiceGeneralInfoSection'
-import { AuthHooks } from '@/api/auth'
 import { useTrackPageViewEvent } from '@/config/tracking'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { jwt, currentRoles } = AuthHooks.useJwt()
 
   const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId, {
     suspense: false,
@@ -29,10 +27,8 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
-    tenantId: jwt?.organizationId,
     eserviceId: descriptor?.eservice.id,
     descriptorId: descriptor?.id,
-    roles: currentRoles,
   })
 
   return (

@@ -7,7 +7,8 @@ import {
   STAGE,
 } from './env'
 import type { ExtendedWindow } from '@/types/common.types'
-import type { UserProductRole } from '@/types/party.types'
+import { STORAGE_KEY_SESSION_TOKEN } from './constants'
+import { parseJwt } from '@/api/auth/auth.utils'
 
 // This should be an union of all the possible mixpanel events
 type MixPanelEvent = {
@@ -16,19 +17,33 @@ type MixPanelEvent = {
 }
 
 type MixPanelCatalogReadEventProps = {
-  tenantId: string // This is the id that identifies who is invoking the event
   eserviceId: string
   descriptorId: string
-  roles: Array<UserProductRole>
 }
 
 const isTrackingEnabled = NODE_ENV === 'production' && STAGE === 'PROD'
 
-export const { trackEvent, useTrackPageViewEvent } = initTracking<MixPanelEvent>({
-  enabled: isTrackingEnabled,
-  oneTrustScriptUrl:
-    INTEROP_RESOURCES_BASE_URL + `/onetrust/oneTrust_production/scripttemplates/otSDKStub.js`,
-  domainScriptUrl: ONETRUST_DOMAIN_SCRIPT_ID,
-  mixpanelToken: MIXPANEL_PROJECT_ID,
-  nonce: (window as unknown as ExtendedWindow).nonce,
-})
+const getTrackingDefaultProps = () => {
+  const sessionToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
+  if (sessionToken) {
+    const parsedToken = parseJwt(sessionToken)
+
+    return {
+      tenantId: parsedToken.jwt?.organizationId,
+      roles: parsedToken.currentRoles,
+    }
+  }
+
+  return {}
+}
+
+export const { trackEvent, useTrackPageViewEvent, setMixpanelIdentifier } =
+  initTracking<MixPanelEvent>({
+    enabled: isTrackingEnabled,
+    oneTrustScriptUrl:
+      INTEROP_RESOURCES_BASE_URL + `/onetrust/oneTrust_production/scripttemplates/otSDKStub.js`,
+    domainScriptUrl: ONETRUST_DOMAIN_SCRIPT_ID,
+    mixpanelToken: MIXPANEL_PROJECT_ID,
+    getDefaultProps: getTrackingDefaultProps,
+    nonce: (window as unknown as ExtendedWindow).nonce,
+  })
