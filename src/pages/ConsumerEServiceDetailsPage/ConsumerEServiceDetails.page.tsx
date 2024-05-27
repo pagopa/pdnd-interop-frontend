@@ -14,6 +14,7 @@ import {
   ConsumerEServiceGeneralInfoSection,
   ConsumerEServiceGeneralInfoSectionSkeleton,
 } from './components/ConsumerEServiceGeneralInfoSection'
+import { useTrackPageViewEvent } from '@/config/tracking'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -24,6 +25,11 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   })
 
   const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
+
+  useTrackPageViewEvent('INTEROP_CATALOG_READ', {
+    eserviceId: descriptor?.eservice.id,
+    descriptorId: descriptor?.id,
+  })
 
   return (
     <PageContainer
