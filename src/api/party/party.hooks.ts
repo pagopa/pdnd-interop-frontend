@@ -57,10 +57,21 @@ function useGetTenants(params: GetTenantsParams, config: UseQueryOptions<Tenants
   })
 }
 
+/**
+ * getProducts and getPartyList are using internally selfcare apis.
+ * We use `useErrorBoundary: false` to avoid the error boundary to catch the error and show the error page in case of error.
+ * This is because we don't want to compromise the user experience in case of unavailability of an external service.
+ */
+
 function useGetProducts(config: UseQueryOptions<Array<{ id: string; name: string }>>) {
   return useQuery({
     queryKey: [PartyQueryKeys.GetProducts],
     queryFn: () => PartyServices.getProducts(),
+    useErrorBoundary: false,
+    suspense: false,
+    retry: false,
+    staleTime: Infinity,
+    cacheTime: Infinity,
     ...config,
   })
 }
@@ -69,6 +80,11 @@ function useGetPartyList(config: UseQueryOptions<Array<SelfcareInstitution>>) {
   return useQuery({
     queryKey: [PartyQueryKeys.GetPartyList],
     queryFn: () => PartyServices.getPartyList(),
+    useErrorBoundary: false,
+    suspense: false,
+    retry: false,
+    staleTime: Infinity,
+    cacheTime: Infinity,
     ...config,
   })
 }
