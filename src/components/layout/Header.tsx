@@ -89,16 +89,8 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
 
-  const queriesOptions = {
-    suspense: false,
-    retry: false,
-    staleTime: Infinity,
-    cacheTime: Infinity,
-    enabled: !!jwt,
-  }
-
-  const { data: parties } = PartyQueries.useGetPartyList(queriesOptions)
-  const { data: products } = PartyQueries.useGetProducts(queriesOptions)
+  const { data: parties } = PartyQueries.useGetPartyList({ enabled: !!jwt })
+  const { data: products } = PartyQueries.useGetProducts({ enabled: !!jwt })
 
   const partyList = getPartyList(parties, jwt, tCommon)
   const productList = getProductList(products)
