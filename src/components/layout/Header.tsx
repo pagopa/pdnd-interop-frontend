@@ -30,9 +30,27 @@ const getPartyList = (
   })
 
   if (parties && parties.length > 0) {
+    /**
+     * Since mui-italia's HeaderProduct component can't handle the case where the active party is not in the party list,
+     * we add it manually to the list if it's not already there.
+     * This is a workaround to avoid the crash, waiting for a proper solution from the api.
+     */
+    const doesIncludeActiveParty = parties?.some((party) => party.id === jwt?.selfcareId)
+    if (!doesIncludeActiveParty && jwt) {
+      return [
+        ...parties.map(generatePartyItem),
+        generatePartyItem({
+          id: jwt.selfcareId,
+          description: jwt.organization.name,
+          userProductRoles: jwt.organization.roles.map((r) => r.role),
+          parent: jwt.rootParent?.description,
+        }),
+      ]
+    }
     return parties.map(generatePartyItem)
   }
 
+  // If the parties list is not available, generate the party list using the jwt
   if (jwt) {
     return [
       generatePartyItem({
