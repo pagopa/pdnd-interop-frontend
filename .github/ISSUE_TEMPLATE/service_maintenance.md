@@ -2,7 +2,7 @@
 name: Service Maintenance
 about: Use for trace maintenance activities
 title: "Manutenzione programmata ambiente di collaudo/produzione"
-labels: ''
+labels: 'maintenance'
 assignees: ''
 
 ---
