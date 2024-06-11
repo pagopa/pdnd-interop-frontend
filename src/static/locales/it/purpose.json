@@ -141,7 +141,8 @@
           "ACTIVE": "Attiva",
           "SUSPENDED": "Sospesa",
           "WAITING_FOR_APPROVAL": "In attesa di approvazione",
-          "ARCHIVED": "Archiviata"
+          "ARCHIVED": "Archiviata",
+          "REJECTED": "Rifiutata"
         }
       }
     }
@@ -150,6 +151,8 @@
     "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione il fruitore non potrà accedere ai dati erogati attraverso l’API.",
     "waitingForApprovalAlert": "Il fruitore ha richiesto un adeguamento della stima di carico che richiede la tua approvazione. Controlla la sezione “Stima di carico”.",
     "archivedPurposeAlert": "Il fruitore non potrà ottenere un voucher da PDND Interoperabilità per questa finalità perché è archiviata.",
+    "rejectedPurposeAlert": "Questa finalità è stata rifiutata. <1>Leggi qui i motivi del rifiuto</1>.",
+    "rejectedUpdatePlanInfoAlert": "Un cambio piano su questa finalità è stato rifiutato. Controlla la sezione “Stima di carico”.",
     "sections": {
       "generalInformations": {
         "title": "Informazioni generali",
@@ -176,10 +179,15 @@
       "loadEstimate": {
         "title": "Stima di carico",
         "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
+        "rejectedUpdatePlanAlert": "Il cambio piano è stato rifiutato. <1>Leggi qui i motivi del rifiuto</1>.",
         "planCard": {
           "title": {
             "activePlan": "Il piano attivo del fruitore",
-            "waitingForApprovalPlan": "Il cambio piano richiesto dal fruitore"
+            "waitingForApprovalPlan": {
+              "changePlan": "Il cambio piano richiesto dal fruitore",
+              "newPurpose": "Il piano richiesto dal fruitore"
+            },
+            "rejectedPlan": "Il piano richiesto dal fruitore"
           },
           "subtitle": "Chiamate API/giorno",
           "expectApprovalDateInfo": "Hai stimato di attivare questo adeguamento il giorno <strong>{{date}}</strong>",
@@ -187,14 +195,20 @@
             "insertLabel": "Inserisci data stimata di attivazione",
             "modifyLabel": "Modifica data stimata di attivazione"
           },
-          "activateUpdateButtonLabel": {
+          "activateVersionButtonLabel": {
             "label": "Attiva ora"
+          },
+          "rejectVersionButtonLabel": {
+            "label": "Rifiuta"
           },
           "currentPlan": {
             "label": "Piano attuale"
           },
           "waitingForApprovalPlan": {
-            "label": "Nuovo piano richiesto"
+            "label": {
+              "changePlan": "Nuovo piano richiesto",
+              "newPurpose": "Piano richiesto"
+            }
           }
         },
         "thresholdsCard": {
@@ -226,6 +240,8 @@
     "waitingForApprovalAlert": "Questa finalità è in attesa di approvazione. <strong>Fino alla sua attivazione</strong> da parte dell’erogatore <strong>non potrai accedere ai dati</strong> resi disponibili attraverso l’API e <strong>non potrai associare client</strong>.",
     "archivedPurposeAlert": "Questa finalità è archiviata. Non puoi accedere ai dati resi disponibili attraverso l’API. Potrai sempre <1>crearne una nuova.</1>",
     "archivedPurposeClientsAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
+    "rejectedPurposeAlert": "Questa finalità è stata rifiutata. <2>Leggi qui i motivi del rifiuto</2>.",
+    "rejectedUpdatePlanInfoAlert": "Un cambio piano su questa finalità è stato rifiutato. Controlla la sezione “Stima di carico” in <1>Dettagli finalità</1>.",
     "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service",
     "addClientToPurposeDisableTooltip": {
       "label": "Solamente un amministratore può gestire i membri di un client"
@@ -261,8 +277,13 @@
       "loadEstimate": {
         "title": "Stima di carico",
         "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
+        "rejectedUpdatePlanAlert": "Il cambio piano è stato rifiutato. <1>Leggi qui i motivi del rifiuto</1>.",
         "planCard": {
-          "title": "Il piano attivo del fruitore",
+          "title": {
+            "activePlan": "Il piano attivo del fruitore",
+            "waitingForApprovalPlan": "Il piano richiesto dal fruitore",
+            "rejectedPlan": "Il piano richiesto dal fruitore"
+          },
           "subtitle": "Chiamate API/giorno",
           "changePlanRequestLink": {
             "label": "Richiedi cambio di piano"

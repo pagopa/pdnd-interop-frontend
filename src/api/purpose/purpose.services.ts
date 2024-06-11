@@ -13,6 +13,7 @@ import type {
   PurposeUpdateContent,
   PurposeVersionResource,
   PurposeVersionSeed,
+  RejectPurposeVersionPayload,
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
@@ -173,6 +174,17 @@ function deleteVersion({ purposeId, versionId }: { purposeId: string; versionId:
   )
 }
 
+function rejectVersion({
+  purposeId,
+  versionId,
+  ...payload
+}: { purposeId: string; versionId: string } & RejectPurposeVersionPayload) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/reject`,
+    payload
+  )
+}
+
 async function clone({ purposeId, ...payload }: { purposeId: string } & PurposeCloneSeed) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/clone`,
@@ -211,6 +223,7 @@ const PurposeServices = {
   activateVersion,
   archiveVersion,
   deleteVersion,
+  rejectVersion,
   clone,
   addClient,
   removeClient,

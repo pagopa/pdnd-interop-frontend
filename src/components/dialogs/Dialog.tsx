@@ -10,6 +10,7 @@ import type {
   DialogClonePurposeProps,
   DialogProps,
   DialogRejectAgreementProps,
+  DialogRejectPurposeVersionProps,
   DialogRemoveOperatorFromClientProps,
   DialogRevokeCertifiedAttributeProps,
   DialogSessionExpiredProps,
@@ -25,6 +26,7 @@ import { DialogRemoveOperatorFromClient } from './DialogRemoveOperatorFromClient
 import { DialogDeleteOperator } from './DialogDeleteOperator'
 import { DialogRevokeCertifiedAttribute } from './DialogRevokeCertifiedAttribute'
 import { DialogClonePurpose } from './DialogClonePurpose/DialogClonePurpose'
+import { DialogRejectPurposeVersion } from './DialogRejectPurposeVersion'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -36,7 +38,8 @@ function match<T>(
   onDeleteOperator: (props: DialogDeleteOperatorProps) => T,
   onRemoveOperatorFromClient: (props: DialogRemoveOperatorFromClientProps) => T,
   onRevokeCertifiedAttribute: (props: DialogRevokeCertifiedAttributeProps) => T,
-  onClonePurpose: (props: DialogClonePurposeProps) => T
+  onClonePurpose: (props: DialogClonePurposeProps) => T,
+  onRejectPurposeVersion: (props: DialogRejectPurposeVersionProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -60,6 +63,8 @@ function match<T>(
         return onRevokeCertifiedAttribute(props)
       case 'clonePurpose':
         return onClonePurpose(props)
+      case 'rejectPurposeVersion':
+        return onRejectPurposeVersion(props)
     }
   }
 }
@@ -74,7 +79,8 @@ const _Dialog = match(
   (props) => <DialogDeleteOperator {...props} />,
   (props) => <DialogRemoveOperatorFromClient {...props} />,
   (props) => <DialogRevokeCertifiedAttribute {...props} />,
-  (props) => <DialogClonePurpose {...props} />
+  (props) => <DialogClonePurpose {...props} />,
+  (props) => <DialogRejectPurposeVersion {...props} />
 )
 
 export const Dialog: React.FC = () => {

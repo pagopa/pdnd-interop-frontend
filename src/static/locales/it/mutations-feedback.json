@@ -443,6 +443,13 @@
         "description": "Cliccando \"conferma\", questo aggiornamento al numero di chiamate verso l'e-service dell'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale"
       }
     },
+    "rejectVersion": {
+      "loading": "Stiamo rifiutando la finalità",
+      "outcome": {
+        "success": "La finalità è stata rifiutata correttamente",
+        "error": "Non è stato possibile rifiutare la finalità. Per favore, riprova!"
+      }
+    },
     "downloadRiskAnalysis": {
       "loading": "Stiamo scaricando il documento dell'analisi del rischio",
       "outcome": {

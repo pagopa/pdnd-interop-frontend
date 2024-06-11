@@ -85,7 +85,8 @@
       "ACTIVE": "active",
       "SUSPENDED": "suspended",
       "WAITING_FOR_APPROVAL": "waiting for approval",
-      "ARCHIVED": "archived"
+      "ARCHIVED": "archived",
+      "REJECTED": "rejected"
     }
   },
   "userProductRole": {

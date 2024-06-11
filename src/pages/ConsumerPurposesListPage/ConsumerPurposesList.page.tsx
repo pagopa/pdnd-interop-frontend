@@ -81,6 +81,7 @@ const ConsumerPurposesListPage: React.FC = () => {
         },
         { label: tPurpose('filters.statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
         { label: tPurpose('filters.statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
+        { label: tPurpose('filters.statusField.optionLabels.REJECTED'), value: 'REJECTED' },
       ],
     },
   ])

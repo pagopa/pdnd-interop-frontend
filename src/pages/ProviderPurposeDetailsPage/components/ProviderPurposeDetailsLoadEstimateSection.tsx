@@ -3,23 +3,44 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import React from 'react'
 import { ProviderPurposeDetailsDailyCallsThresholdsCard } from './ProviderPurposeDetailsDailyCallsThresholdsCard'
 import { ProviderPurposeDetailsDailyCallsPlanCard } from './ProviderPurposeDetailsDailyCallsPlanCard'
-import { Stack } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Alert, Link, Stack } from '@mui/material'
+import { Trans, useTranslation } from 'react-i18next'
 
 type ProviderPurposeDetailsLoadEstimateSectionProps = {
   purpose: Purpose
+  openRejectReasonDrawer: VoidFunction
 }
 
 export const ProviderPurposeDetailsLoadEstimateSection: React.FC<
   ProviderPurposeDetailsLoadEstimateSectionProps
-> = ({ purpose }) => {
+> = ({ purpose, openRejectReasonDrawer }) => {
   const { t } = useTranslation('purpose', {
     keyPrefix: 'providerView.sections.loadEstimate',
   })
 
+  const isUpdatePlanRejected = Boolean(purpose.currentVersion) && Boolean(purpose.rejectedVersion)
+
   return (
     <SectionContainer title={t('title')} description={t('description')}>
       <Stack spacing={3}>
+        {isUpdatePlanRejected && (
+          <Alert severity="error" variant="outlined">
+            <Trans
+              components={{
+                1: (
+                  <Link
+                    onClick={openRejectReasonDrawer}
+                    variant="body2"
+                    fontWeight={700}
+                    sx={{ cursor: 'pointer' }}
+                  />
+                ),
+              }}
+            >
+              {t('rejectedUpdatePlanAlert')}
+            </Trans>
+          </Alert>
+        )}
         <ProviderPurposeDetailsDailyCallsPlanCard purpose={purpose} />
         <ProviderPurposeDetailsDailyCallsThresholdsCard
           dailyCallsPerConsumer={purpose.dailyCallsPerConsumer}
