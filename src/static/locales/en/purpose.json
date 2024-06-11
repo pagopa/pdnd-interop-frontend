@@ -148,7 +148,7 @@
   },
   "providerView": {
     "suspendedAlert": "This purpose is suspended. Until it is reactivated, the user will not be able to access the data provided through the API.",
-    "waitingForApprovalAlert": "The consumer has requested a load estimate update that requires your approval.",
+    "waitingForApprovalAlert": "The consumer has requested a load estimate update which requires your approval. Check the “Load Estimate” section.",
     "archivedPurposeAlert": "The user will not be able to obtain a voucher from PDND Interoperabilità for this purpose because it is archived.",
     "sections": {
       "generalInformations": {
@@ -187,8 +187,14 @@
             "insertLabel": "Enter estimated activation date",
             "modifyLabel": "Change estimated activation date"
           },
-          "activateUpdateLink": {
+          "activateUpdateButtonLabel": {
             "label": "Activate now"
+          },
+          "currentPlan": {
+            "label": "Current plan"
+          },
+          "waitingForApprovalPlan": {
+            "label": "New plan required"
           }
         },
         "thresholdsCard": {
