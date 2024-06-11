@@ -567,15 +567,6 @@ export interface PurposeEServiceSeed {
   dailyCalls: number
 }
 
-/** contains the expected payload for purpose version update. */
-export interface WaitingForApprovalPurposeVersionUpdateContentSeed {
-  /**
-   * Estimated expected approval date for a purpose version
-   * @format date-time
-   */
-  expectedApprovalDate: string
-}
-
 export interface CompactOrganization {
   /** @format uuid */
   id: string
@@ -794,8 +785,6 @@ export interface PurposeVersion {
   createdAt: string
   /** @format date-time */
   suspendedAt?: string
-  /** @format date-time */
-  expectedApprovalDate?: string
   /** @format date-time */
   updatedAt?: string
   /** @format date-time */
@@ -3618,28 +3607,6 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = PurposeVersionResource
-  }
-  /**
-   * No description
-   * @tags purposes
-   * @name UpdateWaitingForApprovalPurposeVersion
-   * @summary Update a purpose version in waiting for approval
-   * @request POST:/purposes/{purposeId}/versions/{versionId}/update/waitingForApproval
-   * @secure
-   */
-  export namespace UpdateWaitingForApprovalPurposeVersion {
-    export type RequestParams = {
-      /** @format uuid */
-      purposeId: string
-      /** @format uuid */
-      versionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = WaitingForApprovalPurposeVersionUpdateContentSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }

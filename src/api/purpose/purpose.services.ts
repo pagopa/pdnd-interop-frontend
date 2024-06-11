@@ -17,7 +17,6 @@ import type {
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
-  WaitingForApprovalPurposeVersionUpdateContentSeed,
 } from '../api.generatedTypes'
 
 async function getProducersList(params: GetProducerPurposesParams) {
@@ -118,18 +117,6 @@ async function updateDailyCalls({
   return response.data
 }
 
-async function updateVersionWaitingForApproval({
-  purposeId,
-  versionId,
-  ...payload
-}: { purposeId: string; versionId: string } & WaitingForApprovalPurposeVersionUpdateContentSeed) {
-  const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/update/waitingForApproval`,
-    payload
-  )
-  return response.data
-}
-
 async function downloadRiskAnalysis({
   purposeId,
   versionId,
@@ -216,7 +203,6 @@ const PurposeServices = {
   deleteDraft,
   createDraftForReceiveEService,
   updateDraftForReceiveEService,
-  updateVersionWaitingForApproval,
   updateDailyCalls,
   downloadRiskAnalysis,
   suspendVersion,

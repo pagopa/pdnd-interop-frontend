@@ -150,17 +150,6 @@ function useUpdateDailyCalls() {
   })
 }
 
-function useUpdateVersionWaitingForApproval() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'purpose.updateVersionWaitingForApproval',
-  })
-  return useMutation(PurposeServices.updateVersionWaitingForApproval, {
-    meta: {
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
 function useDownloadRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.downloadRiskAnalysis' })
   return useDownloadFile(PurposeServices.downloadRiskAnalysis, {
@@ -292,7 +281,6 @@ export const PurposeMutations = {
   useCreateDraftForReceiveEService,
   useUpdateDraftForReceiveEService,
   useUpdateDailyCalls,
-  useUpdateVersionWaitingForApproval,
   useSuspendVersion,
   useActivateVersion,
   useArchiveVersion,

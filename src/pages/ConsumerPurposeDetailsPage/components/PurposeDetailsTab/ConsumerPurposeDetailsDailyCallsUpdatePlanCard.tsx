@@ -4,8 +4,7 @@ import { Box, Card, CardContent, CardHeader, Divider, Stack, Typography } from '
 import React from 'react'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { AuthHooks } from '@/api/auth'
-import { Trans, useTranslation } from 'react-i18next'
-import format from 'date-fns/format'
+import { useTranslation } from 'react-i18next'
 import { PurposeMutations } from '@/api/purpose'
 import { formatThousands } from '@/utils/format.utils'
 
@@ -56,22 +55,6 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
               {formatThousands(waitingForApprovalVersion.dailyCalls)}
             </Typography>
           </Box>
-          {waitingForApprovalVersion.expectedApprovalDate && (
-            <Typography variant="body2">
-              <Trans
-                components={{
-                  strong: <Typography component="span" variant="inherit" fontWeight={700} />,
-                }}
-              >
-                {t('expectApprovalDateInfo', {
-                  date: format(
-                    new Date(waitingForApprovalVersion.expectedApprovalDate),
-                    'dd/MM/yyyy'
-                  ),
-                })}
-              </Trans>
-            </Typography>
-          )}
           <Divider />
           <IconLink
             onClick={handleDeleteDailyCallsUpdate}

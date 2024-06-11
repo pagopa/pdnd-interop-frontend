@@ -396,9 +396,6 @@
         "error": "Non è stato possibile aggiornare aggiornare il numero di chiamate. Per favore, riprova!"
       }
     },
-    "updateVersionWaitingForApproval": {
-      "loading": "Stiamo aggiornando la data stimata di pubblicazione"
-    },
     "suspendVersion": {
       "loading": "Stiamo sospendendo la finalità",
       "outcome": {

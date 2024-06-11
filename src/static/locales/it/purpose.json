@@ -190,11 +190,6 @@
             "rejectedPlan": "Il piano richiesto dal fruitore"
           },
           "subtitle": "Chiamate API/giorno",
-          "expectApprovalDateInfo": "Hai stimato di attivare questo adeguamento il giorno <strong>{{date}}</strong>",
-          "setApprovalDateLink": {
-            "insertLabel": "Inserisci data stimata di attivazione",
-            "modifyLabel": "Modifica data stimata di attivazione"
-          },
           "activateVersionButtonLabel": {
             "label": "Attiva ora"
           },
@@ -220,17 +215,6 @@
           "dailyCallsTotalsField": {
             "label": "Totali"
           }
-        },
-        "drawer": {
-          "title": {
-            "insert": "Inserisci data di attivazione",
-            "modify": "Modifica data di attivazione"
-          },
-          "subtitle": "La data di attivazione non è legalmente vincolante per il tuo ente, ma fornisce un’indicazione utile al fruitore. Hai dubbi? <1>Consulta la guida</1>.",
-          "buttonActionLabel": {
-            "modify": "Applica modifica"
-          },
-          "alert": "L’adeguamento non verrà attivato automaticamente dalla piattaforma. Dovrà essere il tuo ente a farlo manualmente."
         }
       }
     }

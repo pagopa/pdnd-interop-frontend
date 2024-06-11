@@ -190,11 +190,6 @@
             "rejectedPlan": "The plan requested by the consumer"
           },
           "subtitle": "API calls/day",
-          "expectApprovalDateInfo": "You estimated to activate this update on the day <strong>{{date}}</strong>",
-          "setApprovalDateLink": {
-            "insertLabel": "Enter estimated activation date",
-            "modifyLabel": "Change estimated activation date"
-          },
           "activateVersionButtonLabel": {
             "label": "Activate now"
           },
@@ -220,17 +215,6 @@
           "dailyCallsTotalsField": {
             "label": "Totals"
           }
-        },
-        "drawer": {
-          "title": {
-            "insert": "Enter activation date",
-            "modify": "Change activation date"
-          },
-          "subtitle": "The activation date is not legally binding for your institution, but provides a useful indication for the user. Do you have any doubts? <1>Read the guide</1>.",
-          "buttonActionLabel": {
-            "modify": "Apply change"
-          },
-          "alert": "The update will not be activated automatically by the platform. Your organization will have to do it manually."
         }
       }
     }
