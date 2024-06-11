@@ -25,6 +25,7 @@ export type DialogProps =
   | DialogRemoveOperatorFromClientProps
   | DialogRevokeCertifiedAttributeProps
   | DialogClonePurposeProps
+  | DialogRejectPurposeVersionProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -82,4 +83,11 @@ export type DialogClonePurposeProps = {
   type: 'clonePurpose'
   purposeId: string
   eservice: CompactPurposeEService
+}
+
+export type DialogRejectPurposeVersionProps = {
+  type: 'rejectPurposeVersion'
+  purposeId: string
+  versionId: string
+  isChangePlanRequest: boolean
 }

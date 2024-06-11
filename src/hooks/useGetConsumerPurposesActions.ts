@@ -94,7 +94,11 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     return { actions: [deleteAction] }
   }
 
-  if (purpose?.currentVersion?.state === 'ARCHIVED' && purpose.eservice.mode === 'DELIVER') {
+  if (
+    purpose.eservice.mode === 'DELIVER' &&
+    ((!purpose.currentVersion && purpose.rejectedVersion) ||
+      purpose?.currentVersion?.state === 'ARCHIVED')
+  ) {
     return { actions: [cloneAction] }
   }
 

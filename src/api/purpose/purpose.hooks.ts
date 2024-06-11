@@ -150,17 +150,6 @@ function useUpdateDailyCalls() {
   })
 }
 
-function useUpdateVersionWaitingForApproval() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'purpose.updateVersionWaitingForApproval',
-  })
-  return useMutation(PurposeServices.updateVersionWaitingForApproval, {
-    meta: {
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
 function useDownloadRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.downloadRiskAnalysis' })
   return useDownloadFile(PurposeServices.downloadRiskAnalysis, {
@@ -229,6 +218,17 @@ function useDeleteVersion() {
   })
 }
 
+function useRejectVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.rejectVersion' })
+  return useMutation(PurposeServices.rejectVersion, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useClone() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.clone' })
   return useMutation(PurposeServices.clone, {
@@ -281,11 +281,11 @@ export const PurposeMutations = {
   useCreateDraftForReceiveEService,
   useUpdateDraftForReceiveEService,
   useUpdateDailyCalls,
-  useUpdateVersionWaitingForApproval,
   useSuspendVersion,
   useActivateVersion,
   useArchiveVersion,
   useDeleteVersion,
+  useRejectVersion,
   useClone,
   useAddClient,
   useRemoveClient,

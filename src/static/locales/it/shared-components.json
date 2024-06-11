@@ -35,6 +35,29 @@
       "confirmLabel": "Rifiuta"
     }
   },
+  "dialogRejectPurposeVersion": {
+    "title": {
+      "changePlan": "Rifiuta cambio piano finalità",
+      "newPurpose": "Rifiuta finalità"
+    },
+    "subtitle": {
+      "changePlan": "Rifiutando questo cambio piano, il fruitore potrà comunque continuare ad usare la quota disponibile precedentemente.",
+      "newPurpose": "Rifiutando questa finalità, il fruitore non potrà accedere ai dati per il tuo e-service."
+    },
+    "content": {
+      "reason": {
+        "label": "Motivazione",
+        "infoLabel": {
+          "changePlan": "Inserisci la motivazione per la quale rifiuti il cambio piano. Min 10 caratteri, max 250 caratteri",
+          "newPurpose": "Inserisci la motivazione per la quale rifiuti la finalità. Min 10 caratteri, max 250 caratteri"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Annulla",
+      "confirmLabel": "Rifiuta"
+    }
+  },
   "dialogAddClientToPurpose": {
     "title": "Aggiungi client",
     "content": {
@@ -91,6 +114,13 @@
       "description": "Se revochi l’attributo <strong>{{attributeName}}</strong> all’ente <strong>{{tenantName}}</strong>, questo perderà accesso a tutti gli e-service per i quali ha una richiesta di fruizione attiva, interrompendo immediatamente la fruizione del servizio.",
       "checkbox": "Confermo di aver compreso le conseguenze della revoca"
     }
+  },
+  "drawerRejectReason": {
+    "title": "Motivo del rifiuto",
+    "rejectedReasonLabel": "Descrizione",
+    "rejectedValueLabel": "Valore rifiutato",
+    "defaultServiceString": "---\n\nGrazie per la collaborazione,\n\nil Team di Interoperabilità.",
+    "guideLinkLabel": "Per ulteriori dubbi e informazioni. Vai al manuale."
   },
   "copyToClipboardButton": {
     "copy": "Copia",

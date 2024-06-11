@@ -13,10 +13,10 @@ import type {
   PurposeUpdateContent,
   PurposeVersionResource,
   PurposeVersionSeed,
+  RejectPurposeVersionPayload,
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
-  WaitingForApprovalPurposeVersionUpdateContentSeed,
 } from '../api.generatedTypes'
 
 async function getProducersList(params: GetProducerPurposesParams) {
@@ -117,18 +117,6 @@ async function updateDailyCalls({
   return response.data
 }
 
-async function updateVersionWaitingForApproval({
-  purposeId,
-  versionId,
-  ...payload
-}: { purposeId: string; versionId: string } & WaitingForApprovalPurposeVersionUpdateContentSeed) {
-  const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/update/waitingForApproval`,
-    payload
-  )
-  return response.data
-}
-
 async function downloadRiskAnalysis({
   purposeId,
   versionId,
@@ -173,6 +161,17 @@ function deleteVersion({ purposeId, versionId }: { purposeId: string; versionId:
   )
 }
 
+function rejectVersion({
+  purposeId,
+  versionId,
+  ...payload
+}: { purposeId: string; versionId: string } & RejectPurposeVersionPayload) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/reject`,
+    payload
+  )
+}
+
 async function clone({ purposeId, ...payload }: { purposeId: string } & PurposeCloneSeed) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/clone`,
@@ -204,13 +203,13 @@ const PurposeServices = {
   deleteDraft,
   createDraftForReceiveEService,
   updateDraftForReceiveEService,
-  updateVersionWaitingForApproval,
   updateDailyCalls,
   downloadRiskAnalysis,
   suspendVersion,
   activateVersion,
   archiveVersion,
   deleteVersion,
+  rejectVersion,
   clone,
   addClient,
   removeClient,

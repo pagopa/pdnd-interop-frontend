@@ -35,6 +35,29 @@
       "confirmLabel": "Reject"
     }
   },
+  "dialogRejectPurposeVersion": {
+    "title": {
+      "changePlan": "Reject purpose plan change",
+      "newPurpose": "Reject purpose"
+    },
+    "subtitle": {
+      "changePlan": "By refusing this plan change, the user will still be able to continue using the previously available plan.",
+      "newPurpose": "By rejecting this purpose, the user will not be able to access your e-service data."
+    },
+    "content": {
+      "reason": {
+        "label": "Reason",
+        "infoLabel": {
+          "changePlan": "Enter the reason why you reject the plan change. Min 10 characters, max 250 characters",
+          "newPurpose": "Enter the reason why you reject the purpose. Min 10 characters, max 250 characters"
+        }
+      }
+    },
+    "actions": {
+      "cancelLabel": "Cancel",
+      "confirmLabel": "Reject"
+    }
+  },
   "dialogAddClientToPurpose": {
     "title": "Add clients",
     "content": {
@@ -91,6 +114,13 @@
       "description": "If you revoke the <strong>{{attributeName}}</strong> attribute from the <strong>{{tenantName}}</strong>, it will lose access to all the e-services for which it has an active request for use, immediately interrupting the use of the service.",
       "checkbox": "I confirm that I understand the consequences of revocation"
     }
+  },
+  "drawerRejectReason": {
+    "title": "Rejected reason",
+    "rejectedReasonLabel": "Description",
+    "rejectedValueLabel": "Rejected value",
+    "defaultServiceString": "---\n\nThank you for your cooperation,\n\nthe Interoperabilità Team.",
+    "guideLinkLabel": "For further doubts and information. Go to the manual."
   },
   "copyToClipboardButton": {
     "copy": "Copy",

@@ -396,9 +396,6 @@
         "error": "Non è stato possibile aggiornare aggiornare il numero di chiamate. Per favore, riprova!"
       }
     },
-    "updateVersionWaitingForApproval": {
-      "loading": "Stiamo aggiornando la data stimata di pubblicazione"
-    },
     "suspendVersion": {
       "loading": "Stiamo sospendendo la finalità",
       "outcome": {
@@ -441,6 +438,13 @@
       "confirmDialog": {
         "title": "Conferma cancellazione aggiornamento",
         "description": "Cliccando \"conferma\", questo aggiornamento al numero di chiamate verso l'e-service dell'erogatore sarà cancellato. Potrai continuare a usare questa finalità con il numero di chiamate attuale"
+      }
+    },
+    "rejectVersion": {
+      "loading": "Stiamo rifiutando la finalità",
+      "outcome": {
+        "success": "La finalità è stata rifiutata correttamente",
+        "error": "Non è stato possibile rifiutare la finalità. Per favore, riprova!"
       }
     },
     "downloadRiskAnalysis": {

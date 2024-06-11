@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+/** models the reject payload for this purpose version. */
+export interface RejectPurposeVersionPayload {
+  rejectionReason: string
+}
+
 export interface GoogleSAMLPayload {
   /** SAML response */
   SAMLResponse: string
@@ -562,15 +567,6 @@ export interface PurposeEServiceSeed {
   dailyCalls: number
 }
 
-/** contains the expected payload for purpose version update. */
-export interface WaitingForApprovalPurposeVersionUpdateContentSeed {
-  /**
-   * Estimated expected approval date for a purpose version
-   * @format date-time
-   */
-  expectedApprovalDate: string
-}
-
 export interface CompactOrganization {
   /** @format uuid */
   id: string
@@ -682,6 +678,8 @@ export interface Purpose {
   clients: CompactClient[]
   /** business representation of a purpose version */
   waitingForApprovalVersion?: PurposeVersion
+  /** business representation of a purpose version */
+  rejectedVersion?: PurposeVersion
   suspendedByConsumer?: boolean
   suspendedByProducer?: boolean
   isFreeOfCharge: boolean
@@ -788,8 +786,6 @@ export interface PurposeVersion {
   /** @format date-time */
   suspendedAt?: string
   /** @format date-time */
-  expectedApprovalDate?: string
-  /** @format date-time */
   updatedAt?: string
   /** @format date-time */
   firstActivationAt?: string
@@ -799,6 +795,7 @@ export interface PurposeVersion {
    */
   dailyCalls: number
   riskAnalysisDocument?: PurposeVersionDocument
+  rejectionReason?: string
 }
 
 export interface PurposeVersionDocument {
@@ -822,6 +819,7 @@ export type PurposeVersionState =
   | 'ACTIVE'
   | 'DRAFT'
   | 'SUSPENDED'
+  | 'REJECTED'
   | 'WAITING_FOR_APPROVAL'
   | 'ARCHIVED'
 
@@ -3549,6 +3547,28 @@ export namespace Purposes {
     export type ResponseBody = File
   }
   /**
+   * @description reject the purpose version by id
+   * @tags purposes
+   * @name RejectPurposeVersion
+   * @summary Reject Purpose Version
+   * @request POST:/purposes/{purposeId}/versions/{versionId}/reject
+   * @secure
+   */
+  export namespace RejectPurposeVersion {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeId: string
+      /** @format uuid */
+      versionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectPurposeVersionPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
    * @description archives the purpose version by id
    * @tags purposes
    * @name ArchivePurposeVersion
@@ -3587,28 +3607,6 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = PurposeVersionResource
-  }
-  /**
-   * No description
-   * @tags purposes
-   * @name UpdateWaitingForApprovalPurposeVersion
-   * @summary Update a purpose version in waiting for approval
-   * @request POST:/purposes/{purposeId}/versions/{versionId}/update/waitingForApproval
-   * @secure
-   */
-  export namespace UpdateWaitingForApprovalPurposeVersion {
-    export type RequestParams = {
-      /** @format uuid */
-      purposeId: string
-      /** @format uuid */
-      versionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = WaitingForApprovalPurposeVersionUpdateContentSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
