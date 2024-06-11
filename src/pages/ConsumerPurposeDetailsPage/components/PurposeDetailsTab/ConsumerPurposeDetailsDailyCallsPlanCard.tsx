@@ -83,7 +83,7 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
             <Box flexGrow={1}>
               <Typography variant="h4">{formatThousands(dailyCalls)}</Typography>
             </Box>
-            {!(isSuspended || isArchived || waitingForApprovalVersion || rejectedVersion) && (
+            {!(isSuspended || isArchived || waitingForApprovalVersion || isNewPurposeRejected) && (
               <>
                 <Divider />
                 <IconLink
