@@ -4,8 +4,8 @@ import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useParams } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
-import { Alert, Grid, Stack } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Alert, Grid, Stack, Typography } from '@mui/material'
+import { Trans, useTranslation } from 'react-i18next'
 import NewReleasesIcon from '@mui/icons-material/NewReleases'
 import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
 import { AuthHooks } from '@/api/auth'
@@ -92,7 +92,13 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
     >
       {agreement && agreement.state === 'SUSPENDED' && suspendedBy && (
         <Alert sx={{ mb: 3 }} severity="error">
-          {t(`consumerRead.suspendedAlert.${suspendedBy}`)}
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={700} />,
+            }}
+          >
+            {t(`consumerRead.suspendedAlert.${suspendedBy}`)}
+          </Trans>
         </Alert>
       )}
       <Grid container>

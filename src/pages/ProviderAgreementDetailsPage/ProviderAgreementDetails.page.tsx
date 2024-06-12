@@ -3,12 +3,12 @@ import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { useParams } from '@/router'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import {
   ProviderAgreementDetailsGeneralInfoSection,
   ProviderAgreementDetailsGeneralInfoSectionSkeleton,
 } from './components/ProviderAgreementDetailsGeneralInfoSection/ProviderAgreementDetailsGeneralInfoSection'
-import { Alert, Grid, Stack } from '@mui/material'
+import { Alert, Grid, Stack, Typography } from '@mui/material'
 import {
   ProviderAgreementDetailsAttributesSectionsList,
   ProviderAgreementDetailsAttributesSectionsListSkeleton,
@@ -52,7 +52,13 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
     >
       {agreement && agreement.state === 'SUSPENDED' && suspendedBy && (
         <Alert sx={{ mb: 3 }} severity="error">
-          {t(`providerRead.suspendedAlert.${suspendedBy}`)}
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={700} />,
+            }}
+          >
+            {t(`providerRead.suspendedAlert.${suspendedBy}`)}
+          </Trans>
         </Alert>
       )}
       <Grid container>
