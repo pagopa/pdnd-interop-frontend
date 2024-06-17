@@ -1,4 +1,3 @@
-import type { Purpose } from '@/api/api.generatedTypes'
 import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { Alert, Box, Stack, Typography } from '@mui/material'
@@ -6,25 +5,26 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type ConsumerPurposeSummaryRiskAnalysisAccordionProps = {
-  purpose: Purpose
+  purposeId: string
 }
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
 export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   ConsumerPurposeSummaryRiskAnalysisAccordionProps
-> = ({ purpose }) => {
+> = ({ purposeId }) => {
+  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.riskAnalysisSection' })
   const currentLanguage = useCurrentLanguage()
 
   const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
     {
-      riskAnalysisVersion: purpose.riskAnalysisForm?.version as string,
-      eserviceId: purpose.eservice.id,
+      riskAnalysisVersion: purpose!.riskAnalysisForm?.version as string,
+      eserviceId: purpose!.eservice.id,
     },
     {
       suspense: false,
-      enabled: !!purpose.riskAnalysisForm?.version,
+      enabled: !!purpose?.riskAnalysisForm?.version,
     }
   )
 
@@ -66,6 +66,7 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage])
 
   if (!riskAnalysisTemplate) return null
+
   return (
     <>
       <Stack spacing={3}>

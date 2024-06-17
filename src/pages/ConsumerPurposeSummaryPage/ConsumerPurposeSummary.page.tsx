@@ -24,15 +24,29 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const navigate = useNavigate()
 
-  const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId, {
+  const { data: purpose } = PurposeQueries.useGetSingle(purposeId, {
     suspense: false,
   })
+
+  const { data: latestRiskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
+    suspense: false,
+  })
+
+  const isAgreementArchived = purpose?.agreement.state === 'ARCHIVED'
+  const isEServiceDescriptorArchived = purpose?.eservice.descriptor.state === 'ARCHIVED'
+
+  const hasRiskAnalysisVersionMismatch =
+    !!purpose?.riskAnalysisForm &&
+    latestRiskAnalysis &&
+    purpose.riskAnalysisForm.version !== latestRiskAnalysis.version
+
+  const arePublishOrEditButtonsDisabled =
+    hasRiskAnalysisVersionMismatch || isEServiceDescriptorArchived || isAgreementArchived
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
 
   const handleDeleteDraft = () => {
-    if (!purpose) return
     deleteDraft(
       { purposeId },
       {
@@ -44,23 +58,22 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   }
 
   const handleEditDraft = () => {
-    if (!purpose) return
     navigate('SUBSCRIBE_PURPOSE_EDIT', {
       params: {
-        purposeId: purposeId,
+        purposeId,
       },
     })
   }
 
   const handlePublishDraft = () => {
-    if (!purpose || !purpose.currentVersion) return
+    if (!purpose?.currentVersion) return
     publishDraft(
       { purposeId, versionId: purpose.currentVersion.id },
       {
         onSuccess() {
           navigate('SUBSCRIBE_PURPOSE_DETAILS', {
             params: {
-              purposeId: purposeId,
+              purposeId,
             },
           })
         },
@@ -75,33 +88,39 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         label: t('backToListBtn'),
         to: 'SUBSCRIBE_PURPOSE_LIST',
       }}
-      isLoading={isInitialLoading}
-      statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
+      statusChip={purpose ? { for: 'purpose', purpose } : undefined}
     >
-      <Alert severity="info" sx={{ mb: 3 }}>
-        <Trans
-          components={{
-            strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-          }}
-        >
-          {t('summary.clientsAlert')}
-        </Trans>
-      </Alert>
-      {!purpose && isInitialLoading ? (
-        <Stack spacing={3}>
-          <SummaryAccordionSkeleton />
-          <SummaryAccordionSkeleton />
-        </Stack>
-      ) : (
-        <Stack spacing={3}>
+      <Stack spacing={3} sx={{ mb: 3 }}>
+        <Alert severity="info">
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+            }}
+          >
+            {t('summary.alerts.associationRemoved')}
+          </Trans>
+        </Alert>
+        {hasRiskAnalysisVersionMismatch && (
+          <Alert severity="warning">{t('summary.alerts.newRiskAnalysisAvailable')}</Alert>
+        )}
+        {(isEServiceDescriptorArchived || isAgreementArchived) && (
+          <Alert severity="warning">{t('summary.alerts.descriptorOrAgreementArchived')}</Alert>
+        )}
+      </Stack>
+
+      <Stack spacing={3}>
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
-            {purpose && <ConsumerPurposeSummaryGeneralInformationAccordion purpose={purpose} />}
+            <ConsumerPurposeSummaryGeneralInformationAccordion purposeId={purposeId} />
           </SummaryAccordion>
+        </React.Suspense>
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion headline="2" title={t('summary.riskAnalysisSection.title')}>
-            {purpose && <ConsumerPurposeSummaryRiskAnalysisAccordion purpose={purpose} />}
+            <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
           </SummaryAccordion>
-        </Stack>
-      )}
+        </React.Suspense>
+      </Stack>
+
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
           startIcon={<DeleteOutlineIcon />}
@@ -111,10 +130,20 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         >
           {tCommon('deleteDraft')}
         </Button>
-        <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+        <Button
+          disabled={arePublishOrEditButtonsDisabled}
+          startIcon={<CreateIcon />}
+          variant="text"
+          onClick={handleEditDraft}
+        >
           {tCommon('editDraft')}
         </Button>
-        <Button startIcon={<PublishIcon />} variant="contained" onClick={handlePublishDraft}>
+        <Button
+          disabled={arePublishOrEditButtonsDisabled}
+          startIcon={<PublishIcon />}
+          variant="contained"
+          onClick={handlePublishDraft}
+        >
           {tCommon('publish')}
         </Button>
       </Stack>
