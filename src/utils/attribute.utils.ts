@@ -127,7 +127,7 @@ export function isAttributeOwned(
     case 'certified':
       return !isAttributeRevoked('certified', match)
     case 'verified':
-      return !isOwnedVerifiedAttributeExpired(match as VerifiedTenantAttribute, verifierId)
+      return isOwnedVerifiedAttributeNotExpired(match as VerifiedTenantAttribute, verifierId)
     case 'declared':
       return !isAttributeRevoked('declared', match)
     default:
@@ -267,13 +267,12 @@ export const remapDescriptorAttributesToDescriptorAttributesSeed = (
  * @param verifierId - The ID of the verifier (optional).
  * @return {boolean} True if the attribute is expired, false otherwise.
  */
-const isOwnedVerifiedAttributeExpired = (
+const isOwnedVerifiedAttributeNotExpired = (
   attribute: VerifiedTenantAttribute,
   verifierId?: string
 ): boolean => {
   const today = Date.now()
-  return attribute.verifiedBy.some(
-    (it) =>
-      it.id === verifierId && it.extensionDate && new Date(it.extensionDate).getTime() <= today
+  return attribute.verifiedBy.some((it) =>
+    it.id === verifierId && it.extensionDate ? today <= new Date(it.extensionDate).getTime() : true
   )
 }
