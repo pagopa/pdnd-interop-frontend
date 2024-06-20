@@ -1,7 +1,7 @@
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack, Typography } from '@mui/material'
+import { Alert, Button, Stack } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -15,6 +15,8 @@ import {
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
+import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
+import { useCheckRiskAnalysisVersionMismatch } from '@/hooks/useCheckRiskAnalysisVersionMismatch'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -28,20 +30,13 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     suspense: false,
   })
 
-  const { data: latestRiskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
-    suspense: false,
-  })
-
-  const isAgreementArchived = purpose?.agreement.state === 'ARCHIVED'
-  const isEServiceDescriptorArchived = purpose?.eservice.descriptor.state === 'ARCHIVED'
-
-  const hasRiskAnalysisVersionMismatch =
-    !!purpose?.riskAnalysisForm &&
-    latestRiskAnalysis &&
-    purpose.riskAnalysisForm.version !== latestRiskAnalysis.version
+  const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
+  const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
   const arePublishOrEditButtonsDisabled =
-    hasRiskAnalysisVersionMismatch || isEServiceDescriptorArchived || isAgreementArchived
+    hasRiskAnalysisVersionMismatch ||
+    purpose?.agreement.state === 'ARCHIVED' ||
+    purpose?.eservice.descriptor.state === 'ARCHIVED'
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
@@ -90,23 +85,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       }}
       statusChip={purpose ? { for: 'purpose', purpose } : undefined}
     >
-      <Stack spacing={3} sx={{ mb: 3 }}>
-        <Alert severity="info">
-          <Trans
-            components={{
-              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-            }}
-          >
-            {t('summary.alerts.associationRemoved')}
-          </Trans>
-        </Alert>
-        {hasRiskAnalysisVersionMismatch && (
-          <Alert severity="warning">{t('summary.alerts.newRiskAnalysisAvailable')}</Alert>
-        )}
-        {(isEServiceDescriptorArchived || isAgreementArchived) && (
-          <Alert severity="warning">{t('summary.alerts.descriptorOrAgreementArchived')}</Alert>
-        )}
-      </Stack>
+      {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
 
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
