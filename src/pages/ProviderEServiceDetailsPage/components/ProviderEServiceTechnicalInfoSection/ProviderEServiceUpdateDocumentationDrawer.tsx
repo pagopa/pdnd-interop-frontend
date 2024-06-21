@@ -112,11 +112,22 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
 
   const handleCloseDrawer = () => {
     onClose()
+  }
+
+  const handleTransitionExited = () => {
     setShowWriteDocInput(false)
+    paginationProps.onPageChange(1)
+    formMethods.reset(defaultValues)
   }
 
   return (
-    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('title')} subtitle={t('subtitle')}>
+    <Drawer
+      isOpen={isOpen}
+      onClose={handleCloseDrawer}
+      title={t('title')}
+      subtitle={t('subtitle')}
+      onTransitionExited={handleTransitionExited}
+    >
       <Stack spacing={4} pb={4}>
         {paginatedDocs.map((doc, index) => {
           if (!doc) return null
