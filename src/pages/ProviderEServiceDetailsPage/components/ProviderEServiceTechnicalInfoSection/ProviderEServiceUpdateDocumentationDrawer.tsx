@@ -49,8 +49,10 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 3 })
 
-  const paginatedDocs =
-    docs?.slice(paginationParams.offset, paginationParams.offset + paginationParams.limit) || []
+  const paginatedDocs = docs.slice(
+    paginationParams.offset,
+    paginationParams.offset + paginationParams.limit
+  )
 
   const handleShowFileInput = () => {
     setShowWriteDocInput(true)
