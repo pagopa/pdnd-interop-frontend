@@ -389,6 +389,7 @@ function usePostVersionDraftDocument() {
   })
   return useMutation(EServiceServices.postVersionDraftDocument, {
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },
@@ -401,6 +402,7 @@ function useDeleteVersionDraftDocument() {
   })
   return useMutation(EServiceServices.deleteVersionDraftDocument, {
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },
@@ -413,6 +415,7 @@ function useUpdateVersionDraftDocumentDescription() {
   })
   return useMutation(EServiceServices.updateVersionDraftDocumentDescription, {
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },

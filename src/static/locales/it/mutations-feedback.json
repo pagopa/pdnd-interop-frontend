@@ -134,18 +134,21 @@
     "postVersionDraftDocument": {
       "loading": "Stiamo caricando il documento",
       "outcome": {
+        "success": "Il nuovo documento è stato caricato correttamente",
         "error": "Non è stato possibile caricare il documento. Assicurati di aver caricato il documento corretto. Per favore, riprova! Attenzione: il documento non può contenere la stringa \"localhost\"."
       }
     },
     "deleteVersionDraftDocument": {
       "loading": "Stiamo eliminando il documento",
       "outcome": {
+        "success": "Il documento è stato cancellato correttamente",
         "error": "Non è stato possibile eliminare il documento. Per favore, riprova!"
       }
     },
     "updateVersionDraftDocumentDescription": {
       "loading": "Stiamo aggiornando la descrizione del documento",
       "outcome": {
+        "success": "La descrizione del documento è stata aggiornata correttamente",
         "error": "Non è stato possibile aggiornare la descrizione. Per favore, riprova!"
       }
     },
