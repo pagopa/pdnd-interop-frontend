@@ -47,4 +47,17 @@ describe('DocumentContainer', () => {
     await user.tab()
     expect(onUpdateDescription).toBeCalledWith('document new name')
   })
+
+  it('should match snapshot with isDrawerStyle passed true', () => {
+    const screen = render(
+      <DocumentContainer
+        doc={docMock}
+        isDrawerStyle
+        onUpdateDescription={vi.fn()}
+        onDelete={vi.fn()}
+        onDownload={vi.fn()}
+      />
+    )
+    expect(screen.baseElement).toMatchSnapshot()
+  })
 })
