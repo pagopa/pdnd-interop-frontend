@@ -2,6 +2,7 @@ import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { Box, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -28,7 +29,7 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
   const { mutate: updateVersion } = EServiceMutations.useUpdateVersion()
 
   const defaultValues = {
-    voucherLifespan: descriptor.voucherLifespan ?? 1,
+    voucherLifespan: descriptor.voucherLifespan ? secondsToMinutes(descriptor.voucherLifespan) : 1,
     dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
     dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
   }
@@ -40,7 +41,7 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
       {
         eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
-        voucherLifespan: values.voucherLifespan,
+        voucherLifespan: minutesToSeconds(values.voucherLifespan),
         dailyCallsPerConsumer: values.dailyCallsPerConsumer,
         dailyCallsTotal: values.dailyCallsTotal,
       },
