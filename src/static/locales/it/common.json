@@ -36,7 +36,8 @@
     "publishDraft": "Pubblica bozza",
     "editDraft": "Modifica bozza",
     "insert": "Inserisci",
-    "revoke": "Revoca"
+    "revoke": "Revoca",
+    "upload": "Carica"
   },
   "table": {
     "headData": {

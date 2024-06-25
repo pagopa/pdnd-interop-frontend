@@ -134,18 +134,21 @@
     "postVersionDraftDocument": {
       "loading": "Uploading document",
       "outcome": {
+        "success": "The new document was uploaded successfully",
         "error": "The document could not be uploaded. Please make sure that you uploaded the right document. Please, try again! Note: it cannot contain the string \"localhost\"."
       }
     },
     "deleteVersionDraftDocument": {
       "loading": "Deleting document",
       "outcome": {
+        "success": "The document was deleted successfully",
         "error": "The document could not be deleted. Please, try again!"
       }
     },
     "updateVersionDraftDocumentDescription": {
       "loading": "Updating document name",
       "outcome": {
+        "success": "The document description was updated successfully",
         "error": "The document name could not be updated. Please, try again!"
       }
     },

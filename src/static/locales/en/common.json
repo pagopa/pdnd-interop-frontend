@@ -36,7 +36,8 @@
     "publishDraft": "Publish draft",
     "editDraft": "Edit draft",
     "insert": "Insert",
-    "revoke": "Revoke"
+    "revoke": "Revoke",
+    "upload": "Upload"
   },
   "table": {
     "headData": {

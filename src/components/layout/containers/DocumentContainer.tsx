@@ -15,6 +15,7 @@ type DocumentContainerProps = {
   onDelete?: (document: EServiceDoc) => void
   onUpdateDescription?: (newDescription: string) => void
   sx?: SxProps
+  isDrawerStyle?: boolean
 }
 
 export function DocumentContainer({
@@ -23,6 +24,7 @@ export function DocumentContainer({
   onDelete,
   onUpdateDescription,
   sx,
+  isDrawerStyle = false,
 }: DocumentContainerProps) {
   const { t } = useTranslation('shared-components', { keyPrefix: 'documentContainer' })
   const [canEdit, setCanEdit] = useState(false)
@@ -41,7 +43,7 @@ export function DocumentContainer({
   }
 
   return (
-    <Stack sx={sx} direction="row" justifyContent="space-between">
+    <Stack sx={sx} direction={isDrawerStyle ? 'column' : 'row'} justifyContent="space-between">
       <InputWrapper
         sx={{ my: 0, width: '100%' }}
         infoLabel={canEdit ? t('prettyName.infoLabel') : undefined}
@@ -56,25 +58,37 @@ export function DocumentContainer({
           onChange={(e) => setNewValue(e.target.value)}
           onBlur={handleUpdateDescription}
           inputProps={{ maxLength: 60 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <AttachFileIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
+          size={isDrawerStyle ? 'small' : undefined}
+          InputProps={
+            isDrawerStyle
+              ? undefined
+              : {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AttachFileIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                }
+          }
         />
       </InputWrapper>
 
-      <Stack direction="row" alignItems="start" sx={{ flexShrink: 0, ml: 1, mt: 0.8 }}>
+      <Stack
+        direction="row"
+        alignItems="start"
+        sx={isDrawerStyle ? undefined : { flexShrink: 0, ml: 1, mt: 0.8 }}
+        spacing={isDrawerStyle ? 1 : undefined}
+        justifyContent={isDrawerStyle ? 'end' : undefined}
+      >
         {onUpdateDescription && (
           <Tooltip title={t('editDocumentName')}>
             <Button
               sx={{
-                p: 1,
                 bgcolor: canEdit ? 'primary.main' : 'transparent',
                 color: canEdit ? 'common.white' : 'primary.main',
+                p: 1,
               }}
+              variant={isDrawerStyle ? 'naked' : undefined}
               onClick={handleStartEditing}
             >
               <ModeEditIcon fontSize="small" />
@@ -83,14 +97,23 @@ export function DocumentContainer({
         )}
         {onDownload && (
           <Tooltip title={t('downloadDocument')}>
-            <Button sx={{ p: 1 }} onClick={onDownload.bind(null, doc)}>
+            <Button
+              sx={{ p: 1 }}
+              onClick={onDownload.bind(null, doc)}
+              variant={isDrawerStyle ? 'naked' : undefined}
+            >
               <DownloadIcon fontSize="small" />
             </Button>
           </Tooltip>
         )}
         {onDelete && (
           <Tooltip title={t('deleteDocument')}>
-            <Button color="error" sx={{ p: 1 }} onClick={onDelete.bind(null, doc)}>
+            <Button
+              color="error"
+              sx={{ p: 1 }}
+              onClick={onDelete.bind(null, doc)}
+              variant={isDrawerStyle ? 'naked' : undefined}
+            >
               <DeleteIcon fontSize="small" />
             </Button>
           </Tooltip>

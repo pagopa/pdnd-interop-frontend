@@ -270,7 +270,8 @@
           }
         },
         "documentation": {
-          "title": "Documentation"
+          "title": "Documentation",
+          "label": "Documents list"
         },
         "usefulLinks": {
           "title": "Useful links",
@@ -335,6 +336,16 @@
         "label": "Select version",
         "currentVersion": "{{ versionNum }} - current versino",
         "goToSelectedVersion": "Go to the selected version"
+      },
+      "updateDocumentationDrawer": {
+        "title": "Modifica documentazione",
+        "subtitle": "Ora puoi modificare, scaricare ed eliminare i documenti allegati all’e-service.",
+        "addDocumentLabel": "Aggiungi documentazione",
+        "nameField": {
+          "label": "Nome documento"
+        },
+        "interfaceInfoTooltip": "Il file “Specifica API” non è modificabile. Per aggiornarlo, crea una nuova versione.",
+        "downloadDocumentTooltip": "Scarica documento"
       }
     }
   },
