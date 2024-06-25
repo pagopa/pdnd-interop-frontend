@@ -1,4 +1,5 @@
 import { useLoadingOverlay, useToastNotification } from '@/stores'
+import type { FileResource } from '../api.generatedTypes'
 
 export function downloadFile(responseData: File | string, filename = 'download') {
   const blob = new Blob([responseData], { type: 'application/octet-stream' })
@@ -30,6 +31,35 @@ export function useDownloadFile<T = unknown[]>(
     try {
       const data = await service(args)
       downloadFile(data, filename)
+      config.successToastLabel && showToast(config.successToastLabel, 'success')
+    } catch (error) {
+      console.error(error)
+      config.errorToastLabel && showToast(config.errorToastLabel, 'error')
+    } finally {
+      hideOverlay()
+    }
+  }
+}
+
+/**
+ * Downloads a file resource using the provided service function.
+ *
+ * It is intended for use with service functions that return a FileResource object.
+ * This way we can avoid modifying the useDownloadFile function by adding a type check on the service response.
+ */
+export function useDownloadFileResource<T = unknown[]>(
+  service: (args: T) => Promise<FileResource>,
+  config: { errorToastLabel?: string; successToastLabel?: string; loadingLabel: string }
+) {
+  const { showOverlay, hideOverlay } = useLoadingOverlay()
+  const { showToast } = useToastNotification()
+
+  return async (args: T) => {
+    showOverlay(config.loadingLabel)
+    try {
+      const data = await service(args)
+      console.log('data', data)
+      downloadFile(data.url, data.filename)
       config.successToastLabel && showToast(config.successToastLabel, 'success')
     } catch (error) {
       console.error(error)
