@@ -58,7 +58,6 @@ export function useDownloadFileResource<T = unknown[]>(
     showOverlay(config.loadingLabel)
     try {
       const data = await service(args)
-      console.log('data', data)
       downloadFile(data.url, data.filename)
       config.successToastLabel && showToast(config.successToastLabel, 'success')
     } catch (error) {
