@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { secondsToMinutes } from '@/utils/format.utils'
+import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderEServiceUpdateThresholdsDrawer } from './ProviderEServiceUpdateThresholdsDrawer'
 
@@ -54,13 +54,13 @@ export const ProviderEServiceThresholdsSection: React.FC<
           <InformationContainer
             label={t('thresholds.dailyCallsPerConsumer.label')}
             labelDescription={t('thresholds.dailyCallsPerConsumer.labelDescription')}
-            content={`${descriptor.dailyCallsPerConsumer}`}
+            content={`${formatThousands(descriptor.dailyCallsPerConsumer)}`}
           />
 
           <InformationContainer
             label={t('thresholds.dailyCallsTotal.label')}
             labelDescription={t('thresholds.dailyCallsTotal.labelDescription')}
-            content={`${descriptor.dailyCallsTotal}`}
+            content={`${formatThousands(descriptor.dailyCallsTotal)}`}
           />
         </Stack>
       </SectionContainer>
