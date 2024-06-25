@@ -1,5 +1,4 @@
 import { useLoadingOverlay, useToastNotification } from '@/stores'
-import type { FileResource } from '../api.generatedTypes'
 
 export function downloadFile(responseData: File | string, filename = 'download') {
   const blob = new Blob([responseData], { type: 'application/octet-stream' })
@@ -20,7 +19,7 @@ export function downloadFile(responseData: File | string, filename = 'download')
 }
 
 export function useDownloadFile<T = unknown[]>(
-  service: (args: T) => Promise<File | string>,
+  service: (args: T) => Promise<File | string | { file: File; filename: string }>,
   config: { errorToastLabel?: string; successToastLabel?: string; loadingLabel: string }
 ) {
   const { showOverlay, hideOverlay } = useLoadingOverlay()
@@ -30,35 +29,13 @@ export function useDownloadFile<T = unknown[]>(
     showOverlay(config.loadingLabel)
     try {
       const data = await service(args)
-      downloadFile(data, filename)
-      config.successToastLabel && showToast(config.successToastLabel, 'success')
-    } catch (error) {
-      console.error(error)
-      config.errorToastLabel && showToast(config.errorToastLabel, 'error')
-    } finally {
-      hideOverlay()
-    }
-  }
-}
 
-/**
- * Downloads a file resource using the provided service function.
- *
- * It is intended for use with service functions that return a FileResource object.
- * This way we can avoid modifying the useDownloadFile function by adding a type check on the service response.
- */
-export function useDownloadFileResource<T = unknown[]>(
-  service: (args: T) => Promise<FileResource>,
-  config: { errorToastLabel?: string; successToastLabel?: string; loadingLabel: string }
-) {
-  const { showOverlay, hideOverlay } = useLoadingOverlay()
-  const { showToast } = useToastNotification()
+      if (typeof data === 'object') {
+        downloadFile(data.file, data.filename)
+      } else {
+        downloadFile(data, filename)
+      }
 
-  return async (args: T) => {
-    showOverlay(config.loadingLabel)
-    try {
-      const data = await service(args)
-      downloadFile(data.url, data.filename)
       config.successToastLabel && showToast(config.successToastLabel, 'success')
     } catch (error) {
       console.error(error)

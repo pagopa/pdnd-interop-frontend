@@ -343,7 +343,15 @@ async function exportVersion({
     `${BACKEND_FOR_FRONTEND_URL}/export/eservices/${eserviceId}/descriptors/${descriptorId}`
   )
 
-  return response.data
+  const file = await axiosInstance.get<File>(response.data.url, {
+    transformRequest: (data, headers) => {
+      delete headers['Authorization']
+      return data
+    },
+    responseType: 'arraybuffer',
+  })
+
+  return { file: file.data, filename: response.data.filename }
 }
 
 const EServiceServices = {

@@ -1,7 +1,7 @@
 import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import EServiceServices from './eservice.services'
-import { useDownloadFile, useDownloadFileResource } from '../hooks/useDownloadFile'
+import { useDownloadFile } from '../hooks/useDownloadFile'
 import type {
   CatalogEServices,
   CompactOrganizations,
@@ -447,7 +447,7 @@ function useExportVersion() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.exportVersion',
   })
-  return useDownloadFileResource(EServiceServices.exportVersion, {
+  return useDownloadFile(EServiceServices.exportVersion, {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
   })
