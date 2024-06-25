@@ -238,7 +238,8 @@
           "navigateVersions": "Navigate to another e-service version",
           "showTechnicalDetails": "Show e-service technical details",
           "downloadConsumerList": "Download consumer list",
-          "showProducerContacts": "Show producer contacts"
+          "showProducerContacts": "Show producer contacts",
+          "exportVersion": "Download this e-service version"
         }
       },
       "technicalInformations": {
