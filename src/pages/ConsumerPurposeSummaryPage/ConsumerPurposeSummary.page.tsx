@@ -15,6 +15,7 @@ import {
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
+import useGetPurposeSummaryAlertProps from './hooks/useGetRiskAnalysisVersionAlertProps'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -27,6 +28,8 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId, {
     suspense: false,
   })
+
+  const alertProps = useGetPurposeSummaryAlertProps(purposeId)
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
@@ -78,15 +81,17 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       isLoading={isInitialLoading}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
     >
-      <Alert severity="info" sx={{ mb: 3 }}>
-        <Trans
-          components={{
-            strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-          }}
-        >
-          {t('summary.clientsAlert')}
-        </Trans>
-      </Alert>
+      {alertProps && (
+        <Alert severity={alertProps.severity} sx={{ mb: 3 }}>
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+            }}
+          >
+            {alertProps.content}
+          </Trans>
+        </Alert>
+      )}
       {!purpose && isInitialLoading ? (
         <Stack spacing={3}>
           <SummaryAccordionSkeleton />
@@ -111,10 +116,20 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         >
           {tCommon('deleteDraft')}
         </Button>
-        <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+        <Button
+          startIcon={<CreateIcon />}
+          variant="text"
+          onClick={handleEditDraft}
+          disabled={!alertProps || alertProps?.isRiskAnalysisVersionObsolete}
+        >
           {tCommon('editDraft')}
         </Button>
-        <Button startIcon={<PublishIcon />} variant="contained" onClick={handlePublishDraft}>
+        <Button
+          startIcon={<PublishIcon />}
+          variant="contained"
+          onClick={handlePublishDraft}
+          disabled={!alertProps || alertProps?.isRiskAnalysisVersionObsolete}
+        >
           {tCommon('publish')}
         </Button>
       </Stack>

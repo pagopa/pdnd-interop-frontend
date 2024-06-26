@@ -85,6 +85,7 @@
   "summary": {
     "title": "Riepilogo",
     "clientsAlert": "All’interno del processo <strong>è stata rimossa l’associazione del client</strong>. Sarà possibile associare uno o più client solo dopo l’attivazione della finalità.",
+    "obsoleteRiskAnalysisAlert": "La versione del rischio compilata è obsoleta. Non è possibile pubblicare questa finalità. Elimina la bozza e crea una nuova finalità",
     "generalInformationSection": {
       "title": "Informazioni generali",
       "eservice": {
