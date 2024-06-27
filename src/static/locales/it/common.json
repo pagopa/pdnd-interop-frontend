@@ -37,7 +37,8 @@
     "editDraft": "Modifica bozza",
     "insert": "Inserisci",
     "revoke": "Revoca",
-    "upload": "Carica"
+    "upload": "Carica",
+    "import": "Importa"
   },
   "table": {
     "headData": {

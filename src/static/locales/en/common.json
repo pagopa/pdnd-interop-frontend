@@ -37,7 +37,8 @@
     "editDraft": "Edit draft",
     "insert": "Insert",
     "revoke": "Revoke",
-    "upload": "Upload"
+    "upload": "Upload",
+    "import": "Import"
   },
   "table": {
     "headData": {
