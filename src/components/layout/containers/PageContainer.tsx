@@ -125,7 +125,7 @@ const PageContainerActions: React.FC<PageContainerActionsProps> = ({
       justifyContent="space-between"
     >
       <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
-      <Box>
+      <Stack direction="row" spacing={1}>
         {topSideActions &&
           topSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
             const Wrapper = tooltip
@@ -151,7 +151,7 @@ const PageContainerActions: React.FC<PageContainerActionsProps> = ({
               </Wrapper>
             )
           })}
-      </Box>
+      </Stack>
     </Stack>
   )
 }
