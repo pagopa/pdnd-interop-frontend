@@ -31,7 +31,6 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
 
   const formMethods = useForm({
     defaultValues,
-    shouldUnregister: true,
   })
 
   const [isConfirmedImport, setIsConfirmedImport] = React.useState<boolean>(false)
@@ -67,11 +66,6 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
     onClose()
   }
 
-  const handleTransitionExited = () => {
-    setIsConfirmedImport(false)
-    formMethods.reset(defaultValues)
-  }
-
   return (
     <FormProvider {...formMethods}>
       <Drawer
@@ -97,7 +91,6 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
               }
             : undefined
         }
-        onTransitionExited={handleTransitionExited}
       >
         <Box component="form" noValidate>
           <RHFSingleFileInput sx={{ my: 0 }} name="eserviceFile" rules={{ required: true }} />
