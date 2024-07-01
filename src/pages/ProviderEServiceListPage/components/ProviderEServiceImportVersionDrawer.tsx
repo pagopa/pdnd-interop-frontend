@@ -45,10 +45,7 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
   const { mutate: importVersion } = EServiceMutations.useImportVersion()
 
   const onSubmit = async (values: EServiceImportVersionDocFormValues) => {
-    // console.log('TODO Submit form', values)
     if (!values.eserviceFile || !isConfirmedImport) return
-
-    // console.log('TODO fileName:', values.eserviceFile.name)
 
     importVersion(
       { eserviceFile: values.eserviceFile },

@@ -356,20 +356,14 @@ async function exportVersion({
 }
 
 async function importVersion({ eserviceFile }: { eserviceFile: File }) {
-  // const fileName = eserviceFile.name.split('.')[0] /* Name without the extension file */
-  const fileName = eserviceFile.name /* Name with the extension file */
+  const fileName = eserviceFile.name
   const { data: presignedUrl } = await axiosInstance.get<PresignedUrl>(
     `${BACKEND_FOR_FRONTEND_URL}/import/eservices/presignedUrl`,
     { params: { fileName } }
   )
 
-  console.log('PresignedURL:', presignedUrl)
-  console.log('File name:', fileName)
-
   const formData = new FormData()
   Object.entries(eserviceFile).forEach(([key, data]) => formData.append(key, data))
-
-  console.log('E-service file (formData):', formData)
 
   return await axiosInstance
     .put(presignedUrl.url, formData, {
