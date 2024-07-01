@@ -12,6 +12,7 @@ import type {
   EServiceRiskAnalysis,
   EServiceRiskAnalysisSeed,
   EServiceSeed,
+  FileResource,
   GetConsumersParams,
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
@@ -331,6 +332,28 @@ async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
   return response.data
 }
 
+async function exportVersion({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  const response = await axiosInstance.get<FileResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/export/eservices/${eserviceId}/descriptors/${descriptorId}`
+  )
+
+  const file = await axiosInstance.get<File>(response.data.url, {
+    transformRequest: (data, headers) => {
+      delete headers['Authorization']
+      return data
+    },
+    responseType: 'arraybuffer',
+  })
+
+  return { file: file.data, filename: response.data.filename }
+}
+
 const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -359,6 +382,7 @@ const EServiceServices = {
   updateVersionDraftDocumentDescription,
   downloadVersionDraftDocument,
   downloadConsumerList,
+  exportVersion,
 }
 
 export default EServiceServices

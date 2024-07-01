@@ -443,6 +443,16 @@ function useDownloadConsumerList() {
   })
 }
 
+function useExportVersion() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.exportVersion',
+  })
+  return useDownloadFile(EServiceServices.exportVersion, {
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+  })
+}
+
 export const EServiceQueries = {
   useGetCatalogList,
   useGetProviderList,
@@ -480,4 +490,5 @@ export const EServiceMutations = {
 export const EServiceDownloads = {
   useDownloadVersionDocument,
   useDownloadConsumerList,
+  useExportVersion,
 }

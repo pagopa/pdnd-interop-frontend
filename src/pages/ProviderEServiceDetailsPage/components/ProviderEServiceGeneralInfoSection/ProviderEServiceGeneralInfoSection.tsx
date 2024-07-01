@@ -22,6 +22,8 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
 
+  const exportVersion = EServiceDownloads.useExportVersion()
+
   const {
     isOpen: isVersionSelectorDrawerOpen,
     openDrawer: openVersionSelectorDrawer,
@@ -38,6 +40,10 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         eserviceName: descriptor.eservice.name,
       })
     )
+  }
+
+  const handleExportVersion = () => {
+    exportVersion({ eserviceId, descriptorId })
   }
 
   const hasSingleVersion =
@@ -57,6 +63,13 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     label: t('bottomActions.downloadConsumerList'),
   }
 
+  const exportVersionListAction = {
+    startIcon: <DownloadIcon fontSize="small" />,
+    component: 'button',
+    onClick: handleExportVersion,
+    label: t('bottomActions.exportVersion'),
+  }
+
   return (
     <>
       <SectionContainer
@@ -64,6 +77,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         bottomActions={[
           ...(!hasSingleVersion ? [navigateVersionsAction] : []),
           downloadConsumerListAction,
+          exportVersionListAction,
         ]}
       >
         <Stack spacing={2}>

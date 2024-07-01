@@ -3,6 +3,12 @@
     "loadingLabel": "Stiamo autenticando la sessione. Attendere, prego"
   },
   "eservice": {
+    "exportVersion": {
+      "loading": "Stiamo esportando la versione e-service",
+      "outcome": {
+        "error": "Non è stato possibile esportare la versione dell'e-service. Per favore, riprova!"
+      }
+    },
     "createDraft": {
       "loading": "Stiamo creando la bozza",
       "outcome": {

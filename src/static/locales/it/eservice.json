@@ -238,7 +238,8 @@
           "navigateVersions": "Naviga a un’altra versione dell’e-service",
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
           "downloadConsumerList": "Scarica l'elenco dei fruitori",
-          "showProducerContacts": "Visualizza i contatti dell’erogatore"
+          "showProducerContacts": "Visualizza i contatti dell’erogatore",
+          "exportVersion": "Scarica questa versione dell’e-service"
         }
       },
       "technicalInformations": {
