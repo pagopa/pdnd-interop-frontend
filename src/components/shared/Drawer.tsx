@@ -1,6 +1,14 @@
 import React from 'react'
 import type { ButtonProps } from '@mui/material'
-import { Box, Button, Drawer as MUIDrawer, IconButton, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Drawer as MUIDrawer,
+  IconButton,
+  Stack,
+  Typography,
+  Tooltip,
+} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { useTranslation } from 'react-i18next'
 import type { ActionItem } from '@/types/common.types'
@@ -14,6 +22,7 @@ export type DrawerProps = {
     disabled?: boolean
     variant?: ButtonProps['variant']
     color?: ButtonProps['color']
+    disabledTooltip?: string
   }
   children: React.ReactNode
   onTransitionExited?: VoidFunction
@@ -75,15 +84,19 @@ export const Drawer: React.FC<DrawerProps> = ({
 
         {buttonAction && (
           <Box sx={{ pb: 4, mt: 0.5 }} width={327} display="flex" alignItems="flex-end">
-            <Button
-              disabled={buttonAction.disabled}
-              variant={buttonAction.variant ?? 'contained'}
-              color={buttonAction.color ?? 'primary'}
-              fullWidth
-              onClick={buttonAction.action}
-            >
-              {buttonAction.label}
-            </Button>
+            <Tooltip arrow title={buttonAction.disabled ? buttonAction.disabledTooltip : undefined}>
+              <span tabIndex={buttonAction.disabled ? 0 : undefined} style={{ width: '100%' }}>
+                <Button
+                  disabled={buttonAction.disabled}
+                  variant={buttonAction.variant ?? 'contained'}
+                  color={buttonAction.color ?? 'primary'}
+                  fullWidth
+                  onClick={buttonAction.action}
+                >
+                  {buttonAction.label}
+                </Button>
+              </span>
+            </Tooltip>
           </Box>
         )}
       </Stack>

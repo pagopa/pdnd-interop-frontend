@@ -2874,7 +2874,7 @@ export namespace Import {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = CreatedResource
+    export type ResponseBody = CreatedEServiceDescriptor
   }
 }
 

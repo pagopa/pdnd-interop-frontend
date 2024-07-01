@@ -17,6 +17,7 @@ import type {
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
   GetProducersParams,
+  PresignedUrl,
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
   ProducerEServices,
@@ -354,6 +355,41 @@ async function exportVersion({
   return { file: file.data, filename: response.data.filename }
 }
 
+async function importVersion({ eserviceFile }: { eserviceFile: File }) {
+  const fileName = eserviceFile.name
+  const { data: presignedUrl } = await axiosInstance.get<PresignedUrl>(
+    `${BACKEND_FOR_FRONTEND_URL}/import/eservices/presignedUrl`,
+    { params: { fileName } }
+  )
+
+  const formData = new FormData()
+  Object.entries(eserviceFile).forEach(([key, data]) => formData.append(key, data))
+
+  return await axiosInstance
+    .put(presignedUrl.url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      transformRequest: (data, headers) => {
+        delete headers['Authorization']
+        return data
+      },
+    })
+    .then(async () => {
+      const eserviceFileResource: FileResource = {
+        filename: fileName,
+        url: presignedUrl.url,
+      }
+
+      const responseImport = await axiosInstance.post<CreatedEServiceDescriptor>(
+        `${BACKEND_FOR_FRONTEND_URL}/import/eservices`,
+        eserviceFileResource
+      )
+
+      return responseImport.data
+    })
+}
+
 const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -383,6 +419,7 @@ const EServiceServices = {
   downloadVersionDraftDocument,
   downloadConsumerList,
   exportVersion,
+  importVersion,
 }
 
 export default EServiceServices

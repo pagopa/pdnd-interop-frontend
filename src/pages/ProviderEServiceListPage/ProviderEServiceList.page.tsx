@@ -14,7 +14,10 @@ import {
 import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
 import type { ActionItemButton } from '@/types/common.types'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import { ProviderEServiceImportVersionDrawer } from './components/ProviderEServiceImportVersionDrawer'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
@@ -23,6 +26,8 @@ const ProviderEServiceListPage: React.FC = () => {
   const navigate = useNavigate()
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const [consumersAutocompleteInput, setConsumersAutocompleteInput] = useAutocompleteTextInput('')
+
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const { data: consumers } = EServiceQueries.useGetConsumers(
     { offset: 0, limit: 50, q: consumersAutocompleteInput },
@@ -58,6 +63,12 @@ const ProviderEServiceListPage: React.FC = () => {
 
   const topSideActions: Array<ActionItemButton> = [
     {
+      action: openDrawer,
+      label: tCommon('actions.import'),
+      variant: 'outlined',
+      icon: UploadFileIcon,
+    },
+    {
       action: () => navigate('PROVIDE_ESERVICE_CREATE'),
       label: tCommon('createNewBtn'),
       variant: 'contained',
@@ -77,6 +88,7 @@ const ProviderEServiceListPage: React.FC = () => {
         {...paginationProps}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
+      <ProviderEServiceImportVersionDrawer isOpen={isOpen} onClose={closeDrawer} />
     </PageContainer>
   )
 }

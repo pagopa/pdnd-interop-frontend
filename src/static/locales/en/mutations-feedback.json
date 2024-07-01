@@ -9,6 +9,13 @@
         "error": "E-service version could not be exported. Try again, please!"
       }
     },
+    "importVersion": {
+      "loading": "Importing e-service",
+      "outcome": {
+        "error": "The e-service import could not be completed. Please check the file and try again.",
+        "success": "The e-service was imported successfully"
+      }
+    },
     "createDraft": {
       "loading": "Creating draft",
       "outcome": {
