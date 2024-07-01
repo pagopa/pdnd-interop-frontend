@@ -207,6 +207,34 @@
       "consumerField": {
         "label": "Find by consumer"
       }
+    },
+    "drawers": {
+      "importVersionDrawer": {
+        "title": "Import E-Service",
+        "subtitle": "For further doubts and information <1>go to the manual</1>",
+        "disabledImportTooltip": "You cannot import the file. You must first review and confirm the options.",
+        "description": "Before proceeding, check the following sections, then confirm and proceed.",
+        "attributeInfoSection": {
+          "label": "Attributes",
+          "description": "If your e-service includes attributes, you will have to insert them from scratch after uploading this zip."
+        },
+        "eserviceTitleInfoSection": {
+          "label": "E-service title duplicate",
+          "description": "If there already exists an e-service provided by your institution with the same name as the one inserted in this zip, the upload will not be successful."
+        },
+        "structureInfoSection": {
+          "label": "Archive structure",
+          "description": "If you have added/removed/renamed files inside the zip, you have updated the configuration file accordingly."
+        },
+        "apiInterfaceInfoSection": {
+          "label": "API interface",
+          "description": "Make sure you have entered the correct server URLs for delivery."
+        },
+        "confirmationField": {
+          "label": "I have read and confirm",
+          "ariaLabel": "Switch for acknowledgment and confirmation"
+        }
+      }
     }
   },
   "read": {
@@ -238,7 +266,8 @@
           "navigateVersions": "Navigate to another e-service version",
           "showTechnicalDetails": "Show e-service technical details",
           "downloadConsumerList": "Download consumer list",
-          "showProducerContacts": "Show producer contacts"
+          "showProducerContacts": "Show producer contacts",
+          "exportVersion": "Download this e-service version"
         }
       },
       "technicalInformations": {

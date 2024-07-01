@@ -24,6 +24,7 @@ export enum EServiceQueryKeys {
   GetConsumers = 'EServiceGetConsumers',
   GetProducers = 'EServiceGetProducers',
   GetEServiceRiskAnalysis = 'EServiceGetRiskAnalysis',
+  GetImportVersionPresignedUrl = 'EServiceGetImportVersionPresignedUrl',
 }
 
 function useGetCatalogList(
@@ -443,6 +444,27 @@ function useDownloadConsumerList() {
   })
 }
 
+function useExportVersion() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.exportVersion',
+  })
+  return useDownloadFile(EServiceServices.exportVersion, {
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+  })
+}
+
+function useImportVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.importVersion' })
+  return useMutation(EServiceServices.importVersion, {
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
 export const EServiceQueries = {
   useGetCatalogList,
   useGetProviderList,
@@ -475,9 +497,11 @@ export const EServiceMutations = {
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,
   useUpdateVersionDraftDocumentDescription,
+  useImportVersion,
 }
 
 export const EServiceDownloads = {
   useDownloadVersionDocument,
   useDownloadConsumerList,
+  useExportVersion,
 }

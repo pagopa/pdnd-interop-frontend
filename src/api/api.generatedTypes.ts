@@ -17,7 +17,7 @@ export interface RejectPurposeVersionPayload {
 export interface GoogleSAMLPayload {
   /** SAML response */
   SAMLResponse: string
-  RelayState: string | null
+  RelayState?: string | null
 }
 
 export interface SAMLTokenRequest {
@@ -622,6 +622,11 @@ export interface Pagination {
   totalCount: number
 }
 
+export interface PresignedUrl {
+  /** @format uri */
+  url: string
+}
+
 export interface ProducerEService {
   /** @format uuid */
   id: string
@@ -1046,6 +1051,12 @@ export interface ExternalId {
   value: string
 }
 
+export interface FileResource {
+  filename: string
+  /** @format uri */
+  url: string
+}
+
 export type MailKind = 'CONTACT_EMAIL' | 'DIGITAL_ADDRESS'
 
 /** A specific kind of mail */
@@ -1431,6 +1442,10 @@ export interface CreateEServiceDocumentPayload {
   prettyName: string
   /** @format binary */
   doc: File
+}
+
+export interface GetImportEservicePresignedUrlParams {
+  fileName: string
 }
 
 export interface GetProducersParams {
@@ -2796,6 +2811,70 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+  }
+}
+
+export namespace Export {
+  /**
+   * No description
+   * @tags eservices
+   * @name ExportEServiceDescriptor
+   * @summary Export EService descriptor
+   * @request GET:/export/eservices/{eserviceId}/descriptors/{descriptorId}
+   * @secure
+   */
+  export namespace ExportEServiceDescriptor {
+    export type RequestParams = {
+      /** @format uuid */
+      eserviceId: string
+      /** @format uuid */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = FileResource
+  }
+}
+
+export namespace Import {
+  /**
+   * No description
+   * @tags eservices
+   * @name GetImportEservicePresignedUrl
+   * @summary Get presigned URL
+   * @request GET:/import/eservices/presignedUrl
+   * @secure
+   */
+  export namespace GetImportEservicePresignedUrl {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      fileName: string
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = PresignedUrl
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name ImportEService
+   * @summary Import EService
+   * @request POST:/import/eservices
+   * @secure
+   */
+  export namespace ImportEService {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = FileResource
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedEServiceDescriptor
   }
 }
 
@@ -4343,34 +4422,6 @@ export namespace Clients {
       'X-Correlation-Id': string
     }
     export type ResponseBody = EncodedClientKey
-  }
-  /**
-   * @description Given a user and a client it returns its corresponding set of keys, if any
-   * @tags clients
-   * @name GetClientUserKeys
-   * @summary Returns a set of keys by user ID and client ID.
-   * @request GET:/clients/{clientId}/users/{userId}/keys
-   * @secure
-   */
-  export namespace GetClientUserKeys {
-    export type RequestParams = {
-      /**
-       * ID of the client holding the key
-       * @format uuid
-       */
-      clientId: string
-      /**
-       * ID of the User that the added keys MUST belong to
-       * @format uuid
-       */
-      userId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = PublicKeys
   }
 }
 

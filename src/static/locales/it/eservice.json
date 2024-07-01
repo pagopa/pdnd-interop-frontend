@@ -207,6 +207,34 @@
       "consumerField": {
         "label": "Cerca per fruitore"
       }
+    },
+    "drawers": {
+      "importVersionDrawer": {
+        "title": "Importa E-Service",
+        "subtitle": "Per ulteriori dubbi e informazioni <1>vai al manuale</1>",
+        "disabledImportTooltip": "Non puoi importare il file. Devi prima prendere visione e confermare le opzioni.",
+        "description": "Prima di procedere, verifica le seguenti sezioni, successivamente, conferma e procedi.",
+        "attributeInfoSection": {
+          "label": "Attributi",
+          "description": "Se il tuo e-service prevede attributi, dovrai inserirli ex novo dopo aver caricato questo zip."
+        },
+        "eserviceTitleInfoSection": {
+          "label": "Duplicato del titolo e-service",
+          "description": "Se esiste già un e-service erogato dal tuo ente con lo stesso nome di quello inserito in questo zip, il caricamento non andrà a buon fine."
+        },
+        "structureInfoSection": {
+          "label": "Struttura archivio",
+          "description": "Se hai aggiunto/rimosso/rinominato file all'interno dello zip, hai aggiornato il file di configurazione di conseguenza."
+        },
+        "apiInterfaceInfoSection": {
+          "label": "Interfaccia API",
+          "description": "Assicurati di aver inserito le URL dei server corrette per l’erogazione."
+        },
+        "confirmationField": {
+          "label": "Ho preso visione e confermo",
+          "ariaLabel": "Switch di presa visione e conferma"
+        }
+      }
     }
   },
   "read": {
@@ -238,7 +266,8 @@
           "navigateVersions": "Naviga a un’altra versione dell’e-service",
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
           "downloadConsumerList": "Scarica l'elenco dei fruitori",
-          "showProducerContacts": "Visualizza i contatti dell’erogatore"
+          "showProducerContacts": "Visualizza i contatti dell’erogatore",
+          "exportVersion": "Scarica questa versione dell’e-service"
         }
       },
       "technicalInformations": {

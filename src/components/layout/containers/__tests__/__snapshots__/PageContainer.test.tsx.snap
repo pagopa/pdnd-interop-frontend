@@ -105,7 +105,7 @@ exports[`PageContainer > should match snapshot with buttons 1`] = `
           class="MuiBox-root css-0"
         />
         <div
-          class="MuiBox-root css-0"
+          class="MuiStack-root css-niqf4j-MuiStack-root"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"

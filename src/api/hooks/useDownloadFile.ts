@@ -19,7 +19,7 @@ export function downloadFile(responseData: File | string, filename = 'download')
 }
 
 export function useDownloadFile<T = unknown[]>(
-  service: (args: T) => Promise<File | string>,
+  service: (args: T) => Promise<File | string | { file: File; filename: string }>,
   config: { errorToastLabel?: string; successToastLabel?: string; loadingLabel: string }
 ) {
   const { showOverlay, hideOverlay } = useLoadingOverlay()
@@ -29,7 +29,13 @@ export function useDownloadFile<T = unknown[]>(
     showOverlay(config.loadingLabel)
     try {
       const data = await service(args)
-      downloadFile(data, filename)
+
+      if (typeof data === 'object') {
+        downloadFile(data.file, data.filename)
+      } else {
+        downloadFile(data, filename)
+      }
+
       config.successToastLabel && showToast(config.successToastLabel, 'success')
     } catch (error) {
       console.error(error)
