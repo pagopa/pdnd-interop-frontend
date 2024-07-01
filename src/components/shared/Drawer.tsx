@@ -22,7 +22,7 @@ export type DrawerProps = {
     disabled?: boolean
     variant?: ButtonProps['variant']
     color?: ButtonProps['color']
-    tooltip?: string
+    disabledTooltip?: string
   }
   children: React.ReactNode
   onTransitionExited?: VoidFunction
@@ -84,7 +84,7 @@ export const Drawer: React.FC<DrawerProps> = ({
 
         {buttonAction && (
           <Box sx={{ pb: 4, mt: 0.5 }} width={327} display="flex" alignItems="flex-end">
-            <Tooltip arrow title={buttonAction.disabled ? buttonAction.tooltip : undefined}>
+            <Tooltip arrow title={buttonAction.disabled ? buttonAction.disabledTooltip : undefined}>
               <span tabIndex={buttonAction.disabled ? 0 : undefined} style={{ width: '100%' }}>
                 <Button
                   disabled={buttonAction.disabled}

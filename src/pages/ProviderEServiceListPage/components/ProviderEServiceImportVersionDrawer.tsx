@@ -93,7 +93,7 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
                 label: tCommon('actions.import'),
                 action: formMethods.handleSubmit(onSubmit),
                 disabled: !isConfirmedImport,
-                tooltip: t('disabledImportTooltip'),
+                disabledTooltip: t('disabledImportTooltip'),
               }
             : undefined
         }
