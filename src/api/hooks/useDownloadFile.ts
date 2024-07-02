@@ -30,7 +30,12 @@ export function useDownloadFile<T = unknown[]>(
     try {
       const data = await service(args)
 
-      if (typeof data === 'object') {
+      /**
+       * The service can return either a file or an object with a file and a filename
+       * If it's an object, we'll use the filename from the object
+       * Otherwise, we'll use the filename passed as an argument
+       */
+      if (typeof data === 'object' && 'file' in data && 'filename' in data) {
         downloadFile(data.file, data.filename)
       } else {
         downloadFile(data, filename)
