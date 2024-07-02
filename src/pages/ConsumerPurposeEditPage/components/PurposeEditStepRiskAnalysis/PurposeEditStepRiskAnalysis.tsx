@@ -4,6 +4,7 @@ import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm/R
 import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { RiskAnalysisVersionMismatchDialog } from './RiskAnalysisForm'
+import { useCheckRiskAnalysisVersionMismatch } from '@/hooks/useCheckRiskAnalysisVersionMismatch'
 
 export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
@@ -19,13 +20,11 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   const { data: riskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
     suspense: false,
   })
+  const hasVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
 
   if (!purpose || !riskAnalysis) {
     return <RiskAnalysisFormSkeleton />
   }
-
-  const hasVersionMismatch =
-    purpose.riskAnalysisForm && riskAnalysis.version !== purpose.riskAnalysisForm.version
 
   if (!shouldProceedWithVersionMismatch && hasVersionMismatch) {
     return (
