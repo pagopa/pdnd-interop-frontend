@@ -38,7 +38,10 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
     : eservice?.riskAnalysis.find((item) => item.id === riskAnalysisId)
 
   const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    { riskAnalysisVersion: riskAnalysis!.riskAnalysisForm.version, eserviceId: eservice!.id },
+    {
+      riskAnalysisVersion: riskAnalysis?.riskAnalysisForm.version as string,
+      eserviceId: eservice?.id as string,
+    },
     {
       suspense: false,
       enabled: !!riskAnalysis?.riskAnalysisForm.version && !!eservice?.id,
