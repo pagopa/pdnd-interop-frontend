@@ -23,6 +23,7 @@ export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=$
 export const attributesHelpLink = `${documentationLink}/manuale-operativo/attributi`
 export const verifyVoucherGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher`
 export const manageEServiceGuideLink = `${documentationLink}/manuale-operativo/e-service`
+export const importExportEServiceGuideLink = `${documentationLink}/manuale-operativo/e-service#esportare-ed-importare-un-e-service`
 export const implementAndManageEServiceGuideLink = `${documentationLink}/come-integrare-i-propri-servizi-su-pdnd-interoperabilita`
 export const voucherVerificationGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#verifica-di-un-voucher-da-parte-di-un-erogatore-di-e-service`
 export const purposeUpgradeGuideLink = `${documentationLink}/manuale-operativo/finalita`

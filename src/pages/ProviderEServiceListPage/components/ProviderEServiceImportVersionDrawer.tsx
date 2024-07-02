@@ -1,7 +1,7 @@
 import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
-import { manageEServiceGuideLink } from '@/config/constants'
+import { importExportEServiceGuideLink } from '@/config/constants'
 import { useNavigate } from '@/router'
 import { Box, FormControlLabel, Link, Stack, Switch, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
@@ -75,7 +75,7 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
         subtitle={
           <Trans
             components={{
-              1: <Link underline="hover" href={manageEServiceGuideLink} target="_blank" />,
+              1: <Link underline="hover" href={importExportEServiceGuideLink} target="_blank" />,
             }}
           >
             {t('subtitle')}

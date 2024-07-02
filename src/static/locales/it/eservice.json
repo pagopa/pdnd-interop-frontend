@@ -211,7 +211,7 @@
     "drawers": {
       "importVersionDrawer": {
         "title": "Importa E-Service",
-        "subtitle": "Per ulteriori dubbi e informazioni <1>vai al manuale</1>",
+        "subtitle": "Per ulteriori dubbi e informazioni <1>vai al manuale</1>.",
         "disabledImportTooltip": "Non puoi importare il file. Devi prima prendere visione e confermare le opzioni.",
         "description": "Prima di procedere, verifica le seguenti sezioni, successivamente, conferma e procedi.",
         "attributeInfoSection": {
