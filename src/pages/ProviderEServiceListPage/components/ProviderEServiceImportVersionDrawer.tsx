@@ -93,7 +93,12 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
         }
       >
         <Box component="form" noValidate>
-          <RHFSingleFileInput sx={{ my: 0 }} name="eserviceFile" rules={{ required: true }} />
+          <RHFSingleFileInput
+            sx={{ my: 0 }}
+            name="eserviceFile"
+            rules={{ required: true }}
+            drawerStyle
+          />
 
           {eserviceFile && (
             <Stack spacing={3} mt={4} mb={3}>
