@@ -362,14 +362,8 @@ async function importVersion({ eserviceFile }: { eserviceFile: File }) {
     { params: { fileName } }
   )
 
-  const formData = new FormData()
-  Object.entries(eserviceFile).forEach(([key, data]) => formData.append(key, data))
-
   return await axiosInstance
-    .put(presignedUrl.url, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    .put(presignedUrl.url, eserviceFile, {
       transformRequest: (data, headers) => {
         delete headers['Authorization']
         return data

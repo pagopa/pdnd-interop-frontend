@@ -6,6 +6,10 @@ import type { LangCode } from '@/types/common.types'
 
 // Performs a trim operation on each string contained in the object
 const deepTrim = (object: string | Record<string, unknown>) => {
+  if (object instanceof File) {
+    return object
+  }
+
   if (typeof object === 'string') {
     return object.trim()
   }
