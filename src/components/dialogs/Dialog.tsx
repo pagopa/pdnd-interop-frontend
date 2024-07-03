@@ -85,7 +85,7 @@ const _Dialog = match(
   (props) => <DialogRemoveOperatorFromClient {...props} />,
   (props) => <DialogRevokeCertifiedAttribute {...props} />,
   (props) => <DialogClonePurpose {...props} />,
-  (props) => <DialogRejectPurposeVersion {...props} />
+  (props) => <DialogRejectPurposeVersion {...props} />,
   (props) => <DialogSetTenantMail {...props} />
 )
 
