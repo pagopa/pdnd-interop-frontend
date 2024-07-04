@@ -1,12 +1,9 @@
 import { InputWrapper } from '../InputWrapper'
 import React from 'react'
 import {
-  Box,
-  FormLabel,
   Switch as MUISwitch,
-  type SxProps,
-  Typography,
   type SwitchProps as MUISwitchProps,
+  FormControlLabel,
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types'
@@ -17,9 +14,7 @@ export type RHFSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
   infoLabel?: string
   name: string
-  vertical?: boolean
   rules?: ControllerProps['rules']
-  onValueChange?: (value: boolean) => void
 }
 
 export const RHFSwitch: React.FC<RHFSwitchProps> = ({
@@ -27,19 +22,9 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
   infoLabel,
   name,
   sx,
-  vertical = false,
   rules,
-  onValueChange,
   ...props
 }) => {
-  let formLabelSxProps: SxProps = {}
-  let typographyLabelSxProps: SxProps = {}
-
-  if (vertical) {
-    formLabelSxProps = { display: 'flex', alignItems: 'center' }
-    typographyLabelSxProps = { order: 2, ml: 2 }
-  }
-
   const { formState } = useFormContext()
   const { t } = useTranslation()
 
@@ -56,24 +41,9 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
       <Controller
         name={name}
         rules={mapValidationErrorMessages(rules, t)}
-        render={({ field: { value, ref, onChange, ...fieldProps } }) => (
-          <Box
-            onClick={() => {
-              if (onValueChange) onValueChange(!value)
-              onChange(!value)
-            }}
-          >
-            <FormLabel sx={{ color: 'text.primary', ...formLabelSxProps }}>
-              <Typography
-                htmlFor={ids.labelId}
-                id={ids.labelId}
-                sx={typographyLabelSxProps}
-                component="label"
-                variant="body1"
-              >
-                {label}
-              </Typography>
-
+        render={({ field: { value, ref, ...fieldProps } }) => (
+          <FormControlLabel
+            control={
               <MUISwitch
                 {...props}
                 {...fieldProps}
@@ -81,8 +51,9 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
                 checked={value}
                 inputRef={ref}
               />
-            </FormLabel>
-          </Box>
+            }
+            label={label}
+          />
         )}
       />
     </InputWrapper>
