@@ -15,7 +15,7 @@ export function getAriaAccessibilityInputProps<
     'aria-invalid'?: 'true' | 'false'
     'aria-labelledby'?: string
     'aria-describedby'?: string
-  }
+  },
 >(
   inputName: string,
   inputDescriptors: InputDescriptors<TKey>
@@ -23,11 +23,14 @@ export function getAriaAccessibilityInputProps<
   ids: Record<`${TKey}Id`, string>
   accessibilityProps: TAriaProps
 } {
-  const ids = Object.keys(inputDescriptors).reduce((acc, key) => {
-    const id = `${inputName}-${key}`
-    acc[(key + 'Id') as `${TKey}Id`] = id
-    return acc
-  }, {} as Record<`${TKey}Id`, string>)
+  const ids = Object.keys(inputDescriptors).reduce(
+    (acc, key) => {
+      const id = `${inputName}-${key}`
+      acc[(key + 'Id') as `${TKey}Id`] = id
+      return acc
+    },
+    {} as Record<`${TKey}Id`, string>
+  )
 
   const describedByIds: string[] = []
   const accessibilityProps: Partial<TAriaProps> = {}
