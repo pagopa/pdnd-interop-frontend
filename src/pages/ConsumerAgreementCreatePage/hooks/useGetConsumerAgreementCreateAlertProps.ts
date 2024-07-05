@@ -25,7 +25,7 @@ export function useGetConsumerAgreementCreateAlertProps(agreement: Agreement | u
   }
 
   const hasSetContactEmail = agreement && !!agreement?.consumer.contactMail?.address
-  if (true) {
+  if (!hasSetContactEmail) {
     return {
       severity: 'warning',
       content: t('edit.noContactEmailAlert'),
