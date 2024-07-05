@@ -99,3 +99,15 @@ export const canAgreementBeUpgraded = (agreement?: Agreement) => {
 
   return hasNewVersion && isActiveDescriptorPublishedOrSuspended && isAgreementActiveOrSuspended
 }
+
+/**
+ * Check if there is an available new e-service version for the given agreement.
+ * This is used in the agreement creation page.
+ */
+export const isNewEServiceVersionAvailable = (agreement: Agreement | undefined) => {
+  const eserviceActiveDescriptor = agreement?.eservice.activeDescriptor
+  return (
+    eserviceActiveDescriptor &&
+    parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
+  )
+}

@@ -1,5 +1,6 @@
 import type { Agreement } from '@/api/api.generatedTypes'
 import { useDialog } from '@/stores'
+import { isNewEServiceVersionAvailable } from '@/utils/agreement.utils'
 import type { AlertProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
@@ -16,11 +17,7 @@ export function useGetConsumerAgreementCreateAlertProps(agreement: Agreement | u
 
   if (!agreement || agreement.state !== 'DRAFT') return undefined
 
-  const eserviceActiveDescriptor = agreement.eservice.activeDescriptor
-  const hasNewEserviceVersion =
-    eserviceActiveDescriptor &&
-    parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
-  if (hasNewEserviceVersion) {
+  if (isNewEServiceVersionAvailable(agreement)) {
     return {
       severity: 'warning',
       content: t('edit.newVersionAlert'),
@@ -28,7 +25,7 @@ export function useGetConsumerAgreementCreateAlertProps(agreement: Agreement | u
   }
 
   const hasSetContactEmail = agreement && !!agreement?.consumer.contactMail?.address
-  if (!hasSetContactEmail) {
+  if (true) {
     return {
       severity: 'warning',
       content: t('edit.noContactEmailAlert'),

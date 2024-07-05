@@ -13,6 +13,7 @@ import {
   ConsumerAgreementCreateContentSkeleton,
 } from './components/ConsumerAgreementCreateContent'
 import { useGetConsumerAgreementCreateAlertProps } from './hooks/useGetConsumerAgreementCreateAlertProps'
+import { isNewEServiceVersionAvailable } from '@/utils/agreement.utils'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -35,10 +36,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const hasSetContactEmail = agreement && !!agreement?.consumer.contactMail?.address
   const isEServiceSuspended = agreement?.eservice.activeDescriptor?.state === 'SUSPENDED'
 
-  const eserviceActiveDescriptor = agreement?.eservice.activeDescriptor
-  const hasNewEserviceVersion =
-    eserviceActiveDescriptor &&
-    parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
+  const hasNewEserviceVersion = isNewEServiceVersionAvailable(agreement)
 
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
