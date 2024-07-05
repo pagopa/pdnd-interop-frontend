@@ -31,9 +31,9 @@ export function useGetConsumerAgreementAlertProps(agreement: Agreement | undefin
 
   const suspendedBy = (() => {
     if (agreement.state !== 'SUSPENDED') return undefined
-    if (agreement?.suspendedByProducer) return 'byProducer'
-    if (agreement?.suspendedByConsumer) return 'byConsumer'
-    if (agreement?.suspendedByPlatform) return 'byPlatform'
+    if (agreement.suspendedByProducer) return 'byProducer'
+    if (agreement.suspendedByConsumer) return 'byConsumer'
+    if (agreement.suspendedByPlatform) return 'byPlatform'
   })()
 
   if (suspendedBy) {
