@@ -119,6 +119,7 @@
       "byConsumer": "Questa richiesta di fruizione è stata sospesa da <strong>fruitore</strong>. Fino alla sua riattivazione non sarà possibile accedere ai dati.",
       "byPlatform": "Questa richiesta di fruizione è stata sospesa da <strong>piattaforma</strong>. Fino alla sua riattivazione non sarà possibile accedere ai dati."
     },
+    "noPurposeAlert": "Per accedere ai dati <1>crea la tua prima finalità</1>.",
     "noCertifiedAttributesForUpgradeTooltip": "C’è un aggiornamento disponibile ma il tuo ente non possiede i requisiti minimi per effettuarlo.",
     "sections": {
       "generalInformations": {
