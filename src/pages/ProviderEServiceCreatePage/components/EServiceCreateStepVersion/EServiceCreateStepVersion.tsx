@@ -190,7 +190,6 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
           >
             <RHFSwitch
               label={t('step2.agreementApprovalPolicySection.label')}
-              vertical
               name="agreementApprovalPolicy"
               sx={{ my: 0 }}
             />
