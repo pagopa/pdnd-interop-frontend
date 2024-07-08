@@ -119,6 +119,7 @@
       "byConsumer": "This agreement has been suspended by the CONSUMER. Until it is reactivated it will not be possible to access the data.",
       "byPlatform": "This agreement has been suspended by the PLATFORM. Until it is reactivated it will not be possible to access the data."
     },
+    "missingCertifiedAttributesAlert": "This draft cannot be activated at the moment. One or more requirements are not met. Delete it and create a new one.",
     "noPurposeAlert": "To access the data <1>create your first purpose</1>.",
     "noCertifiedAttributesForUpgradeTooltip": "There is an update available but your organization does not have the minimum requirements to perform it.",
     "sections": {
@@ -221,7 +222,8 @@
     "noDeclaredAttributesForSubmitTooltip": "To proceed with the publication, you must have activated all the required declared attributes",
     "suspendedEServiceTooltip": "Your institution does not have the certified attributes necessary to register",
     "noContactEmailTooltip": "Before submitting the request, it is mandatory for your organization to enter a contact email",
-    "noContactEmailAlert": "Il tuo ente non ha un’email di contatto. <1>Clicca qui</1> per inserirla."
+    "noContactEmailAlert": "To forward this agreement, you must indicate a contact email. You can add your email now <1>via this form</1>.",
+    "newVersionAlert": "This draft can no longer be activated. Since its creation, a new version of the e-service has been released. Delete it and create a new one."
   },
   "list": {
     "eserviceName": "{{name}}, version {{version}}",

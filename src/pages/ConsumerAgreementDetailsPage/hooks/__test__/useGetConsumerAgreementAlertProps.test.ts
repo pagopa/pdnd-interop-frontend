@@ -115,7 +115,16 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.suspendedAlert.byConsumer')
   })
 
-  it('shoud return the correct alertProps if not suspended agreement is given and that agreement has not purposes', async () => {
+  it('shoud return the correct alertProps if missing certified attributes agreement is given', () => {
+    const agreement = createMockAgreement({
+      state: 'MISSING_CERTIFIED_ATTRIBUTES',
+    })
+    const { result } = renderUseGetConsumerAgreementAlertPropsHook(agreement)
+    expect(result.current?.severity).toBe('warning')
+    expect(result.current?.content).toBe('consumerRead.missingCertifiedAttributesAlert')
+  })
+
+  it('shoud return the correct alertProps if nor suspended or missing certified attributes agreement is given and that agreement has not purposes', async () => {
     const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
@@ -128,7 +137,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     })
   })
 
-  it('shoud return the correct alertProps if not suspended agreement is given and that agreement has only archived purposes', async () => {
+  it('shoud return the correct alertProps if nor suspended or missing certified attributes agreement is given and that agreement has only archived purposes', async () => {
     const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
@@ -153,7 +162,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     })
   })
 
-  it('shoud not return any alertProps if not suspended agreement is given and the agreement has purposes that are not all archived', () => {
+  it('shoud not return any alertProps if nor suspended or missing certified attributes agreement is given and the agreement has purposes that are not all archived', () => {
     const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
