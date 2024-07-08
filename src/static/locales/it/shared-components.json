@@ -122,6 +122,19 @@
     "defaultServiceString": "---\n\nGrazie per la collaborazione,\n\nil Team di Interoperabilità.",
     "guideLinkLabel": "Per ulteriori dubbi e informazioni. Vai al manuale."
   },
+  "dialogSetTenantMail": {
+    "title": "Inserimento email di contatto",
+    "description": "L’indirizzo inserito non ha valore legale. Verrà mostrato su PDND Interoperabilità come punto di riferimento per facilitare lo scambio diretto di informazioni tra aderenti (es. richieste di supporto e chiarimento, ecc)",
+    "content": {
+      "mailField": {
+        "label": "Email di contatto (richiesto)"
+      },
+      "descriptionField": {
+        "label": "Note",
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
+      }
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"

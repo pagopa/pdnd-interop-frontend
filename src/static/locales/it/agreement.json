@@ -119,6 +119,7 @@
       "byConsumer": "Questa richiesta di fruizione è stata sospesa da <strong>fruitore</strong>. Fino alla sua riattivazione non sarà possibile accedere ai dati.",
       "byPlatform": "Questa richiesta di fruizione è stata sospesa da <strong>piattaforma</strong>. Fino alla sua riattivazione non sarà possibile accedere ai dati."
     },
+    "missingCertifiedAttributesAlert": "Questa bozza non è momentaneamente attivabile. Uno o più requisiti non risultano soddisfatti. Eliminala e creane una nuova.",
     "noPurposeAlert": "Per accedere ai dati <1>crea la tua prima finalità</1>.",
     "noCertifiedAttributesForUpgradeTooltip": "C’è un aggiornamento disponibile ma il tuo ente non possiede i requisiti minimi per effettuarlo.",
     "sections": {
@@ -221,7 +222,8 @@
     "noDeclaredAttributesForSubmitTooltip": "Per procedere con l’inoltro, devi aver attivato tutti gli attributi dichiarati richiesti",
     "suspendedEServiceTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
     "noContactEmailTooltip": "Prima di inoltrare la richiesta, è obbligatorio che il tuo ente inserisca un’email di contatto",
-    "noContactEmailAlert": "Il tuo ente non ha un’email di contatto. <1>Clicca qui</1> per inserirla."
+    "noContactEmailAlert": "Per inoltrare questa richiesta di fruizione è necessario indicare una email di contatto. Puoi aggiungere ora la tua email <1>tramite questo modulo</1>.",
+    "newVersionAlert": "Questa bozza non è più attivabile. Dal momento della sua creazione è uscita una nuova versione dell’e-service. Eliminala e creane una nuova."
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",

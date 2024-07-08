@@ -4,6 +4,7 @@ import {
   checkIfAlreadySubscribed,
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
+  isNewEServiceVersionAvailable,
 } from '../agreement.utils'
 import { createMockEServiceCatalog } from '@/../__mocks__/data/eservice.mocks'
 
@@ -233,5 +234,31 @@ describe('checkIfcanCreateAgreementDraft', () => {
       'PUBLISHED'
     )
     expect(result).toBe(true)
+  })
+})
+
+describe('isNewEServiceVersionAvailable', () => {
+  it('should return true if the eservice has an active descriptor and it has a version greater than the actual agreement eservice version', () => {
+    const agreement = createMockAgreement({
+      eservice: { activeDescriptor: { version: '4' }, version: '3' },
+    })
+    const result = isNewEServiceVersionAvailable(agreement)
+    expect(result).toBe(true)
+  })
+
+  it('should return false if the eservice has not an active descriptor', () => {
+    const agreement = createMockAgreement({
+      eservice: { activeDescriptor: undefined, version: '3' },
+    })
+    const result = isNewEServiceVersionAvailable(agreement)
+    expect(result).toBe(false)
+  })
+
+  it('should return false if the eservice has an active descriptor but it has not a version greater than the actual agreement eservice version', () => {
+    const agreement = createMockAgreement({
+      eservice: { activeDescriptor: { version: '3' }, version: '3' },
+    })
+    const result = isNewEServiceVersionAvailable(agreement)
+    expect(result).toBe(false)
   })
 })
