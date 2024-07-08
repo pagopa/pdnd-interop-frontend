@@ -2,6 +2,10 @@ body {
   font-family: 'Titillium Web', sans-serif;
   background-color: #f5f5f5;
   margin: 8px 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 header {
@@ -9,7 +13,7 @@ header {
   top: 0%;
   position: absolute;
   width: 100%;
-  height: 4.9%;
+  height: 48px;
 }
 
 div.header {
@@ -29,12 +33,17 @@ div.body {
 div.footer {
   width: 100%;
   height: 18%;
-  bottom: 0;
-  position: absolute;
+  margin-top: auto;
 }
 
-div.footer_row {
+div.footer_logo {
   min-height: 45%;
+  height: auto;
+  background-color: white;
+}
+
+div.footer_info {
+  min-height: 40%;
   height: auto;
   background-color: white;
 }
@@ -50,11 +59,12 @@ p.info {
   text-align: center;
 
   width: 53%;
-  height: 30%;
+  height: 35%;
   gap: 0px;
   opacity: 0px;
 
   margin-left: 22%;
+  margin-top: 0.1%;
 }
 
 span.info {
@@ -62,6 +72,7 @@ span.info {
   font-weight: 400;
   line-height: 21.98px;
   letter-spacing: 0.10000000149011612px;
+  text-align: center;
 }
 
 a.header:hover,
@@ -70,7 +81,7 @@ a.header:link,
 a.header:active {
   text-decoration: none;
   color: black;
-  font-size: 0.9vw;
+  font-size: 14px;
   font-weight: 700;
   line-height: 18px;
   letter-spacing: 0.30000001192092896px;
@@ -84,9 +95,10 @@ a:active {
   text-decoration: none;
   color: #0073e6;
   font-family: Titillium Web;
+  font-size: 16px;
   font-weight: 700;
   line-height: 21px;
-  letter-spacing: 0.30000001192092896px;
+  letter-spacing: 0.3px;
   text-align: left;
   font-size: 1vw;
 }
