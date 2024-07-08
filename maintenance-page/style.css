@@ -1,5 +1,6 @@
 html {
   min-height: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -14,15 +15,24 @@ body {
 
 header {
   background-color: white;
+  position: sticky;
   top: 0%;
-  position: absolute;
-  width: 100%;
-  height: 48px;
+  padding: 0 24px;
 }
 
-div.header {
-  margin-top: 0.5%;
-  padding: 4px 24px 4px 24px;
+header a {
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 13px 0;
+  display: inline-block;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header a:hover {
+  color: rgba(23, 50, 77, 0.8);
 }
 
 div.body {
@@ -34,16 +44,11 @@ div.body {
   text-align: center;
 }
 
-div.footer {
-  width: 100%;
-  height: 18%;
-}
-
-div.footer_logo {
+footer {
   background-color: white;
 }
 
-div.footer_logo a {
+.footer_logo a {
   display: inline-block;
   padding: 24px 0;
   margin: 0 24px;
@@ -54,53 +59,25 @@ div.footer_logo a {
   display: block;
 }
 
-div.footer_info {
-  min-height: 40%;
-  height: auto;
-  background-color: white;
+.footer_info {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #f5f5f5;
 }
 
-p {
-  font-size: 1.8vh;
-}
-
-p.info {
+.info {
   font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 900px;
+  margin: 16px 24px;
+}
+
+.info span {
   font-weight: 600;
-  line-height: 18px;
-  text-align: center;
-
-  width: 53%;
-  height: 35%;
-  gap: 0px;
-  opacity: 0px;
-
-  margin-left: 22%;
-  margin-top: 0.1%;
 }
 
-span.info {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 21.98px;
-  letter-spacing: 0.10000000149011612px;
-  text-align: center;
-}
-
-a.header:hover,
-a.header:visited,
-a.header:link,
-a.header:active {
-  text-decoration: none;
-  color: black;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 18px;
-  letter-spacing: 0.30000001192092896px;
-  text-align: left;
-}
-
-a:hover,
+/*a:hover,
 a:visited,
 a:link,
 a:active {
@@ -113,4 +90,4 @@ a:active {
   letter-spacing: 0.3px;
   text-align: left;
   font-size: 1vw;
-}
+}*/
