@@ -1,9 +1,13 @@
+html {
+  min-height: 100%;
+}
+
 body {
   font-family: 'Titillium Web', sans-serif;
   background-color: #f5f5f5;
   margin: 8px 0;
   display: flex;
-  min-height: 100vh;
+  height: 100%;
   flex-direction: column;
   overflow: hidden;
 }
@@ -33,13 +37,21 @@ div.body {
 div.footer {
   width: 100%;
   height: 18%;
-  margin-top: auto;
 }
 
 div.footer_logo {
-  min-height: 45%;
-  height: auto;
   background-color: white;
+}
+
+div.footer_logo a {
+  display: inline-block;
+  padding: 24px 0;
+  margin: 0 24px;
+}
+
+#logo {
+  height: 32px;
+  display: block;
 }
 
 div.footer_info {
@@ -101,13 +113,4 @@ a:active {
   letter-spacing: 0.3px;
   text-align: left;
   font-size: 1vw;
-}
-
-svg.logo {
-  width: 113.5px;
-  height: 32px;
-  gap: 0px;
-  opacity: 0px;
-  margin-top: 1.5%;
-  padding: 4px 24px 4px 24px;
 }
