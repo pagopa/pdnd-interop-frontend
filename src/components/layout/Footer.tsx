@@ -3,7 +3,7 @@ import { Typography } from '@mui/material'
 import { Footer as MUIItaliaFooter } from '@pagopa/mui-italia'
 import type { FooterLinksType } from '@pagopa/mui-italia'
 import { LANGUAGES, pagoPaLink } from '@/config/constants'
-import { useNavigate } from '@/router'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import type { JwtUser } from '@/types/party.types'
@@ -36,7 +36,7 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
     {
       labelKey: 'privacy',
       onClick: () => {
-        navigate('PRIVACY_POLICY')
+        navigate({ to: '/' })
       },
       linkType: 'internal',
     },
@@ -48,7 +48,7 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
     {
       labelKey: 'terms',
       onClick: () => {
-        navigate('TOS')
+        navigate({ to: '/' })
       },
       linkType: 'internal',
     },
@@ -89,7 +89,7 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
       onLanguageChanged={handleLanguageChange}
       currentLangCode={currentLanguage}
       languages={LANGUAGES}
-      hideProductsColumn={true}
+      hideProductsColumn
     />
   )
 }

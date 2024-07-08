@@ -117,12 +117,12 @@ class CancellationError extends Error {
 export const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
     queries: {
-      suspense: true,
-      useErrorBoundary: true,
+      // suspense: true,
+      throwOnError: true,
       retryDelay: exponentialBackoffRetry,
     },
     mutations: {
-      useErrorBoundary: false,
+      throwOnError: false,
       retry: (attemptIndex, error) => {
         /**
          * Retry only on 404 error mutation. This is needed

@@ -37,7 +37,7 @@ import keyItNs from '@/static/locales/it/key.json'
 import assistanceItNs from '@/static/locales/it/assistance.json'
 
 i18n.use(initReactI18next).init({
-  debug: false,
+  debug: true,
   fallbackLng: DEFAULT_LANG,
   interpolation: {
     escapeValue: false,

@@ -1,4 +1,10 @@
-import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
+import {
+  type UseQueryOptions,
+  useMutation,
+  useQueryClient,
+  useQuery,
+  queryOptions,
+} from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import EServiceServices from './eservice.services'
 import { useDownloadFile } from '../hooks/useDownloadFile'
@@ -38,6 +44,13 @@ function useGetCatalogList(
   })
 }
 
+export function getCatalogListQueryOptions(params: GetEServicesCatalogParams) {
+  return queryOptions({
+    queryKey: [EServiceQueryKeys.GetCatalogList, params],
+    queryFn: () => EServiceServices.getCatalogList(params),
+  })
+}
+
 function useGetProviderList(
   params: GetProducerEServicesParams,
   config?: UseQueryOptions<ProducerEServices>
@@ -71,6 +84,13 @@ function useGetProducers(
   })
 }
 
+export function getProducersQueryOptions(params: GetProducersParams) {
+  return queryOptions({
+    queryKey: [EServiceQueryKeys.GetProducers, params],
+    queryFn: () => EServiceServices.getProducers(params),
+  })
+}
+
 function useGetSingle(eserviceId?: string, config?: { suspense?: boolean; enabled?: boolean }) {
   return useQuery({
     queryKey: [EServiceQueryKeys.GetSingle, eserviceId],
@@ -89,6 +109,19 @@ function useGetDescriptorCatalog(
     queryKey: [EServiceQueryKeys.GetDescriptorCatalog, eserviceId, descriptorId],
     queryFn: () => EServiceServices.getDescriptorCatalog(eserviceId, descriptorId),
     ...config,
+  })
+}
+
+export function getDescriptorCatalogQueryOptions({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return queryOptions({
+    queryKey: [EServiceQueryKeys.GetDescriptorCatalog, eserviceId, descriptorId],
+    queryFn: () => EServiceServices.getDescriptorCatalog(eserviceId, descriptorId),
   })
 }
 

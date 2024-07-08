@@ -6,7 +6,7 @@ import type {
 import { Drawer } from '@/components/shared/Drawer'
 import { Slider, Typography } from '@mui/material'
 import type { Mark } from '@mui/base'
-import { type RouteKey, useCurrentRoute, useNavigate } from '@/router'
+// import { type RouteKey, useCurrentRoute, useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 
 type EServiceVersionSelectorDrawerProps = {
@@ -21,10 +21,10 @@ export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDraw
   descriptor,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.versionSelectorDrawer' })
-  const { mode } = useCurrentRoute()
+  // const { mode } = useCurrentRoute()
 
   const [selectedVersion, setSelectedVersion] = React.useState(() => Number(descriptor.version))
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const sliderId = React.useId()
 
@@ -53,13 +53,13 @@ export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDraw
       (d) => d.version === selectedVersion.toString()
     )
 
-    if (selectedDescriptor) {
-      const path: RouteKey =
-        mode === 'provider' ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'
-      navigate(path, {
-        params: { eserviceId: descriptor.eservice.id, descriptorId: selectedDescriptor.id },
-      })
-    }
+    // if (selectedDescriptor) {
+    //   const path: RouteKey =
+    //     mode === 'provider' ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'
+    //   navigate(path, {
+    //     params: { eserviceId: descriptor.eservice.id, descriptorId: selectedDescriptor.id },
+    //   })
+    // }
 
     onClose()
   }

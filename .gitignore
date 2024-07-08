@@ -52,3 +52,6 @@ yarn-error.log*
 
 # rollup-plugin-visualizer output
 stats.html
+
+# Tanstack Router
+routeTree.gen.ts

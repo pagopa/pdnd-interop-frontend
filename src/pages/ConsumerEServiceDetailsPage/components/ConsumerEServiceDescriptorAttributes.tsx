@@ -1,17 +1,13 @@
-import { EServiceQueries } from '@/api/eservice'
+import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { ReadOnlyDescriptorAttributes } from '@/components/shared/ReadOnlyDescriptorAttributes'
-import { useParams } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
+export const ConsumerEServiceDescriptorAttributes: React.FC<{
+  descriptor: CatalogEServiceDescriptor
+}> = ({ descriptor }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
-
-  const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId)
-
-  if (!descriptor?.attributes) return null
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>

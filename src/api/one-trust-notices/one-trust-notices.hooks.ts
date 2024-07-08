@@ -1,7 +1,7 @@
 import { AuthHooks } from '@/api/auth'
 import { OneTrustNoticesServices } from './one-trust-notices.services'
 import type { ConsentType, PrivacyNotice } from '../api.generatedTypes'
-import { type UseQueryOptions, useMutation, useQuery } from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQuery, queryOptions } from '@tanstack/react-query'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 export enum OneTrustNoticesQueryKeys {
@@ -16,6 +16,13 @@ function useGetUserConsent(consentType: ConsentType, options?: UseQueryOptions<P
     queryKey: [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
     queryFn: () => OneTrustNoticesServices.getUserConsent({ consentType }),
     ...options,
+  })
+}
+
+export function getUserConsentQueryOptions(consentType: ConsentType) {
+  return queryOptions({
+    queryKey: [OneTrustNoticesQueryKeys.GetUserConsent, consentType],
+    queryFn: () => OneTrustNoticesServices.getUserConsent({ consentType }),
   })
 }
 
@@ -62,7 +69,9 @@ function useGetPublicNoticeContent(consentType: ConsentType) {
 }
 
 function useAcceptPrivacyNotice() {
-  return useMutation(OneTrustNoticesServices.acceptPrivacyNotice, {})
+  return useMutation({
+    mutationFn: OneTrustNoticesServices.acceptPrivacyNotice,
+  })
 }
 
 export const OneTrustNoticesQueries = {

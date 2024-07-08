@@ -1,15 +1,16 @@
 import React from 'react'
-import { useNavigate } from '@/router'
+import { useNavigate } from '@tanstack/react-router'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
 import { FE_LOGIN_URL, SELFCARE_BASE_URL, STAGE } from '@/config/env'
-import { PartyQueries } from '@/api/party/party.hooks'
+import { getPartyListQueryOptions, getProductsQueryOptions } from '@/api/party/party.hooks'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
+import { useQuery } from '@tanstack/react-query'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -107,8 +108,8 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
 
-  const { data: parties } = PartyQueries.useGetPartyList({ enabled: !!jwt })
-  const { data: products } = PartyQueries.useGetProducts({ enabled: !!jwt })
+  const { data: parties } = useQuery({ ...getPartyListQueryOptions(), enabled: !!jwt })
+  const { data: products } = useQuery({ ...getProductsQueryOptions(), enabled: !!jwt })
 
   const partyList = getPartyList(parties, jwt, tCommon)
   const productList = getProductList(products)
@@ -155,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         loggedUser={headerAccountLoggedUser}
         onLogin={goToLoginPage}
         onLogout={() => {
-          navigate('LOGOUT')
+          navigate({ to: '/' })
         }}
         onAssistanceClick={() => {
           window.open(assistanceLink, '_blank')

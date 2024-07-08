@@ -1,5 +1,3 @@
-import { EServiceQueries } from '@/api/eservice'
-import { Link } from '@/router'
 import {
   Avatar,
   Card,
@@ -14,6 +12,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import type { CatalogEService } from '@/api/api.generatedTypes'
+import { Link } from '@tanstack/react-router'
+import { RouterButton } from '@/components/shared/RouterButton'
 
 interface CatalogCardProps {
   eservice: CatalogEService
@@ -21,11 +21,11 @@ interface CatalogCardProps {
 
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   const { t: tCommon } = useTranslation('common')
-  const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
+  // const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
 
-  const handlePrefetch = () => {
-    prefetchEService(eservice.id, eservice.activeDescriptor?.id ?? '')
-  }
+  // const handlePrefetch = () => {
+  //   prefetchEService(eservice.id, eservice.activeDescriptor?.id ?? '')
+  // }
 
   return (
     <Card
@@ -71,20 +71,18 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
 
       <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={2}>
-          <Link
-            as="button"
+          <RouterButton
             size="small"
             variant="contained"
-            to="SUBSCRIBE_CATALOG_VIEW"
+            to="/fruizione/catalogo-e-service/$eserviceId/$descriptorId"
             params={{
               eserviceId: eservice.id,
               descriptorId: eservice.activeDescriptor?.id ?? '',
             }}
-            onFocusVisible={handlePrefetch}
             color="primary"
           >
-            <span onPointerEnter={handlePrefetch}>{tCommon('actions.inspect')}</span>
-          </Link>
+            {tCommon('actions.inspect')}
+          </RouterButton>
         </Stack>
       </CardActions>
     </Card>

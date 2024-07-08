@@ -4,24 +4,24 @@ import type { PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const prodPlugins = [react(), setNonceAttToScripts()]
-  const devPlugins = [react(), visualizer(), configurePreviewServer()]
-  const testPlugins = [react()]
+  const prodPlugins = [TanStackRouterVite(), react(), setNonceAttToScripts()]
+  const devPlugins = [TanStackRouterVite(), react(), visualizer(), configurePreviewServer()]
+  const testPlugins = [TanStackRouterVite(), react()]
 
   const plugins =
     mode === 'development'
       ? devPlugins
       : mode === 'production'
-      ? prodPlugins
-      : mode === 'test'
-      ? testPlugins
-      : undefined
+        ? prodPlugins
+        : mode === 'test'
+          ? testPlugins
+          : undefined
 
   return {
-    base: '/ui',
     plugins,
     resolve: {
       alias: {

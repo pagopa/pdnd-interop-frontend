@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import AuthServices from './auth.services'
 import { STAGE } from '@/config/env'
-import { type UseQueryOptions, useQuery } from '@tanstack/react-query'
+import { type UseQueryOptions, useQuery, queryOptions } from '@tanstack/react-query'
 import { parseJwt } from './auth.utils'
 import { useMutation } from '@tanstack/react-query'
 
@@ -15,7 +15,7 @@ function useJwt(config?: UseQueryOptions<string | null>) {
     queryKey: [AuthQueryKeys.GetSessionToken],
     queryFn: AuthServices.getSessionToken,
     staleTime: Infinity,
-    cacheTime: Infinity,
+    gcTime: Infinity,
     retry: false,
     ...config,
   })
@@ -23,16 +23,28 @@ function useJwt(config?: UseQueryOptions<string | null>) {
   return { ...parseJwt(sessionToken), isLoadingSession }
 }
 
+export function jwtQueryOptions() {
+  return queryOptions({
+    queryKey: [AuthQueryKeys.GetSessionToken],
+    queryFn: async () => {
+      const jwt = await AuthServices.getSessionToken()
+      return parseJwt(jwt)
+    },
+    staleTime: Infinity,
+    gcTime: Infinity,
+    retry: false,
+  })
+}
+
 function useGetBlacklist() {
   return useQuery({
     queryKey: [AuthQueryKeys.GetBlacklist],
     queryFn: AuthServices.getBlacklist,
-    suspense: false,
     enabled: STAGE === 'PROD',
-    useErrorBoundary: false,
+    throwOnError: false,
     retry: false,
     staleTime: Infinity,
-    cacheTime: Infinity,
+    gcTime: Infinity,
   })
 }
 

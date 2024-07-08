@@ -3,8 +3,6 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
-import { EServiceQueries } from '@/api/eservice'
-import { useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import ContactMailIcon from '@mui/icons-material/ContactMail'
@@ -12,14 +10,14 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { ConsumerEServiceTechnicalInfoDrawer } from './ConsumerEServiceTechnicalInfoDrawer'
 import { ConsumerEServiceProducerContactsDrawer } from './ConsumerEServiceProducerContactsDrawer'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
+import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 
-export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
+export const ConsumerEServiceGeneralInfoSection: React.FC<{
+  descriptor: CatalogEServiceDescriptor
+}> = ({ descriptor }) => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.generalInformations',
   })
-
-  const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId)
 
   const {
     isOpen: isTechnicalInfoDrawerOpen,

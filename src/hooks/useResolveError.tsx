@@ -1,19 +1,18 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { isRouteErrorResponse } from 'react-router-dom'
 import { Button } from '@mui/material'
-import { Redirect, Link } from '@/router'
+
 import {
   AssistencePartySelectionError,
   ForbiddenError,
-  NotFoundError,
   TokenExchangeError,
   UnauthorizedError,
 } from '@/utils/errors.utils'
-import type { FallbackProps } from 'react-error-boundary'
 import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
+import type { ErrorComponentProps } from '@tanstack/react-router'
+import { RouterButton } from '@/components/shared/RouterButton'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -21,10 +20,10 @@ type UseResolveErrorReturnType = {
   content: JSX.Element | null
 }
 
-function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnType {
+function useResolveError(fallbackProps: ErrorComponentProps): UseResolveErrorReturnType {
   const { t } = useTranslation('error')
 
-  const { error, resetErrorBoundary } = fallbackProps
+  const { error, reset } = fallbackProps
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
@@ -36,15 +35,15 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   )
 
   const retryQueryButton = (
-    <Button size="small" variant="contained" onClick={resetErrorBoundary}>
+    <Button size="small" variant="contained" onClick={reset}>
       {t('actions.retry')}
     </Button>
   )
 
   const backToHomeButton = (
-    <Link as="button" variant="contained" to="SUBSCRIBE_CATALOG_LIST">
+    <RouterButton to="/fruizione/catalogo-e-service" variant="contained">
       {t('actions.backToHome')}
-    </Link>
+    </RouterButton>
   )
 
   const backToSelfcareButton = (
@@ -60,10 +59,6 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
         {reloadPageButton}
       </>
     )
-  }
-
-  if ((isRouteErrorResponse(error) && error.status === 404) || error instanceof NotFoundError) {
-    content = <Redirect to="NOT_FOUND" />
   }
 
   if (error instanceof ForbiddenError) {

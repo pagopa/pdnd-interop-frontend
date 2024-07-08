@@ -1,4 +1,10 @@
-import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
+import {
+  type UseQueryOptions,
+  useMutation,
+  useQueryClient,
+  useQuery,
+  queryOptions,
+} from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type {
   GetInstitutionUsersParams,
@@ -76,6 +82,17 @@ function useGetProducts(config: UseQueryOptions<Array<{ id: string; name: string
   })
 }
 
+export function getProductsQueryOptions() {
+  return queryOptions({
+    queryKey: [PartyQueryKeys.GetProducts],
+    queryFn: () => PartyServices.getProducts(),
+    throwOnError: false,
+    retry: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
+  })
+}
+
 function useGetPartyList(config: UseQueryOptions<Array<SelfcareInstitution>>) {
   return useQuery({
     queryKey: [PartyQueryKeys.GetPartyList],
@@ -86,6 +103,17 @@ function useGetPartyList(config: UseQueryOptions<Array<SelfcareInstitution>>) {
     staleTime: Infinity,
     cacheTime: Infinity,
     ...config,
+  })
+}
+
+export function getPartyListQueryOptions() {
+  return queryOptions({
+    queryKey: [PartyQueryKeys.GetPartyList],
+    queryFn: () => PartyServices.getPartyList(),
+    throwOnError: false,
+    retry: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
   })
 }
 

@@ -19,8 +19,9 @@ import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
 import { useGetSideNavItems } from './hooks/useGetSideNavItems'
-import { AuthHooks } from '@/api/auth'
+import { AuthHooks, jwtQueryOptions } from '@/api/auth'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 type View = {
   routeKey: RouteKey
@@ -34,9 +35,70 @@ export type SideNavItemView = View & {
 }
 
 export const SideNav = () => {
-  const { jwt } = AuthHooks.useJwt()
-  if (!jwt) return <SideNavSkeleton />
-  return <_SideNav />
+  const { t } = useTranslation('shared-components')
+
+  const {
+    data: { isAdmin, jwt },
+  } = useSuspenseQuery(jwtQueryOptions())
+
+  const selfcareUsersPageUrl =
+    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
+
+  const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
+
+  return (
+    <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
+      <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding></List>
+      {isAdmin && (
+        <>
+          <Divider sx={{ my: 1 }} />
+          <List sx={{ width: SIDENAV_WIDTH, mr: 0 }}>
+            <ListItem sx={{ display: 'block', p: 0 }}>
+              <ListItemButton
+                component="a"
+                href={selfcareUsersPageUrl}
+                target="_blank"
+                sx={{
+                  pl: 3,
+                  py: 2,
+                  display: 'flex',
+                }}
+              >
+                <ListItemIcon>
+                  <PeopleIcon fontSize="inherit" />
+                </ListItemIcon>
+                <ListItemText primary={t('sidenav.userExternalLinkLabel')} />
+                <ListItemIcon>
+                  <ExitToAppRoundedIcon color="action" />
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem sx={{ display: 'block', p: 0 }}>
+              <ListItemButton
+                component="a"
+                href={selfcareGroupsPageUrl}
+                target="_blank"
+                sx={{
+                  pl: 3,
+                  py: 2,
+                  display: 'flex',
+                }}
+              >
+                <ListItemIcon>
+                  <SupervisedUserCircleIcon fontSize="inherit" />
+                </ListItemIcon>
+                <ListItemText primary={t('sidenav.groupsExternalLinkLabel')} />
+                <ListItemIcon>
+                  <ExitToAppRoundedIcon color="action" />
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </>
+      )}
+    </Box>
+  )
 }
 
 const _SideNav = () => {
