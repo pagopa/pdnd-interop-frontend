@@ -21,6 +21,16 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   return (
     <Stack spacing={2}>
       <InformationContainer
+        content={purpose.title}
+        direction="row"
+        label={t('purpose.purposeTitle')}
+      />
+      <InformationContainer
+        content={purpose.description}
+        direction="row"
+        label={t('description.label')}
+      />
+      <InformationContainer
         content={
           <Link
             to="SUBSCRIBE_CATALOG_VIEW"
@@ -43,11 +53,6 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
         content={purpose.eservice.producer.name}
         direction="row"
         label={t('producer.label')}
-      />
-      <InformationContainer
-        content={purpose.description}
-        direction="row"
-        label={t('description.label')}
       />
       <SectionContainer innerSection sx={{ pt: 4 }} title={t('loadEstimationSection.title')}>
         <Stack spacing={2}>
