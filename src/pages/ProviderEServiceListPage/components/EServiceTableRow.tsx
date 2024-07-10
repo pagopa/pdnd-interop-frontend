@@ -2,15 +2,15 @@ import React from 'react'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { Box, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { Link } from '@/router'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { ProducerEService } from '@/api/api.generatedTypes'
-import { AuthHooks } from '@/api/auth'
+import { jwtQueryOptions } from '@/api/auth'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { RouterButton } from '@/components/shared/RouterButton'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -18,10 +18,9 @@ type EServiceTableRow = {
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { t } = useTranslation('common')
-  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
-
-  const prefetchDescriptor = EServiceQueries.usePrefetchDescriptorProvider()
-  const prefetchEService = EServiceQueries.usePrefetchSingle()
+  const {
+    data: { isAdmin, isOperatorAPI },
+  } = useSuspenseQuery(jwtQueryOptions())
 
   const { actions } = useGetProviderEServiceActions(
     eservice.id,
@@ -33,15 +32,6 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
 
   const isEServiceInDraft = !eservice.activeDescriptor
   const isEServiceEditable = (isAdmin || isOperatorAPI) && isEServiceInDraft
-
-  const handlePrefetch = () => {
-    if (isEServiceEditable) {
-      prefetchEService(eservice.id)
-      return
-    }
-    if (!eservice.activeDescriptor) return
-    prefetchDescriptor(eservice.id, eservice.activeDescriptor.id)
-  }
 
   return (
     <TableRow
@@ -58,13 +48,14 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         </Stack>,
       ]}
     >
-      <Link
-        as="button"
-        onPointerEnter={handlePrefetch}
-        onFocusVisible={handlePrefetch}
+      <RouterButton
         variant="outlined"
         size="small"
-        to={isEServiceEditable ? 'PROVIDE_ESERVICE_SUMMARY' : 'PROVIDE_ESERVICE_MANAGE'}
+        to={
+          isEServiceEditable
+            ? '/erogazione/e-service/$eserviceId/$descriptorId/modifica/riepilogo'
+            : '/erogazione/e-service/$eserviceId/$descriptorId'
+        }
         params={{
           eserviceId: eservice.id,
           descriptorId:
@@ -74,7 +65,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         }}
       >
         {t(`actions.${isEServiceEditable ? 'manageDraft' : 'inspect'}`)}
-      </Link>
+      </RouterButton>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

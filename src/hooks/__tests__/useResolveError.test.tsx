@@ -1,5 +1,5 @@
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
-import { NotFoundError, TokenExchangeError, ForbiddenError } from '@/utils/errors.utils'
+import { NotFoundError, TokenExchangeError, UnauthorizedError } from '@/utils/errors.utils'
 import { createMemoryHistory } from '@remix-run/router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { render, waitFor } from '@testing-library/react'
@@ -71,8 +71,8 @@ describe('', () => {
     })
   })
 
-  it('should correctly resolve the ForbiddenError throw', () => {
-    const screen = render(<ThrowErrorComponent error={new ForbiddenError()} />, {
+  it('should correctly resolve the UnauthorizedError throw', () => {
+    const screen = render(<ThrowErrorComponent error={new UnauthorizedError()} />, {
       wrapper: ErrorBoundaryTest,
     })
 

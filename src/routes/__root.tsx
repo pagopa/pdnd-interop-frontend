@@ -23,9 +23,13 @@ export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(jwtQueryOptions()),
-  component: RootComponent,
+  component: React.memo(RootComponent),
   pendingComponent: FirstLoadingSpinner,
   wrapInSuspense: true,
+  staticData: {
+    authLevels: ['admin', 'api', 'security', 'support'],
+    routeKey: 'ROOT',
+  },
 })
 
 function RootComponent() {

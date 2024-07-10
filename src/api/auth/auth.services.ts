@@ -20,10 +20,10 @@ async function getSessionToken(): Promise<string | null> {
   const resolveToken = (sessionToken: string) => {
     // Check if session has expired. In that case, we need to remove token from localStorage
     const parsedJwt = parseJwt(sessionToken)
-    // if (hasSessionExpired(parsedJwt.jwt?.exp)) {
-    //   window.localStorage.removeItem(STORAGE_KEY_SESSION_TOKEN)
-    //   return null
-    // }
+    if (hasSessionExpired(parsedJwt.jwt?.exp)) {
+      window.localStorage.removeItem(STORAGE_KEY_SESSION_TOKEN)
+      return null
+    }
     window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
     if (parsedJwt.jwt?.uid) setMixpanelIdentifier(parsedJwt.jwt?.uid)
     return sessionToken

@@ -48,9 +48,21 @@ function useGetBlacklist() {
   })
 }
 
+export function getBlacklistQueryOptions() {
+  return queryOptions({
+    queryKey: [AuthQueryKeys.GetBlacklist],
+    queryFn: AuthServices.getBlacklist,
+    throwOnError: false,
+    retry: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
+  })
+}
+
 function useSwapSAMLTokens() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'auth' })
-  return useMutation(AuthServices.swapSAMLToken, {
+  return useMutation({
+    mutationFn: AuthServices.swapSAMLToken,
     meta: {
       loadingLabel: t('loadingLabel'),
     },

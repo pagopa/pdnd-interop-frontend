@@ -8,147 +8,80 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material'
-import type { SvgIconComponent } from '@mui/icons-material'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import PeopleIcon from '@mui/icons-material/People'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { useTranslation } from 'react-i18next'
 import { SELFCARE_BASE_URL } from '@/config/env'
-import { type RouteKey, useCurrentRoute, getParentRoutes } from '@/router'
 import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
-import { useGetSideNavItems } from './hooks/useGetSideNavItems'
-import { AuthHooks, jwtQueryOptions } from '@/api/auth'
+import { jwtQueryOptions } from '@/api/auth'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import { useSuspenseQuery } from '@tanstack/react-query'
-
-type View = {
-  routeKey: RouteKey
-  id?: string
-  children?: Array<RouteKey>
-}
-
-export type SideNavItemView = View & {
-  StartIcon?: SvgIconComponent
-  EndIcon?: SvgIconComponent
-}
+import { useLocation } from '@tanstack/react-router'
+import { P, match } from 'ts-pattern'
+import { PartyQueries } from '@/api/party'
+import { useCurrentRoute } from '@/router'
 
 export const SideNav = () => {
   const { t } = useTranslation('shared-components')
 
+  const currentPath = useLocation().pathname
+  const [openSubNav, setOpenSubNav] = useState<string | undefined>(() =>
+    match(currentPath)
+      .with(P.string.includes('/fruizione/'), () => '/fruizione')
+      .with(P.string.includes('/erogazione/'), () => '/erogazione')
+      .with(P.string.includes('/aderente/'), () => '/aderente')
+      .otherwise(() => undefined)
+  )
+
   const {
-    data: { isAdmin, jwt },
+    data: { isAdmin, jwt, isOrganizationAllowedToProduce, isSupport },
   } = useSuspenseQuery(jwtQueryOptions())
 
-  const selfcareUsersPageUrl =
-    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
-
-  const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
-
-  return (
-    <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
-      <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding></List>
-      {isAdmin && (
-        <>
-          <Divider sx={{ my: 1 }} />
-          <List sx={{ width: SIDENAV_WIDTH, mr: 0 }}>
-            <ListItem sx={{ display: 'block', p: 0 }}>
-              <ListItemButton
-                component="a"
-                href={selfcareUsersPageUrl}
-                target="_blank"
-                sx={{
-                  pl: 3,
-                  py: 2,
-                  display: 'flex',
-                }}
-              >
-                <ListItemIcon>
-                  <PeopleIcon fontSize="inherit" />
-                </ListItemIcon>
-                <ListItemText primary={t('sidenav.userExternalLinkLabel')} />
-                <ListItemIcon>
-                  <ExitToAppRoundedIcon color="action" />
-                </ListItemIcon>
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem sx={{ display: 'block', p: 0 }}>
-              <ListItemButton
-                component="a"
-                href={selfcareGroupsPageUrl}
-                target="_blank"
-                sx={{
-                  pl: 3,
-                  py: 2,
-                  display: 'flex',
-                }}
-              >
-                <ListItemIcon>
-                  <SupervisedUserCircleIcon fontSize="inherit" />
-                </ListItemIcon>
-                <ListItemText primary={t('sidenav.groupsExternalLinkLabel')} />
-                <ListItemIcon>
-                  <ExitToAppRoundedIcon color="action" />
-                </ListItemIcon>
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </>
-      )}
-    </Box>
-  )
-}
-
-const _SideNav = () => {
-  const { t } = useTranslation('shared-components')
-  const { jwt, isAdmin } = AuthHooks.useJwt()
-  const { routeKey } = useCurrentRoute()
-
-  const sideNavItems = useGetSideNavItems()
-
-  const isActive = () => {
-    const parentRoutes: Array<RouteKey> = [...getParentRoutes(routeKey), routeKey]
-
-    const menuRoutes = sideNavItems.filter((view) => 'id' in view)
-    const menuId = menuRoutes.find(({ routeKey }) => parentRoutes.includes(routeKey))?.id ?? null
-
-    return menuId
-  }
-
-  const [openId, setOpenId] = useState<string | null>(isActive)
+  const { data: tenant } = PartyQueries.useGetActiveUserParty()
+  const isCertifier = Boolean(tenant.features[0]?.certifier?.certifierId)
 
   const selfcareUsersPageUrl =
     jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
 
   const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
-
-  const toggleCollapse = (id: string | undefined) => {
-    setOpenId((prev) => (id === prev ? null : !id ? null : id))
-  }
 
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
-        {sideNavItems.map((item, i) => {
-          return item?.children && item?.children?.length > 0 ? (
-            <CollapsableSideNavItem
-              key={item.id}
-              item={item}
-              isOpen={openId === item.id}
-              toggleCollapse={toggleCollapse}
-            />
-          ) : (
-            <ListItem sx={{ display: 'block', p: 0 }} key={i}>
-              <SideNavItemLink
-                routeKey={item.routeKey}
-                StartIcon={item?.StartIcon}
-                EndIcon={item?.EndIcon}
-              />
-            </ListItem>
-          )
-        })}
+        <CollapsableSideNavItem
+          subpath="/fruizione"
+          isOpen={openSubNav === '/fruizione'}
+          onToggle={setOpenSubNav}
+        >
+          <SideNavItemLink to="/fruizione/catalogo-e-service" indented />
+          <SideNavItemLink to="/fruizione/richieste" indented />
+          <SideNavItemLink to="/fruizione/finalita" indented />
+          <SideNavItemLink to="/fruizione/client" indented />
+          <SideNavItemLink to="/fruizione/interop-m2m" indented />
+          <SideNavItemLink to="/fruizione/debug-voucher" indented />
+        </CollapsableSideNavItem>
+        {(isOrganizationAllowedToProduce || isSupport) && (
+          <CollapsableSideNavItem
+            subpath="/erogazione"
+            isOpen={openSubNav === '/erogazione'}
+            onToggle={setOpenSubNav}
+          >
+            <SideNavItemLink to="/erogazione/e-service" indented />
+            <SideNavItemLink to="/erogazione/richieste" indented />
+            <SideNavItemLink to="/erogazione/finalita" indented />
+          </CollapsableSideNavItem>
+        )}
+        <CollapsableSideNavItem
+          subpath="/aderente"
+          isOpen={openSubNav === '/aderente'}
+          onToggle={setOpenSubNav}
+        >
+          <SideNavItemLink to="/aderente/anagrafica" indented />
+          {isCertifier && <SideNavItemLink to="/aderente/certificatore" indented />}
+        </CollapsableSideNavItem>
       </List>
       {isAdmin && (
         <>
@@ -203,22 +136,38 @@ const _SideNav = () => {
 }
 
 export const SideNavSkeleton: React.FC = () => {
+  const { mode } = useCurrentRoute()
+
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
+        {mode === 'consumer' && (
+          <>
+            <CollapsableSideNavItemSkeleton>
+              <SideNavItemLinkSkeleton />
+              <SideNavItemLinkSkeleton />
+              <SideNavItemLinkSkeleton />
+              <SideNavItemLinkSkeleton />
+              <SideNavItemLinkSkeleton />
+            </CollapsableSideNavItemSkeleton>
+            <CollapsableSideNavItemSkeleton />
+          </>
+        )}
+        {mode === 'provider' && (
+          <>
+            <CollapsableSideNavItemSkeleton />
+            <CollapsableSideNavItemSkeleton>
+              <SideNavItemLinkSkeleton />
+              <SideNavItemLinkSkeleton />
+              <SideNavItemLinkSkeleton />
+            </CollapsableSideNavItemSkeleton>
+          </>
+        )}
         <CollapsableSideNavItemSkeleton />
-        <CollapsableSideNavItemSkeleton>
-          <SideNavItemLinkSkeleton />
-          <SideNavItemLinkSkeleton />
-          <SideNavItemLinkSkeleton />
-          <SideNavItemLinkSkeleton />
-          <SideNavItemLinkSkeleton />
-        </CollapsableSideNavItemSkeleton>
-        <SideNavItemLinkSkeleton />
-        <SideNavItemLinkSkeleton />
       </List>
       <Divider sx={{ my: 1 }} />
       <List sx={{ width: SIDENAV_WIDTH, mr: 0 }}>
+        <SideNavItemLinkSkeleton />
         <SideNavItemLinkSkeleton />
       </List>
     </Box>

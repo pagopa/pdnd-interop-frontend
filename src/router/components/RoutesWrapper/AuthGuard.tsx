@@ -3,7 +3,7 @@ import { PartyQueries } from '@/api/party/party.hooks'
 import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
-import { ForbiddenError } from '@/utils/errors.utils'
+import { UnauthorizedError } from '@/utils/errors.utils'
 import React from 'react'
 
 export interface AuthGuardProps {
@@ -59,7 +59,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   }
   // JWT will be undefined just in case route is public.
   if (jwt && (!isUserAllowedToAccessRoute() || !isUserAllowedToAccessCertifierRoutes())) {
-    throw new ForbiddenError()
+    throw new UnauthorizedError()
   }
 
   return <>{children}</>

@@ -18,11 +18,11 @@ import {
 } from '@/pages/ConsumerEServiceDetailsPage/components/ConsumerEServiceDescriptorAttributes'
 
 export const Route = createFileRoute(
-  '/_authentication-guard/_tos-guard/_app-layout/_authorization-guard/fruizione/catalogo-e-service/$eserviceId/$descriptorId'
+  '/_private-routes-wrapper/fruizione/catalogo-e-service/$eserviceId/$descriptorId'
 )({
   staticData: {
-    hideSideNav: false,
     authLevels: ['admin', 'support', 'security', 'api'],
+    routeKey: 'SUBSCRIBE_CATALOG_VIEW',
   },
   loader: ({ context: { queryClient }, params }) => {
     queryClient.ensureQueryData(getDescriptorCatalogQueryOptions(params))
@@ -37,7 +37,7 @@ function ConsumerEServiceCatalogDetailsPage() {
   const params = Route.useParams()
   const { data: descriptor } = useSuspenseQuery(getDescriptorCatalogQueryOptions(params))
 
-  // const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
+  const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,
@@ -46,14 +46,14 @@ function ConsumerEServiceCatalogDetailsPage() {
 
   return (
     <PageContainer
-      title={descriptor?.eservice.name || ''}
-      topSideActions={[]}
-      isLoading={!descriptor}
-      statusChip={descriptor ? { for: 'eservice', state: descriptor?.state } : undefined}
+      title={descriptor.eservice.name}
+      topSideActions={actions}
+      statusChip={{ for: 'eservice', state: descriptor.state }}
       backToAction={{
         label: t('actions.backToCatalogLabel'),
-        to: 'SUBSCRIBE_CATALOG_LIST',
+        to: '/fruizione/catalogo-e-service',
       }}
+      breadcrumbPaths={['/erogazione', '/fruizione/catalogo-e-service']}
     >
       <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
       <Grid container>
@@ -67,8 +67,16 @@ function ConsumerEServiceCatalogDetailsPage() {
 }
 
 function ConsumerEServiceCatalogDetailsPageSkeleton() {
+  const { t } = useTranslation('eservice', { keyPrefix: 'read' })
+
   return (
-    <PageContainerSkeleton>
+    <PageContainerSkeleton
+      backToAction={{
+        label: t('actions.backToCatalogLabel'),
+        to: '/fruizione/catalogo-e-service',
+      }}
+      breadcrumbPaths={['/erogazione', '/fruizione/catalogo-e-service']}
+    >
       <Grid container>
         <Grid item xs={8}>
           <ConsumerEServiceGeneralInfoSectionSkeleton />

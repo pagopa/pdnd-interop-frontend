@@ -14,7 +14,7 @@ type FooterProps = {
   jwt?: JwtUser
 }
 
-export const Footer: React.FC<FooterProps> = ({ jwt }) => {
+const _Footer: React.FC<FooterProps> = ({ jwt }) => {
   const { t } = useTranslation('pagopa')
   const currentLanguage = useCurrentLanguage()
   const navigate = useNavigate()
@@ -93,3 +93,5 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
     />
   )
 }
+
+export const Footer = React.memo(_Footer)

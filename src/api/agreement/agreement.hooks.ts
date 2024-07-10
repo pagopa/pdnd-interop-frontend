@@ -94,34 +94,32 @@ function useGetConsumerEServiceList(
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.createDraft' })
-  return useMutation(
-    ({
+  return useMutation({
+    mutationFn: ({
       eserviceId,
       descriptorId,
     }: {
       eserviceName: string
       eserviceVersion: string | undefined
     } & AgreementPayload) => AgreementServices.createDraft({ eserviceId, descriptorId }),
-    {
-      meta: {
-        errorToastLabel: t('outcome.error'),
-        loadingLabel: t('loading'),
-        confirmationDialog: {
-          title: t('confirmDialog.title'),
-          // For now the react-query TVariables generic is not being inferred.
-          // This will be fixed in this pr: https://github.com/TanStack/query/pull/5804
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          description: (variables: any) => {
-            return t('confirmDialog.description', {
-              name: variables.eserviceName,
-              version: variables.eserviceVersion,
-            })
-          },
-          proceedLabel: t('confirmDialog.proceedLabel'),
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        // For now the react-query TVariables generic is not being inferred.
+        // This will be fixed in this pr: https://github.com/TanStack/query/pull/5804
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        description: (variables: any) => {
+          return t('confirmDialog.description', {
+            name: variables.eserviceName,
+            version: variables.eserviceVersion,
+          })
         },
+        proceedLabel: t('confirmDialog.proceedLabel'),
       },
-    }
-  )
+    },
+  })
 }
 
 function useSubmitDraft() {
@@ -143,7 +141,8 @@ function useSubmitToOwnEService() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.submitToOwnEService',
   })
-  return useMutation(AgreementServices.submitToOwnEService, {
+  return useMutation({
+    mutationFn: AgreementServices.submitToOwnEService,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),

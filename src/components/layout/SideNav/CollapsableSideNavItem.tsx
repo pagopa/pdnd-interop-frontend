@@ -11,41 +11,51 @@ import {
 } from '@mui/material'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import type { SideNavItemView } from './SideNav'
-import { SideNavItemLink } from './SideNavItemLink'
 import { SIDENAV_WIDTH } from '@/config/constants'
-import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
 import { useTranslation } from 'react-i18next'
+import type { RegisteredRouter, RoutePaths } from '@tanstack/react-router'
+import { useRouter } from '@tanstack/react-router'
+import { useIsAuthorizedToAccessRoute } from '@/hooks/useIsAuthorizedToAccessRoute'
+import { useCurrentRoute } from '@/router'
 
 type CollapsableSideNavItemProps = {
-  item: SideNavItemView
+  subpath: RoutePaths<RegisteredRouter['routeTree']>
   isOpen: boolean
-  toggleCollapse: (id: string | undefined) => void
+  onToggle: (id: string | undefined) => void
+  children: React.ReactNode
 }
 
 export const CollapsableSideNavItem: React.FC<CollapsableSideNavItemProps> = ({
-  item,
+  subpath,
   isOpen,
-  toggleCollapse,
+  onToggle,
+  children,
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'routeLabels' })
-  const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
+  const route = useRouter().routesByPath[subpath]
+  const isSelected = useCurrentRoute().pathname.includes(subpath)
 
-  const isSelected = item.children?.some(isRouteInCurrentSubtree)
+  const isUserAuthorizedToAccessRoute = useIsAuthorizedToAccessRoute({ routeId: route.id })
 
-  const handleToggleCollapse = () => {
-    toggleCollapse(item.id)
+  if (!isUserAuthorizedToAccessRoute) {
+    return null
   }
 
   return (
     <Box color={isSelected ? 'primary.main' : 'text.primary'}>
-      <ListItemButton sx={{ pl: 3 }} color="inherit" onClick={handleToggleCollapse}>
+      <ListItemButton
+        sx={{ pl: 3 }}
+        color="inherit"
+        onClick={() => {
+          onToggle(isOpen ? undefined : subpath)
+        }}
+      >
         <ListItemText
           sx={{ color: 'inherit' }}
           disableTypography
           primary={
             <Typography color="inherit" sx={{ fontWeight: isSelected ? 600 : 300 }}>
-              {t(item.routeKey)}
+              {t(route.options.staticData?.routeKey as never)}
             </Typography>
           }
         />
@@ -54,13 +64,7 @@ export const CollapsableSideNavItem: React.FC<CollapsableSideNavItemProps> = ({
 
       <Collapse in={isOpen} timeout="auto" unmountOnExit>
         <List disablePadding sx={{ width: SIDENAV_WIDTH }}>
-          {item &&
-            item.children &&
-            item.children.map((child, j) => (
-              <ListItem sx={{ display: 'block', p: 0 }} key={j}>
-                <SideNavItemLink routeKey={child} indented />
-              </ListItem>
-            ))}
+          {children}
         </List>
       </Collapse>
     </Box>

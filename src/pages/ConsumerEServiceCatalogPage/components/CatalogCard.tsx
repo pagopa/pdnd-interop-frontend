@@ -12,7 +12,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import type { CatalogEService } from '@/api/api.generatedTypes'
-import { Link } from '@tanstack/react-router'
 import { RouterButton } from '@/components/shared/RouterButton'
 
 interface CatalogCardProps {
@@ -21,11 +20,6 @@ interface CatalogCardProps {
 
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   const { t: tCommon } = useTranslation('common')
-  // const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
-
-  // const handlePrefetch = () => {
-  //   prefetchEService(eservice.id, eservice.activeDescriptor?.id ?? '')
-  // }
 
   return (
     <Card
@@ -72,6 +66,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
       <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={2}>
           <RouterButton
+            preload="intent"
             size="small"
             variant="contained"
             to="/fruizione/catalogo-e-service/$eserviceId/$descriptorId"

@@ -3,45 +3,51 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { getCatalogListQueryOptions, getProducersQueryOptions } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
-import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
+import {
+  useAutocompleteTextInput,
+  Pagination,
+  usePagination,
+  useFilters,
+  Filters,
+} from '@pagopa/interop-fe-commons'
 import { PageContainer } from '@/components/layout/containers'
 import { z } from 'zod'
-import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
+import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/api.generatedTypes'
 import {
   EServiceCatalogGrid,
   EServiceCatalogGridSkeleton,
 } from '@/pages/ConsumerEServiceCatalogPage/components'
 
 const PAGINATION_LIMIT = 12
+// Only e-service published or suspended can be shown in the catalog
 const CATALOG_ESERVICES_STATES: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
 
-export const Route = createFileRoute(
-  '/_authentication-guard/_tos-guard/_app-layout/_authorization-guard/fruizione/catalogo-e-service/'
-)({
+export const Route = createFileRoute('/_private-routes-wrapper/fruizione/catalogo-e-service/')({
   staticData: {
-    hideSideNav: false,
     authLevels: ['admin', 'support', 'security', 'api'],
+    routeKey: 'SUBSCRIBE_CATALOG_LIST',
   },
   validateSearch: (search) =>
     z
       .object({
         offset: z.number().int().optional(),
         q: z.string().optional(),
-        producersIds: z.array(z.string()).optional(),
+        producersIds: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
       })
       .parse(search),
   loaderDeps: (d) => d.search,
   loader: ({ context: { queryClient }, deps }) => {
-    void queryClient.ensureQueryData(
+    queryClient.ensureQueryData(
       getCatalogListQueryOptions({
         ...deps,
+        producersIds: deps.producersIds?.map((p) => p.value),
         offset: deps.offset || 0,
         limit: PAGINATION_LIMIT,
         states: CATALOG_ESERVICES_STATES,
       })
     )
   },
-  component: ConsumerEServiceCatalogPage,
+  component: React.memo(ConsumerEServiceCatalogPage),
 })
 
 function ConsumerEServiceCatalogPage() {
@@ -61,45 +67,46 @@ function ConsumerEServiceCatalogPage() {
       value: o.id,
     })) || []
 
-  // const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
-  // const { filtersParams, ...filtersHandlers } = useFilters<
-  //   Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
-  // >([
-  //   { name: 'q', label: tEservice('nameField.label'), type: 'freetext' },
-  //   {
-  //     name: 'producersIds',
-  //     label: tEservice('providerField.label'),
-  //     type: 'autocomplete-multiple',
-  //     options: producersOptions,
-  //     onTextInputChange: setProducersAutocompleteInput,
-  //   },
-  // ])
-
-  const { q, offset, producersIds } = Route.useSearch()
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({
+    limit: PAGINATION_LIMIT,
+  })
+  const { filtersParams, ...filtersHandlers } = useFilters<
+    Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
+  >([
+    { name: 'q', label: tEservice('nameField.label'), type: 'freetext' },
+    {
+      name: 'producersIds',
+      label: tEservice('providerField.label'),
+      type: 'autocomplete-multiple',
+      options: producersOptions,
+      onTextInputChange: setProducersAutocompleteInput,
+    },
+  ])
 
   const { data, isFetching } = useQuery(
     getCatalogListQueryOptions({
-      // Only e-service published or suspended can be shown in the catalog
       states: CATALOG_ESERVICES_STATES,
-      q,
-      offset: offset || 0,
-      producersIds,
-      limit: PAGINATION_LIMIT,
+      ...filtersParams,
+      ...paginationParams,
     })
   )
 
   return (
-    <PageContainer title={t('title')} description={t('description')}>
-      {/* <Filters {...filtersHandlers} /> */}
+    <PageContainer
+      title={t('title')}
+      description={t('description')}
+      breadcrumbPaths={['/erogazione']}
+    >
+      <Filters {...filtersHandlers} />
       {!data && isFetching ? (
         <EServiceCatalogGridSkeleton />
       ) : (
         <EServiceCatalogGrid eservices={data?.results} />
       )}
-      {/* <Pagination
+      <Pagination
         {...paginationProps}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
-      /> */}
+      />
     </PageContainer>
   )
 }

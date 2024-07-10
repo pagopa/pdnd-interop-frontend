@@ -2,9 +2,9 @@ import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 import { importExportEServiceGuideLink } from '@/config/constants'
-import { useNavigate } from '@/router'
 import { Box, FormControlLabel, Link, Stack, Switch, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { useNavigate } from '@tanstack/react-router'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -51,7 +51,8 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
       {
         onSuccess: (res) => {
           onClose()
-          navigate('PROVIDE_ESERVICE_SUMMARY', {
+          navigate({
+            to: '/erogazione/e-service/$eserviceId/$descriptorId/modifica/riepilogo',
             params: {
               eserviceId: res.id,
               descriptorId: res.descriptorId,

@@ -62,6 +62,13 @@ function useGetProviderList(
   })
 }
 
+export function getProviderListQueryOptions(params: GetProducerEServicesParams) {
+  return queryOptions({
+    queryKey: [EServiceQueryKeys.GetProviderList, params],
+    queryFn: () => EServiceServices.getProviderList(params),
+  })
+}
+
 function useGetConsumers(
   params: GetConsumersParams,
   config?: UseQueryOptions<CompactOrganizations>
@@ -70,6 +77,13 @@ function useGetConsumers(
     queryKey: [EServiceQueryKeys.GetConsumers, params],
     queryFn: () => EServiceServices.getConsumers(params),
     ...config,
+  })
+}
+
+export function getConsumersQueryOptions(params: GetConsumersParams) {
+  return queryOptions({
+    queryKey: [EServiceQueryKeys.GetConsumers, params],
+    queryFn: () => EServiceServices.getConsumers(params),
   })
 }
 
@@ -166,7 +180,8 @@ function usePrefetchDescriptorProvider() {
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
-  return useMutation(EServiceServices.createDraft, {
+  return useMutation({
+    mutationFn: EServiceServices.createDraft,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -176,7 +191,8 @@ function useCreateDraft() {
 
 function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateDraft' })
-  return useMutation(EServiceServices.updateDraft, {
+  return useMutation({
+    mutationFn: EServiceServices.updateDraft,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -188,7 +204,8 @@ function useDeleteDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.deleteDraft' })
   const queryClient = useQueryClient()
 
-  return useMutation(EServiceServices.deleteDraft, {
+  return useMutation({
+    mutationFn: EServiceServices.deleteDraft,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -199,7 +216,7 @@ function useDeleteDraft() {
       },
     },
     onSuccess(_, { eserviceId }) {
-      queryClient.removeQueries([EServiceQueryKeys.GetSingle, eserviceId])
+      queryClient.removeQueries({ queryKey: [EServiceQueryKeys.GetSingle, eserviceId] })
     },
   })
 }
@@ -207,7 +224,8 @@ function useDeleteDraft() {
 function useCloneFromVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.cloneFromVersion' })
 
-  return useMutation(EServiceServices.cloneFromVersion, {
+  return useMutation({
+    mutationFn: EServiceServices.cloneFromVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -224,54 +242,51 @@ function useCreateVersionDraft(
   config = { suppressSuccessToast: false, showConfirmationDialog: true }
 ) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createVersionDraft' })
-  return useMutation(
-    (
+  return useMutation({
+    mutationFn: (
       payload: {
         eserviceId: string
       } & EServiceDescriptorSeed
     ) => EServiceServices.createVersionDraft(payload),
-    {
-      meta: {
-        successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
-        errorToastLabel: t('outcome.error'),
-        loadingLabel: t('loading'),
-        confirmationDialog: config.showConfirmationDialog
-          ? {
-              title: t('confirmDialog.title'),
-              description: t('confirmDialog.description'),
-            }
-          : undefined,
-      },
-    }
-  )
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: config.showConfirmationDialog
+        ? {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          }
+        : undefined,
+    },
+  })
 }
 
 function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateVersionDraft',
   })
-  return useMutation(
-    (
+  return useMutation({
+    mutationFn: (
       payload: {
         eserviceId: string
         descriptorId: string
       } & UpdateEServiceDescriptorSeed
     ) => EServiceServices.updateVersionDraft(payload),
-    {
-      meta: {
-        successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
-        errorToastLabel: t('outcome.error'),
-        loadingLabel: t('loading'),
-      },
-    }
-  )
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
 }
 
 function usePublishVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.publishVersionDraft',
   })
-  return useMutation(EServiceServices.publishVersionDraft, {
+  return useMutation({
+    mutationFn: EServiceServices.publishVersionDraft,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -286,7 +301,8 @@ function usePublishVersionDraft() {
 
 function useSuspendVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
-  return useMutation(EServiceServices.suspendVersion, {
+  return useMutation({
+    mutationFn: EServiceServices.suspendVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -301,7 +317,8 @@ function useSuspendVersion() {
 
 function useReactivateVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.reactivateVersion' })
-  return useMutation(EServiceServices.reactivateVersion, {
+  return useMutation({
+    mutationFn: EServiceServices.reactivateVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -316,7 +333,8 @@ function useReactivateVersion() {
 
 function useUpdateVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
-  return useMutation(EServiceServices.updateVersion, {
+  return useMutation({
+    mutationFn: EServiceServices.updateVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -329,7 +347,8 @@ function useDeleteVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraft',
   })
-  return useMutation(EServiceServices.deleteVersionDraft, {
+  return useMutation({
+    mutationFn: EServiceServices.deleteVersionDraft,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -346,20 +365,18 @@ function useAddEServiceRiskAnalysis(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.addEServiceRiskAnalysis',
   })
-  return useMutation(
-    (
+  return useMutation({
+    mutationFn: (
       payload: {
         eserviceId: string
       } & EServiceRiskAnalysisSeed
     ) => EServiceServices.addEServiceRiskAnalysis(payload),
-    {
-      meta: {
-        successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
-        errorToastLabel: t('outcome.error'),
-        loadingLabel: t('loading'),
-      },
-    }
-  )
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
 }
 
 function useGetEServiceRiskAnalysis(
@@ -383,28 +400,27 @@ function useUpdateEServiceRiskAnalysis(config = { suppressSuccessToast: false })
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateEServiceRiskAnalysis',
   })
-  return useMutation(
-    (
+  return useMutation({
+    mutationFn: (
       payload: {
         eserviceId: string
         riskAnalysisId: string
       } & EServiceRiskAnalysisSeed
     ) => EServiceServices.updateEServiceRiskAnalysis(payload),
-    {
-      meta: {
-        successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
-        errorToastLabel: t('outcome.error'),
-        loadingLabel: t('loading'),
-      },
-    }
-  )
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
 }
 
 function useDeleteEServiceRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteEServiceRiskAnalysis',
   })
-  return useMutation(EServiceServices.deleteEServiceRiskAnalysis, {
+  return useMutation({
+    mutationFn: EServiceServices.deleteEServiceRiskAnalysis,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -421,7 +437,8 @@ function usePostVersionDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.postVersionDraftDocument',
   })
-  return useMutation(EServiceServices.postVersionDraftDocument, {
+  return useMutation({
+    mutationFn: EServiceServices.postVersionDraftDocument,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -434,7 +451,8 @@ function useDeleteVersionDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraftDocument',
   })
-  return useMutation(EServiceServices.deleteVersionDraftDocument, {
+  return useMutation({
+    mutationFn: EServiceServices.deleteVersionDraftDocument,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -447,7 +465,8 @@ function useUpdateVersionDraftDocumentDescription() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateVersionDraftDocumentDescription',
   })
-  return useMutation(EServiceServices.updateVersionDraftDocumentDescription, {
+  return useMutation({
+    mutationFn: EServiceServices.updateVersionDraftDocumentDescription,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -489,7 +508,8 @@ function useExportVersion() {
 
 function useImportVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.importVersion' })
-  return useMutation(EServiceServices.importVersion, {
+  return useMutation({
+    mutationFn: EServiceServices.importVersion,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),

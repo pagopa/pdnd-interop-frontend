@@ -4,9 +4,9 @@ import { Button } from '@mui/material'
 
 import {
   AssistencePartySelectionError,
-  ForbiddenError,
-  TokenExchangeError,
   UnauthorizedError,
+  TokenExchangeError,
+  AuthenticationError,
 } from '@/utils/errors.utils'
 import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
@@ -61,7 +61,7 @@ function useResolveError(fallbackProps: ErrorComponentProps): UseResolveErrorRet
     )
   }
 
-  if (error instanceof ForbiddenError) {
+  if (error instanceof UnauthorizedError) {
     title = t('forbidden.title')
     description = t('forbidden.description')
     content = backToHomeButton
@@ -98,7 +98,7 @@ function useResolveError(fallbackProps: ErrorComponentProps): UseResolveErrorRet
     description = t('default.description')!
   }
 
-  if (error instanceof UnauthorizedError) {
+  if (error instanceof AuthenticationError) {
     window.location.assign(FE_LOGIN_URL)
   }
 

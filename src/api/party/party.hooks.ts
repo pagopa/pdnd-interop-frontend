@@ -4,6 +4,7 @@ import {
   useQueryClient,
   useQuery,
   queryOptions,
+  useSuspenseQuery,
 } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import type {
@@ -13,7 +14,7 @@ import type {
   Tenants,
 } from '../api.generatedTypes'
 import PartyServices from './party.services'
-import { AuthHooks } from '../auth'
+import { AuthHooks, jwtQueryOptions } from '../auth'
 
 export enum PartyQueryKeys {
   GetSingle = 'PartyGetSingle',
@@ -31,9 +32,19 @@ function useGetParty(partyId?: string) {
   })
 }
 
+export function getPartyQueryOptions(partyId?: string) {
+  return queryOptions({
+    queryKey: [PartyQueryKeys.GetSingle, partyId],
+    queryFn: () => PartyServices.getParty(partyId!),
+    enabled: !!partyId,
+  })
+}
+
 function useGetActiveUserParty() {
-  const { jwt } = AuthHooks.useJwt()
-  return useGetParty(jwt?.organizationId)
+  const {
+    data: { jwt },
+  } = useSuspenseQuery(jwtQueryOptions())
+  return useSuspenseQuery(getPartyQueryOptions(jwt?.organizationId))
 }
 
 function useGetPartyUsersList(params: GetInstitutionUsersParams, config = { suspense: false }) {

@@ -17,7 +17,9 @@ export const EServiceTable: React.FC<EServiceTableProps> = ({ eservices }) => {
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
-      {eservices?.map((eservice) => <EServiceTableRow key={eservice.id} eservice={eservice} />)}
+      {eservices.map((eservice) => (
+        <EServiceTableRow key={eservice.id} eservice={eservice} />
+      ))}
     </Table>
   )
 }
@@ -28,6 +30,11 @@ export const EServiceTableSkeleton: React.FC = () => {
 
   return (
     <Table headLabels={headLabels}>
+      <EServiceTableRowSkeleton />
+      <EServiceTableRowSkeleton />
+      <EServiceTableRowSkeleton />
+      <EServiceTableRowSkeleton />
+      <EServiceTableRowSkeleton />
       <EServiceTableRowSkeleton />
       <EServiceTableRowSkeleton />
       <EServiceTableRowSkeleton />

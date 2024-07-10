@@ -103,7 +103,7 @@ type HeaderProps = {
   isSupport?: boolean
 }
 
-export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
+const _Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const navigate = useNavigate()
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
@@ -182,3 +182,5 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
     </header>
   )
 }
+
+export const Header = React.memo(_Header)

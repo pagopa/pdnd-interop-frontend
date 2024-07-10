@@ -1,10 +1,10 @@
 import type { EServiceDescriptorState, EServiceMode } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
-import { useNavigate } from '@/router'
+import { useNavigate } from '@tanstack/react-router'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
-import { AuthHooks } from '@/api/auth'
+import { AuthHooks, jwtQueryOptions } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
@@ -12,6 +12,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export function useGetProviderEServiceActions(
   eserviceId: string | undefined,
@@ -21,7 +22,9 @@ export function useGetProviderEServiceActions(
   mode: EServiceMode | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
+  const {
+    data: { isAdmin, isOperatorAPI },
+  } = useSuspenseQuery(jwtQueryOptions())
   const navigate = useNavigate()
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()
@@ -96,7 +99,8 @@ export function useGetProviderEServiceActions(
         },
         {
           onSuccess({ id, descriptorId }) {
-            navigate('PROVIDE_ESERVICE_EDIT', {
+            navigate({
+              to: '/erogazione/e-service/$eserviceId/$descriptorId/modifica',
               params: { eserviceId: id, descriptorId },
             })
           },
@@ -128,9 +132,11 @@ export function useGetProviderEServiceActions(
       },
       {
         onSuccess({ id }) {
-          navigate('PROVIDE_ESERVICE_EDIT', {
+          navigate({
+            to: '/erogazione/e-service/$eserviceId/$descriptorId/modifica',
             params: { eserviceId, descriptorId: id },
-            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+            //TODO
+            // state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
           })
         },
       }
@@ -145,7 +151,8 @@ export function useGetProviderEServiceActions(
 
   const handleEditDraft = () => {
     if (draftDescriptorId) {
-      navigate('PROVIDE_ESERVICE_SUMMARY', {
+      navigate({
+        to: '/erogazione/e-service/$eserviceId/$descriptorId/modifica/riepilogo',
         params: { eserviceId, descriptorId: draftDescriptorId },
       })
     }

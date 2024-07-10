@@ -2,14 +2,23 @@ import React from 'react'
 import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import type { ActionItemButton } from '@/types/common.types'
-import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { RouterButton } from '@/components/shared/RouterButton'
+import {
+  useLocation,
+  useRouter,
+  type RegisteredRouter,
+  type RoutePaths,
+} from '@tanstack/react-router'
+import { RouterLink } from '@/components/shared/RouterLink'
+import { useTranslation } from 'react-i18next'
+import { Breadcrumbs as MUIBreadcrumbs } from '@mui/material'
+import { useCurrentRoute } from '@/router'
 
 export type PageBackToAction = {
   label: string
-  to: RouteKey
+  to: RoutePaths<RegisteredRouter['routeTree']>
   params?: Record<string, string>
   urlParams?: Record<string, string>
 }
@@ -21,6 +30,7 @@ type PageContainerActionsProps = {
 
 type PageContainerBreadcrumbsProps = {
   backToAction?: PageBackToAction
+  breadcrumbPaths?: Array<RoutePaths<RegisteredRouter['routeTree']>>
 }
 
 type PageContainerIntroProps = {
@@ -38,13 +48,12 @@ type PageContainerProps = {
 
 type PageContainerSkeletonProps = {
   children?: React.ReactNode
-  backToAction?: PageBackToAction
-}
+} & PageContainerBreadcrumbsProps
 
 export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
   return (
     <Box>
-      {/* <PageContainerBreadcrumbs {...props} /> */}
+      <PageContainerBreadcrumbs {...props} />
       {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
       {!isLoading && <PageContainerActions {...props} />}
       <Box sx={{ mt: 1 }}>{children}</Box>
@@ -54,11 +63,11 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoadin
 
 export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   children,
-  backToAction,
+  ...breadcrumbsProps
 }) => {
   return (
     <Box>
-      {/* <PageContainerBreadcrumbs backToAction={backToAction} /> */}
+      <PageContainerBreadcrumbs {...breadcrumbsProps} />
       <PageContainerIntroSkeleton />
       <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
@@ -86,27 +95,41 @@ const PageContainerIntro: React.FC<PageContainerIntroProps> = ({ title, descript
   )
 }
 
-const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ backToAction }) => {
+const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({
+  backToAction,
+  breadcrumbPaths,
+}) => {
+  const { routesByPath } = useRouter()
+  const { t } = useTranslation('shared-components', { keyPrefix: 'routeLabels' })
+  const currentRouteRouteKey = useCurrentRoute().routeKey
+
   return (
     <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
       {backToAction && (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Link
+        <RouterButton
           to={backToAction.to}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           params={backToAction.params}
-          options={backToAction.urlParams ? { urlParams: backToAction.urlParams } : undefined}
-          as="button"
+          search={backToAction.urlParams}
           startIcon={<ArrowBackIcon />}
           size="small"
           variant="naked"
         >
           {backToAction.label}
-        </Link>
+        </RouterButton>
       )}
-      <Breadcrumbs />
+      {breadcrumbPaths && (
+        <MUIBreadcrumbs sx={{ mb: 1 }}>
+          {breadcrumbPaths.map((path, i) => {
+            const routeKey = routesByPath[path].options.staticData.routeKey
+            return (
+              <RouterLink key={i} to={path} sx={{ fontWeight: 700 }} color="inherit">
+                {t(routeKey as never)}
+              </RouterLink>
+            )
+          })}
+          <span>{t(currentRouteRouteKey as never)}</span>
+        </MUIBreadcrumbs>
+      )}
     </Stack>
   )
 }

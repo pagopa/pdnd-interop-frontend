@@ -10,6 +10,7 @@ import i18n from './config/react-i18next'
 import { DEFAULT_LANG, LANGUAGES } from './config/constants'
 import type { UserProductRole } from './types/party.types'
 import { ErrorComponent } from './components/shared/ErrorComponent'
+import '@/index.css'
 
 const url = window.location.pathname
 const pathsSegments = url
@@ -32,9 +33,6 @@ const router = createRouter({
   },
   basepath,
   defaultPreload: 'intent',
-  // Since we're using React Query, we don't want loader calls to ever be stale
-  // This will ensure that the loader is always called when the route is preloaded or visited
-  defaultPreloadStaleTime: 0,
   defaultErrorComponent: ErrorComponent,
 })
 
@@ -46,7 +44,8 @@ declare module '@tanstack/react-router' {
 
 declare module '@tanstack/react-router' {
   interface StaticDataRouteOption {
-    authLevels?: Array<UserProductRole>
+    authLevels: Array<UserProductRole>
+    routeKey: string
     hideSideNav?: boolean
   }
 }
