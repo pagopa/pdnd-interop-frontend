@@ -115,9 +115,6 @@
           "label": "Total threshold set by the provider",
           "value": "{{value}} calls API/day"
         }
-      },
-      "purpose": {
-        "purposeTitle": "Purpose name"
       }
     },
     "riskAnalysisSection": {

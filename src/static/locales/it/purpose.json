@@ -115,9 +115,6 @@
           "label": "Soglia totale imposta dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         }
-      },
-      "purpose": {
-        "purposeTitle": "Nome finalità"
       }
     },
     "riskAnalysisSection": {

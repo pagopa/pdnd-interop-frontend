@@ -78,7 +78,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   return (
     <PageContainer
-      title={t('summary.title')}
+      title={purpose?.title}
       backToAction={{
         label: t('backToListBtn'),
         to: 'SUBSCRIBE_PURPOSE_LIST',
