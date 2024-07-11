@@ -23,7 +23,9 @@ export const Route = createFileRoute('/_private-routes-wrapper')({
 
     queryClient.ensureQueryData(getUserConsentQueryOptions('TOS'))
     queryClient.ensureQueryData(getUserConsentQueryOptions('PP'))
-    queryClient.ensureQueryData(getBlacklistQueryOptions())
+    if (STAGE === 'PROD') {
+      queryClient.ensureQueryData(getBlacklistQueryOptions())
+    }
   },
   component: React.memo(PrivateRoutesWrapper),
   pendingComponent: PrivateRoutesWrapperSkeleton,
