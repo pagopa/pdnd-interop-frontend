@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
-import { UnauthorizedError, NotFoundError, AuthenticationError } from '@/utils/errors.utils'
+import { NotFoundError, AuthenticationError } from '@/utils/errors.utils'
 import i18next from 'i18next'
 import type { LangCode } from '@/types/common.types'
 

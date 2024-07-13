@@ -5,12 +5,7 @@ import type { ActionItemButton } from '@/types/common.types'
 import { StatusChip } from '@/components/shared/StatusChip'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { RouterButton } from '@/components/shared/RouterButton'
-import {
-  useLocation,
-  useRouter,
-  type RegisteredRouter,
-  type RoutePaths,
-} from '@tanstack/react-router'
+import { useRouter, type RegisteredRouter, type RoutePaths } from '@tanstack/react-router'
 import { RouterLink } from '@/components/shared/RouterLink'
 import { useTranslation } from 'react-i18next'
 import { Breadcrumbs as MUIBreadcrumbs } from '@mui/material'
@@ -50,9 +45,14 @@ type PageContainerSkeletonProps = {
   children?: React.ReactNode
 } & PageContainerBreadcrumbsProps
 
-export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
+export const PageContainer: React.FC<PageContainerProps> = ({
+  children,
+  isLoading,
+  sx,
+  ...props
+}) => {
   return (
-    <Box>
+    <Box sx={sx}>
       <PageContainerBreadcrumbs {...props} />
       {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
       {!isLoading && <PageContainerActions {...props} />}

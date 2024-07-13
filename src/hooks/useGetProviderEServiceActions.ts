@@ -132,8 +132,7 @@ export function useGetProviderEServiceActions(
           navigate({
             to: '/erogazione/e-service/$eserviceId/$descriptorId/modifica',
             params: { eserviceId, descriptorId: id },
-            //TODO
-            // state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
           })
         },
       }

@@ -7,12 +7,14 @@ import {
   UnauthorizedError,
   TokenExchangeError,
   AuthenticationError,
+  NotFoundError,
 } from '@/utils/errors.utils'
 import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
-import type { ErrorComponentProps } from '@tanstack/react-router'
+import { type ErrorComponentProps } from '@tanstack/react-router'
 import { RouterButton } from '@/components/shared/RouterButton'
+import { match, P } from 'ts-pattern'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -20,89 +22,99 @@ type UseResolveErrorReturnType = {
   content: JSX.Element | null
 }
 
-function useResolveError(fallbackProps: ErrorComponentProps): UseResolveErrorReturnType {
+function useResolveError({ error, reset }: ErrorComponentProps): UseResolveErrorReturnType {
   const { t } = useTranslation('error')
 
-  const { error, reset } = fallbackProps
+  return match(error)
+    .returnType<UseResolveErrorReturnType>()
+    .with(P.instanceOf(AssistencePartySelectionError), () => ({
+      title: t('assistencePartySelection.title'),
+      description: t('assistencePartySelection.description'),
+      content: null,
+    }))
+    .with(P.instanceOf(TokenExchangeError), () => ({
+      title: t('tokenExchange.title'),
+      description: t('tokenExchange.description'),
+      content: <BackToSelfcareButton />,
+    }))
+    .with(P.instanceOf(AxiosError), (err: AxiosError) => ({
+      title: t('axiosError.title'),
+      description: t('axiosError.description'),
+      content: (
+        <>
+          {isDevelopment && <CodeBlock code={err.response ?? err} />}
+          <RetryQueryButton reset={reset} />
+        </>
+      ),
+    }))
+    .with(P.instanceOf(UnauthorizedError), () => ({
+      title: t('forbidden.title'),
+      description: t('forbidden.description'),
+      content: <BackToHomeButton />,
+    }))
+    .with(P.instanceOf(AuthenticationError), () => {
+      window.location.assign(FE_LOGIN_URL)
+      return {
+        title: t('default.title'),
+        description: t('default.description'),
+        content: null,
+      }
+    })
+    .with(P.instanceOf(NotFoundError), () => ({
+      title: t('notFound.title'),
+      description: t('notFound.description'),
+      content: <BackToHomeButton />,
+    }))
+    .otherwise(() => ({
+      title: t('default.title'),
+      description: t('default.description'),
+      content: (
+        <>
+          {isDevelopment && <CodeBlock code={error?.stack || error.message || error?.name} />}
+          {ReloadPageButton}
+        </>
+      ),
+    }))
+}
 
-  let title, description: string | undefined
-  let content: JSX.Element | null = null
+function ReloadPageButton() {
+  const { t } = useTranslation('error')
 
-  const reloadPageButton = (
+  return (
     <Button size="small" variant="contained" onClick={() => window.location.reload()}>
       {t('actions.reloadPage')}
     </Button>
   )
+}
 
-  const retryQueryButton = (
+function RetryQueryButton({ reset }: { reset: VoidFunction }) {
+  const { t } = useTranslation('error')
+
+  return (
     <Button size="small" variant="contained" onClick={reset}>
       {t('actions.retry')}
     </Button>
   )
+}
 
-  const backToHomeButton = (
+function BackToHomeButton() {
+  const { t } = useTranslation('error')
+
+  return (
     <RouterButton to="/fruizione/catalogo-e-service" variant="contained">
       {t('actions.backToHome')}
     </RouterButton>
   )
+}
 
-  const backToSelfcareButton = (
+function BackToSelfcareButton() {
+  const { t } = useTranslation('error')
+
+  return (
     <Button size="small" variant="contained" href={SELFCARE_BASE_URL}>
       {t('actions.backToSelfcare')}
     </Button>
   )
-
-  if (error instanceof Error) {
-    content = (
-      <>
-        {isDevelopment && <CodeBlock code={error?.stack || error.message || error?.name} />}
-        {reloadPageButton}
-      </>
-    )
-  }
-
-  if (error instanceof UnauthorizedError) {
-    title = t('forbidden.title')
-    description = t('forbidden.description')
-    content = backToHomeButton
-  }
-
-  if (error instanceof AxiosError) {
-    title = t('axiosError.title')
-    description = t('axiosError.description')
-    content = (
-      <>
-        {isDevelopment && <CodeBlock code={error.response ?? error} />}
-        {retryQueryButton}
-      </>
-    )
-  }
-
-  if (error instanceof TokenExchangeError) {
-    title = t('tokenExchange.title')
-    description = t('tokenExchange.description')
-    content = backToSelfcareButton
-  }
-
-  if (error instanceof AssistencePartySelectionError) {
-    title = t('assistencePartySelection.title')
-    description = t('assistencePartySelection.description')
-    content = null
-  }
-
-  if (!title) {
-    title = t('default.title')!
-  }
-
-  if (!description) {
-    description = t('default.description')!
-  }
-
-  if (error instanceof AuthenticationError) {
-    window.location.assign(FE_LOGIN_URL)
-  }
-
-  return { title, description, content }
 }
 
 export default useResolveError

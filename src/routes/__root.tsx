@@ -1,9 +1,8 @@
 import React from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
-import { Box, ThemeProvider } from '@mui/material'
+import { Box } from '@mui/material'
 import { Footer, Header, LoadingOverlay, ToastNotification } from '@/components/layout'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { theme } from '@pagopa/interop-fe-commons'
 import { EnvironmentBanner as MuiItaliaEnvironmentBanner } from '@pagopa/mui-italia'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip'
@@ -37,7 +36,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootComponent() {
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <EnvironmentBanner />
       <Header />
       <Box sx={{ flex: 1 }}>
@@ -51,7 +50,7 @@ function RootComponent() {
       <Dialog />
       <ReactQueryDevtools initialIsOpen={false} />
       <TanStackRouterDevtools position="bottom-right" />
-    </ThemeProvider>
+    </>
   )
 }
 

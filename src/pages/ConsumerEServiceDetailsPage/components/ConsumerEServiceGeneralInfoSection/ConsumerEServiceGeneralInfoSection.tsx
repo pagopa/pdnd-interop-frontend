@@ -37,8 +37,6 @@ export const ConsumerEServiceGeneralInfoSection: React.FC<{
     closeDrawer: closeVersionSelectorDrawer,
   } = useDrawerState()
 
-  if (!descriptor) return null
-
   const hasSingleVersion =
     descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1
 

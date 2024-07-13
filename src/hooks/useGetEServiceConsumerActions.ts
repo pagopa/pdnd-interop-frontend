@@ -42,24 +42,18 @@ function useGetEServiceConsumerActions(
 
   const handleInspectAgreementAction = () => {
     if (!eservice.agreement) return
-    // TODO
-    // navigate('SUBSCRIBE_AGREEMENT_READ', {
-    //   params: {
-    //     agreementId: eservice.agreement.id,
-    //   },
-    // })
-    navigate({ to: '/' })
+    navigate({
+      to: '/fruizione/richieste/$agreementId',
+      params: { agreementId: eservice.agreement.id },
+    })
   }
 
   const handleEditAgreementAction = () => {
     if (!eservice.agreement) return
-    // TODO
-    // navigate('SUBSCRIBE_AGREEMENT_EDIT', {
-    //   params: {
-    //     agreementId: eservice.agreement.id,
-    //   },
-    // })
-    navigate({ to: '/' })
+    navigate({
+      to: '/fruizione/richieste/$agreementId/modifica',
+      params: { agreementId: eservice.agreement.id },
+    })
   }
 
   const handleCreateAgreementDraftAction = () => {
@@ -75,7 +69,10 @@ function useGetEServiceConsumerActions(
         },
         {
           onSuccess({ id }) {
-            navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
+            navigate({
+              to: '/fruizione/richieste/$agreementId',
+              params: { agreementId: id },
+            })
           },
         }
       )
@@ -94,7 +91,10 @@ function useGetEServiceConsumerActions(
       },
       {
         onSuccess({ id }) {
-          navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
+          navigate({
+            to: '/fruizione/richieste/$agreementId/modifica',
+            params: { agreementId: id },
+          })
         },
       }
     )

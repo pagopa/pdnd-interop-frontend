@@ -24,7 +24,7 @@ export const Route = createFileRoute(
     authLevels: ['admin', 'support', 'security', 'api'],
     routeKey: 'SUBSCRIBE_CATALOG_VIEW',
   },
-  loader: ({ context: { queryClient }, params }) => {
+  loader: async ({ context: { queryClient }, params }) => {
     queryClient.ensureQueryData(getDescriptorCatalogQueryOptions(params))
   },
   component: ConsumerEServiceCatalogDetailsPage,
@@ -37,11 +37,11 @@ function ConsumerEServiceCatalogDetailsPage() {
   const params = Route.useParams()
   const { data: descriptor } = useSuspenseQuery(getDescriptorCatalogQueryOptions(params))
 
-  const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
+  const { actions } = useGetEServiceConsumerActions(descriptor.eservice, descriptor)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
-    eserviceId: descriptor?.eservice.id,
-    descriptorId: descriptor?.id,
+    eserviceId: descriptor.eservice.id,
+    descriptorId: descriptor.id,
   })
 
   return (

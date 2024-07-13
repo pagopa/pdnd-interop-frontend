@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { theme } from '@pagopa/interop-fe-commons'
+import { ThemeProvider } from '@mui/material'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
-// Import the generated route tree
 import { routeTree } from './routeTree.gen'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './config/query-client'
@@ -12,6 +13,7 @@ import type { UserProductRole } from './types/party.types'
 import { ErrorComponent } from './components/shared/ErrorComponent'
 import '@/index.css'
 import { AuthProvider, useAuth } from './stores'
+import { NotFoundComponent } from './components/shared/NotFoundComponent'
 
 const url = window.location.pathname
 const pathsSegments = url
@@ -36,25 +38,26 @@ const router = createRouter({
   basepath,
   defaultPreload: 'intent',
   defaultErrorComponent: ErrorComponent,
+  defaultNotFoundComponent: NotFoundComponent,
+  notFoundMode: 'fuzzy',
 })
 
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
-}
-
-declare module '@tanstack/react-router' {
   interface StaticDataRouteOption {
     authLevels: Array<UserProductRole>
     routeKey: string
     hideSideNav?: boolean
   }
+  interface HistoryState {
+    stepIndexDestination: number
+  }
 }
 
 function App() {
   const auth = useAuth()
-
   return <RouterProvider router={router} context={{ auth }} />
 }
 
@@ -63,11 +66,13 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </QueryClientProvider>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </React.StrictMode>
   )
 }

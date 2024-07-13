@@ -117,8 +117,8 @@ class CancellationError extends Error {
 export const queryClientConfig: QueryClientConfig = {
   defaultOptions: {
     queries: {
-      // suspense: true,
       throwOnError: true,
+      retry: 3,
       retryDelay: exponentialBackoffRetry,
     },
     mutations: {
