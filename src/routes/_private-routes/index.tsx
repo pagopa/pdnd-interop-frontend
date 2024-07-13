@@ -14,7 +14,7 @@ import { STAGE } from '@/config/env'
 import { RouterLink } from '@/components/shared/RouterLink'
 import { useAuthenticatedUser } from '@/hooks/useAuthenticatedUser'
 
-export const Route = createFileRoute('/_private-routes')({
+export const Route = createFileRoute('/_private-routes/')({
   beforeLoad: ({ context: { auth } }) => {
     if (!auth.isAuthenticated) {
       throw new AuthenticationError()
