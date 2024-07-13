@@ -28,12 +28,11 @@ const currentLang = Object.keys(LANGUAGES).includes(pathsSegments[0])
 const basepath = `/${currentLang}`
 i18n.changeLanguage(currentLang)
 
-// Create a new router instance
 const router = createRouter({
   routeTree,
   context: {
     queryClient,
-    auth: undefined!, // This will be set after we wrap the app in an AuthProvider
+    auth: undefined!,
   },
   basepath,
   defaultPreload: 'intent',
