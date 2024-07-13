@@ -4,7 +4,6 @@ import { useNavigate } from '@tanstack/react-router'
 import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
-import { AuthHooks, jwtQueryOptions } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
@@ -12,7 +11,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useAuthenticatedUser } from './useAuthenticatedUser'
 
 export function useGetProviderEServiceActions(
   eserviceId: string | undefined,
@@ -22,9 +21,7 @@ export function useGetProviderEServiceActions(
   mode: EServiceMode | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const {
-    data: { isAdmin, isOperatorAPI },
-  } = useSuspenseQuery(jwtQueryOptions())
+  const { isAdmin, isOperatorAPI } = useAuthenticatedUser()
   const navigate = useNavigate()
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()

@@ -1,0 +1,18 @@
+import React from 'react'
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute(
+  '/_private-routes/fruizione/richieste/$agreementId/modifica'
+)({
+  staticData: {
+    hideSideNav: true,
+    authLevels: ['admin'],
+    routeKey: 'SUBSCRIBE_AGREEMENT_EDIT',
+  },
+  component: () => (
+    <div>
+      Hello
+      /_authentication-guard/_tos-guard/_app-layout/_authorization-guard/fruizione/richieste/$agreementId/modifica!
+    </div>
+  ),
+})

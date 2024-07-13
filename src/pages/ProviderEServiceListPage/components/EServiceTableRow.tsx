@@ -8,9 +8,8 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { ProducerEService } from '@/api/api.generatedTypes'
-import { jwtQueryOptions } from '@/api/auth'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { RouterButton } from '@/components/shared/RouterButton'
+import { useAuthenticatedUser } from '@/hooks/useAuthenticatedUser'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -18,9 +17,7 @@ type EServiceTableRow = {
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { t } = useTranslation('common')
-  const {
-    data: { isAdmin, isOperatorAPI },
-  } = useSuspenseQuery(jwtQueryOptions())
+  const { isAdmin, isOperatorAPI } = useAuthenticatedUser()
 
   const { actions } = useGetProviderEServiceActions(
     eservice.id,

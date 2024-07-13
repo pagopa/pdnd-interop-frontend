@@ -2,7 +2,7 @@ import type React from 'react'
 import type { AlertProps } from '@mui/material'
 import { create } from 'zustand'
 
-type ToastNotificationStoreType = {
+type ToastNotificationStore = {
   isShown: boolean
   message: string | React.ReactNode
   severity: AlertProps['severity']
@@ -10,7 +10,7 @@ type ToastNotificationStoreType = {
   hideToast: () => void
 }
 
-export const useToastNotificationStore = create<ToastNotificationStoreType>((set) => ({
+export const useToastNotificationStore = create<ToastNotificationStore>((set) => ({
   isShown: false,
   message: '',
   severity: 'success',

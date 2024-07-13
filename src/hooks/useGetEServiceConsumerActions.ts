@@ -12,21 +12,18 @@ import {
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
 } from '@/utils/agreement.utils'
-import { AuthHooks, jwtQueryOptions } from '@/api/auth'
 import SendIcon from '@mui/icons-material/Send'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import ArticleIcon from '@mui/icons-material/Article'
 import noop from 'lodash/noop'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useAuthenticatedUser } from './useAuthenticatedUser'
 
 function useGetEServiceConsumerActions(
   eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
   descriptor?: { id: string; state: EServiceDescriptorState; version: string }
 ) {
   const { t } = useTranslation('eservice')
-  const {
-    data: { isAdmin },
-  } = useSuspenseQuery(jwtQueryOptions())
+  const { isAdmin } = useAuthenticatedUser()
 
   const navigate = useNavigate()
 

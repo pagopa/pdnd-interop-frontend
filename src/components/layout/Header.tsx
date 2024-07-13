@@ -11,6 +11,7 @@ import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import { useQuery } from '@tanstack/react-query'
+import { useAuth } from '@/stores'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -18,7 +19,7 @@ import { useQuery } from '@tanstack/react-query'
  */
 const getPartyList = (
   parties: Array<SelfcareInstitution> | undefined,
-  jwt: JwtUser | undefined,
+  user: JwtUser | null,
   t: TFunction<'common'>
 ): PartySwitchItem[] => {
   const generatePartyItem = (party: SelfcareInstitution) => ({
@@ -36,15 +37,15 @@ const getPartyList = (
      * we add it manually to the list if it's not already there.
      * This is a workaround to avoid the crash, waiting for a proper solution from the api.
      */
-    const doesIncludeActiveParty = parties?.some((party) => party.id === jwt?.selfcareId)
-    if (!doesIncludeActiveParty && jwt) {
+    const doesIncludeActiveParty = parties?.some((party) => party.id === user?.selfcareId)
+    if (!doesIncludeActiveParty && user) {
       return [
         ...parties.map(generatePartyItem),
         generatePartyItem({
-          id: jwt.selfcareId,
-          description: jwt.organization.name,
-          userProductRoles: jwt.organization.roles.map((r) => r.role),
-          parent: jwt.rootParent?.description,
+          id: user.selfcareId,
+          description: user.organization.name,
+          userProductRoles: user.organization.roles.map((r) => r.role),
+          parent: user.rootParent?.description,
         }),
       ]
     }
@@ -52,13 +53,13 @@ const getPartyList = (
   }
 
   // If the parties list is not available, generate the party list using the jwt
-  if (jwt) {
+  if (user) {
     return [
       generatePartyItem({
-        id: jwt.selfcareId,
-        description: jwt.organization.name,
-        userProductRoles: jwt.organization.roles.map((r) => r.role),
-        parent: jwt.rootParent?.description,
+        id: user.selfcareId,
+        description: user.organization.name,
+        userProductRoles: user.organization.roles.map((r) => r.role),
+        parent: user.rootParent?.description,
       }),
     ]
   }
@@ -98,24 +99,21 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
   return [selfcareProduct, ...productsFromBE]
 }
 
-type HeaderProps = {
-  jwt?: JwtUser
-  isSupport?: boolean
-}
-
-const _Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
+const _Header: React.FC = () => {
   const navigate = useNavigate()
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
 
-  const { data: parties } = useQuery({ ...getPartyListQueryOptions(), enabled: !!jwt })
-  const { data: products } = useQuery({ ...getProductsQueryOptions(), enabled: !!jwt })
+  const { isAuthenticated, user } = useAuth()
 
-  const partyList = getPartyList(parties, jwt, tCommon)
+  const { data: parties } = useQuery({ ...getPartyListQueryOptions(), enabled: isAuthenticated })
+  const { data: products } = useQuery({ ...getProductsQueryOptions(), enabled: isAuthenticated })
+
+  const partyList = getPartyList(parties, user, tCommon)
   const productList = getProductList(products)
 
-  const headerAccountLoggedUser = jwt
-    ? { id: jwt.uid, name: jwt.name, surname: jwt.family_name, email: '' }
+  const headerAccountLoggedUser = user
+    ? { id: user.uid, name: user.name, surname: user.family_name, email: '' }
     : undefined
 
   const goToLoginPage = () => {
@@ -130,7 +128,7 @@ const _Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
     )
   }
 
-  const selfcareId = jwt?.selfcareId
+  const selfcareId = user?.selfcareId
 
   const handleSelectProduct = (product: ProductSwitchItem) => {
     if (!selfcareId) return
@@ -145,7 +143,7 @@ const _Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
     )
   }
 
-  const headerChipProps = isSupport
+  const headerChipProps = user?.isSupport
     ? ({ chipLabel: t('supportChipLabel'), color: 'primary' } as const)
     : undefined
 
@@ -170,7 +168,7 @@ const _Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
       <HeaderProduct
         // force re-render when selfcareId changes to solve a bug with the ProductSwitch component from mui-italia
         // must be removed when the bug is fixed
-        key={jwt?.selfcareId}
+        key={user?.selfcareId}
         onSelectedParty={handleSelectParty}
         onSelectedProduct={handleSelectProduct}
         partyId={selfcareId}

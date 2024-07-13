@@ -87,6 +87,7 @@ async function getBlacklist() {
 }
 
 const AuthServices = {
+  swapTokens,
   getSessionToken,
   getBlacklist,
   swapSAMLToken,

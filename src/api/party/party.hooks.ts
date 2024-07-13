@@ -14,7 +14,8 @@ import type {
   Tenants,
 } from '../api.generatedTypes'
 import PartyServices from './party.services'
-import { AuthHooks, jwtQueryOptions } from '../auth'
+import { useAuth } from '@/stores'
+import { useAuthenticatedUser } from '@/hooks/useAuthenticatedUser'
 
 export enum PartyQueryKeys {
   GetSingle = 'PartyGetSingle',
@@ -41,10 +42,8 @@ export function getPartyQueryOptions(partyId?: string) {
 }
 
 function useGetActiveUserParty() {
-  const {
-    data: { jwt },
-  } = useSuspenseQuery(jwtQueryOptions())
-  return useSuspenseQuery(getPartyQueryOptions(jwt?.organizationId))
+  const { organizationId } = useAuthenticatedUser()
+  return useSuspenseQuery(getPartyQueryOptions(organizationId))
 }
 
 function useGetPartyUsersList(params: GetInstitutionUsersParams, config = { suspense: false }) {

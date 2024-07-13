@@ -1,14 +1,8 @@
-import { jwtQueryOptions } from '@/api/auth'
 import { OneTrustNoticesServices } from './one-trust-notices.services'
 import type { ConsentType, PrivacyNotice } from '../api.generatedTypes'
-import {
-  type UseQueryOptions,
-  useMutation,
-  useQuery,
-  queryOptions,
-  useSuspenseQuery,
-} from '@tanstack/react-query'
+import { type UseQueryOptions, useMutation, useQuery, queryOptions } from '@tanstack/react-query'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { useAuth } from '@/stores'
 
 export enum OneTrustNoticesQueryKeys {
   GetUserConsent = 'GetUserConsent',
@@ -37,9 +31,7 @@ export function getUserConsentQueryOptions(consentType: ConsentType) {
  * This is the default behaviour of the useQuery hook.
  */
 function useGetNoticeContent(consentType: ConsentType) {
-  const {
-    data: { jwt },
-  } = useSuspenseQuery(jwtQueryOptions())
+  const { isAuthenticated } = useAuth()
 
   return useQuery({
     queryKey: [OneTrustNoticesQueryKeys.GetNoticeContent, consentType],
@@ -48,7 +40,7 @@ function useGetNoticeContent(consentType: ConsentType) {
     retry: false,
     staleTime: Infinity,
     gcTime: Infinity,
-    enabled: Boolean(jwt),
+    enabled: isAuthenticated,
   })
 }
 
@@ -57,9 +49,7 @@ function useGetNoticeContent(consentType: ConsentType) {
  * The PP and ToS are public and should be accessible to everyone.
  */
 function useGetPublicNoticeContent(consentType: ConsentType) {
-  const {
-    data: { jwt },
-  } = useSuspenseQuery(jwtQueryOptions())
+  const { isAuthenticated } = useAuth()
   const lang = useCurrentLanguage()
 
   return useQuery({
@@ -73,7 +63,7 @@ function useGetPublicNoticeContent(consentType: ConsentType) {
     retry: false,
     staleTime: Infinity,
     gcTime: Infinity,
-    enabled: !jwt,
+    enabled: !isAuthenticated,
   })
 }
 

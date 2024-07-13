@@ -16,13 +16,13 @@ import { SELFCARE_BASE_URL } from '@/config/env'
 import { SIDENAV_WIDTH } from '@/config/constants'
 import { SideNavItemLink, SideNavItemLinkSkeleton } from './SideNavItemLink'
 import { CollapsableSideNavItem, CollapsableSideNavItemSkeleton } from './CollapsableSideNavItem'
-import { jwtQueryOptions } from '@/api/auth'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { useLocation } from '@tanstack/react-router'
 import { P, match } from 'ts-pattern'
 import { PartyQueries } from '@/api/party'
 import { useCurrentRoute } from '@/router'
+import { useAuthenticatedUser } from '@/hooks/useAuthenticatedUser'
+import { isCertifier } from '@/utils/tenant.utils'
 
 export const SideNav = () => {
   const { t } = useTranslation('shared-components')
@@ -36,17 +36,12 @@ export const SideNav = () => {
       .otherwise(() => undefined)
   )
 
-  const {
-    data: { isAdmin, jwt, isOrganizationAllowedToProduce, isSupport },
-  } = useSuspenseQuery(jwtQueryOptions())
+  const { selfcareId, isOrganizationAllowedToProduce, isSupport, isAdmin } = useAuthenticatedUser()
 
   const { data: tenant } = PartyQueries.useGetActiveUserParty()
-  const isCertifier = Boolean(tenant.features[0]?.certifier?.certifierId)
 
-  const selfcareUsersPageUrl =
-    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
-
-  const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
+  const selfcareUsersPageUrl = `${SELFCARE_BASE_URL}/dashboard/${selfcareId}/users#${getCurrentSelfCareProductId()}`
+  const selfcareGroupsPageUrl = `${SELFCARE_BASE_URL}/dashboard/${selfcareId}/groups`
 
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
@@ -80,7 +75,7 @@ export const SideNav = () => {
           onToggle={setOpenSubNav}
         >
           <SideNavItemLink to="/aderente/anagrafica" indented />
-          {isCertifier && <SideNavItemLink to="/aderente/certificatore" indented />}
+          {isCertifier(tenant) && <SideNavItemLink to="/aderente/certificatore" indented />}
         </CollapsableSideNavItem>
       </List>
       {isAdmin && (
@@ -141,29 +136,42 @@ export const SideNavSkeleton: React.FC = () => {
   return (
     <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
       <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
-        {mode === 'consumer' && (
-          <>
-            <CollapsableSideNavItemSkeleton>
-              <SideNavItemLinkSkeleton />
-              <SideNavItemLinkSkeleton />
-              <SideNavItemLinkSkeleton />
-              <SideNavItemLinkSkeleton />
-              <SideNavItemLinkSkeleton />
-            </CollapsableSideNavItemSkeleton>
-            <CollapsableSideNavItemSkeleton />
-          </>
-        )}
-        {mode === 'provider' && (
-          <>
-            <CollapsableSideNavItemSkeleton />
-            <CollapsableSideNavItemSkeleton>
-              <SideNavItemLinkSkeleton />
-              <SideNavItemLinkSkeleton />
-              <SideNavItemLinkSkeleton />
-            </CollapsableSideNavItemSkeleton>
-          </>
-        )}
-        <CollapsableSideNavItemSkeleton />
+        {match(mode)
+          .with('consumer', () => (
+            <>
+              <CollapsableSideNavItemSkeleton>
+                <SideNavItemLinkSkeleton />
+                <SideNavItemLinkSkeleton />
+                <SideNavItemLinkSkeleton />
+                <SideNavItemLinkSkeleton />
+                <SideNavItemLinkSkeleton />
+              </CollapsableSideNavItemSkeleton>
+              <CollapsableSideNavItemSkeleton />
+              <CollapsableSideNavItemSkeleton />
+            </>
+          ))
+          .with('provider', () => (
+            <>
+              <CollapsableSideNavItemSkeleton />
+              <CollapsableSideNavItemSkeleton>
+                <SideNavItemLinkSkeleton />
+                <SideNavItemLinkSkeleton />
+                <SideNavItemLinkSkeleton />
+              </CollapsableSideNavItemSkeleton>
+              <CollapsableSideNavItemSkeleton />
+            </>
+          ))
+          .with(null, () => (
+            <>
+              <CollapsableSideNavItemSkeleton />
+              <CollapsableSideNavItemSkeleton />
+              <CollapsableSideNavItemSkeleton>
+                <SideNavItemLinkSkeleton />
+                <SideNavItemLinkSkeleton />
+              </CollapsableSideNavItemSkeleton>
+            </>
+          ))
+          .exhaustive()}
       </List>
       <Divider sx={{ my: 1 }} />
       <List sx={{ width: SIDENAV_WIDTH, mr: 0 }}>

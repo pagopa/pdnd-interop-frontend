@@ -9,8 +9,8 @@ import { STAGE } from '@/config/env'
  * @param exp The exp value of the JWT token
  * @returns True if the session has expired, otherwise false
  */
-export function hasSessionExpired(exp?: number) {
-  return exp && new Date() > new Date(exp * 1000)
+export function hasSessionExpired(exp: number) {
+  return new Date() > new Date(exp * 1000)
 }
 
 export async function waitFor(ms: number) {

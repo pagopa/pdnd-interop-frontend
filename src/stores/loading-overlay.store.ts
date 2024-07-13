@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
-type LoadingOverlayStoreType = {
+type LoadingOverlayStore = {
   isShown: boolean
   message: string
   showOverlay: (message: string) => void
   hideOverlay: () => void
 }
 
-export const useLoadingOverlayStore = create<LoadingOverlayStoreType>((set) => ({
+export const useLoadingOverlayStore = create<LoadingOverlayStore>((set) => ({
   isShown: false,
   message: '',
   showOverlay: (message: string) => set(() => ({ message, isShown: true })),

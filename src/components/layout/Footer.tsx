@@ -6,18 +6,15 @@ import { LANGUAGES, pagoPaLink } from '@/config/constants'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import type { JwtUser } from '@/types/party.types'
+import { useAuth } from '@/stores'
 
 type FooterLinksTypeMulti = Omit<FooterLinksType, 'label' | 'ariaLabel'> & { labelKey?: string }
 
-type FooterProps = {
-  jwt?: JwtUser
-}
-
-const _Footer: React.FC<FooterProps> = ({ jwt }) => {
+const _Footer: React.FC = () => {
   const { t } = useTranslation('pagopa')
   const currentLanguage = useCurrentLanguage()
   const navigate = useNavigate()
+  const { isAuthenticated } = useAuth()
 
   function convertLinks(inputLinks: Array<FooterLinksTypeMulti>) {
     return inputLinks.map((l) => {
@@ -77,7 +74,7 @@ const _Footer: React.FC<FooterProps> = ({ jwt }) => {
 
   return (
     <MUIItaliaFooter
-      loggedUser={Boolean(jwt)}
+      loggedUser={isAuthenticated}
       companyLink={pagoPaLink}
       legalInfo={LegalInfo}
       postLoginLinks={convertLinks(links) as Array<FooterLinksType>}

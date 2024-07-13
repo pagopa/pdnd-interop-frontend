@@ -12,17 +12,20 @@ import { FirstLoadingSpinner } from '@/components/shared/FirstLoadingSpinner'
 import { MaintenanceBanner } from '@/components/shared/MaintenanceBanner'
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { useSuspenseQuery, type QueryClient } from '@tanstack/react-query'
+import { type QueryClient } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
 import { STAGE } from '@/config/env'
 import { useTranslation } from 'react-i18next'
 import { Dialog } from '@/components/dialogs'
-import { jwtQueryOptions } from '@/api/auth'
+import { authenticateUser, type AuthContext } from '@/stores'
 
-export const Route = createRootRouteWithContext<{
+export type RouterContext = {
   queryClient: QueryClient
-}>()({
-  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(jwtQueryOptions()),
+  auth: AuthContext
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+  loader: authenticateUser,
   component: React.memo(RootComponent),
   pendingComponent: FirstLoadingSpinner,
   wrapInSuspense: true,
@@ -33,18 +36,14 @@ export const Route = createRootRouteWithContext<{
 })
 
 function RootComponent() {
-  const {
-    data: { jwt, isSupport },
-  } = useSuspenseQuery(jwtQueryOptions())
-
   return (
     <ThemeProvider theme={theme}>
       <EnvironmentBanner />
-      <Header jwt={jwt} isSupport={isSupport} />
+      <Header />
       <Box sx={{ flex: 1 }}>
         <Outlet />
       </Box>
-      <Footer jwt={jwt} />
+      <Footer />
       <CssBaseline />
       <LoadingOverlay />
       <ToastNotification />
