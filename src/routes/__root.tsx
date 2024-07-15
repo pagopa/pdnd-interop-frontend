@@ -9,7 +9,7 @@ import PrivacyTipIcon from '@mui/icons-material/PrivacyTip'
 
 import { FirstLoadingSpinner } from '@/components/shared/FirstLoadingSpinner'
 import { MaintenanceBanner } from '@/components/shared/MaintenanceBanner'
-import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
+import { Outlet, ScrollRestoration, createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { type QueryClient } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
@@ -50,6 +50,7 @@ function RootComponent() {
       <Dialog />
       <ReactQueryDevtools initialIsOpen={false} />
       <TanStackRouterDevtools position="bottom-right" />
+      <ScrollRestoration />
     </>
   )
 }

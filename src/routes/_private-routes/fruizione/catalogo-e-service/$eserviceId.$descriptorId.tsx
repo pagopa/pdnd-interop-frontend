@@ -53,7 +53,7 @@ function ConsumerEServiceCatalogDetailsPage() {
         label: t('actions.backToCatalogLabel'),
         to: '/fruizione/catalogo-e-service',
       }}
-      breadcrumbPaths={['/erogazione', '/fruizione/catalogo-e-service']}
+      breadcrumbPaths={['/fruizione', '/fruizione/catalogo-e-service']}
     >
       <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
       <Grid container>

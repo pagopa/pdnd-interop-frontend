@@ -32,7 +32,7 @@ const router = createRouter({
   routeTree,
   context: {
     queryClient,
-    auth: undefined!,
+    auth: undefined!, // We'll set this in React-land (below)
   },
   basepath,
   defaultPreload: 'intent',

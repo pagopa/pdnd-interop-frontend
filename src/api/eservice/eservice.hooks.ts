@@ -114,6 +114,13 @@ function useGetSingle(eserviceId?: string, config?: { suspense?: boolean; enable
   })
 }
 
+export function getSingleEServiceQueryOptions(eserviceId: string) {
+  return queryOptions({
+    queryKey: [EServiceQueryKeys.GetSingle, eserviceId],
+    queryFn: () => EServiceServices.getSingle(eserviceId),
+  })
+}
+
 function useGetDescriptorCatalog(
   eserviceId: string,
   descriptorId: string,
@@ -149,6 +156,19 @@ function useGetDescriptorProvider(
     queryFn: () => EServiceServices.getDescriptorProvider(eserviceId!, descriptorId!),
     ...config,
     enabled: Boolean(eserviceId && descriptorId) && (config?.enabled ?? true),
+  })
+}
+
+export function getDescriptorProviderQueryOptions({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return queryOptions({
+    queryKey: [EServiceQueryKeys.GetDescriptorProvider, eserviceId, descriptorId],
+    queryFn: () => EServiceServices.getDescriptorProvider(eserviceId, descriptorId),
   })
 }
 

@@ -1,6 +1,5 @@
 import React from 'react'
-import isEmpty from 'lodash/isEmpty'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from '@tanstack/react-router'
 
 export type ActiveStepProps = {
   back: VoidFunction
@@ -14,15 +13,9 @@ export function scrollToTop() {
 
 export const useActiveStep = (): ActiveStepProps => {
   const location = useLocation()
-  const [activeStep, setActiveStep] = React.useState(() => {
-    const locationState: Record<string, unknown> = location.state as Record<string, unknown>
-
-    if (!isEmpty(locationState) && locationState.stepIndexDestination) {
-      return locationState.stepIndexDestination as number
-    }
-
-    return 0
-  })
+  const [activeStep, setActiveStep] = React.useState<number>(
+    location.state.stepIndexDestination ?? 0
+  )
 
   /*
    * Stepper actions

@@ -6,13 +6,13 @@ import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
-import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { useNavigate } from '@tanstack/react-router'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -56,7 +56,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     // If we are creating a new e-service, we create a new draft
     createDraft(formValues, {
       onSuccess({ id }) {
-        navigate('PROVIDE_ESERVICE_EDIT', {
+        navigate({
+          to: '/erogazione/e-service/$eserviceId/$descriptorId/modifica',
           params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT },
           replace: true,
           state: { stepIndexDestination: 1 },

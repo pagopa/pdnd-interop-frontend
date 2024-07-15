@@ -2,13 +2,13 @@ import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceCreateStepDocumentsDoc } from './EServiceCreateStepDocumentsDoc'
 import { EServiceCreateStepDocumentsInterface } from './EServiceCreateStepDocumentsInterface'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { useNavigate } from '@tanstack/react-router'
 
 export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
@@ -44,7 +44,8 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
           type: 'button',
           onClick: () => {
             if (!descriptor) return
-            navigate('PROVIDE_ESERVICE_SUMMARY', {
+            navigate({
+              to: '/erogazione/e-service/$eserviceId/$descriptorId/modifica/riepilogo',
               params: {
                 eserviceId: descriptor.eservice.id,
                 descriptorId: descriptor.id,

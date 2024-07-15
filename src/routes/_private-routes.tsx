@@ -13,23 +13,24 @@ import { AppLayout, AppLayoutSkeleton } from '@/components/layout/AppLayout'
 import { STAGE } from '@/config/env'
 import { RouterLink } from '@/components/shared/RouterLink'
 import { useAuthenticatedUser } from '@/hooks/useAuthenticatedUser'
+import { getPartyQueryOptions } from '@/api/party'
 
 export const Route = createFileRoute('/_private-routes')({
-  beforeLoad: ({ context: { auth } }) => {
-    if (!auth.isAuthenticated) {
-      throw new AuthenticationError()
-    }
-  },
   loader: async ({ context }) => {
     // This is a workaround to an issue that should be solved
     // once this PR is merged:
     // https://github.com/TanStack/router/pull/1907
     if (!context) return
 
-    const { queryClient } = context
+    const { queryClient, auth } = context
+
+    if (!auth.isAuthenticated) {
+      throw new AuthenticationError()
+    }
 
     queryClient.ensureQueryData(getUserConsentQueryOptions('TOS'))
     queryClient.ensureQueryData(getUserConsentQueryOptions('PP'))
+    queryClient.ensureQueryData(getPartyQueryOptions(auth.user!.organizationId))
     if (STAGE === 'PROD') {
       queryClient.ensureQueryData(getBlacklistQueryOptions())
     }
@@ -70,15 +71,19 @@ function TOSGuard({ children }: { children: React.ReactNode }) {
   const { t } = useTranslation('pagopa', { keyPrefix: 'tos' })
   const { mutateAsync: acceptNotice } = OneTrustNoticesMutations.useAcceptPrivacyNotice()
 
-  const { isSupport } = useAuthenticatedUser()
-
   const { data: userTOSConsent } = useSuspenseQuery(getUserConsentQueryOptions('TOS'))
   const { data: userPPConsent } = useSuspenseQuery(getUserConsentQueryOptions('PP'))
 
   const hasAcceptedTOS = userTOSConsent.firstAccept && userTOSConsent.isUpdated
   const hasAcceptedPP = userPPConsent.firstAccept && userPPConsent.isUpdated
 
-  const isTOSAccepted = isSupport || !!(hasAcceptedTOS && hasAcceptedPP)
+  const isTOSAccepted = Boolean(hasAcceptedTOS && hasAcceptedPP)
+
+  const { isSupport } = useAuthenticatedUser()
+
+  if (isSupport || isTOSAccepted) {
+    return children
+  }
 
   function handleAcceptTOS() {
     const acceptPromises: Promise<unknown>[] = []
@@ -98,28 +103,24 @@ function TOSGuard({ children }: { children: React.ReactNode }) {
     Promise.all(acceptPromises)
   }
 
-  if (!isTOSAccepted) {
-    return (
-      <TOSAgreement
-        sx={{ height: '100%' }}
-        productName={t('title')}
-        description={
-          <Trans
-            components={{
-              1: <RouterLink to="/termini-di-servizio" underline="hover" />,
-              2: <RouterLink to="/privacy-policy" underline="hover" />,
-            }}
-          >
-            {t('description')}
-          </Trans>
-        }
-        onConfirm={handleAcceptTOS}
-        confirmBtnLabel={t('confirmBtnLabel')}
-      />
-    )
-  }
-
-  return children
+  return (
+    <TOSAgreement
+      sx={{ height: '100%' }}
+      productName={t('title')}
+      description={
+        <Trans
+          components={{
+            1: <RouterLink to="/termini-di-servizio" underline="hover" />,
+            2: <RouterLink to="/privacy-policy" underline="hover" />,
+          }}
+        >
+          {t('description')}
+        </Trans>
+      }
+      onConfirm={handleAcceptTOS}
+      confirmBtnLabel={t('confirmBtnLabel')}
+    />
+  )
 }
 
 function BlackListGuard({ children }: { children: React.ReactNode }) {

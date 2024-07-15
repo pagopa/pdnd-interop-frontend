@@ -9,6 +9,10 @@ export function useIsAuthorizedToAccessRoute({
 }) {
   const pathAuthLevels = useRouter().routesById[routeId]?.options.staticData?.authLevels
 
+  if (!pathAuthLevels) {
+    console.warn(`Route ${routeId} does not have any auth levels defined`)
+  }
+
   const { currentRoles } = useAuthenticatedUser()
 
   return Boolean(

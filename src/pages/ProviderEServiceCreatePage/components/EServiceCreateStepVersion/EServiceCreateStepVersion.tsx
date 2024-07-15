@@ -3,7 +3,6 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import { useNavigate } from '@/router'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { Box, Link, Stack } from '@mui/material'
 import React from 'react'
@@ -16,6 +15,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { payloadVerificationGuideLink } from '@/config/constants'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import { useNavigate } from '@tanstack/react-router'
 
 export type EServiceCreateStepVersionFormValues = {
   audience: string
@@ -95,7 +95,8 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
 
     createVersionDraft(payload, {
       onSuccess(data) {
-        navigate('PROVIDE_ESERVICE_EDIT', {
+        navigate({
+          to: '/erogazione/e-service/$eserviceId/$descriptorId/modifica',
           params: { eserviceId: eservice.id, descriptorId: data.id },
           replace: true,
         })
