@@ -5,7 +5,6 @@ import { useDownloadFile } from '../hooks/useDownloadFile'
 import type {
   CatalogEServices,
   CompactOrganizations,
-  EServiceDescriptorSeed,
   EServiceRiskAnalysisSeed,
   GetConsumersParams,
   GetEServicesCatalogParams,
@@ -192,11 +191,7 @@ function useCreateVersionDraft(
 ) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createVersionDraft' })
   return useMutation(
-    (
-      payload: {
-        eserviceId: string
-      } & EServiceDescriptorSeed
-    ) => EServiceServices.createVersionDraft(payload),
+    ({ eserviceId }: { eserviceId: string }) => EServiceServices.createVersionDraft({ eserviceId }),
     {
       meta: {
         successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),

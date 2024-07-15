@@ -1,7 +1,6 @@
 import type { EServiceDescriptorState, EServiceMode } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { useNavigate } from '@/router'
-import { minutesToSeconds } from '@/utils/format.utils'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
@@ -112,20 +111,7 @@ export function useGetProviderEServiceActions(
 
   const handleCreateNewDraft = () => {
     createNewDraft(
-      {
-        eserviceId,
-        voucherLifespan: minutesToSeconds(1),
-        audience: [],
-        description: 'Descrizione nuova versione...',
-        dailyCallsPerConsumer: 1,
-        dailyCallsTotal: 1,
-        agreementApprovalPolicy: 'AUTOMATIC',
-        attributes: {
-          certified: [],
-          declared: [],
-          verified: [],
-        },
-      },
+      { eserviceId },
       {
         onSuccess({ id }) {
           navigate('PROVIDE_ESERVICE_EDIT', {
