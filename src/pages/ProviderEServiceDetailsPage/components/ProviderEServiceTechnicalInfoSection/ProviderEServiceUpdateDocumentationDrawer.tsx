@@ -68,6 +68,16 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
 
   const onSubmit = ({ doc, prettyName }: EServiceCreateStepDocumentsDocFormValues) => {
     if (!doc || !descriptor) return
+
+    // the current total page number (before uploading the new doc)
+    const totalPages = getTotalPageCount(docs.length)
+
+    // check if the upload of a new doc will create a new page
+    const isNewPageAdded = docs.length % paginationParams.limit === 0
+
+    // check if the current page is the last one
+    const isNotInLastPage = paginationProps.pageNum !== totalPages
+
     uploadDocument(
       {
         eserviceId: descriptor.eservice.id,
@@ -76,17 +86,39 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
         prettyName,
         kind: 'DOCUMENT',
       },
-      { onSuccess: handleHideFileInput }
+      {
+        onSuccess: () => {
+          // if there is a new page added we should go to the new created page where the new doc will be visible
+          if (isNewPageAdded) paginationProps.onPageChange(totalPages + 1)
+
+          // if there is not a new page added and we are not in the last page we should go to the last page where the new doc will be visible
+          if (isNotInLastPage && !isNewPageAdded) paginationProps.onPageChange(totalPages)
+
+          handleHideFileInput()
+        },
+      }
     )
   }
 
   const handleDeleteDocument = (document: EServiceDoc) => {
     if (!descriptor) return
-    deleteDocument({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-      documentId: document.id,
-    })
+    // check if the only document in the current page, that means we should go to the previous page when this is deleted
+    const isTheOnlyDocumentInCurrentPage = paginatedDocs.length === 1
+    deleteDocument(
+      {
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        documentId: document.id,
+      },
+      {
+        onSuccess: () => {
+          // we check also that the pageNum is greater than the first page, otherwise we stay in the first page
+          if (isTheOnlyDocumentInCurrentPage && paginationProps.pageNum > 1) {
+            paginationProps.onPageChange(paginationProps.pageNum - 1)
+          }
+        },
+      }
+    )
   }
 
   const handleUpdateDescription = (documentId: string, prettyName: string) => {
