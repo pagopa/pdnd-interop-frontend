@@ -26,7 +26,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const navigate = useNavigate()
 
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId, {
+  const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId, {
     suspense: false,
   })
 
@@ -78,7 +78,8 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   return (
     <PageContainer
-      title={t('summary.title')}
+      title={purpose?.title}
+      isLoading={isInitialLoading}
       backToAction={{
         label: t('backToListBtn'),
         to: 'SUBSCRIBE_PURPOSE_LIST',
