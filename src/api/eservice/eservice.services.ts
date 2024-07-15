@@ -8,7 +8,6 @@ import type {
   CreatedResource,
   CreateEServiceDocumentPayload,
   EServiceDescriptionSeed,
-  EServiceDescriptorSeed,
   EServiceDoc,
   EServiceRiskAnalysis,
   EServiceRiskAnalysisSeed,
@@ -119,15 +118,9 @@ async function cloneFromVersion({
   return response.data
 }
 
-async function createVersionDraft({
-  eserviceId,
-  ...payload
-}: {
-  eserviceId: string
-} & EServiceDescriptorSeed) {
+async function createVersionDraft({ eserviceId }: { eserviceId: string }) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors`,
-    payload
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors`
   )
   return response.data
 }
