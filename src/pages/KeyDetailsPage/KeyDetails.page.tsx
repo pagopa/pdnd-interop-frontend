@@ -11,6 +11,7 @@ import {
 import useGetKeyActions from '@/hooks/useGetKeyActions'
 import { Alert, Link as MUILink } from '@mui/material'
 import { clientKeyGuideLink } from '@/config/constants'
+import { useQuery } from '@tanstack/react-query'
 
 const KeyDetailsPage: React.FC = () => {
   const { t } = useTranslation('key')
@@ -22,9 +23,7 @@ const KeyDetailsPage: React.FC = () => {
   const backToOperatorsListRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
 
-  const { data: publicKey, isLoading } = ClientQueries.useGetSingleKey(clientId, kid, {
-    suspense: false,
-  })
+  const { data: publicKey, isLoading } = useQuery(ClientQueries.getSingleKey(clientId, kid))
 
   const { actions } = useGetKeyActions(clientId, kid)
 

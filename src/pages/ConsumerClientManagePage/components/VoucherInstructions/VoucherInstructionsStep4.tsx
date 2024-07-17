@@ -10,15 +10,16 @@ import { SectionContainer } from '@/components/layout/containers'
 import { Link } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
 import { API_GATEWAY_INTEFACE_URL } from '@/config/env'
+import { useQuery } from '@tanstack/react-query'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const { selectedPurposeId, goToPreviousStep } = useVoucherInstructionsContext()
 
-  const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId!, {
-    enabled: !!selectedPurposeId,
-    suspense: false,
+  const { data: purpose } = useQuery({
+    ...PurposeQueries.getSingle(selectedPurposeId!),
+    enabled: Boolean(selectedPurposeId),
   })
 
   return (

@@ -16,9 +16,9 @@ export const ConsumerAgreementDetailsCertifiedAttributesSection: React.FC = () =
 
   const { agreement, descriptorAttributes } = useConsumerAgreementDetailsContext()
 
-  const certifiedAttributeGroups = descriptorAttributes?.certified ?? []
-  const partyAttributes = agreement?.consumer.attributes
-  const ownedCertifiedAttributes = partyAttributes?.certified ?? []
+  const certifiedAttributeGroups = descriptorAttributes.certified
+  const partyAttributes = agreement.consumer.attributes
+  const ownedCertifiedAttributes = partyAttributes.certified
 
   function getGroupContainerProps(
     group: Array<DescriptorAttribute>

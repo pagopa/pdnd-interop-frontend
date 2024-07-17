@@ -16,6 +16,7 @@ import type { GetConsumerPurposesParams } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 const ConsumerPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposesList' })
@@ -29,26 +30,25 @@ const ConsumerPurposesListPage: React.FC = () => {
   const [producersAutocompleteText, setProducersAutocompleteInputChange] =
     useAutocompleteTextInput('')
 
-  const { data: producers } = EServiceQueries.useGetProducers(
-    { offset: 0, limit: 50, q: producersAutocompleteText },
-    { suspense: false, keepPreviousData: true }
-  )
-  const { data: eservices } = EServiceQueries.useGetCatalogList(
-    { q: eserviceAutocompleteText, limit: 50, offset: 0 },
-    { suspense: false, keepPreviousData: true }
-  )
+  const { data: producersOptions = [] } = useQuery({
+    ...EServiceQueries.getProducers({ offset: 0, limit: 50, q: producersAutocompleteText }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
 
-  const eservicesOptions =
-    eservices?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
-
-  const providersOptions =
-    producers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const { data: eservicesOptions = [] } = useQuery({
+    ...EServiceQueries.getCatalogList({ offset: 0, limit: 50, q: eserviceAutocompleteText }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
@@ -66,7 +66,7 @@ const ConsumerPurposesListPage: React.FC = () => {
       name: 'producersIds',
       label: tPurpose('filters.providerField.label'),
       type: 'autocomplete-multiple',
-      options: providersOptions,
+      options: producersOptions,
       onTextInputChange: setProducersAutocompleteInputChange,
     },
     {
@@ -92,23 +92,15 @@ const ConsumerPurposesListPage: React.FC = () => {
     consumersIds: [jwt?.organizationId] as Array<string>,
   }
 
-  const { data } = PurposeQueries.useGetConsumersList(params, {
-    suspense: false,
-    keepPreviousData: true,
-    enabled: !!jwt?.organizationId,
-  })
-
-  const { data: activeEServices } = EServiceQueries.useGetCatalogList(
-    {
+  const { data: hasActiveEService } = useQuery({
+    ...EServiceQueries.getCatalogList({
       agreementStates: ['ACTIVE'],
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
-    },
-    { suspense: false }
-  )
-
-  const hasNotActiveEService = activeEServices?.results.length === 0 ?? true
+    }),
+    select: (activeEServices) => activeEServices.results.length > 0,
+  })
 
   const topSideActions: Array<ActionItemButton> = [
     {
@@ -116,11 +108,17 @@ const ConsumerPurposesListPage: React.FC = () => {
       label: tCommon('createNewBtn'),
       icon: PlusOneIcon,
       variant: 'contained',
-      disabled: hasNotActiveEService,
-      tooltip:
-        !activeEServices && hasNotActiveEService ? tPurpose('cantCreatePurposeTooltip') : undefined,
+      disabled: !hasActiveEService,
+      tooltip: !hasActiveEService ? tPurpose('cantCreatePurposeTooltip') : undefined,
     },
   ]
+
+  const { data: totalPages = 0 } = useQuery({
+    ...PurposeQueries.getConsumersList(params),
+    placeholderData: keepPreviousData,
+    enabled: Boolean(jwt?.organizationId),
+    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
+  })
 
   return (
     <PageContainer
@@ -130,10 +128,7 @@ const ConsumerPurposesListPage: React.FC = () => {
     >
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />
-      <Pagination
-        {...paginationProps}
-        totalPages={getTotalPageCount(data?.pagination.totalCount)}
-      />
+      <Pagination {...paginationProps} totalPages={totalPages} />
     </PageContainer>
   )
 }
@@ -141,9 +136,9 @@ const ConsumerPurposesListPage: React.FC = () => {
 const PurposesTableWrapper: React.FC<{ params: GetConsumerPurposesParams }> = ({ params }) => {
   const { jwt } = AuthHooks.useJwt()
 
-  const { data, isFetching } = PurposeQueries.useGetConsumersList(params, {
-    suspense: false,
-    enabled: !!jwt?.organizationId,
+  const { data, isFetching } = useQuery({
+    ...PurposeQueries.getConsumersList(params),
+    enabled: Boolean(jwt?.organizationId),
   })
 
   if (!data && isFetching) return <ConsumerPurposesTableSkeleton />

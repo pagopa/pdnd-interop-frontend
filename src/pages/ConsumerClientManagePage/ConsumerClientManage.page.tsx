@@ -11,6 +11,7 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { ClientOperators } from './components/ClientOperators'
 import { ClientPublicKeys } from './components/ClientPublicKeys'
 import useGetClientActions from '@/hooks/useGetClientActions'
+import { useQuery } from '@tanstack/react-query'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
@@ -18,9 +19,7 @@ const ConsumerClientManagePage: React.FC = () => {
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('voucher')
 
-  const { data: client, isLoading: isLoadingClient } = ClientQueries.useGetSingle(clientId, {
-    suspense: false,
-  })
+  const { data: client, isLoading: isLoadingClient } = useQuery(ClientQueries.getSingle(clientId))
 
   const { actions } = useGetClientActions(client)
 

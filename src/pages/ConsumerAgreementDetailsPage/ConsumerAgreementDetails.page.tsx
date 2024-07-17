@@ -20,6 +20,7 @@ import {
 } from './components/ConsumerAgreementDetailsAttributesSectionsList/ConsumerAgreementDetailsAttributesSectionsList'
 import { useDialog } from '@/stores'
 import { useGetConsumerAgreementAlertProps } from './hooks/useGetConsumerAgreementAlertProps'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 const ConsumerAgreementDetailsPage: React.FC = () => {
   return (
@@ -37,17 +38,17 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { openDialog } = useDialog()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
-  const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
+  const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
 
   const { actions } = useGetAgreementsActions(agreement)
 
   const alertProps = useGetConsumerAgreementAlertProps(agreement)
 
-  const isEserviceMine = agreement?.consumer.id === agreement?.producer.id
+  const isEserviceMine = agreement.consumer.id === agreement.producer.id
   const { hasAllCertifiedAttributes, hasAllDeclaredAttributes, hasAllVerifiedAttributes } =
     useDescriptorAttributesPartyOwnership(
-      agreement?.eservice.id,
-      agreement?.eservice.activeDescriptor?.id
+      agreement.eservice.id,
+      agreement.eservice.activeDescriptor?.id
     )
   const shouldDisableUpgradeButton = !hasAllCertifiedAttributes
 
@@ -111,8 +112,8 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
         <Grid item xs={8}>
           <ConsumerAgreementDetailsContextProvider agreement={agreement}>
             <Stack spacing={3}>
-              {agreement && <ConsumerAgreementDetailsGeneralInfoSection />}
-              {agreement && !isEserviceMine && <ConsumerAgreementDetailsAttributesSectionsList />}
+              <ConsumerAgreementDetailsGeneralInfoSection />
+              {!isEserviceMine && <ConsumerAgreementDetailsAttributesSectionsList />}
             </Stack>
           </ConsumerAgreementDetailsContextProvider>
         </Grid>

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import type { AttributeKind, DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import type { EServiceCreateStepAttributesFormValues } from '..'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 export type AttributeAutocompleteProps = {
   groupIndex: number
@@ -49,18 +50,15 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
     return result
   }
 
-  const { data } = AttributeQueries.useGetList(
-    {
+  const { data } = useQuery({
+    ...AttributeQueries.getList({
       kinds: [attributeKey.toUpperCase() as AttributeKind],
       q: getQ(),
       offset: 0,
       limit: 50,
-    },
-    {
-      suspense: false,
-      keepPreviousData: true,
-    }
-  )
+    }),
+    placeholderData: keepPreviousData,
+  })
 
   const handleAddAttributeToGroup = handleSubmit(({ attribute }) => {
     if (!attribute) return

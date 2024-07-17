@@ -11,6 +11,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
 import { ProviderEServiceUpdateDescriptionDrawer } from './ProviderEServiceUpdateDescriptionDrawer'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -19,12 +20,11 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, {
-    suspense: true,
-  })
+  const { data: descriptor } = useSuspenseQuery(
+    EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
+  )
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
-
   const exportVersion = EServiceDownloads.useExportVersion()
 
   const {
@@ -38,8 +38,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     openDrawer: openEServiceUpdateDescriptionDrawer,
     closeDrawer: closeEServiceUpdateDescriptionDrawer,
   } = useDrawerState()
-
-  if (!descriptor) return null
 
   const handleDownloadConsumerList = () => {
     downloadConsumerList(

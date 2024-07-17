@@ -12,9 +12,10 @@ import CloseIcon from '@mui/icons-material/Close'
 import { TenantSelectItem } from './TenantSelectItem'
 import SearchIcon from '@mui/icons-material/Search'
 import { useTranslation } from 'react-i18next'
-import { PartyQueries } from '@/api/tenant'
+import { TenantQueries } from '@/api/tenant'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import type { CompactTenant } from '@/api/api.generatedTypes'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 type TenantSelectProps = {
   selectedTenant: CompactTenant | null
@@ -23,19 +24,11 @@ type TenantSelectProps = {
 
 export const TenantSelect: React.FC<TenantSelectProps> = ({ selectedTenant, onSelectTenant }) => {
   const { t } = useTranslation('assistance', { keyPrefix: 'tenantSelection' })
-
   const [query, setQuery] = useAutocompleteTextInput()
-  const { data: tenants } = PartyQueries.useGetTenants(
-    {
-      name: query,
-      limit: 50,
-    },
-    {
-      keepPreviousData: true,
-    }
-  )
 
-  const tenantsOptions = tenants?.results ?? []
+  const { data: tenants } = useSuspenseQuery(TenantQueries.getTenants({ name: query, limit: 50 }))
+
+  const tenantsOptions = tenants.results ?? []
 
   if (selectedTenant) {
     return (

@@ -1,6 +1,5 @@
 import { Drawer } from '@/components/shared/Drawer'
 import React from 'react'
-import { useProviderAgreementDetailsContext } from '../ProviderAgreementDetailsContext'
 import { ProviderAgreementDetailsAttributesDrawerCertifiedAttributesSection } from './ProviderAgreementDetailsAttributesDrawerCertifiedAttributesSection'
 import { ProviderAgreementDetailsAttributesDrawerDeclaredAttributesSection } from './ProviderAgreementDetailsAttributesDrawerDeclaredAttributesSection'
 import { Trans, useTranslation } from 'react-i18next'
@@ -20,10 +19,6 @@ export const ProviderAgreementDetailsAttributesDrawer: React.FC<
     keyPrefix: 'providerRead.sections.generalInformations.attributesDrawer',
   })
 
-  const { agreement } = useProviderAgreementDetailsContext()
-
-  if (!agreement) return null
-
   const subtitle =
     attributeType === 'certified' ? (
       <Trans
@@ -33,14 +28,10 @@ export const ProviderAgreementDetailsAttributesDrawer: React.FC<
       </Trans>
     ) : undefined
 
-  const handleCloseDrawer = () => {
-    onClose()
-  }
-
   return (
     <Drawer
       isOpen={isOpen}
-      onClose={handleCloseDrawer}
+      onClose={onClose}
       title={t(`title.${attributeType}`)}
       subtitle={subtitle}
     >

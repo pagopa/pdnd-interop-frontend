@@ -3,13 +3,14 @@ import { useNavigate } from '@/router'
 import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
 import { FE_LOGIN_URL, SELFCARE_BASE_URL, STAGE } from '@/config/env'
-import { PartyQueries } from '@/api/tenant/party.hooks'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
+import { useQuery } from '@tanstack/react-query'
+import { SelfcareQueries } from '@/api/selfcare'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -107,8 +108,8 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
 
-  const { data: parties } = PartyQueries.useGetPartyList({ enabled: !!jwt })
-  const { data: products } = PartyQueries.useGetProducts({ enabled: !!jwt })
+  const { data: parties } = useQuery({ ...SelfcareQueries.getPartyList(), enabled: Boolean(jwt) })
+  const { data: products } = useQuery({ ...SelfcareQueries.getProducts(), enabled: Boolean(jwt) })
 
   const partyList = getPartyList(parties, jwt, tCommon)
   const productList = getProductList(products)

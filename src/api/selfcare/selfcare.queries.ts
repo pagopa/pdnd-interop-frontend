@@ -23,7 +23,7 @@ function getPartyList() {
   })
 }
 
-export const PartyQueries = {
+export const SelfcareQueries = {
   getProducts,
   getPartyList,
 }

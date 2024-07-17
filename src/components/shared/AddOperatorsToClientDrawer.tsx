@@ -1,9 +1,10 @@
 import type { Users } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { PartyQueries } from '@/api/tenant'
+import { TenantQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteMultiple } from '@/components/shared/react-hook-form-inputs'
 import { Alert, Stack } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -39,14 +40,12 @@ export const AddOperatorsToClientDrawer: React.FC<AddOperatorsDrawerProps> = ({
     },
   })
 
-  const { data: allPartyOperators = [], isLoading: isLoadingAllPartyOperators } =
-    PartyQueries.useGetPartyUsersList(
-      {
-        roles: ['admin', 'security'],
-        tenantId: jwt?.organizationId as string,
-      },
-      { suspense: false }
-    )
+  const { data: allPartyOperators = [], isPending: isLoadingAllPartyOperators } = useQuery(
+    TenantQueries.getPartyUsersList({
+      roles: ['admin', 'security'],
+      tenantId: jwt?.organizationId as string,
+    })
+  )
 
   const availableOperators = allPartyOperators.filter(
     (partyOperator) => !excludeOperatorsIdsList.includes(partyOperator.userId)
