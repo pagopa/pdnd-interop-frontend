@@ -1,7 +1,7 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { isRouteErrorResponse } from 'react-router-dom'
-import { Button } from '@mui/material'
+import { Button, IconButton, InputAdornment, TextField } from '@mui/material'
 import { Redirect, Link } from '@/router'
 import {
   AssistencePartySelectionError,
@@ -14,6 +14,9 @@ import type { FallbackProps } from 'react-error-boundary'
 import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
+import { Stack } from '@mui/system'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { assistanceLink } from '@/config/constants'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -28,6 +31,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
+  const correlationId = error.response?.data.correlationId
 
   const reloadPageButton = (
     <Button size="small" variant="contained" onClick={() => window.location.reload()}>
@@ -50,6 +54,41 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   const backToSelfcareButton = (
     <Button size="small" variant="contained" href={SELFCARE_BASE_URL}>
       {t('actions.backToSelfcare')}
+    </Button>
+  )
+
+  async function handleCopyCorrelationId(correlationId: string) {
+    try {
+      await navigator.clipboard.writeText(correlationId)
+    } catch (error) {
+      console.error('Unable to copy the correlationId:', error)
+    }
+  }
+
+  const correlationIdSection = (
+    <Stack justifyContent="center" alignItems="center" spacing={4} sx={{ py: 5 }}>
+      <p>{t('axiosError.correlationIdText')}</p>
+      <TextField
+        id="outlined-read-only-input"
+        label="Correlation ID"
+        defaultValue={correlationId}
+        InputProps={{
+          readOnly: true,
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={() => handleCopyCorrelationId(correlationId)}>
+                <ContentCopyIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+    </Stack>
+  )
+
+  const goToSupportPage = (
+    <Button href={assistanceLink} style={{ backgroundColor: 'transparent' }} disableRipple>
+      {t('actions.goToSupportPage')}
     </Button>
   )
 
@@ -79,6 +118,8 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
       <>
         {isDevelopment && <CodeBlock code={error.response ?? error} />}
         {retryQueryButton}
+        {correlationId && correlationIdSection}
+        {goToSupportPage}
       </>
     )
   }

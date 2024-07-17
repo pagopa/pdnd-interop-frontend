@@ -3,7 +3,8 @@
     "reloadPage": "Reload",
     "backToHome": "Back to home",
     "retry": "Retry",
-    "backToSelfcare": "Go back to Area Riservata"
+    "backToSelfcare": "Go back to Area Riservata",
+    "goToSupportPage": "Go to the Support page"
   },
   "default": {
     "title": "Unexpected Error",
@@ -15,7 +16,8 @@
   },
   "axiosError": {
     "title": "Server Error",
-    "description": "There was an error while handling the request. Please reload the page."
+    "description": "There was an error while handling the request. Please reload the page.",
+    "correlationIdText": "You will find the error id below, copy and paste it into the reporting form on the Support page."
   },
   "forbidden": {
     "title": "Not authorized",
