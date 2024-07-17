@@ -1,5 +1,5 @@
 import { AuthHooks } from '@/api/auth'
-import { PartyQueries } from '@/api/party/party.hooks'
+import { PartyQueries } from '@/api/tenant/party.hooks'
 import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'

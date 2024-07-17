@@ -2,7 +2,7 @@ import React from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { Grid, Stack } from '@mui/material'
-import { PartyQueries } from '@/api/party/party.hooks'
+import { PartyQueries } from '@/api/tenant/party.hooks'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatDateString } from '@/utils/format.utils'
 

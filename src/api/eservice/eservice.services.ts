@@ -384,7 +384,7 @@ async function importVersion({ eserviceFile }: { eserviceFile: File }) {
     })
 }
 
-const EServiceServices = {
+export const EServiceServices = {
   getCatalogList,
   getProviderList,
   getSingle,
@@ -415,5 +415,3 @@ const EServiceServices = {
   exportVersion,
   importVersion,
 }
-
-export default EServiceServices

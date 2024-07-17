@@ -1,6 +1,6 @@
 import type { Users } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { PartyQueries } from '@/api/party'
+import { PartyQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteMultiple } from '@/components/shared/react-hook-form-inputs'
 import { Alert, Stack } from '@mui/material'

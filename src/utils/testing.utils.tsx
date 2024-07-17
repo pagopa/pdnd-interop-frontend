@@ -12,7 +12,7 @@ import { vi } from 'vitest'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 import { AuthHooks } from '@/api/auth'
 import { queryClient } from '@/config/query-client'
-import { PartyQueries } from '@/api/party'
+import { PartyQueries } from '@/api/tenant'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>

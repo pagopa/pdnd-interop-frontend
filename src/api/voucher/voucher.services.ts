@@ -16,8 +16,6 @@ async function validateTokenGeneration(payload: AccessTokenRequest) {
   return response.data
 }
 
-const VoucherServices = {
+export const VoucherServices = {
   validateTokenGeneration,
 }
-
-export default VoucherServices

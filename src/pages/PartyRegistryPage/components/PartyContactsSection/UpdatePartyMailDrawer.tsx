@@ -1,6 +1,6 @@
 import type { Mail } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { PartyMutations } from '@/api/party'
+import { PartyMutations } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { emailRegex } from '@/utils/form.utils'

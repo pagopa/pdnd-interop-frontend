@@ -3,7 +3,7 @@ import type { SideNavItemView } from '../SideNav'
 import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
-import { PartyQueries } from '@/api/party'
+import { PartyQueries } from '@/api/tenant'
 
 const views = [
   {

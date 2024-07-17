@@ -1,6 +1,6 @@
 import type { GetAttributesParams } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
-import { PartyQueries } from '@/api/party'
+import { PartyQueries } from '@/api/tenant'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import React from 'react'
