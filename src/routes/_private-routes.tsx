@@ -16,18 +16,12 @@ import { useAuthenticatedUser } from '@/hooks/useAuthenticatedUser'
 import { getPartyQueryOptions } from '@/api/party'
 
 export const Route = createFileRoute('/_private-routes')({
-  loader: async ({ context }) => {
-    // This is a workaround to an issue that should be solved
-    // once this PR is merged:
-    // https://github.com/TanStack/router/pull/1907
-    if (!context) return
-
-    const { queryClient, auth } = context
-
+  beforeLoad: ({ context: { auth } }) => {
     if (!auth.isAuthenticated) {
       throw new AuthenticationError()
     }
-
+  },
+  loader: async ({ context: { queryClient, auth } }) => {
     queryClient.ensureQueryData(getUserConsentQueryOptions('TOS'))
     queryClient.ensureQueryData(getUserConsentQueryOptions('PP'))
     queryClient.ensureQueryData(getPartyQueryOptions(auth.user!.organizationId))
