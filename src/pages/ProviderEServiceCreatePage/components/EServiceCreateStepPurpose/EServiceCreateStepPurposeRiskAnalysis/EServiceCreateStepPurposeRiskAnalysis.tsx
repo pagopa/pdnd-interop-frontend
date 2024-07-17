@@ -6,6 +6,7 @@ import {
 import { useEServiceCreateContext } from '../../EServiceCreateContext'
 import { PurposeQueries } from '@/api/purpose'
 import { EServiceMutations } from '@/api/eservice'
+import { useQuery } from '@tanstack/react-query'
 
 export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
   const { riskAnalysisFormState, closeRiskAnalysisForm, eservice } = useEServiceCreateContext()
@@ -13,9 +14,7 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
   const { mutate: addEServiceRiskAnalysis } = EServiceMutations.useAddEServiceRiskAnalysis()
   const { mutate: updateEServiceRiskAnalysis } = EServiceMutations.useUpdateEServiceRiskAnalysis()
 
-  const { data: riskAnalysisLatest } = PurposeQueries.useGetRiskAnalysisLatest({
-    suspense: false,
-  })
+  const { data: riskAnalysisLatest } = useQuery(PurposeQueries.getRiskAnalysisLatest())
 
   if (!riskAnalysisLatest || !eservice) return <RiskAnalysisFormSkeleton />
 

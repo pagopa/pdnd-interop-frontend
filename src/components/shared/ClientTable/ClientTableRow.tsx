@@ -8,6 +8,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
+import { useQueryClient } from '@tanstack/react-query'
 
 type ClientTableRow = {
   client: CompactClient
@@ -16,12 +17,12 @@ type ClientTableRow = {
 
 export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind }) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const prefetch = ClientQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
 
   const { actions } = useGetClientActions(client)
 
   const handlePrefetch = () => {
-    prefetch(client.id)
+    queryClient.prefetchQuery(ClientQueries.getSingle(client.id))
   }
 
   return (

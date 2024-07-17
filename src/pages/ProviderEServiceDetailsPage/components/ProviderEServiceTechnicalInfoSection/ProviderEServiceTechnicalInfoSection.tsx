@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsSection'
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -15,11 +16,9 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   })
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, {
-    suspense: true,
-  })
-
-  if (!descriptor) return null
+  const { data: descriptor } = useSuspenseQuery(
+    EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
+  )
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>

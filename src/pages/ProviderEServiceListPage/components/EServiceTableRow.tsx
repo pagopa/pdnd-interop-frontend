@@ -11,6 +11,7 @@ import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceAct
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { ProducerEService } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { useQueryClient } from '@tanstack/react-query'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -20,8 +21,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { t } = useTranslation('common')
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
 
-  const prefetchDescriptor = EServiceQueries.usePrefetchDescriptorProvider()
-  const prefetchEService = EServiceQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
 
   const { actions } = useGetProviderEServiceActions(
     eservice.id,
@@ -36,11 +36,13 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
 
   const handlePrefetch = () => {
     if (isEServiceEditable) {
-      prefetchEService(eservice.id)
+      queryClient.prefetchQuery(EServiceQueries.getSingle(eservice.id))
       return
     }
     if (!eservice.activeDescriptor) return
-    prefetchDescriptor(eservice.id, eservice.activeDescriptor.id)
+    queryClient.prefetchQuery(
+      EServiceQueries.getDescriptorProvider(eservice.id, eservice.activeDescriptor.id)
+    )
   }
 
   return (

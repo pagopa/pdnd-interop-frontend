@@ -9,6 +9,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -16,12 +17,11 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   })
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, {
-    suspense: true,
-  })
+  const { data: descriptor } = useSuspenseQuery(
+    EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
+  )
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
-
   const exportVersion = EServiceDownloads.useExportVersion()
 
   const {
@@ -29,8 +29,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     openDrawer: openVersionSelectorDrawer,
     closeDrawer: closeVersionSelectorDrawer,
   } = useDrawerState()
-
-  if (!descriptor) return null
 
   const handleDownloadConsumerList = () => {
     downloadConsumerList(

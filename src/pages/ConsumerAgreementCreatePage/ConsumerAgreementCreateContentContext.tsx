@@ -10,6 +10,7 @@ import type {
 import { AgreementQueries } from '@/api/agreement'
 import noop from 'lodash/noop'
 import { EServiceQueries } from '@/api/eservice'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 type ConsumerAgreementCreateContentContextType = {
   agreement: Agreement | undefined
@@ -44,11 +45,9 @@ const ConsumerAgreementCreateContentContextProvider: React.FC<{
   agreementId: string
   children: React.ReactNode
 }> = ({ agreementId, children }) => {
-  const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
-    agreement?.eservice.id as string,
-    agreement?.descriptorId as string,
-    { enabled: !!(agreement?.eservice.id && agreement?.descriptorId) }
+  const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
+  const { data: descriptor } = useSuspenseQuery(
+    EServiceQueries.getDescriptorCatalog(agreement.eservice.id, agreement.descriptorId)
   )
 
   const [isCertifiedAttributesDrawerOpen, setIsCertifiedAttributesDrawerOpen] =

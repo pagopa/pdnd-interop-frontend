@@ -5,6 +5,7 @@ import { useToastNotification } from '@/stores'
 import type { UseFormSetValue } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { EServiceCreateStepAttributesFormValues } from '../components/EServiceCreateStepAttributes/EServiceCreateStepAttributes'
+import { useQuery } from '@tanstack/react-query'
 
 export function useClonePreviousDescriptorAttributes(
   currentDescriptor: ProducerEServiceDescriptor | undefined,
@@ -19,14 +20,10 @@ export function useClonePreviousDescriptorAttributes(
       Number(compactDescriptor.version) === Number(currentDescriptor.version) - 1
   )?.id
 
-  const { data: previousVersionDescriptor } = EServiceQueries.useGetDescriptorProvider(
-    eserviceId,
-    previousDescriptorId,
-    {
-      suspense: false,
-      enabled: Boolean(eserviceId) && Boolean(previousDescriptorId),
-    }
-  )
+  const { data: previousVersionDescriptor } = useQuery({
+    ...EServiceQueries.getDescriptorProvider(eserviceId!, previousDescriptorId!),
+    enabled: Boolean(eserviceId) && Boolean(previousDescriptorId),
+  })
 
   const handleClonePreviousDescriptorAttributes = React.useCallback(() => {
     if (!previousVersionDescriptor) return

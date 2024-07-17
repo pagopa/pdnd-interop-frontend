@@ -29,6 +29,7 @@ import {
   EServiceCreateStepPurposeSkeleton,
 } from './components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
 import type { EServiceMode } from '@/api/api.generatedTypes'
+import { useQuery } from '@tanstack/react-query'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -37,20 +38,22 @@ const ProviderEServiceCreatePage: React.FC = () => {
 
   const isNewEService = !params?.eserviceId
   const isDraftEService = !isNewEService && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
-  const isDraftDescriptor = !isNewEService && params?.descriptorId && !isDraftEService
+  const isDraftDescriptor = Boolean(!isNewEService && params?.descriptorId && !isDraftEService)
 
   const [selectedEServiceMode, setSelectedEServiceMode] = React.useState<EServiceMode | undefined>()
 
-  const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(
-    params?.eserviceId,
-    { suspense: false, enabled: !!isDraftEService }
-  )
+  const { data: eservice, isLoading: isLoadingEService } = useQuery({
+    ...EServiceQueries.getSingle(params?.eserviceId as string),
+    enabled: isDraftEService,
+  })
 
-  const { data: descriptor, isLoading: isLoadingDescriptor } =
-    EServiceQueries.useGetDescriptorProvider(params?.eserviceId, params?.descriptorId, {
-      suspense: false,
-      enabled: !!isDraftDescriptor,
-    })
+  const { data: descriptor, isLoading: isLoadingDescriptor } = useQuery({
+    ...EServiceQueries.getDescriptorProvider(
+      params?.eserviceId as string,
+      params?.descriptorId as string
+    ),
+    enabled: isDraftDescriptor,
+  })
 
   /**
    *  If we are creating a new e-service that has no descriptors, we take the e-service data from the

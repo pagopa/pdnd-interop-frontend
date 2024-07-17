@@ -11,6 +11,7 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import useGetKeyActions from '@/hooks/useGetKeyActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { PublicKey } from '@/api/api.generatedTypes'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface ClientPublicKeysTableRowProps {
   publicKey: PublicKey
@@ -24,7 +25,7 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('key')
   const clientKind = useClientKind()
-  const prefetchKey = ClientQueries.usePrefetchSingleKey()
+  const queryClient = useQueryClient()
 
   const kid = publicKey.keyId
 
@@ -34,7 +35,7 @@ export const ClientPublicKeysTableRow: React.FC<ClientPublicKeysTableRowProps> =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT' : 'SUBSCRIBE_CLIENT_KEY_EDIT'
 
   const handlePrefetchKey = () => {
-    prefetchKey(clientId, kid)
+    queryClient.prefetchQuery(ClientQueries.getSingleKey(clientId, kid))
   }
 
   const color = publicKey.isOrphan ? 'error' : 'primary'
