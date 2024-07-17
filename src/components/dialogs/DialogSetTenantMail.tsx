@@ -1,5 +1,5 @@
 import { AuthHooks } from '@/api/auth'
-import { PartyMutations } from '@/api/party'
+import { PartyMutations } from '@/api/tenant'
 import { useDialog } from '@/stores'
 import type { DialogSetTenantMailProps } from '@/types/dialog.types'
 import {

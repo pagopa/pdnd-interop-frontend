@@ -1,6 +1,6 @@
 import type { CompactAttribute, CompactTenant } from '@/api/api.generatedTypes'
 import { AttributeMutations, AttributeQueries } from '@/api/attribute'
-import { PartyQueries } from '@/api/party'
+import { PartyQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { Stack } from '@mui/material'

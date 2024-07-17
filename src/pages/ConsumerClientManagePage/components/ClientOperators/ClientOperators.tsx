@@ -1,4 +1,4 @@
-import { PartyQueries } from '@/api/party/party.hooks'
+import { PartyQueries } from '@/api/tenant/party.hooks'
 import { Button, Stack, Tooltip } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

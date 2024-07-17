@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { TenantSelectItem } from './TenantSelectItem'
 import SearchIcon from '@mui/icons-material/Search'
 import { useTranslation } from 'react-i18next'
-import { PartyQueries } from '@/api/party'
+import { PartyQueries } from '@/api/tenant'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import type { CompactTenant } from '@/api/api.generatedTypes'
 

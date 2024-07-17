@@ -1,5 +1,5 @@
 import React from 'react'
-import { PartyQueries } from '@/api/party/party.hooks'
+import { PartyQueries } from '@/api/tenant/party.hooks'
 import { Trans, useTranslation } from 'react-i18next'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
