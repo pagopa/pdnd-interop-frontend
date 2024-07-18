@@ -1,5 +1,5 @@
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse } from 'react-router-dom'
 import { Button, IconButton, InputAdornment, TextField } from '@mui/material'
 import { Redirect, Link } from '@/router'
@@ -66,7 +66,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   }
 
   const correlationIdSection = (
-    <Stack justifyContent="center" alignItems="center" spacing={4} sx={{ py: 5 }}>
+    <Stack justifyContent="center" alignItems="center" spacing={4}>
       <p>{t('axiosError.correlationIdText')}</p>
       <TextField
         id="outlined-read-only-input"
@@ -83,13 +83,14 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
           ),
         }}
       />
+      <Button
+        href={assistanceLink}
+        style={{ backgroundColor: 'transparent', fontWeight: 700 }}
+        disableRipple
+      >
+        {t('actions.goToSupportPage')}
+      </Button>
     </Stack>
-  )
-
-  const goToSupportPage = (
-    <Button href={assistanceLink} style={{ backgroundColor: 'transparent' }} disableRipple>
-      {t('actions.goToSupportPage')}
-    </Button>
   )
 
   if (error instanceof Error) {
@@ -119,7 +120,6 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
         {isDevelopment && <CodeBlock code={error.response ?? error} />}
         {retryQueryButton}
         {correlationId && correlationIdSection}
-        {goToSupportPage}
       </>
     )
   }

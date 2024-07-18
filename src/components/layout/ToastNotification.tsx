@@ -11,7 +11,6 @@ import {
 import { useToastNotification, useToastNotificationStore } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import { height } from '@mui/system'
 
 const _ToastNotification: React.FC = () => {
   const { hideToast } = useToastNotification()
@@ -57,6 +56,7 @@ const _ToastNotification: React.FC = () => {
   return (
     <Snackbar
       open={isShown}
+      autoHideDuration={5000}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       sx={{ maxWidth: 350 }}
       onClose={hideToast}
