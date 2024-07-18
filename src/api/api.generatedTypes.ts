@@ -175,6 +175,10 @@ export interface Mail {
   description?: string
 }
 
+export interface EServiceDescriptionSeed {
+  description: string
+}
+
 export interface EServiceDescriptorSeed {
   description?: string
   audience: string[]
@@ -2811,6 +2815,29 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateEServiceDescription
+   * @summary Update an e-service description
+   * @request POST:/eservices/{eServiceId}/update
+   * @secure
+   */
+  export namespace UpdateEServiceDescription {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceDescriptionSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
   }
 }
 

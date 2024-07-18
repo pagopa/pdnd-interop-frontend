@@ -7,6 +7,7 @@ import type {
   CreatedEServiceDescriptor,
   CreatedResource,
   CreateEServiceDocumentPayload,
+  EServiceDescriptionSeed,
   EServiceDescriptorSeed,
   EServiceDoc,
   EServiceRiskAnalysis,
@@ -333,6 +334,17 @@ async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
   return response.data
 }
 
+async function updateEServiceDescription({
+  eserviceId,
+  ...payload
+}: { eserviceId: string } & EServiceDescriptionSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/update`,
+    payload
+  )
+  return response.data
+}
+
 async function exportVersion({
   eserviceId,
   descriptorId,
@@ -412,6 +424,7 @@ const EServiceServices = {
   updateVersionDraftDocumentDescription,
   downloadVersionDraftDocument,
   downloadConsumerList,
+  updateEServiceDescription,
   exportVersion,
   importVersion,
 }

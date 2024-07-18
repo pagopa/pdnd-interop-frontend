@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Stack } from '@mui/material'
+import { Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
@@ -9,11 +9,14 @@ import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
+import EditIcon from '@mui/icons-material/Edit'
+import { ProviderEServiceUpdateDescriptionDrawer } from './ProviderEServiceUpdateDescriptionDrawer'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.generalInformations',
   })
+  const { t: tCommon } = useTranslation('common')
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, {
@@ -28,6 +31,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     isOpen: isVersionSelectorDrawerOpen,
     openDrawer: openVersionSelectorDrawer,
     closeDrawer: closeVersionSelectorDrawer,
+  } = useDrawerState()
+
+  const {
+    isOpen: isEServiceUpdateDescriptionDrawerOpen,
+    openDrawer: openEServiceUpdateDescriptionDrawer,
+    closeDrawer: closeEServiceUpdateDescriptionDrawer,
   } = useDrawerState()
 
   if (!descriptor) return null
@@ -82,22 +91,40 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
       >
         <Stack spacing={2}>
           <InformationContainer label={t('version.label')} content={descriptor.version} />
-          <InformationContainer
-            label={t('eserviceDescription.label')}
-            content={descriptor.eservice.description}
-            direction="column"
-          />
-          <InformationContainer
-            label={t('descriptorDescription.label')}
-            content={descriptor.description ?? ''}
-            direction="column"
-          />
+          <Divider />
+          <SectionContainer
+            innerSection
+            title={t('eserviceDescription.label')}
+            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+            topSideActions={[
+              {
+                action: openEServiceUpdateDescriptionDrawer,
+                label: tCommon('actions.edit'),
+                icon: EditIcon,
+              },
+            ]}
+          >
+            <Typography variant="body2">{descriptor.eservice.description}</Typography>
+          </SectionContainer>
+          <Divider />
+          <SectionContainer
+            innerSection
+            title={t('descriptorDescription.label')}
+            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+          >
+            <Typography variant="body2">{descriptor.description ?? ''}</Typography>
+          </SectionContainer>
         </Stack>
       </SectionContainer>
       <EServiceVersionSelectorDrawer
         isOpen={isVersionSelectorDrawerOpen}
         onClose={closeVersionSelectorDrawer}
         descriptor={descriptor}
+      />
+      <ProviderEServiceUpdateDescriptionDrawer
+        isOpen={isEServiceUpdateDescriptionDrawerOpen}
+        onClose={closeEServiceUpdateDescriptionDrawer}
+        eservice={descriptor.eservice}
       />
     </>
   )
