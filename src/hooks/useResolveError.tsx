@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse } from 'react-router-dom'
-import { Button, IconButton, InputAdornment, TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import { Redirect, Link } from '@/router'
 import {
   AssistencePartySelectionError,
@@ -15,8 +15,8 @@ import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
 import { Stack } from '@mui/system'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { assistanceLink } from '@/config/constants'
+import { CopyToClipboardButton } from '@pagopa/mui-italia'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -57,14 +57,6 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     </Button>
   )
 
-  async function handleCopyCorrelationId(correlationId: string) {
-    try {
-      await navigator.clipboard.writeText(correlationId)
-    } catch (error) {
-      console.error('Unable to copy the correlationId:', error)
-    }
-  }
-
   const correlationIdSection = (
     <Stack justifyContent="center" alignItems="center" spacing={4}>
       <p>{t('axiosError.correlationIdText')}</p>
@@ -75,11 +67,10 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
         InputProps={{
           readOnly: true,
           endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={() => handleCopyCorrelationId(correlationId)}>
-                <ContentCopyIcon />
-              </IconButton>
-            </InputAdornment>
+            <CopyToClipboardButton
+              value={correlationId!}
+              tooltipTitle={t('axiosError.tooltipTitle')}
+            />
           ),
         }}
       />

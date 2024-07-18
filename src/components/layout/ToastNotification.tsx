@@ -1,16 +1,8 @@
 import React from 'react'
-import {
-  Alert,
-  IconButton,
-  InputAdornment,
-  Snackbar,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Alert, Snackbar, Stack, TextField, Typography } from '@mui/material'
 import { useToastNotification, useToastNotificationStore } from '@/stores'
 import { useTranslation } from 'react-i18next'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { CopyToClipboardButton } from '@pagopa/mui-italia'
 
 const _ToastNotification: React.FC = () => {
   const { hideToast } = useToastNotification()
@@ -33,25 +25,15 @@ const _ToastNotification: React.FC = () => {
         InputProps={{
           readOnly: true,
           endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={() => handleCopyCorrelationId(correlationId)}>
-                <ContentCopyIcon />
-              </IconButton>
-            </InputAdornment>
+            <CopyToClipboardButton
+              value={correlationId!}
+              tooltipTitle={t('axiosError.tooltipTitle')}
+            />
           ),
         }}
       />
     </>
   )
-
-  async function handleCopyCorrelationId(correlationId: string | undefined) {
-    if (!correlationId) return
-    try {
-      await navigator.clipboard.writeText(correlationId)
-    } catch (error) {
-      console.error('Unable to copy the correlationId:', error)
-    }
-  }
 
   return (
     <Snackbar
