@@ -14,19 +14,15 @@ import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute } from '@/router'
 import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
 import { AuthHooks } from '@/api/auth'
-import { FirstLoadingSpinner } from '@/components/shared/FirstLoadingSpinner'
 
 const _RoutesWrapper: React.FC = () => {
   const { isPublic, routeKey } = useCurrentRoute()
 
-  const { jwt, isSupport, currentRoles, isLoadingSession, isOrganizationAllowedToProduce } =
-    AuthHooks.useJwt()
+  const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
   const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement(jwt, isSupport)
 
   useScrollTopOnLocationChange()
   useCheckSessionExpired(jwt?.exp)
-
-  if (isLoadingSession && !isPublic) return <FirstLoadingSpinner />
 
   return (
     <>

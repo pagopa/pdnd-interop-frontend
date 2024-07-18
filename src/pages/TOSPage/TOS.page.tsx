@@ -13,10 +13,10 @@ const TOSPage: React.FC = () => {
   const generatePath = useGeneratePath()
   const path = generatePath('TOS')
 
-  const { jwt, isLoadingSession } = AuthHooks.useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const lang = useCurrentLanguage()
 
-  const isAuthenticated = Boolean(jwt && !isLoadingSession)
+  const isAuthenticated = Boolean(jwt)
 
   const { data: bffTermsOfService } = useQuery(
     OneTrustNoticesQueries.getNoticeContent({

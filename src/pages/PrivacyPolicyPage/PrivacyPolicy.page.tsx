@@ -13,10 +13,10 @@ const PrivacyPolicyPage: React.FC = () => {
   const generatePath = useGeneratePath()
   const path = generatePath('PRIVACY_POLICY')
 
-  const { jwt, isLoadingSession } = AuthHooks.useJwt()
+  const { jwt } = AuthHooks.useJwt()
   const lang = useCurrentLanguage()
 
-  const isAuthenticated = Boolean(jwt && !isLoadingSession)
+  const isAuthenticated = Boolean(jwt)
 
   const { data: bffPrivacyPolicy } = useQuery(
     OneTrustNoticesQueries.getNoticeContent({

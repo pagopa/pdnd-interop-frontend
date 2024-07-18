@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import differenceInHours from 'date-fns/differenceInHours'
 import { useTranslation } from 'react-i18next'
-import { useGetMaintenanceJson } from '@/api/maintenance'
+import { MaintenanceQueries } from '@/api/maintenance'
 import isBefore from 'date-fns/isBefore'
 import { STAGE } from '@/config/env'
+import { useQuery } from '@tanstack/react-query'
 
 export type MaintenanceData = {
   start: { date: string; time: string }
@@ -34,7 +35,7 @@ export function useMaintenanceBanner() {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'maintenanceBanner',
   })
-  const { data } = useGetMaintenanceJson()
+  const { data } = useQuery(MaintenanceQueries.getMaintenanceJson())
 
   const maintenanceStartString = `${data?.start?.date} ${data?.start?.time}`
   const maintenanceEndString = `${data?.end?.date} ${data?.end?.time}`
