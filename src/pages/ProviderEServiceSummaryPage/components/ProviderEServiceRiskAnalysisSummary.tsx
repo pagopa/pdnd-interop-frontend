@@ -4,6 +4,7 @@ import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useParams } from '@/router'
 import { URL_FRAGMENTS } from '@/router/router.utils'
 import { List, ListItem, ListItemText, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
@@ -19,17 +20,13 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
 
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
-    params.eserviceId,
-    params.descriptorId,
-    {
-      suspense: false,
-      enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
-    }
-  )
+  const { data: descriptor } = useQuery({
+    ...EServiceQueries.getDescriptorProvider(params.eserviceId, params.descriptorId),
+    enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
+  })
 
-  const { data: eservice } = EServiceQueries.useGetSingle(params.eserviceId, {
-    suspense: false,
+  const { data: eservice } = useQuery({
+    ...EServiceQueries.getSingle(params.eserviceId),
     enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
   })
 
@@ -37,16 +34,13 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
     ? descriptor?.eservice.riskAnalysis.find((item) => item.id === riskAnalysisId)
     : eservice?.riskAnalysis.find((item) => item.id === riskAnalysisId)
 
-  const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    {
+  const { data: riskAnalysisConfig } = useQuery({
+    ...PurposeQueries.getRiskAnalysisVersion({
       riskAnalysisVersion: riskAnalysis?.riskAnalysisForm.version as string,
       eserviceId: eservice?.id as string,
-    },
-    {
-      suspense: false,
-      enabled: !!riskAnalysis?.riskAnalysisForm.version && !!eservice?.id,
-    }
-  )
+    }),
+    enabled: Boolean(riskAnalysis?.riskAnalysisForm.version && eservice?.id),
+  })
 
   const riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
 

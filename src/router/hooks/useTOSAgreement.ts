@@ -1,6 +1,7 @@
 import React from 'react'
 import { OneTrustNoticesMutations, OneTrustNoticesQueries } from '@/api/one-trust-notices'
 import type { JwtUser } from '@/types/party.types'
+import { useQuery } from '@tanstack/react-query'
 
 export function useTOSAgreement(jwt: JwtUser | undefined, isSupport: boolean) {
   const { mutateAsync: acceptNotice } = OneTrustNoticesMutations.useAcceptPrivacyNotice()
@@ -8,12 +9,14 @@ export function useTOSAgreement(jwt: JwtUser | undefined, isSupport: boolean) {
   /**
    * If we are in support mode, we don't need to check if the user has accepted the TOS.
    */
-  const { data: userTOSConsent } = OneTrustNoticesQueries.useGetUserConsent('TOS', {
-    enabled: !!jwt && !isSupport,
+  const { data: userTOSConsent } = useQuery({
+    ...OneTrustNoticesQueries.getUserConsent('TOS'),
+    enabled: Boolean(jwt && !isSupport),
   })
 
-  const { data: userPPConsent } = OneTrustNoticesQueries.useGetUserConsent('PP', {
-    enabled: !!jwt && !isSupport,
+  const { data: userPPConsent } = useQuery({
+    ...OneTrustNoticesQueries.getUserConsent('PP'),
+    enabled: Boolean(jwt && !isSupport),
   })
 
   const hasAcceptedTOS = userTOSConsent?.firstAccept && userTOSConsent?.isUpdated

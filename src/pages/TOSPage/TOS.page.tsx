@@ -4,14 +4,33 @@ import { useTranslation } from 'react-i18next'
 import { OneTrustNoticesQueries } from '@/api/one-trust-notices'
 import { useGeneratePath } from '@/router'
 import { parseHtmlJsonToReactNode } from '@/utils/common.utils'
+import { useQuery } from '@tanstack/react-query'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { AuthHooks } from '@/api/auth'
 
 const TOSPage: React.FC = () => {
   const { t } = useTranslation('common', { keyPrefix: 'tos' })
   const generatePath = useGeneratePath()
   const path = generatePath('TOS')
 
-  const { data: bffTermsOfService } = OneTrustNoticesQueries.useGetNoticeContent('TOS')
-  const { data: bucketTermsOfService } = OneTrustNoticesQueries.useGetPublicNoticeContent('TOS')
+  const { jwt, isLoadingSession } = AuthHooks.useJwt()
+  const lang = useCurrentLanguage()
+
+  const isAuthenticated = Boolean(jwt && !isLoadingSession)
+
+  const { data: bffTermsOfService } = useQuery(
+    OneTrustNoticesQueries.getNoticeContent({
+      consentType: 'TOS',
+      isAuthenticated,
+    })
+  )
+  const { data: bucketTermsOfService } = useQuery(
+    OneTrustNoticesQueries.getPublicNoticeContent({
+      consentType: 'TOS',
+      isAuthenticated,
+      lang,
+    })
+  )
 
   const termsOfService = bffTermsOfService || bucketTermsOfService
 

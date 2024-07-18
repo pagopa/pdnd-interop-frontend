@@ -4,6 +4,7 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Link } from '@/router'
 import { Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
+import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -14,10 +15,10 @@ type AttributesTableRowProps = {
 export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribute }) => {
   const { t } = useTranslation('common')
 
-  const prefetchAttribute = AttributeQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
 
   const handlePrefetch = () => {
-    prefetchAttribute(attribute.id)
+    queryClient.prefetchQuery(AttributeQueries.getSingle(attribute.id))
   }
 
   return (

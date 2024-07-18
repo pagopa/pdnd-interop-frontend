@@ -16,6 +16,7 @@ import {
 import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
 import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
 import { URL_FRAGMENTS } from '@/router/router.utils'
+import { useQuery } from '@tanstack/react-query'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -28,20 +29,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft()
 
-  const { data: descriptor, isInitialLoading } = EServiceQueries.useGetDescriptorProvider(
-    params.eserviceId,
-    params.descriptorId,
-    {
-      suspense: false,
-      enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
-    }
-  )
+  const { data: descriptor, isLoading } = useQuery({
+    ...EServiceQueries.getDescriptorProvider(params.eserviceId, params.descriptorId),
+    enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
+  })
 
-  const { data: eservice, isInitialLoading: isEServiceInitialLoading } =
-    EServiceQueries.useGetSingle(params.eserviceId, {
-      suspense: false,
-      enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
-    })
+  const { data: eservice, isLoading: isEServiceLoading } = useQuery({
+    ...EServiceQueries.getSingle(params.eserviceId),
+    enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
+  })
 
   const handleDeleteDraft = () => {
     const hasNoDescriptors = !descriptor
@@ -130,7 +126,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         label: t('backToListBtn'),
         to: 'PROVIDE_ESERVICE_LIST',
       }}
-      isLoading={isInitialLoading || isEServiceInitialLoading}
+      isLoading={isLoading || isEServiceLoading}
       statusChip={{ for: 'eservice', state: 'DRAFT' }}
     >
       <Stack spacing={3}>
