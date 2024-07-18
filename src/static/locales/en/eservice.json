@@ -315,6 +315,17 @@
       }
     },
     "drawers": {
+      "updateEServiceDescriptionDrawer": {
+        "title": "Edit e-service description",
+        "subtitle": "From this panel you can update the description of the e-service. The changes made will take effect immediately.",
+        "eserviceDescriptionField": {
+          "label": "E-service description",
+          "infoLabel": "Min 10 characters, max 250 characters",
+          "validation": {
+            "sameValue": "The e-service description must be different from the current one"
+          }
+        }
+      },
       "updateThresholdsDrawer": {
         "title": "Change voucher lifespan and thresholds",
         "subtitle": "From this panel you can update the parameters of your e-service version. The changes made will take effect immediately.",

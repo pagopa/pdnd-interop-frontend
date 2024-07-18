@@ -444,6 +444,19 @@ function useDownloadConsumerList() {
   })
 }
 
+function useUpdateEServiceDescription() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceDescription',
+  })
+  return useMutation(EServiceServices.updateEServiceDescription, {
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useExportVersion() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.exportVersion',
@@ -497,6 +510,7 @@ export const EServiceMutations = {
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,
   useUpdateVersionDraftDocumentDescription,
+  useUpdateEServiceDescription,
   useImportVersion,
 }
 

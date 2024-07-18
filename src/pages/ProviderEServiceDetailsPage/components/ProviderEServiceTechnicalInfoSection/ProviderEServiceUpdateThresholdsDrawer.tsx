@@ -36,6 +36,16 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
 
   const formMethods = useForm<UpdateThresholdsFormValues>({ defaultValues })
 
+  React.useEffect(() => {
+    formMethods.reset({
+      voucherLifespan: descriptor.voucherLifespan
+        ? secondsToMinutes(descriptor.voucherLifespan)
+        : 1,
+      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
+      dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
+    })
+  }, [descriptor, formMethods])
+
   const onSubmit = (values: UpdateThresholdsFormValues) => {
     updateVersion(
       {
