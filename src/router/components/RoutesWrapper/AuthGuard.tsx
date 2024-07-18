@@ -1,9 +1,10 @@
-import { AuthHooks } from '@/api/auth'
-import { PartyQueries } from '@/api/tenant/party.hooks'
+import { AuthQueries } from '@/api/auth'
+import { TenantHooks } from '@/api/tenant'
 import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { ForbiddenError } from '@/utils/errors.utils'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
 export interface AuthGuardProps {
@@ -32,8 +33,8 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 }) => {
   const { isUserAuthorized } = useAuthGuard()
   const { mode, routeKey } = useCurrentRoute()
-  const { data: blacklist } = AuthHooks.useGetBlacklist()
-  const { data: tenant } = PartyQueries.useGetActiveUserParty()
+  const { data: blacklist } = useQuery(AuthQueries.getBlacklist())
+  const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 

@@ -3,7 +3,7 @@ import type { SideNavItemView } from '../SideNav'
 import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
-import { PartyQueries } from '@/api/tenant'
+import { TenantHooks } from '@/api/tenant'
 
 const views = [
   {
@@ -29,9 +29,9 @@ const views = [
 export function useGetSideNavItems() {
   const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
-  const { data: tenant } = PartyQueries.useGetActiveUserParty()
+  const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
-  const isCertifier = Boolean(tenant?.features[0]?.certifier?.certifierId)
+  const isCertifier = Boolean(tenant.features[0]?.certifier?.certifierId)
 
   return React.useMemo(() => {
     /**

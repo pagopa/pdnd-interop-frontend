@@ -1,5 +1,4 @@
 import React from 'react'
-import { PartyQueries } from '@/api/tenant/party.hooks'
 import { Trans, useTranslation } from 'react-i18next'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
@@ -8,6 +7,7 @@ import { AttributeContainer, AttributeContainerSkeleton } from '@/components/lay
 import { attributesHelpLink } from '@/config/constants'
 import { isAttributeRevoked } from '@/utils/attribute.utils'
 import type { VerifiedTenantAttribute } from '@/api/api.generatedTypes'
+import { TenantHooks } from '@/api/tenant'
 
 export const VerifiedAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'verified' })
@@ -31,8 +31,9 @@ export const VerifiedAttributes = () => {
 }
 
 const VerifiedAttributesList: React.FC = () => {
-  const { data } = PartyQueries.useGetActiveUserParty()
-  const verifiedAttributes = data?.attributes.verified ?? []
+  const { data } = TenantHooks.useGetActiveUserParty()
+
+  const verifiedAttributes = data.attributes.verified
 
   if (verifiedAttributes.length === 0) {
     return <EmptyAttributesAlert type="verified" />
