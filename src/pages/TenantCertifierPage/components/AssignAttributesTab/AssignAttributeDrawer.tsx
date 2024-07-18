@@ -1,10 +1,11 @@
 import type { CompactAttribute, CompactTenant } from '@/api/api.generatedTypes'
 import { AttributeMutations, AttributeQueries } from '@/api/attribute'
-import { PartyQueries } from '@/api/tenant'
+import { TenantHooks, TenantQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { Stack } from '@mui/material'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -54,27 +55,22 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     return result
   }
 
-  const { data: activeTenant } = PartyQueries.useGetActiveUserParty()
-  const { data: attributesData } = AttributeQueries.useGetList(
-    {
+  const { data: activeTenant } = TenantHooks.useGetActiveUserParty()
+  const { data: attributeOptions = [] } = useQuery({
+    ...AttributeQueries.getList({
       limit: 50,
       offset: 0,
       kinds: ['CERTIFIED'],
-      origin: activeTenant?.features[0]?.certifier?.certifierId,
+      origin: activeTenant.features[0]?.certifier?.certifierId,
       q: getAttributeQ(),
-    },
-    {
-      suspense: false,
-      keepPreviousData: true,
-    }
-  )
-
-  const attributes = attributesData?.results ?? []
-
-  const attributeOptions = attributes.map((attribute) => ({
-    label: attribute.name,
-    value: attribute,
-  }))
+    }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((attribute) => ({
+        label: attribute.name,
+        value: attribute,
+      })),
+  })
 
   /**
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected tenant name.
@@ -89,25 +85,20 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     return result
   }
 
-  const { data: tenantsData } = PartyQueries.useGetTenants(
-    {
+  const { data: tenantOptions = [] } = useQuery({
+    ...TenantQueries.getTenants({
       name: getTenantQ(),
       limit: 50,
-    },
-    {
-      suspense: false,
-      keepPreviousData: true,
-    }
-  )
-
-  const tenants = tenantsData?.results ?? []
-
-  const tenantOptions = tenants
-    .filter((tenant) => tenant.id !== activeTenant?.id)
-    .map((tenant) => ({
-      label: tenant.name,
-      value: tenant,
-    }))
+    }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results
+        .filter((tenant) => tenant.id !== activeTenant.id)
+        .map((tenant) => ({
+          label: tenant.name,
+          value: tenant,
+        })),
+  })
 
   const onSubmit = formMethods.handleSubmit((values: AssignAttributeFormValues) => {
     addCertifiedAttribute(

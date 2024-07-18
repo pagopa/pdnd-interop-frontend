@@ -2,7 +2,6 @@ import React from 'react'
 import { AttributeContainer, AttributeContainerSkeleton } from '@/components/layout/containers'
 import { Link, Stack } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
-import { PartyQueries } from '@/api/tenant/party.hooks'
 import { AttributeMutations } from '@/api/attribute'
 import { AttributesContainer } from './AttributesContainer'
 import { EmptyAttributesAlert } from './EmptyAttributesAlert'
@@ -10,6 +9,7 @@ import { isAttributeRevoked } from '@/utils/attribute.utils'
 import { attributesHelpLink } from '@/config/constants'
 import type { DeclaredTenantAttribute } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { TenantHooks } from '@/api/tenant'
 
 export const DeclaredAttributes = () => {
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'declared' })
@@ -33,7 +33,7 @@ export const DeclaredAttributes = () => {
 }
 
 const DeclaredAttributesList: React.FC = () => {
-  const { data } = PartyQueries.useGetActiveUserParty()
+  const { data } = TenantHooks.useGetActiveUserParty()
   const declaredAttributes = data?.attributes.declared ?? []
 
   if (declaredAttributes.length === 0) {
