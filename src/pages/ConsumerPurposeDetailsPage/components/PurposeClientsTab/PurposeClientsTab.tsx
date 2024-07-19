@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { PurposeClientsTable, PurposeClientsTableSkeleton } from './PurposeClientsTable'
 import { AuthHooks } from '@/api/auth'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import { PurposeAddClientDrawer } from './PurposeAddClientDrawer'
 
 interface PurposeClientsTabProps {
   purposeId: string
@@ -17,11 +19,16 @@ export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
 }) => {
   const { t } = useTranslation('purpose')
   const { t: tCommon } = useTranslation('common')
-  const { openDialog } = useDialog()
+  //const { openDialog } = useDialog()
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { isAdmin } = AuthHooks.useJwt()
 
-  const handleOpenAddClientToPurposeDialog = () => {
+  /*const handleOpenAddClientToPurposeDialog = () => {
     openDialog({ type: 'addClientToPurpose', purposeId })
+  }*/
+
+  const handleOpenPurposeAddClientDrawer = () => {
+    openDrawer()
   }
 
   if (isPurposeArchived)
@@ -37,7 +44,7 @@ export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
           <Button
             variant="contained"
             size="small"
-            onClick={handleOpenAddClientToPurposeDialog}
+            onClick={handleOpenPurposeAddClientDrawer}
             startIcon={<PlusOneIcon />}
             disabled={!isAdmin}
           >
@@ -48,6 +55,7 @@ export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
       <React.Suspense fallback={<PurposeClientsTableSkeleton />}>
         <PurposeClientsTable purposeId={purposeId} />
       </React.Suspense>
+      <PurposeAddClientDrawer isOpen={isOpen} onClose={closeDrawer} purposeId={purposeId} />
     </>
   )
 }
