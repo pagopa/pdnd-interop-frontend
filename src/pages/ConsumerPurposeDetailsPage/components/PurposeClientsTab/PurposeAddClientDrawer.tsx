@@ -24,7 +24,7 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation('shared-components', {
-    keyPrefix: 'dialogAddClientToPurpose',
+    keyPrefix: 'drawerAddClientToPurpose',
     useSuspense: false,
   })
 
