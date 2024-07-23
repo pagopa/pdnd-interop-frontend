@@ -1,5 +1,5 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Button, Divider, Stack } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
@@ -14,8 +14,6 @@ import type {
 } from '@/api/api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
-import { useClonePreviousDescriptorAttributes } from '../../hooks/useClonePreviousDescriptorAttributes'
-import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from './CreateAttributeDrawer'
@@ -55,9 +53,6 @@ export const EServiceCreateStepAttributes: React.FC = () => {
   }
 
   const formMethods = useForm({ defaultValues })
-
-  const { handleClonePreviousDescriptorAttributes, hasPreviousVersionNoAttributes } =
-    useClonePreviousDescriptorAttributes(descriptor, formMethods.setValue)
 
   const onSubmit = (values: EServiceCreateStepAttributesFormValues) => {
     if (!descriptor) return
@@ -105,21 +100,6 @@ export const EServiceCreateStepAttributes: React.FC = () => {
             title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
             description={t('step3.attributesDescription')}
           >
-            {descriptor && descriptor.version > '1' && (
-              <Stack direction="row" alignItems="center">
-                <Button
-                  variant="naked"
-                  disabled={hasPreviousVersionNoAttributes}
-                  onClick={handleClonePreviousDescriptorAttributes}
-                >
-                  {t('step3.attributeCloneBtn')}
-                </Button>
-                {hasPreviousVersionNoAttributes && (
-                  <InfoTooltip label={t('step3.attributeCloneNoAttributesLabel')} />
-                )}
-              </Stack>
-            )}
-            <Divider sx={{ my: 3 }} />
             <AddAttributesToEServiceForm attributeKey="certified" readOnly={false} />
             <Divider sx={{ my: 3 }} />
             <AddAttributesToEServiceForm
