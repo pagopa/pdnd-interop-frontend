@@ -3,7 +3,6 @@ import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { Box, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@/router'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
@@ -67,10 +66,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         to={isEServiceEditable ? 'PROVIDE_ESERVICE_SUMMARY' : 'PROVIDE_ESERVICE_MANAGE'}
         params={{
           eserviceId: eservice.id,
-          descriptorId:
-            eservice?.activeDescriptor?.id ||
-            eservice?.draftDescriptor?.id ||
-            URL_FRAGMENTS.FIRST_DRAFT,
+          descriptorId: eservice?.activeDescriptor?.id || eservice?.draftDescriptor?.id || '',
         }}
       >
         {t(`actions.${isEServiceEditable ? 'manageDraft' : 'inspect'}`)}

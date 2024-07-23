@@ -59,12 +59,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
     // If we are creating a new e-service, we create a new draft
     createDraft(formValues, {
-      //TODO
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-expect-error
-      onSuccess({ eserviceId, descriptorId }) {
+      onSuccess({ id, descriptorId }) {
         navigate('PROVIDE_ESERVICE_EDIT', {
-          params: { eserviceId, descriptorId },
+          params: { eserviceId: id, descriptorId },
           replace: true,
           state: { stepIndexDestination: 1 },
         })

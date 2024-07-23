@@ -81,7 +81,7 @@ async function getProducers(params: GetProducersParams) {
 }
 
 async function createDraft(payload: EServiceSeed) {
-  const response = await axiosInstance.post<CreatedResource>(
+  const response = await axiosInstance.post<CreatedEServiceDescriptor>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices`,
     payload
   )

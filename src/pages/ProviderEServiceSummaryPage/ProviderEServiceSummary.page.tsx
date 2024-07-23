@@ -15,7 +15,6 @@ import {
 } from './components'
 import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
 import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -31,16 +30,12 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { data: descriptor, isInitialLoading } = EServiceQueries.useGetDescriptorProvider(
     params.eserviceId,
     params.descriptorId,
-    {
-      suspense: false,
-      enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
-    }
+    { suspense: false }
   )
 
   const { data: eservice, isInitialLoading: isEServiceInitialLoading } =
     EServiceQueries.useGetSingle(params.eserviceId, {
       suspense: false,
-      enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
     })
 
   const handleDeleteDraft = () => {
@@ -68,26 +63,14 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   }
 
   const handleEditDraft = () => {
-    if (descriptor) {
-      navigate('PROVIDE_ESERVICE_EDIT', {
-        params: {
-          eserviceId: descriptor.eservice.id,
-          descriptorId: descriptor.id,
-        },
-        state: { stepIndexDestination: 1 },
-      })
-      return
-    }
-
-    if (eservice) {
-      navigate('PROVIDE_ESERVICE_EDIT', {
-        params: {
-          eserviceId: eservice.id,
-          descriptorId: URL_FRAGMENTS.FIRST_DRAFT,
-        },
-      })
-      return
-    }
+    if (!descriptor) return
+    navigate('PROVIDE_ESERVICE_EDIT', {
+      params: {
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+      },
+      state: { stepIndexDestination: 1 },
+    })
   }
 
   const handlePublishDraft = () => {

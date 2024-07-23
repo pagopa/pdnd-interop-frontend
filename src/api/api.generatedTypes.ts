@@ -2301,7 +2301,7 @@ export namespace Eservices {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = CreatedResource
+    export type ResponseBody = CreatedEServiceDescriptor
   }
   /**
    * No description
@@ -2399,7 +2399,7 @@ export namespace Eservices {
       eServiceId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceDescriptorSeed
+    export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
