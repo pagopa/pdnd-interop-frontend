@@ -12,7 +12,7 @@ import { EServiceCreateStepPurposeRiskAnalysis } from './EServiceCreateStepPurpo
 export const EServiceCreateStepPurpose: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
 
-  const { eservice, forward, back, riskAnalysisFormState } = useEServiceCreateContext()
+  const { descriptor, forward, back, riskAnalysisFormState } = useEServiceCreateContext()
 
   return (
     <>
@@ -39,9 +39,9 @@ export const EServiceCreateStepPurpose: React.FC = () => {
               type: 'button',
               onClick: forward,
               endIcon: <ArrowForwardIcon />,
-              disabled: eservice?.riskAnalysis.length === 0,
+              disabled: descriptor?.eservice?.riskAnalysis.length === 0,
               tooltip:
-                eservice?.riskAnalysis.length === 0
+                descriptor?.eservice?.riskAnalysis.length === 0
                   ? t('stepPurpose.purposeTableSection.noSelectedPurposesTooltip')
                   : undefined,
             }}

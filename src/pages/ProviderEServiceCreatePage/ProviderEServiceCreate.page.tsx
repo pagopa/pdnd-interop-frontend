@@ -34,7 +34,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
-  const isNewEService = !params
+  const isNewEService = !params?.descriptorId || !params?.eserviceId
 
   const [selectedEServiceMode, setSelectedEServiceMode] = React.useState<EServiceMode | undefined>()
 
