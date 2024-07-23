@@ -36,7 +36,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
 
   // The endpoint to call depends on whether the e-service is
   // in RECEIVE or DELIVER mode
-  const isReceive = !!purpose.riskAnalysisForm?.riskAnalysisId
+  const isReceive = purpose.eservice.mode === 'RECEIVE'
 
   const formMethods = useForm<PurposeEditStepGeneralFormValues>({
     defaultValues,

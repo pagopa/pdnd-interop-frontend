@@ -18,7 +18,9 @@ const ConsumerPurposeEditPage: React.FC = () => {
     suspense: false,
   })
 
-  const steps: Array<StepperStep> = purpose?.riskAnalysisForm?.riskAnalysisId
+  const isReceive = purpose?.eservice.mode === 'RECEIVE'
+
+  const steps: Array<StepperStep> = isReceive
     ? [{ label: t('edit.stepper.stepGeneralLabel'), component: PurposeEditStepGeneral }]
     : [
         { label: t('edit.stepper.stepGeneralLabel'), component: PurposeEditStepGeneral },
@@ -37,9 +39,7 @@ const ConsumerPurposeEditPage: React.FC = () => {
         to: 'SUBSCRIBE_PURPOSE_LIST',
       }}
     >
-      {!purpose?.riskAnalysisForm?.riskAnalysisId && (
-        <Stepper steps={steps} activeIndex={activeStep} />
-      )}
+      {!isReceive && <Stepper steps={steps} activeIndex={activeStep} />}
       <Step {...stepProps} />
     </PageContainer>
   )
