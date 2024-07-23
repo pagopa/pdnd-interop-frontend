@@ -83,7 +83,7 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
             </Typography>
           </Box>
         ))}
-        {purpose.riskAnalysisForm?.riskAnalysisId && (
+        {purpose.eservice.mode === 'RECEIVE' && (
           <Alert variant="outlined" severity="info">
             {t('providerRiskAnalysisAlert')}
           </Alert>
