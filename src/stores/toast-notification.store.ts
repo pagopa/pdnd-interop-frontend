@@ -6,7 +6,12 @@ type ToastNotificationStoreType = {
   isShown: boolean
   message: string | React.ReactNode
   severity: AlertProps['severity']
-  showToast: (message: string | React.ReactNode, severity: AlertProps['severity']) => void
+  correlationId?: string
+  showToast: (
+    message: string | React.ReactNode,
+    severity: AlertProps['severity'],
+    correlationId?: string
+  ) => void
   hideToast: () => void
 }
 
@@ -14,8 +19,11 @@ export const useToastNotificationStore = create<ToastNotificationStoreType>((set
   isShown: false,
   message: '',
   severity: 'success',
-  showToast: (message: string | React.ReactNode, severity: AlertProps['severity']) =>
-    set(() => ({ message, severity, isShown: true })),
+  showToast: (
+    message: string | React.ReactNode,
+    severity: AlertProps['severity'],
+    correlationId?: string
+  ) => set(() => ({ message, severity, isShown: true, correlationId })),
   hideToast: () => set({ isShown: false }),
 }))
 

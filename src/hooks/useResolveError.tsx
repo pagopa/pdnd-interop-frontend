@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse } from 'react-router-dom'
-import { Button } from '@mui/material'
+import { Button, TextField, Typography } from '@mui/material'
 import { Redirect, Link } from '@/router'
 import {
   AssistencePartySelectionError,
@@ -14,6 +14,9 @@ import type { FallbackProps } from 'react-error-boundary'
 import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
+import { Stack } from '@mui/system'
+import { assistanceLink } from '@/config/constants'
+import { CopyToClipboardButton } from '@pagopa/mui-italia'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -28,6 +31,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
+  const correlationId = error.response?.data.correlationId
 
   const reloadPageButton = (
     <Button size="small" variant="contained" onClick={() => window.location.reload()}>
@@ -51,6 +55,35 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     <Button size="small" variant="contained" href={SELFCARE_BASE_URL}>
       {t('actions.backToSelfcare')}
     </Button>
+  )
+
+  const correlationIdSection = (
+    <Stack justifyContent="center" alignItems="center" spacing={4}>
+      <Typography>{t('axiosError.correlationIdText')}</Typography>
+      <TextField
+        sx={{ maxWidth: 420 }}
+        id="outlined-read-only-input"
+        label="Correlation ID"
+        defaultValue={correlationId}
+        InputProps={{
+          readOnly: true,
+          endAdornment: (
+            <CopyToClipboardButton
+              value={correlationId!}
+              tooltipTitle={t('axiosError.tooltipTitle')}
+            />
+          ),
+        }}
+      />
+      <Button
+        target="_blank"
+        href={assistanceLink}
+        style={{ backgroundColor: 'transparent', fontWeight: 700 }}
+        disableRipple
+      >
+        {t('actions.goToSupportPage')}
+      </Button>
+    </Stack>
   )
 
   if (error instanceof Error) {
@@ -79,6 +112,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
       <>
         {isDevelopment && <CodeBlock code={error.response ?? error} />}
         {retryQueryButton}
+        {correlationId && correlationIdSection}
       </>
     )
   }
