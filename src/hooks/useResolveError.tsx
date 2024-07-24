@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse } from 'react-router-dom'
-import { Button, TextField } from '@mui/material'
+import { Button, TextField, Typography } from '@mui/material'
 import { Redirect, Link } from '@/router'
 import {
   AssistencePartySelectionError,
@@ -59,8 +59,9 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
 
   const correlationIdSection = (
     <Stack justifyContent="center" alignItems="center" spacing={4}>
-      <p>{t('axiosError.correlationIdText')}</p>
+      <Typography>{t('axiosError.correlationIdText')}</Typography>
       <TextField
+        sx={{ maxWidth: 420 }}
         id="outlined-read-only-input"
         label="Correlation ID"
         defaultValue={correlationId}
@@ -75,6 +76,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
         }}
       />
       <Button
+        target="_blank"
         href={assistanceLink}
         style={{ backgroundColor: 'transparent', fontWeight: 700 }}
         disableRipple

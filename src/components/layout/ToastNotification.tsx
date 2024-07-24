@@ -16,9 +16,11 @@ const _ToastNotification: React.FC = () => {
 
   const correlationIdSection = (
     <>
-      <p>{t('axiosError.correlationIdText')}</p>
+      <Typography variant="inherit" sx={{ mb: 2.5, mt: 1 }}>
+        {t('axiosError.correlationIdText')}
+      </Typography>
       <TextField
-        multiline
+        size="small"
         id="outlined-read-only-input"
         label="Correlation ID"
         defaultValue={correlationId}
@@ -40,7 +42,7 @@ const _ToastNotification: React.FC = () => {
       open={isShown}
       autoHideDuration={5000}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      sx={{ maxWidth: 350 }}
+      sx={{ maxWidth: 480 }}
       onClose={hideToast}
     >
       <Alert aria-labelledby={id} severity={severity} variant="outlined">
