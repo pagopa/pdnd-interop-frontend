@@ -157,8 +157,9 @@
     "noDataLabel": "No results"
   },
   "singleFileInput": {
-    "dropzoneLabel": "Drag here file or click here to select it from your computer",
-    "loadingLabel": "Loading..."
+    "dropzoneLabel": "Drag here file or",
+    "loadingLabel": "Loading...",
+    "dropzoneButton": "Upload a file"
   },
   "documentContainer": {
     "prettyName": {

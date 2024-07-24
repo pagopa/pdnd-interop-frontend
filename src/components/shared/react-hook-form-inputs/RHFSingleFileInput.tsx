@@ -69,6 +69,8 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
               error={!!error}
               dropzoneLabel={t('dropzoneLabel')}
               loadingLabel={t('loadingLabel')}
+              dropzoneButton={t('dropzoneButton')}
+              rejectedLabel="File type not supported"
             />
           )
         }}
