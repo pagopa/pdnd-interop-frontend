@@ -5,7 +5,6 @@ import type { Mock } from 'vitest'
 import { vi } from 'vitest'
 import { useTOSAgreement } from '../useTOSAgreement'
 import { createMockPrivacyNotice } from '../../../../__mocks__/data/one-trust-notice.mocks'
-import { createMockJwtUser } from '@/../__mocks__/data/user.mocks'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
@@ -38,10 +37,9 @@ describe('useTOSAgreement', () => {
       TOS: createMockPrivacyNotice({ isUpdated: false, firstAccept: false }),
     })
 
-    const { result } = renderHookWithApplicationContext(
-      () => useTOSAgreement(createMockJwtUser(), false),
-      { withReactQueryContext: true }
-    )
+    const { result } = renderHookWithApplicationContext(() => useTOSAgreement(), {
+      withReactQueryContext: true,
+    })
 
     expect(result.current.isTOSAccepted).toBe(false)
   })
@@ -52,7 +50,7 @@ describe('useTOSAgreement', () => {
       TOS: createMockPrivacyNotice({ isUpdated: true, firstAccept: true }),
     })
 
-    const { result } = renderHook(() => useTOSAgreement(createMockJwtUser(), false))
+    const { result } = renderHook(() => useTOSAgreement())
 
     expect(result.current.isTOSAccepted).toBe(false)
   })
@@ -63,7 +61,7 @@ describe('useTOSAgreement', () => {
       TOS: createMockPrivacyNotice({ isUpdated: true, firstAccept: true }),
     })
 
-    const { result } = renderHook(() => useTOSAgreement(createMockJwtUser(), false))
+    const { result } = renderHook(() => useTOSAgreement())
 
     expect(result.current.isTOSAccepted).toBe(false)
   })
@@ -74,7 +72,7 @@ describe('useTOSAgreement', () => {
       TOS: createMockPrivacyNotice({ isUpdated: false, firstAccept: true }),
     })
 
-    const { result } = renderHook(() => useTOSAgreement(createMockJwtUser(), false))
+    const { result } = renderHook(() => useTOSAgreement())
 
     expect(result.current.isTOSAccepted).toBe(false)
   })
@@ -85,7 +83,7 @@ describe('useTOSAgreement', () => {
       TOS: createMockPrivacyNotice({ isUpdated: true, firstAccept: true }),
     })
 
-    const { result } = renderHook(() => useTOSAgreement(createMockJwtUser(), false))
+    const { result } = renderHook(() => useTOSAgreement())
 
     expect(result.current.isTOSAccepted).toBe(true)
   })
@@ -96,7 +94,7 @@ describe('useTOSAgreement', () => {
       TOS: createMockPrivacyNotice({ isUpdated: false, firstAccept: false }),
     })
 
-    const { result } = renderHook(() => useTOSAgreement(createMockJwtUser(), true))
+    const { result } = renderHook(() => useTOSAgreement())
 
     expect(result.current.isTOSAccepted).toBe(true)
   })
@@ -107,7 +105,7 @@ describe('useTOSAgreement', () => {
       TOS: createMockPrivacyNotice({ isUpdated: true, firstAccept: true }),
     })
 
-    const { result } = renderHook(() => useTOSAgreement(createMockJwtUser(), false))
+    const { result } = renderHook(() => useTOSAgreement())
 
     result.current.handleAcceptTOS()
 
@@ -128,7 +126,7 @@ describe('useTOSAgreement', () => {
       }),
     })
 
-    const { result } = renderHook(() => useTOSAgreement(createMockJwtUser(), false))
+    const { result } = renderHook(() => useTOSAgreement())
 
     result.current.handleAcceptTOS()
 
@@ -147,7 +145,7 @@ describe('useTOSAgreement', () => {
       }),
     })
 
-    const { result } = renderHook(() => useTOSAgreement(createMockJwtUser(), false))
+    const { result } = renderHook(() => useTOSAgreement())
 
     result.current.handleAcceptTOS()
 

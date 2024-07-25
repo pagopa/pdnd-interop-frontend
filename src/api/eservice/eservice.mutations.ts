@@ -1,10 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import type {
-  EServiceDescriptorSeed,
-  EServiceRiskAnalysisSeed,
-  UpdateEServiceDescriptorSeed,
-} from '../api.generatedTypes'
+import type { EServiceRiskAnalysisSeed, UpdateEServiceDescriptorSeed } from '../api.generatedTypes'
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 
@@ -73,11 +69,7 @@ function useCreateVersionDraft(
 ) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createVersionDraft' })
   return useMutation({
-    mutationFn: (
-      payload: {
-        eserviceId: string
-      } & EServiceDescriptorSeed
-    ) => EServiceServices.createVersionDraft(payload),
+    mutationFn: EServiceServices.createVersionDraft,
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -300,6 +292,20 @@ function useImportVersion() {
   })
 }
 
+function useUpdateEServiceDescription() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceDescription',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServiceDescription,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -317,6 +323,7 @@ export const EServiceMutations = {
   useDeleteEServiceRiskAnalysis,
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,
+  useUpdateEServiceDescription,
   useUpdateVersionDraftDocumentDescription,
   useImportVersion,
 }
