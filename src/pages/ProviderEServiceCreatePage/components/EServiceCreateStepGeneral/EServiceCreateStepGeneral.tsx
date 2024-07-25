@@ -12,6 +12,9 @@ import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { IconLink } from '@/components/shared/IconLink'
+import LaunchIcon from '@mui/icons-material/Launch'
+import { openApiCheckerLink } from '@/config/constants'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -76,9 +79,27 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         {t('create.step1.firstVersionOnlyEditableInfo')}
       </Alert>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer title={t('create.step1.detailsTitle')} component="div">
+        <SectionContainer
+          title={t('create.step1.detailsTitle')}
+          description={
+            <>
+              {t('create.step1.detailsDescription.before')}{' '}
+              <IconLink
+                href={openApiCheckerLink}
+                target="_blank"
+                endIcon={<LaunchIcon fontSize="small" />}
+                inline
+              >
+                {t('create.step1.detailsDescription.linkLabel')}
+              </IconLink>{' '}
+              {t('create.step1.detailsDescription.after')}
+            </>
+          }
+          component="div"
+        >
           <RHFTextField
             label={t('create.step1.eserviceNameField.label')}
+            infoLabel={t('create.step1.eserviceNameField.infoLabel')}
             name="name"
             disabled={!areEServiceGeneralInfoEditable}
             rules={{ required: true, minLength: 5 }}
@@ -90,6 +111,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
           <RHFTextField
             label={t('create.step1.eserviceDescriptionField.label')}
+            infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
             name="description"
             multiline
             disabled={!areEServiceGeneralInfoEditable}
