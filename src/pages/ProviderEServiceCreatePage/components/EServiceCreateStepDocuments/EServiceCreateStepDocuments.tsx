@@ -31,7 +31,7 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
           endIcon={<LaunchIcon fontSize="small" />}
           inline
         >
-          {t('create.step4.interface.description.restLinkLabel')}{' '}
+          {t('create.step4.interface.description.restLinkLabel')}
         </IconLink>
       </>
     )
