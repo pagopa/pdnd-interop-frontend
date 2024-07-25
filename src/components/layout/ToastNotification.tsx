@@ -22,7 +22,7 @@ const _ToastNotification: React.FC = () => {
       <TextField
         size="small"
         id="outlined-read-only-input"
-        label="Correlation ID"
+        label="Identificativo"
         defaultValue={correlationId}
         InputProps={{
           readOnly: true,
