@@ -118,8 +118,9 @@
       "interface": {
         "title": "Interfaccia (richiesto)",
         "description": {
-          "before": "Carica il file",
-          "after": "che descrive l'API"
+          "rest": "Carica il file OpenAPI che descrive l'API. Devi assicurarti che la tua specifica rispetti quanto previsto dal ModI. Per verificare usa",
+          "restLinkLabel": "l'OpenAPI Checker",
+          "soap": "Carica il file WSDL che descrive l'API"
         },
         "prettyName": "Specifica API"
       },

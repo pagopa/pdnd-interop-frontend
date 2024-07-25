@@ -118,8 +118,9 @@
       "interface": {
         "title": "Interface (required)",
         "description": {
-          "before": "Upload the",
-          "after": "file that describes the API"
+          "rest": "Upload the OpenAPI file that descrives the API. You must ensure that your specification meets the requirements set in the ModI framework. To check, use",
+          "restLinkLabel": "the OpenAPI Checker",
+          "soap": "Upload the WSDL file that descrives the API"
         },
         "prettyName": "API specification"
       },
