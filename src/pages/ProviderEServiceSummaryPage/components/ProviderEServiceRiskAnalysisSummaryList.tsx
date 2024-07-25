@@ -3,7 +3,6 @@ import { useParams } from '@/router'
 import { Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { ProviderEServiceRiskAnalysisSummary } from './ProviderEServiceRiskAnalysisSummary'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 import { useTranslation } from 'react-i18next'
 
 export const ProviderEServiceRiskAnalysisSummaryList: React.FC = () => {
@@ -13,15 +12,11 @@ export const ProviderEServiceRiskAnalysisSummaryList: React.FC = () => {
   const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
     params.eserviceId,
     params.descriptorId,
-    {
-      suspense: false,
-      enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
-    }
+    { suspense: false }
   )
 
   const { data: eservice } = EServiceQueries.useGetSingle(params.eserviceId, {
     suspense: false,
-    enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
   })
 
   if (!descriptor && !eservice) return null

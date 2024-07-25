@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 
 export const ProviderEServiceVersionInfoSummary: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.versionInfoSummary' })
@@ -15,10 +14,10 @@ export const ProviderEServiceVersionInfoSummary: React.FC = () => {
   const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
     params.eserviceId,
     params.descriptorId,
-    { suspense: false, enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT }
+    { suspense: false }
   )
 
-  if (!descriptor || params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT) return null
+  if (!descriptor) return null
 
   const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
   const hasManualApproval = descriptor.agreementApprovalPolicy === 'MANUAL'

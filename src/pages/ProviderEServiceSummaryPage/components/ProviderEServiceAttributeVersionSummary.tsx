@@ -2,7 +2,6 @@ import React from 'react'
 import { ReadOnlyDescriptorAttributes } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 
 export const ProviderEServiceAttributeVersionSummary: React.FC = () => {
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
@@ -10,10 +9,10 @@ export const ProviderEServiceAttributeVersionSummary: React.FC = () => {
   const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
     params.eserviceId,
     params.descriptorId,
-    { suspense: false, enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT }
+    { suspense: false }
   )
 
-  if (!descriptor || params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT) return null
+  if (!descriptor) return null
 
   return <ReadOnlyDescriptorAttributes descriptorAttributes={descriptor.attributes} />
 }

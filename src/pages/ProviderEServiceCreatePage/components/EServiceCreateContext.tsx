@@ -1,14 +1,9 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
-import type {
-  EServiceMode,
-  ProducerEServiceDescriptor,
-  ProducerEServiceDetails,
-} from '@/api/api.generatedTypes'
+import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
 type EServiceCreateContextType = {
-  eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
   descriptor: ProducerEServiceDescriptor | undefined
   eserviceMode: EServiceMode
   onEserviceModeChange: (value: EServiceMode) => void
@@ -24,7 +19,6 @@ type EServiceCreateContextType = {
 }
 
 const initialState: EServiceCreateContextType = {
-  eservice: undefined,
   descriptor: undefined,
   eserviceMode: 'DELIVER',
   onEserviceModeChange: noop,
@@ -46,7 +40,6 @@ const { useContext, Provider } = createContext<EServiceCreateContextType>(
 
 type EServiceCreateContextProviderProps = {
   children: React.ReactNode
-  eservice: ProducerEServiceDetails | ProducerEServiceDescriptor['eservice'] | undefined
   descriptor: ProducerEServiceDescriptor | undefined
   eserviceMode: EServiceMode
   onEserviceModeChange: (value: EServiceMode) => void
@@ -56,7 +49,6 @@ type EServiceCreateContextProviderProps = {
 
 const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps> = ({
   children,
-  eservice,
   descriptor,
   eserviceMode,
   onEserviceModeChange,
@@ -88,15 +80,12 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   const providerValue = React.useMemo(() => {
     const areEServiceGeneralInfoEditable = Boolean(
       // case 1: new e-service
-      !eservice ||
-        // case 2: already existing service but no versions created
-        (eservice && !descriptor) ||
+      !descriptor ||
         // case 3: already existing service and version, but version is 1 and still a draft
-        (eservice && descriptor && descriptor.version === '1' && descriptor.state === 'DRAFT')
+        (descriptor && descriptor.version === '1' && descriptor.state === 'DRAFT')
     )
 
     return {
-      eservice,
       descriptor,
       eserviceMode,
       onEserviceModeChange,
@@ -107,15 +96,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       openRiskAnalysisForm,
       closeRiskAnalysisForm,
     }
-  }, [
-    eservice,
-    descriptor,
-    eserviceMode,
-    onEserviceModeChange,
-    back,
-    forward,
-    riskAnalysisFormState,
-  ])
+  }, [descriptor, eserviceMode, onEserviceModeChange, back, forward, riskAnalysisFormState])
 
   return <Provider value={providerValue}>{children}</Provider>
 }
