@@ -3,6 +3,13 @@
     "loadingLabel": "Stiamo autenticando la sessione. Attendere, prego"
   },
   "eservice": {
+    "updateEServiceDescription": {
+      "loading": "Stiamo aggiornando la descrizione dell'e-service",
+      "outcome": {
+        "error": "Descrizione e-service non aggiornata. Riprovare.",
+        "success": "Descrizione e-service aggiornata correttamente"
+      }
+    },
     "exportVersion": {
       "loading": "Stiamo esportando la versione e-service",
       "outcome": {

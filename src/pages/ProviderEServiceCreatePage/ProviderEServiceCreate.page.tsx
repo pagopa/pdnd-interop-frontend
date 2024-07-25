@@ -19,7 +19,6 @@ import { Redirect, useParams } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 import {
   EServiceCreateStepAttributes,
   EServiceCreateStepAttributesSkeleton,
@@ -35,30 +34,22 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
-  const isNewEService = !params?.eserviceId
-  const isDraftEService = !isNewEService && params?.descriptorId === URL_FRAGMENTS.FIRST_DRAFT
-  const isDraftDescriptor = !isNewEService && params?.descriptorId && !isDraftEService
+  const isNewEService = !params?.descriptorId || !params?.eserviceId
 
   const [selectedEServiceMode, setSelectedEServiceMode] = React.useState<EServiceMode | undefined>()
-
-  const { data: eservice, isLoading: isLoadingEService } = EServiceQueries.useGetSingle(
-    params?.eserviceId,
-    { suspense: false, enabled: !!isDraftEService }
-  )
 
   const { data: descriptor, isLoading: isLoadingDescriptor } =
     EServiceQueries.useGetDescriptorProvider(params?.eserviceId, params?.descriptorId, {
       suspense: false,
-      enabled: !!isDraftDescriptor,
+      enabled: !isNewEService,
     })
 
-  /**
-   *  If we are creating a new e-service that has no descriptors, we take the e-service data from the
-   *  useGetSingle query. Otherwise, we take it from the descriptor using the useGetDescriptorProvider query.
-   */
-  const eserviceData = isDraftEService ? eservice : descriptor?.eservice
+  const eservice = descriptor?.eservice
 
-  const eserviceMode = selectedEServiceMode || eserviceData?.mode || 'DELIVER'
+  const eserviceMode =
+    selectedEServiceMode || // The mode selected by the user
+    eservice?.mode || // The mode of the e-service
+    'DELIVER' // Default mode
 
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
@@ -88,11 +79,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
     )
   }
 
-  const isReady = !!(
-    isNewEService ||
-    (isDraftEService && !isLoadingEService && eservice) ||
-    (isDraftDescriptor && !isLoadingDescriptor && descriptor)
-  )
+  const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
 
   const stepsLoadingSkeletons =
     eserviceMode === 'DELIVER'
@@ -113,8 +100,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const intro = isNewEService
     ? { title: t('create.emptyTitle') }
     : {
-        title: eserviceData?.name,
-        description: eserviceData?.description,
+        title: eservice?.name,
+        description: eservice?.description,
       }
 
   return (
@@ -129,7 +116,6 @@ const ProviderEServiceCreatePage: React.FC = () => {
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceCreateContextProvider
-          eservice={eserviceData}
           descriptor={descriptor}
           eserviceMode={eserviceMode}
           onEserviceModeChange={setSelectedEServiceMode}

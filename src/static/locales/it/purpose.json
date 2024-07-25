@@ -84,7 +84,11 @@
   },
   "summary": {
     "title": "Riepilogo",
-    "clientsAlert": "All’interno del processo <strong>è stata rimossa l’associazione del client</strong>. Sarà possibile associare uno o più client solo dopo l’attivazione della finalità.",
+    "alerts": {
+      "associationRemoved": "All’interno del processo <strong>è stata rimossa l’associazione del client</strong>. Sarà possibile associare uno o più client solo dopo l’attivazione della finalità.",
+      "newRiskAnalysisAvailable": "Questa bozza non è più pubblicabile. Dal momento della sua creazione è uscita una nuova versione dell’analisi del rischio. Eliminala e creane una nuova.",
+      "descriptorOrAgreementArchived": "Questa bozza non è più pubblicabile. La tua fruizione per questo e-service non è più attiva. Elimina la finalità."
+    },
     "generalInformationSection": {
       "title": "Informazioni generali",
       "eservice": {

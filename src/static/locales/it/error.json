@@ -3,7 +3,8 @@
     "reloadPage": "Ricarica",
     "backToHome": "Torna alla home",
     "retry": "Riprova",
-    "backToSelfcare": "Torna ad Area Riservata"
+    "backToSelfcare": "Torna ad Area Riservata",
+    "goToSupportPage": "Vai alla pagina di Assistenza"
   },
   "default": {
     "title": "Errore inaspettato",
@@ -15,7 +16,9 @@
   },
   "axiosError": {
     "title": "Errore del server",
-    "description": "Si è verificato un errore nella gestione della richiesta. Per favore, riprova."
+    "description": "Si è verificato un errore nella gestione della richiesta. Per favore, riprova.",
+    "correlationIdText": "A seguire trovi l’identificativo di errore, copialo all’interno del form per le segnalazioni nella pagina di Assistenza.",
+    "tooltipTitle": "Correlation ID copiato correttamente"
   },
   "forbidden": {
     "title": "Non autorizzato",

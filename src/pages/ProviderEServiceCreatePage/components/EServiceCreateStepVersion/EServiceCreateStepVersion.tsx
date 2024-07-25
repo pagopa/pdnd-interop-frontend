@@ -3,7 +3,6 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import { useNavigate } from '@/router'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { Box, Link, Stack } from '@mui/material'
 import React from 'react'
@@ -29,14 +28,8 @@ export type EServiceCreateStepVersionFormValues = {
 
 export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const navigate = useNavigate()
 
-  const { eservice, descriptor, forward, back } = useEServiceCreateContext()
-
-  const { mutate: createVersionDraft } = EServiceMutations.useCreateVersionDraft({
-    suppressSuccessToast: true,
-    showConfirmationDialog: false,
-  })
+  const { descriptor, forward, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -55,7 +48,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceCreateStepVersionFormValues) => {
-    if (!eservice) return
+    if (!descriptor) return
 
     const newDescriptorData = {
       ...values,
@@ -67,41 +60,26 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
     }
 
     // If nothing has changed skip the update call
-    if (descriptor) {
-      const areDescriptorsEquals = compareObjects(newDescriptorData, descriptor)
-      if (areDescriptorsEquals) {
-        forward()
-        return
-      }
+    const areDescriptorsEquals = compareObjects(newDescriptorData, descriptor)
+    if (areDescriptorsEquals) {
+      forward()
+      return
     }
 
     const payload = {
-      eserviceId: eservice.id,
+      eserviceId: descriptor.eservice.id,
       attributes: { certified: [], verified: [], declared: [] },
       ...omit(newDescriptorData, ['version']),
     }
 
-    if (descriptor) {
-      updateVersionDraft(
-        {
-          ...payload,
-          descriptorId: descriptor.id,
-          attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
-        },
-        { onSuccess: forward }
-      )
-      return
-    }
-
-    createVersionDraft(payload, {
-      onSuccess(data) {
-        navigate('PROVIDE_ESERVICE_EDIT', {
-          params: { eserviceId: eservice.id, descriptorId: data.id },
-          replace: true,
-        })
-        forward()
+    updateVersionDraft(
+      {
+        ...payload,
+        descriptorId: descriptor.id,
+        attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
       },
-    })
+      { onSuccess: forward }
+    )
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
@@ -190,7 +168,6 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
           >
             <RHFSwitch
               label={t('step2.agreementApprovalPolicySection.label')}
-              vertical
               name="agreementApprovalPolicy"
               sx={{ my: 0 }}
             />

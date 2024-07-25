@@ -7,6 +7,7 @@ import {
   type MutationMeta,
   QueryClient,
 } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 
 declare module '@tanstack/react-query' {
   interface MutationMeta<
@@ -176,7 +177,13 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   if (error instanceof CancellationError) return
 
   const meta = resolveMeta({ mutation, error, variables, context })
-  if (meta.errorToastLabel) showToast(meta.errorToastLabel, 'error')
+  if (meta.errorToastLabel) {
+    let correlationId
+    if (error instanceof AxiosError) {
+      correlationId = error.response?.data.correlationId
+    }
+    showToast(meta.errorToastLabel, 'error', correlationId)
+  }
 }
 
 mutationCache.config.onSettled = (data, error, variables, context, mutation) => {

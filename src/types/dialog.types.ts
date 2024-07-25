@@ -26,6 +26,7 @@ export type DialogProps =
   | DialogRevokeCertifiedAttributeProps
   | DialogClonePurposeProps
   | DialogRejectPurposeVersionProps
+  | DialogSetTenantMailProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -90,4 +91,8 @@ export type DialogRejectPurposeVersionProps = {
   purposeId: string
   versionId: string
   isChangePlanRequest: boolean
+}
+
+export type DialogSetTenantMailProps = {
+  type: 'setTenantMail'
 }

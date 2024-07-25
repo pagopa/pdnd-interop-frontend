@@ -95,9 +95,6 @@
     "step3": {
       "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
       "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell’e-service",
-      "attributeCloneBtn": "Copia attributi dalla versione precedente",
-      "attributeCloneSuccess": "Attributi copiati correttamente",
-      "attributeCloneNoAttributesLabel": "Non ci sono attributi da copiare",
       "attributesAddBtn": "Aggiungi attributo",
       "attributesCreateBtn": "Crea nuovo attributo",
       "createAttributeDrawer": {
@@ -315,6 +312,17 @@
       }
     },
     "drawers": {
+      "updateEServiceDescriptionDrawer": {
+        "title": "Modifica descrizione e-service",
+        "subtitle": "Da questo pannello puoi aggiornare la descrizione dell’e-service. Le modifiche apportate avranno effetto da subito.",
+        "eserviceDescriptionField": {
+          "label": "Descrizione e-service",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri",
+          "validation": {
+            "sameValue": "La descrizione dell'e-service deve essere diversa da quella attuale"
+          }
+        }
+      },
       "updateThresholdsDrawer": {
         "title": "Modifica durata voucher e soglie",
         "subtitle": "Da questo pannello puoi aggiornare i parametri della tua versione di e-service. Le modifiche apportate avranno effetto da subito.",

@@ -8,7 +8,6 @@ import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
@@ -25,16 +24,21 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
-  const { eservice, areEServiceGeneralInfoEditable, forward, eserviceMode, onEserviceModeChange } =
-    useEServiceCreateContext()
+  const {
+    descriptor,
+    areEServiceGeneralInfoEditable,
+    forward,
+    eserviceMode,
+    onEserviceModeChange,
+  } = useEServiceCreateContext()
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
   const defaultValues: EServiceCreateStepGeneralFormValues = {
-    name: eservice?.name ?? '',
-    description: eservice?.description ?? '',
-    technology: eservice?.technology ?? 'REST',
+    name: descriptor?.eservice?.name ?? '',
+    description: descriptor?.eservice?.description ?? '',
+    technology: descriptor?.eservice?.technology ?? 'REST',
     mode: eserviceMode,
   }
 
@@ -42,12 +46,12 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues) => {
     // If we are editing an existing e-service, we update the draft
-    if (eservice) {
+    if (descriptor) {
       // If nothing has changed skip the update call
-      const isEServiceTheSame = compareObjects(formValues, eservice)
+      const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
 
       if (!isEServiceTheSame)
-        updateDraft({ eserviceId: eservice.id, ...formValues }, { onSuccess: forward })
+        updateDraft({ eserviceId: descriptor.eservice.id, ...formValues }, { onSuccess: forward })
       else forward()
 
       return
@@ -55,9 +59,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
     // If we are creating a new e-service, we create a new draft
     createDraft(formValues, {
-      onSuccess({ id }) {
+      onSuccess({ id, descriptorId }) {
         navigate('PROVIDE_ESERVICE_EDIT', {
-          params: { eserviceId: id, descriptorId: URL_FRAGMENTS.FIRST_DRAFT },
+          params: { eserviceId: id, descriptorId },
           replace: true,
           state: { stepIndexDestination: 1 },
         })

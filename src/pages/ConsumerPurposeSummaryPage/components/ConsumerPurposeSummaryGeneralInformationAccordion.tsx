@@ -1,22 +1,30 @@
-import type { Purpose } from '@/api/api.generatedTypes'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { Link } from '@/router'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
+import { PurposeQueries } from '@/api/purpose'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
-  purpose: Purpose
+  purposeId: string
 }
 
 export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   ConsumerPurposeSummaryGeneralInformationAccordionProps
-> = ({ purpose }) => {
+> = ({ purposeId }) => {
+  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
+
+  if (!purpose) return null
 
   return (
     <Stack spacing={2}>
+      <InformationContainer
+        content={purpose.description}
+        direction="row"
+        label={t('description.label')}
+      />
       <InformationContainer
         content={
           <Link
@@ -40,11 +48,6 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
         content={purpose.eservice.producer.name}
         direction="row"
         label={t('producer.label')}
-      />
-      <InformationContainer
-        content={purpose.description}
-        direction="row"
-        label={t('description.label')}
       />
       <SectionContainer innerSection sx={{ pt: 4 }} title={t('loadEstimationSection.title')}>
         <Stack spacing={2}>

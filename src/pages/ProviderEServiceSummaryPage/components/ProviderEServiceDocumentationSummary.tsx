@@ -7,7 +7,6 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { useParams } from '@/router'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 
 export const ProviderEServiceDocumentationSummary: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.documentationSummary' })
@@ -16,12 +15,12 @@ export const ProviderEServiceDocumentationSummary: React.FC = () => {
   const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
     params.eserviceId,
     params.descriptorId,
-    { suspense: false, enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT }
+    { suspense: false }
   )
 
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
 
-  if (!descriptor || params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT) return null
+  if (!descriptor) return null
   if (!descriptor.interface && descriptor.docs.length === 0)
     return (
       <Typography variant="body2" color="text.secondary">

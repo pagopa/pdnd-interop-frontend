@@ -214,7 +214,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <OperatorDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'security'],
+    authLevels: ['admin', 'security', 'support'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CLIENT_KEY_EDIT',
@@ -278,7 +278,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <OperatorDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'security'],
+    authLevels: ['admin', 'security', 'support'],
   })
   .addRoute({
     key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT',

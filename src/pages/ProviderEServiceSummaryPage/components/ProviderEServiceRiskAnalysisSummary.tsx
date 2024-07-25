@@ -2,7 +2,6 @@ import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useParams } from '@/router'
-import { URL_FRAGMENTS } from '@/router/router.utils'
 import { List, ListItem, ListItemText, Typography } from '@mui/material'
 import React from 'react'
 
@@ -22,15 +21,11 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
   const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
     params.eserviceId,
     params.descriptorId,
-    {
-      suspense: false,
-      enabled: params.descriptorId !== URL_FRAGMENTS.FIRST_DRAFT,
-    }
+    { suspense: false }
   )
 
   const { data: eservice } = EServiceQueries.useGetSingle(params.eserviceId, {
     suspense: false,
-    enabled: params.descriptorId === URL_FRAGMENTS.FIRST_DRAFT,
   })
 
   const riskAnalysis = descriptor

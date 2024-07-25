@@ -12,7 +12,7 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
   })
   const { t: tCommon } = useTranslation('common')
 
-  const { eservice, openRiskAnalysisForm, areEServiceGeneralInfoEditable } =
+  const { descriptor, openRiskAnalysisForm, areEServiceGeneralInfoEditable } =
     useEServiceCreateContext()
 
   const { mutate: deleteRiskAnalysis } = EServiceMutations.useDeleteEServiceRiskAnalysis()
@@ -26,18 +26,18 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
   }
 
   const handleDeletePurpose = (riskAnalysisId: string) => {
-    if (!eservice) return
-    deleteRiskAnalysis({ eserviceId: eservice.id, riskAnalysisId: riskAnalysisId })
+    if (!descriptor) return
+    deleteRiskAnalysis({ eserviceId: descriptor.eservice.id, riskAnalysisId: riskAnalysisId })
   }
 
   return (
     <>
       <Table
-        isEmpty={eservice?.riskAnalysis.length === 0}
+        isEmpty={descriptor?.eservice?.riskAnalysis.length === 0}
         headLabels={[]}
         noDataLabel={t('noDataLabel')}
       >
-        {eservice?.riskAnalysis.map((riskAnalysis) => (
+        {descriptor?.eservice?.riskAnalysis.map((riskAnalysis) => (
           <TableRow
             key={riskAnalysis.id}
             cellData={[
