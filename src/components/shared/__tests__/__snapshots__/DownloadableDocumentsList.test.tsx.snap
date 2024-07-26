@@ -29,10 +29,10 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
             class="MuiBox-root css-0"
           >
             <button
-              class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-1vyb8ac-MuiTypography-root-MuiLink-root"
             >
               <span
-                class="MuiStack-root css-ae0xht-MuiStack-root"
+                class="MuiStack-root css-1tq5o91-MuiStack-root"
               >
                 <svg
                   aria-hidden="true"
@@ -57,10 +57,10 @@ exports[`DownloadableDocumentsList > should match snapshot 1`] = `
             class="MuiBox-root css-0"
           >
             <button
-              class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-ird2g-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover MuiLink-button css-1vyb8ac-MuiTypography-root-MuiLink-root"
             >
               <span
-                class="MuiStack-root css-ae0xht-MuiStack-root"
+                class="MuiStack-root css-1tq5o91-MuiStack-root"
               >
                 <svg
                   aria-hidden="true"
