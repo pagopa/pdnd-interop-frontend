@@ -4,10 +4,10 @@ exports[`IconLink > should match snapshot with end icon 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover css-1ksp1na-MuiTypography-root-MuiLink-root"
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover css-1ssxftu-MuiTypography-root-MuiLink-root"
     >
       <span
-        class="MuiStack-root css-ae0xht-MuiStack-root"
+        class="MuiStack-root css-1tq5o91-MuiStack-root"
       >
          
         <span>
@@ -35,10 +35,10 @@ exports[`IconLink > should match snapshot with start and end icon 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover css-1ksp1na-MuiTypography-root-MuiLink-root"
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover css-1ssxftu-MuiTypography-root-MuiLink-root"
     >
       <span
-        class="MuiStack-root css-ae0xht-MuiStack-root"
+        class="MuiStack-root css-1tq5o91-MuiStack-root"
       >
         <svg
           aria-hidden="true"
@@ -77,10 +77,10 @@ exports[`IconLink > should match snapshot with start icon 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover css-1ksp1na-MuiTypography-root-MuiLink-root"
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover css-1ssxftu-MuiTypography-root-MuiLink-root"
     >
       <span
-        class="MuiStack-root css-ae0xht-MuiStack-root"
+        class="MuiStack-root css-1tq5o91-MuiStack-root"
       >
         <svg
           aria-hidden="true"
@@ -108,10 +108,10 @@ exports[`IconLink > should match snapshot without icons 1`] = `
 <body>
   <div>
     <a
-      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover css-1ksp1na-MuiTypography-root-MuiLink-root"
+      class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineHover css-1ssxftu-MuiTypography-root-MuiLink-root"
     >
       <span
-        class="MuiStack-root css-ae0xht-MuiStack-root"
+        class="MuiStack-root css-1tq5o91-MuiStack-root"
       >
          
         <span>
