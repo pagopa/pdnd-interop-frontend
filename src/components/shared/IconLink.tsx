@@ -17,13 +17,15 @@ export const IconLink = <D extends React.ElementType = 'a'>({
   return (
     <Link variant="body2" underline="hover" {...linkProps}>
       <Stack
-        gap={1}
+        gap={0.25}
         flexDirection="row"
         justifyContent="center"
         alignItems="center"
         component="span"
         sx={{
           cursor: 'pointer',
+          textDecoration: 'inherit',
+          display: 'inline-flex',
         }}
       >
         {startIcon} <span>{children}</span> {endIcon}

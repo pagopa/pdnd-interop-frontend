@@ -9,6 +9,9 @@ import { EServiceCreateStepDocumentsDoc } from './EServiceCreateStepDocumentsDoc
 import { EServiceCreateStepDocumentsInterface } from './EServiceCreateStepDocumentsInterface'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { IconLink } from '@/components/shared/IconLink'
+import LaunchIcon from '@mui/icons-material/Launch'
+import { openApiCheckerLink } from '@/config/constants'
 
 export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
@@ -16,9 +19,22 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
 
   const { descriptor, back } = useEServiceCreateContext()
 
-  const sectionDescription = `${t('create.step4.interface.description.before')} ${
-    descriptor?.eservice.technology === 'REST' ? 'OpenAPI' : 'WSDL'
-  }  ${t('create.step4.interface.description.after')}`
+  const sectionDescription =
+    descriptor?.eservice.technology === 'SOAP' ? (
+      t(`create.step4.interface.description.soap`)
+    ) : (
+      <>
+        {t(`create.step4.interface.description.rest`)}{' '}
+        <IconLink
+          href={openApiCheckerLink}
+          target="_blank"
+          endIcon={<LaunchIcon fontSize="small" />}
+          inline
+        >
+          {t('create.step4.interface.description.restLinkLabel')}
+        </IconLink>
+      </>
+    )
 
   return (
     <>
