@@ -5,7 +5,6 @@ type IconLinkProps<D extends React.ElementType = 'a'> = {
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
   children: React.ReactNode
-  inline?: boolean
   component?: D
 } & LinkProps<D>
 
@@ -13,7 +12,6 @@ export const IconLink = <D extends React.ElementType = 'a'>({
   startIcon,
   endIcon,
   children,
-  inline,
   ...linkProps
 }: IconLinkProps<D>) => {
   return (
@@ -27,7 +25,7 @@ export const IconLink = <D extends React.ElementType = 'a'>({
         sx={{
           cursor: 'pointer',
           textDecoration: 'inherit',
-          display: inline ? 'inline-flex' : 'flex',
+          display: 'inline-flex',
         }}
       >
         {startIcon} <span>{children}</span> {endIcon}
