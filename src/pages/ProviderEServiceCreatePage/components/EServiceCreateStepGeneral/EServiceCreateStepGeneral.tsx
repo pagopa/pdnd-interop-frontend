@@ -14,7 +14,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
-import { openApiCheckerLink } from '@/config/constants'
+import { eserviceNamingBestPracticeLink } from '@/config/constants'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -85,10 +85,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             <>
               {t('create.step1.detailsDescription.before')}{' '}
               <IconLink
-                href={openApiCheckerLink}
+                href={eserviceNamingBestPracticeLink}
                 target="_blank"
                 endIcon={<LaunchIcon fontSize="small" />}
-                inline
               >
                 {t('create.step1.detailsDescription.linkLabel')}
               </IconLink>{' '}
