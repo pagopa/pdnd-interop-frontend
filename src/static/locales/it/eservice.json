@@ -15,11 +15,18 @@
     "goToSummary": "Vai al riepilogo",
     "step1": {
       "detailsTitle": "Caratterizzazione e-service",
+      "detailsDescription": {
+        "before": "Consulta le",
+        "linkLabel": "linee guida",
+        "after": "alla nomenclatura: rendono i tuoi e-service semplici da trovare e chiari in ciò che offrono."
+      },
       "eserviceNameField": {
-        "label": "Nome e-service"
+        "label": "Nome dell'e-service",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
       "eserviceDescriptionField": {
-        "label": "Cosa permette di fare questo e-service?"
+        "label": "Descrizione dell'e-service",
+        "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
       },
       "eserviceTechnologyField": {
         "label": "Con quale tecnologia è costruita la tua API?"
@@ -31,10 +38,10 @@
           "RECEIVE": "Riceve"
         }
       },
-      "firstVersionOnlyEditableInfo": "I contenuti di questa pagina non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service"
+      "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
     },
     "stepPurpose": {
-      "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service",
+      "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
       "purposeTableSection": {
         "title": "Finalità",
         "description": "Indica i casi d’uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un’analisi del rischio.",
@@ -118,8 +125,9 @@
       "interface": {
         "title": "Interfaccia (richiesto)",
         "description": {
-          "before": "Carica il file",
-          "after": "che descrive l'API"
+          "rest": "Carica il file OpenAPI che descrive l'API. Devi assicurarti che la tua specifica rispetti quanto previsto dal ModI. Per verificare usa",
+          "restLinkLabel": "l'OpenAPI Checker",
+          "soap": "Carica il file WSDL che descrive l'API"
         },
         "prettyName": "Specifica API"
       },

@@ -15,11 +15,18 @@
     "goToSummary": "Go to summary",
     "step1": {
       "detailsTitle": "E-service details",
+      "detailsDescription": {
+        "before": "Read the",
+        "linkLabel": "guidelines",
+        "after": "to naming: your e-services will be easier to find and clearer in their goals"
+      },
       "eserviceNameField": {
-        "label": "E-service name"
+        "label": "E-service name",
+        "infoLabel": "Min 5 chars, max 60 chars"
       },
       "eserviceDescriptionField": {
-        "label": "What does this e-service allow you to do?"
+        "label": "E-service description",
+        "infoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
       },
       "eserviceTechnologyField": {
         "label": "What technology is your API built with?"
@@ -118,8 +125,9 @@
       "interface": {
         "title": "Interface (required)",
         "description": {
-          "before": "Upload the",
-          "after": "file that describes the API"
+          "rest": "Upload the OpenAPI file that descrives the API. You must ensure that your specification meets the requirements set in the ModI framework. To check, use",
+          "restLinkLabel": "the OpenAPI Checker",
+          "soap": "Upload the WSDL file that descrives the API"
         },
         "prettyName": "API specification"
       },
