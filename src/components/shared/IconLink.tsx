@@ -19,7 +19,7 @@ export const IconLink = <D extends React.ElementType = 'a'>({
       variant="body2"
       underline="hover"
       {...linkProps}
-      sx={{ verticalAlign: 'text-top', ...linkProps.sx }}
+      sx={{ verticalAlign: 'inherit', ...linkProps.sx }}
     >
       <Stack
         gap={0.25}
