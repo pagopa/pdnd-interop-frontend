@@ -29,7 +29,6 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
           href={openApiCheckerLink}
           target="_blank"
           endIcon={<LaunchIcon fontSize="small" />}
-          inline
         >
           {t('create.step4.interface.description.restLinkLabel')}
         </IconLink>
