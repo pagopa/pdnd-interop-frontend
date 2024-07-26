@@ -14,7 +14,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 
 export type RHFSingleFileInputProps = Omit<
   PagoPASingleFileInputProps,
-  'value' | 'onFileSelected' | 'onFileRemoved' | 'dropzoneLabel' | 'loadingLabel'
+  'value' | 'onFileSelected' | 'onFileRemoved' | 'dropzoneLabel' | 'loadingLabel' | 'dropzoneButton'
 > & {
   name: string
   infoLabel?: string | JSX.Element
@@ -22,6 +22,7 @@ export type RHFSingleFileInputProps = Omit<
   rules?: ControllerProps['rules']
   onValueChange?: (value: File | null) => void
   drawerStyle?: boolean
+  dropzoneButton?: string
 }
 
 export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
@@ -70,7 +71,6 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
               dropzoneLabel={t('dropzoneLabel')}
               loadingLabel={t('loadingLabel')}
               dropzoneButton={t('dropzoneButton')}
-              rejectedLabel="File type not supported"
             />
           )
         }}
