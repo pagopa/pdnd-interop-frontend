@@ -63,7 +63,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
       <TextField
         sx={{ maxWidth: 420 }}
         id="outlined-read-only-input"
-        label="Correlation ID"
+        label="Identificativo"
         defaultValue={correlationId}
         InputProps={{
           readOnly: true,
