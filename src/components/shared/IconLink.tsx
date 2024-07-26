@@ -15,7 +15,12 @@ export const IconLink = <D extends React.ElementType = 'a'>({
   ...linkProps
 }: IconLinkProps<D>) => {
   return (
-    <Link variant="body2" underline="hover" {...linkProps}>
+    <Link
+      variant="body2"
+      underline="hover"
+      {...linkProps}
+      sx={{ verticalAlign: 'inherit', ...linkProps.sx }}
+    >
       <Stack
         gap={0.25}
         flexDirection="row"
