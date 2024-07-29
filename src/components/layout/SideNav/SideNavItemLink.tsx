@@ -8,8 +8,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { SvgIconComponent } from '@mui/icons-material'
-import { type RouteKey } from '@/router'
-import { Link } from '@/router'
+import { type RouteKey, useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
 
@@ -24,48 +23,21 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
   routeKey,
   StartIcon,
   EndIcon,
-  indented = false,
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'routeLabels' })
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
   const isSelected = isRouteInCurrentSubtree(routeKey)
 
+  const navigate = useNavigate()
+
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    <ListItemButton
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      component={Link}
-      underline="none"
-      to={routeKey}
-      sx={{
-        pl: 3,
-        py: 2,
-        display: 'flex',
-        borderRight: 2,
-        borderColor: isSelected ? 'primary.main' : 'transparent',
-        backgroundColor: isSelected ? 'rgba(0, 115, 230, 0.08)' : 'transparent',
-        color: isSelected ? 'primary.main' : 'text.primary',
-      }}
-    >
+    <ListItemButton selected={isSelected} sx={{ pl: 6 }} onClick={() => navigate(routeKey)}>
       {StartIcon && (
         <ListItemIcon>
-          <StartIcon fontSize="inherit" color={isSelected ? 'primary' : undefined} />
+          <StartIcon fontSize="inherit" />
         </ListItemIcon>
       )}
-      <ListItemText
-        disableTypography
-        sx={{ color: 'inherit' }}
-        primary={
-          <Typography
-            color="inherit"
-            sx={{ fontWeight: isSelected ? 600 : 300, pl: indented ? 4 : 0 }}
-          >
-            {t(routeKey)}
-          </Typography>
-        }
-      />
+      <ListItemText primary={t(routeKey)} />
       {EndIcon && (
         <ListItemIcon>
           <EndIcon color="action" />
