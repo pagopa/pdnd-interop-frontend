@@ -3,24 +3,24 @@
 exports[`SideNavItemLink > should match the snapshot 1`] = `
 <body>
   <div>
-    <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-      href="/it/termini-di-servizio"
+    <div
+      class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+      role="button"
       tabindex="0"
     >
       <div
-        class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        class="MuiListItemText-root css-tlelie-MuiListItemText-root"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
         >
           TOS
-        </p>
+        </span>
       </div>
       <span
         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
-    </a>
+    </div>
   </div>
 </body>
 `;
@@ -28,24 +28,24 @@ exports[`SideNavItemLink > should match the snapshot 1`] = `
 exports[`SideNavItemLink > should match the snapshot indented 1`] = `
 <body>
   <div>
-    <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-      href="/it/termini-di-servizio"
+    <div
+      class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+      role="button"
       tabindex="0"
     >
       <div
-        class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        class="MuiListItemText-root css-tlelie-MuiListItemText-root"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
         >
           TOS
-        </p>
+        </span>
       </div>
       <span
         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
-    </a>
+    </div>
   </div>
 </body>
 `;
@@ -53,24 +53,24 @@ exports[`SideNavItemLink > should match the snapshot indented 1`] = `
 exports[`SideNavItemLink > should match the snapshot selected 1`] = `
 <body>
   <div>
-    <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1rhg01k-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-      href="/it/termini-di-servizio"
+    <div
+      class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+      role="button"
       tabindex="0"
     >
       <div
-        class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        class="MuiListItemText-root css-tlelie-MuiListItemText-root"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ha8szv-MuiTypography-root"
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
         >
           TOS
-        </p>
+        </span>
       </div>
       <span
         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
-    </a>
+    </div>
   </div>
 </body>
 `;
@@ -78,19 +78,19 @@ exports[`SideNavItemLink > should match the snapshot selected 1`] = `
 exports[`SideNavItemLink > should match the snapshot with EndIcon 1`] = `
 <body>
   <div>
-    <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-      href="/it/termini-di-servizio"
+    <div
+      class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+      role="button"
       tabindex="0"
     >
       <div
-        class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        class="MuiListItemText-root css-tlelie-MuiListItemText-root"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
         >
           TOS
-        </p>
+        </span>
       </div>
       <div
         class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
@@ -110,7 +110,7 @@ exports[`SideNavItemLink > should match the snapshot with EndIcon 1`] = `
       <span
         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
-    </a>
+    </div>
   </div>
 </body>
 `;
@@ -118,9 +118,9 @@ exports[`SideNavItemLink > should match the snapshot with EndIcon 1`] = `
 exports[`SideNavItemLink > should match the snapshot with StartIcon 1`] = `
 <body>
   <div>
-    <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-      href="/it/termini-di-servizio"
+    <div
+      class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+      role="button"
       tabindex="0"
     >
       <div
@@ -139,18 +139,18 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon 1`] = `
         </svg>
       </div>
       <div
-        class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        class="MuiListItemText-root css-tlelie-MuiListItemText-root"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-ksyvbn-MuiTypography-root"
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
         >
           TOS
-        </p>
+        </span>
       </div>
       <span
         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
-    </a>
+    </div>
   </div>
 </body>
 `;
@@ -158,9 +158,9 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon 1`] = `
 exports[`SideNavItemLink > should match the snapshot with StartIcon and EndIcon 1`] = `
 <body>
   <div>
-    <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1rhg01k-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-      href="/it/termini-di-servizio"
+    <div
+      class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+      role="button"
       tabindex="0"
     >
       <div
@@ -168,7 +168,7 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon and EndIcon 
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeInherit css-j2c6x4-MuiSvgIcon-root"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
           data-testid="HomeIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -179,13 +179,13 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon and EndIcon 
         </svg>
       </div>
       <div
-        class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+        class="MuiListItemText-root css-tlelie-MuiListItemText-root"
       >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-1qwku07-MuiTypography-root"
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
         >
           TOS
-        </p>
+        </span>
       </div>
       <div
         class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
@@ -205,7 +205,7 @@ exports[`SideNavItemLink > should match the snapshot with StartIcon and EndIcon 
       <span
         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
-    </a>
+    </div>
   </div>
 </body>
 `;
