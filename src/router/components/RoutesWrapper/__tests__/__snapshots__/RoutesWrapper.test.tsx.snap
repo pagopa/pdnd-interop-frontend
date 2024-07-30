@@ -14,7 +14,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
         >
           <a
             aria-label="Vai al sito di PagoPA S.p.A."
-            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-ko92na-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-5t2wm8-MuiButtonBase-root-MuiButton-root"
             href="https://www.pagopa.it"
             rel="noreferrer"
             tabindex="0"
@@ -27,12 +27,12 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
             class="MuiStack-root css-1vtnvh5-MuiStack-root"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-zb2bf9-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
+                class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
               >
                 <svg
                   aria-hidden="true"
@@ -53,7 +53,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
             </button>
             <button
               aria-label="Documentazione"
-              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-zc7arm-MuiButtonBase-root-MuiIconButton-root"
               tabindex="0"
               type="button"
             >
@@ -73,7 +73,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
               </svg>
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation css-1p03n5a-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation css-1jwm0lj-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               title="Esci"
               type="button"
@@ -103,7 +103,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
               class="MuiStack-root css-1sos3zc-MuiStack-root"
             >
               <div
-                class=" css-1wreeyw"
+                class=" css-1ia1p1w"
                 role="button"
                 tabindex="0"
               >
@@ -139,7 +139,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
                   class="MuiBox-root css-70qvj9"
                 >
                   <div
-                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                    class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1ant5l6-MuiAvatar-root"
                   >
                     <svg
                       aria-hidden="true"
@@ -235,7 +235,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
         >
           <a
             aria-label="Vai al sito di PagoPA S.p.A."
-            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-l3n9cu-MuiTypography-root-MuiLink-root"
+            class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1sdq511-MuiTypography-root-MuiLink-root"
             href="https://www.pagopa.it"
           >
             <svg
@@ -274,28 +274,28 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
           >
             <a
               aria-label="footer.links.privacy.ariaLabel"
-              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
               href="#!"
             >
               footer.links.privacy.label
             </a>
             <a
               aria-label="footer.links.dataProtection.ariaLabel"
-              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
               href="https://privacyportal-de.onetrust.com/webform/77f17844-04c3-4969-a11d-462ee77acbe1/9ab6533d-be4a-482e-929a-0d8d2ab29df8"
             >
               footer.links.dataProtection.label
             </a>
             <a
               aria-label="footer.links.terms.ariaLabel"
-              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
               href="#!"
             >
               footer.links.terms.label
             </a>
             <a
               aria-label="footer.links.a11y.ariaLabel"
-              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
               href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
             >
               footer.links.a11y.label
@@ -306,7 +306,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
               <button
                 aria-haspopup="true"
                 aria-label="lingua"
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-1fvp8dp-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-1dgyv6v-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -376,7 +376,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-ko92na-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-5t2wm8-MuiButtonBase-root-MuiButton-root"
               href="https://www.pagopa.it"
               rel="noreferrer"
               tabindex="0"
@@ -389,12 +389,12 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
               class="MuiStack-root css-1vtnvh5-MuiStack-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-zb2bf9-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
+                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -415,7 +415,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-zc7arm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -435,7 +435,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
                 </svg>
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation css-1p03n5a-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation css-1jwm0lj-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 title="Esci"
                 type="button"
@@ -465,7 +465,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
                 class="MuiStack-root css-1sos3zc-MuiStack-root"
               >
                 <div
-                  class=" css-1wreeyw"
+                  class=" css-1ia1p1w"
                   role="button"
                   tabindex="0"
                 >
@@ -501,7 +501,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
                     class="MuiBox-root css-70qvj9"
                   >
                     <div
-                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1ant5l6-MuiAvatar-root"
                     >
                       <svg
                         aria-hidden="true"
@@ -597,7 +597,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-l3n9cu-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1sdq511-MuiTypography-root-MuiLink-root"
               href="https://www.pagopa.it"
             >
               <svg
@@ -636,28 +636,28 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
             >
               <a
                 aria-label="footer.links.privacy.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
                 href="#!"
               >
                 footer.links.privacy.label
               </a>
               <a
                 aria-label="footer.links.dataProtection.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
                 href="https://privacyportal-de.onetrust.com/webform/77f17844-04c3-4969-a11d-462ee77acbe1/9ab6533d-be4a-482e-929a-0d8d2ab29df8"
               >
                 footer.links.dataProtection.label
               </a>
               <a
                 aria-label="footer.links.terms.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
                 href="#!"
               >
                 footer.links.terms.label
               </a>
               <a
                 aria-label="footer.links.a11y.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
                 href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
               >
                 footer.links.a11y.label
@@ -668,7 +668,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
                 <button
                   aria-haspopup="true"
                   aria-label="lingua"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-1fvp8dp-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-1dgyv6v-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -739,7 +739,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-ko92na-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-5t2wm8-MuiButtonBase-root-MuiButton-root"
               href="https://www.pagopa.it"
               rel="noreferrer"
               tabindex="0"
@@ -752,12 +752,12 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
               class="MuiStack-root css-1vtnvh5-MuiStack-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-zb2bf9-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
+                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -778,7 +778,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-zc7arm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -798,7 +798,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
                 </svg>
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation css-1p03n5a-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation css-1jwm0lj-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 title="Esci"
                 type="button"
@@ -828,7 +828,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
                 class="MuiStack-root css-1sos3zc-MuiStack-root"
               >
                 <div
-                  class=" css-1wreeyw"
+                  class=" css-1ia1p1w"
                   role="button"
                   tabindex="0"
                 >
@@ -864,7 +864,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
                     class="MuiBox-root css-70qvj9"
                   >
                     <div
-                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1ant5l6-MuiAvatar-root"
                     >
                       <svg
                         aria-hidden="true"
@@ -929,7 +929,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
             class="MuiBox-root css-xi606m"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-disableElevation css-1ft2xoq-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-disableElevation css-dlez3v-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -956,7 +956,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-l3n9cu-MuiTypography-root-MuiLink-root"
+              class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1sdq511-MuiTypography-root-MuiLink-root"
               href="https://www.pagopa.it"
             >
               <svg
@@ -995,28 +995,28 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
             >
               <a
                 aria-label="footer.links.privacy.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
                 href="#!"
               >
                 footer.links.privacy.label
               </a>
               <a
                 aria-label="footer.links.dataProtection.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
                 href="https://privacyportal-de.onetrust.com/webform/77f17844-04c3-4969-a11d-462ee77acbe1/9ab6533d-be4a-482e-929a-0d8d2ab29df8"
               >
                 footer.links.dataProtection.label
               </a>
               <a
                 aria-label="footer.links.terms.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
                 href="#!"
               >
                 footer.links.terms.label
               </a>
               <a
                 aria-label="footer.links.a11y.ariaLabel"
-                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
+                class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-16ocagb-MuiTypography-root-MuiLink-root"
                 href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
               >
                 footer.links.a11y.label
@@ -1027,7 +1027,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
                 <button
                   aria-haspopup="true"
                   aria-label="lingua"
-                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-1fvp8dp-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-1dgyv6v-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >

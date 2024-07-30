@@ -103,13 +103,14 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
             class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-4sh67-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
           >
             <div
+              aria-controls=":r0:"
               aria-describedby="2-infoLabel"
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby="2"
               class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
               id="2"
-              role="button"
+              role="combobox"
               tabindex="0"
             >
               <span
@@ -191,7 +192,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
           <div
             aria-describedby="3-infoLabel"
             aria-labelledby="3-label"
-            class="MuiFormGroup-root css-1w0y3ky-MuiFormGroup-root"
+            class="MuiFormGroup-root MuiRadioGroup-root css-1w0y3ky-MuiFormGroup-root"
             id="3"
             role="radiogroup"
           />
@@ -240,7 +241,7 @@ exports[`RiskAnalysisFormComponents > should match the snapshot 1`] = `
                 class="MuiSwitch-root MuiSwitch-sizeMedium css-18tmeyj-MuiSwitch-root"
               >
                 <span
-                  class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+                  class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
                 >
                   <input
                     aria-describedby="4-infoLabel"

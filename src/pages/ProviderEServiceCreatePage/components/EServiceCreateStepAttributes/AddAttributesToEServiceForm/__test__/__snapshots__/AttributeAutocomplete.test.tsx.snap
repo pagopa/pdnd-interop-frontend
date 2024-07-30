@@ -10,7 +10,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
         class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
-          class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-1h51icj-MuiAutocomplete-root"
+          class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-ka7ti6-MuiAutocomplete-root"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
@@ -41,7 +41,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
                 value=""
               />
               <div
-                class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+                class="MuiAutocomplete-endAdornment css-p1olib-MuiAutocomplete-endAdornment"
               >
                 <button
                   aria-label="Open"
@@ -83,7 +83,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-sghohy-MuiButtonBase-root-MuiButton-root"
         disabled=""
         tabindex="-1"
         type="button"
@@ -105,7 +105,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
         class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
-          class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-1h51icj-MuiAutocomplete-root"
+          class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-ka7ti6-MuiAutocomplete-root"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
@@ -136,7 +136,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
                 value=""
               />
               <div
-                class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+                class="MuiAutocomplete-endAdornment css-p1olib-MuiAutocomplete-endAdornment"
               >
                 <button
                   aria-label="Open"
@@ -178,7 +178,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-sghohy-MuiButtonBase-root-MuiButton-root"
         disabled=""
         tabindex="-1"
         type="button"
@@ -200,7 +200,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
         class="MuiFormControl-root MuiFormControl-fullWidth css-18hgqj9-MuiFormControl-root"
       >
         <div
-          class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-1h51icj-MuiAutocomplete-root"
+          class="MuiAutocomplete-root Mui-focused MuiAutocomplete-hasPopupIcon css-ka7ti6-MuiAutocomplete-root"
         >
           <div
             class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
@@ -231,7 +231,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
                 value=""
               />
               <div
-                class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+                class="MuiAutocomplete-endAdornment css-p1olib-MuiAutocomplete-endAdornment"
               >
                 <button
                   aria-label="Open"
@@ -273,7 +273,7 @@ exports[`Checks that AttributeAutocomplete snapshot don't change > renders corre
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-sghohy-MuiButtonBase-root-MuiButton-root"
         disabled=""
         tabindex="-1"
         type="button"

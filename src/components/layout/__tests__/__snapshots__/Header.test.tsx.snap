@@ -15,7 +15,7 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-ko92na-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-5t2wm8-MuiButtonBase-root-MuiButton-root"
               href="https://www.pagopa.it"
               rel="noreferrer"
               tabindex="0"
@@ -28,12 +28,12 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
               class="MuiStack-root css-1vtnvh5-MuiStack-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-zb2bf9-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
+                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -54,7 +54,7 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-zc7arm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -74,7 +74,7 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
                 </svg>
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation css-1p03n5a-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation css-1jwm0lj-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 title="Esci"
                 type="button"
@@ -104,7 +104,7 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
                 class="MuiStack-root css-1sos3zc-MuiStack-root"
               >
                 <div
-                  class=" css-1wreeyw"
+                  class=" css-1ia1p1w"
                   role="button"
                   tabindex="0"
                 >
@@ -140,7 +140,7 @@ exports[`Header > should match snapshot (logged - not support) 1`] = `
                     class="MuiBox-root css-70qvj9"
                   >
                     <div
-                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1ant5l6-MuiAvatar-root"
                     >
                       <svg
                         aria-hidden="true"
@@ -197,7 +197,7 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-ko92na-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-5t2wm8-MuiButtonBase-root-MuiButton-root"
               href="https://www.pagopa.it"
               rel="noreferrer"
               tabindex="0"
@@ -210,12 +210,12 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
               class="MuiStack-root css-1vtnvh5-MuiStack-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-zb2bf9-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
+                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -236,7 +236,7 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-zc7arm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -256,7 +256,7 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
                 </svg>
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-disableElevation css-1p03n5a-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-disableElevation css-1jwm0lj-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 title="Esci"
                 type="button"
@@ -286,7 +286,7 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
                 class="MuiStack-root css-1sos3zc-MuiStack-root"
               >
                 <div
-                  class=" css-1wreeyw"
+                  class=" css-1ia1p1w"
                   role="button"
                   tabindex="0"
                 >
@@ -308,7 +308,7 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-1juwzne-MuiChip-root"
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-vp66vw-MuiChip-root"
                 >
                   <span
                     class="MuiChip-label MuiChip-labelSmall css-1xwenbi-MuiChip-label"
@@ -331,7 +331,7 @@ exports[`Header > should match snapshot (logged - support) 1`] = `
                     class="MuiBox-root css-70qvj9"
                   >
                     <div
-                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1s1w7qu-MuiAvatar-root"
+                      class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-1ant5l6-MuiAvatar-root"
                     >
                       <svg
                         aria-hidden="true"
@@ -388,7 +388,7 @@ exports[`Header > should match snapshot (not logged) 1`] = `
           >
             <a
               aria-label="Vai al sito di PagoPA S.p.A."
-              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-ko92na-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-5t2wm8-MuiButtonBase-root-MuiButton-root"
               href="https://www.pagopa.it"
               rel="noreferrer"
               tabindex="0"
@@ -401,12 +401,12 @@ exports[`Header > should match snapshot (not logged) 1`] = `
               class="MuiStack-root css-1vtnvh5-MuiStack-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-disableElevation css-166eibf-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-disableElevation css-zb2bf9-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
                 <span
-                  class="MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
+                  class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon"
                 >
                   <svg
                     aria-hidden="true"
@@ -427,7 +427,7 @@ exports[`Header > should match snapshot (not logged) 1`] = `
               </button>
               <button
                 aria-label="Documentazione"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1450cqm-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-zc7arm-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -447,7 +447,7 @@ exports[`Header > should match snapshot (not logged) 1`] = `
                 </svg>
               </button>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-disableElevation css-1tk6yq4-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-disableElevation MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-disableElevation css-1mwl01m-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 title="Accedi"
                 type="button"
@@ -477,7 +477,7 @@ exports[`Header > should match snapshot (not logged) 1`] = `
                 class="MuiStack-root css-1sos3zc-MuiStack-root"
               >
                 <div
-                  class=" css-1wreeyw"
+                  class=" css-1ia1p1w"
                   role="button"
                   tabindex="0"
                 >
