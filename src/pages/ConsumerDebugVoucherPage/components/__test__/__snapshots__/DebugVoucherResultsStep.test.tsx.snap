@@ -4,7 +4,7 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if result is fa
 <body>
   <div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary css-1eu001z-MuiButtonBase-root-MuiButton-root"
       tabindex="0"
       type="button"
     >
@@ -17,7 +17,7 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if result is fa
         class="MuiStack-root css-1p3wpnr-MuiStack-root"
       >
         <div
-          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-1qmvmks-MuiChip-root"
+          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorError MuiChip-filledError css-vmjpzh-MuiChip-root"
         >
           <span
             class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -46,7 +46,7 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
 <body>
   <div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary css-1eu001z-MuiButtonBase-root-MuiButton-root"
       tabindex="0"
       type="button"
     >
@@ -59,7 +59,7 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
         class="MuiStack-root css-1p3wpnr-MuiStack-root"
       >
         <div
-          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-113qj4u-MuiChip-root"
+          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-txuvm7-MuiChip-root"
         >
           <span
             class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
@@ -88,7 +88,7 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
 <body>
   <div>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium css-1eu001z-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary css-1eu001z-MuiButtonBase-root-MuiButton-root"
       tabindex="0"
       type="button"
     >
@@ -101,7 +101,7 @@ exports[`DebugVoucherResultsStep testing > should match snapshot if step result 
         class="MuiStack-root css-1p3wpnr-MuiStack-root"
       >
         <div
-          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-xiyh2c-MuiChip-root"
+          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorWarning MuiChip-filledWarning css-1d8sx49-MuiChip-root"
         >
           <span
             class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"

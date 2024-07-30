@@ -23,11 +23,11 @@ exports[`AppLayout > should match snapshot 1`] = `
       <div
         class="MuiStack-root css-1e5vhfl-MuiStack-root"
       >
-        <nav
-          class="MuiBox-root css-15sxj0r"
+        <div
+          class="MuiBox-root css-144ebsl"
         >
-          <ul
-            class="MuiList-root css-1dc7nhp-MuiList-root"
+          <nav
+            class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
           />
           <hr
             class="MuiDivider-root MuiDivider-fullWidth css-1b008ma-MuiDivider-root"
@@ -142,7 +142,7 @@ exports[`AppLayout > should match snapshot 1`] = `
               </a>
             </li>
           </ul>
-        </nav>
+        </div>
         <div
           class="MuiBox-root css-ebpwpv"
         >

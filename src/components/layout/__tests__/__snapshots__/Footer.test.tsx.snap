@@ -107,7 +107,7 @@ exports[`Footer > should match snapshot 1`] = `
                       <button
                         aria-haspopup="true"
                         aria-label="lingua"
-                        class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall css-177dp0n-MuiButtonBase-root-MuiButton-root"
+                        class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText MuiButton-root MuiButton-naked MuiButton-nakedText MuiButton-sizeSmall MuiButton-nakedSizeSmall MuiButton-colorText css-177dp0n-MuiButtonBase-root-MuiButton-root"
                         tabindex="0"
                         type="button"
                       >

@@ -67,8 +67,14 @@ const _SideNav = () => {
   }
 
   return (
-    <Box sx={{ display: 'block', py: 3, boxShadow: 5 }} component="nav">
-      <List sx={{ width: SIDENAV_WIDTH, mr: 0 }} disablePadding>
+    <Box
+      sx={{
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: 'background.paper',
+      }}
+    >
+      <List component="nav">
         {sideNavItems.map((item, i) => {
           return item?.children && item?.children?.length > 0 ? (
             <CollapsableSideNavItem
@@ -78,13 +84,12 @@ const _SideNav = () => {
               toggleCollapse={toggleCollapse}
             />
           ) : (
-            <ListItem sx={{ display: 'block', p: 0 }} key={i}>
-              <SideNavItemLink
-                routeKey={item.routeKey}
-                StartIcon={item?.StartIcon}
-                EndIcon={item?.EndIcon}
-              />
-            </ListItem>
+            <SideNavItemLink
+              routeKey={item.routeKey}
+              StartIcon={item?.StartIcon}
+              EndIcon={item?.EndIcon}
+              key={i}
+            />
           )
         })}
       </List>

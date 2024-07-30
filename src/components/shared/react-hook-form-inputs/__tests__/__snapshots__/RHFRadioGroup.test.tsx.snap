@@ -8,7 +8,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s R
     >
       <div
         aria-labelledby=":r5:"
-        class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+        class="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
         role="radiogroup"
       >
         <label
@@ -175,7 +175,7 @@ exports[`determine whether the integration between react-hook-form and MUI’s R
       </label>
       <div
         aria-labelledby=":r7:"
-        class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+        class="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
         role="radiogroup"
       >
         <label

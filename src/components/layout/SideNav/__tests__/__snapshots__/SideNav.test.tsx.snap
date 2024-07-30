@@ -3,29 +3,28 @@
 exports[`SideNav > should match the snapshot 1`] = `
 <body>
   <div>
-    <nav
-      class="MuiBox-root css-15sxj0r"
+    <div
+      class="MuiBox-root css-144ebsl"
     >
-      <ul
-        class="MuiList-root css-1dc7nhp-MuiList-root"
+      <nav
+        class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
       >
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 SUBSCRIBE
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -44,22 +43,21 @@ exports[`SideNav > should match the snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 PROVIDE
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -78,22 +76,21 @@ exports[`SideNav > should match the snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 TENANT
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -111,7 +108,7 @@ exports[`SideNav > should match the snapshot 1`] = `
             />
           </div>
         </div>
-      </ul>
+      </nav>
       <hr
         class="MuiDivider-root MuiDivider-fullWidth css-1b008ma-MuiDivider-root"
       />
@@ -225,7 +222,7 @@ exports[`SideNav > should match the snapshot 1`] = `
           </a>
         </li>
       </ul>
-    </nav>
+    </div>
   </div>
 </body>
 `;
@@ -452,29 +449,28 @@ exports[`SideNav > should match the snapshot in loading state (skeleton) 1`] = `
 exports[`SideNav > should match the snapshot while user api operator 1`] = `
 <body>
   <div>
-    <nav
-      class="MuiBox-root css-15sxj0r"
+    <div
+      class="MuiBox-root css-144ebsl"
     >
-      <ul
-        class="MuiList-root css-1dc7nhp-MuiList-root"
+      <nav
+        class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
       >
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 SUBSCRIBE
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -493,22 +489,21 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 PROVIDE
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -527,22 +522,21 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 TENANT
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -560,8 +554,8 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
             />
           </div>
         </div>
-      </ul>
-    </nav>
+      </nav>
+    </div>
   </div>
 </body>
 `;
@@ -569,29 +563,28 @@ exports[`SideNav > should match the snapshot while user api operator 1`] = `
 exports[`SideNav > should match the snapshot while user is security and api operator 1`] = `
 <body>
   <div>
-    <nav
-      class="MuiBox-root css-15sxj0r"
+    <div
+      class="MuiBox-root css-144ebsl"
     >
-      <ul
-        class="MuiList-root css-1dc7nhp-MuiList-root"
+      <nav
+        class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
       >
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 SUBSCRIBE
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -610,22 +603,21 @@ exports[`SideNav > should match the snapshot while user is security and api oper
           </div>
         </div>
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 PROVIDE
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -644,22 +636,21 @@ exports[`SideNav > should match the snapshot while user is security and api oper
           </div>
         </div>
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 TENANT
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -677,8 +668,8 @@ exports[`SideNav > should match the snapshot while user is security and api oper
             />
           </div>
         </div>
-      </ul>
-    </nav>
+      </nav>
+    </div>
   </div>
 </body>
 `;
@@ -686,29 +677,28 @@ exports[`SideNav > should match the snapshot while user is security and api oper
 exports[`SideNav > should match the snapshot while user security operator 1`] = `
 <body>
   <div>
-    <nav
-      class="MuiBox-root css-15sxj0r"
+    <div
+      class="MuiBox-root css-144ebsl"
     >
-      <ul
-        class="MuiList-root css-1dc7nhp-MuiList-root"
+      <nav
+        class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
       >
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 SUBSCRIBE
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -727,22 +717,21 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
           </div>
         </div>
         <div
-          class="MuiBox-root css-1jolfkj"
+          class="MuiBox-root css-144ebsl"
         >
           <div
-            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-            color="inherit"
+            class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
             role="button"
             tabindex="0"
           >
             <div
-              class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+              <span
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
               >
                 TENANT
-              </p>
+              </span>
             </div>
             <svg
               aria-hidden="true"
@@ -760,8 +749,8 @@ exports[`SideNav > should match the snapshot while user security operator 1`] = 
             />
           </div>
         </div>
-      </ul>
-    </nav>
+      </nav>
+    </div>
   </div>
 </body>
 `;

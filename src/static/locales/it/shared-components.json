@@ -157,8 +157,9 @@
     "noDataLabel": "Nessun risultato trovato"
   },
   "singleFileInput": {
-    "dropzoneLabel": "Trascina qui il file o clicca qui per selezionarlo dal tuo computer",
-    "loadingLabel": "Caricamento in corso..."
+    "dropzoneLabel": "Trascina qui il file",
+    "loadingLabel": "Caricamento in corso...",
+    "dropzoneButton": "Carica un file"
   },
   "documentContainer": {
     "prettyName": {

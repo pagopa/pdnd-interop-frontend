@@ -4,18 +4,18 @@ exports[`Checks that Accordion snapshot don't change > renders correctly 1`] = `
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
     >
       <div
         aria-controls="panel-content-0"
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1xk9do-MuiButtonBase-root-MuiAccordionSummary-root"
         id="panel-header-0"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-eqpfi5-MuiAccordionSummary-content"
         >
           <span
             class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
@@ -66,18 +66,18 @@ exports[`Checks that Accordion snapshot don't change > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
     >
       <div
         aria-controls="panel-content-1"
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1xk9do-MuiButtonBase-root-MuiAccordionSummary-root"
         id="panel-header-1"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-eqpfi5-MuiAccordionSummary-content"
         >
           <span
             class="MuiTypography-root MuiTypography-body1 css-pnng72-MuiTypography-root"
@@ -140,18 +140,18 @@ exports[`Checks that Accordion snapshot don't change > renders first entry corre
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded Mui-expanded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded Mui-expanded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
     >
       <div
         aria-controls="panel-content-0"
         aria-expanded="true"
-        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-1xk9do-MuiButtonBase-root-MuiAccordionSummary-root"
         id="panel-header-0"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-eqpfi5-MuiAccordionSummary-content"
         >
           <span
             class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
@@ -202,18 +202,18 @@ exports[`Checks that Accordion snapshot don't change > renders first entry corre
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
     >
       <div
         aria-controls="panel-content-1"
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1xk9do-MuiButtonBase-root-MuiAccordionSummary-root"
         id="panel-header-1"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-eqpfi5-MuiAccordionSummary-content"
         >
           <span
             class="MuiTypography-root MuiTypography-body1 css-pnng72-MuiTypography-root"
@@ -276,18 +276,18 @@ exports[`Checks that Accordion snapshot don't change > renders second entry with
 <body>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
     >
       <div
         aria-controls="panel-content-0"
         aria-expanded="false"
-        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1xk9do-MuiButtonBase-root-MuiAccordionSummary-root"
         id="panel-header-0"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-eqpfi5-MuiAccordionSummary-content"
         >
           <span
             class="MuiTypography-root MuiTypography-body1 css-1luejv3-MuiTypography-root"
@@ -338,18 +338,18 @@ exports[`Checks that Accordion snapshot don't change > renders second entry with
       </div>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded Mui-expanded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded Mui-expanded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
     >
       <div
         aria-controls="panel-content-1"
         aria-expanded="true"
-        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-3et8n4-MuiButtonBase-root-MuiAccordionSummary-root"
+        class="MuiButtonBase-root MuiAccordionSummary-root Mui-expanded MuiAccordionSummary-gutters css-1xk9do-MuiButtonBase-root-MuiAccordionSummary-root"
         id="panel-header-1"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+          class="MuiAccordionSummary-content Mui-expanded MuiAccordionSummary-contentGutters css-eqpfi5-MuiAccordionSummary-content"
         >
           <span
             class="MuiTypography-root MuiTypography-body1 css-pnng72-MuiTypography-root"

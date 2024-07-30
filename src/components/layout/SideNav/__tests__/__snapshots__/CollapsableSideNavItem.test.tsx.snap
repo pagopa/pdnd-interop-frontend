@@ -4,22 +4,21 @@ exports[`CollapsableSideNavItem > should match the snapshot (closed - not select
 <body>
   <div>
     <div
-      class="MuiBox-root css-1jolfkj"
+      class="MuiBox-root css-144ebsl"
     >
       <div
-        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-        color="inherit"
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+          class="MuiListItemText-root css-tlelie-MuiListItemText-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+          <span
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
           >
             PROVIDE
-          </p>
+          </span>
         </div>
         <svg
           aria-hidden="true"
@@ -45,22 +44,21 @@ exports[`CollapsableSideNavItem > should match the snapshot (closed - selected) 
 <body>
   <div>
     <div
-      class="MuiBox-root css-1bm9945"
+      class="MuiBox-root css-144ebsl"
     >
       <div
-        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-        color="inherit"
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+          class="MuiListItemText-root css-tlelie-MuiListItemText-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-dtyt49-MuiTypography-root"
+          <span
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
           >
             PROVIDE
-          </p>
+          </span>
         </div>
         <svg
           aria-hidden="true"
@@ -86,22 +84,21 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - not select
 <body>
   <div>
     <div
-      class="MuiBox-root css-1jolfkj"
+      class="MuiBox-root css-144ebsl"
     >
       <div
-        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-        color="inherit"
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+          class="MuiListItemText-root css-tlelie-MuiListItemText-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-odxlfz-MuiTypography-root"
+          <span
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
           >
             PROVIDE
-          </p>
+          </span>
         </div>
         <svg
           aria-hidden="true"
@@ -128,54 +125,46 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - not select
           <div
             class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
           >
-            <ul
-              class="MuiList-root css-10gkqfq-MuiList-root"
+            <div
+              class="MuiList-root css-1mk9mw3-MuiList-root"
             >
-              <li
-                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-                  href="/it/erogazione/richieste"
-                  tabindex="0"
+                <div
+                  class="MuiListItemText-root css-tlelie-MuiListItemText-root"
                 >
-                  <div
-                    class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
-                    >
-                      PROVIDE_AGREEMENT_LIST
-                    </p>
-                  </div>
                   <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </a>
-              </li>
-              <li
-                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
+                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+                  >
+                    PROVIDE_AGREEMENT_LIST
+                  </span>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-                  href="/it/erogazione/e-service"
-                  tabindex="0"
+                <div
+                  class="MuiListItemText-root css-tlelie-MuiListItemText-root"
                 >
-                  <div
-                    class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
-                    >
-                      PROVIDE_ESERVICE_LIST
-                    </p>
-                  </div>
                   <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </a>
-              </li>
-            </ul>
+                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+                  >
+                    PROVIDE_ESERVICE_LIST
+                  </span>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -188,22 +177,21 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - selected) 
 <body>
   <div>
     <div
-      class="MuiBox-root css-1bm9945"
+      class="MuiBox-root css-144ebsl"
     >
       <div
-        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1w56b9-MuiButtonBase-root-MuiListItemButton-root"
-        color="inherit"
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
         role="button"
         tabindex="0"
       >
         <div
-          class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
+          class="MuiListItemText-root css-tlelie-MuiListItemText-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-dtyt49-MuiTypography-root"
+          <span
+            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
           >
             PROVIDE
-          </p>
+          </span>
         </div>
         <svg
           aria-hidden="true"
@@ -230,54 +218,46 @@ exports[`CollapsableSideNavItem > should match the snapshot (opened - selected) 
           <div
             class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
           >
-            <ul
-              class="MuiList-root css-10gkqfq-MuiList-root"
+            <div
+              class="MuiList-root css-1mk9mw3-MuiList-root"
             >
-              <li
-                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1rhg01k-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-                  href="/it/erogazione/richieste"
-                  tabindex="0"
+                <div
+                  class="MuiListItemText-root css-tlelie-MuiListItemText-root"
                 >
-                  <div
-                    class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-ha8szv-MuiTypography-root"
-                    >
-                      PROVIDE_AGREEMENT_LIST
-                    </p>
-                  </div>
                   <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </a>
-              </li>
-              <li
-                class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-12doaz5-MuiListItem-root"
+                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+                  >
+                    PROVIDE_AGREEMENT_LIST
+                  </span>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1ter7g9-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
               >
-                <a
-                  class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineNone MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1szf3tv-MuiTypography-root-MuiLink-root-MuiButtonBase-root-MuiListItemButton-root"
-                  href="/it/erogazione/e-service"
-                  tabindex="0"
+                <div
+                  class="MuiListItemText-root css-tlelie-MuiListItemText-root"
                 >
-                  <div
-                    class="MuiListItemText-root css-7zx3z7-MuiListItemText-root"
-                  >
-                    <p
-                      class="MuiTypography-root MuiTypography-body1 css-1r58d7p-MuiTypography-root"
-                    >
-                      PROVIDE_ESERVICE_LIST
-                    </p>
-                  </div>
                   <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </a>
-              </li>
-            </ul>
+                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+                  >
+                    PROVIDE_ESERVICE_LIST
+                  </span>
+                </div>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
