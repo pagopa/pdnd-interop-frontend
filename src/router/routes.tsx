@@ -40,6 +40,7 @@ import {
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
+import { ProviderKeychainsList } from '@/pages/ProviderKeychainsListPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -391,6 +392,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAINS_LIST',
+    path: '/erogazione/portachiavi',
+    element: <ProviderKeychainsList />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
   })
   .build()
 

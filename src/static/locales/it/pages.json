@@ -38,5 +38,9 @@
   "tenantCertifier": {
     "title": "Ente certificatore",
     "description": "In questa vista puoi gestire gli attributi certificati che hai creato e la loro assegnazione"
+  },
+  "providerKeychainsList": {
+    "title": "I tuoi portachiavi",
+    "description": "Qui puoi gestire i tuoi portachiavi"
   }
 }

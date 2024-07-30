@@ -268,6 +268,7 @@
     "DEFAULT": "",
     "TENANT": "Il tuo ente",
     "TENANT_CERTIFIER": "Ente certificatore",
-    "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo"
+    "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo",
+    "PROVIDE_KEYCHAINS_LIST": "I tuoi portachiavi"
   }
 }

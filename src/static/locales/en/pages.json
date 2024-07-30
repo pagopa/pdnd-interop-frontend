@@ -38,5 +38,9 @@
   "tenantCertifier": {
     "title": "Tenant certifier",
     "description": "In this view you can manage the certified attributes you have created and their assignment"
+  },
+  "providerKeychainsList": {
+    "title": "Your keychains",
+    "description": "Here you can manage you keychains"
   }
 }
