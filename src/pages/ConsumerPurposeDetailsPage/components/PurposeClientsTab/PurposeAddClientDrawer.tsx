@@ -4,6 +4,7 @@ import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteMultiple } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/material'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -46,18 +47,17 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
     ).then(onClose)
   }
 
-  const { data: purpose, isLoading: isLoadingPurpose } = PurposeQueries.useGetSingle(purposeId, {
-    suspense: false,
-  })
+  const { data: purpose, isLoading: isLoadingPurpose } = useQuery(
+    PurposeQueries.getSingle(purposeId)
+  )
 
-  const { data, isLoading: isLoadingClients } = ClientQueries.useGetList(
-    {
+  const { data, isLoading: isLoadingClients } = useQuery(
+    ClientQueries.getList({
       kind: 'CONSUMER',
       q: clientSearchParam,
       offset: 0,
       limit: 50,
-    },
-    { suspense: false }
+    })
   )
 
   const options = React.useMemo(() => {
