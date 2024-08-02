@@ -1,6 +1,4 @@
-import type { ClientKind, CompactClient } from '@/api/api.generatedTypes'
 import { ClientQueries } from '@/api/client'
-import useGetClientActions from '@/hooks/useGetClientActions'
 import { Link } from '@/router'
 import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -8,34 +6,30 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
+import useGetKeychainActions from '@/hooks/useGetKeychainActions'
 
-type KeychainsTableRow = {
-  client: CompactClient
-  clientKind: ClientKind
-}
+type KeychainsTableRow = {}
 
-export const KeychainsTableRow: React.FC<KeychainsTableRow> = ({ client, clientKind }) => {
+export const KeychainsTableRow: React.FC<KeychainsTableRow> = () => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const prefetch = ClientQueries.usePrefetchSingle()
 
-  const { actions } = useGetClientActions(client)
+  const { actions } = useGetKeychainActions()
 
   const handlePrefetch = () => {
-    prefetch(client.id)
+    prefetch('')
   }
 
   return (
-    <TableRow cellData={[client.name]}>
+    <TableRow cellData={['MY MOCK KEYCHAIN ']}>
       <Link
         as="button"
-        onPointerEnter={handlePrefetch}
-        onFocusVisible={handlePrefetch}
+        //onPointerEnter={handlePrefetch}
+        //onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        to={
-          clientKind === 'CONSUMER' ? 'SUBSCRIBE_CLIENT_EDIT' : 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'
-        }
-        params={{ clientId: client.id }}
+        to={'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'}
+        params={{ clientId: '' }}
       >
         {t('inspect')}
       </Link>

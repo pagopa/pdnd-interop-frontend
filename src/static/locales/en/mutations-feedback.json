@@ -580,5 +580,18 @@
         "error": "There was an error processing your request. Please try again later!"
       }
     }
+  },
+  "keychain": {
+    "deleteKeychain": {
+      "loading": "Deleting public key",
+      "outcome": {
+        "success": "The public key was deleted successfully",
+        "error": "The key could not be deleted. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm public key deletion",
+        "description": "By clicking \"confirm\", the operator's public key will be deleted. NB: all services using this key will no longer be able to access the provider's service. If you are not sure, download and save your public key before deleting it."
+      }
+    }
   }
 }

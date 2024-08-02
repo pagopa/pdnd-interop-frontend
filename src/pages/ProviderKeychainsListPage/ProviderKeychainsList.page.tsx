@@ -1,12 +1,12 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { ClientTable } from '@/components/shared/ClientTable'
 import { useNavigate } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { KeychainsTable } from '@/components/shared/KeychainsTable'
+import { ClientTable } from '@/components/shared/ClientTable'
 
 const ProviderKeychainsList: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerKeychainsList' })
@@ -16,7 +16,7 @@ const ProviderKeychainsList: React.FC = () => {
 
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('SUBSCRIBE_CLIENT_CREATE'),
+      action: () => navigate('SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE'),
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
@@ -29,7 +29,7 @@ const ProviderKeychainsList: React.FC = () => {
       description={t('description')}
       topSideActions={isAdmin ? topSideActions : undefined}
     >
-      <KeychainsTable clientKind="CONSUMER" />
+      <KeychainsTable />
     </PageContainer>
   )
 }
