@@ -15,51 +15,39 @@ import {
 } from './components'
 import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
 import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
+import { useQuery } from '@tanstack/react-query'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
-  const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
+  const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const navigate = useNavigate()
 
   const { mutate: deleteVersion } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft()
 
-  const { data: descriptor, isInitialLoading } = EServiceQueries.useGetDescriptorProvider(
-    params.eserviceId,
-    params.descriptorId,
-    { suspense: false }
+  const { data: descriptor, isLoading } = useQuery(
+    EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  const { data: eservice, isInitialLoading: isEServiceInitialLoading } =
-    EServiceQueries.useGetSingle(params.eserviceId, {
-      suspense: false,
-    })
-
   const handleDeleteDraft = () => {
-    const hasNoDescriptors = !descriptor
-    const hasOnlyOneDraft =
-      descriptor && descriptor.state === 'DRAFT' && descriptor.eservice.descriptors.length === 0
-    const hasMoreDescriptorsWithLastDraft =
-      descriptor && descriptor.state === 'DRAFT' && descriptor.eservice.descriptors.length > 0
+    if (!descriptor) return
 
-    if (eservice && (hasNoDescriptors || hasOnlyOneDraft)) {
-      deleteDraft(
-        { eserviceId: eservice.id },
-        { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') }
-      )
+    const hasOnlyOneDraft = descriptor.eservice.descriptors.length === 0
+
+    // In case the e-service has only one draft, we call the deleteDraft mutation
+    if (hasOnlyOneDraft) {
+      deleteDraft({ eserviceId }, { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') })
       return
     }
 
-    if (hasMoreDescriptorsWithLastDraft) {
-      deleteVersion(
-        { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
-        { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') }
-      )
-      return
-    }
+    // ...otherwise, if the e-service has more than one descriptor with the last draft, we call the deleteVersion mutation
+    deleteVersion(
+      { eserviceId, descriptorId },
+      { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') }
+    )
   }
 
   const handleEditDraft = () => {
@@ -101,19 +89,19 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     )
   }
 
-  const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE' || eservice?.mode === 'RECEIVE'
+  const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
 
   return (
     <PageContainer
       title={t('summary.title', {
-        eserviceName: descriptor?.eservice.name ?? eservice?.name,
+        eserviceName: descriptor?.eservice.name,
         versionNumber: descriptor?.version ?? '1',
       })}
       backToAction={{
         label: t('backToListBtn'),
         to: 'PROVIDE_ESERVICE_LIST',
       }}
-      isLoading={isInitialLoading || isEServiceInitialLoading}
+      isLoading={isLoading}
       statusChip={{ for: 'eservice', state: 'DRAFT' }}
     >
       <Stack spacing={3}>

@@ -8,6 +8,7 @@ import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { Link } from '@/router'
 import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
+import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -19,7 +20,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const { isAdmin } = AuthHooks.useJwt()
 
   const isAgreementEditable = agreement.state === 'DRAFT' && isAdmin
-  const prefetchAgreement = AgreementQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
 
   const { actions } = useGetAgreementsActions(agreement)
 
@@ -27,7 +28,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const descriptor = agreement.descriptor
 
   const handlePrefetch = () => {
-    prefetchAgreement(agreement.id)
+    queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
   }
 
   return (

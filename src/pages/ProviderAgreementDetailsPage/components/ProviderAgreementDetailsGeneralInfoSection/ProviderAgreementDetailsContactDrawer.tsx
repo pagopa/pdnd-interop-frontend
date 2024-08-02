@@ -18,12 +18,8 @@ export const ProviderAgreementDetailsContactDrawer: React.FC<
     keyPrefix: 'providerRead.sections.generalInformations.contactDrawer',
   })
 
-  const handleCloseDrawer = () => {
-    onClose()
-  }
-
   return (
-    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('title')}>
+    <Drawer isOpen={isOpen} onClose={onClose} title={t('title')}>
       <Stack spacing={2}>
         <InformationContainer
           label={t('emailField.label')}

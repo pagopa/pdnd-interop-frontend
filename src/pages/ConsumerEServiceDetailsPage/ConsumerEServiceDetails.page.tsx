@@ -15,14 +15,15 @@ import {
   ConsumerEServiceGeneralInfoSectionSkeleton,
 } from './components/ConsumerEServiceGeneralInfoSection'
 import { useTrackPageViewEvent } from '@/config/tracking'
+import { useQuery } from '@tanstack/react-query'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
 
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId, {
-    suspense: false,
-  })
+  const { data: descriptor } = useQuery(
+    EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
+  )
 
   const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
 

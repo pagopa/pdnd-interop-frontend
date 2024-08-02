@@ -18,6 +18,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile'
 import type { ActionItemButton } from '@/types/common.types'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderEServiceImportVersionDrawer } from './components/ProviderEServiceImportVersionDrawer'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
@@ -29,16 +30,15 @@ const ProviderEServiceListPage: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { data: consumers } = EServiceQueries.useGetConsumers(
-    { offset: 0, limit: 50, q: consumersAutocompleteInput },
-    { suspense: false, keepPreviousData: true }
-  )
-
-  const consumersOptions =
-    consumers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const { data: consumersOptions = [] } = useQuery({
+    ...EServiceQueries.getConsumers({ offset: 0, limit: 50, q: consumersAutocompleteInput }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
@@ -56,11 +56,6 @@ const ProviderEServiceListPage: React.FC = () => {
 
   const queryParams = { ...paginationParams, ...filtersParams }
 
-  const { data } = EServiceQueries.useGetProviderList(queryParams, {
-    suspense: false,
-    keepPreviousData: true,
-  })
-
   const topSideActions: Array<ActionItemButton> = [
     {
       action: openDrawer,
@@ -76,6 +71,12 @@ const ProviderEServiceListPage: React.FC = () => {
     },
   ]
 
+  const { data: totalPageCount = 0 } = useQuery({
+    ...EServiceQueries.getProviderList(queryParams),
+    placeholderData: keepPreviousData,
+    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
+  })
+
   return (
     <PageContainer
       title={t('title')}
@@ -84,19 +85,14 @@ const ProviderEServiceListPage: React.FC = () => {
     >
       <Filters {...filtersHandlers} />
       <EServiceTableWrapper params={queryParams} />
-      <Pagination
-        {...paginationProps}
-        totalPages={getTotalPageCount(data?.pagination.totalCount)}
-      />
+      <Pagination {...paginationProps} totalPages={totalPageCount} />
       <ProviderEServiceImportVersionDrawer isOpen={isOpen} onClose={closeDrawer} />
     </PageContainer>
   )
 }
 
 const EServiceTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = ({ params }) => {
-  const { data, isFetching } = EServiceQueries.useGetProviderList(params, {
-    suspense: false,
-  })
+  const { data, isFetching } = useQuery(EServiceQueries.getProviderList(params))
 
   if (!data && isFetching) return <EServiceTableSkeleton />
   return <EServiceTable eservices={data?.results ?? []} />

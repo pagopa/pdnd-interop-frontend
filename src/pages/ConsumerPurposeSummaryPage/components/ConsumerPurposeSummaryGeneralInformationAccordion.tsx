@@ -5,6 +5,7 @@ import { Link } from '@/router'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { PurposeQueries } from '@/api/purpose'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purposeId: string
@@ -13,10 +14,8 @@ type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
 export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   ConsumerPurposeSummaryGeneralInformationAccordionProps
 > = ({ purposeId }) => {
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
+  const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
-
-  if (!purpose) return null
 
   return (
     <Stack spacing={2}>

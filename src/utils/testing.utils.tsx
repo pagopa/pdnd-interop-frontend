@@ -12,7 +12,7 @@ import { vi } from 'vitest'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 import { AuthHooks } from '@/api/auth'
 import { queryClient } from '@/config/query-client'
-import { PartyQueries } from '@/api/party'
+import { TenantHooks } from '@/api/tenant'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -61,7 +61,6 @@ export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHo
       isOperatorSecurity: false,
       isSupport: false,
       currentRoles: [],
-      isLoadingSession: false,
       isOrganizationAllowedToProduce: true,
     }),
     overwrites
@@ -76,7 +75,7 @@ export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHo
  * This mock is commonly used in tests that have a query mock that requires the active tenant
  */
 export function mockUseGetActiveUserParty(
-  overwrites: RecursivePartial<ReturnType<typeof PartyQueries.useGetActiveUserParty>> = {}
+  overwrites: RecursivePartial<ReturnType<typeof TenantHooks.useGetActiveUserParty>> = {}
 ) {
   const returnValue = deepmerge(
     cloneDeep({
@@ -92,9 +91,9 @@ export function mockUseGetActiveUserParty(
     overwrites
   )
 
-  const useGetActiveUserPartySpy = vi.spyOn(PartyQueries, 'useGetActiveUserParty')
+  const useGetActiveUserPartySpy = vi.spyOn(TenantHooks, 'useGetActiveUserParty')
   useGetActiveUserPartySpy.mockReturnValue(
-    returnValue as unknown as ReturnType<typeof PartyQueries.useGetActiveUserParty>
+    returnValue as unknown as ReturnType<typeof TenantHooks.useGetActiveUserParty>
   )
   return useGetActiveUserPartySpy
 }

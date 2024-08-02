@@ -16,12 +16,13 @@ import {
 import useGetPurposeStateAlertProps from './hooks/useGetPurposeStateAlertProps'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
+import { useQuery } from '@tanstack/react-query'
 
 const ProviderPurposeDetailsPage: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { purposeId } = useParams<'PROVIDE_PURPOSE_DETAILS'>()
 
-  const { data: purpose, isLoading } = PurposeQueries.useGetSingle(purposeId, { suspense: false })
+  const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const { actions } = useGetProviderPurposesActions(purpose)
 

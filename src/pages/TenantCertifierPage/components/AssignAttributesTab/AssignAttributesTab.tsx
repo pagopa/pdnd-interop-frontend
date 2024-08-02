@@ -8,6 +8,7 @@ import QueueIcon from '@mui/icons-material/Queue'
 import type { GetRequesterCertifiedAttributesParams } from '@/api/api.generatedTypes'
 import { AssignAttributeDrawer } from './AssignAttributeDrawer'
 import { AttributesTable, AttributesTableSkeleton } from './AttributesTable'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 export const AssignAttributesTab: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.assignTab' })
@@ -20,9 +21,9 @@ export const AssignAttributesTab: React.FC = () => {
     ...paginationParams,
   }
 
-  const { data } = AttributeQueries.useGetRequesterCertifiedAttributesList(queryParams, {
-    suspense: false,
-    keepPreviousData: true,
+  const { data } = useQuery({
+    ...AttributeQueries.getRequesterCertifiedAttributesList(queryParams),
+    placeholderData: keepPreviousData,
   })
 
   return (
@@ -45,9 +46,9 @@ export const AssignAttributesTab: React.FC = () => {
 const AttributesTableWrapper: React.FC<{ params: GetRequesterCertifiedAttributesParams }> = ({
   params,
 }) => {
-  const { data, isFetching } = AttributeQueries.useGetRequesterCertifiedAttributesList(params, {
-    suspense: false,
-  })
+  const { data, isFetching } = useQuery(
+    AttributeQueries.getRequesterCertifiedAttributesList(params)
+  )
 
   if (!data && isFetching) return <AttributesTableSkeleton />
   return <AttributesTable attributes={data?.results ?? []} />
