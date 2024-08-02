@@ -47,11 +47,12 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
     ).then(onClose)
   }
 
-  const { data: purpose, isLoading: isLoadingPurpose } = useQuery(
-    PurposeQueries.getSingle(purposeId)
-  )
+  const { data: clientIdsAlreadyInPurpose, isFetching: isLoadingPurpose } = useQuery({
+    ...PurposeQueries.getSingle(purposeId),
+    select: (d) => d.clients.map((d) => d.id),
+  })
 
-  const { data, isLoading: isLoadingClients } = useQuery(
+  const { data, isFetching: isLoadingClients } = useQuery(
     ClientQueries.getList({
       kind: 'CONSUMER',
       q: clientSearchParam,
@@ -61,15 +62,13 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
   )
 
   const options = React.useMemo(() => {
-    if (!purpose) return []
-    const clientAlreadyInPurpose = purpose.clients
+    if (!clientIdsAlreadyInPurpose) return []
     const clients = data?.results ?? []
     const availableClients = clients.filter(
-      (client) => !clientAlreadyInPurpose.some(({ id }) => client.id === id)
+      (client) => !clientIdsAlreadyInPurpose.some((id) => client.id === id)
     )
-
     return availableClients.map((client) => ({ label: client.name, value: client.id }))
-  }, [purpose, data])
+  }, [clientIdsAlreadyInPurpose, data])
 
   const handleTransitionExited = () => {
     formMethods.reset(defaultValues)
