@@ -4,9 +4,8 @@ import type {
   DeclaredTenantAttribute,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
-import { AttributeQueries } from '@/api/attribute'
-import { EServiceQueries } from '@/api/eservice'
 import { renderHook } from '@testing-library/react'
+import type { Mock } from 'vitest'
 import { vi } from 'vitest'
 import { useDescriptorAttributesPartyOwnership } from '../useDescriptorAttributesPartyOwnership'
 import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
@@ -14,10 +13,18 @@ import { mockUseJwt } from '@/utils/testing.utils'
 
 mockUseJwt()
 
+vi.mock('@tanstack/react-query', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  useQuery: vi.fn(),
+  useQueries: vi.fn(),
+}))
+
+import { useQuery, useQueries } from '@tanstack/react-query'
+
 const mockUseGetDescriptorCatalog = (descriptor: CatalogEServiceDescriptor | undefined) => {
-  vi.spyOn(EServiceQueries, 'useGetDescriptorCatalog').mockReturnValue({
+  ;(useQuery as Mock).mockReturnValue({
     data: descriptor,
-  } as ReturnType<typeof EServiceQueries.useGetDescriptorCatalog>)
+  })
 }
 
 const mockUseGetPartyAttributes = (
@@ -25,11 +32,11 @@ const mockUseGetPartyAttributes = (
   verified: VerifiedTenantAttribute[] | undefined,
   declared: DeclaredTenantAttribute[] | undefined
 ) => {
-  vi.spyOn(AttributeQueries, 'useGetListParty').mockReturnValue([
+  ;(useQueries as Mock).mockReturnValue([
     { data: certified ? { attributes: certified } : undefined },
     { data: verified ? { attributes: verified } : undefined },
     { data: declared ? { attributes: declared } : undefined },
-  ] as ReturnType<typeof AttributeQueries.useGetListParty>)
+  ])
 }
 
 const renderUseDescriptorAttributesPartyOwnership = () =>

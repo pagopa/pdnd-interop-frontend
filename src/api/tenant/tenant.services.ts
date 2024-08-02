@@ -4,7 +4,6 @@ import type {
   GetInstitutionUsersParams,
   GetTenantsParams,
   MailSeed,
-  SelfcareInstitution,
   Tenant,
   Tenants,
   Users,
@@ -33,13 +32,6 @@ export async function getTenants(params: GetTenantsParams) {
   return response.data
 }
 
-async function getProducts() {
-  const response = await axiosInstance.get<Array<{ id: string; name: string }>>(
-    `${BACKEND_FOR_FRONTEND_URL}/selfcare/institutions/products`
-  )
-  return response.data
-}
-
 function updateMail({
   partyId,
   ...payload
@@ -49,20 +41,9 @@ function updateMail({
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/mails`, payload)
 }
 
-async function getPartyList() {
-  const response = await axiosInstance.get<Array<SelfcareInstitution>>(
-    `${BACKEND_FOR_FRONTEND_URL}/selfcare/institutions`
-  )
-  return response.data
-}
-
-const PartyServices = {
+export const TenantServices = {
   getParty,
   getPartyUsersList,
   getTenants,
-  getProducts,
-  getPartyList,
   updateMail,
 }
-
-export default PartyServices

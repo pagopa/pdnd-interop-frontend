@@ -1,30 +1,23 @@
 import React from 'react'
 import { OneTrustNoticesMutations, OneTrustNoticesQueries } from '@/api/one-trust-notices'
-import type { JwtUser } from '@/types/party.types'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
-export function useTOSAgreement(jwt: JwtUser | undefined, isSupport: boolean) {
+export function useTOSAgreement() {
   const { mutateAsync: acceptNotice } = OneTrustNoticesMutations.useAcceptPrivacyNotice()
 
   /**
    * If we are in support mode, we don't need to check if the user has accepted the TOS.
    */
-  const { data: userTOSConsent } = OneTrustNoticesQueries.useGetUserConsent('TOS', {
-    enabled: !!jwt && !isSupport,
-  })
+  const { data: userTOSConsent } = useSuspenseQuery(OneTrustNoticesQueries.getUserConsent('TOS'))
+  const { data: userPPConsent } = useSuspenseQuery(OneTrustNoticesQueries.getUserConsent('PP'))
 
-  const { data: userPPConsent } = OneTrustNoticesQueries.useGetUserConsent('PP', {
-    enabled: !!jwt && !isSupport,
-  })
+  const hasAcceptedTOS = userTOSConsent.firstAccept && userTOSConsent.isUpdated
+  const hasAcceptedPP = userPPConsent.firstAccept && userPPConsent.isUpdated
 
-  const hasAcceptedTOS = userTOSConsent?.firstAccept && userTOSConsent?.isUpdated
-  const hasAcceptedPP = userPPConsent?.firstAccept && userPPConsent?.isUpdated
-
-  const isTOSAccepted = isSupport || !!(hasAcceptedTOS && hasAcceptedPP)
+  const isTOSAccepted = Boolean(hasAcceptedTOS && hasAcceptedPP)
 
   const handleAcceptTOS = React.useCallback(() => {
     if (isTOSAccepted) return
-    if (!userTOSConsent?.latestVersionId || !userPPConsent?.latestVersionId) return
-
     const acceptPromises: Promise<unknown>[] = []
 
     if (!hasAcceptedTOS) {
@@ -42,8 +35,8 @@ export function useTOSAgreement(jwt: JwtUser | undefined, isSupport: boolean) {
     Promise.all(acceptPromises)
   }, [
     isTOSAccepted,
-    userTOSConsent?.latestVersionId,
-    userPPConsent?.latestVersionId,
+    userTOSConsent.latestVersionId,
+    userPPConsent.latestVersionId,
     acceptNotice,
     hasAcceptedTOS,
     hasAcceptedPP,

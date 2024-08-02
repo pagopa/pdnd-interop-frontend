@@ -8,6 +8,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 type KeyGeneralInfoSectionProps = {
   clientId: string
@@ -16,7 +17,7 @@ type KeyGeneralInfoSectionProps = {
 
 export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ clientId, kid }) => {
   const { t } = useTranslation('key', { keyPrefix: 'edit.generalInformations' })
-  const { data: publicKey } = ClientQueries.useGetSingleKey(clientId, kid)
+  const { data: publicKey } = useSuspenseQuery(ClientQueries.getSingleKey(clientId, kid))
 
   return (
     <Grid container>
@@ -35,23 +36,19 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
           <Stack spacing={2}>
             <InformationContainer
               label={t('creationDateField.label')}
-              content={publicKey ? formatDateString(publicKey.createdAt) : ''}
+              content={formatDateString(publicKey.createdAt)}
             />
             <InformationContainer
               label={t('uploaderField.label')}
-              content={`${publicKey?.user.name ?? ''} ${publicKey?.user.familyName ?? ''}`}
+              content={`${publicKey.user.name} ${publicKey.user.familyName}`}
             />
             <InformationContainer
               label={t('kidField.label')}
-              content={publicKey?.keyId ?? ''}
-              copyToClipboard={
-                publicKey?.keyId
-                  ? {
-                      value: publicKey.keyId,
-                      tooltipTitle: t('kidField.copySuccessFeedbackText'),
-                    }
-                  : undefined
-              }
+              content={publicKey.keyId}
+              copyToClipboard={{
+                value: publicKey.keyId,
+                tooltipTitle: t('kidField.copySuccessFeedbackText'),
+              }}
             />
             <InformationContainer
               label={t('clientIdField.label')}
@@ -61,7 +58,7 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
                 tooltipTitle: t('clientIdField.copySuccessFeedbackText'),
               }}
             />
-            {publicKey?.isOrphan && (
+            {publicKey.isOrphan && (
               <Alert severity="info">{t('operatorDeletedAlertMessage')}</Alert>
             )}
           </Stack>

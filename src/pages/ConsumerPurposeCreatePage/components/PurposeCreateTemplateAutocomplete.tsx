@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
 import { Spinner } from '@pagopa/interop-fe-commons'
 import { AuthHooks } from '@/api/auth'
+import { useQuery } from '@tanstack/react-query'
 
 export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -20,19 +21,16 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
     setValue('templateId', null)
   }, [selectedEServiceId, setValue])
 
-  const { data, isInitialLoading, isFetched } = PurposeQueries.useGetConsumersList(
-    {
+  const { data, isLoading, isFetched } = useQuery({
+    ...PurposeQueries.getConsumersList({
       consumersIds: [jwt?.organizationId] as Array<string>,
       eservicesIds: [selectedEServiceId!],
       states: ['ACTIVE', 'SUSPENDED', 'ARCHIVED'],
       offset: 0,
       limit: 50,
-    },
-    {
-      enabled: !!(shouldRenderTemplateAutocomplete && selectedEServiceId),
-      suspense: false,
-    }
-  )
+    }),
+    enabled: Boolean(shouldRenderTemplateAutocomplete && selectedEServiceId),
+  })
   const purposes = data?.results ?? []
 
   const options = purposes.map((purpose) => ({
@@ -41,11 +39,12 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   }))
 
   if (!shouldRenderTemplateAutocomplete) return null
+
   if (isFetched && (!purposes || data?.pagination.totalCount === 0)) {
     return <Alert severity="warning">{t('create.purposeField.noDataLabel')}</Alert>
   }
 
-  if (isInitialLoading) {
+  if (isLoading) {
     return <Spinner label={t('create.purposeField.loadingLabel')} />
   }
 

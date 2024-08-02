@@ -5,16 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
+import { useQuery } from '@tanstack/react-query'
 
 export const ProviderEServiceVersionInfoSummary: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.versionInfoSummary' })
   const { t: tCommon } = useTranslation('common')
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
-    params.eserviceId,
-    params.descriptorId,
-    { suspense: false }
+  const { data: descriptor } = useQuery(
+    EServiceQueries.getDescriptorProvider(params.eserviceId, params.descriptorId)
   )
 
   if (!descriptor) return null

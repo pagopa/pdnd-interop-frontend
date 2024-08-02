@@ -11,11 +11,12 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('purpose')
   const { t: tCommon } = useTranslation('common')
-  const prefetch = PurposeQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
   const { isAdmin } = AuthHooks.useJwt()
 
   const { actions } = useGetConsumerPurposesActions(purpose)
@@ -26,7 +27,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   )
 
   const handlePrefetch = () => {
-    prefetch(purpose.id)
+    queryClient.prefetchQuery(PurposeQueries.getSingle(purpose.id))
   }
 
   return (

@@ -8,6 +8,7 @@ import { Link } from '@/router'
 import type { ActionItem } from '@/types/common.types'
 import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
+import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -25,7 +26,7 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
   const { isAdmin } = AuthHooks.useJwt()
 
   const { mutate: removeClientFromPurpose } = PurposeMutations.useRemoveClient()
-  const prefetchClient = ClientQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
 
   const handleRemoveClientFromPurpose = () => {
     removeClientFromPurpose({ purposeId, clientId: client.id })
@@ -41,7 +42,7 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
   }
 
   const handlePrefetchClient = () => {
-    prefetchClient(client.id)
+    queryClient.prefetchQuery(ClientQueries.getSingle(client.id))
   }
 
   return (

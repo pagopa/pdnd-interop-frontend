@@ -11,9 +11,9 @@ export const ProviderAgreementDetailsAttributesDrawerCertifiedAttributesSection:
 
   const { agreement, descriptorAttributes } = useProviderAgreementDetailsContext()
 
-  const certifiedAttributeGroups = descriptorAttributes?.certified ?? []
-  const partyAttributes = agreement?.consumer.attributes
-  const ownedCertifiedAttributes = partyAttributes?.certified ?? []
+  const certifiedAttributeGroups = descriptorAttributes.certified
+  const partyAttributes = agreement.consumer.attributes
+  const ownedCertifiedAttributes = partyAttributes.certified
 
   function getGroupContainerProps(
     group: Array<DescriptorAttribute>

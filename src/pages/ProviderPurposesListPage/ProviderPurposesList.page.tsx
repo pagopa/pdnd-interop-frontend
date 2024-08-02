@@ -13,6 +13,7 @@ import {
 } from '@pagopa/interop-fe-commons'
 import type { GetProducerPurposesParams } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 const ProviderPurposesListPage: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
@@ -23,27 +24,25 @@ const ProviderPurposesListPage: React.FC = () => {
   const [consumersAutocompleteText, setConsumersAutocompleteInputChange] =
     useAutocompleteTextInput()
 
-  const { data: consumers } = EServiceQueries.useGetConsumers(
-    { offset: 0, limit: 50, q: consumersAutocompleteText },
-    { suspense: false, keepPreviousData: true }
-  )
+  const { data: consumersOptions = [] } = useQuery({
+    ...EServiceQueries.getConsumers({ offset: 0, limit: 50, q: consumersAutocompleteText }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
 
-  const { data: eservices } = EServiceQueries.useGetProviderList(
-    { q: eserviceAutocompleteText, limit: 50, offset: 0 },
-    { suspense: false, keepPreviousData: true }
-  )
-
-  const eservicesOptions =
-    eservices?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
-
-  const consumersOptions =
-    consumers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const { data: eservicesOptions = [] } = useQuery({
+    ...EServiceQueries.getProviderList({ offset: 0, limit: 50, q: eserviceAutocompleteText }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
@@ -87,20 +86,18 @@ const ProviderPurposesListPage: React.FC = () => {
     producersIds: [jwt?.organizationId] as Array<string>,
   }
 
-  const { data } = PurposeQueries.useGetProducersList(params, {
-    suspense: false,
-    keepPreviousData: true,
-    enabled: !!jwt?.organizationId,
+  const { data: totalPageCount = 0 } = useQuery({
+    ...PurposeQueries.getProducersList(params),
+    placeholderData: keepPreviousData,
+    enabled: Boolean(jwt?.organizationId),
+    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />
-      <Pagination
-        {...paginationProps}
-        totalPages={getTotalPageCount(data?.pagination.totalCount)}
-      />
+      <Pagination {...paginationProps} totalPages={totalPageCount} />
     </PageContainer>
   )
 }
@@ -108,9 +105,9 @@ const ProviderPurposesListPage: React.FC = () => {
 const PurposesTableWrapper: React.FC<{ params: GetProducerPurposesParams }> = ({ params }) => {
   const { jwt } = AuthHooks.useJwt()
 
-  const { data, isFetching } = PurposeQueries.useGetProducersList(params, {
-    suspense: false,
-    enabled: !!jwt?.organizationId,
+  const { data, isFetching } = useQuery({
+    ...PurposeQueries.getProducersList(params),
+    enabled: Boolean(jwt?.organizationId),
   })
 
   if (!data && isFetching) return <ProviderPurposesTableSkeleton />

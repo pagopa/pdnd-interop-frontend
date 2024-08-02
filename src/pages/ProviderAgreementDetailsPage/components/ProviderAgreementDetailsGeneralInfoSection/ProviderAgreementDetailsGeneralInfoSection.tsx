@@ -34,8 +34,6 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
     attributeType: 'certified',
   })
 
-  if (!agreement) return <ProviderAgreementDetailsGeneralInfoSectionSkeleton />
-
   const handleOpenContactDrawer = () => {
     openContactDrawer()
   }

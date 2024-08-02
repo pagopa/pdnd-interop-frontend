@@ -1,6 +1,6 @@
 import type { Mail } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { PartyMutations } from '@/api/party'
+import { TenantMutations } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { emailRegex } from '@/utils/form.utils'
@@ -30,7 +30,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
 
-  const { mutateAsync: updateMail } = PartyMutations.useUpdateMail()
+  const { mutateAsync: updateMail } = TenantMutations.useUpdateMail()
 
   const defaultValues = {
     contactEmail: email?.address ?? '',

@@ -113,7 +113,7 @@ function removeOperator({ clientId, userId }: { clientId: string; userId: string
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users/${userId}`)
 }
 
-const ClientServices = {
+export const ClientServices = {
   getList,
   getSingle,
   getKeyList,
@@ -130,5 +130,3 @@ const ClientServices = {
   addOperator,
   removeOperator,
 }
-
-export default ClientServices

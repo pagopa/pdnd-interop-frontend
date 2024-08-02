@@ -12,6 +12,7 @@ import { VoucherInstructionsStep1CurrentIdsDrawer } from './VoucherInstructionsS
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { StepActions } from '@/components/shared/StepActions'
 import { useClientKind } from '@/hooks/useClientKind'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const VoucherInstructionsStep1: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -27,15 +28,15 @@ export const VoucherInstructionsStep1: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { data: clientKeys = { keys: [] } } = ClientQueries.useGetKeyList({ clientId })
-  const { data: client } = ClientQueries.useGetSingle(clientId)
+  const { data: clientKeys } = useSuspenseQuery(ClientQueries.getKeyList({ clientId }))
+  const { data: client } = useSuspenseQuery(ClientQueries.getSingle(clientId))
 
   const purposeSelectLabelId = React.useId()
   const purposeSelectId = React.useId()
   const keySelectLabelId = React.useId()
   const keySelectId = React.useId()
 
-  const purposes = client?.purposes || []
+  const purposes = client.purposes
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -43,13 +44,13 @@ export const VoucherInstructionsStep1: React.FC = () => {
   }
 
   const canGoToNextStep =
-    clientKind === 'CONSUMER' ? !!(selectedKeyId && selectedPurposeId) : !!selectedKeyId
+    clientKind === 'CONSUMER' ? Boolean(selectedKeyId && selectedPurposeId) : Boolean(selectedKeyId)
 
-  if (clientKind === 'CONSUMER' && (!purposes || purposes.length === 0)) {
-    return <Alert severity="info">{t('noPurposesLabel')}.</Alert>
+  if (clientKind === 'CONSUMER' && purposes.length === 0) {
+    return <Alert severity="info">{t('noPurposesLabel')}</Alert>
   }
 
-  if (!clientKeys || (clientKeys && Boolean(clientKeys.keys.length === 0))) {
+  if (clientKeys.keys.length === 0) {
     return <Alert severity="info">{t('noKeysLabel')}</Alert>
   }
 

@@ -15,9 +15,9 @@ export const ConsumerAgreementDetailsDeclaredAttributesSection: React.FC = () =>
 
   const { agreement, descriptorAttributes } = useConsumerAgreementDetailsContext()
 
-  const declaredAttributeGroups = descriptorAttributes?.declared ?? []
-  const partyAttributes = agreement?.consumer.attributes
-  const ownedDeclaredAttributes = partyAttributes?.declared ?? []
+  const declaredAttributeGroups = descriptorAttributes.declared
+  const partyAttributes = agreement.consumer.attributes
+  const ownedDeclaredAttributes = partyAttributes.declared
 
   function getGroupContainerProps(
     group: Array<DescriptorAttribute>

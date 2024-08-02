@@ -3,6 +3,7 @@ import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useParams } from '@/router'
 import { List, ListItem, ListItemText, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
@@ -18,30 +19,19 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
 
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
-    params.eserviceId,
-    params.descriptorId,
-    { suspense: false }
+  const { data: descriptor } = useQuery(
+    EServiceQueries.getDescriptorProvider(params.eserviceId, params.descriptorId)
   )
 
-  const { data: eservice } = EServiceQueries.useGetSingle(params.eserviceId, {
-    suspense: false,
-  })
+  const riskAnalysis = descriptor?.eservice.riskAnalysis.find((item) => item.id === riskAnalysisId)
 
-  const riskAnalysis = descriptor
-    ? descriptor?.eservice.riskAnalysis.find((item) => item.id === riskAnalysisId)
-    : eservice?.riskAnalysis.find((item) => item.id === riskAnalysisId)
-
-  const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    {
+  const { data: riskAnalysisConfig } = useQuery({
+    ...PurposeQueries.getRiskAnalysisVersion({
       riskAnalysisVersion: riskAnalysis?.riskAnalysisForm.version as string,
-      eserviceId: eservice?.id as string,
-    },
-    {
-      suspense: false,
-      enabled: !!riskAnalysis?.riskAnalysisForm.version && !!eservice?.id,
-    }
-  )
+      eserviceId: descriptor?.eservice?.id as string,
+    }),
+    enabled: Boolean(riskAnalysis?.riskAnalysisForm.version && descriptor?.eservice?.id),
+  })
 
   const riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
 
@@ -80,7 +70,7 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
     return answers
   }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage])
 
-  if ((!descriptor && !eservice) || !riskAnalysisTemplate) return null
+  if (!descriptor || !riskAnalysisTemplate) return null
 
   return (
     <>

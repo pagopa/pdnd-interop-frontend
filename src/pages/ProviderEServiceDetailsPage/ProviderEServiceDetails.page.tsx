@@ -18,14 +18,15 @@ import {
   ProviderEServiceTechnicalInfoSection,
   ProviderEServiceTechnicalInfoSectionSkeleton,
 } from './components/ProviderEServiceTechnicalInfoSection'
+import { useQuery } from '@tanstack/react-query'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(eserviceId, descriptorId, {
-    suspense: false,
-  })
+  const { data: descriptor } = useQuery(
+    EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
+  )
 
   const { actions } = useGetProviderEServiceActions(
     descriptor?.eservice.id,

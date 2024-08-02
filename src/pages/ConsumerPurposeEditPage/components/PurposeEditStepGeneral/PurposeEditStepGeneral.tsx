@@ -7,12 +7,13 @@ import PurposeEditStepGeneralForm, {
   type PurposeEditStepGeneralFormValues,
 } from './PurposeEditStepGeneralForm'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
+import { useQuery } from '@tanstack/react-query'
 
 export const PurposeEditStepGeneral: React.FC<ActiveStepProps> = (props) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
-  const { data: purpose, isLoading: isLoadingPurpose } = PurposeQueries.useGetSingle(purposeId, {
-    suspense: false,
-  })
+  const { data: purpose, isLoading: isLoadingPurpose } = useQuery(
+    PurposeQueries.getSingle(purposeId)
+  )
 
   if (isLoadingPurpose) {
     return <PurposeEditStepGeneralFormSkeleton />

@@ -4,24 +4,19 @@ import { Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { ProviderEServiceRiskAnalysisSummary } from './ProviderEServiceRiskAnalysisSummary'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 
 export const ProviderEServiceRiskAnalysisSummaryList: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.riskAnalysisSummaryList' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
-    params.eserviceId,
-    params.descriptorId,
-    { suspense: false }
+  const { data: descriptor } = useQuery(
+    EServiceQueries.getDescriptorProvider(params.eserviceId, params.descriptorId)
   )
 
-  const { data: eservice } = EServiceQueries.useGetSingle(params.eserviceId, {
-    suspense: false,
-  })
+  if (!descriptor) return null
 
-  if (!descriptor && !eservice) return null
-
-  const riskAnalysisList = (descriptor?.eservice.riskAnalysis ?? eservice?.riskAnalysis)!
+  const riskAnalysisList = descriptor.eservice.riskAnalysis
 
   return (
     <Stack spacing={3} divider={<Divider flexItem />}>

@@ -12,12 +12,13 @@ import { PurposeDetailTabSkeleton, PurposeDetailsTab } from './components/Purpos
 import useGetPurposeStateAlertProps from './hooks/useGetPurposeStateAlertProps'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
+import { useQuery } from '@tanstack/react-query'
 
 const ConsumerPurposeDetailsPage: React.FC = () => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
   const { t } = useTranslation('purpose')
 
-  const { data: purpose, isLoading } = PurposeQueries.useGetSingle(purposeId, { suspense: false })
+  const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()

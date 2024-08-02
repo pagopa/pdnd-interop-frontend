@@ -19,6 +19,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 type AttributeContainerProps<TAttribute extends { id: string; name: string }> = {
   attribute: TAttribute
@@ -45,12 +46,12 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
   const alreadyPrefetched = React.useRef(false)
   const [hasExpandedOnce, setHasExpandedOnce] = React.useState(false)
 
-  const prefetch = AttributeQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
 
   const handlePrefetchAttribute = () => {
     if (alreadyPrefetched.current) return
     alreadyPrefetched.current = true
-    prefetch(attribute.id)
+    queryClient.prefetchQuery(AttributeQueries.getSingle(attribute.id))
   }
 
   return (
@@ -114,11 +115,9 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
 
 const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
-  const { data: attribute, isInitialLoading } = AttributeQueries.useGetSingle(attributeId, {
-    suspense: false,
-  })
+  const { data: attribute, isLoading } = useQuery(AttributeQueries.getSingle(attributeId))
 
-  if (isInitialLoading || !attribute) {
+  if (isLoading || !attribute) {
     return (
       <>
         <Skeleton />

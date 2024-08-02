@@ -5,6 +5,7 @@ import type { DialogAttributeDetailsProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainer, InformationContainerSkeleton } from '@pagopa/interop-fe-commons'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const DialogAttributeDetails: React.FC<DialogAttributeDetailsProps> = ({ attribute }) => {
   const { t } = useTranslation('common')
@@ -33,9 +34,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogAttributeDetails',
   })
-  const { data: attribute } = AttributeQueries.useGetSingle(attributeId)
-
-  if (!attribute) return <AttributeDetailsSkeleton />
+  const { data: attribute } = useSuspenseQuery(AttributeQueries.getSingle(attributeId))
 
   return (
     <DialogContent>

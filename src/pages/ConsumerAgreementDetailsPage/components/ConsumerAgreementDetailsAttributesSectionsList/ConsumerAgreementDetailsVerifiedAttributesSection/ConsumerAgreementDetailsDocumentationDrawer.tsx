@@ -22,10 +22,7 @@ export const ConsumerAgreementDetailsDocumentationDrawer: React.FC<
   })
 
   const { agreement } = useConsumerAgreementDetailsContext()
-
   const downloadDocument = AgreementDownloads.useDownloadDocument()
-
-  if (!agreement) return null
 
   const docs = agreement.consumerDocuments
 

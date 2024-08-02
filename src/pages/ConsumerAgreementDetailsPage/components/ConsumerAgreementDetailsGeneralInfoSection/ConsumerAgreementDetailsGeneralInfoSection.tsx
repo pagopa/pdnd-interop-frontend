@@ -33,8 +33,6 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
     closeDrawer: closeCertifiedAttributeDrawer,
   } = useDrawerState()
 
-  if (!agreement) return <ConsumerAgreementDetailsGeneralInfoSectionSkeleton />
-
   const isEserviceMine = agreement.consumer.id === agreement.producer.id
 
   const handleOpenContactDrawer = () => {

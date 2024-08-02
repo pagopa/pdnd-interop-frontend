@@ -17,6 +17,7 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import { PurposeCreateProviderRiskAnalysisAutocomplete } from './PurposeCreateProviderRiskAnalysisAutocomplete'
 import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAnalysis'
 import { EServiceQueries } from '@/api/eservice'
+import { useQuery } from '@tanstack/react-query'
 
 export type PurposeCreateFormValues = {
   eservice: CatalogEService | null
@@ -51,38 +52,29 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
   const isProviderPurposeSelected = !!selectedProviderRiskAnalysisId
 
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId!, {
-    suspense: false,
-    enabled: !!purposeId,
+  const { data: purpose } = useQuery({
+    ...PurposeQueries.getSingle(purposeId!),
+    enabled: Boolean(purposeId),
   })
 
-  const { data: eservices } = EServiceQueries.useGetCatalogList(
-    {
+  const { data: selectedEServiceDescriptorId } = useQuery({
+    ...EServiceQueries.getCatalogList({
       q: selectedEService?.name,
       agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
-    },
-    {
-      suspense: false,
-    }
-  )
+    }),
+    select: (d) =>
+      d.results.find((eservice) => eservice.id === selectedEServiceId)?.activeDescriptor?.id,
+  })
 
-  const selectedEServiceDescriptorId = eservices?.results.find(
-    (eservice) => eservice.id === selectedEServiceId
-  )?.activeDescriptor?.id
-
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
-    selectedEServiceId!,
-    selectedEServiceDescriptorId!,
-    {
-      suspense: false,
-      enabled: !!selectedEServiceId && !!selectedEServiceDescriptorId,
-    }
-  )
-  const mode = descriptor?.eservice.mode
+  const { data: mode } = useQuery({
+    ...EServiceQueries.getDescriptorCatalog(selectedEServiceId!, selectedEServiceDescriptorId!),
+    enabled: Boolean(selectedEServiceId && selectedEServiceDescriptorId),
+    select: (data) => data.eservice.mode,
+  })
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 

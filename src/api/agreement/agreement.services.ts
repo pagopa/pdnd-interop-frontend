@@ -209,7 +209,7 @@ async function downloadContract({ agreementId }: { agreementId: string }) {
   return response.data
 }
 
-const AgreementServices = {
+export const AgreementServices = {
   getList,
   getSingle,
   getProducers,
@@ -232,5 +232,3 @@ const AgreementServices = {
   clone,
   downloadContract,
 }
-
-export default AgreementServices

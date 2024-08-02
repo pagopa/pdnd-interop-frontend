@@ -85,10 +85,8 @@ async function getBlacklist() {
   return response.data
 }
 
-const AuthServices = {
+export const AuthServices = {
   getSessionToken,
   getBlacklist,
   swapSAMLToken,
 }
-
-export default AuthServices

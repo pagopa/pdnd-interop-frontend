@@ -22,11 +22,9 @@ export const ConsumerAgreementDetailsCertifiedAttributesDrawer: React.FC<
 
   const { agreement, descriptorAttributes } = useConsumerAgreementDetailsContext()
 
-  if (!agreement) return null
-
-  const certifiedAttributeGroups = descriptorAttributes?.certified ?? []
-  const partyAttributes = agreement?.consumer.attributes
-  const ownedCertifiedAttributes = partyAttributes?.certified ?? []
+  const certifiedAttributeGroups = descriptorAttributes.certified
+  const partyAttributes = agreement.consumer.attributes
+  const ownedCertifiedAttributes = partyAttributes.certified
 
   const handleCloseDrawer = () => {
     onClose()

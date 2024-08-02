@@ -27,9 +27,9 @@ export const ConsumerAgreementDetailsVerifiedAttributesSection: React.FC = () =>
 
   const { agreement, descriptorAttributes } = useConsumerAgreementDetailsContext()
 
-  const verifiedAttributeGroups = descriptorAttributes?.verified ?? []
-  const partyAttributes = agreement?.consumer.attributes
-  const ownedVerifiedAttributes = partyAttributes?.verified ?? []
+  const verifiedAttributeGroups = descriptorAttributes.verified
+  const partyAttributes = agreement.consumer.attributes
+  const ownedVerifiedAttributes = partyAttributes.verified
 
   const {
     isOpen: isDocumentationDrawerOpen,

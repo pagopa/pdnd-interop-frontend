@@ -11,6 +11,7 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/api.generatedTypes'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -18,16 +19,15 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   const [producersAutocompleteInput, setProducersAutocompleteInput] = useAutocompleteTextInput()
 
-  const { data: producers } = EServiceQueries.useGetProducers(
-    { offset: 0, limit: 50, q: producersAutocompleteInput },
-    { suspense: false, keepPreviousData: true }
-  )
-
-  const producersOptions =
-    producers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
+  const { data: producersOptions = [] } = useQuery({
+    ...EServiceQueries.getProducers({ offset: 0, limit: 50, q: producersAutocompleteInput }),
+    placeholderData: keepPreviousData,
+    select: (data) =>
+      data.results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
   const { filtersParams, ...filtersHandlers } = useFilters<
@@ -47,9 +47,9 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
   const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
   const queryParams = { ...paginationParams, ...filtersParams, states }
 
-  const { data } = EServiceQueries.useGetCatalogList(queryParams, {
-    suspense: false,
-    keepPreviousData: true,
+  const { data } = useQuery({
+    ...EServiceQueries.getCatalogList(queryParams),
+    placeholderData: keepPreviousData,
   })
 
   return (
@@ -67,7 +67,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 const EServiceCatalogWrapper: React.FC<{ params: { limit: number; offset: number } }> = ({
   params,
 }) => {
-  const { data, isFetching } = EServiceQueries.useGetCatalogList(params, { suspense: false })
+  const { data, isFetching } = useQuery(EServiceQueries.getCatalogList(params))
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
   return <EServiceCatalogGrid eservices={data?.results} />

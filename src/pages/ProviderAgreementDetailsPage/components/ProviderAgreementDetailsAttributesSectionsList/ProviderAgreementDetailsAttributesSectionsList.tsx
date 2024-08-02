@@ -7,10 +7,7 @@ import { ProviderAgreementDetailsVerifiedAttributesSection } from './ProviderAgr
 import { useProviderAgreementDetailsContext } from '../ProviderAgreementDetailsContext'
 
 export const ProviderAgreementDetailsAttributesSectionsList: React.FC = () => {
-  const { agreement, descriptorAttributes } = useProviderAgreementDetailsContext()
-
-  if (!agreement || !descriptorAttributes)
-    return <ProviderAgreementDetailsAttributesSectionsListSkeleton />
+  const { agreement } = useProviderAgreementDetailsContext()
 
   const isPending = agreement.state === 'PENDING'
 

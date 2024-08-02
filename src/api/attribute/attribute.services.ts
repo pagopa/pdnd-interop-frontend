@@ -151,7 +151,7 @@ async function revokeDeclaredPartyAttribute({ attributeId }: { attributeId: stri
   )
 }
 
-const AttributeServices = {
+export const AttributeServices = {
   getList,
   getRequesterCertifiedAttributesList,
   getSingle,
@@ -169,5 +169,3 @@ const AttributeServices = {
   declarePartyAttribute,
   revokeDeclaredPartyAttribute,
 }
-
-export default AttributeServices

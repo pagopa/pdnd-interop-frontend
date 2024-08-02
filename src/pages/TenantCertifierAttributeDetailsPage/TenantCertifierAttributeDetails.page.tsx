@@ -7,6 +7,7 @@ import {
 import { useParams } from '@/router'
 import { Grid } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -14,14 +15,15 @@ const TenantCertifierAttributeDetails: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.attributeDetails' })
   const { attributeId } = useParams<'TENANT_CERTIFIER_ATTRIBUTE_DETAILS'>()
 
-  const { data: attribute, isInitialLoading } = AttributeQueries.useGetSingle(attributeId, {
-    suspense: false,
+  const { data: attributeName = '', isLoading } = useQuery({
+    ...AttributeQueries.getSingle(attributeId),
+    select: (d) => d.name,
   })
 
   return (
     <PageContainer
-      title={`${attribute?.name}`}
-      isLoading={isInitialLoading}
+      title={attributeName}
+      isLoading={isLoading}
       backToAction={{
         label: t('backToTenantCertifierBtn'),
         to: 'TENANT_CERTIFIER',
@@ -46,9 +48,7 @@ const TenantCertifierAttributeDetailsInfoSection: React.FC<
   TenantCertifierAttributeDetailsInfoSectionProps
 > = ({ attributeId }) => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.attributeDetails' })
-  const { data: attribute } = AttributeQueries.useGetSingle(attributeId)
-
-  if (!attribute) return null
+  const { data: attribute } = useSuspenseQuery(AttributeQueries.getSingle(attributeId))
 
   return (
     <SectionContainer>

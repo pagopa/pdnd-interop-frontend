@@ -3,6 +3,7 @@ import { AttributeQueries } from '@/api/attribute'
 import { EServiceQueries } from '@/api/eservice'
 import { hasAllDescriptorAttributes } from '@/utils/attribute.utils'
 import { AuthHooks } from '@/api/auth'
+import { useQueries, useQuery } from '@tanstack/react-query'
 
 /**
  * This hook checks if the user has all the attributes required from a descriptor.
@@ -14,16 +15,19 @@ export function useDescriptorAttributesPartyOwnership(
   descriptorId: string | undefined
 ) {
   const { jwt } = AuthHooks.useJwt()
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(
-    eserviceId as string,
-    descriptorId as string,
-    { enabled: !!(eserviceId && descriptorId), suspense: false }
-  )
 
-  const [{ data: ownedCertified }, { data: ownedVerified }, { data: ownedDeclared }] =
-    AttributeQueries.useGetListParty(jwt?.organizationId, {
-      suspense: false,
-    })
+  const { data: descriptor } = useQuery({
+    ...EServiceQueries.getDescriptorCatalog(eserviceId!, descriptorId!),
+    enabled: Boolean(eserviceId && descriptorId),
+  })
+
+  const [{ data: ownedCertified }, { data: ownedVerified }, { data: ownedDeclared }] = useQueries({
+    queries: [
+      AttributeQueries.getPartyCertifiedList(jwt?.organizationId),
+      AttributeQueries.getPartyVerifiedList(jwt?.organizationId),
+      AttributeQueries.getPartyDeclaredList(jwt?.organizationId),
+    ],
+  })
 
   return React.useMemo(() => {
     if (!descriptor || !ownedCertified || !ownedDeclared || !ownedVerified)

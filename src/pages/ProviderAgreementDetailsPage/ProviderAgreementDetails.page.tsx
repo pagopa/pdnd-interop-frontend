@@ -14,6 +14,8 @@ import {
   ProviderAgreementDetailsAttributesSectionsListSkeleton,
 } from './components/ProviderAgreementDetailsAttributesSectionsList/ProviderAgreementDetailsAttributesSectionsList'
 import { ProviderAgreementDetailsContextProvider } from './components/ProviderAgreementDetailsContext'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { match } from 'ts-pattern'
 
 const ProviderAgreementDetailsPage: React.FC = () => {
   return (
@@ -27,30 +29,26 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('agreement')
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
-  const { data: agreement } = AgreementQueries.useGetSingle(agreementId)
+  const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
   const { actions } = useGetAgreementsActions(agreement)
 
-  const suspendedBy = React.useMemo(() => {
-    if (agreement?.suspendedByProducer) return 'byProducer'
-    if (agreement?.suspendedByConsumer) return 'byConsumer'
-    if (agreement?.suspendedByPlatform) return 'byPlatform'
-  }, [agreement])
+  const suspendedBy = match(agreement)
+    .with({ suspendedByProducer: true }, () => 'byProducer' as const)
+    .with({ suspendedByConsumer: true }, () => 'byConsumer' as const)
+    .with({ suspendedByPlatform: true }, () => 'byPlatform' as const)
+    .otherwise(() => undefined)
 
   return (
     <PageContainer
       title={t('providerRead.title')}
       topSideActions={actions}
       backToAction={{ label: t('backToRequestsBtn'), to: 'PROVIDE_AGREEMENT_LIST' }}
-      statusChip={
-        agreement
-          ? {
-              for: 'agreement',
-              agreement,
-            }
-          : undefined
-      }
+      statusChip={{
+        for: 'agreement',
+        agreement,
+      }}
     >
-      {agreement && agreement.state === 'SUSPENDED' && suspendedBy && (
+      {suspendedBy && (
         <Alert sx={{ mb: 3 }} severity="error">
           <Trans
             components={{

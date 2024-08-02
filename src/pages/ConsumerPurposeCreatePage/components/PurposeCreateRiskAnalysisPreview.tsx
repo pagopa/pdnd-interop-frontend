@@ -7,6 +7,7 @@ import { Box, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } f
 // import type { Question } from '@/pages/ConsumerPurposeEditPage/types/risk-analysis.types'
 import { PurposeQueries } from '@/api/purpose'
 import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import { useQuery } from '@tanstack/react-query'
 
 type QuestionItem = { question: string; answer: string }
 
@@ -17,20 +18,18 @@ export const PurposeCreateRiskAnalysisPreview: React.FC = () => {
   const isUsingTemplate = watch('useTemplate')
   const purposeId = watch('templateId')
 
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId!, {
-    suspense: false,
-    enabled: !!purposeId,
+  const { data: purpose } = useQuery({
+    ...PurposeQueries.getSingle(purposeId!),
+    enabled: Boolean(purposeId),
   })
-  const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    {
+
+  const { data: riskAnalysisConfig } = useQuery({
+    ...PurposeQueries.getRiskAnalysisVersion({
       riskAnalysisVersion: purpose?.riskAnalysisForm?.version as string,
       eserviceId: purpose?.eservice.id as string,
-    },
-    {
-      suspense: false,
-      enabled: !!purpose?.riskAnalysisForm?.version && !!purpose?.eservice.id,
-    }
-  )
+    }),
+    enabled: Boolean(purpose?.riskAnalysisForm?.version && purpose?.eservice.id),
+  })
 
   const riskAnalysisTemplate = purpose?.riskAnalysisForm?.answers
 

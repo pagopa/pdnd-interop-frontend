@@ -11,9 +11,9 @@ export const ProviderAgreementDetailsAttributesDrawerDeclaredAttributesSection: 
 
   const { agreement, descriptorAttributes } = useProviderAgreementDetailsContext()
 
-  const declaredAttributeGroups = descriptorAttributes?.declared ?? []
-  const partyAttributes = agreement?.consumer.attributes
-  const ownedDeclaredAttributes = partyAttributes?.declared ?? []
+  const declaredAttributeGroups = descriptorAttributes.declared
+  const partyAttributes = agreement.consumer.attributes
+  const ownedDeclaredAttributes = partyAttributes.declared
 
   function getGroupContainerProps(
     group: Array<DescriptorAttribute>
@@ -32,6 +32,7 @@ export const ProviderAgreementDetailsAttributesDrawerDeclaredAttributesSection: 
       color: 'warning',
     }
   }
+
   return (
     <>
       <Stack spacing={2}>

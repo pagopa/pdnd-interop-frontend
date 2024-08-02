@@ -1,6 +1,5 @@
-import { ClientQueries, ClientQueryKeys } from '@/api/client'
-import ClientServices from '@/api/client/client.services'
-import { useQueries } from '@tanstack/react-query'
+import { ClientQueries } from '@/api/client'
+import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
@@ -10,6 +9,7 @@ import { AuthHooks } from '@/api/auth'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { ClientAddPublicKeyDrawer } from './ClientAddPublicKeyDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 interface ClientAddPublicKeyButtonProps {
   clientId: string
@@ -19,30 +19,23 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('key')
   const { jwt, isSupport, isAdmin } = AuthHooks.useJwt()
-  const { data: users = [] } = ClientQueries.useGetOperatorsList(clientId)
+  const { data: users } = useSuspenseQuery(ClientQueries.getOperatorsList(clientId))
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const userQueries = useQueries({
-    queries: users.map(({ userId }) => {
-      return {
-        queryKey: [ClientQueryKeys.GetSingleOperator, userId],
-        queryFn: () => ClientServices.getSingleOperator(userId),
-      }
-    }),
+    queries: users.map(({ userId }) => ClientQueries.getSingleOperator(userId)),
   })
 
   const usersId = userQueries.map(({ data }) => data?.userId).filter(identity)
 
   const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
 
-  const { data } = ClientQueries.useGetKeyList(
-    { clientId },
-    {
-      suspense: false,
-      keepPreviousData: true,
-    }
-  )
+  const { data } = useQuery({
+    ...ClientQueries.getKeyList({ clientId }),
+    placeholderData: keepPreviousData,
+  })
+
   const publicKeys = data?.keys || []
   const publicKeysLimit = 100
   const hasReachedPublicKeysLimit = publicKeys.length >= publicKeysLimit

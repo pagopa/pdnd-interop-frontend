@@ -10,6 +10,7 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import { AuthHooks } from '@/api/auth'
 import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActions'
 import type { CompactUser } from '@/api/api.generatedTypes'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface ClientOperatorsTableRowProps {
   operator: CompactUser
@@ -23,12 +24,12 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   const { isAdmin } = AuthHooks.useJwt()
   const { t: tCommon } = useTranslation('common')
   const clientKind = useClientKind()
-  const prefetchOperator = ClientQueries.usePrefetchSingleOperator()
+  const queryClient = useQueryClient()
 
   const { actions } = useGetClientOperatorsActions(operator.userId, clientId)
 
   const handlePrefetchOperator = () => {
-    prefetchOperator(operator.userId)
+    queryClient.prefetchQuery(ClientQueries.getSingleOperator(operator.userId))
   }
 
   const inspectRouteKey =

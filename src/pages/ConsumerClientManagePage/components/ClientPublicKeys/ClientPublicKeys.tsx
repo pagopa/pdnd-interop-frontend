@@ -6,8 +6,9 @@ import {
 import { ClientPublicKeysTable, ClientPublicKeysTableSkeleton } from './ClientPublicKeysTable'
 import { Filters, useFilters } from '@pagopa/interop-fe-commons'
 import { ClientQueries } from '@/api/client'
-import type { CompactUser, GetClientKeysParams } from '@/api/api.generatedTypes'
+import type { GetClientKeysParams } from '@/api/api.generatedTypes'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 
 interface ClientPublicKeysProps {
   clientId: string
@@ -15,15 +16,15 @@ interface ClientPublicKeysProps {
 
 export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) => {
   const { t } = useTranslation('client', { keyPrefix: 'edit.filters' })
-  const { data: currentOperators = [] } = ClientQueries.useGetOperatorsList(clientId, {
-    suspense: false,
-  })
 
-  const userOptions =
-    currentOperators.map((o: CompactUser) => ({
-      label: `${o.name} ${o.familyName}`,
-      value: o.userId,
-    })) || []
+  const { data: userOptions = [] } = useQuery({
+    ...ClientQueries.getOperatorsList(clientId),
+    select: (data) =>
+      data.map((o) => ({
+        label: `${o.name} ${o.familyName}`,
+        value: o.userId,
+      })),
+  })
 
   const { filtersParams, ...filtersHandlers } = useFilters<Omit<GetClientKeysParams, 'clientId'>>([
     {

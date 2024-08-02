@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { Grid } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActions'
+import { useQuery } from '@tanstack/react-query'
 
 const OperatorDetailsPage: React.FC = () => {
   const clientKind = useClientKind()
@@ -18,9 +19,7 @@ const OperatorDetailsPage: React.FC = () => {
   const { clientId: clientId, operatorId } = useParams<
     'SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT' | 'SUBSCRIBE_CLIENT_OPERATOR_EDIT'
   >()
-  const { data: operator, isLoading } = ClientQueries.useGetSingleOperator(operatorId, {
-    suspense: false,
-  })
+  const { data: operator, isLoading } = useQuery(ClientQueries.getSingleOperator(operatorId))
   const operatorFullname = `${operator?.name} ${operator?.familyName}`
 
   const { actions } = useGetClientOperatorsActions(operatorId, clientId)

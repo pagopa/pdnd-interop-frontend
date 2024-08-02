@@ -11,6 +11,7 @@ import { Box, Skeleton, Tooltip } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import UpdateIcon from '@mui/icons-material/Update'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntry }> = ({
   agreement,
@@ -18,8 +19,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { isAdmin } = AuthHooks.useJwt()
-
-  const prefetchAgreement = AgreementQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
 
   const { actions } = useGetAgreementsActions(agreement)
 
@@ -33,7 +33,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const isAgreementEditable = isAdmin && agreement.state === 'DRAFT'
 
   const handlePrefetch = () => {
-    prefetchAgreement(agreement.id)
+    queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
   }
 
   return (

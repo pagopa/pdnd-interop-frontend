@@ -12,37 +12,40 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProviderAgreementsTable, ProviderAgreementsTableSkeleton } from './components'
 import { AuthHooks } from '@/api/auth'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 const ProviderAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerAgreementsList' })
   const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
 
+  const { jwt } = AuthHooks.useJwt()
+
   const [consumersAutocompleteInput, setConsumersAutocompleteInput] = useAutocompleteTextInput()
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
-  const { data: consumers } = AgreementQueries.useGetConsumers(
-    { offset: 0, limit: 50, q: consumersAutocompleteInput },
-    { suspense: false, keepPreviousData: true }
-  )
+  const { data: consumersOptions = [] } = useQuery({
+    ...AgreementQueries.getConsumers({ offset: 0, limit: 50, q: consumersAutocompleteInput }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
 
-  const { data: eservices } = AgreementQueries.useGetProducerEServiceList(
-    { offset: 0, limit: 50, q: eservicesAutocompleteInput },
-    { suspense: false, keepPreviousData: true }
-  )
-
-  const consumersOptions =
-    consumers?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
-
-  const eservicesOptions =
-    eservices?.results.map((o) => ({
-      label: o.name,
-      value: o.id,
-    })) || []
-
-  const { jwt } = AuthHooks.useJwt()
+  const { data: eservicesOptions = [] } = useQuery({
+    ...AgreementQueries.getProducerEServiceList({
+      offset: 0,
+      limit: 50,
+      q: eservicesAutocompleteInput,
+    }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
@@ -87,7 +90,10 @@ const ProviderAgreementsListPage: React.FC = () => {
     producersIds: [jwt?.organizationId] as Array<string>,
     states,
   }
-  const { data } = AgreementQueries.useGetList(params, { suspense: false, keepPreviousData: true })
+  const { data } = useQuery({
+    ...AgreementQueries.getList(params),
+    placeholderData: keepPreviousData,
+  })
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
@@ -102,9 +108,7 @@ const ProviderAgreementsListPage: React.FC = () => {
 }
 
 const ProviderAgreementsTableWrapper: React.FC<{ params: GetAgreementsParams }> = ({ params }) => {
-  const { data, isFetching } = AgreementQueries.useGetList(params, {
-    suspense: false,
-  })
+  const { data, isFetching } = useQuery(AgreementQueries.getList(params))
 
   if (!data && isFetching) return <ProviderAgreementsTableSkeleton />
   return <ProviderAgreementsTable agreements={data?.results ?? []} />

@@ -21,10 +21,7 @@ export const ProviderAgreementDetailsDocumentationDrawer: React.FC<
     keyPrefix: 'providerRead.sections.attributesSectionsList.verifiedSection.documentationDrawer',
   })
   const { agreement } = useProviderAgreementDetailsContext()
-
   const downloadDocument = AgreementDownloads.useDownloadDocument()
-
-  if (!agreement) return null
 
   const docs = agreement.consumerDocuments
 

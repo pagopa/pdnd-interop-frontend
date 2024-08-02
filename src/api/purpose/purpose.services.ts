@@ -192,7 +192,7 @@ function removeClient({ clientId, purposeId }: { clientId: string; purposeId: st
   )
 }
 
-const PurposeServices = {
+export const PurposeServices = {
   getProducersList,
   getConsumersList,
   getSingle,
@@ -214,5 +214,3 @@ const PurposeServices = {
   addClient,
   removeClient,
 }
-
-export default PurposeServices

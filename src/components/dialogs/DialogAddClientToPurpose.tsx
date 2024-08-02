@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { RHFAutocompleteMultiple } from '../shared/react-hook-form-inputs'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
+import { useQuery } from '@tanstack/react-query'
 
 type AddClientToPurposeFormValues = {
   selectedClients: Array<string>
@@ -31,18 +32,17 @@ export const DialogAddClientToPurpose: React.FC<DialogAddClientToPurposeProps> =
     },
   })
 
-  const { data: purpose, isLoading: isLoadingPurpose } = PurposeQueries.useGetSingle(purposeId, {
-    suspense: false,
-  })
+  const { data: purpose, isLoading: isLoadingPurpose } = useQuery(
+    PurposeQueries.getSingle(purposeId)
+  )
 
-  const { data, isLoading: isLoadingClients } = ClientQueries.useGetList(
-    {
+  const { data, isLoading: isLoadingClients } = useQuery(
+    ClientQueries.getList({
       kind: 'CONSUMER',
       q: clientSearchParam,
       offset: 0,
       limit: 50,
-    },
-    { suspense: false }
+    })
   )
 
   const options = React.useMemo(() => {

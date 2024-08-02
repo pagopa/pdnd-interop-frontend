@@ -33,8 +33,8 @@ export const ProviderAgreementDetailsVerifiedAttributesDrawer: React.FC<
 
   const { isOpen, attributeId, type } = providerAgreementVerifiedAttributesDrawerState
 
-  const partyAttributes = agreement?.consumer.attributes
-  const ownedVerifiedAttributes = partyAttributes?.verified ?? []
+  const partyAttributes = agreement.consumer.attributes
+  const ownedVerifiedAttributes = partyAttributes.verified
   const attribute = ownedVerifiedAttributes.find((a) => a.id === attributeId)
 
   const verifier = attribute?.verifiedBy.find((b) => b.id === agreement?.producer.id)

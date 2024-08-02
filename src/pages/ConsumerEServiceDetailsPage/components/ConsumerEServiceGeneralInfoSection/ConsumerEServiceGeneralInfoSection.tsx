@@ -12,6 +12,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { ConsumerEServiceTechnicalInfoDrawer } from './ConsumerEServiceTechnicalInfoDrawer'
 import { ConsumerEServiceProducerContactsDrawer } from './ConsumerEServiceProducerContactsDrawer'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -19,7 +20,9 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   })
 
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { data: descriptor } = EServiceQueries.useGetDescriptorCatalog(eserviceId, descriptorId)
+  const { data: descriptor } = useSuspenseQuery(
+    EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
+  )
 
   const {
     isOpen: isTechnicalInfoDrawerOpen,
@@ -38,8 +41,6 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
     openDrawer: openVersionSelectorDrawer,
     closeDrawer: closeVersionSelectorDrawer,
   } = useDrawerState()
-
-  if (!descriptor) return null
 
   const hasSingleVersion =
     descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1

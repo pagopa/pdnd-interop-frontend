@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ClientTableRow, ClientTableRowSkeleton } from './ClientTableRow'
 import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import type { ClientKind, GetClientsParams } from '@/api/api.generatedTypes'
+import { keepPreviousData, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 
 interface ClientTableProps {
   clientKind: ClientKind
@@ -22,9 +23,9 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
     ...paginationParams,
   }
 
-  const { data: clients } = ClientQueries.useGetList(params, {
-    keepPreviousData: true,
-    suspense: false,
+  const { data: clients } = useQuery({
+    ...ClientQueries.getList(params),
+    placeholderData: keepPreviousData,
   })
 
   return (
@@ -47,10 +48,10 @@ const ClientTableWrapper: React.FC<{
 }> = ({ params, clientKind }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t } = useTranslation('client')
-  const { data: clients } = ClientQueries.useGetList(params)
+  const { data: clients } = useSuspenseQuery(ClientQueries.getList(params))
 
   const headLabels = [tCommon('clientName'), '']
-  const isEmpty = clients && clients.results.length === 0
+  const isEmpty = clients.results.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty} noDataLabel={t('noMultiDataLabel')}>

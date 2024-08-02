@@ -3,6 +3,7 @@ import { Table } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { PurposeClientsTableRow, PurposeClientsTableRowSkeleton } from './PurposeClientsTableRow'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 interface PurposeClientsTableProps {
   purposeId: string
@@ -11,11 +12,11 @@ interface PurposeClientsTableProps {
 export const PurposeClientsTable: React.FC<PurposeClientsTableProps> = ({ purposeId }) => {
   const { t } = useTranslation('client')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
+  const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
 
   const headLabels = [tCommon('clientName'), '']
 
-  const clients = purpose?.clients || []
+  const clients = purpose.clients
   const isEmpty = clients.length === 0
 
   return (

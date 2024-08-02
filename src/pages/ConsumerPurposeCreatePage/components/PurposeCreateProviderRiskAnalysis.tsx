@@ -7,6 +7,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { List, ListItem, ListItemText, Typography } from '@mui/material'
 import { SectionContainer } from '@/components/layout/containers'
 import { EServiceQueries } from '@/api/eservice'
+import { useQuery } from '@tanstack/react-query'
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
@@ -19,23 +20,22 @@ export const PurposeCreateProviderRiskAnalysis: React.FC = () => {
 
   const selectedEServiceId = watch('eservice')?.id
 
-  const { data: riskAnalysis } = EServiceQueries.useGetEServiceRiskAnalysis(
-    selectedEServiceId!,
-    selectedProviderRiskAnalysisId!,
-    { suspense: false, enabled: !!selectedEServiceId && !!selectedProviderRiskAnalysisId }
-  )
+  const { data: riskAnalysis } = useQuery({
+    ...EServiceQueries.getEServiceRiskAnalysis(
+      selectedEServiceId!,
+      selectedProviderRiskAnalysisId!
+    ),
+    enabled: Boolean(selectedEServiceId && selectedProviderRiskAnalysisId),
+  })
   const riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
 
-  const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    {
+  const { data: riskAnalysisConfig } = useQuery({
+    ...PurposeQueries.getRiskAnalysisVersion({
       riskAnalysisVersion: riskAnalysis?.riskAnalysisForm.version as string,
       eserviceId: selectedEServiceId!,
-    },
-    {
-      suspense: false,
-      enabled: !!riskAnalysis?.riskAnalysisForm.version && !!selectedEServiceId,
-    }
-  )
+    }),
+    enabled: Boolean(riskAnalysis?.riskAnalysisForm.version && selectedEServiceId),
+  })
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
     if (!riskAnalysisTemplate || !riskAnalysisConfig) return []

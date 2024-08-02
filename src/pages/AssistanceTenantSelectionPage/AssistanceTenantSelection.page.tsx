@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography } from '@mui/material'
 import { TenantSelect, TenantSelectSkeleton } from './components/TenantSelect'
 import { useTranslation } from 'react-i18next'
 import { AssistencePartySelectionError } from '@/utils/errors.utils'
-import { AuthHooks, AuthQueryKeys } from '@/api/auth'
+import { AuthMutations, AuthQueries } from '@/api/auth'
 import type { CompactTenant } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { useQueryClient } from '@tanstack/react-query'
@@ -16,7 +16,7 @@ const AssistanceTenantSelectionPage: React.FC = () => {
   const navigate = useNavigate()
 
   const [selectedTenant, setSelectedTenant] = React.useState<CompactTenant | null>(null)
-  const { mutate: swapSAMLToken } = AuthHooks.useSwapSAMLTokens()
+  const { mutate: swapSAMLToken } = AuthMutations.useSwapSAMLTokens()
 
   const saml2 = window.location.hash.split('#saml2=')[1]?.split('&')[0]
   if (!saml2) throw new AssistencePartySelectionError(`Missing saml2 (${saml2}) from query param`)
@@ -28,7 +28,7 @@ const AssistanceTenantSelectionPage: React.FC = () => {
       { tenantId: selectedTenant.id, saml2 },
       {
         onSuccess: ({ session_token }) => {
-          queryClient.setQueryData([AuthQueryKeys.GetSessionToken], session_token)
+          queryClient.setQueryData(AuthQueries.getSessionToken().queryKey, session_token)
           window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, session_token)
           navigate('SUBSCRIBE_CATALOG_LIST')
         },

@@ -28,6 +28,7 @@ import {
   EServiceCreateStepPurposeSkeleton,
 } from './components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
 import type { EServiceMode } from '@/api/api.generatedTypes'
+import { useQuery } from '@tanstack/react-query'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -38,11 +39,13 @@ const ProviderEServiceCreatePage: React.FC = () => {
 
   const [selectedEServiceMode, setSelectedEServiceMode] = React.useState<EServiceMode | undefined>()
 
-  const { data: descriptor, isLoading: isLoadingDescriptor } =
-    EServiceQueries.useGetDescriptorProvider(params?.eserviceId, params?.descriptorId, {
-      suspense: false,
-      enabled: !isNewEService,
-    })
+  const { data: descriptor, isLoading: isLoadingDescriptor } = useQuery({
+    ...EServiceQueries.getDescriptorProvider(
+      params?.eserviceId as string,
+      params?.descriptorId as string
+    ),
+    enabled: !isNewEService,
+  })
 
   const eservice = descriptor?.eservice
 

@@ -1,4 +1,3 @@
-import { PartyQueries } from '@/api/party/party.hooks'
 import { Button, Stack, Tooltip } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +8,8 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 import { ClientMutations, ClientQueries } from '@/api/client'
 import type { Users } from '@/api/api.generatedTypes'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { TenantQueries } from '@/api/tenant'
 
 interface ClientOperatorsProps {
   clientId: string
@@ -18,14 +19,13 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
   const { t } = useTranslation('user')
   const { t: tCommon } = useTranslation('common')
   const { jwt, isAdmin } = AuthHooks.useJwt()
-  const prefetchUserList = PartyQueries.usePrefetchUsersList()
+  const queryClient = useQueryClient()
 
   const { isOpen, closeDrawer, openDrawer } = useDrawerState()
 
   const { mutateAsync: addOperator } = ClientMutations.useAddOperator()
-  const { data: currentOperators = [] } = ClientQueries.useGetOperatorsList(clientId, {
-    suspense: false,
-  })
+
+  const { data: currentOperators = [] } = useQuery(ClientQueries.getOperatorsList(clientId))
 
   const handleSubmit = async (operators: Users) => {
     await Promise.all(operators.map(({ userId }) => addOperator({ clientId, userId })))
@@ -38,10 +38,12 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
 
   const handlePrefetchUserList = () => {
     if (!canAddOperator) return
-    prefetchUserList({
-      roles: ['admin', 'security'],
-      tenantId: jwt?.organizationId as string,
-    })
+    queryClient.prefetchQuery(
+      TenantQueries.getPartyUsersList({
+        roles: ['admin', 'security'],
+        tenantId: jwt?.organizationId as string,
+      })
+    )
   }
 
   return (

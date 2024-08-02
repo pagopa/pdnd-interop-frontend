@@ -1,86 +1,11 @@
-import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import PurposeServices from './purpose.services'
-import { useDownloadFile } from '../hooks/useDownloadFile'
-import type {
-  GetConsumerPurposesParams,
-  GetProducerPurposesParams,
-  RetrieveRiskAnalysisConfigurationByVersionParams,
-} from '../api.generatedTypes'
-
-export enum PurposeQueryKeys {
-  GetList = 'PurposeGetList',
-  GetSingle = 'PurposeGetSingle',
-  GetRiskAnalysisLatest = 'PurposeGetRiskAnalysisLatest',
-  GetRiskAnalysisVersion = 'PurposeGetRiskAnalysisVersion',
-}
-
-function useGetProducersList(
-  params: GetProducerPurposesParams,
-  config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getProducersList>>>
-) {
-  return useQuery({
-    queryKey: [PurposeQueryKeys.GetList, params],
-    queryFn: () => PurposeServices.getProducersList(params),
-    ...config,
-  })
-}
-
-function useGetConsumersList(
-  params: GetConsumerPurposesParams,
-  config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getConsumersList>>>
-) {
-  return useQuery({
-    queryKey: [PurposeQueryKeys.GetList, params],
-    queryFn: () => PurposeServices.getConsumersList(params),
-    ...config,
-  })
-}
-
-function useGetSingle(
-  purposeId: string,
-  config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getSingle>>>
-) {
-  return useQuery({
-    queryKey: [PurposeQueryKeys.GetSingle, purposeId],
-    queryFn: () => PurposeServices.getSingle(purposeId),
-    enabled: !!purposeId,
-    ...config,
-  })
-}
-
-function usePrefetchSingle() {
-  const queryClient = useQueryClient()
-  return (purposeId: string) =>
-    queryClient.prefetchQuery([PurposeQueryKeys.GetSingle, purposeId], () =>
-      PurposeServices.getSingle(purposeId)
-    )
-}
-
-function useGetRiskAnalysisLatest(
-  config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisLatest>>>
-) {
-  return useQuery({
-    queryKey: [PurposeQueryKeys.GetRiskAnalysisLatest],
-    queryFn: () => PurposeServices.getRiskAnalysisLatest(),
-    ...config,
-  })
-}
-
-function useGetRiskAnalysisVersion(
-  params: RetrieveRiskAnalysisConfigurationByVersionParams,
-  config?: UseQueryOptions<Awaited<ReturnType<typeof PurposeServices.getRiskAnalysisVersion>>>
-) {
-  return useQuery({
-    queryKey: [PurposeQueryKeys.GetRiskAnalysisVersion, params],
-    queryFn: () => PurposeServices.getRiskAnalysisVersion(params),
-    ...config,
-  })
-}
+import { PurposeServices } from './purpose.services'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
-  return useMutation(PurposeServices.createDraft, {
+  return useMutation({
+    mutationFn: PurposeServices.createDraft,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -90,7 +15,8 @@ function useCreateDraft() {
 
 function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateDraft' })
-  return useMutation(PurposeServices.updateDraft, {
+  return useMutation({
+    mutationFn: PurposeServices.updateDraft,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -100,7 +26,8 @@ function useUpdateDraft() {
 
 function useDeleteDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.deleteDraft' })
-  return useMutation(PurposeServices.deleteDraft, {
+  return useMutation({
+    mutationFn: PurposeServices.deleteDraft,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -117,7 +44,8 @@ function useCreateDraftForReceiveEService() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.createDraftForReceiveEService',
   })
-  return useMutation(PurposeServices.createDraftForReceiveEService, {
+  return useMutation({
+    mutationFn: PurposeServices.createDraftForReceiveEService,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -129,7 +57,8 @@ function useUpdateDraftForReceiveEService() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDraft',
   })
-  return useMutation(PurposeServices.updateDraftForReceiveEService, {
+  return useMutation({
+    mutationFn: PurposeServices.updateDraftForReceiveEService,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -141,7 +70,8 @@ function useUpdateDailyCalls() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.updateDailyCalls',
   })
-  return useMutation(PurposeServices.updateDailyCalls, {
+  return useMutation({
+    mutationFn: PurposeServices.updateDailyCalls,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -150,17 +80,10 @@ function useUpdateDailyCalls() {
   })
 }
 
-function useDownloadRiskAnalysis() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.downloadRiskAnalysis' })
-  return useDownloadFile(PurposeServices.downloadRiskAnalysis, {
-    loadingLabel: t('loading'),
-    errorToastLabel: t('outcome.error'),
-  })
-}
-
 function useSuspendVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.suspendVersion' })
-  return useMutation(PurposeServices.suspendVersion, {
+  return useMutation({
+    mutationFn: PurposeServices.suspendVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -175,7 +98,8 @@ function useSuspendVersion() {
 
 function useActivateVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.activateVersion' })
-  return useMutation(PurposeServices.activateVersion, {
+  return useMutation({
+    mutationFn: PurposeServices.activateVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -190,7 +114,8 @@ function useActivateVersion() {
 
 function useArchiveVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.archiveVersion' })
-  return useMutation(PurposeServices.archiveVersion, {
+  return useMutation({
+    mutationFn: PurposeServices.archiveVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -205,7 +130,8 @@ function useArchiveVersion() {
 
 function useDeleteVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.deleteVersion' })
-  return useMutation(PurposeServices.deleteVersion, {
+  return useMutation({
+    mutationFn: PurposeServices.deleteVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -220,7 +146,8 @@ function useDeleteVersion() {
 
 function useRejectVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.rejectVersion' })
-  return useMutation(PurposeServices.rejectVersion, {
+  return useMutation({
+    mutationFn: PurposeServices.rejectVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -231,7 +158,8 @@ function useRejectVersion() {
 
 function useClone() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.clone' })
-  return useMutation(PurposeServices.clone, {
+  return useMutation({
+    mutationFn: PurposeServices.clone,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -242,7 +170,8 @@ function useClone() {
 
 function useAddClient() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.addClient' })
-  return useMutation(PurposeServices.addClient, {
+  return useMutation({
+    mutationFn: PurposeServices.addClient,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -253,7 +182,8 @@ function useAddClient() {
 
 function useRemoveClient() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.removeClient' })
-  return useMutation(PurposeServices.removeClient, {
+  return useMutation({
+    mutationFn: PurposeServices.removeClient,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -264,14 +194,6 @@ function useRemoveClient() {
       },
     },
   })
-}
-export const PurposeQueries = {
-  useGetProducersList,
-  useGetConsumersList,
-  useGetSingle,
-  usePrefetchSingle,
-  useGetRiskAnalysisLatest,
-  useGetRiskAnalysisVersion,
 }
 
 export const PurposeMutations = {
@@ -289,8 +211,4 @@ export const PurposeMutations = {
   useClone,
   useAddClient,
   useRemoveClient,
-}
-
-export const PurposeDownloads = {
-  useDownloadRiskAnalysis,
 }

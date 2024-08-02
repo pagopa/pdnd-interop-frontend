@@ -7,6 +7,7 @@ import type { UserProductRole } from '@/types/party.types'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useNavigate, useParams } from '@/router'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 interface OperatorGeneralInfoSectionProps {
   operatorId: string
@@ -23,11 +24,7 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
   >()
   const navigate = useNavigate()
 
-  const { data: operator } = ClientQueries.useGetSingleOperator(operatorId)
-
-  if (!operator) {
-    return null
-  }
+  const { data: operator } = useSuspenseQuery(ClientQueries.getSingleOperator(operatorId))
 
   const backToOperatorsListRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'

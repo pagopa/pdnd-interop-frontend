@@ -7,15 +7,14 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { useParams } from '@/router'
+import { useQuery } from '@tanstack/react-query'
 
 export const ProviderEServiceDocumentationSummary: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.documentationSummary' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  const { data: descriptor } = EServiceQueries.useGetDescriptorProvider(
-    params.eserviceId,
-    params.descriptorId,
-    { suspense: false }
+  const { data: descriptor } = useQuery(
+    EServiceQueries.getDescriptorProvider(params.eserviceId, params.descriptorId)
   )
 
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
