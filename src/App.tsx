@@ -6,7 +6,6 @@ import { LoadingOverlay, ToastNotification } from '@/components/layout'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { EnvironmentBanner } from '@pagopa/mui-italia'
-import { theme } from '@pagopa/mui-italia'
 import { STAGE } from './config/env'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip'
@@ -17,6 +16,7 @@ import AuthServices from './api/auth/auth.services'
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
+import { theme } from '@pagopa/interop-fe-commons'
 queryClient.prefetchQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessionToken)
 
 function App() {

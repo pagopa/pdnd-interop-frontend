@@ -8,9 +8,10 @@ import {
   Typography,
 } from '@mui/material'
 import type { SvgIconComponent } from '@mui/icons-material'
-import { type RouteKey, useNavigate } from '@/router'
+import { type RouteKey, useGeneratePath } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
+import { Link } from 'react-router-dom'
 
 type SideNavItemLinkProps = {
   routeKey: RouteKey
@@ -28,10 +29,17 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
   const isSelected = isRouteInCurrentSubtree(routeKey)
 
-  const navigate = useNavigate()
+  const generatePath = useGeneratePath()
 
   return (
-    <ListItemButton selected={isSelected} sx={{ pl: 6 }} onClick={() => navigate(routeKey)}>
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    <ListItemButton
+      LinkComponent={Link}
+      to={generatePath(routeKey)}
+      selected={isSelected}
+      sx={{ pl: 6 }}
+    >
       {StartIcon && (
         <ListItemIcon>
           <StartIcon fontSize="inherit" />
