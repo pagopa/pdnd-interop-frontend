@@ -75,11 +75,7 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
   }
 
   const selectedClients = formMethods.watch('selectedClients')
-  let isSelectedClient = false
-
-  if (selectedClients.length === 0) {
-    isSelectedClient = true
-  }
+  const isAnyClientSelected = selectedClients.length > 0
 
   return (
     <FormProvider {...formMethods}>
@@ -89,7 +85,7 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
         title={t('title')}
         buttonAction={{
           label: t('actions.confirmLabel'),
-          disabled: isSelectedClient,
+          disabled: !isAnyClientSelected,
           action: formMethods.handleSubmit(onSubmit),
         }}
         onTransitionExited={handleTransitionExited}
