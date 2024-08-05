@@ -1,4 +1,4 @@
-import { type UseQueryOptions, useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 
 import KeychainServices from './keychain.services'
