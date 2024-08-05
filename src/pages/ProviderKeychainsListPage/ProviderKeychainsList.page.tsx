@@ -6,7 +6,6 @@ import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { KeychainsTable } from '@/components/shared/KeychainsTable'
-import { ClientTable } from '@/components/shared/ClientTable'
 
 const ProviderKeychainsList: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerKeychainsList' })

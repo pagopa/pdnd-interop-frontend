@@ -1,4 +1,3 @@
-import { ClientQueries } from '@/api/client'
 import { Link } from '@/router'
 import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -12,20 +11,13 @@ type KeychainsTableRow = {}
 
 export const KeychainsTableRow: React.FC<KeychainsTableRow> = () => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const prefetch = ClientQueries.usePrefetchSingle()
 
   const { actions } = useGetKeychainActions()
-
-  const handlePrefetch = () => {
-    prefetch('')
-  }
 
   return (
     <TableRow cellData={['MY MOCK KEYCHAIN ']}>
       <Link
         as="button"
-        //onPointerEnter={handlePrefetch}
-        //onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
         to={'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'}

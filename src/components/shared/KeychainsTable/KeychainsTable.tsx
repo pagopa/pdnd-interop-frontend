@@ -1,4 +1,3 @@
-import { ClientQueries } from '@/api/client'
 import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { KeychainsTableRow, KeychainsTableRowSkeleton } from './KeychainsTableRow'
@@ -19,11 +18,6 @@ export const KeychainsTable: React.FC<KeychainsTableProps> = () => {
     ...paginationParams,
   }
 
-  /*const { data: clients } = ClientQueries.useGetList(params, {
-    keepPreviousData: true,
-    suspense: false,
-  })*/
-
   return (
     <>
       <Filters {...handlers} />
@@ -40,10 +34,8 @@ const KeychainsTableWrapper: React.FC<{
 }> = ({ params }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t } = useTranslation('client')
-  //const { data: clients } = ClientQueries.useGetList(params)
 
   const headLabels = [tCommon('keychains'), '']
-  //const isEmpty = clients && clients.results.length === 0
 
   return (
     <Table headLabels={headLabels} noDataLabel={t('noMultiDataLabel')}>
