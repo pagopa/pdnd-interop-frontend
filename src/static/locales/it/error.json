@@ -17,7 +17,7 @@
   "axiosError": {
     "title": "Errore del server",
     "description": "Si è verificato un errore nella gestione della richiesta. Per favore, riprova.",
-    "correlationIdText": "A seguire trovi l’identificativo dell'errore. Copialo all’interno della richiesta all'assistenza per una pronta risoluzione.",
+    "correlationIdText": "Se l'errore persiste, apri una richiesta all'assistenza. Inserisci le informazioni di contesto e il codice riportato sotto.",
     "tooltipTitle": "Identificativo copiato correttamente"
   },
   "forbidden": {
