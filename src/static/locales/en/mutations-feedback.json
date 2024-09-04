@@ -562,6 +562,13 @@
         "success": "User removed successfully",
         "error": "The user could not be removed from the client. Please, try again!"
       }
+    },
+    "createKeychain": {
+      "loading": "Creating keychain",
+      "outcome": {
+        "success": "The keychain was created successfully",
+        "error": "The keychain could not be created. Please, try again!"
+      }
     }
   },
   "party": {

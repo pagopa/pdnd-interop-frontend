@@ -562,6 +562,13 @@
         "success": "L'utente è stato rimosso correttamente dal client",
         "error": "Non è stato possibile rimuovere l'utente dal client. Per favore, riprova!"
       }
+    },
+    "createKeychain": {
+      "loading": "Stiamo creando il portachiavi richiesto",
+      "outcome": {
+        "success": "Il portachiavi è stato creato correttamente",
+        "error": "Non è stato possibile creare il portachiavi. Per favore, riprova!"
+      }
     }
   },
   "party": {
