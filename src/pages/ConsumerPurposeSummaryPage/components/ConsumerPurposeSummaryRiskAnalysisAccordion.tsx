@@ -20,7 +20,7 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
 
   const { data: riskAnalysisConfig } = useQuery({
     ...PurposeQueries.getRiskAnalysisVersion({
-      riskAnalysisVersion: purpose.riskAnalysisForm!.version,
+      riskAnalysisVersion: purpose.riskAnalysisForm?.version as string,
       eserviceId: purpose.eservice.id,
     }),
     enabled: Boolean(purpose.riskAnalysisForm?.version),
