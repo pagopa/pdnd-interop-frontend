@@ -134,21 +134,20 @@
     "requestBody": {
       "title": "Body della richiesta",
       "clientIdField": {
-        "label": "Client_id",
+        "label": "client_id",
         "copySuccessFeedbackText": "Id copiato correttamente"
       },
       "clientAssertionField": {
-        "label": "Client_assertion",
+        "label": "client_assertion",
         "suggestionLabel": "Il JWS ottenuto dallo step precedente (comincia per “ey”)"
       },
       "clientAssertionTypeField": {
-        "label": "Client_assertion_type",
+        "label": "client_assertion_type",
         "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       },
       "grantTypeField": {
-        "label": "Grant_type",
-        "description": "L’id della finalità selezionata nel passaggio precedente",
+        "label": "grant_type",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       }
     },
