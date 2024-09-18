@@ -6,21 +6,33 @@ import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
 import useGetKeychainActions from '@/hooks/useGetKeychainActions'
+import { CompactProducerKeychain } from '@/api/api.generatedTypes'
+import { useQueryClient } from '@tanstack/react-query'
+import { KeychainQueries } from '@/api/keychain/keychain.queries'
 
-type KeychainsTableRow = {}
+type KeychainsTableRow = {
+  keychain: CompactProducerKeychain
+}
 
-export const KeychainsTableRow: React.FC<KeychainsTableRow> = () => {
+export const KeychainsTableRow: React.FC<KeychainsTableRow> = ({ keychain }) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
+  const queryClient = useQueryClient()
 
-  const { actions } = useGetKeychainActions()
+  const { actions } = useGetKeychainActions(keychain)
+
+  const handlePrefetch = () => {
+    queryClient.prefetchQuery(KeychainQueries.getSingle(keychain.id))
+  }
 
   return (
-    <TableRow cellData={['MY MOCK KEYCHAIN ']}>
+    <TableRow cellData={[keychain.name]}>
       <Link
         as="button"
         variant="outlined"
+        onPointerEnter={handlePrefetch}
+        onFocusVisible={handlePrefetch}
         size="small"
-        to={'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'}
+        to={'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'} //puntare al dettaglio keychain
         params={{ clientId: '' }}
       >
         {t('inspect')}

@@ -11,11 +11,12 @@ const ProviderKeychainsList: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerKeychainsList' })
   const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
+  const producerId = jwt?.organizationId || ''
 
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE'),
+      action: () => navigate('SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE'), //puntare a crea nuovo portachiavi
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
@@ -28,7 +29,7 @@ const ProviderKeychainsList: React.FC = () => {
       description={t('description')}
       topSideActions={isAdmin ? topSideActions : undefined}
     >
-      <KeychainsTable />
+      <KeychainsTable producerId={producerId} />
     </PageContainer>
   )
 }

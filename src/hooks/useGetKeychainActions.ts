@@ -2,11 +2,11 @@ import { useTranslation } from 'react-i18next'
 import { KeychainMutations } from '@/api/keychain'
 import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
-import type { Client, CompactClient } from '@/api/api.generatedTypes'
+import type { ProducerKeychain, CompactProducerKeychain } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 
-function useGetKeychainActions(): {
+function useGetKeychainActions(keychain?: ProducerKeychain | CompactProducerKeychain): {
   actions: Array<ActionItemButton>
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
@@ -14,15 +14,16 @@ function useGetKeychainActions(): {
   const navigate = useNavigate()
   const { mutate: deleteKeychain } = KeychainMutations.useDeleteKeychain()
 
-  //if (!client || !isAdmin) return { actions: [] }
+  if (!keychain || !isAdmin) return { actions: [] }
 
   function handleDeleteKeychain() {
-    //if (!client) return
+    if (!keychain) return
     deleteKeychain(
-      { client: '' },
+      { producerKeychainId: keychain.id },
       {
         onSuccess() {
-          console.log('DELETED')
+          const successRouteKey = 'PROVIDE_KEYCHAINS_LIST'
+          navigate(successRouteKey)
         },
       }
     )

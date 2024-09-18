@@ -583,14 +583,14 @@
   },
   "keychain": {
     "deleteKeychain": {
-      "loading": "Stiamo cancellando la chiave pubblica",
+      "loading": "Stiamo eliminando il portachiavi",
       "outcome": {
-        "success": "La chiave pubblica è stata cancellata correttamente",
-        "error": "Non è stato possibile cancellare la chiave pubblica. Per favore, riprova!"
+        "success": "Il portachiavi è stato eliminato correttamente",
+        "error": "Non è stato possibile eliminare il portachiavi. Per favore, riprova!"
       },
       "confirmDialog": {
-        "title": "Conferma cancellazione chiave pubblica",
-        "description": "Cliccando \"conferma\" si cancellerà la chiave pubblica relativa a questo operatore. NB: tutti i servizi che utilizzano questa chiave non potranno più accedere al servizio dell'erogatore. Se non sei sicuro, scarica e salva la tua chiave pubblica prima di cancellarla"
+        "title": "Conferma eliminazione portachiavi",
+        "description": "Cliccando \"conferma\", questo portachiavi sarà eliminato. Tutte le chiavi contenute saranno rimosse e non saranno più utilizzabili per firmare risposte verso i fruitori dei tuoi e-service."
       }
     }
   }

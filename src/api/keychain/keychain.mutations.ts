@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-
-import KeychainServices from './keychain.services'
+import { KeychainServices } from './keychain.services'
 
 function useDeleteKeychain() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'keychain.deleteKeychain' })
-  return useMutation(KeychainServices.deleteKeychain, {
+  return useMutation({
+    mutationFn: KeychainServices.deleteKeychain,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),

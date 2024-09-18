@@ -583,14 +583,14 @@
   },
   "keychain": {
     "deleteKeychain": {
-      "loading": "Deleting public key",
+      "loading": "Deleting keychain",
       "outcome": {
-        "success": "The public key was deleted successfully",
-        "error": "The key could not be deleted. Please, try again!"
+        "success": "The keychain was deleted successfully",
+        "error": "The keychain could not be deleted. Please, try again!"
       },
       "confirmDialog": {
-        "title": "Confirm public key deletion",
-        "description": "By clicking \"confirm\", the operator's public key will be deleted. NB: all services using this key will no longer be able to access the provider's service. If you are not sure, download and save your public key before deleting it."
+        "title": "Confirm keychain deletion",
+        "description": "By clicking \"confirm\", this keychain will be deleted. All the public keys contained will be removed and they will no longer be usable to sign responses to your e-service’s consumers."
       }
     }
   }
