@@ -1,4 +1,3 @@
-import { ClientMutations } from '@/api/client'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useNavigate } from '@/router'
@@ -9,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import OperatorsInputTable from './components/OperatorsInputTable'
 import PublishIcon from '@mui/icons-material/Publish'
 import type { Users } from '@/api/api.generatedTypes'
+import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 
 export type CreateKeychainFormValues = {
   name: string
@@ -21,7 +21,7 @@ const defaultValues: CreateKeychainFormValues = { name: '', description: '', ope
 const ProviderKeychainCreatePage: React.FC = () => {
   const { t } = useTranslation('keychain')
   const navigate = useNavigate()
-  const { mutate: createKeychain } = ClientMutations.useCreateKeychain()
+  const { mutate: createKeychain } = KeychainMutations.useCreateKeychain()
 
   const formMethods = useForm<CreateKeychainFormValues>({
     defaultValues,
@@ -35,12 +35,12 @@ const ProviderKeychainCreatePage: React.FC = () => {
     }
     createKeychain(dataToPost, {
       onSuccess(data) {
-        navigate('SUBSCRIBE_KEYCHAIN_EDIT', { params: { clientId: data.id } })
+        navigate('SUBSCRIBE_CLIENT_EDIT', { params: { clientId: data.id } }) //navigate to keychain's details?  { params: { producerKeychainId: data.id } }
       },
     })
   }
 
-  const backToRoute = 'SUBSCRIBE_KEYCHAIN'
+  const backToRoute = 'PROVIDE_KEYCHAIN_LIST'
 
   return (
     <PageContainer

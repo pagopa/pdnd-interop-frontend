@@ -562,13 +562,6 @@
         "success": "L'utente è stato rimosso correttamente dal client",
         "error": "Non è stato possibile rimuovere l'utente dal client. Per favore, riprova!"
       }
-    },
-    "createKeychain": {
-      "loading": "Stiamo creando il portachiavi richiesto",
-      "outcome": {
-        "success": "Il portachiavi è stato creato correttamente",
-        "error": "Non è stato possibile creare il portachiavi. Per favore, riprova!"
-      }
     }
   },
   "party": {
@@ -598,6 +591,20 @@
       "confirmDialog": {
         "title": "Conferma eliminazione portachiavi",
         "description": "Cliccando \"conferma\", questo portachiavi sarà eliminato. Tutte le chiavi contenute saranno rimosse e non saranno più utilizzabili per firmare risposte verso i fruitori dei tuoi e-service."
+      }
+    },
+    "createKeychain": {
+      "loading": "Stiamo creando il portachiavi richiesto",
+      "outcome": {
+        "success": "Il portachiavi è stato creato correttamente",
+        "error": "Non è stato possibile creare il portachiavi. Per favore, riprova!"
+      }
+    },
+    "addOperator": {
+      "loading": "Stiamo aggiungendo l’utente al portachiavi",
+      "outcome": {
+        "success": "L’utente è stato aggiunto correttamente al portachiavi",
+        "error": "Non è stato possibile aggiungere il nuovo utente al portachiavi. Assicurarsi che non esista già l’utenza e riprovare"
       }
     }
   }

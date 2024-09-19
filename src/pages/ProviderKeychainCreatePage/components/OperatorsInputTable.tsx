@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Stack } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { CreateClientFormValues } from '../ConsumerClientCreate.page'
+import type { CreateKeychainFormValues } from '../ProviderKeychainCreate.page'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
@@ -21,7 +21,7 @@ const OperatorsInputTable: React.FC = () => {
     closeDrawer: closeAddOperatorDrawer,
   } = useDrawerState()
 
-  const { watch, setValue } = useFormContext<CreateClientFormValues>()
+  const { watch, setValue } = useFormContext<CreateKeychainFormValues>()
   const operators = watch('operators')
 
   const headLabels = [tCommon('table.headData.userName'), '']

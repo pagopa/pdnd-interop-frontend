@@ -96,18 +96,6 @@ function useRemoveOperator() {
   })
 }
 
-function useCreateKeychain() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.createInteropM2M' })
-  return useMutation({
-    mutationFn: ClientServices.createKeychain,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
 export const ClientMutations = {
   useCreate,
   useCreateInteropM2M,
@@ -116,5 +104,4 @@ export const ClientMutations = {
   useDeleteKey,
   useAddOperator,
   useRemoveOperator,
-  useCreateKeychain,
 }
