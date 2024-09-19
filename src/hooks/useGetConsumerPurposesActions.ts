@@ -10,6 +10,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useDialog } from '@/stores'
+import { useCheckRiskAnalysisVersionMismatch } from './useCheckRiskAnalysisVersionMismatch'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
@@ -21,6 +22,13 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { mutate: suspendPurpose } = PurposeMutations.useSuspendVersion()
   const { mutate: activatePurpose } = PurposeMutations.useActivateVersion()
   const { mutate: deletePurposeDraft } = PurposeMutations.useDeleteDraft()
+
+  const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
+  const isNotPublishable =
+    purpose?.currentVersion?.state === 'DRAFT' &&
+    ((purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
+      purpose?.agreement.state === 'ARCHIVED' ||
+      purpose?.eservice.descriptor.state === 'ARCHIVED')
 
   if (!purpose || !isAdmin) return { actions: [] }
 
@@ -103,7 +111,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   }
 
   if (purpose?.currentVersion?.state === 'DRAFT') {
-    return { actions: [activateAction, deleteAction] }
+    return { actions: isNotPublishable ? [deleteAction] : [activateAction, deleteAction] }
   }
 
   // If the currentVestion is not ARCHIVED or in DRAFT...
