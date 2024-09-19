@@ -33,7 +33,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
   const arePublishOrEditButtonsDisabled =
-    hasRiskAnalysisVersionMismatch ||
+    (purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
     purpose?.agreement.state === 'ARCHIVED' ||
     purpose?.eservice.descriptor.state === 'ARCHIVED'
 
