@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { KeychainServices } from './keychain.services'
+
 function useDeleteKeychain() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'keychain.deleteKeychain' })
   return useMutation({
@@ -29,6 +30,38 @@ function useCreateKeychain() {
   })
 }
 
+function useRemoveKeychainFromEService() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'keychain.removeKeychainFromEService',
+  })
+  return useMutation({
+    mutationFn: KeychainServices.removeKeychainFromEService,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
+function useAddKeychainToEService() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'keychain.addKeychainToEService',
+  })
+  return useMutation({
+    mutationFn: KeychainServices.addKeychainToEService,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useAddKeychainOperator(
   config: { suppressSuccessToast: boolean } = { suppressSuccessToast: false }
 ) {
@@ -47,4 +80,6 @@ export const KeychainMutations = {
   useDeleteKeychain,
   useCreateKeychain,
   useAddKeychainOperator,
+  useRemoveKeychainFromEService,
+  useAddKeychainToEService,
 }
