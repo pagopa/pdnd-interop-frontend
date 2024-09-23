@@ -19,7 +19,6 @@ export type DialogProps =
   | DialogAttributeDetailsProps
   | DialogSessionExpiredProps
   | DialogRejectAgreementProps
-  | DialogAddClientToPurposeProps
   | DialogUpgradeAgreementVersionProps
   | DialogDeleteOperatorProps
   | DialogRemoveOperatorFromClientProps
@@ -50,11 +49,6 @@ export type DialogBasicProps = DialogDefaultProps & {
 export type DialogRejectAgreementProps = {
   type: 'rejectAgreement'
   agreementId: string
-}
-
-export type DialogAddClientToPurposeProps = {
-  type: 'addClientToPurpose'
-  purposeId: string
 }
 
 export type DialogUpgradeAgreementVersionProps = {
