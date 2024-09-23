@@ -25,7 +25,7 @@ const ProviderKeychainDetailsPage: React.FC = () => {
   const { mutate: deleteKeychain } = KeychainMutations.useDeleteProducerKeychain()
 
   const { data: keychain, isLoading: isLoadingKeychain } = useQuery(
-    KeychainQueries.getKeychain(keychainId)
+    KeychainQueries.getSingle(keychainId)
   )
 
   const actions: ActionItemButton[] = [
