@@ -5,7 +5,7 @@ import { MaintenanceQueries } from '@/api/maintenance'
 import isBefore from 'date-fns/isBefore'
 import { STAGE } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
-import { Title } from '@mui/icons-material'
+import { match } from 'ts-pattern'
 
 export type MaintenanceData = {
   start: { date: string; time: string }
@@ -89,8 +89,10 @@ export function useMaintenanceBanner() {
           maintenanceEndDay: formatDateString(data?.end?.date, 'multiple'),
         })
 
-  const title =
-    STAGE === 'PROD' ? t('titleProdEnv') : STAGE === 'ATT' ? t('titleAttEnv') : t('titleTestEnv')
+  const title = match(STAGE)
+    .with('PROD', () => t('titleProdEnv'))
+    .with('ATT', () => t('titleAttEnv'))
+    .otherwise(() => t('titleTestEnv'))
 
   return { title, text, isOpen, closeBanner }
 }
