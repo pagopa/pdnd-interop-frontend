@@ -296,7 +296,7 @@ exports[`RoutesWrapper > should match the snapshot 1`] = `
             <a
               aria-label="footer.links.a11y.ariaLabel"
               class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-              href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
+              href="https://form.agid.gov.it/view/22c10ca0-772f-11ef-b5af-e9d3099e743c/"
             >
               footer.links.a11y.label
             </a>
@@ -658,7 +658,7 @@ exports[`RoutesWrapper > should show the ErrorPage when an error is thrown 1`] =
               <a
                 aria-label="footer.links.a11y.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-                href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
+                href="https://form.agid.gov.it/view/22c10ca0-772f-11ef-b5af-e9d3099e743c/"
               >
                 footer.links.a11y.label
               </a>
@@ -1017,7 +1017,7 @@ exports[`RoutesWrapper > should show the TOSAgreement when isPublic is false and
               <a
                 aria-label="footer.links.a11y.ariaLabel"
                 class="MuiTypography-root MuiTypography-subtitle2 MuiLink-root MuiLink-underlineNone css-2bcyg6-MuiTypography-root-MuiLink-root"
-                href="https://form.agid.gov.it/view/d96e090e-9d56-4d27-a70c-9a72186305b0/"
+                href="https://form.agid.gov.it/view/22c10ca0-772f-11ef-b5af-e9d3099e743c/"
               >
                 footer.links.a11y.label
               </a>
