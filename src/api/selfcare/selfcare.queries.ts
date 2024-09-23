@@ -23,7 +23,19 @@ function getPartyList() {
   })
 }
 
+function getSingleUser(userId: string) {
+  return queryOptions({
+    queryKey: ['ClientGetSingleOperator', userId],
+    queryFn: () => SelfcareServices.getSingleUser(userId),
+    throwOnError: false,
+    retry: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
+  })
+}
+
 export const SelfcareQueries = {
   getProducts,
   getPartyList,
+  getSingleUser,
 }
