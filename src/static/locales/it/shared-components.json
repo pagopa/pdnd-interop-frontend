@@ -269,6 +269,7 @@
     "TENANT": "Il tuo ente",
     "TENANT_CERTIFIER": "Ente certificatore",
     "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo",
-    "PROVIDE_KEYCHAINS_LIST": "I tuoi portachiavi"
+    "PROVIDE_KEYCHAINS_LIST": "I tuoi portachiavi",
+    "PROVIDER_KEYCHAIN_CREATE": "Crea portachiavi"
   }
 }
