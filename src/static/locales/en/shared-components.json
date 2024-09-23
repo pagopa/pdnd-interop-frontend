@@ -135,6 +135,14 @@
       }
     }
   },
+  "dialogRemoveUserFromKeychain": {
+    "title": "Confirm user removal",
+    "description": "The current user will be removed from the current keychain and will no longer have access to it. All keys uploaded by this person will remain available in the keychain. It is recommended to replace them and discard the old ones. To find out more, <1>read the guide</1>"
+  },
+  "dialogDeleteProducerKeychainKey": {
+    "title": "Confirm public key deletion",
+    "description": "The key can no longer be used to sign responses to users of your e-services. To find out more, <1>read the guide</1>."
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
