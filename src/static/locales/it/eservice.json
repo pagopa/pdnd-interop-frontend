@@ -243,6 +243,11 @@
     }
   },
   "read": {
+    "tabs": {
+      "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
+      "eserviceDetails": "Dettagli e-service",
+      "keychain": "Portachiavi associati"
+    },
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
       "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata."
@@ -250,6 +255,12 @@
     "actions": {
       "backToListLabel": "Torna agli e-service",
       "backToCatalogLabel": "Torna al catalogo"
+    },
+    "keychain": {
+      "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
+      "actions": {
+        "removeKeychainFromEService": "Rimuovi dall'eservice"
+      }
     },
     "sections": {
       "generalInformations": {
@@ -391,6 +402,15 @@
         },
         "interfaceInfoTooltip": "Il file “Specifica API” non è modificabile. Per aggiornarlo, crea una nuova versione.",
         "downloadDocumentTooltip": "Scarica documento"
+      },
+      "addKeychainToEServiceDrawer": {
+        "title": "Inserisci nuovo portachiavi",
+        "subtitle": "In questa fase puoi selezionare un portachiavi da associare all’intero e-service. Per saperne di più, <1>consulta la guida</1>.",
+        "keychainField": {
+          "label": "Seleziona portachiavi (richiesto)",
+          "noOptionsText": "Nessun portachiavi trovato"
+        },
+        "noKeychainAlert": "Non ci sono portachiavi disponibili. <1>Crea il tuo primo portachiavi</1>."
       }
     }
   },

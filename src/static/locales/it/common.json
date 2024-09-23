@@ -58,8 +58,7 @@
       "certifiedAttributes": "Attributi certificati",
       "assigneeTenant": "Ente assegnatario",
       "certifiedAttribute": "Attributo certificato",
-      "keychains": "Portachiavi",
-      "keychainName": "Nome portachiavi"
+      "keychain": "Portachiavi"
     }
   },
   "status": {
