@@ -15,10 +15,45 @@ import type {
   PublicKeys,
 } from '../api.generatedTypes'
 
+async function getSingle(producerKeychainId: string) {
+  const response = await axiosInstance.get<ProducerKeychain>(
+    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}`
+  )
+  return response.data
+}
+
 async function getKeychainsList(params: GetProducerKeychainsParams) {
   const response = await axiosInstance.get<CompactProducerKeychains>(
     `${BACKEND_FOR_FRONTEND_URL}/producerKeychains`,
     { params }
+  )
+  return response.data
+}
+
+async function getProducerKeychainKeysList(params: GetProducerKeysParams) {
+  const response = await axiosInstance.get<PublicKeys>(
+    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${params.producerKeychainId}/keys`,
+    { params: { userIds: params.userIds } }
+  )
+  return response.data
+}
+
+async function getProducerKeychainKey({
+  producerKeychainId,
+  keyId,
+}: {
+  producerKeychainId: string
+  keyId: string
+}) {
+  const response = await axiosInstance.get<PublicKey>(
+    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}/keys/${keyId}`
+  )
+  return response.data
+}
+
+async function getProducerKeychainUsersList(producerKeychainId: string) {
+  const response = await axiosInstance.get<CompactUsers>(
+    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}/users`
   )
   return response.data
 }
@@ -33,13 +68,6 @@ async function createKeychain(payload: ProducerKeychainSeed) {
 
 function deleteKeychain({ producerKeychainId }: { producerKeychainId: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}`)
-}
-
-async function getSingle(producerKeychainId: string) {
-  const response = await axiosInstance.get<ProducerKeychain>(
-    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}`
-  )
-  return response.data
 }
 
 function removeKeychainFromEService({
@@ -66,13 +94,6 @@ function addKeychainToEService({
   )
 }
 
-async function getProducerKeychainUsersList(producerKeychainId: string) {
-  const response = await axiosInstance.get<CompactUsers>(
-    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}/users`
-  )
-  return response.data
-}
-
 async function addProducerKeychainUser({
   producerKeychainId,
   userId,
@@ -84,27 +105,6 @@ async function addProducerKeychainUser({
     `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}/users/${userId}`
   )
 
-  return response.data
-}
-
-async function getProducerKeychainKeysList(params: GetProducerKeysParams) {
-  const response = await axiosInstance.get<PublicKeys>(
-    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${params.producerKeychainId}/keys`,
-    { params: { userIds: params.userIds } }
-  )
-  return response.data
-}
-
-async function getProducerKeychainKey({
-  producerKeychainId,
-  keyId,
-}: {
-  producerKeychainId: string
-  keyId: string
-}) {
-  const response = await axiosInstance.get<PublicKey>(
-    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}/keys/${keyId}`
-  )
   return response.data
 }
 

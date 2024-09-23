@@ -582,6 +582,41 @@
     }
   },
   "keychain": {
+    "removeKeychainFromEService": {
+      "loading": "Stiamo rimuovendo il portachiavi dall’e-service",
+      "outcome": {
+        "success": "Il portachiavi è stato rimosso correttamente",
+        "error": "Non è stato possibile rimuovere il portachiavi Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione portachiavi da e-service",
+        "description": "Le chiavi caricate in questo portachiavi non potranno più essere usate per firmare risposte ai fruitori per questo e-service."
+      }
+    },
+    "addKeychainToEService": {
+      "loading": "Stiamo aggiungendo il portachiavi all’e-service",
+      "outcome": {
+        "success": "Il portachiavi è stato aggiunto correttamente",
+        "error": "Non è stato possibile aggiungere il portachiavi Per favore, riprova!"
+      }
+    },
+    "addProducerKeychainUser": {
+      "loading": "Stiamo aggiungendo l’utente al portachiavi",
+      "outcome": {
+        "success": "L’utente è stato aggiunto correttamente al portachiavi",
+        "error": "Non è stato possibile aggiungere il nuovo utente al portachiavi. Assicurarsi che non esista già l’utenza e riprovare"
+      }
+    },
+    "downloadKey": {
+      "loading": "Stiamo scaricando la chiave"
+    },
+    "deleteProducerKeychainKey": {
+      "loading": "Stiamo eliminando la chiave dal portachiavi",
+      "outcome": {
+        "success": "La chiave è stata eliminata correttamente dal portachiavi. Da questo momento non potrà più essere utilizzata per firmare risposte verso i fruitori",
+        "error": "Non è stato possibile eliminare la chiave. Per favore, riprova!"
+      }
+    },
     "deleteKeychain": {
       "loading": "Stiamo eliminando il portachiavi",
       "outcome": {
@@ -600,29 +635,18 @@
         "error": "Non è stato possibile creare il portachiavi. Per favore, riprova!"
       }
     },
-    "addOperator": {
-      "loading": "Stiamo aggiungendo l’utente al portachiavi",
+    "createProducerKeychainKey": {
+      "loading": "Stiamo inserendo la chiave nel portachiavi",
       "outcome": {
-        "success": "L’utente è stato aggiunto correttamente al portachiavi",
-        "error": "Non è stato possibile aggiungere il nuovo utente al portachiavi. Assicurarsi che non esista già l’utenza e riprovare"
+        "success": "La chiave è stata inserita correttamente nel portachiavi",
+        "error": "Non è stato possibile inserire la chiave. Assicurarsi sia nel formato corretto e riprovare. Attenzione: la stessa chiave non può essere inserita due volte"
       }
     },
-    "removeKeychainFromEService": {
-      "loading": "Stiamo rimuovendo il portachiavi dall'e-service",
+    "removeUserFromProducerKeychain": {
+      "loading": "Stiamo rimuovendo l'utente dal portachiavi",
       "outcome": {
-        "error": "Portachiavi non rimosso dall'e-service. Riprovare.",
-        "success": "Portachiavi rimosso correttamente dall'e-service"
-      },
-      "confirmDialog": {
-        "title": "Conferma rimozione portachiavi da e-service",
-        "description": "Le chiavi caricate in questo portachiavi non potranno più essere usate per firmare risposte ai fruitori per questo e-service."
-      }
-    },
-    "addKeychainToEService": {
-      "loading": "Stiamo associando il portachiavi all'e-service",
-      "outcome": {
-        "error": "Portachiavi non associato all'e-service. Riprovare.",
-        "success": "Portachiavi associato correttamente all'e-service"
+        "success": "L’utente è stato rimosso correttamente dal portachiavi",
+        "error": "Non è stato possibile rimuovere l'utente dal portachiavi. Per favore, riprova!"
       }
     }
   }
