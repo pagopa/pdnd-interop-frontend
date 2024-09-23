@@ -36,5 +36,70 @@
         "label": "Cerca per nome"
       }
     }
+  },
+  "actions": {
+    "backToKeychainsListLabel": "Torna ai tuoi portachiavi",
+    "backToMemberListLabel": "Torna alla lista membri"
+  },
+  "tabs": {
+    "ariaLabel": "Due tab diverse per i membri del portachiavi e le chiavi pubbliche",
+    "members": "Membri del portachiavi",
+    "publicKeys": "Chiavi pubbliche"
+  },
+  "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
+  "drawers": {
+    "addUsersToKeychain": {
+      "title": "Aggiungi membri al portachiavi",
+      "autocompleteInput": {
+        "label": "Seleziona utenti"
+      },
+      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo portachiavi, aggiungi anche te stesso al portachiavi"
+    },
+    "addPublicKeyDrawer": {
+      "title": "Inserisci nuova chiave pubblica",
+      "subtitle": "Non sai come fare per creare un set di materiale crittografico? <1>Leggi la guida.</1>",
+      "nameInput": {
+        "label": "Nome della chiave (richiesto)",
+        "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min. 5 caratteri, max. 60 caratteri"
+      },
+      "publicKeyInput": {
+        "label": "Chiave pubblica (richiesto)"
+      }
+    }
+  },
+  "filters": {
+    "userField": {
+      "label": "Cerca per utente"
+    }
+  },
+  "user": {
+    "generalInformations": "Informazioni generali",
+    "userKeysLink": {
+      "label": "Permessi su PDND Interoperabilità"
+    },
+    "productRoleField": {
+      "label": "Vai alla lista delle chiavi associate all’utente"
+    }
+  },
+  "publicKey": {
+    "orphanKeyAlertLabel": "Attenzione: l’utente che ha caricato questa chiave non fa più parte di questo portachiavi. Per questioni di sicurezza, si consiglia di rimpiazzare questa chiave con una nuova, quindi di eliminarla dal portachiavi. Per maggiori informazioni, consulta la <1>documentazione</1>",
+    "generalInformations": "Informazioni generali",
+    "goToTechnicalDocButton": "Vai alla documentazione tecnica",
+    "creationDateField": {
+      "label": "Data creazione"
+    },
+    "uploaderField": {
+      "label": "Caricato da"
+    },
+    "keyIdField": {
+      "label": "Id della chiave (kid)",
+      "copySuccessFeedbackText": "Id copiato correttamente"
+    },
+    "userDeletedAlertMessage": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo portachiavi. Si consiglia di eliminare la chiave e di sostituirla con una nuova",
+    "list": {
+      "adminEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente nella tab «Membri del portachiavi",
+      "publicKeyLimitInfo": "Hai raggiunto il numero massimo di chiavi per questo portachiavi",
+      "supportDisableInfo": "L'utenza di assistenza non è abilitata ad aggiungere chiavi"
+    }
   }
 }
