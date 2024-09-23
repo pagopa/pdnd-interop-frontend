@@ -377,6 +377,386 @@ exports[`ConsumerDebugVoucherPage testing > should render correctly when the deb
 </body>
 `;
 
+exports[`ConsumerDebugVoucherPage testing > should render correctly when the debugVoucherValues are defined 2`] = `
+<body>
+  <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="MuiStack-root css-zayqnb-MuiStack-root"
+      />
+      <div
+        class="MuiBox-root css-0"
+      >
+        <div
+          class="MuiStack-root css-1pj1j6w-MuiStack-root"
+        >
+          <div
+            class="MuiBox-root css-1rr4qq7"
+          >
+            <h1
+              class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+            >
+              title
+            </h1>
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-u9n5y4-MuiTypography-root"
+            >
+              description
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-164r41r"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div
+              class="MuiStack-root css-8mcjw0-MuiStack-root"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorSuccess MuiAlert-standardSuccess MuiAlert-standard css-svzhua-MuiPaper-root-MuiAlert-root"
+                role="alert"
+              >
+                <div
+                  class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                    data-testid="SuccessOutlinedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2, 4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0, 0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+                >
+                  <div
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiAlertTitle-root css-1ssz9t4-MuiTypography-root-MuiAlertTitle-root"
+                  >
+                    alert.title
+                  </div>
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                  >
+                    alert.description.apiSuccess
+                  </p>
+                </div>
+              </div>
+              <section
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+              >
+                <div
+                  class="MuiStack-root css-jfdv4h-MuiStack-root"
+                >
+                  <div
+                    class="MuiStack-root css-3y1137-MuiStack-root"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+                    >
+                      title
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="MuiBox-root css-1yuhvjn"
+                >
+                  <div
+                    class="MuiStack-root css-1sazv7p-MuiStack-root"
+                  >
+                    <button
+                      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary css-1eu001z-MuiButtonBase-root-MuiButton-root"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+                      >
+                        label.clientAssertionValidation
+                      </span>
+                      <div
+                        class="MuiStack-root css-1p3wpnr-MuiStack-root"
+                      >
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-txuvm7-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                          >
+                            chipLabel.passed
+                          </span>
+                        </div>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          data-testid="ChevronRightIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+                    <button
+                      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary css-1eu001z-MuiButtonBase-root-MuiButton-root"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+                      >
+                        label.publicKeyRetrieve
+                      </span>
+                      <div
+                        class="MuiStack-root css-1p3wpnr-MuiStack-root"
+                      >
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-txuvm7-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                          >
+                            chipLabel.passed
+                          </span>
+                        </div>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          data-testid="ChevronRightIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+                    <button
+                      class="MuiButtonBase-root MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-naked MuiButton-nakedPrimary MuiButton-sizeMedium MuiButton-nakedSizeMedium MuiButton-colorPrimary css-1eu001z-MuiButtonBase-root-MuiButton-root"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiTypography-root MuiTypography-body1 css-1qqynwt-MuiTypography-root"
+                      >
+                        label.clientAssertionSignatureVerification
+                      </span>
+                      <div
+                        class="MuiStack-root css-1p3wpnr-MuiStack-root"
+                      >
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorSuccess MuiChip-filledSuccess css-txuvm7-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                          >
+                            chipLabel.passed
+                          </span>
+                        </div>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          data-testid="ChevronRightIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                          />
+                        </svg>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </section>
+              <section
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-u52cu0-MuiPaper-root"
+              >
+                <div
+                  class="MuiStack-root css-jfdv4h-MuiStack-root"
+                >
+                  <div
+                    class="MuiStack-root css-3y1137-MuiStack-root"
+                  >
+                    <h2
+                      class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+                    >
+                      title
+                    </h2>
+                  </div>
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 css-r40f8v-MuiTypography-root"
+                  >
+                    description
+                  </p>
+                </div>
+                <div
+                  class="MuiBox-root css-1yuhvjn"
+                >
+                  <div
+                    class="MuiStack-root css-8mcjw0-MuiStack-root"
+                  >
+                    <div
+                      class="MuiStack-root css-1xcvc1q-MuiStack-root"
+                    >
+                      <div
+                        class="MuiBox-root css-iuqs4u"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                        >
+                          clientId.label
+                        </p>
+                      </div>
+                      <div
+                        class="MuiBox-root css-1rr4qq7"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                        >
+                          <span
+                            class="MuiBox-root css-13o7eu2"
+                          >
+                            test client Id
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiStack-root css-1xcvc1q-MuiStack-root"
+                    >
+                      <div
+                        class="MuiBox-root css-iuqs4u"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                        >
+                          clientAssertion.label
+                        </p>
+                      </div>
+                      <div
+                        class="MuiBox-root css-1rr4qq7"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                        >
+                          <span
+                            class="MuiBox-root css-13o7eu2"
+                          >
+                            test client assertion
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiStack-root css-1xcvc1q-MuiStack-root"
+                    >
+                      <div
+                        class="MuiBox-root css-iuqs4u"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                        >
+                          clientAssertionType.label
+                        </p>
+                        <hr
+                          class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+                        />
+                        <span
+                          class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+                        >
+                          clientAssertionType.description
+                        </span>
+                      </div>
+                      <div
+                        class="MuiBox-root css-1rr4qq7"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                        >
+                          <span
+                            class="MuiBox-root css-13o7eu2"
+                          >
+                            urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="MuiStack-root css-1xcvc1q-MuiStack-root"
+                    >
+                      <div
+                        class="MuiBox-root css-iuqs4u"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+                        >
+                          grantType.label
+                        </p>
+                        <hr
+                          class="MuiDivider-root MuiDivider-fullWidth css-159wgzx-MuiDivider-root"
+                        />
+                        <span
+                          class="MuiTypography-root MuiTypography-caption css-g171c3-MuiTypography-root"
+                        >
+                          grantType.description
+                        </span>
+                      </div>
+                      <div
+                        class="MuiBox-root css-1rr4qq7"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 css-1vn33h7-MuiTypography-root"
+                        >
+                          <span
+                            class="MuiBox-root css-13o7eu2"
+                          >
+                            client_credentials
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <div
+              class="MuiBox-root css-a6ohpv"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-sghohy-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                newRequestBtn
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
 exports[`ConsumerDebugVoucherPage testing > should render correctly when the debugVoucherValues are undefined 1`] = `
 <body>
   <div>
