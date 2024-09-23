@@ -18,15 +18,17 @@ type AddOperatorsDrawerProps = {
   onClose: VoidFunction
   excludeOperatorsIdsList: Array<string>
   onSubmit: (relationshipIds: Users) => void
+  operatorKind: 'keychain' | 'client'
 }
 
-export const AddOperatorsToKeychainDrawer: React.FC<AddOperatorsDrawerProps> = ({
+export const AddOperatorsDrawer: React.FC<AddOperatorsDrawerProps> = ({
   isOpen,
   onClose,
   excludeOperatorsIdsList,
   onSubmit,
+  operatorKind,
 }) => {
-  const { t } = useTranslation('keychain', { keyPrefix: 'create.addOperatorsDrawer' })
+  const { t } = useTranslation([operatorKind], { keyPrefix: 'create.addOperatorsDrawer' })
   const { t: tCommon } = useTranslation('common')
 
   const handleCloseDrawer = () => {

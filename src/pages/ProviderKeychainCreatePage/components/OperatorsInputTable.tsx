@@ -6,10 +6,9 @@ import type { CreateKeychainFormValues } from '../ProviderKeychainCreate.page'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 import type { Users } from '@/api/api.generatedTypes'
 import { useCurrentRoute } from '@/router'
-import { AddOperatorsToKeychainDrawer } from '@/components/shared/AddOperatorsToKeychainDrawer copy'
+import { AddOperatorsDrawer } from '@/components/shared/AddOperatorsDrawer'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')
@@ -71,21 +70,13 @@ const OperatorsInputTable: React.FC = () => {
           {tCommon('addBtn')}
         </Button>
       </Stack>
-      {routeKey === 'PROVIDER_KEYCHAIN_CREATE' ? (
-        <AddOperatorsToKeychainDrawer
-          isOpen={isAddOperatorDrawerOpen}
-          onClose={closeAddOperatorDrawer}
-          excludeOperatorsIdsList={operators.map(({ userId }) => userId)}
-          onSubmit={handleAddOperator}
-        />
-      ) : (
-        <AddOperatorsToClientDrawer
-          isOpen={isAddOperatorDrawerOpen}
-          onClose={closeAddOperatorDrawer}
-          excludeOperatorsIdsList={operators.map(({ userId }) => userId)}
-          onSubmit={handleAddOperator}
-        />
-      )}
+      <AddOperatorsDrawer
+        isOpen={isAddOperatorDrawerOpen}
+        onClose={closeAddOperatorDrawer}
+        excludeOperatorsIdsList={operators.map(({ userId }) => userId)}
+        onSubmit={handleAddOperator}
+        operatorKind="keychain"
+      />
     </>
   )
 }

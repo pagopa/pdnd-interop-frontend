@@ -5,7 +5,7 @@ import { ClientOperatorsTable, ClientOperatorsTableSkeleton } from './ClientOper
 import { AuthHooks } from '@/api/auth'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
+import { AddOperatorsDrawer } from '@/components/shared/AddOperatorsDrawer'
 import { ClientMutations, ClientQueries } from '@/api/client'
 import type { Users } from '@/api/api.generatedTypes'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -72,11 +72,12 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
         <ClientOperatorsTable clientId={clientId} />
       </React.Suspense>
       {canAddOperator && (
-        <AddOperatorsToClientDrawer
+        <AddOperatorsDrawer
           onSubmit={handleSubmit}
           excludeOperatorsIdsList={excludeOperatorsIdsList}
           isOpen={isOpen}
           onClose={closeDrawer}
+          operatorKind="client"
         />
       )}
     </>
