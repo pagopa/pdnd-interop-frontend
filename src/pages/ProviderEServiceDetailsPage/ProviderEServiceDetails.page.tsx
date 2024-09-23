@@ -2,27 +2,20 @@ import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
 import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
-import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsAlerts'
-import { Grid } from '@mui/material'
-import {
-  ProviderEServiceDescriptorAttributes,
-  ProviderEServiceDescriptorAttributesSkeleton,
-} from './components/ProviderEServiceDescriptorAttributes'
-import {
-  ProviderEServiceGeneralInfoSection,
-  ProviderEServiceGeneralInfoSectionSkeleton,
-} from './components/ProviderEServiceGeneralInfoSection'
+import { Tab } from '@mui/material'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { useTranslation } from 'react-i18next'
-import {
-  ProviderEServiceTechnicalInfoSection,
-  ProviderEServiceTechnicalInfoSectionSkeleton,
-} from './components/ProviderEServiceTechnicalInfoSection'
 import { useQuery } from '@tanstack/react-query'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { useActiveTab } from '@/hooks/useActiveTab'
+import { ProviderEserviceDetailsTab } from './components/ProviderEServiceDetailsTab'
+import { ProviderEserviceKeychainsTab } from './components/ProviderEServiceKeychainsTab/ProviderEServiceKeychainsTab'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
+
+  const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
@@ -47,20 +40,20 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         to: 'PROVIDE_ESERVICE_LIST',
       }}
     >
-      <ProviderEServiceDetailsAlerts descriptor={descriptor} />
-      <Grid container>
-        <Grid item xs={8}>
-          <React.Suspense fallback={<ProviderEServiceGeneralInfoSectionSkeleton />}>
-            <ProviderEServiceGeneralInfoSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ProviderEServiceTechnicalInfoSectionSkeleton />}>
-            <ProviderEServiceTechnicalInfoSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ProviderEServiceDescriptorAttributesSkeleton />}>
-            <ProviderEServiceDescriptorAttributes />
-          </React.Suspense>
-        </Grid>
-      </Grid>
+      <TabContext value={activeTab}>
+        <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
+          <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
+          <Tab label={t('tabs.keychain')} value="keychains" />
+        </TabList>
+
+        <TabPanel value="eserviceDetails">
+          <ProviderEserviceDetailsTab />
+        </TabPanel>
+
+        <TabPanel value="keychains">
+          <ProviderEserviceKeychainsTab />
+        </TabPanel>
+      </TabContext>
     </PageContainer>
   )
 }
