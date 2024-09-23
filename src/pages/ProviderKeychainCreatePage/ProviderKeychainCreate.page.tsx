@@ -40,7 +40,7 @@ const ProviderKeychainCreatePage: React.FC = () => {
     })
   }
 
-  const backToRoute = 'PROVIDE_KEYCHAIN_LIST'
+  const backToRoute = 'PROVIDE_KEYCHAINS_LIST'
 
   return (
     <PageContainer
