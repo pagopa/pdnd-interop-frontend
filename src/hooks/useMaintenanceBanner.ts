@@ -92,7 +92,10 @@ export function useMaintenanceBanner() {
   const title = match(STAGE)
     .with('PROD', () => t('titleProdEnv'))
     .with('ATT', () => t('titleAttEnv'))
-    .otherwise(() => t('titleTestEnv'))
+    .with('UAT', () => t('titleTestEnv'))
+    .with('DEV', () => '') // this environment has no maintenance banner
+    .with('QA', () => '') // this environment has no maintenance banner
+    .exhaustive()
 
   return { title, text, isOpen, closeBanner }
 }
