@@ -8,7 +8,7 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import type { Users } from '@/api/api.generatedTypes'
 import { useCurrentRoute } from '@/router'
-import { AddOperatorsDrawer } from '@/components/shared/AddOperatorsDrawer'
+import { AddOperatorsToKeychainDrawer } from '@/components/shared/AddOperatorsToKeychainDrawer'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')
@@ -70,12 +70,11 @@ const OperatorsInputTable: React.FC = () => {
           {tCommon('addBtn')}
         </Button>
       </Stack>
-      <AddOperatorsDrawer
+      <AddOperatorsToKeychainDrawer
         isOpen={isAddOperatorDrawerOpen}
         onClose={closeAddOperatorDrawer}
         excludeOperatorsIdsList={operators.map(({ userId }) => userId)}
         onSubmit={handleAddOperator}
-        operatorKind="keychain"
       />
     </>
   )
