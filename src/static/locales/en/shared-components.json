@@ -269,6 +269,7 @@
     "TENANT": "Your party",
     "TENANT_CERTIFIER": "Certifier party",
     "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Inspect attribute",
-    "PROVIDE_KEYCHAINS_LIST": "Your keychains"
+    "PROVIDE_KEYCHAINS_LIST": "Your keychains",
+    "PROVIDER_KEYCHAIN_CREATE": "Create keychain"
   }
 }

@@ -592,6 +592,20 @@
         "title": "Confirm keychain deletion",
         "description": "By clicking \"confirm\", this keychain will be deleted. All the public keys contained will be removed and they will no longer be usable to sign responses to your e-service’s consumers."
       }
+    },
+    "createKeychain": {
+      "loading": "Creating keychain",
+      "outcome": {
+        "success": "The keychain was created successfully",
+        "error": "The keychain could not be created. Please, try again!"
+      }
+    },
+    "addOperator": {
+      "loading": "Adding the user to this keychain",
+      "outcome": {
+        "success": "New user added successfully",
+        "error": "The user could not be added. Please make sure this user exists and try again!"
+      }
     }
   }
 }

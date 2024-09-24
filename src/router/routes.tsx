@@ -41,6 +41,7 @@ import {
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
+import { ProviderKeychainCreatePage } from '@/pages/ProviderKeychainCreatePage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -400,6 +401,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'PROVIDER_KEYCHAIN_CREATE',
+    path: '/erogazione/portachiavi/crea',
+    element: <ProviderKeychainCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
   })
   .build()
 

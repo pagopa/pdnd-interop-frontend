@@ -18,7 +18,7 @@ import voucherEnNs from '@/static/locales/en/voucher.json'
 import userEnNs from '@/static/locales/en/user.json'
 import keyEnNs from '@/static/locales/en/key.json'
 import assistanceEnNs from '@/static/locales/en/assistance.json'
-import type keychainEnNs from '@/static/locales/en/keychain.json'
+import keychainEnNs from '@/static/locales/en/keychain.json'
 
 import pagesItNs from '@/static/locales/it/pages.json'
 import commonItNs from '@/static/locales/it/common.json'
@@ -82,7 +82,7 @@ i18n.use(initReactI18next).init({
       user: userEnNs,
       key: keyEnNs,
       assistance: assistanceEnNs,
-      keychain: keyEnNs,
+      keychain: keychainEnNs,
     },
   },
 })

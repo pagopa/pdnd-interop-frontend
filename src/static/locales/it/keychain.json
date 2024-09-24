@@ -1,5 +1,35 @@
 {
   "noMultiDataLabel": "Non ci sono portachiavi disponibili",
+  "create": {
+    "title": "Crea portachiavi",
+    "infoSectionTitle": "Informazioni generali",
+    "nameField": {
+      "label": "Nome del portachiavi",
+      "infoLabel": "Ti aiuta a distinguerlo dagli altri. Min 5 caratteri, max 60 caratteri"
+    },
+    "descriptionField": {
+      "label": "Descrizione del portachiavi",
+      "infoLabel": "Min 10 caratteri, max 250 caratteri"
+    },
+    "clientOperatorsSection": {
+      "title": "Membri del portachiavi",
+      "description": "Potrai gestire i membri del portachiavi in ogni momento, anche dopo la creazione"
+    },
+    "operatorsTable": {
+      "noDataLabel": "Nessun utente aggiunto"
+    },
+    "addOperatorsDrawer": {
+      "title": "Aggiungi membri al portachiavi",
+      "autocompleteInput": {
+        "label": "Utenti selezionati"
+      },
+      "adminAlert": "Se vuoi caricare chiavi pubbliche per questo portachiavi, aggiungi anche te stesso"
+    },
+    "actions": {
+      "createLabel": "Crea",
+      "backToKeychainsLabel": "Torna ai portachiavi"
+    }
+  },
   "list": {
     "filters": {
       "nameField": {
