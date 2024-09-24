@@ -1,4 +1,4 @@
-import { Table } from '@pagopa/interop-fe-commons'
+import { Pagination, Table, usePagination } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -18,30 +18,35 @@ export const ProviderEServiceKeychainsTable: React.FC<ProviderEServiceKeychainsT
 }) => {
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
-  const { data: associatedKeychains } = useSuspenseQuery({
-    ...KeychainQueries.getKeychainsList({
+  const { data: associatedKeychains } = useSuspenseQuery(
+    KeychainQueries.getKeychainsList({
       producerId: jwt?.organizationId as string,
       eserviceId: eserviceId,
-      limit: 50,
-      offset: 0,
-    }),
-    select: (d) => d.results,
-  })
+      ...paginationParams,
+    })
+  )
 
   const headLabels = [tCommon('table.headData.keychain'), '']
-  const isEmpty = associatedKeychains.length === 0
+  const isEmpty = associatedKeychains.results.length === 0
 
   return (
-    <Table headLabels={headLabels} isEmpty={isEmpty}>
-      {associatedKeychains.map((keychain) => (
-        <ProviderEServiceKeychainsTableRow
-          key={keychain.id}
-          eserviceId={eserviceId}
-          keychain={keychain}
-        />
-      ))}
-    </Table>
+    <>
+      <Table headLabels={headLabels} isEmpty={isEmpty}>
+        {associatedKeychains.results.map((keychain) => (
+          <ProviderEServiceKeychainsTableRow
+            key={keychain.id}
+            eserviceId={eserviceId}
+            keychain={keychain}
+          />
+        ))}
+      </Table>
+      <Pagination
+        {...paginationProps}
+        totalPages={getTotalPageCount(associatedKeychains.pagination.totalCount)}
+      />
+    </>
   )
 }
 
