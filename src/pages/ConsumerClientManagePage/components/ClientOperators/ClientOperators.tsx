@@ -5,11 +5,11 @@ import { ClientOperatorsTable, ClientOperatorsTableSkeleton } from './ClientOper
 import { AuthHooks } from '@/api/auth'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 import { ClientMutations, ClientQueries } from '@/api/client'
 import type { Users } from '@/api/api.generatedTypes'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { TenantQueries } from '@/api/tenant'
+import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 
 interface ClientOperatorsProps {
   clientId: string
