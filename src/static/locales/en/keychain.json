@@ -1,0 +1,10 @@
+{
+  "noMultiDataLabel": "No keychain available",
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Find by name"
+      }
+    }
+  }
+}

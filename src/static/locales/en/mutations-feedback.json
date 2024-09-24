@@ -580,5 +580,18 @@
         "error": "There was an error processing your request. Please try again later!"
       }
     }
+  },
+  "keychain": {
+    "deleteKeychain": {
+      "loading": "Deleting keychain",
+      "outcome": {
+        "success": "The keychain was deleted successfully",
+        "error": "The keychain could not be deleted. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm keychain deletion",
+        "description": "By clicking \"confirm\", this keychain will be deleted. All the public keys contained will be removed and they will no longer be usable to sign responses to your e-service’s consumers."
+      }
+    }
   }
 }

@@ -1,0 +1,10 @@
+{
+  "noMultiDataLabel": "Non ci sono portachiavi disponibili",
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Cerca per nome"
+      }
+    }
+  }
+}

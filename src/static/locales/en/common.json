@@ -57,7 +57,8 @@
       "userName": "Name and surname",
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assignee tenant",
-      "certifiedAttribute": "Certified attribute"
+      "certifiedAttribute": "Certified attribute",
+      "keychains": "Keychains"
     }
   },
   "status": {

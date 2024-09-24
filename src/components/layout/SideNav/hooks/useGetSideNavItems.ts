@@ -21,7 +21,12 @@ const views = [
   {
     routeKey: 'PROVIDE',
     id: 'provider',
-    children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
+    children: [
+      'PROVIDE_ESERVICE_LIST',
+      'PROVIDE_AGREEMENT_LIST',
+      'PROVIDE_PURPOSE_LIST',
+      'PROVIDE_KEYCHAINS_LIST',
+    ],
   },
   { routeKey: 'TENANT', id: 'tenant', children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER'] },
 ] as const

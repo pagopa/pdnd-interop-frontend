@@ -36,6 +36,7 @@ import {
   ProviderEServiceSummaryPage,
   TenantCertifierPage,
   TenantCertifierAttributeDetails,
+  ProviderKeychainsListPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -391,6 +392,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAINS_LIST',
+    path: '/erogazione/portachiavi',
+    element: <ProviderKeychainsListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
   })
   .build()
 
