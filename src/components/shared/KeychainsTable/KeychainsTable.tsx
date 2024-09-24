@@ -5,20 +5,21 @@ import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/i
 import type { GetProducerKeychainsParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
+import { AuthHooks } from '@/api/auth'
 
-interface KeychainsTableProps {
-  producerId: string
-}
-
-export const KeychainsTable: React.FC<KeychainsTableProps> = ({ producerId }) => {
+export const KeychainsTable: React.FC = () => {
   const { t } = useTranslation('keychain', { keyPrefix: 'list.filters' })
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { jwt } = AuthHooks.useJwt()
+
+  const producerId = jwt?.organizationId as string
+
   const { filtersParams, ...handlers } = useFilters([
     { name: 'q', type: 'freetext', label: t('nameField.label') },
   ])
 
   const params = {
-    producerId: producerId,
+    producerId,
     ...filtersParams,
     ...paginationParams,
   }

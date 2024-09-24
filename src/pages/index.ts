@@ -33,3 +33,4 @@ export { AssistanceTenantSelectionErrorPage } from './AssistanceTenantSelectionE
 export { ConsumerPurposeSummaryPage } from './ConsumerPurposeSummaryPage'
 export { TenantCertifierPage } from './TenantCertifierPage'
 export { TenantCertifierAttributeDetails } from './TenantCertifierAttributeDetailsPage'
+export { ProviderKeychainsListPage } from './ProviderKeychainsListPage'

@@ -1,1 +1,1 @@
-export { default as ProviderKeychainsList } from './ProviderKeychainsList.page'
+export { default as ProviderKeychainsListPage } from './ProviderKeychainsList.page'

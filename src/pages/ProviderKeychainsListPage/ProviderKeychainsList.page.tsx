@@ -7,12 +7,11 @@ import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { KeychainsTable } from '@/components/shared/KeychainsTable'
 
-const ProviderKeychainsList: React.FC = () => {
+const ProviderKeychainsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerKeychainsList' })
   const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
-  const { isAdmin, jwt } = AuthHooks.useJwt()
-  const producerId = jwt?.organizationId || ''
+  const { isAdmin } = AuthHooks.useJwt()
 
   const topSideActions: Array<ActionItemButton> = [
     {
@@ -29,9 +28,9 @@ const ProviderKeychainsList: React.FC = () => {
       description={t('description')}
       topSideActions={isAdmin ? topSideActions : undefined}
     >
-      <KeychainsTable producerId={producerId} />
+      <KeychainsTable />
     </PageContainer>
   )
 }
 
-export default ProviderKeychainsList
+export default ProviderKeychainsListPage
