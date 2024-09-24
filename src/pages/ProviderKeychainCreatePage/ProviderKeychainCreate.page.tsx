@@ -40,15 +40,13 @@ const ProviderKeychainCreatePage: React.FC = () => {
     })
   }
 
-  const backToRoute = 'PROVIDE_KEYCHAINS_LIST'
-
   return (
     <PageContainer
       title={t('create.title')}
-      /*backToAction={{
+      backToAction={{
         label: t('create.actions.backToClientsLabel'),
-        to: backToRoute,
-      }}*/
+        to: 'PROVIDE_KEYCHAINS_LIST',
+      }}
     >
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <FormProvider {...formMethods}>
