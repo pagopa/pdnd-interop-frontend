@@ -580,5 +580,18 @@
         "error": "C’è stato un errrore nell’elaborazione della richiesta. Per favore, riprova in seguito!"
       }
     }
+  },
+  "keychain": {
+    "deleteKeychain": {
+      "loading": "Stiamo eliminando il portachiavi",
+      "outcome": {
+        "success": "Il portachiavi è stato eliminato correttamente",
+        "error": "Non è stato possibile eliminare il portachiavi. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma eliminazione portachiavi",
+        "description": "Cliccando \"conferma\", questo portachiavi sarà eliminato. Tutte le chiavi contenute saranno rimosse e non saranno più utilizzabili per firmare risposte verso i fruitori dei tuoi e-service."
+      }
+    }
   }
 }
