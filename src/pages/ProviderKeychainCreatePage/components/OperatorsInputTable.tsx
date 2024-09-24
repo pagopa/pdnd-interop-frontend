@@ -7,7 +7,6 @@ import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import type { Users } from '@/api/api.generatedTypes'
-import { useCurrentRoute } from '@/router'
 import { AddOperatorsToKeychainDrawer } from '@/components/shared/AddOperatorsToKeychainDrawer'
 
 const OperatorsInputTable: React.FC = () => {
@@ -37,8 +36,6 @@ const OperatorsInputTable: React.FC = () => {
   const handleOpenAddOperatorDrawer = () => {
     openAddOperatorDrawer()
   }
-
-  const { routeKey } = useCurrentRoute()
 
   return (
     <>
