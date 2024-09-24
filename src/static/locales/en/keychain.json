@@ -1,4 +1,5 @@
 {
+  "noMultiDataLabel": "No keychain available",
   "create": {
     "title": "Create keychain",
     "infoSectionTitle": "General information",
@@ -27,6 +28,13 @@
     "actions": {
       "createLabel": "Create",
       "backToClientsLabel": "Back to the keychains"
+    }
+  },
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Find by name"
+      }
     }
   }
 }

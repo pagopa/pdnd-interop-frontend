@@ -1,4 +1,5 @@
 {
+  "noMultiDataLabel": "Non ci sono portachiavi disponibili",
   "create": {
     "title": "Crea portachiavi",
     "infoSectionTitle": "Informazioni generali",
