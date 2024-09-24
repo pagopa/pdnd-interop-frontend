@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import { ProviderEserviceDetailsTab } from './components/ProviderEServiceDetailsTab'
+import { ProviderEserviceDetailsTab } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsTab'
 import { ProviderEserviceKeychainsTab } from './components/ProviderEServiceKeychainsTab/ProviderEServiceKeychainsTab'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
