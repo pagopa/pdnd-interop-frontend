@@ -259,7 +259,7 @@
     "keychain": {
       "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
       "actions": {
-        "removeKeychainFromEService": "Rimuovi dall'eservice"
+        "removeKeychainFromEService": "Rimuovi dall'e-service"
       }
     },
     "sections": {

@@ -27,7 +27,7 @@ export const ProviderEServiceKeychainsTableRow: React.FC<
   const { mutate: removeKeychainFromEService } = KeychainMutations.useRemoveKeychainFromEService()
 
   const handlePrefetchKeychain = () => {
-    queryClient.prefetchQuery(KeychainQueries.getKeychain(keychain.id))
+    queryClient.prefetchQuery(KeychainQueries.getSingle(keychain.id))
   }
 
   const actions: ActionItem[] = [

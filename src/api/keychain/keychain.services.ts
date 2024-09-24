@@ -56,18 +56,18 @@ async function removeKeychainFromEService({
   eserviceId: string
   keychainId: string
 }) {
-  await axiosInstance.delete(
+  return axiosInstance.delete(
     `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${keychainId}/eservices/${eserviceId}`
   )
 }
 
-async function addKeychainToEService({
+function addKeychainToEService({
   keychainId,
   eserviceId,
 }: {
   keychainId: string
 } & EServiceAdditionDetailsSeed) {
-  await axiosInstance.post(
+  return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${keychainId}/eservices`,
     eserviceId
   )

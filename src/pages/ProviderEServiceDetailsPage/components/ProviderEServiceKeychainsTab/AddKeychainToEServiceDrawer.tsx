@@ -41,9 +41,14 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
     defaultValues: { selectedKeychains: [] },
   })
 
-  // TODO control producerId arg
+  const selectedKeychains = formMethods.watch('selectedKeychains')
+
   const { data: allKeychains = [], isPending } = useQuery({
-    ...KeychainQueries.getKeychainsList({ limit: 50, offset: 0, producerId: jwt!.organizationId }),
+    ...KeychainQueries.getKeychainsList({
+      limit: 50,
+      offset: 0,
+      producerId: jwt?.organizationId as string,
+    }),
     select: (d) => d.results,
   })
 
@@ -52,7 +57,7 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
   )
 
   const options = availableKeychains.map((k) => ({
-    label: `${k.name}`,
+    label: k.name,
     value: k,
   }))
 
@@ -72,7 +77,6 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
         onClose={handleCloseDrawer}
         title={t('title')}
         subtitle={
-          // TODO rivedere tutti i padding e i margin nel componente shared Drawer
           <Trans
             components={{
               1: <MuiLink underline="hover" href={'TODO right link'} target="_blank" />,
@@ -84,7 +88,7 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
         buttonAction={{
           label: tCommon('addBtn'),
           action: formMethods.handleSubmit(_onSubmit),
-          disabled: options.length === 0,
+          disabled: selectedKeychains.length === 0,
         }}
         onTransitionExited={handleTransitionExited}
       >

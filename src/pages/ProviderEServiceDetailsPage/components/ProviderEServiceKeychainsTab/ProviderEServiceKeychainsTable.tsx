@@ -6,7 +6,7 @@ import {
   ProviderEServiceKeychainsTableRowSkeleton,
 } from './ProviderEServiceKeychainsTableRow'
 import { KeychainQueries } from '@/api/keychain'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 
 type ProviderEServiceKeychainsTableProps = {
@@ -19,10 +19,9 @@ export const ProviderEServiceKeychainsTable: React.FC<ProviderEServiceKeychainsT
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
 
-  // TODO control producerId arg
-  const { data: associatedKeychains = [] } = useQuery({
+  const { data: associatedKeychains } = useSuspenseQuery({
     ...KeychainQueries.getKeychainsList({
-      producerId: jwt!.organizationId,
+      producerId: jwt?.organizationId as string,
       eserviceId: eserviceId,
       limit: 50,
       offset: 0,
@@ -31,7 +30,7 @@ export const ProviderEServiceKeychainsTable: React.FC<ProviderEServiceKeychainsT
   })
 
   const headLabels = [tCommon('table.headData.keychain'), '']
-  const isEmpty = !associatedKeychains || associatedKeychains.length === 0
+  const isEmpty = associatedKeychains.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
@@ -52,6 +51,8 @@ export const ProviderEServiceKeychainsTableSkeleton: React.FC = () => {
   const headLabels = [tCommon('table.headData.keychain'), '']
   return (
     <Table headLabels={headLabels}>
+      <ProviderEServiceKeychainsTableRowSkeleton />
+      <ProviderEServiceKeychainsTableRowSkeleton />
       <ProviderEServiceKeychainsTableRowSkeleton />
       <ProviderEServiceKeychainsTableRowSkeleton />
       <ProviderEServiceKeychainsTableRowSkeleton />

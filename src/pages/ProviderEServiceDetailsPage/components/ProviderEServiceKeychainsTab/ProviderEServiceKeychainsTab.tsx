@@ -24,10 +24,9 @@ export const ProviderEserviceKeychainsTab: React.FC = () => {
 
   const { isOpen, closeDrawer, openDrawer } = useDrawerState()
 
-  // TODO control producerId arg
   const { data: excludeKeychainsIdsList = [] } = useQuery({
     ...KeychainQueries.getKeychainsList({
-      producerId: jwt!.organizationId,
+      producerId: jwt?.organizationId as string,
       eserviceId: eserviceId,
       limit: 50,
       offset: 0,
@@ -47,11 +46,14 @@ export const ProviderEserviceKeychainsTab: React.FC = () => {
 
   const canAddKeychain = isAdmin
 
-  // TODO control producerId arg
   const handlePrefetchKeychainList = () => {
     if (!canAddKeychain) return
     queryClient.prefetchQuery(
-      KeychainQueries.getKeychainsList({ limit: 50, offset: 0, producerId: jwt!.organizationId })
+      KeychainQueries.getKeychainsList({
+        limit: 50,
+        offset: 0,
+        producerId: jwt?.organizationId as string,
+      })
     )
   }
 

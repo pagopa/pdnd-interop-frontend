@@ -51,7 +51,7 @@ const KeychainsTableWrapper: React.FC<{
   const { t } = useTranslation('keychain')
   const { data: keychains } = useSuspenseQuery(KeychainQueries.getKeychainsList(params))
 
-  const headLabels = [tCommon('keychains'), '']
+  const headLabels = [tCommon('keychain'), '']
   const isEmpty = keychains.results.length === 0
 
   return (
@@ -66,7 +66,7 @@ const KeychainsTableWrapper: React.FC<{
 
 export const KeychainsTableSkeleton: React.FC = () => {
   const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const headLabels = [t('keychains'), '']
+  const headLabels = [t('keychain'), '']
   return (
     <Table headLabels={headLabels}>
       <KeychainsTableRowSkeleton />
