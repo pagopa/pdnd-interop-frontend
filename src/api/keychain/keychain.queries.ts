@@ -1,7 +1,6 @@
 import { queryOptions } from '@tanstack/react-query'
 import { KeychainServices } from './keychain.services'
 import type { GetProducerKeychainsParams } from '../api.generatedTypes'
-import { NotFoundError } from '@/utils/errors.utils'
 
 function getKeychainsList(params: GetProducerKeychainsParams) {
   return queryOptions({
