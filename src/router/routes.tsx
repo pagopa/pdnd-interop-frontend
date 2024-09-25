@@ -406,7 +406,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'security'],
   })
   .addRoute({
-    key: 'PROVIDER_KEYCHAIN_CREATE',
+    key: 'PROVIDE_KEYCHAIN_CREATE',
     path: '/erogazione/portachiavi/crea',
     element: <ProviderKeychainCreatePage />,
     public: false,

@@ -32,7 +32,7 @@ const ProviderKeychainDetailsPage: React.FC = () => {
     {
       label: tCommon('actions.delete'),
       action: () => {
-        deleteKeychain(keychainId, { onSuccess: () => navigate('DEFAULT') }) // TODO redirect to keychains list
+        deleteKeychain(keychainId, { onSuccess: () => navigate('PROVIDE_KEYCHAINS_LIST') })
       },
       color: 'error',
       icon: DeleteIcon,

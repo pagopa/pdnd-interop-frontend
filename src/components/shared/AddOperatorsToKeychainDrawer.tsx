@@ -9,7 +9,7 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type AddSecurityOperatorFormValues = {
+type AddOperatorsFormValues = {
   selectedOperators: Users
 }
 
@@ -34,7 +34,7 @@ export const AddOperatorsToKeychainDrawer: React.FC<AddOperatorsDrawerProps> = (
   }
 
   const { jwt } = AuthHooks.useJwt()
-  const formMethods = useForm<AddSecurityOperatorFormValues>({
+  const formMethods = useForm<AddOperatorsFormValues>({
     defaultValues: {
       selectedOperators: [],
     },
@@ -56,7 +56,7 @@ export const AddOperatorsToKeychainDrawer: React.FC<AddOperatorsDrawerProps> = (
     value: o,
   }))
 
-  const _onSubmit = ({ selectedOperators }: AddSecurityOperatorFormValues) => {
+  const _onSubmit = ({ selectedOperators }: AddOperatorsFormValues) => {
     onClose()
     onSubmit(selectedOperators)
   }
