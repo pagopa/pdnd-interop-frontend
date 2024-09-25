@@ -97,7 +97,7 @@
     },
     "userDeletedAlertMessage": "Warning! The user that uploaded this key has been removed from this keychain. It is advised to delete this key and replace it with a new one",
     "list": {
-      "adminEnableInfo": "Add yourself as a member of this keychain before you can upload a key",
+      "userEnableInfo": "Add yourself as a member of this keychain before you can upload a key",
       "publicKeyLimitInfo": "You have reached the maximum number of keys for this keychain",
       "supportDisableInfo": "The support user is not authorized to add keys"
     }

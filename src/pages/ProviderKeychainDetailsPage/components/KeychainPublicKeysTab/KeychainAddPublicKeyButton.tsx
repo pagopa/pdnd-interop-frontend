@@ -18,7 +18,7 @@ export const KeychainAddPublicKeyButton: React.FC<KeychainAddPublicKeyButtonProp
 }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('keychain')
-  const { jwt, isSupport, isAdmin } = AuthHooks.useJwt()
+  const { jwt, isSupport, isAdmin, isOperatorSecurity } = AuthHooks.useJwt()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -28,7 +28,7 @@ export const KeychainAddPublicKeyButton: React.FC<KeychainAddPublicKeyButtonProp
     select: (users) => users.map((user) => user.userId),
   })
 
-  const isAdminInKeychain = Boolean(jwt && isAdmin && usersIds.includes(jwt.uid))
+  const isInKeychain = Boolean(jwt && usersIds.includes(jwt.uid))
 
   const { data: keys } = useQuery({
     ...KeychainQueries.getProducerKeychainKeysList({ producerKeychainId: keychainId }),
@@ -40,7 +40,8 @@ export const KeychainAddPublicKeyButton: React.FC<KeychainAddPublicKeyButtonProp
   const publicKeysLimit = 30
   const hasReachedPublicKeysLimit = publicKeys.length >= publicKeysLimit
 
-  const canNotAddKey = isSupport || !isAdminInKeychain || hasReachedPublicKeysLimit
+  const canNotAddKey =
+    isSupport || ((isAdmin || isOperatorSecurity) && !isInKeychain) || hasReachedPublicKeysLimit
 
   const getTooltipProps = () => {
     let tooltipProps: { open: boolean | undefined; title: string } = {
@@ -57,10 +58,10 @@ export const KeychainAddPublicKeyButton: React.FC<KeychainAddPublicKeyButtonProp
       return tooltipProps
     }
 
-    if (isAdmin && !isAdminInKeychain) {
+    if ((isAdmin || isOperatorSecurity) && !isInKeychain) {
       tooltipProps = {
         open: undefined,
-        title: t('publicKey.list.adminEnableInfo'),
+        title: t('publicKey.list.userEnableInfo'),
       }
 
       return tooltipProps

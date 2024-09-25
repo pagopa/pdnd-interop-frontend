@@ -97,7 +97,7 @@
     },
     "userDeletedAlertMessage": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo portachiavi. Si consiglia di eliminare la chiave e di sostituirla con una nuova",
     "list": {
-      "adminEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente nella tab «Membri del portachiavi",
+      "userEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente nella tab «Membri del portachiavi",
       "publicKeyLimitInfo": "Hai raggiunto il numero massimo di chiavi per questo portachiavi",
       "supportDisableInfo": "L'utenza di assistenza non è abilitata ad aggiungere chiavi"
     }
