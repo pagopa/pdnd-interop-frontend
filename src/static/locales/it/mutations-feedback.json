@@ -606,6 +606,24 @@
         "success": "L’utente è stato aggiunto correttamente al portachiavi",
         "error": "Non è stato possibile aggiungere il nuovo utente al portachiavi. Assicurarsi che non esista già l’utenza e riprovare"
       }
+    },
+    "removeKeychainFromEService": {
+      "loading": "Stiamo rimuovendo il portachiavi dall'e-service",
+      "outcome": {
+        "error": "Portachiavi non rimosso dall'e-service. Riprovare.",
+        "success": "Portachiavi rimosso correttamente dall'e-service"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione portachiavi da e-service",
+        "description": "Le chiavi caricate in questo portachiavi non potranno più essere usate per firmare risposte ai fruitori per questo e-service."
+      }
+    },
+    "addKeychainToEService": {
+      "loading": "Stiamo associando il portachiavi all'e-service",
+      "outcome": {
+        "error": "Portachiavi non associato all'e-service. Riprovare.",
+        "success": "Portachiavi associato correttamente all'e-service"
+      }
     }
   }
 }

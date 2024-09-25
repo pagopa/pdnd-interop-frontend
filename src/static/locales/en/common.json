@@ -58,7 +58,7 @@
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assignee tenant",
       "certifiedAttribute": "Certified attribute",
-      "keychains": "Keychains"
+      "keychain": "Keychain"
     }
   },
   "status": {

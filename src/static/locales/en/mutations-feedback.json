@@ -606,6 +606,24 @@
         "success": "New user added successfully",
         "error": "The user could not be added. Please make sure this user exists and try again!"
       }
+    },
+    "removeKeychainFromEService": {
+      "loading": "We are removing the keychain from e-service",
+      "outcome": {
+        "error": "Keychain not removed from e-service. Try again.",
+        "success": "Keychain removed from e-service correctly"
+      },
+      "confirmDialog": {
+        "title": "Confirm keychain removal from e-service",
+        "description": "The keys uploaded to this keychain can no longer be used to sign responses to users for this e-service."
+      }
+    },
+    "addKeychainToEService": {
+      "loading": "We are adding the keychain to the e-service",
+      "outcome": {
+        "error": "Keychain not added to e-service. Try again.",
+        "success": "Keychain added to e-service correctly"
+      }
     }
   }
 }
