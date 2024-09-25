@@ -18,7 +18,7 @@ interface ClientAddPublicKeyButtonProps {
 export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> = ({ clientId }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('key')
-  const { jwt, isSupport, isAdmin } = AuthHooks.useJwt()
+  const { jwt, isSupport, isAdmin, isOperatorSecurity } = AuthHooks.useJwt()
   const { data: users } = useSuspenseQuery(ClientQueries.getOperatorsList(clientId))
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -29,7 +29,7 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
 
   const usersId = userQueries.map(({ data }) => data?.userId).filter(identity)
 
-  const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
+  const isInClient = Boolean(jwt && usersId.includes(jwt.uid))
 
   const { data } = useQuery({
     ...ClientQueries.getKeyList({ clientId }),
@@ -44,10 +44,11 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
    * There are no conditions about operator API because it doesn't have the necessary router permissions to navigate to this page
    * The conditions to add keys are:
    * - do not be support
-   * - be admin and be added in the client
+   * - be admin or security operator and be added in the client
    * - you have not reached the limit of keys that can be added (it is fixed to 100)
    */
-  const canNotAddKey = isSupport || (isAdmin && !isAdminInClient) || hasReachedPublicKeysLimit
+  const canNotAddKey =
+    isSupport || ((isAdmin || isOperatorSecurity) && !isInClient) || hasReachedPublicKeysLimit
 
   const getTooltipProps = () => {
     let tooltipProps: { open: boolean | undefined; title: string } = {
@@ -64,10 +65,10 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
       return tooltipProps
     }
 
-    if (isAdmin && !isAdminInClient) {
+    if ((isAdmin || isOperatorSecurity) && !isInClient) {
       tooltipProps = {
         open: undefined,
-        title: t('list.adminEnableInfo'),
+        title: t('list.userEnableInfo'),
       }
 
       return tooltipProps
