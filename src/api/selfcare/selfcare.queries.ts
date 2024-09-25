@@ -25,7 +25,7 @@ function getPartyList() {
 
 function getSingleUser(userId: string) {
   return queryOptions({
-    queryKey: ['ClientGetSingleOperator', userId],
+    queryKey: ['SelfcareGetSingleUser', userId],
     queryFn: () => SelfcareServices.getSingleUser(userId),
     throwOnError: false,
     retry: false,
