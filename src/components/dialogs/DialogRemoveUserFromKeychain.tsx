@@ -30,13 +30,13 @@ export const DialogRemoveUserFromKeychain: React.FC<DialogRemoveUserFromKeychain
       open
       onClose={handleCancel}
       aria-labelledby={ariaLabelId}
-      {...{ 'aria-describedby': ariaDescriptionId }}
+      aria-describedby={ariaDescriptionId}
       maxWidth="md"
       fullWidth
     >
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
-      <DialogContent aria-describedby={ariaDescriptionId}>
+      <DialogContent id={ariaDescriptionId}>
         <Trans
           components={{
             1: <Link underline="hover" href={'TODO'} target="_blank" />,
