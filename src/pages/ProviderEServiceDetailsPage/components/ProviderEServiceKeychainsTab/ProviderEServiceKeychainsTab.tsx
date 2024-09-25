@@ -5,10 +5,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useParams } from '@/router'
-import {
-  ProviderEServiceKeychainsTable,
-  ProviderEServiceKeychainsTableSkeleton,
-} from './ProviderEServiceKeychainsTable'
+import { ProviderEServiceKeychainsTable } from './ProviderEServiceKeychainsTable'
 import { AddKeychainToEServiceDrawer } from './AddKeychainToEServiceDrawer'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { KeychainQueries } from '@/api/keychain'
@@ -79,9 +76,7 @@ export const ProviderEserviceKeychainsTab: React.FC = () => {
           </span>
         </Tooltip>
       </Stack>
-      <React.Suspense fallback={<ProviderEServiceKeychainsTableSkeleton />}>
-        <ProviderEServiceKeychainsTable eserviceId={eserviceId} />
-      </React.Suspense>
+      <ProviderEServiceKeychainsTable eserviceId={eserviceId} />
       {canAddKeychain && (
         <AddKeychainToEServiceDrawer
           isOpen={isOpen}

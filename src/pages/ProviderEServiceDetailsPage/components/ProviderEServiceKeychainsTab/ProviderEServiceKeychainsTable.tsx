@@ -6,8 +6,9 @@ import {
   ProviderEServiceKeychainsTableRowSkeleton,
 } from './ProviderEServiceKeychainsTableRow'
 import { KeychainQueries } from '@/api/keychain'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
+import type { GetProducerKeychainsParams } from '@/api/api.generatedTypes'
 
 type ProviderEServiceKeychainsTableProps = {
   eserviceId: string
@@ -16,37 +17,54 @@ type ProviderEServiceKeychainsTableProps = {
 export const ProviderEServiceKeychainsTable: React.FC<ProviderEServiceKeychainsTableProps> = ({
   eserviceId,
 }) => {
-  const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
-  const { data: associatedKeychains } = useSuspenseQuery(
-    KeychainQueries.getKeychainsList({
-      producerId: jwt?.organizationId as string,
-      eserviceId: eserviceId,
-      ...paginationParams,
-    })
-  )
+  const params: GetProducerKeychainsParams = {
+    producerId: jwt?.organizationId as string,
+    eserviceId: eserviceId,
+    ...paginationParams,
+  }
 
-  const headLabels = [tCommon('table.headData.keychain'), '']
-  const isEmpty = associatedKeychains.results.length === 0
+  const { data: associatedKeychainsTotalCount } = useQuery({
+    ...KeychainQueries.getKeychainsList(params),
+    select: (data) => data.pagination.totalCount,
+  })
 
   return (
     <>
-      <Table headLabels={headLabels} isEmpty={isEmpty}>
-        {associatedKeychains.results.map((keychain) => (
+      <React.Suspense fallback={<ProviderEServiceKeychainsTableSkeleton />}>
+        <KeychainsTableWrapper params={params} eserviceId={eserviceId} />
+      </React.Suspense>
+      <Pagination
+        {...paginationProps}
+        totalPages={getTotalPageCount(associatedKeychainsTotalCount)}
+      />
+    </>
+  )
+}
+
+const KeychainsTableWrapper: React.FC<{
+  params: GetProducerKeychainsParams
+  eserviceId: string
+}> = ({ params, eserviceId }) => {
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
+  const { data: associatedKeychains } = useSuspenseQuery(KeychainQueries.getKeychainsList(params))
+
+  const headLabels = [tCommon('keychain'), '']
+  const isEmpty = associatedKeychains.results.length === 0
+
+  return (
+    <Table headLabels={headLabels} isEmpty={isEmpty}>
+      {!isEmpty &&
+        associatedKeychains?.results.map((keychain) => (
           <ProviderEServiceKeychainsTableRow
             key={keychain.id}
             eserviceId={eserviceId}
             keychain={keychain}
           />
         ))}
-      </Table>
-      <Pagination
-        {...paginationProps}
-        totalPages={getTotalPageCount(associatedKeychains.pagination.totalCount)}
-      />
-    </>
+    </Table>
   )
 }
 
