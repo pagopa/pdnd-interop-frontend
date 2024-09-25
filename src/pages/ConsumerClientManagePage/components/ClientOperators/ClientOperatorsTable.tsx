@@ -35,6 +35,8 @@ export const ClientOperatorsTableSkeleton: React.FC = () => {
       <ClientOperatorsTableRowSkeleton />
       <ClientOperatorsTableRowSkeleton />
       <ClientOperatorsTableRowSkeleton />
+      <ClientOperatorsTableRowSkeleton />
+      <ClientOperatorsTableRowSkeleton />
     </Table>
   )
 }
