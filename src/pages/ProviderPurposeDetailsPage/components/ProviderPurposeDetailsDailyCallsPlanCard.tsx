@@ -27,6 +27,11 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
   const isSuspended = purpose.currentVersion?.state === 'SUSPENDED'
   const isArchived = purpose.currentVersion?.state === 'ARCHIVED'
 
+  /*Checking if the daily call count has changed to fix the card bug related to 
+  suspended purposes that cannot be activated while waiting for approval.*/
+  const areDailyCallsChanged =
+    purpose.waitingForApprovalVersion?.dailyCalls != purpose.currentVersion?.dailyCalls
+
   const waitingForApprovalVersion = purpose.waitingForApprovalVersion
   const isChangePlanRequest = Boolean(waitingForApprovalVersion) && Boolean(purpose.currentVersion)
 
@@ -35,7 +40,11 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
 
   const title = React.useMemo(() => {
     if (waitingForApprovalVersion)
-      return t(`title.waitingForApprovalPlan.${isChangePlanRequest ? 'changePlan' : 'newPurpose'}`)
+      return t(
+        `title.waitingForApprovalPlan.${
+          isChangePlanRequest && areDailyCallsChanged ? 'changePlan' : 'newPurpose'
+        }`
+      )
 
     if (isNewPurposeRejected) return t('title.rejectedPlan')
 
@@ -82,7 +91,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                   size="small"
                   color="error"
                   startIcon={<CloseIcon />}
-                  disabled={isSuspended || isArchived}
+                  disabled={(isSuspended && !waitingForApprovalVersion) || isArchived}
                   sx={{ mr: 2 }}
                 >
                   {t('rejectVersionButtonLabel.label')}
@@ -93,7 +102,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                   size="small"
                   color="primary"
                   startIcon={<PlayCircleOutlineIcon />}
-                  disabled={isSuspended || isArchived}
+                  disabled={(isSuspended && !waitingForApprovalVersion) || isArchived}
                   sx={{ mr: 1 }}
                 >
                   {t('activateVersionButtonLabel.label')}
@@ -113,13 +122,13 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                 <Typography variant="body2">
                   {t(
                     `waitingForApprovalPlan.label.${
-                      isChangePlanRequest ? 'changePlan' : 'newPurpose'
+                      isChangePlanRequest && areDailyCallsChanged ? 'changePlan' : 'newPurpose'
                     }`
                   )}
                 </Typography>
               </Box>
 
-              {purpose.currentVersion && (
+              {purpose.currentVersion && areDailyCallsChanged && (
                 <Box flex={1}>
                   <Typography variant="h4" color="text.secondary" fontWeight={400}>
                     {formatThousands(purpose.currentVersion?.dailyCalls)}
