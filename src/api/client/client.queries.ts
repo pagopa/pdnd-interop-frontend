@@ -43,13 +43,6 @@ function getOperatorsList(clientId: string) {
   })
 }
 
-function getSingleOperator(userId: string) {
-  return queryOptions({
-    queryKey: ['ClientGetSingleOperator', userId],
-    queryFn: () => ClientServices.getSingleOperator(userId),
-  })
-}
-
 function getOperatorKeys(clientId: string, operatorId: string) {
   return queryOptions({
     queryKey: ['ClientGetClientOperatorKeys', clientId, operatorId],
@@ -63,6 +56,5 @@ export const ClientQueries = {
   getKeyList,
   getSingleKey,
   getOperatorsList,
-  getSingleOperator,
   getOperatorKeys,
 }

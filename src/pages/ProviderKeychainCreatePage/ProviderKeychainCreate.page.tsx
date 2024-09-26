@@ -5,7 +5,7 @@ import { Box, Button, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import OperatorsInputTable from './components/OperatorsInputTable'
+import { UsersInputTable } from './components/UsersInputTable'
 import PublishIcon from '@mui/icons-material/Publish'
 import type { Users } from '@/api/api.generatedTypes'
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
@@ -13,10 +13,10 @@ import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 export type CreateKeychainFormValues = {
   name: string
   description: string
-  operators: Users
+  users: Users
 }
 
-const defaultValues: CreateKeychainFormValues = { name: '', description: '', operators: [] }
+const defaultValues: CreateKeychainFormValues = { name: '', description: '', users: [] }
 
 const ProviderKeychainCreatePage: React.FC = () => {
   const { t } = useTranslation('keychain')
@@ -27,11 +27,11 @@ const ProviderKeychainCreatePage: React.FC = () => {
     defaultValues,
   })
 
-  const onSubmit = async ({ name, description, operators }: CreateKeychainFormValues) => {
+  const onSubmit = async ({ name, description, users }: CreateKeychainFormValues) => {
     const dataToPost = {
       name,
       description,
-      members: operators.map((operator) => operator.userId),
+      members: users.map((user) => user.userId),
     }
     createKeychain(dataToPost, {
       onSuccess(data) {
@@ -44,7 +44,7 @@ const ProviderKeychainCreatePage: React.FC = () => {
     <PageContainer
       title={t('create.title')}
       backToAction={{
-        label: t('create.actions.backToClientsLabel'),
+        label: t('create.actions.backToKeychainsLabel'),
         to: 'PROVIDE_KEYCHAINS_LIST',
       }}
     >
@@ -73,11 +73,11 @@ const ProviderKeychainCreatePage: React.FC = () => {
           </SectionContainer>
 
           <SectionContainer
-            title={t('create.clientOperatorsSection.title')}
-            description={t('create.clientOperatorsSection.description')}
+            title={t('create.keychainUsersSection.title')}
+            description={t('create.keychainUsersSection.description')}
             component="div"
           >
-            <OperatorsInputTable />
+            <UsersInputTable />
           </SectionContainer>
         </FormProvider>
         <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>

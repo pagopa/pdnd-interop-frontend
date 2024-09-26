@@ -582,36 +582,11 @@
     }
   },
   "keychain": {
-    "deleteKeychain": {
-      "loading": "Deleting keychain",
-      "outcome": {
-        "success": "The keychain was deleted successfully",
-        "error": "The keychain could not be deleted. Please, try again!"
-      },
-      "confirmDialog": {
-        "title": "Confirm keychain deletion",
-        "description": "By clicking \"confirm\", this keychain will be deleted. All the public keys contained will be removed and they will no longer be usable to sign responses to your e-service’s consumers."
-      }
-    },
-    "createKeychain": {
-      "loading": "Creating keychain",
-      "outcome": {
-        "success": "The keychain was created successfully",
-        "error": "The keychain could not be created. Please, try again!"
-      }
-    },
-    "addOperator": {
-      "loading": "Adding the user to this keychain",
-      "outcome": {
-        "success": "New user added successfully",
-        "error": "The user could not be added. Please make sure this user exists and try again!"
-      }
-    },
     "removeKeychainFromEService": {
-      "loading": "We are removing the keychain from e-service",
+      "loading": "We are removing the keychain from the e-service",
       "outcome": {
-        "error": "Keychain not removed from e-service. Try again.",
-        "success": "Keychain removed from e-service correctly"
+        "success": "The keychain was removed successfully",
+        "error": "The keychain could not be removed. Please try again!"
       },
       "confirmDialog": {
         "title": "Confirm keychain removal from e-service",
@@ -623,6 +598,55 @@
       "outcome": {
         "error": "Keychain not added to e-service. Try again.",
         "success": "Keychain added to e-service correctly"
+      }
+    },
+    "addProducerKeychainUser": {
+      "loading": "We are adding the user to the keychain",
+      "outcome": {
+        "success": "The user was successfully added to the keychain",
+        "error": "The new user could not be added to the keychain. Make sure the user does not already exist and try again"
+      }
+    },
+    "downloadKey": {
+      "loading": "Downloading key"
+    },
+    "deleteProducerKeychainKey": {
+      "loading": "We are removing the key from the keychain",
+      "outcome": {
+        "success": "The key was successfully deleted from the keychain. From this moment it can no longer be used to sign replies to users",
+        "error": "The key could not be deleted. Please try again!"
+      }
+    },
+    "deleteKeychain": {
+      "loading": "We are eliminating the keychain",
+      "outcome": {
+        "success": "The keychain was successfully deleted",
+        "error": "The keychain could not be deleted. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm keychain deletion",
+        "description": "By clicking \"confirm\", this keychain will be deleted. All keys contained will be removed and will no longer be usable to sign responses to users of your e-services."
+      }
+    },
+    "createKeychain": {
+      "loading": "Creating keychain",
+      "outcome": {
+        "success": "The keychain was created successfully",
+        "error": "The keychain could not be created. Please, try again!"
+      }
+    },
+    "createProducerKeychainKey": {
+      "loading": "We are inserting the key into the keychain",
+      "outcome": {
+        "success": "The key has been inserted correctly into the keychain",
+        "error": "The key could not be inserted. Make sure it is in the correct format and try again. Attention: the same key cannot be entered twice"
+      }
+    },
+    "removeUserFromProducerKeychain": {
+      "loading": "We are removing the user from the keychain",
+      "outcome": {
+        "success": "The user was successfully removed from the keychain",
+        "error": "The user could not be removed from the keychain. Please try again!"
       }
     }
   }

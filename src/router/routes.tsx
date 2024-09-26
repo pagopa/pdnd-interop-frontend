@@ -37,11 +37,14 @@ import {
   TenantCertifierPage,
   TenantCertifierAttributeDetails,
   ProviderKeychainsListPage,
+  ProviderKeychainCreatePage,
+  ProviderKeychainDetailsPage,
+  ProviderKeychainUserDetailsPage,
+  ProviderKeychainPublicKeyDetailsPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
-import { ProviderKeychainCreatePage } from '@/pages/ProviderKeychainCreatePage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -403,12 +406,36 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'security'],
   })
   .addRoute({
-    key: 'PROVIDER_KEYCHAIN_CREATE',
+    key: 'PROVIDE_KEYCHAIN_CREATE',
     path: '/erogazione/portachiavi/crea',
     element: <ProviderKeychainCreatePage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAIN_DETAILS',
+    path: 'erogazione/portachiavi/:keychainId',
+    element: <ProviderKeychainDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAIN_USER_DETAILS',
+    path: '/erogazione/portachiavi/:keychainId/user/:userId',
+    element: <ProviderKeychainUserDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS',
+    path: '/erogazione/portachiavi/:keychainId/chiavi-pubbliche/:keyId',
+    element: <ProviderKeychainPublicKeyDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
   })
   .build()
 

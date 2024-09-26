@@ -20,7 +20,7 @@ export const RiskAnalysisVersionMismatchDialog: React.FC<
     <Dialog open aria-labelledby={ariaLabelId} aria-describedby={ariaDescriptionId}>
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
-      <DialogContent aria-describedby={ariaDescriptionId}>{t('description')}</DialogContent>
+      <DialogContent id={ariaDescriptionId}>{t('description')}</DialogContent>
 
       <DialogActions>
         <Button variant="outlined" onClick={onRefuse}>

@@ -62,14 +62,57 @@ function useAddKeychainToEService() {
   })
 }
 
-function useAddKeychainOperator(
-  config: { suppressSuccessToast: boolean } = { suppressSuccessToast: false }
-) {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'keychain.addOperator' })
+function useAddProducerKeychainUser() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'keychain.addProducerKeychainUser',
+  })
   return useMutation({
-    mutationFn: KeychainServices.addOperator,
+    mutationFn: KeychainServices.addProducerKeychainUser,
     meta: {
-      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useDeleteProducerKeychainKey() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'keychain.deleteProducerKeychainKey',
+  })
+  return useMutation({
+    mutationFn: KeychainServices.deleteProducerKeychainKey,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useCreateProducerKeychainKey() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'keychain.createProducerKeychainKey',
+  })
+
+  return useMutation({
+    mutationFn: KeychainServices.createProducerKeychainKey,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useRemoveUserFromProducerKeychain() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'keychain.removeUserFromProducerKeychain',
+  })
+  return useMutation({
+    mutationFn: KeychainServices.removeUserFromKeychain,
+    meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },
@@ -79,7 +122,10 @@ function useAddKeychainOperator(
 export const KeychainMutations = {
   useDeleteKeychain,
   useCreateKeychain,
-  useAddKeychainOperator,
   useRemoveKeychainFromEService,
   useAddKeychainToEService,
+  useAddProducerKeychainUser,
+  useDeleteProducerKeychainKey,
+  useCreateProducerKeychainKey,
+  useRemoveUserFromProducerKeychain,
 }

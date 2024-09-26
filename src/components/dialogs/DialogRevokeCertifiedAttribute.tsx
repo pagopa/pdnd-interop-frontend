@@ -50,13 +50,13 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
       open
       onClose={handleCancel}
       aria-labelledby={ariaLabelId}
-      {...{ 'aria-describedby': ariaDescriptionId }}
+      aria-describedby={ariaDescriptionId}
       maxWidth="md"
       fullWidth
     >
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
-      <DialogContent aria-describedby={ariaDescriptionId}>
+      <DialogContent id={ariaDescriptionId}>
         <Stack spacing={3}>
           <Typography>
             <Trans

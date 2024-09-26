@@ -10,6 +10,7 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { ClientAddPublicKeyDrawer } from './ClientAddPublicKeyDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { SelfcareQueries } from '@/api/selfcare'
 import { match } from 'ts-pattern'
 
 interface ClientAddPublicKeyButtonProps {
@@ -22,10 +23,11 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const { jwt, isSupport } = AuthHooks.useJwt()
   const { data: users } = useSuspenseQuery(ClientQueries.getOperatorsList(clientId))
 
+  // TODO vedere se gli id di users sono gli stessi di usersId
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const userQueries = useQueries({
-    queries: users.map(({ userId }) => ClientQueries.getSingleOperator(userId)),
+    queries: users.map(({ userId }) => SelfcareQueries.getSingleUser(userId)),
   })
 
   const usersId = userQueries.map(({ data }) => data?.userId).filter(identity)
