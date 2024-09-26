@@ -10,7 +10,7 @@ import { KeychainMembersTable, KeychainMembersTableSkeleton } from './KeychainMe
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
 import { TenantQueries } from '@/api/tenant'
-import { AddOperatorsToKeychainDrawer } from '@/components/shared/AddOperatorsToKeychainDrawer'
+import { AddUsersToKeychainDrawer } from '@/components/shared/AddUsersToKeychainDrawer'
 
 type KeychainMembersTabProps = {
   keychainId: string
@@ -76,9 +76,9 @@ export const KeychainMembersTab: React.FC<KeychainMembersTabProps> = ({ keychain
         <KeychainMembersTable keychainId={keychainId} />
       </React.Suspense>
       {canAddMembers && (
-        <AddOperatorsToKeychainDrawer
+        <AddUsersToKeychainDrawer
           onSubmit={handleSubmit}
-          excludeOperatorsIdsList={excludeUsersIdsList}
+          excludeUsersIdsList={excludeUsersIdsList}
           isOpen={isOpen}
           onClose={closeDrawer}
         />

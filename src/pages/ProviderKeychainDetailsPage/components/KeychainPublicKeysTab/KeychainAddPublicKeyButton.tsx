@@ -8,6 +8,7 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { KeychainAddPublicKeyDrawer } from './KeychainAddPublicKeyDrawer'
+import { match } from 'ts-pattern'
 
 type KeychainAddPublicKeyButtonProps = {
   keychainId: string
@@ -18,7 +19,7 @@ export const KeychainAddPublicKeyButton: React.FC<KeychainAddPublicKeyButtonProp
 }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('keychain')
-  const { jwt, isSupport, isAdmin, isOperatorSecurity } = AuthHooks.useJwt()
+  const { jwt, isSupport } = AuthHooks.useJwt()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -40,49 +41,30 @@ export const KeychainAddPublicKeyButton: React.FC<KeychainAddPublicKeyButtonProp
   const publicKeysLimit = 30
   const hasReachedPublicKeysLimit = publicKeys.length >= publicKeysLimit
 
-  const canNotAddKey =
-    isSupport || ((isAdmin || isOperatorSecurity) && !isInKeychain) || hasReachedPublicKeysLimit
+  const canNotAddKey = isSupport || !isInKeychain || hasReachedPublicKeysLimit
 
-  const getTooltipProps = () => {
-    let tooltipProps: { open: boolean | undefined; title: string } = {
+  const tooltipProps = match({ hasReachedPublicKeysLimit, isSupport, isInKeychain })
+    .with({ hasReachedPublicKeysLimit: true }, () => ({
+      open: undefined,
+      title: t('publicKey.list.publicKeyLimitInfo'),
+    }))
+    .with({ isSupport: true }, () => ({
+      open: undefined,
+      title: t('publicKey.list.supportDisableInfo'),
+    }))
+    .with({ isInKeychain: false }, () => ({
+      open: undefined,
+      title: t('publicKey.list.userEnableInfo'),
+    }))
+    .otherwise(() => ({
       open: false,
       title: '',
-    }
-
-    if (hasReachedPublicKeysLimit) {
-      tooltipProps = {
-        open: undefined,
-        title: t('publicKey.list.publicKeyLimitInfo'),
-      }
-
-      return tooltipProps
-    }
-
-    if ((isAdmin || isOperatorSecurity) && !isInKeychain) {
-      tooltipProps = {
-        open: undefined,
-        title: t('publicKey.list.userEnableInfo'),
-      }
-
-      return tooltipProps
-    }
-
-    if (isSupport) {
-      tooltipProps = {
-        open: undefined,
-        title: t('publicKey.list.supportDisableInfo'),
-      }
-
-      return tooltipProps
-    }
-
-    return tooltipProps
-  }
+    }))
 
   return (
     <>
       <Stack sx={{ mb: 2 }} direction="row" justifyContent="end" alignItems="center">
-        <Tooltip {...getTooltipProps()}>
+        <Tooltip {...tooltipProps}>
           <span>
             <Button
               startIcon={<PlusOneIcon />}

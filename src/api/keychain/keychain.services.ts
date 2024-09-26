@@ -133,10 +133,6 @@ async function deleteProducerKeychainKey({
   )
 }
 
-async function deleteProducerKeychain(producerKeychainId: string) {
-  await axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}`)
-}
-
 async function createProducerKeychainKey({
   producerKeychainId,
   payload,
@@ -175,7 +171,6 @@ export const KeychainServices = {
   addProducerKeychainUser,
   downloadKey,
   deleteProducerKeychainKey,
-  deleteProducerKeychain,
   createProducerKeychainKey,
   removeUserFromKeychain,
 }

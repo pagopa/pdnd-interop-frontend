@@ -90,24 +90,6 @@ function useDeleteProducerKeychainKey() {
   })
 }
 
-function useDeleteProducerKeychain() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'keychain.deleteProducerKeychain',
-  })
-  return useMutation({
-    mutationFn: KeychainServices.deleteProducerKeychain,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
-    },
-  })
-}
-
 function useCreateProducerKeychainKey() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'keychain.createProducerKeychainKey',
@@ -144,7 +126,6 @@ export const KeychainMutations = {
   useAddKeychainToEService,
   useAddProducerKeychainUser,
   useDeleteProducerKeychainKey,
-  useDeleteProducerKeychain,
   useCreateProducerKeychainKey,
   useRemoveUserFromProducerKeychain,
 }

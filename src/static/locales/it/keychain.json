@@ -11,14 +11,14 @@
       "label": "Descrizione del portachiavi",
       "infoLabel": "Min 10 caratteri, max 250 caratteri"
     },
-    "clientOperatorsSection": {
+    "keychainUsersSection": {
       "title": "Membri del portachiavi",
       "description": "Potrai gestire i membri del portachiavi in ogni momento, anche dopo la creazione"
     },
-    "operatorsTable": {
+    "usersTable": {
       "noDataLabel": "Nessun utente aggiunto"
     },
-    "addOperatorsDrawer": {
+    "addUsersToKeychainDrawer": {
       "title": "Aggiungi membri al portachiavi",
       "autocompleteInput": {
         "label": "Utenti selezionati"
@@ -48,7 +48,7 @@
   },
   "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
   "drawers": {
-    "addUsersToKeychain": {
+    "addUsersToKeychainDrawer": {
       "title": "Aggiungi membri al portachiavi",
       "autocompleteInput": {
         "label": "Seleziona utenti"

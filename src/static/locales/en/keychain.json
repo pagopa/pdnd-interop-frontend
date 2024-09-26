@@ -11,23 +11,23 @@
       "label": "keychain description",
       "infoLabel": "Min 10 chars, max 250 chars"
     },
-    "clientOperatorsSection": {
-      "title": "Security operators",
-      "description": "You can manage the security operators in every moment, still after the creation"
+    "keychainUsersSection": {
+      "title": "Keychain members",
+      "description": "You can manage the keychain members in every moment, still after the creation"
     },
-    "operatorsTable": {
-      "noDataLabel": "No operator added"
+    "usersTable": {
+      "noDataLabel": "No user added"
     },
-    "addOperatorsDrawer": {
-      "title": "Add security operators",
+    "addUsersToKeychainDrawer": {
+      "title": "Add keychain members",
       "autocompleteInput": {
-        "label": "Selected operators"
+        "label": "Selected members"
       },
-      "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
+      "adminAlert": "If you plan on uploading public keys for this keychain, add yourself as a member of this keychain, too"
     },
     "actions": {
       "createLabel": "Create",
-      "backToClientsLabel": "Back to the keychains"
+      "backToKeychainsLabel": "Back to the keychains"
     }
   },
   "list": {

@@ -22,7 +22,7 @@ const ProviderKeychainDetailsPage: React.FC = () => {
 
   const { keychainId } = useParams<'PROVIDE_KEYCHAIN_DETAILS'>()
 
-  const { mutate: deleteKeychain } = KeychainMutations.useDeleteProducerKeychain()
+  const { mutate: deleteKeychain } = KeychainMutations.useDeleteKeychain()
 
   const { data: keychain, isLoading: isLoadingKeychain } = useQuery(
     KeychainQueries.getSingle(keychainId)
@@ -32,7 +32,10 @@ const ProviderKeychainDetailsPage: React.FC = () => {
     {
       label: tCommon('actions.delete'),
       action: () => {
-        deleteKeychain(keychainId, { onSuccess: () => navigate('PROVIDE_KEYCHAINS_LIST') })
+        deleteKeychain(
+          { producerKeychainId: keychainId },
+          { onSuccess: () => navigate('PROVIDE_KEYCHAINS_LIST') }
+        )
       },
       color: 'error',
       icon: DeleteIcon,

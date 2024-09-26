@@ -9,24 +9,24 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type AddOperatorsFormValues = {
-  selectedOperators: Users
+type AddUsersFormValues = {
+  selectedUsers: Users
 }
 
-type AddOperatorsDrawerProps = {
+type AddUsersToKeychainDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  excludeOperatorsIdsList: Array<string>
+  excludeUsersIdsList: Array<string>
   onSubmit: (relationshipIds: Users) => void
 }
 
-export const AddOperatorsToKeychainDrawer: React.FC<AddOperatorsDrawerProps> = ({
+export const AddUsersToKeychainDrawer: React.FC<AddUsersToKeychainDrawerProps> = ({
   isOpen,
   onClose,
-  excludeOperatorsIdsList,
+  excludeUsersIdsList,
   onSubmit,
 }) => {
-  const { t } = useTranslation('keychain', { keyPrefix: 'create.addOperatorsDrawer' })
+  const { t } = useTranslation('keychain', { keyPrefix: 'create.addUsersToKeychainDrawer' })
   const { t: tCommon } = useTranslation('common')
 
   const handleCloseDrawer = () => {
@@ -34,31 +34,31 @@ export const AddOperatorsToKeychainDrawer: React.FC<AddOperatorsDrawerProps> = (
   }
 
   const { jwt } = AuthHooks.useJwt()
-  const formMethods = useForm<AddOperatorsFormValues>({
+  const formMethods = useForm<AddUsersFormValues>({
     defaultValues: {
-      selectedOperators: [],
+      selectedUsers: [],
     },
   })
 
-  const { data: allPartyOperators = [], isPending: isLoadingAllPartyOperators } = useQuery(
+  const { data: allPartyUsers = [], isPending: isLoadingAllPartyUsers } = useQuery(
     TenantQueries.getPartyUsersList({
       roles: ['admin', 'security'],
       tenantId: jwt?.organizationId as string,
     })
   )
 
-  const availableOperators = allPartyOperators.filter(
-    (partyOperator) => !excludeOperatorsIdsList.includes(partyOperator.userId)
+  const availableUsers = allPartyUsers.filter(
+    (partyOperator) => !excludeUsersIdsList.includes(partyOperator.userId)
   )
 
-  const options = availableOperators.map((o) => ({
+  const options = availableUsers.map((o) => ({
     label: `${o.name} ${o.familyName}`,
     value: o,
   }))
 
-  const _onSubmit = ({ selectedOperators }: AddOperatorsFormValues) => {
+  const _onSubmit = ({ selectedUsers }: AddUsersFormValues) => {
     onClose()
-    onSubmit(selectedOperators)
+    onSubmit(selectedUsers)
   }
 
   const handleTransitionExited = () => {
@@ -83,9 +83,9 @@ export const AddOperatorsToKeychainDrawer: React.FC<AddOperatorsDrawerProps> = (
             label={t('autocompleteInput.label')}
             labelType="external"
             size="small"
-            name="selectedOperators"
+            name="selectedUsers"
             options={options}
-            loading={isLoadingAllPartyOperators}
+            loading={isLoadingAllPartyUsers}
           />
           <Alert severity="info">{t('adminAlert')}</Alert>
         </Stack>

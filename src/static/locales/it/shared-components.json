@@ -278,6 +278,9 @@
     "TENANT_CERTIFIER": "Ente certificatore",
     "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo",
     "PROVIDE_KEYCHAINS_LIST": "I tuoi portachiavi",
-    "PROVIDE_KEYCHAIN_CREATE": "Crea portachiavi"
+    "PROVIDE_KEYCHAIN_CREATE": "Crea portachiavi",
+    "PROVIDE_KEYCHAIN_DETAILS": "Gestisci portachiavi",
+    "PROVIDE_KEYCHAIN_USER_DETAILS": "Gestisci utente del portachiavi",
+    "PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS": "Gestisci chiave pubblica del portachiavi"
   }
 }

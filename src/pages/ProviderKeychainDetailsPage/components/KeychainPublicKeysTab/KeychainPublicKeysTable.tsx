@@ -7,7 +7,7 @@ import {
   KeychainPublicKeysTableRow,
   KeychainPublicKeysTableRowSkeleton,
 } from './KeychainPublicKeysTableRow'
-import type { GetProducerKeysParams } from '@/api/api.generatedTypes.producerKeychain'
+import type { GetProducerKeysParams } from '@/api/api.generatedTypes'
 
 type KeychainPublicKeysTableProps = {
   params: GetProducerKeysParams
