@@ -1,4 +1,5 @@
 import type { RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useDialog } from '@/stores'
 import { Button, Skeleton } from '@mui/material'
@@ -14,8 +15,10 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
   const { t } = useTranslation('common')
 
   const { openDialog } = useDialog()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const handleRevoke = () => {
+    if (!isAdmin) throw new Error('User is not admin and cannot revoke an attribute')
     openDialog({
       type: 'revokeCertifiedAttribute',
       attribute: attribute,

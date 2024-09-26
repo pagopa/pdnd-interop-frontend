@@ -10,6 +10,7 @@ import { Button, Stack } from '@mui/material'
 import { CreateAttributeDrawer } from './CreateAttributeDrawer'
 import { AttributesTable, AttributesTableSkeleton } from './AttributesTable'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { AuthHooks } from '@/api/auth'
 
 export const ManageAttributesTab: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
@@ -39,6 +40,8 @@ export const ManageAttributesTab: React.FC = () => {
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
 
+  const { isAdmin } = AuthHooks.useJwt()
+
   return (
     <>
       <Stack sx={{ mb: 2 }} alignItems="end">
@@ -48,7 +51,7 @@ export const ManageAttributesTab: React.FC = () => {
       </Stack>
       <Filters {...filtersHandlers} />
       <AttributesTableWrapper params={queryParams} />
-      <CreateAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />
+      <CreateAttributeDrawer isOpen={isOpen && isAdmin} onClose={closeDrawer} />
       <Pagination {...paginationProps} totalPages={totalPageCount} />
     </>
   )
