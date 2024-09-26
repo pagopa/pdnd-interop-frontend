@@ -15,7 +15,7 @@ const ProviderKeychainsListPage: React.FC = () => {
 
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE'), //puntare a crea nuovo portachiavi
+      action: () => navigate('PROVIDE_KEYCHAIN_CREATE'),
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,

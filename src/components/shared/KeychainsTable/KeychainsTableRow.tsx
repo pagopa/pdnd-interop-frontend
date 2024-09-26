@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
 import useGetKeychainActions from '@/hooks/useGetKeychainActions'
-import { CompactProducerKeychain } from '@/api/api.generatedTypes'
+import type { CompactProducerKeychain } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
 
@@ -32,8 +32,8 @@ export const KeychainsTableRow: React.FC<KeychainsTableRow> = ({ keychain }) => 
         onPointerEnter={handlePrefetch}
         onFocusVisible={handlePrefetch}
         size="small"
-        to={'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'} //puntare al dettaglio keychain
-        params={{ clientId: '' }}
+        to={'PROVIDE_KEYCHAIN_DETAILS'}
+        params={{ keychainId: keychain.id }}
       >
         {t('inspect')}
       </Link>
