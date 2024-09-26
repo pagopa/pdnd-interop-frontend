@@ -37,6 +37,8 @@ export const KeychainMembersTableSkeleton: React.FC = () => {
       <KeychainMembersTableRowSkeleton />
       <KeychainMembersTableRowSkeleton />
       <KeychainMembersTableRowSkeleton />
+      <KeychainMembersTableRowSkeleton />
+      <KeychainMembersTableRowSkeleton />
     </Table>
   )
 }
