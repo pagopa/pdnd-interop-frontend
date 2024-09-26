@@ -1,28 +1,41 @@
-import { ClientMutations } from '@/api/client'
-import { clientKeyGuideLink } from '@/config/constants'
+import { KeychainMutations } from '@/api/keychain/keychain.mutations'
+import { useNavigate } from '@/router'
 import { useDialog } from '@/stores'
-import type { DialogRemoveOperatorFromClientProps } from '@/types/dialog.types'
+import type { DialogDeleteProducerKeychainKeyProps } from '@/types/dialog.types'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
-export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromClientProps> = ({
-  clientId,
-  userId,
+export const DialogDeleteProducerKeychainKey: React.FC<DialogDeleteProducerKeychainKeyProps> = ({
+  keychainId,
+  keyId,
 }) => {
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
+  const navigate = useNavigate()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRemoveOperatorFromClient' })
-  const { mutate: removeOperatorFromClient } = ClientMutations.useRemoveOperator()
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'dialogDeleteProducerKeychainKey',
+  })
+  const { mutate: deleteKey } = KeychainMutations.useDeleteProducerKeychainKey()
 
   const handleCancel = () => {
     closeDialog()
   }
 
   const handleProceed = () => {
-    removeOperatorFromClient({ clientId, userId })
+    deleteKey(
+      { producerKeychainId: keychainId, keyId },
+      {
+        onSuccess() {
+          navigate('PROVIDE_KEYCHAIN_DETAILS', {
+            params: { keychainId },
+            urlParams: { tab: 'publicKeys' },
+          })
+        },
+      }
+    )
     closeDialog()
   }
 
@@ -40,7 +53,7 @@ export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromCl
       <DialogContent id={ariaDescriptionId}>
         <Trans
           components={{
-            1: <Link underline="hover" href={clientKeyGuideLink} target="_blank" />,
+            1: <Link underline="hover" href={'TODO'} target="_blank" />,
           }}
         >
           {t('description')}

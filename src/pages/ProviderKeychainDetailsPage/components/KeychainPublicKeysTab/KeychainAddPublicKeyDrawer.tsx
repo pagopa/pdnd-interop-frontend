@@ -1,4 +1,4 @@
-import { ClientMutations } from '@/api/client'
+import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { generateKeyGuideLink } from '@/config/constants'
@@ -7,8 +7,8 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 
-type ClientAddPublicKeyDrawerProps = {
-  clientId: string
+type KeychainAddPublicKeyDrawerProps = {
+  keychainId: string
   isOpen: boolean
   onClose: VoidFunction
 }
@@ -18,20 +18,24 @@ type AddPublicKeyFormValues = {
   key: string
 }
 
-export const ClientAddPublicKeyDrawer: React.FC<ClientAddPublicKeyDrawerProps> = ({
+export const KeychainAddPublicKeyDrawer: React.FC<KeychainAddPublicKeyDrawerProps> = ({
   isOpen,
   onClose,
-  clientId,
+  keychainId,
 }) => {
-  const { t } = useTranslation('client', { keyPrefix: 'create.addPublicKeyDrawer' })
+  const { t } = useTranslation('keychain', { keyPrefix: 'drawers.addPublicKeyDrawer' })
+  const { t: tCommon } = useTranslation('common')
 
-  const { mutate: postKey } = ClientMutations.usePostKey()
+  const { mutate: createKey } = KeychainMutations.useCreateProducerKeychainKey()
   const formMethods = useForm<AddPublicKeyFormValues>({ defaultValues: { name: '', key: '' } })
 
   const handleSubmit = formMethods.handleSubmit((values) => {
     const { key, name } = values
-    postKey(
-      { clientId, payload: [{ use: 'SIG', alg: 'RS256', name, key: window.btoa(key.trim()) }] },
+    createKey(
+      {
+        producerKeychainId: keychainId,
+        payload: { use: 'SIG', alg: 'RS256', name, key: window.btoa(key.trim()) },
+      },
       { onSuccess: onClose }
     )
   })
@@ -48,11 +52,11 @@ export const ClientAddPublicKeyDrawer: React.FC<ClientAddPublicKeyDrawerProps> =
               1: <Link underline="hover" href={generateKeyGuideLink} target="_blank" />,
             }}
           >
-            {t('description')}
+            {t('subtitle')}
           </Trans>
         }
         buttonAction={{
-          label: t('insertAction'),
+          label: tCommon('actions.insert'),
           action: handleSubmit,
         }}
         onTransitionExited={formMethods.reset}

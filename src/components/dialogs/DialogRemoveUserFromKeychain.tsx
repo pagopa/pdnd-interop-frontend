@@ -1,28 +1,27 @@
-import { ClientMutations } from '@/api/client'
-import { clientKeyGuideLink } from '@/config/constants'
+import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { useDialog } from '@/stores'
-import type { DialogRemoveOperatorFromClientProps } from '@/types/dialog.types'
+import type { DialogRemoveUserFromKeychainProps } from '@/types/dialog.types'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
-export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromClientProps> = ({
-  clientId,
+export const DialogRemoveUserFromKeychain: React.FC<DialogRemoveUserFromKeychainProps> = ({
+  keychainId,
   userId,
 }) => {
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRemoveOperatorFromClient' })
-  const { mutate: removeOperatorFromClient } = ClientMutations.useRemoveOperator()
+  const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRemoveUserFromKeychain' })
+  const { mutate: removeUserFromKeychain } = KeychainMutations.useRemoveUserFromProducerKeychain()
 
   const handleCancel = () => {
     closeDialog()
   }
 
   const handleProceed = () => {
-    removeOperatorFromClient({ clientId, userId })
+    removeUserFromKeychain({ producerKeychainId: keychainId, userId })
     closeDialog()
   }
 
@@ -40,7 +39,7 @@ export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromCl
       <DialogContent id={ariaDescriptionId}>
         <Trans
           components={{
-            1: <Link underline="hover" href={clientKeyGuideLink} target="_blank" />,
+            1: <Link underline="hover" href={'TODO'} target="_blank" />,
           }}
         >
           {t('description')}

@@ -26,6 +26,8 @@ export type DialogProps =
   | DialogClonePurposeProps
   | DialogRejectPurposeVersionProps
   | DialogSetTenantMailProps
+  | DialogRemoveUserFromKeychainProps
+  | DialogDeleteProducerKeychainKeyProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -89,4 +91,16 @@ export type DialogRejectPurposeVersionProps = {
 
 export type DialogSetTenantMailProps = {
   type: 'setTenantMail'
+}
+
+export type DialogRemoveUserFromKeychainProps = {
+  type: 'removeUserFromKeychain'
+  keychainId: string
+  userId: string
+}
+
+export type DialogDeleteProducerKeychainKeyProps = {
+  type: 'deleteProducerKeychainKey'
+  keychainId: string
+  keyId: string
 }

@@ -20,8 +20,8 @@ export const DialogError: React.FC<FallbackProps> = (fallbackProps) => {
       fullWidth
     >
       <DialogTitle id={ariaLabelId}>{title}</DialogTitle>
-      <DialogContent>
-        <Typography id={ariaDescriptionId} sx={{ mb: 2 }}>
+      <DialogContent id={ariaDescriptionId}>
+        <Typography component="span" sx={{ mb: 2 }}>
           {description}
         </Typography>
         {content}
