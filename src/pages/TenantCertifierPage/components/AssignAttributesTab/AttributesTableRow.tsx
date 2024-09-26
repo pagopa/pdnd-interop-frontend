@@ -18,7 +18,6 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
   const { isAdmin } = AuthHooks.useJwt()
 
   const handleRevoke = () => {
-    if (!isAdmin) throw new Error('User is not admin and cannot revoke an attribute')
     openDialog({
       type: 'revokeCertifiedAttribute',
       attribute: attribute,
@@ -27,9 +26,11 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
 
   return (
     <TableRow cellData={[attribute.tenantName, attribute.attributeName]}>
-      <Button variant="outlined" color="error" size="small" onClick={handleRevoke}>
-        {t(`actions.revoke`)}
-      </Button>
+      {isAdmin && (
+        <Button variant="outlined" color="error" size="small" onClick={handleRevoke}>
+          {t(`actions.revoke`)}
+        </Button>
+      )}
     </TableRow>
   )
 }

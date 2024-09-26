@@ -31,13 +31,15 @@ export const AssignAttributesTab: React.FC = () => {
 
   return (
     <>
-      <Stack sx={{ mb: 2 }} alignItems="end">
-        <Button variant="contained" size="small" onClick={openDrawer} startIcon={<QueueIcon />}>
-          {t('assignAttributeBtn')}
-        </Button>
-      </Stack>
+      {isAdmin && (
+        <Stack sx={{ mb: 2 }} alignItems="end">
+          <Button variant="contained" size="small" onClick={openDrawer} startIcon={<QueueIcon />}>
+            {t('assignAttributeBtn')}
+          </Button>
+        </Stack>
+      )}
       <AttributesTableWrapper params={queryParams} />
-      <AssignAttributeDrawer isOpen={isOpen && isAdmin} onClose={closeDrawer} />
+      {isAdmin && <AssignAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />}
       <Pagination
         {...paginationProps}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
