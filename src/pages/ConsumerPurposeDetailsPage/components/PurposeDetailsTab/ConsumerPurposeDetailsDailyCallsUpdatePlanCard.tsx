@@ -25,7 +25,14 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
 
   const waitingForApprovalVersion = purpose.waitingForApprovalVersion
 
-  if (!waitingForApprovalVersion || !isAdmin || !purpose.currentVersion) return null
+  /*Checking if the daily call count has changed to fix the card bug related to 
+  suspended purposes that cannot be activated while waiting for approval.*/
+  const areDailyCallsChanged = waitingForApprovalVersion
+    ? purpose.currentVersion?.dailyCalls != waitingForApprovalVersion.dailyCalls
+    : 'true'
+
+  if (!waitingForApprovalVersion || !isAdmin || !purpose.currentVersion || !areDailyCallsChanged)
+    return null
 
   function handleDeleteDailyCallsUpdate() {
     if (!purpose?.waitingForApprovalVersion) return
