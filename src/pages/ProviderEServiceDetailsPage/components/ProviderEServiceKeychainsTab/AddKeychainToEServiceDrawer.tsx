@@ -109,7 +109,7 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
             <Alert severity="info">
               <Trans
                 components={{
-                  1: <Link underline="hover" to="DEFAULT" />, // TODO right navigation
+                  1: <Link underline="hover" to="PROVIDE_KEYCHAIN_CREATE" />,
                 }}
               >
                 {t('noKeychainAlert')}
