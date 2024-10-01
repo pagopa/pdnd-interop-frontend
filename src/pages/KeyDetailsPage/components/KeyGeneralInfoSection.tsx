@@ -2,7 +2,7 @@ import { ClientQueries } from '@/api/client'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { clientKeyGuideLink } from '@/config/constants'
 import { formatDateString } from '@/utils/format.utils'
-import { Alert, Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 import { Stack } from '@mui/system'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -58,9 +58,6 @@ export const KeyGeneralInfoSection: React.FC<KeyGeneralInfoSectionProps> = ({ cl
                 tooltipTitle: t('clientIdField.copySuccessFeedbackText'),
               }}
             />
-            {publicKey.isOrphan && (
-              <Alert severity="info">{t('operatorDeletedAlertMessage')}</Alert>
-            )}
           </Stack>
         </SectionContainer>
       </Grid>

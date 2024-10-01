@@ -1,12 +1,7 @@
 {
   "backToKeyListBtn": "Torna alla lista delle chiavi",
-  "tableKey": {
-    "operatorDeletedWarning": {
-      "message": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente. Per questioni di sicurezza, si consiglia di eliminare la chiave e di sostituirla con una nuova"
-    }
-  },
   "edit": {
-    "orphanAlertLabel": "Attenzione: l’utente che ha caricato questa chiave non fa più parte di questo ente. Per questioni di sicurezza, si consiglia di rimpiazzare questa chiave con una nuova, quindi di eliminarla dal client. Per maggiori informazioni, consulta la <1>documentazione</1>",
+    "orphanAlertLabel": "L'utente che ha caricato questa chiave non fa più parte di questo client. Si consiglia di sostituire la chiave con una nuova. Per saperne di più, <1>leggi la guida.</1>",
     "generalInformations": {
       "title": "Informazioni generali",
       "creationDateField": {
@@ -23,7 +18,6 @@
         "label": "Id del client (clientId)",
         "copySuccessFeedbackText": "Id copiato correttamente"
       },
-      "operatorDeletedAlertMessage": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo ente o client. Si consiglia di eliminare la chiave e di sostituirla con una nuova",
       "goToTechnicalDocButton": "Vai alla documentazione tecnica"
     }
   },

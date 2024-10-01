@@ -1,12 +1,7 @@
 {
   "backToKeyListBtn": "Back to key list",
-  "tableKey": {
-    "operatorDeletedWarning": {
-      "message": "Warning! The operator who uploaded this key has been removed from this party or client. For security reasons, we advise to delete this key and replace it with a new one"
-    }
-  },
   "edit": {
-    "orphanAlertLabel": "Warning: the user who uploaded this key is no longer part of this party. For security reasons, it is recommended to replace this key with a new one, then delete it from the client. For more information, see the <1>documentation</1>",
+    "orphanAlertLabel": "The user who uploaded this key is no longer part of this client. It is recommended to replace the key with a new one. To find out more, <1>read the guide.</1>",
     "generalInformations": {
       "title": "General informations",
       "creationDateField": {
@@ -23,7 +18,6 @@
         "label": "Client id (clientId)",
         "copySuccessFeedbackText": "Id copied successfully"
       },
-      "operatorDeletedAlertMessage": "Warning! The operator that uploaded this key has been removed from this client or party. It is advised to delete this key and replace it with a new one",
       "goToTechnicalDocButton": "Go to technical documentation"
     }
   },
