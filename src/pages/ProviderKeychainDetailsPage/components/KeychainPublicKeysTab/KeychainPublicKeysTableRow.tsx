@@ -27,8 +27,7 @@ export const KeychainPublicKeysTableRow: React.FC<KeychainPublicKeysTableRowProp
 
   const { actions } = useGetProducerKeychainKeyActions({
     keychainId,
-    keyId,
-    parentId: publicKey.user.userId,
+    publicKey,
   })
 
   const handlePrefetchKey = () => {
