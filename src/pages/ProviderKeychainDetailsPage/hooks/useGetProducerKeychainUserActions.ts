@@ -12,7 +12,7 @@ export function useGetProducerKeychainUserActions({
   keychainId: string
   userId: string
 }) {
-  const { t } = useTranslation('user')
+  const { t } = useTranslation('keychain', { keyPrefix: 'user' })
   const { openDialog } = useDialog()
 
   const { jwt, isAdmin } = AuthHooks.useJwt()
@@ -38,11 +38,11 @@ export function useGetProducerKeychainUserActions({
   const actions: Array<ActionItemButton> = [
     {
       action: handleOpenRemoveUserFromKeychainDialog,
-      label: t('actions.removeFromClient.label'),
+      label: t('actions.removeFromKeychain.label'),
       color: 'error',
       icon: RemoveCircleOutlineIcon,
       disabled: !isAdmin,
-      tooltip: !isAdmin ? t('actions.removeFromClient.tooltip') : undefined,
+      tooltip: !isAdmin ? t('actions.removeFromKeychain.tooltip') : undefined,
     },
     {
       action: handleOpenDeleteUserDialog,
