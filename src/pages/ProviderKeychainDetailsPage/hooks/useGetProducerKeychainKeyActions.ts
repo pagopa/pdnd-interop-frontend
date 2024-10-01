@@ -10,14 +10,16 @@ import { KeychainDownloads } from '@/api/keychain/keychain.downloads'
 function useGetProducerKeychainKeyActions({
   keychainId,
   keyId,
+  parentId,
 }: {
   keychainId: string
   keyId: string
+  parentId?: string
 }): {
   actions: Array<ActionItemButton>
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isOperatorSecurity, isAdmin } = AuthHooks.useJwt()
+  const { isOperatorSecurity, isAdmin, jwt } = AuthHooks.useJwt()
   const { openDialog } = useDialog()
   const downloadKey = KeychainDownloads.useDownloadKey()
 
@@ -33,6 +35,12 @@ function useGetProducerKeychainKeyActions({
       keychainId,
       keyId,
     })
+  }
+
+  if (isOperatorSecurity && jwt?.organizationId !== parentId) {
+    return {
+      actions: [{ action: handleDownloadKey, label: t('download'), icon: DownloadIcon }],
+    }
   }
 
   return {

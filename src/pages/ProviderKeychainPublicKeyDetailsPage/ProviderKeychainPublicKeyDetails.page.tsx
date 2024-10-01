@@ -19,7 +19,11 @@ const ProviderKeychainPublicKeyDetailsPage: React.FC = () => {
     KeychainQueries.getProducerKeychainKey({ producerKeychainId: keychainId, keyId })
   )
 
-  const { actions } = useGetProducerKeychainKeyActions({ keychainId, keyId })
+  const { actions } = useGetProducerKeychainKeyActions({
+    keychainId,
+    keyId,
+    parentId: publicKey?.user.userId,
+  })
 
   return (
     <PageContainer
@@ -35,7 +39,7 @@ const ProviderKeychainPublicKeyDetailsPage: React.FC = () => {
     >
       <React.Suspense fallback={<ProviderKeychainPublicKeyDetailsGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (
-          <Alert severity="error">
+          <Alert severity="warning">
             <Trans components={{ 1: <MUILink href={'TODO'} target="_blank" /> }}>
               {t('publicKey.orphanKeyAlertLabel')}
             </Trans>
