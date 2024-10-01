@@ -55,6 +55,8 @@ export const ClientPublicKeysTableSkeleton: React.FC = () => {
       <ClientPublicKeysTableRowSkeleton />
       <ClientPublicKeysTableRowSkeleton />
       <ClientPublicKeysTableRowSkeleton />
+      <ClientPublicKeysTableRowSkeleton />
+      <ClientPublicKeysTableRowSkeleton />
     </Table>
   )
 }

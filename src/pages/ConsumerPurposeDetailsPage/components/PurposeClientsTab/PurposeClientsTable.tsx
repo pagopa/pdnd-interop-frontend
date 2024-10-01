@@ -42,6 +42,8 @@ export const PurposeClientsTableSkeleton: React.FC = () => {
       <PurposeClientsTableRowSkeleton />
       <PurposeClientsTableRowSkeleton />
       <PurposeClientsTableRowSkeleton />
+      <PurposeClientsTableRowSkeleton />
+      <PurposeClientsTableRowSkeleton />
     </Table>
   )
 }
