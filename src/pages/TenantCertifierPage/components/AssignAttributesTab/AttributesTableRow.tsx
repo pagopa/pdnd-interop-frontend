@@ -1,4 +1,5 @@
 import type { RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useDialog } from '@/stores'
 import { Button, Skeleton } from '@mui/material'
@@ -14,6 +15,7 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
   const { t } = useTranslation('common')
 
   const { openDialog } = useDialog()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const handleRevoke = () => {
     openDialog({
@@ -24,9 +26,11 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
 
   return (
     <TableRow cellData={[attribute.tenantName, attribute.attributeName]}>
-      <Button variant="outlined" color="error" size="small" onClick={handleRevoke}>
-        {t(`actions.revoke`)}
-      </Button>
+      {isAdmin && (
+        <Button variant="outlined" color="error" size="small" onClick={handleRevoke}>
+          {t(`actions.revoke`)}
+        </Button>
+      )}
     </TableRow>
   )
 }

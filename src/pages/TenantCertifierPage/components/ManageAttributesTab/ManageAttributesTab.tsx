@@ -10,11 +10,13 @@ import { Button, Stack } from '@mui/material'
 import { CreateAttributeDrawer } from './CreateAttributeDrawer'
 import { AttributesTable, AttributesTableSkeleton } from './AttributesTable'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { AuthHooks } from '@/api/auth'
 
 export const ManageAttributesTab: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.manageTab' })
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
@@ -41,14 +43,16 @@ export const ManageAttributesTab: React.FC = () => {
 
   return (
     <>
-      <Stack sx={{ mb: 2 }} alignItems="end">
-        <Button variant="contained" size="small" onClick={openDrawer} startIcon={<PlusOneIcon />}>
-          {tCommon('createNewBtn')}
-        </Button>
-      </Stack>
+      {isAdmin && (
+        <Stack sx={{ mb: 2 }} alignItems="end">
+          <Button variant="contained" size="small" onClick={openDrawer} startIcon={<PlusOneIcon />}>
+            {tCommon('createNewBtn')}
+          </Button>
+        </Stack>
+      )}
       <Filters {...filtersHandlers} />
       <AttributesTableWrapper params={queryParams} />
-      <CreateAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />
+      {isAdmin && <CreateAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />}
       <Pagination {...paginationProps} totalPages={totalPageCount} />
     </>
   )

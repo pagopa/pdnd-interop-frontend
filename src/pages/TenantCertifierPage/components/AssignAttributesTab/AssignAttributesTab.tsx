@@ -9,6 +9,7 @@ import type { GetRequesterCertifiedAttributesParams } from '@/api/api.generatedT
 import { AssignAttributeDrawer } from './AssignAttributeDrawer'
 import { AttributesTable, AttributesTableSkeleton } from './AttributesTable'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { AuthHooks } from '@/api/auth'
 
 export const AssignAttributesTab: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.assignTab' })
@@ -26,15 +27,19 @@ export const AssignAttributesTab: React.FC = () => {
     placeholderData: keepPreviousData,
   })
 
+  const { isAdmin } = AuthHooks.useJwt()
+
   return (
     <>
-      <Stack sx={{ mb: 2 }} alignItems="end">
-        <Button variant="contained" size="small" onClick={openDrawer} startIcon={<QueueIcon />}>
-          {t('assignAttributeBtn')}
-        </Button>
-      </Stack>
+      {isAdmin && (
+        <Stack sx={{ mb: 2 }} alignItems="end">
+          <Button variant="contained" size="small" onClick={openDrawer} startIcon={<QueueIcon />}>
+            {t('assignAttributeBtn')}
+          </Button>
+        </Stack>
+      )}
       <AttributesTableWrapper params={queryParams} />
-      <AssignAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />
+      {isAdmin && <AssignAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />}
       <Pagination
         {...paginationProps}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
