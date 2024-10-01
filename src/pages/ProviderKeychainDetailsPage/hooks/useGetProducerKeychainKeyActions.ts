@@ -1,20 +1,18 @@
 import { AuthHooks } from '@/api/auth'
-// import { KeychainDownloads } from '@/api/keychain/keychain.downloads'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import DownloadIcon from '@mui/icons-material/Download'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useDialog } from '@/stores'
 import { KeychainDownloads } from '@/api/keychain/keychain.downloads'
+import type { PublicKey } from '@/api/api.generatedTypes'
 
 function useGetProducerKeychainKeyActions({
   keychainId,
-  keyId,
-  parentId,
+  publicKey,
 }: {
   keychainId: string
-  keyId: string
-  parentId?: string
+  publicKey?: PublicKey
 }): {
   actions: Array<ActionItemButton>
 } {
@@ -23,21 +21,21 @@ function useGetProducerKeychainKeyActions({
   const { openDialog } = useDialog()
   const downloadKey = KeychainDownloads.useDownloadKey()
 
-  if (!isAdmin && !isOperatorSecurity) return { actions: [] }
+  if ((!isAdmin && !isOperatorSecurity) || !publicKey) return { actions: [] }
 
   const handleDownloadKey = () => {
-    downloadKey({ producerKeychainId: keychainId, keyId }, 'public_key.pub')
+    downloadKey({ producerKeychainId: keychainId, keyId: publicKey.keyId }, 'public_key.pub')
   }
 
   const handleDeleteKey = () => {
     openDialog({
       type: 'deleteProducerKeychainKey',
       keychainId,
-      keyId,
+      keyId: publicKey.keyId,
     })
   }
 
-  if (isOperatorSecurity && jwt?.organizationId !== parentId) {
+  if (isOperatorSecurity && jwt?.organizationId !== publicKey.user.userId) {
     return {
       actions: [{ action: handleDownloadKey, label: t('download'), icon: DownloadIcon }],
     }
