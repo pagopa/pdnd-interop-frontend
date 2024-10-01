@@ -75,14 +75,24 @@
   "user": {
     "generalInformations": "General Informations",
     "userKeysLink": {
-      "label": "Permissions on PDND Interoperabilità"
+      "label": "Go to the view of the keys associated with the user"
     },
     "productRoleField": {
-      "label": "Go to the view of the keys associated with the user"
+      "label": "Permissions on PDND Interoperabilità"
+    },
+    "actions": {
+      "removeFromKeychain": {
+        "label": "Remove from keychain",
+        "tooltip": "The operation is permitted only to users with administrator permissions"
+      },
+      "delete": {
+        "label": "Delete",
+        "tooltip": "The operation is permitted only to users with administrator permissions"
+      }
     }
   },
   "publicKey": {
-    "orphanKeyAlertLabel": "Warning: the user who uploaded this key is no longer part of this keychain. For security reasons, it is recommended to replace this key with a new one, then delete it from the keychain. For more information, see the <1>documentation</1>",
+    "orphanKeyAlertLabel": "The user who uploaded this key is no longer part of this keychain. It is recommended to replace the key with a new one. To find out more, <1>read the guide.</1>",
     "generalInformations": "General Informations",
     "goToTechnicalDocButton": "Go to technical documentation",
     "creationDateField": {
@@ -95,7 +105,6 @@
       "label": "Key id (kid)",
       "copySuccessFeedbackText": "Id copied successfully"
     },
-    "userDeletedAlertMessage": "Warning! The user that uploaded this key has been removed from this keychain. It is advised to delete this key and replace it with a new one",
     "list": {
       "userEnableInfo": "Add yourself as a member of this keychain before you can upload a key",
       "publicKeyLimitInfo": "You have reached the maximum number of keys for this keychain",
