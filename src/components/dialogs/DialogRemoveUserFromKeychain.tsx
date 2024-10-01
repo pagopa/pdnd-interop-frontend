@@ -1,4 +1,5 @@
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
+import { useNavigate } from '@/router'
 import { useDialog } from '@/stores'
 import type { DialogRemoveUserFromKeychainProps } from '@/types/dialog.types'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material'
@@ -11,6 +12,7 @@ export const DialogRemoveUserFromKeychain: React.FC<DialogRemoveUserFromKeychain
 }) => {
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
+  const navigate = useNavigate()
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRemoveUserFromKeychain' })
@@ -21,7 +23,16 @@ export const DialogRemoveUserFromKeychain: React.FC<DialogRemoveUserFromKeychain
   }
 
   const handleProceed = () => {
-    removeUserFromKeychain({ producerKeychainId: keychainId, userId })
+    removeUserFromKeychain(
+      { producerKeychainId: keychainId, userId },
+      {
+        onSuccess: () =>
+          navigate('PROVIDE_KEYCHAIN_DETAILS', {
+            params: { keychainId },
+            urlParams: { tab: 'members' },
+          }),
+      }
+    )
     closeDialog()
   }
 
