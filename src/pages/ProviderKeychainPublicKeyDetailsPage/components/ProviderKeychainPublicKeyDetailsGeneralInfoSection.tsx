@@ -1,6 +1,6 @@
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Grid, Stack } from '@mui/material'
+import { Grid, Stack } from '@mui/material'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -52,7 +52,6 @@ export const ProviderKeychainPublicKeyDetailsGeneralInfoSection: React.FC<
                 tooltipTitle: t('keyIdField.copySuccessFeedbackText'),
               }}
             />
-            {publicKey.isOrphan && <Alert severity="info">{t('userDeletedAlertMessage')}</Alert>}
           </Stack>
         </SectionContainer>
       </Grid>
