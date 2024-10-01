@@ -8,6 +8,8 @@ import QueueIcon from '@mui/icons-material/Queue'
 import type { GetRequesterCertifiedAttributesParams } from '@/api/api.generatedTypes'
 import { AssignAttributeDrawer } from './AssignAttributeDrawer'
 import { AttributesTable, AttributesTableSkeleton } from './AttributesTable'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { AuthHooks } from '@/api/auth'
 
 export const AssignAttributesTab: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.assignTab' })
@@ -20,20 +22,24 @@ export const AssignAttributesTab: React.FC = () => {
     ...paginationParams,
   }
 
-  const { data } = AttributeQueries.useGetRequesterCertifiedAttributesList(queryParams, {
-    suspense: false,
-    keepPreviousData: true,
+  const { data } = useQuery({
+    ...AttributeQueries.getRequesterCertifiedAttributesList(queryParams),
+    placeholderData: keepPreviousData,
   })
+
+  const { isAdmin } = AuthHooks.useJwt()
 
   return (
     <>
-      <Stack sx={{ mb: 2 }} alignItems="end">
-        <Button variant="contained" size="small" onClick={openDrawer} startIcon={<QueueIcon />}>
-          {t('assignAttributeBtn')}
-        </Button>
-      </Stack>
+      {isAdmin && (
+        <Stack sx={{ mb: 2 }} alignItems="end">
+          <Button variant="contained" size="small" onClick={openDrawer} startIcon={<QueueIcon />}>
+            {t('assignAttributeBtn')}
+          </Button>
+        </Stack>
+      )}
       <AttributesTableWrapper params={queryParams} />
-      <AssignAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />
+      {isAdmin && <AssignAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />}
       <Pagination
         {...paginationProps}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
@@ -45,9 +51,9 @@ export const AssignAttributesTab: React.FC = () => {
 const AttributesTableWrapper: React.FC<{ params: GetRequesterCertifiedAttributesParams }> = ({
   params,
 }) => {
-  const { data, isFetching } = AttributeQueries.useGetRequesterCertifiedAttributesList(params, {
-    suspense: false,
-  })
+  const { data, isFetching } = useQuery(
+    AttributeQueries.getRequesterCertifiedAttributesList(params)
+  )
 
   if (!data && isFetching) return <AttributesTableSkeleton />
   return <AttributesTable attributes={data?.results ?? []} />

@@ -3,6 +3,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
 import { getPurposeFailureReasons } from '@/utils/purpose.utils'
 import { Alert, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -16,9 +17,8 @@ export const ClientVoucherIntructionsPurposeSelect: React.FC<
   ClientVoucherIntructionsPurposeSelectProps
 > = ({ purposes, selectedPurposeId, onChange }) => {
   const { t } = useTranslation('voucher')
-  const { data: selectedPurpose } = PurposeQueries.useGetSingle(selectedPurposeId, {
-    suspense: false,
-  })
+
+  const { data: selectedPurpose } = useQuery(PurposeQueries.getSingle(selectedPurposeId))
 
   const failureReasons = selectedPurpose ? getPurposeFailureReasons(selectedPurpose) : []
 

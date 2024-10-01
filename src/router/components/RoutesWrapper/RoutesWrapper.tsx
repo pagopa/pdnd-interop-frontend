@@ -14,27 +14,21 @@ import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute } from '@/router'
 import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
 import { AuthHooks } from '@/api/auth'
-import { FirstLoadingSpinner } from '@/components/shared/FirstLoadingSpinner'
 
 const _RoutesWrapper: React.FC = () => {
   const { isPublic, routeKey } = useCurrentRoute()
-
-  const { jwt, isSupport, currentRoles, isLoadingSession, isOrganizationAllowedToProduce } =
-    AuthHooks.useJwt()
-  const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement(jwt, isSupport)
+  const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   useScrollTopOnLocationChange()
   useCheckSessionExpired(jwt?.exp)
 
-  if (isLoadingSession && !isPublic) return <FirstLoadingSpinner />
+  const _TOSGuard = !isPublic && !isSupport && jwt ? TOSGuard : React.Fragment
 
   return (
     <>
       <Header jwt={jwt} isSupport={isSupport} />
       <Box sx={{ flex: 1 }}>
-        {!isTOSAccepted && !isPublic ? (
-          <TOSAgreement onAcceptAgreement={handleAcceptTOS} />
-        ) : (
+        <_TOSGuard>
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
               <React.Suspense fallback={<PageContainerSkeleton />}>
@@ -49,12 +43,22 @@ const _RoutesWrapper: React.FC = () => {
               </React.Suspense>
             </ErrorBoundary>
           </AppLayout>
-        )}
+        </_TOSGuard>
       </Box>
       <Footer jwt={jwt} />
       <Dialog />
     </>
   )
+}
+
+const TOSGuard = ({ children }: { children: React.ReactNode }) => {
+  const { isTOSAccepted, handleAcceptTOS } = useTOSAgreement()
+
+  if (!isTOSAccepted) {
+    return <TOSAgreement onAcceptAgreement={handleAcceptTOS} />
+  }
+
+  return children
 }
 
 const RoutesWrapper: React.FC = () => {

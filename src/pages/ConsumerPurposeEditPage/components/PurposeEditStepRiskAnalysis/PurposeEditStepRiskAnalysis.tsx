@@ -5,6 +5,7 @@ import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { RiskAnalysisVersionMismatchDialog } from './RiskAnalysisForm'
 import { useCheckRiskAnalysisVersionMismatch } from '@/hooks/useCheckRiskAnalysisVersionMismatch'
+import { useQuery } from '@tanstack/react-query'
 
 export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
@@ -14,12 +15,9 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
     React.useState(false)
 
   const { mutate: updatePurpose } = PurposeMutations.useUpdateDraft()
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId, {
-    suspense: false,
-  })
-  const { data: riskAnalysis } = PurposeQueries.useGetRiskAnalysisLatest({
-    suspense: false,
-  })
+  const { data: purpose } = useQuery(PurposeQueries.getSingle(purposeId))
+  const { data: riskAnalysis } = useQuery(PurposeQueries.getRiskAnalysisLatest())
+
   const hasVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
 
   if (!purpose || !riskAnalysis) {

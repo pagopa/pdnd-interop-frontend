@@ -14,6 +14,7 @@ import {
 } from './components/ConsumerAgreementCreateContent'
 import { useGetConsumerAgreementCreateAlertProps } from './hooks/useGetConsumerAgreementCreateAlertProps'
 import { isNewEServiceVersionAvailable } from '@/utils/agreement.utils'
+import { useQuery } from '@tanstack/react-query'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -21,9 +22,8 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const navigate = useNavigate()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
-  const { data: agreement } = AgreementQueries.useGetSingle(agreementId, {
-    suspense: false,
-  })
+  const { data: agreement } = useQuery(AgreementQueries.getSingle(agreementId))
+
   const [consumerNotes, setConsumerNotes] = React.useState(agreement?.consumerNotes ?? '')
 
   const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft()
@@ -33,7 +33,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { hasAllCertifiedAttributes, hasAllDeclaredAttributes } =
     useDescriptorAttributesPartyOwnership(agreement?.eservice.id, agreement?.descriptorId)
 
-  const hasSetContactEmail = agreement && !!agreement?.consumer.contactMail?.address
+  const hasSetContactEmail = Boolean(agreement?.consumer.contactMail?.address)
   const isEServiceSuspended = agreement?.eservice.activeDescriptor?.state === 'SUSPENDED'
 
   const hasNewEserviceVersion = isNewEServiceVersionAvailable(agreement)

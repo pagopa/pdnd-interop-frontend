@@ -58,7 +58,7 @@
       "confirmLabel": "Rifiuta"
     }
   },
-  "dialogAddClientToPurpose": {
+  "drawerAddClientToPurpose": {
     "title": "Aggiungi client",
     "content": {
       "autocompleteLabel": "Client selezionati"
@@ -184,6 +184,7 @@
     }
   },
   "maintenanceBanner": {
+    "titleAttEnv": "Manutenzione programmata ambiente di attestazione",
     "titleTestEnv": "Manutenzione programmata ambiente di collaudo",
     "titleProdEnv": "Manutenzione programmata ambiente di produzione",
     "bodySingleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata il {{maintenanceStartDay}} alle {{maintenanceStartHour}} per circa {{hoursDuration}} ore. Ci scusiamo per gli eventuali disservizi causati.",

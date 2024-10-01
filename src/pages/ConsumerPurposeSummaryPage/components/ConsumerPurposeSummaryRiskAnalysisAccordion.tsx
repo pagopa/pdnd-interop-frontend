@@ -1,6 +1,7 @@
 import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { Alert, Box, Stack, Typography } from '@mui/material'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -13,22 +14,19 @@ type QuestionItem = { question: string; answer: string; questionInfoLabel?: stri
 export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   ConsumerPurposeSummaryRiskAnalysisAccordionProps
 > = ({ purposeId }) => {
-  const { data: purpose } = PurposeQueries.useGetSingle(purposeId)
+  const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.riskAnalysisSection' })
   const currentLanguage = useCurrentLanguage()
 
-  const { data: riskAnalysisConfig } = PurposeQueries.useGetRiskAnalysisVersion(
-    {
-      riskAnalysisVersion: purpose!.riskAnalysisForm?.version as string,
-      eserviceId: purpose!.eservice.id,
-    },
-    {
-      suspense: false,
-      enabled: !!purpose?.riskAnalysisForm?.version,
-    }
-  )
+  const { data: riskAnalysisConfig } = useQuery({
+    ...PurposeQueries.getRiskAnalysisVersion({
+      riskAnalysisVersion: purpose.riskAnalysisForm?.version as string,
+      eserviceId: purpose.eservice.id,
+    }),
+    enabled: Boolean(purpose.riskAnalysisForm?.version),
+  })
 
-  const riskAnalysisTemplate = purpose?.riskAnalysisForm?.answers
+  const riskAnalysisTemplate = purpose.riskAnalysisForm?.answers
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
     if (!riskAnalysisTemplate || !riskAnalysisConfig) return []

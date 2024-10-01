@@ -12,12 +12,12 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import PrivacyTipIcon from '@mui/icons-material/PrivacyTip'
 import { useTranslation } from 'react-i18next'
 import { MaintenanceBanner } from './components/shared/MaintenanceBanner'
-import { AuthQueryKeys } from './api/auth'
-import AuthServices from './api/auth/auth.services'
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
-queryClient.prefetchQuery([AuthQueryKeys.GetSessionToken], AuthServices.getSessionToken)
+import { AuthQueries } from './api/auth'
+
+queryClient.prefetchQuery(AuthQueries.getSessionToken())
 
 function App() {
   const { t } = useTranslation('shared-components')

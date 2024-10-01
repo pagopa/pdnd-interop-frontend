@@ -17,6 +17,7 @@ import {
 } from './components'
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
 import { useCheckRiskAnalysisVersionMismatch } from '@/hooks/useCheckRiskAnalysisVersionMismatch'
+import { useQuery } from '@tanstack/react-query'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -26,15 +27,13 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const navigate = useNavigate()
 
-  const { data: purpose, isInitialLoading } = PurposeQueries.useGetSingle(purposeId, {
-    suspense: false,
-  })
+  const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
   const arePublishOrEditButtonsDisabled =
-    hasRiskAnalysisVersionMismatch ||
+    (purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
     purpose?.agreement.state === 'ARCHIVED' ||
     purpose?.eservice.descriptor.state === 'ARCHIVED'
 
@@ -79,7 +78,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   return (
     <PageContainer
       title={purpose?.title}
-      isLoading={isInitialLoading}
+      isLoading={isLoading}
       backToAction={{
         label: t('backToListBtn'),
         to: 'SUBSCRIBE_PURPOSE_LIST',

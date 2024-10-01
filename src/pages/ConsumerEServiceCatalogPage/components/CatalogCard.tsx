@@ -14,6 +14,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import type { CatalogEService } from '@/api/api.generatedTypes'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface CatalogCardProps {
   eservice: CatalogEService
@@ -21,10 +22,13 @@ interface CatalogCardProps {
 
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
   const { t: tCommon } = useTranslation('common')
-  const prefetchEService = EServiceQueries.usePrefetchDescriptorCatalog()
+  const queryClient = useQueryClient()
 
   const handlePrefetch = () => {
-    prefetchEService(eservice.id, eservice.activeDescriptor?.id ?? '')
+    if (!eservice.activeDescriptor) return
+    queryClient.prefetchQuery(
+      EServiceQueries.getDescriptorCatalog(eservice.id, eservice.activeDescriptor.id)
+    )
   }
 
   return (

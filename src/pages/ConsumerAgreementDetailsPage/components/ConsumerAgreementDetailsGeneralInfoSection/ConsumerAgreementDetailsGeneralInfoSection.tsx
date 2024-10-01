@@ -33,10 +33,6 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
     closeDrawer: closeCertifiedAttributeDrawer,
   } = useDrawerState()
 
-  if (!agreement) return <ConsumerAgreementDetailsGeneralInfoSectionSkeleton />
-
-  const isEserviceMine = agreement.consumer.id === agreement.producer.id
-
   const handleOpenContactDrawer = () => {
     openContactDrawer()
   }
@@ -81,43 +77,41 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
               content={agreement.rejectionReason}
             />
           )}
-          {!isEserviceMine && (
-            <>
-              <Divider />
-              {agreement.isContractPresent && (
+          <>
+            <Divider />
+            {agreement.isContractPresent && (
+              <IconLink
+                onClick={handleDownloadDocument}
+                component="button"
+                startIcon={<DownloadIcon />}
+                alignSelf="start"
+              >
+                {t('documentation.link.label')}
+              </IconLink>
+            )}
+            {agreement.state === 'PENDING' && (
+              <>
                 <IconLink
-                  onClick={handleDownloadDocument}
+                  onClick={handleOpenCertifiedAttributesDrawer}
                   component="button"
-                  startIcon={<DownloadIcon />}
+                  startIcon={<RuleIcon />}
                   alignSelf="start"
                 >
-                  {t('documentation.link.label')}
+                  {t('certifiedAttributeLink.label')}
                 </IconLink>
-              )}
-              {agreement.state === 'PENDING' && (
-                <>
-                  <IconLink
-                    onClick={handleOpenCertifiedAttributesDrawer}
-                    component="button"
-                    startIcon={<RuleIcon />}
-                    alignSelf="start"
-                  >
-                    {t('certifiedAttributeLink.label')}
-                  </IconLink>
-                </>
-              )}
-              {agreement.producer.contactMail && (
-                <IconLink
-                  onClick={handleOpenContactDrawer}
-                  component="button"
-                  startIcon={<ContactMailIcon />}
-                  alignSelf="start"
-                >
-                  {t('providerDetailsLink.label')}
-                </IconLink>
-              )}
-            </>
-          )}
+              </>
+            )}
+            {agreement.producer.contactMail && (
+              <IconLink
+                onClick={handleOpenContactDrawer}
+                component="button"
+                startIcon={<ContactMailIcon />}
+                alignSelf="start"
+              >
+                {t('providerDetailsLink.label')}
+              </IconLink>
+            )}
+          </>
         </Stack>
       </SectionContainer>
       {agreement.producer.contactMail && (

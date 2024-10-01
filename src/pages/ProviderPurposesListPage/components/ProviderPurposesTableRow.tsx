@@ -10,16 +10,17 @@ import { Box, Skeleton, Tooltip } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import ErrorIcon from '@mui/icons-material/Error'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('purpose', { keyPrefix: 'list' })
-  const prefetch = PurposeQueries.usePrefetchSingle()
+  const queryClient = useQueryClient()
 
   const { actions } = useGetProviderPurposesActions(purpose)
 
   const handlePrefetch = () => {
-    prefetch(purpose.id)
+    queryClient.prefetchQuery(PurposeQueries.getSingle(purpose.id))
   }
 
   const hasWaitingForApprovalVersion = !!(

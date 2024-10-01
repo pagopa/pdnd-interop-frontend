@@ -222,7 +222,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <KeyDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'security'],
+    authLevels: ['admin', 'security', 'support'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CLIENT_CREATE',
@@ -286,7 +286,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <KeyDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'security'],
+    authLevels: ['admin', 'security', 'support'],
   })
   .addRoute({
     key: 'SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE',
@@ -382,7 +382,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <TenantCertifierPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin'],
+    authLevels: ['admin', 'support'],
   })
   .addRoute({
     key: 'TENANT_CERTIFIER_ATTRIBUTE_DETAILS',
@@ -390,7 +390,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <TenantCertifierAttributeDetails />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin'],
+    authLevels: ['admin', 'support'],
   })
   .build()
 

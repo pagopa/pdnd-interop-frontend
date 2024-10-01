@@ -7,10 +7,7 @@ import { ConsumerAgreementDetailsDeclaredAttributesSection } from './ConsumerAgr
 import { ConsumerAgreementDetailsVerifiedAttributesSection } from './ConsumerAgreementDetailsVerifiedAttributesSection/ConsumerAgreementDetailsVerifiedAttributesSection'
 
 export const ConsumerAgreementDetailsAttributesSectionsList: React.FC = () => {
-  const { agreement, descriptorAttributes } = useConsumerAgreementDetailsContext()
-
-  if (!agreement || !descriptorAttributes)
-    return <ConsumerAgreementDetailsAttributesSectionsListSkeleton />
+  const { agreement } = useConsumerAgreementDetailsContext()
 
   const isPending = agreement.state === 'PENDING'
 

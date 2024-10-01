@@ -7,6 +7,7 @@ import {
   ClientPublicKeysTableRowSkeleton,
 } from './ClientPublicKeysTableRow'
 import type { GetClientKeysParams } from '@/api/api.generatedTypes'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 type ClientPublicKeysTableProps = {
   params: GetClientKeysParams
@@ -15,14 +16,8 @@ type ClientPublicKeysTableProps = {
 export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ params }) => {
   const { t: tCommon } = useTranslation('common')
 
-  const { clientId } = params
-
-  const { data } = ClientQueries.useGetKeyList(params, {
-    suspense: false,
-    enabled: !!params.clientId,
-    keepPreviousData: true,
-  })
-  const publicKeys = data?.keys || []
+  const { data } = useSuspenseQuery(ClientQueries.getKeyList(params))
+  const publicKeys = data.keys
 
   const headLabels = [
     tCommon('table.headData.keyName'),
@@ -30,12 +25,16 @@ export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ pa
     tCommon('table.headData.keyUploadDate'),
     '',
   ]
-  const isEmpty = !publicKeys || publicKeys.length === 0
+  const isEmpty = publicKeys.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
       {publicKeys.map((publicKey) => (
-        <ClientPublicKeysTableRow key={publicKey.keyId} publicKey={publicKey} clientId={clientId} />
+        <ClientPublicKeysTableRow
+          key={publicKey.keyId}
+          publicKey={publicKey}
+          clientId={params.clientId}
+        />
       ))}
     </Table>
   )
@@ -53,6 +52,8 @@ export const ClientPublicKeysTableSkeleton: React.FC = () => {
 
   return (
     <Table headLabels={headLabels}>
+      <ClientPublicKeysTableRowSkeleton />
+      <ClientPublicKeysTableRowSkeleton />
       <ClientPublicKeysTableRowSkeleton />
       <ClientPublicKeysTableRowSkeleton />
       <ClientPublicKeysTableRowSkeleton />

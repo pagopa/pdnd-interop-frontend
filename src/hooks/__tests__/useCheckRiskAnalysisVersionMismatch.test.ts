@@ -1,10 +1,18 @@
-import { PurposeQueries } from '@/api/purpose'
 import { useCheckRiskAnalysisVersionMismatch } from '../useCheckRiskAnalysisVersionMismatch'
 import { createMockPurpose } from '../../../__mocks__/data/purpose.mocks'
 import { renderHook } from '@testing-library/react'
+import type { Mock } from 'vitest'
+
+vi.mock('@tanstack/react-query', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  useQuery: vi.fn(),
+  useQueries: vi.fn(),
+}))
+
+import { useQuery } from '@tanstack/react-query'
 
 const mockUseGetRiskAnalysisLatest = (data: { version: string } | undefined) =>
-  vi.spyOn(PurposeQueries, 'useGetRiskAnalysisLatest').mockReturnValue({
+  (useQuery as Mock).mockReturnValue({
     data,
   } as never)
 

@@ -58,7 +58,7 @@
       "confirmLabel": "Reject"
     }
   },
-  "dialogAddClientToPurpose": {
+  "drawerAddClientToPurpose": {
     "title": "Add clients",
     "content": {
       "autocompleteLabel": "Selected clients"
@@ -184,6 +184,7 @@
     }
   },
   "maintenanceBanner": {
+    "titleAttEnv": "Scheduled maintenance for attestation environment",
     "titleTestEnv": "Scheduled maintenance for test environment",
     "titleProdEnv": "Scheduled maintenance for production environment",
     "bodySingleDay": "Interoperabilità PDND will undergo scheduled maintenance on {{maintenanceStartDay}} at {{maintenanceStartHour}} for approximately {{hoursDuration}} hours. We apologize for any inconvenience caused.",

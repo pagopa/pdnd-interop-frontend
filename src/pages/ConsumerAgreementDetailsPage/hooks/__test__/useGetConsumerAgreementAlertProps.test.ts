@@ -3,11 +3,19 @@ import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { useGetConsumerAgreementAlertProps } from '../useGetConsumerAgreementAlertProps'
 import { createMockAgreement } from '../../../../../__mocks__/data/agreement.mocks'
 import { waitFor } from '@testing-library/react'
-import { PurposeQueries } from '@/api/purpose'
+import type { Mock } from 'vitest'
 import { createMockPurpose } from '../../../../../__mocks__/data/purpose.mocks'
 
+vi.mock('@tanstack/react-query', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  useQuery: vi.fn(),
+  useQueries: vi.fn(),
+}))
+
+import { useQuery } from '@tanstack/react-query'
+
 const mockUseGetConsumersList = (purposes: Array<Purpose>) => {
-  vi.spyOn(PurposeQueries, 'useGetConsumersList').mockReturnValue({
+  ;(useQuery as Mock).mockReturnValue({
     data: {
       results: purposes,
       pagination: {
@@ -16,22 +24,18 @@ const mockUseGetConsumersList = (purposes: Array<Purpose>) => {
         totalCount: purposes.length,
       },
     },
-  } as unknown as ReturnType<typeof PurposeQueries.useGetConsumersList>)
+  })
 }
 
-function renderUseGetConsumerAgreementAlertPropsHook(agreementMock?: Agreement) {
+function renderUseGetConsumerAgreementAlertPropsHook(agreementMock: Agreement) {
   return renderHookWithApplicationContext(() => useGetConsumerAgreementAlertProps(agreementMock), {
     withReactQueryContext: true,
   })
 }
 
 describe('check if useGetConsumerAgreementAlertProps returns the correct alertProps based on the passed agreement - no agreement', () => {
-  it('shoud not return any alertProps if no agreement is given', () => {
-    const { result } = renderUseGetConsumerAgreementAlertPropsHook()
-    expect(result.current).toBeUndefined()
-  })
-
   it('shoud return the correct alertProps if suspended agreement with suspendedByProducer is given', () => {
+    mockUseGetConsumersList([])
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: true,

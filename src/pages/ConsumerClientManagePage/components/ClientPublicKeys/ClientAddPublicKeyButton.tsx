@@ -1,6 +1,5 @@
-import { ClientQueries, ClientQueryKeys } from '@/api/client'
-import ClientServices from '@/api/client/client.services'
-import { useQueries } from '@tanstack/react-query'
+import { ClientQueries } from '@/api/client'
+import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import identity from 'lodash/identity'
@@ -10,6 +9,8 @@ import { AuthHooks } from '@/api/auth'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { ClientAddPublicKeyDrawer } from './ClientAddPublicKeyDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { match } from 'ts-pattern'
 
 interface ClientAddPublicKeyButtonProps {
   clientId: string
@@ -18,84 +19,58 @@ interface ClientAddPublicKeyButtonProps {
 export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> = ({ clientId }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('key')
-  const { jwt, isSupport, isAdmin } = AuthHooks.useJwt()
-  const { data: users = [] } = ClientQueries.useGetOperatorsList(clientId)
+  const { jwt, isSupport } = AuthHooks.useJwt()
+  const { data: users } = useSuspenseQuery(ClientQueries.getOperatorsList(clientId))
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const userQueries = useQueries({
-    queries: users.map(({ userId }) => {
-      return {
-        queryKey: [ClientQueryKeys.GetSingleOperator, userId],
-        queryFn: () => ClientServices.getSingleOperator(userId),
-      }
-    }),
+    queries: users.map(({ userId }) => ClientQueries.getSingleOperator(userId)),
   })
 
   const usersId = userQueries.map(({ data }) => data?.userId).filter(identity)
 
-  const isAdminInClient = Boolean(jwt && usersId.includes(jwt.uid))
+  const isInClient = Boolean(jwt && usersId.includes(jwt.uid))
 
-  const { data } = ClientQueries.useGetKeyList(
-    { clientId },
-    {
-      suspense: false,
-      keepPreviousData: true,
-    }
-  )
+  const { data } = useQuery({
+    ...ClientQueries.getKeyList({ clientId }),
+    placeholderData: keepPreviousData,
+  })
+
   const publicKeys = data?.keys || []
   const publicKeysLimit = 100
   const hasReachedPublicKeysLimit = publicKeys.length >= publicKeysLimit
 
   /**
-   * There are no conditions about operator API because it doesn't have the necessary router permissions to navigate to this page
    * The conditions to add keys are:
    * - do not be support
-   * - be admin and be added in the client
+   * - be admin or security operator (this is implicit since the only users that can access the page have those roles) and be added in the client
    * - you have not reached the limit of keys that can be added (it is fixed to 100)
    */
-  const canNotAddKey = isSupport || (isAdmin && !isAdminInClient) || hasReachedPublicKeysLimit
+  const canNotAddKey = isSupport || !isInClient || hasReachedPublicKeysLimit
 
-  const getTooltipProps = () => {
-    let tooltipProps: { open: boolean | undefined; title: string } = {
+  const tooltipProps = match({ hasReachedPublicKeysLimit, isSupport, isInClient })
+    .with({ hasReachedPublicKeysLimit: true }, () => ({
+      open: undefined,
+      title: t('list.publicKeyLimitInfo'),
+    }))
+    .with({ isSupport: true }, () => ({
+      open: undefined,
+      title: t('list.supportDisableInfo'),
+    }))
+    .with({ isInClient: false }, () => ({
+      open: undefined,
+      title: t('list.userEnableInfo'),
+    }))
+    .otherwise(() => ({
       open: false,
       title: '',
-    }
-
-    if (hasReachedPublicKeysLimit) {
-      tooltipProps = {
-        open: undefined,
-        title: t('list.publicKeyLimitInfo'),
-      }
-
-      return tooltipProps
-    }
-
-    if (isAdmin && !isAdminInClient) {
-      tooltipProps = {
-        open: undefined,
-        title: t('list.adminEnableInfo'),
-      }
-
-      return tooltipProps
-    }
-
-    if (isSupport) {
-      tooltipProps = {
-        open: undefined,
-        title: t('list.supportDisableInfo'),
-      }
-
-      return tooltipProps
-    }
-
-    return tooltipProps
-  }
+    }))
 
   return (
     <>
       <Stack sx={{ mb: 2 }} direction="row" justifyContent="end" alignItems="center">
-        <Tooltip {...getTooltipProps()}>
+        <Tooltip {...tooltipProps}>
           <span>
             <Button
               startIcon={<PlusOneIcon />}

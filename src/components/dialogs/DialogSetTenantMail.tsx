@@ -1,5 +1,5 @@
 import { AuthHooks } from '@/api/auth'
-import { PartyMutations } from '@/api/party'
+import { TenantMutations } from '@/api/tenant'
 import { useDialog } from '@/stores'
 import type { DialogSetTenantMailProps } from '@/types/dialog.types'
 import {
@@ -33,7 +33,7 @@ export const DialogSetTenantMail: React.FC<DialogSetTenantMailProps> = () => {
   const { jwt } = AuthHooks.useJwt()
 
   const { closeDialog } = useDialog()
-  const { mutateAsync: setMail } = PartyMutations.useUpdateMail()
+  const { mutateAsync: setMail } = TenantMutations.useUpdateMail()
 
   const defaultValues = {
     contactEmail: '',

@@ -68,7 +68,6 @@ export const VoucherInstructionsStep3: React.FC = () => {
             />
             <InformationContainer
               label={t('step3.requestBody.grantTypeField.label')}
-              labelDescription={t('step3.requestBody.grantTypeField.description')}
               content={GRANT_TYPE}
               copyToClipboard={{
                 value: GRANT_TYPE,

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useFormContext } from 'react-hook-form'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import type { CatalogEService, CompactPurposeEService } from '@/api/api.generatedTypes'
+import { useQuery } from '@tanstack/react-query'
 
 type DialogClonePurposeEServiceAutocompleteProps = {
   preselectedEservice: CompactPurposeEService
@@ -21,9 +22,12 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
   )
   const hasSetFirstEService = React.useRef(true)
 
-  function formatAutocompleteOptionLabel(eservice: CatalogEService | CompactPurposeEService) {
-    return `${eservice.name} ${t('eserviceField.eserviceProvider')} ${eservice.producer.name}`
-  }
+  const formatAutocompleteOptionLabel = React.useCallback(
+    (eservice: CatalogEService | CompactPurposeEService) => {
+      return `${eservice.name} ${t('eserviceField.eserviceProvider')} ${eservice.producer.name}`
+    },
+    [t]
+  )
 
   const { setValue, watch } = useFormContext()
   const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
@@ -47,8 +51,8 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
     return result
   }
 
-  const { data, isInitialLoading } = EServiceQueries.useGetCatalogList(
-    {
+  const { data, isLoading } = useQuery(
+    EServiceQueries.getCatalogList({
       q: getQ(),
       agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
@@ -56,19 +60,23 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
       mode: 'DELIVER',
       limit: 50,
       offset: 0,
-    },
-    {
-      suspense: false,
-      onSuccess(eservices) {
-        if (!selectedEServiceId && !hasSetFirstEService.current && eservices.results.length > 0) {
-          setValue('eserviceId', eservices.results[0].id)
-          setEserviceAutocompleteTextInput(formatAutocompleteOptionLabel(eservices.results[0]))
-          selectedEServiceRef.current = eservices.results[0]
-          hasSetFirstEService.current = true
-        }
-      },
-    }
+    })
   )
+
+  React.useEffect(() => {
+    if (!selectedEServiceId && !hasSetFirstEService.current && data && data?.results.length > 0) {
+      setValue('eserviceId', data.results[0].id)
+      setEserviceAutocompleteTextInput(formatAutocompleteOptionLabel(data.results[0]))
+      selectedEServiceRef.current = data.results[0]
+      hasSetFirstEService.current = true
+    }
+  }, [
+    data,
+    selectedEServiceId,
+    setValue,
+    setEserviceAutocompleteTextInput,
+    formatAutocompleteOptionLabel,
+  ])
 
   const eservices = data?.results ?? []
   const autocompleteOptions = (eservices ?? []).map((eservice) => ({
@@ -79,7 +87,7 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
   return (
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
-      loading={isInitialLoading}
+      loading={isLoading}
       name="eserviceId"
       label={t('eserviceField.label')}
       options={autocompleteOptions}

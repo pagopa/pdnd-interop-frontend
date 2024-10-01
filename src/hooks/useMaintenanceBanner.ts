@@ -1,9 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import differenceInHours from 'date-fns/differenceInHours'
 import { useTranslation } from 'react-i18next'
-import { useGetMaintenanceJson } from '@/api/maintenance'
+import { MaintenanceQueries } from '@/api/maintenance'
 import isBefore from 'date-fns/isBefore'
 import { STAGE } from '@/config/env'
+import { useQuery } from '@tanstack/react-query'
+import { match } from 'ts-pattern'
 
 export type MaintenanceData = {
   start: { date: string; time: string }
@@ -34,7 +36,7 @@ export function useMaintenanceBanner() {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'maintenanceBanner',
   })
-  const { data } = useGetMaintenanceJson()
+  const { data } = useQuery(MaintenanceQueries.getMaintenanceJson())
 
   const maintenanceStartString = `${data?.start?.date} ${data?.start?.time}`
   const maintenanceEndString = `${data?.end?.date} ${data?.end?.time}`
@@ -87,7 +89,13 @@ export function useMaintenanceBanner() {
           maintenanceEndDay: formatDateString(data?.end?.date, 'multiple'),
         })
 
-  const title = STAGE === 'PROD' ? t('titleProdEnv') : t('titleTestEnv')
+  const title = match(STAGE)
+    .with('PROD', () => t('titleProdEnv'))
+    .with('ATT', () => t('titleAttEnv'))
+    .with('UAT', () => t('titleTestEnv'))
+    .with('DEV', () => '') // this environment has no maintenance banner
+    .with('QA', () => '') // this environment has no maintenance banner
+    .exhaustive()
 
   return { title, text, isOpen, closeBanner }
 }

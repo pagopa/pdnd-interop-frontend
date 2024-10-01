@@ -6,6 +6,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link, Stack } from '@mui/material'
 import { apiGuideLink } from '@/config/constants'
+import { useQuery } from '@tanstack/react-query'
 
 type VoucherInstructionsStep1CurrentIdsDrawerProps = {
   isOpen: boolean
@@ -18,9 +19,9 @@ export const VoucherInstructionsStep1CurrentIdsDrawer: React.FC<
   const { t } = useTranslation('voucher', { keyPrefix: 'step1.currentIdsDrawer' })
 
   const { clientId, selectedPurposeId } = useVoucherInstructionsContext()
-  const { data: purpose } = PurposeQueries.useGetSingle(selectedPurposeId!, {
-    enabled: !!selectedPurposeId,
-    suspense: false,
+  const { data: purpose } = useQuery({
+    ...PurposeQueries.getSingle(selectedPurposeId!),
+    enabled: Boolean(selectedPurposeId),
   })
 
   return (
