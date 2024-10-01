@@ -1,8 +1,7 @@
 import { ClientQueries } from '@/api/client'
-import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import identity from 'lodash/identity'
 import { Button, Stack, Tooltip } from '@mui/material'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { AuthHooks } from '@/api/auth'
@@ -10,7 +9,6 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { ClientAddPublicKeyDrawer } from './ClientAddPublicKeyDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { SelfcareQueries } from '@/api/selfcare'
 import { match } from 'ts-pattern'
 
 interface ClientAddPublicKeyButtonProps {
@@ -21,18 +19,14 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('key')
   const { jwt, isSupport } = AuthHooks.useJwt()
-  const { data: users } = useSuspenseQuery(ClientQueries.getOperatorsList(clientId))
-
-  // TODO vedere se gli id di users sono gli stessi di usersId
-  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
-
-  const userQueries = useQueries({
-    queries: users.map(({ userId }) => SelfcareQueries.getSingleUser(userId)),
+  const { data: usersIds } = useSuspenseQuery({
+    ...ClientQueries.getOperatorsList(clientId),
+    select: (users) => users.map((user) => user.userId),
   })
 
-  const usersId = userQueries.map(({ data }) => data?.userId).filter(identity)
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const isInClient = Boolean(jwt && usersId.includes(jwt.uid))
+  const isInClient = Boolean(jwt && usersIds.includes(jwt.uid))
 
   const { data } = useQuery({
     ...ClientQueries.getKeyList({ clientId }),
