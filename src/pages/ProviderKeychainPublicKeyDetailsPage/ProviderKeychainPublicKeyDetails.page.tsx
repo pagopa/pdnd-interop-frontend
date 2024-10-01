@@ -21,8 +21,7 @@ const ProviderKeychainPublicKeyDetailsPage: React.FC = () => {
 
   const { actions } = useGetProducerKeychainKeyActions({
     keychainId,
-    keyId,
-    parentId: publicKey?.user.userId,
+    publicKey,
   })
 
   return (
