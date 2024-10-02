@@ -99,7 +99,9 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   }
 
   if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
-    return { actions: [deleteAction] }
+    // The purpose is also suspendedByConsumer here when the provider re-activated a
+    // suspended purpose associated with an overquota e-service
+    return { actions: purpose.suspendedByConsumer ? [] : [deleteAction] }
   }
 
   if (
