@@ -13,6 +13,7 @@ import { KeychainQueries } from '@/api/keychain/keychain.queries'
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { useNavigate } from '@/router'
 import { useParams } from '@/router'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderKeychainDetailsPage: React.FC = () => {
   const { t } = useTranslation('keychain')
@@ -28,6 +29,8 @@ const ProviderKeychainDetailsPage: React.FC = () => {
     KeychainQueries.getSingle(keychainId)
   )
 
+  const { isAdmin } = AuthHooks.useJwt()
+
   const actions: ActionItemButton[] = [
     {
       label: tCommon('actions.delete'),
@@ -40,6 +43,7 @@ const ProviderKeychainDetailsPage: React.FC = () => {
       color: 'error',
       icon: DeleteIcon,
       variant: 'naked',
+      disabled: !isAdmin,
     },
   ]
 
