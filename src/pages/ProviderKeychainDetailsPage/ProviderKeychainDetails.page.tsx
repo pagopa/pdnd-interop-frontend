@@ -31,21 +31,22 @@ const ProviderKeychainDetailsPage: React.FC = () => {
 
   const { isAdmin } = AuthHooks.useJwt()
 
-  const actions: ActionItemButton[] = [
-    {
-      label: tCommon('actions.delete'),
-      action: () => {
-        deleteKeychain(
-          { producerKeychainId: keychainId },
-          { onSuccess: () => navigate('PROVIDE_KEYCHAINS_LIST') }
-        )
-      },
-      color: 'error',
-      icon: DeleteIcon,
-      variant: 'naked',
-      disabled: !isAdmin,
-    },
-  ]
+  const actions: ActionItemButton[] = isAdmin
+    ? [
+        {
+          label: tCommon('actions.delete'),
+          action: () => {
+            deleteKeychain(
+              { producerKeychainId: keychainId },
+              { onSuccess: () => navigate('PROVIDE_KEYCHAINS_LIST') }
+            )
+          },
+          color: 'error',
+          icon: DeleteIcon,
+          variant: 'naked',
+        },
+      ]
+    : []
 
   return (
     <PageContainer
