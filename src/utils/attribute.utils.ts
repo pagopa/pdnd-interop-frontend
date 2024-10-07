@@ -36,25 +36,14 @@ export function isAttributeRevoked(
       /*
        * If a verifierId is passed, the attribute is considered revoked if it is revoked by him.
        *
-       * The attribute is considered revoked if it is in 'revokedBy' and not in 'verifiedBy' because
-       * when we re-verify an attribute, the record inside 'verifiedBy' is added again, but the record inside 'revokedBy' is not removed.
-       * There never is more than one entry in 'verifiedBy' array but there might be more than one in the revokedBy.
+       * The attribute is considered revoked if it is in 'revokedBy'
        */
 
       const typedAttribute = attribute as VerifiedTenantAttribute
 
-      if (verifierId) {
-        const isInVerifiedBy = typedAttribute.verifiedBy.some(
-          (verifier) => verifier.id === verifierId
-        )
-
-        if (isInVerifiedBy) return false
-        const isInRevokedBy = typedAttribute.revokedBy.some(
-          (verifier) => verifier.id === verifierId
-        )
-        if (isInRevokedBy) return true
-        return false
-      }
+      const isInRevokedBy = typedAttribute.revokedBy.some((verifier) => verifier.id === verifierId)
+      if (isInRevokedBy) return true
+      return false
 
       /*
        * The attribute is considered revoked if it has been revoked at least once by any verifier.
