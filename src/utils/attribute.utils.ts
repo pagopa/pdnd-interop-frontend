@@ -41,9 +41,13 @@ export function isAttributeRevoked(
 
       const typedAttribute = attribute as VerifiedTenantAttribute
 
-      const isInRevokedBy = typedAttribute.revokedBy.some((verifier) => verifier.id === verifierId)
-      if (isInRevokedBy) return true
-      return false
+      if (verifierId) {
+        const isInRevokedBy = typedAttribute.revokedBy.some(
+          (verifier) => verifier.id === verifierId
+        )
+        if (isInRevokedBy) return true
+        return false
+      }
 
       /*
        * The attribute is considered revoked if it has been revoked at least once by any verifier.
