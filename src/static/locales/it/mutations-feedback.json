@@ -656,5 +656,35 @@
         "error": "Non è stato possibile rimuovere l'utente dal portachiavi. Per favore, riprova!"
       }
     }
+  },
+  "delegation": {
+    "createProducerDelegation": {
+      "loading": "TODO",
+      "outcome": {
+        "success": "La nuova delega è stata creata correttamente ed è stata inoltrata all’aderente per valutazione",
+        "error": "TODO"
+      }
+    },
+    "approveProducerDelegation": {
+      "loading": "TODO",
+      "outcome": {
+        "success": "La delega è stata attivata correttamente. Da questo momento puoi gestire l’erogazione dell’e-service in delega",
+        "error": "TODO"
+      }
+    },
+    "rejectProducerDelegation": {
+      "loading": "TODO",
+      "outcome": {
+        "success": "La delega è stata rifiutata correttamente.",
+        "error": "TODO"
+      }
+    },
+    "revokeProducerDelegation": {
+      "loading": "TODO",
+      "outcome": {
+        "success": "TODO",
+        "error": "TODO"
+      }
+    }
   }
 }
