@@ -11,10 +11,14 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useDialog } from '@/stores'
 import { useCheckRiskAnalysisVersionMismatch } from './useCheckRiskAnalysisVersionMismatch'
+import { useLocation, useNavigate } from '@/router'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { jwt, isAdmin } = AuthHooks.useJwt()
+
+  const navigate = useNavigate()
+  const { routeKey } = useLocation()
 
   const { openDialog } = useDialog()
 
@@ -88,7 +92,14 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
 
   function handleDeleteDraft() {
     if (!purpose) return
-    deletePurposeDraft({ purposeId: purpose.id })
+    deletePurposeDraft(
+      { purposeId: purpose.id },
+      {
+        onSuccess: () => {
+          if (routeKey !== 'SUBSCRIBE_PURPOSE_LIST') navigate('SUBSCRIBE_PURPOSE_LIST')
+        },
+      }
+    )
   }
 
   const deleteAction: ActionItemButton = {
@@ -99,7 +110,9 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   }
 
   if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
-    return { actions: [deleteAction] }
+    // The purpose is also suspendedByConsumer here when the provider re-activated a
+    // suspended purpose associated with an overquota e-service
+    return { actions: purpose.suspendedByConsumer ? [] : [deleteAction] }
   }
 
   if (
