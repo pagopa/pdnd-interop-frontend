@@ -100,5 +100,13 @@
       },
       "backToTenantCertifierBtn": "Return to tenant certifier"
     }
+  },
+  "delegations": {
+    "tabs": {
+      "ariaLabel": "Three different tabs for managing granted delegations, received delegations and the availability to be delegated",
+      "delegationsGranted": "Delegations granted",
+      "delegationsReceived": "Delegations received",
+      "availability": "Availability"
+    }
   }
 }

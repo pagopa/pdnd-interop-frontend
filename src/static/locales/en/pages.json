@@ -38,5 +38,9 @@
   "tenantCertifier": {
     "title": "Tenant certifier",
     "description": "In this view you can manage the certified attributes you have created and their assignment"
+  },
+  "delegations": {
+    "title": "Delegations",
+    "description": "Here you can manage all the delegations you have given or received from other entities"
   }
 }

@@ -38,5 +38,9 @@
   "tenantCertifier": {
     "title": "Ente certificatore",
     "description": "In questa vista puoi gestire gli attributi certificati che hai creato e la loro assegnazione"
+  },
+  "delegations": {
+    "title": "Deleghe",
+    "description": "Qui puoi gestire tutte le deleghe che hai dato o ricveuto da altri enti"
   }
 }

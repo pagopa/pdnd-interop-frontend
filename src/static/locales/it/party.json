@@ -100,5 +100,13 @@
       },
       "backToTenantCertifierBtn": "Torna a ente certificatore"
     }
+  },
+  "delegations": {
+    "tabs": {
+      "ariaLabel": "Tre tab diverse per la gestione delle deleghe conferite, ricevute e per la disponibilità ad essere delegati",
+      "delegationsGranted": "Deleghe conferite",
+      "delegationsReceived": "Deleghe ricevute",
+      "availability": "Disponibilità"
+    }
   }
 }
