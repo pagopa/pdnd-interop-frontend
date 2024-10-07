@@ -179,30 +179,6 @@ export interface EServiceDescriptionSeed {
   description: string
 }
 
-export interface EServiceDescriptorSeed {
-  description?: string
-  audience: string[]
-  /** @format int32 */
-  voucherLifespan: number
-  /**
-   * maximum number of daily calls that this descriptor can afford.
-   * @format int32
-   */
-  dailyCallsPerConsumer: number
-  /**
-   * total daily calls available for this e-service.
-   * @format int32
-   */
-  dailyCallsTotal: number
-  /**
-   * EService Descriptor policy for new Agreements approval.
-   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
-   * MANUAL - the Producer must approve every agreement for this Descriptor.
-   */
-  agreementApprovalPolicy: AgreementApprovalPolicy
-  attributes: DescriptorAttributesSeed
-}
-
 export interface CatalogEServiceDescriptor {
   /** @format uuid */
   id: string
@@ -752,6 +728,56 @@ export interface CompactClient {
   hasKeys: boolean
 }
 
+/** Producer keychain creation request body */
+export interface ProducerKeychainSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description: string
+  members: string[]
+}
+
+export interface CompactProducerKeychain {
+  /** @format uuid */
+  id: string
+  name: string
+  hasKeys: boolean
+}
+
+export interface CompactProducerKeychains {
+  results: CompactProducerKeychain[]
+  pagination: Pagination
+}
+
+/** Models Producer keychain details */
+export interface ProducerKeychain {
+  /** @format uuid */
+  id: string
+  /** @format date-time */
+  createdAt: string
+  producer: CompactOrganization
+  name: string
+  eservices: ProducerKeychainEService[]
+  description: string
+}
+
+export interface ProducerKeychainEService {
+  /** @format uuid */
+  id: string
+  name: string
+}
+
+export interface EServiceAdditionDetailsSeed {
+  /** @format uuid */
+  eserviceId: string
+}
+
 /** contains the expected payload for purpose update. */
 export interface PurposeUpdateContent {
   title: string
@@ -1258,6 +1284,61 @@ export interface CertifiedTenantAttributeSeed {
   id: string
 }
 
+/** Delegation State */
+export type DelegationState = 'WAITING_FOR_APPROVAL' | 'APPROVED' | 'REJECTED' | 'REVOKED'
+
+export interface DelegationTenant {
+  /** @format uuid */
+  id: string
+  name: string
+}
+
+export interface DelegationEService {
+  /** @format uuid */
+  id: string
+  name: string
+  description?: string
+}
+
+export interface Delegation {
+  /** @format uuid */
+  id: string
+  eservice: DelegationEService
+  delegate: DelegationTenant
+  delegator: DelegationTenant
+  /** @format date-time */
+  submittedAt?: string
+  rejectionReason?: string
+  /** Delegation State */
+  state: DelegationState
+}
+
+export interface CompactDelegation {
+  /** @format uuid */
+  id: string
+  eserviceName: string
+  delegatedName: string
+  delegatorName: string
+  /** Delegation State */
+  state: DelegationState
+}
+
+export interface CompactDelegations {
+  results: CompactDelegation[]
+  pagination: Pagination
+}
+
+export interface DelegationSeed {
+  /** @format uuid */
+  eserviceId: string
+  /** @format uuid */
+  delegateId: string
+}
+
+export interface RejectDelegationPayload {
+  rejectionReason: string
+}
+
 export interface Problem {
   /** URI reference of type definition */
   type: string
@@ -1686,6 +1767,76 @@ export interface RetrieveRiskAnalysisConfigurationByVersionParams {
   /** @format uuid */
   eserviceId: string
   riskAnalysisVersion: string
+}
+
+export interface GetProducerKeychainsParams {
+  /** Filter for the producer keychain name */
+  q?: string
+  /**
+   * comma separated sequence of user IDs
+   * @default []
+   */
+  userIds?: string[]
+  /**
+   * ID of producer that MUST be related to the keychain
+   * @format uuid
+   */
+  producerId: string
+  /**
+   * ID of e-service that MUST be related to the Producer Keychain
+   * @format uuid
+   */
+  eserviceId?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface GetProducerKeysParams {
+  /**
+   * comma separated sequence of user IDs
+   * @default []
+   */
+  userIds?: string[]
+  /**
+   * ID of the producer keychain to look up
+   * @format uuid
+   */
+  producerKeychainId: string
+}
+
+export interface GetProducerDelegationsParams {
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+  /**
+   * comma separated sequence of delegation states to filter the results with
+   * @default []
+   */
+  states?: DelegationState[]
+  /** The type of user to filter by */
+  filterBy: 'DELEGATOR' | 'DELEGATED'
+  /**
+   * The ID of the user to filter by
+   * @format uuid
+   */
+  userId: string
 }
 
 export namespace Agreements {
@@ -3917,6 +4068,150 @@ export namespace Producer {
     }
     export type ResponseBody = Purposes
   }
+  /**
+   * @description List producer delegations
+   * @tags delegation
+   * @name GetProducerDelegations
+   * @summary List producer delegations
+   * @request GET:/producer/delegations
+   * @secure
+   */
+  export namespace GetProducerDelegations {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+      /**
+       * comma separated sequence of delegation states to filter the results with
+       * @default []
+       */
+      states?: DelegationState[]
+      /** The type of user to filter by */
+      filterBy: 'DELEGATOR' | 'DELEGATED'
+      /**
+       * The ID of the user to filter by
+       * @format uuid
+       */
+      userId: string
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactDelegations
+  }
+  /**
+   * @description creates the producer delegation
+   * @tags delegation
+   * @name CreateProducerDelegation
+   * @summary Producer delegation creation
+   * @request POST:/producer/delegations
+   * @secure
+   */
+  export namespace CreateProducerDelegation {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DelegationSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Approves a producer delegation
+   * @tags delegation
+   * @name ApproveDelegation
+   * @summary Approves a producer delegation
+   * @request POST:/producer/delegations/{delegationId}/approve
+   * @secure
+   */
+  export namespace ApproveDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Rejects a producer delegation
+   * @tags delegation
+   * @name RejectDelegation
+   * @summary Rejects a producer delegation
+   * @request POST:/producer/delegations/{delegationId}/reject
+   * @secure
+   */
+  export namespace RejectDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectDelegationPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Retrieves a producer delegation
+   * @tags delegation
+   * @name GetProducerDelegation
+   * @summary Retrieves a producer delegation
+   * @request GET:/producer/delegations/{delegationId}
+   * @secure
+   */
+  export namespace GetProducerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Delegation
+  }
+  /**
+   * @description Revokes a producer delegation
+   * @tags delegation
+   * @name RevokeProducerDelegation
+   * @summary Revokes a producer delegation
+   * @request DELETE:/producer/delegations/{delegationId}
+   * @secure
+   */
+  export namespace RevokeProducerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
 }
 
 export namespace Consumer {
@@ -4601,6 +4896,369 @@ export namespace Support {
     export type RequestBody = GoogleSAMLPayload
     export type RequestHeaders = {}
     export type ResponseBody = any
+  }
+}
+
+export namespace ProducerKeychains {
+  /**
+   * @description Create a producer keychain
+   * @tags producerKeychain
+   * @name CreateProducerKeychain
+   * @summary Create a producer keychain
+   * @request POST:/producerKeychains
+   * @secure
+   */
+  export namespace CreateProducerKeychain {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = ProducerKeychainSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description List producer keychains
+   * @tags producerKeychain
+   * @name GetProducerKeychains
+   * @summary List producer keychains
+   * @request GET:/producerKeychains
+   * @secure
+   */
+  export namespace GetProducerKeychains {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Filter for the producer keychain name */
+      q?: string
+      /**
+       * comma separated sequence of user IDs
+       * @default []
+       */
+      userIds?: string[]
+      /**
+       * ID of producer that MUST be related to the keychain
+       * @format uuid
+       */
+      producerId: string
+      /**
+       * ID of e-service that MUST be related to the Producer Keychain
+       * @format uuid
+       */
+      eserviceId?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactProducerKeychains
+  }
+  /**
+   * @description Retrieves a Producer Keychain
+   * @tags producerKeychain
+   * @name GetProducerKeychain
+   * @summary Get a Producer Keychain
+   * @request GET:/producerKeychains/{producerKeychainId}
+   * @secure
+   */
+  export namespace GetProducerKeychain {
+    export type RequestParams = {
+      /** The Producer Keychain id */
+      producerKeychainId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = ProducerKeychain
+  }
+  /**
+   * @description Deletes a Producer Keychain
+   * @tags producerKeychain
+   * @name DeleteProducerKeychain
+   * @summary Delete a Producer Keychain
+   * @request DELETE:/producerKeychains/{producerKeychainId}
+   * @secure
+   */
+  export namespace DeleteProducerKeychain {
+    export type RequestParams = {
+      /** The Producer Keychain id */
+      producerKeychainId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description List Producer Keychain users
+   * @tags producerKeychain
+   * @name GetProducerKeychainUsers
+   * @summary List Producer Keychain users
+   * @request GET:/producerKeychains/{producerKeychainId}/users
+   * @secure
+   */
+  export namespace GetProducerKeychainUsers {
+    export type RequestParams = {
+      /**
+       * ID of Producer Keychain the users belong to
+       * @format uuid
+       */
+      producerKeychainId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactUsers
+  }
+  /**
+   * @description Removes a user from a Producer Keychain
+   * @tags producerKeychain
+   * @name RemoveProducerKeychainUser
+   * @summary Remove a user from a Producer Keychain
+   * @request DELETE:/producerKeychains/{producerKeychainId}/users/{userId}
+   * @secure
+   */
+  export namespace RemoveProducerKeychainUser {
+    export type RequestParams = {
+      /**
+       * The Producer Keychain id
+       * @format uuid
+       */
+      producerKeychainId: string
+      /**
+       * The identifier of the user between the security user and the consumer
+       * @format uuid
+       */
+      userId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Add a user to a Producer Keychain
+   * @tags producerKeychain
+   * @name AddProducerKeychainUser
+   * @summary Add a user to a Producer Keychain
+   * @request POST:/producerKeychains/{producerKeychainId}/users/{userId}
+   * @secure
+   */
+  export namespace AddProducerKeychainUser {
+    export type RequestParams = {
+      /**
+       * The Producer Keychain id
+       * @format uuid
+       */
+      producerKeychainId: string
+      /**
+       * The identifier of the user between the security user and the consumer
+       * @format uuid
+       */
+      userId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Creates a key for the corresponding producer keychain.
+   * @tags producerKeychain
+   * @name CreateProducerKey
+   * @summary Create key for the specific producerKeychainId.
+   * @request POST:/producerKeychains/{producerKeychainId}/keys
+   * @secure
+   */
+  export namespace CreateProducerKey {
+    export type RequestParams = {
+      /**
+       * ID of producer keychain that the added key MUST belong to
+       * @format uuid
+       */
+      producerKeychainId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = KeySeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Given a producer keychain identifier it returns its corresponding set of keys, if any
+   * @tags producerKeychain
+   * @name GetProducerKeys
+   * @summary Returns a set of keys by producer keychain ID.
+   * @request GET:/producerKeychains/{producerKeychainId}/keys
+   * @secure
+   */
+  export namespace GetProducerKeys {
+    export type RequestParams = {
+      /**
+       * ID of the producer keychain to look up
+       * @format uuid
+       */
+      producerKeychainId: string
+    }
+    export type RequestQuery = {
+      /**
+       * comma separated sequence of user IDs
+       * @default []
+       */
+      userIds?: string[]
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = PublicKeys
+  }
+  /**
+   * @description Given a producer keychain and key identifiers it returns the corresponding key, if any
+   * @tags producerKeychain
+   * @name GetProducerKeyById
+   * @summary Returns a key by producer keychain and key identifier (kid).
+   * @request GET:/producerKeychains/{producerKeychainId}/keys/{keyId}
+   * @secure
+   */
+  export namespace GetProducerKeyById {
+    export type RequestParams = {
+      /**
+       * ID of the producer keychain to look up
+       * @format uuid
+       */
+      producerKeychainId: string
+      /** the unique identifier of the key (kid) to lookup */
+      keyId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = PublicKey
+  }
+  /**
+   * @description Given a producer keychain and key identifiers it deletes the corresponding key, if any
+   * @tags producerKeychain
+   * @name DeleteProducerKeyById
+   * @summary Deletes a key by producer keychain id and key identifier (kid).
+   * @request DELETE:/producerKeychains/{producerKeychainId}/keys/{keyId}
+   * @secure
+   */
+  export namespace DeleteProducerKeyById {
+    export type RequestParams = {
+      /**
+       * ID of the producer keychain holding the key
+       * @format uuid
+       */
+      producerKeychainId: string
+      /** the unique identifier of the key (kid) to delete */
+      keyId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Adds an eservice to a producer keychain
+   * @tags producerKeychain
+   * @name AddProducerKeychainEService
+   * @summary Adds an eservice to a producer keychain
+   * @request POST:/producerKeychains/{producerKeychainId}/eservices
+   * @secure
+   */
+  export namespace AddProducerKeychainEService {
+    export type RequestParams = {
+      /**
+       * ID of Producer Keychain
+       * @format uuid
+       */
+      producerKeychainId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceAdditionDetailsSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Removes an eservice from a producer keychain
+   * @tags producerKeychain
+   * @name RemoveProducerKeychainEService
+   * @summary Removes an eservice from a producer keychain
+   * @request DELETE:/producerKeychains/{producerKeychainId}/eservices/{eserviceId}
+   * @secure
+   */
+  export namespace RemoveProducerKeychainEService {
+    export type RequestParams = {
+      /**
+       * ID of Producer Keychain
+       * @format uuid
+       */
+      producerKeychainId: string
+      /**
+       * ID of EService
+       * @format uuid
+       */
+      eserviceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Given a producer keychain id and key identifiers it returns the corresponding encoded key, if any
+   * @tags producerKeychain
+   * @name GetEncodedProducerKeychainKeyById
+   * @summary Returns a base64 encoded key by producer keychain and key identifier (kid).
+   * @request GET:/producerKeychains/{producerKeychainId}/encoded/keys/{keyId}
+   * @secure
+   */
+  export namespace GetEncodedProducerKeychainKeyById {
+    export type RequestParams = {
+      /**
+       * ID of the producer keychain to look up
+       * @format uuid
+       */
+      producerKeychainId: string
+      /** the unique identifier of the key (kid) to lookup */
+      keyId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = EncodedClientKey
   }
 }
 
