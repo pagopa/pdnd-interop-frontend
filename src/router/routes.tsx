@@ -36,6 +36,7 @@ import {
   ProviderEServiceSummaryPage,
   TenantCertifierPage,
   TenantCertifierAttributeDetails,
+  DelegationsPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -388,6 +389,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'TENANT_CERTIFIER_ATTRIBUTE_DETAILS',
     path: '/aderente/certificatore/attributi/:attributeId',
     element: <TenantCertifierAttributeDetails />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support'],
+  })
+  .addRoute({
+    key: 'DELEGATIONS',
+    path: '/aderente/deleghe',
+    element: <DelegationsPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support'],

@@ -23,7 +23,11 @@ const views = [
     id: 'provider',
     children: ['PROVIDE_ESERVICE_LIST', 'PROVIDE_AGREEMENT_LIST', 'PROVIDE_PURPOSE_LIST'],
   },
-  { routeKey: 'TENANT', id: 'tenant', children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER'] },
+  {
+    routeKey: 'TENANT',
+    id: 'tenant',
+    children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER', 'DELEGATIONS'],
+  },
 ] as const
 
 export function useGetSideNavItems() {
