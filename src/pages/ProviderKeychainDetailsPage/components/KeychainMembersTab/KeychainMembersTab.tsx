@@ -33,6 +33,7 @@ export const KeychainMembersTab: React.FC<KeychainMembersTabProps> = ({ keychain
 
   const handleSubmit = async (members: Users) => {
     addUsers({ producerKeychainId: keychainId, userIds: members.map(({ userId }) => userId) })
+    closeDrawer()
   }
 
   const canAddMembers = isAdmin
