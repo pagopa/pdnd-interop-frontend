@@ -1,6 +1,7 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
+  AddProducerKeychainUsersPayload,
   CompactProducerKeychains,
   CompactUsers,
   CreatedResource,
@@ -94,15 +95,15 @@ function addKeychainToEService({
   )
 }
 
-async function addProducerKeychainUser({
+async function addProducerKeychainUsers({
   producerKeychainId,
-  userId,
+  ...payload
 }: {
   producerKeychainId: string
-  userId: string
-}) {
+} & AddProducerKeychainUsersPayload) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}/users/${userId}`
+    `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${producerKeychainId}/users`,
+    payload
   )
 
   return response.data
@@ -168,7 +169,7 @@ export const KeychainServices = {
   deleteKeychain,
   removeKeychainFromEService,
   addKeychainToEService,
-  addProducerKeychainUser,
+  addProducerKeychainUsers,
   downloadKey,
   deleteProducerKeychainKey,
   createProducerKeychainKey,
