@@ -60,9 +60,9 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
                   'aria-describedby': accessibilityProps['aria-describedby'],
                 }}
                 onChange={(e) => {
-                  onChange(e.target.checked)
+                  onChange(e.target.checked ? 'true' : 'false')
                 }}
-                checked={value}
+                checked={value === 'true'}
                 inputRef={ref}
               />
             )}
