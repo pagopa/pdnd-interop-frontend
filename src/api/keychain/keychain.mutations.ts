@@ -62,12 +62,12 @@ function useAddKeychainToEService() {
   })
 }
 
-function useAddProducerKeychainUser() {
+function useAddProducerKeychainUsers() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'keychain.addProducerKeychainUser',
+    keyPrefix: 'keychain.addProducerKeychainUsers',
   })
   return useMutation({
-    mutationFn: KeychainServices.addProducerKeychainUser,
+    mutationFn: KeychainServices.addProducerKeychainUsers,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -124,7 +124,7 @@ export const KeychainMutations = {
   useCreateKeychain,
   useRemoveKeychainFromEService,
   useAddKeychainToEService,
-  useAddProducerKeychainUser,
+  useAddProducerKeychainUsers,
   useDeleteProducerKeychainKey,
   useCreateProducerKeychainKey,
   useRemoveUserFromProducerKeychain,
