@@ -600,11 +600,11 @@
         "error": "Non è stato possibile aggiungere il portachiavi Per favore, riprova!"
       }
     },
-    "addProducerKeychainUser": {
-      "loading": "Stiamo aggiungendo l’utente al portachiavi",
+    "addProducerKeychainUsers": {
+      "loading": "Stiamo aggiungendo gli utenti al portachiavi",
       "outcome": {
-        "success": "L’utente è stato aggiunto correttamente al portachiavi",
-        "error": "Non è stato possibile aggiungere il nuovo utente al portachiavi. Assicurarsi che non esista già l’utenza e riprovare"
+        "success": "Gli utenti sono stati aggiunti correttamente al portachiavi",
+        "error": "Non è stato possibile aggiungere i nuovi utenti al portachiavi. Assicurarsi che non esistano già le utenze e riprovare"
       }
     },
     "downloadKey": {

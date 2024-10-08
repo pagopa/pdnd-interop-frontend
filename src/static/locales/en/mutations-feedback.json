@@ -600,11 +600,11 @@
         "success": "Keychain added to e-service correctly"
       }
     },
-    "addProducerKeychainUser": {
-      "loading": "We are adding the user to the keychain",
+    "addProducerKeychainUsers": {
+      "loading": "We are adding the users to the keychain",
       "outcome": {
-        "success": "The user was successfully added to the keychain",
-        "error": "The new user could not be added to the keychain. Make sure the user does not already exist and try again"
+        "success": "The users was successfully added to the keychain",
+        "error": "The new users could not be added to the keychain. Make sure the users do not already exist and try again"
       }
     },
     "downloadKey": {
