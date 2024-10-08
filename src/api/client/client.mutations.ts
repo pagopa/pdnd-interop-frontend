@@ -70,7 +70,7 @@ function useDeleteKey() {
   })
 }
 
-function useAddOperator(
+function useAddOperators(
   config: { suppressSuccessToast: boolean } = { suppressSuccessToast: false }
 ) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.addOperators' })
@@ -102,6 +102,6 @@ export const ClientMutations = {
   useDelete,
   usePostKey,
   useDeleteKey,
-  useAddOperator,
+  useAddOperators,
   useRemoveOperator,
 }
