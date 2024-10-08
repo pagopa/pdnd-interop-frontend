@@ -24,7 +24,7 @@ export const KeychainMembersTab: React.FC<KeychainMembersTabProps> = ({ keychain
 
   const { isOpen, closeDrawer, openDrawer } = useDrawerState()
 
-  const { mutateAsync: addUser } = KeychainMutations.useAddProducerKeychainUser()
+  const { mutateAsync: addUsers } = KeychainMutations.useAddProducerKeychainUsers()
 
   const { data: excludeUsersIdsList = [] } = useQuery({
     ...KeychainQueries.getProducerKeychainUsersList(keychainId),
@@ -32,10 +32,7 @@ export const KeychainMembersTab: React.FC<KeychainMembersTabProps> = ({ keychain
   })
 
   const handleSubmit = async (members: Users) => {
-    await Promise.all(
-      members.map(({ userId }) => addUser({ producerKeychainId: keychainId, userId }))
-    )
-    closeDrawer()
+    addUsers({ producerKeychainId: keychainId, userIds: members.map(({ userId }) => userId) })
   }
 
   const canAddMembers = isAdmin
