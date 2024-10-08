@@ -73,9 +73,9 @@ function useDeleteKey() {
 function useAddOperator(
   config: { suppressSuccessToast: boolean } = { suppressSuccessToast: false }
 ) {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.addOperator' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.addOperators' })
   return useMutation({
-    mutationFn: ClientServices.addOperator,
+    mutationFn: ClientServices.addOperators,
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
       errorToastLabel: t('outcome.error'),
