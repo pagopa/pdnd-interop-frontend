@@ -75,14 +75,24 @@
   "user": {
     "generalInformations": "Informazioni generali",
     "userKeysLink": {
-      "label": "Permessi su PDND Interoperabilità"
+      "label": "Vai alla lista delle chiavi associate all’utente"
     },
     "productRoleField": {
-      "label": "Vai alla lista delle chiavi associate all’utente"
+      "label": "Permessi su PDND Interoperabilità"
+    },
+    "actions": {
+      "removeFromKeychain": {
+        "label": "Rimuovi dal portachiavi",
+        "tooltip": "L’operazione è consentita solo agli utenti con permessi da amministratore"
+      },
+      "delete": {
+        "label": "Elimina",
+        "tooltip": "L’operazione è consentita solo agli utenti con permessi da amministratore"
+      }
     }
   },
   "publicKey": {
-    "orphanKeyAlertLabel": "Attenzione: l’utente che ha caricato questa chiave non fa più parte di questo portachiavi. Per questioni di sicurezza, si consiglia di rimpiazzare questa chiave con una nuova, quindi di eliminarla dal portachiavi. Per maggiori informazioni, consulta la <1>documentazione</1>",
+    "orphanKeyAlertLabel": "L'utente che ha caricato questa chiave non fa più parte di questo portachiavi. Si consiglia di sostituire la chiave con una nuova. Per saperne di più, <1>leggi la guida.</1>",
     "generalInformations": "Informazioni generali",
     "goToTechnicalDocButton": "Vai alla documentazione tecnica",
     "creationDateField": {
@@ -95,7 +105,6 @@
       "label": "Id della chiave (kid)",
       "copySuccessFeedbackText": "Id copiato correttamente"
     },
-    "userDeletedAlertMessage": "Attenzione! L'operatore che ha caricato questa chiave è stato rimosso da questo portachiavi. Si consiglia di eliminare la chiave e di sostituirla con una nuova",
     "list": {
       "userEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente nella tab «Membri del portachiavi",
       "publicKeyLimitInfo": "Hai raggiunto il numero massimo di chiavi per questo portachiavi",

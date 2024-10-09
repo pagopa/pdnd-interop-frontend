@@ -1,11 +1,10 @@
 import type { PublicKey } from '@/api/api.generatedTypes'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
-import { Box, Skeleton, Tooltip } from '@mui/material'
+import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import { Link } from '@/router'
 import { formatDateString } from '@/utils/format.utils'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
@@ -22,12 +21,14 @@ export const KeychainPublicKeysTableRow: React.FC<KeychainPublicKeysTableRowProp
   publicKey,
 }) => {
   const { t: tCommon } = useTranslation('common')
-  const { t } = useTranslation('key')
   const queryClient = useQueryClient()
 
   const keyId = publicKey.keyId
 
-  const { actions } = useGetProducerKeychainKeyActions({ keychainId, keyId })
+  const { actions } = useGetProducerKeychainKeyActions({
+    keychainId,
+    publicKey,
+  })
 
   const handlePrefetchKey = () => {
     queryClient.prefetchQuery(
@@ -43,14 +44,7 @@ export const KeychainPublicKeysTableRow: React.FC<KeychainPublicKeysTableRowProp
   return (
     <TableRow
       cellData={[
-        <>
-          {publicKey.name}{' '}
-          {publicKey.isOrphan && (
-            <Tooltip title={t('tableKey.operatorDeletedWarning.message')}>
-              <ReportGmailerrorredIcon sx={{ ml: 0.75, fontSize: 16 }} color={color} />
-            </Tooltip>
-          )}
-        </>,
+        `${publicKey.name}`,
         `${publicKey.user.name} ${publicKey.user.familyName}`,
         formatDateString(publicKey.createdAt),
       ]}

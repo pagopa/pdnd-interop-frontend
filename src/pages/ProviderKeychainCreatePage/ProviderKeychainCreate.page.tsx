@@ -35,7 +35,7 @@ const ProviderKeychainCreatePage: React.FC = () => {
     }
     createKeychain(dataToPost, {
       onSuccess(data) {
-        navigate('SUBSCRIBE_CLIENT_EDIT', { params: { clientId: data.id } }) //navigate to keychain's details?  { params: { producerKeychainId: data.id } }
+        navigate('PROVIDE_KEYCHAIN_DETAILS', { params: { keychainId: data.id } })
       },
     })
   }

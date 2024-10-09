@@ -23,7 +23,6 @@ export const KeychainAddPublicKeyButton: React.FC<KeychainAddPublicKeyButtonProp
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  // TODO verificare id nel client per capire se è giusto farlo così oppure come nel client
   const { data: usersIds } = useSuspenseQuery({
     ...KeychainQueries.getProducerKeychainUsersList(keychainId),
     select: (users) => users.map((user) => user.userId),
