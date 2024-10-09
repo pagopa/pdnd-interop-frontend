@@ -13,6 +13,7 @@ import { KeychainQueries } from '@/api/keychain/keychain.queries'
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { useNavigate } from '@/router'
 import { useParams } from '@/router'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderKeychainDetailsPage: React.FC = () => {
   const { t } = useTranslation('keychain')
@@ -28,20 +29,24 @@ const ProviderKeychainDetailsPage: React.FC = () => {
     KeychainQueries.getSingle(keychainId)
   )
 
-  const actions: ActionItemButton[] = [
-    {
-      label: tCommon('actions.delete'),
-      action: () => {
-        deleteKeychain(
-          { producerKeychainId: keychainId },
-          { onSuccess: () => navigate('PROVIDE_KEYCHAINS_LIST') }
-        )
-      },
-      color: 'error',
-      icon: DeleteIcon,
-      variant: 'naked',
-    },
-  ]
+  const { isAdmin } = AuthHooks.useJwt()
+
+  const actions: ActionItemButton[] = isAdmin
+    ? [
+        {
+          label: tCommon('actions.delete'),
+          action: () => {
+            deleteKeychain(
+              { producerKeychainId: keychainId },
+              { onSuccess: () => navigate('PROVIDE_KEYCHAINS_LIST') }
+            )
+          },
+          color: 'error',
+          icon: DeleteIcon,
+          variant: 'naked',
+        },
+      ]
+    : []
 
   return (
     <PageContainer
