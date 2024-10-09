@@ -42,25 +42,16 @@ export function isAttributeRevoked(
       const typedAttribute = attribute as VerifiedTenantAttribute
 
       if (verifierId) {
-        const isInRevokedBy = typedAttribute.revokedBy.some(
-          (verifier) => verifier.id === verifierId
-        )
-        if (isInRevokedBy) return true
-        return false
+        return typedAttribute.revokedBy.some((verifier) => verifier.id === verifierId)
       }
 
       /*
        * The attribute is considered revoked if it has been revoked at least once by any verifier.
-       * We use a map to avoid checking the same id twice.
        *
-       * The attribute, in this case, is considered revoked if it is in 'revokedBy' and not in 'verifiedBy'
        */
-      const alreadyCheckedVerifierIds = new Map<string, boolean>()
 
       return typedAttribute.revokedBy.some(({ id }) => {
-        if (alreadyCheckedVerifierIds.has(id)) return false
-        alreadyCheckedVerifierIds.set(id, true)
-        return !typedAttribute.verifiedBy.some((verifier) => verifier.id === id)
+        return typedAttribute.revokedBy.some((verifier) => verifier.id === id)
       })
     case 'declared':
       return Boolean((attribute as DeclaredTenantAttribute).revocationTimestamp)
