@@ -107,7 +107,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_LIST',
@@ -115,7 +115,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
     key: 'PROVIDE_AGREEMENT_READ',
