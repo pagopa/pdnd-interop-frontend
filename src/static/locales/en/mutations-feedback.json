@@ -549,11 +549,11 @@
     "downloadKey": {
       "loading": "Downloading key"
     },
-    "addOperator": {
-      "loading": "Adding the user to this client",
+    "addOperators": {
+      "loading": "Adding the users to this client",
       "outcome": {
-        "success": "New user added successfully",
-        "error": "The user could not be added. Please make sure this user exists and try again!"
+        "success": "New users added successfully",
+        "error": "The users could not be added. Please make sure these users exist and try again!"
       }
     },
     "removeOperator": {

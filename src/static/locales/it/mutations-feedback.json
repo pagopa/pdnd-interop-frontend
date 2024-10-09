@@ -549,11 +549,11 @@
     "downloadKey": {
       "loading": "Stiamo scaricando la chiave"
     },
-    "addOperator": {
-      "loading": "Stiamo associando l'utente al client",
+    "addOperators": {
+      "loading": "Stiamo associando gli utenti al client",
       "outcome": {
-        "success": "Nuovo utente associato correttamente",
-        "error": "Non è stato possibile associare il nuovo utente al client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
+        "success": "Nuovi utenti associati correttamente",
+        "error": "Non è stato possibile associare i nuovi utenti al client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
       }
     },
     "removeOperator": {
