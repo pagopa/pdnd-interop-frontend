@@ -99,7 +99,7 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
               options={inputOptions}
               rules={{
                 validate: (value) =>
-                  (typeof value === 'boolean' && value === true) ||
+                  value === 'true' ||
                   t('riskAnalysis.formComponents.riskAnalysisSwitch.validation.boolean.isValue'),
               }}
             />
