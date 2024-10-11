@@ -41,7 +41,7 @@ const KeyDetailsPage: React.FC = () => {
     >
       <React.Suspense fallback={<KeyGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (
-          <Alert severity="error">
+          <Alert severity="warning">
             <Trans components={{ 1: <MUILink href={clientKeyGuideLink} target="_blank" /> }}>
               {t('edit.orphanAlertLabel')}
             </Trans>

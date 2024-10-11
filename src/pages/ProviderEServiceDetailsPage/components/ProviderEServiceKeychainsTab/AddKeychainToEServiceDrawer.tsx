@@ -105,7 +105,7 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
             noOptionsText={t('keychainField.noOptionsText')}
           />
 
-          {options.length === 0 && (
+          {allKeychains.length === 0 && (
             <Alert severity="info">
               <Trans
                 components={{

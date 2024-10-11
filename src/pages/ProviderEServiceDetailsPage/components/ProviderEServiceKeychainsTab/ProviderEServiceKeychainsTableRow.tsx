@@ -45,8 +45,8 @@ export const ProviderEServiceKeychainsTableRow: React.FC<
     <TableRow cellData={[`${keychain.name}`]}>
       <Link
         as="button"
-        to={'PROVIDE_ESERVICE_MANAGE'} // TODO KEYCHAIN SECTION
-        params={{ eserviceId, descriptorId: eserviceId }} // TODO right params
+        to={'PROVIDE_KEYCHAIN_DETAILS'}
+        params={{ keychainId: keychain.id }}
         variant="outlined"
         size="small"
         onPointerEnter={handlePrefetchKeychain}
