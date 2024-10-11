@@ -85,13 +85,13 @@ function removeKeychainFromEService({
 
 function addKeychainToEService({
   keychainId,
-  eserviceId,
+  ...payload
 }: {
   keychainId: string
 } & EServiceAdditionDetailsSeed) {
   return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${keychainId}/eservices`,
-    eserviceId
+    payload
   )
 }
 
