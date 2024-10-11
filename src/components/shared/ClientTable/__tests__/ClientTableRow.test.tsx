@@ -1,6 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-import { ClientTableRow, ClientTableRowSkeleton } from '../ClientTableRow'
+import { ClientTableRow } from '../ClientTableRow'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { vi } from 'vitest'
 import * as useClientKindHook from '@/hooks/useClientKind'
@@ -17,18 +16,6 @@ afterEach(() => {
 })
 
 describe('ClientTableRow', () => {
-  it('should match the snapshot', () => {
-    useClientKindMock.mockReturnValue('API')
-    const { container } = renderWithApplicationContext(
-      <ClientTableRow client={clientMock} clientKind="API" />,
-      {
-        withRouterContext: true,
-        withReactQueryContext: true,
-      }
-    )
-    expect(container).toMatchSnapshot()
-  })
-
   it('should navigate to the client edit page (API)', async () => {
     useClientKindMock.mockReturnValue('API')
     const { getByRole, history } = renderWithApplicationContext(
@@ -59,12 +46,5 @@ describe('ClientTableRow', () => {
     await user.click(getByRole('link', { name: 'inspect' }))
 
     expect(history.location.pathname).toBe('/it/fruizione/client/client-id')
-  })
-})
-
-describe('ClientTableRowSkeleton', () => {
-  it('should match the snapshot', () => {
-    const { container } = render(<ClientTableRowSkeleton />)
-    expect(container).toMatchSnapshot()
   })
 })

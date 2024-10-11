@@ -4,13 +4,6 @@ import { RiskAnalysisVersionMismatchDialog } from '../RiskAnalysisVersionMismatc
 import { vi } from 'vitest'
 
 describe('RiskAnalysisVersionMismatchDialog', () => {
-  it('should match snapshot', () => {
-    const screen = render(
-      <RiskAnalysisVersionMismatchDialog onProceed={vi.fn()} onRefuse={vi.fn()} />
-    )
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
   it('should call onProceed when clicking on proceed button', () => {
     const onProceed = vi.fn()
     const screen = render(

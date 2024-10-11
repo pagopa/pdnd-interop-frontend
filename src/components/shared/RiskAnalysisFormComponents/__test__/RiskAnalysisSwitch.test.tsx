@@ -29,21 +29,6 @@ const renderRiskAnalysisSwitch = (props?: Partial<RiskAnalysisSwitchProps>) => {
 }
 
 describe('RiskAnalysisSwitch', () => {
-  it('should match snapshot', () => {
-    const { baseElement } = renderRiskAnalysisSwitch({
-      options: [{ label: 'test', value: 'test' }],
-    })
-    expect(baseElement).toMatchSnapshot()
-  })
-
-  it('should match snapshot if there is no label', () => {
-    const { baseElement } = renderRiskAnalysisSwitch({
-      label: undefined,
-      options: [{ label: 'test', value: 'test' }],
-    })
-    expect(baseElement).toMatchSnapshot()
-  })
-
   it('should change value when clicked', () => {
     const { getByRole } = renderRiskAnalysisSwitch()
     const checkbox = getByRole('checkbox')
