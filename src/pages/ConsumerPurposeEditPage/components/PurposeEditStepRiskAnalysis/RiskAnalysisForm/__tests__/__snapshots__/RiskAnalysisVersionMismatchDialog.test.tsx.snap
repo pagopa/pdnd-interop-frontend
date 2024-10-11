@@ -39,8 +39,8 @@ exports[`RiskAnalysisVersionMismatchDialog > should match snapshot 1`] = `
           title
         </h2>
         <div
-          aria-describedby=":r1:"
           class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
+          id=":r1:"
         >
           description
         </div>
