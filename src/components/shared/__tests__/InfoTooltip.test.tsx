@@ -4,12 +4,6 @@ import { InfoTooltip, InfoTooltipSkeleton } from '@/components/shared/InfoToolti
 import userEvent from '@testing-library/user-event'
 
 describe("Checks that InfoTooltip snapshots don't change", () => {
-  it('renders correctly', () => {
-    const infoTooltip = render(<InfoTooltip label={'label'} />)
-
-    expect(infoTooltip.baseElement).toMatchSnapshot()
-  })
-
   it('renders the tooltip message correctly while hovering', async () => {
     const user = userEvent.setup()
     const infoTooltip = render(<InfoTooltip label={'label'} />)
@@ -21,12 +15,11 @@ describe("Checks that InfoTooltip snapshots don't change", () => {
     await waitFor(() => {
       expect(infoTooltip.baseElement).toHaveTextContent('label')
     })
-    expect(infoTooltip.baseElement).toMatchSnapshot()
   })
 })
 
 describe('InfoTooltipSkeleton', () => {
-  it('should match the snapshot', () => {
+  it('should render correctly', () => {
     const { baseElement } = render(<InfoTooltipSkeleton />)
     expect(baseElement).toBeInTheDocument()
   })

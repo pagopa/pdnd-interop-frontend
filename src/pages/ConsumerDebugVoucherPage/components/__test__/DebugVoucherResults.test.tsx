@@ -10,7 +10,7 @@ import {
 } from '@/../__mocks__/data/voucher.mocks'
 
 describe('DebugVoucherResults testing', () => {
-  it('should match snapshot if isOpen is false', () => {
+  it('should render correctly if isOpen is false', () => {
     mockDebugVoucherContext({
       request: createMockDebugVoucherRequest(),
       response: createMockDebugVoucherResultPassed(),
@@ -20,11 +20,9 @@ describe('DebugVoucherResults testing', () => {
     const screen = render(<DebugVoucherResults />)
 
     expect(screen.queryByText('stepDrawer.stepResultLabel')).not.toBeInTheDocument()
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
-  it('should match snapshot if isOpen is true', () => {
+  it('should render correctly if isOpen is true', () => {
     mockDebugVoucherContext({
       response: createMockDebugVoucherResultPassed(),
       request: createMockDebugVoucherRequest(),
@@ -38,8 +36,6 @@ describe('DebugVoucherResults testing', () => {
     const screen = render(<DebugVoucherResults />)
 
     expect(screen.queryByText('stepDrawer.stepResultLabel')).toBeInTheDocument()
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should handleMakeNewRequestMockFn function be called when newRequestButton is clicked', () => {

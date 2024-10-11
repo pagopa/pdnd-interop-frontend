@@ -11,7 +11,7 @@ type UseLocationReturn = ReturnType<typeof reactRouterDom.useLocation>
 
 describe('useActiveStep hook testing', () => {
   it('should update the state correctly', () => {
-    useLocationSpy.mockImplementation(() => ({} as UseLocationReturn))
+    useLocationSpy.mockImplementation(() => ({}) as UseLocationReturn)
 
     const scrollSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
     const { result } = renderHook(() => useActiveStep())
@@ -31,7 +31,7 @@ describe('useActiveStep hook testing', () => {
 
   it('should sync the initial step state with the location state', () => {
     useLocationSpy.mockImplementation(
-      () => ({ state: { stepIndexDestination: 2 } } as UseLocationReturn)
+      () => ({ state: { stepIndexDestination: 2 } }) as UseLocationReturn
     )
     const { result } = renderHook(() => useActiveStep())
 
@@ -39,7 +39,7 @@ describe('useActiveStep hook testing', () => {
   })
 
   it('should not set the step index below to zero', () => {
-    useLocationSpy.mockImplementation(() => ({} as UseLocationReturn))
+    useLocationSpy.mockImplementation(() => ({}) as UseLocationReturn)
     const { result } = renderHook(() => useActiveStep())
 
     expect(result.current.activeStep).toBe(0)
