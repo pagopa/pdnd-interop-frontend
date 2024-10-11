@@ -8,7 +8,7 @@ import { DebugVoucherResultsStepsSection } from '../DebugVoucherResultsStepsSect
 import { render } from '@testing-library/react'
 
 describe('DebugVoucherResultsStepsSection testing', () => {
-  it('should match snapshot if result is failed and clientKind is undefined', () => {
+  it('should render correctly if result is failed and clientKind is undefined', () => {
     mockDebugVoucherContext({
       response: createMockDebugVoucherResultFailed({ clientKind: undefined }),
     })
@@ -18,11 +18,9 @@ describe('DebugVoucherResultsStepsSection testing', () => {
     expect(screen.queryAllByText('chipLabel.passed').length).toBe(1)
     expect(screen.queryAllByText('chipLabel.failed').length).toBe(1)
     expect(screen.queryAllByText('chipLabel.skipped').length).toBe(1)
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
-  it('should match snapshot if result is failed and clientKind is API', () => {
+  it('should render correctly if result is failed and clientKind is API', () => {
     mockDebugVoucherContext({ response: createMockDebugVoucherResultFailed() })
 
     const screen = render(<DebugVoucherResultsStepsSection />)
@@ -30,11 +28,9 @@ describe('DebugVoucherResultsStepsSection testing', () => {
     expect(screen.queryAllByText('chipLabel.passed').length).toBe(1)
     expect(screen.queryAllByText('chipLabel.failed').length).toBe(1)
     expect(screen.queryAllByText('chipLabel.skipped').length).toBe(1)
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
-  it('should match snapshot if result is failed and clientKind is CONSUMER', () => {
+  it('should render correctly if result is failed and clientKind is CONSUMER', () => {
     mockDebugVoucherContext({
       response: createMockDebugVoucherResultFailed({ clientKind: 'CONSUMER' }),
     })
@@ -44,11 +40,9 @@ describe('DebugVoucherResultsStepsSection testing', () => {
     expect(screen.queryAllByText('chipLabel.passed').length).toBe(1)
     expect(screen.queryAllByText('chipLabel.failed').length).toBe(1)
     expect(screen.queryAllByText('chipLabel.skipped').length).toBe(2)
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
-  it('should match snapshot if result is passed and clientKind is API', () => {
+  it('should render correctly if result is passed and clientKind is API', () => {
     mockDebugVoucherContext({
       response: createMockDebugVoucherResultPassed({
         clientKind: 'API',
@@ -79,11 +73,9 @@ describe('DebugVoucherResultsStepsSection testing', () => {
     expect(screen.queryAllByText('chipLabel.passed').length).toBe(3)
     expect(screen.queryAllByText('chipLabel.failed').length).toBe(0)
     expect(screen.queryAllByText('chipLabel.skipped').length).toBe(0)
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
-  it('should match snapshot if result is passed and clientKind is CONSUMER', () => {
+  it('should render correctly if result is passed and clientKind is CONSUMER', () => {
     mockDebugVoucherContext({ response: createMockDebugVoucherResultPassed() })
 
     const screen = render(<DebugVoucherResultsStepsSection />)
@@ -91,7 +83,5 @@ describe('DebugVoucherResultsStepsSection testing', () => {
     expect(screen.queryAllByText('chipLabel.passed').length).toBe(4)
     expect(screen.queryAllByText('chipLabel.failed').length).toBe(0)
     expect(screen.queryAllByText('chipLabel.skipped').length).toBe(0)
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 })

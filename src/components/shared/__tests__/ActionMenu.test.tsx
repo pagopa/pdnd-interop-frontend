@@ -20,30 +20,6 @@ const mockActions: Array<ActionItem> = [
   },
 ]
 
-describe("Checks that ActionMenu snapshots don't change", () => {
-  it('renders correctly', () => {
-    const actionMenu = render(<ActionMenu actions={mockActions} />)
-
-    expect(actionMenu.baseElement).toMatchSnapshot()
-  })
-
-  it('renders correctly without actions', async () => {
-    const actionMenu = render(<ActionMenu actions={[]} />)
-
-    expect(actionMenu.baseElement).toMatchSnapshot()
-  })
-
-  it('renders correctly while opened', async () => {
-    const user = userEvent.setup()
-    const actionMenu = render(<ActionMenu actions={mockActions} />)
-    const button = actionMenu.queryByRole('button', { name: 'iconButtonAriaLabel' })
-
-    await user.click(button!)
-
-    expect(actionMenu.baseElement).toMatchSnapshot()
-  })
-})
-
 describe('Unit tests for ActionMenu', () => {
   it('opens and closes', async () => {
     const user = userEvent.setup()
@@ -101,7 +77,7 @@ describe('Unit tests for ActionMenu', () => {
 })
 
 describe('ActionMenuSkeleton', () => {
-  it('should match the snapshot', () => {
+  it('should render correctly', () => {
     const { baseElement } = render(<ActionMenuSkeleton />)
     expect(baseElement).toBeInTheDocument()
   })

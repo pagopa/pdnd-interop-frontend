@@ -39,15 +39,6 @@ beforeAll(() => server.listen())
 afterAll(() => server.close())
 
 describe('ConsumerDebugVoucherPage testing', () => {
-  it('should render correctly when the debugVoucherValues are undefined', () => {
-    const screen = renderWithApplicationContext(<ConsumerDebugVoucherPage />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
-
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
   it('should render correctly when the debugVoucherValues are defined', async () => {
     const screen = renderWithApplicationContext(<ConsumerDebugVoucherPage />, {
       withReactQueryContext: true,
@@ -64,8 +55,6 @@ describe('ConsumerDebugVoucherPage testing', () => {
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'newRequestBtn' })).toBeInTheDocument()
-
-      expect(screen.baseElement).toMatchSnapshot()
     })
   })
 

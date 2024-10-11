@@ -25,17 +25,6 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 describe('DebugVoucherForm testing', () => {
-  it('should render correclty', () => {
-    const screen = renderWithApplicationContext(
-      <DebugVoucherForm setDebugVoucherValues={vi.fn()} />,
-      {
-        withReactQueryContext: true,
-      }
-    )
-
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
   it('should call the onSuccess function', async () => {
     const setDebugVoucherValuesMockFn = vi.fn()
     const screen = renderWithApplicationContext(

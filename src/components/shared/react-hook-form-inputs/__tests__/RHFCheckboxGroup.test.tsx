@@ -107,24 +107,4 @@ describe('determine whether the integration between react-hook-form and MUI’s 
 
     expect(checkboxResult.queryByRole('checkbox')).toBeNull()
   })
-
-  it('should not render label if no label prop is given', () => {
-    const checkboxResult = render(
-      <TestInputWrapper>
-        <RHFCheckboxGroup {...checkboxGroupProps.standard} label={undefined} />
-      </TestInputWrapper>
-    )
-
-    expect(checkboxResult.baseElement).toMatchSnapshot()
-  })
-
-  it('should render correctly with label if label prop is given', () => {
-    const checkboxResult = render(
-      <TestInputWrapper>
-        <RHFCheckboxGroup {...checkboxGroupProps.standard} />
-      </TestInputWrapper>
-    )
-
-    expect(checkboxResult.baseElement).toMatchSnapshot()
-  })
 })

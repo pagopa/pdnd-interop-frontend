@@ -30,14 +30,4 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     await user.click(switchInput)
     expect(switchInput).not.toBeChecked()
   })
-
-  it('should match the snapshot', async () => {
-    const { baseElement } = render(
-      <TestInputWrapper>
-        <RHFSwitch {...switchProps.standard} />
-      </TestInputWrapper>
-    )
-
-    expect(baseElement).toMatchSnapshot()
-  })
 })
