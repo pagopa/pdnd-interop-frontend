@@ -47,12 +47,8 @@ export function isAttributeRevoked(
 
       /*
        * The attribute is considered revoked if it has been revoked at least once by any verifier.
-       *
        */
-
-      return typedAttribute.revokedBy.some(({ id }) => {
-        return typedAttribute.revokedBy.some((verifier) => verifier.id === id)
-      })
+      return typedAttribute.revokedBy.length > 0
     case 'declared':
       return Boolean((attribute as DeclaredTenantAttribute).revocationTimestamp)
     default:
@@ -148,8 +144,8 @@ export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
   ownedAttributes: TAttributeKey extends 'certified'
     ? CertifiedTenantAttribute[]
     : TAttributeKey extends 'verified'
-    ? VerifiedTenantAttribute[]
-    : DeclaredTenantAttribute[],
+      ? VerifiedTenantAttribute[]
+      : DeclaredTenantAttribute[],
   attributesGroup: Array<DescriptorAttribute>,
   verifierId?: string
 ) {
