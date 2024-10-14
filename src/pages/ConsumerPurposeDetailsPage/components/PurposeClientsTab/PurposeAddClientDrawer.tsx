@@ -1,7 +1,8 @@
+import type { CompactClient } from '@/api/api.generatedTypes'
 import { ClientQueries } from '@/api/client'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFAutocompleteMultiple } from '@/components/shared/react-hook-form-inputs'
+import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/material'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { useQuery } from '@tanstack/react-query'
@@ -10,7 +11,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 type PurposeAddClientFormValues = {
-  selectedClients: Array<string>
+  selectedClient: CompactClient | undefined
 }
 
 type PurposeAddClientDrawerProps = {
@@ -33,18 +34,19 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
   const [clientSearchParam, setClientSearchParam] = useAutocompleteTextInput()
 
   const defaultValues: PurposeAddClientFormValues = {
-    selectedClients: [],
+    selectedClient: undefined,
   }
   const formMethods = useForm({
     defaultValues,
   })
 
-  const onSubmit = ({ selectedClients }: PurposeAddClientFormValues) => {
-    Promise.all(
-      selectedClients.map((selectedClient) =>
-        addClient({ clientId: selectedClient, purposeId: purposeId })
-      )
-    ).then(onClose)
+  const selectedClient = formMethods.watch('selectedClient')
+  const isAnyClientSelected = Boolean(selectedClient)
+
+  const onSubmit = ({ selectedClient }: PurposeAddClientFormValues) => {
+    onClose()
+    if (!selectedClient) return
+    addClient({ clientId: selectedClient.id, purposeId: purposeId })
   }
 
   const { data: clientIdsAlreadyInPurpose, isFetching: isLoadingPurpose } = useQuery({
@@ -52,10 +54,23 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
     select: (d) => d.clients.map((d) => d.id),
   })
 
+  /**
+   * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected attribute name.
+   */
+  function getClientQ() {
+    let result = clientSearchParam
+
+    if (selectedClient && clientSearchParam === selectedClient.name) {
+      result = ''
+    }
+
+    return result
+  }
+
   const { data, isFetching: isLoadingClients } = useQuery(
     ClientQueries.getList({
       kind: 'CONSUMER',
-      q: clientSearchParam,
+      q: getClientQ(),
       offset: 0,
       limit: 50,
     })
@@ -67,15 +82,14 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
     const availableClients = clients.filter(
       (client) => !clientIdsAlreadyInPurpose.some((id) => client.id === id)
     )
-    return availableClients.map((client) => ({ label: client.name, value: client.id }))
+    return availableClients.map((client) => ({ label: client.name, value: client }))
   }, [clientIdsAlreadyInPurpose, data])
 
   const handleTransitionExited = () => {
     formMethods.reset(defaultValues)
-  }
 
-  const selectedClients = formMethods.watch('selectedClients')
-  const isAnyClientSelected = selectedClients.length > 0
+    setClientSearchParam('')
+  }
 
   return (
     <FormProvider {...formMethods}>
@@ -91,12 +105,13 @@ export const PurposeAddClientDrawer: React.FC<PurposeAddClientDrawerProps> = ({
         onTransitionExited={handleTransitionExited}
       >
         <Box sx={{ mt: 3 }}>
-          <RHFAutocompleteMultiple
+          <RHFAutocompleteSingle
             focusOnMount
             label={t('content.autocompleteLabel')}
             sx={{ mt: 6, mb: 0 }}
             onInputChange={(_, value) => setClientSearchParam(value)}
-            name="selectedClients"
+            name="selectedClient"
+            rules={{ required: true }}
             options={options}
             loading={isLoadingPurpose || isLoadingClients}
           />

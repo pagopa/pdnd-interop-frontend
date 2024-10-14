@@ -2,22 +2,23 @@ import type { CompactProducerKeychain } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { KeychainQueries } from '@/api/keychain'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFAutocompleteMultiple } from '@/components/shared/react-hook-form-inputs'
+import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { Link } from '@/router'
 import { Alert, Link as MuiLink, Stack } from '@mui/material'
+import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 
-type AddKeychainsFormValues = {
-  selectedKeychains: CompactProducerKeychain[]
+type AddKeychainFormValues = {
+  selectedKeychain: CompactProducerKeychain | undefined
 }
 
 type AddKeychainToEServiceDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  onSubmit: (keychains: CompactProducerKeychain[]) => void
+  onSubmit: (selectedKeychain: CompactProducerKeychain) => void
   excludeKeychainsIdsList: Array<string>
 }
 
@@ -32,19 +33,38 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
   })
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
+  const [keychainSearchParam, setKeychainSearchParam] = useAutocompleteTextInput()
 
   const handleCloseDrawer = () => {
     onClose()
   }
 
-  const formMethods = useForm<AddKeychainsFormValues>({
-    defaultValues: { selectedKeychains: [] },
+  const defaultValues: AddKeychainFormValues = {
+    selectedKeychain: undefined,
+  }
+
+  const formMethods = useForm<AddKeychainFormValues>({
+    defaultValues,
   })
 
-  const selectedKeychains = formMethods.watch('selectedKeychains')
+  const selectedKeychain = formMethods.watch('selectedKeychain')
+
+  /**
+   * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected attribute name.
+   */
+  function getKeychainQ() {
+    let result = keychainSearchParam
+
+    if (selectedKeychain && keychainSearchParam === selectedKeychain.name) {
+      result = ''
+    }
+
+    return result
+  }
 
   const { data: allKeychains = [], isPending } = useQuery({
     ...KeychainQueries.getKeychainsList({
+      q: getKeychainQ(),
       limit: 50,
       offset: 0,
       producerId: jwt?.organizationId as string,
@@ -61,13 +81,16 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
     value: k,
   }))
 
-  const _onSubmit = ({ selectedKeychains }: AddKeychainsFormValues) => {
+  const _onSubmit = ({ selectedKeychain }: AddKeychainFormValues) => {
     onClose()
-    onSubmit(selectedKeychains)
+    if (!selectedKeychain) return
+    onSubmit(selectedKeychain)
   }
 
   const handleTransitionExited = () => {
-    formMethods.reset()
+    formMethods.reset(defaultValues)
+
+    setKeychainSearchParam('')
   }
 
   return (
@@ -88,17 +111,18 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
         buttonAction={{
           label: tCommon('addBtn'),
           action: formMethods.handleSubmit(_onSubmit),
-          disabled: selectedKeychains.length === 0,
+          disabled: !selectedKeychain,
         }}
         onTransitionExited={handleTransitionExited}
       >
         <Stack spacing={3}>
-          <RHFAutocompleteMultiple
+          <RHFAutocompleteSingle
             focusOnMount
             label={t('keychainField.label')}
             labelType="external"
             size="small"
-            name="selectedKeychains"
+            name="selectedKeychain"
+            onInputChange={(_, value) => setKeychainSearchParam(value)}
             options={options}
             rules={{ required: true }}
             loading={isPending}
