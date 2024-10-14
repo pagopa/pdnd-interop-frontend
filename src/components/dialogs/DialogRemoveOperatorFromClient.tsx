@@ -31,13 +31,13 @@ export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromCl
       open
       onClose={handleCancel}
       aria-labelledby={ariaLabelId}
-      {...{ 'aria-describedby': ariaDescriptionId }}
+      aria-describedby={ariaDescriptionId}
       maxWidth="md"
       fullWidth
     >
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
-      <DialogContent aria-describedby={ariaDescriptionId}>
+      <DialogContent id={ariaDescriptionId}>
         <Trans
           components={{
             1: <Link underline="hover" href={clientKeyGuideLink} target="_blank" />,

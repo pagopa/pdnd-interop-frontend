@@ -40,13 +40,13 @@ exports[`DialogError testing > should match the snapshot 1`] = `
         </h2>
         <div
           class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
+          id=":r1:"
         >
-          <p
+          <span
             class="MuiTypography-root MuiTypography-body1 css-z2eky3-MuiTypography-root"
-            id=":r1:"
           >
             default.description
-          </p>
+          </span>
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall css-11qr2p8-MuiButtonBase-root-MuiButton-root"
             tabindex="0"

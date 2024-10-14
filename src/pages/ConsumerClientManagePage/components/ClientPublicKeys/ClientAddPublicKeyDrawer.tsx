@@ -13,7 +13,7 @@ type ClientAddPublicKeyDrawerProps = {
   onClose: VoidFunction
 }
 
-type UpdatePartyMailFormValues = {
+type AddPublicKeyFormValues = {
   name: string
   key: string
 }
@@ -26,7 +26,7 @@ export const ClientAddPublicKeyDrawer: React.FC<ClientAddPublicKeyDrawerProps> =
   const { t } = useTranslation('client', { keyPrefix: 'create.addPublicKeyDrawer' })
 
   const { mutate: postKey } = ClientMutations.usePostKey()
-  const formMethods = useForm<UpdatePartyMailFormValues>({ defaultValues: { name: '', key: '' } })
+  const formMethods = useForm<AddPublicKeyFormValues>({ defaultValues: { name: '', key: '' } })
 
   const handleSubmit = formMethods.handleSubmit((values) => {
     const { key, name } = values

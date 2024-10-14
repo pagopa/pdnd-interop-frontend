@@ -1,4 +1,3 @@
-import { ClientQueries } from '@/api/client'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Link } from '@/router'
@@ -11,6 +10,7 @@ import { AuthHooks } from '@/api/auth'
 import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActions'
 import type { CompactUser } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
+import { SelfcareQueries } from '@/api/selfcare'
 
 interface ClientOperatorsTableRowProps {
   operator: CompactUser
@@ -29,7 +29,7 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   const { actions } = useGetClientOperatorsActions(operator.userId, clientId)
 
   const handlePrefetchOperator = () => {
-    queryClient.prefetchQuery(ClientQueries.getSingleOperator(operator.userId))
+    queryClient.prefetchQuery(SelfcareQueries.getSingleUser(operator.userId))
   }
 
   const inspectRouteKey =

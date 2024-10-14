@@ -135,6 +135,14 @@
       }
     }
   },
+  "dialogRemoveUserFromKeychain": {
+    "title": "Conferma rimozione utente",
+    "description": "L’utente corrente sarà rimosso dal portachiavi corrente e non vi avrà più accesso. Tutte le chiavi caricate da questa persona rimarranno disponibili nel portachiavi. Si raccomanda di sostituirle e di eliminare quelle vecchie. Per saperne di più, <1>leggi la guida</1>"
+  },
+  "dialogDeleteProducerKeychainKey": {
+    "title": "Conferma eliminazione chiave pubblica",
+    "description": "La chiave non potrà più essere utilizzata per firmare risposte verso i fruitori dei tuoi e-service. Per saperne di più, <1>leggi la guida</1>."
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
@@ -268,6 +276,11 @@
     "DEFAULT": "",
     "TENANT": "Il tuo ente",
     "TENANT_CERTIFIER": "Ente certificatore",
-    "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo"
+    "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo",
+    "PROVIDE_KEYCHAINS_LIST": "I tuoi portachiavi",
+    "PROVIDE_KEYCHAIN_CREATE": "Crea portachiavi",
+    "PROVIDE_KEYCHAIN_DETAILS": "Gestisci portachiavi",
+    "PROVIDE_KEYCHAIN_USER_DETAILS": "Gestisci utente del portachiavi",
+    "PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS": "Gestisci chiave pubblica del portachiavi"
   }
 }

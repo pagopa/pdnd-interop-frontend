@@ -243,6 +243,11 @@
     }
   },
   "read": {
+    "tabs": {
+      "ariaLabel": "Two different tabs for e-service details and associated keychains",
+      "eserviceDetails": "E-service details",
+      "keychain": "Keychains associated"
+    },
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
       "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived."
@@ -250,6 +255,12 @@
     "actions": {
       "backToListLabel": "Back to the e-services",
       "backToCatalogLabel": "Back to the catalog"
+    },
+    "keychain": {
+      "actionReservedToAdminTooltip": "This actions is reserved to user with administrator permissions",
+      "actions": {
+        "removeKeychainFromEService": "Remove from e-service"
+      }
     },
     "sections": {
       "generalInformations": {
@@ -383,14 +394,23 @@
         "goToSelectedVersion": "Go to the selected version"
       },
       "updateDocumentationDrawer": {
-        "title": "Modifica documentazione",
-        "subtitle": "Ora puoi modificare, scaricare ed eliminare i documenti allegati all’e-service.",
-        "addDocumentLabel": "Aggiungi documentazione",
+        "title": "Edit documentation",
+        "subtitle": "Now you can edit, download and delete documents attached to the e-service.",
+        "addDocumentLabel": "Add documentation",
         "nameField": {
-          "label": "Nome documento"
+          "label": "Document name"
         },
-        "interfaceInfoTooltip": "Il file “Specifica API” non è modificabile. Per aggiornarlo, crea una nuova versione.",
-        "downloadDocumentTooltip": "Scarica documento"
+        "interfaceInfoTooltip": "The “API Specification” file is not editable. To update it, create a new version.",
+        "downloadDocumentTooltip": "Download document"
+      },
+      "addKeychainToEServiceDrawer": {
+        "title": "Add new keychain",
+        "subtitle": "At this stage you can select a keychain to associate with the entire e-service. To find out more, <1>see the guide</1>.",
+        "keychainField": {
+          "label": "Select keychain (required)",
+          "noOptionsText": "No keychain found"
+        },
+        "noKeychainAlert": "There are no keychain available. <1>Create your first keychain</1>."
       }
     }
   },

@@ -1,4 +1,3 @@
-import { useDialog } from '@/stores'
 import { Alert, Button, Stack, Tooltip } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,13 +18,8 @@ export const PurposeClientsTab: React.FC<PurposeClientsTabProps> = ({
 }) => {
   const { t } = useTranslation('purpose')
   const { t: tCommon } = useTranslation('common')
-  //const { openDialog } = useDialog()
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { isAdmin } = AuthHooks.useJwt()
-
-  /*const handleOpenAddClientToPurposeDialog = () => {
-    openDialog({ type: 'addClientToPurpose', purposeId })
-  }*/
 
   const handleOpenPurposeAddClientDrawer = () => {
     openDrawer()

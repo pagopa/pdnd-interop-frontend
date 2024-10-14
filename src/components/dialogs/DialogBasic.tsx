@@ -47,7 +47,7 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
       <DialogTitle id={ariaLabelId}>{title}</DialogTitle>
 
       {description && (
-        <DialogContent aria-describedby={ariaDescriptionId}>
+        <DialogContent id={ariaDescriptionId}>
           <Trans
             components={{
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,

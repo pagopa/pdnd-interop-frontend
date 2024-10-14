@@ -38,13 +38,13 @@ export const DialogDeleteOperator: React.FC<DialogDeleteOperatorProps> = ({
       open
       onClose={handleCancel}
       aria-labelledby={ariaLabelId}
-      {...{ 'aria-describedby': ariaDescriptionId }}
+      aria-describedby={ariaDescriptionId}
       maxWidth="md"
       fullWidth
     >
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
-      <DialogContent aria-describedby={ariaDescriptionId}>
+      <DialogContent id={ariaDescriptionId}>
         <Typography variant="body1">{t('description')}</Typography>
       </DialogContent>
 

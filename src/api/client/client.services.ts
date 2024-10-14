@@ -13,7 +13,6 @@ import type {
   KeysSeed,
   PublicKey,
   PublicKeys,
-  User,
 } from '../api.generatedTypes'
 
 async function getList(params: GetClientsParams) {
@@ -49,11 +48,6 @@ async function getOperatorList(clientId: string) {
   const response = await axiosInstance.get<CompactUsers>(
     `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`
   )
-  return response.data
-}
-
-async function getSingleOperator(userId: string) {
-  const response = await axiosInstance.get<User>(`${BACKEND_FOR_FRONTEND_URL}/users/${userId}`)
   return response.data
 }
 
@@ -124,7 +118,6 @@ export const ClientServices = {
   getKeyList,
   getSingleKey,
   getOperatorList,
-  getSingleOperator,
   getOperatorKeys,
   create,
   createInteropM2M,

@@ -15,6 +15,8 @@ import type {
   DialogSessionExpiredProps,
   DialogUpgradeAgreementVersionProps,
   DialogSetTenantMailProps,
+  DialogRemoveUserFromKeychainProps,
+  DialogDeleteProducerKeychainKeyProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -27,6 +29,8 @@ import { DialogRevokeCertifiedAttribute } from './DialogRevokeCertifiedAttribute
 import { DialogClonePurpose } from './DialogClonePurpose/DialogClonePurpose'
 import { DialogRejectPurposeVersion } from './DialogRejectPurposeVersion'
 import { DialogSetTenantMail } from './DialogSetTenantMail'
+import { DialogRemoveUserFromKeychain } from './DialogRemoveUserFromKeychain'
+import { DialogDeleteProducerKeychainKey } from './DialogDeleteProducerKeychainKey'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -39,7 +43,9 @@ function match<T>(
   onRevokeCertifiedAttribute: (props: DialogRevokeCertifiedAttributeProps) => T,
   onClonePurpose: (props: DialogClonePurposeProps) => T,
   onRejectPurposeVersion: (props: DialogRejectPurposeVersionProps) => T,
-  onSetTenantMail: (props: DialogSetTenantMailProps) => T
+  onSetTenantMail: (props: DialogSetTenantMailProps) => T,
+  onRemoveUserFromKeychain: (props: DialogRemoveUserFromKeychainProps) => T,
+  onDeleteProducerKeychainKey: (props: DialogDeleteProducerKeychainKeyProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -65,6 +71,10 @@ function match<T>(
         return onRejectPurposeVersion(props)
       case 'setTenantMail':
         return onSetTenantMail(props)
+      case 'removeUserFromKeychain':
+        return onRemoveUserFromKeychain(props)
+      case 'deleteProducerKeychainKey':
+        return onDeleteProducerKeychainKey(props)
     }
   }
 }
@@ -80,7 +90,9 @@ const _Dialog = match(
   (props) => <DialogRevokeCertifiedAttribute {...props} />,
   (props) => <DialogClonePurpose {...props} />,
   (props) => <DialogRejectPurposeVersion {...props} />,
-  (props) => <DialogSetTenantMail {...props} />
+  (props) => <DialogSetTenantMail {...props} />,
+  (props) => <DialogRemoveUserFromKeychain {...props} />,
+  (props) => <DialogDeleteProducerKeychainKey {...props} />
 )
 
 export const Dialog: React.FC = () => {
