@@ -1,6 +1,7 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
+  AddUsersToClientPayload,
   Client,
   ClientSeed,
   CompactClients,
@@ -102,9 +103,13 @@ function deleteKey({ clientId, kid }: { clientId: string; kid: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys/${kid}`)
 }
 
-async function addOperator({ clientId, userId }: { clientId: string; userId: string }) {
+async function addOperators({
+  clientId,
+  ...payload
+}: { clientId: string } & AddUsersToClientPayload) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users/${userId}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`,
+    payload
   )
   return response.data
 }
@@ -127,6 +132,6 @@ export const ClientServices = {
   postKey,
   downloadKey,
   deleteKey,
-  addOperator,
+  addOperators,
   removeOperator,
 }
