@@ -21,6 +21,7 @@ export type EServiceCreateStepGeneralFormValues = {
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
+  isSignalHubEnabled: boolean | null
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
@@ -43,6 +44,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     description: descriptor?.eservice?.description ?? '',
     technology: descriptor?.eservice?.technology ?? 'REST',
     mode: eserviceMode,
+    isSignalHubEnabled: false,
   }
 
   const formMethods = useForm({ defaultValues })
@@ -151,6 +153,24 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
+          />
+          <RHFRadioGroup
+            name="isSignalHubEnabled"
+            row
+            label={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
+            options={[
+              {
+                label: t('create.step1.eserviceModeField.isSignalHubEnabled.options.false'),
+                value: 'false',
+              },
+              {
+                label: t('create.step1.eserviceModeField.isSignalHubEnabled.options.true'),
+                value: 'true',
+              },
+            ]}
+            disabled={!areEServiceGeneralInfoEditable}
+            rules={{ required: true }}
+            sx={{ mb: 0, mt: 3 }}
           />
         </SectionContainer>
 

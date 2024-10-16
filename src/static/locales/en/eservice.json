@@ -36,6 +36,13 @@
         "options": {
           "DELIVER": "Deliver",
           "RECEIVE": "Receive"
+        },
+        "isSignalHubEnabled": {
+          "label": "Is available the data update system (Signal Hub)? ",
+          "options": {
+            "true": "Yes",
+            "false": "No"
+          }
         }
       },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
@@ -154,6 +161,9 @@
       },
       "apiTechnology": {
         "label": "API Technology"
+      },
+      "isSignalHubEnabled": {
+        "label": "Is available the data update system (Signal Hub)? "
       }
     },
     "riskAnalysisSummaryList": {
@@ -323,6 +333,14 @@
           "implementAndManageEService": "How do I implement and manage an e-service?",
           "verifyVoucher": "How do I verify a consumer's voucher?",
           "wellKnown": "URL .well-known"
+        },
+        "isSignalHubEnabled": {
+          "label": "Is available the data update system (Signal Hub)? ",
+          "value": {
+            "true": "Yes",
+            "false": "No",
+            "null": "No"
+          }
         }
       },
       "attributes": {

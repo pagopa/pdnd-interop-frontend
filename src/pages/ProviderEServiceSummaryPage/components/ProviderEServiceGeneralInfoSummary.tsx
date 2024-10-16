@@ -26,6 +26,10 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         label={t('apiTechnology.label')}
         content={descriptor.eservice.technology}
       />
+      <InformationContainer
+        label={t('isSignalHubEnabled.label')}
+        content={descriptor.eservice.isSignalHubEnabled}
+      />
     </Stack>
   )
 }
