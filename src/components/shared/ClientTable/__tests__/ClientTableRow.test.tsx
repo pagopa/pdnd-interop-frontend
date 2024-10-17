@@ -1,11 +1,12 @@
 import React from 'react'
 import { ClientTableRow } from '../ClientTableRow'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { vi } from 'vitest'
 import * as useClientKindHook from '@/hooks/useClientKind'
 import * as router from '@/router'
 import userEvent from '@testing-library/user-event'
 
+mockUseJwt()
 const clientMock = { id: 'client-id', name: 'name', hasKeys: false }
 const useClientKindMock = vi.spyOn(useClientKindHook, 'useClientKind')
 const navigateRouterFn = vi.fn()
