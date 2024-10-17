@@ -37,6 +37,11 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${descriptor.eservice.mode}`)}
             />
+
+            <InformationContainer
+              label={t('isSignalHubEnabled.label')}
+              content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+            />
           </Stack>
         </SectionContainer>
         <Divider />
