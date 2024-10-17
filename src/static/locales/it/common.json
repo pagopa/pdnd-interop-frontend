@@ -57,7 +57,8 @@
       "userName": "Nome e cognome",
       "certifiedAttributes": "Attributi certificati",
       "assigneeTenant": "Ente assegnatario",
-      "certifiedAttribute": "Attributo certificato"
+      "certifiedAttribute": "Attributo certificato",
+      "keychain": "Portachiavi"
     }
   },
   "status": {

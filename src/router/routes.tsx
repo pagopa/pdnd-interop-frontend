@@ -36,6 +36,11 @@ import {
   ProviderEServiceSummaryPage,
   TenantCertifierPage,
   TenantCertifierAttributeDetails,
+  ProviderKeychainsListPage,
+  ProviderKeychainCreatePage,
+  ProviderKeychainDetailsPage,
+  ProviderKeychainUserDetailsPage,
+  ProviderKeychainPublicKeyDetailsPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -102,7 +107,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_LIST',
@@ -110,7 +115,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
     key: 'PROVIDE_AGREEMENT_READ',
@@ -391,6 +396,46 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAINS_LIST',
+    path: '/erogazione/portachiavi',
+    element: <ProviderKeychainsListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAIN_CREATE',
+    path: '/erogazione/portachiavi/crea',
+    element: <ProviderKeychainCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAIN_DETAILS',
+    path: 'erogazione/portachiavi/:keychainId',
+    element: <ProviderKeychainDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAIN_USER_DETAILS',
+    path: '/erogazione/portachiavi/:keychainId/user/:userId',
+    element: <ProviderKeychainUserDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS',
+    path: '/erogazione/portachiavi/:keychainId/chiavi-pubbliche/:keyId',
+    element: <ProviderKeychainPublicKeyDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
   })
   .build()
 

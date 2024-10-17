@@ -549,11 +549,11 @@
     "downloadKey": {
       "loading": "Stiamo scaricando la chiave"
     },
-    "addOperator": {
-      "loading": "Stiamo associando l'utente al client",
+    "addOperators": {
+      "loading": "Stiamo associando gli utenti al client",
       "outcome": {
-        "success": "Nuovo utente associato correttamente",
-        "error": "Non è stato possibile associare il nuovo utente al client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
+        "success": "Nuovi utenti associati correttamente",
+        "error": "Non è stato possibile associare i nuovi utenti al client. Assicurarsi che non esista già l'utenza ed eventualmente ritentare"
       }
     },
     "removeOperator": {
@@ -578,6 +578,75 @@
       "loading": "Stiamo effettuando la verifica. Attendere, prego",
       "outcome": {
         "error": "C’è stato un errrore nell’elaborazione della richiesta. Per favore, riprova in seguito!"
+      }
+    }
+  },
+  "keychain": {
+    "removeKeychainFromEService": {
+      "loading": "Stiamo rimuovendo il portachiavi dall’e-service",
+      "outcome": {
+        "success": "Il portachiavi è stato rimosso correttamente",
+        "error": "Non è stato possibile rimuovere il portachiavi Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione portachiavi da e-service",
+        "description": "Le chiavi caricate in questo portachiavi non potranno più essere usate per firmare risposte ai fruitori per questo e-service."
+      }
+    },
+    "addKeychainToEService": {
+      "loading": "Stiamo aggiungendo il portachiavi all’e-service",
+      "outcome": {
+        "success": "Il portachiavi è stato aggiunto correttamente",
+        "error": "Non è stato possibile aggiungere il portachiavi Per favore, riprova!"
+      }
+    },
+    "addProducerKeychainUsers": {
+      "loading": "Stiamo aggiungendo gli utenti al portachiavi",
+      "outcome": {
+        "success": "Gli utenti sono stati aggiunti correttamente al portachiavi",
+        "error": "Non è stato possibile aggiungere i nuovi utenti al portachiavi. Assicurarsi che non esistano già le utenze e riprovare"
+      }
+    },
+    "downloadKey": {
+      "loading": "Stiamo scaricando la chiave"
+    },
+    "deleteProducerKeychainKey": {
+      "loading": "Stiamo eliminando la chiave dal portachiavi",
+      "outcome": {
+        "success": "La chiave è stata eliminata correttamente dal portachiavi. Da questo momento non potrà più essere utilizzata per firmare risposte verso i fruitori",
+        "error": "Non è stato possibile eliminare la chiave. Per favore, riprova!"
+      }
+    },
+    "deleteKeychain": {
+      "loading": "Stiamo eliminando il portachiavi",
+      "outcome": {
+        "success": "Il portachiavi è stato eliminato correttamente",
+        "error": "Non è stato possibile eliminare il portachiavi. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma eliminazione portachiavi",
+        "description": "Cliccando \"conferma\", questo portachiavi sarà eliminato. Tutte le chiavi contenute saranno rimosse e non saranno più utilizzabili per firmare risposte verso i fruitori dei tuoi e-service."
+      }
+    },
+    "createKeychain": {
+      "loading": "Stiamo creando il portachiavi richiesto",
+      "outcome": {
+        "success": "Il portachiavi è stato creato correttamente",
+        "error": "Non è stato possibile creare il portachiavi. Per favore, riprova!"
+      }
+    },
+    "createProducerKeychainKey": {
+      "loading": "Stiamo inserendo la chiave nel portachiavi",
+      "outcome": {
+        "success": "La chiave è stata inserita correttamente nel portachiavi",
+        "error": "Non è stato possibile inserire la chiave. Assicurarsi sia nel formato corretto e riprovare. Attenzione: la stessa chiave non può essere inserita due volte"
+      }
+    },
+    "removeUserFromProducerKeychain": {
+      "loading": "Stiamo rimuovendo l'utente dal portachiavi",
+      "outcome": {
+        "success": "L’utente è stato rimosso correttamente dal portachiavi",
+        "error": "Non è stato possibile rimuovere l'utente dal portachiavi. Per favore, riprova!"
       }
     }
   }

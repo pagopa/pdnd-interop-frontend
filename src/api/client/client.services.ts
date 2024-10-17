@@ -1,6 +1,7 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
+  AddUsersToClientPayload,
   Client,
   ClientSeed,
   CompactClients,
@@ -12,7 +13,6 @@ import type {
   KeysSeed,
   PublicKey,
   PublicKeys,
-  User,
 } from '../api.generatedTypes'
 
 async function getList(params: GetClientsParams) {
@@ -48,11 +48,6 @@ async function getOperatorList(clientId: string) {
   const response = await axiosInstance.get<CompactUsers>(
     `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`
   )
-  return response.data
-}
-
-async function getSingleOperator(userId: string) {
-  const response = await axiosInstance.get<User>(`${BACKEND_FOR_FRONTEND_URL}/users/${userId}`)
   return response.data
 }
 
@@ -102,9 +97,13 @@ function deleteKey({ clientId, kid }: { clientId: string; kid: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys/${kid}`)
 }
 
-async function addOperator({ clientId, userId }: { clientId: string; userId: string }) {
+async function addOperators({
+  clientId,
+  ...payload
+}: { clientId: string } & AddUsersToClientPayload) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users/${userId}`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`,
+    payload
   )
   return response.data
 }
@@ -119,7 +118,6 @@ export const ClientServices = {
   getKeyList,
   getSingleKey,
   getOperatorList,
-  getSingleOperator,
   getOperatorKeys,
   create,
   createInteropM2M,
@@ -127,6 +125,6 @@ export const ClientServices = {
   postKey,
   downloadKey,
   deleteKey,
-  addOperator,
+  addOperators,
   removeOperator,
 }

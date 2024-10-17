@@ -5,11 +5,11 @@ import { ClientOperatorsTable, ClientOperatorsTableSkeleton } from './ClientOper
 import { AuthHooks } from '@/api/auth'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 import { ClientMutations, ClientQueries } from '@/api/client'
 import type { Users } from '@/api/api.generatedTypes'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { TenantQueries } from '@/api/tenant'
+import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 
 interface ClientOperatorsProps {
   clientId: string
@@ -23,12 +23,12 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
 
   const { isOpen, closeDrawer, openDrawer } = useDrawerState()
 
-  const { mutateAsync: addOperator } = ClientMutations.useAddOperator()
+  const { mutateAsync: addOperators } = ClientMutations.useAddOperators()
 
   const { data: currentOperators = [] } = useQuery(ClientQueries.getOperatorsList(clientId))
 
   const handleSubmit = async (operators: Users) => {
-    await Promise.all(operators.map(({ userId }) => addOperator({ clientId, userId })))
+    addOperators({ clientId, userIds: operators.map(({ userId }) => userId) })
     closeDrawer()
   }
 

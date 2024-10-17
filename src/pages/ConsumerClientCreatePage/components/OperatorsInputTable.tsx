@@ -6,8 +6,8 @@ import type { CreateClientFormValues } from '../ConsumerClientCreate.page'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 import type { Users } from '@/api/api.generatedTypes'
+import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
 
 const OperatorsInputTable: React.FC = () => {
   const { t } = useTranslation('client')

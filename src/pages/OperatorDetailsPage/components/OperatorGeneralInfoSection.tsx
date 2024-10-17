@@ -1,5 +1,4 @@
 import React from 'react'
-import { ClientQueries } from '@/api/client'
 import { useTranslation } from 'react-i18next'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
@@ -8,6 +7,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useNavigate, useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { SelfcareQueries } from '@/api/selfcare'
 
 interface OperatorGeneralInfoSectionProps {
   operatorId: string
@@ -24,7 +24,7 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
   >()
   const navigate = useNavigate()
 
-  const { data: operator } = useSuspenseQuery(ClientQueries.getSingleOperator(operatorId))
+  const { data: operator } = useSuspenseQuery(SelfcareQueries.getSingleUser(operatorId))
 
   const backToOperatorsListRouteKey =
     clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
