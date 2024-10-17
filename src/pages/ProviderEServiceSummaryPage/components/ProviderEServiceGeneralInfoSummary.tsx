@@ -28,7 +28,7 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
       />
       <InformationContainer
         label={t('isSignalHubEnabled.label')}
-        content={descriptor.eservice.isSignalHubEnabled}
+        content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
       />
     </Stack>
   )

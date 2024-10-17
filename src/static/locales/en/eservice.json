@@ -39,10 +39,7 @@
         },
         "isSignalHubEnabled": {
           "label": "Is available the data update system (Signal Hub)? ",
-          "options": {
-            "true": "Yes",
-            "false": "No"
-          }
+          "switchLabel": "Yes, it is available"
         }
       },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
@@ -163,7 +160,12 @@
         "label": "API Technology"
       },
       "isSignalHubEnabled": {
-        "label": "Is available the data update system (Signal Hub)? "
+        "label": "Is available the data update system (Signal Hub)? ",
+        "value": {
+          "true": "Yes, it is available",
+          "false": "No, it is not available",
+          "null": "No, it is not available"
+        }
       }
     },
     "riskAnalysisSummaryList": {
@@ -337,9 +339,9 @@
         "isSignalHubEnabled": {
           "label": "Is available the data update system (Signal Hub)? ",
           "value": {
-            "true": "Yes",
-            "false": "No",
-            "null": "No"
+            "true": "Yes, it is available",
+            "false": "No, it is not available",
+            "null": "No, it is not available"
           }
         }
       },

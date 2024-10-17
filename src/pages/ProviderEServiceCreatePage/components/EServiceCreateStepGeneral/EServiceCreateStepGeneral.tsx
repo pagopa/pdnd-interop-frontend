@@ -4,7 +4,7 @@ import { Alert, Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
@@ -154,24 +154,17 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
           />
-          <RHFRadioGroup
-            name="isSignalHubEnabled"
-            row
-            label={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
-            options={[
-              {
-                label: t('create.step1.eserviceModeField.isSignalHubEnabled.options.false'),
-                value: 'false',
-              },
-              {
-                label: t('create.step1.eserviceModeField.isSignalHubEnabled.options.true'),
-                value: 'true',
-              },
-            ]}
-            disabled={!areEServiceGeneralInfoEditable}
-            rules={{ required: true }}
-            sx={{ mb: 0, mt: 3 }}
-          />
+          <SectionContainer
+            innerSection
+            title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
+            sx={{ mt: 3 }}
+          >
+            <RHFSwitch
+              label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
+              name="isSignalHubEnabled"
+              sx={{ my: 0 }}
+            />
+          </SectionContainer>
         </SectionContainer>
 
         <StepActions
