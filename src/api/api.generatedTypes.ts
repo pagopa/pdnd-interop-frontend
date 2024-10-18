@@ -1102,14 +1102,25 @@ export interface Tenants {
   pagination: Pagination
 }
 
-export interface TenantFeature {
-  /** Certifier Tenant Feature */
-  certifier?: Certifier
-}
+export type TenantFeature =
+  | {
+      /** Certifier Tenant Feature */
+      certifier?: Certifier
+    }
+  | {
+      /** Delegated producer Tenant Feature */
+      delegatedProducer?: DelegatedProducer
+    }
 
 /** Certifier Tenant Feature */
 export interface Certifier {
   certifierId: string
+}
+
+/** Delegated producer Tenant Feature */
+export interface DelegatedProducer {
+  /** @format date-time */
+  availabilityTimestamp: string
 }
 
 export interface CompactTenant {
@@ -1285,7 +1296,10 @@ export interface CertifiedTenantAttributeSeed {
 }
 
 /** Delegation State */
-export type DelegationState = 'WAITING_FOR_APPROVAL' | 'APPROVED' | 'REJECTED' | 'REVOKED'
+export type DelegationKind = 'DELEGATED_PRODUCER' | 'DELEGATED_CONSUMER'
+
+/** Delegation State */
+export type DelegationState = 'WAITING_FOR_APPROVAL' | 'ACTIVE' | 'REJECTED' | 'REVOKED'
 
 export interface DelegationTenant {
   /** @format uuid */
@@ -1306,6 +1320,7 @@ export interface Delegation {
   eservice: DelegationEService
   delegate: DelegationTenant
   delegator: DelegationTenant
+  contract?: Document
   /** @format date-time */
   submittedAt?: string
   rejectionReason?: string
@@ -1830,13 +1845,12 @@ export interface GetProducerDelegationsParams {
    * @default []
    */
   states?: DelegationState[]
-  /** The type of user to filter by */
-  filterBy: 'DELEGATOR' | 'DELEGATED'
-  /**
-   * The ID of the user to filter by
-   * @format uuid
-   */
-  userId: string
+  /** The delegator ids to filter by */
+  delegatorIds?: string[]
+  /** The delegated ids to filter by */
+  delegatedIds?: string[]
+  /** The delegation kind to filter by */
+  kind?: DelegationKind
 }
 
 export namespace Agreements {
@@ -3665,6 +3679,21 @@ export namespace Tenants {
     }
     export type ResponseBody = Tenants
   }
+  /**
+   * No description
+   * @tags tenants
+   * @name AssignTenantDelegatedProducerFeature
+   * @summary Assign delegated producer feature to tenant caller
+   * @request POST:/tenants/delegatedProducer
+   * @secure
+   */
+  export namespace AssignTenantDelegatedProducerFeature {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
 }
 
 export namespace Tools {
@@ -4069,49 +4098,8 @@ export namespace Producer {
     export type ResponseBody = Purposes
   }
   /**
-   * @description List producer delegations
-   * @tags delegation
-   * @name GetProducerDelegations
-   * @summary List producer delegations
-   * @request GET:/producer/delegations
-   * @secure
-   */
-  export namespace GetProducerDelegations {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-      /**
-       * comma separated sequence of delegation states to filter the results with
-       * @default []
-       */
-      states?: DelegationState[]
-      /** The type of user to filter by */
-      filterBy: 'DELEGATOR' | 'DELEGATED'
-      /**
-       * The ID of the user to filter by
-       * @format uuid
-       */
-      userId: string
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CompactDelegations
-  }
-  /**
    * @description creates the producer delegation
-   * @tags delegation
+   * @tags producerDelegations
    * @name CreateProducerDelegation
    * @summary Producer delegation creation
    * @request POST:/producer/delegations
@@ -4128,7 +4116,7 @@ export namespace Producer {
   }
   /**
    * @description Approves a producer delegation
-   * @tags delegation
+   * @tags producerDelegations
    * @name ApproveDelegation
    * @summary Approves a producer delegation
    * @request POST:/producer/delegations/{delegationId}/approve
@@ -4151,7 +4139,7 @@ export namespace Producer {
   }
   /**
    * @description Rejects a producer delegation
-   * @tags delegation
+   * @tags producerDelegations
    * @name RejectDelegation
    * @summary Rejects a producer delegation
    * @request POST:/producer/delegations/{delegationId}/reject
@@ -4173,28 +4161,8 @@ export namespace Producer {
     export type ResponseBody = void
   }
   /**
-   * @description Retrieves a producer delegation
-   * @tags delegation
-   * @name GetProducerDelegation
-   * @summary Retrieves a producer delegation
-   * @request GET:/producer/delegations/{delegationId}
-   * @secure
-   */
-  export namespace GetProducerDelegation {
-    export type RequestParams = {
-      /** The delegation id */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = Delegation
-  }
-  /**
    * @description Revokes a producer delegation
-   * @tags delegation
+   * @tags producerDelegations
    * @name RevokeProducerDelegation
    * @summary Revokes a producer delegation
    * @request DELETE:/producer/delegations/{delegationId}
@@ -5259,6 +5227,69 @@ export namespace ProducerKeychains {
       'X-Correlation-Id': string
     }
     export type ResponseBody = EncodedClientKey
+  }
+}
+
+export namespace Delegations {
+  /**
+   * @description List producer delegations
+   * @tags delegations
+   * @name GetProducerDelegations
+   * @summary List producer delegations
+   * @request GET:/delegations
+   * @secure
+   */
+  export namespace GetProducerDelegations {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+      /**
+       * comma separated sequence of delegation states to filter the results with
+       * @default []
+       */
+      states?: DelegationState[]
+      /** The delegator ids to filter by */
+      delegatorIds?: string[]
+      /** The delegated ids to filter by */
+      delegatedIds?: string[]
+      /** The delegation kind to filter by */
+      kind?: DelegationKind
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactDelegations
+  }
+  /**
+   * @description Retrieves a producer delegation
+   * @tags delegations
+   * @name GetProducerDelegation
+   * @summary Retrieves a producer delegation
+   * @request GET:/delegations/{delegationId}
+   * @secure
+   */
+  export namespace GetProducerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Delegation
   }
 }
 
