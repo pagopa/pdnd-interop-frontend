@@ -26,7 +26,7 @@ async function getProducerDelegations(params: GetProducerDelegationsParams) {
         delegatorName: 'delegatorName',
         eserviceName: 'eserviceName',
         id: 'id',
-        state: 'APPROVED',
+        state: 'ACTIVE',
       },
     ],
     pagination: {
@@ -60,7 +60,7 @@ async function getSingle({ delegationId }: { delegationId: string }) {
       name: 'eserviceName',
       description: 'eserviceDescription',
     },
-    state: 'APPROVED',
+    state: 'ACTIVE',
     submittedAt: '2022-01-01T00:00:00.000Z',
     rejectionReason: undefined,
   }
