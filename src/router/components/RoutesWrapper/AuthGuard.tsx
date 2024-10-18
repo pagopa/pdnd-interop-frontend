@@ -39,7 +39,9 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
   function isUserAllowedToAccessCertifierRoutes() {
-    const isCertifier = Boolean(tenant?.features[0]?.certifier?.certifierId)
+    const isCertifier = tenant.features.some(
+      (feature) => 'certifier' in feature && feature.certifier?.certifierId
+    )
     const certifierRoutes: Array<RouteKey> = [
       'TENANT_CERTIFIER',
       'TENANT_CERTIFIER_ATTRIBUTE_DETAILS',

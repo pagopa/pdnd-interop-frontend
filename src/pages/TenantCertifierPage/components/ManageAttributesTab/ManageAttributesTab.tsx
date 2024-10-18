@@ -1,4 +1,4 @@
-import type { GetAttributesParams } from '@/api/api.generatedTypes'
+import type { GetAttributesParams, TenantFeature } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
 import { TenantHooks } from '@/api/tenant'
 import { useDrawerState } from '@/hooks/useDrawerState'
@@ -24,8 +24,12 @@ export const ManageAttributesTab: React.FC = () => {
   >([{ name: 'q', label: t('filters.nameField.label'), type: 'freetext' }])
 
   const { data: activeParty } = TenantHooks.useGetActiveUserParty()
+  const certifierId = activeParty.features.find(
+    (feature): feature is Extract<TenantFeature, { certifier?: unknown }> =>
+      Boolean('certifier' in feature && feature.certifier?.certifierId)
+  )?.certifier?.certifierId
   const defaultParams: Pick<GetAttributesParams, 'origin' | 'kinds'> = {
-    origin: activeParty?.features[0]?.certifier?.certifierId,
+    origin: certifierId,
     kinds: ['CERTIFIED'],
   }
 
