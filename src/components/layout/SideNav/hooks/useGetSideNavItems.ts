@@ -35,7 +35,9 @@ export function useGetSideNavItems() {
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
-  const isCertifier = Boolean(tenant.features[0]?.certifier?.certifierId)
+  const isCertifier = tenant.features.some(
+    (feature) => 'certifier' in feature && feature.certifier?.certifierId
+  )
 
   return React.useMemo(() => {
     /**
