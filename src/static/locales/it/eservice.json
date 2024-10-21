@@ -164,7 +164,7 @@
         "value": {
           "true": "Sì, è disponibile",
           "false": "No, non è disponibile",
-          "null": "No, non è disponibile"
+          "undefined": "No, non è disponibile"
         }
       }
     },
@@ -341,7 +341,7 @@
           "value": {
             "true": "Sì, è disponibile",
             "false": "No, non è disponibile",
-            "null": "No, non è disponibile"
+            "undefined": "No, non è disponibile"
           }
         }
       },

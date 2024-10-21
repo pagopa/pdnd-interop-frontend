@@ -21,7 +21,7 @@ export type EServiceCreateStepGeneralFormValues = {
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
-  isSignalHubEnabled: boolean | null
+  isSignalHubEnabled: boolean
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
@@ -44,13 +44,14 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     description: descriptor?.eservice?.description ?? '',
     technology: descriptor?.eservice?.technology ?? 'REST',
     mode: eserviceMode,
-    isSignalHubEnabled: false,
+    isSignalHubEnabled: descriptor?.eservice?.isSignalHubEnabled ?? false,
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues) => {
     // If we are editing an existing e-service, we update the draft
+    console.log(formValues)
     if (descriptor) {
       // If nothing has changed skip the update call
       const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
@@ -162,6 +163,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             <RHFSwitch
               label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
               name="isSignalHubEnabled"
+              disabled={!areEServiceGeneralInfoEditable}
               sx={{ my: 0 }}
             />
           </SectionContainer>
