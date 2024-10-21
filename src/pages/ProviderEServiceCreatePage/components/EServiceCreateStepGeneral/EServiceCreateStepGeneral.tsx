@@ -51,7 +51,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues) => {
     // If we are editing an existing e-service, we update the draft
-    console.log(formValues)
     if (descriptor) {
       // If nothing has changed skip the update call
       const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
