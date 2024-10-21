@@ -115,6 +115,7 @@ export interface UpdateEServiceSeed {
   technology: EServiceTechnology
   /** Risk Analysis Mode */
   mode: EServiceMode
+  isSignalHubEnabled?: boolean
 }
 
 export interface EServiceSeed {
@@ -124,6 +125,7 @@ export interface EServiceSeed {
   technology: EServiceTechnology
   /** Risk Analysis Mode */
   mode: EServiceMode
+  isSignalHubEnabled?: boolean
 }
 
 export interface UpdateEServiceDescriptorQuotas {
@@ -264,6 +266,7 @@ export interface CatalogDescriptorEService {
   isSubscribed: boolean
   activeDescriptor?: CompactDescriptor
   mail?: Mail
+  isSignalHubEnabled?: boolean
 }
 
 export interface ProducerEServiceDetails {
@@ -276,6 +279,7 @@ export interface ProducerEServiceDetails {
   /** Risk Analysis Mode */
   mode: EServiceMode
   riskAnalysis: EServiceRiskAnalysis[]
+  isSignalHubEnabled?: boolean
 }
 
 /** Risk Analysis Mode */
@@ -342,6 +346,7 @@ export interface ProducerDescriptorEService {
   descriptors: CompactDescriptor[]
   draftDescriptor?: CompactDescriptor
   mail?: Mail
+  isSignalHubEnabled?: boolean
 }
 
 export interface EServiceDoc {
@@ -555,7 +560,7 @@ export interface CompactOrganization {
   contactMail?: Mail
 }
 
-export type TenantKind = 'PA' | 'PRIVATE' | 'GSP'
+export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
 
 export interface CompactOrganizations {
   results: CompactOrganization[]
