@@ -9,6 +9,7 @@ import type {
   Agreement,
   AgreementListEntry,
   AgreementState,
+  DelegationState,
   EServiceDescriptorState,
   Purpose,
   PurposeVersionState,
@@ -41,10 +42,18 @@ const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   REJECTED: 'error',
 }
 
+const CHIP_COLORS_DELEGATION: Record<DelegationState, MUIColor> = {
+  ACTIVE: 'success',
+  REJECTED: 'error',
+  REVOKED: 'error',
+  WAITING_FOR_APPROVAL: 'warning',
+}
+
 const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
+  delegation: CHIP_COLORS_DELEGATION,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
@@ -60,6 +69,10 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'purpose'
         purpose: Purpose
+      }
+    | {
+        for: 'delegation'
+        state: DelegationState
       }
   )
 
@@ -118,6 +131,11 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
   if (props.for === 'purpose') {
     return <PurposeStatusChip purpose={props.purpose} />
+  }
+
+  if (props.for === 'delegation') {
+    color = chipColors['delegation'][props.state]
+    label = t(`status.delegation.${props.state}`)
   }
 
   return (
