@@ -9,8 +9,11 @@ import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsS
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { STAGE } from '@/config/env'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
+  const disabledStage = ['PROD', 'UAT']
+  const isDisabled = disabledStage.includes(STAGE) //check on the environment
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.technicalInformations',
   })
@@ -37,11 +40,12 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${descriptor.eservice.mode}`)}
             />
-
-            <InformationContainer
-              label={t('isSignalHubEnabled.label')}
-              content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
-            />
+            {!isDisabled && (
+              <InformationContainer
+                label={t('isSignalHubEnabled.label')}
+                content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+              />
+            )}
           </Stack>
         </SectionContainer>
         <Divider />

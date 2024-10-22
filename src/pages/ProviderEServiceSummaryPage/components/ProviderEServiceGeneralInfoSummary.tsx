@@ -5,8 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
+import { STAGE } from '@/config/env'
 
 export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
+  const disabledStage = ['PROD', 'UAT']
+  const isDisabled = disabledStage.includes(STAGE) //check on the environment
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
@@ -26,10 +29,12 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         label={t('apiTechnology.label')}
         content={descriptor.eservice.technology}
       />
-      <InformationContainer
-        label={t('isSignalHubEnabled.label')}
-        content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
-      />
+      {!isDisabled && (
+        <InformationContainer
+          label={t('isSignalHubEnabled.label')}
+          content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+        />
+      )}
     </Stack>
   )
 }

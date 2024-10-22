@@ -15,6 +15,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
+import { STAGE } from '@/config/env'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -25,6 +26,8 @@ export type EServiceCreateStepGeneralFormValues = {
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
+  const disabledStage = ['PROD', 'UAT']
+  const isDisabled = disabledStage.includes(STAGE) //check on the environment
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
@@ -154,18 +157,20 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
           />
-          <SectionContainer
-            innerSection
-            title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
-            sx={{ mt: 3 }}
-          >
-            <RHFSwitch
-              label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
-              name="isSignalHubEnabled"
-              disabled={!areEServiceGeneralInfoEditable}
-              sx={{ my: 0 }}
-            />
-          </SectionContainer>
+          {!isDisabled && (
+            <SectionContainer
+              innerSection
+              title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
+              sx={{ mt: 3 }}
+            >
+              <RHFSwitch
+                label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
+                name="isSignalHubEnabled"
+                disabled={!areEServiceGeneralInfoEditable}
+                sx={{ my: 0 }}
+              />
+            </SectionContainer>
+          )}
         </SectionContainer>
 
         <StepActions
