@@ -91,6 +91,12 @@
       "WAITING_FOR_APPROVAL": "waiting for approval",
       "ARCHIVED": "archived",
       "REJECTED": "rejected"
+    },
+    "delegation": {
+      "ACTIVE": "active",
+      "REJECTED": "rejected",
+      "REVOKED": "revoked",
+      "WAITING_FOR_APPROVAL": "waiting for acceptance"
     }
   },
   "userProductRole": {
