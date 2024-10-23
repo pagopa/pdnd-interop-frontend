@@ -9,8 +9,12 @@ import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsS
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { STAGE } from '@/config/env'
+import { PagoPAEnvVars } from '@/types/common.types'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
+  const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
+  const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.technicalInformations',
   })
@@ -37,11 +41,12 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${descriptor.eservice.mode}`)}
             />
-
-            <InformationContainer
-              label={t('isSignalHubEnabled.label')}
-              content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
-            />
+            {!isSignalHubFlagDisabled && (
+              <InformationContainer
+                label={t('isSignalHubEnabled.label')}
+                content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+              />
+            )}
           </Stack>
         </SectionContainer>
         <Divider />

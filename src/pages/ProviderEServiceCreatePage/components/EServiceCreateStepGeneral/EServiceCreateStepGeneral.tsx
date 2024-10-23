@@ -15,6 +15,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
+import { STAGE } from '@/config/env'
+import { PagoPAEnvVars } from '@/types/common.types'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -25,6 +27,8 @@ export type EServiceCreateStepGeneralFormValues = {
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
+  const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
+  const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
@@ -154,18 +158,20 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
           />
-          <SectionContainer
-            innerSection
-            title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
-            sx={{ mt: 3 }}
-          >
-            <RHFSwitch
-              label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
-              name="isSignalHubEnabled"
-              disabled={!areEServiceGeneralInfoEditable}
-              sx={{ my: 0 }}
-            />
-          </SectionContainer>
+          {!isSignalHubFlagDisabled && (
+            <SectionContainer
+              innerSection
+              title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
+              sx={{ mt: 3 }}
+            >
+              <RHFSwitch
+                label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
+                name="isSignalHubEnabled"
+                disabled={!areEServiceGeneralInfoEditable}
+                sx={{ my: 0 }}
+              />
+            </SectionContainer>
+          )}
         </SectionContainer>
 
         <StepActions
