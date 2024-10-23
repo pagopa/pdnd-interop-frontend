@@ -95,6 +95,7 @@ export function useMaintenanceBanner() {
     .with('UAT', () => t('titleTestEnv'))
     .with('DEV', () => '') // this environment has no maintenance banner
     .with('QA', () => '') // this environment has no maintenance banner
+    .with('DEV_REF', () => '') // this environment has no maintenance banner
     .exhaustive()
 
   return { title, text, isOpen, closeBanner }
