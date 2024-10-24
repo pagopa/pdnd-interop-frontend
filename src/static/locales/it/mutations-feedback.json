@@ -659,31 +659,31 @@
   },
   "delegation": {
     "createProducerDelegation": {
-      "loading": "TODO",
+      "loading": "Stiamo inoltrando la delega",
       "outcome": {
         "success": "La nuova delega è stata creata correttamente ed è stata inoltrata all’aderente per valutazione",
-        "error": "TODO"
+        "error": "Non è stato possibile inoltrare la delega. Per favore, riprova!"
       }
     },
     "approveProducerDelegation": {
-      "loading": "TODO",
+      "loading": "Stiamo attivando la delega",
       "outcome": {
         "success": "La delega è stata attivata correttamente. Da questo momento puoi gestire l’erogazione dell’e-service in delega",
-        "error": "TODO"
+        "error": "Non è stato possibile attivare la delega. Per favore, riprova!"
       }
     },
     "rejectProducerDelegation": {
-      "loading": "TODO",
+      "loading": "Stiamo rifiutando la delega",
       "outcome": {
         "success": "La delega è stata rifiutata correttamente.",
-        "error": "TODO"
+        "error": "Non è stato possibile rifiutare la delega. Per favore, riprova!"
       }
     },
     "revokeProducerDelegation": {
-      "loading": "TODO",
+      "loading": "Stiamo revocando la delega",
       "outcome": {
-        "success": "TODO",
-        "error": "TODO"
+        "success": "La delega è stata revocata correttamente.",
+        "error": "Non è stato possibile revocare la delega. Per favore, riprova!"
       }
     }
   }
