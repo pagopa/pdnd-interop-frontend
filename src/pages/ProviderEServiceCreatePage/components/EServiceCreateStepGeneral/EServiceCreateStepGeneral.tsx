@@ -4,7 +4,7 @@ import { Alert, Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
@@ -15,15 +15,20 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
+import { STAGE } from '@/config/env'
+import { PagoPAEnvVars } from '@/types/common.types'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
+  isSignalHubEnabled: boolean
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
+  const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
+  const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
@@ -43,6 +48,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     description: descriptor?.eservice?.description ?? '',
     technology: descriptor?.eservice?.technology ?? 'REST',
     mode: eserviceMode,
+    isSignalHubEnabled: descriptor?.eservice?.isSignalHubEnabled ?? false,
   }
 
   const formMethods = useForm({ defaultValues })
@@ -152,6 +158,20 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
           />
+          {!isSignalHubFlagDisabled && (
+            <SectionContainer
+              innerSection
+              title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
+              sx={{ mt: 3 }}
+            >
+              <RHFSwitch
+                label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
+                name="isSignalHubEnabled"
+                disabled={!areEServiceGeneralInfoEditable}
+                sx={{ my: 0 }}
+              />
+            </SectionContainer>
+          )}
         </SectionContainer>
 
         <StepActions

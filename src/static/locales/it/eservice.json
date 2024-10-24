@@ -36,6 +36,10 @@
         "options": {
           "DELIVER": "Eroga",
           "RECEIVE": "Riceve"
+        },
+        "isSignalHubEnabled": {
+          "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
+          "switchLabel": "Sì, è disponibile"
         }
       },
       "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
@@ -154,6 +158,14 @@
       },
       "apiTechnology": {
         "label": "Tecnologia API"
+      },
+      "isSignalHubEnabled": {
+        "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
+        "value": {
+          "true": "Sì, è disponibile",
+          "false": "No, non è disponibile",
+          "undefined": "No, non è disponibile"
+        }
       }
     },
     "riskAnalysisSummaryList": {
@@ -323,6 +335,14 @@
           "implementAndManageEService": "Come implemento e gestisco un e-service?",
           "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
           "wellKnown": "URL .well-known"
+        },
+        "isSignalHubEnabled": {
+          "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
+          "value": {
+            "true": "Sì, è disponibile",
+            "false": "No, non è disponibile",
+            "undefined": "No, non è disponibile"
+          }
         }
       },
       "attributes": {
