@@ -583,31 +583,31 @@
   },
   "delegation": {
     "createProducerDelegation": {
-      "loading": "TODO",
+      "loading": "We are forwarding the delegation",
       "outcome": {
         "success": "The new delegation has been created correctly and has been forwarded to the member for evaluation",
-        "error": "TODO"
+        "error": "The delegation could not be forwarded. Please try again!"
       }
     },
     "approveProducerDelegation": {
-      "loading": "TODO",
+      "loading": "We are activating the delegation",
       "outcome": {
         "success": "Delegation has been activated successfully. From this moment you can manage the provision of the e-service by delegation",
-        "error": "TODO"
+        "error": "Delegation could not be activated. Please try again!"
       }
     },
     "rejectProducerDelegation": {
-      "loading": "TODO",
+      "loading": "We are rejecting the delegation",
       "outcome": {
         "success": "The delegation was successfully rejected.",
-        "error": "TODO"
+        "error": "It was not possible to reject the delegation. Please try again!"
       }
     },
     "revokeProducerDelegation": {
-      "loading": "TODO",
+      "loading": "We are revoking the delegation",
       "outcome": {
-        "success": "TODO",
-        "error": "TODO"
+        "success": "The delegation was successfully revoked.",
+        "error": "It was not possible to revoke the delegation. Please try again!"
       }
     }
   }
