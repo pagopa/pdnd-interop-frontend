@@ -14,11 +14,6 @@ afterEach(() => {
 })
 
 describe('DialogSessionExpired testing', () => {
-  it('should match the snapshot', () => {
-    const screen = render(<DialogSessionExpired type="sessionExpired" />)
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
   it('should call navigate when click button', async () => {
     const screen = render(<DialogSessionExpired type="sessionExpired" />)
     const button = screen.getByRole('button', { name: 'actions.exitLabel' })

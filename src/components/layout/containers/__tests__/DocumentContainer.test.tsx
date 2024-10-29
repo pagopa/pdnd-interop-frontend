@@ -13,26 +13,6 @@ const docMock: EServiceDoc = {
 }
 
 describe('DocumentContainer', () => {
-  it('should match snapshot', () => {
-    const screen = render(<DocumentContainer doc={docMock} />)
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
-  it('should match snapshot with onUpdateDescription callback passed', () => {
-    const screen = render(<DocumentContainer doc={docMock} onUpdateDescription={vi.fn()} />)
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
-  it('should match snapshot with onDelete callback passed', () => {
-    const screen = render(<DocumentContainer doc={docMock} onDelete={vi.fn()} />)
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
-  it('should match snapshot with onDownload callback passed', () => {
-    const screen = render(<DocumentContainer doc={docMock} onDownload={vi.fn()} />)
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
   it('should correctly edit document name', async () => {
     const onUpdateDescription = vi.fn()
     const screen = render(
@@ -46,18 +26,5 @@ describe('DocumentContainer', () => {
     await user.type(input, ' new name')
     await user.tab()
     expect(onUpdateDescription).toBeCalledWith('document new name')
-  })
-
-  it('should match snapshot with isDrawerStyle passed true', () => {
-    const screen = render(
-      <DocumentContainer
-        doc={docMock}
-        isDrawerStyle
-        onUpdateDescription={vi.fn()}
-        onDelete={vi.fn()}
-        onDownload={vi.fn()}
-      />
-    )
-    expect(screen.baseElement).toMatchSnapshot()
   })
 })

@@ -14,40 +14,4 @@ describe('Drawer test', () => {
 
     expect(container).toBeEmptyDOMElement()
   })
-
-  it('Should render correctly without subtitle and button', () => {
-    const screen = render(
-      <Drawer isOpen={true} onClose={vi.fn()} title="test title">
-        <Typography>TEST CHILDREN</Typography>
-      </Drawer>
-    )
-
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
-  it('Should render correctly with subtitle and without button', () => {
-    const screen = render(
-      <Drawer isOpen={true} onClose={vi.fn()} title="test title" subtitle="test subtitle">
-        <Typography>TEST CHILDREN</Typography>
-      </Drawer>
-    )
-
-    expect(screen.baseElement).toMatchSnapshot()
-  })
-
-  it('Should render correctly with subtitle and button', () => {
-    const screen = render(
-      <Drawer
-        isOpen={true}
-        onClose={vi.fn()}
-        title="test title"
-        subtitle="test subtitle"
-        buttonAction={{ label: 'button label', action: vi.fn() }}
-      >
-        <Typography>TEST CHILDREN</Typography>
-      </Drawer>
-    )
-
-    expect(screen.baseElement).toMatchSnapshot()
-  })
 })

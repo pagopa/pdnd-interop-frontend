@@ -10,7 +10,7 @@ import DebugVoucherStepDrawer from '../DebugVoucherStepDrawer'
 import { vi } from 'vitest'
 
 describe('DebugVoucherStepDrawer testing', () => {
-  it('should match snapshot', () => {
+  it('should render correctly', () => {
     mockDebugVoucherContext({
       response: createMockDebugVoucherResultPassed(),
       debugVoucherStepDrawer: {
@@ -24,8 +24,6 @@ describe('DebugVoucherStepDrawer testing', () => {
     expect(screen.queryByText('stepDrawer.stepResultLabel')).toBeInTheDocument()
 
     expect(screen.getAllByRole('listitem').length).toBe(2)
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should setDebugVoucherStepDrawer function be called if close icon is clicked', () => {

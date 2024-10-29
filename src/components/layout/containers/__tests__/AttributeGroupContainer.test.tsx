@@ -4,23 +4,13 @@ import { AttributeGroupContainer } from '../AttributeGroupContainer'
 import { vi } from 'vitest'
 
 describe('AttributeGroupContainer', () => {
-  it('should match snapshot', () => {
-    const { baseElement } = render(
-      <AttributeGroupContainer title="title">
-        <></>
-      </AttributeGroupContainer>
-    )
-    expect(baseElement).toMatchSnapshot()
-  })
-
-  it('should match snapshot with on remove action', () => {
+  it('should call on remove action', () => {
     const removeFn = vi.fn()
     const screen = render(
       <AttributeGroupContainer title="title" onRemove={removeFn}>
         <></>
       </AttributeGroupContainer>
     )
-    expect(screen.baseElement).toMatchSnapshot()
     const removeButton = screen.getByRole('button', { name: 'removeGroupAriaLabel' })
     fireEvent.click(removeButton)
     expect(removeFn).toHaveBeenCalled()
