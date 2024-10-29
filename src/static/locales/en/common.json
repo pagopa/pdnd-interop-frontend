@@ -59,7 +59,10 @@
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assignee tenant",
       "certifiedAttribute": "Certified attribute",
-      "keychain": "Keychain"
+      "keychain": "Keychain",
+      "delegationKind": "Delegation for",
+      "delegatorName": "Delegation requested by",
+      "delegateName": "Delegation granted to"
     }
   },
   "status": {

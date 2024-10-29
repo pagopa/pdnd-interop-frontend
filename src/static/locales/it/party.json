@@ -107,6 +107,13 @@
       "delegationsGranted": "Deleghe conferite",
       "delegationsReceived": "Deleghe ricevute",
       "availability": "Disponibilità"
+    },
+    "list": {
+      "noDelegationsLabel": "Non ci sono deleghe da mostrare",
+      "delegationKind": {
+        "producer": "Erogazione",
+        "consumer": "Fruizione"
+      }
     }
   }
 }

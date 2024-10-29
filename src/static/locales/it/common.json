@@ -58,8 +58,11 @@
       "userName": "Nome e cognome",
       "certifiedAttributes": "Attributi certificati",
       "assigneeTenant": "Ente assegnatario",
+      "keychain": "Portachiavi",
       "certifiedAttribute": "Attributo certificato",
-      "keychain": "Portachiavi"
+      "delegationKind": "Delega per",
+      "delegatorName": "Delega richiesta da",
+      "delegateName": "Delega conferita a"
     }
   },
   "status": {

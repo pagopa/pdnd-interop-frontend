@@ -2,6 +2,8 @@ import type { ExternalId } from '@/api/api.generatedTypes'
 
 export type UserProductRole = 'admin' | 'security' | 'api' | 'support'
 
+export type DelegationType = 'DELEGATION_GRANTED' | 'DELEGATION_RECEIVED'
+
 type JwtOrg = {
   name: string
   roles: Array<{
