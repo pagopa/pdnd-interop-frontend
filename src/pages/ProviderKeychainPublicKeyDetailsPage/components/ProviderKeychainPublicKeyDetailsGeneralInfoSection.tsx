@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatDateString } from '@/utils/format.utils'
+import { clientKeyGuideLink } from '@/config/constants'
 
 type ProviderKeychainPublicKeyDetailsGeneralInfoSectionProps = {
   keychainId: string
@@ -30,7 +31,7 @@ export const ProviderKeychainPublicKeyDetailsGeneralInfoSection: React.FC<
             {
               label: t('goToTechnicalDocButton'),
               target: '_blank',
-              href: 'TODO',
+              href: clientKeyGuideLink,
               startIcon: <OpenInNewIcon fontSize="small" />,
             },
           ]}

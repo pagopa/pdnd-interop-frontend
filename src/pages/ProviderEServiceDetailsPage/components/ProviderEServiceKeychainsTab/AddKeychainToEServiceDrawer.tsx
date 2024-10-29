@@ -3,6 +3,7 @@ import { AuthHooks } from '@/api/auth'
 import { KeychainQueries } from '@/api/keychain'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
+import { keychainSetupGuideLink } from '@/config/constants'
 import { Link } from '@/router'
 import { Alert, Link as MuiLink, Stack } from '@mui/material'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
@@ -102,7 +103,7 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
         subtitle={
           <Trans
             components={{
-              1: <MuiLink underline="hover" href={'TODO right link'} target="_blank" />,
+              1: <MuiLink underline="hover" href={keychainSetupGuideLink} target="_blank" />,
             }}
           >
             {t('subtitle')}

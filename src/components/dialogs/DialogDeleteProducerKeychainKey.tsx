@@ -1,4 +1,5 @@
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
+import { keychainGuideLink } from '@/config/constants'
 import { useNavigate } from '@/router'
 import { useDialog } from '@/stores'
 import type { DialogDeleteProducerKeychainKeyProps } from '@/types/dialog.types'
@@ -53,7 +54,7 @@ export const DialogDeleteProducerKeychainKey: React.FC<DialogDeleteProducerKeych
       <DialogContent id={ariaDescriptionId}>
         <Trans
           components={{
-            1: <Link underline="hover" href={'TODO'} target="_blank" />,
+            1: <Link underline="hover" href={keychainGuideLink} target="_blank" />,
           }}
         >
           {t('description')}

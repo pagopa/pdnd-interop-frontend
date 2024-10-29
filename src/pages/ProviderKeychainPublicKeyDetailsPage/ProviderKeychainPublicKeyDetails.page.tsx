@@ -10,6 +10,7 @@ import {
   ProviderKeychainPublicKeyDetailsGeneralInfoSection,
   ProviderKeychainPublicKeyDetailsGeneralInfoSectionSkeleton,
 } from './components/ProviderKeychainPublicKeyDetailsGeneralInfoSection'
+import { clientKeyGuideLink } from '@/config/constants'
 
 const ProviderKeychainPublicKeyDetailsPage: React.FC = () => {
   const { t } = useTranslation('keychain')
@@ -39,7 +40,7 @@ const ProviderKeychainPublicKeyDetailsPage: React.FC = () => {
       <React.Suspense fallback={<ProviderKeychainPublicKeyDetailsGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (
           <Alert severity="warning">
-            <Trans components={{ 1: <MUILink href={'TODO'} target="_blank" /> }}>
+            <Trans components={{ 1: <MUILink href={clientKeyGuideLink} target="_blank" /> }}>
               {t('publicKey.orphanKeyAlertLabel')}
             </Trans>
           </Alert>
