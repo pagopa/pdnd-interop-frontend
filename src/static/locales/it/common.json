@@ -39,7 +39,8 @@
     "revoke": "Revoca",
     "upload": "Carica",
     "import": "Importa",
-    "saveEdits": "Salva modifiche"
+    "saveEdits": "Salva modifiche",
+    "accept": "Accetta"
   },
   "table": {
     "headData": {
