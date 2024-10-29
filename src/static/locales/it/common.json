@@ -58,6 +58,10 @@
       "certifiedAttributes": "Attributi certificati",
       "assigneeTenant": "Ente assegnatario",
       "certifiedAttribute": "Attributo certificato"
+      "certifiedAttribute": "Attributo certificato",
+      "delegationKind": "Delega per",
+      "delegatorName": "Delega richiesta da",
+      "delegateName": "Delega conferita a"
     }
   },
   "status": {

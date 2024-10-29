@@ -58,6 +58,9 @@
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assignee tenant",
       "certifiedAttribute": "Certified attribute"
+      "delegationKind": "Delegation for",
+      "delegatorName": "Delegation requested by",
+      "delegateName": "Delegation granted to"
     }
   },
   "status": {

@@ -107,6 +107,13 @@
       "delegationsGranted": "Delegations granted",
       "delegationsReceived": "Delegations received",
       "availability": "Availability"
+    },
+    "list": {
+      "noDelegationsLabel": "There are no delegations to show",
+      "delegationKind": {
+        "producer": "Producer",
+        "consumer": "Consumer"
+      }
     }
   }
 }
