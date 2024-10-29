@@ -38,7 +38,8 @@
     "insert": "Inserisci",
     "revoke": "Revoca",
     "upload": "Carica",
-    "import": "Importa"
+    "import": "Importa",
+    "accept": "Accetta"
   },
   "table": {
     "headData": {
@@ -57,7 +58,6 @@
       "userName": "Nome e cognome",
       "certifiedAttributes": "Attributi certificati",
       "assigneeTenant": "Ente assegnatario",
-      "certifiedAttribute": "Attributo certificato"
       "certifiedAttribute": "Attributo certificato",
       "delegationKind": "Delega per",
       "delegatorName": "Delega richiesta da",

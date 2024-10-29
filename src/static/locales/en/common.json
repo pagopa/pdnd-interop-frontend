@@ -38,7 +38,8 @@
     "insert": "Insert",
     "revoke": "Revoke",
     "upload": "Upload",
-    "import": "Import"
+    "import": "Import",
+    "accept": "Accept"
   },
   "table": {
     "headData": {
@@ -57,7 +58,7 @@
       "userName": "Name and surname",
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assignee tenant",
-      "certifiedAttribute": "Certified attribute"
+      "certifiedAttribute": "Certified attribute",
       "delegationKind": "Delegation for",
       "delegatorName": "Delegation requested by",
       "delegateName": "Delegation granted to"
