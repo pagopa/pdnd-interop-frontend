@@ -35,3 +35,5 @@ export const apiGuideLink = `${documentationLink}/manuale-operativo/api-esposte-
 export const openApiCheckerLink = 'https://italia.github.io/api-oas-checker/'
 export const eserviceNamingBestPracticeLink =
   'https://italia.github.io/pdnd-guida-nomenclatura-eservice/'
+export const keychainGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#garanzia-dellintegrita-della-risposta`
+export const keychainSetupGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#precondizioni`
