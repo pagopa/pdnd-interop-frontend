@@ -12,6 +12,7 @@ function useCreateProducerDelegation() {
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
     },
   })
 }

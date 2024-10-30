@@ -272,6 +272,7 @@
     "TENANT": "Your party",
     "TENANT_CERTIFIER": "Certifier party",
     "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Inspect attribute",
-    "DELEGATIONS": "Delegations"
+    "DELEGATIONS": "Delegations",
+    "CREATE_DELEGATION": "Create delegation"
   }
 }
