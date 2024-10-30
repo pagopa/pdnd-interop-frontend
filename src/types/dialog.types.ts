@@ -3,6 +3,7 @@ import type {
   RequesterCertifiedAttribute,
   CompactPurposeEService,
 } from '@/api/api.generatedTypes'
+import { EServiceCreateDraftValues } from '@/pages/DelegationCreatePage/components/DelegationCreateForm'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -26,6 +27,7 @@ export type DialogProps =
   | DialogClonePurposeProps
   | DialogRejectPurposeVersionProps
   | DialogSetTenantMailProps
+  | DialogDelegationsProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -89,4 +91,10 @@ export type DialogRejectPurposeVersionProps = {
 
 export type DialogSetTenantMailProps = {
   type: 'setTenantMail'
+}
+
+export type DialogDelegationsProps = {
+  type: 'delegations'
+  eserviceParams?: EServiceCreateDraftValues
+  delegationParams: { eserviceId?: string; delegateId: string }
 }

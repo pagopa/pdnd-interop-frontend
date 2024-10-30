@@ -114,6 +114,49 @@
         "producer": "Producer",
         "consumer": "Consumer"
       }
+    },
+    "create": {
+      "title": "Create delegation",
+      "kindSectionTitle": "Delegation's kinds",
+      "consumeDelegationTitle": "Consume delegation",
+      "provideDelegationTitle": "Provide delegation",
+      "cancelBtn": "Cancel",
+      "backWithoutSaveBtn": "Go back",
+      "forwardWithSaveBtn": "Next",
+      "submitBtn": "Submit delegation",
+      "cards": {
+        "common": "I want to create a ",
+        "consume": "consumer's delegation",
+        "provide": "provider's delegation"
+      },
+      "eserviceField": {
+        "label": "E-service name (required)",
+        "infoLabel": "Min 5 chars, max 60 chars",
+        "infoLabelAutocomplete": "The list includes only those  e-services for which the respective producers have given availability to consume by delegation.",
+        "descriptionLabel": "E-service description",
+        "descriptionInfoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
+      },
+      "delegateField": {
+        "consume": {
+          "label": "Delegated tenant (required)",
+          "infoLabel": "The list includes only members who have given their willingness to become consumer delegates."
+        },
+        "provide": {
+          "label": "Delegated tenant (required)",
+          "infoLabel": "The list includes only members who have given their willingness to become provider delegates.",
+          "switch": "I have already created the e-service for which I want to activate a delegation"
+        }
+      },
+      "dialog": {
+        "title": "Appointment of data controller",
+        "description": "Please note that is the obligation of the delegator to proceed at the appointment of the delegate as the person responsible for the processing of personal data by formalizing the act provided for in art. 28 of GDPR, before to star any processing activity through the infrastructure.",
+        "proceedLabel": "Submit delegation",
+        "cancelLabel": "Cancella",
+        "checkboxLabel": "I understand"
+      }
+    },
+    "actions": {
+      "backToTenant": "Return to tenant"
     }
   }
 }

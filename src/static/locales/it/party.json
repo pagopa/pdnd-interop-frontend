@@ -114,6 +114,49 @@
         "producer": "Erogazione",
         "consumer": "Fruizione"
       }
+    },
+    "create": {
+      "title": "Crea delega",
+      "kindSectionTitle": "Tipologie di delega",
+      "consumeDelegationTitle": "Delega alla fruizione",
+      "provideDelegationTitle": "Delega all'erogazione",
+      "cancelBtn": "Annulla",
+      "backWithoutSaveBtn": "Torna indietro",
+      "forwardWithSaveBtn": "Prosegui",
+      "submitBtn": "Inoltra delega",
+      "cards": {
+        "common": "Voglio creare una ",
+        "consume": "delega alla fruizione",
+        "provide": "delega all’erogazione"
+      },
+      "eserviceField": {
+        "label": "Nome dell'e-service (richiesto)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri",
+        "infoLabelAutocomplete": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega.",
+        "descriptionLabel": "Descrizione dell'e-service",
+        "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
+      },
+      "delegateField": {
+        "consume": {
+          "label": "Ente da delegare alla fruizione (richiesto)",
+          "infoLabel": "La lista include solo gli aderenti che hanno dato la loro disponibilità a diventare delegati alla fruizione"
+        },
+        "provide": {
+          "label": "Ente da delegare all'erogazione (richiesto)",
+          "infoLabel": "La lista include solo gli aderenti che hanno dato la loro disponibilità a diventare delegati all’erogazione",
+          "switch": "Ho già creato l’e-service per il quale voglio attivare una delega"
+        }
+      },
+      "dialog": {
+        "title": "Nomina Responsabile del Trattamento",
+        "description": "Si ricorda che è obbligo del delegante procedere alla nomina del delegato quale Responsabile del Trattamento dei dati personali, formalizzando l'atto previsto dall'art. 28 del GDPR, prima di avviare qualsiasi attività di trattamento tramite l'infrastruttura.",
+        "proceedLabel": "Inoltra delega",
+        "cancelLabel": "Annulla",
+        "checkboxLabel": "Ho capito"
+      }
+    },
+    "actions": {
+      "backToTenant": "Torna al tuo ente"
     }
   }
 }
