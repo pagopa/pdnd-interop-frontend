@@ -65,23 +65,20 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
         {tCommon('actions.inspect')}
       </Link>
 
-      {delegation.state === 'WAITING_FOR_APPROVAL' && (
-        <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-          <ActionMenu actions={actions} />
-        </Box>
-      )}
+      <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+        <ActionMenu actions={actions} />
+      </Box>
     </TableRow>
   )
 }
 
 export const DelegationsTableRowSkeleton: React.FC = () => {
-  // TODO right skeleton dimensions
   return (
     <TableRow
       cellData={[
-        <Skeleton key={0} width={180} />,
-        <Skeleton key={1} width={180} />,
-        <Skeleton key={2} width={180} />,
+        <Skeleton key={0} width={195} />,
+        <Skeleton key={1} width={163} />,
+        <Skeleton key={2} width={248} />,
         <StatusChipSkeleton key={3} />,
       ]}
     >
