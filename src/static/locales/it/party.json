@@ -158,6 +158,37 @@
     "actions": {
       "backToTenant": "Torna al tuo ente",
       "backToDelegations": "Torna alle deleghe"
+    },
+    "details": {
+      "title": "Gestisci delega",
+      "backToDelegationList": "Torna a deleghe",
+      "generalInfoSection": {
+        "title": "Informazioni generali",
+        "eserviceNameField": {
+          "label": "Nome e-service"
+        },
+        "eserviceProducerField": {
+          "label": "Erogatore"
+        },
+        "delegationKindField": {
+          "label": "Tipologia",
+          "kindProducer": "Delega all’erogazione",
+          "kindConsumer": "Delega alla fruizione"
+        },
+        "delegatorField": {
+          "label": "Delegante"
+        },
+        "delegateField": {
+          "label": "Delegato"
+        },
+        "submissionDateField": {
+          "label": "Data di richiesta"
+        },
+        "delegationStateField": {
+          "label": "Stato della delega"
+        }
+      },
+      "rejectedDelegationAlert": "Questa delega è stata rifiutata. <1>Leggi qui i motivi del rifiuto</1>."
     }
   }
 }

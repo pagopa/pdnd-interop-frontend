@@ -158,6 +158,37 @@
     "actions": {
       "backToTenant": "Return to tenant",
       "backToDelegations": "Return to delegations"
+    },
+    "details": {
+      "title": "Manage delegation",
+      "backToDelegationList": "Back to delegations",
+      "generalInfoSection": {
+        "title": "General Information",
+        "eserviceNameField": {
+          "label": "E-Service name"
+        },
+        "eserviceProducerField": {
+          "label": "Producer"
+        },
+        "delegationKindField": {
+          "label": "Kind",
+          "kindProducer": "Producer delegation",
+          "kindConsumer": "Consumer delegation"
+        },
+        "delegatorField": {
+          "label": "Delegator"
+        },
+        "delegateField": {
+          "label": "Delegate"
+        },
+        "submissionDateField": {
+          "label": "Submission date"
+        },
+        "delegationStateField": {
+          "label": "Delegation state"
+        }
+      },
+      "rejectedDelegationAlert": "This delegation has been rejected. <1>Read here the reject reason</1>."
     }
   }
 }
