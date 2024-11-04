@@ -16,6 +16,8 @@ import type {
   DialogUpgradeAgreementVersionProps,
   DialogSetTenantMailProps,
   DialogDelegationsProps,
+  DialogAcceptProducerDelegationProps,
+  DialogRejectProducerDelegationProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -29,6 +31,8 @@ import { DialogClonePurpose } from './DialogClonePurpose/DialogClonePurpose'
 import { DialogRejectPurposeVersion } from './DialogRejectPurposeVersion'
 import { DialogSetTenantMail } from './DialogSetTenantMail'
 import { DialogDelegations } from './DialogDelegations'
+import { DialogAcceptProducerDelegation } from './DialogAcceptProducerDelegation'
+import { DialogRejectProducerDelegation } from './DialogRejectProducerDelegation'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -43,6 +47,8 @@ function match<T>(
   onRejectPurposeVersion: (props: DialogRejectPurposeVersionProps) => T,
   onSetTenantMail: (props: DialogSetTenantMailProps) => T,
   onDelegations: (props: DialogDelegationsProps) => T
+  onAcceptDelegation: (props: DialogAcceptProducerDelegationProps) => T,
+  onRejectDelegation: (props: DialogRejectProducerDelegationProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -70,6 +76,10 @@ function match<T>(
         return onSetTenantMail(props)
       case 'delegations':
         return onDelegations(props)
+      case 'acceptDelegation':
+        return onAcceptDelegation(props)
+      case 'rejectDelegation':
+        return onRejectDelegation(props)
     }
   }
 }
@@ -87,6 +97,8 @@ const _Dialog = match(
   (props) => <DialogRejectPurposeVersion {...props} />,
   (props) => <DialogSetTenantMail {...props} />,
   (props) => <DialogDelegations {...props} />
+  (props) => <DialogAcceptProducerDelegation {...props} />,
+  (props) => <DialogRejectProducerDelegation {...props} />
 )
 
 export const Dialog: React.FC = () => {
