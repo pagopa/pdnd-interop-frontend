@@ -27,7 +27,7 @@ async function getProducerDelegations(params: GetDelegationsParams) {
       {
         delegate: {
           id: 'delegateId',
-          name: 'delegateName',
+          name: 'PagoPA S.p.A.',
         },
         delegator: {
           id: 'delegatorId',
@@ -35,7 +35,49 @@ async function getProducerDelegations(params: GetDelegationsParams) {
         },
         kind: 'DELEGATED_PRODUCER',
         eserviceName: 'eserviceName',
-        id: 'id',
+        id: 'id1',
+        state: 'REJECTED',
+      },
+      {
+        delegate: {
+          id: 'delegateId',
+          name: 'PagoPA S.p.A.',
+        },
+        delegator: {
+          id: 'delegatorId',
+          name: 'delegatorName',
+        },
+        kind: 'DELEGATED_PRODUCER',
+        eserviceName: 'eserviceName',
+        id: 'id2',
+        state: 'REVOKED',
+      },
+      {
+        delegate: {
+          id: 'delegateId',
+          name: 'PagoPA S.p.A.',
+        },
+        delegator: {
+          id: 'delegatorId',
+          name: 'delegatorName',
+        },
+        kind: 'DELEGATED_PRODUCER',
+        eserviceName: 'eserviceName',
+        id: 'id3',
+        state: 'WAITING_FOR_APPROVAL',
+      },
+      {
+        delegate: {
+          id: 'delegateId',
+          name: 'PagoPA S.p.A.',
+        },
+        delegator: {
+          id: 'delegatorId',
+          name: 'delegatorName',
+        },
+        kind: 'DELEGATED_PRODUCER',
+        eserviceName: 'eserviceName',
+        id: 'id4',
         state: 'ACTIVE',
       },
     ],
@@ -58,7 +100,7 @@ async function getSingle({ delegationId }: { delegationId: string }) {
   const response: Delegation = {
     delegate: {
       id: 'delegateId',
-      name: 'delegateName',
+      name: 'PagoPA S.p.A.',
     },
     delegator: {
       id: 'delegatorId',
@@ -80,7 +122,7 @@ async function getSingle({ delegationId }: { delegationId: string }) {
         },
       ],
     },
-    state: 'ACTIVE',
+    state: 'REJECTED',
     submittedAt: '2022-01-01T00:00:00.000Z',
     rejectionReason: undefined,
     kind: 'DELEGATED_PRODUCER',
