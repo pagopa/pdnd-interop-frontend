@@ -195,6 +195,25 @@
         }
       },
       "rejectedDelegationAlert": "Questa delega è stata rifiutata. <1>Leggi qui i motivi del rifiuto</1>."
+    },
+    "availabilityTab": {
+      "title": "Disponibilità ad accettare nuove deleghe",
+      "consumeDelegation": {
+        "label": "Delega alla fruizione",
+        "infoLabel": "La disponibilità dell’ente a fruire di e-service per conto di altri enti",
+        "value": {
+          "true": "Sì, sono disponibile",
+          "false": "No, non sono disponibile"
+        }
+      },
+      "produceDelegation": {
+        "label": "Delega all’erogazione",
+        "infoLabel": "La disponibilità dell’ente a erogare e-service per conto di altri enti",
+        "value": {
+          "true": "Sì, sono disponibile",
+          "false": "No, non sono disponibile"
+        }
+      }
     }
   }
 }

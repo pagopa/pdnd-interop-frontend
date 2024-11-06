@@ -195,6 +195,25 @@
         }
       },
       "rejectedDelegationAlert": "This delegation has been rejected. <1>Read here the reject reason</1>."
+    },
+    "availabilityTab": {
+      "title": "Availability to accept new delegations",
+      "consumeDelegation": {
+        "label": "Consume delegation",
+        "infoLabel": "Availability of tenant to consume e-service on behalf of others tenants",
+        "value": {
+          "true": "Yes, I am available",
+          "false": "No, I am not available"
+        }
+      },
+      "produceDelegation": {
+        "label": "Provide delegation",
+        "infoLabel": "Availability of tenant to provide e-service on behalf of others tenants",
+        "value": {
+          "true": "Yes, I am available",
+          "false": "No, I am not available"
+        }
+      }
     }
   }
 }
