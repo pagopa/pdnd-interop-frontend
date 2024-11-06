@@ -1,4 +1,4 @@
-import type { CompactDelegation, Delegation, DelegationKind } from '@/api/api.generatedTypes'
+import type { CompactDelegation, Delegation } from '@/api/api.generatedTypes'
 import { useDialog } from '@/stores'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
@@ -10,8 +10,6 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { openDialog } = useDialog()
   const { jwt } = AuthHooks.useJwt()
-
-  const delegationKind = 'DELEGATED_PRODUCER' as DelegationKind
 
   const actions: Array<ActionItemButton> = []
 
@@ -40,7 +38,7 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   }
 
   if (
-    delegationKind === 'DELEGATED_PRODUCER' &&
+    delegation.kind === 'DELEGATED_PRODUCER' &&
     delegation.state === 'WAITING_FOR_APPROVAL' &&
     delegation.delegate.id === jwt?.organizationId
   ) {

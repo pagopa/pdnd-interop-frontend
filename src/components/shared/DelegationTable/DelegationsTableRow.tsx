@@ -1,4 +1,4 @@
-import type { CompactDelegation, DelegationKind } from '@/api/api.generatedTypes'
+import type { CompactDelegation } from '@/api/api.generatedTypes'
 import { DelegationQueries } from '@/api/delegation'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
@@ -32,9 +32,7 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
     queryClient.prefetchQuery(DelegationQueries.getSingle({ delegationId: delegation.id }))
   }
 
-  const delegationKind = 'DELEGATED_PRODUCER' as DelegationKind
-
-  const delegationKindLabel = match(delegationKind)
+  const delegationKindLabel = match(delegation.kind)
     .with('DELEGATED_PRODUCER', () => t('delegationKind.producer'))
     .with('DELEGATED_CONSUMER', () => t('delegationKind.consumer'))
     .exhaustive()

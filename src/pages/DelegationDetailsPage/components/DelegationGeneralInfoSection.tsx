@@ -1,4 +1,3 @@
-import type { DelegationKind } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { DelegationQueries } from '@/api/delegation'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
@@ -26,9 +25,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
 
   const { jwt } = AuthHooks.useJwt()
 
-  const delegationKind = 'DELEGATED_PRODUCER' as DelegationKind
-
-  const delegationKindLabel = match(delegationKind)
+  const delegationKindLabel = match(delegation?.kind)
     .with('DELEGATED_PRODUCER', () => t('delegationKindField.kindProducer'))
     .with('DELEGATED_CONSUMER', () => t('delegationKindField.kindConsumer'))
     .exhaustive()
@@ -57,11 +54,10 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
                 </Link>
               }
             />
-            {/* TODO inserire lato BFF il producer dell'eservice */}
-            {/* <InformationContainer
+            <InformationContainer
               label={t('eserviceProducerField.label')}
-              content={delegation.eservice.provider}
-            /> */}
+              content={delegation.eservice.producerName}
+            />
             <InformationContainer
               label={t('delegationKindField.label')}
               content={delegationKindLabel}
