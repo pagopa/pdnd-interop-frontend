@@ -115,6 +115,7 @@ export interface UpdateEServiceSeed {
   technology: EServiceTechnology
   /** Risk Analysis Mode */
   mode: EServiceMode
+  isSignalHubEnabled?: boolean
 }
 
 export interface EServiceSeed {
@@ -124,6 +125,7 @@ export interface EServiceSeed {
   technology: EServiceTechnology
   /** Risk Analysis Mode */
   mode: EServiceMode
+  isSignalHubEnabled?: boolean
 }
 
 export interface UpdateEServiceDescriptorQuotas {
@@ -264,6 +266,7 @@ export interface CatalogDescriptorEService {
   isSubscribed: boolean
   activeDescriptor?: CompactDescriptor
   mail?: Mail
+  isSignalHubEnabled?: boolean
 }
 
 export interface ProducerEServiceDetails {
@@ -276,6 +279,7 @@ export interface ProducerEServiceDetails {
   /** Risk Analysis Mode */
   mode: EServiceMode
   riskAnalysis: EServiceRiskAnalysis[]
+  isSignalHubEnabled?: boolean
 }
 
 /** Risk Analysis Mode */
@@ -342,6 +346,7 @@ export interface ProducerDescriptorEService {
   descriptors: CompactDescriptor[]
   draftDescriptor?: CompactDescriptor
   mail?: Mail
+  isSignalHubEnabled?: boolean
 }
 
 export interface EServiceDoc {
@@ -555,7 +560,7 @@ export interface CompactOrganization {
   contactMail?: Mail
 }
 
-export type TenantKind = 'PA' | 'PRIVATE' | 'GSP'
+export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
 
 export interface CompactOrganizations {
   results: CompactOrganization[]
@@ -1312,6 +1317,9 @@ export interface DelegationEService {
   id: string
   name: string
   description?: string
+  /** @format uuid */
+  producerId: string
+  producerName: string
 }
 
 export interface Delegation {
@@ -1326,16 +1334,20 @@ export interface Delegation {
   rejectionReason?: string
   /** Delegation State */
   state: DelegationState
+  /** Delegation State */
+  kind: DelegationKind
 }
 
 export interface CompactDelegation {
   /** @format uuid */
   id: string
   eserviceName: string
-  delegatedName: string
-  delegatorName: string
+  delegate?: DelegationTenant
+  delegator?: DelegationTenant
   /** Delegation State */
   state: DelegationState
+  /** Delegation State */
+  kind: DelegationKind
 }
 
 export interface CompactDelegations {
@@ -1765,6 +1777,11 @@ export interface GetClientsParams {
   limit: number
 }
 
+export interface AddUsersToClientPayload {
+  /** @minItems 1 */
+  userIds: string[]
+}
+
 export interface GetClientKeysParams {
   /**
    * comma separated sequence of user IDs
@@ -1815,6 +1832,11 @@ export interface GetProducerKeychainsParams {
   limit: number
 }
 
+export interface AddProducerKeychainUsersPayload {
+  /** @minItems 1 */
+  userIds: string[]
+}
+
 export interface GetProducerKeysParams {
   /**
    * comma separated sequence of user IDs
@@ -1851,6 +1873,8 @@ export interface GetProducerDelegationsParams {
   delegatedIds?: string[]
   /** The delegation kind to filter by */
   kind?: DelegationKind
+  /** @default [] */
+  eserviceIds?: string[]
 }
 
 export namespace Agreements {
@@ -4535,34 +4559,6 @@ export namespace Clients {
     export type ResponseBody = void
   }
   /**
-   * @description Binds a security user belonging to a consumer to a Client
-   * @tags clients
-   * @name AddUserToClient
-   * @summary Binds an user to a Client
-   * @request POST:/clients/{clientId}/users/{userId}
-   * @secure
-   */
-  export namespace AddUserToClient {
-    export type RequestParams = {
-      /**
-       * The Client id
-       * @format uuid
-       */
-      clientId: string
-      /**
-       * The identifier of the user between the security user and the consumer
-       * @format uuid
-       */
-      userId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CreatedResource
-  }
-  /**
    * @description Removes an user from a Client
    * @tags clients
    * @name RemoveUserFromClient
@@ -4635,6 +4631,29 @@ export namespace Clients {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CompactUsers
+  }
+  /**
+   * @description Binds a security user belonging to a consumer to a Client
+   * @tags clients
+   * @name AddUsersToClient
+   * @summary Binds an user to a Client
+   * @request POST:/clients/{clientId}/users
+   * @secure
+   */
+  export namespace AddUsersToClient {
+    export type RequestParams = {
+      /**
+       * ID of Client the users belong to
+       * @format uuid
+       */
+      clientId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = AddUsersToClientPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
   }
   /**
    * @description Creates one or more keys for the corresponding client.
@@ -4995,6 +5014,29 @@ export namespace ProducerKeychains {
     export type ResponseBody = CompactUsers
   }
   /**
+   * @description Add users to a Producer Keychain
+   * @tags producerKeychain
+   * @name AddProducerKeychainUsers
+   * @summary Add users to a Producer Keychain
+   * @request POST:/producerKeychains/{producerKeychainId}/users
+   * @secure
+   */
+  export namespace AddProducerKeychainUsers {
+    export type RequestParams = {
+      /**
+       * ID of Producer Keychain the users belong to
+       * @format uuid
+       */
+      producerKeychainId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = AddProducerKeychainUsersPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
    * @description Removes a user from a Producer Keychain
    * @tags producerKeychain
    * @name RemoveProducerKeychainUser
@@ -5021,34 +5063,6 @@ export namespace ProducerKeychains {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
-  }
-  /**
-   * @description Add a user to a Producer Keychain
-   * @tags producerKeychain
-   * @name AddProducerKeychainUser
-   * @summary Add a user to a Producer Keychain
-   * @request POST:/producerKeychains/{producerKeychainId}/users/{userId}
-   * @secure
-   */
-  export namespace AddProducerKeychainUser {
-    export type RequestParams = {
-      /**
-       * The Producer Keychain id
-       * @format uuid
-       */
-      producerKeychainId: string
-      /**
-       * The identifier of the user between the security user and the consumer
-       * @format uuid
-       */
-      userId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CreatedResource
   }
   /**
    * @description Creates a key for the corresponding producer keychain.
@@ -5264,6 +5278,8 @@ export namespace Delegations {
       delegatedIds?: string[]
       /** The delegation kind to filter by */
       kind?: DelegationKind
+      /** @default [] */
+      eserviceIds?: string[]
     }
     export type RequestBody = never
     export type RequestHeaders = {

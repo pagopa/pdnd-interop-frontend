@@ -40,8 +40,8 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
     .exhaustive()
 
   const delegateOrDelegatorCellData = match(delegationType)
-    .with('DELEGATION_RECEIVED', () => delegation.delegatorName)
-    .with('DELEGATION_GRANTED', () => delegation.delegatedName)
+    .with('DELEGATION_RECEIVED', () => delegation.delegator!.name) // TODO delete !
+    .with('DELEGATION_GRANTED', () => delegation.delegate!.name)
     .exhaustive()
 
   return (
@@ -65,7 +65,6 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
         {tCommon('actions.inspect')}
       </Link>
 
-      {/* TODO renderizzare comunque lo spazio perché non va bene che i button non siano allineati... trovare un modo per non far vedere l'icona */}
       {delegation.state === 'WAITING_FOR_APPROVAL' && (
         <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
           <ActionMenu actions={actions} />
