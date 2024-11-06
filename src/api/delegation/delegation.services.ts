@@ -22,8 +22,15 @@ async function getProducerDelegations(params: GetProducerDelegationsParams) {
   const response: CompactDelegations = {
     results: [
       {
-        delegatedName: 'delegatedName',
-        delegatorName: 'delegatorName',
+        delegate: {
+          id: 'delegateId',
+          name: 'delegateName',
+        },
+        delegator: {
+          id: 'delegatorId',
+          name: 'delegatorName',
+        },
+        kind: 'DELEGATED_PRODUCER',
         eserviceName: 'eserviceName',
         id: 'id',
         state: 'ACTIVE',
@@ -59,10 +66,13 @@ async function getSingle({ delegationId }: { delegationId: string }) {
       id: 'eserviceId',
       name: 'eserviceName',
       description: 'eserviceDescription',
+      producerId: 'producerId',
+      producerName: 'producerName',
     },
     state: 'ACTIVE',
     submittedAt: '2022-01-01T00:00:00.000Z',
     rejectionReason: undefined,
+    kind: 'DELEGATED_PRODUCER',
   }
   return response
 }

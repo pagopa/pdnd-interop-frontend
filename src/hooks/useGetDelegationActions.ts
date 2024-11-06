@@ -17,10 +17,6 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
 
   if (!delegation) return { actions: actions }
 
-  // TODO finché non viene messo l'id lato BFF nel CompactDelegation
-  const delegateName =
-    'delegatedName' in delegation ? delegation.delegatedName : delegation.delegate.name
-
   const handleAccept = () => {
     openDialog({ type: 'acceptDelegation', delegationId: delegation.id })
   }
@@ -46,8 +42,7 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   if (
     delegationKind === 'DELEGATED_PRODUCER' &&
     delegation.state === 'WAITING_FOR_APPROVAL' &&
-    delegateName === jwt?.organization.name // TODO rimuovere a favore della stringa sotto quando verrà aggiustato il BFF
-    // delegation.delegate.id === jwt?.organizationId
+    delegation.delegate!.id === jwt?.organizationId // TODO rimuovere !
   ) {
     actions.push(...[acceptAction, rejectAction])
   }

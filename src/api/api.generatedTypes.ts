@@ -1317,6 +1317,9 @@ export interface DelegationEService {
   id: string
   name: string
   description?: string
+  /** @format uuid */
+  producerId: string
+  producerName: string
 }
 
 export interface Delegation {
@@ -1331,16 +1334,20 @@ export interface Delegation {
   rejectionReason?: string
   /** Delegation State */
   state: DelegationState
+  /** Delegation State */
+  kind: DelegationKind
 }
 
 export interface CompactDelegation {
   /** @format uuid */
   id: string
   eserviceName: string
-  delegatedName: string
-  delegatorName: string
+  delegate?: DelegationTenant
+  delegator?: DelegationTenant
   /** Delegation State */
   state: DelegationState
+  /** Delegation State */
+  kind: DelegationKind
 }
 
 export interface CompactDelegations {
@@ -1866,6 +1873,8 @@ export interface GetProducerDelegationsParams {
   delegatedIds?: string[]
   /** The delegation kind to filter by */
   kind?: DelegationKind
+  /** @default [] */
+  eserviceIds?: string[]
 }
 
 export namespace Agreements {
@@ -5269,6 +5278,8 @@ export namespace Delegations {
       delegatedIds?: string[]
       /** The delegation kind to filter by */
       kind?: DelegationKind
+      /** @default [] */
+      eserviceIds?: string[]
     }
     export type RequestBody = never
     export type RequestHeaders = {
