@@ -42,7 +42,7 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   if (
     delegationKind === 'DELEGATED_PRODUCER' &&
     delegation.state === 'WAITING_FOR_APPROVAL' &&
-    delegation.delegate!.id === jwt?.organizationId // TODO rimuovere !
+    delegation.delegate.id === jwt?.organizationId
   ) {
     actions.push(...[acceptAction, rejectAction])
   }

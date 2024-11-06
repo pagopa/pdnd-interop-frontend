@@ -1342,8 +1342,8 @@ export interface CompactDelegation {
   /** @format uuid */
   id: string
   eserviceName: string
-  delegate?: DelegationTenant
-  delegator?: DelegationTenant
+  delegate: DelegationTenant
+  delegator: DelegationTenant
   /** Delegation State */
   state: DelegationState
   /** Delegation State */
