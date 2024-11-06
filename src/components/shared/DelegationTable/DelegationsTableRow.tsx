@@ -40,8 +40,8 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
     .exhaustive()
 
   const delegateOrDelegatorCellData = match(delegationType)
-    .with('DELEGATION_RECEIVED', () => delegation.delegator!.name) // TODO delete !
-    .with('DELEGATION_GRANTED', () => delegation.delegate!.name)
+    .with('DELEGATION_RECEIVED', () => delegation.delegator.name)
+    .with('DELEGATION_GRANTED', () => delegation.delegate.name)
     .exhaustive()
 
   return (
