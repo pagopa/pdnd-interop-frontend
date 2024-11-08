@@ -10,6 +10,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ConsumerAgreementDocsInputSection } from './ConsumerAgreementDocsInputSection'
 import { ConsumerNotesInputSection } from './ConsumerNotesInputSection'
 import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
+import { TenantHooks } from '@/api/tenant'
+import { isAttributeOwned } from '@/utils/attribute.utils'
 
 type ConsumerAgreementCreateVerifiedAttributesSectionProps = {
   agreementId: string
@@ -25,6 +27,16 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
   const { descriptorAttributes } = useConsumerAgreementCreateContentContext()
 
   const verifiedAttributeGroups = descriptorAttributes?.verified ?? []
+
+  /**
+   * To check if the consumer already has verified attributes from the active party
+   */
+  const { data: activeParty } = TenantHooks.useGetActiveUserParty()
+  const ownedVerifiedAttributes = activeParty.attributes.verified
+  const { agreement } = useConsumerAgreementCreateContentContext()
+  const hasAlreadyVerifiedAttribute = verifiedAttributeGroups.some((group, i) =>
+    isAttributeOwned('verified', group[i].id, ownedVerifiedAttributes, agreement?.producer.id)
+  )
 
   return (
     <SectionContainer
@@ -51,8 +63,12 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
             {verifiedAttributeGroups.map((group, i) => (
               <AttributeGroupContainer
                 key={i}
-                title={tAttribute(`group.manage.warning.verified.consumer`)}
-                color="warning"
+                title={
+                  hasAlreadyVerifiedAttribute
+                    ? tAttribute('group.manage.success.consumer')
+                    : tAttribute('group.manage.warning.verified.consumer')
+                }
+                color={hasAlreadyVerifiedAttribute ? 'success' : 'warning'}
               >
                 <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
                   {group.map((attribute) => (
