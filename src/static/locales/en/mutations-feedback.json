@@ -571,6 +571,13 @@
         "success": "Contact info updated successfully",
         "error": "Contact Infos could not be updated. Please, try again!"
       }
+    },
+    "updateProducerDelegationAvailability": {
+      "loading": "Updating delegation availability",
+      "outcome": {
+        "success": "Delegation availability updated succesfully",
+        "error": "Delegation availability could not be updated. Please, try again!"
+      }
     }
   },
   "voucher": {

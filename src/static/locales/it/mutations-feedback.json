@@ -571,6 +571,13 @@
         "success": "I contatti sono stati aggiornati correttamente",
         "error": "Non è stato possibile aggiornare i contatti. Per favore, riprova!"
       }
+    },
+    "updateProducerDelegationAvailability": {
+      "loading": "Stiamo aggiornando la disponibilità",
+      "outcome": {
+        "success": "La disponibilità è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la disponibilità. Per favore, riprova!"
+      }
     }
   },
   "voucher": {

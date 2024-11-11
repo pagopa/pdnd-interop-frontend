@@ -14,6 +14,21 @@ function useUpdateMail() {
   })
 }
 
+function useUpdateDelegateProducerAvailability() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'party.updateProducerDelegationAvailability',
+  })
+  return useMutation({
+    mutationFn: TenantServices.updateDelegateProducerAvailability,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const TenantMutations = {
   useUpdateMail,
+  useUpdateDelegateProducerAvailability,
 }
