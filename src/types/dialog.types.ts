@@ -111,7 +111,7 @@ export type DialogRejectProducerDelegationProps = {
 }
 
 export type DialogRevokeProducerDelegationProps = {
-  type: 'revokeDelegation'
+  type: 'revokeProducerDelegation'
   delegationId: string
   eserviceName: string
 }

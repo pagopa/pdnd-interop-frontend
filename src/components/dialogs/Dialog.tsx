@@ -51,7 +51,7 @@ function match<T>(
   onDelegations: (props: DialogDelegationsProps) => T,
   onAcceptDelegation: (props: DialogAcceptProducerDelegationProps) => T,
   onRejectDelegation: (props: DialogRejectProducerDelegationProps) => T,
-  onRevokeDelegation: (props: DialogRevokeProducerDelegationProps) => T
+  onRevokeProducerDelegation: (props: DialogRevokeProducerDelegationProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -83,8 +83,10 @@ function match<T>(
         return onAcceptDelegation(props)
       case 'rejectDelegation':
         return onRejectDelegation(props)
-      case 'revokeDelegation':
-        return onRevokeDelegation(props)
+      case 'revokeProducerDelegation':
+        return onRevokeProducerDelegation(props)
+      case 'revokeProducerDelegation':
+        return onRevokeProducerDelegation(props)
     }
   }
 }
