@@ -144,8 +144,8 @@ export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
   ownedAttributes: TAttributeKey extends 'certified'
     ? CertifiedTenantAttribute[]
     : TAttributeKey extends 'verified'
-      ? VerifiedTenantAttribute[]
-      : DeclaredTenantAttribute[],
+    ? VerifiedTenantAttribute[]
+    : DeclaredTenantAttribute[],
   attributesGroup: Array<DescriptorAttribute>,
   verifierId?: string
 ) {
@@ -252,7 +252,9 @@ const isOwnedVerifiedAttributeNotExpired = (
   verifierId?: string
 ): boolean => {
   const today = Date.now()
-  return attribute.verifiedBy.some((it) =>
-    it.id === verifierId && it.extensionDate ? today <= new Date(it.extensionDate).getTime() : true
+  return attribute.verifiedBy.some(
+    (it) =>
+      it.id === verifierId &&
+      (it.extensionDate ? today <= new Date(it.extensionDate).getTime() : true)
   )
 }

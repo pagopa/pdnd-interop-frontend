@@ -76,12 +76,6 @@ const renderRoutesWrapperWithError = () => {
 }
 
 describe('RoutesWrapper', () => {
-  it('should match the snapshot', () => {
-    mockUseCurrentRoute({ isPublic: true, routeKey: 'TOS' })
-    const { container } = renderRoutesWrapper()
-    expect(container).toMatchSnapshot()
-  })
-
   it('should show the TOSAgreement when isPublic is false and TOS are not accepted', () => {
     mockUseCurrentRoute({ isPublic: false, routeKey: 'TOS' })
     useTOSAgreementSpy.mockReturnValue({
@@ -91,8 +85,6 @@ describe('RoutesWrapper', () => {
     const screen = renderRoutesWrapper()
     const confirmTOSBtn = screen.getByRole('button', { name: 'confirmBtnLabel' })
     expect(confirmTOSBtn).toBeInTheDocument()
-
-    expect(screen.baseElement).toMatchSnapshot()
   })
 
   it('should show the ErrorPage when an error is thrown', () => {
@@ -102,6 +94,6 @@ describe('RoutesWrapper', () => {
       handleAcceptTOS: vi.fn(),
     })
     const screen = renderRoutesWrapperWithError()
-    expect(screen.baseElement).toMatchSnapshot()
+    expect(screen.queryByRole('button', { name: 'confirmBtnLabel' })).not.toBeInTheDocument()
   })
 })

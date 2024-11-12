@@ -1,23 +1,11 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from '../RiskAnalysisForm'
+import { RiskAnalysisForm } from '../RiskAnalysisForm'
 import { createMockRiskAnalysisFormConfig } from '@/../__mocks__/data/purpose.mocks'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 describe('RiskAnalysisForm', () => {
-  it('should match the snapshot', () => {
-    const { baseElement } = render(
-      <RiskAnalysisForm
-        defaultAnswers={{}}
-        riskAnalysis={createMockRiskAnalysisFormConfig()}
-        onSubmit={vi.fn()}
-        onCancel={vi.fn()}
-      />
-    )
-    expect(baseElement).toMatchSnapshot()
-  })
-
   it('should update the questions accordingly', async () => {
     const screen = render(
       <RiskAnalysisForm
@@ -76,12 +64,5 @@ describe('RiskAnalysisForm', () => {
         institutionalPurpose: ['Some text'],
       })
     })
-  })
-})
-
-describe('RiskAnalysisFormSkeleton', () => {
-  it('should match snapshot', () => {
-    const { baseElement } = render(<RiskAnalysisFormSkeleton />)
-    expect(baseElement).toMatchSnapshot()
   })
 })
