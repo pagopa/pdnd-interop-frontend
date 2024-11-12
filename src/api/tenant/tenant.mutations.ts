@@ -14,12 +14,12 @@ function useUpdateMail() {
   })
 }
 
-function useUpdateDelegateProducerAvailability() {
+function useAssignTenantDelegatedProducerFeature() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'party.updateProducerDelegationAvailability',
   })
   return useMutation({
-    mutationFn: TenantServices.updateDelegateProducerAvailability,
+    mutationFn: TenantServices.assignTenantDelegatedProducerFeature,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -30,5 +30,5 @@ function useUpdateDelegateProducerAvailability() {
 
 export const TenantMutations = {
   useUpdateMail,
-  useUpdateDelegateProducerAvailability,
+  useAssignTenantDelegatedProducerFeature,
 }

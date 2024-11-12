@@ -42,13 +42,8 @@ function updateMail({
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/mails`, payload)
 }
 
-function updateDelegateProducerAvailability({
-  partyId,
-  ...payload
-}: {
-  partyId: string
-} & DelegatedProducer) {
-  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}`, payload) //TODO check url
+function assignTenantDelegatedProducerFeature() {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
 }
 
 export const TenantServices = {
@@ -56,5 +51,5 @@ export const TenantServices = {
   getPartyUsersList,
   getTenants,
   updateMail,
-  updateDelegateProducerAvailability,
+  assignTenantDelegatedProducerFeature,
 }

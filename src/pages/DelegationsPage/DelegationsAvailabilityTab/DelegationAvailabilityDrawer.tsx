@@ -3,8 +3,9 @@ import { Drawer } from '@/components/shared/Drawer'
 import { Box, FormControlLabel, Button, Stack, Switch, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { SectionContainer } from '@/components/layout/containers'
-import { TenantMutations } from '@/api/tenant'
+import { TenantHooks, TenantMutations } from '@/api/tenant'
 import { AuthHooks } from '@/api/auth'
+import { TenantFeature } from '@/api/api.generatedTypes'
 
 type DelegationAvailabilityDrawerProps = {
   isOpen: boolean
@@ -23,8 +24,8 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
   const { t: tCommon } = useTranslation('shared-components')
-  const { mutate: setProducerDelegationAvailabilty } =
-    TenantMutations.useUpdateDelegateProducerAvailability()
+  const { mutate: setAssignProducerDelegationAvailabilty } =
+    TenantMutations.useAssignTenantDelegatedProducerFeature()
 
   const [checkedProducerDelegations, setCheckedProducerDelegations] = React.useState(
     isAvailableProducerDelegations
@@ -34,22 +35,12 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
     isAvailableConsumerDelegations
   )*/ //TODO integrare con BE
   const checkedConsumerDelegations = false
-  const { jwt } = AuthHooks.useJwt()
 
   function handleClick() {
-    if (jwt) {
-      setProducerDelegationAvailabilty(
-        {
-          partyId: jwt.organizationId,
-          availabilityTimestamp: Date.now().toString(),
-        },
-        {
-          onSuccess() {
-            onClose()
-          },
-        }
-      )
+    if (checkedProducerDelegations === true) {
+      setAssignProducerDelegationAvailabilty()
     }
+
     //setter(checkedProducerDelegations, checkedConsumerDelegations)
     onClose()
   }
