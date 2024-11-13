@@ -9,15 +9,15 @@ import SendIcon from '@mui/icons-material/Send'
 import { EServiceQueries } from '@/api/eservice/eservice.queries'
 import { useQuery } from '@tanstack/react-query'
 import {
-  CatalogEService,
   CompactOrganization,
   EServiceMode,
   EServiceTechnology,
+  ProducerEService,
 } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import { AuthHooks } from '@/api/auth'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
+import { TenantQueries } from '@/api/tenant'
 
 export type DelegationCreateFormValues = {
   eserviceName: string
@@ -53,13 +53,11 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
 
   const { openDialog } = useDialog()
 
-  const organizationId = AuthHooks.useJwt().jwt?.organizationId as string
-
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = async (formValues: DelegationCreateFormValues) => {
     if (!isChecked || delegationKind === 'CONSUME') {
-      //TODO Controllare chiamate per deleghe in fruizionw
+      //TODO Controllare chiamate per deleghe in fruizione
       // if it is a delegation for fruition there is no switch/isChecked and the e-service must be created
       const eserviceParams: EServiceCreateDraftValues = {
         name: formValues.eserviceName,
@@ -87,10 +85,10 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
     useAutocompleteTextInput()
 
-  const selectedEServiceRef = React.useRef<CatalogEService | undefined>(undefined)
+  const selectedEServiceRef = React.useRef<ProducerEService | undefined>(undefined)
 
   const formatAutocompleteOptionLabelEservice = React.useCallback(
-    (eservice: CatalogEService) => {
+    (eservice: ProducerEService) => {
       return `${eservice.name}`
     },
     [t]
@@ -115,23 +113,33 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
 
   const { data: eservices = [], isLoading: isLoadingEservices } = useQuery({
     //TODO escludere gli eservice che hanno già una delega attiva
-    ...EServiceQueries.getCatalogList({
+    ...EServiceQueries.getProviderList({
       q: getQ(),
-      agreementStates: ['ACTIVE'],
-      states: ['PUBLISHED', 'DRAFT'],
       limit: 50,
       offset: 0,
-      producersIds: [organizationId],
     }),
     select: (d) => d.results,
   })
 
+  const { watch } = formMethods
+  const [tenantSearchParam, setTenantSearchParam] = useAutocompleteTextInput()
+  const selectedTenant = watch('delegateId')
+
+  function getTenantQ() {
+    let result = tenantSearchParam
+
+    if (selectedTenant && tenantSearchParam === selectedTenant) {
+      result = ''
+    }
+
+    return result
+  }
+
   const { data: delegates = [], isLoading: isLoadingDelegates } = useQuery({
     //TODO filtrare gli enti in base alla disponibilità
-    ...EServiceQueries.getProducers({
-      q: getQ(),
+    ...TenantQueries.getTenants({
+      name: getTenantQ(),
       limit: 50,
-      offset: 0,
     }),
     select: (d) => d.results,
   })
