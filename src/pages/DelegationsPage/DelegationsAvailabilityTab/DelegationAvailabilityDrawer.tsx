@@ -3,24 +3,18 @@ import { Drawer } from '@/components/shared/Drawer'
 import { Box, FormControlLabel, Button, Stack, Switch, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { SectionContainer } from '@/components/layout/containers'
-import { TenantHooks, TenantMutations } from '@/api/tenant'
-import { AuthHooks } from '@/api/auth'
-import { TenantFeature } from '@/api/api.generatedTypes'
+import { TenantMutations } from '@/api/tenant'
 
 type DelegationAvailabilityDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   isAvailableProducerDelegations: boolean
-  /*isAvailableConsumerDelegations: boolean
-  setter: (produceDelegation: boolean, consumeDelegation: boolean) => void*/
 }
 
 export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawerProps> = ({
   isOpen,
   onClose,
   isAvailableProducerDelegations,
-  //isAvailableConsumerDelegations,
-  //setter,
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
   const { t: tCommon } = useTranslation('shared-components')
@@ -31,17 +25,16 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
     isAvailableProducerDelegations
   )
 
-  /*const [checkedConsumerDelegations, setCheckedConsumerDelegations] = React.useState(
-    isAvailableConsumerDelegations
-  )*/ //TODO integrare con BE
-  const checkedConsumerDelegations = false
+  let checkedConsumerDelegations = false
 
   function handleClick() {
-    if (checkedProducerDelegations === true) {
-      setAssignProducerDelegationAvailabilty()
+    if (checkedProducerDelegations != isAvailableProducerDelegations) {
+      if (checkedProducerDelegations === true) {
+        setAssignProducerDelegationAvailabilty()
+      } else {
+        console.log('TODO integrare rimozione disponibilità')
+      }
     }
-
-    //setter(checkedProducerDelegations, checkedConsumerDelegations)
     onClose()
   }
 
@@ -65,7 +58,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
                 control={
                   <Switch
                     checked={checkedConsumerDelegations}
-                    /*onChange={() => {
+                    /*onChange={() => { //TODO
                       setCheckedConsumerDelegations(!checkedConsumerDelegations)
                     }}*/
                   />

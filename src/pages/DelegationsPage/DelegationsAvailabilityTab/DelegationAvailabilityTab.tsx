@@ -6,9 +6,8 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { AuthHooks } from '@/api/auth'
 import EditIcon from '@mui/icons-material/Edit'
 import { DelegationAvailabilityDrawer } from './DelegationAvailabilityDrawer'
-import { DelegatedProducer, TenantFeature } from '@/api/api.generatedTypes'
-import { TenantHooks, TenantMutations } from '@/api/tenant'
-import { timeStamp } from 'console'
+import { TenantFeature } from '@/api/api.generatedTypes'
+import { TenantHooks } from '@/api/tenant'
 
 export const DelegationsAvailabilityTab: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
@@ -16,15 +15,14 @@ export const DelegationsAvailabilityTab: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
 
   const { data: activeTenant } = TenantHooks.useGetActiveUserParty()
-  const producerDelegations = activeTenant.features.find(
+  const producerDelegationsAvailability = activeTenant.features.find(
     (feature): feature is Extract<TenantFeature, { delegatedProducer?: unknown }> =>
       Boolean('delegatedProducer' in feature && feature.delegatedProducer?.availabilityTimestamp)
   )?.delegatedProducer?.availabilityTimestamp
 
-  const isAvailableProducerDelegations = producerDelegations ? true : false
+  const isAvailableProducerDelegations = producerDelegationsAvailability ? true : false
 
-  //const [isAvailableProducerDelegations, setIsAvailableProducerDelegations] = React.useState(false) //TODO da sostituire con il campo BE
-  const [isAvailableConsumerDelegations, setIsAvailableConsumerDelegations] = React.useState(false) //TODO da sostituire con il campo BE
+  const [isAvailableConsumerDelegations, setIsAvailableConsumerDelegations] = React.useState(false) //TODO integrare con BE
 
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 
@@ -35,13 +33,6 @@ export const DelegationsAvailabilityTab: React.FC = () => {
   const onCloseDrawer = () => {
     setIsDrawerOpen(false)
   }
-
-  /*const handleChange = (produceDelegation: boolean, consumeDelegation: boolean) => {
-    //TODO
-    //setIsAvailableProducerDelegations(produceDelegation)
-    setIsAvailableConsumerDelegations(consumeDelegation)
-    TenantMutations.useUpdateDelegateProducerAvailability()
-  }*/
 
   return (
     <Grid container>
@@ -84,7 +75,6 @@ export const DelegationsAvailabilityTab: React.FC = () => {
           onClose={onCloseDrawer}
           //isAvailableConsumerDelegations={isAvailableConsumerDelegations}
           isAvailableProducerDelegations={isAvailableProducerDelegations}
-          //setter={handleChange}
         />
       </Grid>
     </Grid>
