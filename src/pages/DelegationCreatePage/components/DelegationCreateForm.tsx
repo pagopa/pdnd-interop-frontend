@@ -18,6 +18,7 @@ import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { TenantQueries } from '@/api/tenant'
+import { DialogDelegationsProps } from '@/types/dialog.types'
 
 export type DelegationCreateFormValues = {
   eserviceName: string
@@ -56,14 +57,13 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = async (formValues: DelegationCreateFormValues) => {
-    if (!isChecked || delegationKind === 'CONSUME') {
-      //TODO Controllare chiamate per deleghe in fruizione
-      // if it is a delegation for fruition there is no switch/isChecked and the e-service must be created
+    if (!isChecked && delegationKind === 'PROVIDE') {
+      // if it is a producer delegation and isChecked is false the eservice must be created
       const eserviceParams: EServiceCreateDraftValues = {
         name: formValues.eserviceName,
         description: formValues.eserviceDescription,
         technology: 'REST',
-        mode: delegationKind === 'CONSUME' ? 'RECEIVE' : 'DELIVER',
+        mode: 'DELIVER',
       }
       openDialog({
         type: 'delegations',
@@ -177,7 +177,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           </SectionContainer>
         )}
         <SectionContainer innerSection>
-          {isChecked ? (
+          {isChecked || delegationKind === 'CONSUME' ? (
             <RHFAutocompleteSingle
               sx={{ my: 0 }}
               loading={isLoadingEservices}

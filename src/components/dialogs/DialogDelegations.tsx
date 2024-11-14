@@ -17,7 +17,11 @@ import { DelegationMutations } from '@/api/delegation'
 import { EServiceMutations } from '@/api/eservice'
 import { EServiceCreateDraftValues } from '@/pages/DelegationCreatePage/components/DelegationCreateForm'
 
-type DialogDelegationsProps = {
+/**
+ * eserviceParams are used when creating a new eservice;
+ * delegationParams has eserviceId optional because it is passed only when the eservice already exists
+ */
+export type DialogDelegationsProps = {
   eserviceParams?: EServiceCreateDraftValues
   delegationParams: { eserviceId?: string; delegateId: string }
 }
