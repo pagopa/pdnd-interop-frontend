@@ -1,4 +1,3 @@
-import type { GetProducerDelegationsParams } from '@/api/api.generatedTypes'
 import { DelegationQueries } from '@/api/delegation'
 import { Table } from '@pagopa/interop-fe-commons'
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -7,9 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { DelegationsTableRow, DelegationsTableRowSkeleton } from './DelegationsTableRow'
 import { match } from 'ts-pattern'
 import type { DelegationType } from '@/types/party.types'
+import type { GetDelegationsParams } from '@/api/api.generatedTypes'
 
 type DelegationsTableProps = {
-  params: GetProducerDelegationsParams
+  params: GetDelegationsParams
   delegationType: DelegationType
 }
 

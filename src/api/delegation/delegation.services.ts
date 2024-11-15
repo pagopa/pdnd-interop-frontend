@@ -6,12 +6,12 @@ import type {
   CreatedResource,
   Delegation,
   DelegationSeed,
-  GetProducerDelegationsParams,
+  GetDelegationsParams,
   RejectDelegationPayload,
 } from '../api.generatedTypes'
 // import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
-async function getProducerDelegations(params: GetProducerDelegationsParams) {
+async function getProducerDelegations(params: GetDelegationsParams) {
   // const response = await axiosInstance.get<CompactDelegations>(
   //   `${BACKEND_FOR_FRONTEND_URL}/producer/delegations`,
   //   { params }
@@ -68,6 +68,14 @@ async function getSingle({ delegationId }: { delegationId: string }) {
       description: 'eserviceDescription',
       producerId: 'producerId',
       producerName: 'producerName',
+      descriptors: [
+        {
+          id: 'descriptorId',
+          version: 'descriptorVersion',
+          state: 'PUBLISHED',
+          audience: ['test'],
+        },
+      ],
     },
     state: 'ACTIVE',
     submittedAt: '2022-01-01T00:00:00.000Z',
