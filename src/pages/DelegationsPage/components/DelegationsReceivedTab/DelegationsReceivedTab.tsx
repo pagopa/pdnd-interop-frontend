@@ -1,4 +1,4 @@
-import type { GetProducerDelegationsParams } from '@/api/api.generatedTypes'
+import type { GetDelegationsParams } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { Pagination, usePagination } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -14,10 +14,10 @@ export const DelegationsReceivedTab: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
-  const params: GetProducerDelegationsParams = {
+  const params: GetDelegationsParams = {
     ...paginationParams,
     kind: 'DELEGATED_PRODUCER',
-    delegatedIds: [jwt?.organizationId as string],
+    delegateIds: [jwt?.organizationId as string],
   }
 
   const { data: totalPageCount = 0 } = useQuery({
