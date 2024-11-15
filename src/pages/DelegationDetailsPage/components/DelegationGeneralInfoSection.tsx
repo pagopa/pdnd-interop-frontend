@@ -3,6 +3,7 @@ import { DelegationQueries } from '@/api/delegation'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
+import { getLastDescriptor } from '@/utils/eservice.utils'
 import { formatDateString } from '@/utils/format.utils'
 import { Grid, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
@@ -35,6 +36,8 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     .with(delegation.delegator.id, () => false)
     .otherwise(() => false)
 
+  const lastDescriptor = getLastDescriptor(delegation.eservice.descriptors)
+
   return (
     <Grid container>
       <Grid item xs={7}>
@@ -44,10 +47,14 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
               label={t('eserviceNameField.label')}
               content={
                 <Link
-                  to="PROVIDE_ESERVICE_MANAGE"
+                  to={
+                    lastDescriptor?.state === 'DRAFT'
+                      ? 'PROVIDE_ESERVICE_SUMMARY'
+                      : 'PROVIDE_ESERVICE_MANAGE'
+                  }
                   params={{
                     eserviceId: delegation?.eservice.id,
-                    descriptorId: delegation?.eservice.id, //TODO fare chiamata di getDescriptor!?
+                    descriptorId: lastDescriptor?.id ?? '',
                   }}
                 >
                   {delegation.eservice.name}
