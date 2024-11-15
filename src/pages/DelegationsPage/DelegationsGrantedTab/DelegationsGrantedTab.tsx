@@ -1,4 +1,4 @@
-import type { GetProducerDelegationsParams } from '@/api/api.generatedTypes'
+import type { GetDelegationsParams } from '@/api/api.generatedTypes'
 import { Pagination, usePagination } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +17,7 @@ export const DelegationsGrantedTab: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
-  const defaultParams: Pick<GetProducerDelegationsParams, 'delegatorIds'> = {
+  const defaultParams: Pick<GetDelegationsParams, 'delegatorIds'> = {
     delegatorIds: [userId as string],
   }
 
