@@ -1320,6 +1320,7 @@ export interface DelegationEService {
   /** @format uuid */
   producerId: string
   producerName: string
+  descriptors: CompactDescriptor[]
 }
 
 export interface Delegation {
@@ -1328,7 +1329,8 @@ export interface Delegation {
   eservice: DelegationEService
   delegate: DelegationTenant
   delegator: DelegationTenant
-  contract?: Document
+  activationContract?: Document
+  revocationContract?: Document
   /** @format date-time */
   submittedAt?: string
   rejectionReason?: string
@@ -1850,7 +1852,7 @@ export interface GetProducerKeysParams {
   producerKeychainId: string
 }
 
-export interface GetProducerDelegationsParams {
+export interface GetDelegationsParams {
   /**
    * @format int32
    * @min 0
@@ -1870,7 +1872,7 @@ export interface GetProducerDelegationsParams {
   /** The delegator ids to filter by */
   delegatorIds?: string[]
   /** The delegated ids to filter by */
-  delegatedIds?: string[]
+  delegateIds?: string[]
   /** The delegation kind to filter by */
   kind?: DelegationKind
   /** @default [] */
@@ -3718,6 +3720,21 @@ export namespace Tenants {
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
+  /**
+   * No description
+   * @tags tenants
+   * @name DeleteTenantDelegatedProducerFeature
+   * @summary Delete delegated producer feature to tenant caller
+   * @request DELETE:/tenants/delegatedProducer
+   * @secure
+   */
+  export namespace DeleteTenantDelegatedProducerFeature {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
 }
 
 export namespace Tools {
@@ -5246,14 +5263,14 @@ export namespace ProducerKeychains {
 
 export namespace Delegations {
   /**
-   * @description List producer delegations
+   * @description List delegations
    * @tags delegations
-   * @name GetProducerDelegations
-   * @summary List producer delegations
+   * @name GetDelegations
+   * @summary List delegations
    * @request GET:/delegations
    * @secure
    */
-  export namespace GetProducerDelegations {
+  export namespace GetDelegations {
     export type RequestParams = {}
     export type RequestQuery = {
       /**
@@ -5275,7 +5292,7 @@ export namespace Delegations {
       /** The delegator ids to filter by */
       delegatorIds?: string[]
       /** The delegated ids to filter by */
-      delegatedIds?: string[]
+      delegateIds?: string[]
       /** The delegation kind to filter by */
       kind?: DelegationKind
       /** @default [] */
@@ -5288,14 +5305,14 @@ export namespace Delegations {
     export type ResponseBody = CompactDelegations
   }
   /**
-   * @description Retrieves a producer delegation
+   * @description Retrieves delegation
    * @tags delegations
-   * @name GetProducerDelegation
-   * @summary Retrieves a producer delegation
+   * @name GetDelegation
+   * @summary Retrieves delegation
    * @request GET:/delegations/{delegationId}
    * @secure
    */
-  export namespace GetProducerDelegation {
+  export namespace GetDelegation {
     export type RequestParams = {
       /** The delegation id */
       delegationId: string
