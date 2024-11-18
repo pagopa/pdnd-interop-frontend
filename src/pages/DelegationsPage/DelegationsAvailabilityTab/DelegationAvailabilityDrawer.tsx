@@ -20,19 +20,21 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
   const { t: tCommon } = useTranslation('shared-components')
   const { mutate: setAssignProducerDelegationAvailabilty } =
     TenantMutations.useAssignTenantDelegatedProducerFeature()
+  const { mutate: deleteTenantDelegatedProducerFeature } =
+    TenantMutations.useDeleteTenantDelegatedProducerFeature()
 
   const [checkedProducerDelegations, setCheckedProducerDelegations] = React.useState(
     isAvailableProducerDelegations
   )
 
-  let checkedConsumerDelegations = false
+  let checkedConsumerDelegations = false //TODO disponibilità fruizione
 
   function handleClick() {
     if (checkedProducerDelegations != isAvailableProducerDelegations) {
       if (checkedProducerDelegations === true) {
         setAssignProducerDelegationAvailabilty()
       } else {
-        console.log('TODO integrare rimozione disponibilità')
+        deleteTenantDelegatedProducerFeature()
       }
     }
     onClose()

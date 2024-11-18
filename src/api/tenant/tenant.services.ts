@@ -46,10 +46,15 @@ function assignTenantDelegatedProducerFeature() {
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
 }
 
+function deleteTenantDelegatedProducerFeature() {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
+}
+
 export const TenantServices = {
   getParty,
   getPartyUsersList,
   getTenants,
   updateMail,
   assignTenantDelegatedProducerFeature,
+  deleteTenantDelegatedProducerFeature,
 }

@@ -28,7 +28,22 @@ function useAssignTenantDelegatedProducerFeature() {
   })
 }
 
+function useDeleteTenantDelegatedProducerFeature() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'party.updateProducerDelegationAvailability',
+  })
+  return useMutation({
+    mutationFn: TenantServices.deleteTenantDelegatedProducerFeature,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const TenantMutations = {
   useUpdateMail,
   useAssignTenantDelegatedProducerFeature,
+  useDeleteTenantDelegatedProducerFeature,
 }
