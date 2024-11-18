@@ -166,15 +166,29 @@
   "step4": {
     "consumerStepperLabel": "E-service access",
     "apiStepperLabel": "API Interop access",
+    "actionLabel": "Download",
     "CONSUMER": {
       "title": "Congratulations!",
-      "description": "You can access the data made available by the provider.",
+      "description": "You can access the eservice <strong>{{ eserviceName }}</strong> provided by <strong>{{ producerName }}</strong>",
+      "actionTitle": "E-service tab",
+      "actionDescription": "You can access the data provided by the producer",
       "actionLabel": "Go to the e-service tab"
     },
     "API": {
       "title": "Congratulations!",
-      "description": "You can access the PDND Interoperabilità API.",
-      "actionLabel": "Download OpenAPI interface"
+      "description": "Now you can access the PDND Interoperabilità API.",
+      "actionTitle": "PDND Interoperabilità",
+      "actionDescription": "The API that allows members to interact with PDND Interoperabilità in machine to machine mode",
+      "titleSignalHub": "Signal Hub",
+      "actionLabel": "Download",
+      "pushApiSH": {
+        "title": "Push API",
+        "description": "The API that allows members to send the signal of data change"
+      },
+      "pullApiSH": {
+        "title": "Pull API",
+        "description": "The API that allow consumers to retrieve the signal of data change"
+      }
     }
   },
   "consumerDebugVoucher": {

@@ -166,15 +166,29 @@
   "step4": {
     "consumerStepperLabel": "Accesso e-service",
     "apiStepperLabel": "Accesso API Interop",
+    "actionLabel": "Scarica",
     "CONSUMER": {
       "title": "Congratulazioni!",
-      "description": "Puoi accedere ai dati messi a disposizione dall’erogatore.",
+      "description": "Ora puoi accedere all’API dell’e-service <strong>{{ eserviceName }}</strong> erogato da <strong>{{ producerName }}</strong> ",
+      "actionTitle": "Scheda e-service",
+      "actionDescription": "Puoi accedere ai dati messi a disposizione dall’erogatore",
       "actionLabel": "Vai alla scheda e-service"
     },
     "API": {
       "title": "Congratulazioni!",
-      "description": "Puoi accedere all’API di PDND Interoperabilità.",
-      "actionLabel": "Scarica l’interfaccia OpenAPI"
+      "description": "Ora puoi accedere alle API di PDND Interoperabilità",
+      "actionTitle": "PDND Interoperabilità",
+      "actionDescription": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
+      "titleSignalHub": "Signal Hub",
+      "actionLabel": "Scarica",
+      "pushApiSH": {
+        "title": "Push API",
+        "description": "L’API che permette agli erogatori di inviare i segnali di variazione sui dati"
+      },
+      "pullApiSH": {
+        "title": "Pull API",
+        "description": "L’API che permette ai fruitori di recuperare i segnali di variazione sui dati"
+      }
     }
   },
   "consumerDebugVoucher": {
