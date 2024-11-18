@@ -18,7 +18,6 @@ import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { TenantQueries } from '@/api/tenant'
-import { DialogDelegationsProps } from '@/types/dialog.types'
 
 export type DelegationCreateFormValues = {
   eserviceName: string
@@ -112,17 +111,17 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   }
 
   const { data: eservices = [], isLoading: isLoadingEservices } = useQuery({
-    //TODO escludere gli eservice che hanno già una delega attiva
     ...EServiceQueries.getProviderList({
       q: getQ(),
       limit: 50,
       offset: 0,
+      delegated: false,
     }),
     select: (d) => d.results,
   })
 
   const { watch } = formMethods
-  const [tenantSearchParam, setTenantSearchParam] = useAutocompleteTextInput()
+  const [tenantSearchParam] = useAutocompleteTextInput()
   const selectedTenant = watch('delegateId')
 
   function getTenantQ() {
@@ -136,10 +135,10 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   }
 
   const { data: delegates = [], isLoading: isLoadingDelegates } = useQuery({
-    //TODO filtrare gli enti in base alla disponibilità
     ...TenantQueries.getTenants({
       name: getTenantQ(),
       limit: 50,
+      features: ['DELEGATED_PRODUCER'],
     }),
     select: (d) => d.results,
   })
