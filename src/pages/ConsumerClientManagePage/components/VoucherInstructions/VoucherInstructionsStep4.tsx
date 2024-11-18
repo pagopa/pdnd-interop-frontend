@@ -22,28 +22,6 @@ export const VoucherInstructionsStep4: React.FC = () => {
     enabled: Boolean(selectedPurposeId),
   })
 
-  /** {purpose && clientKind === 'CONSUMER' && (
-            <Link
-              to="SUBSCRIBE_CATALOG_VIEW"
-              params={{
-                eserviceId: purpose.eservice.id,
-                descriptorId: purpose.eservice.descriptor.id,
-              }}
-              as="button"
-              variant="contained"
-              color="primary"
-            >
-              {t(`step4.${clientKind}.actionLabel`)}
-            </Link>
-          )}
-          {clientKind === 'API' && (
-            <Button href={API_GATEWAY_INTEFACE_URL} download variant="contained" color="primary">
-              {t(`step4.${clientKind}.actionLabel`)}
-            </Button>
-          )}
-          
-          CHECK ONCLICK???*/
-
   const navigate = useNavigate()
   function handleOnClickEserviceTab() {
     navigate('SUBSCRIBE_CATALOG_VIEW', {
