@@ -3,11 +3,11 @@ import { Pagination, usePagination } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
-import { Button, Stack } from '@mui/material'
+import { Stack } from '@mui/material'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { DelegationQueries } from '@/api/delegation'
-import { useNavigate } from '@/router'
+import { Link, useNavigate } from '@/router'
 import { DelegationsTable } from '@/components/shared/DelegationTable/DelegationsTable'
 
 export const DelegationsGrantedTab: React.FC = () => {
@@ -38,14 +38,15 @@ export const DelegationsGrantedTab: React.FC = () => {
     <>
       {isAdmin && (
         <Stack sx={{ mb: 2 }} alignItems="end">
-          <Button
+          <Link
+            as="button"
             variant="contained"
             size="small"
-            onClick={() => navigate('CREATE_DELEGATION')}
+            to="CREATE_DELEGATION"
             startIcon={<PlusOneIcon />}
           >
             {tCommon('createNewBtn')}
-          </Button>
+          </Link>
         </Stack>
       )}
       <DelegationsTable delegationType="DELEGATION_GRANTED" params={queryParams} />

@@ -10,6 +10,7 @@ import { EServiceQueries } from '@/api/eservice/eservice.queries'
 import { useQuery } from '@tanstack/react-query'
 import {
   CompactOrganization,
+  DelegationKind,
   EServiceMode,
   EServiceTechnology,
   ProducerEService,
@@ -33,7 +34,7 @@ export type EServiceCreateDraftValues = {
 }
 
 type DelegationCreateFormProps = {
-  delegationKind: 'CONSUME' | 'PROVIDE'
+  delegationKind: DelegationKind
   setActiveStep: React.Dispatch<React.SetStateAction<'KIND' | 'FORM'>>
 }
 
@@ -56,7 +57,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = async (formValues: DelegationCreateFormValues) => {
-    if (!isChecked && delegationKind === 'PROVIDE') {
+    if (!isChecked && delegationKind === 'DELEGATED_PRODUCER') {
       // if it is a producer delegation and isChecked is false the eservice must be created
       const eserviceParams: EServiceCreateDraftValues = {
         name: formValues.eserviceName,
@@ -93,26 +94,8 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     [t]
   )
 
-  /**
-   * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected eservice name.
-   */
-  function getQ() {
-    let result = eserviceAutocompleteTextInput
-
-    if (
-      selectedEServiceRef.current &&
-      eserviceAutocompleteTextInput ===
-        formatAutocompleteOptionLabelEservice(selectedEServiceRef.current)
-    ) {
-      result = ''
-    }
-
-    return result
-  }
-
   const { data: eservices = [], isLoading: isLoadingEservices } = useQuery({
     ...EServiceQueries.getProviderList({
-      q: getQ(),
       limit: 50,
       offset: 0,
       delegated: false,
@@ -124,19 +107,8 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const [tenantSearchParam] = useAutocompleteTextInput()
   const selectedTenant = watch('delegateId')
 
-  function getTenantQ() {
-    let result = tenantSearchParam
-
-    if (selectedTenant && tenantSearchParam === selectedTenant) {
-      result = ''
-    }
-
-    return result
-  }
-
   const { data: delegates = [], isLoading: isLoadingDelegates } = useQuery({
     ...TenantQueries.getTenants({
-      name: getTenantQ(),
       limit: 50,
       features: ['DELEGATED_PRODUCER'],
     }),
@@ -163,7 +135,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   return (
     <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
       <FormProvider {...formMethods}>
-        {delegationKind === 'PROVIDE' && (
+        {delegationKind === 'DELEGATED_PRODUCER' && (
           <SectionContainer innerSection>
             <FormControlLabel
               control={
@@ -176,7 +148,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           </SectionContainer>
         )}
         <SectionContainer innerSection>
-          {isChecked || delegationKind === 'CONSUME' ? (
+          {isChecked || delegationKind === 'DELEGATED_CONSUMER' ? (
             <RHFAutocompleteSingle
               sx={{ my: 0 }}
               loading={isLoadingEservices}
@@ -222,12 +194,12 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             loading={isLoadingDelegates}
             name="delegateId"
             label={
-              delegationKind === 'CONSUME'
+              delegationKind === 'DELEGATED_CONSUMER'
                 ? t(`delegations.create.delegateField.consume.label`)
                 : t(`delegations.create.delegateField.provide.label`)
             }
             infoLabel={
-              delegationKind === 'CONSUME'
+              delegationKind === 'DELEGATED_CONSUMER'
                 ? t('delegations.create.delegateField.consume.infoLabel')
                 : t('delegations.create.delegateField.provide.infoLabel')
             }

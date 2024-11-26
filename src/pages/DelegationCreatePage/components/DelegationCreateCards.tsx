@@ -1,8 +1,9 @@
+import { DelegationKind } from '@/api/api.generatedTypes'
 import { Card, CardContent, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 type DelegationCreateCardsProps = {
-  delegationKind: 'PROVIDE' | 'CONSUME'
+  delegationKind: DelegationKind
   onClick: () => void
   isClicked: boolean
 }
@@ -72,7 +73,7 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
               {t('delegations.create.cards.common')}
             </Typography>
             <Typography variant="body1" color="primary.main" component="div" fontWeight={700}>
-              {delegationKind === 'PROVIDE'
+              {delegationKind === 'DELEGATED_PRODUCER'
                 ? t('delegations.create.cards.provide')
                 : t('delegations.create.cards.consume')}
             </Typography>
