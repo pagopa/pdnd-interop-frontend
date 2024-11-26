@@ -1,6 +1,6 @@
 // TODO
 
-// import axiosInstance from '@/config/axios'
+import axiosInstance from '@/config/axios'
 import type {
   CompactDelegations,
   CreatedResource,
@@ -9,7 +9,7 @@ import type {
   GetDelegationsParams,
   RejectDelegationPayload,
 } from '../api.generatedTypes'
-// import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
 async function getProducerDelegations(params: GetDelegationsParams) {
   // const response = await axiosInstance.get<CompactDelegations>(
@@ -125,6 +125,20 @@ async function revokeProducerDelegation({ delegationId }: { delegationId: string
   return console.log('revoked delegation with id', delegationId)
 }
 
+async function downloadDelegationContract({
+  delegationId,
+  contractId,
+}: {
+  delegationId: string
+  contractId: string
+}) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/delegations/${delegationId}/contracts/${contractId}`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
+}
+
 export const DelegationServices = {
   getProducerDelegations,
   getSingle,
@@ -132,4 +146,5 @@ export const DelegationServices = {
   approveProducerDelegation,
   rejectProducerDelegation,
   revokeProducerDelegation,
+  downloadDelegationContract,
 }

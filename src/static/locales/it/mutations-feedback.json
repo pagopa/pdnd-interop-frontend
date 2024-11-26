@@ -685,6 +685,12 @@
         "success": "La delega è stata revocata correttamente.",
         "error": "Non è stato possibile revocare la delega. Per favore, riprova!"
       }
+    },
+    "downloadDelegationContract": {
+      "loading": "Stiamo scaricando il contratto",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il contratto. Per favore, riprova!"
+      }
     }
   }
 }
