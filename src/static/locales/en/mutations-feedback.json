@@ -609,6 +609,12 @@
         "success": "The delegation was successfully revoked.",
         "error": "It was not possible to revoke the delegation. Please try again!"
       }
+    },
+    "downloadDelegationContract": {
+      "loading": "Downloading contract",
+      "outcome": {
+        "error": "It was not possible to download the contract. Please try again"
+      }
     }
   }
 }
