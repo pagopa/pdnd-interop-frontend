@@ -181,6 +181,10 @@ export interface EServiceDescriptionSeed {
   description: string
 }
 
+export interface RejectDelegatedEServiceDescriptorSeed {
+  rejectionReason: string
+}
+
 export interface CatalogEServiceDescriptor {
   /** @format uuid */
   id: string
@@ -926,6 +930,7 @@ export type EServiceDescriptorState =
   | 'DEPRECATED'
   | 'SUSPENDED'
   | 'ARCHIVED'
+  | 'WAITING_FOR_APPROVAL'
 
 /** EService Descriptor State */
 export type EServiceTechnology = 'REST' | 'SOAP'
@@ -1107,6 +1112,8 @@ export interface Tenants {
   pagination: Pagination
 }
 
+export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER'
+
 export type TenantFeature =
   | {
       /** Certifier Tenant Feature */
@@ -1187,6 +1194,8 @@ export interface UpdateVerifiedTenantAttributeSeed {
 export interface VerifiedTenantAttributeSeed {
   /** @format uuid */
   id: string
+  /** @format uuid */
+  agreementId: string
   /** @format date-time */
   expirationDate?: string
 }
@@ -1578,6 +1587,8 @@ export interface GetProducerEServicesParams {
    * @default []
    */
   consumersIds?: string[]
+  /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
+  delegated?: boolean
   /**
    * @format int32
    * @min 0
@@ -1732,6 +1743,11 @@ export interface GetConsumerPurposesParams {
   limit: number
 }
 
+export interface RevokeVerifiedAttributePayload {
+  /** @format uuid */
+  agreementId: string
+}
+
 export interface GetAttributesParams {
   /** Query to filter Attributes by name */
   q?: string
@@ -1748,6 +1764,11 @@ export interface GetAttributesParams {
 
 export interface GetTenantsParams {
   name?: string
+  /**
+   * comma separated feature types to filter the teanants with
+   * @default []
+   */
+  features?: TenantFeatureType[]
   /**
    * @format int32
    * @min 1
@@ -3030,6 +3051,62 @@ export namespace Eservices {
     }
     export type ResponseBody = CreatedResource
   }
+  /**
+   * No description
+   * @tags eservices
+   * @name ApproveDelegatedEServiceDescriptor
+   * @summary approve a delegated new e-service version
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/approve
+   * @secure
+   */
+  export namespace ApproveDelegatedEServiceDescriptor {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name RejectDelegatedEServiceDescriptor
+   * @summary reject a delegated new e-service version
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/reject
+   * @secure
+   */
+  export namespace RejectDelegatedEServiceDescriptor {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectDelegatedEServiceDescriptorSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
 }
 
 export namespace Export {
@@ -3137,6 +3214,8 @@ export namespace Producers {
        * @default []
        */
       consumersIds?: string[]
+      /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
+      delegated?: boolean
       /**
        * @format int32
        * @min 0
@@ -3606,7 +3685,7 @@ export namespace Tenants {
       attributeId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = never
+    export type RequestBody = RevokeVerifiedAttributePayload
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
@@ -3692,6 +3771,11 @@ export namespace Tenants {
     export type RequestParams = {}
     export type RequestQuery = {
       name?: string
+      /**
+       * comma separated feature types to filter the teanants with
+       * @default []
+       */
+      features?: TenantFeatureType[]
       /**
        * @format int32
        * @min 1
@@ -5323,6 +5407,28 @@ export namespace Delegations {
       'X-Correlation-Id': string
     }
     export type ResponseBody = Delegation
+  }
+  /**
+   * @description Retrieve a contract of a delegation
+   * @tags delegations
+   * @name GetDelegationContract
+   * @summary Retrieve a contract of a delegation
+   * @request GET:/delegations/{delegationId}/contracts/{contractId}
+   * @secure
+   */
+  export namespace GetDelegationContract {
+    export type RequestParams = {
+      /** @format uuid */
+      delegationId: string
+      /** @format uuid */
+      contractId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = File
   }
 }
 
