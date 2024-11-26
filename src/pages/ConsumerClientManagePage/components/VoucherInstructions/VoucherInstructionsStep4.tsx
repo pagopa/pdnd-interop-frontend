@@ -8,7 +8,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { SectionContainer } from '@/components/layout/containers'
 import { useNavigate } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
-import { API_GATEWAY_INTEFACE_URL } from '@/config/env'
+import { API_GATEWAY_INTERFACE_URL } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
 
@@ -56,14 +56,14 @@ export const VoucherInstructionsStep4: React.FC = () => {
           <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
             <Typography variant="body2">{t(`step4.${clientKind}.actionDescription`)}</Typography>
             {clientKind === 'API' && (
-              <Button //TODO controlla perché file non disponibile
+              <Button
                 sx={{
                   '&:hover': {
                     backgroundColor: 'white',
                   },
                 }}
                 disableRipple
-                href={API_GATEWAY_INTEFACE_URL}
+                href={API_GATEWAY_INTERFACE_URL}
                 download
               >
                 <DownloadIcon fontSize="small" />
@@ -103,7 +103,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
                     },
                   }}
                   disableRipple
-                  //href={API_SIGNAL_HUB_PUSH_INTEFACE_URL} //TODO
+                  //href={API_SIGNAL_HUB_PUSH_INTERFACE_URL} //TODO
                   //download
                 >
                   <DownloadIcon fontSize="small" />
@@ -122,7 +122,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
                     },
                   }}
                   disableRipple
-                  //href={API_SIGNAL_HUB_PULL_INTEFACE_URL} //TODO
+                  //href={API_SIGNAL_HUB_PULL_INTERFACE_URL} //TODO
                   //download
                 >
                   <DownloadIcon fontSize="small" />
