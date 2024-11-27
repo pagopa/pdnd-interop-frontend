@@ -186,6 +186,12 @@
         },
         "delegationStateField": {
           "label": "Stato della delega"
+        },
+        "downloadContractAction": {
+          "label": "Scarica il documento di delega"
+        },
+        "downloadRevokedContractAction": {
+          "label": "Scarica il documento di revoca della delega"
         }
       },
       "rejectedDelegationAlert": "Questa delega è stata rifiutata. <1>Leggi qui i motivi del rifiuto</1>."

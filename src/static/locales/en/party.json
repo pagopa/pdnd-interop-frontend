@@ -186,6 +186,12 @@
         },
         "delegationStateField": {
           "label": "Delegation state"
+        },
+        "downloadContractAction": {
+          "label": "Download delegation document"
+        },
+        "downloadRevokedContractAction": {
+          "label": "Download revoked delegation document"
         }
       },
       "rejectedDelegationAlert": "This delegation has been rejected. <1>Read here the reject reason</1>."
