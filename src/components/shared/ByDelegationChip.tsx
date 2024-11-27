@@ -1,8 +1,11 @@
 import { Chip, Skeleton } from '@mui/material'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const ByDelegationChip: React.FC = () => {
-  return <Chip label={'TODO in delega'} color={'default'} sx={{ borderRadius: 1 }} />
+  const { t } = useTranslation('shared-components', { keyPrefix: 'byDelegationChip' })
+
+  return <Chip label={t('label')} color={'default'} sx={{ borderRadius: 1 }} />
 }
 
 export const ByDelegationChipSkeleton: React.FC = () => {
