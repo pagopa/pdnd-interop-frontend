@@ -72,7 +72,8 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "ARCHIVED": "archived",
-      "DEPRECATED": "deprecated"
+      "DEPRECATED": "deprecated",
+      "WAITING_FOR_APPROVAL": "waiting for approval"
     },
     "agreement": {
       "ACTIVE": "active",

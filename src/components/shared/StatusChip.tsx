@@ -21,6 +21,7 @@ const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   SUSPENDED: 'error',
   ARCHIVED: 'info',
   DEPRECATED: 'warning',
+  WAITING_FOR_APPROVAL: 'warning',
 }
 
 const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
