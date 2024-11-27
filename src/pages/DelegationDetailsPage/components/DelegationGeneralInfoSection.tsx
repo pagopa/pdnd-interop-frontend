@@ -27,7 +27,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
 
   const { jwt } = AuthHooks.useJwt()
 
-  const delegationKindLabel = match(delegation?.kind)
+  const delegationKindLabel = match(delegation.kind)
     .with('DELEGATED_PRODUCER', () => t('delegationKindField.kindProducer'))
     .with('DELEGATED_CONSUMER', () => t('delegationKindField.kindConsumer'))
     .exhaustive()

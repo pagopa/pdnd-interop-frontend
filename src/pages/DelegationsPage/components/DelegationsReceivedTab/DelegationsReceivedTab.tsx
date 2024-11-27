@@ -30,14 +30,9 @@ export const DelegationsReceivedTab: React.FC = () => {
   return (
     <>
       <React.Suspense
-        fallback={
-          <DelegationsTableSkeleton delegationType={'DELEGATION_RECEIVED' as DelegationType} />
-        }
+        fallback={<DelegationsTableSkeleton delegationType={'DELEGATION_RECEIVED'} />}
       >
-        <DelegationsTable
-          params={params}
-          delegationType={'DELEGATION_RECEIVED' as DelegationType}
-        />
+        <DelegationsTable params={params} delegationType={'DELEGATION_RECEIVED'} />
       </React.Suspense>
       <Pagination {...paginationProps} totalPages={totalPageCount} />
     </>
