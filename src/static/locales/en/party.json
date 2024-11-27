@@ -156,7 +156,8 @@
       }
     },
     "actions": {
-      "backToTenant": "Return to tenant"
+      "backToTenant": "Return to tenant",
+      "backToDelegations": "Return to delegations"
     }
   }
 }

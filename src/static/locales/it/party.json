@@ -156,7 +156,8 @@
       }
     },
     "actions": {
-      "backToTenant": "Torna al tuo ente"
+      "backToTenant": "Torna al tuo ente",
+      "backToDelegations": "Torna alle deleghe"
     }
   }
 }

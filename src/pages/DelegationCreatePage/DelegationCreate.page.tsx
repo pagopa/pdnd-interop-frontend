@@ -18,23 +18,22 @@ export const DelegationCreatePage: React.FC = () => {
   const navigate = useNavigate()
   const [delegationKind, setDelegationKind] = useState<DelegationKind>()
   const [activeStep, setActiveStep] = useState<'KIND' | 'FORM'>('KIND')
+  const sectionTitle = match({ activeStep, delegationKind })
+    .with({ activeStep: 'KIND' }, () => t('delegations.create.kindSectionTitle'))
+    .with({ activeStep: 'FORM', delegationKind: 'DELEGATED_PRODUCER' }, () =>
+      t('delegations.create.provideDelegationTitle')
+    )
+    .otherwise(() => t('delegations.create.consumeDelegationTitle'))
 
   return (
     <PageContainer
       title={t('delegations.create.title')}
       backToAction={{
-        label: t('delegations.actions.backToTenant'),
-        to: 'TENANT',
+        label: t('delegations.actions.backToDelegations'),
+        to: 'DELEGATIONS',
       }}
     >
-      <SectionContainer
-        title={match({ activeStep, delegationKind })
-          .with({ activeStep: 'KIND' }, () => t('delegations.create.kindSectionTitle'))
-          .with({ activeStep: 'FORM', delegationKind: 'DELEGATED_PRODUCER' }, () =>
-            t('delegations.create.provideDelegationTitle')
-          )
-          .otherwise(() => t('delegations.create.consumeDelegationTitle'))}
-      >
+      <SectionContainer title={sectionTitle}>
         <Stack spacing={2}>
           <SectionContainer innerSection>
             {activeStep === 'KIND' && (
@@ -49,7 +48,6 @@ export const DelegationCreatePage: React.FC = () => {
                 <div style={{ flex: 1 }}>
                   <DelegationCreateCards
                     delegationKind="DELEGATED_PRODUCER"
-                    X
                     onClick={() => setDelegationKind('DELEGATED_PRODUCER')}
                     isClicked={delegationKind === 'DELEGATED_PRODUCER'}
                   />

@@ -15,7 +15,6 @@ import {
   EServiceTechnology,
   ProducerEService,
 } from '@/api/api.generatedTypes'
-import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { TenantQueries } from '@/api/tenant'
@@ -50,15 +49,15 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
 }) => {
   const { t } = useTranslation('party')
 
-  const [isChecked, setIsChecked] = useState(false)
+  const [isNewEservice, setIsNewEservice] = useState(false)
 
   const { openDialog } = useDialog()
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = async (formValues: DelegationCreateFormValues) => {
-    if (!isChecked && delegationKind === 'DELEGATED_PRODUCER') {
-      // if it is a producer delegation and isChecked is false the eservice must be created
+    if (!isNewEservice && delegationKind === 'DELEGATED_PRODUCER') {
+      // if it is a producer delegation and isNewEservice is false the eservice must be created
       const eserviceParams: EServiceCreateDraftValues = {
         name: formValues.eserviceName,
         description: formValues.eserviceDescription,
@@ -82,38 +81,12 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     }
   }
 
-  const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
-    useAutocompleteTextInput()
-
-  const selectedEServiceRef = React.useRef<ProducerEService | undefined>(undefined)
-
   const formatAutocompleteOptionLabelEservice = React.useCallback(
     (eservice: ProducerEService) => {
       return `${eservice.name}`
     },
     [t]
   )
-
-  const { data: eservices = [], isLoading: isLoadingEservices } = useQuery({
-    ...EServiceQueries.getProviderList({
-      limit: 50,
-      offset: 0,
-      delegated: false,
-    }),
-    select: (d) => d.results,
-  })
-
-  const { watch } = formMethods
-  const [tenantSearchParam] = useAutocompleteTextInput()
-  const selectedTenant = watch('delegateId')
-
-  const { data: delegates = [], isLoading: isLoadingDelegates } = useQuery({
-    ...TenantQueries.getTenants({
-      limit: 50,
-      features: ['DELEGATED_PRODUCER'],
-    }),
-    select: (d) => d.results,
-  })
 
   const formatAutocompleteOptionLabelDelegate = React.useCallback(
     (delegate: CompactOrganization) => {
@@ -122,15 +95,30 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     [t]
   )
 
-  const autocompleteEserviceOptions = (eservices ?? []).map((eservice) => ({
-    label: formatAutocompleteOptionLabelEservice(eservice),
-    value: eservice,
-  }))
+  const { data: autocompleteEserviceOptions = [], isLoading: isLoadingEservices } = useQuery({
+    ...EServiceQueries.getProviderList({
+      limit: 50,
+      offset: 0,
+      delegated: false,
+    }),
+    select: (d) =>
+      (d.results ?? []).map((eservice) => ({
+        label: formatAutocompleteOptionLabelEservice(eservice),
+        value: eservice,
+      })),
+  })
 
-  const autocompleteDelegateOptions = (delegates ?? []).map((delegate) => ({
-    label: formatAutocompleteOptionLabelDelegate(delegate),
-    value: delegate,
-  }))
+  const { data: autocompleteDelegateOptions = [], isLoading: isLoadingDelegates } = useQuery({
+    ...TenantQueries.getTenants({
+      limit: 50,
+      features: ['DELEGATED_PRODUCER'],
+    }),
+    select: (d) =>
+      (d.results ?? []).map((delegate) => ({
+        label: formatAutocompleteOptionLabelDelegate(delegate),
+        value: delegate,
+      })),
+  })
 
   return (
     <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -139,7 +127,10 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           <SectionContainer innerSection>
             <FormControlLabel
               control={
-                <Switch checked={isChecked} onChange={() => setIsChecked((prev) => !prev)} />
+                <Switch
+                  checked={isNewEservice}
+                  onChange={() => setIsNewEservice((prev) => !prev)}
+                />
               }
               label={t('delegations.create.delegateField.provide.switch')}
               labelPlacement="end"
@@ -148,7 +139,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           </SectionContainer>
         )}
         <SectionContainer innerSection>
-          {isChecked || delegationKind === 'DELEGATED_CONSUMER' ? (
+          {isNewEservice || delegationKind === 'DELEGATED_CONSUMER' ? (
             <RHFAutocompleteSingle
               sx={{ my: 0 }}
               loading={isLoadingEservices}
@@ -157,12 +148,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
               infoLabel={t('delegations.create.eserviceField.infoLabelAutocomplete')}
               options={autocompleteEserviceOptions}
               rules={{ required: true }}
-              onValueChange={(value) => {
-                selectedEServiceRef.current = eservices.find(
-                  (eservice) => eservice.id === value?.value.id
-                )
-              }}
-              onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
             />
           ) : (
             <>
@@ -205,12 +190,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             }
             options={autocompleteDelegateOptions}
             rules={{ required: true }}
-            onValueChange={(value) => {
-              selectedEServiceRef.current = eservices.find(
-                (eservice) => eservice.id === value?.value.id
-              )
-            }}
-            onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
           />
         </SectionContainer>
       </FormProvider>
