@@ -70,7 +70,8 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "ARCHIVED": "archiviato",
-      "DEPRECATED": "deprecato"
+      "DEPRECATED": "deprecato",
+      "WAITING_FOR_APPROVAL": "in attesa di approvazione"
     },
     "agreement": {
       "ACTIVE": "attivo",
