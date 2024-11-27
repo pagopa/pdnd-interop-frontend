@@ -201,6 +201,9 @@
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer"
   },
+  "byDelegationChip": {
+    "label": "in delega"
+  },
   "riskAnalysis": {
     "formComponents": {
       "emptyLabel": "Nessun valore disponibile",
