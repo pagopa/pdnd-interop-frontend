@@ -5,13 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice/eservice.queries'
 import { useQuery } from '@tanstack/react-query'
-import {
-  CompactOrganization,
-  DelegationKind,
-  EServiceMode,
-  EServiceTechnology,
-  ProducerEService,
-} from '@/api/api.generatedTypes'
+import { DelegationKind, EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { TenantQueries } from '@/api/tenant'
@@ -58,20 +52,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
 
   const formMethods = useForm({ defaultValues })
 
-  const formatAutocompleteOptionLabelEservice = React.useCallback(
-    (eservice: ProducerEService) => {
-      return `${eservice.name}`
-    },
-    [t]
-  )
-
-  const formatAutocompleteOptionLabelDelegate = React.useCallback(
-    (delegate: CompactOrganization) => {
-      return `${delegate.name}`
-    },
-    [t]
-  )
-
   const { data: autocompleteEserviceOptions = [], isLoading: isLoadingEservices } = useQuery({
     ...EServiceQueries.getProviderList({
       limit: 50,
@@ -80,7 +60,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     }),
     select: (d) =>
       (d.results ?? []).map((eservice) => ({
-        label: formatAutocompleteOptionLabelEservice(eservice),
+        label: eservice.name,
         value: eservice,
       })),
   })
@@ -92,7 +72,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     }),
     select: (d) =>
       (d.results ?? []).map((delegate) => ({
-        label: formatAutocompleteOptionLabelDelegate(delegate),
+        label: delegate.name,
         value: delegate,
       })),
   })
@@ -120,7 +100,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         eserviceMode: 'DELIVER',
         delegateId: formValues.delegateId,
       }
-      console.log('SONO QUIIII')
       createProducerDelegationAndEservice(createDelegationAndEserviceParams, {
         onSuccess: () => {
           navigate('DELEGATIONS')

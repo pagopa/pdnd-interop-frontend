@@ -66,7 +66,7 @@ function useRevokeProducerDelegation() {
 
 function useCreateProducerDelegationAndEservice() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'agreement.submitToOwnEService',
+    keyPrefix: 'delegation.createProducerDelegation',
   })
   return useMutation({
     mutationFn: DelegationServices.createProducerDelegationAndEservice,
@@ -74,10 +74,6 @@ function useCreateProducerDelegationAndEservice() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
     },
   })
 }

@@ -12,10 +12,6 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from '@/router'
-import { DelegationMutations } from '@/api/delegation'
-import { EServiceMutations } from '@/api/eservice'
-import { EServiceCreateDraftValues } from '@/pages/DelegationCreatePage/components/DelegationCreateForm'
 
 export type DialogDelegationsProps = {
   onConfirm: () => void

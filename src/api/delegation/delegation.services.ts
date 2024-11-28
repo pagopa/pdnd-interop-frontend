@@ -149,7 +149,6 @@ async function createProducerDelegationAndEservice(params: FormParams) {
     technology: params.eserviceTechnology,
     mode: params.eserviceMode,
   }
-  console.log('delegation services')
   const response = await EServiceServices.createDraft(eserviceParams)
   //!!! Temporary, in order to avoid eventual consistency issues.
   await waitFor(2000)

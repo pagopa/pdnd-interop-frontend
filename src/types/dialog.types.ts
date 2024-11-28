@@ -3,7 +3,6 @@ import type {
   RequesterCertifiedAttribute,
   CompactPurposeEService,
 } from '@/api/api.generatedTypes'
-import { EServiceCreateDraftValues } from '@/pages/DelegationCreatePage/components/DelegationCreateForm'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
