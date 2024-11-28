@@ -1,6 +1,6 @@
 import React from 'react'
 import { Drawer } from '@/components/shared/Drawer'
-import { Box, FormControlLabel, Button, Stack, Switch, Typography } from '@mui/material'
+import { Box, FormControlLabel, Stack, Switch, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { SectionContainer } from '@/components/layout/containers'
 import { TenantMutations } from '@/api/tenant'
@@ -18,7 +18,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
   const { t: tCommon } = useTranslation('shared-components')
-  const { mutate: setAssignProducerDelegationAvailabilty } =
+  const { mutate: assignProducerDelegationAvailabilty } =
     TenantMutations.useAssignTenantDelegatedProducerFeature()
   const { mutate: deleteTenantDelegatedProducerFeature } =
     TenantMutations.useDeleteTenantDelegatedProducerFeature()
@@ -32,7 +32,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
   function handleClick() {
     if (checkedProducerDelegations != isAvailableProducerDelegations) {
       if (checkedProducerDelegations === true) {
-        setAssignProducerDelegationAvailabilty()
+        assignProducerDelegationAvailabilty()
       } else {
         deleteTenantDelegatedProducerFeature()
       }

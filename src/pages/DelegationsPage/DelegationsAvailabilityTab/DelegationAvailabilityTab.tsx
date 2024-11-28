@@ -6,8 +6,8 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { AuthHooks } from '@/api/auth'
 import EditIcon from '@mui/icons-material/Edit'
 import { DelegationAvailabilityDrawer } from './DelegationAvailabilityDrawer'
-import { TenantFeature } from '@/api/api.generatedTypes'
 import { TenantHooks } from '@/api/tenant'
+import { hasTenantGivenProducerDelegationAvailability } from '@/utils/tenant.utils'
 
 export const DelegationsAvailabilityTab: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
@@ -15,12 +15,9 @@ export const DelegationsAvailabilityTab: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
 
   const { data: activeTenant } = TenantHooks.useGetActiveUserParty()
-  const producerDelegationsAvailability = activeTenant.features.find(
-    (feature): feature is Extract<TenantFeature, { delegatedProducer?: unknown }> =>
-      Boolean('delegatedProducer' in feature && feature.delegatedProducer?.availabilityTimestamp)
-  )?.delegatedProducer?.availabilityTimestamp
+  const producerDelegationsAvailability = hasTenantGivenProducerDelegationAvailability(activeTenant)
 
-  const isAvailableProducerDelegations = producerDelegationsAvailability ? true : false
+  const isAvailableProducerDelegations = Boolean(producerDelegationsAvailability)
 
   const [isAvailableConsumerDelegations, setIsAvailableConsumerDelegations] = React.useState(false) //TODO integrare con BE
 
