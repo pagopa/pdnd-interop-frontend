@@ -15,6 +15,10 @@ import { routes, useCurrentRoute } from '@/router'
 import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
 import { AuthHooks } from '@/api/auth'
 
+function EmptyWrapper({ children }: { children: React.ReactNode }) {
+  return <>{children}</>
+}
+
 const _RoutesWrapper: React.FC = () => {
   const { isPublic, routeKey } = useCurrentRoute()
   const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
@@ -22,7 +26,11 @@ const _RoutesWrapper: React.FC = () => {
   useScrollTopOnLocationChange()
   useCheckSessionExpired(jwt?.exp)
 
-  const _TOSGuard = !isPublic && !isSupport && jwt ? TOSGuard : React.Fragment
+  /**
+   * If the route is public, we don't need to check the TOS or the user's authorization.
+   */
+  const _TOSGuard = !isPublic && !isSupport && jwt ? TOSGuard : EmptyWrapper
+  const _AuthGuard = !isPublic && jwt ? AuthGuard : EmptyWrapper
 
   return (
     <>
@@ -32,14 +40,14 @@ const _RoutesWrapper: React.FC = () => {
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
               <React.Suspense fallback={<PageContainerSkeleton />}>
-                <AuthGuard
+                <_AuthGuard
                   jwt={jwt}
                   isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
                   isSupport={isSupport}
                   currentRoles={currentRoles}
                 >
                   <Outlet />
-                </AuthGuard>
+                </_AuthGuard>
               </React.Suspense>
             </ErrorBoundary>
           </AppLayout>
