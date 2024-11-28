@@ -35,7 +35,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   const { mode, routeKey } = useCurrentRoute()
   const { data: blacklist } = useQuery(AuthQueries.getBlacklist())
   const { data: tenant } = useQuery({
-    ...TenantQueries.getParty(jwt!.organizationId),
+    ...TenantQueries.getParty(jwt?.organizationId as string),
     enabled: Boolean(jwt?.organizationId),
   })
 
