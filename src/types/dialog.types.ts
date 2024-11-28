@@ -95,6 +95,5 @@ export type DialogSetTenantMailProps = {
 
 export type DialogDelegationsProps = {
   type: 'delegations'
-  eserviceParams?: EServiceCreateDraftValues
-  delegationParams: { eserviceId?: string; delegateId: string }
+  onConfirm: () => void
 }

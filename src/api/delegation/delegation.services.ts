@@ -1,6 +1,7 @@
 // TODO
 
 import axiosInstance from '@/config/axios'
+import { waitFor } from '@/utils/common.utils'
 import type {
   CompactDelegations,
   CreatedResource,
@@ -10,6 +11,8 @@ import type {
   RejectDelegationPayload,
 } from '../api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import type { FormParams } from '@/pages/DelegationCreatePage/components/DelegationCreateForm'
+import { EServiceServices } from '../eservice'
 
 async function getProducerDelegations(params: GetDelegationsParams) {
   // const response = await axiosInstance.get<CompactDelegations>(
@@ -139,6 +142,24 @@ async function downloadDelegationContract({
   return response.data
 }
 
+async function createProducerDelegationAndEservice(params: FormParams) {
+  const eserviceParams = {
+    name: params.eserviceName,
+    description: params.eserviceDescription,
+    technology: params.eserviceTechnology,
+    mode: params.eserviceMode,
+  }
+  console.log('delegation services')
+  const response = await EServiceServices.createDraft(eserviceParams)
+  //!!! Temporary, in order to avoid eventual consistency issues.
+  await waitFor(2000)
+  const delegationParams = {
+    eserviceId: response.id,
+    delegateId: params.delegateId,
+  }
+  return await createProducerDelegation(delegationParams)
+}
+
 export const DelegationServices = {
   getProducerDelegations,
   getSingle,
@@ -147,4 +168,5 @@ export const DelegationServices = {
   rejectProducerDelegation,
   revokeProducerDelegation,
   downloadDelegationContract,
+  createProducerDelegationAndEservice,
 }

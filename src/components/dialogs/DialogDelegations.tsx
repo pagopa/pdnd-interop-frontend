@@ -17,19 +17,11 @@ import { DelegationMutations } from '@/api/delegation'
 import { EServiceMutations } from '@/api/eservice'
 import { EServiceCreateDraftValues } from '@/pages/DelegationCreatePage/components/DelegationCreateForm'
 
-/**
- * eserviceParams are used when creating a new eservice;
- * delegationParams has eserviceId optional because it is passed only when the eservice already exists
- */
 export type DialogDelegationsProps = {
-  eserviceParams?: EServiceCreateDraftValues
-  delegationParams: { eserviceId?: string; delegateId: string }
+  onConfirm: () => void
 }
 
-export const DialogDelegations: React.FC<DialogDelegationsProps> = ({
-  eserviceParams,
-  delegationParams,
-}) => {
+export const DialogDelegations: React.FC<DialogDelegationsProps> = ({ onConfirm }) => {
   const ariaLabelId = React.useId()
 
   const { t } = useTranslation('party', {
@@ -40,41 +32,20 @@ export const DialogDelegations: React.FC<DialogDelegationsProps> = ({
 
   const [isCheckboxChecked, setIsCheckboxChecked] = React.useState<boolean>(false)
 
-  const { mutate: createProducerDelegation } = DelegationMutations.useCreateProducerDelegation()
-  const { mutate: createProducerEserviceDraft } = EServiceMutations.useCreateDraft()
-
   const handleCheckBoxChange = () => {
     setIsCheckboxChecked((prev) => {
       return !prev
     })
   }
 
-  const navigate = useNavigate()
-
   const onSubmit = () => {
-    let createDelegationParams = {
-      eserviceId: delegationParams?.eserviceId || '',
-      delegateId: delegationParams?.delegateId,
-    }
-    if (eserviceParams) {
-      createProducerEserviceDraft(eserviceParams, {
-        onSuccess({ id }) {
-          createDelegationParams = {
-            eserviceId: id,
-            delegateId: delegationParams?.delegateId,
-          }
-          createProducerDelegation(createDelegationParams)
-        },
-      })
-    }
-    createProducerDelegation(createDelegationParams)
-    navigate('DELEGATIONS')
+    onConfirm()
     closeDialog()
   }
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth maxWidth="sm">
-      <Box component="form" onSubmit={onSubmit}>
+      <Box>
         <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
         <DialogContent>
@@ -93,7 +64,7 @@ export const DialogDelegations: React.FC<DialogDelegationsProps> = ({
           <Button type="button" variant="outlined" onClick={closeDialog}>
             {t('cancelLabel')}
           </Button>
-          <Button variant="contained" type="submit" disabled={!isCheckboxChecked}>
+          <Button variant="contained" onClick={onSubmit} disabled={!isCheckboxChecked}>
             {t('proceedLabel')}
           </Button>
         </DialogActions>

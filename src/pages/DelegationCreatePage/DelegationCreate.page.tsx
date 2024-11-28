@@ -18,12 +18,6 @@ export const DelegationCreatePage: React.FC = () => {
   const navigate = useNavigate()
   const [delegationKind, setDelegationKind] = useState<DelegationKind>()
   const [activeStep, setActiveStep] = useState<'KIND' | 'FORM'>('KIND')
-  const sectionTitle = match({ activeStep, delegationKind })
-    .with({ activeStep: 'KIND' }, () => t('delegations.create.kindSectionTitle'))
-    .with({ activeStep: 'FORM', delegationKind: 'DELEGATED_PRODUCER' }, () =>
-      t('delegations.create.provideDelegationTitle')
-    )
-    .otherwise(() => t('delegations.create.consumeDelegationTitle'))
 
   return (
     <PageContainer
@@ -33,33 +27,31 @@ export const DelegationCreatePage: React.FC = () => {
         to: 'DELEGATIONS',
       }}
     >
-      <SectionContainer title={sectionTitle}>
-        <Stack spacing={2}>
-          <SectionContainer innerSection>
-            {activeStep === 'KIND' && (
-              <Stack spacing={2} direction="row" sx={{ width: '100%' }}>
-                <div style={{ flex: 1 }}>
-                  <DelegationCreateCards
-                    delegationKind="DELEGATED_CONSUMER"
-                    onClick={() => setDelegationKind('DELEGATED_CONSUMER')}
-                    isClicked={delegationKind === 'DELEGATED_CONSUMER'}
-                  />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <DelegationCreateCards
-                    delegationKind="DELEGATED_PRODUCER"
-                    onClick={() => setDelegationKind('DELEGATED_PRODUCER')}
-                    isClicked={delegationKind === 'DELEGATED_PRODUCER'}
-                  />
-                </div>
-              </Stack>
-            )}
-            {activeStep === 'FORM' && delegationKind != null && (
-              <DelegationCreateForm delegationKind={delegationKind} setActiveStep={setActiveStep} />
-            )}
+      <Stack spacing={2}>
+        {activeStep === 'KIND' && (
+          <SectionContainer title={t('delegations.create.kindSectionTitle')}>
+            <Stack spacing={2} direction="row" sx={{ width: '100%' }}>
+              <div style={{ flex: 1 }}>
+                <DelegationCreateCards
+                  delegationKind="DELEGATED_CONSUMER"
+                  onClick={() => setDelegationKind('DELEGATED_CONSUMER')}
+                  isClicked={delegationKind === 'DELEGATED_CONSUMER'}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <DelegationCreateCards
+                  delegationKind="DELEGATED_PRODUCER"
+                  onClick={() => setDelegationKind('DELEGATED_PRODUCER')}
+                  isClicked={delegationKind === 'DELEGATED_PRODUCER'}
+                />
+              </div>
+            </Stack>
           </SectionContainer>
-        </Stack>
-      </SectionContainer>
+        )}
+        {activeStep === 'FORM' && delegationKind != null && (
+          <DelegationCreateForm delegationKind={delegationKind} setActiveStep={setActiveStep} />
+        )}
+      </Stack>
       {activeStep === 'KIND' && (
         <StepActions
           back={{
