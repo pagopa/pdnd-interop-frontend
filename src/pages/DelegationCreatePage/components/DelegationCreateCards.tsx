@@ -1,5 +1,5 @@
 import { DelegationKind } from '@/api/api.generatedTypes'
-import { Card, CardContent, Typography } from '@mui/material'
+import { Button, Card, CardContent, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 type DelegationCreateCardsProps = {
@@ -18,6 +18,7 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
     <>
       <Card
         onClick={onClick}
+        component={Button}
         elevation={8}
         sx={{
           height: '100%',
