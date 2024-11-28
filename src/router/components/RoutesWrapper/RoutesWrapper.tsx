@@ -23,6 +23,7 @@ const _RoutesWrapper: React.FC = () => {
   useCheckSessionExpired(jwt?.exp)
 
   const _TOSGuard = !isPublic && !isSupport && jwt ? TOSGuard : React.Fragment
+  const _AuthGuard = !isPublic && jwt ? AuthGuard : React.Fragment
 
   return (
     <>
@@ -32,14 +33,14 @@ const _RoutesWrapper: React.FC = () => {
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
               <React.Suspense fallback={<PageContainerSkeleton />}>
-                <AuthGuard
+                <_AuthGuard
                   jwt={jwt}
                   isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
                   isSupport={isSupport}
                   currentRoles={currentRoles}
                 >
                   <Outlet />
-                </AuthGuard>
+                </_AuthGuard>
               </React.Suspense>
             </ErrorBoundary>
           </AppLayout>
