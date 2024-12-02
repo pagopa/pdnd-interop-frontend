@@ -27,7 +27,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const eservice = agreement.eservice
   const descriptor = agreement.descriptor
 
-  const isDelegatedEservice = eservice.producer.id != AuthHooks.useJwt().jwt?.organizationId
+  const isDelegatedEservice = eservice.producer.id !== AuthHooks.useJwt().jwt?.organizationId
 
   const handlePrefetch = () => {
     queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
