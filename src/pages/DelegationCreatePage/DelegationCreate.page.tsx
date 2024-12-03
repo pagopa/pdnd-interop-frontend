@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { DelegationCreateCards } from './components/DelegationCreateCards'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { match } from 'ts-pattern'
 import { DelegationCreateForm } from './components/DelegationCreateForm'
 import { DelegationKind } from '@/api/api.generatedTypes'
 
@@ -18,6 +17,10 @@ export const DelegationCreatePage: React.FC = () => {
   const navigate = useNavigate()
   const [delegationKind, setDelegationKind] = useState<DelegationKind>()
   const [activeStep, setActiveStep] = useState<'KIND' | 'FORM'>('KIND')
+
+  const changeDelegationKind = (delegationKind: DelegationKind) => {
+    setDelegationKind(delegationKind)
+  }
 
   return (
     <PageContainer
@@ -31,20 +34,10 @@ export const DelegationCreatePage: React.FC = () => {
         {activeStep === 'KIND' && (
           <SectionContainer title={t('delegations.create.kindSectionTitle')}>
             <Stack spacing={2} direction="row" sx={{ width: '100%' }}>
-              <div style={{ flex: 1 }}>
-                <DelegationCreateCards
-                  delegationKind="DELEGATED_CONSUMER"
-                  onClick={() => setDelegationKind('DELEGATED_CONSUMER')}
-                  isClicked={delegationKind === 'DELEGATED_CONSUMER'}
-                />
-              </div>
-              <div style={{ flex: 1 }}>
-                <DelegationCreateCards
-                  delegationKind="DELEGATED_PRODUCER"
-                  onClick={() => setDelegationKind('DELEGATED_PRODUCER')}
-                  isClicked={delegationKind === 'DELEGATED_PRODUCER'}
-                />
-              </div>
+              <DelegationCreateCards
+                delegationKind={delegationKind}
+                changeDelegationKind={changeDelegationKind}
+              />
             </Stack>
           </SectionContainer>
         )}
