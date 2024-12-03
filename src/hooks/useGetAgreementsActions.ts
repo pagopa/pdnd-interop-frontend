@@ -11,6 +11,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { AuthHooks } from '@/api/auth'
+import { EServiceQueries } from '@/api/eservice'
+import { useQuery } from '@tanstack/react-query'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
@@ -29,7 +31,23 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
 
+  const { data: delegatedEservices = [] } = useQuery({
+    //all producer's eservices that are delegated
+    ...EServiceQueries.getProviderList({
+      limit: 50,
+      offset: 0,
+      delegated: true,
+    }),
+    select: (d) => d.results,
+  })
+
   if (!agreement || mode === null || !isAdmin) return { actions: [] }
+
+  const eservice = agreement.eservice
+
+  const isDelegator = delegatedEservices.some((e) => e.id === eservice.id) // Only a delegate can do actions; return actions [] for delegator
+
+  if (isDelegator) return { actions: [] }
 
   const handleActivate = () => {
     activateAgreement({ agreementId: agreement.id })
