@@ -107,18 +107,35 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
 function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: isByDelegation
-      ? 'eservice.publishVersionDraftByDelegation'
+      ? 'eservice.publishDelegatedVersionDraft'
       : 'eservice.publishVersionDraft',
   })
   return useMutation({
-    mutationFn: EServiceServices.publishVersionDraft,
+    mutationFn: ({
+      eserviceId,
+      descriptorId,
+    }: {
+      delegatorName?: string
+      eserviceName?: string
+      eserviceId: string
+      descriptorId: string
+    }) => EServiceServices.publishVersionDraft({ eserviceId, descriptorId }),
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
         title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
+        description: isByDelegation
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (variables: any) => {
+              return t('confirmDialog.description', {
+                delegatorName: variables.delegatorName,
+                eserviceName: variables.eserviceName,
+              })
+            }
+          : () => t('confirmDialog.description'),
+        processingLabel: isByDelegation ? t('confirmDialog.actions.proceed') : undefined,
       },
     },
   })

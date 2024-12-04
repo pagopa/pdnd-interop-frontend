@@ -86,6 +86,20 @@
         "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
       }
     },
+    "publishDelegatedVersionDraft": {
+      "loading": "Stiamo inoltrando la versione al delegante",
+      "outcome": {
+        "success": "La versione è stata inoltrata al delegante per approvarne la pubblicazione",
+        "error": "Non è stato possibile inoltrare al delegante la versione per approvazione. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Richiedi pubblicazione versione",
+        "description": "Stai per inoltrare a <strong>{{delegatorName}}</strong> la richiesta di pubblicazione di una nuova versione dell’e-service <strong>{{eserviceName}}</strong>.",
+        "actions": {
+          "proceed": "Inoltra richiesta"
+        }
+      }
+    },
     "addEServiceRiskAnalysis": {
       "loading": "Stiamo salvando la finalità",
       "outcome": {

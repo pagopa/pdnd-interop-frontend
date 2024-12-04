@@ -31,18 +31,21 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
+  const { isDelegator, isDelegate, delegationState, producerDelegations } =
+    useGetDelegationUserRole({
+      eserviceId,
+      organizationId: jwt?.organizationId,
+    })
+
   const { mutate: deleteVersion } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
-  const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft()
+  const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft({
+    isByDelegation: isDelegate && delegationState === 'ACTIVE',
+  })
 
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
-
-  const { isDelegator, isDelegate, delegationState } = useGetDelegationUserRole({
-    eserviceId,
-    organizationId: jwt?.organizationId,
-  })
 
   const handleDeleteDraft = () => {
     if (!descriptor) return
@@ -75,8 +78,18 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const handlePublishDraft = () => {
     if (!descriptor) return
+
+    const delegation = producerDelegations?.find(
+      (delegation) => delegation.eservice?.id === eserviceId
+    )
+
     publishVersion(
-      { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
+      {
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        delegatorName: delegation?.delegator.name,
+        eserviceName: delegation?.eservice?.name,
+      },
       {
         onSuccess: () =>
           navigate('PROVIDE_ESERVICE_MANAGE', {
