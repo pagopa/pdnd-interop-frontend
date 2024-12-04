@@ -164,6 +164,23 @@
       "checkbox": "I have read and I want to proceed with the revocation"
     }
   },
+  "dialogRejectDelegatedVersionDraft": {
+    "title": "Reject publication",
+    "description": "The reason for your refusal will be reported to your delegate, who will be able to update the draft and send it back to you for approval for publication.",
+    "content": {
+      "reason": {
+        "label": "Reason",
+        "infoLabel": "Enter the reason why you refuse publication. Min 10 characters, max 250 characters"
+      }
+    }
+  },
+  "dialogApproveDelegatedVersionDraft": {
+    "title": "Publish version",
+    "description": "You are about to publish a new version of your e-service <strong>{{eserviceName}} with delegation of delivery</strong> developed by your delegate <strong>{{delegateName}}</strong>. At the same time, you approve the risk analyzes compiled by the delegate acting on your behalf.",
+    "actions": {
+      "approveAndPublish": "Approve and publish"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
