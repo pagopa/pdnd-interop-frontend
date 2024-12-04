@@ -62,6 +62,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'eservice'
         state: EServiceDescriptorState
+        isDraftToCorrect?: boolean
       }
     | {
         for: 'agreement'
@@ -116,8 +117,10 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   let label = ''
 
   if (props.for === 'eservice') {
-    color = chipColors['eservice'][props.state]
-    label = t(`status.eservice.${props.state}`)
+    color = props.isDraftToCorrect ? 'warning' : chipColors['eservice'][props.state]
+    label = props.isDraftToCorrect
+      ? t('status.eservice.DRAFT_TO_CORRECT')
+      : t(`status.eservice.${props.state}`)
   }
 
   if (props.for === 'agreement') {
