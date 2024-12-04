@@ -199,6 +199,10 @@
     },
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
+    },
+    "rejectedDelegatedVersionDraftAlert": {
+      "delegate": "La pubblicazione di questa bozza è stata rifiutata dal delegante. <1>Leggi i motivi del rifiuto</1> ed invia di nuovo la bozza con le correzioni.",
+      "delegator": "Hai rifiutato la pubblicazione di questa bozza. <1>Leggi qui i motivi del rifiuto</1>."
     }
   },
   "list": {
