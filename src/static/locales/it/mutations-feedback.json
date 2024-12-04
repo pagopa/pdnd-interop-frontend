@@ -184,6 +184,20 @@
         "success": "L’elenco è stato scaricato correttamente",
         "error": "Non è stato possibile scaricare l’elenco. Per favore, riprova!"
       }
+    },
+    "approveDelegatedVersionDraft": {
+      "loading": "Stiamo pubblicando la versione",
+      "outcome": {
+        "success": "La nuova versione di e-service è stata pubblicata correttamente",
+        "error": "Non è stato possibile pubblicare la nuova versione di e-service. Per favore, riprova!"
+      }
+    },
+    "rejectDelegatedVersionDraft": {
+      "loading": "Stiamo rifiutando la versione",
+      "outcome": {
+        "success": "La versione di e-service è tornata in bozza, e le motivazioni del rifiuto sono state notificate al delegato all’erogazione",
+        "error": "Non è stato possibile rifiutare la nuova versione di e-service. Per favore, riprova!"
+      }
     }
   },
   "attribute": {

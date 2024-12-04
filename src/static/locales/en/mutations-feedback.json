@@ -184,6 +184,20 @@
         "success": "The list has been downloaded successfully",
         "error": "The list could not be downloaded. Please try again"
       }
+    },
+    "approveDelegatedVersionDraft": {
+      "loading": "We are publishing the version",
+      "outcome": {
+        "success": "The new version of e-service has been published successfully",
+        "error": "It was not possible to publish the new version of e-service. Please try again!"
+      }
+    },
+    "rejectDelegatedVersionDraft": {
+      "loading": "We are rejecting the version",
+      "outcome": {
+        "success": "The e-service version has returned to draft, and the reasons for the refusal have been notified to the delivery delegate",
+        "error": "It was not possible to reject the new version of e-service. Please try again!"
+      }
     }
   },
   "attribute": {
