@@ -103,9 +103,12 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   })
 }
 
-function usePublishVersionDraft() {
+// TODO strings
+function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.publishVersionDraft',
+    keyPrefix: isByDelegation
+      ? 'eservice.publishVersionDraftByDelegation'
+      : 'eservice.publishVersionDraft',
   })
   return useMutation({
     mutationFn: EServiceServices.publishVersionDraft,
@@ -306,6 +309,34 @@ function useUpdateEServiceDescription() {
   })
 }
 
+function useApproveDelegatedVersionDraft() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.approveDelegatedVersionDraft',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.approveDelegatedVersionDraft,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useRejectDelegatedVersionDraft() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.rejectDelegatedVersionDraft',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.rejectDelegatedVersionDraft,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -326,4 +357,6 @@ export const EServiceMutations = {
   useUpdateEServiceDescription,
   useUpdateVersionDraftDocumentDescription,
   useImportVersion,
+  useApproveDelegatedVersionDraft,
+  useRejectDelegatedVersionDraft,
 }

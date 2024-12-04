@@ -21,6 +21,7 @@ import type {
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
   ProducerEServices,
+  RejectDelegatedEServiceDescriptorSeed,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
@@ -389,6 +390,34 @@ async function importVersion({ eserviceFile }: { eserviceFile: File }) {
     })
 }
 
+async function approveDelegatedVersionDraft({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/approve`
+  )
+  return response.data
+}
+
+async function rejectDelegatedVersionDraft({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & RejectDelegatedEServiceDescriptorSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/reject`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -420,4 +449,6 @@ export const EServiceServices = {
   updateEServiceDescription,
   exportVersion,
   importVersion,
+  approveDelegatedVersionDraft,
+  rejectDelegatedVersionDraft,
 }
