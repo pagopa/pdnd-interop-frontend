@@ -29,9 +29,9 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   )
 
   const { actions } = useGetProviderEServiceActions(
-    descriptor?.eservice.id,
+    eserviceId,
     descriptor?.state,
-    descriptor?.id,
+    descriptorId,
     descriptor?.eservice.draftDescriptor?.id,
     descriptor?.eservice.mode
   )
@@ -41,7 +41,14 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       title={descriptor?.eservice.name || ''}
       topSideActions={actions}
       isLoading={!descriptor}
-      statusChip={descriptor ? { for: 'eservice', state: descriptor?.state } : undefined}
+      statusChip={
+        descriptor
+          ? {
+              for: 'eservice',
+              state: descriptor?.state,
+            }
+          : undefined
+      }
       backToAction={{
         label: t('actions.backToListLabel'),
         to: 'PROVIDE_ESERVICE_LIST',
