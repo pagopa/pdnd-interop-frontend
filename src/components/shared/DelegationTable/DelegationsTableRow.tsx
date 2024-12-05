@@ -45,7 +45,7 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
   return (
     <TableRow
       cellData={[
-        delegation.eservice?.name ?? '',
+        delegation.eservice?.name ?? '-',
         delegationKindLabel,
         delegateOrDelegatorCellData,
         <StatusChip key={delegation.id} for="delegation" state={delegation.state} />,
