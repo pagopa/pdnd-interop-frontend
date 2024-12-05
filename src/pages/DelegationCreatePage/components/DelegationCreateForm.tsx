@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice/eservice.queries'
 import { useQuery } from '@tanstack/react-query'
-import type { DelegationKind, EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
+import type { DelegationKind } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { TenantQueries } from '@/api/tenant'
@@ -15,14 +15,6 @@ import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SendIcon from '@mui/icons-material/Send'
 import { AuthHooks } from '@/api/auth'
-
-export type FormParams = {
-  eserviceName: string
-  eserviceDescription: string
-  eserviceTechnology: EServiceTechnology
-  eserviceMode: EServiceMode
-  delegateId: string
-}
 
 export type DelegationCreateFormValues = {
   eserviceName: string
