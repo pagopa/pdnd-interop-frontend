@@ -229,7 +229,8 @@
     "removeGroupAriaLabel": "Remove attribute group"
   },
   "drawer": {
-    "closeIconAriaLabel": "Close the drawer"
+    "closeIconAriaLabel": "Close the drawer",
+    "updateLabel": "Update"
   },
   "byDelegationChip": {
     "label": "by delegation"
