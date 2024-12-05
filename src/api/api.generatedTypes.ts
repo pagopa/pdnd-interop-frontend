@@ -335,6 +335,7 @@ export interface ProducerEServiceDescriptor {
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: ProducerDescriptorEService
   attributes: DescriptorAttributes
+  rejectionReasons?: DescriptorRejectionReason[]
 }
 
 export interface ProducerDescriptorEService {
@@ -363,6 +364,12 @@ export interface EServiceDoc {
 
 export interface UpdateEServiceDescriptorDocumentSeed {
   prettyName: string
+}
+
+export interface DescriptorRejectionReason {
+  rejectionReason: string
+  /** @format date-time */
+  rejectedAt: string
 }
 
 /**
@@ -616,26 +623,29 @@ export interface PresignedUrl {
   url: string
 }
 
+export interface CompactProducerDescriptor {
+  /** @format uuid */
+  id: string
+  /** EService Descriptor State */
+  state: EServiceDescriptorState
+  version: string
+  audience: string[]
+  requireCorrections?: boolean
+}
+
 export interface ProducerEService {
   /** @format uuid */
   id: string
   name: string
   /** Risk Analysis Mode */
   mode: EServiceMode
-  activeDescriptor?: CompactDescriptor
-  draftDescriptor?: CompactDescriptor
+  activeDescriptor?: CompactProducerDescriptor
+  draftDescriptor?: CompactProducerDescriptor
 }
 
 export interface ProducerEServices {
   results: ProducerEService[]
   pagination: Pagination
-}
-
-export interface ProductInfo {
-  id: string
-  role: string
-  /** @format date-time */
-  createdAt: string
 }
 
 export interface SelfcareProduct {
@@ -1231,6 +1241,8 @@ export interface TenantVerifier {
   expirationDate?: string
   /** @format date-time */
   extensionDate?: string
+  /** @format uuid */
+  delegationId?: string
 }
 
 export interface TenantRevoker {
@@ -1244,6 +1256,8 @@ export interface TenantRevoker {
   extensionDate?: string
   /** @format date-time */
   revocationDate: string
+  /** @format uuid */
+  delegationId?: string
 }
 
 export interface TokenGenerationValidationResult {
@@ -1352,7 +1366,7 @@ export interface Delegation {
 export interface CompactDelegation {
   /** @format uuid */
   id: string
-  eserviceName: string
+  eservice?: CompactEServiceLight
   delegate: DelegationTenant
   delegator: DelegationTenant
   /** Delegation State */
@@ -1890,9 +1904,15 @@ export interface GetDelegationsParams {
    * @default []
    */
   states?: DelegationState[]
-  /** The delegator ids to filter by */
+  /**
+   * The delegator ids to filter by
+   * @default []
+   */
   delegatorIds?: string[]
-  /** The delegated ids to filter by */
+  /**
+   * The delegated ids to filter by
+   * @default []
+   */
   delegateIds?: string[]
   /** The delegation kind to filter by */
   kind?: DelegationKind
@@ -5373,9 +5393,15 @@ export namespace Delegations {
        * @default []
        */
       states?: DelegationState[]
-      /** The delegator ids to filter by */
+      /**
+       * The delegator ids to filter by
+       * @default []
+       */
       delegatorIds?: string[]
-      /** The delegated ids to filter by */
+      /**
+       * The delegated ids to filter by
+       * @default []
+       */
       delegateIds?: string[]
       /** The delegation kind to filter by */
       kind?: DelegationKind
