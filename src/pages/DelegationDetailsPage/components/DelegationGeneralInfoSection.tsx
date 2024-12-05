@@ -32,7 +32,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     .with('DELEGATED_CONSUMER', () => t('delegationKindField.kindConsumer'))
     .exhaustive()
 
-  const isReceived = match(jwt?.organizationId)
+  const isUserDelegate = match(jwt?.organizationId)
     .with(delegation.delegate.id, () => true)
     .with(delegation.delegator.id, () => false)
     .otherwise(() => false)
@@ -150,13 +150,13 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
               label={t('delegationKindField.label')}
               content={delegationKindLabel}
             />
-            {isReceived && (
+            {isUserDelegate && (
               <InformationContainer
                 label={t('delegatorField.label')}
                 content={delegation.delegator.name}
               />
             )}
-            {!isReceived && (
+            {!isUserDelegate && (
               <InformationContainer
                 label={t('delegateField.label')}
                 content={delegation.delegate.name}
