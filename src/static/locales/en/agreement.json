@@ -227,6 +227,7 @@
   },
   "list": {
     "eserviceName": "{{name}}, version {{version}}",
+    "eserviceChip": "in delega",
     "filters": {
       "eserviceField": {
         "label": "Find by e-service"
