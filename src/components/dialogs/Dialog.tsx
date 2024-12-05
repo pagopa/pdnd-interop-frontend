@@ -20,6 +20,7 @@ import type {
   DialogDelegationsProps,
   DialogAcceptProducerDelegationProps,
   DialogRejectProducerDelegationProps,
+  DialogRevokeProducerDelegationProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -37,6 +38,7 @@ import { DialogDeleteProducerKeychainKey } from './DialogDeleteProducerKeychainK
 import { DialogDelegations } from './DialogDelegations'
 import { DialogAcceptProducerDelegation } from './DialogAcceptProducerDelegation'
 import { DialogRejectProducerDelegation } from './DialogRejectProducerDelegation'
+import { DialogRevokeProducerDelegation } from './DialogRevokeProducerDelegation'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -52,9 +54,10 @@ function match<T>(
   onSetTenantMail: (props: DialogSetTenantMailProps) => T,
   onRemoveUserFromKeychain: (props: DialogRemoveUserFromKeychainProps) => T,
   onDeleteProducerKeychainKey: (props: DialogDeleteProducerKeychainKeyProps) => T,
-  onDelegations: (props: DialogDelegationsProps) => T
+  onDelegations: (props: DialogDelegationsProps) => T,
   onAcceptDelegation: (props: DialogAcceptProducerDelegationProps) => T,
-  onRejectDelegation: (props: DialogRejectProducerDelegationProps) => T
+  onRejectDelegation: (props: DialogRejectProducerDelegationProps) => T,
+  onRevokeProducerDelegation: (props: DialogRevokeProducerDelegationProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -90,6 +93,10 @@ function match<T>(
         return onAcceptDelegation(props)
       case 'rejectDelegation':
         return onRejectDelegation(props)
+      case 'revokeProducerDelegation':
+        return onRevokeProducerDelegation(props)
+      case 'revokeProducerDelegation':
+        return onRevokeProducerDelegation(props)
     }
   }
 }
@@ -108,9 +115,10 @@ const _Dialog = match(
   (props) => <DialogSetTenantMail {...props} />,
   (props) => <DialogRemoveUserFromKeychain {...props} />,
   (props) => <DialogDeleteProducerKeychainKey {...props} />,
-  (props) => <DialogDelegations {...props} />
+  (props) => <DialogDelegations {...props} />,
   (props) => <DialogAcceptProducerDelegation {...props} />,
-  (props) => <DialogRejectProducerDelegation {...props} />
+  (props) => <DialogRejectProducerDelegation {...props} />,
+  (props) => <DialogRevokeProducerDelegation {...props} />
 )
 
 export const Dialog: React.FC = () => {

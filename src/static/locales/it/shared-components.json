@@ -165,6 +165,13 @@
       "reject": "Rifiuta delega"
     }
   },
+  "dialogRevokeProducerDelegation": {
+    "title": "Revoca della delega all'erogazione",
+    "content": {
+      "description": "Il delegato perderà la gestione del tuo e-service <strong>{{eserviceName}} con delega all'erogazione</strong>, e delle richieste di fruizione e le finalità ad esso associate. L’e-service tornerà sotto il tuo controllo nello stato in cui si trova all’atto della revoca. Hai dubbi? <1>Consulta la guida</1>.",
+      "checkbox": "Ho letto e voglio procedere con la revoca"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
