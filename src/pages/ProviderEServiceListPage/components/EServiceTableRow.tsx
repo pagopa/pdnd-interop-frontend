@@ -32,6 +32,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { actions } = useGetProviderEServiceActions(
     eservice.id,
     eservice.activeDescriptor?.state,
+    eservice.draftDescriptor?.state,
     eservice.activeDescriptor?.id,
     eservice.draftDescriptor?.id,
     eservice.mode

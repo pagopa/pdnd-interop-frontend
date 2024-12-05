@@ -31,6 +31,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const { actions } = useGetProviderEServiceActions(
     eserviceId,
     descriptor?.state,
+    descriptor?.eservice.draftDescriptor?.state,
     descriptorId,
     descriptor?.eservice.draftDescriptor?.id,
     descriptor?.eservice.mode
