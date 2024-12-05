@@ -27,7 +27,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
     isAvailableProducerDelegations
   )
 
-  let checkedConsumerDelegations = false //TODO disponibilità fruizione
+  const checkedConsumerDelegations = false //TODO disponibilità fruizione
 
   function handleClick() {
     if (checkedProducerDelegations != isAvailableProducerDelegations) {

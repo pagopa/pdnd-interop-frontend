@@ -63,7 +63,7 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   }
 
   if (
-    delegationKind === 'DELEGATED_PRODUCER' &&
+    delegation.kind === 'DELEGATED_PRODUCER' &&
     delegation.state === 'ACTIVE' &&
     delegation.delegator.id === jwt?.organizationId
   ) {

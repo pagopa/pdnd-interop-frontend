@@ -1,4 +1,6 @@
-import { DelegationKind } from '@/api/api.generatedTypes'
+import React from 'react'
+import type { DelegationKind } from '@/api/api.generatedTypes'
+import type { SxProps } from '@mui/material'
 import {
   Button,
   Card,
@@ -9,17 +11,16 @@ import {
   RadioGroup,
   Typography,
 } from '@mui/material'
-import { width } from '@mui/system'
 
 import { useTranslation } from 'react-i18next'
 
 type DelegationCreateCardsProps = {
-  delegationKind: DelegationKind | undefined
+  selectedDelegationKind: DelegationKind | undefined
   changeDelegationKind: (delegationKind: DelegationKind) => void
 }
 
 export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
-  delegationKind,
+  selectedDelegationKind,
   changeDelegationKind,
 }) => {
   const { t } = useTranslation('party')
@@ -44,16 +45,39 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
     </svg>
   )
 
+  const getSxProps = (delegationKind: DelegationKind): SxProps => ({
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    maxHeight: 97,
+    border: 2,
+    boxShadow: 2,
+    borderColor: 'primary.main',
+    backgroundColor: selectedDelegationKind === delegationKind ? 'primary.dark' : 'white',
+    '& .MuiTypography-root': {
+      color: selectedDelegationKind === delegationKind ? 'white' : 'primary.main',
+    },
+    '& svg path': {
+      fill: selectedDelegationKind === delegationKind ? 'white' : 'primary.main',
+    },
+    '&:hover': {
+      backgroundColor: 'primary.dark',
+      '& .MuiTypography-root': {
+        color: 'white',
+        transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      '& svg path': {
+        fill: 'white',
+        transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+    },
+  })
+
   return (
     <>
-      <FormControl sx={{ width: '100%' }}>
-        <RadioGroup
-          name="radio-buttons-group"
-          sx={{ display: 'inline-block' }}
-          value={delegationKind || null}
-        >
+      <FormControl fullWidth>
+        <RadioGroup name="radio-buttons-group" row value={selectedDelegationKind || null}>
           <FormControlLabel
-            style={{ flex: 1 }}
             value={consumerDelegated}
             control={<Radio sx={{ display: 'none' }} />}
             label={
@@ -61,35 +85,7 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
                 component={Button}
                 elevation={8}
                 onClick={() => changeDelegationKind(consumerDelegated)}
-                style={{ flex: 1 }}
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  maxHeight: 97,
-                  border: 2,
-                  boxShadow: 2,
-                  borderColor: 'primary.main',
-                  backgroundColor:
-                    delegationKind === 'DELEGATED_CONSUMER' ? 'primary.dark' : 'white',
-                  '& .MuiTypography-root': {
-                    color: delegationKind === 'DELEGATED_CONSUMER' ? 'white' : 'primary.main',
-                  },
-                  '& svg path': {
-                    fill: delegationKind === 'DELEGATED_CONSUMER' ? 'white' : 'primary.main',
-                  },
-                  '&:hover': {
-                    backgroundColor: 'primary.dark',
-                    '& .MuiTypography-root': {
-                      color: 'white',
-                      transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                    },
-                    '& svg path': {
-                      fill: 'white',
-                      transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                    },
-                  },
-                }}
+                sx={getSxProps('DELEGATED_CONSUMER')}
               >
                 <CardContent
                   sx={{
@@ -117,7 +113,6 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
             }
           />
           <FormControlLabel
-            style={{ flex: 1 }}
             value={producerDelegated}
             control={<Radio sx={{ display: 'none' }} />}
             label={
@@ -125,35 +120,7 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
                 component={Button}
                 elevation={8}
                 onClick={() => changeDelegationKind(producerDelegated)}
-                style={{ flex: 1 }}
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'flex',
-                  maxHeight: 97,
-                  border: 2,
-                  boxShadow: 2,
-                  borderColor: 'primary.main',
-                  backgroundColor:
-                    delegationKind === 'DELEGATED_PRODUCER' ? 'primary.dark' : 'white',
-                  '& .MuiTypography-root': {
-                    color: delegationKind === 'DELEGATED_PRODUCER' ? 'white' : 'primary.main',
-                  },
-                  '& svg path': {
-                    fill: delegationKind === 'DELEGATED_PRODUCER' ? 'white' : 'primary.main',
-                  },
-                  '&:hover': {
-                    backgroundColor: 'primary.dark',
-                    '& .MuiTypography-root': {
-                      color: 'white',
-                      transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                    },
-                    '& svg path': {
-                      fill: 'white',
-                      transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1)',
-                    },
-                  },
-                }}
+                sx={getSxProps('DELEGATED_PRODUCER')}
               >
                 <CardContent
                   sx={{

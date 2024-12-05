@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice/eservice.queries'
 import { useQuery } from '@tanstack/react-query'
-import { DelegationKind, EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
+import type { DelegationKind, EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { TenantQueries } from '@/api/tenant'
@@ -14,6 +14,7 @@ import { useNavigate } from '@/router'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SendIcon from '@mui/icons-material/Send'
+import { AuthHooks } from '@/api/auth'
 
 export type FormParams = {
   eserviceName: string
@@ -48,6 +49,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
 
   const [isExistingEservice, setIsExistingEservice] = useState(false)
 
+  const currentUserOrganizationId = AuthHooks.useJwt()?.jwt?.organizationId
   const { openDialog } = useDialog()
 
   const formMethods = useForm({ defaultValues })
@@ -61,7 +63,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     select: (d) =>
       (d.results ?? []).map((eservice) => ({
         label: eservice.name,
-        value: eservice,
+        value: eservice.id,
       })),
   })
 
@@ -71,10 +73,12 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       features: ['DELEGATED_PRODUCER'],
     }),
     select: (d) =>
-      (d.results ?? []).map((delegate) => ({
-        label: delegate.name,
-        value: delegate,
-      })),
+      (d.results ?? [])
+        .filter((d) => d.id !== currentUserOrganizationId)
+        .map((delegate) => ({
+          label: delegate.name,
+          value: delegate.id,
+        })),
   })
 
   const { mutate: createProducerDelegation } = DelegationMutations.useCreateProducerDelegation()
@@ -93,23 +97,27 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   function onConfirm(formValues: DelegationCreateFormValues) {
     if (!isExistingEservice && delegationKind === 'DELEGATED_PRODUCER') {
       // if it is a producer delegation and isExistingEservice is false the eservice must be created
-      const createDelegationAndEserviceParams: FormParams = {
-        eserviceName: formValues.eserviceName,
-        eserviceDescription: formValues.eserviceDescription,
-        eserviceTechnology: 'REST',
-        eserviceMode: 'DELIVER',
-        delegateId: formValues.delegateId,
-      }
-      createProducerDelegationAndEservice(createDelegationAndEserviceParams, {
-        onSuccess: () => {
-          navigate('DELEGATIONS')
+      createProducerDelegationAndEservice(
+        {
+          name: formValues.eserviceName,
+          description: formValues.eserviceDescription,
+          technology: 'REST',
+          mode: 'DELIVER',
+          delegateId: formValues.delegateId,
         },
-      })
+        {
+          onSuccess: () => {
+            navigate('DELEGATIONS')
+          },
+        }
+      )
     } else {
       const createDelegationParams = {
         eserviceId: formValues.eserviceName,
         delegateId: formValues.delegateId,
       }
+      console.log({ createDelegationParams })
+
       createProducerDelegation(createDelegationParams, {
         onSuccess: () => {
           navigate('DELEGATIONS')

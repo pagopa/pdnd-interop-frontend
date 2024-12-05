@@ -85,8 +85,6 @@ function match<T>(
         return onRejectDelegation(props)
       case 'revokeProducerDelegation':
         return onRevokeProducerDelegation(props)
-      case 'revokeProducerDelegation':
-        return onRevokeProducerDelegation(props)
     }
   }
 }
