@@ -12,6 +12,7 @@ function useCreateProducerDelegation() {
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
     },
   })
 }
@@ -63,9 +64,24 @@ function useRevokeProducerDelegation() {
   })
 }
 
+function useCreateProducerDelegationAndEservice() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'delegation.createProducerDelegation',
+  })
+  return useMutation({
+    mutationFn: DelegationServices.createProducerDelegationAndEservice,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const DelegationMutations = {
   useCreateProducerDelegation,
   useApproveProducerDelegation,
   useRejectProducerDelegation,
   useRevokeProducerDelegation,
+  useCreateProducerDelegationAndEservice,
 }

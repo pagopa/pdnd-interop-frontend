@@ -272,6 +272,7 @@
     "TENANT": "Il tuo ente",
     "TENANT_CERTIFIER": "Ente certificatore",
     "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo",
-    "DELEGATIONS": "Deleghe"
+    "DELEGATIONS": "Deleghe",
+    "CREATE_DELEGATION": "Crea delega"
   }
 }

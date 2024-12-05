@@ -26,6 +26,7 @@ export type DialogProps =
   | DialogClonePurposeProps
   | DialogRejectPurposeVersionProps
   | DialogSetTenantMailProps
+  | DialogDelegationsProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -89,4 +90,9 @@ export type DialogRejectPurposeVersionProps = {
 
 export type DialogSetTenantMailProps = {
   type: 'setTenantMail'
+}
+
+export type DialogDelegationsProps = {
+  type: 'delegations'
+  onConfirm: () => void
 }

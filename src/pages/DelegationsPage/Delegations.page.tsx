@@ -4,6 +4,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { DelegationsGrantedTab } from './DelegationsGrantedTab/DelegationsGrantedTab'
 
 export const DelegationsPage: React.FC = () => {
   const { t: tPages } = useTranslation('pages', { keyPrefix: 'delegations' })
@@ -25,7 +26,7 @@ export const DelegationsPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="delegationsGranted">
-          <Typography>LALALA</Typography>
+          <DelegationsGrantedTab />
         </TabPanel>
 
         <TabPanel value="delegationsReceived">

@@ -37,6 +37,7 @@ import {
   TenantCertifierPage,
   TenantCertifierAttributeDetails,
   DelegationsPage,
+  DelegationCreatePage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -399,6 +400,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <DelegationsPage />,
     public: false,
     hideSideNav: false,
+    authLevels: ['admin', 'support'],
+  })
+  .addRoute({
+    key: 'CREATE_DELEGATION',
+    path: '/aderente/deleghe/crea',
+    element: <DelegationCreatePage />,
+    public: false,
+    hideSideNav: true,
     authLevels: ['admin', 'support'],
   })
   .build()
