@@ -37,12 +37,37 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
     icon: CloseIcon,
   }
 
+  const eserviceName =
+    'eserviceName' in delegation ? delegation.eserviceName : delegation.eservice.name
+  const handleRevoke = () => {
+    openDialog({
+      type: 'revokeProducerDelegation',
+      delegationId: delegation.id,
+      eserviceName: eserviceName,
+    })
+  }
+
+  const revokeAction: ActionItemButton = {
+    action: handleRevoke,
+    label: tCommon('revoke'),
+    color: 'error',
+    icon: CloseIcon,
+  }
+
   if (
     delegation.kind === 'DELEGATED_PRODUCER' &&
     delegation.state === 'WAITING_FOR_APPROVAL' &&
     delegation.delegate.id === jwt?.organizationId
   ) {
     actions.push(...[acceptAction, rejectAction])
+  }
+
+  if (
+    delegationKind === 'DELEGATED_PRODUCER' &&
+    delegation.state === 'ACTIVE' &&
+    delegation.delegator.id === jwt?.organizationId
+  ) {
+    actions.push(revokeAction)
   }
 
   return {

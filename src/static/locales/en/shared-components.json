@@ -157,6 +157,13 @@
       "reject": "Reject delegation"
     }
   },
+  "dialogRevokeProducerDelegation": {
+    "title": "Revocation of the producer delegation",
+    "content": {
+      "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, and the agreements and the purposes associated with it. The e-service will return under your control in the state it was in at the time of revocation. Do you have doubts? <1>Read the guide</1>.",
+      "checkbox": "I have read and I want to proceed with the revocation"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
