@@ -8,7 +8,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { SectionContainer } from '@/components/layout/containers'
 import { useNavigate } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
-import { API_GATEWAY_INTERFACE_URL } from '@/config/env'
+import {
+  API_GATEWAY_INTERFACE_URL,
+  API_SIGNAL_HUB_PULL_INTERFACE_URL,
+  API_SIGNAL_HUB_PUSH_INTERFACE_URL,
+} from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
 
@@ -103,8 +107,8 @@ export const VoucherInstructionsStep4: React.FC = () => {
                     },
                   }}
                   disableRipple
-                  //href={API_SIGNAL_HUB_PUSH_INTERFACE_URL} //TODO
-                  //download
+                  href={API_SIGNAL_HUB_PUSH_INTERFACE_URL}
+                  download
                 >
                   <DownloadIcon fontSize="small" />
                   {t(`step4.actionLabel`)}
@@ -122,8 +126,8 @@ export const VoucherInstructionsStep4: React.FC = () => {
                     },
                   }}
                   disableRipple
-                  //href={API_SIGNAL_HUB_PULL_INTERFACE_URL} //TODO
-                  //download
+                  href={API_SIGNAL_HUB_PULL_INTERFACE_URL}
+                  download
                 >
                   <DownloadIcon fontSize="small" />
                   {t(`step4.actionLabel`)}

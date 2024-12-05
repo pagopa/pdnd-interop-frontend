@@ -71,3 +71,13 @@ export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
 export const PRODUCER_ALLOWED_ORIGINS = PAGOPA_ENV?.PRODUCER_ALLOWED_ORIGINS.split(',')
   .map((o) => o.trim())
   .filter(Boolean) ?? ['IPA']
+
+export const API_SIGNAL_HUB_PUSH_INTERFACE_URL = getEnvVar(
+  'API_SIGNAL_HUB_PUSH_INTERFACE_URL',
+  'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/main/docs/openAPI/push-signals.yaml'
+)
+
+export const API_SIGNAL_HUB_PULL_INTERFACE_URL = getEnvVar(
+  'API_SIGNAL_HUB_PULL_INTERFACE_URL',
+  'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/main/docs/openAPI/pull-signals.yaml'
+)

@@ -15,6 +15,8 @@ export type PagoPAEnvVars = {
   WELL_KNOWN_URLS: string
   SELFCARE_BASE_URL: string
   PRODUCER_ALLOWED_ORIGINS: string
+  API_SIGNAL_HUB_PUSH_INTERFACE_URL: string
+  API_SIGNAL_HUB_PULL_INTERFACE_URL: string
 }
 
 export type ExtendedWindow = Window & {
