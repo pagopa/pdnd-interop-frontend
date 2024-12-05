@@ -221,7 +221,8 @@
     "removeGroupAriaLabel": "Rimuovi gruppo di attributi"
   },
   "drawer": {
-    "closeIconAriaLabel": "Chiudi il drawer"
+    "closeIconAriaLabel": "Chiudi il drawer",
+    "updateLabel": "Aggiorna"
   },
   "byDelegationChip": {
     "label": "in delega"

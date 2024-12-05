@@ -1,11 +1,12 @@
 import { PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab, Typography } from '@mui/material'
+import { Tab } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { DelegationsGrantedTab } from './DelegationsGrantedTab/DelegationsGrantedTab'
 import { DelegationsReceivedTab } from './components/DelegationsReceivedTab/DelegationsReceivedTab'
+import { DelegationsAvailabilityTab } from './DelegationsAvailabilityTab/DelegationAvailabilityTab'
 
 export const DelegationsPage: React.FC = () => {
   const { t: tPages } = useTranslation('pages', { keyPrefix: 'delegations' })
@@ -35,7 +36,7 @@ export const DelegationsPage: React.FC = () => {
         </TabPanel>
 
         <TabPanel value="availability">
-          <Typography>RERERE</Typography>
+          <DelegationsAvailabilityTab />
         </TabPanel>
       </TabContext>
     </PageContainer>
