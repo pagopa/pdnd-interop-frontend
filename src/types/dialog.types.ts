@@ -28,6 +28,7 @@ export type DialogProps =
   | DialogSetTenantMailProps
   | DialogRemoveUserFromKeychainProps
   | DialogDeleteProducerKeychainKeyProps
+  | DialogDelegationsProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -103,4 +104,9 @@ export type DialogDeleteProducerKeychainKeyProps = {
   type: 'deleteProducerKeychainKey'
   keychainId: string
   keyId: string
+}
+
+export type DialogDelegationsProps = {
+  type: 'delegations'
+  onConfirm: () => void
 }

@@ -285,6 +285,7 @@
     "PROVIDE_KEYCHAIN_DETAILS": "Manage keychain",
     "PROVIDE_KEYCHAIN_USER_DETAILS": "Manage keychain user",
     "PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS": "Manage keychain public key",
-    "DELEGATIONS": "Delegations"
+    "DELEGATIONS": "Delegations",
+    "CREATE_DELEGATION": "Create delegation"
   }
 }
