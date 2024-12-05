@@ -40,3 +40,4 @@ export { ProviderKeychainPublicKeyDetailsPage } from './ProviderKeychainPublicKe
 export { ProviderKeychainUserDetailsPage } from './ProviderKeychainUserDetailsPage'
 export { DelegationsPage } from './DelegationsPage'
 export { DelegationCreatePage } from './DelegationCreatePage'
+export { DelegationDetailsPage } from './DelegationDetailsPage'

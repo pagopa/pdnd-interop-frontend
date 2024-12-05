@@ -1,31 +1,35 @@
-import React from 'react'
+import { DelegationMutations } from '@/api/delegation'
 import { useDialog } from '@/stores'
-import type { DialogRejectAgreementProps } from '@/types/dialog.types'
+import type { DialogRejectProducerDelegationProps } from '@/types/dialog.types'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
-import { AgreementMutations } from '@/api/agreement'
+import { useTranslation } from 'react-i18next'
 
-type RejectAgreementFormValues = {
+type RejectDelegationFormValues = {
   reason: string
 }
 
-export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ agreementId }) => {
+export const DialogRejectProducerDelegation: React.FC<DialogRejectProducerDelegationProps> = ({
+  delegationId,
+}) => {
   const ariaLabelId = React.useId()
 
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', {
-    keyPrefix: 'dialogRejectAgreement',
+    keyPrefix: 'dialogRejectProducerDelegation',
   })
   const { closeDialog } = useDialog()
-  const { mutate: reject } = AgreementMutations.useReject()
 
-  const formMethods = useForm<RejectAgreementFormValues>({
+  const { mutate: rejectDelegation } = DelegationMutations.useRejectProducerDelegation()
+
+  const formMethods = useForm<RejectDelegationFormValues>({
     defaultValues: { reason: '' },
   })
 
-  const onSubmit = ({ reason }: RejectAgreementFormValues) => {
-    reject({ agreementId, reason })
+  const onSubmit = ({ reason }: RejectDelegationFormValues) => {
+    rejectDelegation({ delegationId, rejectionReason: reason })
     closeDialog()
   }
 
@@ -33,7 +37,9 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
+          <DialogTitle id={ariaLabelId} sx={{ pb: 1 }}>
+            {t('title')}
+          </DialogTitle>
 
           <DialogContent>
             <RHFTextField
@@ -49,10 +55,10 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
 
           <DialogActions>
             <Button type="button" variant="outlined" onClick={closeDialog}>
-              {t('actions.cancelLabel')}
+              {tCommon('cancel')}
             </Button>
             <Button variant="contained" type="submit">
-              {t('actions.confirmLabel')}
+              {t('actions.reject')}
             </Button>
           </DialogActions>
         </Box>

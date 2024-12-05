@@ -143,6 +143,28 @@
     "title": "Confirm public key deletion",
     "description": "The key can no longer be used to sign responses to users of your e-services. To find out more, <1>read the guide</1>."
   },
+  "dialogAcceptProducerDelegation": {
+    "title": "Appointment of Data Controller",
+    "content": {
+      "description": "Please remember that it is necessary to have been appointed as Personal Data Controller, by signing the deed required by art. 28 of the GDPR, before starting any processing activity via the infrastructure on behalf of the Delegator, Data Controller.",
+      "confirmationLabel": "I understand"
+    },
+    "actions": {
+      "accept": "Accept delegation"
+    }
+  },
+  "dialogRejectProducerDelegation": {
+    "title": "Reject delegation",
+    "content": {
+      "reason": {
+        "label": "Reason",
+        "infoLabel": "Enter the reason why you refuse the delegation. Min 10 characters, max 250 characters"
+      }
+    },
+    "actions": {
+      "reject": "Reject delegation"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -286,6 +308,7 @@
     "PROVIDE_KEYCHAIN_USER_DETAILS": "Manage keychain user",
     "PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS": "Manage keychain public key",
     "DELEGATIONS": "Delegations",
-    "CREATE_DELEGATION": "Create delegation"
+    "CREATE_DELEGATION": "Create delegation",
+    "DELEGATION_DETAILS": "Manage delegation"
   }
 }

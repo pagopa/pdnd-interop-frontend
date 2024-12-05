@@ -18,6 +18,8 @@ import type {
   DialogRemoveUserFromKeychainProps,
   DialogDeleteProducerKeychainKeyProps,
   DialogDelegationsProps,
+  DialogAcceptProducerDelegationProps,
+  DialogRejectProducerDelegationProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -33,6 +35,8 @@ import { DialogSetTenantMail } from './DialogSetTenantMail'
 import { DialogRemoveUserFromKeychain } from './DialogRemoveUserFromKeychain'
 import { DialogDeleteProducerKeychainKey } from './DialogDeleteProducerKeychainKey'
 import { DialogDelegations } from './DialogDelegations'
+import { DialogAcceptProducerDelegation } from './DialogAcceptProducerDelegation'
+import { DialogRejectProducerDelegation } from './DialogRejectProducerDelegation'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -49,6 +53,8 @@ function match<T>(
   onRemoveUserFromKeychain: (props: DialogRemoveUserFromKeychainProps) => T,
   onDeleteProducerKeychainKey: (props: DialogDeleteProducerKeychainKeyProps) => T,
   onDelegations: (props: DialogDelegationsProps) => T
+  onAcceptDelegation: (props: DialogAcceptProducerDelegationProps) => T,
+  onRejectDelegation: (props: DialogRejectProducerDelegationProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -80,6 +86,10 @@ function match<T>(
         return onDeleteProducerKeychainKey(props)
       case 'delegations':
         return onDelegations(props)
+      case 'acceptDelegation':
+        return onAcceptDelegation(props)
+      case 'rejectDelegation':
+        return onRejectDelegation(props)
     }
   }
 }
@@ -99,6 +109,8 @@ const _Dialog = match(
   (props) => <DialogRemoveUserFromKeychain {...props} />,
   (props) => <DialogDeleteProducerKeychainKey {...props} />,
   (props) => <DialogDelegations {...props} />
+  (props) => <DialogAcceptProducerDelegation {...props} />,
+  (props) => <DialogRejectProducerDelegation {...props} />
 )
 
 export const Dialog: React.FC = () => {

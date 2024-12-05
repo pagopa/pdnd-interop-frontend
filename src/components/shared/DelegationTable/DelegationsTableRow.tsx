@@ -1,4 +1,4 @@
-import type { CompactDelegation, DelegationKind } from '@/api/api.generatedTypes'
+import type { CompactDelegation } from '@/api/api.generatedTypes'
 import { DelegationQueries } from '@/api/delegation'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
@@ -32,9 +32,7 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
     queryClient.prefetchQuery(DelegationQueries.getSingle({ delegationId: delegation.id }))
   }
 
-  const delegationKind = 'DELEGATED_PRODUCER' as DelegationKind
-
-  const delegationKindLabel = match(delegationKind)
+  const delegationKindLabel = match(delegation.kind)
     .with('DELEGATED_PRODUCER', () => t('delegationKind.producer'))
     .with('DELEGATED_CONSUMER', () => t('delegationKind.consumer'))
     .exhaustive()
@@ -65,23 +63,20 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
         {tCommon('actions.inspect')}
       </Link>
 
-      {delegation.state === 'WAITING_FOR_APPROVAL' && (
-        <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-          <ActionMenu actions={actions} />
-        </Box>
-      )}
+      <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+        <ActionMenu actions={actions} />
+      </Box>
     </TableRow>
   )
 }
 
 export const DelegationsTableRowSkeleton: React.FC = () => {
-  // TODO right skeleton dimensions
   return (
     <TableRow
       cellData={[
-        <Skeleton key={0} width={180} />,
-        <Skeleton key={1} width={180} />,
-        <Skeleton key={2} width={180} />,
+        <Skeleton key={0} width={195} />,
+        <Skeleton key={1} width={163} />,
+        <Skeleton key={2} width={248} />,
         <StatusChipSkeleton key={3} />,
       ]}
     >
