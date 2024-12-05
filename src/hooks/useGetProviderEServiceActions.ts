@@ -159,6 +159,7 @@ export function useGetProviderEServiceActions(
       cloneAction,
       ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
     ],
+    WAITING_FOR_APPROVAL: [],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -173,6 +174,7 @@ export function useGetProviderEServiceActions(
       cloneAction,
       ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
     ],
+    WAITING_FOR_APPROVAL: [],
   }
 
   const availableAction = isAdmin ? adminActions[state] : operatorAPIActions[state]

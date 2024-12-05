@@ -7,7 +7,7 @@ import { DelegationCreateCards } from './components/DelegationCreateCards'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { DelegationCreateForm } from './components/DelegationCreateForm'
-import { DelegationKind } from '@/api/api.generatedTypes'
+import type { DelegationKind } from '@/api/api.generatedTypes'
 
 /***
  * It shows the cards component to choose delegation kind or the form component based on the state KIND or FORM
@@ -35,7 +35,7 @@ export const DelegationCreatePage: React.FC = () => {
           <SectionContainer title={t('delegations.create.kindSectionTitle')}>
             <Stack spacing={2} direction="row" sx={{ width: '100%' }}>
               <DelegationCreateCards
-                delegationKind={delegationKind}
+                selectedDelegationKind={delegationKind}
                 changeDelegationKind={changeDelegationKind}
               />
             </Stack>

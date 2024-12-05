@@ -57,8 +57,8 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        to="DELEGATIONS" //TODO rimettere "DELEGATION_DETAILS" e decommentare params
-        //params={{ delegationId: delegation.id }}
+        to="DELEGATION_DETAILS"
+        params={{ delegationId: delegation.id }}
       >
         {tCommon('actions.inspect')}
       </Link>
