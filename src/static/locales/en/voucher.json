@@ -182,11 +182,11 @@
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Download",
       "pushApiSH": {
-        "title": "Push API",
+        "title": "Signals storage(Push API)",
         "description": "The API that allows members to send the signal of data change"
       },
       "pullApiSH": {
-        "title": "Pull API",
+        "title": "Signals retrieval (Pull API)",
         "description": "The API that allow consumers to retrieve the signal of data change"
       }
     }

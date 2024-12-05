@@ -182,11 +182,11 @@
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Scarica",
       "pushApiSH": {
-        "title": "Push API",
+        "title": "Deposito segnali (Push API)",
         "description": "L’API che permette agli erogatori di inviare i segnali di variazione sui dati"
       },
       "pullApiSH": {
-        "title": "Pull API",
+        "title": "Recupero segnali (Pull API)",
         "description": "L’API che permette ai fruitori di recuperare i segnali di variazione sui dati"
       }
     }
