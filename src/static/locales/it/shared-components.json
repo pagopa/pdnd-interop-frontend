@@ -135,6 +135,28 @@
       }
     }
   },
+  "dialogAcceptProducerDelegation": {
+    "title": "Nomina Responsabile del Trattamento",
+    "content": {
+      "description": "Si ricorda che è necessario essere stati nominati Responsabile del Trattamento ai dati personali, con sottoscrizione dell'atto previsto dall'art. 28 del GDPR, prima di avviare qualsiasi attività di trattamento tramite l'infrastruttura per conto del Delegante, Titolare del Trattamento.",
+      "confirmationLabel": "Ho capito"
+    },
+    "actions": {
+      "accept": "Accetta delega"
+    }
+  },
+  "dialogRejectProducerDelegation": {
+    "title": "Rifiuta delega",
+    "content": {
+      "reason": {
+        "label": "Motivazione",
+        "infoLabel": "Inserisci la motivazione per la quale rifiuti la delega. Min 10 caratteri, max 250 caratteri"
+      }
+    },
+    "actions": {
+      "reject": "Rifiuta delega"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
@@ -273,6 +295,7 @@
     "TENANT_CERTIFIER": "Ente certificatore",
     "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo",
     "DELEGATIONS": "Deleghe",
-    "CREATE_DELEGATION": "Crea delega"
+    "CREATE_DELEGATION": "Crea delega",
+    "DELEGATION_DETAILS": "Gestisci delega"
   }
 }

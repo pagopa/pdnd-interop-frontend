@@ -135,6 +135,28 @@
       }
     }
   },
+  "dialogAcceptProducerDelegation": {
+    "title": "Appointment of Data Controller",
+    "content": {
+      "description": "Please remember that it is necessary to have been appointed as Personal Data Controller, by signing the deed required by art. 28 of the GDPR, before starting any processing activity via the infrastructure on behalf of the Delegator, Data Controller.",
+      "confirmationLabel": "I understand"
+    },
+    "actions": {
+      "accept": "Accept delegation"
+    }
+  },
+  "dialogRejectProducerDelegation": {
+    "title": "Reject delegation",
+    "content": {
+      "reason": {
+        "label": "Reason",
+        "infoLabel": "Enter the reason why you refuse the delegation. Min 10 characters, max 250 characters"
+      }
+    },
+    "actions": {
+      "reject": "Reject delegation"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -273,6 +295,7 @@
     "TENANT_CERTIFIER": "Certifier party",
     "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Inspect attribute",
     "DELEGATIONS": "Delegations",
-    "CREATE_DELEGATION": "Create delegation"
+    "CREATE_DELEGATION": "Create delegation",
+    "DELEGATION_DETAILS": "Manage delegation"
   }
 }
