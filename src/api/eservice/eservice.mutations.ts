@@ -103,7 +103,6 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   })
 }
 
-// TODO strings
 function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: isByDelegation
