@@ -10,7 +10,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 import DownloadIcon from '@mui/icons-material/Download'
 
 type DelegationGeneralInfoSectionProps = {
@@ -94,21 +94,53 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
           <Stack spacing={2}>
             <InformationContainer
               label={t('eserviceNameField.label')}
-              content={
-                <Link
-                  to={
-                    lastDescriptor?.state === 'DRAFT'
-                      ? 'PROVIDE_ESERVICE_SUMMARY'
-                      : 'PROVIDE_ESERVICE_MANAGE'
-                  }
-                  params={{
-                    eserviceId: delegation?.eservice.id,
-                    descriptorId: lastDescriptor?.id ?? '',
-                  }}
-                >
-                  {delegation.eservice.name}
-                </Link>
-              }
+              content={match({ lastDescriptor, delegationState: delegation.state })
+                .with(
+                  { lastDescriptor: { state: 'DRAFT' }, delegationState: 'ACTIVE' },
+                  ({ lastDescriptor }) => (
+                    <Link
+                      to="PROVIDE_ESERVICE_SUMMARY"
+                      params={{
+                        eserviceId: delegation.eservice.id,
+                        descriptorId: lastDescriptor.id,
+                      }}
+                    >
+                      {delegation.eservice.name}
+                    </Link>
+                  )
+                )
+                .with(
+                  { lastDescriptor: { state: P.not('DRAFT') }, delegationState: 'ACTIVE' },
+                  ({ lastDescriptor }) => (
+                    <Link
+                      to="PROVIDE_ESERVICE_MANAGE"
+                      params={{
+                        eserviceId: delegation.eservice.id,
+                        descriptorId: lastDescriptor.id,
+                      }}
+                    >
+                      {delegation.eservice.name}
+                    </Link>
+                  )
+                )
+                .with(
+                  {
+                    lastDescriptor: { state: P.union('PUBLISHED', 'SUSPENDED') },
+                    delegationState: P.not('ACTIVE'),
+                  },
+                  ({ lastDescriptor }) => (
+                    <Link
+                      to="SUBSCRIBE_CATALOG_VIEW"
+                      params={{
+                        eserviceId: delegation.eservice.id,
+                        descriptorId: lastDescriptor.id,
+                      }}
+                    >
+                      {delegation.eservice.name}
+                    </Link>
+                  )
+                )
+                .otherwise(() => delegation.eservice.name)}
             />
             <InformationContainer
               label={t('eserviceProducerField.label')}
