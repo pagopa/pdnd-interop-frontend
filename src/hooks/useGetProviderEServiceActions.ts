@@ -14,7 +14,7 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import PublishIcon from '@mui/icons-material/Publish'
 import { useDialog } from '@/stores'
 import { useGetDelegationUserRole } from './useGetDelegationUserRole'
-import { match, P } from 'ts-pattern'
+import { match } from 'ts-pattern'
 
 export function useGetProviderEServiceActions(
   eserviceId: string,
@@ -32,18 +32,17 @@ export function useGetProviderEServiceActions(
   const navigate = useNavigate()
   const { openDialog, closeDialog } = useDialog()
 
-  const { isDelegator, isDelegate, producerDelegations, delegationState } =
-    useGetDelegationUserRole({
-      eserviceId,
-      organizationId: jwt?.organizationId,
-    })
+  const { isDelegator, isDelegate, producerDelegations } = useGetDelegationUserRole({
+    eserviceId,
+    organizationId: jwt?.organizationId,
+  })
 
   const delegation = producerDelegations?.find(
     (delegation) => delegation.eservice?.id === eserviceId
   )
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft({
-    isByDelegation: isDelegate && delegationState === 'ACTIVE',
+    isByDelegation: isDelegate,
   })
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: deleteVersionDraft } = EServiceMutations.useDeleteVersionDraft()
@@ -218,183 +217,274 @@ export function useGetProviderEServiceActions(
 
   const deleteAction = !activeDescriptorId ? deleteDraftAction : deleteVersionDraftAction
 
-  const draftActions = match({
+  const publishedActions = match({
+    isAdmin,
     isDelegator,
-    delegationState,
-    hasVersionDraft,
-  })
-    .with(
-      {
-        isDelegator: true,
-        delegationState: 'ACTIVE',
-      },
-      () => []
-    )
-    .with(
-      { isDelegator: false, hasVersionDraft: false },
-      { isDelegator: true, delegationState: P.not('ACTIVE'), hasVersionDraft: false },
-      () => [deleteAction]
-    )
-    .otherwise(() => [publishDraftAction, deleteAction])
-
-  const publishedAdminActions = match({
-    isDelegator,
-    delegationState,
+    isDelegate,
     hasVersionDraft,
     isDraftWaitingForApproval,
   })
+    .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+      suspendAction,
+      createNewDraftAction,
+    ])
+    .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      cloneAction,
+      editDraftAction,
+      deleteAction,
+      suspendAction,
+    ])
+    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [])
     .with(
       {
+        isAdmin: true,
         isDelegator: true,
-        delegationState: 'ACTIVE',
-        hasVersionDraft: false,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
       },
       () => []
     )
     .with(
       {
+        isAdmin: true,
         isDelegator: true,
-        delegationState: 'ACTIVE',
+        isDelegate: false,
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
       () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
     )
+    .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      suspendAction,
+      createNewDraftAction,
+    ])
     .with(
-      { isDelegator: false, hasVersionDraft: true, isDraftWaitingForApproval: true },
       {
-        isDelegator: true,
-        delegationState: P.not('ACTIVE'),
-        hasVersionDraft: true,
-        isDraftWaitingForApproval: true,
-      },
-      () => [cloneAction, deleteAction, suspendAction]
-    )
-    .with(
-      { isDelegator: false, hasVersionDraft: true, isDraftWaitingForApproval: false },
-      {
-        isDelegator: true,
-        delegationState: P.not('ACTIVE'),
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [cloneAction, editDraftAction, deleteAction, suspendAction]
+      () => [suspendAction, editDraftAction, deleteAction]
     )
-    .otherwise(() => [cloneAction, createNewDraftAction, suspendAction])
-
-  const publishedOperatorApiActions = match({
-    isDelegator,
-    delegationState,
-    hasVersionDraft,
-    isDraftWaitingForApproval,
-  })
     .with(
       {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [suspendAction]
+    )
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+      createNewDraftAction,
+    ])
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      cloneAction,
+      editDraftAction,
+      deleteAction,
+    ])
+    .with(
+      { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
         isDelegator: true,
-        delegationState: 'ACTIVE',
-        hasVersionDraft: false,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
       },
       () => []
     )
     .with(
-      { isDelegator: false, hasVersionDraft: true, isDraftWaitingForApproval: true },
       {
+        isAdmin: false,
         isDelegator: true,
-        delegationState: P.not('ACTIVE'),
+        isDelegate: false,
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [cloneAction, deleteAction]
+      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
     )
+    .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      createNewDraftAction,
+    ])
     .with(
-      { isDelegator: false, hasVersionDraft: true, isDraftWaitingForApproval: false },
       {
-        isDelegator: true,
-        delegationState: P.not('ACTIVE'),
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [cloneAction, editDraftAction, deleteAction]
+      () => [editDraftAction, deleteAction]
     )
-    .otherwise(() => [cloneAction, createNewDraftAction])
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => []
+    )
+    .otherwise(() => [])
 
-  const suspendedAdminActions = match({
+  const draftActions = match({ isDelegator, isDelegate })
+    .with({ isDelegator: false, isDelegate: false }, () => [publishDraftAction, deleteAction])
+    .with({ isDelegator: true, isDelegate: false }, () => [])
+    .with({ isDelegator: false, isDelegate: true }, () => [publishDraftAction])
+    .otherwise(() => [])
+
+  const suspendedActions = match({
+    isAdmin,
     isDelegator,
-    delegationState,
+    isDelegate,
     hasVersionDraft,
     isDraftWaitingForApproval,
   })
-    .with({ isDelegator: true, delegationState: 'ACTIVE' }, () => [])
+    .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
+      reactivateAction,
+      cloneAction,
+      createNewDraftAction,
+    ])
+    .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      reactivateAction,
+      cloneAction,
+      editDraftAction,
+      deleteAction,
+    ])
+    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [])
     .with(
-      { isDelegator: false, hasVersionDraft: true, isDraftWaitingForApproval: false },
       {
+        isAdmin: true,
         isDelegator: true,
-        delegationState: P.not('ACTIVE'),
+        isDelegate: false,
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [reactivateAction, cloneAction, editDraftAction, deleteAction]
+      () => []
     )
     .with(
-      { isDelegator: false, hasVersionDraft: true, isDraftWaitingForApproval: true },
       {
+        isAdmin: true,
         isDelegator: true,
-        delegationState: P.not('ACTIVE'),
+        isDelegate: false,
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [reactivateAction, cloneAction, deleteAction]
+      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
     )
-    .otherwise(() => [reactivateAction, cloneAction, createNewDraftAction])
-
-  const suspendedOperatorApiActions = match({
-    isDelegator,
-    delegationState,
-    hasVersionDraft,
-    isDraftWaitingForApproval,
-  })
-    .with({ isDelegator: true, delegationState: 'ACTIVE' }, () => [])
+    .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      reactivateAction,
+      createNewDraftAction,
+    ])
     .with(
-      { isDelegator: false, hasVersionDraft: true, isDraftWaitingForApproval: false },
       {
-        isDelegator: true,
-        delegationState: P.not('ACTIVE'),
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [cloneAction, editDraftAction, deleteAction]
+      () => [reactivateAction, editDraftAction, deleteAction]
     )
     .with(
-      { isDelegator: false, hasVersionDraft: true, isDraftWaitingForApproval: true },
       {
-        isDelegator: true,
-        delegationState: P.not('ACTIVE'),
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [cloneAction, deleteAction]
+      () => [reactivateAction]
     )
-    .otherwise(() => [cloneAction, createNewDraftAction])
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+      createNewDraftAction,
+    ])
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      cloneAction,
+      editDraftAction,
+      deleteAction,
+    ])
+    .with(
+      { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+    )
+    .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      createNewDraftAction,
+    ])
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [editDraftAction, deleteAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => []
+    )
+    .otherwise(() => [])
 
   const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
-    PUBLISHED: publishedAdminActions,
+    PUBLISHED: publishedActions,
     ARCHIVED: [],
-    DEPRECATED: isDelegator && delegationState === 'ACTIVE' ? [] : [suspendAction],
+    DEPRECATED: isDelegator ? [] : [suspendAction],
     DRAFT: draftActions,
-    SUSPENDED: suspendedAdminActions,
-    WAITING_FOR_APPROVAL:
-      isDelegator && delegationState === 'ACTIVE'
-        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-        : [],
+    SUSPENDED: suspendedActions,
+    WAITING_FOR_APPROVAL: isDelegator
+      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      : [],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
-    PUBLISHED: publishedOperatorApiActions,
+    PUBLISHED: publishedActions,
     ARCHIVED: [],
     DEPRECATED: [],
     DRAFT: draftActions,
-    SUSPENDED: suspendedOperatorApiActions,
-    WAITING_FOR_APPROVAL: [],
+    SUSPENDED: suspendedActions,
+    WAITING_FOR_APPROVAL: isDelegator
+      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      : [],
   }
 
   const availableAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
