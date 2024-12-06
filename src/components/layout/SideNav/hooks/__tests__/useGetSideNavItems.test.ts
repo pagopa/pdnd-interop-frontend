@@ -42,6 +42,7 @@ describe('useGetSideNavItems', () => {
         {
           "children": [
             "PARTY_REGISTRY",
+            "DELEGATIONS",
           ],
           "id": "tenant",
           "routeKey": "TENANT",
@@ -185,6 +186,7 @@ describe('useGetSideNavItems', () => {
         {
           "children": [
             "PARTY_REGISTRY",
+            "DELEGATIONS",
           ],
           "id": "tenant",
           "routeKey": "TENANT",
@@ -224,6 +226,7 @@ describe('useGetSideNavItems', () => {
         {
           "children": [
             "PARTY_REGISTRY",
+            "DELEGATIONS",
           ],
           "id": "tenant",
           "routeKey": "TENANT",
@@ -263,6 +266,7 @@ describe('useGetSideNavItems', () => {
         {
           "children": [
             "PARTY_REGISTRY",
+            "DELEGATIONS",
           ],
           "id": "tenant",
           "routeKey": "TENANT",
