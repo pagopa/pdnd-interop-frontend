@@ -11,6 +11,7 @@ export function useGetDelegationUserRole({
   const { data: producerDelegations } = useQuery({
     ...DelegationQueries.getProducerDelegationsList({
       eserviceIds: [eserviceId],
+      states: ['ACTIVE'],
       kind: 'DELEGATED_PRODUCER',
       offset: 0,
       limit: 50,
@@ -28,14 +29,9 @@ export function useGetDelegationUserRole({
       producerDelegations?.find((delegation) => delegation.delegator.id === organizationId)
   )
 
-  const delegationState = producerDelegations?.find(
-    (delegation) => delegation.delegator.id === organizationId
-  )?.state
-
   return {
     isDelegate,
     isDelegator,
     producerDelegations,
-    delegationState,
   }
 }

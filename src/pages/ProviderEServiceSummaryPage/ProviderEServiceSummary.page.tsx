@@ -31,16 +31,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { isDelegator, isDelegate, delegationState, producerDelegations } =
-    useGetDelegationUserRole({
-      eserviceId,
-      organizationId: jwt?.organizationId,
-    })
+  const { isDelegator, isDelegate, producerDelegations } = useGetDelegationUserRole({
+    eserviceId,
+    organizationId: jwt?.organizationId,
+  })
 
   const { mutate: deleteVersion } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft({
-    isByDelegation: isDelegate && delegationState === 'ACTIVE',
+    isByDelegation: isDelegate,
   })
 
   const { data: descriptor, isLoading } = useQuery(
@@ -202,7 +201,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-      {isDelegate && delegationState === 'ACTIVE' && (
+      {isDelegate && (
         <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
           <Button
             startIcon={<DeleteOutlineIcon />}
