@@ -187,6 +187,7 @@ export function useGetProviderEServiceActions(
     action: handleRejectDelegatedVersionDraft,
     label: t('reject'),
     icon: DeleteOutlineIcon,
+    color: 'error',
   }
 
   const handleApproveDelegatedVersionDraft = () => {
