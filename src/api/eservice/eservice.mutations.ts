@@ -315,10 +315,18 @@ function useUpdateDescriptorAttributes() {
   return useMutation({
     mutationFn: EServiceServices.updateDescriptorAttributes,
     meta: {
-      successToastLabel: (_: unknown, variables: { attributeKey: AttributeKey }) =>
-        t('outcome.success', { attributeKind: tAttribute(`${variables.attributeKey}_other`) }),
-      errorToastLabel: (_: unknown, variables: { attributeKey: AttributeKey }) =>
-        t('outcome.error', { attributeKind: tAttribute(`${variables.attributeKey}_other`) }),
+      successToastLabel: (_: unknown, variables: unknown) =>
+        t('outcome.success', {
+          attributeKind: tAttribute(
+            `${(variables as { attributeKey: AttributeKey }).attributeKey}_other`
+          ),
+        }),
+      errorToastLabel: (_: unknown, variables: unknown) =>
+        t('outcome.error', {
+          attributeKind: tAttribute(
+            `${(variables as { attributeKey: AttributeKey }).attributeKey}_other`
+          ),
+        }),
       loadingLabel: t('loading'),
     },
   })
