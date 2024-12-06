@@ -4,17 +4,15 @@ import { Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { ProviderEServiceRiskAnalysisSummary } from './ProviderEServiceRiskAnalysisSummary'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const ProviderEServiceRiskAnalysisSummaryList: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.riskAnalysisSummaryList' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  const { data: descriptor } = useQuery(
+  const { data: descriptor } = useSuspenseQuery(
     EServiceQueries.getDescriptorProvider(params.eserviceId, params.descriptorId)
   )
-
-  if (!descriptor) return null
 
   const riskAnalysisList = descriptor.eservice.riskAnalysis
 

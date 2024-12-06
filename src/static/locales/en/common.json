@@ -38,7 +38,8 @@
     "insert": "Insert",
     "revoke": "Revoke",
     "upload": "Upload",
-    "import": "Import"
+    "import": "Import",
+    "saveEdits": "Save edits"
   },
   "table": {
     "headData": {

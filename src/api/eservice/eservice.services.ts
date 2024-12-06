@@ -7,6 +7,7 @@ import type {
   CreatedEServiceDescriptor,
   CreatedResource,
   CreateEServiceDocumentPayload,
+  DescriptorAttributesSeed,
   EServiceDescriptionSeed,
   EServiceDoc,
   EServiceRiskAnalysis,
@@ -26,6 +27,7 @@ import type {
   UpdateEServiceDescriptorSeed,
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
+import type { AttributeKey } from '@/types/attribute.types'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -389,6 +391,23 @@ async function importVersion({ eserviceFile }: { eserviceFile: File }) {
     })
 }
 
+async function updateDescriptorAttributes({
+  eserviceId,
+  descriptorId,
+  attributeKey: _attributeKey,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+  attributeKey: AttributeKey
+} & DescriptorAttributesSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/attributes/update`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -420,4 +439,5 @@ export const EServiceServices = {
   updateEServiceDescription,
   exportVersion,
   importVersion,
+  updateDescriptorAttributes,
 }
