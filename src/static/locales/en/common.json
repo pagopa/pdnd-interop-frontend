@@ -40,7 +40,8 @@
     "upload": "Upload",
     "import": "Import",
     "saveEdits": "Save edits",
-    "accept": "Accept"
+    "accept": "Accept",
+    "approve": "Approve"
   },
   "table": {
     "headData": {
@@ -73,7 +74,8 @@
       "SUSPENDED": "suspended",
       "ARCHIVED": "archived",
       "DEPRECATED": "deprecated",
-      "WAITING_FOR_APPROVAL": "waiting for approval"
+      "WAITING_FOR_APPROVAL": "waiting for approval",
+      "DRAFT_TO_CORRECT": "to correct"
     },
     "agreement": {
       "ACTIVE": "active",

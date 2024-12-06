@@ -172,6 +172,23 @@
       "checkbox": "Ho letto e voglio procedere con la revoca"
     }
   },
+  "dialogRejectDelegatedVersionDraft": {
+    "title": "Rifiuta pubblicazione",
+    "description": "La motivazione del tuo rifiuto sarà riportata al tuo delegato, il quale potrà aggiornare la bozza e inviartela nuovamente in approvazione per la pubblicazione.",
+    "content": {
+      "reason": {
+        "label": "Motivazione",
+        "infoLabel": "Inserisci la motivazione per la quale rifiuti la pubblicazione. Min 10 caratteri, max 250 caratteri"
+      }
+    }
+  },
+  "dialogApproveDelegatedVersionDraft": {
+    "title": "Pubblica versione",
+    "description": "Stai per pubblicare una nuova versione del tuo e-service <strong>{{eserviceName}} con delega all'erogazione</strong> messa a punto dal tuo delegato <strong>{{delegateName}}</strong>. Contestualmente, approvi le analisi del rischio compilate dal delegato che opera per tuo conto.",
+    "actions": {
+      "approveAndPublish": "Approva e pubblica"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"

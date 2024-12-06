@@ -86,6 +86,20 @@
         "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
       }
     },
+    "publishDelegatedVersionDraft": {
+      "loading": "Stiamo inoltrando la versione al delegante",
+      "outcome": {
+        "success": "La versione è stata inoltrata al delegante per approvarne la pubblicazione",
+        "error": "Non è stato possibile inoltrare al delegante la versione per approvazione. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Richiedi pubblicazione versione",
+        "description": "Stai per inoltrare a <strong>{{delegatorName}}</strong> la richiesta di pubblicazione di una nuova versione dell’e-service <strong>{{eserviceName}}</strong>.",
+        "actions": {
+          "proceed": "Inoltra richiesta"
+        }
+      }
+    },
     "addEServiceRiskAnalysis": {
       "loading": "Stiamo salvando la finalità",
       "outcome": {
@@ -190,6 +204,20 @@
       "outcome": {
         "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
         "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
+      }
+    },
+    "approveDelegatedVersionDraft": {
+      "loading": "Stiamo pubblicando la versione",
+      "outcome": {
+        "success": "La nuova versione di e-service è stata pubblicata correttamente",
+        "error": "Non è stato possibile pubblicare la nuova versione di e-service. Per favore, riprova!"
+      }
+    },
+    "rejectDelegatedVersionDraft": {
+      "loading": "Stiamo rifiutando la versione",
+      "outcome": {
+        "success": "La versione di e-service è tornata in bozza, e le motivazioni del rifiuto sono state notificate al delegato all’erogazione",
+        "error": "Non è stato possibile rifiutare la nuova versione di e-service. Per favore, riprova!"
       }
     }
   },

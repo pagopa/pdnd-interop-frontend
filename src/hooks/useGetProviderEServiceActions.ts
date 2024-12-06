@@ -11,31 +11,55 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
+import PublishIcon from '@mui/icons-material/Publish'
+import { useDialog } from '@/stores'
+import { useGetDelegationUserRole } from './useGetDelegationUserRole'
+import { match } from 'ts-pattern'
 
 export function useGetProviderEServiceActions(
-  eserviceId: string | undefined,
+  eserviceId: string,
   descriptorState: EServiceDescriptorState | undefined,
+  draftDescriptorState: EServiceDescriptorState | undefined,
   activeDescriptorId: string | undefined,
   draftDescriptorId: string | undefined,
   mode: EServiceMode | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
+  const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
+    keyPrefix: 'dialogApproveDelegatedVersionDraft',
+  })
+  const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
+  const { openDialog, closeDialog } = useDialog()
 
-  const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft()
+  const { isDelegator, isDelegate, producerDelegations } = useGetDelegationUserRole({
+    eserviceId,
+    organizationId: jwt?.organizationId,
+  })
+
+  const delegation = producerDelegations?.find(
+    (delegation) => delegation.eservice?.id === eserviceId
+  )
+
+  const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft({
+    isByDelegation: isDelegate,
+  })
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: deleteVersionDraft } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: suspend } = EServiceMutations.useSuspendVersion()
   const { mutate: reactivate } = EServiceMutations.useReactivateVersion()
   const { mutate: clone } = EServiceMutations.useCloneFromVersion()
   const { mutate: createNewDraft } = EServiceMutations.useCreateVersionDraft()
+  const { mutate: approveDelegatedVersionDraft } =
+    EServiceMutations.useApproveDelegatedVersionDraft()
 
-  const state = descriptorState ?? 'DRAFT'
+  const state = descriptorState ?? draftDescriptorState ?? 'DRAFT'
   const hasVersionDraft = !!draftDescriptorId
 
+  const isDraftWaitingForApproval = draftDescriptorState === 'WAITING_FOR_APPROVAL'
+
   // Only admin and operatorAPI can see actions
-  if (!eserviceId || (!isAdmin && !isOperatorAPI)) return { actions: [] }
+  if (!isAdmin && !isOperatorAPI) return { actions: [] }
 
   const deleteDraftAction: ActionItemButton = {
     action: deleteDraft.bind(null, { eserviceId }),
@@ -45,7 +69,13 @@ export function useGetProviderEServiceActions(
   }
 
   const handlePublishDraft = () => {
-    if (draftDescriptorId) publishDraft({ eserviceId, descriptorId: draftDescriptorId })
+    if (draftDescriptorId)
+      publishDraft({
+        eserviceId,
+        descriptorId: draftDescriptorId,
+        delegatorName: delegation?.delegator.name,
+        eserviceName: delegation?.eservice?.name,
+      })
   }
 
   const publishDraftAction: ActionItemButton = {
@@ -143,38 +173,318 @@ export function useGetProviderEServiceActions(
     icon: PendingActionsIcon,
   }
 
+  const handleRejectDelegatedVersionDraft = () => {
+    if (draftDescriptorId) {
+      openDialog({
+        type: 'rejectDelegatedVersionDraft',
+        eserviceId,
+        descriptorId: draftDescriptorId,
+      })
+    }
+  }
+
+  const rejectDelegatedVersionDraftAction: ActionItemButton = {
+    action: handleRejectDelegatedVersionDraft,
+    label: t('reject'),
+    icon: DeleteOutlineIcon,
+  }
+
+  const handleApproveDelegatedVersionDraft = () => {
+    if (draftDescriptorId) {
+      const handleProceed = () => {
+        approveDelegatedVersionDraft({ eserviceId, descriptorId: draftDescriptorId })
+        closeDialog()
+      }
+
+      openDialog({
+        type: 'basic',
+        title: tDialogApproveDelegatedVersionDraft('title'),
+        description: tDialogApproveDelegatedVersionDraft('description', {
+          eserviceName: delegation?.eservice?.name,
+          delegateName: delegation?.delegate.name,
+        }),
+        proceedLabel: tDialogApproveDelegatedVersionDraft('actions.approveAndPublish'),
+        onProceed: handleProceed,
+      })
+    }
+  }
+
+  const approveDelegatedVersionDraftAction: ActionItemButton = {
+    action: handleApproveDelegatedVersionDraft,
+    label: t('approve'),
+    icon: PublishIcon,
+  }
+
   const deleteAction = !activeDescriptorId ? deleteDraftAction : deleteVersionDraftAction
 
-  const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
-    PUBLISHED: [
+  const publishedActions = match({
+    isAdmin,
+    isDelegator,
+    isDelegate,
+    hasVersionDraft,
+    isDraftWaitingForApproval,
+  })
+    .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
       cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
+      createNewDraftAction,
       suspendAction,
-    ],
-    ARCHIVED: [],
-    DEPRECATED: [suspendAction],
-    DRAFT: !hasVersionDraft ? [deleteAction] : [publishDraftAction, deleteAction],
-    SUSPENDED: [
+    ])
+    .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      cloneAction,
+      editDraftAction,
+      deleteAction,
+      suspendAction,
+    ])
+    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [])
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+    )
+    .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      createNewDraftAction,
+      suspendAction,
+    ])
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [editDraftAction, deleteAction, suspendAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [suspendAction]
+    )
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+      createNewDraftAction,
+    ])
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      cloneAction,
+      editDraftAction,
+      deleteAction,
+    ])
+    .with(
+      { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+    )
+    .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      createNewDraftAction,
+    ])
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [editDraftAction, deleteAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => []
+    )
+    .otherwise(() => [])
+
+  const draftActions = match({ isDelegator, isDelegate })
+    .with({ isDelegator: false, isDelegate: false }, () => [publishDraftAction, deleteAction])
+    .with({ isDelegator: true, isDelegate: false }, () => [])
+    .with({ isDelegator: false, isDelegate: true }, () => [publishDraftAction])
+    .otherwise(() => [])
+
+  const suspendedActions = match({
+    isAdmin,
+    isDelegator,
+    isDelegate,
+    hasVersionDraft,
+    isDraftWaitingForApproval,
+  })
+    .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
       reactivateAction,
       cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
-    ],
-    WAITING_FOR_APPROVAL: [],
+      createNewDraftAction,
+    ])
+    .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      reactivateAction,
+      cloneAction,
+      editDraftAction,
+      deleteAction,
+    ])
+    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [])
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+    )
+    .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      reactivateAction,
+      createNewDraftAction,
+    ])
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [reactivateAction, editDraftAction, deleteAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [reactivateAction]
+    )
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
+      cloneAction,
+      createNewDraftAction,
+    ])
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      cloneAction,
+      editDraftAction,
+      deleteAction,
+    ])
+    .with(
+      { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+    )
+    .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      createNewDraftAction,
+    ])
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [editDraftAction, deleteAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => []
+    )
+    .otherwise(() => [])
+
+  const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
+    PUBLISHED: publishedActions,
+    ARCHIVED: [],
+    DEPRECATED: isDelegator ? [] : [suspendAction],
+    DRAFT: draftActions,
+    SUSPENDED: suspendedActions,
+    WAITING_FOR_APPROVAL: isDelegator
+      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      : [],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
-    PUBLISHED: [
-      cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
-    ],
+    PUBLISHED: publishedActions,
     ARCHIVED: [],
     DEPRECATED: [],
-    DRAFT: !hasVersionDraft ? [deleteAction] : [publishDraftAction, deleteAction],
-    SUSPENDED: [
-      cloneAction,
-      ...(!hasVersionDraft ? [createNewDraftAction] : [editDraftAction, deleteAction]),
-    ],
-    WAITING_FOR_APPROVAL: [],
+    DRAFT: draftActions,
+    SUSPENDED: suspendedActions,
+    WAITING_FOR_APPROVAL: isDelegator
+      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      : [],
   }
 
   const availableAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
