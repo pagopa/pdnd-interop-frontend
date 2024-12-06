@@ -11,8 +11,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { AuthHooks } from '@/api/auth'
-import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
+import { DelegationQueries } from '@/api/delegation'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
@@ -21,7 +21,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { mode, routeKey } = useCurrentRoute()
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
   const { openDialog } = useDialog()
   const navigate = useNavigate()
 
@@ -31,21 +31,20 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
 
-  const { data: delegatedEservices = [] } = useQuery({
-    //all producer's eservices that are delegated
-    ...EServiceQueries.getProviderList({
+  const { data: activeProducerDelegation } = useQuery({
+    ...DelegationQueries.getProducerDelegationsList({
       limit: 50,
       offset: 0,
-      delegated: true,
+      eserviceIds: [agreement?.eservice.id as string],
+      states: ['ACTIVE'],
     }),
-    select: (d) => d.results,
+    enabled: !!agreement,
+    select: (d) => d.results[0],
   })
 
   if (!agreement || mode === null || !isAdmin) return { actions: [] }
 
-  const eservice = agreement.eservice
-
-  const isDelegator = delegatedEservices.some((e) => e.id === eservice.id) // Only a delegate can do actions; return actions [] for delegator
+  const isDelegator = activeProducerDelegation?.delegator.id === jwt?.organizationId
 
   if (isDelegator) return { actions: [] }
 
