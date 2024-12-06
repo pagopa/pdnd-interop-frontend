@@ -75,7 +75,11 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
 
   return (
     <FormProvider {...attributeAutocompleteFormMethods}>
-      <Stack direction={direction} alignItems="center" spacing={1}>
+      <Stack
+        direction={direction}
+        alignItems={direction === 'column' ? 'start' : 'center'}
+        spacing={1}
+      >
         <RHFAutocompleteSingle
           label={t('autocompleteInput.label')}
           placeholder={t('autocompleteInput.placeholder')}
@@ -87,7 +91,6 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
         />
         <Button
           onClick={handleAddAttributeToGroup}
-          fullWidth={direction === 'column'}
           disabled={!isSelected}
           type="button"
           variant="contained"
