@@ -55,7 +55,7 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
   }
 
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
+    <Stack direction="row" alignItems="center">
       <Stack direction="row" alignItems="center" spacing={2}>
         {checked && <CheckCircleIcon sx={{ color: 'success.main' }} />}
         {onRemove && (
@@ -130,6 +130,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
     <Stack sx={{ mt: 1 }} spacing={2}>
       <Typography variant="body2">{attribute.description}</Typography>
       <InformationContainer
+        direction="column"
         content={attributeId}
         copyToClipboard={{
           value: attributeId,

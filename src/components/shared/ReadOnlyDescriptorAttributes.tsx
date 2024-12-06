@@ -9,7 +9,7 @@ import {
 } from '@/components/layout/containers'
 import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
 import { useCurrentRoute } from '@/router'
-import type { ProviderOrConsumer } from '@/types/common.types'
+import type { ActionItemButton, ProviderOrConsumer } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
 
 type ReadOnlyDescriptorAttributesProps = {
@@ -19,68 +19,58 @@ type ReadOnlyDescriptorAttributesProps = {
 export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributesProps> = ({
   descriptorAttributes,
 }) => {
-  const { t: tAttribute } = useTranslation('attribute')
-  const { mode } = useCurrentRoute()
-
-  const providerOrConsumer = mode as ProviderOrConsumer
-
-  const getSubtitle = (attributeKey: AttributeKey) => {
-    return (
-      <Trans
-        components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
-      >
-        {tAttribute(`${attributeKey}.description`)}
-      </Trans>
-    )
-  }
-
   return (
     <>
       <AttributeGroupsListSection
-        title={tAttribute('certified.label')}
-        subtitle={getSubtitle('certified')}
-        attributeGroups={descriptorAttributes.certified}
-        emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
-          attributeKey: tAttribute(`type.certified_other`),
-        })}
+        descriptorAttributes={descriptorAttributes}
+        attributeKey="certified"
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
-        title={tAttribute('verified.label')}
-        subtitle={getSubtitle('verified')}
-        attributeGroups={descriptorAttributes.verified}
-        emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
-          attributeKey: tAttribute(`type.verified_other`),
-        })}
+        descriptorAttributes={descriptorAttributes}
+        attributeKey="verified"
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
-        title={tAttribute('declared.label')}
-        subtitle={getSubtitle('declared')}
-        attributeGroups={descriptorAttributes.declared}
-        emptyLabel={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
-          attributeKey: tAttribute(`type.declared_other`),
-        })}
+        descriptorAttributes={descriptorAttributes}
+        attributeKey="declared"
       />
     </>
   )
 }
 
 type AttributeGroupsListSectionProps = {
-  attributeGroups: Array<Array<DescriptorAttribute>>
-  title: string
-  subtitle: React.ReactNode
-  emptyLabel: string
+  descriptorAttributes: DescriptorAttributes
+  attributeKey: AttributeKey
+  topSideActions?: Array<ActionItemButton>
 }
 
-const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
-  attributeGroups,
-  title,
-  subtitle,
-  emptyLabel,
+export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
+  descriptorAttributes,
+  attributeKey,
+  topSideActions,
 }) => {
+  const { t: tAttribute } = useTranslation('attribute')
+
+  const { mode } = useCurrentRoute()
+
+  const providerOrConsumer = mode as ProviderOrConsumer
+
+  const attributeGroups = descriptorAttributes[attributeKey]
+
   return (
-    <SectionContainer innerSection title={title} description={subtitle}>
+    <SectionContainer
+      innerSection
+      title={tAttribute(`${attributeKey}.label`)}
+      description={
+        <Trans
+          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+        >
+          {tAttribute(`${attributeKey}.description`)}
+        </Trans>
+      }
+      topSideActions={topSideActions}
+    >
       {attributeGroups.length > 0 && (
         <Stack spacing={3}>
           {attributeGroups.map((attributeGroup, index) => (
@@ -88,7 +78,14 @@ const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
           ))}
         </Stack>
       )}
-      {attributeGroups.length === 0 && <AttributeGroupContainer title={emptyLabel} color="gray" />}
+      {attributeGroups.length === 0 && (
+        <AttributeGroupContainer
+          title={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
+            attributeKey: tAttribute(`type.${attributeKey}_other`),
+          })}
+          color="gray"
+        />
+      )}
     </SectionContainer>
   )
 }

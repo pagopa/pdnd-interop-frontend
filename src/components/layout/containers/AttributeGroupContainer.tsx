@@ -1,15 +1,17 @@
 import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
+import type { CardProps, SxProps } from '@mui/material'
 import { Card, CardContent, CardHeader, IconButton, alpha } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 
-interface AttributeGroupContainerProps {
+type AttributeGroupContainerProps = CardProps & {
   title: string
   onRemove?: () => void
   subheader?: React.ReactNode
   children?: React.ReactNode
   color?: 'primary' | 'success' | 'error' | 'warning' | 'gray'
+  cardContentSx?: SxProps
 }
 
 const containerColors = {
@@ -50,13 +52,18 @@ export const AttributeGroupContainer: React.FC<AttributeGroupContainerProps> = (
   onRemove,
   children,
   subheader,
+  cardContentSx,
   color = 'primary',
+  ...cardProps
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeGroupContainer' })
   const { headerColor, borderColor, bodyColor, textColor } = containerColors[color]
 
   return (
-    <Card sx={{ border: '1px solid', borderColor, bgcolor: bodyColor }}>
+    <Card
+      {...cardProps}
+      sx={{ border: '1px solid', borderColor, bgcolor: bodyColor, ...cardProps.sx }}
+    >
       <CardHeader
         titleTypographyProps={{ variant: 'body1', fontWeight: 600, color: textColor }}
         title={title}
@@ -75,8 +82,9 @@ export const AttributeGroupContainer: React.FC<AttributeGroupContainerProps> = (
           sx={{
             p: 2,
             '&:last-child': {
-              paddingBottom: 2,
+              pb: 2,
             },
+            ...cardContentSx,
           }}
         >
           {children}

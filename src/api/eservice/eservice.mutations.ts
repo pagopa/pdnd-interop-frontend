@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { EServiceRiskAnalysisSeed, UpdateEServiceDescriptorSeed } from '../api.generatedTypes'
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
+import type { AttributeKey } from '@/types/attribute.types'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
@@ -306,6 +307,23 @@ function useUpdateEServiceDescription() {
   })
 }
 
+function useUpdateDescriptorAttributes() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateDescriptorAttributes',
+  })
+  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'type' })
+  return useMutation({
+    mutationFn: EServiceServices.updateDescriptorAttributes,
+    meta: {
+      successToastLabel: (_: unknown, variables: { attributeKey: AttributeKey }) =>
+        t('outcome.success', { attributeKind: tAttribute(`${variables.attributeKey}_other`) }),
+      errorToastLabel: (_: unknown, variables: { attributeKey: AttributeKey }) =>
+        t('outcome.error', { attributeKind: tAttribute(`${variables.attributeKey}_other`) }),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -326,4 +344,5 @@ export const EServiceMutations = {
   useUpdateEServiceDescription,
   useUpdateVersionDraftDocumentDescription,
   useImportVersion,
+  useUpdateDescriptorAttributes,
 }
