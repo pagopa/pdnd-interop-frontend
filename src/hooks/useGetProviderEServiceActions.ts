@@ -226,8 +226,8 @@ export function useGetProviderEServiceActions(
   })
     .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
       cloneAction,
-      suspendAction,
       createNewDraftAction,
+      suspendAction,
     ])
     .with({ isAdmin: true, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
       cloneAction,
@@ -257,8 +257,8 @@ export function useGetProviderEServiceActions(
       () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
     )
     .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
-      suspendAction,
       createNewDraftAction,
+      suspendAction,
     ])
     .with(
       {
@@ -268,7 +268,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [suspendAction, editDraftAction, deleteAction]
+      () => [editDraftAction, deleteAction, suspendAction]
     )
     .with(
       {
