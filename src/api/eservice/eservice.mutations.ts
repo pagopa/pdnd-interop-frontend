@@ -134,7 +134,7 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
               })
             }
           : () => t('confirmDialog.description'),
-        processingLabel: isByDelegation ? t('confirmDialog.actions.proceed') : undefined,
+        proceedLabel: isByDelegation ? t('confirmDialog.actions.proceed') : undefined,
       },
     },
   })
