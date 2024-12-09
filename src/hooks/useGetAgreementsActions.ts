@@ -11,8 +11,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { AuthHooks } from '@/api/auth'
-import { useQuery } from '@tanstack/react-query'
-import { DelegationQueries } from '@/api/delegation'
+import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
@@ -31,20 +30,14 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
 
-  const { data: activeProducerDelegation } = useQuery({
-    ...DelegationQueries.getProducerDelegationsList({
-      limit: 50,
-      offset: 0,
-      eserviceIds: [agreement?.eservice.id as string],
-      states: ['ACTIVE'],
-    }),
-    enabled: !!agreement,
-    select: (d) => d.results[0],
-  })
-
   if (!agreement || mode === null || !isAdmin) return { actions: [] }
 
-  const isDelegator = activeProducerDelegation?.delegator.id === jwt?.organizationId
+  const eserviceId = agreement.eservice.id
+
+  const { isDelegator } = useGetDelegationUserRole({
+    eserviceId,
+    organizationId: jwt?.organizationId,
+  })
 
   if (isDelegator) return { actions: [] }
 
