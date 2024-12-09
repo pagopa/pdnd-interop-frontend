@@ -1,6 +1,7 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
+  DelegatedProducer,
   GetInstitutionUsersParams,
   GetTenantsParams,
   MailSeed,
@@ -41,9 +42,19 @@ function updateMail({
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/mails`, payload)
 }
 
+function assignTenantDelegatedProducerFeature() {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
+}
+
+function deleteTenantDelegatedProducerFeature() {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
+}
+
 export const TenantServices = {
   getParty,
   getPartyUsersList,
   getTenants,
   updateMail,
+  assignTenantDelegatedProducerFeature,
+  deleteTenantDelegatedProducerFeature,
 }

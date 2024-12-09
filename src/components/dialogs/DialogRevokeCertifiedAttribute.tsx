@@ -39,10 +39,8 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
   }
 
   const handleRevoke = () => {
-    revokeCertifiedAttribute(
-      { tenantId: attribute.tenantId, attributeId: attribute.attributeId },
-      { onSuccess: closeDialog }
-    )
+    revokeCertifiedAttribute({ tenantId: attribute.tenantId, attributeId: attribute.attributeId })
+    closeDialog()
   }
 
   return (

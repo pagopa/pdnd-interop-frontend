@@ -6,7 +6,7 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { Link } from '@/router'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Chip, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
@@ -27,14 +27,26 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const eservice = agreement.eservice
   const descriptor = agreement.descriptor
 
+  const isDelegatedEservice = eservice.producer.id !== AuthHooks.useJwt().jwt?.organizationId
+
   const handlePrefetch = () => {
     queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
   }
 
+  const eserviceCellData = (
+    <>
+      {t('eserviceName', {
+        name: eservice.name,
+        version: descriptor.version,
+      })}{' '}
+      {isDelegatedEservice && <Chip label={t('eserviceChip')} />}
+    </>
+  )
+
   return (
     <TableRow
       cellData={[
-        t('eserviceName', { name: eservice.name, version: descriptor.version }),
+        eserviceCellData,
         agreement.consumer.name,
         <StatusChip key={agreement.id} for="agreement" agreement={agreement} />,
       ]}
