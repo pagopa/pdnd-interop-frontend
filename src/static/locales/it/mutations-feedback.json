@@ -184,6 +184,13 @@
         "success": "L’elenco è stato scaricato correttamente",
         "error": "Non è stato possibile scaricare l’elenco. Per favore, riprova!"
       }
+    },
+    "updateDescriptorAttributes": {
+      "loading": "Stiamo aggiornando gli attributi",
+      "outcome": {
+        "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
+        "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
+      }
     }
   },
   "attribute": {

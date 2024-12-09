@@ -431,6 +431,10 @@
           "noOptionsText": "Nessun portachiavi trovato"
         },
         "noKeychainAlert": "Non ci sono portachiavi disponibili. <1>Crea il tuo primo portachiavi</1>."
+      },
+      "updateDescriptorAttributesDrawer": {
+        "title": "Modifica attributi {{attributeKind}}",
+        "subtitle": "I requisiti già inseriti non possono essere modificati"
       }
     }
   },

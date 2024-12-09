@@ -431,6 +431,10 @@
           "noOptionsText": "No keychain found"
         },
         "noKeychainAlert": "There are no keychain available. <1>Create your first keychain</1>."
+      },
+      "updateDescriptorAttributesDrawer": {
+        "title": "Edit {{attributeKind}} attributes",
+        "subtitle": "The requirements already entered cannot be modified"
       }
     }
   },
