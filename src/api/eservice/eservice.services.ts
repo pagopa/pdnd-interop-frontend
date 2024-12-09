@@ -401,11 +401,10 @@ async function updateDescriptorAttributes({
   descriptorId: string
   attributeKey: AttributeKey
 } & DescriptorAttributesSeed) {
-  const response = await axiosInstance.post<CreatedResource>(
+  return axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/attributes/update`,
     payload
   )
-  return response.data
 }
 
 export const EServiceServices = {

@@ -103,51 +103,53 @@ export const ProviderEServiceUpdateDescriptorAttributesDrawer: React.FC<
         action: handleSubmit,
       }}
     >
-      {attributeGroups.map((group, groupIdx) => (
-        <AttributeGroupContainer
-          cardContentSx={{
-            py: 1,
-            px: 2,
-          }}
-          sx={{ border: 'none' }}
-          elevation={4}
-          key={groupIdx}
-          title={tAttribute('group.read.provider')}
-        >
-          <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1 }} component="ul" spacing={1.2}>
-            {group.map((attribute) => (
-              <Box component="li" key={attribute.id}>
-                <AttributeContainer
-                  attribute={attribute}
-                  onRemove={
-                    canAttributeBeRemoved(groupIdx, attribute)
-                      ? (attribute) => handleRemoveAttributeFromGroup(groupIdx, attribute)
-                      : undefined
-                  }
-                />
-              </Box>
-            ))}
-          </Stack>
-          {isAttributeAutocompleteShown ? (
-            <AttributeAutocomplete
-              attributeKey={attributeKey}
-              alreadySelectedAttributeIds={alreadySelectedAttributeIds}
-              onAddAttribute={(attribute) => handleAddAttributeToGroup(groupIdx, attribute)}
-              direction="column"
-            />
-          ) : (
-            <ButtonNaked
-              color="primary"
-              type="button"
-              sx={{ fontWeight: 700 }}
-              startIcon={<AddIcon fontSize="small" />}
-              onClick={() => setIsAttributeAutocompleteShown(true)}
-            >
-              {tAttribute('group.addBtn')}
-            </ButtonNaked>
-          )}
-        </AttributeGroupContainer>
-      ))}
+      <Stack spacing={3} sx={{ mb: 3 }}>
+        {attributeGroups.map((group, groupIdx) => (
+          <AttributeGroupContainer
+            cardContentSx={{
+              py: 1,
+              px: 2,
+            }}
+            sx={{ border: 'none' }}
+            elevation={4}
+            key={groupIdx}
+            title={tAttribute('group.read.provider')}
+          >
+            <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1 }} component="ul" spacing={1.2}>
+              {group.map((attribute) => (
+                <Box component="li" key={attribute.id}>
+                  <AttributeContainer
+                    attribute={attribute}
+                    onRemove={
+                      canAttributeBeRemoved(groupIdx, attribute)
+                        ? (attribute) => handleRemoveAttributeFromGroup(groupIdx, attribute)
+                        : undefined
+                    }
+                  />
+                </Box>
+              ))}
+            </Stack>
+            {isAttributeAutocompleteShown ? (
+              <AttributeAutocomplete
+                attributeKey={attributeKey}
+                alreadySelectedAttributeIds={alreadySelectedAttributeIds}
+                onAddAttribute={(attribute) => handleAddAttributeToGroup(groupIdx, attribute)}
+                direction="column"
+              />
+            ) : (
+              <ButtonNaked
+                color="primary"
+                type="button"
+                sx={{ fontWeight: 700 }}
+                startIcon={<AddIcon fontSize="small" />}
+                onClick={() => setIsAttributeAutocompleteShown(true)}
+              >
+                {tAttribute('group.addBtn')}
+              </ButtonNaked>
+            )}
+          </AttributeGroupContainer>
+        ))}
+      </Stack>
     </Drawer>
   )
 }
