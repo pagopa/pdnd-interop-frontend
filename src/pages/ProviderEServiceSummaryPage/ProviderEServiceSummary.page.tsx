@@ -135,7 +135,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       statusChip={{
         for: 'eservice',
         state: 'DRAFT',
-        isDraftToCorrect: descriptor && descriptor.rejectionReasons?.length !== 0,
+        isDraftToCorrect: descriptor?.rejectionReasons && descriptor.rejectionReasons.length > 0,
       }}
     >
       <Stack spacing={3}>
