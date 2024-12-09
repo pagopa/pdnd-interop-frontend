@@ -41,6 +41,9 @@ import {
   ProviderKeychainDetailsPage,
   ProviderKeychainUserDetailsPage,
   ProviderKeychainPublicKeyDetailsPage,
+  DelegationsPage,
+  DelegationCreatePage,
+  DelegationDetailsPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -436,6 +439,30 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'DELEGATIONS',
+    path: '/aderente/deleghe',
+    element: <DelegationsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support'],
+  })
+  .addRoute({
+    key: 'CREATE_DELEGATION',
+    path: '/aderente/deleghe/crea',
+    element: <DelegationCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'support'],
+  })
+  .addRoute({
+    key: 'DELEGATION_DETAILS',
+    path: '/aderente/deleghe/:delegationId',
+    element: <DelegationDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support'],
   })
   .build()
 

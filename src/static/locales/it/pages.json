@@ -42,5 +42,9 @@
   "providerKeychainsList": {
     "title": "I tuoi portachiavi",
     "description": "Qui puoi gestire i tuoi portachiavi"
+  },
+  "delegations": {
+    "title": "Deleghe",
+    "description": "Qui puoi gestire tutte le deleghe che hai dato o ricveuto da altri enti"
   }
 }

@@ -1,4 +1,4 @@
-import type { CompactAttribute, CompactTenant } from '@/api/api.generatedTypes'
+import type { CompactAttribute, CompactTenant, TenantFeature } from '@/api/api.generatedTypes'
 import { AttributeMutations, AttributeQueries } from '@/api/attribute'
 import { TenantHooks, TenantQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
@@ -56,12 +56,16 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
   }
 
   const { data: activeTenant } = TenantHooks.useGetActiveUserParty()
+  const certifierId = activeTenant.features.find(
+    (feature): feature is Extract<TenantFeature, { certifier?: unknown }> =>
+      Boolean('certifier' in feature && feature.certifier?.certifierId)
+  )?.certifier?.certifierId
   const { data: attributeOptions = [] } = useQuery({
     ...AttributeQueries.getList({
       limit: 50,
       offset: 0,
       kinds: ['CERTIFIED'],
-      origin: activeTenant.features[0]?.certifier?.certifierId,
+      origin: certifierId,
       q: getAttributeQ(),
     }),
     placeholderData: keepPreviousData,

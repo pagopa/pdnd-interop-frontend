@@ -86,6 +86,20 @@
         "description": "You will not be able to delete an e-service version after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or make it deprecated when a new version is published"
       }
     },
+    "publishDelegatedVersionDraft": {
+      "loading": "We are forwarding the version to the delegator",
+      "outcome": {
+        "success": "New e-service version was forwarded to the delegator to approve its publication",
+        "error": "It was not possible to forward the new e-service version to the delegator for approval. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Request new eservice version publication",
+        "description": "You are about to forward to <strong>{{delegatorName}}</strong> the request to publish a new version of the <strong>{{eserviceName}}</strong> e-service.",
+        "actions": {
+          "proceed": "Submit request"
+        }
+      }
+    },
     "addEServiceRiskAnalysis": {
       "loading": "Adding the risk analysis to this e-service",
       "outcome": {
@@ -190,6 +204,20 @@
       "outcome": {
         "success": "The {{attributeKind}} attributes have been modified correctly",
         "error": "It was not possible to modify the {{attributeKind}} attributes. Please, try again!"
+      }
+    },
+    "approveDelegatedVersionDraft": {
+      "loading": "We are publishing the version",
+      "outcome": {
+        "success": "The new version of e-service has been published successfully",
+        "error": "It was not possible to publish the new version of e-service. Please try again!"
+      }
+    },
+    "rejectDelegatedVersionDraft": {
+      "loading": "We are rejecting the version",
+      "outcome": {
+        "success": "The e-service version has returned to draft, and the reasons for the refusal have been notified to the delivery delegate",
+        "error": "It was not possible to reject the new version of e-service. Please try again!"
       }
     }
   },
@@ -578,6 +606,13 @@
         "success": "Contact info updated successfully",
         "error": "Contact Infos could not be updated. Please, try again!"
       }
+    },
+    "updateProducerDelegationAvailability": {
+      "loading": "Updating delegation availability",
+      "outcome": {
+        "success": "Delegation availability updated succesfully",
+        "error": "Delegation availability could not be updated. Please, try again!"
+      }
     }
   },
   "voucher": {
@@ -654,6 +689,42 @@
       "outcome": {
         "success": "The user was successfully removed from the keychain",
         "error": "The user could not be removed from the keychain. Please try again!"
+      }
+    }
+  },
+  "delegation": {
+    "createProducerDelegation": {
+      "loading": "We are forwarding the delegation",
+      "outcome": {
+        "success": "The new delegation has been created correctly and has been forwarded to the member for evaluation",
+        "error": "The delegation could not be forwarded. Please try again!"
+      }
+    },
+    "approveProducerDelegation": {
+      "loading": "We are activating the delegation",
+      "outcome": {
+        "success": "Delegation has been activated successfully. From this moment you can manage the provision of the e-service by delegation",
+        "error": "Delegation could not be activated. Please try again!"
+      }
+    },
+    "rejectProducerDelegation": {
+      "loading": "We are rejecting the delegation",
+      "outcome": {
+        "success": "The delegation was successfully rejected.",
+        "error": "It was not possible to reject the delegation. Please try again!"
+      }
+    },
+    "revokeProducerDelegation": {
+      "loading": "We are revoking the delegation",
+      "outcome": {
+        "success": "The delegation was successfully revoked.",
+        "error": "It was not possible to revoke the delegation. Please try again!"
+      }
+    },
+    "downloadDelegationContract": {
+      "loading": "Downloading contract",
+      "outcome": {
+        "error": "It was not possible to download the contract. Please try again"
       }
     }
   }

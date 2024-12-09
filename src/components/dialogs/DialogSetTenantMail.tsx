@@ -48,18 +48,14 @@ export const DialogSetTenantMail: React.FC<DialogSetTenantMailProps> = () => {
     if (!jwt?.organizationId) return
     if (!isEqual(defaultValues, values)) {
       const { contactEmail, description } = values
-      setMail(
-        {
-          partyId: jwt.organizationId,
-          address: contactEmail,
-          kind: 'CONTACT_EMAIL',
-          description: description || undefined,
-        },
-        {
-          onSuccess: closeDialog,
-        }
-      )
+      setMail({
+        partyId: jwt.organizationId,
+        address: contactEmail,
+        kind: 'CONTACT_EMAIL',
+        description: description || undefined,
+      })
     }
+    closeDialog()
   }
 
   return (
