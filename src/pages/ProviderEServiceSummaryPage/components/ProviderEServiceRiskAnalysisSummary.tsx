@@ -3,7 +3,7 @@ import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useParams } from '@/router'
 import { List, ListItem, ListItemText, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
 
 type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
@@ -19,7 +19,7 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
 
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
-  const { data: descriptor } = useQuery(
+  const { data: descriptor } = useSuspenseQuery(
     EServiceQueries.getDescriptorProvider(params.eserviceId, params.descriptorId)
   )
 
@@ -70,7 +70,7 @@ export const ProviderEServiceRiskAnalysisSummary: React.FC<
     return answers
   }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage])
 
-  if (!descriptor || !riskAnalysisTemplate) return null
+  if (!riskAnalysisTemplate) return null
 
   return (
     <>
