@@ -29,17 +29,12 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
-
-  if (!agreement || mode === null || !isAdmin) return { actions: [] }
-
-  const eserviceId = agreement.eservice.id
-
   const { isDelegator } = useGetDelegationUserRole({
-    eserviceId,
+    eserviceId: agreement?.eservice.id as string,
     organizationId: jwt?.organizationId,
   })
 
-  if (isDelegator) return { actions: [] }
+  if (!agreement || mode === null || !isAdmin || isDelegator) return { actions: [] }
 
   const handleActivate = () => {
     activateAgreement({ agreementId: agreement.id })
