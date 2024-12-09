@@ -8,6 +8,8 @@ import {
   CardHeader,
   Skeleton,
   Stack,
+  SxProps,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import React from 'react'
@@ -15,12 +17,14 @@ import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
+import { t } from 'i18next'
 
 interface CatalogCardProps {
   eservice: CatalogEService
+  disabled: boolean
 }
 
-export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
+export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice, disabled }) => {
   const { t: tCommon } = useTranslation('common')
   const queryClient = useQueryClient()
 
@@ -31,16 +35,48 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
     )
   }
 
+  const sxCardProps: SxProps =
+    disabled === true
+      ? {
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 410,
+          opacity: 0.5,
+        }
+      : {
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 410,
+        }
+
+  const linkEservice = (
+    <>
+      <Tooltip key="subscribe-tooltip" title={disabled ? t('subscribeTooltip') : ''} arrow>
+        <span>
+          <Link
+            as="button"
+            size="small"
+            variant="contained"
+            to="SUBSCRIBE_CATALOG_VIEW"
+            params={{
+              eserviceId: eservice.id,
+              descriptorId: eservice.activeDescriptor?.id ?? '',
+            }}
+            onFocusVisible={handlePrefetch}
+            color="primary"
+            disabled={disabled}
+          >
+            {tCommon('actions.inspect')}
+          </Link>
+        </span>
+      </Tooltip>
+    </>
+  )
+
   return (
-    <Card
-      elevation={8}
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: 410,
-      }}
-    >
+    <Card elevation={8} sx={sxCardProps}>
       <CardHeader
         sx={{ p: 3, pb: 0 }}
         disableTypography={true}
@@ -75,20 +111,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
 
       <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={2}>
-          <Link
-            as="button"
-            size="small"
-            variant="contained"
-            to="SUBSCRIBE_CATALOG_VIEW"
-            params={{
-              eserviceId: eservice.id,
-              descriptorId: eservice.activeDescriptor?.id ?? '',
-            }}
-            onFocusVisible={handlePrefetch}
-            color="primary"
-          >
-            <span onPointerEnter={handlePrefetch}>{tCommon('actions.inspect')}</span>
-          </Link>
+          {linkEservice}
         </Stack>
       </CardActions>
     </Card>
