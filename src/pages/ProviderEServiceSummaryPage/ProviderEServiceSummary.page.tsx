@@ -115,6 +115,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
 
+  const requireDelegateCorrections =
+    descriptor?.rejectionReasons && descriptor.rejectionReasons.length > 0
+
   const sortedRejectedReasons = descriptor?.rejectionReasons?.slice().sort((a, b) => {
     const dateA = new Date(a.rejectedAt)
     const dateB = new Date(b.rejectedAt)
@@ -135,11 +138,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       statusChip={{
         for: 'eservice',
         state: 'DRAFT',
-        isDraftToCorrect: descriptor?.rejectionReasons && descriptor.rejectionReasons.length > 0,
+        isDraftToCorrect: requireDelegateCorrections,
       }}
     >
       <Stack spacing={3}>
-        {descriptor && descriptor.rejectionReasons?.length !== 0 && (
+        {requireDelegateCorrections && (
           <Alert severity="error" variant="outlined">
             <Trans
               components={{
@@ -218,7 +221,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         </Stack>
       )}
 
-      {sortedRejectedReasons && sortedRejectedReasons.length !== 0 && (
+      {requireDelegateCorrections && sortedRejectedReasons && (
         <RejectReasonDrawer
           isOpen={isOpen}
           onClose={closeDrawer}
