@@ -12,17 +12,25 @@ import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersi
 import EditIcon from '@mui/icons-material/Edit'
 import { ProviderEServiceUpdateDescriptionDrawer } from './ProviderEServiceUpdateDescriptionDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.generalInformations',
   })
   const { t: tCommon } = useTranslation('common')
+  const { jwt } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptor } = useSuspenseQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  const { isDelegator } = useGetDelegationUserRole({
+    eserviceId,
+    organizationId: jwt?.organizationId,
+  })
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
@@ -94,13 +102,17 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             innerSection
             title={t('eserviceDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-            topSideActions={[
-              {
-                action: openEServiceUpdateDescriptionDrawer,
-                label: tCommon('actions.edit'),
-                icon: EditIcon,
-              },
-            ]}
+            topSideActions={
+              isDelegator
+                ? []
+                : [
+                    {
+                      action: openEServiceUpdateDescriptionDrawer,
+                      label: tCommon('actions.edit'),
+                      icon: EditIcon,
+                    },
+                  ]
+            }
           >
             <Typography variant="body2">{descriptor.eservice.description}</Typography>
           </SectionContainer>

@@ -10,15 +10,23 @@ import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import type { AttributeKey } from '@/types/attribute.types'
 import { ProviderEServiceUpdateDescriptorAttributesDrawer } from './ProviderEServiceUpdateDescriptorAttributesDrawer'
+import { AuthHooks } from '@/api/auth'
+import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 
 export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
   const { t: tCommon } = useTranslation('common')
+  const { jwt } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptorAttributes } = useSuspenseQuery({
     ...EServiceQueries.getDescriptorProvider(eserviceId, descriptorId),
     select: (d) => d.attributes,
+  })
+
+  const { isDelegator } = useGetDelegationUserRole({
+    eserviceId,
+    organizationId: jwt?.organizationId,
   })
 
   const [editAttributeDrawerState, setEditAttributeDrawerState] = useState<{
@@ -27,7 +35,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   }>({ isOpen: false, kind: 'certified' })
 
   const getAttributeSectionActions = (kind: AttributeKey): Array<ActionItemButton> | undefined => {
-    if (descriptorAttributes[kind].length === 0) return
+    if (descriptorAttributes[kind].length === 0 || isDelegator) return
 
     return [
       {
