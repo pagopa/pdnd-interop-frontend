@@ -8,6 +8,8 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderEServiceUpdateThresholdsDrawer } from './ProviderEServiceUpdateThresholdsDrawer'
+import { AuthHooks } from '@/api/auth'
+import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 
 type ProviderEServiceThresholdsSectionProps = {
   descriptor: ProducerEServiceDescriptor
@@ -20,6 +22,13 @@ export const ProviderEServiceThresholdsSection: React.FC<
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
+
+  const { jwt } = AuthHooks.useJwt()
+
+  const { isDelegator } = useGetDelegationUserRole({
+    eserviceId: descriptor.eservice.id,
+    organizationId: jwt?.organizationId,
+  })
 
   const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
 
@@ -34,13 +43,17 @@ export const ProviderEServiceThresholdsSection: React.FC<
       <SectionContainer
         innerSection
         title={t('thresholds.title')}
-        topSideActions={[
-          {
-            action: onEdit,
-            label: tCommon('actions.edit'),
-            icon: EditIcon,
-          },
-        ]}
+        topSideActions={
+          isDelegator
+            ? []
+            : [
+                {
+                  action: onEdit,
+                  label: tCommon('actions.edit'),
+                  icon: EditIcon,
+                },
+              ]
+        }
       >
         <Stack spacing={2}>
           <InformationContainer
