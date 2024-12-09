@@ -3,6 +3,8 @@ import React from 'react'
 import { CatalogCard, CatalogCardSkeleton } from './CatalogCard'
 import { useTranslation } from 'react-i18next'
 import type { CatalogEService } from '@/api/api.generatedTypes'
+import { STAGE } from '@/config/env'
+import { SH_ESERVICES_ATT_TEMP, SH_ESERVICES_UAT_TEMP } from '@/config/constants'
 
 type EServiceCatalogGridProps = {
   eservices: Array<CatalogEService> | undefined
@@ -19,7 +21,18 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
     <Grid container spacing={3}>
       {eservices?.map((eservice) => (
         <Grid item key={eservice.id} xs={4}>
-          <CatalogCard key={eservice.activeDescriptor?.id} eservice={eservice} />
+          {(STAGE === 'ATT' &&
+            SH_ESERVICES_ATT_TEMP.some(
+              (shEservice) => shEservice === eservice.activeDescriptor?.id
+            )) ||
+          (STAGE === 'UAT' &&
+            SH_ESERVICES_UAT_TEMP.some(
+              (shEservice) => shEservice === eservice.activeDescriptor?.id
+            )) ? (
+            <CatalogCard key={eservice.activeDescriptor?.id} eservice={eservice} disabled={true} />
+          ) : (
+            <CatalogCard key={eservice.activeDescriptor?.id} eservice={eservice} disabled={false} />
+          )}
         </Grid>
       ))}
     </Grid>
