@@ -28,6 +28,11 @@ export type DialogProps =
   | DialogSetTenantMailProps
   | DialogRemoveUserFromKeychainProps
   | DialogDeleteProducerKeychainKeyProps
+  | DialogDelegationsProps
+  | DialogAcceptProducerDelegationProps
+  | DialogRejectProducerDelegationProps
+  | DialogRevokeProducerDelegationProps
+  | DialogRejectDelegatedVersionDraftProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -103,4 +108,31 @@ export type DialogDeleteProducerKeychainKeyProps = {
   type: 'deleteProducerKeychainKey'
   keychainId: string
   keyId: string
+}
+
+export type DialogDelegationsProps = {
+  type: 'delegations'
+  onConfirm: () => void
+}
+
+export type DialogAcceptProducerDelegationProps = {
+  type: 'acceptDelegation'
+  delegationId: string
+}
+
+export type DialogRejectProducerDelegationProps = {
+  type: 'rejectDelegation'
+  delegationId: string
+}
+
+export type DialogRevokeProducerDelegationProps = {
+  type: 'revokeProducerDelegation'
+  delegationId: string
+  eserviceName: string
+}
+
+export type DialogRejectDelegatedVersionDraftProps = {
+  type: 'rejectDelegatedVersionDraft'
+  eserviceId: string
+  descriptorId: string
 }

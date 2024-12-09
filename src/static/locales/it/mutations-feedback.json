@@ -86,6 +86,20 @@
         "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
       }
     },
+    "publishDelegatedVersionDraft": {
+      "loading": "Stiamo inoltrando la versione al delegante",
+      "outcome": {
+        "success": "La versione è stata inoltrata al delegante per approvarne la pubblicazione",
+        "error": "Non è stato possibile inoltrare al delegante la versione per approvazione. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Richiedi pubblicazione versione",
+        "description": "Stai per inoltrare a <strong>{{delegatorName}}</strong> la richiesta di pubblicazione di una nuova versione dell’e-service <strong>{{eserviceName}}</strong>.",
+        "actions": {
+          "proceed": "Inoltra richiesta"
+        }
+      }
+    },
     "addEServiceRiskAnalysis": {
       "loading": "Stiamo salvando la finalità",
       "outcome": {
@@ -190,6 +204,20 @@
       "outcome": {
         "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
         "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
+      }
+    },
+    "approveDelegatedVersionDraft": {
+      "loading": "Stiamo pubblicando la versione",
+      "outcome": {
+        "success": "La nuova versione di e-service è stata pubblicata correttamente",
+        "error": "Non è stato possibile pubblicare la nuova versione di e-service. Per favore, riprova!"
+      }
+    },
+    "rejectDelegatedVersionDraft": {
+      "loading": "Stiamo rifiutando la versione",
+      "outcome": {
+        "success": "La versione di e-service è tornata in bozza, e le motivazioni del rifiuto sono state notificate al delegato all’erogazione",
+        "error": "Non è stato possibile rifiutare la nuova versione di e-service. Per favore, riprova!"
       }
     }
   },
@@ -578,6 +606,13 @@
         "success": "I contatti sono stati aggiornati correttamente",
         "error": "Non è stato possibile aggiornare i contatti. Per favore, riprova!"
       }
+    },
+    "updateProducerDelegationAvailability": {
+      "loading": "Stiamo aggiornando la disponibilità",
+      "outcome": {
+        "success": "La disponibilità è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la disponibilità. Per favore, riprova!"
+      }
     }
   },
   "voucher": {
@@ -654,6 +689,42 @@
       "outcome": {
         "success": "L’utente è stato rimosso correttamente dal portachiavi",
         "error": "Non è stato possibile rimuovere l'utente dal portachiavi. Per favore, riprova!"
+      }
+    }
+  },
+  "delegation": {
+    "createProducerDelegation": {
+      "loading": "Stiamo inoltrando la delega",
+      "outcome": {
+        "success": "La nuova delega è stata creata correttamente ed è stata inoltrata all’aderente per valutazione",
+        "error": "Non è stato possibile inoltrare la delega. Per favore, riprova!"
+      }
+    },
+    "approveProducerDelegation": {
+      "loading": "Stiamo attivando la delega",
+      "outcome": {
+        "success": "La delega è stata attivata correttamente. Da questo momento puoi gestire l’erogazione dell’e-service in delega",
+        "error": "Non è stato possibile attivare la delega. Per favore, riprova!"
+      }
+    },
+    "rejectProducerDelegation": {
+      "loading": "Stiamo rifiutando la delega",
+      "outcome": {
+        "success": "La delega è stata rifiutata correttamente.",
+        "error": "Non è stato possibile rifiutare la delega. Per favore, riprova!"
+      }
+    },
+    "revokeProducerDelegation": {
+      "loading": "Stiamo revocando la delega",
+      "outcome": {
+        "success": "La delega è stata revocata correttamente.",
+        "error": "Non è stato possibile revocare la delega. Per favore, riprova!"
+      }
+    },
+    "downloadDelegationContract": {
+      "loading": "Stiamo scaricando il contratto",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il contratto. Per favore, riprova!"
       }
     }
   }

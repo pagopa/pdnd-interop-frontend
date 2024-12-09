@@ -100,5 +100,120 @@
       },
       "backToTenantCertifierBtn": "Torna a ente certificatore"
     }
+  },
+  "delegations": {
+    "tabs": {
+      "ariaLabel": "Tre tab diverse per la gestione delle deleghe conferite, ricevute e per la disponibilità ad essere delegati",
+      "delegationsGranted": "Deleghe conferite",
+      "delegationsReceived": "Deleghe ricevute",
+      "availability": "Disponibilità"
+    },
+    "list": {
+      "noDelegationsLabel": "Non ci sono deleghe da mostrare",
+      "delegationKind": {
+        "producer": "Erogazione",
+        "consumer": "Fruizione"
+      }
+    },
+    "create": {
+      "title": "Crea delega",
+      "kindSectionTitle": "Tipologie di delega",
+      "consumeDelegationTitle": "Delega alla fruizione",
+      "provideDelegationTitle": "Delega all'erogazione",
+      "cancelBtn": "Annulla",
+      "backWithoutSaveBtn": "Torna indietro",
+      "forwardWithSaveBtn": "Prosegui",
+      "submitBtn": "Inoltra delega",
+      "cards": {
+        "common": "Voglio creare una ",
+        "consume": "delega alla fruizione",
+        "provide": "delega all’erogazione"
+      },
+      "eserviceField": {
+        "label": "Nome dell'e-service (richiesto)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri",
+        "infoLabelAutocomplete": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega.",
+        "descriptionLabel": "Descrizione dell'e-service",
+        "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
+      },
+      "delegateField": {
+        "consume": {
+          "label": "Ente da delegare alla fruizione (richiesto)",
+          "infoLabel": "La lista include solo gli aderenti che hanno dato la loro disponibilità a diventare delegati alla fruizione"
+        },
+        "provide": {
+          "label": "Ente da delegare all'erogazione (richiesto)",
+          "infoLabel": "La lista include solo gli aderenti che hanno dato la loro disponibilità a diventare delegati all’erogazione",
+          "switch": "Ho già creato l’e-service per il quale voglio attivare una delega"
+        }
+      },
+      "dialog": {
+        "title": "Nomina Responsabile del Trattamento",
+        "description": "Si ricorda che è obbligo del delegante procedere alla nomina del delegato quale Responsabile del Trattamento dei dati personali, formalizzando l'atto previsto dall'art. 28 del GDPR, prima di avviare qualsiasi attività di trattamento tramite l'infrastruttura.",
+        "proceedLabel": "Inoltra delega",
+        "cancelLabel": "Annulla",
+        "checkboxLabel": "Ho capito"
+      }
+    },
+    "actions": {
+      "backToTenant": "Torna al tuo ente",
+      "backToDelegations": "Torna alle deleghe"
+    },
+    "details": {
+      "title": "Gestisci delega",
+      "backToDelegationList": "Torna a deleghe",
+      "generalInfoSection": {
+        "title": "Informazioni generali",
+        "eserviceNameField": {
+          "label": "Nome e-service"
+        },
+        "eserviceProducerField": {
+          "label": "Erogatore"
+        },
+        "delegationKindField": {
+          "label": "Tipologia",
+          "kindProducer": "Delega all’erogazione",
+          "kindConsumer": "Delega alla fruizione"
+        },
+        "delegatorField": {
+          "label": "Delegante"
+        },
+        "delegateField": {
+          "label": "Delegato"
+        },
+        "submissionDateField": {
+          "label": "Data di richiesta"
+        },
+        "delegationStateField": {
+          "label": "Stato della delega"
+        },
+        "downloadContractAction": {
+          "label": "Scarica il documento di delega"
+        },
+        "downloadRevokedContractAction": {
+          "label": "Scarica il documento di revoca della delega"
+        }
+      },
+      "rejectedDelegationAlert": "Questa delega è stata rifiutata. <1>Leggi qui i motivi del rifiuto</1>."
+    },
+    "availabilityTab": {
+      "title": "Disponibilità ad accettare nuove deleghe",
+      "consumeDelegation": {
+        "label": "Delega alla fruizione",
+        "infoLabel": "La disponibilità dell’ente a fruire di e-service per conto di altri enti",
+        "value": {
+          "true": "Sì, sono disponibile",
+          "false": "No, non sono disponibile"
+        }
+      },
+      "produceDelegation": {
+        "label": "Delega all’erogazione",
+        "infoLabel": "La disponibilità dell’ente a erogare e-service per conto di altri enti",
+        "value": {
+          "true": "Sì, sono disponibile",
+          "false": "No, non sono disponibile"
+        }
+      }
+    }
   }
 }

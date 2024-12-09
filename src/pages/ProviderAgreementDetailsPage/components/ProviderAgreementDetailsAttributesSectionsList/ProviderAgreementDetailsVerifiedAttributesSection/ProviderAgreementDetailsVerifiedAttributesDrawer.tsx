@@ -176,6 +176,7 @@ function useGetDrawerComponents(
         partyId: agreement.consumer.id,
         id: attributeId,
         expirationDate: selectedExpirationDate,
+        agreementId: agreement.id,
       },
       { onSuccess: closeProviderAgreementVerifiedAttributesDrawer }
     )

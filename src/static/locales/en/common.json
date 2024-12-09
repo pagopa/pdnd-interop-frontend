@@ -39,7 +39,9 @@
     "revoke": "Revoke",
     "upload": "Upload",
     "import": "Import",
-    "saveEdits": "Save edits"
+    "saveEdits": "Save edits",
+    "accept": "Accept",
+    "approve": "Approve"
   },
   "table": {
     "headData": {
@@ -59,7 +61,10 @@
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assignee tenant",
       "certifiedAttribute": "Certified attribute",
-      "keychain": "Keychain"
+      "keychain": "Keychain",
+      "delegationKind": "Delegation for",
+      "delegatorName": "Delegation requested by",
+      "delegateName": "Delegation granted to"
     }
   },
   "status": {
@@ -68,7 +73,9 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "ARCHIVED": "archived",
-      "DEPRECATED": "deprecated"
+      "DEPRECATED": "deprecated",
+      "WAITING_FOR_APPROVAL": "waiting for approval",
+      "DRAFT_TO_CORRECT": "to correct"
     },
     "agreement": {
       "ACTIVE": "active",
@@ -91,6 +98,12 @@
       "WAITING_FOR_APPROVAL": "waiting for approval",
       "ARCHIVED": "archived",
       "REJECTED": "rejected"
+    },
+    "delegation": {
+      "ACTIVE": "active",
+      "REJECTED": "rejected",
+      "REVOKED": "revoked",
+      "WAITING_FOR_APPROVAL": "waiting for acceptance"
     }
   },
   "userProductRole": {

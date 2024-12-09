@@ -104,19 +104,38 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   })
 }
 
-function usePublishVersionDraft() {
+function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.publishVersionDraft',
+    keyPrefix: isByDelegation
+      ? 'eservice.publishDelegatedVersionDraft'
+      : 'eservice.publishVersionDraft',
   })
   return useMutation({
-    mutationFn: EServiceServices.publishVersionDraft,
+    mutationFn: ({
+      eserviceId,
+      descriptorId,
+    }: {
+      delegatorName?: string
+      eserviceName?: string
+      eserviceId: string
+      descriptorId: string
+    }) => EServiceServices.publishVersionDraft({ eserviceId, descriptorId }),
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
         title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
+        description: isByDelegation
+          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (variables: any) => {
+              return t('confirmDialog.description', {
+                delegatorName: variables.delegatorName,
+                eserviceName: variables.eserviceName,
+              })
+            }
+          : () => t('confirmDialog.description'),
+        proceedLabel: isByDelegation ? t('confirmDialog.actions.proceed') : undefined,
       },
     },
   })
@@ -332,6 +351,34 @@ function useUpdateDescriptorAttributes() {
   })
 }
 
+function useApproveDelegatedVersionDraft() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.approveDelegatedVersionDraft',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.approveDelegatedVersionDraft,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useRejectDelegatedVersionDraft() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.rejectDelegatedVersionDraft',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.rejectDelegatedVersionDraft,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -353,4 +400,6 @@ export const EServiceMutations = {
   useUpdateVersionDraftDocumentDescription,
   useImportVersion,
   useUpdateDescriptorAttributes,
+  useApproveDelegatedVersionDraft,
+  useRejectDelegatedVersionDraft,
 }

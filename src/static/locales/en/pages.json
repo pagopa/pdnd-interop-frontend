@@ -42,5 +42,9 @@
   "providerKeychainsList": {
     "title": "Your keychains",
     "description": "Here you can manage you keychains"
+  },
+  "delegations": {
+    "title": "Delegations",
+    "description": "Here you can manage all the delegations you have given or received from other entities"
   }
 }

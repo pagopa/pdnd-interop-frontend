@@ -4,6 +4,7 @@ import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
+import { isTenantCertifier } from '@/utils/tenant.utils'
 
 const views = [
   {
@@ -28,7 +29,11 @@ const views = [
       'PROVIDE_KEYCHAINS_LIST',
     ],
   },
-  { routeKey: 'TENANT', id: 'tenant', children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER'] },
+  {
+    routeKey: 'TENANT',
+    id: 'tenant',
+    children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER', 'DELEGATIONS'],
+  },
 ] as const
 
 export function useGetSideNavItems() {
@@ -36,7 +41,7 @@ export function useGetSideNavItems() {
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
-  const isCertifier = Boolean(tenant.features[0]?.certifier?.certifierId)
+  const isCertifier = isTenantCertifier(tenant)
 
   return React.useMemo(() => {
     /**
