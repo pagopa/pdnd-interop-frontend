@@ -204,7 +204,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-      {isDelegate && (
+      {!isDelegator && (
         <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
           <Button
             startIcon={<DeleteOutlineIcon />}
