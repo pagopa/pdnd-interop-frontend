@@ -30,7 +30,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
   const { isDelegator } = useGetDelegationUserRole({
-    eserviceId: agreement?.eservice.id as string,
+    eserviceId: agreement?.eservice.id,
     organizationId: jwt?.organizationId,
   })
 
