@@ -78,27 +78,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice, disabled }) 
 
       <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={2}>
-          {disabled ? (
-            <Tooltip open={disabled ? undefined : false} title={t('subscribeTooltip')} arrow>
-              <span>
-                <Link
-                  as="button"
-                  size="small"
-                  variant="contained"
-                  to="SUBSCRIBE_CATALOG_VIEW"
-                  params={{
-                    eserviceId: eservice.id,
-                    descriptorId: eservice.activeDescriptor?.id ?? '',
-                  }}
-                  onFocusVisible={handlePrefetch}
-                  color="primary"
-                  disabled={disabled}
-                >
-                  {tCommon('actions.inspect')}
-                </Link>
-              </span>
-            </Tooltip>
-          ) : (
+          <Tooltip open={disabled ? undefined : false} title={t('subscribeTooltip')} arrow>
             <span>
               <Link
                 as="button"
@@ -116,7 +96,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice, disabled }) 
                 {tCommon('actions.inspect')}
               </Link>
             </span>
-          )}
+          </Tooltip>
         </Stack>
       </CardActions>
     </Card>
