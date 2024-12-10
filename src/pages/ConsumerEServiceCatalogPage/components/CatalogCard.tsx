@@ -23,6 +23,7 @@ interface CatalogCardProps {
 
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice, disabled }) => {
   const { t: tCommon } = useTranslation('common')
+  const { t } = useTranslation('eservice')
   const queryClient = useQueryClient()
 
   const handlePrefetch = () => {
@@ -77,7 +78,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice, disabled }) 
 
       <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={2}>
-          <Tooltip open={disabled ? undefined : false} title={tCommon('subscribeTooltip')} arrow>
+          <Tooltip open={disabled ? undefined : false} title={t('list.disabledTooltip')} arrow>
             <span>
               <Link
                 as="button"
