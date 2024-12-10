@@ -8,7 +8,7 @@ import {
   CardHeader,
   Skeleton,
   Stack,
-  SxProps,
+  type SxProps,
   Tooltip,
   Typography,
 } from '@mui/material'
