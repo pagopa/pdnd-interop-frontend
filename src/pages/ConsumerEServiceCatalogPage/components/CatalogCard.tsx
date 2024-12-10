@@ -15,7 +15,6 @@ import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
-import { t } from 'i18next'
 
 interface CatalogCardProps {
   eservice: CatalogEService
@@ -78,7 +77,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice, disabled }) 
 
       <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={2}>
-          <Tooltip open={disabled ? undefined : false} title={t('subscribeTooltip')} arrow>
+          <Tooltip open={disabled ? undefined : false} title={tCommon('subscribeTooltip')} arrow>
             <span>
               <Link
                 as="button"
