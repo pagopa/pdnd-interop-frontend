@@ -252,7 +252,8 @@
           "ariaLabel": "Switch for acknowledgment and confirmation"
         }
       }
-    }
+    },
+    "disabledTooltip": "Test e-service archived from the catalog and not usable."
   },
   "read": {
     "tabs": {

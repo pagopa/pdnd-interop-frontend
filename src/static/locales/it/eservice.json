@@ -252,7 +252,8 @@
           "ariaLabel": "Switch di presa visione e conferma"
         }
       }
-    }
+    },
+    "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile"
   },
   "read": {
     "tabs": {

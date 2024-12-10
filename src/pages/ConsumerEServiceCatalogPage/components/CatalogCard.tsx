@@ -8,9 +8,9 @@ import {
   CardHeader,
   Skeleton,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import type { CatalogEService } from '@/api/api.generatedTypes'
@@ -18,10 +18,12 @@ import { useQueryClient } from '@tanstack/react-query'
 
 interface CatalogCardProps {
   eservice: CatalogEService
+  disabled?: boolean
 }
 
-export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
+export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice, disabled }) => {
   const { t: tCommon } = useTranslation('common')
+  const { t } = useTranslation('eservice')
   const queryClient = useQueryClient()
 
   const handlePrefetch = () => {
@@ -39,6 +41,7 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: 410,
+        opacity: disabled ? 0.5 : 1,
       }}
     >
       <CardHeader
@@ -75,20 +78,25 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice }) => {
 
       <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
         <Stack direction="row" spacing={2}>
-          <Link
-            as="button"
-            size="small"
-            variant="contained"
-            to="SUBSCRIBE_CATALOG_VIEW"
-            params={{
-              eserviceId: eservice.id,
-              descriptorId: eservice.activeDescriptor?.id ?? '',
-            }}
-            onFocusVisible={handlePrefetch}
-            color="primary"
-          >
-            <span onPointerEnter={handlePrefetch}>{tCommon('actions.inspect')}</span>
-          </Link>
+          <Tooltip open={disabled ? undefined : false} title={t('list.disabledTooltip')} arrow>
+            <span>
+              <Link
+                as="button"
+                size="small"
+                variant="contained"
+                to="SUBSCRIBE_CATALOG_VIEW"
+                params={{
+                  eserviceId: eservice.id,
+                  descriptorId: eservice.activeDescriptor?.id ?? '',
+                }}
+                onFocusVisible={handlePrefetch}
+                color="primary"
+                disabled={disabled}
+              >
+                {tCommon('actions.inspect')}
+              </Link>
+            </span>
+          </Tooltip>
         </Stack>
       </CardActions>
     </Card>
