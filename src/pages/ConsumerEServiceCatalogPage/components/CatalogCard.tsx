@@ -19,7 +19,7 @@ import { t } from 'i18next'
 
 interface CatalogCardProps {
   eservice: CatalogEService
-  disabled: boolean
+  disabled?: boolean
 }
 
 export const CatalogCard: React.FC<CatalogCardProps> = ({ eservice, disabled }) => {
