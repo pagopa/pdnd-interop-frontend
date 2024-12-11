@@ -255,7 +255,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      () => [editDraftAction]
     )
     .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       createNewDraftAction,
@@ -312,7 +312,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      () => [editDraftAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       createNewDraftAction,
@@ -382,7 +382,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      () => [editDraftAction]
     )
     .with({ isAdmin: true, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       reactivateAction,
@@ -439,7 +439,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      () => [editDraftAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       createNewDraftAction,
