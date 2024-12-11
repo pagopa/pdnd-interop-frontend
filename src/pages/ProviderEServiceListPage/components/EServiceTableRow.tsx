@@ -8,7 +8,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import type { ProducerEService } from '@/api/api.generatedTypes'
+import type { EServiceDescriptorState, ProducerEService } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { useQueryClient } from '@tanstack/react-query'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
@@ -38,8 +38,8 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     eservice.mode
   )
 
-  const isEServiceInDraft = !eservice.activeDescriptor
-  const isEServiceEditable = (isAdmin || isOperatorAPI) && isEServiceInDraft
+  const hasActiveDescriptor = eservice.activeDescriptor
+  const isEServiceEditable = (isAdmin || isOperatorAPI) && !hasActiveDescriptor
 
   const isEServiceByDelegation = isDelegate || isDelegator
 
@@ -70,10 +70,10 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
           {eservice?.activeDescriptor && (
             <StatusChip for="eservice" state={eservice.activeDescriptor.state} />
           )}
-          {(isEServiceInDraft || eservice?.draftDescriptor) && (
+          {(!hasActiveDescriptor || eservice?.draftDescriptor) && (
             <StatusChip
               for="eservice"
-              state={'DRAFT'}
+              state={eservice.draftDescriptor?.state as EServiceDescriptorState}
               isDraftToCorrect={eservice.draftDescriptor?.requireCorrections}
             />
           )}
