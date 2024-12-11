@@ -37,13 +37,13 @@ const views = [
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+  const { currentRoles, isSupport, isOrganizationAllowedToProduce, jwt } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
   const isCertifier = isTenantCertifier(tenant)
 
-  const isPA = AuthHooks.useJwt().jwt?.externalId?.origin === 'IPA'
+  const isPA = jwt?.externalId?.origin === 'IPA'
 
   return React.useMemo(() => {
     /**
