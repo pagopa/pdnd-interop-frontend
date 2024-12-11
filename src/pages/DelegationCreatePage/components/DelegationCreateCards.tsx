@@ -1,7 +1,7 @@
 import React from 'react'
 import type { DelegationKind } from '@/api/api.generatedTypes'
 import type { SxProps } from '@mui/material'
-import { Button, Card, CardContent, Typography } from '@mui/material'
+import { Button, Card, CardContent, Tooltip, Typography } from '@mui/material'
 
 import { useTranslation } from 'react-i18next'
 
@@ -64,32 +64,43 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
     },
   })
 
+  const showConsumerDelegation = false //TEMP needed to hide consumer delegation card
+
   return (
-    <div role="radiogroup" style={{ display: 'flex', gap: '16px', flexGrow: 1 }}>
-      <Card
-        component={Button}
-        elevation={8}
-        onClick={() => changeDelegationKind(consumerDelegated)}
-        sx={getSxProps('DELEGATED_CONSUMER')}
-      >
-        <CardContent
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            transition: 'background-color 0.3s ease',
-          }}
+    <div
+      role="radiogroup"
+      style={{
+        display: 'flex',
+        gap: '16px',
+        //flexGrow: 1
+      }}
+    >
+      {showConsumerDelegation && (
+        <Card
+          component={Button}
+          elevation={8}
+          onClick={() => changeDelegationKind(consumerDelegated)}
+          sx={getSxProps('DELEGATED_CONSUMER')}
         >
-          {svgCardIcon}
-          <div>
-            <Typography variant="body1" color="primary.main" component="div">
-              {t('delegations.create.cards.common')}
-            </Typography>
-            <Typography variant="body1" color="primary.main" component="div" fontWeight={700}>
-              {t('delegations.create.cards.consume')}
-            </Typography>
-          </div>
-        </CardContent>
-      </Card>
+          <CardContent
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              transition: 'background-color 0.3s ease',
+            }}
+          >
+            {svgCardIcon}
+            <div>
+              <Typography variant="body1" color="primary.main" component="div">
+                {t('delegations.create.cards.common')}
+              </Typography>
+              <Typography variant="body1" color="primary.main" component="div" fontWeight={700}>
+                {t('delegations.create.cards.consume')}
+              </Typography>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Card
         component={Button}
