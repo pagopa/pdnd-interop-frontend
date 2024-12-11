@@ -43,16 +43,21 @@ export function useGetSideNavItems() {
 
   const isCertifier = isTenantCertifier(tenant)
 
+  const isPA = AuthHooks.useJwt().jwt?.externalId?.origin === 'IPA'
+
   return React.useMemo(() => {
     /**
      * Checks if the user as the authorization level required to access a given route.
      * The no-IPA organizations cannot access the PROVIDE routes.
      * The no-certifier organizations cannot access the TENANT_CERTIFIER routes.
+     * The no-PA organizations cannot access the DELEGATIONS route.
      */
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
       if (!isSupport && !isOrganizationAllowedToProduce && routeKey === 'PROVIDE') return false
 
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
+
+      if (!isPA && routeKey === 'DELEGATIONS') return false
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))
