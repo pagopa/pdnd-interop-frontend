@@ -20,14 +20,19 @@ import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useDialog } from '@/stores'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
+    keyPrefix: 'dialogApproveDelegatedVersionDraft',
+  })
   const { jwt } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const navigate = useNavigate()
+  const { openDialog, closeDialog } = useDialog()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -36,11 +41,17 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     organizationId: jwt?.organizationId,
   })
 
+  const delegation = producerDelegations?.find(
+    (delegation) => delegation.eservice?.id === eserviceId
+  )
+
   const { mutate: deleteVersion } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft({
     isByDelegation: isDelegate,
   })
+  const { mutate: approveDelegatedVersionDraft } =
+    EServiceMutations.useApproveDelegatedVersionDraft()
 
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
@@ -78,10 +89,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const handlePublishDraft = () => {
     if (!descriptor) return
 
-    const delegation = producerDelegations?.find(
-      (delegation) => delegation.eservice?.id === eserviceId
-    )
-
     publishVersion(
       {
         eserviceId: descriptor.eservice.id,
@@ -99,6 +106,32 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           }),
       }
     )
+  }
+
+  const handleRejectDelegatedVersionDraft = () => {
+    openDialog({
+      type: 'rejectDelegatedVersionDraft',
+      eserviceId,
+      descriptorId,
+    })
+  }
+
+  const handleApproveDelegatedVersionDraft = () => {
+    const handleProceed = () => {
+      approveDelegatedVersionDraft({ eserviceId, descriptorId })
+      closeDialog()
+    }
+
+    openDialog({
+      type: 'basic',
+      title: tDialogApproveDelegatedVersionDraft('title'),
+      description: tDialogApproveDelegatedVersionDraft('description', {
+        eserviceName: delegation?.eservice?.name,
+        delegateName: delegation?.delegate.name,
+      }),
+      proceedLabel: tDialogApproveDelegatedVersionDraft('actions.approveAndPublish'),
+      onProceed: handleProceed,
+    })
   }
 
   const canBePublished = () => {
@@ -218,6 +251,25 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             {tCommon('editDraft')}
           </Button>
           <PublishButton onClick={handlePublishDraft} disabled={!canBePublished()} />
+        </Stack>
+      )}
+      {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+          <Button
+            startIcon={<DeleteOutlineIcon />}
+            variant="text"
+            color="error"
+            onClick={handleRejectDelegatedVersionDraft}
+          >
+            {tCommon('reject')}
+          </Button>
+          <Button
+            startIcon={<PublishIcon />}
+            variant="contained"
+            onClick={handleApproveDelegatedVersionDraft}
+          >
+            {tCommon('publish')}
+          </Button>
         </Stack>
       )}
 
