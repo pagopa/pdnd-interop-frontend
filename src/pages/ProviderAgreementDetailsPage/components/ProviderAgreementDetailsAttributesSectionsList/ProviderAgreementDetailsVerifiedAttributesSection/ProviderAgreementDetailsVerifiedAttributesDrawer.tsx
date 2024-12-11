@@ -152,6 +152,7 @@ function useGetDrawerComponents(
       {
         partyId: agreement.consumer.id,
         attributeId,
+        agreementId: agreement.id,
       },
       { onSuccess: closeProviderAgreementVerifiedAttributesDrawer }
     )
