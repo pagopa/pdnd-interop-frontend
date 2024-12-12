@@ -245,7 +245,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => []
+      () => [editDraftAction]
     )
     .with(
       {
@@ -302,7 +302,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => []
+      () => [editDraftAction]
     )
     .with(
       {
