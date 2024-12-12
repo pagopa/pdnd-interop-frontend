@@ -128,51 +128,57 @@ describe('AuthGuard', () => {
     expect(getByText('children')).toBeInTheDocument()
   })
 
-  it('Should able to access when user try to access on delegations routes and he is a PA', () => {
-    const props: AuthGuardTestProps = {
-      ...defaultProps,
-      isSupport: false,
+  it.each(['DELEGATIONS', 'DELEGATION_DETAILS', 'CREATE_DELEGATION'] as const)(
+    'Should able to access when user try to access on %s route and he is a PA',
+    (routeKey) => {
+      const props: AuthGuardTestProps = {
+        ...defaultProps,
+        isSupport: false,
+      }
+
+      useAuthGuardSpy.mockReturnValue({
+        isPublic: false,
+        authLevels: [],
+        isUserAuthorized: () => true,
+      })
+      mockUseCurrentRoute({
+        routeKey,
+      })
+      mockUseGetActiveUserParty({
+        data: {
+          externalId: { origin: 'IPA' },
+        },
+      })
+
+      const { getByText } = renderAuthGuard(props)
+      expect(getByText('children')).toBeInTheDocument()
     }
+  )
 
-    useAuthGuardSpy.mockReturnValue({
-      isPublic: false,
-      authLevels: [],
-      isUserAuthorized: () => true,
-    })
-    mockUseCurrentRoute({
-      routeKey: 'DELEGATIONS' || 'DELEGATION_DETAILS' || 'CREATE_DELEGATION',
-    })
-    mockUseGetActiveUserParty({
-      data: {
-        externalId: { origin: 'IPA' },
-      },
-    })
+  it.each(['DELEGATIONS', 'DELEGATION_DETAILS', 'CREATE_DELEGATION'] as const)(
+    'Should render Error component when user try to access on delegations routes and he is not a PA',
+    (routeKey) => {
+      const props: AuthGuardTestProps = {
+        ...defaultProps,
+        isSupport: false,
+      }
 
-    const { getByText } = renderAuthGuard(props)
-    expect(getByText('children')).toBeInTheDocument()
-  })
+      useAuthGuardSpy.mockReturnValue({
+        isPublic: false,
+        authLevels: [],
+        isUserAuthorized: () => false,
+      })
+      mockUseCurrentRoute({
+        routeKey,
+      })
+      mockUseGetActiveUserParty({
+        data: {
+          externalId: { origin: '' },
+        },
+      })
 
-  it('Should render Error component when user try to access on delegations routes and he is not a PA', () => {
-    const props: AuthGuardTestProps = {
-      ...defaultProps,
-      isSupport: false,
+      const { getByText } = renderAuthGuard(props)
+      expect(getByText('error')).toBeInTheDocument()
     }
-
-    useAuthGuardSpy.mockReturnValue({
-      isPublic: false,
-      authLevels: [],
-      isUserAuthorized: () => false,
-    })
-    mockUseCurrentRoute({
-      routeKey: 'DELEGATIONS' || 'DELEGATION_DETAILS' || 'CREATE_DELEGATION',
-    })
-    mockUseGetActiveUserParty({
-      data: {
-        externalId: { origin: '' },
-      },
-    })
-
-    const { getByText } = renderAuthGuard(props)
-    expect(getByText('error')).toBeInTheDocument()
-  })
+  )
 })
