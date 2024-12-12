@@ -231,7 +231,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(0)
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('manageDraft')
   })
 
   it('should return the correct actions if user is admin and delegator, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
@@ -241,9 +242,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('approve')
-    expect(result.current.actions[1].label).toBe('reject')
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('manageDraft')
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is PUBLISHED with no draft descriptors', () => {
@@ -333,9 +333,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('approve')
-    expect(result.current.actions[1].label).toBe('reject')
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('manageDraft')
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is SUSPENDED with no draft descriptors', () => {
@@ -542,7 +541,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(0)
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('manageDraft')
   })
 
   it('should return the correct actions if user is an api operator and delegator, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
@@ -553,9 +553,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('approve')
-    expect(result.current.actions[1].label).toBe('reject')
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('manageDraft')
   })
 
   it('should return the correct actions if user is an api operator and delegate, e-service is PUBLISHED with no draft descriptors', () => {
@@ -648,9 +647,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('approve')
-    expect(result.current.actions[1].label).toBe('reject')
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('manageDraft')
   })
 
   it('should return the correct actions if user is an api operator and delegate, e-service is SUSPENDED with no draft descriptors', () => {
