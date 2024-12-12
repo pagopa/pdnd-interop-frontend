@@ -14,6 +14,7 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
+import { useNavigate } from '@/router'
 
 type RejectDelegatedVersionDraftFormValues = {
   reason: string
@@ -23,6 +24,7 @@ export const DialogRejectDelegatedVersionDraft: React.FC<
   DialogRejectDelegatedVersionDraftProps
 > = ({ eserviceId, descriptorId }) => {
   const ariaLabelId = React.useId()
+  const navigate = useNavigate()
 
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogRejectDelegatedVersionDraft',
@@ -36,7 +38,12 @@ export const DialogRejectDelegatedVersionDraft: React.FC<
   })
 
   const onSubmit = ({ reason }: RejectDelegatedVersionDraftFormValues) => {
-    rejectDelegatedVersionDraft({ eserviceId, descriptorId, rejectionReason: reason })
+    rejectDelegatedVersionDraft(
+      { eserviceId, descriptorId, rejectionReason: reason },
+      {
+        onSuccess: () => navigate('PROVIDE_ESERVICE_LIST'),
+      }
+    )
     closeDialog()
   }
 

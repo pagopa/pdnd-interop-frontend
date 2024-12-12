@@ -118,7 +118,13 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const handleApproveDelegatedVersionDraft = () => {
     const handleProceed = () => {
-      approveDelegatedVersionDraft({ eserviceId, descriptorId })
+      approveDelegatedVersionDraft(
+        { eserviceId, descriptorId },
+        {
+          onSuccess: () =>
+            navigate('PROVIDE_ESERVICE_MANAGE', { params: { eserviceId, descriptorId } }),
+        }
+      )
       closeDialog()
     }
 
