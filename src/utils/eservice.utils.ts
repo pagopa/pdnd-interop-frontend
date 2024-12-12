@@ -7,8 +7,8 @@ export function getDownloadDocumentName(document: EServiceDoc | Document) {
   return `${document.prettyName}.${fileExtension}`
 }
 
-export function getLastDescriptor(descriptors: Array<CompactDescriptor>) {
-  const descriptor = descriptors.find((descriptor) =>
+export function getLastDescriptor(descriptors: Array<CompactDescriptor> | undefined) {
+  const descriptor = descriptors?.find((descriptor) =>
     descriptors.every((d) => descriptor.version >= d.version)
   )
   return descriptor

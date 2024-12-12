@@ -37,7 +37,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     .with(delegation.delegator.id, () => false)
     .otherwise(() => false)
 
-  const lastDescriptor = getLastDescriptor(delegation.eservice.descriptors)
+  const lastDescriptor = getLastDescriptor(delegation.eservice?.descriptors)
 
   const downloadDelegationContract = DelegationDownloads.useDownloadDelegationContract()
 
@@ -101,11 +101,11 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
                     <Link
                       to="PROVIDE_ESERVICE_SUMMARY"
                       params={{
-                        eserviceId: delegation.eservice.id,
+                        eserviceId: delegation.eservice?.id as string,
                         descriptorId: lastDescriptor.id,
                       }}
                     >
-                      {delegation.eservice.name}
+                      {delegation.eservice?.name}
                     </Link>
                   )
                 )
@@ -115,11 +115,11 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
                     <Link
                       to="PROVIDE_ESERVICE_MANAGE"
                       params={{
-                        eserviceId: delegation.eservice.id,
+                        eserviceId: delegation.eservice?.id as string,
                         descriptorId: lastDescriptor.id,
                       }}
                     >
-                      {delegation.eservice.name}
+                      {delegation.eservice?.name}
                     </Link>
                   )
                 )
@@ -132,19 +132,19 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
                     <Link
                       to="SUBSCRIBE_CATALOG_VIEW"
                       params={{
-                        eserviceId: delegation.eservice.id,
+                        eserviceId: delegation.eservice?.id as string,
                         descriptorId: lastDescriptor.id,
                       }}
                     >
-                      {delegation.eservice.name}
+                      {delegation.eservice?.name}
                     </Link>
                   )
                 )
-                .otherwise(() => delegation.eservice.name)}
+                .otherwise(() => delegation.eservice?.name ?? '-')}
             />
             <InformationContainer
               label={t('eserviceProducerField.label')}
-              content={delegation.eservice.producerName}
+              content={delegation.eservice?.producerName ?? '-'}
             />
             <InformationContainer
               label={t('delegationKindField.label')}
