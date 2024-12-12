@@ -305,4 +305,38 @@ describe('useGetSideNavItems', () => {
 
     expect(result.current).not.toContain('TENANT_CERTIFIER')
   })
+
+  it("should not include 'DELEGATIONS' routes if the user is not a PA", () => {
+    mockUseJwt({
+      jwt: {
+        externalId: {
+          origin: 'test',
+          value: 'value',
+        },
+      },
+      currentRoles: ['admin'],
+    })
+
+    const { result } = renderHook(() => useGetSideNavItems())
+
+    expect(result.current.some((routeKey) => routeKey.children?.includes('DELEGATIONS'))).toBe(
+      false
+    )
+  })
+
+  it("should include 'DELEGATIONS' routes if the user is a PA", () => {
+    mockUseJwt({
+      jwt: {
+        externalId: {
+          origin: 'IPA',
+          value: 'value',
+        },
+      },
+      currentRoles: ['admin'],
+    })
+
+    const { result } = renderHook(() => useGetSideNavItems())
+
+    expect(result.current.some((routeKey) => routeKey.children?.includes('DELEGATIONS'))).toBe(true)
+  })
 })
