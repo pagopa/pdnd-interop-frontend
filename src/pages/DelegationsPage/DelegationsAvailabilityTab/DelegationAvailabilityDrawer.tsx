@@ -52,7 +52,10 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
     >
       <Stack spacing={4}>
         <Box>
-          <SectionContainer innerSection>
+          <SectionContainer
+            innerSection
+            sx={{ display: 'none', visibility: 'hidden' }} // TEMP needed to hide consumer delegation availability
+          >
             <Stack spacing={2}>
               <Typography sx={{ fontWeight: 700 }}>{t('consumeDelegation.label')}</Typography>
               <Typography>{t('consumeDelegation.infoLabel')}</Typography>
