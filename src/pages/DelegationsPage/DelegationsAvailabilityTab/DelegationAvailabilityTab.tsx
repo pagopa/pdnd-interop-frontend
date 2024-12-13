@@ -57,11 +57,12 @@ export const DelegationsAvailabilityTab: React.FC = () => {
                   label={t('consumeDelegation.label')}
                   labelDescription={t('consumeDelegation.infoLabel')}
                   content={t(`consumeDelegation.value.${isAvailableConsumerDelegations}`)}
+                  sx={{ display: 'none', visibility: 'hidden' }} //TEMP needed to hide consumer delegation availability
                 />
                 <InformationContainer
                   label={t('produceDelegation.label')}
                   labelDescription={t('produceDelegation.infoLabel')}
-                  content={t(`consumeDelegation.value.${isAvailableProducerDelegations}`)}
+                  content={t(`produceDelegation.value.${isAvailableProducerDelegations}`)}
                 />
               </Stack>
             </SectionContainer>
