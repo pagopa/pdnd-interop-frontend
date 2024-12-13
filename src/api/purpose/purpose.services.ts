@@ -14,6 +14,7 @@ import type {
   PurposeVersionResource,
   PurposeVersionSeed,
   RejectPurposeVersionPayload,
+  RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
@@ -68,9 +69,10 @@ async function getSingle(purposeId: string) {
   return REMOVE_ME_remapPurpose(response.data)
 }
 
-async function getRiskAnalysisLatest() {
+async function getRiskAnalysisLatest(params?: RetrieveLatestRiskAnalysisConfigurationParams) {
   const response = await axiosInstance.get<RiskAnalysisFormConfig>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/latest`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/latest`,
+    { params }
   )
   return response.data
 }

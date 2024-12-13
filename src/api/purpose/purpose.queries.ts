@@ -3,6 +3,7 @@ import { PurposeServices } from './purpose.services'
 import type {
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
+  RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
 } from '../api.generatedTypes'
 
@@ -27,10 +28,10 @@ function getSingle(purposeId: string) {
   })
 }
 
-function getRiskAnalysisLatest() {
+function getRiskAnalysisLatest(params?: RetrieveLatestRiskAnalysisConfigurationParams) {
   return queryOptions({
     queryKey: ['GetRiskAnalysisLatest'],
-    queryFn: () => PurposeServices.getRiskAnalysisLatest(),
+    queryFn: () => PurposeServices.getRiskAnalysisLatest(params),
   })
 }
 
