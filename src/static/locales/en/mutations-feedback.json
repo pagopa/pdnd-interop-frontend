@@ -184,6 +184,13 @@
         "success": "The list has been downloaded successfully",
         "error": "The list could not be downloaded. Please try again"
       }
+    },
+    "updateDescriptorAttributes": {
+      "loading": "Saving new attributes",
+      "outcome": {
+        "success": "The {{attributeKind}} attributes have been modified correctly",
+        "error": "It was not possible to modify the {{attributeKind}} attributes. Please, try again!"
+      }
     }
   },
   "attribute": {

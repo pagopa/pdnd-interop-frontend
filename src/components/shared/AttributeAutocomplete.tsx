@@ -3,31 +3,29 @@ import { AttributeQueries } from '@/api/attribute'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import type { AttributeKey } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
-import { FormProvider, useForm, useFormContext } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { AttributeKind, DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import type { EServiceCreateStepAttributesFormValues } from '..'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 export type AttributeAutocompleteProps = {
-  groupIndex: number
   attributeKey: AttributeKey
-  handleHideAutocomplete: VoidFunction
+  onAddAttribute: (attribute: DescriptorAttribute) => void
+  alreadySelectedAttributeIds: string[]
+  direction?: 'column' | 'row'
 }
 
 type AttributeAutocompleteFormValues = { attribute: null | DescriptorAttribute }
 
 export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
-  groupIndex,
   attributeKey,
-  handleHideAutocomplete,
+  onAddAttribute,
+  alreadySelectedAttributeIds,
+  direction = 'row',
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
-
-  const { watch, setValue } = useFormContext<EServiceCreateStepAttributesFormValues>()
-  const attributeGroups = watch(`attributes.${attributeKey}`)
 
   const attributeAutocompleteFormMethods = useForm<AttributeAutocompleteFormValues>({
     defaultValues: { attribute: null },
@@ -62,29 +60,26 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
 
   const handleAddAttributeToGroup = handleSubmit(({ attribute }) => {
     if (!attribute) return
-    const newAttributeGroups = [...attributeGroups]
-    newAttributeGroups[groupIndex].push(attribute)
-    setValue(`attributes.${attributeKey}`, newAttributeGroups)
-    handleHideAutocomplete()
+    onAddAttribute(attribute)
   })
 
   const options = React.useMemo(() => {
     const attributes = data?.results ?? []
-    const attributesAlreadyInGroups = attributeGroups.reduce(
-      (acc, group) => [...acc, ...group.map(({ id }) => id)],
-      [] as Array<string>
-    )
     return attributes
-      .filter((att) => !attributesAlreadyInGroups.includes(att.id))
+      .filter((att) => !alreadySelectedAttributeIds.includes(att.id))
       .map((att) => ({
         label: att.name,
         value: att,
       }))
-  }, [data?.results, attributeGroups])
+  }, [data?.results, alreadySelectedAttributeIds])
 
   return (
     <FormProvider {...attributeAutocompleteFormMethods}>
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Stack
+        direction={direction}
+        alignItems={direction === 'column' ? 'start' : 'center'}
+        spacing={1}
+      >
         <RHFAutocompleteSingle
           label={t('autocompleteInput.label')}
           placeholder={t('autocompleteInput.placeholder')}
