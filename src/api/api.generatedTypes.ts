@@ -343,6 +343,7 @@ export interface ProducerDescriptorEService {
   id: string
   name: string
   description: string
+  producer: ProducerDescriptorEServiceProducer
   /** EService Descriptor State */
   technology: EServiceTechnology
   /** Risk Analysis Mode */
@@ -352,6 +353,12 @@ export interface ProducerDescriptorEService {
   draftDescriptor?: CompactDescriptor
   mail?: Mail
   isSignalHubEnabled?: boolean
+}
+
+export interface ProducerDescriptorEServiceProducer {
+  /** @format uuid */
+  id: string
+  tenantKind?: TenantKind
 }
 
 export interface EServiceDoc {
@@ -1830,6 +1837,10 @@ export interface GetClientKeysParams {
    * @format uuid
    */
   clientId: string
+}
+
+export interface RetrieveLatestRiskAnalysisConfigurationParams {
+  tenantKind?: TenantKind
 }
 
 export interface RetrieveRiskAnalysisConfigurationByVersionParams {
@@ -4190,7 +4201,9 @@ export namespace Purposes {
    */
   export namespace RetrieveLatestRiskAnalysisConfiguration {
     export type RequestParams = {}
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      tenantKind?: TenantKind
+    }
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string

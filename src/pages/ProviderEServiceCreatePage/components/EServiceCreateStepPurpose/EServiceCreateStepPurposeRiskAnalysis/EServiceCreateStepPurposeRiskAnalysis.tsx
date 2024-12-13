@@ -14,7 +14,15 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
   const { mutate: addEServiceRiskAnalysis } = EServiceMutations.useAddEServiceRiskAnalysis()
   const { mutate: updateEServiceRiskAnalysis } = EServiceMutations.useUpdateEServiceRiskAnalysis()
 
-  const { data: riskAnalysisLatest } = useQuery(PurposeQueries.getRiskAnalysisLatest())
+  const { data: riskAnalysisLatest } = useQuery(
+    PurposeQueries.getRiskAnalysisLatest({
+      /**
+       * We need to retrieve the risk analysis configuration for the tenant kind of the producer
+       * because the actual user might be a producer delegate with a different tenant kind.
+       */
+      tenantKind: descriptor?.eservice.producer.tenantKind,
+    })
+  )
 
   if (!riskAnalysisLatest || !descriptor) return <RiskAnalysisFormSkeleton />
 
