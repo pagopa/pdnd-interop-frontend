@@ -11,6 +11,8 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { EServiceDownloads } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { ProviderEServiceUpdateDocumentationDrawer } from './ProviderEServiceUpdateDocumentationDrawer'
+import { AuthHooks } from '@/api/auth'
+import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 
 type ProviderEServiceDocumentationSectionProps = {
   descriptor: ProducerEServiceDescriptor
@@ -23,6 +25,13 @@ export const ProviderEServiceDocumentationSection: React.FC<
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
+
+  const { jwt } = AuthHooks.useJwt()
+
+  const { isDelegator } = useGetDelegationUserRole({
+    eserviceId: descriptor.eservice.id,
+    organizationId: jwt?.organizationId,
+  })
 
   const docs = [descriptor.interface, ...descriptor.docs]
 
@@ -50,13 +59,17 @@ export const ProviderEServiceDocumentationSection: React.FC<
       <SectionContainer
         innerSection
         title={t('documentation.title')}
-        topSideActions={[
-          {
-            action: onEdit,
-            label: tCommon('actions.edit'),
-            icon: EditIcon,
-          },
-        ]}
+        topSideActions={
+          isDelegator
+            ? []
+            : [
+                {
+                  action: onEdit,
+                  label: tCommon('actions.edit'),
+                  icon: EditIcon,
+                },
+              ]
+        }
       >
         <InformationContainer
           label={t('documentation.label')}

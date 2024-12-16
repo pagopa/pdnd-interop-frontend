@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { AuthHooks } from '@/api/auth'
+import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
@@ -19,7 +20,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { mode, routeKey } = useCurrentRoute()
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
   const { openDialog } = useDialog()
   const navigate = useNavigate()
 
@@ -28,8 +29,12 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
+  const { isDelegator } = useGetDelegationUserRole({
+    eserviceId: agreement?.eservice.id,
+    organizationId: jwt?.organizationId,
+  })
 
-  if (!agreement || mode === null || !isAdmin) return { actions: [] }
+  if (!agreement || mode === null || !isAdmin || isDelegator) return { actions: [] }
 
   const handleActivate = () => {
     activateAgreement({ agreementId: agreement.id })

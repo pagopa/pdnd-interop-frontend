@@ -4,6 +4,7 @@ import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { ForbiddenError } from '@/utils/errors.utils'
+import { isTenantCertifier } from '@/utils/tenant.utils'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
@@ -39,7 +40,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
   function isUserAllowedToAccessCertifierRoutes() {
-    const isCertifier = Boolean(tenant?.features[0]?.certifier?.certifierId)
+    const isCertifier = isTenantCertifier(tenant)
     const certifierRoutes: Array<RouteKey> = [
       'TENANT_CERTIFIER',
       'TENANT_CERTIFIER_ATTRIBUTE_DETAILS',
@@ -58,8 +59,25 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 
     return isAuthorized && !isInBlacklist && !(isInProvidersRoutes && !canAccessProviderRoutes)
   }
+
+  function isUserAllowedToAccessDelegationsRoutes() {
+    // The IsUserAllowedToAccessDelegationsRoutes method checks if the organization is a PA. Only a PA can access the delegations routes
+    const isPA = jwt?.externalId?.origin === 'IPA'
+    const delegationsRoutes: Array<RouteKey> = [
+      'DELEGATIONS',
+      'DELEGATION_DETAILS',
+      'CREATE_DELEGATION',
+    ]
+    return isPA || !delegationsRoutes.includes(routeKey)
+  }
+
   // JWT will be undefined just in case route is public.
-  if (jwt && (!isUserAllowedToAccessRoute() || !isUserAllowedToAccessCertifierRoutes())) {
+  if (
+    jwt &&
+    (!isUserAllowedToAccessRoute() ||
+      !isUserAllowedToAccessCertifierRoutes() ||
+      !isUserAllowedToAccessDelegationsRoutes())
+  ) {
     throw new ForbiddenError()
   }
 

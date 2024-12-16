@@ -1,9 +1,9 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
 import { EServiceMutations, EServiceQueries } from '@/api/eservice'
-import { Button, Stack, Tooltip } from '@mui/material'
+import { Alert, Button, Link, Stack, Tooltip } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -16,17 +16,42 @@ import {
 import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
 import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
 import { useQuery } from '@tanstack/react-query'
+import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import { AuthHooks } from '@/api/auth'
+import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useDialog } from '@/stores'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
+    keyPrefix: 'dialogApproveDelegatedVersionDraft',
+  })
+  const { jwt } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const navigate = useNavigate()
+  const { openDialog, closeDialog } = useDialog()
+
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+
+  const { isDelegator, isDelegate, producerDelegations } = useGetDelegationUserRole({
+    eserviceId,
+    organizationId: jwt?.organizationId,
+  })
+
+  const delegation = producerDelegations?.find(
+    (delegation) => delegation.eservice?.id === eserviceId
+  )
 
   const { mutate: deleteVersion } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
-  const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft()
+  const { mutate: publishVersion } = EServiceMutations.usePublishVersionDraft({
+    isByDelegation: isDelegate,
+  })
+  const { mutate: approveDelegatedVersionDraft } =
+    EServiceMutations.useApproveDelegatedVersionDraft()
 
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
@@ -63,8 +88,14 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const handlePublishDraft = () => {
     if (!descriptor) return
+
     publishVersion(
-      { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
+      {
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        delegatorName: delegation?.delegator.name,
+        eserviceName: delegation?.eservice?.name,
+      },
       {
         onSuccess: () =>
           navigate('PROVIDE_ESERVICE_MANAGE', {
@@ -75,6 +106,38 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           }),
       }
     )
+  }
+
+  const handleRejectDelegatedVersionDraft = () => {
+    openDialog({
+      type: 'rejectDelegatedVersionDraft',
+      eserviceId,
+      descriptorId,
+    })
+  }
+
+  const handleApproveDelegatedVersionDraft = () => {
+    const handleProceed = () => {
+      approveDelegatedVersionDraft(
+        { eserviceId, descriptorId },
+        {
+          onSuccess: () =>
+            navigate('PROVIDE_ESERVICE_MANAGE', { params: { eserviceId, descriptorId } }),
+        }
+      )
+      closeDialog()
+    }
+
+    openDialog({
+      type: 'basic',
+      title: tDialogApproveDelegatedVersionDraft('title'),
+      description: tDialogApproveDelegatedVersionDraft('description', {
+        eserviceName: delegation?.eservice?.name,
+        delegateName: delegation?.delegate.name,
+      }),
+      proceedLabel: tDialogApproveDelegatedVersionDraft('actions.approveAndPublish'),
+      onProceed: handleProceed,
+    })
   }
 
   const canBePublished = () => {
@@ -91,6 +154,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
 
+  const requireDelegateCorrections =
+    descriptor?.rejectionReasons && descriptor.rejectionReasons.length > 0
+
+  const sortedRejectedReasons = descriptor?.rejectionReasons?.slice().sort((a, b) => {
+    const dateA = new Date(a.rejectedAt)
+    const dateB = new Date(b.rejectedAt)
+    return dateB.getTime() - dateA.getTime()
+  })
+
   return (
     <PageContainer
       title={t('summary.title', {
@@ -102,9 +174,34 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         to: 'PROVIDE_ESERVICE_LIST',
       }}
       isLoading={isLoading}
-      statusChip={{ for: 'eservice', state: 'DRAFT' }}
+      statusChip={{
+        for: 'eservice',
+        state: 'DRAFT',
+        isDraftToCorrect: requireDelegateCorrections,
+      }}
     >
       <Stack spacing={3}>
+        {requireDelegateCorrections && (
+          <Alert severity="error" variant="outlined">
+            <Trans
+              components={{
+                1: (
+                  <Link
+                    onClick={openDrawer}
+                    variant="body2"
+                    fontWeight={700}
+                    sx={{ cursor: 'pointer' }}
+                  />
+                ),
+              }}
+            >
+              {isDelegator
+                ? t('summary.rejectedDelegatedVersionDraftAlert.delegator')
+                : t('summary.rejectedDelegatedVersionDraftAlert.delegate')}
+            </Trans>
+          </Alert>
+        )}
+
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
             <ProviderEServiceGeneralInfoSummary />
@@ -146,20 +243,49 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-      <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-        <Button
-          startIcon={<DeleteOutlineIcon />}
-          variant="text"
-          color="error"
-          onClick={handleDeleteDraft}
-        >
-          {tCommon('deleteDraft')}
-        </Button>
-        <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
-          {tCommon('editDraft')}
-        </Button>
-        <PublishButton onClick={handlePublishDraft} disabled={!canBePublished()} />
-      </Stack>
+      {!isDelegator && (
+        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+          <Button
+            startIcon={<DeleteOutlineIcon />}
+            variant="text"
+            color="error"
+            onClick={handleDeleteDraft}
+          >
+            {tCommon('deleteDraft')}
+          </Button>
+          <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+            {tCommon('editDraft')}
+          </Button>
+          <PublishButton onClick={handlePublishDraft} disabled={!canBePublished()} />
+        </Stack>
+      )}
+      {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+          <Button
+            startIcon={<DeleteOutlineIcon />}
+            variant="text"
+            color="error"
+            onClick={handleRejectDelegatedVersionDraft}
+          >
+            {tCommon('reject')}
+          </Button>
+          <Button
+            startIcon={<PublishIcon />}
+            variant="contained"
+            onClick={handleApproveDelegatedVersionDraft}
+          >
+            {tCommon('publish')}
+          </Button>
+        </Stack>
+      )}
+
+      {requireDelegateCorrections && sortedRejectedReasons && (
+        <RejectReasonDrawer
+          isOpen={isOpen}
+          onClose={closeDrawer}
+          rejectReason={sortedRejectedReasons[0].rejectionReason}
+        />
+      )}
     </PageContainer>
   )
 }

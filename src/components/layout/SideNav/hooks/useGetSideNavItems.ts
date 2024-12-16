@@ -4,6 +4,7 @@ import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
+import { isTenantCertifier } from '@/utils/tenant.utils'
 
 const views = [
   {
@@ -28,26 +29,35 @@ const views = [
       'PROVIDE_KEYCHAINS_LIST',
     ],
   },
-  { routeKey: 'TENANT', id: 'tenant', children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER'] },
+  {
+    routeKey: 'TENANT',
+    id: 'tenant',
+    children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER', 'DELEGATIONS'],
+  },
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+  const { currentRoles, isSupport, isOrganizationAllowedToProduce, jwt } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
-  const isCertifier = Boolean(tenant.features[0]?.certifier?.certifierId)
+  const isCertifier = isTenantCertifier(tenant)
+
+  const isPA = jwt?.externalId?.origin === 'IPA'
 
   return React.useMemo(() => {
     /**
      * Checks if the user as the authorization level required to access a given route.
      * The no-IPA organizations cannot access the PROVIDE routes.
      * The no-certifier organizations cannot access the TENANT_CERTIFIER routes.
+     * The no-PA organizations cannot access the DELEGATIONS route.
      */
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
       if (!isSupport && !isOrganizationAllowedToProduce && routeKey === 'PROVIDE') return false
 
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
+
+      if (!isPA && routeKey === 'DELEGATIONS') return false
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))

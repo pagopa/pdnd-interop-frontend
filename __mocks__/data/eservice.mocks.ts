@@ -110,6 +110,10 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
         audience: [],
       },
     ],
+    producer: {
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      tenantKind: 'PA',
+    },
     id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
     name: '-- LUMACA -- test 20/10 [4]\t',
     technology: 'REST',

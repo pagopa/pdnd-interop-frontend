@@ -2,11 +2,13 @@ import { AgreementQueries } from '@/api/agreement'
 import type { AgreementListEntry } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
+import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
+import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { Link } from '@/router'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Chip, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
@@ -27,14 +29,31 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const eservice = agreement.eservice
   const descriptor = agreement.descriptor
 
+  const { isDelegator, isDelegate } = useGetDelegationUserRole({
+    eserviceId: eservice.id,
+    organizationId: AuthHooks.useJwt().jwt?.organizationId,
+  })
+
+  const isDelegatedEservice = isDelegate || isDelegator
+
   const handlePrefetch = () => {
     queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
   }
 
+  const eserviceCellData = (
+    <>
+      {t('eserviceName', {
+        name: eservice.name,
+        version: descriptor.version,
+      })}{' '}
+      {isDelegatedEservice && <ByDelegationChip />}
+    </>
+  )
+
   return (
     <TableRow
       cellData={[
-        t('eserviceName', { name: eservice.name, version: descriptor.version }),
+        eserviceCellData,
         agreement.consumer.name,
         <StatusChip key={agreement.id} for="agreement" agreement={agreement} />,
       ]}

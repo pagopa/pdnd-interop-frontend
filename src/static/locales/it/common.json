@@ -39,7 +39,9 @@
     "revoke": "Revoca",
     "upload": "Carica",
     "import": "Importa",
-    "saveEdits": "Salva modifiche"
+    "saveEdits": "Salva modifiche",
+    "accept": "Accetta",
+    "approve": "Approva"
   },
   "table": {
     "headData": {
@@ -58,8 +60,11 @@
       "userName": "Nome e cognome",
       "certifiedAttributes": "Attributi certificati",
       "assigneeTenant": "Ente assegnatario",
+      "keychain": "Portachiavi",
       "certifiedAttribute": "Attributo certificato",
-      "keychain": "Portachiavi"
+      "delegationKind": "Delega per",
+      "delegatorName": "Delega richiesta da",
+      "delegateName": "Delega conferita a"
     }
   },
   "status": {
@@ -68,7 +73,9 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "ARCHIVED": "archiviato",
-      "DEPRECATED": "deprecato"
+      "DEPRECATED": "deprecato",
+      "WAITING_FOR_APPROVAL": "in attesa di approvazione",
+      "DRAFT_TO_CORRECT": "da correggere"
     },
     "agreement": {
       "ACTIVE": "attivo",
@@ -91,6 +98,12 @@
       "WAITING_FOR_APPROVAL": "in attesa di approvazione",
       "ARCHIVED": "archiviata",
       "REJECTED": "rifiutata"
+    },
+    "delegation": {
+      "ACTIVE": "attiva",
+      "REJECTED": "rifiutata",
+      "REVOKED": "revocata",
+      "WAITING_FOR_APPROVAL": "in attesa di accettazione"
     }
   },
   "userProductRole": {

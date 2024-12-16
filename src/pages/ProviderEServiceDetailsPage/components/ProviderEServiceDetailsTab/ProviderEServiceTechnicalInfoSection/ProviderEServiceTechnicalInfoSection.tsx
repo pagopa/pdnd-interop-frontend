@@ -10,7 +10,7 @@ import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLink
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { STAGE } from '@/config/env'
-import { PagoPAEnvVars } from '@/types/common.types'
+import type { PagoPAEnvVars } from '@/types/common.types'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
