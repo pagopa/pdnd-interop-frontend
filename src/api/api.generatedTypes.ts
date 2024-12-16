@@ -85,6 +85,10 @@ export interface ValidationOption {
   maxLength?: number
 }
 
+export interface HasCertifiedAttributes {
+  hasCertifiedAttributes: boolean
+}
+
 export interface HideOption {
   id: string
   value: string
@@ -116,6 +120,8 @@ export interface UpdateEServiceSeed {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  isDelegable?: boolean
+  isClientAccessDelegable?: boolean
 }
 
 export interface EServiceSeed {
@@ -126,6 +132,8 @@ export interface EServiceSeed {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  isDelegable?: boolean
+  isClientAccessDelegable?: boolean
 }
 
 export interface UpdateEServiceDescriptorQuotas {
@@ -266,11 +274,19 @@ export interface CatalogDescriptorEService {
   descriptors: CompactDescriptor[]
   agreement?: CompactAgreement
   isMine: boolean
+  /**
+   * True in case:
+   *   - the requester has the certified attributes required to consume the eservice, or
+   *   - the requester is the delegated consumer for the eservice and
+   *     the delegator has the certified attributes required to consume the eservice
+   */
   hasCertifiedAttributes: boolean
   isSubscribed: boolean
   activeDescriptor?: CompactDescriptor
   mail?: Mail
   isSignalHubEnabled?: boolean
+  isDelegable?: boolean
+  isClientAccessDelegable?: boolean
 }
 
 export interface ProducerEServiceDetails {
@@ -284,6 +300,8 @@ export interface ProducerEServiceDetails {
   mode: EServiceMode
   riskAnalysis: EServiceRiskAnalysis[]
   isSignalHubEnabled?: boolean
+  isDelegable?: boolean
+  isClientAccessDelegable?: boolean
 }
 
 /** Risk Analysis Mode */
@@ -352,6 +370,8 @@ export interface ProducerDescriptorEService {
   draftDescriptor?: CompactDescriptor
   mail?: Mail
   isSignalHubEnabled?: boolean
+  isDelegable?: boolean
+  isClientAccessDelegable?: boolean
 }
 
 export interface EServiceDoc {
@@ -421,6 +441,8 @@ export interface AgreementPayload {
   eserviceId: string
   /** @format uuid */
   descriptorId: string
+  /** @format uuid */
+  delegationId?: string
 }
 
 /** contains the information for agreement update. */
@@ -1133,6 +1155,10 @@ export type TenantFeature =
       /** Delegated producer Tenant Feature */
       delegatedProducer?: DelegatedProducer
     }
+  | {
+      /** Delegated consumer Tenant Feature */
+      delegatedConsumer?: DelegatedConsumer
+    }
 
 /** Certifier Tenant Feature */
 export interface Certifier {
@@ -1141,6 +1167,12 @@ export interface Certifier {
 
 /** Delegated producer Tenant Feature */
 export interface DelegatedProducer {
+  /** @format date-time */
+  availabilityTimestamp: string
+}
+
+/** Delegated consumer Tenant Feature */
+export interface DelegatedConsumer {
   /** @format date-time */
   availabilityTimestamp: string
 }
@@ -1518,6 +1550,24 @@ export interface AddAgreementConsumerDocumentPayload {
   prettyName: string
   /** @format binary */
   doc: File
+}
+
+export interface VerifyTenantCertifiedAttributesPayload {
+  /**
+   * The Tenant id
+   * @format uuid
+   */
+  tenantId: string
+  /**
+   * The E-Service id
+   * @format uuid
+   */
+  eserviceId: string
+  /**
+   * The E-Service descriptor id
+   * @format uuid
+   */
+  descriptorId: string
 }
 
 export interface GetEServicesCatalogParams {
@@ -2367,6 +2417,23 @@ export namespace Agreements {
       'X-Correlation-Id': string
     }
     export type ResponseBody = Agreement
+  }
+  /**
+   * @description Verify a Tenant has required certified attributes
+   * @tags agreements
+   * @name VerifyTenantCertifiedAttributes
+   * @summary Verify a Tenant has required certified attributes
+   * @request POST:/agreements/verify
+   * @secure
+   */
+  export namespace VerifyTenantCertifiedAttributes {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = VerifyTenantCertifiedAttributesPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = HasCertifiedAttributes
   }
 }
 
@@ -3836,6 +3903,40 @@ export namespace Tenants {
       'X-Correlation-Id': string
     }
     export type ResponseBody = Tenants
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name AssignTenantDelegatedConsumerFeature
+   * @summary Assign delegated consumer feature to tenant caller
+   * @request POST:/tenants/delegatedConsumer
+   * @secure
+   */
+  export namespace AssignTenantDelegatedConsumerFeature {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name DeleteTenantDelegatedConsumerFeature
+   * @summary Delete delegated consumer feature to tenant caller
+   * @request DELETE:/tenants/delegatedConsumer
+   * @secure
+   */
+  export namespace DeleteTenantDelegatedConsumerFeature {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
   }
   /**
    * No description
