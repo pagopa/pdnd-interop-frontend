@@ -10,10 +10,12 @@ import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import type { AttributeKey } from '@/types/attribute.types'
 import { ProviderEServiceUpdateDescriptorAttributesDrawer } from './ProviderEServiceUpdateDescriptorAttributesDrawer'
+import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
   const { t: tCommon } = useTranslation('common')
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptorAttributes } = useSuspenseQuery({
@@ -27,7 +29,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   }>({ isOpen: false, kind: 'certified' })
 
   const getAttributeSectionActions = (kind: AttributeKey): Array<ActionItemButton> | undefined => {
-    if (descriptorAttributes[kind].length === 0) return
+    if (descriptorAttributes[kind].length === 0 || !isAdmin) return
 
     return [
       {
@@ -37,7 +39,6 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
       },
     ]
   }
-
   return (
     <>
       <SectionContainer title={t('title')} description={t('description')}>
