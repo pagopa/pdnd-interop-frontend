@@ -1,10 +1,11 @@
 import { AuthQueries } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
+import { STAGE } from '@/config/env'
 import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { ForbiddenError } from '@/utils/errors.utils'
-import { isTenantCertifier } from '@/utils/tenant.utils'
+import { isTenantCertifier, isTenantPA } from '@/utils/tenant.utils'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 
@@ -61,8 +62,11 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   }
 
   function isUserAllowedToAccessDelegationsRoutes() {
+    // In ATT, the delegations routes are available to all organizations
+    if (STAGE === 'ATT') return true
+
     // The IsUserAllowedToAccessDelegationsRoutes method checks if the organization is a PA. Only a PA can access the delegations routes
-    const isPA = jwt?.externalId?.origin === 'IPA'
+    const isPA = Boolean(jwt && isTenantPA(jwt))
     const delegationsRoutes: Array<RouteKey> = [
       'DELEGATIONS',
       'DELEGATION_DETAILS',

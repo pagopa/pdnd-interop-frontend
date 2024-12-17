@@ -4,7 +4,8 @@ import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
-import { isTenantCertifier } from '@/utils/tenant.utils'
+import { isTenantCertifier, isTenantPA } from '@/utils/tenant.utils'
+import { STAGE } from '@/config/env'
 
 const views = [
   {
@@ -42,8 +43,7 @@ export function useGetSideNavItems() {
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
   const isCertifier = isTenantCertifier(tenant)
-
-  const isPA = jwt?.externalId?.origin === 'IPA'
+  const isPA = Boolean(jwt && isTenantPA(jwt))
 
   return React.useMemo(() => {
     /**
@@ -54,10 +54,13 @@ export function useGetSideNavItems() {
      */
     const isAuthorizedToRoute = (routeKey: RouteKey) => {
       if (!isSupport && !isOrganizationAllowedToProduce && routeKey === 'PROVIDE') return false
-
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
-
-      if (!isPA && routeKey === 'DELEGATIONS') return false
+      if (!isPA && routeKey === 'DELEGATIONS') {
+        // In ATT, the delegations routes are available to all organizations
+        if (STAGE !== 'ATT') {
+          return false
+        }
+      }
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))
@@ -80,5 +83,5 @@ export function useGetSideNavItems() {
 
       return [...acc, view]
     }, [])
-  }, [currentRoles, isOrganizationAllowedToProduce, isSupport, isCertifier])
+  }, [currentRoles, isOrganizationAllowedToProduce, isSupport, isCertifier, isPA])
 }
