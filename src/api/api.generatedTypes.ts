@@ -361,6 +361,7 @@ export interface ProducerDescriptorEService {
   id: string
   name: string
   description: string
+  producer: ProducerDescriptorEServiceProducer
   /** EService Descriptor State */
   technology: EServiceTechnology
   /** Risk Analysis Mode */
@@ -372,6 +373,12 @@ export interface ProducerDescriptorEService {
   isSignalHubEnabled?: boolean
   isDelegable?: boolean
   isClientAccessDelegable?: boolean
+}
+
+export interface ProducerDescriptorEServiceProducer {
+  /** @format uuid */
+  id: string
+  tenantKind?: TenantKind
 }
 
 export interface EServiceDoc {
@@ -496,6 +503,7 @@ export interface AgreementListEntry {
   suspendedByProducer?: boolean
   suspendedByPlatform?: boolean
   descriptor: CompactDescriptor
+  isDelegated?: boolean
 }
 
 export interface CompactAttribute {
@@ -1221,11 +1229,15 @@ export interface DeclaredTenantAttribute {
   assignmentTimestamp: string
   /** @format date-time */
   revocationTimestamp?: string
+  /** @format uuid */
+  delegationId?: string
 }
 
 export interface DeclaredTenantAttributeSeed {
   /** @format uuid */
   id: string
+  /** @format uuid */
+  delegationId?: string
 }
 
 export interface UpdateVerifiedTenantAttributeSeed {
@@ -1365,6 +1377,11 @@ export interface DelegationTenant {
   /** @format uuid */
   id: string
   name: string
+}
+
+export interface DelegationTenants {
+  results: DelegationTenant[]
+  pagination: Pagination
 }
 
 export interface DelegationEService {
@@ -1605,6 +1622,14 @@ export interface GetEServicesCatalogParams {
    * @min 1
    * @max 50
    */
+  limit: number
+}
+
+export interface GetConsumerDelegatorsParams {
+  q?: string
+  /** @format int32 */
+  offset: number
+  /** @format int32 */
   limit: number
 }
 
@@ -1880,6 +1905,10 @@ export interface GetClientKeysParams {
    * @format uuid
    */
   clientId: string
+}
+
+export interface RetrieveLatestRiskAnalysisConfigurationParams {
+  tenantKind?: TenantKind
 }
 
 export interface RetrieveRiskAnalysisConfigurationByVersionParams {
@@ -2518,6 +2547,163 @@ export namespace Catalog {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CatalogEServiceDescriptor
+  }
+}
+
+export namespace Consumer {
+  /**
+   * @description Retrieve requester's delegators
+   * @tags consumerDelegations
+   * @name GetConsumerDelegators
+   * @request GET:/consumer/delegations/delegators
+   * @secure
+   */
+  export namespace GetConsumerDelegators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DelegationTenants
+  }
+  /**
+   * @description Retrieve Purposes from the consumer prospective
+   * @tags purposes
+   * @name GetConsumerPurposes
+   * @request GET:/consumer/purposes
+   * @secure
+   */
+  export namespace GetConsumerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of consumers IDs
+       * @default []
+       */
+      consumersIds?: string[]
+      /**
+       * comma separated sequence of producers IDs
+       * @default []
+       */
+      producersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Purposes
+  }
+  /**
+   * @description creates a consumer delegation
+   * @tags consumerDelegations
+   * @name CreateConsumerDelegation
+   * @summary Consumer delegation creation
+   * @request POST:/consumer/delegations
+   * @secure
+   */
+  export namespace CreateConsumerDelegation {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DelegationSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Approves a consumer delegation
+   * @tags consumerDelegations
+   * @name ApproveConsumerDelegation
+   * @summary Approves a consumer delegation
+   * @request POST:/consumer/delegations/{delegationId}/approve
+   * @secure
+   */
+  export namespace ApproveConsumerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Rejects a consumer delegation
+   * @tags consumerDelegations
+   * @name RejectConsumerDelegation
+   * @summary Rejects a consumer delegation
+   * @request POST:/consumer/delegations/{delegationId}/reject
+   * @secure
+   */
+  export namespace RejectConsumerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectDelegationPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revokes a consumer delegation
+   * @tags consumerDelegations
+   * @name RevokeConsumerDelegation
+   * @summary Revokes a consumer delegation
+   * @request DELETE:/consumer/delegations/{delegationId}
+   * @secure
+   */
+  export namespace RevokeConsumerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
   }
 }
 
@@ -4291,7 +4477,9 @@ export namespace Purposes {
    */
   export namespace RetrieveLatestRiskAnalysisConfiguration {
     export type RequestParams = {}
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      tenantKind?: TenantKind
+    }
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
@@ -4372,7 +4560,7 @@ export namespace Producer {
     export type ResponseBody = Purposes
   }
   /**
-   * @description creates the producer delegation
+   * @description creates a producer delegation
    * @tags producerDelegations
    * @name CreateProducerDelegation
    * @summary Producer delegation creation
@@ -4391,12 +4579,12 @@ export namespace Producer {
   /**
    * @description Approves a producer delegation
    * @tags producerDelegations
-   * @name ApproveDelegation
+   * @name ApproveProducerDelegation
    * @summary Approves a producer delegation
    * @request POST:/producer/delegations/{delegationId}/approve
    * @secure
    */
-  export namespace ApproveDelegation {
+  export namespace ApproveProducerDelegation {
     export type RequestParams = {
       /**
        * The identifier of the delegation
@@ -4414,12 +4602,12 @@ export namespace Producer {
   /**
    * @description Rejects a producer delegation
    * @tags producerDelegations
-   * @name RejectDelegation
+   * @name RejectProducerDelegation
    * @summary Rejects a producer delegation
    * @request POST:/producer/delegations/{delegationId}/reject
    * @secure
    */
-  export namespace RejectDelegation {
+  export namespace RejectProducerDelegation {
     export type RequestParams = {
       /**
        * The identifier of the delegation
@@ -4453,58 +4641,6 @@ export namespace Producer {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
-  }
-}
-
-export namespace Consumer {
-  /**
-   * @description Retrieve Purposes from the consumer prospective
-   * @tags purposes
-   * @name GetConsumerPurposes
-   * @request GET:/consumer/purposes
-   * @secure
-   */
-  export namespace GetConsumerPurposes {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      q?: string
-      /**
-       * comma separated sequence of EService IDs
-       * @default []
-       */
-      eservicesIds?: string[]
-      /**
-       * comma separated sequence of consumers IDs
-       * @default []
-       */
-      consumersIds?: string[]
-      /**
-       * comma separated sequence of producers IDs
-       * @default []
-       */
-      producersIds?: string[]
-      /**
-       * comma separated sequence of states
-       * @default []
-       */
-      states?: PurposeVersionState[]
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = Purposes
   }
 }
 
