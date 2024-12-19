@@ -16,7 +16,7 @@ import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
   const { t: tCommon } = useTranslation('common')
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptorAttributes } = useSuspenseQuery({
@@ -35,7 +35,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   }>({ isOpen: false, kind: 'certified' })
 
   const getAttributeSectionActions = (kind: AttributeKey): Array<ActionItemButton> | undefined => {
-    if (descriptorAttributes[kind].length === 0 || isDelegator) return
+    if (descriptorAttributes[kind].length === 0 || isDelegator || !isAdmin) return
 
     return [
       {
@@ -45,7 +45,6 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
       },
     ]
   }
-
   return (
     <>
       <SectionContainer title={t('title')} description={t('description')}>
