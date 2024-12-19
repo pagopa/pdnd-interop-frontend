@@ -30,6 +30,7 @@ function useExportVersion() {
   return useDownloadFile(EServiceServices.exportVersion, {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
+    kindFile: 'ESERVICE',
   })
 }
 

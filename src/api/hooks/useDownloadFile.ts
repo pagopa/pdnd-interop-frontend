@@ -1,4 +1,6 @@
+import { trackEvent } from '@/config/tracking'
 import { useLoadingOverlay, useToastNotification } from '@/stores'
+import { AxiosError } from 'axios'
 
 export function downloadFile(responseData: File | string, filename = 'download') {
   const blob = new Blob([responseData], { type: 'application/octet-stream' })
@@ -20,7 +22,12 @@ export function downloadFile(responseData: File | string, filename = 'download')
 
 export function useDownloadFile<T = unknown[]>(
   service: (args: T) => Promise<File | string | { file: File; filename: string }>,
-  config: { errorToastLabel?: string; successToastLabel?: string; loadingLabel: string }
+  config: {
+    errorToastLabel?: string
+    successToastLabel?: string
+    loadingLabel: string
+    kindFile?: 'ESERVICE'
+  }
 ) {
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { showToast } = useToastNotification()
@@ -40,9 +47,14 @@ export function useDownloadFile<T = unknown[]>(
       } else {
         downloadFile(data, filename)
       }
-
+      if (config.kindFile) {
+        trackEvent('INTEROP_ESERVICE_DOWNLOAD_RESPONSE_SUCCESS', {})
+      }
       config.successToastLabel && showToast(config.successToastLabel, 'success')
     } catch (error) {
+      if (config.kindFile && error instanceof AxiosError && error.response) {
+        trackEvent('INTEROP_ESERVICE_DOWNLOAD_RESPONSE_ERROR', { errorCode: error.response.status })
+      }
       console.error(error)
       config.errorToastLabel && showToast(config.errorToastLabel, 'error')
     } finally {

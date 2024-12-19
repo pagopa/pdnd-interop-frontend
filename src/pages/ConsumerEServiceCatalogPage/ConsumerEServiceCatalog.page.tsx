@@ -12,6 +12,8 @@ import {
 } from '@pagopa/interop-fe-commons'
 import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { trackEvent } from '@/config/tracking'
+import { debounce } from 'lodash'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -33,7 +35,11 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
   >([
-    { name: 'q', label: tEservice('nameField.label'), type: 'freetext' },
+    {
+      name: 'q',
+      label: tEservice('nameField.label'),
+      type: 'freetext',
+    },
     {
       name: 'producersIds',
       label: tEservice('providerField.label'),
@@ -51,6 +57,20 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     ...EServiceQueries.getCatalogList(queryParams),
     placeholderData: keepPreviousData,
   })
+
+  React.useEffect(() => {
+    const debouncedTrackEvent = debounce(() => {
+      if (filtersParams.q || filtersParams.producersIds) {
+        trackEvent('INTEROP_CATALOG_SEARCH_KEYWORD', {
+          q: filtersParams.q,
+          producersId: filtersParams.producersIds,
+        })
+      }
+    }, 4000)
+
+    debouncedTrackEvent()
+    return () => debouncedTrackEvent.cancel()
+  }, [filtersParams.q, filtersParams.producersIds])
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
