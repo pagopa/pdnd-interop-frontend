@@ -74,7 +74,7 @@ export const DialogRevokeProducerDelegation: React.FC<DialogRevokeProducerDelega
           {tCommon('cancel')}
         </Button>
         <Button variant="contained" disabled={!isConfirmCheckboxChecked} onClick={handleRevoke}>
-          {tCommon('revoke')}
+          {t('actions.revoke')}
         </Button>
       </DialogActions>
     </Dialog>

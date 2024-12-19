@@ -48,8 +48,8 @@ export const DialogRejectProducerDelegation: React.FC<DialogRejectProducerDelega
               infoLabel={t('content.reason.infoLabel')}
               focusOnMount
               multiline
-              inputProps={{ maxLength: 1000 }}
-              rules={{ required: true, minLength: 20 }}
+              inputProps={{ maxLength: 250 }}
+              rules={{ required: true, minLength: 10 }}
             />
           </DialogContent>
 
