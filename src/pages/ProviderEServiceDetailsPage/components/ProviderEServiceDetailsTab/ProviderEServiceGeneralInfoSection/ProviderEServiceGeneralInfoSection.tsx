@@ -14,6 +14,7 @@ import { ProviderEServiceUpdateDescriptionDrawer } from './ProviderEServiceUpdat
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
+import { trackEvent } from '@/config/tracking'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -58,6 +59,10 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   }
 
   const handleExportVersion = () => {
+    trackEvent('INTEROP_ESERVICE_DOWNLOAD_REQUEST', {
+      eserviceId: eserviceId,
+      descriptorId: descriptorId,
+    })
     exportVersion({ eserviceId, descriptorId })
   }
 
