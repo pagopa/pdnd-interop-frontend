@@ -7,7 +7,10 @@ import { AuthHooks } from '@/api/auth'
 import EditIcon from '@mui/icons-material/Edit'
 import { DelegationAvailabilityDrawer } from './DelegationAvailabilityDrawer'
 import { TenantHooks } from '@/api/tenant'
-import { hasTenantGivenProducerDelegationAvailability } from '@/utils/tenant.utils'
+import {
+  hasTenantGivenConsumerDelegationAvailability,
+  hasTenantGivenProducerDelegationAvailability,
+} from '@/utils/tenant.utils'
 
 export const DelegationsAvailabilityTab: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
@@ -15,11 +18,12 @@ export const DelegationsAvailabilityTab: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
 
   const { data: activeTenant } = TenantHooks.useGetActiveUserParty()
-  const producerDelegationsAvailability = hasTenantGivenProducerDelegationAvailability(activeTenant)
 
+  const producerDelegationsAvailability = hasTenantGivenProducerDelegationAvailability(activeTenant)
   const isAvailableProducerDelegations = Boolean(producerDelegationsAvailability)
 
-  const [isAvailableConsumerDelegations, setIsAvailableConsumerDelegations] = React.useState(false) //TODO integrare con BE
+  const consumerDelegationsAvailability = hasTenantGivenConsumerDelegationAvailability(activeTenant)
+  const isAvailableConsumerDelegations = Boolean(consumerDelegationsAvailability)
 
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 
@@ -70,7 +74,7 @@ export const DelegationsAvailabilityTab: React.FC = () => {
         <DelegationAvailabilityDrawer
           isOpen={isDrawerOpen}
           onClose={onCloseDrawer}
-          //isAvailableConsumerDelegations={isAvailableConsumerDelegations}
+          isAvailableConsumerDelegations={isAvailableConsumerDelegations}
           isAvailableProducerDelegations={isAvailableProducerDelegations}
         />
       </Grid>
