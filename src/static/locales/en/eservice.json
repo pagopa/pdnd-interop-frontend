@@ -42,6 +42,18 @@
           "switchLabel": "Yes, it is available"
         }
       },
+      "delegationSection": {
+        "title": "Delegations",
+        "description": "Read the <1>documentation</1> relating to how delegations work",
+        "delegationField": {
+          "label": "Can the e-service be used via delegation?",
+          "switchLabel": "I authorize that users of the e-service can delegate other entities to register on their behalf"
+        },
+        "clientAccessDelegableField": {
+          "label": "I authorize access to the delegated data",
+          "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
+        }
+      },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
     },
     "stepPurpose": {
@@ -165,6 +177,22 @@
           "true": "Yes, it is available",
           "false": "No, it is not available",
           "undefined": "No, it is not available"
+        }
+      },
+      "isDelegable": {
+        "label": "Can the e-service be used via delegation?",
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "No"
+        }
+      },
+      "isClientAccessDelegable": {
+        "label": "Do I authorize access to delegated data?",
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "No"
         }
       }
     },
