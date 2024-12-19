@@ -167,14 +167,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               <RHFSwitch
                 label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
                 name="isSignalHubEnabled"
-                aria-disabled={!areEServiceGeneralInfoEditable}
-                // disabled={!areEServiceGeneralInfoEditable} isn't effective here.
-                // Added aria-disabled, opacity, and pointer-events to properly disable the switch visually and functionally
-                sx={{
-                  my: 0,
-                  opacity: !areEServiceGeneralInfoEditable ? 0.5 : 1,
-                  pointerEvents: areEServiceGeneralInfoEditable ? 'auto' : 'none',
-                }}
+                disabled={!areEServiceGeneralInfoEditable}
+                sx={{ my: 0 }}
               />
             </SectionContainer>
           )}
