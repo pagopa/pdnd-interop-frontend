@@ -8,12 +8,15 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { DelegationQueries } from '@/api/delegation'
 import { Link } from '@/router'
-import { DelegationsTable } from '@/components/shared/DelegationTable/DelegationsTable'
+import {
+  DelegationsTable,
+  DelegationsTableSkeleton,
+} from '@/components/shared/DelegationTable/DelegationsTable'
 
 export const DelegationsGrantedTab: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
-  const { isAdmin } = AuthHooks.useJwt()
-  const currentUserOrganizationId = AuthHooks.useJwt().jwt?.organizationId
+  const { isAdmin, jwt } = AuthHooks.useJwt()
+  const currentUserOrganizationId = jwt?.organizationId
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
@@ -47,7 +50,9 @@ export const DelegationsGrantedTab: React.FC = () => {
           </Link>
         </Stack>
       )}
-      <DelegationsTable delegationType="DELEGATION_GRANTED" params={queryParams} />
+      <React.Suspense fallback={<DelegationsTableSkeleton delegationType="DELEGATION_GRANTED" />}>
+        <DelegationsTable delegationType="DELEGATION_GRANTED" params={queryParams} />
+      </React.Suspense>
       <Pagination {...paginationProps} totalPages={totalPageCount} />
     </>
   )
