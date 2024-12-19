@@ -108,7 +108,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         eserviceId: formValues.eserviceName,
         delegateId: formValues.delegateId,
       }
-      console.log({ createDelegationParams })
 
       createProducerDelegation(createDelegationParams, {
         onSuccess: () => {
