@@ -6,7 +6,7 @@ import { trackEvent } from '@/config/tracking'
 import { useNavigate } from '@/router'
 import { Box, FormControlLabel, Link, Stack, Switch, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { AxiosError } from 'axios'
+import { isAxiosError } from 'axios'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -63,12 +63,10 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
           })
         },
         onError: (error) => {
-          if (error instanceof AxiosError) {
-            if (error.response) {
-              trackEvent('INTEROP_ESERVICE_UPLOAD_RESPONSE_ERROR', {
-                errorCode: error.response.status,
-              })
-            }
+          if (isAxiosError(error) && error.response) {
+            trackEvent('INTEROP_ESERVICE_UPLOAD_RESPONSE_ERROR', {
+              errorCode: error.response.status,
+            })
           }
         },
       }
