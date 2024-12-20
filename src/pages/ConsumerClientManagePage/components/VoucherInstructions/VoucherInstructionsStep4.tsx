@@ -6,7 +6,6 @@ import { Alert, AlertTitle, Button, Stack, Typography } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { SectionContainer } from '@/components/layout/containers'
-import { useNavigate } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
 import {
   API_GATEWAY_INTERFACE_URL,
@@ -16,6 +15,7 @@ import {
 } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
+import { Link } from '@/router'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -26,16 +26,6 @@ export const VoucherInstructionsStep4: React.FC = () => {
     ...PurposeQueries.getSingle(selectedPurposeId!),
     enabled: Boolean(selectedPurposeId),
   })
-
-  const navigate = useNavigate()
-  function handleOnClickEserviceTab() {
-    navigate('SUBSCRIBE_CATALOG_VIEW', {
-      params: {
-        eserviceId: purpose!.eservice.id,
-        descriptorId: purpose!.eservice.descriptor.id,
-      },
-    })
-  }
 
   const eserviceName = purpose ? purpose.eservice.name : ''
   const producer = purpose ? purpose.eservice.producer.name : ''
@@ -76,17 +66,22 @@ export const VoucherInstructionsStep4: React.FC = () => {
               </Button>
             )}
             {purpose && clientKind === 'CONSUMER' && (
-              <Button
+              <Link
+                as="button"
+                to={'SUBSCRIBE_CATALOG_VIEW'}
+                params={{
+                  eserviceId: purpose.eservice.id,
+                  descriptorId: purpose.eservice.descriptor.id,
+                }}
                 sx={{
                   '&:hover': {
                     backgroundColor: 'white',
                   },
                 }}
                 disableRipple
-                onClick={() => handleOnClickEserviceTab()}
               >
                 {t(`step4.${clientKind}.actionLabel`)}
-              </Button>
+              </Link>
             )}
           </Stack>
         </Stack>
