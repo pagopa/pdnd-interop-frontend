@@ -23,6 +23,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
   name,
   sx,
   rules,
+  disabled,
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -47,6 +48,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
               <MUISwitch
                 {...props}
                 {...fieldProps}
+                disabled={disabled}
                 inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 checked={value}
                 inputRef={ref}
