@@ -1,6 +1,6 @@
 import { DelegationMutations } from '@/api/delegation'
 import { useDialog } from '@/stores'
-import type { DialogAcceptProducerDelegationProps } from '@/types/dialog.types'
+import type { DialogAcceptDelegationProps } from '@/types/dialog.types'
 import {
   Button,
   Checkbox,
@@ -14,19 +14,27 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
 
-export const DialogAcceptProducerDelegation: React.FC<DialogAcceptProducerDelegationProps> = ({
+export const DialogAcceptDelegation: React.FC<DialogAcceptDelegationProps> = ({
   delegationId,
+  delegationKind,
 }) => {
   const ariaLabelId = React.useId()
 
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', {
-    keyPrefix: 'dialogAcceptProducerDelegation',
+    keyPrefix: 'dialogAcceptDelegation',
   })
 
   const { closeDialog } = useDialog()
-  const { mutate: acceptDelegation } = DelegationMutations.useApproveProducerDelegation()
+  const { mutate: acceptProducerDelegation } = DelegationMutations.useApproveProducerDelegation()
+  const { mutate: acceptConsumerDelegation } = DelegationMutations.useApproveConsumerDelegation()
+
+  const acceptDelegation = match(delegationKind)
+    .with('DELEGATED_PRODUCER', () => acceptProducerDelegation)
+    .with('DELEGATED_CONSUMER', () => acceptConsumerDelegation)
+    .exhaustive()
 
   const [isConfirmCheckboxChecked, setIsConfirmCheckboxChecked] = React.useState<boolean>(false)
 
