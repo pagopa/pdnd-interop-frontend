@@ -6,7 +6,7 @@ export const NODE_ENV = import.meta.env.MODE
 export const isDevelopment = !!(import.meta.env.MODE === 'development')
 export const isProduction = !!(import.meta.env.MODE === 'production')
 export const isTest = !!(import.meta.env.MODE === 'test')
-export const isSignalHubEnabled = ['ATT', 'DEV', 'DEV_REF', 'QA', 'UAT'].includes(
+export const isSignalHubEnabled = ['ATT', 'DEV', 'DEV_REF', 'QA'].includes(
   PAGOPA_ENV?.STAGE ?? 'DEV'
 )
 
