@@ -16,7 +16,11 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   if (!delegation) return { actions: actions }
 
   const handleAccept = () => {
-    openDialog({ type: 'acceptDelegation', delegationId: delegation.id })
+    openDialog({
+      type: 'acceptDelegation',
+      delegationId: delegation.id,
+      delegationKind: delegation.kind,
+    })
   }
 
   const acceptAction: ActionItemButton = {
@@ -27,7 +31,11 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   }
 
   const handleReject = () => {
-    openDialog({ type: 'rejectDelegation', delegationId: delegation.id })
+    openDialog({
+      type: 'rejectDelegation',
+      delegationId: delegation.id,
+      delegationKind: delegation.kind,
+    })
   }
 
   const rejectAction: ActionItemButton = {
@@ -53,7 +61,6 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   }
 
   if (
-    delegation.kind === 'DELEGATED_PRODUCER' &&
     delegation.state === 'WAITING_FOR_APPROVAL' &&
     delegation.delegate.id === jwt?.organizationId
   ) {
