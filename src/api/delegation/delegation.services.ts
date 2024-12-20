@@ -57,6 +57,22 @@ async function revokeProducerDelegation({ delegationId }: { delegationId: string
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/producer/delegations/${delegationId}`)
 }
 
+async function approveConsumerDelegation({ delegationId }: { delegationId: string }) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/${delegationId}/approve`
+  )
+}
+
+async function rejectConsumerDelegation({
+  delegationId,
+  ...payload
+}: { delegationId: string } & RejectDelegationPayload) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/${delegationId}/reject`,
+    payload
+  )
+}
+
 async function downloadDelegationContract({
   delegationId,
   contractId,
@@ -92,6 +108,8 @@ export const DelegationServices = {
   approveProducerDelegation,
   rejectProducerDelegation,
   revokeProducerDelegation,
+  approveConsumerDelegation,
+  rejectConsumerDelegation,
   downloadDelegationContract,
   createProducerDelegationAndEservice,
 }

@@ -33,7 +33,7 @@ function useApproveProducerDelegation() {
 
 function useRejectProducerDelegation() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'delegation.rejectProducerDelegation',
+    keyPrefix: 'delegation.rejectDelegation',
   })
   return useMutation({
     mutationFn: DelegationServices.rejectProducerDelegation,
@@ -64,6 +64,34 @@ function useRevokeProducerDelegation() {
   })
 }
 
+function useApproveConsumerDelegation() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'delegation.approveConsumerDelegation',
+  })
+  return useMutation({
+    mutationFn: DelegationServices.approveConsumerDelegation,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useRejectConsumerDelegation() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'delegation.rejectDelegation',
+  })
+  return useMutation({
+    mutationFn: DelegationServices.rejectConsumerDelegation,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useCreateProducerDelegationAndEservice() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'delegation.createProducerDelegation',
@@ -83,5 +111,7 @@ export const DelegationMutations = {
   useApproveProducerDelegation,
   useRejectProducerDelegation,
   useRevokeProducerDelegation,
+  useApproveConsumerDelegation,
+  useRejectConsumerDelegation,
   useCreateProducerDelegationAndEservice,
 }
