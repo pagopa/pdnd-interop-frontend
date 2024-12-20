@@ -1,6 +1,4 @@
-import { trackEvent } from '@/config/tracking'
 import { useLoadingOverlay, useToastNotification } from '@/stores'
-import { AxiosError } from 'axios'
 
 export function downloadFile(responseData: File | string, filename = 'download') {
   const blob = new Blob([responseData], { type: 'application/octet-stream' })
@@ -22,18 +20,24 @@ export function downloadFile(responseData: File | string, filename = 'download')
 
 export function useDownloadFile<T = unknown[]>(
   service: (args: T) => Promise<File | string | { file: File; filename: string }>,
-  config: {
+  labels: {
     errorToastLabel?: string
     successToastLabel?: string
     loadingLabel: string
-    kindFile?: 'ESERVICE'
   }
 ) {
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { showToast } = useToastNotification()
 
-  return async (args: T, filename?: string) => {
-    showOverlay(config.loadingLabel)
+  return async (
+    args: T,
+    filename?: string,
+    config?: {
+      onSuccess?: () => void
+      onError?: (error: unknown) => void
+    }
+  ) => {
+    showOverlay(labels.loadingLabel)
     try {
       const data = await service(args)
 
@@ -47,16 +51,12 @@ export function useDownloadFile<T = unknown[]>(
       } else {
         downloadFile(data, filename)
       }
-      if (config.kindFile) {
-        trackEvent('INTEROP_ESERVICE_DOWNLOAD_RESPONSE_SUCCESS', {})
-      }
-      config.successToastLabel && showToast(config.successToastLabel, 'success')
+      labels.successToastLabel && showToast(labels.successToastLabel, 'success')
+      config?.onSuccess?.()
     } catch (error) {
-      if (config.kindFile && error instanceof AxiosError && error.response) {
-        trackEvent('INTEROP_ESERVICE_DOWNLOAD_RESPONSE_ERROR', { errorCode: error.response.status })
-      }
       console.error(error)
-      config.errorToastLabel && showToast(config.errorToastLabel, 'error')
+      labels.errorToastLabel && showToast(labels.errorToastLabel, 'error')
+      config?.onError?.(error)
     } finally {
       hideOverlay()
     }
