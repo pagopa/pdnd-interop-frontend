@@ -30,6 +30,8 @@ export const VoucherInstructionsStep4: React.FC = () => {
   const eserviceName = purpose ? purpose.eservice.name : ''
   const producer = purpose ? purpose.eservice.producer.name : ''
 
+  console.log({ API_SIGNAL_HUB_PUSH_INTERFACE_URL })
+
   return (
     <>
       <Alert severity="success" variant="outlined">
