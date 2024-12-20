@@ -16,7 +16,7 @@ import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
 import { STAGE } from '@/config/env'
-import { PagoPAEnvVars } from '@/types/common.types'
+import type { PagoPAEnvVars } from '@/types/common.types'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
