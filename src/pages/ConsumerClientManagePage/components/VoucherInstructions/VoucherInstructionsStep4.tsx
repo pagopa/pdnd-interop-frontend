@@ -2,7 +2,7 @@ import React from 'react'
 import { StepActions } from '@/components/shared/StepActions'
 import { Trans, useTranslation } from 'react-i18next'
 import { useVoucherInstructionsContext } from './VoucherInstructionsContext'
-import { Alert, AlertTitle, Button, Snackbar, Stack, Typography } from '@mui/material'
+import { Alert, AlertTitle, Button, Stack, Typography } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { SectionContainer } from '@/components/layout/containers'
@@ -12,6 +12,7 @@ import {
   API_GATEWAY_INTERFACE_URL,
   API_SIGNAL_HUB_PULL_INTERFACE_URL,
   API_SIGNAL_HUB_PUSH_INTERFACE_URL,
+  isSignalHubEnabled,
 } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -90,7 +91,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
           </Stack>
         </Stack>
       </SectionContainer>
-      {clientKind === 'API' && (
+      {clientKind === 'API' && isSignalHubEnabled && (
         <SectionContainer>
           <Stack spacing={2}>
             <Typography variant="h6" component="h2">
