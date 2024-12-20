@@ -2,6 +2,7 @@ import type {
   Agreement,
   RequesterCertifiedAttribute,
   CompactPurposeEService,
+  DelegationKind,
 } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -29,8 +30,8 @@ export type DialogProps =
   | DialogRemoveUserFromKeychainProps
   | DialogDeleteProducerKeychainKeyProps
   | DialogDelegationsProps
-  | DialogAcceptProducerDelegationProps
-  | DialogRejectProducerDelegationProps
+  | DialogAcceptDelegationProps
+  | DialogRejectDelegationProps
   | DialogRevokeProducerDelegationProps
   | DialogRejectDelegatedVersionDraftProps
 
@@ -115,14 +116,16 @@ export type DialogDelegationsProps = {
   onConfirm: () => void
 }
 
-export type DialogAcceptProducerDelegationProps = {
+export type DialogAcceptDelegationProps = {
   type: 'acceptDelegation'
   delegationId: string
+  delegationKind: DelegationKind
 }
 
-export type DialogRejectProducerDelegationProps = {
+export type DialogRejectDelegationProps = {
   type: 'rejectDelegation'
   delegationId: string
+  delegationKind: DelegationKind
 }
 
 export type DialogRevokeProducerDelegationProps = {
