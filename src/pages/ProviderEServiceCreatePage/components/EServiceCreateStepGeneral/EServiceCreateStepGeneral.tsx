@@ -17,6 +17,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
 import { STAGE } from '@/config/env'
 import { PagoPAEnvVars } from '@/types/common.types'
+import { trackEvent } from '@/config/tracking'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -94,6 +95,11 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 href={eserviceNamingBestPracticeLink}
                 target="_blank"
                 endIcon={<LaunchIcon fontSize="small" />}
+                onClick={() =>
+                  trackEvent('INTEROP_EXT_LINK_DTD_ESERVICE_GUIDE', {
+                    src: 'CREATE_ESERVICE',
+                  })
+                }
               >
                 {t('create.step1.detailsDescription.linkLabel')}
               </IconLink>{' '}

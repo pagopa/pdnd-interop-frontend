@@ -12,6 +12,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { openApiCheckerLink } from '@/config/constants'
+import { trackEvent } from '@/config/tracking'
 
 export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
@@ -29,6 +30,7 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
           href={openApiCheckerLink}
           target="_blank"
           endIcon={<LaunchIcon fontSize="small" />}
+          onClick={() => trackEvent('INTEROP_EXT_LINK_DTD_API_CHECKER', { src: 'CREATE_ESERVICE' })}
         >
           {t('create.step4.interface.description.restLinkLabel')}
         </IconLink>
