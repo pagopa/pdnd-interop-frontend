@@ -2,9 +2,11 @@ import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 import { importExportEServiceGuideLink } from '@/config/constants'
+import { trackEvent } from '@/config/tracking'
 import { useNavigate } from '@/router'
 import { Box, FormControlLabel, Link, Stack, Switch, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { isAxiosError } from 'axios'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -44,12 +46,14 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
   const { mutate: importVersion } = EServiceMutations.useImportVersion()
 
   const onSubmit = async (values: EServiceImportVersionDocFormValues) => {
+    trackEvent('INTEROP_ESERVICE_UPLOAD_REQUEST', {})
     if (!values.eserviceFile || !isConfirmedImport) return
 
     importVersion(
       { eserviceFile: values.eserviceFile },
       {
         onSuccess: (res) => {
+          trackEvent('INTEROP_ESERVICE_UPLOAD_RESPONSE_SUCCESS', {})
           onClose()
           navigate('PROVIDE_ESERVICE_SUMMARY', {
             params: {
@@ -57,6 +61,13 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
               descriptorId: res.descriptorId,
             },
           })
+        },
+        onError: (error) => {
+          if (isAxiosError(error) && error.response) {
+            trackEvent('INTEROP_ESERVICE_UPLOAD_RESPONSE_ERROR', {
+              errorCode: error.response.status,
+            })
+          }
         },
       }
     )

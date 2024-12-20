@@ -14,6 +14,8 @@ import { ProviderEServiceUpdateDescriptionDrawer } from './ProviderEServiceUpdat
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
+import { trackEvent } from '@/config/tracking'
+import { isAxiosError } from 'axios'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -58,7 +60,22 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   }
 
   const handleExportVersion = () => {
-    exportVersion({ eserviceId, descriptorId })
+    trackEvent('INTEROP_ESERVICE_DOWNLOAD_REQUEST', {
+      eserviceId: eserviceId,
+      descriptorId: descriptorId,
+    })
+    exportVersion({ eserviceId, descriptorId }, undefined, {
+      onSuccess: () => {
+        trackEvent('INTEROP_ESERVICE_DOWNLOAD_RESPONSE_SUCCESS', {})
+      },
+      onError: (error) => {
+        if (isAxiosError(error) && error.response) {
+          trackEvent('INTEROP_ESERVICE_DOWNLOAD_RESPONSE_ERROR', {
+            errorCode: error.response.status,
+          })
+        }
+      },
+    })
   }
 
   const hasSingleVersion =

@@ -20,13 +20,24 @@ export function downloadFile(responseData: File | string, filename = 'download')
 
 export function useDownloadFile<T = unknown[]>(
   service: (args: T) => Promise<File | string | { file: File; filename: string }>,
-  config: { errorToastLabel?: string; successToastLabel?: string; loadingLabel: string }
+  labels: {
+    errorToastLabel?: string
+    successToastLabel?: string
+    loadingLabel: string
+  }
 ) {
   const { showOverlay, hideOverlay } = useLoadingOverlay()
   const { showToast } = useToastNotification()
 
-  return async (args: T, filename?: string) => {
-    showOverlay(config.loadingLabel)
+  return async (
+    args: T,
+    filename?: string,
+    config?: {
+      onSuccess?: () => void
+      onError?: (error: unknown) => void
+    }
+  ) => {
+    showOverlay(labels.loadingLabel)
     try {
       const data = await service(args)
 
@@ -40,11 +51,12 @@ export function useDownloadFile<T = unknown[]>(
       } else {
         downloadFile(data, filename)
       }
-
-      config.successToastLabel && showToast(config.successToastLabel, 'success')
+      labels.successToastLabel && showToast(labels.successToastLabel, 'success')
+      config?.onSuccess?.()
     } catch (error) {
       console.error(error)
-      config.errorToastLabel && showToast(config.errorToastLabel, 'error')
+      labels.errorToastLabel && showToast(labels.errorToastLabel, 'error')
+      config?.onError?.(error)
     } finally {
       hideOverlay()
     }

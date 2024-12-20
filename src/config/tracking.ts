@@ -11,14 +11,64 @@ import { STORAGE_KEY_SESSION_TOKEN } from './constants'
 import { parseJwt } from '@/api/auth/auth.utils'
 
 // This should be an union of all the possible mixpanel events
-type MixPanelEvent = {
-  eventName: 'INTEROP_CATALOG_READ'
-  properties: MixPanelCatalogReadEventProps
-}
+type MixPanelEvent =
+  | {
+      eventName: 'INTEROP_CATALOG_READ'
+      properties: MixPanelCatalogReadAndDownloadEventProps
+    }
+  | {
+      eventName: 'INTEROP_CATALOG_SEARCH_KEYWORD'
+      properties: MixPanelSearchKeywordEventProps
+    }
+  | {
+      eventName: 'INTEROP_EXT_LINK_DTD_ESERVICE_GUIDE'
+      properties: MixPanelLinkEserviceGuideAndApiCheckerEventProps
+    }
+  | {
+      eventName: 'INTEROP_EXT_LINK_DTD_API_CHECKER'
+      properties: MixPanelLinkEserviceGuideAndApiCheckerEventProps
+    }
+  | {
+      eventName: 'INTEROP_ESERVICE_DOWNLOAD_REQUEST'
+      properties: MixPanelCatalogReadAndDownloadEventProps
+    }
+  | {
+      eventName: 'INTEROP_ESERVICE_DOWNLOAD_RESPONSE_SUCCESS'
+      properties: {}
+    }
+  | {
+      eventName: 'INTEROP_ESERVICE_DOWNLOAD_RESPONSE_ERROR'
+      properties: MixPanelResponseErrorEvent
+    }
+  | {
+      eventName: 'INTEROP_ESERVICE_UPLOAD_REQUEST'
+      properties: {}
+    }
+  | {
+      eventName: 'INTEROP_ESERVICE_UPLOAD_RESPONSE_SUCCESS'
+      properties: {}
+    }
+  | {
+      eventName: 'INTEROP_ESERVICE_UPLOAD_RESPONSE_ERROR'
+      properties: MixPanelResponseErrorEvent
+    }
 
-type MixPanelCatalogReadEventProps = {
+type MixPanelCatalogReadAndDownloadEventProps = {
   eserviceId: string
   descriptorId: string
+}
+
+type MixPanelSearchKeywordEventProps = {
+  q?: string
+  producersId?: string[]
+}
+
+type MixPanelLinkEserviceGuideAndApiCheckerEventProps = {
+  src: 'CREATE_ESERVICE'
+}
+
+type MixPanelResponseErrorEvent = {
+  errorCode: number
 }
 
 const isTrackingEnabled = NODE_ENV === 'production' && STAGE === 'PROD'
