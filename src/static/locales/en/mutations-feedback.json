@@ -707,7 +707,7 @@
         "error": "Delegation could not be activated. Please try again!"
       }
     },
-    "rejectProducerDelegation": {
+    "rejectDelegation": {
       "loading": "We are rejecting the delegation",
       "outcome": {
         "success": "The delegation was successfully rejected.",
@@ -719,6 +719,13 @@
       "outcome": {
         "success": "The delegation was successfully revoked.",
         "error": "It was not possible to revoke the delegation. Please try again!"
+      }
+    },
+    "approveConsumerDelegation": {
+      "loading": "We are activating the delegation",
+      "outcome": {
+        "success": "Delegation has been activated successfully. From this moment you can manage the fruiction of the e-service by delegation",
+        "error": "Delegation could not be activated. Please try again!"
       }
     },
     "downloadDelegationContract": {
