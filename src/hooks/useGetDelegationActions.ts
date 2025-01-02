@@ -9,7 +9,7 @@ import { AuthHooks } from '@/api/auth'
 export function useGetDelegationActions(delegation: Delegation | CompactDelegation | undefined) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { openDialog } = useDialog()
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const actions: Array<ActionItemButton> = []
 
@@ -62,7 +62,8 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
 
   if (
     delegation.state === 'WAITING_FOR_APPROVAL' &&
-    delegation.delegate.id === jwt?.organizationId
+    delegation.delegate.id === jwt?.organizationId &&
+    isAdmin
   ) {
     actions.push(...[acceptAction, rejectAction])
   }
