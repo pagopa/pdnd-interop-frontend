@@ -415,6 +415,11 @@ export interface Agreement {
   id: string
   /** @format uuid */
   descriptorId: string
+  delegation?: {
+    /** @format uuid */
+    id: string
+    delegate: CompactOrganization
+  }
   producer: CompactOrganization
   consumer: Tenant
   eservice: AgreementsEService
@@ -1150,7 +1155,7 @@ export interface Tenants {
   pagination: Pagination
 }
 
-export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER'
+export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER' | 'DELEGATED_CONSUMER'
 
 export type TenantFeature =
   | {
@@ -1625,6 +1630,16 @@ export interface GetEServicesCatalogParams {
 
 export interface GetConsumerDelegatorsParams {
   q?: string
+  /** @default [] */
+  eserviceIds?: string[]
+  /** @format int32 */
+  offset: number
+  /** @format int32 */
+  limit: number
+}
+
+export interface GetConsumerDelegatorsWithAgreementsParams {
+  q?: string
   /** @format int32 */
   offset: number
   /** @format int32 */
@@ -1995,6 +2010,16 @@ export interface GetDelegationsParams {
   kind?: DelegationKind
   /** @default [] */
   eserviceIds?: string[]
+}
+
+export interface GetConsumerDelegatedEservicesParams {
+  /** @format uuid */
+  delegatorId: string
+  q?: string
+  /** @format int32 */
+  offset: number
+  /** @format int32 */
+  limit: number
 }
 
 export namespace Agreements {
@@ -2560,6 +2585,30 @@ export namespace Consumer {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
+      /** @default [] */
+      eserviceIds?: string[]
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DelegationTenants
+  }
+  /**
+   * @description Retrieve requester's delegators with active agreements
+   * @tags consumerDelegations
+   * @name GetConsumerDelegatorsWithAgreements
+   * @request GET:/consumer/delegations/delegatorsWithAgreements
+   * @secure
+   */
+  export namespace GetConsumerDelegatorsWithAgreements {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
       /** @format int32 */
       offset: number
       /** @format int32 */
@@ -2619,6 +2668,30 @@ export namespace Consumer {
       'X-Correlation-Id': string
     }
     export type ResponseBody = Purposes
+  }
+  /**
+   * @description Retrieve requester's delegated eservices
+   * @tags consumerDelegations
+   * @name GetConsumerDelegatedEservices
+   * @request GET:/consumer/delegations/eservices
+   * @secure
+   */
+  export namespace GetConsumerDelegatedEservices {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** @format uuid */
+      delegatorId: string
+      q?: string
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactEServicesLight
   }
   /**
    * @description creates a consumer delegation
