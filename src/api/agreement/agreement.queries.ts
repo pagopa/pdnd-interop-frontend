@@ -5,6 +5,7 @@ import type {
   GetAgreementEServiceProducersParams,
   GetAgreementProducersParams,
   GetAgreementsParams,
+  VerifyTenantCertifiedAttributesPayload,
 } from '../api.generatedTypes'
 import { AgreementServices } from './agreement.services'
 
@@ -50,6 +51,13 @@ function getConsumerEServiceList(params: GetAgreementEServiceConsumersParams) {
   })
 }
 
+function getHasTenantCertifiedAttributes(payload: VerifyTenantCertifiedAttributesPayload) {
+  return queryOptions({
+    queryKey: ['AgreementGetHasTenantCertifiedAttributes', payload],
+    queryFn: () => AgreementServices.verifyTenantCertifiedAttributes(payload),
+  })
+}
+
 export const AgreementQueries = {
   getList,
   getSingle,
@@ -57,4 +65,5 @@ export const AgreementQueries = {
   getConsumers,
   getProducerEServiceList,
   getConsumerEServiceList,
+  getHasTenantCertifiedAttributes,
 }

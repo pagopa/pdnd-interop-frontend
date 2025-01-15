@@ -16,6 +16,8 @@ import type {
   GetAgreementEServiceProducersParams,
   GetAgreementProducersParams,
   GetAgreementsParams,
+  HasCertifiedAttributes,
+  VerifyTenantCertifiedAttributesPayload,
 } from '../api.generatedTypes'
 import { waitFor } from '@/utils/common.utils'
 
@@ -209,6 +211,14 @@ async function downloadContract({ agreementId }: { agreementId: string }) {
   return response.data
 }
 
+async function verifyTenantCertifiedAttributes(payload: VerifyTenantCertifiedAttributesPayload) {
+  const response = await axiosInstance.post<HasCertifiedAttributes>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/verify`,
+    payload
+  )
+  return response.data
+}
+
 export const AgreementServices = {
   getList,
   getSingle,
@@ -231,4 +241,5 @@ export const AgreementServices = {
   upgrade,
   clone,
   downloadContract,
+  verifyTenantCertifiedAttributes,
 }
