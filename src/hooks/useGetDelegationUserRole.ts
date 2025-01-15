@@ -9,7 +9,7 @@ export function useGetDelegationUserRole({
   organizationId: string | undefined
 }) {
   const { data: producerDelegations } = useQuery({
-    ...DelegationQueries.getProducerDelegationsList({
+    ...DelegationQueries.getDelegationsList({
       eserviceIds: [eserviceId as string],
       states: ['ACTIVE'],
       kind: 'DELEGATED_PRODUCER',
