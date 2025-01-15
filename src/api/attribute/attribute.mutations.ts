@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AttributeServices } from './attribute.services'
+import type { DeclaredTenantAttributeSeed } from '../api.generatedTypes'
 
 function useCreateCertified() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'attribute.create' })
@@ -103,18 +104,29 @@ function useRevokeVerifiedPartyAttribute() {
   })
 }
 
-function useDeclarePartyAttribute() {
+function useDeclarePartyAttribute(isDelegated = false) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.declarePartyAttribute',
   })
   return useMutation({
-    mutationFn: AttributeServices.declarePartyAttribute,
+    mutationFn: ({
+      id,
+      delegationId,
+    }: { delegatorName: string | undefined } & DeclaredTenantAttributeSeed) =>
+      AttributeServices.declarePartyAttribute({ id, delegationId }),
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
         title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        description: (variables: any) => {
+          return isDelegated
+            ? t('confirmDialog.description.isDelegated', {
+                delegatorName: variables.delegatorName,
+              })
+            : t('confirmDialog.description.default')
+        },
       },
     },
   })
