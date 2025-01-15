@@ -219,6 +219,13 @@
         "success": "The e-service version has returned to draft, and the reasons for the refusal have been notified to the delivery delegate",
         "error": "It was not possible to reject the new version of e-service. Please try again!"
       }
+    },
+    "updateEServiceName": {
+      "loading": "We are updating the e-service name",
+      "outcome": {
+        "error": "E-service name not updated. Try again.",
+        "success": "E-service name updated correctly"
+      }
     }
   },
   "attribute": {

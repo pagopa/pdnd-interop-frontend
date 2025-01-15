@@ -16,6 +16,7 @@ import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
+import { ProviderEServiceUpdateNameDrawer } from './ProviderEServiceUpdateNameDrawer'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -41,6 +42,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     isOpen: isVersionSelectorDrawerOpen,
     openDrawer: openVersionSelectorDrawer,
     closeDrawer: closeVersionSelectorDrawer,
+  } = useDrawerState()
+
+  const {
+    isOpen: isEServiceUpdateNameDrawerOpen,
+    openDrawer: openEServiceUpdateNameDrawer,
+    closeDrawer: closeEServiceUpdateNameDrawer,
   } = useDrawerState()
 
   const {
@@ -117,6 +124,26 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           <Divider />
           <SectionContainer
             innerSection
+            title={t('eserviceName.label')}
+            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+            topSideActions={
+              isDelegator
+                ? []
+                : [
+                    {
+                      action: openEServiceUpdateNameDrawer,
+                      label: tCommon('actions.edit'),
+                      icon: EditIcon,
+                    },
+                  ]
+            }
+          >
+            <Typography variant="body2">{descriptor.eservice.name}</Typography>
+          </SectionContainer>
+          <Divider />
+          <Divider />
+          <SectionContainer
+            innerSection
             title={t('eserviceDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
             topSideActions={
@@ -151,6 +178,11 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
       <ProviderEServiceUpdateDescriptionDrawer
         isOpen={isEServiceUpdateDescriptionDrawerOpen}
         onClose={closeEServiceUpdateDescriptionDrawer}
+        eservice={descriptor.eservice}
+      />
+      <ProviderEServiceUpdateNameDrawer
+        isOpen={isEServiceUpdateNameDrawerOpen}
+        onClose={closeEServiceUpdateNameDrawer}
         eservice={descriptor.eservice}
       />
     </>

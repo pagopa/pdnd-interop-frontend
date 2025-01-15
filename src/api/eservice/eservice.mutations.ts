@@ -379,6 +379,20 @@ function useRejectDelegatedVersionDraft() {
   })
 }
 
+function useUpdateEServiceName() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceName',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServiceName,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -402,4 +416,5 @@ export const EServiceMutations = {
   useUpdateDescriptorAttributes,
   useApproveDelegatedVersionDraft,
   useRejectDelegatedVersionDraft,
+  useUpdateEServiceName,
 }

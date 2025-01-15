@@ -29,6 +29,7 @@ import type {
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
+import { debounce } from 'lodash'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -335,7 +336,7 @@ async function updateEServiceDescription({
   ...payload
 }: { eserviceId: string } & EServiceDescriptionSeed) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/update`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/description/update`,
     payload
   )
   return response.data
@@ -436,6 +437,18 @@ async function rejectDelegatedVersionDraft({
   return response.data
 }
 
+async function updateEServiceName({
+  eserviceId,
+  ...payload
+}: { eserviceId: string } & EServiceNameSeed) {
+  /*const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/name/update`,
+    payload
+  )
+  return response.data*/
+  return console.log('Name updated')
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -470,4 +483,5 @@ export const EServiceServices = {
   updateDescriptorAttributes,
   approveDelegatedVersionDraft,
   rejectDelegatedVersionDraft,
+  updateEServiceName,
 }
