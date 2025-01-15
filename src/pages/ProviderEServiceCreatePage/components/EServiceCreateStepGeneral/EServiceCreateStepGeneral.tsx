@@ -15,9 +15,10 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
-import { STAGE } from '@/config/env'
+import { SIGNALHUB_WHITELIST, STAGE } from '@/config/env'
 import type { PagoPAEnvVars } from '@/types/common.types'
 import { trackEvent } from '@/config/tracking'
+import { AuthHooks } from '@/api/auth'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -30,6 +31,11 @@ export type EServiceCreateStepGeneralFormValues = {
 export const EServiceCreateStepGeneral: React.FC = () => {
   const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
   const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
+  const isProducerInSHWhitelist = SIGNALHUB_WHITELIST.includes(
+    //only tenants on the whitelist are granted access to the Signal Hub section
+    AuthHooks.useJwt().jwt?.organizationId as string
+  )
+
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
@@ -164,7 +170,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
           />
-          {!isSignalHubFlagDisabled && (
+          {!isSignalHubFlagDisabled && isProducerInSHWhitelist && (
             <SectionContainer
               innerSection
               title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}

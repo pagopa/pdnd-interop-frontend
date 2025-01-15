@@ -9,6 +9,7 @@ export const isTest = !!(import.meta.env.MODE === 'test')
 export const isSignalHubEnabled = ['ATT', 'DEV', 'DEV_REF', 'QA'].includes(
   PAGOPA_ENV?.STAGE ?? 'DEV'
 )
+export const SIGNALHUB_WHITELIST = ['69e2865e-65ab-4e48-a638-2037a9ee2ee7'] // TODO import.meta.env.SIGNALHUB_WHITELIST
 
 export const TEST_MIXPANEL_PROJECT_ID = import.meta.env.REACT_APP_TEST_MIXPANEL_PROJECT_ID
 

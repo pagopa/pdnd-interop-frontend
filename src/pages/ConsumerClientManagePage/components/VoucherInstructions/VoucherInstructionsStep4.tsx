@@ -12,10 +12,12 @@ import {
   API_SIGNAL_HUB_PULL_INTERFACE_URL,
   API_SIGNAL_HUB_PUSH_INTERFACE_URL,
   isSignalHubEnabled,
+  SIGNALHUB_WHITELIST,
 } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
 import { Link } from '@/router'
+import { AuthHooks } from '@/api/auth'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -30,7 +32,10 @@ export const VoucherInstructionsStep4: React.FC = () => {
   const eserviceName = purpose ? purpose.eservice.name : ''
   const producer = purpose ? purpose.eservice.producer.name : ''
 
-  console.log({ API_SIGNAL_HUB_PUSH_INTERFACE_URL })
+  const isProducerInSHWhitelist = SIGNALHUB_WHITELIST.includes(
+    //only tenants on the whitelist are granted access to the Signal Hub section
+    AuthHooks.useJwt().jwt?.organizationId as string
+  )
 
   return (
     <>
@@ -88,7 +93,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
           </Stack>
         </Stack>
       </SectionContainer>
-      {clientKind === 'API' && isSignalHubEnabled && (
+      {clientKind === 'API' && isProducerInSHWhitelist && isSignalHubEnabled && (
         <SectionContainer>
           <Stack spacing={2}>
             <Typography variant="h6" component="h2">
