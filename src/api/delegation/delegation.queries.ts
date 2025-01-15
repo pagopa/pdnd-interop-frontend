@@ -1,11 +1,11 @@
 import { queryOptions } from '@tanstack/react-query'
-import type { GetDelegationsParams } from '../api.generatedTypes'
+import type { GetConsumerDelegatorsParams, GetDelegationsParams } from '../api.generatedTypes'
 import { DelegationServices } from './delegation.services'
 
-function getProducerDelegationsList(params: GetDelegationsParams) {
+function getDelegationsList(params: GetDelegationsParams) {
   return queryOptions({
-    queryKey: ['DelegationGetProducerDelegationsList', params],
-    queryFn: () => DelegationServices.getProducerDelegations(params),
+    queryKey: ['DelegationGetDelegationsList', params],
+    queryFn: () => DelegationServices.getDelegations(params),
   })
 }
 
@@ -16,7 +16,15 @@ function getSingle({ delegationId }: { delegationId: string }) {
   })
 }
 
+function getConsumerDelegators(params: GetConsumerDelegatorsParams) {
+  return queryOptions({
+    queryKey: ['DelegationGetConsumerDelegators', params],
+    queryFn: () => DelegationServices.getConsumerDelegators(params),
+  })
+}
+
 export const DelegationQueries = {
-  getProducerDelegationsList,
+  getDelegationsList,
   getSingle,
+  getConsumerDelegators,
 }
