@@ -365,7 +365,7 @@
         "eserviceNameField": {
           "label": "Nome e-service",
           "validation": {
-            "sameValue": "Il nome dell'e-service deve essere diversa da quella attuale"
+            "sameValue": "Il nome dell'e-service deve essere diverso da quella attuale"
           }
         }
       },
