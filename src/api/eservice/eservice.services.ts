@@ -30,7 +30,6 @@ import type {
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
-import { debounce } from 'lodash'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
