@@ -2,6 +2,7 @@ import { AgreementMutations } from '@/api/agreement'
 import type {
   CatalogEService,
   CatalogEServiceDescriptor,
+  DelegationTenant,
   EServiceDescriptorState,
 } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
@@ -17,15 +18,19 @@ import SendIcon from '@mui/icons-material/Send'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import ArticleIcon from '@mui/icons-material/Article'
 import noop from 'lodash/noop'
+import { useDialog } from '@/stores'
 
 function useGetEServiceConsumerActions(
   eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
-  descriptor?: { id: string; state: EServiceDescriptorState; version: string }
+  descriptor?: { id: string; state: EServiceDescriptorState; version: string },
+  delegators?: Array<DelegationTenant>
 ) {
   const { t } = useTranslation('eservice')
   const { isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
+
+  const { openDialog } = useDialog()
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
@@ -96,6 +101,14 @@ function useGetEServiceConsumerActions(
     )
   }
 
+  const handleOpenCreateAgreementDraftDialog = () => {
+    openDialog({
+      type: 'createAgreementDraft',
+      eservice: { id: eservice.id, name: eservice.name, producerId: eservice.producer.id },
+      descriptor: { id: descriptor.id, version: descriptor.version },
+    })
+  }
+
   if (isSubscribed) {
     return {
       actions: [
@@ -120,11 +133,17 @@ function useGetEServiceConsumerActions(
     }
   }
 
-  if (canCreateAgreementDraft) {
+  if (
+    (canCreateAgreementDraft && (delegators?.length === 0 || !delegators)) ||
+    (delegators && delegators?.length > 0)
+  ) {
     return {
       actions: [
         {
-          action: handleCreateAgreementDraftAction,
+          action:
+            delegators && delegators?.length > 0
+              ? handleOpenCreateAgreementDraftDialog
+              : handleCreateAgreementDraftAction,
           label: t('tableEServiceCatalog.subscribe'),
           icon: SendIcon,
           disabled: isSuspended,
