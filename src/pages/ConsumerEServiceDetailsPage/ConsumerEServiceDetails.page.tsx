@@ -16,16 +16,29 @@ import {
 } from './components/ConsumerEServiceGeneralInfoSection'
 import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
+import { DelegationQueries } from '@/api/delegation'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
+  const { jwt } = AuthHooks.useJwt()
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
 
-  const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
+  const { data: delegators } = useQuery({
+    ...DelegationQueries.getConsumerDelegators({
+      limit: 50,
+      offset: 0,
+      eserviceIds: [eserviceId],
+    }),
+    enabled: Boolean(jwt?.organizationId),
+    select: ({ results }) => results,
+  })
+
+  const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor, delegators)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,

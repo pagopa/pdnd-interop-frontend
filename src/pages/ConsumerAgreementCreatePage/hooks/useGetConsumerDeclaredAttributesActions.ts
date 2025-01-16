@@ -11,7 +11,9 @@ export const useGetConsumerDeclaredAttributesActions = () => {
   const { isAdmin } = AuthHooks.useJwt()
   const { partyAttributes, agreement } = useConsumerAgreementCreateContentContext()
 
-  const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute()
+  const isDelegated = Boolean(agreement?.delegation)
+
+  const { mutate: declareAttribute } = AttributeMutations.useDeclarePartyAttribute(isDelegated)
 
   return (attributeId: string) => {
     // The user can declare his own attributes only in the agreement create/edit view...
@@ -25,6 +27,7 @@ export const useGetConsumerDeclaredAttributesActions = () => {
     const handleDeclareAttribute = (attributeId: string) => {
       declareAttribute({
         id: attributeId,
+        delegatorName: agreement.consumer.name,
       })
     }
 
