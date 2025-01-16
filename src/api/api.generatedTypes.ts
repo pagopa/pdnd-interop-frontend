@@ -189,8 +189,9 @@ export interface EServiceDescriptionUpdateSeed {
   description: string
 }
 
-export interface EServiceNameUpdateSeed {
-  name: string
+export interface EServiceFlagsSeed {
+  isDelegable: boolean
+  isClientAccessDelegable: boolean
 }
 
 export interface RejectDelegatedEServiceDescriptorSeed {
@@ -737,6 +738,7 @@ export interface Purpose {
    * @format int32
    */
   dailyCallsTotal: number
+  delegation?: DelegationWithCompactTenants
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -860,6 +862,13 @@ export interface ReversePurposeUpdateContent {
 export interface Purposes {
   results: Purpose[]
   pagination: Pagination
+}
+
+export interface DelegationWithCompactTenants {
+  /** @format uuid */
+  id: string
+  delegate: CompactOrganization
+  delegator: CompactOrganization
 }
 
 /** business representation of a purpose version */
@@ -3377,7 +3386,7 @@ export namespace Eservices {
    * @tags eservices
    * @name UpdateEServiceDescription
    * @summary Update an e-service description
-   * @request POST:/eservices/{eServiceId}/description/update
+   * @request POST:/eservices/{eServiceId}/description
    * @secure
    */
   export namespace UpdateEServiceDescription {
@@ -3398,12 +3407,12 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
-   * @name UpdateEServiceName
-   * @summary Update an e-service name
-   * @request POST:/eservices/{eServiceId}/name/update
+   * @name UpdateEServiceDelegationFlags
+   * @summary Update an e-service delegation flags
+   * @request POST:/eservices/{eServiceId}/delegationFlags
    * @secure
    */
-  export namespace UpdateEServiceName {
+  export namespace UpdateEServiceDelegationFlags {
     export type RequestParams = {
       /**
        * the eservice id
@@ -3412,11 +3421,11 @@ export namespace Eservices {
       eServiceId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceNameUpdateSeed
+    export type RequestBody = EServiceFlagsSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = void
+    export type ResponseBody = CreatedResource
   }
   /**
    * No description
