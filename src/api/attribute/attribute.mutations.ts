@@ -109,10 +109,7 @@ function useDeclarePartyAttribute(isDelegated = false) {
     keyPrefix: 'attribute.declarePartyAttribute',
   })
   return useMutation({
-    mutationFn: ({
-      id,
-      delegationId,
-    }: { delegatorName: string | undefined } & DeclaredTenantAttributeSeed) =>
+    mutationFn: ({ id, delegationId }: { delegatorName?: string } & DeclaredTenantAttributeSeed) =>
       AttributeServices.declarePartyAttribute({ id, delegationId }),
     meta: {
       errorToastLabel: t('outcome.error'),
