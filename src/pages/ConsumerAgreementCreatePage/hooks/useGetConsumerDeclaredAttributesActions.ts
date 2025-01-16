@@ -27,6 +27,7 @@ export const useGetConsumerDeclaredAttributesActions = () => {
     const handleDeclareAttribute = (attributeId: string) => {
       declareAttribute({
         id: attributeId,
+        delegationId: agreement.delegation?.id,
         delegatorName: agreement.consumer.name,
       })
     }

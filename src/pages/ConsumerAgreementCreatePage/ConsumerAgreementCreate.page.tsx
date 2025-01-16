@@ -38,7 +38,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     useDescriptorAttributesPartyOwnership(
       agreement?.eservice.id,
       agreement?.descriptorId,
-      isDelegated ? agreement?.delegation?.delegate.id : jwt?.organizationId
+      isDelegated ? agreement?.consumer.id : jwt?.organizationId
     )
 
   const hasSetContactEmail = Boolean(agreement?.consumer.contactMail?.address)
