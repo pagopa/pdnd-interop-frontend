@@ -132,6 +132,12 @@
         "providerField": {
           "label": "Provider"
         },
+        "consumerField": {
+          "label": "Consumer"
+        },
+        "delegatedConsumerField": {
+          "label": "Delegated consumer"
+        },
         "rejectionMessageField": {
           "label": "Reason for rejection"
         },
@@ -198,6 +204,12 @@
       "providerField": {
         "label": "Provider"
       },
+      "consumerField": {
+        "label": "Consumer"
+      },
+      "delegatedConsumerField": {
+        "label": "Delegated consumer"
+      },
       "certifiedAttributesDrawerButtonLabel": "View certified attributes"
     },
     "consumerNotes": {
@@ -223,7 +235,8 @@
     "suspendedEServiceTooltip": "Your institution does not have the certified attributes necessary to register",
     "noContactEmailTooltip": "Before submitting the request, it is mandatory for your organization to enter a contact email",
     "noContactEmailAlert": "To forward this agreement, you must indicate a contact email. You can add your email now <1>via this form</1>.",
-    "newVersionAlert": "This draft can no longer be activated. Since its creation, a new version of the e-service has been released. Delete it and create a new one."
+    "newVersionAlert": "This draft can no longer be activated. Since its creation, a new version of the e-service has been released. Delete it and create a new one.",
+    "delegatedAttributesAlert": "The attributes requested and displayed on this page relate to the <strong>{{delegatorName}}</strong> tenat."
   },
   "list": {
     "eserviceName": "{{name}}, version {{version}}",
