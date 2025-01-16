@@ -189,6 +189,11 @@ export interface EServiceDescriptionSeed {
   description: string
 }
 
+export interface EServiceFlagsSeed {
+  isDelegable: boolean
+  isClientAccessDelegable: boolean
+}
+
 export interface RejectDelegatedEServiceDescriptorSeed {
   rejectionReason: string
 }
@@ -733,6 +738,7 @@ export interface Purpose {
    * @format int32
    */
   dailyCallsTotal: number
+  delegation?: DelegationWithCompactTenants
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -817,14 +823,8 @@ export interface ProducerKeychain {
   createdAt: string
   producer: CompactOrganization
   name: string
-  eservices: ProducerKeychainEService[]
+  eservices: CompactEServiceLight[]
   description: string
-}
-
-export interface ProducerKeychainEService {
-  /** @format uuid */
-  id: string
-  name: string
 }
 
 export interface EServiceAdditionDetailsSeed {
@@ -862,6 +862,13 @@ export interface ReversePurposeUpdateContent {
 export interface Purposes {
   results: Purpose[]
   pagination: Pagination
+}
+
+export interface DelegationWithCompactTenants {
+  /** @format uuid */
+  id: string
+  delegate: CompactOrganization
+  delegator: CompactOrganization
 }
 
 /** business representation of a purpose version */
@@ -3379,7 +3386,7 @@ export namespace Eservices {
    * @tags eservices
    * @name UpdateEServiceDescription
    * @summary Update an e-service description
-   * @request POST:/eservices/{eServiceId}/update
+   * @request POST:/eservices/{eServiceId}/description
    * @secure
    */
   export namespace UpdateEServiceDescription {
@@ -3392,6 +3399,29 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceDescriptionSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateEServiceDelegationFlags
+   * @summary Update an e-service delegation flags
+   * @request POST:/eservices/{eServiceId}/delegationFlags
+   * @secure
+   */
+  export namespace UpdateEServiceDelegationFlags {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceFlagsSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
