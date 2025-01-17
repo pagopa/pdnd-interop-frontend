@@ -76,14 +76,14 @@ export const ProviderEServiceUpdateNameDrawer: React.FC<ProviderEServiceUpdateNa
             focusOnMount
             name="eserviceName"
             label={t('eserviceNameField.label')}
+            infoLabel={t('eserviceNameField.infoLabel')}
             type="text"
             size="small"
             rows={10}
-            inputProps={{ maxLength: 250 }}
+            inputProps={{ maxLength: 60 }}
             rules={{
               required: true,
-              minLength: 10,
-              maxLength: 250,
+              minLength: 5,
               validate: (value) =>
                 value !== eservice.name || t('eserviceNameField.validation.sameValue'),
             }}

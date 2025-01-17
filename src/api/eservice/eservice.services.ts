@@ -441,7 +441,7 @@ async function updateEServiceName({
   eserviceId,
   ...payload
 }: { eserviceId: string } & EServiceNameUpdateSeed) {
-  const response = await axiosInstance.post<CreatedResource>(
+  const response = await axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/name/update`,
     payload
   )

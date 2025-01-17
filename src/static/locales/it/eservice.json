@@ -364,6 +364,7 @@
         "subtitle": "Da questo pannello puoi aggiornare il nome dell’e-service. Le modifiche apportate avranno effetto da subito.",
         "eserviceNameField": {
           "label": "Nome e-service",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri",
           "validation": {
             "sameValue": "Il nome dell'e-service deve essere diverso da quella attuale"
           }

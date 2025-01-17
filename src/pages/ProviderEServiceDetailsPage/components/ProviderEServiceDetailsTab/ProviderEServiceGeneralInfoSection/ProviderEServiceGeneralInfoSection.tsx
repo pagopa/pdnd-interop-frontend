@@ -141,7 +141,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             <Typography variant="body2">{descriptor.eservice.name}</Typography>
           </SectionContainer>
           <Divider />
-          <Divider />
           <SectionContainer
             innerSection
             title={t('eserviceDescription.label')}
