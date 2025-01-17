@@ -79,7 +79,6 @@ export const ProviderEServiceUpdateNameDrawer: React.FC<ProviderEServiceUpdateNa
             infoLabel={t('eserviceNameField.infoLabel')}
             type="text"
             size="small"
-            rows={10}
             inputProps={{ maxLength: 60 }}
             rules={{
               required: true,
