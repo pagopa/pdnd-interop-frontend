@@ -219,6 +219,13 @@
         "success": "La versione di e-service è tornata in bozza, e le motivazioni del rifiuto sono state notificate al delegato all’erogazione",
         "error": "Non è stato possibile rifiutare la nuova versione di e-service. Per favore, riprova!"
       }
+    },
+    "updateEServiceName": {
+      "loading": "Stiamo modificando il nome dell'e-service",
+      "outcome": {
+        "error": "Nome dell'e-service non aggiornato. Riprovare.",
+        "success": "Nome dell'e-service aggiornato correttamente"
+      }
     }
   },
   "attribute": {
