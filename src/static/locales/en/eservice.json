@@ -288,6 +288,9 @@
         "version": {
           "label": "You are watching version number"
         },
+        "eserviceName": {
+          "label": "E-Service name"
+        },
         "eserviceDescription": {
           "label": "E-Service description"
         },
@@ -356,6 +359,17 @@
       }
     },
     "drawers": {
+      "updateEServiceNameDrawer": {
+        "title": "Edit e-service name",
+        "subtitle": "From this panel you can update the name of the e-service. The changes made will take effect immediately.",
+        "eserviceNameField": {
+          "label": "E-service name",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The e-service name must be different from the current one"
+          }
+        }
+      },
       "updateEServiceDescriptionDrawer": {
         "title": "Edit e-service description",
         "subtitle": "From this panel you can update the description of the e-service. The changes made will take effect immediately.",

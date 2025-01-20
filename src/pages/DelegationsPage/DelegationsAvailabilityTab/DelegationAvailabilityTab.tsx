@@ -10,6 +10,14 @@ import { TenantHooks } from '@/api/tenant'
 import { hasTenantGivenProducerDelegationAvailability } from '@/utils/tenant.utils'
 
 export const DelegationsAvailabilityTab: React.FC = () => {
+  return (
+    <React.Suspense fallback={<DelegationsAvailabilitySectionSkeleton />}>
+      <DelegationsAvailabilitySection />
+    </React.Suspense>
+  )
+}
+
+const DelegationsAvailabilitySection: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
   const { t: tCommon } = useTranslation('common')
   const { isAdmin } = AuthHooks.useJwt()
