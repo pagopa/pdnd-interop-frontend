@@ -546,6 +546,11 @@ export interface CompactEService {
   producer: CompactOrganization
 }
 
+export interface CompactEServices {
+  results: CompactEService[]
+  pagination: Pagination
+}
+
 export interface CompactPurposeEService {
   /** @format uuid */
   id: string
@@ -2700,7 +2705,7 @@ export namespace Consumer {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = CompactEServicesLight
+    export type ResponseBody = CompactEServices
   }
   /**
    * @description creates a consumer delegation
