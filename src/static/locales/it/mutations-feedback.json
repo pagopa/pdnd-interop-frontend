@@ -191,6 +191,13 @@
         "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
         "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
       }
+    },
+    "updateEServiceName": {
+      "loading": "Stiamo modificando il nome dell'e-service",
+      "outcome": {
+        "error": "Nome dell'e-service non aggiornato. Riprovare.",
+        "success": "Nome dell'e-service aggiornato correttamente"
+      }
     }
   },
   "attribute": {
