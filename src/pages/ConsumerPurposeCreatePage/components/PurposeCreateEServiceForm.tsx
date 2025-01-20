@@ -1,5 +1,6 @@
 import type {
   CatalogEService,
+  CompactEService,
   PurposeEServiceSeed,
   PurposeSeed,
   RiskAnalysisForm,
@@ -18,9 +19,11 @@ import { PurposeCreateProviderRiskAnalysisAutocomplete } from './PurposeCreatePr
 import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAnalysis'
 import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
+import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutocomplete'
 
 export type PurposeCreateFormValues = {
-  eservice: CatalogEService | null
+  consumerId: string
+  eservice: CatalogEService | CompactEService | null
   useTemplate: boolean
   templateId: string | null
   providerRiskAnalysisId: string | null
@@ -36,6 +39,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
   const formMethods = useForm<PurposeCreateFormValues>({
     defaultValues: {
+      consumerId: jwt?.organizationId as string,
       eservice: null,
       useTemplate: false,
       templateId: null,
@@ -78,7 +82,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
-  const onSubmit = ({ eservice, providerRiskAnalysisId }: PurposeCreateFormValues) => {
+  const onSubmit = ({ consumerId, eservice, providerRiskAnalysisId }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eservice) return
 
     /**
@@ -106,7 +110,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       if (!providerRiskAnalysisId) return
 
       const payloadCreatePurposeDraft: PurposeEServiceSeed = {
-        consumerId: jwt?.organizationId,
+        consumerId: consumerId,
         eserviceId: eservice.id,
         title,
         description,
@@ -126,7 +130,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
     if (mode === 'DELIVER') {
       const payloadCreatePurposeDraft: PurposeSeed = {
-        consumerId: jwt?.organizationId,
+        consumerId: consumerId,
         eserviceId: eservice.id,
         title,
         description,
@@ -149,6 +153,11 @@ export const PurposeCreateEServiceForm: React.FC = () => {
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer title={t('create.preliminaryInformationSectionTitle')}>
+          <PurposeCreateConsumerAutocomplete
+            preselectedConsumer={
+              jwt ? { id: jwt?.organizationId, name: jwt?.organization.name } : undefined
+            }
+          />
           <PurposeCreateEServiceAutocomplete />
           {/* {isEServiceSelected && mode === 'DELIVER' && (
             <>
