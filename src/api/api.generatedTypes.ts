@@ -177,8 +177,12 @@ export interface Mail {
   description?: string
 }
 
-export interface EServiceDescriptionSeed {
+export interface EServiceDescriptionUpdateSeed {
   description: string
+}
+
+export interface EServiceNameUpdateSeed {
+  name: string
 }
 
 export interface CatalogEServiceDescriptor {
@@ -768,14 +772,8 @@ export interface ProducerKeychain {
   createdAt: string
   producer: CompactOrganization
   name: string
-  eservices: ProducerKeychainEService[]
+  eservices: CompactEServiceLight[]
   description: string
-}
-
-export interface ProducerKeychainEService {
-  /** @format uuid */
-  id: string
-  name: string
 }
 
 export interface EServiceAdditionDetailsSeed {
@@ -2906,7 +2904,7 @@ export namespace Eservices {
    * @tags eservices
    * @name UpdateEServiceDescription
    * @summary Update an e-service description
-   * @request POST:/eservices/{eServiceId}/update
+   * @request POST:/eservices/{eServiceId}/description/update
    * @secure
    */
   export namespace UpdateEServiceDescription {
@@ -2918,11 +2916,34 @@ export namespace Eservices {
       eServiceId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceDescriptionSeed
+    export type RequestBody = EServiceDescriptionUpdateSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateEServiceName
+   * @summary Update an e-service name
+   * @request POST:/eservices/{eServiceId}/name/update
+   * @secure
+   */
+  export namespace UpdateEServiceName {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceNameUpdateSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
   }
 }
 
