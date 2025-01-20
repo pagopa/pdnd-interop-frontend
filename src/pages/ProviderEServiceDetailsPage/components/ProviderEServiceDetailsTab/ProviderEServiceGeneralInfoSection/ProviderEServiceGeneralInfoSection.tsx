@@ -118,17 +118,13 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             innerSection
             title={t('eserviceName.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-            topSideActions={
-              isDelegator
-                ? []
-                : [
-                    {
-                      action: openEServiceUpdateNameDrawer,
-                      label: tCommon('actions.edit'),
-                      icon: EditIcon,
-                    },
-                  ]
-            }
+            topSideActions={[
+              {
+                action: openEServiceUpdateNameDrawer,
+                label: tCommon('actions.edit'),
+                icon: EditIcon,
+              },
+            ]}
           >
             <Typography variant="body2">{descriptor.eservice.name}</Typography>
           </SectionContainer>
