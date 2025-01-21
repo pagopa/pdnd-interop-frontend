@@ -9,6 +9,10 @@
     },
     "subUnitTypeField": {
       "label": "Tipologia di ente"
+    },
+    "tenantIdField": {
+      "label": "ID ente",
+      "copySuccessFeedbackText": "Id copiato correttamente"
     }
   },
   "contacts": {

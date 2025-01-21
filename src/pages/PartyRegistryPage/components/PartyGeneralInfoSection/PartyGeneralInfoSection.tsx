@@ -27,6 +27,14 @@ export const PartyGeneralInfoSection: React.FC = () => {
                 content={user?.subUnitType}
               />
             )}
+            <InformationContainer
+              label={t('tenantIdField.label')}
+              content={user.id}
+              copyToClipboard={{
+                value: user.id,
+                tooltipTitle: t('tenantIdField.copySuccessFeedbackText'),
+              }}
+            />
           </Stack>
         </SectionContainer>
       </Grid>
