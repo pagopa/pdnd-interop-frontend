@@ -9,6 +9,10 @@
     },
     "subUnitTypeField": {
       "label": "Organization type"
+    },
+    "tenantIdField": {
+      "label": "Tenant ID",
+      "copySuccessFeedbackText": "Id copied successfully"
     }
   },
   "contacts": {
