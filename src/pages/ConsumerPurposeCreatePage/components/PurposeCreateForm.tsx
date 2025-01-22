@@ -29,7 +29,7 @@ export type PurposeCreateFormValues = {
   providerRiskAnalysisId: string | null
 }
 
-export const PurposeCreateEServiceForm: React.FC = () => {
+export const PurposeCreateForm: React.FC = () => {
   const { t } = useTranslation('purpose')
   const navigate = useNavigate()
   const { jwt } = AuthHooks.useJwt()
