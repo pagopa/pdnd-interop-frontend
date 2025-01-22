@@ -185,13 +185,17 @@ export interface Mail {
   description?: string
 }
 
-export interface EServiceDescriptionSeed {
+export interface EServiceDescriptionUpdateSeed {
   description: string
 }
 
-export interface EServiceFlagsSeed {
+export interface EServiceDelegationFlagsUpdateSeed {
   isDelegable: boolean
   isClientAccessDelegable: boolean
+}
+
+export interface EServiceNameUpdateSeed {
+  name: string
 }
 
 export interface RejectDelegatedEServiceDescriptorSeed {
@@ -1629,6 +1633,8 @@ export interface GetEServicesCatalogParams {
   agreementStates?: AgreementState[]
   /** EService Mode filter */
   mode?: EServiceMode
+  /** EService isDelegable filter */
+  isDelegable?: boolean
   /**
    * @format int32
    * @min 0
@@ -2539,6 +2545,8 @@ export namespace Catalog {
       agreementStates?: AgreementState[]
       /** EService Mode filter */
       mode?: EServiceMode
+      /** EService isDelegable filter */
+      isDelegable?: boolean
       /**
        * @format int32
        * @min 0
@@ -3391,7 +3399,7 @@ export namespace Eservices {
    * @tags eservices
    * @name UpdateEServiceDescription
    * @summary Update an e-service description
-   * @request POST:/eservices/{eServiceId}/description
+   * @request POST:/eservices/{eServiceId}/description/update
    * @secure
    */
   export namespace UpdateEServiceDescription {
@@ -3403,7 +3411,7 @@ export namespace Eservices {
       eServiceId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceDescriptionSeed
+    export type RequestBody = EServiceDescriptionUpdateSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
@@ -3414,7 +3422,7 @@ export namespace Eservices {
    * @tags eservices
    * @name UpdateEServiceDelegationFlags
    * @summary Update an e-service delegation flags
-   * @request POST:/eservices/{eServiceId}/delegationFlags
+   * @request POST:/eservices/{eServiceId}/delegationFlags/update
    * @secure
    */
   export namespace UpdateEServiceDelegationFlags {
@@ -3426,11 +3434,34 @@ export namespace Eservices {
       eServiceId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceFlagsSeed
+    export type RequestBody = EServiceDelegationFlagsUpdateSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateEServiceName
+   * @summary Update an e-service name
+   * @request POST:/eservices/{eServiceId}/name/update
+   * @secure
+   */
+  export namespace UpdateEServiceName {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceNameUpdateSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
   }
   /**
    * No description
