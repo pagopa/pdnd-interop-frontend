@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { EServiceQueries } from '@/api/eservice'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { useQuery } from '@tanstack/react-query'

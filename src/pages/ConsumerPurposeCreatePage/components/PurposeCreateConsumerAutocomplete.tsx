@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
