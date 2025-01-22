@@ -31,10 +31,13 @@ export type EServiceCreateStepGeneralFormValues = {
 export const EServiceCreateStepGeneral: React.FC = () => {
   const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
   const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
-  const isProducerInSHWhitelist = SIGNALHUB_WHITELIST.includes(
-    //only tenants on the whitelist are granted access to the Signal Hub section
-    AuthHooks.useJwt().jwt?.organizationId as string
-  )
+  const isProducerInSHWhitelist = //TEMP
+    STAGE === 'ATT' // if the current stage is ATT, all tenants have visibility of the signal hub section
+      ? true
+      : SIGNALHUB_WHITELIST.includes(
+          //only tenants on the whitelist are granted access to the Signal Hub section
+          AuthHooks.useJwt().jwt?.organizationId as string
+        )
 
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()

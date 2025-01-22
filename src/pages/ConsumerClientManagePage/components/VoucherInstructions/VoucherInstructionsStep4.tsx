@@ -13,6 +13,7 @@ import {
   API_SIGNAL_HUB_PUSH_INTERFACE_URL,
   isSignalHubEnabled,
   SIGNALHUB_WHITELIST,
+  STAGE,
 } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -32,10 +33,13 @@ export const VoucherInstructionsStep4: React.FC = () => {
   const eserviceName = purpose ? purpose.eservice.name : ''
   const producer = purpose ? purpose.eservice.producer.name : ''
 
-  const isProducerInSHWhitelist = SIGNALHUB_WHITELIST.includes(
-    //only tenants on the whitelist are granted access to the Signal Hub section
-    AuthHooks.useJwt().jwt?.organizationId as string
-  )
+  const isProducerInSHWhitelist = //TEMP
+    STAGE === 'ATT' // if the current stage is ATT, all tenants have visibility of the signal hub section
+      ? true
+      : SIGNALHUB_WHITELIST.includes(
+          //only tenants on the whitelist are granted access to the Signal Hub section
+          AuthHooks.useJwt().jwt?.organizationId as string
+        )
 
   return (
     <>
