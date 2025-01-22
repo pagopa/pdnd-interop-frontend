@@ -1,22 +1,24 @@
-import { RHFAutocompleteSingle, RHFTextField } from '@/components/shared/react-hook-form-inputs'
-import { Box, FormControlLabel, Stack, Switch } from '@mui/material'
+import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { Alert, Box, FormControlLabel, Stack, Switch } from '@mui/material'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { EServiceQueries } from '@/api/eservice/eservice.queries'
 import { useQuery } from '@tanstack/react-query'
 import type { DelegationKind } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
-import { TenantQueries } from '@/api/tenant'
-import { DelegationMutations } from '@/api/delegation'
+import { DelegationMutations, DelegationQueries } from '@/api/delegation'
 import { useNavigate } from '@/router'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SendIcon from '@mui/icons-material/Send'
 import { AuthHooks } from '@/api/auth'
+import { AgreementQueries } from '@/api/agreement'
+import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
+import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 
 export type DelegationCreateFormValues = {
+  eserviceId: string
   eserviceName: string
   eserviceDescription: string
   delegateId: string
@@ -28,6 +30,7 @@ type DelegationCreateFormProps = {
 }
 
 const defaultValues: DelegationCreateFormValues = {
+  eserviceId: '',
   eserviceName: '',
   eserviceDescription: '',
   delegateId: '',
@@ -38,39 +41,43 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   setActiveStep,
 }) => {
   const { t } = useTranslation('party')
+  const { jwt } = AuthHooks.useJwt()
 
   const [isExistingEservice, setIsExistingEservice] = useState(false)
 
-  const currentUserOrganizationId = AuthHooks.useJwt()?.jwt?.organizationId
   const { openDialog } = useDialog()
 
-  const formMethods = useForm({ defaultValues })
+  const formMethods = useForm<DelegationCreateFormValues>({ defaultValues })
 
-  const { data: autocompleteEserviceOptions = [], isLoading: isLoadingEservices } = useQuery({
-    ...EServiceQueries.getProviderList({
+  const selectedEServiceId = formMethods.watch('eserviceId')
+
+  const { data: agreements = [] } = useQuery({
+    ...AgreementQueries.getList({
       limit: 50,
       offset: 0,
-      delegated: false,
+      consumersIds: [jwt?.organizationId as string],
+      eservicesIds: [selectedEServiceId],
+      states: ['ACTIVE', 'SUSPENDED'],
     }),
-    select: (d) =>
-      (d.results ?? []).map((eservice) => ({
-        label: eservice.name,
-        value: eservice.id,
-      })),
+    enabled: Boolean(
+      selectedEServiceId && jwt?.organizationId && delegationKind === 'DELEGATED_CONSUMER'
+    ),
+    select: (d) => d.results ?? [],
   })
 
-  const { data: autocompleteDelegateOptions = [], isLoading: isLoadingDelegates } = useQuery({
-    ...TenantQueries.getTenants({
+  const { data: delegations = [] } = useQuery({
+    ...DelegationQueries.getProducerDelegationsList({
       limit: 50,
-      features: ['DELEGATED_PRODUCER'],
+      offset: 0,
+      delegatorIds: [jwt?.organizationId as string],
+      eserviceIds: [selectedEServiceId],
+      kind: 'DELEGATED_CONSUMER',
+      states: ['ACTIVE', 'WAITING_FOR_APPROVAL'],
     }),
-    select: (d) =>
-      (d.results ?? [])
-        .filter((d) => d.id !== currentUserOrganizationId)
-        .map((delegate) => ({
-          label: delegate.name,
-          value: delegate.id,
-        })),
+    enabled: Boolean(
+      selectedEServiceId && jwt?.organizationId && delegationKind === 'DELEGATED_CONSUMER'
+    ),
+    select: (d) => d.results ?? [],
   })
 
   const { mutate: createProducerDelegation } = DelegationMutations.useCreateProducerDelegation()
@@ -105,7 +112,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       )
     } else {
       const createDelegationParams = {
-        eserviceId: formValues.eserviceName,
+        eserviceId: formValues.eserviceId,
         delegateId: formValues.delegateId,
       }
 
@@ -116,6 +123,9 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       })
     }
   }
+
+  const hasAgreement = agreements.length > 0
+  const isDelegated = delegations.length > 0
 
   const sectionTitle =
     delegationKind === 'DELEGATED_PRODUCER'
@@ -135,21 +145,13 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
                     onChange={() => setIsExistingEservice((prev) => !prev)}
                   />
                 }
-                label={t('delegations.create.delegateField.provide.switch')}
+                label={t('delegations.create.delegateField.provider.switch')}
                 labelPlacement="end"
                 componentsProps={{ typography: { variant: 'body2' } }}
               />
             )}
             {isExistingEservice || delegationKind === 'DELEGATED_CONSUMER' ? (
-              <RHFAutocompleteSingle
-                sx={{ my: 0 }}
-                loading={isLoadingEservices}
-                name="eserviceName"
-                label={t('delegations.create.eserviceField.label')}
-                infoLabel={t('delegations.create.eserviceField.infoLabelAutocomplete')}
-                options={autocompleteEserviceOptions}
-                rules={{ required: true }}
-              />
+              <DelegationCreateEServiceAutocomplete delegationKind={delegationKind} />
             ) : (
               <>
                 <RHFTextField
@@ -173,23 +175,14 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
                 />
               </>
             )}
-            <RHFAutocompleteSingle
-              sx={{ my: 0 }}
-              loading={isLoadingDelegates}
-              name="delegateId"
-              label={
-                delegationKind === 'DELEGATED_CONSUMER'
-                  ? t(`delegations.create.delegateField.consume.label`)
-                  : t(`delegations.create.delegateField.provide.label`)
-              }
-              infoLabel={
-                delegationKind === 'DELEGATED_CONSUMER'
-                  ? t('delegations.create.delegateField.consume.infoLabel')
-                  : t('delegations.create.delegateField.provide.infoLabel')
-              }
-              options={autocompleteDelegateOptions}
-              rules={{ required: true }}
-            />
+            <DelegationCreateTenantAutocomplete delegationKind={delegationKind} />
+            {delegationKind === 'DELEGATED_CONSUMER' && (hasAgreement || isDelegated) && (
+              <Alert severity="warning">
+                {hasAgreement
+                  ? t('delegations.create.hasAgreementsAlert')
+                  : t('delegations.create.isDelegatedAlert')}
+              </Alert>
+            )}
           </Stack>
         </SectionContainer>
       </FormProvider>
@@ -206,6 +199,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           label: t('delegations.create.submitBtn'),
           type: 'submit',
           startIcon: <SendIcon />,
+          disabled: delegationKind === 'DELEGATED_CONSUMER' && (hasAgreement || isDelegated),
         }}
       />
     </Box>
