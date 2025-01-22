@@ -19,7 +19,7 @@ export const PurposeCreateConsumerAutocomplete: React.FC<
   const selectedConsumerRef = React.useRef<{ id: string; name: string } | undefined>(
     preselectedConsumer
   )
-  const hasSetFirstConsumer = React.useRef(true)
+  const hasSetFirstConsumer = React.useRef(Boolean(preselectedConsumer))
   const { jwt } = AuthHooks.useJwt()
 
   const { setValue, watch } = useFormContext<PurposeCreateFormValues>()
