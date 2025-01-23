@@ -364,6 +364,8 @@
     "PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS": "Gestisci chiave pubblica del portachiavi",
     "DELEGATIONS": "Deleghe",
     "CREATE_DELEGATION": "Crea delega",
-    "DELEGATION_DETAILS": "Gestisci delega"
+    "DELEGATION_DETAILS": "Gestisci delega",
+    "PROVIDE_TEMPLATES_CATALOG": "Catalogo template",
+    "PROVIDE_TEMPLATES_LIST": "I tuoi template"
   }
 }
