@@ -1,0 +1,9 @@
+{
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Cerca per nome"
+      }
+    }
+  }
+}
