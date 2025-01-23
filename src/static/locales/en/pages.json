@@ -46,5 +46,12 @@
   "delegations": {
     "title": "Delegations",
     "description": "Here you can manage all the delegations you have given or received from other entities"
+  },
+  "providerTemplatesCatalog": {
+    "title": "E-service templates catalog",
+    "description": "Templates allow you to create e-service instances from pre-existing template."
+  },
+  "providerTemplatesList": {
+    "title": "Your templates"
   }
 }
