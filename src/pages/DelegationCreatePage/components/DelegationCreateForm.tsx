@@ -80,6 +80,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     select: (d) => d.results ?? [],
   })
 
+  const { mutate: createConsumerDelegation } = DelegationMutations.useCreateConsumerDelegation()
   const { mutate: createProducerDelegation } = DelegationMutations.useCreateProducerDelegation()
   const { mutate: createProducerDelegationAndEservice } =
     DelegationMutations.useCreateProducerDelegationAndEservice()
@@ -110,18 +111,28 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           },
         }
       )
-    } else {
-      const createDelegationParams = {
-        eserviceId: formValues.eserviceId,
-        delegateId: formValues.delegateId,
-      }
+      return
+    }
 
-      createProducerDelegation(createDelegationParams, {
+    const createDelegationParams = {
+      eserviceId: formValues.eserviceId,
+      delegateId: formValues.delegateId,
+    }
+
+    if (delegationKind === 'DELEGATED_CONSUMER') {
+      createConsumerDelegation(createDelegationParams, {
         onSuccess: () => {
           navigate('DELEGATIONS')
         },
       })
+      return
     }
+
+    createProducerDelegation(createDelegationParams, {
+      onSuccess: () => {
+        navigate('DELEGATIONS')
+      },
+    })
   }
 
   const hasAgreement = agreements.length > 0
