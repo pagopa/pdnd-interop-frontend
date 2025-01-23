@@ -41,3 +41,5 @@ export { ProviderKeychainUserDetailsPage } from './ProviderKeychainUserDetailsPa
 export { DelegationsPage } from './DelegationsPage'
 export { DelegationCreatePage } from './DelegationCreatePage'
 export { DelegationDetailsPage } from './DelegationDetailsPage'
+export { ProviderTemplatesCatalogPage } from './ProviderTemplatesCatalogPage'
+export { ProviderTemplatesListPage } from './ProviderTemplatesListPage'
