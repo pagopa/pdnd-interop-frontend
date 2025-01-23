@@ -1,1 +1,9 @@
-{}
+{
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Find by name"
+      }
+    }
+  }
+}
