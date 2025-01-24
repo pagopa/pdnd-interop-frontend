@@ -8,12 +8,15 @@ async function getProviderTemplatesList() {
     { params }
   )
   return response.data*/
-  const response = {
-    id: 'mock_templateid',
-    name: 'mock_tamplatename',
-    versione: '1',
-    status: 'attivo',
-  }
+  const response = [
+    {
+      id: 'mock_templateid1',
+      name: 'mock_tamplatename1',
+      version: '1',
+      state: 'ACTIVE',
+    },
+    { id: 'mock_templateid2', name: 'mock_tamplatename2', version: '1', state: 'DRAFT' },
+  ]
   return response
 }
 
