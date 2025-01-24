@@ -8,9 +8,8 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import { GetProducerEServicesParams } from '@/api/api.generatedTypes' //TODO change with the correct import
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { EServiceQueries } from '@/api/eservice'
-import { EServiceTable, EServiceTableSkeleton } from '../ProviderEServiceListPage/components'
-import { TemplateTable } from './components'
+import { TemplateTable, TemplateTableSkeleton } from './components'
+import { TemplateQueries } from '@/api/template'
 
 const ProviderTemplatesListPage: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
@@ -21,7 +20,7 @@ const ProviderTemplatesListPage: React.FC = () => {
 
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => [], //navigate('PROVIDE_TEMPLATE_CREATE'), //TODO CREATE TEMPLATE
+      action: () => navigate('NOT_FOUND'), //navigate('PROVIDE_TEMPLATE_CREATE'), //TODO CREATE TEMPLATE
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
@@ -36,26 +35,26 @@ const ProviderTemplatesListPage: React.FC = () => {
   const queryParams = { ...paginationParams, ...filtersParams }
   const { data: totalPageCount = 0 } = useQuery({
     //TODO sostituire eservicequeries
-    ...EServiceQueries.getProviderList(queryParams),
+    ...TemplateQueries.getProviderTemplatesList(), //TODO PARAMS
     placeholderData: keepPreviousData,
-    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
+    //select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
 
   return (
     <PageContainer title={t('title')} topSideActions={isAdmin ? topSideActions : undefined}>
       <Filters {...filtersHandlers} />
       <TemplateTableWrapper params={queryParams} />
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination {...paginationProps} totalPages={1} />
     </PageContainer>
   )
 }
 
 const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = ({ params }) => {
   //TODO sostituire params
-  const { data, isFetching } = useQuery(EServiceQueries.getProviderList(params))
+  const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesList()) //TODO PARAM
 
-  if (!data && isFetching) return <EServiceTableSkeleton />
-  return <TemplateTable templates={data?.results ?? []} />
+  if (!data && isFetching) return <TemplateTableSkeleton />
+  return <TemplateTable templates={data} />
 }
 
 export default ProviderTemplatesListPage
