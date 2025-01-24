@@ -105,6 +105,13 @@
       "REJECTED": "rifiutata",
       "REVOKED": "revocata",
       "WAITING_FOR_APPROVAL": "in attesa di accettazione"
+    },
+    "template": {
+      "ACTIVE": "attivo",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospeso",
+      "ARCHIVED": "archiviato",
+      "DEPRECATED": "deprecato"
     }
   },
   "userProductRole": {
