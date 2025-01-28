@@ -4,9 +4,9 @@ import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 
-const ProviderTemplatesCatalogPage: React.FC = () => {
+const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
-  const { t } = useTranslation('pages', { keyPrefix: 'providerTemplatesCatalog' })
+  const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesCatalog' })
   const topSideActions: Array<ActionItemButton> = []
 
   return (
@@ -20,4 +20,4 @@ const ProviderTemplatesCatalogPage: React.FC = () => {
   )
 }
 
-export default ProviderTemplatesCatalogPage
+export default ProviderEServiceTemplatesCatalogPage
