@@ -15,6 +15,7 @@ import type userNs from '@/static/locales/en/user.json'
 import type keyNs from '@/static/locales/en/key.json'
 import type assistanceNs from '@/static/locales/en/assistance.json'
 import type keychainNs from '@/static/locales/en/keychain.json'
+import type templateNs from '@/static/locales/en/template.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -37,6 +38,7 @@ declare module 'i18next' {
       key: typeof keyNs
       assistance: typeof assistanceNs
       keychain: typeof keychainNs
+      template: typeof template
     }
   }
 }
