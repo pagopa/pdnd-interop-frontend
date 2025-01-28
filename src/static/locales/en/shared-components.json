@@ -338,7 +338,7 @@
     "DELEGATIONS": "Delegations",
     "CREATE_DELEGATION": "Create delegation",
     "DELEGATION_DETAILS": "Manage delegation",
-    "PROVIDE_TEMPLATES_CATALOG": "Templates catalog",
-    "PROVIDE_TEMPLATES_LIST": "Your templates"
+    "PROVIDE_ESERVICE_TEMPLATES_CATALOG": "Templates catalog",
+    "PROVIDE_ESERVICE_TEMPLATES_LIST": "Your templates"
   }
 }
