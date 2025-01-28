@@ -338,7 +338,7 @@
     "DELEGATIONS": "Deleghe",
     "CREATE_DELEGATION": "Crea delega",
     "DELEGATION_DETAILS": "Gestisci delega",
-    "PROVIDE_TEMPLATES_CATALOG": "Catalogo template",
-    "PROVIDE_TEMPLATES_LIST": "I tuoi template"
+    "PROVIDE_ESERVICE_TEMPLATES_CATALOG": "Catalogo template",
+    "PROVIDE_ESERVICE_TEMPLATES_LIST": "I tuoi template"
   }
 }

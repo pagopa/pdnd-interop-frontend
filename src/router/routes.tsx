@@ -44,8 +44,8 @@ import {
   DelegationsPage,
   DelegationCreatePage,
   DelegationDetailsPage,
-  ProviderTemplatesCatalogPage,
-  ProviderTemplatesListPage,
+  ProviderEServiceTemplatesCatalogPage,
+  ProviderEServiceTemplatesListPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -459,17 +459,17 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support'],
   })
   .addRoute({
-    key: 'PROVIDE_TEMPLATES_CATALOG',
+    key: 'PROVIDE_ESERVICE_TEMPLATES_CATALOG',
     path: '/erogazione/catalogo-template',
-    element: <ProviderTemplatesCatalogPage />,
+    element: <ProviderEServiceTemplatesCatalogPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support'],
   })
   .addRoute({
-    key: 'PROVIDE_TEMPLATES_LIST',
+    key: 'PROVIDE_ESERVICE_TEMPLATES_LIST',
     path: '/erogazione/template',
-    element: <ProviderTemplatesListPage />,
+    element: <ProviderEServiceTemplatesListPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support'],
@@ -477,7 +477,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'PROVIDE',
     path: '/erogazione',
-    redirect: 'PROVIDE_TEMPLATES_CATALOG',
+    redirect: 'PROVIDE_ESERVICE_TEMPLATES_CATALOG',
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api'],

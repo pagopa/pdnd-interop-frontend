@@ -11,9 +11,9 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { TemplateTable, TemplateTableSkeleton } from './components'
 import { TemplateQueries } from '@/api/template'
 
-const ProviderTemplatesListPage: React.FC = () => {
+const ProviderEServiceTemplatesListPage: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
-  const { t } = useTranslation('pages', { keyPrefix: 'providerTemplatesList' })
+  const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
   const navigate = useNavigate()
@@ -57,4 +57,4 @@ const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = (
   return <TemplateTable templates={data} />
 }
 
-export default ProviderTemplatesListPage
+export default ProviderEServiceTemplatesListPage
