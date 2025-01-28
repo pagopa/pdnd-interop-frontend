@@ -23,8 +23,8 @@ const views = [
     routeKey: 'PROVIDE',
     id: 'provider',
     children: [
-      'PROVIDE_TEMPLATES_CATALOG',
-      'PROVIDE_TEMPLATES_LIST',
+      'PROVIDE_ESERVICE_TEMPLATES_CATALOG',
+      'PROVIDE_ESERVICE_TEMPLATES_LIST',
       'PROVIDE_ESERVICE_LIST',
       'PROVIDE_AGREEMENT_LIST',
       'PROVIDE_PURPOSE_LIST',
