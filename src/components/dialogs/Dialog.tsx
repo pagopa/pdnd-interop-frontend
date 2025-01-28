@@ -20,9 +20,9 @@ import type {
   DialogDelegationsProps,
   DialogAcceptDelegationProps,
   DialogRejectDelegationProps,
-  DialogRevokeProducerDelegationProps,
-  DialogRejectDelegatedVersionDraftProps,
   DialogCreateAgreementDraftProps,
+  DialogRejectDelegatedVersionDraftProps,
+  DialogRevokeDelegationProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -40,7 +40,7 @@ import { DialogDeleteProducerKeychainKey } from './DialogDeleteProducerKeychainK
 import { DialogDelegations } from './DialogDelegations'
 import { DialogAcceptDelegation } from './DialogAcceptDelegation'
 import { DialogRejectDelegation } from './DialogRejectDelegation'
-import { DialogRevokeProducerDelegation } from './DialogRevokeProducerDelegation'
+import { DialogRevokeDelegation } from './DialogRevokeDelegation'
 import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersionDraft'
 import { DialogCreateAgreementDraft } from './DialogCreateAgreementDraft/DialogCreateAgreementDraft'
 
@@ -61,9 +61,9 @@ function match<T>(
   onDelegations: (props: DialogDelegationsProps) => T,
   onAcceptDelegation: (props: DialogAcceptDelegationProps) => T,
   onRejectDelegation: (props: DialogRejectDelegationProps) => T,
-  onRevokeProducerDelegation: (props: DialogRevokeProducerDelegationProps) => T,
-  onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
-  onCreateAgreementDraft: (props: DialogCreateAgreementDraftProps) => T
+  onCreateAgreementDraft: (props: DialogCreateAgreementDraftProps) => T,
+  onRevokeDelegation: (props: DialogRevokeDelegationProps) => T,
+  onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -99,8 +99,8 @@ function match<T>(
         return onAcceptDelegation(props)
       case 'rejectDelegation':
         return onRejectDelegation(props)
-      case 'revokeProducerDelegation':
-        return onRevokeProducerDelegation(props)
+      case 'revokeDelegation':
+        return onRevokeDelegation(props)
       case 'rejectDelegatedVersionDraft':
         return onRejectDelegatedVersionDraft(props)
       case 'createAgreementDraft':
@@ -126,9 +126,9 @@ const _Dialog = match(
   (props) => <DialogDelegations {...props} />,
   (props) => <DialogAcceptDelegation {...props} />,
   (props) => <DialogRejectDelegation {...props} />,
-  (props) => <DialogRevokeProducerDelegation {...props} />,
-  (props) => <DialogRejectDelegatedVersionDraft {...props} />,
-  (props) => <DialogCreateAgreementDraft {...props} />
+  (props) => <DialogCreateAgreementDraft {...props} />,
+  (props) => <DialogRevokeDelegation {...props} />,
+  (props) => <DialogRejectDelegatedVersionDraft {...props} />
 )
 
 export const Dialog: React.FC = () => {

@@ -32,7 +32,7 @@ export type DialogProps =
   | DialogDelegationsProps
   | DialogAcceptDelegationProps
   | DialogRejectDelegationProps
-  | DialogRevokeProducerDelegationProps
+  | DialogRevokeDelegationProps
   | DialogRejectDelegatedVersionDraftProps
   | DialogCreateAgreementDraftProps
 
@@ -129,10 +129,11 @@ export type DialogRejectDelegationProps = {
   delegationKind: DelegationKind
 }
 
-export type DialogRevokeProducerDelegationProps = {
-  type: 'revokeProducerDelegation'
+export type DialogRevokeDelegationProps = {
+  type: 'revokeDelegation'
   delegationId: string
   eserviceName: string
+  delegationKind: DelegationKind
 }
 
 export type DialogRejectDelegatedVersionDraftProps = {
