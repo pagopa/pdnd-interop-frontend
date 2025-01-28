@@ -5,9 +5,9 @@ import { useNavigate } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 
-const ProviderTemplatesListPage: React.FC = () => {
+const ProviderEServiceTemplatesListPage: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
-  const { t } = useTranslation('pages', { keyPrefix: 'providerTemplatesList' })
+  const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesList' })
 
   const topSideActions: Array<ActionItemButton> = []
 
@@ -18,4 +18,4 @@ const ProviderTemplatesListPage: React.FC = () => {
   )
 }
 
-export default ProviderTemplatesListPage
+export default ProviderEServiceTemplatesListPage
