@@ -1,1 +1,54 @@
-{}
+{
+  "read": {
+    "tabs": {
+      "eserviceTemplateDetails": "Dettagli template",
+      "eserviceTemplateTenants": "Enti aderenti"
+    },
+    "actions": {
+      "backToEserviceTemplateListLabel": "Torna ai template"
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni template",
+        "version": {
+          "label": "Stai vedendo la versione"
+        },
+        "eserviceTemplateName": {
+          "label": "Nome del template di e-service"
+        },
+        "eserviceTemplateAudienceDescription": {
+          "label": "A chi è rivolto il template"
+        },
+        "eserviceTemplateDescription": {
+          "label": "Descrizione dell’e-service"
+        },
+        "versionDescription": {
+          "label": "Descrizione della versione"
+        }
+      },
+      "technicalInformations": {
+        "thresholds": {
+          "title": "Soglie",
+          "voucherLifespan": {
+            "label": "Durata del voucher",
+            "labelDescription": "in minuti"
+          },
+          "dailyCallsPerConsumer": {
+            "label": "Soglia suggerita per fruitore",
+            "labelDescription": "chiamate API/giorno"
+          },
+          "dailyCallsTotal": {
+            "label": "Soglia suggerita totale",
+            "labelDescription": "chiamate API/giorno"
+          }
+        },
+        "usefulLinks": {
+          "title": "Link utili",
+          "implementAndManageEServiceTemplate": "Come implemento e gestisco un template di e-service?",
+          "updateEserviceInstance": "Come faccio ad aggiornare una istanza di e-service?",
+          "wellKnown": "URL .well-known"
+        }
+      }
+    }
+  }
+}
