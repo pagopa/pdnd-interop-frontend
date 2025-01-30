@@ -5,20 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { SIGNALHUB_WHITELIST, STAGE } from '@/config/env'
-import type { PagoPAEnvVars } from '@/types/common.types'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
-  const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
-  const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
-  const isProducerInSHWhitelist = //TEMP
-    STAGE === 'ATT' // if the current stage is ATT, all tenants have visibility of the signal hub section
-      ? true
-      : SIGNALHUB_WHITELIST.includes(
-          //only tenants on the whitelist are granted access to the Signal Hub section
-          AuthHooks.useJwt().jwt?.organizationId as string
-        )
+  const producerId = AuthHooks.useJwt().jwt?.organizationId
+  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
+    ? SIGNALHUB_WHITELIST.includes(producerId)
+    : true
+
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
@@ -36,7 +31,7 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         label={t('apiTechnology.label')}
         content={descriptor.eservice.technology}
       />
-      {!isSignalHubFlagDisabled && isProducerInSHWhitelist && (
+      {isSignalHubFlagEnabled && (
         <InformationContainer
           label={t('isSignalHubEnabled.label')}
           content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}

@@ -15,8 +15,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
-import { SIGNALHUB_WHITELIST, STAGE } from '@/config/env'
-import type { PagoPAEnvVars } from '@/types/common.types'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST } from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 
@@ -29,15 +28,10 @@ export type EServiceCreateStepGeneralFormValues = {
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
-  const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
-  const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
-  const isProducerInSHWhitelist = //TEMP
-    STAGE === 'ATT' // if the current stage is ATT, all tenants have visibility of the signal hub section
-      ? true
-      : SIGNALHUB_WHITELIST.includes(
-          //only tenants on the whitelist are granted access to the Signal Hub section
-          AuthHooks.useJwt().jwt?.organizationId as string
-        )
+  const producerId = AuthHooks.useJwt().jwt?.organizationId
+  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
+    ? SIGNALHUB_WHITELIST.includes(producerId)
+    : true
 
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
@@ -173,7 +167,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
           />
-          {!isSignalHubFlagDisabled && isProducerInSHWhitelist && (
+          {isSignalHubFlagEnabled && (
             <SectionContainer
               innerSection
               title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
