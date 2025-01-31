@@ -34,7 +34,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
 
   const producerId = AuthHooks.useJwt().jwt?.organizationId
 
-  const isSignalHubEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
+  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
     ? SIGNALHUB_WHITELIST.includes(producerId)
     : true
 
@@ -94,7 +94,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
           </Stack>
         </Stack>
       </SectionContainer>
-      {clientKind === 'API' && isSignalHubEnabled && (
+      {clientKind === 'API' && isSignalHubFlagEnabled && (
         <SectionContainer>
           <Stack spacing={2}>
             <Typography variant="h6" component="h2">
