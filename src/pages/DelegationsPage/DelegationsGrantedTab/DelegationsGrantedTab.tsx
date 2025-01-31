@@ -27,7 +27,7 @@ export const DelegationsGrantedTab: React.FC = () => {
   }
 
   const { data: totalPageCount = 0 } = useQuery({
-    ...DelegationQueries.getDelegationsList(queryParams),
+    ...DelegationQueries.getList(queryParams),
     placeholderData: keepPreviousData,
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })

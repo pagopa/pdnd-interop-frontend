@@ -17,7 +17,7 @@ export const DelegationsTable: React.FC<DelegationsTableProps> = ({ params, dele
   const { t } = useTranslation('party', { keyPrefix: 'delegations' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { data: delegations } = useSuspenseQuery({
-    ...DelegationQueries.getDelegationsList(params),
+    ...DelegationQueries.getList(params),
     select: ({ results }) => results,
   })
 

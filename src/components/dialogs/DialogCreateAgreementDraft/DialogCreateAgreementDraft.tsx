@@ -51,7 +51,7 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
   const selectedConsumerId = formMethods.watch('consumerId')
 
   const { data: delegations } = useQuery({
-    ...DelegationQueries.getDelegationsList({
+    ...DelegationQueries.getList({
       limit: 50,
       offset: 0,
       eserviceIds: [eservice.id],

@@ -14,7 +14,7 @@ import type {
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { EServiceServices } from '../eservice'
 
-async function getDelegations(params: GetDelegationsParams) {
+async function getList(params: GetDelegationsParams) {
   const response = await axiosInstance.get<CompactDelegations>(
     `${BACKEND_FOR_FRONTEND_URL}/delegations`,
     { params }
@@ -121,7 +121,7 @@ async function getConsumerDelegators(params: GetConsumerDelegatorsParams) {
 }
 
 export const DelegationServices = {
-  getDelegations,
+  getList,
   getSingle,
   createProducerDelegation,
   approveProducerDelegation,
