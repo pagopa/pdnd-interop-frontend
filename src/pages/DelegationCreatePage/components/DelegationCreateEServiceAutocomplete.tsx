@@ -24,7 +24,7 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
 
   const formatAutocompleteOptionLabel = React.useCallback(
     (eservice: CatalogEService | ProducerEService) => {
-      const eserviceNameLabel = match(delegationKind)
+      return match(delegationKind)
         .with('DELEGATED_CONSUMER', () => {
           if (!('producer' in eservice)) return eservice.name
           return `${eservice.name} ${t('delegations.create.eserviceField.eserviceNameLabel')} ${
@@ -35,7 +35,6 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
           return eservice.name
         })
         .exhaustive()
-      return eserviceNameLabel
     },
     [delegationKind, t]
   )
