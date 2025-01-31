@@ -55,8 +55,8 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
     checkedConsumerDelegations,
   ])
 
-  function handleClick() {
-    if (checkedProducerDelegations != isAvailableProducerDelegations) {
+  function handleSubmit() {
+    if (checkedProducerDelegations !== isAvailableProducerDelegations) {
       if (checkedProducerDelegations) {
         assignProducerDelegationAvailabilty()
       } else {
@@ -64,7 +64,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
       }
     }
 
-    if (checkedConsumerDelegations != isAvailableConsumerDelegations) {
+    if (checkedConsumerDelegations !== isAvailableConsumerDelegations) {
       if (checkedConsumerDelegations) {
         assignConsumerDelegationAvailabilty()
       } else {
@@ -81,7 +81,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
       isOpen={isOpen}
       onClose={onClose}
       buttonAction={{
-        action: handleClick,
+        action: handleSubmit,
         label: tCommon('drawer.updateLabel'),
       }}
     >

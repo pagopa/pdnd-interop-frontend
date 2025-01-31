@@ -19,11 +19,9 @@ export const DelegationsAvailabilityTab: React.FC = () => {
 
   const { data: activeTenant } = TenantHooks.useGetActiveUserParty()
 
-  const producerDelegationsAvailability = hasTenantGivenProducerDelegationAvailability(activeTenant)
-  const isAvailableProducerDelegations = Boolean(producerDelegationsAvailability)
+  const isAvailableProducerDelegations = hasTenantGivenProducerDelegationAvailability(activeTenant)
 
-  const consumerDelegationsAvailability = hasTenantGivenConsumerDelegationAvailability(activeTenant)
-  const isAvailableConsumerDelegations = Boolean(consumerDelegationsAvailability)
+  const isAvailableConsumerDelegations = hasTenantGivenConsumerDelegationAvailability(activeTenant)
 
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 

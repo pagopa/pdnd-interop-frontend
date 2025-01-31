@@ -5,15 +5,19 @@ export function isTenantCertifier(tenant: Tenant) {
 }
 
 export function hasTenantGivenProducerDelegationAvailability(tenant: Tenant) {
-  return tenant.features.find(
-    (feature): feature is Extract<TenantFeature, { delegatedProducer?: unknown }> =>
-      Boolean('delegatedProducer' in feature && feature.delegatedProducer?.availabilityTimestamp)
-  )?.delegatedProducer?.availabilityTimestamp
+  return Boolean(
+    tenant.features.find(
+      (feature): feature is Extract<TenantFeature, { delegatedProducer?: unknown }> =>
+        Boolean('delegatedProducer' in feature && feature.delegatedProducer?.availabilityTimestamp)
+    )?.delegatedProducer?.availabilityTimestamp
+  )
 }
 
 export function hasTenantGivenConsumerDelegationAvailability(tenant: Tenant) {
-  return tenant.features.find(
-    (feature): feature is Extract<TenantFeature, { delegatedConsumer?: unknown }> =>
-      Boolean('delegatedConsumer' in feature && feature.delegatedConsumer?.availabilityTimestamp)
-  )?.delegatedConsumer?.availabilityTimestamp
+  return Boolean(
+    tenant.features.find(
+      (feature): feature is Extract<TenantFeature, { delegatedConsumer?: unknown }> =>
+        Boolean('delegatedConsumer' in feature && feature.delegatedConsumer?.availabilityTimestamp)
+    )?.delegatedConsumer?.availabilityTimestamp
+  )
 }
