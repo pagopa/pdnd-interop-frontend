@@ -15,6 +15,9 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
 
   if (!delegation) return { actions: actions }
 
+  const isCurrentTenantDelgate = delegation.delegate.id === jwt?.organizationId
+  const isCurrentTenantDelgator = delegation.delegator.id === jwt?.organizationId
+
   const handleAccept = () => {
     openDialog({
       type: 'acceptDelegation',
@@ -60,19 +63,11 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
     icon: CloseIcon,
   }
 
-  if (
-    delegation.state === 'WAITING_FOR_APPROVAL' &&
-    delegation.delegate.id === jwt?.organizationId &&
-    isAdmin
-  ) {
+  if (delegation.state === 'WAITING_FOR_APPROVAL' && isCurrentTenantDelgate && isAdmin) {
     actions.push(...[acceptAction, rejectAction])
   }
 
-  if (
-    delegation.kind === 'DELEGATED_PRODUCER' &&
-    delegation.state === 'ACTIVE' &&
-    delegation.delegator.id === jwt?.organizationId
-  ) {
+  if (delegation.state === 'ACTIVE' && isCurrentTenantDelgator) {
     actions.push(revokeAction)
   }
 
