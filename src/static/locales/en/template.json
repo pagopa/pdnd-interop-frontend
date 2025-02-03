@@ -63,7 +63,18 @@
           "label": "Template e-service name",
           "infoLabel": "Min 5 chars, max 60 chars",
           "validation": {
-            "sameValue": "The e-service name must be different from the current one"
+            "sameValue": "The template e-service name must be different from the current one"
+          }
+        }
+      },
+      "updateEServiceTemplateAudienceDrawer": {
+        "title": "Edit the target audience",
+        "subtitle": "From this panel, you can update the target audience of the template. The changes made will take effect immediately",
+        "templateAudienceField": {
+          "label": "Template target audience ",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The template target audience  must be different from the current one"
           }
         }
       }

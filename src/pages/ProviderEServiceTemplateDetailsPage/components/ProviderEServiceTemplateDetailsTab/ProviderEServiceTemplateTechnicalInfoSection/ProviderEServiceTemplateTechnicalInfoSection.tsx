@@ -17,8 +17,7 @@ export const ProviderEServiceTemplateTechnicalInfoSection: React.FC = () => {
     keyPrefix: 'read.sections.technicalInformations',
   })
 
-  //const { eservicetemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
-  const eserviceTemplateId = '1'
+  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
   const { data: template } = useSuspenseQuery(TemplateQueries.getSingle(eserviceTemplateId))
 
   return (

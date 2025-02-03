@@ -13,8 +13,7 @@ import { ProviderEServiceTemplateTenantsTab } from './components/ProviderEServic
 
 const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'read' })
-  //const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
-  const eserviceTemplateId = '1'
+  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceTemplateDetails')
 
