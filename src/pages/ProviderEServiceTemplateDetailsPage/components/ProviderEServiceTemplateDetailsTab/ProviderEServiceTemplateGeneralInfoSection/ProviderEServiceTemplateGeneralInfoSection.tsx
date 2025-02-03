@@ -7,6 +7,13 @@ import { useParams } from '@/router'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { TemplateQueries } from '@/api/template'
+import FileCopyIcon from '@mui/icons-material/FileCopy'
+import DownloadIcon from '@mui/icons-material/Download'
+import EngineeringIcon from '@mui/icons-material/Engineering'
+import EditIcon from '@mui/icons-material/Edit'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import { ProviderEServiceAndTemplateUpdateNameDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateNameDrawer'
+//import { ProviderEServiceTemplateUpdateDescriptionDrawer } from '@/pages/ProviderEServiceDetailsPage/components/ProviderEServiceDetailsTab/ProviderEServiceGeneralInfoSection/ProviderEServiceUpdateDescriptionDrawer'
 
 export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('template', {
@@ -27,7 +34,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
     isOpen: isVersionSelectorDrawerOpen,
     openDrawer: openVersionSelectorDrawer,
     closeDrawer: closeVersionSelectorDrawer,
-  } = useDrawerState()
+  } = useDrawerState()*/
 
   const {
     isOpen: isEServiceUpdateNameDrawerOpen,
@@ -36,12 +43,12 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   } = useDrawerState()
 
   const {
-    isOpen: isEServiceUpdateDescriptionDrawerOpen,
-    openDrawer: openEServiceUpdateDescriptionDrawer,
-    closeDrawer: closeEServiceUpdateDescriptionDrawer,
+    isOpen: isEServiceTemplateUpdateDescriptionDrawerOpen,
+    openDrawer: openEServiceTemplateUpdateDescriptionDrawer,
+    closeDrawer: closeEServiceTemplateUpdateDescriptionDrawer,
   } = useDrawerState()
 
-  const handleDownloadConsumerList = () => {
+  /*const handleDownloadConsumerList = () => {
     downloadConsumerList(
       { eserviceId },
       t('consumerListFileName', {
@@ -68,37 +75,40 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
         }
       },
     })
-  }
+  }*/
 
-  const hasSingleVersion =
-    descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1
+  const hasSingleVersion = template!.versions.length <= 1 //TODO
 
-  const navigateVersionsAction = {
+  const navigateTemplateVersionsAction = {
     startIcon: <FileCopyIcon fontSize="small" />,
     component: 'button',
-    onClick: openVersionSelectorDrawer,
-    label: t('bottomActions.navigateVersions'),
+    onClick: () => {}, //openVersionSelectorDrawer, TODO
+    label: t('bottomActions.navigateTemplateVersions'),
   }
 
-  const downloadConsumerListAction = {
+  const downloadUsingTenantsListAction = {
     startIcon: <DownloadIcon fontSize="small" />,
     component: 'button',
-    onClick: handleDownloadConsumerList,
-    label: t('bottomActions.downloadConsumerList'),
+    onClick: () => {}, //handleDownloadUsingTenantsList, TODO
+    label: t('bottomActions.downloadUsingTenantsList'),
   }
 
-  const exportVersionListAction = {
-    startIcon: <DownloadIcon fontSize="small" />,
+  const viewTechnicalInfoAction = {
+    startIcon: <EngineeringIcon fontSize="small" />,
     component: 'button',
-    onClick: handleExportVersion,
-    label: t('bottomActions.exportVersion'),
-  }*/
+    onClick: () => {}, //handleViewTechincalInfo, TODO
+    label: t('bottomActions.viewTechnicalInfo'),
+  }
 
   return (
     <>
       <SectionContainer
         title={t('title')}
-        bottomActions={['']} //TODO
+        bottomActions={[
+          ...(!hasSingleVersion ? [navigateTemplateVersionsAction] : []),
+          downloadUsingTenantsListAction,
+          viewTechnicalInfoAction,
+        ]}
       >
         <Stack spacing={2}>
           <InformationContainer
@@ -110,7 +120,13 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             innerSection
             title={t('eserviceTemplateName.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-            topSideActions={['']} //TODO
+            topSideActions={[
+              {
+                action: openEServiceUpdateNameDrawer, //openEServiceUpdateNameDrawer,
+                label: tCommon('actions.edit'),
+                icon: EditIcon,
+              },
+            ]} //TODO
           >
             <Typography variant="body2">{template?.name}</Typography>
           </SectionContainer>
@@ -119,7 +135,13 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             innerSection
             title={t('eserviceTemplateAudienceDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-            topSideActions={['']} //TODO
+            topSideActions={[
+              {
+                action: () => {}, //openEServiceUpdateNameDrawer,
+                label: tCommon('actions.edit'),
+                icon: EditIcon,
+              },
+            ]} //TODO
           >
             <Typography variant="body2">{template?.audienceDescription}</Typography>
           </SectionContainer>
@@ -128,7 +150,13 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             innerSection
             title={t('eserviceTemplateDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-            topSideActions={['']} //TODO
+            topSideActions={[
+              {
+                action: openEServiceTemplateUpdateDescriptionDrawer,
+                label: tCommon('actions.edit'),
+                icon: EditIcon,
+              },
+            ]} //TODO
           >
             <Typography variant="body2">{template?.eserviceDescription}</Typography>
           </SectionContainer>
@@ -142,6 +170,13 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
           </SectionContainer>
         </Stack>
       </SectionContainer>
+      {template && (
+        <ProviderEServiceAndTemplateUpdateNameDrawer
+          isOpen={isEServiceUpdateNameDrawerOpen}
+          onClose={closeEServiceUpdateNameDrawer}
+          template={template}
+        />
+      )}
     </>
   )
 }

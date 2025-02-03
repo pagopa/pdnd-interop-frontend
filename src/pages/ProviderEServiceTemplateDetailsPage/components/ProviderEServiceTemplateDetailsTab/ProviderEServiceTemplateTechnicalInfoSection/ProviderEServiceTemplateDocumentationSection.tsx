@@ -79,7 +79,13 @@ export const ProviderEServiceTemplateDocumentationSection: React.FC<
       <SectionContainer
         innerSection
         title={t('documentation.title')}
-        topSideActions={['']} //TODO
+        topSideActions={[
+          {
+            action: () => {},
+            label: tCommon('actions.edit'),
+            icon: EditIcon,
+          },
+        ]} //TODO
       >
         <InformationContainer
           label={t('documentation.label')}

@@ -734,5 +734,14 @@
         "error": "Non è stato possibile scaricare il contratto. Per favore, riprova!"
       }
     }
+  },
+  "template": {
+    "updateEServiceTemplateName": {
+      "loading": "Stiamo modificando il nome del template dell'e-service",
+      "outcome": {
+        "error": "Nome del template dell'e-service non aggiornato. Riprovare.",
+        "success": "Nome del template dell'e-service aggiornato correttamente"
+      }
+    }
   }
 }
