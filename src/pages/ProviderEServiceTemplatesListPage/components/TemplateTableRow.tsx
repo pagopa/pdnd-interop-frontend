@@ -33,6 +33,8 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
     queryClient.prefetchQuery(TemplateQueries.getSingle(template.id))
   }
 
+  const isTemplateDraft = template.state === 'DRAFT'
+
   return (
     <TableRow
       cellData={[
@@ -49,9 +51,9 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        to={'NOT_FOUND'} //TODO DETTAGLIO TEMPLATE CON I RELATIVI PARAMS
+        to={isTemplateDraft ? 'NOT_FOUND' : 'NOT_FOUND'} //TODO SUMMARY TEMPLATE : DETTAGLIO TEMPLATE CON I RELATIVI PARAMS
       >
-        {t('inspect')}
+        {isTemplateDraft ? t('manageDraft') : t('inspect')}
       </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
