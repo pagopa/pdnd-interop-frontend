@@ -17,8 +17,7 @@ export const ProviderEServiceTemplateAttributes: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
-  //const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
-  const eserviceTemplateId = '1'
+  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
   /* const { data: templateAttributes } = useSuspenseQuery({ //TODO
     TemplateQueries.getSingle(eserviceTemplateId),
     //select: (d) => d.attributes,

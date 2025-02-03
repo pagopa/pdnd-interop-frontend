@@ -14,7 +14,6 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
-
 export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.generalInformations',
