@@ -10,13 +10,13 @@ import DownloadIcon from '@mui/icons-material/Download'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
-import { ProviderEServiceUpdateDescriptionDrawer } from './ProviderEServiceUpdateDescriptionDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
 import { ProviderEServiceAndTemplateUpdateNameDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateNameDrawer'
+import { ProviderEServiceAndTemplateUpdateDescriptionDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateDescriptionDrawer'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -174,7 +174,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         onClose={closeVersionSelectorDrawer}
         descriptor={descriptor}
       />
-      <ProviderEServiceUpdateDescriptionDrawer
+      <ProviderEServiceAndTemplateUpdateDescriptionDrawer
         isOpen={isEServiceUpdateDescriptionDrawerOpen}
         onClose={closeEServiceUpdateDescriptionDrawer}
         eservice={descriptor.eservice}

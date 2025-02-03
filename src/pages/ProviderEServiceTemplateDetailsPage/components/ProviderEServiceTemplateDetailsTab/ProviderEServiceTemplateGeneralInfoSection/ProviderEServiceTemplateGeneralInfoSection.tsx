@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderEServiceAndTemplateUpdateNameDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateNameDrawer'
 import { ProviderEServiceTemplateUpdateAudienceDrawer } from './ProviderEServiceTemplateUpdateAudienceDrawer'
+import { ProviderEServiceAndTemplateUpdateDescriptionDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateDescriptionDrawer'
 //import { ProviderEServiceTemplateUpdateDescriptionDrawer } from '@/pages/ProviderEServiceDetailsPage/components/ProviderEServiceDetailsTab/ProviderEServiceGeneralInfoSection/ProviderEServiceUpdateDescriptionDrawer'
 
 export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
@@ -128,11 +129,11 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
             topSideActions={[
               {
-                action: openEServiceUpdateNameDrawer, //openEServiceUpdateNameDrawer,
+                action: openEServiceUpdateNameDrawer,
                 label: tCommon('actions.edit'),
                 icon: EditIcon,
               },
-            ]} //TODO
+            ]}
           >
             <Typography variant="body2">{template?.name}</Typography>
           </SectionContainer>
@@ -147,7 +148,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
                 label: tCommon('actions.edit'),
                 icon: EditIcon,
               },
-            ]} //TODO
+            ]}
           >
             <Typography variant="body2">{template?.audienceDescription}</Typography>
           </SectionContainer>
@@ -162,7 +163,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
                 label: tCommon('actions.edit'),
                 icon: EditIcon,
               },
-            ]} //TODO
+            ]}
           >
             <Typography variant="body2">{template?.eserviceDescription}</Typography>
           </SectionContainer>
@@ -186,6 +187,11 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
           <ProviderEServiceTemplateUpdateAudienceDrawer
             isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
             onClose={closeEServiceUpdateAudienceDrawer}
+            template={template}
+          />
+          <ProviderEServiceAndTemplateUpdateDescriptionDrawer
+            isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
+            onClose={closeEServiceTemplateUpdateDescriptionDrawer}
             template={template}
           />
         </>
