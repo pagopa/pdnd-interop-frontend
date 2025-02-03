@@ -81,7 +81,11 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
           content={t(`mode.value.${descriptor.eservice.mode}`)}
           direction="column"
         />
-
+        <InformationContainer
+          label={t('isSignalHubEnabled.label')}
+          content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+          direction="column"
+        />
         <InformationContainer
           label={t('documentation')}
           content={
