@@ -1,9 +1,5 @@
 import { SectionContainer } from '@/components/layout/containers'
 import { IconLink } from '@/components/shared/IconLink'
-import {
-  implementAndManageEServiceGuideLink,
-  voucherVerificationGuideLink,
-} from '@/config/constants'
 import { WELL_KNOWN_URLS } from '@/config/env'
 import { Stack } from '@mui/material'
 import React from 'react'
@@ -19,14 +15,14 @@ export const ProviderEServiceTemplateUsefulLinksSection: React.FC = () => {
     <SectionContainer innerSection title={t('usefulLinks.title')}>
       <Stack alignItems="start" mt={1} spacing={0.5}>
         <IconLink
-          href={implementAndManageEServiceGuideLink}
+          href="" //TODO
           target="_blank"
           startIcon={<LaunchIcon fontSize="small" />}
         >
           {t('usefulLinks.implementAndManageEServiceTemplate')}
         </IconLink>
         <IconLink
-          href={voucherVerificationGuideLink}
+          href="" //TODO
           target="_blank"
           startIcon={<LaunchIcon fontSize="small" />}
         >

@@ -9,6 +9,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { TemplateQueries } from '@/api/template'
 import { ProviderEServiceTemplateDetailsTab } from './components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateDetailsTab'
+import { ProviderEServiceTemplateTenantsTab } from './components/ProviderEServiceTemplateTenantsTab/ProviderEServiceTemplateTenantsTab'
 
 const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'read' })
@@ -54,6 +55,9 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
         </TabList>
         <TabPanel value="eserviceTemplateDetails">
           <ProviderEServiceTemplateDetailsTab />
+        </TabPanel>
+        <TabPanel value="eserviceTemplateTenants">
+          <ProviderEServiceTemplateTenantsTab />
         </TabPanel>
       </TabContext>
     </PageContainer>
