@@ -742,6 +742,13 @@
         "error": "Nome del template dell'e-service non aggiornato. Riprovare.",
         "success": "Nome del template dell'e-service aggiornato correttamente"
       }
+    },
+    "updateEServiceTemplateAudience": {
+      "loading": "Stiamo modificando a chi è rivolto il template",
+      "outcome": {
+        "error": "A chi è rivolto il template dell'e-service non aggiornato. Riprovare.",
+        "success": "A chi è rivolto il template dell'e-service aggiornato correttamente"
+      }
     }
   }
 }

@@ -742,6 +742,13 @@
         "error": "Template e-service name not updated. Try again.",
         "success": "Template e-service name updated correctly"
       }
+    },
+    "updateEServiceTemplateAudience": {
+      "loading": "We are updating the e-service template target audience",
+      "outcome": {
+        "error": "Template e-service target audience not updated. Try again.",
+        "success": "Template e-service target audience updated correctly"
+      }
     }
   }
 }
