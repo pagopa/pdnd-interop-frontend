@@ -408,6 +408,14 @@
             "RECEIVE": "Riceve"
           }
         },
+        "isSignalHubEnabled": {
+          "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
+          "value": {
+            "true": "Sì, è disponibile",
+            "false": "No, non è disponibile",
+            "undefined": "No, non è disponibile"
+          }
+        },
         "documentation": "Documentazione",
         "usefulLinks": {
           "title": "Link utili",
