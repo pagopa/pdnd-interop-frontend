@@ -65,7 +65,13 @@ export const ProviderEServiceThresholdsSection: React.FC<
       <SectionContainer
         innerSection
         title={t('thresholds.title')}
-        topSideActions={['']} //TODO
+        topSideActions={[
+          {
+            action: () => {},
+            label: tCommon('actions.edit'),
+            icon: EditIcon,
+          },
+        ]} //TODO
       >
         <Stack spacing={2}>
           <InformationContainer

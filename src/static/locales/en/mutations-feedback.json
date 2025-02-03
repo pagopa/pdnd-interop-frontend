@@ -734,5 +734,14 @@
         "error": "It was not possible to download the contract. Please try again"
       }
     }
+  },
+  "template": {
+    "updateEServiceTemplateName": {
+      "loading": "We are updating the e-service template name",
+      "outcome": {
+        "error": "Template e-service name not updated. Try again.",
+        "success": "Template e-service name updated correctly"
+      }
+    }
   }
 }

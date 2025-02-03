@@ -24,6 +24,11 @@
         },
         "versionDescription": {
           "label": "Version description"
+        },
+        "bottomActions": {
+          "navigateTemplateVersions": "Navigate to another e-service template version",
+          "downloadUsingTenantsList": "Download list of using tenants",
+          "viewTechnicalInfo": "View eservice technical information "
         }
       },
       "technicalInformations": {
@@ -47,6 +52,19 @@
           "implementAndManageEServiceTemplate": "How do I implement and manage an e-service template?",
           "updateEserviceInstance": "How can I update an e-service instance?",
           "wellKnown": "URL .well-known"
+        }
+      }
+    },
+    "drawers": {
+      "updateEServiceTemplateNameDrawer": {
+        "title": "Edit template e-service name",
+        "subtitle": "From this panel you can update the name of the template e-service. The changes made will take effect immediately",
+        "templateNameField": {
+          "label": "Template e-service name",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The e-service name must be different from the current one"
+          }
         }
       }
     }

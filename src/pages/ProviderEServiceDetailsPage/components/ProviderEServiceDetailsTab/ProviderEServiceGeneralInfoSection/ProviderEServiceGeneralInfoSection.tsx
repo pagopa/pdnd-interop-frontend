@@ -16,7 +16,7 @@ import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
-import { ProviderEServiceUpdateNameDrawer } from './ProviderEServiceUpdateNameDrawer'
+import { ProviderEServiceAndTemplateUpdateNameDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateNameDrawer'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -179,7 +179,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         onClose={closeEServiceUpdateDescriptionDrawer}
         eservice={descriptor.eservice}
       />
-      <ProviderEServiceUpdateNameDrawer
+      <ProviderEServiceAndTemplateUpdateNameDrawer
         isOpen={isEServiceUpdateNameDrawerOpen}
         onClose={closeEServiceUpdateNameDrawer}
         eservice={descriptor.eservice}
