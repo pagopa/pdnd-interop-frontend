@@ -412,6 +412,14 @@
             "RECEIVE": "Receive"
           }
         },
+        "isSignalHubEnabled": {
+          "label": "Is available the data update system (Signal Hub)? ",
+          "value": {
+            "true": "Yes, it is available",
+            "false": "No, it is not available",
+            "undefined": "No, it is not available"
+          }
+        },
         "documentation": "Documentation",
         "usefulLinks": {
           "title": "Useful links",
