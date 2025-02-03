@@ -8,10 +8,9 @@ import { ProviderEServiceTemplateTechnicalInfoSection } from './ProviderEService
 import { ProviderEServiceTemplateAttributes } from './ProviderEServiceTemplateAttributes'
 
 export const ProviderEServiceTemplateDetailsTab: React.FC = () => {
-  //const { eserviceId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
-  const eserviceId = '1' //TODO
+  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const { data: template } = useQuery(TemplateQueries.getSingle(eserviceId))
+  const { data: template } = useQuery(TemplateQueries.getSingle(eserviceTemplateId))
 
   return (
     <>

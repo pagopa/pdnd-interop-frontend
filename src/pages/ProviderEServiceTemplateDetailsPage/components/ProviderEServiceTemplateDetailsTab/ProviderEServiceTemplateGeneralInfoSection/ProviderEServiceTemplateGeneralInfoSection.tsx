@@ -13,6 +13,7 @@ import EngineeringIcon from '@mui/icons-material/Engineering'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderEServiceAndTemplateUpdateNameDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateNameDrawer'
+import { ProviderEServiceTemplateUpdateAudienceDrawer } from './ProviderEServiceTemplateUpdateAudienceDrawer'
 //import { ProviderEServiceTemplateUpdateDescriptionDrawer } from '@/pages/ProviderEServiceDetailsPage/components/ProviderEServiceDetailsTab/ProviderEServiceGeneralInfoSection/ProviderEServiceUpdateDescriptionDrawer'
 
 export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
@@ -22,8 +23,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
 
-  //const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
-  const eserviceTemplateId = '1'
+  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
   //const { data: template } = useSuspenseQuery(TemplateQueries.getSingle(eserviceTemplateId))
   const { data: template } = useQuery(TemplateQueries.getSingle(eserviceTemplateId))
 
@@ -37,9 +37,15 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   } = useDrawerState()*/
 
   const {
-    isOpen: isEServiceUpdateNameDrawerOpen,
+    isOpen: isEServiceTemplateUpdateNameDrawerOpen,
     openDrawer: openEServiceUpdateNameDrawer,
     closeDrawer: closeEServiceUpdateNameDrawer,
+  } = useDrawerState()
+
+  const {
+    isOpen: isEServiceTemplateUpdateAudienceDrawerOpen,
+    openDrawer: openEServiceUpdateAudienceDrawer,
+    closeDrawer: closeEServiceUpdateAudienceDrawer,
   } = useDrawerState()
 
   const {
@@ -137,7 +143,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
             topSideActions={[
               {
-                action: () => {}, //openEServiceUpdateNameDrawer,
+                action: openEServiceUpdateAudienceDrawer,
                 label: tCommon('actions.edit'),
                 icon: EditIcon,
               },
@@ -171,11 +177,18 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
         </Stack>
       </SectionContainer>
       {template && (
-        <ProviderEServiceAndTemplateUpdateNameDrawer
-          isOpen={isEServiceUpdateNameDrawerOpen}
-          onClose={closeEServiceUpdateNameDrawer}
-          template={template}
-        />
+        <>
+          <ProviderEServiceAndTemplateUpdateNameDrawer
+            isOpen={isEServiceTemplateUpdateNameDrawerOpen}
+            onClose={closeEServiceUpdateNameDrawer}
+            template={template}
+          />
+          <ProviderEServiceTemplateUpdateAudienceDrawer
+            isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
+            onClose={closeEServiceUpdateAudienceDrawer}
+            template={template}
+          />
+        </>
       )}
     </>
   )

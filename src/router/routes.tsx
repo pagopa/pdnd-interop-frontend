@@ -485,7 +485,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
-    path: '/erogazione/template/prova', //'/erogazione/template/:eserviceTemplateId',
+    path: '/erogazione/template/:eserviceTemplateId',
     element: <ProviderEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
