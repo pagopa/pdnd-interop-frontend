@@ -57,7 +57,20 @@ async function getSingle(eserviceTemplateId: string) {
   }
 }
 
+async function updateEServiceTemplateName({
+  eserviceTemplateId,
+  ...payload
+}: { eserviceTemplateId: string } & EServiceTempalteNameUpdateSeed) {
+  /*const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}/name/update`,
+    payload
+  )
+  return response.data*/
+  return console.log('name template updated')
+}
+
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
+  updateEServiceTemplateName,
 }
