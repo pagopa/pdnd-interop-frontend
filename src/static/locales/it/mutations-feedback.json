@@ -614,7 +614,7 @@
         "error": "Non è stato possibile aggiornare i contatti. Per favore, riprova!"
       }
     },
-    "updateProducerDelegationAvailability": {
+    "updateDelegationAvailability": {
       "loading": "Stiamo aggiornando la disponibilità",
       "outcome": {
         "success": "La disponibilità è stata aggiornata correttamente",

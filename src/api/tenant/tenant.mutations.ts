@@ -16,7 +16,7 @@ function useUpdateMail() {
 
 function useAssignTenantDelegatedProducerFeature() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'party.updateProducerDelegationAvailability',
+    keyPrefix: 'party.updateDelegationAvailability',
   })
   return useMutation({
     mutationFn: TenantServices.assignTenantDelegatedProducerFeature,
@@ -30,10 +30,38 @@ function useAssignTenantDelegatedProducerFeature() {
 
 function useDeleteTenantDelegatedProducerFeature() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'party.updateProducerDelegationAvailability',
+    keyPrefix: 'party.updateDelegationAvailability',
   })
   return useMutation({
     mutationFn: TenantServices.deleteTenantDelegatedProducerFeature,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useAssignTenantDelegatedConsumerFeature() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'party.updateDelegationAvailability',
+  })
+  return useMutation({
+    mutationFn: TenantServices.assignTenantDelegatedConsumerFeature,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useDeleteTenantDelegatedConsumerFeature() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'party.updateDelegationAvailability',
+  })
+  return useMutation({
+    mutationFn: TenantServices.deleteTenantDelegatedConsumerFeature,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -46,4 +74,6 @@ export const TenantMutations = {
   useUpdateMail,
   useAssignTenantDelegatedProducerFeature,
   useDeleteTenantDelegatedProducerFeature,
+  useAssignTenantDelegatedConsumerFeature,
+  useDeleteTenantDelegatedConsumerFeature,
 }

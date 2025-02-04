@@ -614,7 +614,7 @@
         "error": "Contact Infos could not be updated. Please, try again!"
       }
     },
-    "updateProducerDelegationAvailability": {
+    "updateDelegationAvailability": {
       "loading": "Updating delegation availability",
       "outcome": {
         "success": "Delegation availability updated succesfully",
