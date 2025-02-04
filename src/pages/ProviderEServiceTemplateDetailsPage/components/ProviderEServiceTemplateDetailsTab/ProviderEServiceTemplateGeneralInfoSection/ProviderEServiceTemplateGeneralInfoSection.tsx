@@ -12,15 +12,15 @@ import DownloadIcon from '@mui/icons-material/Download'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { ProviderEServiceAndTemplateUpdateNameDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateNameDrawer'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
+import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 
 export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.generalInformations',
   })
   const { t: tDrawer } = useTranslation('template', {
-    keyPrefix: 'read.drawers.updateEServiceTemplateAudienceDrawer',
+    keyPrefix: 'read.drawers',
   })
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
@@ -29,11 +29,13 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   //const { data: template } = useSuspenseQuery(TemplateQueries.getSingle(eserviceTemplateId))
   const { data: template } = useQuery(TemplateQueries.getSingle(eserviceTemplateId))
 
-  const { mutate: updateTemplateEserviceDescription } =
+  const { mutate: updateEserviceTemplateDescription } =
     TemplateMutations.useUpdateTemplateEServiceDescription()
 
   const { mutate: updateEserviceTemplateAudience } =
     TemplateMutations.useUpdateEServiceTemplateAudience()
+
+  const { mutate: updateEserviceTemplateName } = TemplateMutations.useUpdateEServiceTemplateName()
 
   /*const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
@@ -114,8 +116,18 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
     label: t('bottomActions.viewTechnicalInfo'),
   }
 
+  const handleNameUpdate = (templateId: string, name: string) => {
+    updateEserviceTemplateName(
+      {
+        eserviceTemplateId: templateId,
+        name: name,
+      },
+      { onSuccess: closeEServiceUpdateNameDrawer }
+    )
+  }
+
   const handleDescriptionUpdate = (templateId: string, description: string) => {
-    updateTemplateEserviceDescription(
+    updateEserviceTemplateDescription(
       {
         eserviceTemplateId: templateId,
         description: description,
@@ -206,10 +218,19 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
       </SectionContainer>
       {template && (
         <>
-          <ProviderEServiceAndTemplateUpdateNameDrawer
+          <UpdateNameDrawer
             isOpen={isEServiceTemplateUpdateNameDrawerOpen}
             onClose={closeEServiceUpdateNameDrawer}
-            template={template}
+            id={template.id}
+            name={template.name}
+            onSubmit={handleNameUpdate}
+            title={tDrawer('updateEServiceTemplateNameDrawer.title')}
+            subtitle={tDrawer('updateEServiceTemplateNameDrawer.subtitle')}
+            label={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.label')}
+            infoLabel={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.infoLabel')}
+            validateLabel={tDrawer(
+              'updateEServiceTemplateNameDrawer.templateNameField.validation.sameValue'
+            )}
           />
           <UpdateDescriptionDrawer
             isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
@@ -217,10 +238,15 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             id={template.id}
             description={template.audienceDescription}
             onSubmit={handleAudienceDescriptionUpdate}
-            title={tDrawer('title')}
-            subtitle={tDrawer('subtitle')}
-            label={tDrawer('templateAudienceField.label')}
-            infolabel={tDrawer('templateAudienceField.infoLabel')}
+            title={tDrawer('updateEServiceTemplateAudienceDrawer.title')}
+            subtitle={tDrawer('updateEServiceTemplateAudienceDrawer.subtitle')}
+            label={tDrawer('updateEServiceTemplateAudienceDrawer.templateAudienceField.label')}
+            infoLabel={tDrawer(
+              'updateEServiceTemplateAudienceDrawer.templateAudienceField.infoLabel'
+            )}
+            validateLabel={tDrawer(
+              'updateEServiceTemplateAudienceDrawer.templateAudienceField.validation.sameValue'
+            )}
           />
           <UpdateDescriptionDrawer
             isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
