@@ -5,7 +5,10 @@ import type { Link } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type React from 'react'
 
-function useGetPurposeStateAlertProps(purpose: Purpose | undefined):
+function useGetPurposeStateAlertProps(
+  purpose: Purpose | undefined,
+  isEServiceClientAccessDelegable: boolean | undefined
+):
   | {
       severity: AlertProps['severity']
       content: AlertProps['children']
@@ -80,7 +83,11 @@ function useGetPurposeStateAlertProps(purpose: Purpose | undefined):
     }
   }
 
-  if (isPurposeActive && purpose.clients.length === 0) {
+  if (
+    isPurposeActive &&
+    purpose.clients.length === 0 &&
+    !(purpose.delegation && !isEServiceClientAccessDelegable)
+  ) {
     return {
       severity: 'info',
       content: t('noClientsAlert'),
@@ -94,6 +101,21 @@ function useGetPurposeStateAlertProps(purpose: Purpose | undefined):
           },
         },
       },
+    }
+  }
+
+  if (
+    isPurposeActive &&
+    purpose.clients.length === 0 &&
+    purpose.delegation &&
+    !isEServiceClientAccessDelegable
+  ) {
+    return {
+      severity: 'info',
+      content: t('noClientsAlertForDelegateWithoutClientPermissions', {
+        delegatorName: purpose.delegation.delegator.name,
+      }),
+      variant: 'standard',
     }
   }
 
