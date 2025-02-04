@@ -8,7 +8,6 @@ import {
 } from '../../../../components/shared/DelegationTable/DelegationsTable'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
-import type { DelegationType } from '@/types/party.types'
 
 export const DelegationsReceivedTab: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
@@ -16,7 +15,6 @@ export const DelegationsReceivedTab: React.FC = () => {
 
   const params: GetDelegationsParams = {
     ...paginationParams,
-    kind: 'DELEGATED_PRODUCER',
     delegateIds: [jwt?.organizationId as string],
   }
 

@@ -18,8 +18,8 @@ import type {
   DialogRemoveUserFromKeychainProps,
   DialogDeleteProducerKeychainKeyProps,
   DialogDelegationsProps,
-  DialogAcceptProducerDelegationProps,
-  DialogRejectProducerDelegationProps,
+  DialogAcceptDelegationProps,
+  DialogRejectDelegationProps,
   DialogRevokeProducerDelegationProps,
   DialogRejectDelegatedVersionDraftProps,
 } from '@/types/dialog.types'
@@ -37,8 +37,8 @@ import { DialogSetTenantMail } from './DialogSetTenantMail'
 import { DialogRemoveUserFromKeychain } from './DialogRemoveUserFromKeychain'
 import { DialogDeleteProducerKeychainKey } from './DialogDeleteProducerKeychainKey'
 import { DialogDelegations } from './DialogDelegations'
-import { DialogAcceptProducerDelegation } from './DialogAcceptProducerDelegation'
-import { DialogRejectProducerDelegation } from './DialogRejectProducerDelegation'
+import { DialogAcceptDelegation } from './DialogAcceptDelegation'
+import { DialogRejectDelegation } from './DialogRejectDelegation'
 import { DialogRevokeProducerDelegation } from './DialogRevokeProducerDelegation'
 import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersionDraft'
 
@@ -57,8 +57,8 @@ function match<T>(
   onRemoveUserFromKeychain: (props: DialogRemoveUserFromKeychainProps) => T,
   onDeleteProducerKeychainKey: (props: DialogDeleteProducerKeychainKeyProps) => T,
   onDelegations: (props: DialogDelegationsProps) => T,
-  onAcceptDelegation: (props: DialogAcceptProducerDelegationProps) => T,
-  onRejectDelegation: (props: DialogRejectProducerDelegationProps) => T,
+  onAcceptDelegation: (props: DialogAcceptDelegationProps) => T,
+  onRejectDelegation: (props: DialogRejectDelegationProps) => T,
   onRevokeProducerDelegation: (props: DialogRevokeProducerDelegationProps) => T,
   onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T
 ) {
@@ -119,8 +119,8 @@ const _Dialog = match(
   (props) => <DialogRemoveUserFromKeychain {...props} />,
   (props) => <DialogDeleteProducerKeychainKey {...props} />,
   (props) => <DialogDelegations {...props} />,
-  (props) => <DialogAcceptProducerDelegation {...props} />,
-  (props) => <DialogRejectProducerDelegation {...props} />,
+  (props) => <DialogAcceptDelegation {...props} />,
+  (props) => <DialogRejectDelegation {...props} />,
   (props) => <DialogRevokeProducerDelegation {...props} />,
   (props) => <DialogRejectDelegatedVersionDraft {...props} />
 )
