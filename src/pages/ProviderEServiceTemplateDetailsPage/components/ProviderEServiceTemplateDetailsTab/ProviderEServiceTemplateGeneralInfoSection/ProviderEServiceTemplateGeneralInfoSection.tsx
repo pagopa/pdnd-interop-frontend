@@ -254,13 +254,6 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
               'updateEServiceTemplateAudienceDrawer.templateAudienceField.validation.sameValue'
             )}
           />
-          <UpdateDescriptionDrawer
-            isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
-            onClose={closeEServiceTemplateUpdateDescriptionDrawer}
-            id={template.id}
-            description={template.eserviceTemplate.eserviceDescription}
-            onSubmit={handleDescriptionUpdate}
-          />
         </>
       )}
     </>
