@@ -77,6 +77,11 @@
             "sameValue": "A chi è rivolto il template deve essere diverso da quella attuale"
           }
         }
+      },
+      "updateEServiceTemplateThresholdsDrawer": {
+        "subtitle": "Da questo pannello puoi aggiornare i parametri della tua versione del template di e-service. Le modifiche apportate avranno effetto da subito.",
+        "dailyCallsPerConsumerLabel": "Soglia suggerita per fruitore",
+        "dailyCallsTotalLabel": "Soglia suggerita totale"
       }
     }
   }
