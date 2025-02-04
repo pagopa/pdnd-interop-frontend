@@ -37,6 +37,14 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
           content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
         />
       )}
+      <InformationContainer
+        label={t('isDelegable.label')}
+        content={t(`isDelegable.value.${descriptor.eservice.isDelegable}`)}
+      />
+      <InformationContainer
+        label={t('isClientAccessDelegable.label')}
+        content={t(`isClientAccessDelegable.value.${descriptor.eservice.isClientAccessDelegable}`)}
+      />
     </Stack>
   )
 }
