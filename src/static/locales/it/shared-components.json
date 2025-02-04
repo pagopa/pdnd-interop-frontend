@@ -100,6 +100,17 @@
       "eserviceProvider": "erogato da"
     }
   },
+  "dialogCreateAgreementDraft": {
+    "title": "Crea bozza richiesta di fruizione",
+    "description": "Vuoi creare una bozza di richiesta di fruizione per l'e-service <strong>{{eserviceName}}</strong>, versione <strong>{{eserviceVersion}}</strong>. Seleziona l’ente per il quale effettuare la richiesta",
+    "consumerField": {
+      "label": "Seleziona ente"
+    },
+    "certifiedAttributesAlert": {
+      "title": "Non è possibile richiedere la fruizione dell’e-service",
+      "description": "L'ente selezionato non dispone degli attributi certificati necessari a richiedere la fruizione dell'e-service"
+    }
+  },
   "dialogDeleteOperator": {
     "title": "Inoltro ad Area Riservata per rimozione utente",
     "description": "Le operazioni sulle utenze su tutti i prodotti gestiti da PagoPA avvengono attraverso il portale Area Riservata. Cliccando \"conferma\", verrai reindirizzato alla pagina di Area Riservata per gestire l'utente selezionato."

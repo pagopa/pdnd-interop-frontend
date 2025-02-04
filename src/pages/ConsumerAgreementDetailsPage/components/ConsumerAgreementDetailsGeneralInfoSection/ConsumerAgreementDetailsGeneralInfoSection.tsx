@@ -21,6 +21,8 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { agreement } = useConsumerAgreementDetailsContext()
   const downloadContract = AgreementDownloads.useDownloadContract()
 
+  const isDelegated = Boolean(agreement.delegation)
+
   const {
     isOpen: isContactDrawerOpen,
     openDrawer: openContactDrawer,
@@ -70,6 +72,16 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
             label={t('providerField.label')}
             content={agreement.producer.name}
           />
+          <InformationContainer
+            label={t('consumerField.label')}
+            content={agreement.consumer.name}
+          />
+          {isDelegated && (
+            <InformationContainer
+              label={t('delegatedConsumerField.label')}
+              content={agreement.delegation?.delegate.name as string}
+            />
+          )}
           {agreement.state === 'REJECTED' && agreement.rejectionReason && (
             <InformationContainer
               label={t('rejectionMessageField.label')}

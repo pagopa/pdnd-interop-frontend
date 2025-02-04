@@ -275,7 +275,10 @@
       },
       "confirmDialog": {
         "title": "Confirm declared attribute",
-        "description": "Do you declare under your responsibility that your institution has this attribute?"
+        "description": {
+          "default": "Do you declare under your responsibility that your institution has this attribute?",
+          "isDelegated": "Do you confirm on behalf of the delegator that <strong>{{delegatorName}}</strong> has the requested declared attribute?"
+        }
       }
     },
     "revokeDeclaredPartyAttribute": {
@@ -309,7 +312,10 @@
       },
       "confirmDialog": {
         "title": "Confirm request submit",
-        "description": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated"
+        "description": {
+          "default": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated",
+          "isDelegated": "By clicking on \"confirm\", the request for use will be forwarded to the e-service provider for approval and a notification will be forwarded to the delegating body for information."
+        }
       }
     },
     "submitToOwnEService": {

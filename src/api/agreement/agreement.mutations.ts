@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AgreementServices } from './agreement.services'
-import type { AgreementPayload } from '../api.generatedTypes'
+import type { AgreementPayload, AgreementSubmissionPayload } from '../api.generatedTypes'
 
-function useCreateDraft() {
+function useCreateDraft(hasConfirmationDialog = true) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.createDraft' })
   return useMutation({
     mutationFn: ({
@@ -16,32 +16,49 @@ function useCreateDraft() {
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        description: (variables: any) => {
-          return t('confirmDialog.description', {
-            name: variables.eserviceName,
-            version: variables.eserviceVersion,
-          })
-        },
-        proceedLabel: t('confirmDialog.proceedLabel'),
-      },
+      confirmationDialog: hasConfirmationDialog
+        ? {
+            title: t('confirmDialog.title'),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            description: (variables: any) => {
+              return t('confirmDialog.description', {
+                name: variables.eserviceName,
+                version: variables.eserviceVersion,
+              })
+            },
+            proceedLabel: t('confirmDialog.proceedLabel'),
+          }
+        : undefined,
     },
   })
 }
 
-function useSubmitDraft() {
+function useSubmitDraft(isDelegated = false) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.submitDraft' })
   return useMutation({
-    mutationFn: AgreementServices.submitDraft,
+    mutationFn: ({
+      agreementId,
+      consumerNotes,
+    }: {
+      delegatorName: string | undefined
+    } & {
+      agreementId: string
+    } & AgreementSubmissionPayload) =>
+      AgreementServices.submitDraft({ agreementId, consumerNotes }),
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
         title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        description: (variables: any) => {
+          return isDelegated
+            ? t('confirmDialog.description.isDelegated', {
+                delegatorName: variables.delegatorName,
+              })
+            : t('confirmDialog.description.default')
+        },
       },
     },
   })
