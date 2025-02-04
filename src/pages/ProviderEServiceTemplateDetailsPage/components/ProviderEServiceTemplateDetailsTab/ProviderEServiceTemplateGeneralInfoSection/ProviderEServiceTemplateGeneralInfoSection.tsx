@@ -6,20 +6,21 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import { TemplateQueries } from '@/api/template'
+import { TemplateMutations, TemplateQueries } from '@/api/template'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderEServiceAndTemplateUpdateNameDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateNameDrawer'
-import { ProviderEServiceTemplateUpdateAudienceDrawer } from './ProviderEServiceTemplateUpdateAudienceDrawer'
-import { ProviderEServiceAndTemplateUpdateDescriptionDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateDescriptionDrawer'
-//import { ProviderEServiceTemplateUpdateDescriptionDrawer } from '@/pages/ProviderEServiceDetailsPage/components/ProviderEServiceDetailsTab/ProviderEServiceGeneralInfoSection/ProviderEServiceUpdateDescriptionDrawer'
+import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 
 export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.generalInformations',
+  })
+  const { t: tDrawer } = useTranslation('template', {
+    keyPrefix: 'read.drawers.updateEServiceTemplateAudienceDrawer',
   })
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
@@ -27,6 +28,12 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
   //const { data: template } = useSuspenseQuery(TemplateQueries.getSingle(eserviceTemplateId))
   const { data: template } = useQuery(TemplateQueries.getSingle(eserviceTemplateId))
+
+  const { mutate: updateTemplateEserviceDescription } =
+    TemplateMutations.useUpdateTemplateEServiceDescription()
+
+  const { mutate: updateEserviceTemplateAudience } =
+    TemplateMutations.useUpdateEServiceTemplateAudience()
 
   /*const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
@@ -107,6 +114,26 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
     label: t('bottomActions.viewTechnicalInfo'),
   }
 
+  const handleDescriptionUpdate = (templateId: string, description: string) => {
+    updateTemplateEserviceDescription(
+      {
+        eserviceTemplateId: templateId,
+        description: description,
+      },
+      { onSuccess: closeEServiceTemplateUpdateDescriptionDrawer }
+    )
+  }
+
+  const handleAudienceDescriptionUpdate = (templateId: string, description: string) => {
+    updateEserviceTemplateAudience(
+      {
+        eserviceTemplateId: templateId,
+        description: description,
+      },
+      { onSuccess: closeEServiceUpdateAudienceDrawer }
+    )
+  }
+
   return (
     <>
       <SectionContainer
@@ -184,15 +211,23 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             onClose={closeEServiceUpdateNameDrawer}
             template={template}
           />
-          <ProviderEServiceTemplateUpdateAudienceDrawer
+          <UpdateDescriptionDrawer
             isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
             onClose={closeEServiceUpdateAudienceDrawer}
-            template={template}
+            id={template.id}
+            description={template.audienceDescription}
+            onSubmit={handleAudienceDescriptionUpdate}
+            title={tDrawer('title')}
+            subtitle={tDrawer('subtitle')}
+            label={tDrawer('templateAudienceField.label')}
+            infolabel={tDrawer('templateAudienceField.infoLabel')}
           />
-          <ProviderEServiceAndTemplateUpdateDescriptionDrawer
+          <UpdateDescriptionDrawer
             isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
             onClose={closeEServiceTemplateUpdateDescriptionDrawer}
-            template={template}
+            id={template.id}
+            description={template.eserviceDescription}
+            onSubmit={handleDescriptionUpdate}
           />
         </>
       )}
