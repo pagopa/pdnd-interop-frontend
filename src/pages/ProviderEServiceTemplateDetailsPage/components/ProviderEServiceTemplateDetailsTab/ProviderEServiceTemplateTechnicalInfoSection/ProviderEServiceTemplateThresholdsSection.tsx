@@ -7,6 +7,8 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
+import { TemplateMutations } from '@/api/template'
+import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
 
 type ProviderEServiceTemplateThresholdsSectionProps = {
   template: //ProducerEServiceTemplate TODO
@@ -49,6 +51,9 @@ export const ProviderEServiceThresholdsSection: React.FC<
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
+  const { t: tDrawer } = useTranslation('template', {
+    keyPrefix: 'read.drawers.updateEServiceTemplateThresholdsDrawer',
+  })
 
   const { jwt } = AuthHooks.useJwt()
 
@@ -60,6 +65,25 @@ export const ProviderEServiceThresholdsSection: React.FC<
     openDrawer()
   }
 
+  const { mutate: updateEserviceTemplateQuotas } = TemplateMutations.useUpdateQuotas()
+
+  const handleThresholdsUpdate = (
+    id: string,
+    voucherLifespan: number,
+    dailyCallsPerConsumer: number,
+    dailyCallsTotal: number
+  ) => {
+    updateEserviceTemplateQuotas(
+      {
+        eserviceTemplateId: id,
+        voucherLifespan: voucherLifespan,
+        dailyCallsPerConsumer: dailyCallsPerConsumer,
+        dailyCallsTotal: dailyCallsTotal,
+      },
+      { onSuccess: closeDrawer }
+    )
+  }
+
   return (
     <>
       <SectionContainer
@@ -67,7 +91,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
         title={t('thresholds.title')}
         topSideActions={[
           {
-            action: () => {},
+            action: onEdit,
             label: tCommon('actions.edit'),
             icon: EditIcon,
           },
@@ -95,11 +119,18 @@ export const ProviderEServiceThresholdsSection: React.FC<
           />
         </Stack>
       </SectionContainer>
-      {/*<ProviderEServiceUpdateThresholdsDrawer
+      <UpdateThresholdsDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        template={template}
-        />*/}
+        id={template.id}
+        voucherLifespan={template.versions[0].voucherLifespan}
+        dailyCallsPerConsumer={template.versions[0].dailyCallsPerConsumer}
+        dailyCallsTotal={template.versions[0].dailyCallsTotal}
+        onSubmit={handleThresholdsUpdate}
+        subtitle={tDrawer('subtitle')}
+        dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerLabel')}
+        dailyCallsTotalLabel={tDrawer('dailyCallsTotalLabel')}
+      />
     </>
   )
 }
