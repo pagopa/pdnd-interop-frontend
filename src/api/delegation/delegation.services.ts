@@ -142,6 +142,10 @@ async function getConsumerDelegatedEservices(params: GetConsumerDelegatedEservic
   return response.data
 }
 
+async function revokeConsumerDelegation({ delegationId }: { delegationId: string }) {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/${delegationId}`)
+}
+
 export const DelegationServices = {
   getList,
   getSingle,
@@ -157,4 +161,5 @@ export const DelegationServices = {
   getConsumerDelegators,
   getConsumerDelegatorsWithAgreements,
   getConsumerDelegatedEservices,
+  revokeConsumerDelegation,
 }

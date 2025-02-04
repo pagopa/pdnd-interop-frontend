@@ -176,14 +176,26 @@
       "reject": "Reject delegation"
     }
   },
-  "dialogRevokeProducerDelegation": {
-    "title": "Revocation of the producer delegation",
-    "content": {
-      "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, and the agreements and the purposes associated with it. The e-service will return under your control in the state it was in at the time of revocation. Do you have doubts? <1>Read the guide</1>.",
-      "checkbox": "I have read and I want to proceed with the revocation"
+  "dialogRevokeDelegation": {
+    "producer": {
+      "title": "Producer delegation revocation",
+      "content": {
+        "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, and the agreements and the purposes associated with it. The e-service will return under your control in the state it was in at the time of revocation. Do you have doubts? <1>Read the guide</1>.",
+        "checkbox": "I have read and I want to proceed with the revocation"
+      },
+      "actions": {
+        "revoke": "Revoke delegation"
+      }
     },
-    "actions": {
-      "revoke": "Revoke delegation"
+    "consumer": {
+      "title": "Consumer delegation revocation",
+      "content": {
+        "description": "By revoking the delegation, you will come into possession of the requests and purposes created by the delegate for use on behalf of your institution and you will be able to manage them independently, or create a new delegation. Do you have doubts? <1>Consult the guide</1>.\n\n<strong>After revocation, you will have to reactivate and/or create the purposes and associate your clients to be able to access the e-service data again {{eserviceName}} with delegation of use</strong>.",
+        "checkbox": "I have read and I want to proceed with the revocation"
+      },
+      "actions": {
+        "revoke": "Revoke delegation"
+      }
     }
   },
   "dialogRejectDelegatedVersionDraft": {

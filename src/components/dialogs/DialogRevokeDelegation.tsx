@@ -1,6 +1,6 @@
 import { DelegationMutations } from '@/api/delegation'
 import { useDialog } from '@/stores'
-import type { DialogRevokeProducerDelegationProps } from '@/types/dialog.types'
+import type { DialogRevokeDelegationProps } from '@/types/dialog.types'
 import {
   Button,
   Checkbox,
@@ -15,25 +15,37 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
 
-export const DialogRevokeProducerDelegation: React.FC<DialogRevokeProducerDelegationProps> = ({
+export const DialogRevokeDelegation: React.FC<DialogRevokeDelegationProps> = ({
   delegationId,
   eserviceName,
+  delegationKind,
 }) => {
   const ariaLabelId = React.useId()
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRevokeProducerDelegation' })
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: `dialogRevokeDelegation.${
+      delegationKind === 'DELEGATED_PRODUCER' ? 'producer' : 'consumer'
+    }`,
+  })
 
   const [isConfirmCheckboxChecked, setIsConfirmCheckboxChecked] = React.useState<boolean>(false)
 
-  const { mutate: revokeDelegation } = DelegationMutations.useRevokeProducerDelegation()
+  const { mutate: revokeProducerDelegation } = DelegationMutations.useRevokeProducerDelegation()
+  const { mutate: revokeConsumerDelegation } = DelegationMutations.useRevokeConsumerDelegation()
 
   const handleCheckBoxChange = () => {
     setIsConfirmCheckboxChecked((prev) => {
       return !prev
     })
   }
+
+  const revokeDelegation = match(delegationKind)
+    .with('DELEGATED_PRODUCER', () => revokeProducerDelegation)
+    .with('DELEGATED_CONSUMER', () => revokeConsumerDelegation)
+    .exhaustive()
 
   const handleRevoke = () => {
     revokeDelegation({ delegationId })

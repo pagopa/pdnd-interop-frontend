@@ -47,7 +47,7 @@ function useRejectProducerDelegation() {
 
 function useRevokeProducerDelegation() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'delegation.revokeProducerDelegation',
+    keyPrefix: 'delegation.revokeDelegation',
   })
   const queryClient = useQueryClient()
 
@@ -120,6 +120,25 @@ function useCreateConsumerDelegation() {
   })
 }
 
+function useRevokeConsumerDelegation() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'delegation.revokeDelegation',
+  })
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: DelegationServices.revokeConsumerDelegation,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+    onSuccess(_, { delegationId }) {
+      queryClient.removeQueries(DelegationQueries.getSingle({ delegationId }))
+    },
+  })
+}
+
 export const DelegationMutations = {
   useCreateProducerDelegation,
   useApproveProducerDelegation,
@@ -129,4 +148,5 @@ export const DelegationMutations = {
   useRejectConsumerDelegation,
   useCreateProducerDelegationAndEservice,
   useCreateConsumerDelegation,
+  useRevokeConsumerDelegation,
 }
