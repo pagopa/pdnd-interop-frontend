@@ -85,6 +85,14 @@ async function createProducerDelegationAndEservice({
   return await createProducerDelegation(delegationParams)
 }
 
+async function createConsumerDelegation(payload: DelegationSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations`,
+    payload
+  )
+  return response.data
+}
+
 export const DelegationServices = {
   getProducerDelegations,
   getSingle,
@@ -94,4 +102,5 @@ export const DelegationServices = {
   revokeProducerDelegation,
   downloadDelegationContract,
   createProducerDelegationAndEservice,
+  createConsumerDelegation,
 }

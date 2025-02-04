@@ -700,7 +700,7 @@
     }
   },
   "delegation": {
-    "createProducerDelegation": {
+    "createDelegation": {
       "loading": "Stiamo inoltrando la delega",
       "outcome": {
         "success": "La nuova delega è stata creata correttamente ed è stata inoltrata all’aderente per valutazione",

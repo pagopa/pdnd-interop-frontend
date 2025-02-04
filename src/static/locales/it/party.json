@@ -138,14 +138,15 @@
         "infoLabel": "Min 5 caratteri, max 60 caratteri",
         "infoLabelAutocomplete": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega.",
         "descriptionLabel": "Descrizione dell'e-service",
-        "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
+        "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri",
+        "eserviceNameLabel": "Erogato da"
       },
       "delegateField": {
-        "consume": {
+        "consumer": {
           "label": "Ente da delegare alla fruizione (richiesto)",
           "infoLabel": "La lista include solo gli aderenti che hanno dato la loro disponibilità a diventare delegati alla fruizione"
         },
-        "provide": {
+        "provider": {
           "label": "Ente da delegare all'erogazione (richiesto)",
           "infoLabel": "La lista include solo gli aderenti che hanno dato la loro disponibilità a diventare delegati all’erogazione",
           "switch": "Ho già creato l’e-service per il quale voglio attivare una delega"
@@ -157,7 +158,9 @@
         "proceedLabel": "Inoltra delega",
         "cancelLabel": "Annulla",
         "checkboxLabel": "Ho capito"
-      }
+      },
+      "hasAgreementsAlert": "Esiste già una richiesta di fruizione attiva o sospesa per l’e-service selezionato, pertanto non è possibile conferirlo in delega. Per delegare questo e-service, chiedi che venga rimossa la richiesta attualmente attiva o sospesa e riprova.",
+      "isDelegatedAlert": "Esiste già una richiesta di delega per l’e-service selezionato, pertanto non è possibile conferirlo in delega. Per delegare questo e-service, chiedi che venga rimossa la richiesta attualmente attiva e riprova."
     },
     "actions": {
       "backToTenant": "Torna al tuo ente",
