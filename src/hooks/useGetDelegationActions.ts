@@ -50,9 +50,10 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
 
   const handleRevoke = () => {
     openDialog({
-      type: 'revokeProducerDelegation',
+      type: 'revokeDelegation',
       delegationId: delegation.id,
       eserviceName: delegation.eservice?.name ?? '-',
+      delegationKind: delegation.kind,
     })
   }
 

@@ -720,7 +720,7 @@
         "error": "Non è stato possibile rifiutare la delega. Per favore, riprova!"
       }
     },
-    "revokeProducerDelegation": {
+    "revokeDelegation": {
       "loading": "Stiamo revocando la delega",
       "outcome": {
         "success": "La delega è stata revocata correttamente.",

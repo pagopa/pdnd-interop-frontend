@@ -176,11 +176,20 @@
       "reject": "Rifiuta delega"
     }
   },
-  "dialogRevokeProducerDelegation": {
-    "title": "Revoca della delega all'erogazione",
-    "content": {
-      "description": "Il delegato perderà la gestione del tuo e-service <strong>{{eserviceName}} con delega all'erogazione</strong>, e delle richieste di fruizione e le finalità ad esso associate. L’e-service tornerà sotto il tuo controllo nello stato in cui si trova all’atto della revoca. Hai dubbi? <1>Consulta la guida</1>.",
-      "checkbox": "Ho letto e voglio procedere con la revoca"
+  "dialogRevokeDelegation": {
+    "producer": {
+      "title": "Revoca della delega all'erogazione",
+      "content": {
+        "description": "Il delegato perderà la gestione del tuo e-service <strong>{{eserviceName}} con delega all'erogazione</strong>, e delle richieste di fruizione e le finalità ad esso associate. L’e-service tornerà sotto il tuo controllo nello stato in cui si trova all’atto della revoca. Hai dubbi? <1>Consulta la guida</1>.",
+        "checkbox": "Ho letto e voglio procedere con la revoca"
+      }
+    },
+    "consumer": {
+      "title": "Revoca della delega alla fruizione",
+      "content": {
+        "description": "Revocando la delega, entrerai in possesso delle richieste e finalità create dal delegato alla fruizione per conto del tuo ente e potrai gestirle in autonomia, o creare una nuova delega. Hai dubbi? <1>Consulta la guida</1>.\n\n<strong>A revoca avvenuta, dovrai riattivare e/o creare le finalità e associare i tuoi client per poter accedere nuovamente ai dati dell’e-service {{eserviceName}} con delega alla fruizione</strong>.",
+        "checkbox": "Ho letto e voglio procedere con la revoca"
+      }
     }
   },
   "dialogRejectDelegatedVersionDraft": {
