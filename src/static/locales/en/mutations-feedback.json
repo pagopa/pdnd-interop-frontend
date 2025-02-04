@@ -693,7 +693,7 @@
     }
   },
   "delegation": {
-    "createProducerDelegation": {
+    "createDelegation": {
       "loading": "We are forwarding the delegation",
       "outcome": {
         "success": "The new delegation has been created correctly and has been forwarded to the member for evaluation",
