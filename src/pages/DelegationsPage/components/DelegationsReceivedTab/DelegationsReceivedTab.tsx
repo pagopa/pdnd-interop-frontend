@@ -15,7 +15,6 @@ export const DelegationsReceivedTab: React.FC = () => {
 
   const params: GetDelegationsParams = {
     ...paginationParams,
-    kind: 'DELEGATED_PRODUCER',
     delegateIds: [jwt?.organizationId as string],
   }
 

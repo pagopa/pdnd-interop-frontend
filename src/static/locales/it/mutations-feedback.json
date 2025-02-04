@@ -714,7 +714,7 @@
         "error": "Non è stato possibile attivare la delega. Per favore, riprova!"
       }
     },
-    "rejectProducerDelegation": {
+    "rejectDelegation": {
       "loading": "Stiamo rifiutando la delega",
       "outcome": {
         "success": "La delega è stata rifiutata correttamente.",
@@ -726,6 +726,13 @@
       "outcome": {
         "success": "La delega è stata revocata correttamente.",
         "error": "Non è stato possibile revocare la delega. Per favore, riprova!"
+      }
+    },
+    "approveConsumerDelegation": {
+      "loading": "Stiamo attivando la delega",
+      "outcome": {
+        "success": "La delega è stata attivata correttamente. Da questo momento puoi gestire la fruizione dell’e-service in delega",
+        "error": "Non è stato possibile attivare la delega. Per favore, riprova!"
       }
     },
     "downloadDelegationContract": {
