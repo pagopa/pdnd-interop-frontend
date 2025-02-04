@@ -38,6 +38,8 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
     .with({ suspendedByPlatform: true }, () => 'byPlatform' as const)
     .otherwise(() => undefined)
 
+  const isDelegated = Boolean('delegation' in agreement)
+
   return (
     <PageContainer
       title={t('providerRead.title')}
@@ -48,6 +50,11 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
         agreement,
       }}
     >
+      {agreement.state === 'PENDING' && isDelegated && (
+        <Alert sx={{ mb: 3 }} severity="info">
+          {t('providerRead.delegatedAlert')}
+        </Alert>
+      )}
       {suspendedBy && (
         <Alert sx={{ mb: 3 }} severity="error">
           <Trans

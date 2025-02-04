@@ -2,6 +2,7 @@
   "backToRequestsBtn": "Go back to requests",
   "providerRead": {
     "title": "Manage agreement",
+    "delegatedAlert": "This agreement relates to a delegation.",
     "suspendedAlert": {
       "byProducer": "This agreement has been suspended by the PROVIDER. Until it is reactivated it will not be possible to access the data.",
       "byConsumer": "This agreement has been suspended by the CONSUMER. Until it is reactivated it will not be possible to access the data.",
@@ -16,6 +17,9 @@
         },
         "consumerField": {
           "label": "Consumer"
+        },
+        "delegatedConsumerField": {
+          "label": "Delegated Consumer"
         },
         "rejectionMessageField": {
           "label": "Reason for rejection"
@@ -35,8 +39,14 @@
         "consumerDetailsLink": {
           "label": "View consumer details"
         },
+        "delegatedConsumerDetailsLink": {
+          "label": "View delegated consumer details"
+        },
         "contactDrawer": {
-          "title": "Consumer contacts",
+          "title": {
+            "delegatedConsumer": "Delegated consumer contacts",
+            "consumer": "Consumer contacts"
+          },
           "emailField": {
             "label": "Contact email"
           },
