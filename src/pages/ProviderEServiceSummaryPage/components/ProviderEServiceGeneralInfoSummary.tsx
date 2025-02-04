@@ -5,12 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { STAGE } from '@/config/env'
-import type { PagoPAEnvVars } from '@/types/common.types'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST } from '@/config/env'
+import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
-  const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
-  const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
+  const producerId = AuthHooks.useJwt().jwt?.organizationId
+  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
+    ? SIGNALHUB_WHITELIST.includes(producerId)
+    : true
+
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
@@ -28,7 +31,7 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         label={t('apiTechnology.label')}
         content={descriptor.eservice.technology}
       />
-      {!isSignalHubFlagDisabled && (
+      {isSignalHubFlagEnabled && (
         <InformationContainer
           label={t('isSignalHubEnabled.label')}
           content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
