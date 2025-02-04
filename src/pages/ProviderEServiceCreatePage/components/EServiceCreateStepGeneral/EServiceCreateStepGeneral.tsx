@@ -1,10 +1,15 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box } from '@mui/material'
+import { Alert, Box, Link } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import {
+  RHFCheckbox,
+  RHFRadioGroup,
+  RHFSwitch,
+  RHFTextField,
+} from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
@@ -16,7 +21,7 @@ import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
 import { STAGE } from '@/config/env'
-import { PagoPAEnvVars } from '@/types/common.types'
+import type { PagoPAEnvVars } from '@/types/common.types'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -24,6 +29,8 @@ export type EServiceCreateStepGeneralFormValues = {
   technology: EServiceTechnology
   mode: EServiceMode
   isSignalHubEnabled: boolean
+  isDelegable: boolean
+  isClientAccessDelegable: boolean
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
@@ -44,11 +51,13 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
 
   const defaultValues: EServiceCreateStepGeneralFormValues = {
-    name: descriptor?.eservice?.name ?? '',
-    description: descriptor?.eservice?.description ?? '',
-    technology: descriptor?.eservice?.technology ?? 'REST',
+    name: descriptor?.eservice.name ?? '',
+    description: descriptor?.eservice.description ?? '',
+    technology: descriptor?.eservice.technology ?? 'REST',
     mode: eserviceMode,
-    isSignalHubEnabled: descriptor?.eservice?.isSignalHubEnabled ?? false,
+    isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
+    isDelegable: descriptor?.eservice.isDelegable ?? false,
+    isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
   }
 
   const formMethods = useForm({ defaultValues })
@@ -169,6 +178,54 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 name="isSignalHubEnabled"
                 disabled={!areEServiceGeneralInfoEditable}
                 sx={{ my: 0 }}
+              />
+            </SectionContainer>
+          )}
+        </SectionContainer>
+
+        <SectionContainer
+          title={t('create.step1.delegationSection.title')}
+          description={
+            <Trans
+              components={{
+                1: <Link underline="hover" href={'TODO link'} target="_blank" />,
+              }}
+            >
+              {t('create.step1.delegationSection.description')}
+            </Trans>
+          }
+          component="div"
+        >
+          <SectionContainer
+            innerSection
+            title={t('create.step1.delegationSection.delegationField.label')}
+            sx={{ mt: 3 }}
+          >
+            <RHFSwitch
+              label={t('create.step1.delegationSection.delegationField.switchLabel')}
+              name="isDelegable"
+              disabled={!areEServiceGeneralInfoEditable}
+              sx={{ my: 0 }}
+            />
+          </SectionContainer>
+
+          {formMethods.watch('isDelegable') && (
+            <SectionContainer
+              innerSection
+              title={t('create.step1.delegationSection.clientAccessDelegableField.label')}
+              sx={{ mt: 3 }}
+            >
+              <RHFCheckbox
+                name="isClientAccessDelegable"
+                label={
+                  <Trans
+                    components={{
+                      1: <Link underline="hover" href={'TODO link'} target="_blank" />,
+                    }}
+                  >
+                    {t('create.step1.delegationSection.clientAccessDelegableField.checkboxLabel')}
+                  </Trans>
+                }
               />
             </SectionContainer>
           )}
