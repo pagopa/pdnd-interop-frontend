@@ -6,9 +6,8 @@ import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { Link } from '@/router'
-import { Box, Chip, Skeleton } from '@mui/material'
+import { Box, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
@@ -29,13 +28,6 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const eservice = agreement.eservice
   const descriptor = agreement.descriptor
 
-  const { isDelegator, isDelegate } = useGetDelegationUserRole({
-    eserviceId: eservice.id,
-    organizationId: AuthHooks.useJwt().jwt?.organizationId,
-  })
-
-  const isDelegatedEservice = isDelegate || isDelegator
-
   const handlePrefetch = () => {
     queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
   }
@@ -46,7 +38,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
         name: eservice.name,
         version: descriptor.version,
       })}{' '}
-      {isDelegatedEservice && <ByDelegationChip />}
+      {agreement.isDelegated && <ByDelegationChip />}
     </>
   )
 

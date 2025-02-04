@@ -2,6 +2,7 @@
   "backToRequestsBtn": "Torna alle richieste",
   "providerRead": {
     "title": "Gestisci richiesta di fruizione",
+    "delegatedAlert": "Questa richiesta di fruizione è relativa a una delega.",
     "suspendedAlert": {
       "byProducer": "Questa richiesta di fruizione è stata sospesa da <strong>erogatore</strong>. Fino alla sua riattivazione non sarà possibile accedere ai dati.",
       "byConsumer": "Questa richiesta di fruizione è stata sospesa da <strong>fruitore</strong>. Fino alla sua riattivazione non sarà possibile accedere ai dati.",
@@ -16,6 +17,9 @@
         },
         "consumerField": {
           "label": "Fruitore"
+        },
+        "delegatedConsumerField": {
+          "label": "Delegato alla fruizione"
         },
         "rejectionMessageField": {
           "label": "Motivazione del rifiuto"
@@ -35,8 +39,14 @@
         "consumerDetailsLink": {
           "label": "Visualizza dettagli fruitore"
         },
+        "delegatedConsumerDetailsLink": {
+          "label": "Visualizza dettagli del delegato alla fruizione"
+        },
         "contactDrawer": {
-          "title": "Contatti del fruitore",
+          "title": {
+            "delegatedConsumer": "Contatti del delegato alla fruizione",
+            "consumer": "Contatti del fruitore"
+          },
           "emailField": {
             "label": "Email di contatto"
           },
