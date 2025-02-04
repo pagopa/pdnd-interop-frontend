@@ -66,7 +66,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   })
 
   const { data: delegations = [] } = useQuery({
-    ...DelegationQueries.getProducerDelegationsList({
+    ...DelegationQueries.getList({
       limit: 50,
       offset: 0,
       delegatorIds: [jwt?.organizationId as string],

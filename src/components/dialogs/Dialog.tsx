@@ -22,6 +22,7 @@ import type {
   DialogRejectDelegationProps,
   DialogRevokeProducerDelegationProps,
   DialogRejectDelegatedVersionDraftProps,
+  DialogCreateAgreementDraftProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -41,6 +42,7 @@ import { DialogAcceptDelegation } from './DialogAcceptDelegation'
 import { DialogRejectDelegation } from './DialogRejectDelegation'
 import { DialogRevokeProducerDelegation } from './DialogRevokeProducerDelegation'
 import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersionDraft'
+import { DialogCreateAgreementDraft } from './DialogCreateAgreementDraft/DialogCreateAgreementDraft'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -60,7 +62,8 @@ function match<T>(
   onAcceptDelegation: (props: DialogAcceptDelegationProps) => T,
   onRejectDelegation: (props: DialogRejectDelegationProps) => T,
   onRevokeProducerDelegation: (props: DialogRevokeProducerDelegationProps) => T,
-  onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T
+  onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
+  onCreateAgreementDraft: (props: DialogCreateAgreementDraftProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -100,6 +103,8 @@ function match<T>(
         return onRevokeProducerDelegation(props)
       case 'rejectDelegatedVersionDraft':
         return onRejectDelegatedVersionDraft(props)
+      case 'createAgreementDraft':
+        return onCreateAgreementDraft(props)
     }
   }
 }
@@ -122,7 +127,8 @@ const _Dialog = match(
   (props) => <DialogAcceptDelegation {...props} />,
   (props) => <DialogRejectDelegation {...props} />,
   (props) => <DialogRevokeProducerDelegation {...props} />,
-  (props) => <DialogRejectDelegatedVersionDraft {...props} />
+  (props) => <DialogRejectDelegatedVersionDraft {...props} />,
+  (props) => <DialogCreateAgreementDraft {...props} />
 )
 
 export const Dialog: React.FC = () => {

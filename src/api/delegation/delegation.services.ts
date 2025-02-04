@@ -5,14 +5,16 @@ import type {
   CreatedResource,
   Delegation,
   DelegationSeed,
+  DelegationTenants,
   EServiceSeed,
+  GetConsumerDelegatorsParams,
   GetDelegationsParams,
   RejectDelegationPayload,
 } from '../api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { EServiceServices } from '../eservice'
 
-async function getProducerDelegations(params: GetDelegationsParams) {
+async function getList(params: GetDelegationsParams) {
   const response = await axiosInstance.get<CompactDelegations>(
     `${BACKEND_FOR_FRONTEND_URL}/delegations`,
     { params }
@@ -106,11 +108,20 @@ async function createConsumerDelegation(payload: DelegationSeed) {
     `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations`,
     payload
   )
+
+  return response.data
+}
+async function getConsumerDelegators(params: GetConsumerDelegatorsParams) {
+  const response = await axiosInstance.get<DelegationTenants>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/delegators`,
+    { params }
+  )
+
   return response.data
 }
 
 export const DelegationServices = {
-  getProducerDelegations,
+  getList,
   getSingle,
   createProducerDelegation,
   approveProducerDelegation,
@@ -121,4 +132,5 @@ export const DelegationServices = {
   downloadDelegationContract,
   createProducerDelegationAndEservice,
   createConsumerDelegation,
+  getConsumerDelegators,
 }

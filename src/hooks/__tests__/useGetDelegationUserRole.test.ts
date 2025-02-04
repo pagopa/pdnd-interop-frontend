@@ -14,14 +14,14 @@ import { mockUseJwt } from '@/utils/testing.utils'
 import { renderHook } from '@testing-library/react'
 import { useGetDelegationUserRole } from '../useGetDelegationUserRole'
 
-const mockUseGetProducerDelegationsList = (data: Array<CompactDelegation> | undefined) =>
+const mockUseGetList = (data: Array<CompactDelegation> | undefined) =>
   (useQuery as Mock).mockReturnValue({
     data,
   } as never)
 
 describe('useGetDelegationUserRole tests', () => {
   it('should return the isDelegator true and isDelegate false if there is a delegation with the organization as delegator', () => {
-    mockUseGetProducerDelegationsList([
+    mockUseGetList([
       {
         id: '1',
         delegator: { id: 'organizationId', name: 'delegator' },
@@ -40,7 +40,7 @@ describe('useGetDelegationUserRole tests', () => {
   })
 
   it('should return the isDelegator false and isDelegate true if there is a delegation with the organization as delegate', () => {
-    mockUseGetProducerDelegationsList([
+    mockUseGetList([
       {
         id: '1',
         delegator: { id: 'delegatorId', name: 'delegator' },
@@ -59,7 +59,7 @@ describe('useGetDelegationUserRole tests', () => {
   })
 
   it('should return the isDelegator false and isDelegate false if there are no delegations for the eservice', () => {
-    mockUseGetProducerDelegationsList([])
+    mockUseGetList([])
     const { result } = renderHook(() =>
       useGetDelegationUserRole({ eserviceId: 'eserviceId', organizationId: 'organizationId' })
     )

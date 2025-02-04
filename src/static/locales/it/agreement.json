@@ -132,6 +132,12 @@
         "providerField": {
           "label": "Erogatore"
         },
+        "consumerField": {
+          "label": "Fruitore"
+        },
+        "delegatedConsumerField": {
+          "label": "Delegato alla fruizione"
+        },
         "rejectionMessageField": {
           "label": "Motivazione del rifiuto"
         },
@@ -198,6 +204,12 @@
       "providerField": {
         "label": "Erogatore"
       },
+      "consumerField": {
+        "label": "Fruitore"
+      },
+      "delegatedConsumerField": {
+        "label": "Delegato alla fruizione"
+      },
       "certifiedAttributesDrawerButtonLabel": "Visualizza attributi certificati"
     },
     "consumerNotes": {
@@ -223,7 +235,8 @@
     "suspendedEServiceTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi",
     "noContactEmailTooltip": "Prima di inoltrare la richiesta, è obbligatorio che il tuo ente inserisca un’email di contatto",
     "noContactEmailAlert": "Per inoltrare questa richiesta di fruizione è necessario indicare una email di contatto. Puoi aggiungere ora la tua email <1>tramite questo modulo</1>.",
-    "newVersionAlert": "Questa bozza non è più attivabile. Dal momento della sua creazione è uscita una nuova versione dell’e-service. Eliminala e creane una nuova."
+    "newVersionAlert": "Questa bozza non è più attivabile. Dal momento della sua creazione è uscita una nuova versione dell’e-service. Eliminala e creane una nuova.",
+    "delegatedAttributesAlert": "Gli attributi richiesti e visualizzati in questa pagina sono relativi all’aderente <strong>{{delegatorName}}</strong>."
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",

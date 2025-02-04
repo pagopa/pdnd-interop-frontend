@@ -34,6 +34,7 @@ export type DialogProps =
   | DialogRejectDelegationProps
   | DialogRevokeProducerDelegationProps
   | DialogRejectDelegatedVersionDraftProps
+  | DialogCreateAgreementDraftProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -138,4 +139,17 @@ export type DialogRejectDelegatedVersionDraftProps = {
   type: 'rejectDelegatedVersionDraft'
   eserviceId: string
   descriptorId: string
+}
+
+export type DialogCreateAgreementDraftProps = {
+  type: 'createAgreementDraft'
+  eservice: {
+    id: string
+    name: string
+    producerId: string
+  }
+  descriptor: {
+    id: string
+    version: string
+  }
 }
