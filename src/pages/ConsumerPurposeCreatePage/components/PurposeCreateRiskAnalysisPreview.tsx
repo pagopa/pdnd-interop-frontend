@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } from '@mui/material'
 // import type { Question } from '@/pages/ConsumerPurposeEditPage/types/risk-analysis.types'
 import { PurposeQueries } from '@/api/purpose'
-import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { useQuery } from '@tanstack/react-query'
 
 type QuestionItem = { question: string; answer: string }

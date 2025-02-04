@@ -11,8 +11,13 @@
       "noDataLabel": "Nessun template disponibile per questo e-service",
       "loadingLabel": "Stiamo caricando i template"
     },
+    "consumerField": {
+      "label": "Fruitore",
+      "infoLabel": "Tra gli aderenti, puoi selezionare solo il tuo ente o gli aderenti per i quali hai una delega in fruizione attiva"
+    },
     "eserviceField": {
-      "label": "E-service da associare"
+      "label": "E-service da associare",
+      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva"
     },
     "eserviceRiskAnalysisSection": {
       "title": "Finalità da utilizzare",
@@ -231,6 +236,7 @@
     "rejectedPurposeAlert": "Questa finalità è stata rifiutata. <2>Leggi qui i motivi del rifiuto</2>.",
     "rejectedUpdatePlanInfoAlert": "Un cambio piano su questa finalità è stato rifiutato. Controlla la sezione “Stima di carico” in <1>Dettagli finalità</1>.",
     "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service",
+    "noClientsAlertForDelegateWithoutClientPermissions": "Questa finalità è attiva ma non ha client associati. Attendi che {{delegatorName}} colleghi i propri client affinché la richiesta sia ultimata.",
     "addClientToPurposeDisableTooltip": {
       "label": "Solamente un amministratore può gestire i membri di un client"
     },
@@ -248,6 +254,12 @@
         },
         "providerField": {
           "label": "Erogatore"
+        },
+        "consumerField": {
+          "label": "Fruitore"
+        },
+        "delegatedConsumerField": {
+          "label": "Delegato alla fruizione"
         },
         "descriptionField": {
           "label": "Descrizione della finalità"
