@@ -5,28 +5,28 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type UpdateDescriptionFormValues = {
-  eserviceDescription: string
+type UpdateNameFormValues = {
+  eserviceName: string
 }
 
-type UpdateDescriptionDrawerProps = {
+type UpdateNameDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   id: string
-  description: string
+  name: string
   title?: string
   subtitle?: string
   label?: string
   infoLabel?: string
   validateLabel?: string
-  onSubmit: (id: string, newDescription: string) => void
+  onSubmit: (id: string, newName: string) => void
 }
 
-export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = ({
+export const UpdateNameDrawer: React.FC<UpdateNameDrawerProps> = ({
   isOpen,
   onClose,
   id,
-  description,
+  name,
   title,
   subtitle,
   label,
@@ -35,23 +35,23 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
   onSubmit,
 }) => {
   const { t } = useTranslation('eservice', {
-    keyPrefix: 'read.drawers.updateEServiceDescriptionDrawer',
+    keyPrefix: 'read.drawers.updateEServiceNameDrawer',
   })
 
   const { t: tCommon } = useTranslation('common')
 
   const defaultValues = {
-    eserviceDescription: description,
+    eserviceName: name,
   }
 
-  const formMethods = useForm<UpdateDescriptionFormValues>({ defaultValues })
+  const formMethods = useForm<UpdateNameFormValues>({ defaultValues })
 
   React.useEffect(() => {
-    formMethods.reset({ eserviceDescription: description })
-  }, [description, formMethods])
+    formMethods.reset({ eserviceName: name })
+  }, [name, formMethods])
 
-  const handleSubmit = (values: UpdateDescriptionFormValues) => {
-    onSubmit(id, values.eserviceDescription)
+  const handleSubmit = (values: UpdateNameFormValues) => {
+    onSubmit(id, values.eserviceName)
   }
 
   const handleCloseDrawer = () => {
@@ -79,22 +79,17 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
           <RHFTextField
             sx={{ mt: 2, mb: 2 }}
             focusOnMount
-            name="eserviceDescription"
-            label={label || t('eserviceDescriptionField.label')}
-            infoLabel={infoLabel || t('eserviceDescriptionField.infoLabel')}
+            name="eserviceName"
+            label={label || t('eserviceNameField.label')}
+            infoLabel={infoLabel || t('eserviceNameField.infoLabel')}
             type="text"
-            multiline
             size="small"
-            rows={10}
-            inputProps={{ maxLength: 250 }}
+            inputProps={{ maxLength: 60 }}
             rules={{
               required: true,
-              minLength: 10,
-              maxLength: 250,
+              minLength: 5,
               validate: (value) =>
-                value !== description ||
-                validateLabel ||
-                t('eserviceDescriptionField.validation.sameValue'),
+                value !== name || validateLabel || t('eserviceNameField.validation.sameValue'),
             }}
           />
         </Box>

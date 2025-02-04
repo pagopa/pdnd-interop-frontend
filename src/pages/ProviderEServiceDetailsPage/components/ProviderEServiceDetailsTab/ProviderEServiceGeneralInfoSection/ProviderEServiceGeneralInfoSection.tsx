@@ -15,8 +15,8 @@ import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
-import { ProviderEServiceAndTemplateUpdateNameDrawer } from '@/components/shared/ProviderEServiceAndTemplateUpdateNameDrawer'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
+import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -39,6 +39,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const exportVersion = EServiceDownloads.useExportVersion()
 
   const { mutate: updateEserviceDescription } = EServiceMutations.useUpdateEServiceDescription()
+  const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
 
   const {
     isOpen: isVersionSelectorDrawerOpen,
@@ -121,6 +122,16 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     )
   }
 
+  const handleNameUpdate = (eserviceId: string, name: string) => {
+    updateEserviceName(
+      {
+        eserviceId: eserviceId,
+        name: name,
+      },
+      { onSuccess: closeEServiceUpdateNameDrawer }
+    )
+  }
+
   return (
     <>
       <SectionContainer
@@ -193,10 +204,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         description={descriptor.eservice.description}
         onSubmit={handleDescriptionUpdate}
       />
-      <ProviderEServiceAndTemplateUpdateNameDrawer
+      <UpdateNameDrawer
         isOpen={isEServiceUpdateNameDrawerOpen}
         onClose={closeEServiceUpdateNameDrawer}
-        eservice={descriptor.eservice}
+        id={descriptor.eservice.id}
+        name={descriptor.eservice.name}
+        onSubmit={handleNameUpdate}
       />
     </>
   )
