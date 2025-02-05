@@ -28,7 +28,7 @@ export type EServiceCreateStepGeneralFormValues = {
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
-  const producerId = AuthHooks.useJwt().jwt?.organizationId
+  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
   const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
     ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
     : true
