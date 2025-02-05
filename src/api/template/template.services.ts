@@ -60,17 +60,131 @@ async function getSingle(eserviceTemplateId: string) {
 async function updateEServiceTemplateName({
   eserviceTemplateId,
   ...payload
-}: { eserviceTemplateId: string } & EServiceTempalteNameUpdateSeed) {
+}: { eserviceTemplateId: string } & EServiceTemplateNameUpdateSeed) {
   /*const response = await axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}/name/update`,
     payload
   )
   return response.data*/
-  return console.log('name template updated')
+  return console.log('name template updated') //TODO
+}
+
+async function updateEServiceTemplateAudience({
+  eserviceTemplateId,
+  ...payload
+}: { eserviceTemplateId: string } & EServiceTemplateAudienceUpdateSeed) {
+  /*const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/audienceDescription/update`,
+    payload
+  )
+  return response.data*/
+  return console.log('audience description template updated') //TODO
+}
+
+async function updateTemplateEServiceDescription({
+  eserviceTemplateId,
+  ...payload
+}: { eserviceTemplateId: string } & TemplateEServiceDescriptionUpdateSeed) {
+  /*const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/eserviceDescription/update`,
+    payload
+  )
+  return response.data*/
+  return console.log('template eservice description updated') //TODO
+}
+
+async function updateEServiceTemplateQuotas({
+  eserviceTemplateId,
+  voucherLifespan,
+  dailyCallsPerConsumer,
+  dailyCallsTotal,
+  ...payload
+}: {
+  eserviceTemplateId: string
+  voucherLifespan: number
+  dailyCallsPerConsumer: number
+  dailyCallsTotal: number
+}) {
+  /*const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/{eServiceTemplateVersionId}/quotas/update`,
+    payload
+  )
+  return response.data*/
+  return console.log('template eservice quotas updated') //TODO
+}
+
+async function postVersionDraftDocument({
+  templateId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & CreateEServiceDocumentPayload) {
+  /*const formData = new FormData()
+  Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
+
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  )
+  return response.data*/
+  return console.log('uploaded doc')
+}
+
+function deleteVersionDraftDocument({
+  templateId,
+  documentId,
+}: {
+  templateId: string
+  documentId: string
+}) {
+  /* return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`
+  )*/
+  return console.log('deleted doc')
+}
+
+async function updateVersionDraftDocumentDescription({
+  templateId,
+  documentId,
+  ...payload
+}: {
+  templateId: string
+  documentId: string
+} & UpdateEServiceDescriptorDocumentSeed) {
+  /*const response = await axiosInstance.post<EServiceDoc>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}/update`,
+    payload
+  )
+  return response.data*/
+  return console.log('updated doc')
+}
+
+async function downloadVersionDraftDocument({
+  templateId,
+  documentId,
+}: {
+  templateId: string
+  documentId: string
+}) {
+  /*const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data*/
+  return console.log('downloaded file')
 }
 
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
   updateEServiceTemplateName,
+  updateEServiceTemplateAudience,
+  updateTemplateEServiceDescription,
+  updateEServiceTemplateQuotas,
+  postVersionDraftDocument,
+  deleteVersionDraftDocument,
+  updateVersionDraftDocumentDescription,
+  downloadVersionDraftDocument,
 }
