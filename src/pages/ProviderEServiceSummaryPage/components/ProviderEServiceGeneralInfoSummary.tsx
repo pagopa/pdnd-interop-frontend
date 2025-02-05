@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST } from '@/config/env'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId
   const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST.includes(producerId)
+    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
     : true
 
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
