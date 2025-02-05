@@ -23,14 +23,14 @@ export const ProviderEServiceTemplateAttributes: React.FC = () => {
     //select: (d) => d.attributes,
   })*/
 
-  const { data: descriptorAttributes } = useSuspenseQuery({
+  /*const { data: descriptorAttributes } = useSuspenseQuery({
     //TODO DA TOGLIERE
     ...EServiceQueries.getDescriptorProvider(
       '98a7e77e-7919-4120-a94a-4addf40b9089',
       '84383096-1153-410d-a9e3-aa957449bfc9'
     ),
     select: (d) => d.attributes,
-  })
+  })*/
 
   const { data: template } = useQuery(TemplateQueries.getSingle(eserviceTemplateId))
 
@@ -41,7 +41,7 @@ export const ProviderEServiceTemplateAttributes: React.FC = () => {
 
   const getAttributeSectionActions = (kind: AttributeKey): Array<ActionItemButton> | undefined => {
     // TODO
-    if (descriptorAttributes[kind].length === 0 || !isAdmin) return
+    //if (descriptorAttributes[kind].length === 0 || !isAdmin) return
 
     return [
       {
@@ -54,11 +54,10 @@ export const ProviderEServiceTemplateAttributes: React.FC = () => {
   return (
     <>
       <SectionContainer title={t('title')} description={t('description')}>
-        <AttributeGroupsListSection
+        {/* <AttributeGroupsListSection
           attributeKey="certified"
-          descriptorAttributes={descriptorAttributes} //TODO
-          topSideActions={getAttributeSectionActions('certified')}
-        />
+          descriptorAttributes={} //TODO
+          topSideActions={getAttributeSectionActions('certified')}        />
         <Divider sx={{ my: 3 }} />
         <AttributeGroupsListSection
           attributeKey="verified"
@@ -70,7 +69,8 @@ export const ProviderEServiceTemplateAttributes: React.FC = () => {
           attributeKey="declared"
           descriptorAttributes={descriptorAttributes} //TODO
           topSideActions={getAttributeSectionActions('declared')}
-        />
+  />*/}
+        TODO
       </SectionContainer>
       {/*<ProviderEServiceUpdateTemplateAttributesDrawer
         isOpen={editAttributeDrawerState.isOpen}
