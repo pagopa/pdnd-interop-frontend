@@ -55,7 +55,6 @@ const CHIP_COLORS_E_SERVICE_TEMPLATE: Record<string, MUIColor> = {
   ACTIVE: 'success',
   DRAFT: 'info',
   SUSPENDED: 'error',
-  ARCHIVED: 'info',
   DEPRECATED: 'warning',
 }
 
