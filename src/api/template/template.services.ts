@@ -176,6 +176,44 @@ async function downloadVersionDraftDocument({
   return console.log('downloaded file')
 }
 
+async function createDraft(payload: EServiceTemplateSeed) {
+  /*const response = await axiosInstance.post<CreatedEServiceTemplateDescriptor>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates`,
+    payload
+  )
+  return response.data*/
+  return console.log('Draft created')
+}
+
+async function updateDraft({
+  eserviceTemplateId,
+  ...payload
+}: {
+  eserviceId: string
+} & UpdateEServiceTemplateSeed) {
+  /*const response = await axiosInstance.put<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}`,
+    payload
+  )
+  return response.data*/
+  return console.log('Draft updated')
+}
+
+async function updateVersionDraft({
+  eserviceTemplateId,
+  ...payload
+}: {
+  eserviceTemplateId: string
+  descriptorId: string
+} & UpdateEServiceDescriptorSeed) {
+  /*const response = await axiosInstance.put<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
+    payload
+  )
+  return response.data*/
+  return console.log('version draft updated')
+}
+
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
@@ -187,4 +225,7 @@ export const TemplateServices = {
   deleteVersionDraftDocument,
   updateVersionDraftDocumentDescription,
   downloadVersionDraftDocument,
+  createDraft,
+  updateDraft,
+  updateVersionDraft,
 }
