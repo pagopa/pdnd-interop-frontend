@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
 
+//TODO SUCCESS/ERROR/LOADING TOAST LABEL
+
 function useUpdateEServiceTemplateName() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'template.updateEServiceTemplateName',
@@ -98,6 +100,47 @@ function useUpdateVersionDraftDocumentDescription() {
   })
 }
 
+function useCreateDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'template.createDraft' })
+  return useMutation({
+    mutationFn: TemplateServices.createDraft,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateDraft() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateDraft' })
+  return useMutation({
+    mutationFn: TemplateServices.updateDraft,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateVersionDraft',
+  })
+  return useMutation({
+    mutationFn: (
+      payload: {
+        eserviceId: string
+        descriptorId: string
+      } //& UpdateEServiceTemplateSeed TODO
+    ) => TemplateServices.updateVersionDraft(payload),
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateAudience,
@@ -106,4 +149,7 @@ export const TemplateMutations = {
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,
   useUpdateVersionDraftDocumentDescription,
+  useCreateDraft,
+  useUpdateDraft,
+  useUpdateVersionDraft,
 }
