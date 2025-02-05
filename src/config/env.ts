@@ -8,7 +8,7 @@ export const isProduction = !!(import.meta.env.MODE === 'production')
 export const isTest = !!(import.meta.env.MODE === 'test')
 
 export const FEATURE_FLAG_SIGNALHUB_WHITELIST = import.meta.env.FEATURE_FLAG_SIGNALHUB_WHITELIST
-export const SIGNALHUB_WHITELIST = // If FEATURE_FLAG_SIGNALHUB_WHITELIST is enabled, Signal Hub is accessible only to tenants listed in the whitelist.
+export const SIGNALHUB_WHITELIST_PRODUCER = // If FEATURE_FLAG_SIGNALHUB_WHITELIST is enabled, Signal Hub is accessible only to tenants listed in the whitelist.
   FEATURE_FLAG_SIGNALHUB_WHITELIST && import.meta.env.SIGNALHUB_WHITELIST
 
 export const TEST_MIXPANEL_PROJECT_ID = import.meta.env.REACT_APP_TEST_MIXPANEL_PROJECT_ID
