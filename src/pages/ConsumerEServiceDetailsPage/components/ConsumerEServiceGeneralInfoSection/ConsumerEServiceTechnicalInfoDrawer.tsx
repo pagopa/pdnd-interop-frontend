@@ -16,11 +16,12 @@ type ConsumerEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   descriptor: CatalogEServiceDescriptor
+  isSignalHubFlagEnabled: boolean
 }
 
 export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
   ConsumerEServiceTechnicalInfoDrawerProps
-> = ({ descriptor, isOpen, onClose }) => {
+> = ({ descriptor, isOpen, onClose, isSignalHubFlagEnabled }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.technicalInfoDrawer' })
   const { t: tCommon } = useTranslation('common')
 
@@ -81,11 +82,13 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
           content={t(`mode.value.${descriptor.eservice.mode}`)}
           direction="column"
         />
-        <InformationContainer
-          label={t('isSignalHubEnabled.label')}
-          content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
-          direction="column"
-        />
+        {isSignalHubFlagEnabled && (
+          <InformationContainer
+            label={t('isSignalHubEnabled.label')}
+            content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+            direction="column"
+          />
+        )}
         <InformationContainer
           label={t('documentation')}
           content={
