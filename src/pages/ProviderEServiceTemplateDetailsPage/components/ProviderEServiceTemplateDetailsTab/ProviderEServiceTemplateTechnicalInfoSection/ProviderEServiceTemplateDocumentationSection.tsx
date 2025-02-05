@@ -8,6 +8,10 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { AuthHooks } from '@/api/auth'
+import { ProviderEServiceTemplateUpdateDocumentationDrawer } from './ProviderEServiceTemplateDocumentationDrawer'
+import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceDoc } from '@/api/api.generatedTypes'
+import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type ProviderEServiceTemplateDocumentationSectionProps = {
   template: //ProducerEServiceTemplate TODO
@@ -61,18 +65,17 @@ export const ProviderEServiceTemplateDocumentationSection: React.FC<
     openDrawer()
   }
 
-  //const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
+  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
 
-  /*const handleDownloadDocument = (document: EServiceDoc) => {
+  const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
-        eserviceId: template.eservice.id,
         templateId: template.id,
         documentId: document.id,
       },
-      getDownloadDocumentName(document)
+      getDownloadDocumentName(document) //TODO
     )
-  }*/
+  }
 
   return (
     <>
@@ -81,7 +84,7 @@ export const ProviderEServiceTemplateDocumentationSection: React.FC<
         title={t('documentation.title')}
         topSideActions={[
           {
-            action: () => {},
+            action: onEdit,
             label: tCommon('actions.edit'),
             icon: EditIcon,
           },
@@ -104,16 +107,25 @@ export const ProviderEServiceTemplateDocumentationSection: React.FC<
                   </IconLink>
                 )
               })}*/}
-              TODO
+
+              <IconLink //TODO
+                key="DOCUMENTO 1"
+                component="button"
+                onClick={() => {}}
+                startIcon={<AttachFileIcon fontSize="small" />}
+              >
+                DOCUMENTO MOCK
+              </IconLink>
             </Stack>
           }
         />
       </SectionContainer>
-      {/* <ProviderEServiceUpdateDocumentationDrawer
+      <ProviderEServiceTemplateUpdateDocumentationDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        template={template}
-        />*/}
+        templateId={template.id}
+        templateDocs={[]}
+      />
     </>
   )
 }

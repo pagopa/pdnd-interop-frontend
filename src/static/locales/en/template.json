@@ -82,6 +82,16 @@
         "subtitle": "From this panel, you can update the quotas of the template eservice. The changes made will take effect immediately",
         "dailyCallsPerConsumerLabel": "Per subscriber suggested threshold",
         "dailyCallsTotalLabel": "Total suggested threshold"
+      },
+      "updateDocumentationDrawer": {
+        "title": "Edit documentation",
+        "subtitle": "Now you can edit, download and delete documents attached to the e-service template.",
+        "addDocumentLabel": "Add documentation",
+        "nameField": {
+          "label": "Document name"
+        },
+        "interfaceInfoTooltip": "The “API Specification” file is not editable. To update it, create a new version.",
+        "downloadDocumentTooltip": "Download document"
       }
     }
   }
