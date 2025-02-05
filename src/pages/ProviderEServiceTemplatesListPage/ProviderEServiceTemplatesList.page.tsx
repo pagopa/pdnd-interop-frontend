@@ -56,3 +56,5 @@ const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = (
   if (!data && isFetching) return <TemplateTableSkeleton />
   return <TemplateTable templates={data} />
 }
+
+export default ProviderEServiceTemplatesListPage
