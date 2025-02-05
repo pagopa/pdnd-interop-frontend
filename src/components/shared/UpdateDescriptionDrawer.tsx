@@ -1,5 +1,3 @@
-import type { ProducerDescriptorEService } from '@/api/api.generatedTypes'
-import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/material'
@@ -7,44 +5,53 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type UpdateEServiceDescriptionFormValues = {
+type UpdateDescriptionFormValues = {
   eserviceDescription: string
 }
 
-type ProviderEServiceUpdateDescriptionDrawerProps = {
+type UpdateDescriptionDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  eservice: ProducerDescriptorEService
+  id: string
+  description: string
+  title?: string
+  subtitle?: string
+  label?: string
+  infoLabel?: string
+  validateLabel?: string
+  onSubmit: (id: string, newDescription: string) => void
 }
 
-export const ProviderEServiceUpdateDescriptionDrawer: React.FC<
-  ProviderEServiceUpdateDescriptionDrawerProps
-> = ({ isOpen, onClose, eservice }) => {
+export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = ({
+  isOpen,
+  onClose,
+  id,
+  description,
+  title,
+  subtitle,
+  label,
+  infoLabel,
+  validateLabel,
+  onSubmit,
+}) => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.updateEServiceDescriptionDrawer',
   })
+
   const { t: tCommon } = useTranslation('common')
 
-  const { mutate: updateEserviceDescription } = EServiceMutations.useUpdateEServiceDescription()
-
   const defaultValues = {
-    eserviceDescription: eservice.description,
+    eserviceDescription: description,
   }
 
-  const formMethods = useForm<UpdateEServiceDescriptionFormValues>({ defaultValues })
+  const formMethods = useForm<UpdateDescriptionFormValues>({ defaultValues })
 
   React.useEffect(() => {
-    formMethods.reset({ eserviceDescription: eservice.description })
-  }, [eservice.description, formMethods])
+    formMethods.reset({ eserviceDescription: description })
+  }, [description, formMethods])
 
-  const onSubmit = (values: UpdateEServiceDescriptionFormValues) => {
-    updateEserviceDescription(
-      {
-        eserviceId: eservice.id,
-        description: values.eserviceDescription,
-      },
-      { onSuccess: onClose }
-    )
+  const handleSubmit = (values: UpdateDescriptionFormValues) => {
+    onSubmit(id, values.eserviceDescription)
   }
 
   const handleCloseDrawer = () => {
@@ -61,10 +68,10 @@ export const ProviderEServiceUpdateDescriptionDrawer: React.FC<
         isOpen={isOpen}
         onTransitionExited={handleTransitionExited}
         onClose={handleCloseDrawer}
-        title={t('title')}
-        subtitle={t('subtitle')}
+        title={title || t('title')}
+        subtitle={subtitle || t('subtitle')}
         buttonAction={{
-          action: formMethods.handleSubmit(onSubmit),
+          action: formMethods.handleSubmit(handleSubmit),
           label: tCommon('actions.upgrade'),
         }}
       >
@@ -73,8 +80,8 @@ export const ProviderEServiceUpdateDescriptionDrawer: React.FC<
             sx={{ mt: 2, mb: 2 }}
             focusOnMount
             name="eserviceDescription"
-            label={t('eserviceDescriptionField.label')}
-            infoLabel={t('eserviceDescriptionField.infoLabel')}
+            label={label || t('eserviceDescriptionField.label')}
+            infoLabel={infoLabel || t('eserviceDescriptionField.infoLabel')}
             type="text"
             multiline
             size="small"
@@ -85,7 +92,8 @@ export const ProviderEServiceUpdateDescriptionDrawer: React.FC<
               minLength: 10,
               maxLength: 250,
               validate: (value) =>
-                value !== eservice.description ||
+                value !== description ||
+                validateLabel ||
                 t('eserviceDescriptionField.validation.sameValue'),
             }}
           />

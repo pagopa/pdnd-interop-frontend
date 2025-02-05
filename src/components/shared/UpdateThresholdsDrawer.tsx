@@ -14,49 +14,75 @@ type UpdateThresholdsFormValues = {
   dailyCallsTotal: number
 }
 
-type ProviderEServiceUpdateThresholdsDrawerProps = {
+type UpdateThresholdsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  descriptor: ProducerEServiceDescriptor
+  id: string
+  descriptorId?: string
+  subtitle?: string
+  dailyCallsPerConsumerLabel?: string
+  dailyCallsTotalLabel?: string
+  voucherLifespan: number
+  dailyCallsPerConsumer: number
+  dailyCallsTotal: number
+  onSubmit: (
+    id: string,
+    voucherLifespan: number,
+    dailyCallsPerConsumer: number,
+    dailyCallsTotal: number,
+    descriptorId?: string
+  ) => void
 }
 
-export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
-  ProviderEServiceUpdateThresholdsDrawerProps
-> = ({ isOpen, onClose, descriptor }) => {
+export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
+  isOpen,
+  onClose,
+  id,
+  descriptorId,
+  subtitle,
+  dailyCallsPerConsumerLabel,
+  dailyCallsTotalLabel,
+  voucherLifespan,
+  dailyCallsPerConsumer,
+  dailyCallsTotal,
+  onSubmit,
+}) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.updateThresholdsDrawer' })
   const { t: tCommon } = useTranslation('common')
 
-  const { mutate: updateVersion } = EServiceMutations.useUpdateVersion()
-
   const defaultValues = {
-    voucherLifespan: descriptor.voucherLifespan ? secondsToMinutes(descriptor.voucherLifespan) : 1,
-    dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
-    dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
+    voucherLifespan: voucherLifespan ? secondsToMinutes(voucherLifespan) : 1,
+    dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
+    dailyCallsTotal: dailyCallsTotal ?? 1,
   }
 
   const formMethods = useForm<UpdateThresholdsFormValues>({ defaultValues })
 
   React.useEffect(() => {
     formMethods.reset({
-      voucherLifespan: descriptor.voucherLifespan
-        ? secondsToMinutes(descriptor.voucherLifespan)
-        : 1,
-      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
-      dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
+      voucherLifespan: voucherLifespan ? secondsToMinutes(voucherLifespan) : 1,
+      dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
+      dailyCallsTotal: dailyCallsTotal ?? 1,
     })
-  }, [descriptor, formMethods])
+  }, [descriptorId, id, formMethods])
 
-  const onSubmit = (values: UpdateThresholdsFormValues) => {
-    updateVersion(
-      {
-        eserviceId: descriptor.eservice.id,
-        descriptorId: descriptor.id,
-        voucherLifespan: minutesToSeconds(values.voucherLifespan),
-        dailyCallsPerConsumer: values.dailyCallsPerConsumer,
-        dailyCallsTotal: values.dailyCallsTotal,
-      },
-      { onSuccess: onClose }
-    )
+  const handleSubmit = (values: UpdateThresholdsFormValues) => {
+    if (descriptorId) {
+      onSubmit(
+        id,
+        minutesToSeconds(values.voucherLifespan),
+        values.dailyCallsPerConsumer,
+        values.dailyCallsTotal,
+        descriptorId
+      )
+    } else {
+      onSubmit(
+        id,
+        minutesToSeconds(values.voucherLifespan),
+        values.dailyCallsPerConsumer,
+        values.dailyCallsTotal
+      )
+    }
   }
 
   const handleCloseDrawer = () => {
@@ -73,10 +99,10 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
         isOpen={isOpen}
         onClose={handleCloseDrawer}
         title={t('title')}
-        subtitle={t('subtitle')}
+        subtitle={subtitle || t('subtitle')}
         buttonAction={{
           label: tCommon('actions.upgrade'),
-          action: formMethods.handleSubmit(onSubmit),
+          action: formMethods.handleSubmit(handleSubmit),
         }}
         onTransitionExited={handleTransitionExited}
       >
@@ -97,7 +123,7 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
             <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               name="dailyCallsPerConsumer"
-              label={t('dailyCallsPerConsumerField.label')}
+              label={dailyCallsPerConsumerLabel || t('dailyCallsPerConsumerField.label')}
               infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
               type="number"
               rules={{
@@ -108,7 +134,7 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
             <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               name="dailyCallsTotal"
-              label={t('dailyCallsTotalField.label')}
+              label={dailyCallsTotalLabel || t('dailyCallsTotalField.label')}
               infoLabel={t('dailyCallsTotalField.infoLabel')}
               type="number"
               rules={{

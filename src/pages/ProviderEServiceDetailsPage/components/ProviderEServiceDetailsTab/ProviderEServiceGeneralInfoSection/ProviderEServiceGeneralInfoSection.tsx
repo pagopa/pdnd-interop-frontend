@@ -3,20 +3,20 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
-import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
+import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
-import { ProviderEServiceUpdateDescriptionDrawer } from './ProviderEServiceUpdateDescriptionDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
-import { ProviderEServiceUpdateNameDrawer } from './ProviderEServiceUpdateNameDrawer'
+import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
+import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -37,6 +37,9 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
+
+  const { mutate: updateEserviceDescription } = EServiceMutations.useUpdateEServiceDescription()
+  const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
 
   const {
     isOpen: isVersionSelectorDrawerOpen,
@@ -109,6 +112,26 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     label: t('bottomActions.exportVersion'),
   }
 
+  const handleDescriptionUpdate = (eserviceId: string, description: string) => {
+    updateEserviceDescription(
+      {
+        eserviceId: eserviceId,
+        description: description,
+      },
+      { onSuccess: closeEServiceUpdateDescriptionDrawer }
+    )
+  }
+
+  const handleNameUpdate = (eserviceId: string, name: string) => {
+    updateEserviceName(
+      {
+        eserviceId: eserviceId,
+        name: name,
+      },
+      { onSuccess: closeEServiceUpdateNameDrawer }
+    )
+  }
+
   return (
     <>
       <SectionContainer
@@ -174,15 +197,19 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         onClose={closeVersionSelectorDrawer}
         descriptor={descriptor}
       />
-      <ProviderEServiceUpdateDescriptionDrawer
+      <UpdateDescriptionDrawer
         isOpen={isEServiceUpdateDescriptionDrawerOpen}
         onClose={closeEServiceUpdateDescriptionDrawer}
-        eservice={descriptor.eservice}
+        id={descriptor.eservice.id}
+        description={descriptor.eservice.description}
+        onSubmit={handleDescriptionUpdate}
       />
-      <ProviderEServiceUpdateNameDrawer
+      <UpdateNameDrawer
         isOpen={isEServiceUpdateNameDrawerOpen}
         onClose={closeEServiceUpdateNameDrawer}
-        eservice={descriptor.eservice}
+        id={descriptor.eservice.id}
+        name={descriptor.eservice.name}
+        onSubmit={handleNameUpdate}
       />
     </>
   )
