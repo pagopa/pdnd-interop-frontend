@@ -9,13 +9,13 @@ import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsS
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST } from '@/config/env'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId
   const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST.includes(producerId)
+    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
     : true
 
   const { t } = useTranslation('eservice', {
