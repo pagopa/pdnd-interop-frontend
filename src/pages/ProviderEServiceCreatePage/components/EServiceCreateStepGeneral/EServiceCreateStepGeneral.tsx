@@ -15,7 +15,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { eserviceNamingBestPracticeLink } from '@/config/constants'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST } from '@/config/env'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 
@@ -30,7 +30,7 @@ export type EServiceCreateStepGeneralFormValues = {
 export const EServiceCreateStepGeneral: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId
   const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST.includes(producerId)
+    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
     : true
 
   const { t } = useTranslation('eservice')
