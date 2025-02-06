@@ -15,16 +15,30 @@ import type {
   GetAgreementEServiceConsumersParams,
   GetAgreementEServiceProducersParams,
   GetAgreementProducersParams,
-  GetAgreementsParams,
+  GetConsumerAgreementsParams,
+  GetProducerAgreementsParams,
   HasCertifiedAttributes,
   VerifyTenantCertifiedAttributesPayload,
 } from '../api.generatedTypes'
 import { waitFor } from '@/utils/common.utils'
 
-async function getList(params?: GetAgreementsParams) {
-  const response = await axiosInstance.get<Agreements>(`${BACKEND_FOR_FRONTEND_URL}/agreements`, {
-    params,
-  })
+async function getProducerAgreementsList(params?: GetProducerAgreementsParams) {
+  const response = await axiosInstance.get<Agreements>(
+    `${BACKEND_FOR_FRONTEND_URL}/producer/agreements`,
+    {
+      params,
+    }
+  )
+  return response.data
+}
+
+async function getConsumerAgreementsList(params?: GetConsumerAgreementsParams) {
+  const response = await axiosInstance.get<Agreements>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumer/agreements`,
+    {
+      params,
+    }
+  )
   return response.data
 }
 
@@ -220,7 +234,8 @@ async function verifyTenantCertifiedAttributes(payload: VerifyTenantCertifiedAtt
 }
 
 export const AgreementServices = {
-  getList,
+  getProducerAgreementsList,
+  getConsumerAgreementsList,
   getSingle,
   getProducers,
   getConsumers,

@@ -1,4 +1,5 @@
 import { createMockEServiceProvider } from '@/../__mocks__/data/eservice.mocks'
+import { createMockDelegationWithCompactTenants } from '@/../__mocks__/data/delegation.mocks'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { rest } from 'msw'
@@ -6,26 +7,9 @@ import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
-import type { CompactDelegation, ProducerEService } from '@/api/api.generatedTypes'
-import * as hooks from '@/hooks/useGetDelegationUserRole'
+import type { ProducerEService } from '@/api/api.generatedTypes'
 
 mockUseJwt({ isAdmin: true })
-
-const mockUseGetDelegationUserRole = ({
-  isDelegator = false,
-  isDelegate = false,
-  producerDelegations = [],
-}: {
-  isDelegator?: boolean
-  isDelegate?: boolean
-  producerDelegations?: CompactDelegation[]
-}) => {
-  vi.spyOn(hooks, 'useGetDelegationUserRole').mockReturnValue({
-    isDelegator,
-    isDelegate,
-    producerDelegations,
-  })
-}
 
 const server = setupServer(
   rest.post(
@@ -64,7 +48,9 @@ function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerES
         descriptorMock.draftDescriptor?.state,
         descriptorMock.activeDescriptor?.id,
         descriptorMock.draftDescriptor?.id,
-        descriptorMock.mode
+        descriptorMock.mode,
+        descriptorMock.name,
+        descriptorMock.delegation
       ),
     {
       withReactQueryContext: true,
@@ -75,9 +61,9 @@ function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerES
 
 describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if the user is admin and e-service is DRAFT with no active descriptors', () => {
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -86,18 +72,28 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should not return actions if user is admin and delegator, e-service is DRAFT with no active descriptors', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is DRAFT with no active descriptors', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -105,18 +101,23 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should not return actions if user is admin and e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should return the correct actions if user is admin and delegator, e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -125,45 +126,60 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should not return actions if user is admin and delegate, e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should not return actions if user is admin and e-service is ARCHIVED', () => {
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should not return actions if user is admin and delegator, e-service is ARCHIVED', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should not return actions if user is admin and delegate, e-service is ARCHIVED', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should return the correct actions if user is admin and e-service is DEPRECATED', () => {
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -171,18 +187,28 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should not return actions if user is admin and delegator, e-service is DEPRECATED', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is DEPRECATED', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -190,9 +216,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and e-service is PUBLISHED with no draft descriptors', () => {
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(3)
@@ -202,10 +228,10 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(4)
@@ -216,19 +242,29 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should not return actions if user is admin and delegator, e-service is PUBLISHED with no draft descriptors', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should not return actions if user is admin and delegator, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -236,10 +272,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and delegator, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -247,9 +288,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is PUBLISHED with no draft descriptors', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -258,10 +304,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(3)
@@ -271,10 +322,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -282,9 +338,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and e-service is SUSPENDED with no draft descriptors', () => {
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(3)
@@ -294,10 +350,10 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(4)
@@ -308,29 +364,44 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should not return actions if user is admin and delegator, e-service is SUSPENDED with no draft descriptors', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should not return actions if user is admin and delegator, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
   })
 
   it('should return the correct actions if user is admin and delegator, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -338,9 +409,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is SUSPENDED with no draft descriptors', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -349,10 +425,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(3)
@@ -362,10 +443,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should return the correct actions if user is admin and delegate, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -374,9 +460,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and e-service is DRAFT with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -386,9 +472,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegator, e-service is DRAFT with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -396,9 +487,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and delegate, e-service is DRAFT with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -407,9 +503,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -417,9 +513,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and delegator, e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -429,9 +530,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegate, e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -439,9 +545,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and e-service is ARCHIVED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -449,9 +555,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegator, e-service is ARCHIVED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -459,9 +570,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegate, e-service is ARCHIVED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -469,9 +585,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and e-service is DEPRECATED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -479,9 +595,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegator, e-service is DEPRECATED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -489,9 +610,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegate, e-service is DEPRECATED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -499,9 +625,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and e-service is PUBLISHED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -511,10 +637,10 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(3)
@@ -525,9 +651,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegator, e-service is PUBLISHED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -535,10 +666,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegator, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -547,10 +683,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and delegator, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -559,9 +700,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and delegate, e-service is PUBLISHED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -570,10 +716,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and delegate, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -583,10 +734,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegate, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -594,9 +750,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and e-service is SUSPENDED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -606,10 +762,10 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(3)
@@ -620,9 +776,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegator, e-service is SUSPENDED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -630,10 +791,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegator, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -641,10 +807,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and delegator, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegator: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -653,9 +824,14 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and delegate, e-service is SUSPENDED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(1)
@@ -664,10 +840,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is an api operator and delegate, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(2)
@@ -677,10 +858,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is an api operator and delegate, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
-    mockUseGetDelegationUserRole({ isDelegate: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+      }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)
@@ -688,10 +874,10 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on clone action success', async () => {
     mockUseJwt({ isAdmin: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      delegation: undefined,
     })
     const { result, history } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
 
@@ -716,9 +902,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on create new draft action success', async () => {
     mockUseJwt({ isAdmin: true })
-    mockUseGetDelegationUserRole({})
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: undefined,
     })
     const { result, history } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
 
@@ -742,11 +928,11 @@ describe('useGetProviderEServiceTableActions tests', () => {
   })
 
   it('should not return actions if the user is a security operator', () => {
-    mockUseGetDelegationUserRole({})
     mockUseJwt({ isAdmin: false, isOperatorSecurity: true })
 
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.actions).toHaveLength(0)

@@ -283,7 +283,11 @@
     "updateLabel": "Update"
   },
   "byDelegationChip": {
-    "label": "by delegation"
+    "label": {
+      "default": "By delegation",
+      "delegator": "Delegated",
+      "delegate": "Received by delegation"
+    }
   },
   "riskAnalysis": {
     "formComponents": {

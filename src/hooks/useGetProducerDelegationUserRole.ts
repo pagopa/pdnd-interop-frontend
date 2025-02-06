@@ -1,7 +1,7 @@
 import { DelegationQueries } from '@/api/delegation'
 import { useQuery } from '@tanstack/react-query'
 
-export function useGetDelegationUserRole({
+export function useGetProducerDelegationUserRole({
   eserviceId,
   organizationId,
 }: {

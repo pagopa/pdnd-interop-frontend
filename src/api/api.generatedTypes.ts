@@ -494,7 +494,6 @@ export interface CatalogEService {
   producer: CompactOrganization
   agreement?: CompactAgreement
   isMine: boolean
-  hasCertifiedAttributes: boolean
   activeDescriptor?: CompactDescriptor
 }
 
@@ -517,7 +516,7 @@ export interface AgreementListEntry {
   suspendedByProducer?: boolean
   suspendedByPlatform?: boolean
   descriptor: CompactDescriptor
-  isDelegated?: boolean
+  delegation?: DelegationWithCompactTenants
 }
 
 export interface CompactAttribute {
@@ -690,6 +689,7 @@ export interface ProducerEService {
   mode: EServiceMode
   activeDescriptor?: CompactProducerDescriptor
   draftDescriptor?: CompactProducerDescriptor
+  delegation?: DelegationWithCompactTenants
 }
 
 export interface ProducerEServices {
@@ -1515,7 +1515,7 @@ export interface ProblemError {
   detail: string
 }
 
-export interface GetAgreementsParams {
+export interface GetConsumerAgreementsParams {
   /**
    * @format int32
    * @min 0
@@ -1537,6 +1537,32 @@ export interface GetAgreementsParams {
    * @default []
    */
   producersIds?: string[]
+  /**
+   * comma separated sequence of agreement states to filter the response with
+   * @default []
+   */
+  states?: AgreementState[]
+  /** @default false */
+  showOnlyUpgradeable?: boolean
+}
+
+export interface GetProducerAgreementsParams {
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+  /**
+   * comma separated sequence of eservices IDs
+   * @default []
+   */
+  eservicesIds?: string[]
   /**
    * comma separated sequence of consumers IDs
    * @default []
@@ -1808,11 +1834,6 @@ export interface GetProducerPurposesParams {
    */
   consumersIds?: string[]
   /**
-   * comma separated sequence of producers IDs
-   * @default []
-   */
-  producersIds?: string[]
-  /**
    * comma separated sequence of states
    * @default []
    */
@@ -1837,11 +1858,6 @@ export interface GetConsumerPurposesParams {
    * @default []
    */
   eservicesIds?: string[]
-  /**
-   * comma separated sequence of consumers IDs
-   * @default []
-   */
-  consumersIds?: string[]
   /**
    * comma separated sequence of producers IDs
    * @default []
@@ -2042,16 +2058,16 @@ export interface GetConsumerDelegatedEservicesParams {
   limit: number
 }
 
-export namespace Agreements {
+export namespace Consumer {
   /**
-   * @description retrieves a list of agreements
+   * @description retrieves a list of consumer agreements
    * @tags agreements
-   * @name GetAgreements
-   * @summary retrieves a list of agreements
-   * @request GET:/agreements
+   * @name GetConsumerAgreements
+   * @summary retrieves a list of consumer agreements
+   * @request GET:/consumer/agreements
    * @secure
    */
-  export namespace GetAgreements {
+  export namespace GetConsumerAgreements {
     export type RequestParams = {}
     export type RequestQuery = {
       /**
@@ -2076,6 +2092,247 @@ export namespace Agreements {
        */
       producersIds?: string[]
       /**
+       * comma separated sequence of agreement states to filter the response with
+       * @default []
+       */
+      states?: AgreementState[]
+      /** @default false */
+      showOnlyUpgradeable?: boolean
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Agreements
+  }
+  /**
+   * @description Retrieve requester's delegators
+   * @tags consumerDelegations
+   * @name GetConsumerDelegators
+   * @request GET:/consumer/delegations/delegators
+   * @secure
+   */
+  export namespace GetConsumerDelegators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /** @default [] */
+      eserviceIds?: string[]
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DelegationTenants
+  }
+  /**
+   * @description Retrieve requester's delegators with active agreements
+   * @tags consumerDelegations
+   * @name GetConsumerDelegatorsWithAgreements
+   * @request GET:/consumer/delegations/delegatorsWithAgreements
+   * @secure
+   */
+  export namespace GetConsumerDelegatorsWithAgreements {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DelegationTenants
+  }
+  /**
+   * @description Retrieve Purposes from the consumer prospective
+   * @tags purposes
+   * @name GetConsumerPurposes
+   * @request GET:/consumer/purposes
+   * @secure
+   */
+  export namespace GetConsumerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of producers IDs
+       * @default []
+       */
+      producersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Purposes
+  }
+  /**
+   * @description Retrieve requester's delegated eservices
+   * @tags consumerDelegations
+   * @name GetConsumerDelegatedEservices
+   * @request GET:/consumer/delegations/eservices
+   * @secure
+   */
+  export namespace GetConsumerDelegatedEservices {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** @format uuid */
+      delegatorId: string
+      q?: string
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactEServices
+  }
+  /**
+   * @description creates a consumer delegation
+   * @tags consumerDelegations
+   * @name CreateConsumerDelegation
+   * @summary Consumer delegation creation
+   * @request POST:/consumer/delegations
+   * @secure
+   */
+  export namespace CreateConsumerDelegation {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DelegationSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Approves a consumer delegation
+   * @tags consumerDelegations
+   * @name ApproveConsumerDelegation
+   * @summary Approves a consumer delegation
+   * @request POST:/consumer/delegations/{delegationId}/approve
+   * @secure
+   */
+  export namespace ApproveConsumerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Rejects a consumer delegation
+   * @tags consumerDelegations
+   * @name RejectConsumerDelegation
+   * @summary Rejects a consumer delegation
+   * @request POST:/consumer/delegations/{delegationId}/reject
+   * @secure
+   */
+  export namespace RejectConsumerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectDelegationPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revokes a consumer delegation
+   * @tags consumerDelegations
+   * @name RevokeConsumerDelegation
+   * @summary Revokes a consumer delegation
+   * @request DELETE:/consumer/delegations/{delegationId}
+   * @secure
+   */
+  export namespace RevokeConsumerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+}
+
+export namespace Producer {
+  /**
+   * @description retrieves a list of producers agreements
+   * @tags agreements
+   * @name GetProducerAgreements
+   * @summary retrieves a list of producers agreements
+   * @request GET:/producer/agreements
+   * @secure
+   */
+  export namespace GetProducerAgreements {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+      /**
+       * comma separated sequence of eservices IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
        * comma separated sequence of consumers IDs
        * @default []
        */
@@ -2095,6 +2352,136 @@ export namespace Agreements {
     export type ResponseBody = Agreements
   }
   /**
+   * @description Retrieve Purposes from the producer prospective
+   * @tags purposes
+   * @name GetProducerPurposes
+   * @request GET:/producer/purposes
+   * @secure
+   */
+  export namespace GetProducerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of consumers IDs
+       * @default []
+       */
+      consumersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Purposes
+  }
+  /**
+   * @description creates a producer delegation
+   * @tags producerDelegations
+   * @name CreateProducerDelegation
+   * @summary Producer delegation creation
+   * @request POST:/producer/delegations
+   * @secure
+   */
+  export namespace CreateProducerDelegation {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DelegationSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Approves a producer delegation
+   * @tags producerDelegations
+   * @name ApproveProducerDelegation
+   * @summary Approves a producer delegation
+   * @request POST:/producer/delegations/{delegationId}/approve
+   * @secure
+   */
+  export namespace ApproveProducerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Rejects a producer delegation
+   * @tags producerDelegations
+   * @name RejectProducerDelegation
+   * @summary Rejects a producer delegation
+   * @request POST:/producer/delegations/{delegationId}/reject
+   * @secure
+   */
+  export namespace RejectProducerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectDelegationPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revokes a producer delegation
+   * @tags producerDelegations
+   * @name RevokeProducerDelegation
+   * @summary Revokes a producer delegation
+   * @request DELETE:/producer/delegations/{delegationId}
+   * @secure
+   */
+  export namespace RevokeProducerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+}
+
+export namespace Agreements {
+  /**
    * @description creates the agreement between the involved parties.
    * @tags agreements
    * @name CreateAgreement
@@ -2106,9 +2493,7 @@ export namespace Agreements {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = AgreementPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -2592,211 +2977,6 @@ export namespace Catalog {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CatalogEServiceDescriptor
-  }
-}
-
-export namespace Consumer {
-  /**
-   * @description Retrieve requester's delegators
-   * @tags consumerDelegations
-   * @name GetConsumerDelegators
-   * @request GET:/consumer/delegations/delegators
-   * @secure
-   */
-  export namespace GetConsumerDelegators {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      q?: string
-      /** @default [] */
-      eserviceIds?: string[]
-      /** @format int32 */
-      offset: number
-      /** @format int32 */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = DelegationTenants
-  }
-  /**
-   * @description Retrieve requester's delegators with active agreements
-   * @tags consumerDelegations
-   * @name GetConsumerDelegatorsWithAgreements
-   * @request GET:/consumer/delegations/delegatorsWithAgreements
-   * @secure
-   */
-  export namespace GetConsumerDelegatorsWithAgreements {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      q?: string
-      /** @format int32 */
-      offset: number
-      /** @format int32 */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = DelegationTenants
-  }
-  /**
-   * @description Retrieve Purposes from the consumer prospective
-   * @tags purposes
-   * @name GetConsumerPurposes
-   * @request GET:/consumer/purposes
-   * @secure
-   */
-  export namespace GetConsumerPurposes {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      q?: string
-      /**
-       * comma separated sequence of EService IDs
-       * @default []
-       */
-      eservicesIds?: string[]
-      /**
-       * comma separated sequence of consumers IDs
-       * @default []
-       */
-      consumersIds?: string[]
-      /**
-       * comma separated sequence of producers IDs
-       * @default []
-       */
-      producersIds?: string[]
-      /**
-       * comma separated sequence of states
-       * @default []
-       */
-      states?: PurposeVersionState[]
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = Purposes
-  }
-  /**
-   * @description Retrieve requester's delegated eservices
-   * @tags consumerDelegations
-   * @name GetConsumerDelegatedEservices
-   * @request GET:/consumer/delegations/eservices
-   * @secure
-   */
-  export namespace GetConsumerDelegatedEservices {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      /** @format uuid */
-      delegatorId: string
-      q?: string
-      /** @format int32 */
-      offset: number
-      /** @format int32 */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CompactEServices
-  }
-  /**
-   * @description creates a consumer delegation
-   * @tags consumerDelegations
-   * @name CreateConsumerDelegation
-   * @summary Consumer delegation creation
-   * @request POST:/consumer/delegations
-   * @secure
-   */
-  export namespace CreateConsumerDelegation {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = DelegationSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CreatedResource
-  }
-  /**
-   * @description Approves a consumer delegation
-   * @tags consumerDelegations
-   * @name ApproveConsumerDelegation
-   * @summary Approves a consumer delegation
-   * @request POST:/consumer/delegations/{delegationId}/approve
-   * @secure
-   */
-  export namespace ApproveConsumerDelegation {
-    export type RequestParams = {
-      /**
-       * The identifier of the delegation
-       * @format uuid
-       */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * @description Rejects a consumer delegation
-   * @tags consumerDelegations
-   * @name RejectConsumerDelegation
-   * @summary Rejects a consumer delegation
-   * @request POST:/consumer/delegations/{delegationId}/reject
-   * @secure
-   */
-  export namespace RejectConsumerDelegation {
-    export type RequestParams = {
-      /**
-       * The identifier of the delegation
-       * @format uuid
-       */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RejectDelegationPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * @description Revokes a consumer delegation
-   * @tags consumerDelegations
-   * @name RevokeConsumerDelegation
-   * @summary Revokes a consumer delegation
-   * @request DELETE:/consumer/delegations/{delegationId}
-   * @secure
-   */
-  export namespace RevokeConsumerDelegation {
-    export type RequestParams = {
-      /** The delegation id */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
   }
 }
 
@@ -4645,141 +4825,6 @@ export namespace Purposes {
       'X-Correlation-Id': string
     }
     export type ResponseBody = RiskAnalysisFormConfig
-  }
-}
-
-export namespace Producer {
-  /**
-   * @description Retrieve Purposes from the producer prospective
-   * @tags purposes
-   * @name GetProducerPurposes
-   * @request GET:/producer/purposes
-   * @secure
-   */
-  export namespace GetProducerPurposes {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      q?: string
-      /**
-       * comma separated sequence of EService IDs
-       * @default []
-       */
-      eservicesIds?: string[]
-      /**
-       * comma separated sequence of consumers IDs
-       * @default []
-       */
-      consumersIds?: string[]
-      /**
-       * comma separated sequence of producers IDs
-       * @default []
-       */
-      producersIds?: string[]
-      /**
-       * comma separated sequence of states
-       * @default []
-       */
-      states?: PurposeVersionState[]
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = Purposes
-  }
-  /**
-   * @description creates a producer delegation
-   * @tags producerDelegations
-   * @name CreateProducerDelegation
-   * @summary Producer delegation creation
-   * @request POST:/producer/delegations
-   * @secure
-   */
-  export namespace CreateProducerDelegation {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = DelegationSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CreatedResource
-  }
-  /**
-   * @description Approves a producer delegation
-   * @tags producerDelegations
-   * @name ApproveProducerDelegation
-   * @summary Approves a producer delegation
-   * @request POST:/producer/delegations/{delegationId}/approve
-   * @secure
-   */
-  export namespace ApproveProducerDelegation {
-    export type RequestParams = {
-      /**
-       * The identifier of the delegation
-       * @format uuid
-       */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * @description Rejects a producer delegation
-   * @tags producerDelegations
-   * @name RejectProducerDelegation
-   * @summary Rejects a producer delegation
-   * @request POST:/producer/delegations/{delegationId}/reject
-   * @secure
-   */
-  export namespace RejectProducerDelegation {
-    export type RequestParams = {
-      /**
-       * The identifier of the delegation
-       * @format uuid
-       */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RejectDelegationPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * @description Revokes a producer delegation
-   * @tags producerDelegations
-   * @name RevokeProducerDelegation
-   * @summary Revokes a producer delegation
-   * @request DELETE:/producer/delegations/{delegationId}
-   * @secure
-   */
-  export namespace RevokeProducerDelegation {
-    export type RequestParams = {
-      /** The delegation id */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
   }
 }
 

@@ -1,5 +1,4 @@
 import { AgreementQueries } from '@/api/agreement'
-import type { GetAgreementsParams } from '@/api/api.generatedTypes'
 import { PageContainer } from '@/components/layout/containers'
 import {
   Filters,
@@ -14,16 +13,14 @@ import {
   ConsumerAgreementsTable,
   ConsumerAgreementsTableSkeleton,
 } from './components/ConsumerAgreementsTable'
-import { AuthHooks } from '@/api/auth'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import type { GetConsumerAgreementsParams } from '@/api/api.generatedTypes'
 
 const ConsumerAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerAgreementsList' })
   const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
   const [producersAutocompleteInput, setProducersAutocompleteInput] = useAutocompleteTextInput()
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
-
-  const { jwt } = AuthHooks.useJwt()
 
   const { data: producersOptions = [] } = useQuery({
     ...AgreementQueries.getProducers({
@@ -55,7 +52,7 @@ const ConsumerAgreementsListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetAgreementsParams, 'limit' | 'offset'>
+    Omit<GetConsumerAgreementsParams, 'limit' | 'offset'>
   >([
     {
       name: 'eservicesIds',
@@ -90,14 +87,13 @@ const ConsumerAgreementsListPage: React.FC = () => {
     },
   ])
 
-  const params = {
+  const params: GetConsumerAgreementsParams = {
     ...paginationParams,
     ...filtersParams,
-    consumersIds: [jwt?.organizationId] as Array<string>,
   }
 
   const { data } = useQuery({
-    ...AgreementQueries.getList(params),
+    ...AgreementQueries.getConsumerAgreementsList(params),
     placeholderData: keepPreviousData,
   })
 
@@ -113,8 +109,10 @@ const ConsumerAgreementsListPage: React.FC = () => {
   )
 }
 
-const ConsumerAgreementsTableWrapper: React.FC<{ params: GetAgreementsParams }> = ({ params }) => {
-  const { data, isFetching } = useQuery(AgreementQueries.getList(params))
+const ConsumerAgreementsTableWrapper: React.FC<{ params: GetConsumerAgreementsParams }> = ({
+  params,
+}) => {
+  const { data, isFetching } = useQuery(AgreementQueries.getConsumerAgreementsList(params))
 
   if (!data && isFetching) return <ConsumerAgreementsTableSkeleton />
   return <ConsumerAgreementsTable agreements={data?.results ?? []} />

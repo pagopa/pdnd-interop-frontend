@@ -4,15 +4,23 @@ import type {
   GetAgreementEServiceConsumersParams,
   GetAgreementEServiceProducersParams,
   GetAgreementProducersParams,
-  GetAgreementsParams,
+  GetConsumerAgreementsParams,
+  GetProducerAgreementsParams,
   VerifyTenantCertifiedAttributesPayload,
 } from '../api.generatedTypes'
 import { AgreementServices } from './agreement.services'
 
-function getList(params: GetAgreementsParams) {
+function getProducerAgreementsList(params: GetProducerAgreementsParams) {
   return queryOptions({
-    queryKey: ['AgreementGetList', params],
-    queryFn: () => AgreementServices.getList(params),
+    queryKey: ['AgreementGetProducerAgreementsList', params],
+    queryFn: () => AgreementServices.getProducerAgreementsList(params),
+  })
+}
+
+function getConsumerAgreementsList(params: GetConsumerAgreementsParams) {
+  return queryOptions({
+    queryKey: ['AgreementGetConsumerAgreementsList', params],
+    queryFn: () => AgreementServices.getConsumerAgreementsList(params),
   })
 }
 
@@ -59,7 +67,8 @@ function getHasTenantCertifiedAttributes(payload: VerifyTenantCertifiedAttribute
 }
 
 export const AgreementQueries = {
-  getList,
+  getProducerAgreementsList,
+  getConsumerAgreementsList,
   getSingle,
   getProducers,
   getConsumers,

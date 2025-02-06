@@ -6,12 +6,10 @@ import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { Spinner } from '@pagopa/interop-fe-commons'
-import { AuthHooks } from '@/api/auth'
 import { useQuery } from '@tanstack/react-query'
 
 export const PurposeCreateTemplateAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
-  const { jwt } = AuthHooks.useJwt()
   const { watch, setValue } = useFormContext<PurposeCreateFormValues>()
 
   const shouldRenderTemplateAutocomplete = watch('useTemplate')
@@ -23,7 +21,6 @@ export const PurposeCreateTemplateAutocomplete: React.FC = () => {
 
   const { data, isLoading, isFetched } = useQuery({
     ...PurposeQueries.getConsumersList({
-      consumersIds: [jwt?.organizationId] as Array<string>,
       eservicesIds: [selectedEServiceId!],
       states: ['ACTIVE', 'SUSPENDED', 'ARCHIVED'],
       offset: 0,
