@@ -1,34 +1,34 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import type { StepperStep } from '@/types/common.types'
-import {
-  EServiceCreateStepGeneral,
-  EServiceCreateStepGeneralSkeleton,
-} from './components/EServiceCreateStepGeneral'
-import {
-  EServiceCreateStepVersion,
-  EServiceCreateStepVersionSkeleton,
-} from './components/EServiceCreateStepVersion'
-import {
-  EServiceCreateStepDocuments,
-  EServiceCreateStepDocumentsSkeleton,
-} from './components/EServiceCreateStepDocuments'
 import { useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { Redirect, useParams } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 import { Stepper } from '@/components/shared/Stepper'
-import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
-import {
-  EServiceCreateStepAttributes,
-  EServiceCreateStepAttributesSkeleton,
-} from './components/EServiceCreateStepAttributes'
-import {
-  EServiceCreateStepPurpose,
-  EServiceCreateStepPurposeSkeleton,
-} from './components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
+import { CreateContextProvider } from '@/components/shared/CreateContext'
+import {
+  CreateStepVersion,
+  CreateStepVersionSkeleton,
+} from '@/components/shared/CreateFormComponents/CreateStepVersion'
+import {
+  CreateStepGeneral,
+  CreateStepGeneralSkeleton,
+} from '@/components/shared/CreateFormComponents/CreateStepGeneral'
+import {
+  CreateStepDocuments,
+  CreateStepDocumentsSkeleton,
+} from '@/components/shared/CreateFormComponents/CreateStepDocuments/CreateStepDocuments'
+import {
+  CreateStepAttributes,
+  CreateStepAttributesSkeleton,
+} from '@/components/shared/CreateFormComponents/CreateStepAttributes/CreateStepAttributes'
+import {
+  CreateStepPurpose,
+  CreateStepPurposeSkeleton,
+} from '@/components/shared/CreateFormComponents/CreateStepPurpose/CreateStepPurpose'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -57,17 +57,17 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
       ? [
-          { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
-          { label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
+          { label: t('create.stepper.step1Label'), component: CreateStepGeneral },
+          { label: t('create.stepper.step2Label'), component: CreateStepVersion },
+          { label: t('create.stepper.step3Label'), component: CreateStepAttributes },
+          { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
         ]
       : [
-          { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-          { label: t('create.stepper.step2ReceiveLabel'), component: EServiceCreateStepPurpose },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
-          { label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
+          { label: t('create.stepper.step1Label'), component: CreateStepGeneral },
+          { label: t('create.stepper.step2ReceiveLabel'), component: CreateStepPurpose },
+          { label: t('create.stepper.step2Label'), component: CreateStepVersion },
+          { label: t('create.stepper.step3Label'), component: CreateStepAttributes },
+          { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
         ]
 
   const { component: Step } = steps[activeStep]
@@ -87,17 +87,17 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const stepsLoadingSkeletons =
     eserviceMode === 'DELIVER'
       ? [
-          <EServiceCreateStepGeneralSkeleton key={1} />,
-          <EServiceCreateStepVersionSkeleton key={2} />,
-          <EServiceCreateStepAttributesSkeleton key={3} />,
-          <EServiceCreateStepDocumentsSkeleton key={4} />,
+          <CreateStepGeneralSkeleton key={1} />,
+          <CreateStepVersionSkeleton key={2} />,
+          <CreateStepAttributesSkeleton key={3} />,
+          <CreateStepDocumentsSkeleton key={4} />,
         ]
       : [
-          <EServiceCreateStepGeneralSkeleton key={1} />,
-          <EServiceCreateStepPurposeSkeleton key={2} />,
-          <EServiceCreateStepVersionSkeleton key={3} />,
-          <EServiceCreateStepAttributesSkeleton key={4} />,
-          <EServiceCreateStepDocumentsSkeleton key={5} />,
+          <CreateStepGeneralSkeleton key={1} />,
+          <CreateStepPurposeSkeleton key={2} />,
+          <CreateStepVersionSkeleton key={3} />,
+          <CreateStepAttributesSkeleton key={4} />,
+          <CreateStepDocumentsSkeleton key={5} />,
         ]
 
   const intro = isNewEService
@@ -118,14 +118,14 @@ const ProviderEServiceCreatePage: React.FC = () => {
     >
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
-        <EServiceCreateContextProvider
+        <CreateContextProvider
           descriptor={descriptor}
           eserviceMode={eserviceMode}
           onEserviceModeChange={setSelectedEServiceMode}
           {...stepProps}
         >
           <Step />
-        </EServiceCreateContextProvider>
+        </CreateContextProvider>
       )}
       {!isReady && stepsLoadingSkeletons[activeStep]}
     </PageContainer>

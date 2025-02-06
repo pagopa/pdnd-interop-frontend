@@ -8,49 +8,58 @@ import { Box, Link, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
-import { useEServiceCreateContext } from '../EServiceCreateContext'
 import omit from 'lodash/omit'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { payloadVerificationGuideLink } from '@/config/constants'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import { useCreateContext } from '../CreateContext'
+import { TemplateMutations } from '@/api/template'
 
-export type EServiceCreateStepVersionFormValues = {
+export type CreateStepVersionFormValues = {
   audience: string
   version: string
   voucherLifespan: number
   description: string
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
-  agreementApprovalPolicy: boolean
+  agreementApprovalPolicy?: boolean
 }
 
-export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+export const CreateStepVersion: React.FC<ActiveStepProps> = () => {
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' }) //TODO PER TEMPLATE
 
-  const { descriptor, forward, back } = useEServiceCreateContext()
+  const { descriptor, template, forward, back } = useCreateContext()
 
-  const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
+  const { mutate: updateEServiceVersionDraft } = EServiceMutations.useUpdateVersionDraft({
+    suppressSuccessToast: true,
+  })
+  const { mutate: updateTemplateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
-  const defaultValues: EServiceCreateStepVersionFormValues = {
-    version: descriptor?.version ?? '1',
-    audience: descriptor?.audience?.[0] ?? '',
-    voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
-    description: descriptor?.description ?? '',
-    dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
-    dailyCallsTotal: descriptor?.dailyCallsTotal ?? 1,
-    agreementApprovalPolicy: descriptor ? descriptor.agreementApprovalPolicy === 'MANUAL' : false,
+  const defaultValues: CreateStepVersionFormValues = {
+    version: (descriptor?.version || template?.version) ?? '1',
+    audience: (descriptor?.audience?.[0] || template?.audience?.[0]) ?? '',
+    voucherLifespan: descriptor
+      ? secondsToMinutes(descriptor.voucherLifespan)
+      : template
+      ? secondsToMinutes(template.voucherLifespan)
+      : 1,
+    description: (descriptor?.description || template?.description) ?? '',
+    dailyCallsPerConsumer:
+      (descriptor?.dailyCallsPerConsumer || template?.dailyCallsPerConsumer) ?? 1,
+    dailyCallsTotal: (descriptor?.dailyCallsTotal || template?.dailyCallsTotal) ?? 1,
+    agreementApprovalPolicy: descriptor ? descriptor.agreementApprovalPolicy === 'MANUAL' : false, //TODO
   }
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (values: EServiceCreateStepVersionFormValues) => {
-    if (!descriptor) return
+  const onSubmit = (values: CreateStepVersionFormValues) => {
+    if (!descriptor) return //TODO
 
-    const newDescriptorData = {
+    const newData = {
       ...values,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       audience: [values.audience],
@@ -60,26 +69,46 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
     }
 
     // If nothing has changed skip the update call
-    const areDescriptorsEquals = compareObjects(newDescriptorData, descriptor)
-    if (areDescriptorsEquals) {
+    const areDataEquals = descriptor
+      ? compareObjects(newData, descriptor)
+      : template && compareObjects(newData, template)
+    if (areDataEquals) {
       forward()
       return
     }
 
-    const payload = {
+    const payloadDescriptor = descriptor && {
       eserviceId: descriptor.eservice.id,
       attributes: { certified: [], verified: [], declared: [] },
-      ...omit(newDescriptorData, ['version']),
+      ...omit(newData, ['version']),
     }
 
-    updateVersionDraft(
-      {
-        ...payload,
-        descriptorId: descriptor.id,
-        attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
-      },
-      { onSuccess: forward }
-    )
+    const payloadTemplate = template && {
+      eserviceTempalteId: template.eservice.id,
+      attributes: { certified: [], verified: [], declared: [] },
+      ...omit(newData, ['version']),
+    }
+
+    if (descriptor) {
+      console.log('eccomi')
+      updateEServiceVersionDraft(
+        {
+          ...payloadDescriptor,
+          descriptorId: descriptor.id,
+          attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
+        },
+        { onSuccess: forward }
+      )
+    } else {
+      updateTemplateVersionDraft(
+        {
+          ...payloadTemplate,
+          templateId: template.id,
+          attributes: remapDescriptorAttributesToDescriptorAttributesSeed(template.attributes),
+        },
+        { onSuccess: forward }
+      )
+    }
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
@@ -187,6 +216,6 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   )
 }
 
-export const EServiceCreateStepVersionSkeleton: React.FC = () => {
+export const CreateStepVersionSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={550} />
 }

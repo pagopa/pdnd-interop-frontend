@@ -10,28 +10,38 @@ import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
+import { useCreateContext } from '../../CreateContext'
+import { TemplateDownloads } from '@/api/template/template.downloads'
+import { TemplateMutations } from '@/api/template'
 
-type EServiceCreateStepDocumentsDocFormValues = {
+type CreateStepDocumentsDocFormValues = {
   doc: File | null
   prettyName: string
 }
 
-const defaultValues: EServiceCreateStepDocumentsDocFormValues = {
+const defaultValues: CreateStepDocumentsDocFormValues = {
   doc: null,
   prettyName: '',
 }
 
-export function EServiceCreateStepDocumentsDoc() {
-  const { t } = useTranslation('eservice')
+export function CreateStepDocumentsDoc() {
+  const { t } = useTranslation('eservice') //TODO
   const { t: tCommon } = useTranslation('common')
-  const { descriptor } = useEServiceCreateContext()
-  const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
-  const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
-  const { mutate: updateDocumentName } =
-    EServiceMutations.useUpdateVersionDraftDocumentDescription()
-  const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
+  const { descriptor, template } = useCreateContext()
 
-  const docs = descriptor?.docs ?? []
+  const downloadEServiceDocument = EServiceDownloads.useDownloadVersionDocument()
+  const { mutate: deleteEServiceDocument } = EServiceMutations.useDeleteVersionDraftDocument()
+  const { mutate: updateEServiceDocumentName } =
+    EServiceMutations.useUpdateVersionDraftDocumentDescription()
+  const { mutate: uploadEServiceDocument } = EServiceMutations.usePostVersionDraftDocument()
+
+  const downloadTemplateDocument = TemplateDownloads.useDownloadVersionDocument()
+  const { mutate: deleteTemplateDocument } = TemplateMutations.useDeleteVersionDraftDocument()
+  const { mutate: updateTemplateDocumentName } =
+    TemplateMutations.useUpdateVersionDraftDocumentDescription()
+  const { mutate: uploadTemplateDocument } = TemplateMutations.usePostVersionDraftDocument()
+
+  const docs = (descriptor?.docs || template?.docs) ?? []
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
@@ -48,48 +58,89 @@ export function EServiceCreateStepDocumentsDoc() {
   })
 
   const onSubmit = ({ doc, prettyName }: EServiceCreateStepDocumentsDocFormValues) => {
-    if (!doc || !descriptor) return
-    uploadDocument(
-      {
-        eserviceId: descriptor.eservice.id,
-        descriptorId: descriptor.id,
-        doc,
-        prettyName,
-        kind: 'DOCUMENT',
-      },
-      { onSuccess: handleHideFileInput }
-    )
+    if (!doc || (!descriptor && !template)) return //TODO
+    if (descriptor) {
+      uploadEServiceDocument(
+        {
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+          doc,
+          prettyName,
+          kind: 'DOCUMENT',
+        },
+        { onSuccess: handleHideFileInput }
+      )
+    }
+    if (template) {
+      uploadTemplateDocument(
+        {
+          eserviceTemplateId: template.eservice.id,
+          doc,
+          prettyName,
+          kind: 'DOCUMENT',
+        },
+        { onSuccess: handleHideFileInput }
+      )
+    }
   }
 
   const handleUpdateDescription = (documentId: string, prettyName: string) => {
-    if (!descriptor) return
-    updateDocumentName({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-      documentId,
-      prettyName,
-    })
+    if (!descriptor && !template) return
+    if (descriptor) {
+      updateEServiceDocumentName({
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        documentId,
+        prettyName,
+      })
+    }
+    if (template) {
+      updateTemplateDocumentName({
+        eserviceTemplateId: template.eservice.id,
+        documentId,
+        prettyName,
+      })
+    }
   }
 
   const handleDeleteDocument = (document: EServiceDoc) => {
-    if (!descriptor) return
-    deleteDocument({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-      documentId: document.id,
-    })
-  }
-
-  const handleDownloadDocument = (document: EServiceDoc) => {
-    if (!descriptor) return
-    downloadDocument(
-      {
+    if (!descriptor && !template) return
+    if (descriptor) {
+      deleteEServiceDocument({
         eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
         documentId: document.id,
-      },
-      getDownloadDocumentName(document)
-    )
+      })
+    }
+    if (template) {
+      deleteTemplateDocument({
+        templateId: template.eservice.id, //TODO UNIFORMARE NOMI PROPRIETà
+        documentId: document.id,
+      })
+    }
+  }
+
+  const handleDownloadDocument = (document: EServiceDoc) => {
+    if (!descriptor && !template) return
+    if (descriptor) {
+      downloadEServiceDocument(
+        {
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+          documentId: document.id,
+        },
+        getDownloadDocumentName(document)
+      )
+    }
+    if (template) {
+      downloadTemplateDocument(
+        {
+          templateId: template.eservice.id,
+          documentId: document.id,
+        },
+        getDownloadDocumentName(document)
+      )
+    }
   }
 
   return (

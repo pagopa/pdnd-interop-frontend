@@ -3,7 +3,6 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { Alert, Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
@@ -18,8 +17,10 @@ import { eserviceNamingBestPracticeLink } from '@/config/constants'
 import { STAGE } from '@/config/env'
 import type { PagoPAEnvVars } from '@/types/common.types'
 import { trackEvent } from '@/config/tracking'
+import { useCreateContext } from '../CreateContext'
+import { TemplateMutations } from '@/api/template'
 
-export type EServiceCreateStepGeneralFormValues = {
+export type CreateStepGeneralFormValues = {
   name: string
   description: string
   technology: EServiceTechnology
@@ -27,48 +28,70 @@ export type EServiceCreateStepGeneralFormValues = {
   isSignalHubEnabled: boolean
 }
 
-export const EServiceCreateStepGeneral: React.FC = () => {
+export const CreateStepGeneral: React.FC = () => {
   const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
   const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('eservice') //TODO
   const navigate = useNavigate()
 
   const {
     descriptor,
-    areEServiceGeneralInfoEditable,
+    template,
+    areGeneralInfoEditable,
     forward,
     eserviceMode,
     onEserviceModeChange,
-  } = useEServiceCreateContext()
+  } = useCreateContext()
 
-  const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
-  const { mutate: createDraft } = EServiceMutations.useCreateDraft()
+  const { mutate: updateEServiceDraft } = EServiceMutations.useUpdateDraft()
+  const { mutate: createEServiceDraft } = EServiceMutations.useCreateDraft()
+  const { mutate: updateTemplateDraft } = TemplateMutations.useUpdateDraft()
+  const { mutate: createTemplateDraft } = TemplateMutations.useCreateDraft()
 
-  const defaultValues: EServiceCreateStepGeneralFormValues = {
-    name: descriptor?.eservice?.name ?? '',
-    description: descriptor?.eservice?.description ?? '',
-    technology: descriptor?.eservice?.technology ?? 'REST',
+  const defaultValues: CreateStepGeneralFormValues = {
+    name: (descriptor?.eservice?.name || template?.eservice.name) ?? '',
+    description: (descriptor?.eservice?.description || template?.eservice.description) ?? '',
+    technology: (descriptor?.eservice?.technology || template?.eservice.technology) ?? 'REST',
     mode: eserviceMode,
     isSignalHubEnabled: descriptor?.eservice?.isSignalHubEnabled ?? false,
   }
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (formValues: EServiceCreateStepGeneralFormValues) => {
+  const onSubmit = (formValues: CreateStepGeneralFormValues) => {
     // If we are editing an existing e-service, we update the draft
     if (descriptor) {
       // If nothing has changed skip the update call
       const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
+      console.log('qui')
 
       if (!isEServiceTheSame)
-        updateDraft({ eserviceId: descriptor.eservice.id, ...formValues }, { onSuccess: forward })
+        updateEServiceDraft(
+          { eserviceId: descriptor.eservice.id, ...formValues },
+          { onSuccess: forward }
+        )
+      else forward()
+
+      return
+    }
+
+    if (template) {
+      // If nothing has changed skip the update call
+      const isTemplateTheSame = compareObjects(formValues, template?.eservice)
+
+      if (!isTemplateTheSame)
+        updateTemplateDraft(
+          { eserviceId: template.eservice.id, ...formValues },
+          { onSuccess: forward }
+        )
       else forward()
 
       return
     }
 
     // If we are creating a new e-service, we create a new draft
-    createDraft(formValues, {
+    createEServiceDraft(formValues, {
+      //TODO COME DISTINGUO SE STO CREANDO UN ESERVICE O UN TEMPLATE? AGGIUNTA DI UN PARAMETRO DI TIPO 'ESERVICE' | 'TEMPLATE' ?
       onSuccess({ id, descriptorId }) {
         navigate('PROVIDE_ESERVICE_EDIT', {
           params: { eserviceId: id, descriptorId },
@@ -112,7 +135,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             label={t('create.step1.eserviceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
             name="name"
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areGeneralInfoEditable}
             rules={{ required: true, minLength: 5 }}
             focusOnMount
             inputProps={{ maxLength: 60 }}
@@ -125,7 +148,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
             name="description"
             multiline
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areGeneralInfoEditable}
             size="small"
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
@@ -140,7 +163,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
             ]}
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areGeneralInfoEditable}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
           />
@@ -159,7 +182,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 value: 'RECEIVE',
               },
             ]}
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areGeneralInfoEditable}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
@@ -173,7 +196,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               <RHFSwitch
                 label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
                 name="isSignalHubEnabled"
-                disabled={!areEServiceGeneralInfoEditable}
+                disabled={!areGeneralInfoEditable}
                 sx={{ my: 0 }}
               />
             </SectionContainer>
@@ -182,7 +205,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
         <StepActions
           forward={
-            !areEServiceGeneralInfoEditable
+            !areGeneralInfoEditable
               ? {
                   label: t('create.forwardWithoutSaveBtn'),
                   endIcon: <ArrowForwardIcon />,
@@ -197,7 +220,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   )
 }
 
-export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
+export const CreateStepGeneralSkeleton: React.FC = () => {
   const { t } = useTranslation('eservice')
 
   return (

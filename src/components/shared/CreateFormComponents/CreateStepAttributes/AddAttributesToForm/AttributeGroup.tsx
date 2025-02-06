@@ -1,14 +1,14 @@
-import React from 'react'
-import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
-import type { AttributeKey } from '@/types/attribute.types'
-import { Box, Stack } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { DescriptorAttribute } from '@/api/api.generatedTypes'
+import { AttributeGroupContainer, AttributeContainer } from '@/components/layout/containers'
+import { AttributeAutocomplete } from '@/components/shared/AttributeAutocomplete'
 import AddIcon from '@mui/icons-material/Add'
+import { AttributeKey } from '@/types/attribute.types'
+import { Stack, Box } from '@mui/system'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { AttributeAutocomplete } from '../../../../../components/shared/AttributeAutocomplete'
-import type { DescriptorAttribute } from '@/api/api.generatedTypes'
+import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import type { EServiceCreateStepAttributesFormValues } from '../EServiceCreateStepAttributes'
+import { useTranslation } from 'react-i18next'
+import { CreateStepAttributesFormValues } from '../CreateStepAttributes'
 
 export type AttributeGroupProps = {
   group: Array<DescriptorAttribute>
@@ -38,7 +38,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     onRemoveAttributeFromGroup(attributeId, groupIndex)
   }
 
-  const { watch, setValue } = useFormContext<EServiceCreateStepAttributesFormValues>()
+  const { watch, setValue } = useFormContext<CreateStepAttributesFormValues>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
   const handleAddAttributeToGroup = (attribute: DescriptorAttribute) => {

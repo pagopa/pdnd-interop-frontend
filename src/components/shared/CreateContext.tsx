@@ -3,13 +3,14 @@ import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
 import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
-type EServiceCreateContextType = {
-  descriptor: ProducerEServiceDescriptor | undefined
+type CreateContextType = {
+  descriptor?: ProducerEServiceDescriptor | undefined
+  template?: ProducerEServiceDescriptor | undefined //TODO METTERE IL TIPO GIUSTO
   eserviceMode: EServiceMode
   onEserviceModeChange: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
-  areEServiceGeneralInfoEditable: boolean
+  areGeneralInfoEditable: boolean
   riskAnalysisFormState: {
     isOpen: boolean
     riskAnalysisId: string | undefined
@@ -18,13 +19,13 @@ type EServiceCreateContextType = {
   closeRiskAnalysisForm: VoidFunction
 }
 
-const initialState: EServiceCreateContextType = {
+const initialState: CreateContextType = {
   descriptor: undefined,
   eserviceMode: 'DELIVER',
   onEserviceModeChange: noop,
   back: noop,
   forward: noop,
-  areEServiceGeneralInfoEditable: true,
+  areGeneralInfoEditable: true,
   riskAnalysisFormState: {
     isOpen: false,
     riskAnalysisId: undefined,
@@ -33,21 +34,18 @@ const initialState: EServiceCreateContextType = {
   closeRiskAnalysisForm: noop,
 }
 
-const { useContext, Provider } = createContext<EServiceCreateContextType>(
-  'EServiceCreateContext',
-  initialState
-)
+const { useContext, Provider } = createContext<CreateContextType>('CreateContext', initialState)
 
-type EServiceCreateContextProviderProps = {
+type CreateContextProviderProps = {
   children: React.ReactNode
-  descriptor: ProducerEServiceDescriptor | undefined
+  descriptor?: ProducerEServiceDescriptor | undefined
   eserviceMode: EServiceMode
   onEserviceModeChange: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
 }
 
-const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps> = ({
+const CreateContextProvider: React.FC<CreateContextProviderProps> = ({
   children,
   descriptor,
   eserviceMode,
@@ -78,7 +76,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   }
 
   const providerValue = React.useMemo(() => {
-    const areEServiceGeneralInfoEditable = Boolean(
+    const areGeneralInfoEditable = Boolean(
       // case 1: new e-service
       !descriptor ||
         // case 3: already existing service and version, but version is 1 and still a draft
@@ -89,7 +87,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       descriptor,
       eserviceMode,
       onEserviceModeChange,
-      areEServiceGeneralInfoEditable,
+      areGeneralInfoEditable,
       back,
       forward,
       riskAnalysisFormState,
@@ -101,4 +99,4 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   return <Provider value={providerValue}>{children}</Provider>
 }
 
-export { useContext as useEServiceCreateContext, EServiceCreateContextProvider }
+export { useContext as useCreateContext, CreateContextProvider }

@@ -5,14 +5,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { EServiceCreateStepPurposeAddPurposesTable } from './EServiceCreateStepPurposeAddPurposesTable'
-import { EServiceCreateStepPurposeRiskAnalysis } from './EServiceCreateStepPurposeRiskAnalysis/EServiceCreateStepPurposeRiskAnalysis'
+import { useCreateContext } from '../../CreateContext'
+import { CreateStepPurposeAddPurposesTable } from './CreateStepPurposeAddPurposeTable'
+import { CreateStepPurposeRiskAnalysis } from './CreateStepPurposeRiskAnalysis/CreateStepPurposeRiskAnalysis'
 
-export const EServiceCreateStepPurpose: React.FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+export const CreateStepPurpose: React.FC = () => {
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' }) //TODO
 
-  const { descriptor, forward, back, riskAnalysisFormState } = useEServiceCreateContext()
+  const { descriptor, template, forward, back, riskAnalysisFormState } = useCreateContext()
 
   return (
     <>
@@ -25,7 +25,7 @@ export const EServiceCreateStepPurpose: React.FC = () => {
             title={t('stepPurpose.purposeTableSection.title')}
             description={t('stepPurpose.purposeTableSection.description')}
           >
-            <EServiceCreateStepPurposeAddPurposesTable />
+            <CreateStepPurposeAddPurposesTable />
           </SectionContainer>
           <StepActions
             back={{
@@ -48,13 +48,13 @@ export const EServiceCreateStepPurpose: React.FC = () => {
           />
         </>
       ) : (
-        <EServiceCreateStepPurposeRiskAnalysis />
+        <CreateStepPurposeRiskAnalysis />
       )}
     </>
   )
 }
 
-export const EServiceCreateStepPurposeSkeleton: React.FC = () => {
+export const CreateStepPurposeSkeleton: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.stepPurpose' })
 
   return (

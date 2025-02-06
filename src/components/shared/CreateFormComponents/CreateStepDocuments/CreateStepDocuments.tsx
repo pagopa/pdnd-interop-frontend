@@ -4,24 +4,24 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { EServiceCreateStepDocumentsDoc } from './EServiceCreateStepDocumentsDoc'
-import { EServiceCreateStepDocumentsInterface } from './EServiceCreateStepDocumentsInterface'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { openApiCheckerLink } from '@/config/constants'
 import { trackEvent } from '@/config/tracking'
+import { useCreateContext } from '../../CreateContext'
+import { CreateStepDocumentsInterface } from './CreateStepDocumentsInterface'
+import { CreateStepDocumentsDoc } from './CreateStepDocumentsDoc'
 
-export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('eservice')
+export const CreateStepDocuments: React.FC<ActiveStepProps> = () => {
+  const { t } = useTranslation('eservice') //TODO
   const navigate = useNavigate()
 
-  const { descriptor, back } = useEServiceCreateContext()
+  const { descriptor, template, back } = useCreateContext()
 
   const sectionDescription =
-    descriptor?.eservice.technology === 'SOAP' ? (
+    descriptor?.eservice.technology || template?.eservice.technology === 'SOAP' ? (
       t(`create.step4.interface.description.soap`)
     ) : (
       <>
@@ -30,7 +30,7 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
           href={openApiCheckerLink}
           target="_blank"
           endIcon={<LaunchIcon fontSize="small" />}
-          onClick={() => trackEvent('INTEROP_EXT_LINK_DTD_API_CHECKER', { src: 'CREATE_ESERVICE' })}
+          onClick={() => trackEvent('INTEROP_EXT_LINK_DTD_API_CHECKER', { src: 'CREATE_ESERVICE' })} //TODO
         >
           {t('create.step4.interface.description.restLinkLabel')}
         </IconLink>
@@ -40,13 +40,13 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   return (
     <>
       <SectionContainer title={t('create.step4.interface.title')} description={sectionDescription}>
-        <EServiceCreateStepDocumentsInterface />
+        <CreateStepDocumentsInterface />
       </SectionContainer>
       <SectionContainer
         title={t('create.step4.documentation.title')}
         description={t('create.step4.documentation.description')}
       >
-        <EServiceCreateStepDocumentsDoc />
+        <CreateStepDocumentsDoc />
       </SectionContainer>
 
       <StepActions
@@ -75,7 +75,7 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   )
 }
 
-export const EServiceCreateStepDocumentsSkeleton: React.FC = () => {
+export const CreateStepDocumentsSkeleton: React.FC = () => {
   return (
     <>
       <SectionContainerSkeleton height={365} />
