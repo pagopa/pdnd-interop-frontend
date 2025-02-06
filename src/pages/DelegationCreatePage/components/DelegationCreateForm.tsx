@@ -52,10 +52,9 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const selectedEServiceId = formMethods.watch('eserviceId')
 
   const { data: agreements = [] } = useQuery({
-    ...AgreementQueries.getList({
+    ...AgreementQueries.getConsumerAgreementsList({
       limit: 50,
       offset: 0,
-      consumersIds: [jwt?.organizationId as string],
       eservicesIds: [selectedEServiceId],
       states: ['ACTIVE', 'SUSPENDED'],
     }),
