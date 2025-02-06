@@ -1,4 +1,8 @@
-import type { EServiceDescriptorState, EServiceMode } from '@/api/api.generatedTypes'
+import type {
+  DelegationWithCompactTenants,
+  EServiceDescriptorState,
+  EServiceMode,
+} from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
@@ -13,7 +17,6 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import PublishIcon from '@mui/icons-material/Publish'
 import { useDialog } from '@/stores'
-import { useGetDelegationUserRole } from './useGetDelegationUserRole'
 import { match } from 'ts-pattern'
 
 export function useGetProviderEServiceActions(
@@ -22,7 +25,9 @@ export function useGetProviderEServiceActions(
   draftDescriptorState: EServiceDescriptorState | undefined,
   activeDescriptorId: string | undefined,
   draftDescriptorId: string | undefined,
-  mode: EServiceMode | undefined
+  mode: EServiceMode | undefined,
+  eserviceName: string | undefined,
+  delegation?: DelegationWithCompactTenants
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
@@ -32,14 +37,8 @@ export function useGetProviderEServiceActions(
   const navigate = useNavigate()
   const { openDialog, closeDialog } = useDialog()
 
-  const { isDelegator, isDelegate, producerDelegations } = useGetDelegationUserRole({
-    eserviceId,
-    organizationId: jwt?.organizationId,
-  })
-
-  const delegation = producerDelegations?.find(
-    (delegation) => delegation.eservice?.id === eserviceId
-  )
+  const isDelegator = delegation?.delegator.id === jwt?.organizationId
+  const isDelegate = delegation?.delegate.id === jwt?.organizationId
 
   const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft({
     isByDelegation: isDelegate,
@@ -74,7 +73,7 @@ export function useGetProviderEServiceActions(
         eserviceId,
         descriptorId: draftDescriptorId,
         delegatorName: delegation?.delegator.name,
-        eserviceName: delegation?.eservice?.name,
+        eserviceName: eserviceName,
       })
   }
 
@@ -201,7 +200,7 @@ export function useGetProviderEServiceActions(
         type: 'basic',
         title: tDialogApproveDelegatedVersionDraft('title'),
         description: tDialogApproveDelegatedVersionDraft('description', {
-          eserviceName: delegation?.eservice?.name,
+          eserviceName: eserviceName,
           delegateName: delegation?.delegate.name,
         }),
         proceedLabel: tDialogApproveDelegatedVersionDraft('actions.approveAndPublish'),
