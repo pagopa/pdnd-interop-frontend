@@ -13,7 +13,7 @@ import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '
 import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
-  const producerId = AuthHooks.useJwt().jwt?.organizationId
+  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
   const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
     ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
     : true
