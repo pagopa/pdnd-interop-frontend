@@ -67,7 +67,7 @@ async function verifyTenantCertifiedAttributes({
   eserviceId: string
   descriptorId: string
 }) {
-  const response = await axiosInstance.post<HasCertifiedAttributes>(
+  const response = await axiosInstance.get<HasCertifiedAttributes>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/eservices/${eserviceId}/descriptors/${descriptorId}/certifiedAttributes/validate`
   )
 
