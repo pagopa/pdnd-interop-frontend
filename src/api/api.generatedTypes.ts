@@ -120,7 +120,7 @@ export interface UpdateEServiceSeed {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
-  isDelegable?: boolean
+  isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
 }
 
@@ -132,7 +132,7 @@ export interface EServiceSeed {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
-  isDelegable?: boolean
+  isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
 }
 
@@ -190,7 +190,7 @@ export interface EServiceDescriptionUpdateSeed {
 }
 
 export interface EServiceDelegationFlagsUpdateSeed {
-  isDelegable: boolean
+  isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
 }
 
@@ -294,7 +294,7 @@ export interface CatalogDescriptorEService {
   activeDescriptor?: CompactDescriptor
   mail?: Mail
   isSignalHubEnabled?: boolean
-  isDelegable?: boolean
+  isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
 }
 
@@ -309,7 +309,7 @@ export interface ProducerEServiceDetails {
   mode: EServiceMode
   riskAnalysis: EServiceRiskAnalysis[]
   isSignalHubEnabled?: boolean
-  isDelegable?: boolean
+  isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
 }
 
@@ -380,7 +380,7 @@ export interface ProducerDescriptorEService {
   draftDescriptor?: CompactDescriptor
   mail?: Mail
   isSignalHubEnabled?: boolean
-  isDelegable?: boolean
+  isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
 }
 
@@ -1616,24 +1616,6 @@ export interface AddAgreementConsumerDocumentPayload {
   doc: File
 }
 
-export interface VerifyTenantCertifiedAttributesPayload {
-  /**
-   * The Tenant id
-   * @format uuid
-   */
-  tenantId: string
-  /**
-   * The E-Service id
-   * @format uuid
-   */
-  eserviceId: string
-  /**
-   * The E-Service descriptor id
-   * @format uuid
-   */
-  descriptorId: string
-}
-
 export interface GetEServicesCatalogParams {
   /** Query to filter EServices by name */
   q?: string
@@ -1659,8 +1641,8 @@ export interface GetEServicesCatalogParams {
   agreementStates?: AgreementState[]
   /** EService Mode filter */
   mode?: EServiceMode
-  /** EService isDelegable filter */
-  isDelegable?: boolean
+  /** EService isConsumerDelegable filter */
+  isConsumerDelegable?: boolean
   /**
    * @format int32
    * @min 0
@@ -2058,13 +2040,13 @@ export interface GetConsumerDelegatedEservicesParams {
   limit: number
 }
 
-export namespace Consumer {
+export namespace Consumers {
   /**
    * @description retrieves a list of consumer agreements
    * @tags agreements
    * @name GetConsumerAgreements
    * @summary retrieves a list of consumer agreements
-   * @request GET:/consumer/agreements
+   * @request GET:/consumers/agreements
    * @secure
    */
   export namespace GetConsumerAgreements {
@@ -2109,7 +2091,7 @@ export namespace Consumer {
    * @description Retrieve requester's delegators
    * @tags consumerDelegations
    * @name GetConsumerDelegators
-   * @request GET:/consumer/delegations/delegators
+   * @request GET:/consumers/delegations/delegators
    * @secure
    */
   export namespace GetConsumerDelegators {
@@ -2133,7 +2115,7 @@ export namespace Consumer {
    * @description Retrieve requester's delegators with active agreements
    * @tags consumerDelegations
    * @name GetConsumerDelegatorsWithAgreements
-   * @request GET:/consumer/delegations/delegatorsWithAgreements
+   * @request GET:/consumers/delegations/delegatorsWithAgreements
    * @secure
    */
   export namespace GetConsumerDelegatorsWithAgreements {
@@ -2152,31 +2134,16 @@ export namespace Consumer {
     export type ResponseBody = DelegationTenants
   }
   /**
-   * @description Retrieve Purposes from the consumer prospective
-   * @tags purposes
-   * @name GetConsumerPurposes
-   * @request GET:/consumer/purposes
+   * @description Retrieve Tenants that are subscribed to at least one EService
+   * @tags tenants
+   * @name GetConsumers
+   * @request GET:/consumers
    * @secure
    */
-  export namespace GetConsumerPurposes {
+  export namespace GetConsumers {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
-      /**
-       * comma separated sequence of EService IDs
-       * @default []
-       */
-      eservicesIds?: string[]
-      /**
-       * comma separated sequence of producers IDs
-       * @default []
-       */
-      producersIds?: string[]
-      /**
-       * comma separated sequence of states
-       * @default []
-       */
-      states?: PurposeVersionState[]
       /**
        * @format int32
        * @min 0
@@ -2193,13 +2160,44 @@ export namespace Consumer {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = Purposes
+    export type ResponseBody = CompactOrganizations
+  }
+  /**
+   * @description Retrieves eservices for consumers in agreements
+   * @tags agreements
+   * @name GetAgreementEServiceConsumers
+   * @summary Retrieves eservices for consumers in agreements
+   * @request GET:/consumers/agreements/eservices
+   * @secure
+   */
+  export namespace GetAgreementEServiceConsumers {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EServices by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactEServicesLight
   }
   /**
    * @description Retrieve requester's delegated eservices
    * @tags consumerDelegations
    * @name GetConsumerDelegatedEservices
-   * @request GET:/consumer/delegations/eservices
+   * @request GET:/consumers/delegations/eservices
    * @secure
    */
   export namespace GetConsumerDelegatedEservices {
@@ -2224,7 +2222,7 @@ export namespace Consumer {
    * @tags consumerDelegations
    * @name CreateConsumerDelegation
    * @summary Consumer delegation creation
-   * @request POST:/consumer/delegations
+   * @request POST:/consumers/delegations
    * @secure
    */
   export namespace CreateConsumerDelegation {
@@ -2241,7 +2239,7 @@ export namespace Consumer {
    * @tags consumerDelegations
    * @name ApproveConsumerDelegation
    * @summary Approves a consumer delegation
-   * @request POST:/consumer/delegations/{delegationId}/approve
+   * @request POST:/consumers/delegations/{delegationId}/approve
    * @secure
    */
   export namespace ApproveConsumerDelegation {
@@ -2264,7 +2262,7 @@ export namespace Consumer {
    * @tags consumerDelegations
    * @name RejectConsumerDelegation
    * @summary Rejects a consumer delegation
-   * @request POST:/consumer/delegations/{delegationId}/reject
+   * @request POST:/consumers/delegations/{delegationId}/reject
    * @secure
    */
   export namespace RejectConsumerDelegation {
@@ -2287,7 +2285,7 @@ export namespace Consumer {
    * @tags consumerDelegations
    * @name RevokeConsumerDelegation
    * @summary Revokes a consumer delegation
-   * @request DELETE:/consumer/delegations/{delegationId}
+   * @request DELETE:/consumers/delegations/{delegationId}
    * @secure
    */
   export namespace RevokeConsumerDelegation {
@@ -2585,7 +2583,7 @@ export namespace Agreements {
    * No description
    * @tags agreements
    * @name DeleteAgreement
-   * @summary Delete an agreement. This operation is valid only for agreements in DRAFT or MISSING_CERTIFIED_ATTRIBUTES
+   * @summary Delete an agreement
    * @request DELETE:/agreements/{agreementId}
    * @secure
    */
@@ -2875,22 +2873,492 @@ export namespace Agreements {
     }
     export type ResponseBody = Agreement
   }
+}
+
+export namespace Tenants {
   /**
    * @description Verify a Tenant has required certified attributes
    * @tags agreements
    * @name VerifyTenantCertifiedAttributes
    * @summary Verify a Tenant has required certified attributes
-   * @request POST:/agreements/verify
+   * @request GET:/tenants/{tenantId}/eservices/{eserviceId}/descriptors/{descriptorId}/certifiedAttributes/validate
    * @secure
    */
   export namespace VerifyTenantCertifiedAttributes {
-    export type RequestParams = {}
+    export type RequestParams = {
+      /**
+       * The identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+      /**
+       * The identifier of the e-service
+       * @format uuid
+       */
+      eserviceId: string
+      /**
+       * The identifier of the e-service descriptor
+       * @format uuid
+       */
+      descriptorId: string
+    }
     export type RequestQuery = {}
-    export type RequestBody = VerifyTenantCertifiedAttributesPayload
+    export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
     export type ResponseBody = HasCertifiedAttributes
+  }
+  /**
+   * @description Return ok
+   * @tags selfcare
+   * @name GetInstitutionUsers
+   * @summary returns the users related to the institution
+   * @request GET:/tenants/{tenantId}/users
+   * @secure
+   */
+  export namespace GetInstitutionUsers {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {
+      /**
+       * the person identifier
+       * @format uuid
+       */
+      personId?: string
+      /**
+       * comma separated sequence of role to filter the response with
+       * @default []
+       */
+      roles?: string[]
+      /** filter applied to name/surname */
+      query?: string
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Users
+  }
+  /**
+   * @description Retrieve the certified attributes
+   * @tags tenants
+   * @name GetRequesterCertifiedAttributes
+   * @summary Gets the certified attributes of the requester
+   * @request GET:/tenants/attributes/certified
+   * @secure
+   */
+  export namespace GetRequesterCertifiedAttributes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = RequesterCertifiedAttributes
+  }
+  /**
+   * @description Gets certified attributes for institution using internal institution id
+   * @tags tenants
+   * @name GetCertifiedAttributes
+   * @summary Gets the certified attributes of an institution using internal institution id
+   * @request GET:/tenants/{tenantId}/attributes/certified
+   * @secure
+   */
+  export namespace GetCertifiedAttributes {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CertifiedAttributesResponse
+  }
+  /**
+   * @description Add a certified attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name AddCertifiedAttribute
+   * @request POST:/tenants/{tenantId}/attributes/certified
+   * @secure
+   */
+  export namespace AddCertifiedAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = CertifiedTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Adds the declared attribute to the Institution
+   * @tags tenants
+   * @name AddDeclaredAttribute
+   * @summary Adds the declared attribute to the Institution
+   * @request POST:/tenants/attributes/declared
+   * @secure
+   */
+  export namespace AddDeclaredAttribute {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DeclaredTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revokes the declared attribute to the Institution
+   * @tags tenants
+   * @name RevokeDeclaredAttribute
+   * @summary Revokes the declared attribute to the Institution
+   * @request DELETE:/tenants/attributes/declared/{attributeId}
+   * @secure
+   */
+  export namespace RevokeDeclaredAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the attribute
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Gets declared attributes for institution using internal institution id
+   * @tags tenants
+   * @name GetDeclaredAttributes
+   * @summary Gets the declared attributes of an institution using internal institution id
+   * @request GET:/tenants/{tenantId}/attributes/declared
+   * @secure
+   */
+  export namespace GetDeclaredAttributes {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DeclaredAttributesResponse
+  }
+  /**
+   * @description Gets verified attributes for institution using internal institution id
+   * @tags tenants
+   * @name GetVerifiedAttributes
+   * @summary Gets the verified attributes of an institution using internal institution id
+   * @request GET:/tenants/{tenantId}/attributes/verified
+   * @secure
+   */
+  export namespace GetVerifiedAttributes {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = VerifiedAttributesResponse
+  }
+  /**
+   * @description Adds the verified attribute to the Institution
+   * @tags tenants
+   * @name VerifyVerifiedAttribute
+   * @summary Adds the verified attribute to the Institution
+   * @request POST:/tenants/{tenantId}/attributes/verified
+   * @secure
+   */
+  export namespace VerifyVerifiedAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = VerifiedTenantAttributeSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revoke a certified attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name RevokeCertifiedAttribute
+   * @request DELETE:/tenants/{tenantId}/attributes/certified/{attributeId}
+   * @secure
+   */
+  export namespace RevokeCertifiedAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Update expirationDate for Verified Attribute of Tenant
+   * @tags tenants
+   * @name UpdateVerifiedAttribute
+   * @summary Update expirationDate for Verified Attribute of Tenant
+   * @request POST:/tenants/{tenantId}/attributes/verified/{attributeId}
+   * @secure
+   */
+  export namespace UpdateVerifiedAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateVerifiedTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revoke a Verified attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name RevokeVerifiedAttribute
+   * @request DELETE:/tenants/{tenantId}/attributes/verified/{attributeId}
+   * @secure
+   */
+  export namespace RevokeVerifiedAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RevokeVerifiedAttributePayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Gets institution using internal institution id
+   * @tags tenants
+   * @name GetTenant
+   * @summary Gets the corresponding institution using internal institution id
+   * @request GET:/tenants/{tenantId}
+   * @secure
+   */
+  export namespace GetTenant {
+    export type RequestParams = {
+      /**
+       * the tenant id
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Tenant
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name AddTenantMail
+   * @summary Add a tenant mail
+   * @request POST:/tenants/{tenantId}/mails
+   * @secure
+   */
+  export namespace AddTenantMail {
+    export type RequestParams = {
+      /**
+       * the tenant id
+       * @format uuid
+       */
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = MailSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name DeleteTenantMail
+   * @summary Delete a tenant mail
+   * @request DELETE:/tenants/{tenantId}/mails/{mailId}
+   * @secure
+   */
+  export namespace DeleteTenantMail {
+    export type RequestParams = {
+      /**
+       * the tenant id
+       * @format uuid
+       */
+      tenantId: string
+      /** the mail id */
+      mailId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Retrieve Tenants by name
+   * @tags tenants
+   * @name GetTenants
+   * @request GET:/tenants
+   * @secure
+   */
+  export namespace GetTenants {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      name?: string
+      /**
+       * comma separated feature types to filter the teanants with
+       * @default []
+       */
+      features?: TenantFeatureType[]
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Tenants
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name AssignTenantDelegatedConsumerFeature
+   * @summary Assign delegated consumer feature to tenant caller
+   * @request POST:/tenants/delegatedConsumer
+   * @secure
+   */
+  export namespace AssignTenantDelegatedConsumerFeature {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name DeleteTenantDelegatedConsumerFeature
+   * @summary Delete delegated consumer feature to tenant caller
+   * @request DELETE:/tenants/delegatedConsumer
+   * @secure
+   */
+  export namespace DeleteTenantDelegatedConsumerFeature {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name AssignTenantDelegatedProducerFeature
+   * @summary Assign delegated producer feature to tenant caller
+   * @request POST:/tenants/delegatedProducer
+   * @secure
+   */
+  export namespace AssignTenantDelegatedProducerFeature {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags tenants
+   * @name DeleteTenantDelegatedProducerFeature
+   * @summary Delete delegated producer feature to tenant caller
+   * @request DELETE:/tenants/delegatedProducer
+   * @secure
+   */
+  export namespace DeleteTenantDelegatedProducerFeature {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
 }
 
@@ -2930,8 +3398,8 @@ export namespace Catalog {
       agreementStates?: AgreementState[]
       /** EService Mode filter */
       mode?: EServiceMode
-      /** EService isDelegable filter */
-      isDelegable?: boolean
+      /** EService isConsumerDelegable filter */
+      isConsumerDelegable?: boolean
       /**
        * @format int32
        * @min 0
@@ -2977,69 +3445,6 @@ export namespace Catalog {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CatalogEServiceDescriptor
-  }
-}
-
-export namespace Consumers {
-  /**
-   * @description Retrieve Tenants that are subscribed to at least one EService
-   * @tags tenants
-   * @name GetConsumers
-   * @request GET:/consumers
-   * @secure
-   */
-  export namespace GetConsumers {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      q?: string
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CompactOrganizations
-  }
-  /**
-   * @description Retrieves eservices for consumers in agreements
-   * @tags agreements
-   * @name GetAgreementEServiceConsumers
-   * @summary Retrieves eservices for consumers in agreements
-   * @request GET:/consumers/agreements/eservices
-   * @secure
-   */
-  export namespace GetAgreementEServiceConsumers {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      /** Query to filter EServices by name */
-      q?: string
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CompactEServicesLight
   }
 }
 
@@ -4021,460 +4426,6 @@ export namespace Session {
   }
 }
 
-export namespace Tenants {
-  /**
-   * @description Return ok
-   * @tags selfcare
-   * @name GetInstitutionUsers
-   * @summary returns the users related to the institution
-   * @request GET:/tenants/{tenantId}/users
-   * @secure
-   */
-  export namespace GetInstitutionUsers {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestQuery = {
-      /**
-       * the person identifier
-       * @format uuid
-       */
-      personId?: string
-      /**
-       * comma separated sequence of role to filter the response with
-       * @default []
-       */
-      roles?: string[]
-      /** filter applied to name/surname */
-      query?: string
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = Users
-  }
-  /**
-   * @description Retrieve the certified attributes
-   * @tags tenants
-   * @name GetRequesterCertifiedAttributes
-   * @summary Gets the certified attributes of the requester
-   * @request GET:/tenants/attributes/certified
-   * @secure
-   */
-  export namespace GetRequesterCertifiedAttributes {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = RequesterCertifiedAttributes
-  }
-  /**
-   * @description Gets certified attributes for institution using internal institution id
-   * @tags tenants
-   * @name GetCertifiedAttributes
-   * @summary Gets the certified attributes of an institution using internal institution id
-   * @request GET:/tenants/{tenantId}/attributes/certified
-   * @secure
-   */
-  export namespace GetCertifiedAttributes {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CertifiedAttributesResponse
-  }
-  /**
-   * @description Add a certified attribute to a Tenant by the requester Tenant
-   * @tags tenants
-   * @name AddCertifiedAttribute
-   * @request POST:/tenants/{tenantId}/attributes/certified
-   * @secure
-   */
-  export namespace AddCertifiedAttribute {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = CertifiedTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
-  }
-  /**
-   * @description Adds the declared attribute to the Institution
-   * @tags tenants
-   * @name AddDeclaredAttribute
-   * @summary Adds the declared attribute to the Institution
-   * @request POST:/tenants/attributes/declared
-   * @secure
-   */
-  export namespace AddDeclaredAttribute {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = DeclaredTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
-  }
-  /**
-   * @description Revokes the declared attribute to the Institution
-   * @tags tenants
-   * @name RevokeDeclaredAttribute
-   * @summary Revokes the declared attribute to the Institution
-   * @request DELETE:/tenants/attributes/declared/{attributeId}
-   * @secure
-   */
-  export namespace RevokeDeclaredAttribute {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the attribute
-       * @format uuid
-       */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
-  }
-  /**
-   * @description Gets declared attributes for institution using internal institution id
-   * @tags tenants
-   * @name GetDeclaredAttributes
-   * @summary Gets the declared attributes of an institution using internal institution id
-   * @request GET:/tenants/{tenantId}/attributes/declared
-   * @secure
-   */
-  export namespace GetDeclaredAttributes {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = DeclaredAttributesResponse
-  }
-  /**
-   * @description Gets verified attributes for institution using internal institution id
-   * @tags tenants
-   * @name GetVerifiedAttributes
-   * @summary Gets the verified attributes of an institution using internal institution id
-   * @request GET:/tenants/{tenantId}/attributes/verified
-   * @secure
-   */
-  export namespace GetVerifiedAttributes {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = VerifiedAttributesResponse
-  }
-  /**
-   * @description Adds the verified attribute to the Institution
-   * @tags tenants
-   * @name VerifyVerifiedAttribute
-   * @summary Adds the verified attribute to the Institution
-   * @request POST:/tenants/{tenantId}/attributes/verified
-   * @secure
-   */
-  export namespace VerifyVerifiedAttribute {
-    export type RequestParams = {
-      /**
-       * The internal identifier of the tenant
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = VerifiedTenantAttributeSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * @description Revoke a certified attribute to a Tenant by the requester Tenant
-   * @tags tenants
-   * @name RevokeCertifiedAttribute
-   * @request DELETE:/tenants/{tenantId}/attributes/certified/{attributeId}
-   * @secure
-   */
-  export namespace RevokeCertifiedAttribute {
-    export type RequestParams = {
-      /**
-       * Tenant id which attribute needs to be verified
-       * @format uuid
-       */
-      tenantId: string
-      /**
-       * Attribute id to be revoked
-       * @format uuid
-       */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
-  }
-  /**
-   * @description Update expirationDate for Verified Attribute of Tenant
-   * @tags tenants
-   * @name UpdateVerifiedAttribute
-   * @summary Update expirationDate for Verified Attribute of Tenant
-   * @request POST:/tenants/{tenantId}/attributes/verified/{attributeId}
-   * @secure
-   */
-  export namespace UpdateVerifiedAttribute {
-    export type RequestParams = {
-      /**
-       * Tenant id which attribute needs to be verified
-       * @format uuid
-       */
-      tenantId: string
-      /**
-       * Attribute id to be revoked
-       * @format uuid
-       */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateVerifiedTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
-  }
-  /**
-   * @description Revoke a Verified attribute to a Tenant by the requester Tenant
-   * @tags tenants
-   * @name RevokeVerifiedAttribute
-   * @request DELETE:/tenants/{tenantId}/attributes/verified/{attributeId}
-   * @secure
-   */
-  export namespace RevokeVerifiedAttribute {
-    export type RequestParams = {
-      /**
-       * Tenant id which attribute needs to be verified
-       * @format uuid
-       */
-      tenantId: string
-      /**
-       * Attribute id to be revoked
-       * @format uuid
-       */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RevokeVerifiedAttributePayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
-  }
-  /**
-   * @description Gets institution using internal institution id
-   * @tags tenants
-   * @name GetTenant
-   * @summary Gets the corresponding institution using internal institution id
-   * @request GET:/tenants/{tenantId}
-   * @secure
-   */
-  export namespace GetTenant {
-    export type RequestParams = {
-      /**
-       * the tenant id
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = Tenant
-  }
-  /**
-   * No description
-   * @tags tenants
-   * @name AddTenantMail
-   * @summary Add a tenant mail
-   * @request POST:/tenants/{tenantId}/mails
-   * @secure
-   */
-  export namespace AddTenantMail {
-    export type RequestParams = {
-      /**
-       * the tenant id
-       * @format uuid
-       */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = MailSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * No description
-   * @tags tenants
-   * @name DeleteTenantMail
-   * @summary Delete a tenant mail
-   * @request DELETE:/tenants/{tenantId}/mails/{mailId}
-   * @secure
-   */
-  export namespace DeleteTenantMail {
-    export type RequestParams = {
-      /**
-       * the tenant id
-       * @format uuid
-       */
-      tenantId: string
-      /** the mail id */
-      mailId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * @description Retrieve Tenants by name
-   * @tags tenants
-   * @name GetTenants
-   * @request GET:/tenants
-   * @secure
-   */
-  export namespace GetTenants {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      name?: string
-      /**
-       * comma separated feature types to filter the teanants with
-       * @default []
-       */
-      features?: TenantFeatureType[]
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = Tenants
-  }
-  /**
-   * No description
-   * @tags tenants
-   * @name AssignTenantDelegatedConsumerFeature
-   * @summary Assign delegated consumer feature to tenant caller
-   * @request POST:/tenants/delegatedConsumer
-   * @secure
-   */
-  export namespace AssignTenantDelegatedConsumerFeature {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * No description
-   * @tags tenants
-   * @name DeleteTenantDelegatedConsumerFeature
-   * @summary Delete delegated consumer feature to tenant caller
-   * @request DELETE:/tenants/delegatedConsumer
-   * @secure
-   */
-  export namespace DeleteTenantDelegatedConsumerFeature {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = void
-  }
-  /**
-   * No description
-   * @tags tenants
-   * @name AssignTenantDelegatedProducerFeature
-   * @summary Assign delegated producer feature to tenant caller
-   * @request POST:/tenants/delegatedProducer
-   * @secure
-   */
-  export namespace AssignTenantDelegatedProducerFeature {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
-  }
-  /**
-   * No description
-   * @tags tenants
-   * @name DeleteTenantDelegatedProducerFeature
-   * @summary Delete delegated producer feature to tenant caller
-   * @request DELETE:/tenants/delegatedProducer
-   * @secure
-   */
-  export namespace DeleteTenantDelegatedProducerFeature {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
-  }
-}
-
 export namespace Tools {
   /**
    * @description Provides additional details about token generation request failure
@@ -4825,6 +4776,53 @@ export namespace Purposes {
       'X-Correlation-Id': string
     }
     export type ResponseBody = RiskAnalysisFormConfig
+  }
+}
+
+export namespace Consumer {
+  /**
+   * @description Retrieve Purposes from the consumer prospective
+   * @tags purposes
+   * @name GetConsumerPurposes
+   * @request GET:/consumer/purposes
+   * @secure
+   */
+  export namespace GetConsumerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of producers IDs
+       * @default []
+       */
+      producersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Purposes
   }
 }
 
