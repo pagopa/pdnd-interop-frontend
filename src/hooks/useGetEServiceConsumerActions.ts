@@ -3,7 +3,6 @@ import type {
   CatalogEService,
   CatalogEServiceDescriptor,
   DelegationTenant,
-  EServiceDescriptorState,
 } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
@@ -22,7 +21,7 @@ import { useDialog } from '@/stores'
 
 function useGetEServiceConsumerActions(
   eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
-  descriptor?: { id: string; state: EServiceDescriptorState; version: string },
+  descriptor?: CatalogEServiceDescriptor,
   delegators?: Array<DelegationTenant>
 ) {
   const { t } = useTranslation('eservice')
@@ -38,8 +37,10 @@ function useGetEServiceConsumerActions(
   const isMine = Boolean(eservice?.isMine)
   const isSubscribed = checkIfAlreadySubscribed(eservice)
   const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
-  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor?.state)
+  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor)
   const isSuspended = descriptor?.state === 'SUSPENDED'
+
+  const hasCertifiedAttributes = descriptor?.eservice.hasCertifiedAttributes
 
   const actions: Array<ActionItemButton> = []
 
@@ -157,7 +158,7 @@ function useGetEServiceConsumerActions(
     // ...the e-service is not owned by the active party...
     !isMine &&
     // ... the party doesn't own all the certified attributes required...
-    !eservice.hasCertifiedAttributes &&
+    !hasCertifiedAttributes &&
     // ... the e-service's latest active descriptor is the actual descriptor the user is viewing...
     eservice.activeDescriptor?.id === descriptor?.id &&
     /// ... and it is not archived.

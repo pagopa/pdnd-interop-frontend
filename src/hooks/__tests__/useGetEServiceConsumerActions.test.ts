@@ -1,10 +1,6 @@
 import useGetEServiceConsumerActions from '../useGetEServiceConsumerActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
-import type {
-  CatalogEService,
-  CatalogEServiceDescriptor,
-  EServiceDescriptorState,
-} from '@/api/api.generatedTypes'
+import type { CatalogEService, CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 import {
   createMockEServiceCatalog,
   createMockEServiceDescriptorCatalog,
@@ -41,7 +37,7 @@ afterAll(() => {
 
 function renderUseGetEServiceConsumerActionsHook(
   eserviceMock?: CatalogEService | CatalogEServiceDescriptor['eservice'],
-  descriptorMock?: { id: string; state: EServiceDescriptorState; version: string }
+  descriptorMock?: CatalogEServiceDescriptor
 ) {
   return renderHookWithApplicationContext(
     () => useGetEServiceConsumerActions(eserviceMock, descriptorMock),
