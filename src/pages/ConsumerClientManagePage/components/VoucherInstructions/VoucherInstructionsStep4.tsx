@@ -32,7 +32,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
   const eserviceName = purpose ? purpose.eservice.name : ''
   const producer = purpose ? purpose.eservice.producer.name : ''
 
-  const producerId = AuthHooks.useJwt().jwt?.organizationId
+  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
 
   const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
     ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)

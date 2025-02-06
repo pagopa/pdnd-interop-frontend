@@ -26,8 +26,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
 
-  const producerId = AuthHooks.useJwt().jwt?.organizationId
-
+  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
   const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
     ? SIGNALHUB_WHITELIST_CONSUMER.includes(producerId)
     : true
