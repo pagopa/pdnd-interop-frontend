@@ -179,7 +179,7 @@
           "undefined": "No, it is not available"
         }
       },
-      "isDelegable": {
+      "isConsumerDelegable": {
         "label": "Can the e-service be used via delegation?",
         "value": {
           "true": "Yes",

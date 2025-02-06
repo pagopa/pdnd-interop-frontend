@@ -179,7 +179,7 @@
           "undefined": "No, non è disponibile"
         }
       },
-      "isDelegable": {
+      "isConsumerDelegable": {
         "label": "L’e-service può essere fruito tramite delega?",
         "value": {
           "true": "Sì",

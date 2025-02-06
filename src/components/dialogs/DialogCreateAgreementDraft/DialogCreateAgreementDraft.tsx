@@ -1,4 +1,4 @@
-import { AgreementMutations, AgreementQueries } from '@/api/agreement'
+import { AgreementMutations } from '@/api/agreement'
 import { AuthHooks } from '@/api/auth'
 import { useNavigate } from '@/router'
 import { useDialog } from '@/stores'
@@ -21,6 +21,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { DelegationQueries } from '@/api/delegation'
 import type { DelegationTenant } from '@/api/api.generatedTypes'
 import { DialogCreateAgreementAutocomplete } from './DialogCreateAgreementDraftAutocomplete'
+import { TenantQueries } from '@/api/tenant'
 
 type CreateAgreementDraftFormValues = {
   consumerId: string
@@ -64,7 +65,7 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
   })
 
   const { data: hasTenantCertifiedAttributes } = useQuery({
-    ...AgreementQueries.getHasTenantCertifiedAttributes({
+    ...TenantQueries.getHasTenantCertifiedAttributes({
       eserviceId: eservice.id,
       descriptorId: descriptor.id,
       tenantId: selectedConsumerId,

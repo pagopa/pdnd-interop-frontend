@@ -23,8 +23,25 @@ function getTenants(params: GetTenantsParams) {
   })
 }
 
+function getHasTenantCertifiedAttributes({
+  tenantId,
+  eserviceId,
+  descriptorId,
+}: {
+  tenantId: string
+  eserviceId: string
+  descriptorId: string
+}) {
+  return queryOptions({
+    queryKey: ['PartyGetHasTenantCertifiedAttributes', { tenantId, eserviceId, descriptorId }],
+    queryFn: () =>
+      TenantServices.verifyTenantCertifiedAttributes({ tenantId, eserviceId, descriptorId }),
+  })
+}
+
 export const TenantQueries = {
   getParty,
   getTenants,
   getPartyUsersList,
+  getHasTenantCertifiedAttributes,
 }

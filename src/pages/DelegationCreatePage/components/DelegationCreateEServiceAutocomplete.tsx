@@ -73,7 +73,7 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
-      isDelegable: true,
+      isConsumerDelegable: true,
     }),
     enabled: delegationKind === 'DELEGATED_CONSUMER',
     select: (d) => d.results ?? [],

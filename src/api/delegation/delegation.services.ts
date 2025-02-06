@@ -64,7 +64,7 @@ async function revokeProducerDelegation({ delegationId }: { delegationId: string
 
 async function approveConsumerDelegation({ delegationId }: { delegationId: string }) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/${delegationId}/approve`
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}/approve`
   )
 }
 
@@ -73,7 +73,7 @@ async function rejectConsumerDelegation({
   ...payload
 }: { delegationId: string } & RejectDelegationPayload) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/${delegationId}/reject`,
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}/reject`,
     payload
   )
 }
@@ -108,7 +108,7 @@ async function createProducerDelegationAndEservice({
 
 async function createConsumerDelegation(payload: DelegationSeed) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations`,
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations`,
     payload
   )
 
@@ -116,7 +116,7 @@ async function createConsumerDelegation(payload: DelegationSeed) {
 }
 async function getConsumerDelegators(params: GetConsumerDelegatorsParams) {
   const response = await axiosInstance.get<DelegationTenants>(
-    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/delegators`,
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/delegators`,
     { params }
   )
 
@@ -126,7 +126,7 @@ async function getConsumerDelegatorsWithAgreements(
   params: GetConsumerDelegatorsWithAgreementsParams
 ) {
   const response = await axiosInstance.get<DelegationTenants>(
-    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/delegatorsWithAgreements`,
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/delegatorsWithAgreements`,
     { params }
   )
 
@@ -135,7 +135,7 @@ async function getConsumerDelegatorsWithAgreements(
 
 async function getConsumerDelegatedEservices(params: GetConsumerDelegatedEservicesParams) {
   const response = await axiosInstance.get<CompactEServices>(
-    `${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/eservices`,
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/eservices`,
     { params }
   )
 
@@ -143,7 +143,7 @@ async function getConsumerDelegatedEservices(params: GetConsumerDelegatedEservic
 }
 
 async function revokeConsumerDelegation({ delegationId }: { delegationId: string }) {
-  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/consumer/delegations/${delegationId}`)
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}`)
 }
 
 export const DelegationServices = {

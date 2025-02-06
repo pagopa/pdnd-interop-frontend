@@ -3,6 +3,7 @@ import axiosInstance from '@/config/axios'
 import type {
   GetInstitutionUsersParams,
   GetTenantsParams,
+  HasCertifiedAttributes,
   MailSeed,
   Tenant,
   Tenants,
@@ -57,6 +58,22 @@ function deleteTenantDelegatedConsumerFeature() {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedConsumer`)
 }
 
+async function verifyTenantCertifiedAttributes({
+  tenantId,
+  eserviceId,
+  descriptorId,
+}: {
+  tenantId: string
+  eserviceId: string
+  descriptorId: string
+}) {
+  const response = await axiosInstance.post<HasCertifiedAttributes>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/eservices/${eserviceId}/descriptors/${descriptorId}/certifiedAttributes/validate`
+  )
+
+  return response.data
+}
+
 export const TenantServices = {
   getParty,
   getPartyUsersList,
@@ -66,4 +83,5 @@ export const TenantServices = {
   deleteTenantDelegatedProducerFeature,
   assignTenantDelegatedConsumerFeature,
   deleteTenantDelegatedConsumerFeature,
+  verifyTenantCertifiedAttributes,
 }

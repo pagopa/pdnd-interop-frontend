@@ -30,7 +30,7 @@ export type EServiceCreateStepGeneralFormValues = {
   technology: EServiceTechnology
   mode: EServiceMode
   isSignalHubEnabled: boolean
-  isDelegable: boolean
+  isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
 }
 
@@ -60,7 +60,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     technology: descriptor?.eservice.technology ?? 'REST',
     mode: eserviceMode,
     isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
-    isDelegable: descriptor?.eservice.isDelegable ?? false,
+    isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
     isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
   }
 
@@ -212,13 +212,13 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           >
             <RHFSwitch
               label={t('create.step1.delegationSection.delegationField.switchLabel')}
-              name="isDelegable"
+              name="isConsumerDelegable"
               disabled={!areEServiceGeneralInfoEditable}
               sx={{ my: 0 }}
             />
           </SectionContainer>
 
-          {formMethods.watch('isDelegable') && (
+          {formMethods.watch('isConsumerDelegable') && (
             <SectionContainer
               innerSection
               title={t('create.step1.delegationSection.clientAccessDelegableField.label')}

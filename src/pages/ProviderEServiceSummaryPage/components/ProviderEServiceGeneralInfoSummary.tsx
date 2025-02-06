@@ -38,8 +38,8 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         />
       )}
       <InformationContainer
-        label={t('isDelegable.label')}
-        content={t(`isDelegable.value.${descriptor.eservice.isDelegable}`)}
+        label={t('isConsumerDelegable.label')}
+        content={t(`isConsumerDelegable.value.${descriptor.eservice.isConsumerDelegable}`)}
       />
       <InformationContainer
         label={t('isClientAccessDelegable.label')}
