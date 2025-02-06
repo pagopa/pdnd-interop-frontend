@@ -12,7 +12,7 @@ import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersi
 import EditIcon from '@mui/icons-material/Edit'
 import { ProviderEServiceUpdateDescriptionDrawer } from './ProviderEServiceUpdateDescriptionDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
@@ -27,7 +27,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  const { isDelegator } = useGetDelegationUserRole({
+  const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId,
     organizationId: jwt?.organizationId,
   })

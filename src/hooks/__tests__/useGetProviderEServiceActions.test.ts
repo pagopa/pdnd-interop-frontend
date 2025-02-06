@@ -7,7 +7,7 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import type { CompactDelegation, ProducerEService } from '@/api/api.generatedTypes'
-import * as hooks from '@/hooks/useGetDelegationUserRole'
+import * as hooks from '@/hooks/useGetProducerDelegationUserRole'
 
 mockUseJwt({ isAdmin: true })
 
@@ -20,7 +20,7 @@ const mockUseGetDelegationUserRole = ({
   isDelegate?: boolean
   producerDelegations?: CompactDelegation[]
 }) => {
-  vi.spyOn(hooks, 'useGetDelegationUserRole').mockReturnValue({
+  vi.spyOn(hooks, 'useGetProducerDelegationUserRole').mockReturnValue({
     isDelegator,
     isDelegate,
     producerDelegations,
@@ -64,7 +64,9 @@ function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerES
         descriptorMock.draftDescriptor?.state,
         descriptorMock.activeDescriptor?.id,
         descriptorMock.draftDescriptor?.id,
-        descriptorMock.mode
+        descriptorMock.mode,
+        descriptorMock.name,
+        descriptorMock.delegation
       ),
     {
       withReactQueryContext: true,
