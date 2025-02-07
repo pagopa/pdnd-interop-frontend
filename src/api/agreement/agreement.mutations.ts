@@ -9,10 +9,12 @@ function useCreateDraft(hasConfirmationDialog = true) {
     mutationFn: ({
       eserviceId,
       descriptorId,
+      delegationId,
     }: {
       eserviceName: string
       eserviceVersion: string | undefined
-    } & AgreementPayload) => AgreementServices.createDraft({ eserviceId, descriptorId }),
+    } & AgreementPayload) =>
+      AgreementServices.createDraft({ eserviceId, descriptorId, delegationId }),
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),

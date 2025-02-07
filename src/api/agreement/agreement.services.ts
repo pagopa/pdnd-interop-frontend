@@ -79,10 +79,10 @@ async function getConsumerEServiceList(params: GetAgreementEServiceConsumersPara
   return response.data
 }
 
-async function createDraft({ eserviceId, descriptorId }: AgreementPayload) {
+async function createDraft({ eserviceId, descriptorId, delegationId }: AgreementPayload) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements`,
-    { eserviceId, descriptorId }
+    { eserviceId, descriptorId, delegationId }
   )
   return response.data
 }
@@ -104,8 +104,8 @@ async function submitDraft({
  * This is used to subscribe to an e-service that is owned by the subscriber itself.
  * It skips the draft creation and directly submits the agreement.
  */
-async function submitToOwnEService({ eserviceId, descriptorId }: AgreementPayload) {
-  const response = await createDraft({ eserviceId, descriptorId })
+async function submitToOwnEService({ eserviceId, descriptorId, delegationId }: AgreementPayload) {
+  const response = await createDraft({ eserviceId, descriptorId, delegationId })
   //!!! Temporary, in order to avoid eventual consistency issues.
   await waitFor(2000)
   return await submitDraft({ agreementId: response.id })
