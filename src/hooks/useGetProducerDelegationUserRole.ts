@@ -8,7 +8,7 @@ export function useGetProducerDelegationUserRole({
   eserviceId: string | undefined
   organizationId: string | undefined
 }) {
-  const { data: producerDelegations } = useQuery({
+  const { data: producerDelegations = [] } = useQuery({
     ...DelegationQueries.getList({
       eserviceIds: [eserviceId as string],
       states: ['ACTIVE'],
@@ -17,7 +17,7 @@ export function useGetProducerDelegationUserRole({
       limit: 50,
     }),
     enabled: Boolean(eserviceId),
-    select: (delegations) => delegations.results,
+    select: (delegations) => delegations.results ?? [],
   })
 
   const isDelegate = Boolean(

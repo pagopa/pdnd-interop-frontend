@@ -22,7 +22,8 @@ import { useDialog } from '@/stores'
 function useGetEServiceConsumerActions(
   eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
   descriptor?: CatalogEServiceDescriptor,
-  delegators?: Array<DelegationTenant>
+  delegators?: Array<DelegationTenant>,
+  isDelegator?: boolean
 ) {
   const { t } = useTranslation('eservice')
   const { isAdmin } = AuthHooks.useJwt()
@@ -122,7 +123,7 @@ function useGetEServiceConsumerActions(
     }
   }
 
-  if (hasAgreementDraft) {
+  if (hasAgreementDraft && !isDelegator) {
     return {
       actions: [
         {
@@ -135,7 +136,7 @@ function useGetEServiceConsumerActions(
   }
 
   if (
-    (canCreateAgreementDraft && (delegators?.length === 0 || !delegators)) ||
+    (canCreateAgreementDraft && !isDelegator && (delegators?.length === 0 || !delegators)) ||
     (delegators && delegators?.length > 0)
   ) {
     return {
@@ -162,7 +163,9 @@ function useGetEServiceConsumerActions(
     // ... the e-service's latest active descriptor is the actual descriptor the user is viewing...
     eservice.activeDescriptor?.id === descriptor?.id &&
     /// ... and it is not archived.
-    descriptor?.state !== 'ARCHIVED'
+    descriptor?.state !== 'ARCHIVED' &&
+    /// ... and it is not delegator
+    !isDelegator
 
   if (shouldShowhasMissingAttributesTooltip) {
     return {

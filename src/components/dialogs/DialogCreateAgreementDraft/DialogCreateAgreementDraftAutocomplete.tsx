@@ -21,6 +21,20 @@ export const DialogCreateAgreementAutocomplete: React.FC<
   })
   const { jwt } = AuthHooks.useJwt()
 
+  const { data: delegations = [] } = useQuery({
+    ...DelegationQueries.getList({
+      limit: 50,
+      offset: 0,
+      eserviceIds: [eserviceId],
+      kind: 'DELEGATED_CONSUMER',
+      states: ['ACTIVE'],
+      delegatorIds: [jwt?.organizationId as string],
+    }),
+    enabled: Boolean(jwt?.organizationId),
+    select: ({ results }) => results ?? [],
+  })
+  const isDelegator = delegations.length > 0
+
   const selectedConsumerRef = React.useRef<DelegationTenant | undefined>(preselectedConsumer)
   const hasSetFirstConsumer = React.useRef(Boolean(preselectedConsumer))
 
@@ -75,9 +89,10 @@ export const DialogCreateAgreementAutocomplete: React.FC<
     value: delegator.id,
   }))
 
-  const autocompleteOptions = jwt
-    ? [{ label: jwt.organization.name, value: jwt.organizationId }, ...delegatorsOptions]
-    : [...delegatorsOptions]
+  const autocompleteOptions =
+    jwt && !isDelegator
+      ? [{ label: jwt.organization.name, value: jwt.organizationId }, ...delegatorsOptions]
+      : [...delegatorsOptions]
 
   return (
     <RHFAutocompleteSingle

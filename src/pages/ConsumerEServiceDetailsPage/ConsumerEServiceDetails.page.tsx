@@ -35,10 +35,30 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       eserviceIds: [eserviceId],
     }),
     enabled: Boolean(jwt?.organizationId),
-    select: ({ results }) => results,
+    select: ({ results }) => results ?? [],
   })
 
-  const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor, delegators)
+  const { data: delegations = [] } = useQuery({
+    ...DelegationQueries.getList({
+      limit: 50,
+      offset: 0,
+      eserviceIds: [eserviceId],
+      kind: 'DELEGATED_CONSUMER',
+      states: ['ACTIVE'],
+      delegatorIds: [jwt?.organizationId as string],
+    }),
+    enabled: Boolean(jwt?.organizationId),
+    select: ({ results }) => results ?? [],
+  })
+
+  const isDelegator = delegations.length > 0
+
+  const { actions } = useGetEServiceConsumerActions(
+    descriptor?.eservice,
+    descriptor,
+    delegators,
+    isDelegator
+  )
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,
