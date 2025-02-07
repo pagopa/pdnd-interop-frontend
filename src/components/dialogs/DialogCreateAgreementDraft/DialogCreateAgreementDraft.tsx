@@ -84,6 +84,7 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
         {
           eserviceId: eservice.id,
           descriptorId: descriptor.id,
+          delegationId: delegations?.[0]?.id,
         },
         {
           onSuccess({ id }) {
@@ -123,16 +124,18 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
 
           <DialogContent>
             <Stack spacing={2}>
-              <Trans
-                components={{
-                  strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-                }}
-              >
-                {t('description', {
-                  eserviceName: eservice.name,
-                  eserviceVersion: descriptor.version,
-                })}
-              </Trans>
+              <Typography>
+                <Trans
+                  components={{
+                    strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+                  }}
+                >
+                  {t('description', {
+                    eserviceName: eservice.name,
+                    eserviceVersion: descriptor.version,
+                  })}
+                </Trans>
+              </Typography>
               <DialogCreateAgreementAutocomplete
                 eserviceId={eservice.id}
                 preselectedConsumer={
