@@ -17,6 +17,7 @@ import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { DelegationQueries } from '@/api/delegation'
 
 const ConsumerPurposesListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposesList' })
@@ -92,14 +93,19 @@ const ConsumerPurposesListPage: React.FC = () => {
     consumersIds: [jwt?.organizationId] as Array<string>,
   }
 
-  const { data: hasActiveEService } = useQuery({
+  const { data: hasActiveEServices } = useQuery({
     ...EServiceQueries.getCatalogList({
       agreementStates: ['ACTIVE'],
       states: ['PUBLISHED'],
-      limit: 50,
+      limit: 1,
       offset: 0,
     }),
     select: (activeEServices) => activeEServices.results.length > 0,
+  })
+
+  const { data: hasDelegatedEServices = [] } = useQuery({
+    ...DelegationQueries.getConsumerDelegatorsWithAgreements({ limit: 1, offset: 0 }),
+    select: (delegatorsWithAgreements) => delegatorsWithAgreements.results.length > 0,
   })
 
   const topSideActions: Array<ActionItemButton> = [
@@ -108,8 +114,11 @@ const ConsumerPurposesListPage: React.FC = () => {
       label: tCommon('createNewBtn'),
       icon: PlusOneIcon,
       variant: 'contained',
-      disabled: !hasActiveEService,
-      tooltip: !hasActiveEService ? tPurpose('cantCreatePurposeTooltip') : undefined,
+      disabled: !hasActiveEServices && !hasDelegatedEServices,
+      tooltip:
+        !hasActiveEServices && !hasDelegatedEServices
+          ? tPurpose('cantCreatePurposeTooltip')
+          : undefined,
     },
   ]
 
