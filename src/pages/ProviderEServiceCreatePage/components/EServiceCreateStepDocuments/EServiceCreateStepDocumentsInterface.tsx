@@ -90,6 +90,7 @@ export function EServiceCreateStepDocumentsInterface() {
         bgcolor="common.white"
       >
         <RHFSingleFileInput
+          dropzoneButton="TBD"
           sx={{ my: 0 }}
           name="interfaceDoc"
           label={t('create.step4.uploadFileField.label')}

@@ -6,6 +6,7 @@ import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 
 const singleFileInputProps = {
   name: 'testFile',
+  dropzoneButton: 'TBD',
 }
 
 describe('determine whether the integration between react-hook-form and MUI’s Switch works', () => {
@@ -39,7 +40,8 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     )
 
     const fileInput = singleFileInput.getByRole('button') as HTMLInputElement
-    expect(fileInput).toBeInTheDocument()
+
+    expect(fileInput).not.toBeInTheDocument()
 
     await waitFor(() => {
       fireEvent.change(fileInput, { target: { files: [file] } })
