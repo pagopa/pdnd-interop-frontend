@@ -94,9 +94,17 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
           <Stack spacing={2}>
             <InformationContainer
               label={t('eserviceNameField.label')}
-              content={match({ lastDescriptor, delegationState: delegation.state })
+              content={match({
+                lastDescriptor,
+                delegationState: delegation.state,
+                delegationKind: delegation.kind,
+              })
                 .with(
-                  { lastDescriptor: { state: 'DRAFT' }, delegationState: 'ACTIVE' },
+                  {
+                    lastDescriptor: { state: 'DRAFT' },
+                    delegationState: 'ACTIVE',
+                    delegationKind: 'DELEGATED_PRODUCER',
+                  },
                   ({ lastDescriptor }) => (
                     <Link
                       to="PROVIDE_ESERVICE_SUMMARY"
@@ -110,7 +118,11 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
                   )
                 )
                 .with(
-                  { lastDescriptor: { state: P.not('DRAFT') }, delegationState: 'ACTIVE' },
+                  {
+                    lastDescriptor: { state: P.not('DRAFT') },
+                    delegationState: 'ACTIVE',
+                    delegationKind: 'DELEGATED_PRODUCER',
+                  },
                   ({ lastDescriptor }) => (
                     <Link
                       to="PROVIDE_ESERVICE_MANAGE"
@@ -127,6 +139,25 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
                   {
                     lastDescriptor: { state: P.union('PUBLISHED', 'SUSPENDED') },
                     delegationState: P.not('ACTIVE'),
+                    delegationKind: 'DELEGATED_PRODUCER',
+                  },
+                  ({ lastDescriptor }) => (
+                    <Link
+                      to="SUBSCRIBE_CATALOG_VIEW"
+                      params={{
+                        eserviceId: delegation.eservice?.id as string,
+                        descriptorId: lastDescriptor.id,
+                      }}
+                    >
+                      {delegation.eservice?.name}
+                    </Link>
+                  )
+                )
+                .with(
+                  {
+                    lastDescriptor: { state: P.union('PUBLISHED', 'SUSPENDED') },
+                    delegationState: 'ACTIVE',
+                    delegationKind: 'DELEGATED_CONSUMER',
                   },
                   ({ lastDescriptor }) => (
                     <Link
