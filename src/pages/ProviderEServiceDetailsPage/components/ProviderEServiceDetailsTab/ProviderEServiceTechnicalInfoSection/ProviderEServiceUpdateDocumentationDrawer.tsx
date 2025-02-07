@@ -202,7 +202,13 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
               {t('addDocumentLabel')}
             </Typography>
 
-            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} drawerStyle />
+            <RHFSingleFileInput
+              dropzoneButton="TBD"
+              sx={{ my: 0 }}
+              name="doc"
+              rules={{ required: true }}
+              drawerStyle
+            />
 
             <RHFTextField
               size="small"

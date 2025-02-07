@@ -116,7 +116,12 @@ export function EServiceCreateStepDocumentsDoc() {
             sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
             bgcolor="common.white"
           >
-            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
+            <RHFSingleFileInput
+              dropzoneButton="TBD"
+              sx={{ my: 0 }}
+              name="doc"
+              rules={{ required: true }}
+            />
 
             <RHFTextField
               size="small"
