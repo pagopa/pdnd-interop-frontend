@@ -1,1 +1,228 @@
-{}
+{
+  "backToListBtn": "Back to templates",
+  "create": {
+    "emptyTitle": "Create e-service",
+    "stepper": {
+      "step1Label": "General",
+      "step2Label": "Version",
+      "step2ReceiveLabel": "Purpose",
+      "step3Label": "Attributes",
+      "step4Label": "Documentation"
+    },
+    "backWithoutSaveBtn": "Back",
+    "forwardWithSaveBtn": "Save draft and proceed",
+    "forwardWithoutSaveBtn": "Next",
+    "goToSummary": "Go to summary",
+    "step1": {
+      "detailsTitle": "E-service details",
+      "detailsDescription": {
+        "before": "Read the",
+        "linkLabel": "guidelines",
+        "after": "to naming: your e-services will be easier to find and clearer in their goals"
+      },
+      "eserviceNameField": {
+        "label": "E-service name",
+        "infoLabel": "Min 5 chars, max 60 chars"
+      },
+      "eserviceDescriptionField": {
+        "label": "E-service description",
+        "infoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
+      },
+      "eserviceAudienceDescriptionField": {
+        "label": "A chi è rivolto il template?",
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
+      },
+      "eserviceTechnologyField": {
+        "label": "What technology is your API built with?"
+      },
+      "eserviceModeField": {
+        "label": "Does the e-service deliver or receive data?",
+        "options": {
+          "DELIVER": "Deliver",
+          "RECEIVE": "Receive"
+        },
+        "isSignalHubSuggested": {
+          "label": "Suggerisco all’implementatore di segnalare su Signal Hub le variazioni dei dati ",
+          "infoLabel": {
+            "before": "Signal Hub utilizza il servizio di push",
+            "linkLabel": "servizio di push",
+            "after": "per generare notifiche relative alle variazioni dei dati relativi all’e-service."
+          }
+        }
+      },
+      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
+    },
+    "stepPurpose": {
+      "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+      "purposeTableSection": {
+        "title": "Purpose",
+        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+        "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+        "purposeTable": {
+          "noDataLabel": "No added purpose"
+        }
+      },
+      "riskAnalysis": {
+        "riskAnalysisNameSection": {
+          "title": "Purpose",
+          "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
+          "nameField": {
+            "label": "Purpose name",
+            "infoLabel": "Max 60 chars"
+          }
+        },
+        "riskAnalysisSection": {
+          "title": "Risk analysis",
+          "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
+          "personalDataAlert": "Be careful not to enter personal data in the free text fields"
+        }
+      }
+    },
+    "step2": {
+      "versionTitle": "Informations for version {{versionNumber}}",
+      "descriptionField": {
+        "label": "What changed in this version?"
+      },
+      "voucherSection": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Validity duration (minutes)",
+          "infoLabel": "Max value: 1440 minuites (24 hours)"
+        },
+        "audienceField": {
+          "label": "Audience",
+          "infoLabel": "Represents the recipient of the voucher, i.e. your target resource. Doubts? <1>Read the guide</1>"
+        }
+      },
+      "thresholdSection": {
+        "title": "Threshold of calls expected for consumers",
+        "dailyCallsPerConsumerField": {
+          "label": "API calls/day per consumer"
+        },
+        "dailyCallsTotalField": {
+          "label": "Total API calls/day",
+          "validation": {
+            "min": "This value cannot be below the threshold set for the API calls/day for each subscriber"
+          }
+        }
+      },
+      "agreementApprovalPolicySection": {
+        "title": "Do you want to manually activate all the fruition requests received?",
+        "label": "Yes, I will activate them manually"
+      }
+    },
+    "step3": {
+      "attributesTitle": "Access requirements for version {{versionNumber}}",
+      "attributesDescription": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service",
+      "attributesAddBtn": "Add attribute",
+      "attributesCreateBtn": "Create new attribute",
+      "createAttributeDrawer": {
+        "title": {
+          "verified": "Create new verified attribute",
+          "declared": "Create new declared attribute"
+        },
+        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "nameField": {
+          "label": "Nome dell'attributo",
+          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+        },
+        "descriptionField": {
+          "label": "Descrizione dell'attributo",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri"
+        },
+        "submitBtnLabel": "Crea attributo"
+      }
+    },
+    "step4": {
+      "interface": {
+        "title": "Interface (required)",
+        "description": {
+          "rest": "Upload the OpenAPI file that descrives the API. You must ensure that your specification meets the requirements set in the ModI framework. To check, use",
+          "restLinkLabel": "the OpenAPI Checker",
+          "soap": "Upload the WSDL file that descrives the API"
+        },
+        "prettyName": "API specification"
+      },
+      "documentation": {
+        "title": "Documentation",
+        "description": "Upload the technical documents that can help implement the use of this e-service"
+      },
+      "uploadFileField": {
+        "label": "Choose document"
+      },
+      "nameField": {
+        "label": "Document name",
+        "infoLabel": "Min 5 chars, max 60 chars"
+      },
+      "uploadBtn": "Upload"
+    }
+  },
+  "summary": {
+    "title": "{{eserviceName}}, version {{versionNumber}}",
+    "generalInfoSummary": {
+      "title": "General informations",
+      "description": {
+        "label": "Description"
+      },
+      "apiTechnology": {
+        "label": "API Technology"
+      },
+      "isSignalHubEnabled": {
+        "label": "Is available the data update system (Signal Hub)? ",
+        "value": {
+          "true": "Yes, it is available",
+          "false": "No, it is not available",
+          "undefined": "No, it is not available"
+        }
+      }
+    },
+    "riskAnalysisSummaryList": {
+      "title": "Purpose",
+      "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
+    },
+    "versionInfoSummary": {
+      "title": "Version's informations",
+      "description": {
+        "label": "Description"
+      },
+      "audience": {
+        "label": "Audience"
+      },
+      "voucherLifespan": {
+        "label": "Voucher lifespan"
+      },
+      "dailyCallsPerConsumer": {
+        "label": "Daily calls per consumer",
+        "value": "{{value}} API calls per day"
+      },
+      "dailyCallsTotal": {
+        "label": "Total daily calls",
+        "value": "{{value}} API calls per day"
+      },
+      "manualApproval": {
+        "label": "Manual approval requests",
+        "value": {
+          "true": "Yes",
+          "false": "No"
+        }
+      }
+    },
+    "attributeVersionSummary": {
+      "title": "Version access requirements"
+    },
+    "documentationSummary": {
+      "title": "Version's documentations",
+      "interface": {
+        "label": "OpenAPI Interface"
+      },
+      "emptyLabel": "No uploaded documents"
+    },
+    "notPublishableTooltip": {
+      "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
+    },
+    "rejectedDelegatedVersionDraftAlert": {
+      "delegate": "The publication of this draft was rejected by the delegator. <1>Read the reasons for rejection</1> and resend the draft with the corrections.",
+      "delegator": "You have reject the publication of this draft. <1>Read the reasons for rejection here</1>."
+    }
+  }
+}

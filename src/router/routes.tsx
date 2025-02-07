@@ -46,6 +46,7 @@ import {
   DelegationDetailsPage,
   ProviderEServiceTemplatesCatalogPage,
   ProviderEServiceTemplatesListPage,
+  ProviderEServiceTemplateCreatePage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -481,6 +482,22 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_CREATE',
+    path: '/erogazione/template/crea',
+    element: <ProviderEServiceTemplateCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_EDIT',
+    path: '/erogazione/template/:eserviceTemplateId/modifica',
+    element: <ProviderEServiceTemplateCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
   })
   .build()
 

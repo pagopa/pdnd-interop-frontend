@@ -29,29 +29,34 @@ import {
   CreateStepPurpose,
   CreateStepPurposeSkeleton,
 } from '@/components/shared/CreateFormComponents/CreateStepPurpose/CreateStepPurpose'
+import { TemplateQueries } from '@/api/template'
 
-const ProviderEServiceCreatePage: React.FC = () => {
-  const { t } = useTranslation('eservice')
-  const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
+const ProviderEServiceTemplateCreatePage: React.FC = () => {
+  const { t } = useTranslation('template')
+  const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_TEMPLATE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
-  const isNewEService = !params?.descriptorId || !params?.eserviceId
+  const isNewEServiceTemplate = !params?.eserviceTemplateId
 
-  const [selectedEServiceMode, setSelectedEServiceMode] = React.useState<EServiceMode | undefined>()
+  const [selectedEServiceTemplateMode, setSelectedEServiceTemplateMode] = React.useState<
+    EServiceMode | undefined
+  >()
 
-  const { data: descriptor, isLoading: isLoadingDescriptor } = useQuery({
+  /* const { data: descriptor, isLoading: isLoadingDescriptor } = useQuery({
     ...EServiceQueries.getDescriptorProvider(
       params?.eserviceId as string,
       params?.descriptorId as string
     ),
     enabled: !isNewEService,
+  })*/
+  const { data: template, isLoading: isLoadingTemplate } = useQuery({
+    ...TemplateQueries.getSingle(params?.eserviceTemplateId as string),
+    enabled: !isNewEServiceTemplate,
   })
 
-  const eservice = descriptor?.eservice
-
   const eserviceMode =
-    selectedEServiceMode || // The mode selected by the user
-    eservice?.mode || // The mode of the e-service
+    selectedEServiceTemplateMode || // The mode selected by the user
+    template?.mode || // The mode of the e-service
     'DELIVER' // Default mode
 
   const steps: Array<StepperStep> =
@@ -73,16 +78,16 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const { component: Step } = steps[activeStep]
 
   // If this e-service is not in draft, you cannot edit it
-  if (descriptor && descriptor.state !== 'DRAFT') {
+  /*if (template && template.state !== 'DRAFT') {
     return (
       <Redirect
         to="PROVIDE_ESERVICE_MANAGE"
         params={{ eserviceId: descriptor.eservice.id, descriptorId: descriptor.id }}
       />
     )
-  }
+  }*/ //TODO
 
-  const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
+  const isReady = Boolean(isNewEServiceTemplate || (!isLoadingTemplate && template))
 
   const stepsLoadingSkeletons =
     eserviceMode === 'DELIVER'
@@ -100,29 +105,31 @@ const ProviderEServiceCreatePage: React.FC = () => {
           <CreateStepDocumentsSkeleton key={5} />,
         ]
 
-  const intro = isNewEService
+  const intro = isNewEServiceTemplate
     ? { title: t('create.emptyTitle') }
     : {
-        title: eservice?.name,
-        description: eservice?.description,
+        title: template?.name,
+        description: template?.eserviceDescription,
       }
+
+  const eserviceModeTemp: EServiceMode = eserviceMode === 'DELIVER' ? 'DELIVER' : 'RECEIVE' //TODO DA TOGLIERE
 
   return (
     <PageContainer
       {...intro}
       backToAction={{
         label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_LIST',
+        to: 'NOT_FOUND', //TODO 'PROVIDE_ESERVICE_TEMPLATE_LIST'
       }}
       isLoading={!isReady}
     >
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <CreateContextProvider
-          descriptor={descriptor}
-          formKind="eservice"
-          eserviceMode={eserviceMode}
-          onEserviceModeChange={setSelectedEServiceMode}
+          template={undefined}
+          formKind="template"
+          eserviceMode={eserviceModeTemp}
+          onEserviceModeChange={setSelectedEServiceTemplateMode}
           {...stepProps}
         >
           <Step />
@@ -133,4 +140,4 @@ const ProviderEServiceCreatePage: React.FC = () => {
   )
 }
 
-export default ProviderEServiceCreatePage
+export default ProviderEServiceTemplateCreatePage

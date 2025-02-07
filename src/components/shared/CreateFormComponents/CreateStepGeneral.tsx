@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box } from '@mui/material'
+import { Alert, Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -31,17 +31,21 @@ export type CreateStepGeneralFormValues = {
 export const CreateStepGeneral: React.FC = () => {
   const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
   const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
-  const { t } = useTranslation('eservice') //TODO
   const navigate = useNavigate()
+
+  const [isSignalHubSuggested, setIsSignalHubSuggested] = React.useState(false)
 
   const {
     descriptor,
     template,
+    formKind,
     areGeneralInfoEditable,
     forward,
     eserviceMode,
     onEserviceModeChange,
   } = useCreateContext()
+
+  const { t } = useTranslation(formKind) //TODO
 
   const { mutate: updateEServiceDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createEServiceDraft } = EServiceMutations.useCreateDraft()
@@ -63,7 +67,6 @@ export const CreateStepGeneral: React.FC = () => {
     if (descriptor) {
       // If nothing has changed skip the update call
       const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
-      console.log('qui')
 
       if (!isEServiceTheSame)
         updateEServiceDraft(
@@ -90,44 +93,64 @@ export const CreateStepGeneral: React.FC = () => {
     }
 
     // If we are creating a new e-service, we create a new draft
-    createEServiceDraft(formValues, {
-      //TODO COME DISTINGUO SE STO CREANDO UN ESERVICE O UN TEMPLATE? AGGIUNTA DI UN PARAMETRO DI TIPO 'ESERVICE' | 'TEMPLATE' ?
-      onSuccess({ id, descriptorId }) {
-        navigate('PROVIDE_ESERVICE_EDIT', {
-          params: { eserviceId: id, descriptorId },
-          replace: true,
-          state: { stepIndexDestination: 1 },
-        })
-        forward()
-      },
-    })
+    if (!descriptor && formKind === 'eservice') {
+      createEServiceDraft(formValues, {
+        onSuccess({ id, descriptorId }) {
+          navigate('PROVIDE_ESERVICE_EDIT', {
+            params: { eserviceId: id, descriptorId },
+            replace: true,
+            state: { stepIndexDestination: 1 },
+          })
+          forward()
+        },
+      })
+    }
+    if (!template && formKind === 'template') {
+      //TODO CONTROLLARE CHECK
+      createTemplateDraft(formValues, {
+        onSuccess({ id }) {
+          navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
+            params: { eserviceTemplateId: id }, //TODO ALTRI PARAMETRI
+            replace: true,
+            state: { stepIndexDestination: 1 },
+          })
+          forward()
+        },
+      })
+    }
   }
 
   return (
     <FormProvider {...formMethods}>
-      <Alert severity="warning" sx={{ mb: 3 }}>
-        {t('create.step1.firstVersionOnlyEditableInfo')}
-      </Alert>
+      {formKind === 'eservice' && (
+        <Alert severity="warning" sx={{ mb: 3 }}>
+          {t('create.step1.firstVersionOnlyEditableInfo')}
+        </Alert>
+      )}
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
           title={t('create.step1.detailsTitle')}
           description={
-            <>
-              {t('create.step1.detailsDescription.before')}{' '}
-              <IconLink
-                href={eserviceNamingBestPracticeLink}
-                target="_blank"
-                endIcon={<LaunchIcon fontSize="small" />}
-                onClick={() =>
-                  trackEvent('INTEROP_EXT_LINK_DTD_ESERVICE_GUIDE', {
-                    src: 'CREATE_ESERVICE',
-                  })
-                }
-              >
-                {t('create.step1.detailsDescription.linkLabel')}
-              </IconLink>{' '}
-              {t('create.step1.detailsDescription.after')}
-            </>
+            formKind === 'eservice' ? (
+              <>
+                {t('create.step1.detailsDescription.before')}{' '}
+                <IconLink
+                  href={eserviceNamingBestPracticeLink}
+                  target="_blank"
+                  endIcon={<LaunchIcon fontSize="small" />}
+                  onClick={() =>
+                    trackEvent('INTEROP_EXT_LINK_DTD_ESERVICE_GUIDE', {
+                      src: 'CREATE_ESERVICE',
+                    })
+                  }
+                >
+                  {t('create.step1.detailsDescription.linkLabel')}
+                </IconLink>{' '}
+                {t('create.step1.detailsDescription.after')}
+              </>
+            ) : (
+              t('create.step1.detailsDescription')
+            )
           }
           component="div"
         >
@@ -142,6 +165,20 @@ export const CreateStepGeneral: React.FC = () => {
             size="small"
             sx={{ width: '50%', my: 0, mt: 1 }}
           />
+
+          {formKind === 'template' && (
+            <RHFTextField
+              label={t('create.step1.eserviceAudienceDescriptionField.label')}
+              infoLabel={t('create.step1.eserviceAudienceDescriptionField.infoLabel')}
+              name="audienceDescription"
+              multiline
+              disabled={!areGeneralInfoEditable}
+              size="small"
+              inputProps={{ maxLength: 250 }}
+              rules={{ required: true, minLength: 10 }}
+              sx={{ mb: 0, mt: 3 }}
+            />
+          )}
 
           <RHFTextField
             label={t('create.step1.eserviceDescriptionField.label')}
@@ -187,7 +224,7 @@ export const CreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
           />
-          {!isSignalHubFlagDisabled && (
+          {!isSignalHubFlagDisabled && formKind === 'eservice' ? (
             <SectionContainer
               innerSection
               title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
@@ -200,6 +237,48 @@ export const CreateStepGeneral: React.FC = () => {
                 sx={{ my: 0 }}
               />
             </SectionContainer>
+          ) : (
+            <>
+              <SectionContainer innerSection sx={{ mt: 3 }}>
+                <FormControlLabel
+                  disabled={false}
+                  key={''} //TODO
+                  value={false}
+                  control={
+                    <Checkbox
+                      checked={isSignalHubSuggested}
+                      onChange={() => {
+                        setIsSignalHubSuggested((prev) => !prev)
+                      }}
+                      name={'name'}
+                    />
+                  }
+                  label={
+                    <>
+                      {' '}
+                      <span>
+                        {' '}
+                        {t('create.step1.eserviceModeField.isSignalHubSuggested.label')}{' '}
+                      </span>
+                      <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
+                        {t('create.step1.eserviceModeField.isSignalHubSuggested.infoLabel.before')}{' '}
+                        <IconLink
+                          href={''} //TODO
+                          target="_blank"
+                          endIcon={<LaunchIcon fontSize="small" />}
+                        >
+                          {t(
+                            'create.step1.eserviceModeField.isSignalHubSuggested.infoLabel.linkLabel'
+                          )}
+                        </IconLink>{' '}
+                        {t('create.step1.eserviceModeField.isSignalHubSuggested.infoLabel.after')}
+                      </Typography>
+                    </>
+                  }
+                  sx={{ mr: 3 }}
+                />
+              </SectionContainer>
+            </>
           )}
         </SectionContainer>
 
