@@ -60,14 +60,14 @@ export const DialogCreateAgreementAutocomplete: React.FC<
     return result
   }
 
-  const { data: delegators, isLoading } = useQuery({
+  const { data: delegators = [], isLoading } = useQuery({
     ...DelegationQueries.getConsumerDelegators({
       q: getQ(),
       limit: 50,
       offset: 0,
       eserviceIds: [eserviceId],
     }),
-    select: ({ results }) => results,
+    select: ({ results }) => results ?? [],
   })
 
   React.useEffect(() => {
@@ -84,15 +84,15 @@ export const DialogCreateAgreementAutocomplete: React.FC<
     }
   }, [setValue, selectedConsumerId, delegators, setConsumerAutocompleteTextInput])
 
-  const delegatorsOptions = (delegators ?? []).map((delegator) => ({
+  const tenantOptions =
+    jwt && !isDelegator
+      ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegators]
+      : delegators
+
+  const autocompleteOptions = tenantOptions.map((delegator) => ({
     label: delegator.name,
     value: delegator.id,
   }))
-
-  const autocompleteOptions =
-    jwt && !isDelegator
-      ? [{ label: jwt.organization.name, value: jwt.organizationId }, ...delegatorsOptions]
-      : [...delegatorsOptions]
 
   return (
     <RHFAutocompleteSingle
@@ -102,7 +102,9 @@ export const DialogCreateAgreementAutocomplete: React.FC<
       options={autocompleteOptions}
       label={t('consumerField.label')}
       onValueChange={(value) => {
-        selectedConsumerRef.current = delegators?.find((delegator) => delegator.id === value?.value)
+        selectedConsumerRef.current = tenantOptions?.find(
+          (delegator) => delegator.id === value?.value
+        )
       }}
       onInputChange={(_, value) => setConsumerAutocompleteTextInput(value)}
       rules={{ required: true }}
