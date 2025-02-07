@@ -67,7 +67,6 @@ const DelegationsAvailabilitySection: React.FC = () => {
                   label={t('consumeDelegation.label')}
                   labelDescription={t('consumeDelegation.infoLabel')}
                   content={t(`consumeDelegation.value.${isAvailableConsumerDelegations}`)}
-                  sx={{ display: 'none', visibility: 'hidden' }} //TEMP needed to hide consumer delegation availability
                 />
                 <InformationContainer
                   label={t('produceDelegation.label')}
