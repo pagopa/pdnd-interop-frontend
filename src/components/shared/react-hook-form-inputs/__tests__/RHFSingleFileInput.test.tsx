@@ -59,8 +59,6 @@ describe('determine whether the integration between react-hook-form and MUI’s 
 
     const fileInput = singleFileInput.getByTestId('loadFromPc') as HTMLInputElement
 
-    expect(fileInput).toBeInTheDocument()
-
     await waitFor(() => {
       fireEvent.change(fileInput, { target: { files: [file] } })
     })
@@ -72,7 +70,6 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       fireEvent.change(fileInput, { target: { files: [null] } })
     })
 
-    console.log('fileInput', singleFileInput.debug())
     expect(fileInput.files![0]).toEqual(null)
   })
 })
