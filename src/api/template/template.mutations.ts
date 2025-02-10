@@ -141,6 +141,61 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   })
 }
 
+function useAddTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.addEServiceRiskAnalysis',
+  })
+  return useMutation({
+    mutationFn: (
+      payload: {
+        eserviceTemplateId: string
+      } & EServiceRiskAnalysisSeed
+    ) => TemplateServices.addTemplateRiskAnalysis(payload),
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceRiskAnalysis',
+  })
+  return useMutation({
+    mutationFn: (
+      payload: {
+        eserviceTemplateId: string
+        riskAnalysisId: string
+      } & EServiceRiskAnalysisSeed
+    ) => TemplateServices.updateTemplateRiskAnalysis(payload),
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useDeleteTemplateRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.deleteEServiceRiskAnalysis',
+  })
+  return useMutation({
+    mutationFn: TemplateServices.deleteTemplateRiskAnalysis,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateAudience,
@@ -152,4 +207,7 @@ export const TemplateMutations = {
   useCreateDraft,
   useUpdateDraft,
   useUpdateVersionDraft,
+  useAddTemplateRiskAnalysis,
+  useUpdateTemplateRiskAnalysis,
+  useDeleteTemplateRiskAnalysis,
 }
