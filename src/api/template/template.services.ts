@@ -192,7 +192,7 @@ async function updateDraft({
   eserviceId: string
 } & UpdateEServiceTemplateSeed) {
   /*const response = await axiosInstance.put<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}`,
     payload
   )
   return response.data*/
@@ -207,11 +207,52 @@ async function updateVersionDraft({
   descriptorId: string
 } & UpdateEServiceDescriptorSeed) {
   /*const response = await axiosInstance.put<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`,
     payload
   )
   return response.data*/
   return console.log('version draft updated')
+}
+
+function addTemplateRiskAnalysis({
+  eserviceTemplateId,
+  ...payload
+}: {
+  eserviceTemplateId: string
+} & EServiceRiskAnalysisSeed) {
+  /*return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/riskAnalysis`,
+    payload
+  )*/
+  return console.log('added template risk analysis')
+}
+
+function updateTemplateRiskAnalysis({
+  eserviceTemplateId,
+  riskAnalysisId,
+  ...payload
+}: {
+  eserviceTemplateId: string
+  riskAnalysisId: string
+} & EServiceRiskAnalysisSeed) {
+  /*return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/{riskAnalysisId}`,
+    payload
+  )*/
+  return console.log('template risk analysis updated')
+}
+
+function deleteTemplateRiskAnalysis({
+  eserviceTemplateId,
+  riskAnalysisId,
+}: {
+  eserviceTemplateId: string
+  riskAnalysisId: string
+}) {
+  /*return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/{riskAnalysisId} `
+  )*/
+  return console.log('template risk analysis deleted')
 }
 
 export const TemplateServices = {
@@ -228,4 +269,7 @@ export const TemplateServices = {
   createDraft,
   updateDraft,
   updateVersionDraft,
+  addTemplateRiskAnalysis,
+  updateTemplateRiskAnalysis,
+  deleteTemplateRiskAnalysis,
 }
