@@ -78,6 +78,22 @@ async function rejectConsumerDelegation({
   )
 }
 
+async function approveConsumerDelegation({ delegationId }: { delegationId: string }) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}/approve`
+  )
+}
+
+async function rejectConsumerDelegation({
+  delegationId,
+  ...payload
+}: { delegationId: string } & RejectDelegationPayload) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}/reject`,
+    payload
+  )
+}
+
 async function downloadDelegationContract({
   delegationId,
   contractId,
