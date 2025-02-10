@@ -65,16 +65,23 @@ function useGetEServiceConsumerActions(
     })
   }
 
-  const handleCreateAgreementDraftAction = () => {
+  const handleCreateAgreementDraft = ({
+    isOwnEService,
+    delegationId,
+  }: {
+    isOwnEService: boolean
+    delegationId?: string
+  }) => {
     /**
-     * If the subscriber is the owner of the e-service
+     * If the subscriber is the owner of the e-service or delegated by the owner,
      * create and submit the agreement without passing through the draft
      * */
-    if (isMine) {
+    if (isOwnEService) {
       submitToOwnEService(
         {
           eserviceId: eservice.id,
           descriptorId: descriptor.id,
+          delegationId: delegationId,
         },
         {
           onSuccess({ id }) {
@@ -84,8 +91,9 @@ function useGetEServiceConsumerActions(
       )
       return
     }
+
     /**
-     * If the subscriber is not the owner of the e-service
+     * If the subscriber is not the owner of the e-service or delegated by the owner
      * create the agreement draft
      * */
     createAgreementDraft(
@@ -94,6 +102,7 @@ function useGetEServiceConsumerActions(
         eserviceId: eservice.id,
         eserviceVersion: descriptor.version,
         descriptorId: descriptor.id,
+        delegationId: delegationId,
       },
       {
         onSuccess({ id }) {
@@ -103,11 +112,16 @@ function useGetEServiceConsumerActions(
     )
   }
 
+  const handleCreateAgreementDraftAction = () => {
+    handleCreateAgreementDraft({ isOwnEService: isMine })
+  }
+
   const handleOpenCreateAgreementDraftDialog = () => {
     openDialog({
       type: 'createAgreementDraft',
       eservice: { id: eservice.id, name: eservice.name, producerId: eservice.producer.id },
       descriptor: { id: descriptor.id, version: descriptor.version },
+      onSubmit: handleCreateAgreementDraft,
     })
   }
 

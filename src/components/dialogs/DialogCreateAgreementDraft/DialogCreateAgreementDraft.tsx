@@ -1,6 +1,4 @@
-import { AgreementMutations } from '@/api/agreement'
 import { AuthHooks } from '@/api/auth'
-import { useNavigate } from '@/router'
 import { useDialog } from '@/stores'
 import type { DialogCreateAgreementDraftProps } from '@/types/dialog.types'
 import {
@@ -30,18 +28,15 @@ type CreateAgreementDraftFormValues = {
 export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProps> = ({
   eservice,
   descriptor,
+  onSubmit,
 }) => {
   const ariaLabelId = React.useId()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogCreateAgreementDraft',
   })
-  const navigate = useNavigate()
   const { closeDialog } = useDialog()
   const { jwt } = AuthHooks.useJwt()
-
-  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
-  const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
 
   const formMethods = useForm<CreateAgreementDraftFormValues>({
     defaultValues: {
@@ -74,52 +69,17 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
     select: ({ hasCertifiedAttributes }) => hasCertifiedAttributes,
   })
 
-  const onSubmit = ({ consumerId }: CreateAgreementDraftFormValues) => {
-    /**
-     * If the subscriber is the owner of the e-service
-     * create and submit the agreement without passing through the draft
-     * */
-    if (eservice.producerId === consumerId) {
-      submitToOwnEService(
-        {
-          eserviceId: eservice.id,
-          descriptorId: descriptor.id,
-          delegationId: delegations?.[0]?.id,
-        },
-        {
-          onSuccess({ id }) {
-            navigate('SUBSCRIBE_AGREEMENT_READ', { params: { agreementId: id } })
-            closeDialog()
-          },
-        }
-      )
-      return
-    }
-    /**
-     * If the subscriber is not the owner of the e-service
-     * create the agreement draft
-     * */
-    createAgreementDraft(
-      {
-        eserviceName: eservice.name,
-        eserviceId: eservice.id,
-        eserviceVersion: descriptor.version,
-        descriptorId: descriptor.id,
-        delegationId: delegations?.[0]?.id,
-      },
-      {
-        onSuccess({ id }) {
-          navigate('SUBSCRIBE_AGREEMENT_EDIT', { params: { agreementId: id } })
-          closeDialog()
-        },
-      }
-    )
-  }
+  const isOwnEService = eservice.producerId === selectedConsumerId
+  const delegationId = delegations?.[0]?.id
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} maxWidth="md" fullWidth>
       <FormProvider {...formMethods}>
-        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={formMethods.handleSubmit(() => onSubmit({ isOwnEService, delegationId }))}
+        >
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
           <DialogContent>

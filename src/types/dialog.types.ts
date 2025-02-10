@@ -153,4 +153,11 @@ export type DialogCreateAgreementDraftProps = {
     id: string
     version: string
   }
+  onSubmit: ({
+    isOwnEService,
+    delegationId,
+  }: {
+    isOwnEService: boolean
+    delegationId?: string
+  }) => void
 }
