@@ -2,17 +2,22 @@ import axiosInstance from '@/config/axios'
 import { waitFor } from '@/utils/common.utils'
 import type {
   CompactDelegations,
+  CompactEServices,
   CreatedResource,
   Delegation,
   DelegationSeed,
+  DelegationTenants,
   EServiceSeed,
+  GetConsumerDelegatorsParams,
+  GetConsumerDelegatedEservicesParams,
+  GetConsumerDelegatorsWithAgreementsParams,
   GetDelegationsParams,
   RejectDelegationPayload,
 } from '../api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { EServiceServices } from '../eservice'
 
-async function getProducerDelegations(params: GetDelegationsParams) {
+async function getList(params: GetDelegationsParams) {
   const response = await axiosInstance.get<CompactDelegations>(
     `${BACKEND_FOR_FRONTEND_URL}/delegations`,
     { params }
@@ -57,6 +62,22 @@ async function revokeProducerDelegation({ delegationId }: { delegationId: string
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/producer/delegations/${delegationId}`)
 }
 
+async function approveConsumerDelegation({ delegationId }: { delegationId: string }) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}/approve`
+  )
+}
+
+async function rejectConsumerDelegation({
+  delegationId,
+  ...payload
+}: { delegationId: string } & RejectDelegationPayload) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}/reject`,
+    payload
+  )
+}
+
 async function downloadDelegationContract({
   delegationId,
   contractId,
@@ -85,13 +106,60 @@ async function createProducerDelegationAndEservice({
   return await createProducerDelegation(delegationParams)
 }
 
+async function createConsumerDelegation(payload: DelegationSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations`,
+    payload
+  )
+
+  return response.data
+}
+async function getConsumerDelegators(params: GetConsumerDelegatorsParams) {
+  const response = await axiosInstance.get<DelegationTenants>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/delegators`,
+    { params }
+  )
+
+  return response.data
+}
+async function getConsumerDelegatorsWithAgreements(
+  params: GetConsumerDelegatorsWithAgreementsParams
+) {
+  const response = await axiosInstance.get<DelegationTenants>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/delegatorsWithAgreements`,
+    { params }
+  )
+
+  return response.data
+}
+
+async function getConsumerDelegatedEservices(params: GetConsumerDelegatedEservicesParams) {
+  const response = await axiosInstance.get<CompactEServices>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/eservices`,
+    { params }
+  )
+
+  return response.data
+}
+
+async function revokeConsumerDelegation({ delegationId }: { delegationId: string }) {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}`)
+}
+
 export const DelegationServices = {
-  getProducerDelegations,
+  getList,
   getSingle,
   createProducerDelegation,
   approveProducerDelegation,
   rejectProducerDelegation,
   revokeProducerDelegation,
+  approveConsumerDelegation,
+  rejectConsumerDelegation,
   downloadDelegationContract,
   createProducerDelegationAndEservice,
+  createConsumerDelegation,
+  getConsumerDelegators,
+  getConsumerDelegatorsWithAgreements,
+  getConsumerDelegatedEservices,
+  revokeConsumerDelegation,
 }

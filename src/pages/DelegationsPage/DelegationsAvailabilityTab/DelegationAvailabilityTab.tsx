@@ -7,7 +7,10 @@ import { AuthHooks } from '@/api/auth'
 import EditIcon from '@mui/icons-material/Edit'
 import { DelegationAvailabilityDrawer } from './DelegationAvailabilityDrawer'
 import { TenantHooks } from '@/api/tenant'
-import { hasTenantGivenProducerDelegationAvailability } from '@/utils/tenant.utils'
+import {
+  hasTenantGivenConsumerDelegationAvailability,
+  hasTenantGivenProducerDelegationAvailability,
+} from '@/utils/tenant.utils'
 
 export const DelegationsAvailabilityTab: React.FC = () => {
   return (
@@ -23,11 +26,10 @@ const DelegationsAvailabilitySection: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
 
   const { data: activeTenant } = TenantHooks.useGetActiveUserParty()
-  const producerDelegationsAvailability = hasTenantGivenProducerDelegationAvailability(activeTenant)
 
-  const isAvailableProducerDelegations = Boolean(producerDelegationsAvailability)
+  const isAvailableProducerDelegations = hasTenantGivenProducerDelegationAvailability(activeTenant)
 
-  const [isAvailableConsumerDelegations, setIsAvailableConsumerDelegations] = React.useState(false) //TODO integrare con BE
+  const isAvailableConsumerDelegations = hasTenantGivenConsumerDelegationAvailability(activeTenant)
 
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
 
@@ -65,7 +67,6 @@ const DelegationsAvailabilitySection: React.FC = () => {
                   label={t('consumeDelegation.label')}
                   labelDescription={t('consumeDelegation.infoLabel')}
                   content={t(`consumeDelegation.value.${isAvailableConsumerDelegations}`)}
-                  sx={{ display: 'none', visibility: 'hidden' }} //TEMP needed to hide consumer delegation availability
                 />
                 <InformationContainer
                   label={t('produceDelegation.label')}
@@ -79,7 +80,7 @@ const DelegationsAvailabilitySection: React.FC = () => {
         <DelegationAvailabilityDrawer
           isOpen={isDrawerOpen}
           onClose={onCloseDrawer}
-          //isAvailableConsumerDelegations={isAvailableConsumerDelegations}
+          isAvailableConsumerDelegations={isAvailableConsumerDelegations}
           isAvailableProducerDelegations={isAvailableProducerDelegations}
         />
       </Grid>

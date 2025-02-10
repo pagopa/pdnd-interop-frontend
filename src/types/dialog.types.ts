@@ -2,6 +2,7 @@ import type {
   Agreement,
   RequesterCertifiedAttribute,
   CompactPurposeEService,
+  DelegationKind,
 } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -29,10 +30,11 @@ export type DialogProps =
   | DialogRemoveUserFromKeychainProps
   | DialogDeleteProducerKeychainKeyProps
   | DialogDelegationsProps
-  | DialogAcceptProducerDelegationProps
-  | DialogRejectProducerDelegationProps
-  | DialogRevokeProducerDelegationProps
+  | DialogAcceptDelegationProps
+  | DialogRejectDelegationProps
+  | DialogRevokeDelegationProps
   | DialogRejectDelegatedVersionDraftProps
+  | DialogCreateAgreementDraftProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -115,24 +117,47 @@ export type DialogDelegationsProps = {
   onConfirm: () => void
 }
 
-export type DialogAcceptProducerDelegationProps = {
+export type DialogAcceptDelegationProps = {
   type: 'acceptDelegation'
   delegationId: string
+  delegationKind: DelegationKind
 }
 
-export type DialogRejectProducerDelegationProps = {
+export type DialogRejectDelegationProps = {
   type: 'rejectDelegation'
   delegationId: string
+  delegationKind: DelegationKind
 }
 
-export type DialogRevokeProducerDelegationProps = {
-  type: 'revokeProducerDelegation'
+export type DialogRevokeDelegationProps = {
+  type: 'revokeDelegation'
   delegationId: string
   eserviceName: string
+  delegationKind: DelegationKind
 }
 
 export type DialogRejectDelegatedVersionDraftProps = {
   type: 'rejectDelegatedVersionDraft'
   eserviceId: string
   descriptorId: string
+}
+
+export type DialogCreateAgreementDraftProps = {
+  type: 'createAgreementDraft'
+  eservice: {
+    id: string
+    name: string
+    producerId: string
+  }
+  descriptor: {
+    id: string
+    version: string
+  }
+  onSubmit: ({
+    isOwnEService,
+    delegationId,
+  }: {
+    isOwnEService: boolean
+    delegationId?: string
+  }) => void
 }

@@ -11,7 +11,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import type { AttributeKey } from '@/types/attribute.types'
 import { ProviderEServiceUpdateDescriptorAttributesDrawer } from './ProviderEServiceUpdateDescriptorAttributesDrawer'
 import { AuthHooks } from '@/api/auth'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 
 export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
@@ -24,7 +24,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
     select: (d) => d.attributes,
   })
 
-  const { isDelegator } = useGetDelegationUserRole({
+  const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId,
     organizationId: jwt?.organizationId,
   })

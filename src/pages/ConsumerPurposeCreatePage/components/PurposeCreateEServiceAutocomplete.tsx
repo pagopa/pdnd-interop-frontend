@@ -4,27 +4,32 @@ import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-input
 import { useTranslation } from 'react-i18next'
 import { useFormContext } from 'react-hook-form'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import type { CatalogEService } from '@/api/api.generatedTypes'
-import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import type { CatalogEService, CompactEService } from '@/api/api.generatedTypes'
+import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { useQuery } from '@tanstack/react-query'
+import { DelegationQueries } from '@/api/delegation'
+import { AuthHooks } from '@/api/auth'
 
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
-  const selectedEServiceRef = React.useRef<CatalogEService | undefined>(undefined)
+  const selectedEServiceRef = React.useRef<CatalogEService | CompactEService | undefined>(undefined)
   const hasSetFirstEService = React.useRef(false)
+
+  const { jwt } = AuthHooks.useJwt()
 
   const { setValue, watch } = useFormContext<PurposeCreateFormValues>()
   const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
     useAutocompleteTextInput()
 
   const formatAutocompleteOptionLabel = React.useCallback(
-    (eservice: CatalogEService) => {
+    (eservice: CatalogEService | CompactEService) => {
       return `${eservice.name} ${t('edit.eserviceProvider')} ${eservice.producer.name}`
     },
     [t]
   )
 
   const selectedEServiceId = watch('eservice')?.id
+  const selectedConsumerId = watch('consumerId')
 
   /**
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected eservice name.
@@ -42,7 +47,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     return result
   }
 
-  const { data: eservices = [], isLoading } = useQuery({
+  const { data: eservices = [], isLoading: isEServiceLoading } = useQuery({
     ...EServiceQueries.getCatalogList({
       q: getQ(),
       agreementStates: ['ACTIVE'],
@@ -51,25 +56,39 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
       limit: 50,
       offset: 0,
     }),
-    select: (d) => d.results,
+    enabled: selectedConsumerId === jwt?.organizationId,
+    select: (e) => e.results,
   })
 
+  const { data: delegatedEServices = [], isLoading: isDelegatedEServiceLoading } = useQuery({
+    ...DelegationQueries.getConsumerDelegatedEservices({
+      q: getQ(),
+      delegatorId: selectedConsumerId,
+      limit: 50,
+      offset: 0,
+    }),
+    enabled: selectedConsumerId !== jwt?.organizationId,
+    select: (e) => e.results,
+  })
+
+  const eservicesList = selectedConsumerId === jwt?.organizationId ? eservices : delegatedEServices
+
   React.useEffect(() => {
-    if (!selectedEServiceId && !hasSetFirstEService.current && eservices.length > 0) {
-      setValue('eservice', eservices[0])
-      setEserviceAutocompleteTextInput(formatAutocompleteOptionLabel(eservices[0]))
-      selectedEServiceRef.current = eservices[0]
+    if (!selectedEServiceId && !hasSetFirstEService.current && eservicesList.length > 0) {
+      setValue('eservice', eservicesList[0])
+      setEserviceAutocompleteTextInput(formatAutocompleteOptionLabel(eservicesList[0]))
+      selectedEServiceRef.current = eservicesList[0]
       hasSetFirstEService.current = true
     }
   }, [
     selectedEServiceId,
     setValue,
-    eservices,
     formatAutocompleteOptionLabel,
     setEserviceAutocompleteTextInput,
+    eservicesList,
   ])
 
-  const autocompleteOptions = (eservices ?? []).map((eservice) => ({
+  const autocompleteOptions = (eservicesList ?? []).map((eservice) => ({
     label: formatAutocompleteOptionLabel(eservice),
     value: eservice,
   }))
@@ -77,12 +96,15 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   return (
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
-      loading={isLoading}
+      loading={isEServiceLoading || isDelegatedEServiceLoading}
       name="eservice"
       label={t('create.eserviceField.label')}
+      infoLabel={t('create.eserviceField.infoLabel')}
       options={autocompleteOptions}
       onValueChange={(value) => {
-        selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value.id)
+        selectedEServiceRef.current = eservicesList.find(
+          (eservice) => eservice.id === value?.value.id
+        )
       }}
       onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
     />

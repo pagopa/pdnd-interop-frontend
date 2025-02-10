@@ -1,5 +1,8 @@
-import { TenantFeature } from '@/api/api.generatedTypes'
-import { hasTenantGivenProducerDelegationAvailability, isTenantCertifier } from '../tenant.utils'
+import {
+  hasTenantGivenConsumerDelegationAvailability,
+  hasTenantGivenProducerDelegationAvailability,
+  isTenantCertifier,
+} from '../tenant.utils'
 
 const mockTenant = {
   id: 'test-id',
@@ -9,6 +12,7 @@ const mockTenant = {
     {
       certifier: { certifierId: 'test-certifierId' },
       delegatedProducer: { availabilityTimestamp: 'test-timestamp' },
+      delegatedConsumer: { availabilityTimestamp: 'test-timestamp' },
     },
   ],
   createdAt: 'test-createdAt',
@@ -25,6 +29,13 @@ describe('isTenantCertifier utility function testing', () => {
 describe('hasTenantGivenProducerDelegationAvailability utility function testing', () => {
   it('should correctly verify if tenant has given the producer delegations availability', () => {
     const result = hasTenantGivenProducerDelegationAvailability(mockTenant)
-    expect(result).toEqual('test-timestamp')
+    expect(result).toBe(true)
+  })
+})
+
+describe('hasTenantGivenProducerDelegationAvailability utility function testing', () => {
+  it('should correctly verify if tenant has given the producer delegations availability', () => {
+    const result = hasTenantGivenConsumerDelegationAvailability(mockTenant)
+    expect(result).toBe(true)
   })
 })

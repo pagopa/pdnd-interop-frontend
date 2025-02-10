@@ -11,8 +11,13 @@
       "noDataLabel": "No templates available for this e-service",
       "loadingLabel": "We are loading the templates"
     },
+    "consumerField": {
+      "label": "Consumer",
+      "infoLabel": "Among the members, you can only select your organization or the members for whom you have an active delegation"
+    },
     "eserviceField": {
-      "label": "Choose e-service"
+      "label": "Choose e-service",
+      "infoLabel": "You can only select the e-services for which the selected user has an active request for use"
     },
     "eserviceRiskAnalysisSection": {
       "title": "Choose purpose",
@@ -231,6 +236,7 @@
     "rejectedPurposeAlert": "This purpose has been rejected. <2>Read here the reject reason</2>.",
     "rejectedUpdatePlanInfoAlert": "A change of plan for this purpose was rejected. Check the “Load Estimate” section in <1>Purpose Details</1>.",
     "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service",
+    "noClientsAlertForDelegateWithoutClientPermissions": "This intent is active but has no associated clients. Wait for {{delegatorName}} to connect its clients for the request to complete.",
     "addClientToPurposeDisableTooltip": {
       "label": "Only an administrator can manage members of a client"
     },
@@ -248,6 +254,12 @@
         },
         "providerField": {
           "label": "Provider"
+        },
+        "consumerField": {
+          "label": "Consumer"
+        },
+        "delegatedConsumerField": {
+          "label": "Delegated Consumer"
         },
         "descriptionField": {
           "label": "Purpose description"

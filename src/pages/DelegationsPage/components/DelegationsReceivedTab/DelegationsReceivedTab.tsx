@@ -15,12 +15,11 @@ export const DelegationsReceivedTab: React.FC = () => {
 
   const params: GetDelegationsParams = {
     ...paginationParams,
-    kind: 'DELEGATED_PRODUCER',
     delegateIds: [jwt?.organizationId as string],
   }
 
   const { data: totalPageCount = 0 } = useQuery({
-    ...DelegationQueries.getProducerDelegationsList(params),
+    ...DelegationQueries.getList(params),
     placeholderData: keepPreviousData,
     enabled: Boolean(jwt?.organizationId),
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),

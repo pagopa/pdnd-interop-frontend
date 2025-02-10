@@ -100,6 +100,17 @@
       "eserviceProvider": "erogato da"
     }
   },
+  "dialogCreateAgreementDraft": {
+    "title": "Crea bozza richiesta di fruizione",
+    "description": "Vuoi creare una bozza di richiesta di fruizione per l'e-service <strong>{{eserviceName}}</strong>, versione <strong>{{eserviceVersion}}</strong>. Seleziona l’ente per il quale effettuare la richiesta",
+    "consumerField": {
+      "label": "Seleziona ente"
+    },
+    "certifiedAttributesAlert": {
+      "title": "Non è possibile richiedere la fruizione dell’e-service",
+      "description": "L'ente selezionato non dispone degli attributi certificati necessari a richiedere la fruizione dell'e-service"
+    }
+  },
   "dialogDeleteOperator": {
     "title": "Inoltro ad Area Riservata per rimozione utente",
     "description": "Le operazioni sulle utenze su tutti i prodotti gestiti da PagoPA avvengono attraverso il portale Area Riservata. Cliccando \"conferma\", verrai reindirizzato alla pagina di Area Riservata per gestire l'utente selezionato."
@@ -143,7 +154,7 @@
     "title": "Conferma eliminazione chiave pubblica",
     "description": "La chiave non potrà più essere utilizzata per firmare risposte verso i fruitori dei tuoi e-service. Per saperne di più, <1>leggi la guida</1>."
   },
-  "dialogAcceptProducerDelegation": {
+  "dialogAcceptDelegation": {
     "title": "Nomina Responsabile del Trattamento",
     "content": {
       "description": "Si ricorda che è necessario essere stati nominati Responsabile del Trattamento ai dati personali, con sottoscrizione dell'atto previsto dall'art. 28 del GDPR, prima di avviare qualsiasi attività di trattamento tramite l'infrastruttura per conto del Delegante, Titolare del Trattamento.",
@@ -153,7 +164,7 @@
       "accept": "Accetta delega"
     }
   },
-  "dialogRejectProducerDelegation": {
+  "dialogRejectDelegation": {
     "title": "Rifiuta delega",
     "content": {
       "reason": {
@@ -165,14 +176,26 @@
       "reject": "Rifiuta delega"
     }
   },
-  "dialogRevokeProducerDelegation": {
-    "title": "Revoca della delega all'erogazione",
-    "content": {
-      "description": "Il delegato perderà la gestione del tuo e-service <strong>{{eserviceName}} con delega all'erogazione</strong>, e delle richieste di fruizione e le finalità ad esso associate. L’e-service tornerà sotto il tuo controllo nello stato in cui si trova all’atto della revoca. Hai dubbi? <1>Consulta la guida</1>.",
-      "checkbox": "Ho letto e voglio procedere con la revoca"
+  "dialogRevokeDelegation": {
+    "producer": {
+      "title": "Revoca della delega all'erogazione",
+      "content": {
+        "description": "Il delegato perderà la gestione del tuo e-service <strong>{{eserviceName}} con delega all'erogazione</strong>, e delle richieste di fruizione e le finalità ad esso associate. L’e-service tornerà sotto il tuo controllo nello stato in cui si trova all’atto della revoca. Hai dubbi? <1>Consulta la guida</1>.",
+        "checkbox": "Ho letto e voglio procedere con la revoca"
+      },
+      "actions": {
+        "revoke": "Revoca la delega"
+      }
     },
-    "actions": {
-      "revoke": "Revoca la delega"
+    "consumer": {
+      "title": "Revoca della delega alla fruizione",
+      "content": {
+        "description": "Revocando la delega, entrerai in possesso delle richieste e finalità create dal delegato alla fruizione per conto del tuo ente e potrai gestirle in autonomia, o creare una nuova delega. Hai dubbi? <1>Consulta la guida</1>.\n\n<strong>A revoca avvenuta, dovrai riattivare e/o creare le finalità e associare i tuoi client per poter accedere nuovamente ai dati dell’e-service {{eserviceName}} con delega alla fruizione</strong>.",
+        "checkbox": "Ho letto e voglio procedere con la revoca"
+      },
+      "actions": {
+        "revoke": "Revoca la delega"
+      }
     }
   },
   "dialogRejectDelegatedVersionDraft": {
@@ -260,7 +283,11 @@
     "updateLabel": "Aggiorna"
   },
   "byDelegationChip": {
-    "label": "in delega"
+    "label": {
+      "default": "In delega",
+      "delegator": "Delegato",
+      "delegate": "Ricevuto in delega"
+    }
   },
   "riskAnalysis": {
     "formComponents": {

@@ -16,16 +16,49 @@ import {
 } from './components/ConsumerEServiceGeneralInfoSection'
 import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
+import { DelegationQueries } from '@/api/delegation'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
+  const { jwt } = AuthHooks.useJwt()
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
 
-  const { actions } = useGetEServiceConsumerActions(descriptor?.eservice, descriptor)
+  const { data: delegators } = useQuery({
+    ...DelegationQueries.getConsumerDelegators({
+      limit: 50,
+      offset: 0,
+      eserviceIds: [eserviceId],
+    }),
+    enabled: Boolean(jwt?.organizationId),
+    select: ({ results }) => results ?? [],
+  })
+
+  const { data: delegations = [] } = useQuery({
+    ...DelegationQueries.getList({
+      limit: 50,
+      offset: 0,
+      eserviceIds: [eserviceId],
+      kind: 'DELEGATED_CONSUMER',
+      states: ['ACTIVE'],
+      delegatorIds: [jwt?.organizationId as string],
+    }),
+    enabled: Boolean(jwt?.organizationId),
+    select: ({ results }) => results ?? [],
+  })
+
+  const isDelegator = delegations.length > 0
+
+  const { actions } = useGetEServiceConsumerActions(
+    descriptor?.eservice,
+    descriptor,
+    delegators,
+    isDelegator
+  )
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,

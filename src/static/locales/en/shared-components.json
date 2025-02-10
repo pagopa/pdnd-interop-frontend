@@ -100,6 +100,17 @@
       "eserviceProvider": "provided by"
     }
   },
+  "dialogCreateAgreementDraft": {
+    "title": "Crea bozza richiesta di fruizione",
+    "description": "",
+    "consumerField": {
+      "label": "Seleziona ente"
+    },
+    "certifiedAttributesAlert": {
+      "title": "Non è possibile richiedere la fruizione dell’e-service",
+      "description": "L'ente selezionato non dispone degli attributi certificati necessari a richiedere la fruizione dell'e-service"
+    }
+  },
   "dialogDeleteOperator": {
     "title": "Forwarding to Reserved Area for user removal",
     "description": "User operations on all products managed by PagoPA take place through the Reserved Area portal. By clicking \"confirm\", you will be redirected to the Reserved Area page to manage the selected user."
@@ -143,7 +154,7 @@
     "title": "Confirm public key deletion",
     "description": "The key can no longer be used to sign responses to users of your e-services. To find out more, <1>read the guide</1>."
   },
-  "dialogAcceptProducerDelegation": {
+  "dialogAcceptDelegation": {
     "title": "Appointment of Data Controller",
     "content": {
       "description": "Please remember that it is necessary to have been appointed as Personal Data Controller, by signing the deed required by art. 28 of the GDPR, before starting any processing activity via the infrastructure on behalf of the Delegator, Data Controller.",
@@ -153,7 +164,7 @@
       "accept": "Accept delegation"
     }
   },
-  "dialogRejectProducerDelegation": {
+  "dialogRejectDelegation": {
     "title": "Reject delegation",
     "content": {
       "reason": {
@@ -165,14 +176,26 @@
       "reject": "Reject delegation"
     }
   },
-  "dialogRevokeProducerDelegation": {
-    "title": "Revocation of the producer delegation",
-    "content": {
-      "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, and the agreements and the purposes associated with it. The e-service will return under your control in the state it was in at the time of revocation. Do you have doubts? <1>Read the guide</1>.",
-      "checkbox": "I have read and I want to proceed with the revocation"
+  "dialogRevokeDelegation": {
+    "producer": {
+      "title": "Producer delegation revocation",
+      "content": {
+        "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, and the agreements and the purposes associated with it. The e-service will return under your control in the state it was in at the time of revocation. Do you have doubts? <1>Read the guide</1>.",
+        "checkbox": "I have read and I want to proceed with the revocation"
+      },
+      "actions": {
+        "revoke": "Revoke delegation"
+      }
     },
-    "actions": {
-      "revoke": "Revoke delegation"
+    "consumer": {
+      "title": "Consumer delegation revocation",
+      "content": {
+        "description": "By revoking the delegation, you will come into possession of the requests and purposes created by the delegate for use on behalf of your institution and you will be able to manage them independently, or create a new delegation. Do you have doubts? <1>Consult the guide</1>.\n\n<strong>After revocation, you will have to reactivate and/or create the purposes and associate your clients to be able to access the e-service data again {{eserviceName}} with delegation of use</strong>.",
+        "checkbox": "I have read and I want to proceed with the revocation"
+      },
+      "actions": {
+        "revoke": "Revoke delegation"
+      }
     }
   },
   "dialogRejectDelegatedVersionDraft": {
@@ -260,7 +283,11 @@
     "updateLabel": "Update"
   },
   "byDelegationChip": {
-    "label": "by delegation"
+    "label": {
+      "default": "By delegation",
+      "delegator": "Delegated",
+      "delegate": "Received by delegation"
+    }
   },
   "riskAnalysis": {
     "formComponents": {

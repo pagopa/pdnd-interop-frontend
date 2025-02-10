@@ -2,7 +2,7 @@ import { AgreementMutations } from '@/api/agreement'
 import type {
   CatalogEService,
   CatalogEServiceDescriptor,
-  EServiceDescriptorState,
+  DelegationTenant,
 } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
@@ -17,15 +17,20 @@ import SendIcon from '@mui/icons-material/Send'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import ArticleIcon from '@mui/icons-material/Article'
 import noop from 'lodash/noop'
+import { useDialog } from '@/stores'
 
 function useGetEServiceConsumerActions(
   eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
-  descriptor?: { id: string; state: EServiceDescriptorState; version: string }
+  descriptor?: CatalogEServiceDescriptor,
+  delegators?: Array<DelegationTenant>,
+  isDelegator?: boolean
 ) {
   const { t } = useTranslation('eservice')
   const { isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
+
+  const { openDialog } = useDialog()
 
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
@@ -33,8 +38,10 @@ function useGetEServiceConsumerActions(
   const isMine = Boolean(eservice?.isMine)
   const isSubscribed = checkIfAlreadySubscribed(eservice)
   const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
-  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor?.state)
+  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor)
   const isSuspended = descriptor?.state === 'SUSPENDED'
+
+  const hasCertifiedAttributes = descriptor?.eservice.hasCertifiedAttributes
 
   const actions: Array<ActionItemButton> = []
 
@@ -58,16 +65,23 @@ function useGetEServiceConsumerActions(
     })
   }
 
-  const handleCreateAgreementDraftAction = () => {
+  const handleCreateAgreementDraft = ({
+    isOwnEService,
+    delegationId,
+  }: {
+    isOwnEService: boolean
+    delegationId?: string
+  }) => {
     /**
-     * If the subscriber is the owner of the e-service
+     * If the subscriber is the owner of the e-service or delegated by the owner,
      * create and submit the agreement without passing through the draft
      * */
-    if (isMine) {
+    if (isOwnEService) {
       submitToOwnEService(
         {
           eserviceId: eservice.id,
           descriptorId: descriptor.id,
+          delegationId: delegationId,
         },
         {
           onSuccess({ id }) {
@@ -77,8 +91,9 @@ function useGetEServiceConsumerActions(
       )
       return
     }
+
     /**
-     * If the subscriber is not the owner of the e-service
+     * If the subscriber is not the owner of the e-service or delegated by the owner
      * create the agreement draft
      * */
     createAgreementDraft(
@@ -87,6 +102,7 @@ function useGetEServiceConsumerActions(
         eserviceId: eservice.id,
         eserviceVersion: descriptor.version,
         descriptorId: descriptor.id,
+        delegationId: delegationId,
       },
       {
         onSuccess({ id }) {
@@ -94,6 +110,19 @@ function useGetEServiceConsumerActions(
         },
       }
     )
+  }
+
+  const handleCreateAgreementDraftAction = () => {
+    handleCreateAgreementDraft({ isOwnEService: isMine })
+  }
+
+  const handleOpenCreateAgreementDraftDialog = () => {
+    openDialog({
+      type: 'createAgreementDraft',
+      eservice: { id: eservice.id, name: eservice.name, producerId: eservice.producer.id },
+      descriptor: { id: descriptor.id, version: descriptor.version },
+      onSubmit: handleCreateAgreementDraft,
+    })
   }
 
   if (isSubscribed) {
@@ -108,7 +137,7 @@ function useGetEServiceConsumerActions(
     }
   }
 
-  if (hasAgreementDraft) {
+  if (hasAgreementDraft && !isDelegator) {
     return {
       actions: [
         {
@@ -120,11 +149,17 @@ function useGetEServiceConsumerActions(
     }
   }
 
-  if (canCreateAgreementDraft) {
+  if (
+    (canCreateAgreementDraft && !isDelegator && (delegators?.length === 0 || !delegators)) ||
+    (delegators && delegators?.length > 0)
+  ) {
     return {
       actions: [
         {
-          action: handleCreateAgreementDraftAction,
+          action:
+            delegators && delegators?.length > 0
+              ? handleOpenCreateAgreementDraftDialog
+              : handleCreateAgreementDraftAction,
           label: t('tableEServiceCatalog.subscribe'),
           icon: SendIcon,
           disabled: isSuspended,
@@ -138,11 +173,13 @@ function useGetEServiceConsumerActions(
     // ...the e-service is not owned by the active party...
     !isMine &&
     // ... the party doesn't own all the certified attributes required...
-    !eservice.hasCertifiedAttributes &&
+    !hasCertifiedAttributes &&
     // ... the e-service's latest active descriptor is the actual descriptor the user is viewing...
     eservice.activeDescriptor?.id === descriptor?.id &&
     /// ... and it is not archived.
-    descriptor?.state !== 'ARCHIVED'
+    descriptor?.state !== 'ARCHIVED' &&
+    /// ... and it is not delegator
+    !isDelegator
 
   if (shouldShowhasMissingAttributesTooltip) {
     return {

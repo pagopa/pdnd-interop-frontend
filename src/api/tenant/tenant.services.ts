@@ -1,9 +1,9 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
-  DelegatedProducer,
   GetInstitutionUsersParams,
   GetTenantsParams,
+  HasCertifiedAttributes,
   MailSeed,
   Tenant,
   Tenants,
@@ -50,6 +50,30 @@ function deleteTenantDelegatedProducerFeature() {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
 }
 
+function assignTenantDelegatedConsumerFeature() {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedConsumer`)
+}
+
+function deleteTenantDelegatedConsumerFeature() {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedConsumer`)
+}
+
+async function verifyTenantCertifiedAttributes({
+  tenantId,
+  eserviceId,
+  descriptorId,
+}: {
+  tenantId: string
+  eserviceId: string
+  descriptorId: string
+}) {
+  const response = await axiosInstance.get<HasCertifiedAttributes>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/eservices/${eserviceId}/descriptors/${descriptorId}/certifiedAttributes/validate`
+  )
+
+  return response.data
+}
+
 export const TenantServices = {
   getParty,
   getPartyUsersList,
@@ -57,4 +81,7 @@ export const TenantServices = {
   updateMail,
   assignTenantDelegatedProducerFeature,
   deleteTenantDelegatedProducerFeature,
+  assignTenantDelegatedConsumerFeature,
+  deleteTenantDelegatedConsumerFeature,
+  verifyTenantCertifiedAttributes,
 }

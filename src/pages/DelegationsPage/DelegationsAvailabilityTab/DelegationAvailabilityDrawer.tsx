@@ -9,12 +9,14 @@ type DelegationAvailabilityDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   isAvailableProducerDelegations: boolean
+  isAvailableConsumerDelegations: boolean
 }
 
 export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawerProps> = ({
   isOpen,
   onClose,
   isAvailableProducerDelegations,
+  isAvailableConsumerDelegations,
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
   const { t: tCommon } = useTranslation('shared-components')
@@ -22,21 +24,54 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
     TenantMutations.useAssignTenantDelegatedProducerFeature()
   const { mutate: deleteTenantDelegatedProducerFeature } =
     TenantMutations.useDeleteTenantDelegatedProducerFeature()
+  const { mutate: assignConsumerDelegationAvailabilty } =
+    TenantMutations.useAssignTenantDelegatedConsumerFeature()
+  const { mutate: deleteTenantDelegatedConsumerFeature } =
+    TenantMutations.useDeleteTenantDelegatedConsumerFeature()
 
   const [checkedProducerDelegations, setCheckedProducerDelegations] = React.useState(
     isAvailableProducerDelegations
   )
 
-  const checkedConsumerDelegations = false //TODO disponibilità fruizione
+  const [checkedConsumerDelegations, setCheckedConsumerDelegations] = React.useState(
+    isAvailableConsumerDelegations
+  )
 
-  function handleClick() {
-    if (checkedProducerDelegations != isAvailableProducerDelegations) {
-      if (checkedProducerDelegations === true) {
+  React.useEffect(() => {
+    if (!isOpen) {
+      if (checkedProducerDelegations != isAvailableProducerDelegations) {
+        setCheckedProducerDelegations(isAvailableProducerDelegations)
+      }
+
+      if (checkedConsumerDelegations != isAvailableConsumerDelegations) {
+        setCheckedConsumerDelegations(isAvailableConsumerDelegations)
+      }
+    }
+  }, [
+    isAvailableProducerDelegations,
+    isAvailableConsumerDelegations,
+    isOpen,
+    checkedProducerDelegations,
+    checkedConsumerDelegations,
+  ])
+
+  function handleSubmit() {
+    if (checkedProducerDelegations !== isAvailableProducerDelegations) {
+      if (checkedProducerDelegations) {
         assignProducerDelegationAvailabilty()
       } else {
         deleteTenantDelegatedProducerFeature()
       }
     }
+
+    if (checkedConsumerDelegations !== isAvailableConsumerDelegations) {
+      if (checkedConsumerDelegations) {
+        assignConsumerDelegationAvailabilty()
+      } else {
+        deleteTenantDelegatedConsumerFeature()
+      }
+    }
+
     onClose()
   }
 
@@ -46,16 +81,13 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
       isOpen={isOpen}
       onClose={onClose}
       buttonAction={{
-        action: handleClick,
+        action: handleSubmit,
         label: tCommon('drawer.updateLabel'),
       }}
     >
-      <Stack spacing={4}>
+      <Stack spacing={4} mb={3}>
         <Box>
-          <SectionContainer
-            innerSection
-            sx={{ display: 'none', visibility: 'hidden' }} // TEMP needed to hide consumer delegation availability
-          >
+          <SectionContainer innerSection>
             <Stack spacing={2}>
               <Typography sx={{ fontWeight: 700 }}>{t('consumeDelegation.label')}</Typography>
               <Typography>{t('consumeDelegation.infoLabel')}</Typography>
@@ -63,9 +95,9 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
                 control={
                   <Switch
                     checked={checkedConsumerDelegations}
-                    /*onChange={() => { //TODO
-                      setCheckedConsumerDelegations(!checkedConsumerDelegations)
-                    }}*/
+                    onChange={() => {
+                      setCheckedConsumerDelegations((prev) => !prev)
+                    }}
                   />
                 }
                 label={t('consumeDelegation.value.true')}
@@ -83,7 +115,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
                   <Switch
                     checked={checkedProducerDelegations}
                     onChange={() => {
-                      setCheckedProducerDelegations(!checkedProducerDelegations)
+                      setCheckedProducerDelegations((prev) => !prev)
                     }}
                   />
                 }

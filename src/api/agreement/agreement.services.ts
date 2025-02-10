@@ -15,14 +15,28 @@ import type {
   GetAgreementEServiceConsumersParams,
   GetAgreementEServiceProducersParams,
   GetAgreementProducersParams,
-  GetAgreementsParams,
+  GetConsumerAgreementsParams,
+  GetProducerAgreementsParams,
 } from '../api.generatedTypes'
 import { waitFor } from '@/utils/common.utils'
 
-async function getList(params?: GetAgreementsParams) {
-  const response = await axiosInstance.get<Agreements>(`${BACKEND_FOR_FRONTEND_URL}/agreements`, {
-    params,
-  })
+async function getProducerAgreementsList(params?: GetProducerAgreementsParams) {
+  const response = await axiosInstance.get<Agreements>(
+    `${BACKEND_FOR_FRONTEND_URL}/producer/agreements`,
+    {
+      params,
+    }
+  )
+  return response.data
+}
+
+async function getConsumerAgreementsList(params?: GetConsumerAgreementsParams) {
+  const response = await axiosInstance.get<Agreements>(
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/agreements`,
+    {
+      params,
+    }
+  )
   return response.data
 }
 
@@ -65,10 +79,10 @@ async function getConsumerEServiceList(params: GetAgreementEServiceConsumersPara
   return response.data
 }
 
-async function createDraft({ eserviceId, descriptorId }: AgreementPayload) {
+async function createDraft({ eserviceId, descriptorId, delegationId }: AgreementPayload) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements`,
-    { eserviceId, descriptorId }
+    { eserviceId, descriptorId, delegationId }
   )
   return response.data
 }
@@ -90,8 +104,8 @@ async function submitDraft({
  * This is used to subscribe to an e-service that is owned by the subscriber itself.
  * It skips the draft creation and directly submits the agreement.
  */
-async function submitToOwnEService({ eserviceId, descriptorId }: AgreementPayload) {
-  const response = await createDraft({ eserviceId, descriptorId })
+async function submitToOwnEService({ eserviceId, descriptorId, delegationId }: AgreementPayload) {
+  const response = await createDraft({ eserviceId, descriptorId, delegationId })
   //!!! Temporary, in order to avoid eventual consistency issues.
   await waitFor(2000)
   return await submitDraft({ agreementId: response.id })
@@ -210,7 +224,8 @@ async function downloadContract({ agreementId }: { agreementId: string }) {
 }
 
 export const AgreementServices = {
-  getList,
+  getProducerAgreementsList,
+  getConsumerAgreementsList,
   getSingle,
   getProducers,
   getConsumers,
