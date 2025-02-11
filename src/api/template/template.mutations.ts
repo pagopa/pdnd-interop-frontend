@@ -18,12 +18,12 @@ function useUpdateEServiceTemplateName() {
   })
 }
 
-function useUpdateEServiceTemplateAudience() {
+function useUpdateEServiceTemplateAudienceDescription() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'template.updateEServiceTemplateAudience',
   })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateAudience,
+    mutationFn: TemplateServices.updateEServiceTemplateAudienceDescription,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -32,12 +32,12 @@ function useUpdateEServiceTemplateAudience() {
   })
 }
 
-function useUpdateTemplateEServiceDescription() {
+function useUpdateEServiceTemplateDescription() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateEServiceDescription',
   })
   return useMutation({
-    mutationFn: TemplateServices.updateTemplateEServiceDescription,
+    mutationFn: TemplateServices.updateEServiceTemplateDescription,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -198,8 +198,8 @@ function useDeleteTemplateRiskAnalysis() {
 
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
-  useUpdateEServiceTemplateAudience,
-  useUpdateTemplateEServiceDescription,
+  useUpdateEServiceTemplateAudienceDescription,
+  useUpdateEServiceTemplateDescription,
   useUpdateQuotas,
   usePostVersionDraftDocument,
   useDeleteVersionDraftDocument,

@@ -1,5 +1,10 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import {
+  EServiceTemplateDescriptionUpdateSeed,
+  EServiceTemplateNameUpdateSeed,
+  EServiceTemplateVersionQuotasUpdateSeed,
+} from '../api.generatedTypes'
 
 async function getProviderTemplatesList() {
   //TODO params: GetProducerTemplatesParams
@@ -20,7 +25,7 @@ async function getProviderTemplatesList() {
   return response
 }
 
-async function getSingle(eserviceTemplateId: string) {
+async function getSingle(eServiceTemplateId: string) {
   /*const response = await axiosInstance.get<EServiceTemplate>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates//${eServiceTemplateId}`
   )
@@ -58,21 +63,23 @@ async function getSingle(eserviceTemplateId: string) {
 }
 
 async function updateEServiceTemplateName({
-  eserviceTemplateId,
+  eServiceTemplateId,
   ...payload
-}: { eserviceTemplateId: string } & EServiceTemplateNameUpdateSeed) {
+}: { eServiceTemplateId: string } & EServiceTemplateNameUpdateSeed) {
   /*const response = await axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}/name/update`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/name/update`,
     payload
   )
   return response.data*/
   return console.log('name template updated') //TODO
 }
 
-async function updateEServiceTemplateAudience({
-  eserviceTemplateId,
+async function updateEServiceTemplateAudienceDescription({
+  eServiceTemplateId,
   ...payload
-}: { eserviceTemplateId: string } & EServiceTemplateAudienceUpdateSeed) {
+}: {
+  eServiceTemplateId: string
+}) {
   /*const response = await axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/audienceDescription/update`,
     payload
@@ -81,10 +88,10 @@ async function updateEServiceTemplateAudience({
   return console.log('audience description template updated') //TODO
 }
 
-async function updateTemplateEServiceDescription({
-  eserviceTemplateId,
+async function updateEServiceTemplateDescription({
+  eServiceTemplateId,
   ...payload
-}: { eserviceTemplateId: string } & TemplateEServiceDescriptionUpdateSeed) {
+}: { eServiceTemplateId: string } & EServiceTemplateDescriptionUpdateSeed) {
   /*const response = await axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/eserviceDescription/update`,
     payload
@@ -94,19 +101,15 @@ async function updateTemplateEServiceDescription({
 }
 
 async function updateEServiceTemplateQuotas({
-  eserviceTemplateId,
-  voucherLifespan,
-  dailyCallsPerConsumer,
-  dailyCallsTotal,
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
   ...payload
 }: {
-  eserviceTemplateId: string
-  voucherLifespan: number
-  dailyCallsPerConsumer: number
-  dailyCallsTotal: number
-}) {
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
+} & EServiceTemplateVersionQuotasUpdateSeed) {
   /*const response = await axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/{eServiceTemplateVersionId}/quotas/update`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/quotas/update`,
     payload
   )
   return response.data*/
@@ -124,7 +127,7 @@ async function postVersionDraftDocument({
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/documents`,
     formData,
     { headers: { 'Content-Type': 'multipart/form-data' } }
   )
@@ -140,7 +143,7 @@ function deleteVersionDraftDocument({
   documentId: string
 }) {
   /* return axiosInstance.delete(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/documents/${documentId}`
   )*/
   return console.log('deleted doc')
 }
@@ -154,7 +157,7 @@ async function updateVersionDraftDocumentDescription({
   documentId: string
 } & UpdateEServiceDescriptorDocumentSeed) {
   /*const response = await axiosInstance.post<EServiceDoc>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}/update`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/documents/${documentId}/update`,
     payload
   )
   return response.data*/
@@ -169,7 +172,7 @@ async function downloadVersionDraftDocument({
   documentId: string
 }) {
   /*const response = await axiosInstance.get<File>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/documents/${documentId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/documents/${documentId}`,
     { responseType: 'arraybuffer' }
   )
   return response.data*/
@@ -186,7 +189,7 @@ async function createDraft(payload: EServiceTemplateSeed) {
 }
 
 async function updateDraft({
-  eserviceTemplateId,
+  eServiceTemplateId,
   ...payload
 }: {
   eserviceId: string
@@ -200,10 +203,10 @@ async function updateDraft({
 }
 
 async function updateVersionDraft({
-  eserviceTemplateId,
+  eServiceTemplateId,
   ...payload
 }: {
-  eserviceTemplateId: string
+  eServiceTemplateId: string
   descriptorId: string
 } & UpdateEServiceDescriptorSeed) {
   /*const response = await axiosInstance.put<CreatedResource>(
@@ -215,10 +218,10 @@ async function updateVersionDraft({
 }
 
 function addTemplateRiskAnalysis({
-  eserviceTemplateId,
+  eServiceTemplateId,
   ...payload
 }: {
-  eserviceTemplateId: string
+  eServiceTemplateId: string
 } & EServiceRiskAnalysisSeed) {
   /*return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/riskAnalysis`,
@@ -228,11 +231,11 @@ function addTemplateRiskAnalysis({
 }
 
 function updateTemplateRiskAnalysis({
-  eserviceTemplateId,
+  eServiceTemplateId,
   riskAnalysisId,
   ...payload
 }: {
-  eserviceTemplateId: string
+  eServiceTemplateId: string
   riskAnalysisId: string
 } & EServiceRiskAnalysisSeed) {
   /*return axiosInstance.post(
@@ -243,10 +246,10 @@ function updateTemplateRiskAnalysis({
 }
 
 function deleteTemplateRiskAnalysis({
-  eserviceTemplateId,
+  eServiceTemplateId,
   riskAnalysisId,
 }: {
-  eserviceTemplateId: string
+  eServiceTemplateId: string
   riskAnalysisId: string
 }) {
   /*return axiosInstance.delete(
@@ -259,8 +262,8 @@ export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
   updateEServiceTemplateName,
-  updateEServiceTemplateAudience,
-  updateTemplateEServiceDescription,
+  updateEServiceTemplateAudienceDescription,
+  updateEServiceTemplateDescription,
   updateEServiceTemplateQuotas,
   postVersionDraftDocument,
   deleteVersionDraftDocument,
