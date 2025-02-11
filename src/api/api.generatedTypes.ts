@@ -362,7 +362,14 @@ export interface ProducerEServiceDescriptor {
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: ProducerDescriptorEService
   attributes: DescriptorAttributes
+<<<<<<< HEAD
   rejectionReasons?: DescriptorRejectionReason[]
+=======
+  /** @format date-time */
+  publishedAt?: string
+  /** @format date-time */
+  deprecatedAt?: string
+>>>>>>> 6706375a (chore: added info deprecatedAt,publishedAt)
 }
 
 export interface ProducerDescriptorEService {

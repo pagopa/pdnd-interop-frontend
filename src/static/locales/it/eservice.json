@@ -347,7 +347,7 @@
           "label": "ID versione",
           "copySuccessFeedbackText": "ID versione copiato correttamente"
         },
-        "publishedAt": "Data pubblicazione versione",
+        "publishedAt": "Data ultima versione",
         "deprecatedAt": "Data deprecazione versione",
         "mode": {
           "label": "Tipologia e-service",

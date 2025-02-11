@@ -11,6 +11,7 @@ import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocument
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
+import { formatDateString } from '@/utils/format.utils'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
@@ -33,6 +34,37 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
         <SectionContainer innerSection>
           <Stack spacing={2}>
             <InformationContainer
+<<<<<<< HEAD
+=======
+              label={t('eserviceId.label')}
+              content={eserviceId}
+              copyToClipboard={{
+                value: eserviceId,
+                tooltipTitle: t('eserviceId.copySuccessFeedbackText'),
+              }}
+            />
+            <InformationContainer
+              label={t('descriptorId.label')}
+              content={descriptor.id}
+              copyToClipboard={{
+                value: descriptor.id,
+                tooltipTitle: t('descriptorId.copySuccessFeedbackText'),
+              }}
+            />
+            {descriptor.publishedAt && (
+              <InformationContainer
+                label={t('publishedAt')}
+                content={formatDateString(descriptor.publishedAt)}
+              />
+            )}
+            {descriptor.deprecatedAt && (
+              <InformationContainer
+                label={t('deprecatedAt')}
+                content={formatDateString(descriptor.deprecatedAt)}
+              />
+            )}
+            <InformationContainer
+>>>>>>> 6706375a (chore: added info deprecatedAt,publishedAt)
               label={t('technology')}
               content={descriptor.eservice.technology}
             />
