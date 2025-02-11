@@ -339,6 +339,8 @@
         "description": "In questa sezione potrai verificare le specifiche dell’e-service ed apportare modifiche.",
         "technology": "Tecnologia",
         "audience": "Audience",
+        "eserviceId":"ID e-service",
+        "descriptorId":"ID versione",
         "mode": {
           "label": "Tipologia e-service",
           "labelDescription": "Riceve / Eroga",
