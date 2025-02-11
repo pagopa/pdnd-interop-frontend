@@ -307,6 +307,14 @@
         "description": "In this section you can check the specifications of the e-service and make changes.",
         "technology": "Technology",
         "audience": "Audience",
+        "eserviceId" : {
+          "label" : "E-service's ID",
+          "copySuccessFeedbackText" :"E-service ID copied successfully"
+        },
+        "descriptorId" : {
+          "label" : "Version ID",
+          "copySuccessFeedbackText" :"Version id copied successfully"
+        },
         "mode": {
           "label": "E-service mode",
           "labelDescription": "Receive / Deliver",

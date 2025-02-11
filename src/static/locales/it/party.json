@@ -7,6 +7,10 @@
     "onBoardingDateField": {
       "label": "Data di adesione"
     },
+   "ipaCodeField": {
+      "label" : "Codice IPA",
+      "copySuccessFeedbackText" :"Codice IPA copiato correttamente"
+    },
     "subUnitTypeField": {
       "label": "Tipologia di ente"
     },

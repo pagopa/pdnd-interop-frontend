@@ -33,6 +33,22 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
         <SectionContainer innerSection>
           <Stack spacing={2}>
             <InformationContainer
+              label={t('eserviceId.label')}
+              content={eserviceId}
+              copyToClipboard={{
+                value: eserviceId,
+                tooltipTitle: t('eserviceId.copySuccessFeedbackText'),
+              }}
+            />
+            <InformationContainer
+              label={t('descriptorId.label')}
+              content={descriptor.id}
+              copyToClipboard={{
+                value: descriptor.id,
+                tooltipTitle: t('descriptorId.copySuccessFeedbackText'),
+              }}
+            />
+            <InformationContainer
               label={t('technology')}
               content={descriptor.eservice.technology}
             />

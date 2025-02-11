@@ -21,6 +21,14 @@ export const PartyGeneralInfoSection: React.FC = () => {
               label={t('onBoardingDateField.label')}
               content={onBoardedAtFormatted}
             />
+            <InformationContainer
+              label={t('ipaCodeField.label')}
+              content={user.externalId.value}
+              copyToClipboard={{
+                value: user.externalId.value,
+                tooltipTitle: t('ipaCodeField.copySuccessFeedbackText'),
+              }}
+            />
             {user?.subUnitType && (
               <InformationContainer
                 label={t('subUnitTypeField.label')}
