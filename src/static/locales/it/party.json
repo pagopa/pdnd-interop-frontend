@@ -8,7 +8,8 @@
       "label": "Data di adesione"
     },
     "ipaCodeField": {
-      "label": "Codice IPA"
+      "label": "Codice IPA",
+      "copySuccessFeedbackText": "Codice IPA copiato correttamente"
     },
     "vatCodeField": {
       "label": "Partita IVA"

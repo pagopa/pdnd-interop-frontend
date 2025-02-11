@@ -8,7 +8,8 @@
       "label": "Date of joining"
     },
     "ipaCodeField": {
-      "label": "IPA code"
+      "label": "IPA code",
+      "copySuccessFeedbackText": "IPA id copied correctly"
     },
     "vatCodeField": {
       "label": "VAT code"
