@@ -772,8 +772,14 @@ export interface ProducerKeychain {
   createdAt: string
   producer: CompactOrganization
   name: string
-  eservices: CompactEServiceLight[]
+  eservices: ProducerKeychainEService[]
   description: string
+}
+
+export interface ProducerKeychainEService {
+  /** @format uuid */
+  id: string
+  name: string
 }
 
 export interface EServiceAdditionDetailsSeed {
@@ -1128,6 +1134,7 @@ export interface Tenant {
   id: string
   /** @format uuid */
   selfcareId?: string
+  kind?: TenantKind
   externalId: ExternalId
   features: TenantFeature[]
   /** @format date-time */
@@ -2944,6 +2951,34 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateDescriptorAttributes
+   * @summary Update e-service published descriptor attributes
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/attributes/update
+   * @secure
+   */
+  export namespace UpdateDescriptorAttributes {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = DescriptorAttributesSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
   }
 }
 
