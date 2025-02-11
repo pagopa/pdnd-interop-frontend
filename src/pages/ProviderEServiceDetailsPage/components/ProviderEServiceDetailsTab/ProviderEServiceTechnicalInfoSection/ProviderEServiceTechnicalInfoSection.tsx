@@ -11,6 +11,7 @@ import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocument
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
+import { formatDateString } from '@/utils/format.utils'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
@@ -48,6 +49,18 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
                 tooltipTitle: t('descriptorId.copySuccessFeedbackText'),
               }}
             />
+            {descriptor.publishedAt && (
+              <InformationContainer
+                label={t('publishedAt')}
+                content={formatDateString(descriptor.publishedAt)}
+              />
+            )}
+            {descriptor.deprecatedAt && (
+              <InformationContainer
+                label={t('deprecatedAt')}
+                content={formatDateString(descriptor.deprecatedAt)}
+              />
+            )}
             <InformationContainer
               label={t('technology')}
               content={descriptor.eservice.technology}

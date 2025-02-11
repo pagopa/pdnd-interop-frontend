@@ -335,6 +335,10 @@ export interface ProducerEServiceDescriptor {
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: ProducerDescriptorEService
   attributes: DescriptorAttributes
+  /** @format date-time */
+  publishedAt?: string
+  /** @format date-time */
+  deprecatedAt?: string
 }
 
 export interface ProducerDescriptorEService {
