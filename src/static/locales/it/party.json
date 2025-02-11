@@ -7,6 +7,12 @@
     "onBoardingDateField": {
       "label": "Data di adesione"
     },
+    "ipaCodeField": {
+      "label": "Codice IPA"
+    },
+    "vatCodeField": {
+      "label": "Partita IVA"
+    },
     "subUnitTypeField": {
       "label": "Tipologia di ente"
     },

@@ -7,6 +7,12 @@
     "onBoardingDateField": {
       "label": "Date of joining"
     },
+    "ipaCodeField": {
+      "label": "IPA code"
+    },
+    "vatCodeField": {
+      "label": "VAT code"
+    },
     "subUnitTypeField": {
       "label": "Organization type"
     },

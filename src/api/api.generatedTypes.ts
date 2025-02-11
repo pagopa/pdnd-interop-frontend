@@ -362,14 +362,11 @@ export interface ProducerEServiceDescriptor {
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: ProducerDescriptorEService
   attributes: DescriptorAttributes
-<<<<<<< HEAD
   rejectionReasons?: DescriptorRejectionReason[]
-=======
   /** @format date-time */
   publishedAt?: string
   /** @format date-time */
   deprecatedAt?: string
->>>>>>> 6706375a (chore: added info deprecatedAt,publishedAt)
 }
 
 export interface ProducerDescriptorEService {
@@ -839,8 +836,18 @@ export interface ProducerKeychain {
   createdAt: string
   producer: CompactOrganization
   name: string
+<<<<<<< HEAD
   eservices: CompactEService[]
+=======
+  eservices: ProducerKeychainEService[]
+>>>>>>> 93304e4f (chore: add check private/pa)
   description: string
+}
+
+export interface ProducerKeychainEService {
+  /** @format uuid */
+  id: string
+  name: string
 }
 
 export interface EServiceAdditionDetailsSeed {
@@ -1226,6 +1233,7 @@ export interface Tenant {
   id: string
   /** @format uuid */
   selfcareId?: string
+  kind?: TenantKind
   externalId: ExternalId
   features: TenantFeature[]
   /** @format date-time */
@@ -4232,6 +4240,7 @@ export namespace Eservices {
     }
     export type ResponseBody = CreatedResource
   }
+<<<<<<< HEAD
   /**
    * No description
    * @tags eservices
@@ -4288,6 +4297,8 @@ export namespace Eservices {
     }
     export type ResponseBody = CreatedResource
   }
+=======
+>>>>>>> 93304e4f (chore: add check private/pa)
 }
 
 export namespace Export {
