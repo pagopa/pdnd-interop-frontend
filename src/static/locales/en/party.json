@@ -7,6 +7,12 @@
     "onBoardingDateField": {
       "label": "Date of joining"
     },
+
+    "ipaCodeField": {
+      "label" : "IPA code",
+      "copySuccessFeedbackText" : "IPA id copied correctly"
+
+    },
     "subUnitTypeField": {
       "label": "Organization type"
     },
