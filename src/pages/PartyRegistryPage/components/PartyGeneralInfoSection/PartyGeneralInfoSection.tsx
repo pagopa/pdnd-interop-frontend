@@ -12,6 +12,8 @@ export const PartyGeneralInfoSection: React.FC = () => {
   const { data: user } = TenantHooks.useGetActiveUserParty()
   const onBoardedAtFormatted = user?.onboardedAt ? formatDateString(user?.onboardedAt) : 'n/a'
 
+  const isPrivateParty = user.kind === 'PRIVATE'
+
   return (
     <Grid container>
       <Grid item xs={8}>
@@ -20,6 +22,10 @@ export const PartyGeneralInfoSection: React.FC = () => {
             <InformationContainer
               label={t('onBoardingDateField.label')}
               content={onBoardedAtFormatted}
+            />
+            <InformationContainer
+              label={isPrivateParty ? t('vatCodeField.label') : t('ipaCodeField.label')}
+              content={user.externalId.value}
             />
             {user?.subUnitType && (
               <InformationContainer
