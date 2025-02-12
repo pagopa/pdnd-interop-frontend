@@ -23,7 +23,7 @@ import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutoco
 
 export type PurposeCreateFormValues = {
   consumerId: string
-  eservice: CatalogEService | CompactEService | null
+  eservice: CatalogEService | CompactEService | undefined
   useTemplate: boolean
   templateId: string | null
   providerRiskAnalysisId: string | null
@@ -40,7 +40,7 @@ export const PurposeCreateForm: React.FC = () => {
   const formMethods = useForm<PurposeCreateFormValues>({
     defaultValues: {
       consumerId: jwt?.organizationId as string,
-      eservice: null,
+      eservice: undefined,
       useTemplate: false,
       templateId: null,
       providerRiskAnalysisId: null,
