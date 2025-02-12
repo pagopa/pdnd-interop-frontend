@@ -62,7 +62,7 @@ async function getDescriptorCatalog(eserviceId: string, descriptorId: string) {
 
 async function getDescriptorProvider(eserviceId: string, descriptorId: string) {
   const response = await axiosInstance.get<ProducerEServiceDescriptor>(
-    `http://localhost:3600/backend-for-frontend/0.0/producers/eservices/${eserviceId}/descriptors/${descriptorId}`
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/${eserviceId}/descriptors/${descriptorId}`
   )
   return response.data
 }
