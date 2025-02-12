@@ -92,7 +92,7 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
               {t('delegations.create.cards.common')}
             </Typography>
             <Typography variant="body1" color="primary.main" component="div" fontWeight={700}>
-              {t('delegations.create.cards.consume')}
+              {t('delegations.create.cards.consumer')}
             </Typography>
           </div>
         </CardContent>
@@ -117,7 +117,7 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
               {t('delegations.create.cards.common')}
             </Typography>
             <Typography variant="body1" color="primary.main" component="div" fontWeight={700}>
-              {t('delegations.create.cards.provide')}
+              {t('delegations.create.cards.provider')}
             </Typography>
           </div>
         </CardContent>

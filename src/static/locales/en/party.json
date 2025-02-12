@@ -122,21 +122,24 @@
     "create": {
       "title": "Create delegation",
       "kindSectionTitle": "Delegation's kinds",
-      "consumeDelegationTitle": "Consume delegation",
-      "provideDelegationTitle": "Provide delegation",
+      "consumerDelegationTitle": "Consumer delegation",
+      "providerDelegationTitle": "Provider delegation",
       "cancelBtn": "Cancel",
       "backWithoutSaveBtn": "Go back",
       "forwardWithSaveBtn": "Next",
       "submitBtn": "Submit delegation",
       "cards": {
         "common": "I want to create a ",
-        "consume": "consumer's delegation",
-        "provide": "provider's delegation"
+        "consumer": "consumer's delegation",
+        "provider": "provider's delegation"
       },
       "eserviceField": {
         "label": "E-service name (required)",
         "infoLabel": "Min 5 chars, max 60 chars",
-        "infoLabelAutocomplete": "The list includes only those  e-services for which the respective producers have given availability to consume by delegation.",
+        "infoLabelAutocomplete": {
+          "consumer": "The list includes only those e-services for which the respective providers have given availability to consume by delegation.",
+          "producer": "The list includes only those e-services for which the respective producers have given availability to provide by delegation."
+        },
         "descriptionLabel": "E-service description",
         "descriptionInfoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars",
         "eserviceNameLabel": "Provide by"

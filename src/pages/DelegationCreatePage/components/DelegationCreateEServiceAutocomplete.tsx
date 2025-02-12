@@ -92,7 +92,11 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
       loading={isLoadingCatalogEservices || isLoadingProducerEservices}
       name="eserviceId"
       label={t('delegations.create.eserviceField.label')}
-      infoLabel={t('delegations.create.eserviceField.infoLabelAutocomplete')}
+      infoLabel={t(
+        `delegations.create.eserviceField.infoLabelAutocomplete.${
+          delegationKind === 'DELEGATED_CONSUMER' ? 'consumer' : 'producer'
+        }`
+      )}
       options={autocompleteOptions}
       onValueChange={(value) => {
         selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)

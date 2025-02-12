@@ -139,8 +139,8 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
 
   const sectionTitle =
     delegationKind === 'DELEGATED_PRODUCER'
-      ? t('delegations.create.provideDelegationTitle')
-      : t('delegations.create.consumeDelegationTitle')
+      ? t('delegations.create.providerDelegationTitle')
+      : t('delegations.create.consumerDelegationTitle')
 
   return (
     <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
