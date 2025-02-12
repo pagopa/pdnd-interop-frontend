@@ -64,12 +64,12 @@ export const PurposeCreateForm: React.FC = () => {
   const { data: selectedEServiceDescriptorId } = useQuery({
     ...EServiceQueries.getCatalogList({
       q: selectedEService?.name,
-      agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
     }),
+    enabled: Boolean(selectedEService),
     select: (d) =>
       d.results.find((eservice) => eservice.id === selectedEServiceId)?.activeDescriptor?.id,
   })
