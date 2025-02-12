@@ -190,7 +190,7 @@
     "consumer": {
       "title": "Consumer delegation revocation",
       "content": {
-        "description": "By revoking the delegation, you will come into possession of the requests and purposes created by the delegate for use on behalf of your institution and you will be able to manage them independently, or create a new delegation. Do you have doubts? <1>Consult the guide</1>.\n\n<strong>After revocation, you will have to reactivate and/or create the purposes and associate your clients to be able to access the e-service data again {{eserviceName}} with delegation of use</strong>.",
+        "description": "By revoking the delegation, you will come into possession of the requests and purposes created by the delegate for use on behalf of your institution and you will be able to manage them independently, or create a new delegation. Do you have doubts? <1>Consult the guide</1>.<strong>After revocation, you will have to reactivate and/or create the purposes and associate your clients to be able to access the e-service data again {{eserviceName}} with delegation of use.</strong>",
         "checkbox": "I have read and I want to proceed with the revocation"
       },
       "actions": {

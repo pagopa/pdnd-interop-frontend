@@ -89,9 +89,9 @@ export const DialogCreateAgreementAutocomplete: React.FC<
       ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegators]
       : delegators
 
-  const autocompleteOptions = tenantOptions.map((delegator) => ({
-    label: delegator.name,
-    value: delegator.id,
+  const autocompleteOptions = tenantOptions.map((tenant) => ({
+    label: tenant.name,
+    value: tenant.id,
   }))
 
   return (
@@ -102,9 +102,7 @@ export const DialogCreateAgreementAutocomplete: React.FC<
       options={autocompleteOptions}
       label={t('consumerField.label')}
       onValueChange={(value) => {
-        selectedConsumerRef.current = tenantOptions?.find(
-          (delegator) => delegator.id === value?.value
-        )
+        selectedConsumerRef.current = tenantOptions?.find((tenant) => tenant.id === value?.value)
       }}
       onInputChange={(_, value) => setConsumerAutocompleteTextInput(value)}
       rules={{ required: true }}

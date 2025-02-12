@@ -19,7 +19,11 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
-import { eserviceNamingBestPracticeLink } from '@/config/constants'
+import {
+  delegationEServiceGuideLink,
+  delegationGuideLink,
+  eserviceNamingBestPracticeLink,
+} from '@/config/constants'
 import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
@@ -197,7 +201,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           description={
             <Trans
               components={{
-                1: <Link underline="hover" href={'TODO link'} target="_blank" />,
+                1: <Link underline="hover" href={delegationGuideLink} target="_blank" />,
               }}
             >
               {t('create.step1.delegationSection.description')}
@@ -229,7 +233,13 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 label={
                   <Trans
                     components={{
-                      1: <Link underline="hover" href={'TODO link'} target="_blank" />,
+                      1: (
+                        <Link
+                          underline="hover"
+                          href={delegationEServiceGuideLink}
+                          target="_blank"
+                        />
+                      ),
                     }}
                   >
                     {t('create.step1.delegationSection.clientAccessDelegableField.checkboxLabel')}

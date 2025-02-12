@@ -50,7 +50,7 @@ export const PurposeCreateConsumerAutocomplete: React.FC<
       offset: 0,
       limit: 50,
     }),
-    select: (d) => d.results,
+    select: (d) => d.results ?? [],
   })
 
   React.useEffect(() => {
@@ -62,14 +62,14 @@ export const PurposeCreateConsumerAutocomplete: React.FC<
     }
   }, [delegators, selectedConsumerId, setConsumerAutocompleteTextInput, setValue])
 
-  const delegatorsOptions = (delegators ?? []).map((delegator) => ({
-    label: delegator.name,
-    value: delegator.id,
-  }))
+  const tenantOptions = jwt
+    ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegators]
+    : delegators
 
-  const autocompleteOptions = jwt
-    ? [{ label: jwt.organization.name, value: jwt.organizationId }, ...delegatorsOptions]
-    : [...delegatorsOptions]
+  const autocompleteOptions = tenantOptions.map((tenant) => ({
+    label: tenant.name,
+    value: tenant.id,
+  }))
 
   return (
     <RHFAutocompleteSingle
@@ -80,7 +80,7 @@ export const PurposeCreateConsumerAutocomplete: React.FC<
       label={t('consumerField.label')}
       infoLabel={t('consumerField.infoLabel')}
       onValueChange={(value) => {
-        selectedConsumerRef.current = delegators?.find((delegator) => delegator.id === value?.value)
+        selectedConsumerRef.current = tenantOptions?.find((tenant) => tenant.id === value?.value)
       }}
       onInputChange={(_, value) => setConsumerAutocompleteTextInput(value)}
       rules={{ required: true }}

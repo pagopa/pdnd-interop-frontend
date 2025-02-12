@@ -1,4 +1,5 @@
 import { DelegationMutations } from '@/api/delegation'
+import { delegationGuideLink } from '@/config/constants'
 import { useDialog } from '@/stores'
 import type { DialogRevokeDelegationProps } from '@/types/dialog.types'
 import {
@@ -61,8 +62,8 @@ export const DialogRevokeDelegation: React.FC<DialogRevokeDelegationProps> = ({
           <Typography variant="body2">
             <Trans
               components={{
-                1: <Link underline="hover" href={'TODO right link'} target="_blank" />,
-                strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+                1: <Link underline="hover" href={delegationGuideLink} target="_blank" />,
+                strong: <Typography variant="inherit" pt={2} fontWeight={600} />,
               }}
             >
               {t('content.description', {

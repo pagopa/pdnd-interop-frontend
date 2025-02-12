@@ -13,11 +13,10 @@ import { AuthHooks } from '@/api/auth'
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
   const selectedEServiceRef = React.useRef<CatalogEService | CompactEService | undefined>(undefined)
-  const hasSetFirstEService = React.useRef(false)
 
   const { jwt } = AuthHooks.useJwt()
 
-  const { setValue, watch } = useFormContext<PurposeCreateFormValues>()
+  const { watch } = useFormContext<PurposeCreateFormValues>()
   const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
     useAutocompleteTextInput()
 
@@ -28,7 +27,6 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     [t]
   )
 
-  const selectedEServiceId = watch('eservice')?.id
   const selectedConsumerId = watch('consumerId')
 
   /**
@@ -56,8 +54,8 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
       limit: 50,
       offset: 0,
     }),
-    enabled: selectedConsumerId === jwt?.organizationId,
-    select: (e) => e.results,
+    enabled: selectedConsumerId === jwt?.organizationId || !selectedConsumerId,
+    select: (e) => e.results ?? [],
   })
 
   const { data: delegatedEServices = [], isLoading: isDelegatedEServiceLoading } = useQuery({
@@ -67,26 +65,14 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
       limit: 50,
       offset: 0,
     }),
-    enabled: selectedConsumerId !== jwt?.organizationId,
-    select: (e) => e.results,
+    enabled: Boolean(selectedConsumerId) && selectedConsumerId !== jwt?.organizationId,
+    select: (e) => e.results ?? [],
   })
 
-  const eservicesList = selectedConsumerId === jwt?.organizationId ? eservices : delegatedEServices
-
-  React.useEffect(() => {
-    if (!selectedEServiceId && !hasSetFirstEService.current && eservicesList.length > 0) {
-      setValue('eservice', eservicesList[0])
-      setEserviceAutocompleteTextInput(formatAutocompleteOptionLabel(eservicesList[0]))
-      selectedEServiceRef.current = eservicesList[0]
-      hasSetFirstEService.current = true
-    }
-  }, [
-    selectedEServiceId,
-    setValue,
-    formatAutocompleteOptionLabel,
-    setEserviceAutocompleteTextInput,
-    eservicesList,
-  ])
+  const eservicesList =
+    selectedConsumerId === jwt?.organizationId || !selectedConsumerId
+      ? eservices
+      : delegatedEServices
 
   const autocompleteOptions = (eservicesList ?? []).map((eservice) => ({
     label: formatAutocompleteOptionLabel(eservice),
@@ -107,6 +93,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
         )
       }}
       onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
+      rules={{ required: true }}
     />
   )
 }

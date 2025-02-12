@@ -36,6 +36,8 @@ export const DialogRejectDelegation: React.FC<DialogRejectDelegationProps> = ({
     defaultValues: { reason: '' },
   })
 
+  const isSubmitButtonEnabled = formMethods.watch('reason') !== ''
+
   const onSubmit = ({ reason }: RejectDelegationFormValues) => {
     rejectDelegation({ delegationId, rejectionReason: reason })
     closeDialog()
@@ -65,7 +67,7 @@ export const DialogRejectDelegation: React.FC<DialogRejectDelegationProps> = ({
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {tCommon('cancel')}
             </Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" disabled={!isSubmitButtonEnabled}>
               {t('actions.reject')}
             </Button>
           </DialogActions>

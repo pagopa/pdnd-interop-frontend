@@ -23,7 +23,7 @@ import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutoco
 
 export type PurposeCreateFormValues = {
   consumerId: string
-  eservice: CatalogEService | CompactEService | null
+  eservice: CatalogEService | CompactEService | undefined
   useTemplate: boolean
   templateId: string | null
   providerRiskAnalysisId: string | null
@@ -40,7 +40,7 @@ export const PurposeCreateForm: React.FC = () => {
   const formMethods = useForm<PurposeCreateFormValues>({
     defaultValues: {
       consumerId: jwt?.organizationId as string,
-      eservice: null,
+      eservice: undefined,
       useTemplate: false,
       templateId: null,
       providerRiskAnalysisId: null,
@@ -153,18 +153,20 @@ export const PurposeCreateForm: React.FC = () => {
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer title={t('create.preliminaryInformationSectionTitle')}>
-          <PurposeCreateConsumerAutocomplete
-            preselectedConsumer={
-              jwt ? { id: jwt?.organizationId, name: jwt?.organization.name } : undefined
-            }
-          />
-          <PurposeCreateEServiceAutocomplete />
-          {/* {isEServiceSelected && mode === 'DELIVER' && (
+          <Stack spacing={3}>
+            <PurposeCreateConsumerAutocomplete
+              preselectedConsumer={
+                jwt ? { id: jwt?.organizationId, name: jwt?.organization.name } : undefined
+              }
+            />
+            <PurposeCreateEServiceAutocomplete />
+            {/* {isEServiceSelected && mode === 'DELIVER' && (
             <>
               <RHFSwitch name="useTemplate" label={t('create.isTemplateField.label')} />
               <PurposeCreateTemplateAutocomplete />
             </>
           )} */}
+          </Stack>
         </SectionContainer>
         {/* <PurposeCreateRiskAnalysisPreview /> */}
         {isEServiceSelected && mode === 'RECEIVE' && (
