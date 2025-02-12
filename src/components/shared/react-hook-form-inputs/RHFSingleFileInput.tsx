@@ -57,6 +57,7 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
 
           return (
             <PagoPASingleFileInput
+              dropzoneButton="TBD"
               value={field.value}
               onFileSelected={(file: File) => {
                 field.onChange(file)
