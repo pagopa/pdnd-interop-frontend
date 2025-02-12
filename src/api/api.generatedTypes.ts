@@ -832,7 +832,7 @@ export interface ProducerKeychain {
   createdAt: string
   producer: CompactOrganization
   name: string
-  eservices: CompactEServiceLight[]
+  eservices: CompactEService[]
   description: string
 }
 
