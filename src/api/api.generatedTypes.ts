@@ -1181,17 +1181,17 @@ export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER' | 
 
 export type TenantFeature =
   | {
-      /** Certifier Tenant Feature */
-      certifier?: Certifier
-    }
+    /** Certifier Tenant Feature */
+    certifier?: Certifier
+  }
   | {
-      /** Delegated producer Tenant Feature */
-      delegatedProducer?: DelegatedProducer
-    }
+    /** Delegated producer Tenant Feature */
+    delegatedProducer?: DelegatedProducer
+  }
   | {
-      /** Delegated consumer Tenant Feature */
-      delegatedConsumer?: DelegatedConsumer
-    }
+    /** Delegated consumer Tenant Feature */
+    delegatedConsumer?: DelegatedConsumer
+  }
 
 /** Certifier Tenant Feature */
 export interface Certifier {
@@ -1481,6 +1481,68 @@ export interface EServiceTemplateDescriptionUpdateSeed {
   description: string
 }
 
+/** EService Descriptor State */
+export type EServiceTemplateVersionState = 'DRAFT' | 'PUBLISHED' | 'DEPRECATED' | 'SUSPENDED'
+
+export interface CompactEServiceTemplateVersion {
+  /** @format uuid */
+  id: string
+  /** @format int32 */
+  version: number
+  /** EService Descriptor State */
+  state: EServiceTemplateVersionState
+}
+
+export interface EServiceTemplateDetails {
+  /** @format uuid */
+  id: string
+  creator: CompactOrganization
+  name: string
+  audienceDescription: string
+  eserviceDescription: string
+  /** EService Descriptor State */
+  technology: EServiceTechnology
+  versions: CompactEServiceTemplateVersion[]
+  riskAnalysis: EServiceRiskAnalysis[]
+  /** Risk Analysis Mode */
+  mode: EServiceMode
+  isSignalHubEnabled?: boolean
+}
+
+export interface EServiceTemplateVersionDetails {
+  /** @format uuid */
+  id: string
+  /** @format int32 */
+  version: number
+  description?: string
+  /** @format int32 */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford per consumer.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsTotal?: number
+  interface?: EServiceDoc
+  docs: EServiceDoc[]
+  /** EService Descriptor State */
+  state: EServiceTemplateVersionState
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy?: AgreementApprovalPolicy
+  attributes: DescriptorAttributes
+  eserviceTemplate: EServiceTemplateDetails
+}
+
 export interface EServiceTemplateVersionQuotasUpdateSeed {
   /**
    * @format int32
@@ -1498,6 +1560,193 @@ export interface EServiceTemplateVersionQuotasUpdateSeed {
    * @min 1
    */
   dailyCallsTotal?: number
+}
+
+/** contains the id of the created resource with the versionId */
+export interface CreatedEServiceTemplateVersion {
+  /** @format uuid */
+  id: string
+  /** @format uuid */
+  versionId: string
+}
+
+export interface UpdateEServiceTemplateSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  audienceDescription: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  eserviceDescription: string
+  /** EService Descriptor State */
+  technology: EServiceTechnology
+  /** Risk Analysis Mode */
+  mode: EServiceMode
+  isSignalHubEnabled?: boolean
+}
+
+export interface EServiceTemplate {
+  /** @format uuid */
+  id: string
+  /** @format uuid */
+  creatorId: string
+  name: string
+  audienceDescription: string
+  eserviceDescription: string
+  /** EService Descriptor State */
+  technology: EServiceTechnology
+  versions: EServiceTemplateVersion[]
+  riskAnalysis: EServiceRiskAnalysis[]
+  /** Risk Analysis Mode */
+  mode: EServiceMode
+  isSignalHubEnabled?: boolean
+}
+
+export interface EServiceTemplateVersion {
+  /** @format uuid */
+  id: string
+  /** @format int32 */
+  version: number
+  description?: string
+  /** @format int32 */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford per consumer.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsTotal?: number
+  interface?: EServiceDoc
+  docs: EServiceDoc[]
+  /** EService Descriptor State */
+  state: EServiceTemplateVersionState
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy?: AgreementApprovalPolicy
+  /** @format date-time */
+  publishedAt?: string
+  /** @format date-time */
+  suspendedAt?: string
+  /** @format date-time */
+  deprecatedAt?: string
+  attributes: Attributes
+}
+
+export interface EServiceTemplateSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  audienceDescription: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  eserviceDescription: string
+  /** EService Descriptor State */
+  technology: EServiceTechnology
+  /** Risk Analysis Mode */
+  mode: EServiceMode
+  version: VersionSeedForEServiceTemplateCreation
+  isSignalHubEnabled?: boolean
+}
+
+export interface VersionSeedForEServiceTemplateCreation {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string
+  /**
+   * @format int32
+   * @min 60
+   * @max 86400
+   */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsTotal?: number
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy?: AgreementApprovalPolicy
+}
+
+export interface EServiceTemplateInstance {
+  /** @format uuid */
+  id: string
+  producerName: string
+  /** EService Descriptor State */
+  state: EServiceDescriptorState
+  instanceId?: string
+  /** @format int32 */
+  version: number
+}
+
+export interface EServiceTemplateInstances {
+  results: EServiceTemplateInstance[]
+  /** @format int32 */
+  totalCount: number
+}
+
+export interface CatalogEServiceTemplate {
+  /** @format uuid */
+  id: string
+  name: string
+  description: string
+  creator: CompactOrganization
+  publishedVersion: CompactEServiceTemplateVersion
+}
+
+export interface ProducerEServiceTemplate {
+  /** @format uuid */
+  id: string
+  name: string
+  activeVersion?: CompactEServiceTemplateVersion
+  draftVersion?: CompactEServiceTemplateVersion
+}
+
+export interface CatalogEServiceTemplates {
+  results: CatalogEServiceTemplate[]
+  pagination: Pagination
+}
+
+export interface ProducerEServiceTemplates {
+  results: ProducerEServiceTemplate[]
+  pagination: Pagination
 }
 
 export interface Problem {
@@ -1534,6 +1783,51 @@ export interface Problem {
   detail?: string
   /** @minItems 1 */
   errors: ProblemError[]
+}
+
+export interface UpdateEServiceTemplateVersionSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string
+  /**
+   * @format int32
+   * @min 60
+   * @max 86400
+   */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsTotal?: number
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy?: AgreementApprovalPolicy
+  attributes: EServiceTemplateAttributesSeed
+}
+
+export interface EServiceTemplateAttributesSeed {
+  certified: EServiceTemplateVersionAttributeSeed[][]
+  declared: EServiceTemplateVersionAttributeSeed[][]
+  verified: EServiceTemplateVersionAttributeSeed[][]
+}
+
+export interface EServiceTemplateVersionAttributeSeed {
+  /** @format uuid */
+  id: string
+  explicitAttributeVerification: boolean
 }
 
 export interface ProblemError {
@@ -2737,42 +3031,6 @@ export namespace Agreements {
     export type RequestQuery = {
       /** Query to filter Producers by name */
       q?: string
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CompactOrganizations
-  }
-  /**
-   * @description Retrieves Tenants that are consumers with existing Agreements
-   * @tags agreements
-   * @name GetAgreementConsumers
-   * @summary Retrieves Tenants that are consumers with existing Agreements
-   * @request GET:/agreements/filter/consumers
-   * @secure
-   */
-  export namespace GetAgreementConsumers {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      /** Query to filter Consumers by name */
-      q?: string
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
       /**
        * @format int32
        * @min 1
@@ -4316,6 +4574,43 @@ export namespace Eservices {
   /**
    * No description
    * @tags eserviceTemplates
+   * @name CreateEServiceTemplate
+   * @summary Create a new e-service template
+   * @request POST:/eservices/templates
+   * @secure
+   */
+  export namespace CreateEServiceTemplate {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = EServiceTemplateSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedEServiceTemplateVersion
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name UpdateEServiceTemplate
+   * @summary Updates e-service template general information
+   * @request POST:/eservices/templates/{eServiceTemplateId}
+   * @secure
+   */
+  export namespace UpdateEServiceTemplate {
+    export type RequestParams = {
+      /** The E-Service id to update */
+      eServiceTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceTemplateSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
    * @name SuspendEServiceTemplateVersion
    * @summary Suspend the selected eservice template version.
    * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/suspend
@@ -4439,6 +4734,84 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
+   * @description Retrieves a eservice template version corresponding to the id
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplateVersion
+   * @summary Retrieves a eservice template version corresponding to the id
+   * @request GET:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}
+   * @secure
+   */
+  export namespace GetEServiceTemplateVersion {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the eservice template
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the eservice template version id
+       * @format uuid
+       */
+      eServiceTemplateVersionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = EServiceTemplateVersionDetails
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name UpdateDraftTemplateVersion
+   * @summary Updates a draft template version
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}
+   * @secure
+   */
+  export namespace UpdateDraftTemplateVersion {
+    export type RequestParams = {
+      /** The E-Service template id */
+      eServiceTemplateId: string
+      /** The E-Service template version Id */
+      eServiceTemplateVersionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceTemplateVersionSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name DeleteDraftTemplateVersion
+   * @summary Delete a draft template version
+   * @request DELETE:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}
+   * @secure
+   */
+  export namespace DeleteDraftTemplateVersion {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the eservice template version id
+       * @format uuid
+       */
+      eServiceTemplateVersionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
    * No description
    * @tags eserviceTemplates
    * @name UpdateTemplateVersionQuotas
@@ -4461,6 +4834,85 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceTemplateVersionQuotasUpdateSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name CreateEServiceTemplateRiskAnalysis
+   * @summary Create an e-service template risk analysis
+   * @request POST:/eservices/templates/{eServiceTemplateId}/riskAnalysis
+   * @secure
+   */
+  export namespace CreateEServiceTemplateRiskAnalysis {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceRiskAnalysisSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name UpdateEServiceTemplateRiskAnalysis
+   * @summary Update an e-service template risk analysis
+   * @request POST:/eservices/templates/{eServiceTemplateId}/riskAnalysis/{riskAnalysisId}
+   * @secure
+   */
+  export namespace UpdateEServiceTemplateRiskAnalysis {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      riskAnalysisId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceRiskAnalysisSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name DeleteEServiceTemplateRiskAnalysis
+   * @summary Delete an e-service template risk analysis
+   * @request DELETE:/eservices/templates/{eServiceTemplateId}/riskAnalysis/{riskAnalysisId}
+   * @secure
+   */
+  export namespace DeleteEServiceTemplateRiskAnalysis {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the risk analysis id
+       * @format uuid
+       */
+      riskAnalysisId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
@@ -4495,27 +4947,46 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Retrieves EService template instances
    * @tags eserviceTemplates
-   * @name CreateEServiceTemplateVersion
-   * @summary Adds a mew version to the specified e-service template
-   * @request POST:/eservices/templates/{eServiceTemplateId}/versions
+   * @name GetEServiceTemplateInstances
+   * @summary Retrieves EService template instances
+   * @request GET:/eservices/templates/{eServiceTemplateId}/instances
    * @secure
    */
-  export namespace CreateEServiceTemplateVersion {
+  export namespace GetEServiceTemplateInstances {
     export type RequestParams = {
       /**
-       * The E-Service template id
+       * the eservice template id
        * @format uuid
        */
       eServiceTemplateId: string
     }
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      /** Query to filter by producer name */
+      producerName?: string
+      /**
+       * comma separated sequence of instance states
+       * @default []
+       */
+      states?: EServiceDescriptorState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = CreatedResource
+    export type ResponseBody = EServiceTemplateInstances
   }
 }
 
