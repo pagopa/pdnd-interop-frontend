@@ -13,15 +13,57 @@ async function getProviderTemplatesList() {
     { params }
   )
   return response.data*/
-  const response = [
-    {
-      id: 'mock_templateid1',
-      name: 'mock_templatename1',
-      version: '1',
-      state: 'ACTIVE',
+  const response = {
+    results: [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        name: 'Object One',
+        activeVersion: {
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          version: 1,
+          state: 'PUBLISHED',
+        },
+        draftVersion: {
+          id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          version: 2,
+          state: 'DRAFT',
+        },
+      },
+      {
+        id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
+        name: 'Object Two',
+        activeVersion: {
+          id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
+          version: 1,
+          state: 'DRAFT',
+        },
+        draftVersion: {
+          id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
+          version: 1,
+          state: 'DRAFT',
+        },
+      },
+      {
+        id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
+        name: 'Object Three',
+        activeVersion: {
+          id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
+          version: 2,
+          state: 'PUBLISHED',
+        },
+        draftVersion: {
+          id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
+          version: 3,
+          state: 'DRAFT',
+        },
+      },
+    ],
+    pagination: {
+      offset: 0,
+      limit: 3,
+      totalCount: 3,
     },
-    { id: 'mock_templateid2', name: 'mock_templatename2', version: '1', state: 'DRAFT' },
-  ]
+  }
   return response
 }
 
@@ -30,37 +72,111 @@ async function getSingle(eServiceTemplateId: string) {
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}`
   )
   return response.data*/
-  return {
-    id: 'mock_templateid1',
-    name: 'mock_templatename1',
-    versions: [
+  const response = {
+    id: "b7a5c9d2-7d91-4f39-8baf-c214de60b707",
+    version: 1,
+    description: "Test description for the service",
+    voucherLifespan: 365,
+    dailyCallsPerConsumer: 5,
+    dailyCallsTotal: 100,
+    interface: {
+      id: "d2a9cbd0-9b4e-4c60-bf8d-980b5367d5f9",
+      name: "Sample Interface",
+      contentType: "application/json",
+      prettyName: "Sample JSON Interface"
+    },
+    docs: [
       {
-        id: '1',
-        version: '1',
-        description: 'mock_versionDescription1',
-        state: 'active',
-        voucherLifespan: 600,
-        dailyCallsPerConsumer: 10,
-        dailyCallsTotal: 100,
-      },
+        id: "a5f98e62-4b56-40d3-933f-29246630bb71",
+        name: "API Documentation",
+        contentType: "application/pdf",
+        prettyName: "API Docs"
+      }
     ],
-    state: 'ACTIVE',
-    eserviceDescription: 'mock_description1',
-    audienceDescription:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum efficitur viverra egestas. Aenean mollis libero sit amet leo dignissim, vel elementum libero iaculis. Praesent tempus ex et iaculis ultrices. Maecenas faucibus, neque quis vulputate iaculis, purus lacus.',
-    creatorId: 'SFDGVDVDGF',
-    technology: 'REST',
-    mode: 'RECEIVE',
-    isSignalHubEnabled: false,
-    attributes: [
-      {
-        certified: [''],
-        verified: [''],
-        declared: [''],
+    state: "PUBLISHED",
+    agreementApprovalPolicy: "MANUAL",
+    attributes: {
+      certified: [
+        [
+          {
+            id: "b6a5f2bc-81e0-4b8b-b8b5-8f9845be2c2a",
+            name: "Certification Status",
+            description: "Indicates if the service is certified",
+            explicitAttributeVerification: true
+          }
+        ]
+      ],
+      declared: [
+        [
+          {
+            id: "c1b3f0d2-c6b3-4926-906b-c84ef9a9d92b",
+            name: "Service Description",
+            description: "Description of the service functionality",
+            explicitAttributeVerification: false
+          }
+        ]
+      ],
+      verified: [
+        [
+          {
+            id: "e7d537bb-53b3-4671-bc3b-9801fd592be3",
+            name: "Verification Status",
+            description: "Indicates whether the service is verified",
+            explicitAttributeVerification: true
+          }
+        ]
+      ]
+    },
+    eserviceTemplate: {
+      id: "f64bd7b7-fc36-4bff-9be0-8db1c9c16e27",
+      creator: {
+        id: "7fa86fd1-bba3-4b6e-98b7-0fcf53f5b89d",
+        name: "John Doe",
+        kind: "PA",
+        contactMail: {
+          address: "johndoe@example.com",
+          description: "Primary contact email for support"
+        }
       },
-    ],
+      name: "Sample eService",
+      audienceDescription: "A sample eService for testing purposes",
+      eserviceDescription: "This service allows users to test various API features",
+      technology: "REST",
+      versions: [
+        {
+          id: "a92b154d-7439-493b-bd8b-bd1fbb8a2e32",
+          version: 1,
+          state: "DRAFT"
+        }
+      ],
+      riskAnalysis: [
+        {
+          id: "e85c4701-b586-4319-b083-184f37d87769",
+          name: "Security Risk Analysis",
+          riskAnalysisForm: {
+            version: "1.0",
+            answers: {
+              additionalProp1: [
+                "High risk of data breach"
+              ],
+              additionalProp2: [
+                "Low risk of service downtime"
+              ],
+              additionalProp3: [
+                "Medium risk of unauthorized access"
+              ]
+            },
+            riskAnalysisId: "e85c4701-b586-4319-b083-184f37d87769"
+          },
+          createdAt: "2025-02-13T16:20:00.169Z"
+        }
+      ],
+      mode: "DELIVER",
+      isSignalHubEnabled: false
+    }
   }
-}
+  
+  return response
 
 async function updateEServiceTemplateName({
   eServiceTemplateId,
@@ -192,7 +308,7 @@ async function updateDraft({
   eServiceTemplateId,
   ...payload
 }: {
-  eserviceId: string
+  eserviceTemplateId: string
 } & UpdateEServiceTemplateSeed) {
   /*const response = await axiosInstance.put<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}`,

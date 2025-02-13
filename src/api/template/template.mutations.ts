@@ -129,8 +129,7 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   return useMutation({
     mutationFn: (
       payload: {
-        eserviceId: string
-        descriptorId: string
+        eserviceTemplateId: string
       } //& UpdateEServiceTemplateSeed TODO
     ) => TemplateServices.updateVersionDraft(payload),
     meta: {
