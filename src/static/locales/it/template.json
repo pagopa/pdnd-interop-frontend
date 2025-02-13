@@ -6,5 +6,115 @@
       }
     }
   },
-  "noMultiDataLabel": "Non hai ancora creato template di e-service."
+  "noMultiDataLabel": "Non hai ancora creato template di e-service.",
+  "backToListBtn": "Torna ai template",
+  "create": {
+    "emptyTitle": "Crea template di e-service",
+    "stepper": {
+      "step1Label": "Generale",
+      "step2Label": "Versione",
+      "step2ReceiveLabel": "Finalità",
+      "step3Label": "Attributi",
+      "step4Label": "Documentazione"
+    },
+    "backWithoutSaveBtn": "Indietro",
+    "forwardWithSaveBtn": "Salva bozza e prosegui",
+    "forwardWithoutSaveBtn": "Prosegui",
+    "goToSummary": "Vai al riepilogo",
+    "step1": {
+      "detailsTitle": "Caratterizzazione dell’istanza di e-service",
+      "detailsDescription": "Le informazioni in questa sezione non saranno modificabili dagli implementatori delle istanze.",
+      "eserviceTemplateNameField": {
+        "label": "Nome dell’istanza di e-service",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
+      "audienceDescriptionField": {
+        "label": "A chi è rivolto il template?",
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
+      },
+      "eserviceDescriptionField": {
+        "label": "Cosa permette di fare questo e-service?",
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
+      },
+      "eserviceTemplateTechnologyField": {
+        "label": "Con quale tecnologia è costruita la tua API?"
+      },
+      "eserviceTemplateModeField": {
+        "label": "L’e-service eroga o riceve dati?",
+        "options": {
+          "DELIVER": "Eroga",
+          "RECEIVE": "Riceve"
+        },
+        "isSignalHubEnabled": {
+          "label": "Suggerisco all’implementatore di segnalare su Signal Hub le variazioni dei dati ",
+          "infoLabel": {
+            "before": "Signal Hub utilizza il",
+            "linkLabel": "servizio di push",
+            "after": "per generare notifiche relative alle variazioni dei dati relativi all’e-service."
+          }
+        }
+      }
+    },
+    "stepPurpose": {
+      "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+      "purposeTableSection": {
+        "title": "Finalità",
+        "description": "Indica i casi d’uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un’analisi del rischio.",
+        "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
+        "purposeTable": {
+          "noDataLabel": "Nessuna finalità aggiunta"
+        }
+      }
+    },
+    "step2": {
+      "versionTitle": "Informazioni per la versione {{versionNumber}}",
+      "versionDescriptionField": {
+        "label": "Cosa è cambiato in questa versione?"
+      },
+      "voucherSection": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Durata validità (in minuti)",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+        }
+      },
+      "thresholdSection": {
+        "title": "Suggerisci le soglie di chiamate previste per i fruitori (opzionale)",
+        "dailyCallsPerConsumerField": {
+          "label": "Chiamate API/giorno per fruitore"
+        },
+        "dailyCallsTotalField": {
+          "label": "Chiamate API/giorno totali",
+          "validation": {
+            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
+          }
+        }
+      },
+      "agreementApprovalPolicySection": {
+        "label": "Suggerisci all’implementatore l’attivazione manuale delle richieste di fruizione pervenute"
+      }
+    },
+    "step3": {
+      "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
+      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell’e-service",
+      "attributesAddBtn": "Aggiungi attributo",
+      "attributesCreateBtn": "Crea nuovo attributo",
+      "createAttributeDrawer": {
+        "title": {
+          "verified": "Crea nuovo attributo verificato",
+          "declared": "Crea nuovo attributo dichiarato"
+        },
+        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "nameField": {
+          "label": "Nome dell'attributo",
+          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+        },
+        "descriptionField": {
+          "label": "Descrizione dell'attributo",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri"
+        },
+        "submitBtnLabel": "Crea attributo"
+      }
+    }
+  }
 }
