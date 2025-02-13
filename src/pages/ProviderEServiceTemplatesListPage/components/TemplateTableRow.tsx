@@ -11,14 +11,10 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import { AuthHooks } from '@/api/auth'
 import { useQueryClient } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
+import { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 
 type TemplateTableRow = {
-  template: {
-    id: string
-    name: string
-    version: string
-    state: string
-  } //TODO TEMPLATE
+  template: ProducerEServiceTemplate
 }
 
 export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
@@ -33,15 +29,17 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
     queryClient.prefetchQuery(TemplateQueries.getSingle(template.id))
   }
 
-  const isTemplateDraft = template.state === 'DRAFT'
+  const isTemplateDraft = template.activeVersion?.state === 'DRAFT'
 
   return (
     <TableRow
       cellData={[
         template.name,
-        template.version || '1',
+        template.activeVersion?.version || '1',
         <Stack key={template.id} direction="row" spacing={1}>
-          <StatusChip for="template" state={template.state} /> {/*TODO*/}
+          {template.activeVersion && (
+            <StatusChip for="template" state={template.activeVersion.state} />
+          )}
         </Stack>,
       ]}
     >

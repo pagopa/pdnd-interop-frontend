@@ -107,10 +107,9 @@
       "WAITING_FOR_APPROVAL": "waiting for acceptance"
     },
     "template": {
-      "ACTIVE": "active",
+      "PUBLISHED": "active",
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
-      "ARCHIVED": "archived",
       "DEPRECATED": "deprecated"
     }
   },

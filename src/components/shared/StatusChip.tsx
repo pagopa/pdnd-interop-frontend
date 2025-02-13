@@ -52,7 +52,7 @@ const CHIP_COLORS_DELEGATION: Record<DelegationState, MUIColor> = {
 
 const CHIP_COLORS_E_SERVICE_TEMPLATE: Record<string, MUIColor> = {
   //TODO EServiceTemplateDescriptorState
-  ACTIVE: 'success',
+  PUBLISHED: 'success',
   DRAFT: 'info',
   SUSPENDED: 'error',
   DEPRECATED: 'warning',

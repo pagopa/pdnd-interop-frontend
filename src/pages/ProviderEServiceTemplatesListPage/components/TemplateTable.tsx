@@ -2,17 +2,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { TemplateTableRow, TemplateTableRowSkeleton } from './TemplateTableRow'
 import { Table } from '@pagopa/interop-fe-commons'
-//import type { ProducerTemplate } from '@/api/api.generatedTypes'
+import { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 
 type TemplateTableProps = {
-  templates:
-    | Array<{
-        id: string
-        name: string
-        version: string
-        status: string
-      }>
-    | undefined //TODO EServiceTemplates
+  templates: Array<ProducerEServiceTemplate>
 }
 
 export const TemplateTable: React.FC<TemplateTableProps> = ({ templates }) => {
