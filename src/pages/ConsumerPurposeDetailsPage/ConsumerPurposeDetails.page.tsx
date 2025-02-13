@@ -84,7 +84,17 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
           </Trans>
         </Alert>
       )}
-      {!(descriptor?.eservice.isClientAccessDelegable && purpose?.delegation) ? (
+      {!descriptor?.eservice.isClientAccessDelegable && purpose?.delegation ? (
+        <Grid container>
+          <Grid item xs={8}>
+            {purpose && !isPurposeLoading ? (
+              <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
+            ) : (
+              <PurposeDetailTabSkeleton />
+            )}
+          </Grid>
+        </Grid>
+      ) : (
         <TabContext value={activeTab}>
           <TabList
             onChange={updateActiveTab}
@@ -111,16 +121,6 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
             <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
           </TabPanel>
         </TabContext>
-      ) : (
-        <Grid container>
-          <Grid item xs={8}>
-            {purpose && !isPurposeLoading ? (
-              <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
-            ) : (
-              <PurposeDetailTabSkeleton />
-            )}
-          </Grid>
-        </Grid>
       )}
       {purpose && purpose.rejectedVersion?.rejectionReason && (
         <RejectReasonDrawer
