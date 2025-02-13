@@ -6,6 +6,7 @@ import type {
   HasCertifiedAttributes,
   MailSeed,
   Tenant,
+  TenantDelegatedFeaturesFlagsUpdateSeed,
   Tenants,
   Users,
 } from '../api.generatedTypes'
@@ -42,20 +43,8 @@ function updateMail({
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/mails`, payload)
 }
 
-function assignTenantDelegatedProducerFeature() {
-  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
-}
-
-function deleteTenantDelegatedProducerFeature() {
-  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
-}
-
-function assignTenantDelegatedConsumerFeature() {
-  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedConsumer`)
-}
-
-function deleteTenantDelegatedConsumerFeature() {
-  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedConsumer`)
+function UpdateTenantDelegatedFeatures(payload: TenantDelegatedFeaturesFlagsUpdateSeed) {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedFeatures/update`, payload)
 }
 
 async function verifyTenantCertifiedAttributes({
@@ -79,9 +68,6 @@ export const TenantServices = {
   getPartyUsersList,
   getTenants,
   updateMail,
-  assignTenantDelegatedProducerFeature,
-  deleteTenantDelegatedProducerFeature,
-  assignTenantDelegatedConsumerFeature,
-  deleteTenantDelegatedConsumerFeature,
+  UpdateTenantDelegatedFeatures,
   verifyTenantCertifiedAttributes,
 }
