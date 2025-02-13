@@ -193,10 +193,10 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
                 content={delegation.delegate.name}
               />
             )}
-            {delegation.submittedAt && (
+            {delegation.createdAt && (
               <InformationContainer
                 label={t('submissionDateField.label')}
-                content={formatDateString(delegation.submittedAt)}
+                content={formatDateString(delegation.createdAt)}
               />
             )}
             <InformationContainer
