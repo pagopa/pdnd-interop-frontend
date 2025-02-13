@@ -89,6 +89,10 @@ export interface HasCertifiedAttributes {
   hasCertifiedAttributes: boolean
 }
 
+export interface HasCertifiedAttributes {
+  hasCertifiedAttributes: boolean
+}
+
 export interface HideOption {
   id: string
   value: string
@@ -122,6 +126,8 @@ export interface UpdateEServiceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  isConsumerDelegable?: boolean
+  isClientAccessDelegable?: boolean
 }
 
 export interface EServiceSeed {
@@ -132,6 +138,8 @@ export interface EServiceSeed {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  isConsumerDelegable?: boolean
+  isClientAccessDelegable?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
 }
@@ -187,6 +195,11 @@ export interface Mail {
 
 export interface EServiceDescriptionUpdateSeed {
   description: string
+}
+
+export interface EServiceDelegationFlagsUpdateSeed {
+  isConsumerDelegable: boolean
+  isClientAccessDelegable: boolean
 }
 
 export interface EServiceDelegationFlagsUpdateSeed {
@@ -289,11 +302,19 @@ export interface CatalogDescriptorEService {
    *   - the requester is the delegated consumer for the eservice and
    *     the delegator has the certified attributes required to consume the eservice
    */
+  /**
+   * True in case:
+   *   - the requester has the certified attributes required to consume the eservice, or
+   *   - the requester is the delegated consumer for the eservice and
+   *     the delegator has the certified attributes required to consume the eservice
+   */
   hasCertifiedAttributes: boolean
   isSubscribed: boolean
   activeDescriptor?: CompactDescriptor
   mail?: Mail
   isSignalHubEnabled?: boolean
+  isConsumerDelegable?: boolean
+  isClientAccessDelegable?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
 }
@@ -309,6 +330,8 @@ export interface ProducerEServiceDetails {
   mode: EServiceMode
   riskAnalysis: EServiceRiskAnalysis[]
   isSignalHubEnabled?: boolean
+  isConsumerDelegable?: boolean
+  isClientAccessDelegable?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
 }
@@ -388,6 +411,8 @@ export interface ProducerDescriptorEService {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  isConsumerDelegable?: boolean
+  isClientAccessDelegable?: boolean
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -431,6 +456,11 @@ export interface Agreement {
     id: string
     delegate: CompactOrganization
   }
+  delegation?: {
+    /** @format uuid */
+    id: string
+    delegate: CompactOrganization
+  }
   producer: CompactOrganization
   consumer: Tenant
   eservice: AgreementsEService
@@ -468,6 +498,8 @@ export interface AgreementPayload {
   eserviceId: string
   /** @format uuid */
   descriptorId: string
+  /** @format uuid */
+  delegationId?: string
   /** @format uuid */
   delegationId?: string
 }
@@ -523,6 +555,7 @@ export interface AgreementListEntry {
   suspendedByPlatform?: boolean
   descriptor: CompactDescriptor
   delegation?: DelegationWithCompactTenants
+  delegation?: DelegationWithCompactTenants
 }
 
 export interface CompactAttribute {
@@ -553,6 +586,11 @@ export interface CompactEService {
   id: string
   name: string
   producer: CompactOrganization
+}
+
+export interface CompactEServices {
+  results: CompactEService[]
+  pagination: Pagination
 }
 
 export interface CompactEServices {
@@ -696,6 +734,7 @@ export interface ProducerEService {
   activeDescriptor?: CompactProducerDescriptor
   draftDescriptor?: CompactProducerDescriptor
   delegation?: DelegationWithCompactTenants
+  delegation?: DelegationWithCompactTenants
 }
 
 export interface ProducerEServices {
@@ -753,6 +792,7 @@ export interface Purpose {
    * @format int32
    */
   dailyCallsTotal: number
+  delegation?: DelegationWithCompactTenants
   delegation?: DelegationWithCompactTenants
 }
 
@@ -875,6 +915,13 @@ export interface ReversePurposeUpdateContent {
 export interface Purposes {
   results: Purpose[]
   pagination: Pagination
+}
+
+export interface DelegationWithCompactTenants {
+  /** @format uuid */
+  id: string
+  delegate: CompactOrganization
+  delegator: CompactOrganization
 }
 
 export interface DelegationWithCompactTenants {
@@ -1178,6 +1225,7 @@ export interface Tenants {
 }
 
 export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER' | 'DELEGATED_CONSUMER'
+export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER' | 'DELEGATED_CONSUMER'
 
 export type TenantFeature =
   | {
@@ -1188,7 +1236,13 @@ export type TenantFeature =
       /** Delegated producer Tenant Feature */
       delegatedProducer?: DelegatedProducer
     }
+      /** Delegated producer Tenant Feature */
+      delegatedProducer?: DelegatedProducer
+    }
   | {
+      /** Delegated consumer Tenant Feature */
+      delegatedConsumer?: DelegatedConsumer
+    }
       /** Delegated consumer Tenant Feature */
       delegatedConsumer?: DelegatedConsumer
     }
@@ -1200,6 +1254,12 @@ export interface Certifier {
 
 /** Delegated producer Tenant Feature */
 export interface DelegatedProducer {
+  /** @format date-time */
+  availabilityTimestamp: string
+}
+
+/** Delegated consumer Tenant Feature */
+export interface DelegatedConsumer {
   /** @format date-time */
   availabilityTimestamp: string
 }
@@ -1257,11 +1317,15 @@ export interface DeclaredTenantAttribute {
   revocationTimestamp?: string
   /** @format uuid */
   delegationId?: string
+  /** @format uuid */
+  delegationId?: string
 }
 
 export interface DeclaredTenantAttributeSeed {
   /** @format uuid */
   id: string
+  /** @format uuid */
+  delegationId?: string
   /** @format uuid */
   delegationId?: string
 }
@@ -1278,6 +1342,11 @@ export interface VerifiedTenantAttributeSeed {
   agreementId: string
   /** @format date-time */
   expirationDate?: string
+}
+
+export interface TenantDelegatedFeaturesFlagsUpdateSeed {
+  isDelegatedConsumerFeatureEnabled: boolean
+  isDelegatedProducerFeatureEnabled: boolean
 }
 
 export interface TenantDelegatedFeaturesFlagsUpdateSeed {
@@ -1415,6 +1484,11 @@ export interface DelegationTenants {
   pagination: Pagination
 }
 
+export interface DelegationTenants {
+  results: DelegationTenant[]
+  pagination: Pagination
+}
+
 export interface DelegationEService {
   /** @format uuid */
   id: string
@@ -1435,6 +1509,9 @@ export interface Delegation {
   activationContract?: Document
   revocationContract?: Document
   /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
   createdAt: string
   /** @format date-time */
   updatedAt?: string
@@ -1479,6 +1556,68 @@ export interface EServiceTemplateNameUpdateSeed {
 
 export interface EServiceTemplateDescriptionUpdateSeed {
   description: string
+}
+
+/** EService Descriptor State */
+export type EServiceTemplateVersionState = 'DRAFT' | 'PUBLISHED' | 'DEPRECATED' | 'SUSPENDED'
+
+export interface CompactEServiceTemplateVersion {
+  /** @format uuid */
+  id: string
+  /** @format int32 */
+  version: number
+  /** EService Descriptor State */
+  state: EServiceTemplateVersionState
+}
+
+export interface EServiceTemplateDetails {
+  /** @format uuid */
+  id: string
+  creator: CompactOrganization
+  name: string
+  audienceDescription: string
+  eserviceDescription: string
+  /** EService Descriptor State */
+  technology: EServiceTechnology
+  versions: CompactEServiceTemplateVersion[]
+  riskAnalysis: EServiceRiskAnalysis[]
+  /** Risk Analysis Mode */
+  mode: EServiceMode
+  isSignalHubEnabled?: boolean
+}
+
+export interface EServiceTemplateVersionDetails {
+  /** @format uuid */
+  id: string
+  /** @format int32 */
+  version: number
+  description?: string
+  /** @format int32 */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford per consumer.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsTotal?: number
+  interface?: EServiceDoc
+  docs: EServiceDoc[]
+  /** EService Descriptor State */
+  state: EServiceTemplateVersionState
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy?: AgreementApprovalPolicy
+  attributes: DescriptorAttributes
+  eserviceTemplate: EServiceTemplateDetails
 }
 
 /** EService Descriptor State */
@@ -1749,6 +1888,193 @@ export interface ProducerEServiceTemplates {
   pagination: Pagination
 }
 
+/** contains the id of the created resource with the versionId */
+export interface CreatedEServiceTemplateVersion {
+  /** @format uuid */
+  id: string
+  /** @format uuid */
+  versionId: string
+}
+
+export interface UpdateEServiceTemplateSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  audienceDescription: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  eserviceDescription: string
+  /** EService Descriptor State */
+  technology: EServiceTechnology
+  /** Risk Analysis Mode */
+  mode: EServiceMode
+  isSignalHubEnabled?: boolean
+}
+
+export interface EServiceTemplate {
+  /** @format uuid */
+  id: string
+  /** @format uuid */
+  creatorId: string
+  name: string
+  audienceDescription: string
+  eserviceDescription: string
+  /** EService Descriptor State */
+  technology: EServiceTechnology
+  versions: EServiceTemplateVersion[]
+  riskAnalysis: EServiceRiskAnalysis[]
+  /** Risk Analysis Mode */
+  mode: EServiceMode
+  isSignalHubEnabled?: boolean
+}
+
+export interface EServiceTemplateVersion {
+  /** @format uuid */
+  id: string
+  /** @format int32 */
+  version: number
+  description?: string
+  /** @format int32 */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford per consumer.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsTotal?: number
+  interface?: EServiceDoc
+  docs: EServiceDoc[]
+  /** EService Descriptor State */
+  state: EServiceTemplateVersionState
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy?: AgreementApprovalPolicy
+  /** @format date-time */
+  publishedAt?: string
+  /** @format date-time */
+  suspendedAt?: string
+  /** @format date-time */
+  deprecatedAt?: string
+  attributes: Attributes
+}
+
+export interface EServiceTemplateSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  name: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  audienceDescription: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  eserviceDescription: string
+  /** EService Descriptor State */
+  technology: EServiceTechnology
+  /** Risk Analysis Mode */
+  mode: EServiceMode
+  version: VersionSeedForEServiceTemplateCreation
+  isSignalHubEnabled?: boolean
+}
+
+export interface VersionSeedForEServiceTemplateCreation {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string
+  /**
+   * @format int32
+   * @min 60
+   * @max 86400
+   */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsTotal?: number
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy?: AgreementApprovalPolicy
+}
+
+export interface EServiceTemplateInstance {
+  /** @format uuid */
+  id: string
+  producerName: string
+  /** EService Descriptor State */
+  state: EServiceDescriptorState
+  instanceId?: string
+  /** @format int32 */
+  version: number
+}
+
+export interface EServiceTemplateInstances {
+  results: EServiceTemplateInstance[]
+  /** @format int32 */
+  totalCount: number
+}
+
+export interface CatalogEServiceTemplate {
+  /** @format uuid */
+  id: string
+  name: string
+  description: string
+  creator: CompactOrganization
+  publishedVersion: CompactEServiceTemplateVersion
+}
+
+export interface ProducerEServiceTemplate {
+  /** @format uuid */
+  id: string
+  name: string
+  activeVersion?: CompactEServiceTemplateVersion
+  draftVersion?: CompactEServiceTemplateVersion
+}
+
+export interface CatalogEServiceTemplates {
+  results: CatalogEServiceTemplate[]
+  pagination: Pagination
+}
+
+export interface ProducerEServiceTemplates {
+  results: ProducerEServiceTemplate[]
+  pagination: Pagination
+}
+
 export interface Problem {
   /** URI reference of type definition */
   type: string
@@ -1830,6 +2156,51 @@ export interface EServiceTemplateVersionAttributeSeed {
   explicitAttributeVerification: boolean
 }
 
+export interface UpdateEServiceTemplateVersionSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string
+  /**
+   * @format int32
+   * @min 60
+   * @max 86400
+   */
+  voucherLifespan: number
+  /**
+   * maximum number of daily calls that this descriptor can afford.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 1
+   */
+  dailyCallsTotal?: number
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy?: AgreementApprovalPolicy
+  attributes: EServiceTemplateAttributesSeed
+}
+
+export interface EServiceTemplateAttributesSeed {
+  certified: EServiceTemplateVersionAttributeSeed[][]
+  declared: EServiceTemplateVersionAttributeSeed[][]
+  verified: EServiceTemplateVersionAttributeSeed[][]
+}
+
+export interface EServiceTemplateVersionAttributeSeed {
+  /** @format uuid */
+  id: string
+  explicitAttributeVerification: boolean
+}
+
 export interface ProblemError {
   /**
    * Internal code of the error
@@ -1848,6 +2219,7 @@ export interface ProblemError {
   detail: string
 }
 
+export interface GetConsumerAgreementsParams {
 export interface GetConsumerAgreementsParams {
   /**
    * @format int32
@@ -1870,6 +2242,32 @@ export interface GetConsumerAgreementsParams {
    * @default []
    */
   producersIds?: string[]
+  /**
+   * comma separated sequence of agreement states to filter the response with
+   * @default []
+   */
+  states?: AgreementState[]
+  /** @default false */
+  showOnlyUpgradeable?: boolean
+}
+
+export interface GetProducerAgreementsParams {
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+  /**
+   * comma separated sequence of eservices IDs
+   * @default []
+   */
+  eservicesIds?: string[]
   /**
    * comma separated sequence of agreement states to filter the response with
    * @default []
@@ -1976,6 +2374,8 @@ export interface GetEServicesCatalogParams {
   mode?: EServiceMode
   /** EService isConsumerDelegable filter */
   isConsumerDelegable?: boolean
+  /** EService isConsumerDelegable filter */
+  isConsumerDelegable?: boolean
   /**
    * @format int32
    * @min 0
@@ -1986,6 +2386,24 @@ export interface GetEServicesCatalogParams {
    * @min 1
    * @max 50
    */
+  limit: number
+}
+
+export interface GetConsumerDelegatorsParams {
+  q?: string
+  /** @default [] */
+  eserviceIds?: string[]
+  /** @format int32 */
+  offset: number
+  /** @format int32 */
+  limit: number
+}
+
+export interface GetConsumerDelegatorsWithAgreementsParams {
+  q?: string
+  /** @format int32 */
+  offset: number
+  /** @format int32 */
   limit: number
 }
 
@@ -2431,30 +2849,6 @@ export interface GetProducerEServices2Params {
   limit: number
 }
 
-export interface GetEServiceTemplateCreatorsParams {
-  /** Query to filter creators by name */
-  q?: string
-  /**
-   * @format int32
-   * @min 0
-   */
-  offset: number
-  /**
-   * @format int32
-   * @min 1
-   * @max 50
-   */
-  limit: number
-}
-
-export interface CreateEServiceTemplateDocumentPayload {
-  /** Document Type */
-  kind: 'INTERFACE' | 'DOCUMENT'
-  prettyName: string
-  /** @format binary */
-  doc: File
-}
-
 export namespace Consumers {
   /**
    * @description retrieves a list of consumer agreements
@@ -2462,8 +2856,12 @@ export namespace Consumers {
    * @name GetConsumerAgreements
    * @summary retrieves a list of consumer agreements
    * @request GET:/consumers/agreements
+   * @name GetConsumerAgreements
+   * @summary retrieves a list of consumer agreements
+   * @request GET:/consumers/agreements
    * @secure
    */
+  export namespace GetConsumerAgreements {
   export namespace GetConsumerAgreements {
     export type RequestParams = {}
     export type RequestQuery = {
@@ -2586,6 +2984,608 @@ export namespace Consumers {
    * @secure
    */
   export namespace GetAgreementsConsumerEServices {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EServices by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactEServicesLight
+  }
+  /**
+   * @description Retrieve Purposes from the consumer perspective
+   * @tags purposes
+   * @name GetConsumerPurposes
+   * @request GET:/consumers/purposes
+   * @secure
+   */
+  export namespace GetConsumerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of producers IDs
+       * @default []
+       */
+      producersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Purposes
+  }
+  /**
+   * @description Retrieve requester's delegated eservices
+   * @tags consumerDelegations
+   * @name GetConsumerDelegatedEservices
+   * @request GET:/consumers/delegations/eservices
+   * @secure
+   */
+  export namespace GetConsumerDelegatedEservices {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** @format uuid */
+      delegatorId: string
+      q?: string
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactEServices
+  }
+  /**
+   * @description creates a consumer delegation
+   * @tags consumerDelegations
+   * @name CreateConsumerDelegation
+   * @summary Consumer delegation creation
+   * @request POST:/consumers/delegations
+   * @secure
+   */
+  export namespace CreateConsumerDelegation {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DelegationSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Approves a consumer delegation
+   * @tags consumerDelegations
+   * @name ApproveConsumerDelegation
+   * @summary Approves a consumer delegation
+   * @request POST:/consumers/delegations/{delegationId}/approve
+   * @secure
+   */
+  export namespace ApproveConsumerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Rejects a consumer delegation
+   * @tags consumerDelegations
+   * @name RejectConsumerDelegation
+   * @summary Rejects a consumer delegation
+   * @request POST:/consumers/delegations/{delegationId}/reject
+   * @secure
+   */
+  export namespace RejectConsumerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectDelegationPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revokes a consumer delegation
+   * @tags consumerDelegations
+   * @name RevokeConsumerDelegation
+   * @summary Revokes a consumer delegation
+   * @request DELETE:/consumers/delegations/{delegationId}
+   * @secure
+   */
+  export namespace RevokeConsumerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+}
+
+export namespace Producers {
+  /**
+   * @description retrieves a list of producers agreements
+   * @tags agreements
+   * @name GetProducerAgreements
+   * @summary retrieves a list of producers agreements
+   * @request GET:/producers/agreements
+   * @secure
+   */
+  export namespace GetProducerAgreements {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+      /**
+       * comma separated sequence of eservices IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of agreement states to filter the response with
+       * @default []
+       */
+      states?: AgreementState[]
+      /** @default false */
+      showOnlyUpgradeable?: boolean
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Agreements
+  }
+  /**
+   * @description Retrieve requester's delegators
+   * @tags consumerDelegations
+   * @name GetConsumerDelegators
+   * @request GET:/consumers/delegations/delegators
+   * @secure
+   */
+  export namespace GetConsumerDelegators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /** @default [] */
+      eserviceIds?: string[]
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DelegationTenants
+  }
+  /**
+   * @description Retrieve requester's delegators with active agreements
+   * @tags consumerDelegations
+   * @name GetConsumerDelegatorsWithAgreements
+   * @request GET:/consumers/delegations/delegatorsWithAgreements
+   * @secure
+   */
+  export namespace GetConsumerDelegatorsWithAgreements {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DelegationTenants
+  }
+  /**
+   * @description Retrieve Tenants that are subscribed to at least one EService
+   * @tags tenants
+   * @name GetConsumers
+   * @request GET:/consumers
+   * @secure
+   */
+  export namespace GetConsumers {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactOrganizations
+  }
+  /**
+   * @description Retrieves eservices for consumers in agreements
+   * @tags agreements
+   * @name GetAgreementEServiceConsumers
+   * @summary Retrieves eservices for consumers in agreements
+   * @request GET:/consumers/agreements/eservices
+   * @secure
+   */
+  export namespace GetAgreementEServiceConsumers {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EServices by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactEServicesLight
+  }
+  /**
+   * @description Retrieve Purposes from the consumer perspective
+   * @tags purposes
+   * @name GetConsumerPurposes
+   * @request GET:/consumers/purposes
+   * @secure
+   */
+  export namespace GetConsumerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of producers IDs
+       * @default []
+       */
+      producersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Purposes
+  }
+  /**
+   * @description Retrieve requester's delegated eservices
+   * @tags consumerDelegations
+   * @name GetConsumerDelegatedEservices
+   * @request GET:/consumers/delegations/eservices
+   * @secure
+   */
+  export namespace GetConsumerDelegatedEservices {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** @format uuid */
+      delegatorId: string
+      q?: string
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactEServices
+  }
+  /**
+   * @description creates a consumer delegation
+   * @tags consumerDelegations
+   * @name CreateConsumerDelegation
+   * @summary Consumer delegation creation
+   * @request POST:/consumers/delegations
+   * @secure
+   */
+  export namespace CreateConsumerDelegation {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DelegationSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Approves a consumer delegation
+   * @tags consumerDelegations
+   * @name ApproveConsumerDelegation
+   * @summary Approves a consumer delegation
+   * @request POST:/consumers/delegations/{delegationId}/approve
+   * @secure
+   */
+  export namespace ApproveConsumerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Rejects a consumer delegation
+   * @tags consumerDelegations
+   * @name RejectConsumerDelegation
+   * @summary Rejects a consumer delegation
+   * @request POST:/consumers/delegations/{delegationId}/reject
+   * @secure
+   */
+  export namespace RejectConsumerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectDelegationPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revokes a consumer delegation
+   * @tags consumerDelegations
+   * @name RevokeConsumerDelegation
+   * @summary Revokes a consumer delegation
+   * @request DELETE:/consumers/delegations/{delegationId}
+   * @secure
+   */
+  export namespace RevokeConsumerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+}
+
+export namespace Producers {
+  /**
+   * @description retrieves a list of producers agreements
+   * @tags agreements
+   * @name GetProducerAgreements
+   * @summary retrieves a list of producers agreements
+   * @request GET:/producers/agreements
+   * @secure
+   */
+  export namespace GetProducerAgreements {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+      /**
+       * comma separated sequence of eservices IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of agreement states to filter the response with
+       * @default []
+       */
+      states?: AgreementState[]
+      /** @default false */
+      showOnlyUpgradeable?: boolean
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Agreements
+  }
+  /**
+   * @description Retrieve requester's delegators
+   * @tags consumerDelegations
+   * @name GetConsumerDelegators
+   * @request GET:/consumers/delegations/delegators
+   * @secure
+   */
+  export namespace GetConsumerDelegators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /** @default [] */
+      eserviceIds?: string[]
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DelegationTenants
+  }
+  /**
+   * @description Retrieve requester's delegators with active agreements
+   * @tags consumerDelegations
+   * @name GetConsumerDelegatorsWithAgreements
+   * @request GET:/consumers/delegations/delegatorsWithAgreements
+   * @secure
+   */
+  export namespace GetConsumerDelegatorsWithAgreements {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /** @format int32 */
+      offset: number
+      /** @format int32 */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = DelegationTenants
+  }
+  /**
+   * @description Retrieve Tenants that are subscribed to at least one EService
+   * @tags tenants
+   * @name GetConsumers
+   * @request GET:/consumers
+   * @secure
+   */
+  export namespace GetConsumers {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactOrganizations
+  }
+  /**
+   * @description Retrieves eservices for consumers in agreements
+   * @tags agreements
+   * @name GetAgreementEServiceConsumers
+   * @summary Retrieves eservices for consumers in agreements
+   * @request GET:/consumers/agreements/eservices
+   * @secure
+   */
+  export namespace GetAgreementEServiceConsumers {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter EServices by name */
@@ -3129,6 +4129,276 @@ export namespace Agreements {
     export type ResponseBody = CreatedResource
   }
   /**
+   * @description Retrieves Producer EServices
+   * @tags eservices
+   * @name GetProducerEServices
+   * @summary Retrieves Producer EServices
+   * @request GET:/producers/eservices
+   * @secure
+   */
+  export namespace GetProducerEServices {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EServices by name */
+      q?: string
+      /**
+       * comma separated sequence of consumers IDs
+       * @default []
+       */
+      consumersIds?: string[]
+      /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
+      delegated?: boolean
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = ProducerEServices
+  }
+  /**
+   * @description Retrieves eservices for producers in agreements
+   * @tags agreements
+   * @name GetAgreementEServiceProducers
+   * @summary Retrieves eservices for producers in agreements
+   * @request GET:/producers/agreements/eservices
+   * @secure
+   */
+  export namespace GetAgreementEServiceProducers {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EServices by name */
+      q?: string
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: AgreementState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactEServicesLight
+  }
+  /**
+   * @description Retrieves a producer eservice corresponding to the id
+   * @tags eservices
+   * @name GetProducerEServiceDetails
+   * @summary Retrieves a producer eservice corresponding to the id
+   * @request GET:/producers/eservices/{eserviceId}
+   * @secure
+   */
+  export namespace GetProducerEServiceDetails {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the eservice
+       * @format uuid
+       */
+      eserviceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = ProducerEServiceDetails
+  }
+  /**
+   * @description Retrieves a producer eservice descriptor corresponding to the id
+   * @tags eservices
+   * @name GetProducerEServiceDescriptor
+   * @summary Retrieves a producer eservice descriptor corresponding to the id
+   * @request GET:/producers/eservices/{eserviceId}/descriptors/{descriptorId}
+   * @secure
+   */
+  export namespace GetProducerEServiceDescriptor {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the eservice
+       * @format uuid
+       */
+      eserviceId: string
+      /**
+       * the descriptor id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = ProducerEServiceDescriptor
+  }
+  /**
+   * @description Retrieve Purposes from the producer perspective
+   * @tags purposes
+   * @name GetProducerPurposes
+   * @request GET:/producers/purposes
+   * @secure
+   */
+  export namespace GetProducerPurposes {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      q?: string
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[]
+      /**
+       * comma separated sequence of consumers IDs
+       * @default []
+       */
+      consumersIds?: string[]
+      /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: PurposeVersionState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = Purposes
+  }
+  /**
+   * @description creates a producer delegation
+   * @tags producerDelegations
+   * @name CreateProducerDelegation
+   * @summary Producer delegation creation
+   * @request POST:/producers/delegations
+   * @secure
+   */
+  export namespace CreateProducerDelegation {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DelegationSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Approves a producer delegation
+   * @tags producerDelegations
+   * @name ApproveProducerDelegation
+   * @summary Approves a producer delegation
+   * @request POST:/producers/delegations/{delegationId}/approve
+   * @secure
+   */
+  export namespace ApproveProducerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Rejects a producer delegation
+   * @tags producerDelegations
+   * @name RejectProducerDelegation
+   * @summary Rejects a producer delegation
+   * @request POST:/producers/delegations/{delegationId}/reject
+   * @secure
+   */
+  export namespace RejectProducerDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RejectDelegationPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revokes a producer delegation
+   * @tags producerDelegations
+   * @name RevokeProducerDelegation
+   * @summary Revokes a producer delegation
+   * @request DELETE:/producers/delegations/{delegationId}
+   * @secure
+   */
+  export namespace RevokeProducerDelegation {
+    export type RequestParams = {
+      /** The delegation id */
+      delegationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+}
+
+export namespace Agreements {
+  /**
+   * @description creates the agreement between the involved parties.
+   * @tags agreements
+   * @name CreateAgreement
+   * @summary Agreement Creation
+   * @request POST:/agreements
+   * @secure
+   */
+  export namespace CreateAgreement {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = AgreementPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+  /**
    * @description Retrieves Tenants that are producers with existing Agreements
    * @tags agreements
    * @name GetAgreementsProducers
@@ -3217,6 +4487,7 @@ export namespace Agreements {
    * No description
    * @tags agreements
    * @name DeleteAgreement
+   * @summary Delete an agreement
    * @summary Delete an agreement
    * @request DELETE:/agreements/{agreementId}
    * @secure
@@ -3947,13 +5218,13 @@ export namespace Tenants {
   }
 }
 
-export namespace Catalog {
+export namespace Tenants {
   /**
-   * @description Retrieves EServices catalog
-   * @tags eservices
-   * @name GetEServicesCatalog
-   * @summary Retrieves EServices catalog
-   * @request GET:/catalog
+   * @description Verify a Tenant has required certified attributes
+   * @tags agreements
+   * @name VerifyTenantCertifiedAttributes
+   * @summary Verify a Tenant has required certified attributes
+   * @request GET:/tenants/{tenantId}/eservices/{eserviceId}/descriptors/{descriptorId}/certifiedAttributes/validate
    * @secure
    */
   export namespace GetEServicesCatalog {
@@ -4001,28 +5272,100 @@ export namespace Catalog {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = CatalogEServices
+    export type ResponseBody = RequesterCertifiedAttributes
   }
   /**
-   * @description Retrieves the catalog eservice descriptor corresponding to the id
-   * @tags eservices
-   * @name GetCatalogEServiceDescriptor
-   * @summary Retrieves the catalog eservice descriptor corresponding to the id
-   * @request GET:/catalog/eservices/{eserviceId}/descriptor/{descriptorId}
+   * @description Gets certified attributes for institution using internal institution id
+   * @tags tenants
+   * @name GetCertifiedAttributes
+   * @summary Gets the certified attributes of an institution using internal institution id
+   * @request GET:/tenants/{tenantId}/attributes/certified
    * @secure
    */
-  export namespace GetCatalogEServiceDescriptor {
+  export namespace GetCertifiedAttributes {
     export type RequestParams = {
       /**
-       * The internal identifier of the eservice
+       * The internal identifier of the tenant
        * @format uuid
        */
-      eserviceId: string
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CertifiedAttributesResponse
+  }
+  /**
+   * @description Add a certified attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name AddCertifiedAttribute
+   * @request POST:/tenants/{tenantId}/attributes/certified
+   * @secure
+   */
+  export namespace AddCertifiedAttribute {
+    export type RequestParams = {
       /**
-       * the descriptor id
+       * The internal identifier of the tenant
        * @format uuid
        */
-      descriptorId: string
+      tenantId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = CertifiedTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Adds the declared attribute to the Institution
+   * @tags tenants
+   * @name AddDeclaredAttribute
+   * @summary Adds the declared attribute to the Institution
+   * @request POST:/tenants/attributes/declared
+   * @secure
+   */
+  export namespace AddDeclaredAttribute {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DeclaredTenantAttributeSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Revokes the declared attribute to the Institution
+   * @tags tenants
+   * @name RevokeDeclaredAttribute
+   * @summary Revokes the declared attribute to the Institution
+   * @request DELETE:/tenants/attributes/declared/{attributeId}
+   * @secure
+   */
+  export namespace RevokeDeclaredAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the attribute
+       * @format uuid
+       */
+      attributeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Gets declared attributes for institution using internal institution id
+   * @tags tenants
+   * @name GetDeclaredAttributes
+   * @summary Gets the declared attributes of an institution using internal institution id
+   * @request GET:/tenants/{tenantId}/attributes/declared
+   * @secure
+   */
+  export namespace GetDeclaredAttributes {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never
@@ -4030,6 +5373,42 @@ export namespace Catalog {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CatalogEServiceDescriptor
+  }
+  /**
+   * @description Retrieves EService templates catalog
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplatesCatalog
+   * @summary Retrieves EService templates catalog
+   * @request GET:/catalog/eservices/templates
+   * @secure
+   */
+  export namespace GetEServiceTemplatesCatalog {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EService template by name */
+      q?: string
+      /**
+       * comma separated sequence of creators IDs
+       * @default []
+       */
+      creatorsIds?: string[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CatalogEServiceTemplates
   }
   /**
    * @description Retrieves EService templates catalog
@@ -4649,6 +6028,29 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
+   * @name UpdateEServiceDelegationFlags
+   * @summary Update an e-service delegation flags
+   * @request POST:/eservices/{eServiceId}/delegationFlags/update
+   * @secure
+   */
+  export namespace UpdateEServiceDelegationFlags {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceDelegationFlagsUpdateSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
    * @name UpdateEServiceName
    * @summary Update an e-service name
    * @request POST:/eservices/{eServiceId}/name/update
@@ -4752,6 +6154,43 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name CreateEServiceTemplate
+   * @summary Create a new e-service template
+   * @request POST:/eservices/templates
+   * @secure
+   */
+  export namespace CreateEServiceTemplate {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = EServiceTemplateSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedEServiceTemplateVersion
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name UpdateEServiceTemplate
+   * @summary Updates e-service template general information
+   * @request POST:/eservices/templates/{eServiceTemplateId}
+   * @secure
+   */
+  export namespace UpdateEServiceTemplate {
+    export type RequestParams = {
+      /** The E-Service id to update */
+      eServiceTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceTemplateSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
   }
   /**
    * No description
@@ -4945,26 +6384,56 @@ export namespace Eservices {
   }
   /**
    * @description Retrieves a eservice template version corresponding to the id
+   * @description Retrieves a eservice template version corresponding to the id
    * @tags eserviceTemplates
+   * @name GetEServiceTemplateVersion
+   * @summary Retrieves a eservice template version corresponding to the id
+   * @request GET:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}
    * @name GetEServiceTemplateVersion
    * @summary Retrieves a eservice template version corresponding to the id
    * @request GET:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}
    * @secure
    */
   export namespace GetEServiceTemplateVersion {
+  export namespace GetEServiceTemplateVersion {
     export type RequestParams = {
       /**
+       * The internal identifier of the eservice template
        * The internal identifier of the eservice template
        * @format uuid
        */
       eServiceTemplateId: string
       /**
        * the eservice template version id
+       * the eservice template version id
        * @format uuid
        */
       eServiceTemplateVersionId: string
     }
     export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = EServiceTemplateVersionDetails
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name UpdateDraftTemplateVersion
+   * @summary Updates a draft template version
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}
+   * @secure
+   */
+  export namespace UpdateDraftTemplateVersion {
+    export type RequestParams = {
+      /** The E-Service template id */
+      eServiceTemplateId: string
+      /** The E-Service template version Id */
+      eServiceTemplateVersionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceTemplateVersionSeed
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
@@ -4999,8 +6468,12 @@ export namespace Eservices {
    * @name DeleteDraftTemplateVersion
    * @summary Delete a draft template version
    * @request DELETE:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}
+   * @name DeleteDraftTemplateVersion
+   * @summary Delete a draft template version
+   * @request DELETE:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}
    * @secure
    */
+  export namespace DeleteDraftTemplateVersion {
   export namespace DeleteDraftTemplateVersion {
     export type RequestParams = {
       /**
@@ -5016,9 +6489,11 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
+    export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
+    export type ResponseBody = void
     export type ResponseBody = void
   }
   /**
@@ -5027,11 +6502,16 @@ export namespace Eservices {
    * @name UpdateTemplateVersionQuotas
    * @summary Update the quotas of the selecter template version
    * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/quotas/update
+   * @name UpdateTemplateVersionQuotas
+   * @summary Update the quotas of the selecter template version
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/quotas/update
    * @secure
    */
   export namespace UpdateTemplateVersionQuotas {
+  export namespace UpdateTemplateVersionQuotas {
     export type RequestParams = {
       /**
+       * the eservice template id
        * the eservice template id
        * @format uuid
        */
@@ -5041,12 +6521,19 @@ export namespace Eservices {
        * @format uuid
        */
       eServiceTemplateVersionId: string
+      /**
+       * the template version Id
+       * @format uuid
+       */
+      eServiceTemplateVersionId: string
     }
     export type RequestQuery = {}
+    export type RequestBody = EServiceTemplateVersionQuotasUpdateSeed
     export type RequestBody = EServiceTemplateVersionQuotasUpdateSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
+    export type ResponseBody = void
     export type ResponseBody = void
   }
   /**
@@ -5055,10 +6542,20 @@ export namespace Eservices {
    * @name CreateEServiceTemplateRiskAnalysis
    * @summary Create an e-service template risk analysis
    * @request POST:/eservices/templates/{eServiceTemplateId}/riskAnalysis
+   * @tags eserviceTemplates
+   * @name CreateEServiceTemplateRiskAnalysis
+   * @summary Create an e-service template risk analysis
+   * @request POST:/eservices/templates/{eServiceTemplateId}/riskAnalysis
    * @secure
    */
   export namespace CreateEServiceTemplateRiskAnalysis {
+  export namespace CreateEServiceTemplateRiskAnalysis {
     export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
       /**
        * the eservice template id
        * @format uuid
@@ -5067,13 +6564,19 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceRiskAnalysisSeed
+    export type RequestBody = EServiceRiskAnalysisSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+    export type ResponseBody = void
   }
   /**
    * No description
+   * @tags eserviceTemplates
+   * @name UpdateEServiceTemplateRiskAnalysis
+   * @summary Update an e-service template risk analysis
+   * @request POST:/eservices/templates/{eServiceTemplateId}/riskAnalysis/{riskAnalysisId}
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplateRiskAnalysis
    * @summary Update an e-service template risk analysis
@@ -5092,16 +6595,35 @@ export namespace Eservices {
        * @format uuid
        */
       riskAnalysisId: string
+  export namespace UpdateEServiceTemplateRiskAnalysis {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      riskAnalysisId: string
     }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceRiskAnalysisSeed
     export type RequestQuery = {}
     export type RequestBody = EServiceRiskAnalysisSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+    export type ResponseBody = void
   }
   /**
    * No description
+   * @tags eserviceTemplates
+   * @name DeleteEServiceTemplateRiskAnalysis
+   * @summary Delete an e-service template risk analysis
+   * @request DELETE:/eservices/templates/{eServiceTemplateId}/riskAnalysis/{riskAnalysisId}
    * @tags eserviceTemplates
    * @name DeleteEServiceTemplateRiskAnalysis
    * @summary Delete an e-service template risk analysis
@@ -5122,13 +6644,33 @@ export namespace Eservices {
       riskAnalysisId: string
     }
     export type RequestQuery = {}
+  export namespace DeleteEServiceTemplateRiskAnalysis {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the risk analysis id
+       * @format uuid
+       */
+      riskAnalysisId: string
+    }
+    export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+    export type ResponseBody = void
   }
   /**
+   * No description
+   * @tags eserviceTemplates
+   * @name UpdateEServiceTemplateVersionAttributes
+   * @summary Update e-service template published version attributes
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/attributes/update
    * No description
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplateVersionAttributes
@@ -5151,12 +6693,33 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = DescriptorAttributesSeed
+  export namespace UpdateEServiceTemplateVersionAttributes {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the eservice template version id
+       * @format uuid
+       */
+      eServiceTemplateVersionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = DescriptorAttributesSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CreatedResource
+    export type ResponseBody = CreatedResource
   }
   /**
+   * @description Retrieves EService template instances
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplateInstances
+   * @summary Retrieves EService template instances
+   * @request GET:/eservices/templates/{eServiceTemplateId}/instances
    * @description Retrieves EService template instances
    * @tags eserviceTemplates
    * @name GetEServiceTemplateInstances
@@ -5172,13 +6735,25 @@ export namespace Eservices {
        */
       eServiceTemplateId: string
     }
+  export namespace GetEServiceTemplateInstances {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+    }
     export type RequestQuery = {
+      /** Query to filter by producer name */
+      producerName?: string
       /** Query to filter by producer name */
       producerName?: string
       /**
        * comma separated sequence of instance states
+       * comma separated sequence of instance states
        * @default []
        */
+      states?: EServiceDescriptorState[]
       states?: EServiceDescriptorState[]
       /**
        * @format int32
@@ -5197,50 +6772,34 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = EServiceTemplateInstances
+    export type ResponseBody = EServiceTemplateInstances
   }
-  /**
-   * No description
-   * @tags eserviceTemplates
-   * @name CreateEServiceTemplateDocument
-   * @summary Add new e-service template document
-   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/documents
-   * @secure
-   */
-  export namespace CreateEServiceTemplateDocument {
-    export type RequestParams = {
-      /**
-       * the eservice template id
-       * @format uuid
-       */
-      eServiceTemplateId: string
-      /**
-       * the version Id
-       * @format uuid
-       */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = CreateEServiceTemplateDocumentPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CreatedResource
-  }
+}
+
+export namespace Export {
 }
 
 export namespace Export {
   /**
    * No description
+   * No description
    * @tags eservices
+   * @name ExportEServiceDescriptor
+   * @summary Export EService descriptor
+   * @request GET:/export/eservices/{eserviceId}/descriptors/{descriptorId}
    * @name ExportEServiceDescriptor
    * @summary Export EService descriptor
    * @request GET:/export/eservices/{eserviceId}/descriptors/{descriptorId}
    * @secure
    */
   export namespace ExportEServiceDescriptor {
+  export namespace ExportEServiceDescriptor {
     export type RequestParams = {
       /** @format uuid */
+      /** @format uuid */
       eserviceId: string
+      /** @format uuid */
+      descriptorId: string
       /** @format uuid */
       descriptorId: string
     }
@@ -5250,13 +6809,21 @@ export namespace Export {
       'X-Correlation-Id': string
     }
     export type ResponseBody = FileResource
+    export type ResponseBody = FileResource
   }
+}
+
+export namespace Import {
 }
 
 export namespace Import {
   /**
    * No description
+   * No description
    * @tags eservices
+   * @name GetImportEservicePresignedUrl
+   * @summary Get presigned URL
+   * @request GET:/import/eservices/presignedUrl
    * @name GetImportEservicePresignedUrl
    * @summary Get presigned URL
    * @request GET:/import/eservices/presignedUrl
@@ -5283,11 +6850,34 @@ export namespace Import {
    */
   export namespace ImportEService {
     export type RequestParams = {}
+  export namespace GetImportEservicePresignedUrl {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      fileName: string
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = PresignedUrl
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name ImportEService
+   * @summary Import EService
+   * @request POST:/import/eservices
+   * @secure
+   */
+  export namespace ImportEService {
+    export type RequestParams = {}
     export type RequestQuery = {}
+    export type RequestBody = FileResource
     export type RequestBody = FileResource
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
+    export type ResponseBody = CreatedEServiceDescriptor
     export type ResponseBody = CreatedEServiceDescriptor
   }
 }
