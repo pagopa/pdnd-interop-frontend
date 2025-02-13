@@ -2,9 +2,6 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { Box, Divider } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { AddAttributesToForm } from '../../../../components/shared/AddAttributesToForm'
-import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { EServiceMutations } from '@/api/eservice'
 import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import type {
@@ -18,16 +15,16 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttributeDrawer'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
+import { TemplateMutations } from '@/api/template'
+import { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
+import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
 
-export type CreateStepAttributesFormValues = {
-  attributes: DescriptorAttributes
-}
+export const EServiceTemplateCreateStepAttributes: React.FC = () => {
+  const { t } = useTranslation('template', { keyPrefix: 'create' })
+  const { template, forward, back } = useEServiceTemplateCreateContext()
 
-export const EServiceCreateStepAttributes: React.FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { descriptor, forward, back } = useEServiceCreateContext()
-
-  const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
+  const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
@@ -49,13 +46,13 @@ export const EServiceCreateStepAttributes: React.FC = () => {
     }
 
   const defaultValues: CreateStepAttributesFormValues = {
-    attributes: descriptor?.attributes ?? { certified: [], verified: [], declared: [] },
+    attributes: template?.attributes ?? { certified: [], verified: [], declared: [] },
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: CreateStepAttributesFormValues) => {
-    if (!descriptor) return
+    if (!template) return //TODO CONTROLLO CHECK
 
     const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
       return attributes.filter((group) => group.length > 0)
@@ -67,26 +64,24 @@ export const EServiceCreateStepAttributes: React.FC = () => {
       declared: removeEmptyAttributeGroups(values.attributes.declared),
     }
 
-    const areAttributesEquals = compareObjects(attributes, descriptor.attributes)
+    const areAttributesEquals = compareObjects(attributes, template.attributes)
 
     if (areAttributesEquals) {
       forward()
       return
     }
 
-    const payload: UpdateEServiceDescriptorSeed & {
-      eserviceId: string
-      descriptorId: string
+    const payload: UpdateEServiceTemplateSeed & {
+      eserviceTemplateId: string
+      versionId: string //TODO
     } = {
-      audience: descriptor.audience,
-      voucherLifespan: descriptor.voucherLifespan,
-      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
-      dailyCallsTotal: descriptor.dailyCallsTotal,
-      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-      description: descriptor.description,
+      audienceDescription: template.audienceDescription, //TODO
+      voucherLifespan: template.voucherLifespan,
+      dailyCallsPerConsumer: template.dailyCallsPerConsumer,
+      dailyCallsTotal: template.dailyCallsTotal,
+      agreementApprovalPolicy: template.agreementApprovalPolicy,
+      descriptionEservice: template.descriptionEservice,
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
     }
 
     updateVersionDraft(payload, { onSuccess: forward })
@@ -97,7 +92,7 @@ export const EServiceCreateStepAttributes: React.FC = () => {
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <SectionContainer
-            title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
+            title={t('step3.attributesTitle', { versionNumber: template?.version ?? '1' })} //TODO
             description={t('step3.attributesDescription')}
           >
             <AddAttributesToForm attributeKey="certified" readOnly={false} />
@@ -133,6 +128,6 @@ export const EServiceCreateStepAttributes: React.FC = () => {
   )
 }
 
-export const EServiceCreateStepAttributesSkeleton: React.FC = () => {
+export const EServiceTemplateCreateStepAttributesSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={924} />
 }
