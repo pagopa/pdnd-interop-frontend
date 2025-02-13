@@ -107,10 +107,9 @@
       "WAITING_FOR_APPROVAL": "in attesa di accettazione"
     },
     "template": {
-      "ACTIVE": "attivo",
+      "PUBLISHED": "attivo",
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
-      "ARCHIVED": "archiviato",
       "DEPRECATED": "deprecato"
     }
   },
