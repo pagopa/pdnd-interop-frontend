@@ -27,7 +27,7 @@ async function getProviderTemplatesList() {
 
 async function getSingle(eServiceTemplateId: string) {
   /*const response = await axiosInstance.get<EServiceTemplate>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates//${eServiceTemplateId}`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}`
   )
   return response.data*/
   return {
