@@ -1430,7 +1430,9 @@ export interface Delegation {
   activationContract?: Document
   revocationContract?: Document
   /** @format date-time */
-  submittedAt?: string
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
   rejectionReason?: string
   /** Delegation State */
   state: DelegationState
