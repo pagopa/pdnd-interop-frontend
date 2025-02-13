@@ -1,5 +1,6 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { CatalogEServiceTemplates, GetEServiceTemplatesCatalogParams } from '../api.generatedTypes'
 
 async function getProviderTemplatesList() {
   //TODO params: GetProducerTemplatesParams
@@ -176,7 +177,17 @@ async function downloadVersionDraftDocument({
   return console.log('downloaded file')
 }
 
+async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
+  const response = await axiosInstance.get<CatalogEServiceTemplates>(
+    `http://localhost:8080/backend-for-frontend/0.0/catalog/eservices/templates`,
+    { params }
+  )
+
+  return response.data
+}
+
 export const TemplateServices = {
+  getProviderTemplatesCatalogList,
   getProviderTemplatesList,
   getSingle,
   updateEServiceTemplateName,
