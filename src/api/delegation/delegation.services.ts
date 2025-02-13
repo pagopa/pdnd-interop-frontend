@@ -36,7 +36,7 @@ async function getSingle({ delegationId }: { delegationId: string }) {
 
 async function createProducerDelegation(payload: DelegationSeed) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/producer/delegations`,
+    `${BACKEND_FOR_FRONTEND_URL}/producers/delegations`,
     payload
   )
   return response.data
@@ -44,7 +44,7 @@ async function createProducerDelegation(payload: DelegationSeed) {
 
 async function approveProducerDelegation({ delegationId }: { delegationId: string }) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/producer/delegations/${delegationId}/approve`
+    `${BACKEND_FOR_FRONTEND_URL}/producers/delegations/${delegationId}/approve`
   )
 }
 
@@ -53,13 +53,13 @@ async function rejectProducerDelegation({
   ...payload
 }: { delegationId: string } & RejectDelegationPayload) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/producer/delegations/${delegationId}/reject`,
+    `${BACKEND_FOR_FRONTEND_URL}/producers/delegations/${delegationId}/reject`,
     payload
   )
 }
 
 async function revokeProducerDelegation({ delegationId }: { delegationId: string }) {
-  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/producer/delegations/${delegationId}`)
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/producers/delegations/${delegationId}`)
 }
 
 async function approveConsumerDelegation({ delegationId }: { delegationId: string }) {
