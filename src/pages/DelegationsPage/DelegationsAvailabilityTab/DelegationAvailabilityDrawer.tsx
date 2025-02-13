@@ -20,14 +20,8 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.availabilityTab' })
   const { t: tCommon } = useTranslation('shared-components')
-  const { mutate: assignProducerDelegationAvailabilty } =
-    TenantMutations.useAssignTenantDelegatedProducerFeature()
-  const { mutate: deleteTenantDelegatedProducerFeature } =
-    TenantMutations.useDeleteTenantDelegatedProducerFeature()
-  const { mutate: assignConsumerDelegationAvailabilty } =
-    TenantMutations.useAssignTenantDelegatedConsumerFeature()
-  const { mutate: deleteTenantDelegatedConsumerFeature } =
-    TenantMutations.useDeleteTenantDelegatedConsumerFeature()
+  const { mutate: updateTenantDelegatedFeatures } =
+    TenantMutations.useUpdateTenantDelegatedFeatures()
 
   const [checkedProducerDelegations, setCheckedProducerDelegations] = React.useState(
     isAvailableProducerDelegations
@@ -39,11 +33,11 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
 
   React.useEffect(() => {
     if (!isOpen) {
-      if (checkedProducerDelegations != isAvailableProducerDelegations) {
+      if (checkedProducerDelegations !== isAvailableProducerDelegations) {
         setCheckedProducerDelegations(isAvailableProducerDelegations)
       }
 
-      if (checkedConsumerDelegations != isAvailableConsumerDelegations) {
+      if (checkedConsumerDelegations !== isAvailableConsumerDelegations) {
         setCheckedConsumerDelegations(isAvailableConsumerDelegations)
       }
     }
@@ -56,20 +50,14 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
   ])
 
   function handleSubmit() {
-    if (checkedProducerDelegations !== isAvailableProducerDelegations) {
-      if (checkedProducerDelegations) {
-        assignProducerDelegationAvailabilty()
-      } else {
-        deleteTenantDelegatedProducerFeature()
-      }
-    }
-
-    if (checkedConsumerDelegations !== isAvailableConsumerDelegations) {
-      if (checkedConsumerDelegations) {
-        assignConsumerDelegationAvailabilty()
-      } else {
-        deleteTenantDelegatedConsumerFeature()
-      }
+    if (
+      checkedConsumerDelegations !== isAvailableConsumerDelegations ||
+      checkedProducerDelegations !== isAvailableProducerDelegations
+    ) {
+      updateTenantDelegatedFeatures({
+        isDelegatedConsumerFeatureEnabled: checkedConsumerDelegations,
+        isDelegatedProducerFeatureEnabled: checkedProducerDelegations,
+      })
     }
 
     onClose()

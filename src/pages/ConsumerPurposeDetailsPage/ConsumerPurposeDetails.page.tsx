@@ -23,8 +23,11 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
     PurposeQueries.getSingle(purposeId)
   )
 
-  const { data: eservice, isLoading: isEserviceLoading } = useQuery({
-    ...EServiceQueries.getSingle(purpose?.eservice.id as string),
+  const { data: descriptor, isLoading: isDescriptorLoading } = useQuery({
+    ...EServiceQueries.getDescriptorCatalog(
+      purpose?.eservice.id as string,
+      purpose?.eservice.descriptor.id as string
+    ),
     enabled: Boolean(purpose),
   })
 
@@ -36,13 +39,16 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
 
   const isPurposeArchived = purpose?.currentVersion?.state === 'ARCHIVED'
 
-  const alertProps = useGetPurposeStateAlertProps(purpose, eservice?.isClientAccessDelegable)
+  const alertProps = useGetPurposeStateAlertProps(
+    purpose,
+    descriptor?.eservice.isClientAccessDelegable
+  )
 
   return (
     <PageContainer
       title={purpose?.title}
       description={purpose?.description}
-      isLoading={isPurposeLoading || isEserviceLoading}
+      isLoading={isPurposeLoading || isDescriptorLoading}
       topSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
       backToAction={{
@@ -78,7 +84,17 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
           </Trans>
         </Alert>
       )}
-      {!(eservice?.isClientAccessDelegable && purpose?.delegation) ? (
+      {!descriptor?.eservice.isClientAccessDelegable && purpose?.delegation ? (
+        <Grid container>
+          <Grid item xs={8}>
+            {purpose && !isPurposeLoading ? (
+              <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
+            ) : (
+              <PurposeDetailTabSkeleton />
+            )}
+          </Grid>
+        </Grid>
+      ) : (
         <TabContext value={activeTab}>
           <TabList
             onChange={updateActiveTab}
@@ -105,16 +121,6 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
             <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
           </TabPanel>
         </TabContext>
-      ) : (
-        <Grid container>
-          <Grid item xs={8}>
-            {purpose && !isPurposeLoading ? (
-              <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
-            ) : (
-              <PurposeDetailTabSkeleton />
-            )}
-          </Grid>
-        </Grid>
       )}
       {purpose && purpose.rejectedVersion?.rejectionReason && (
         <RejectReasonDrawer

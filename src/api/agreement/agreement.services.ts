@@ -22,7 +22,7 @@ import { waitFor } from '@/utils/common.utils'
 
 async function getProducerAgreementsList(params?: GetProducerAgreementsParams) {
   const response = await axiosInstance.get<Agreements>(
-    `${BACKEND_FOR_FRONTEND_URL}/producer/agreements`,
+    `${BACKEND_FOR_FRONTEND_URL}/producers/agreements`,
     {
       params,
     }

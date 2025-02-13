@@ -14,54 +14,12 @@ function useUpdateMail() {
   })
 }
 
-function useAssignTenantDelegatedProducerFeature() {
+function useUpdateTenantDelegatedFeatures() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'party.updateDelegationAvailability',
   })
   return useMutation({
-    mutationFn: TenantServices.assignTenantDelegatedProducerFeature,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
-function useDeleteTenantDelegatedProducerFeature() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'party.updateDelegationAvailability',
-  })
-  return useMutation({
-    mutationFn: TenantServices.deleteTenantDelegatedProducerFeature,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
-function useAssignTenantDelegatedConsumerFeature() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'party.updateDelegationAvailability',
-  })
-  return useMutation({
-    mutationFn: TenantServices.assignTenantDelegatedConsumerFeature,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
-function useDeleteTenantDelegatedConsumerFeature() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'party.updateDelegationAvailability',
-  })
-  return useMutation({
-    mutationFn: TenantServices.deleteTenantDelegatedConsumerFeature,
+    mutationFn: TenantServices.UpdateTenantDelegatedFeatures,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -72,8 +30,5 @@ function useDeleteTenantDelegatedConsumerFeature() {
 
 export const TenantMutations = {
   useUpdateMail,
-  useAssignTenantDelegatedProducerFeature,
-  useDeleteTenantDelegatedProducerFeature,
-  useAssignTenantDelegatedConsumerFeature,
-  useDeleteTenantDelegatedConsumerFeature,
+  useUpdateTenantDelegatedFeatures,
 }
