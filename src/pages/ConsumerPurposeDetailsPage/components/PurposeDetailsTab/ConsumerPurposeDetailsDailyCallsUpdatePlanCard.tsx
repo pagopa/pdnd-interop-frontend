@@ -18,7 +18,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
   const { t } = useTranslation('purpose', {
     keyPrefix: 'consumerView.sections.loadEstimate.updatePlanCard',
   })
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
   const { mutate: deletePurposeVersion } = PurposeMutations.useDeleteVersion()
 
   const isSuspended = purpose.currentVersion?.state === 'SUSPENDED'
@@ -55,17 +55,24 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
               {formatThousands(waitingForApprovalVersion.dailyCalls)}
             </Typography>
           </Box>
-          <Divider />
-          <IconLink
-            onClick={handleDeleteDailyCallsUpdate}
-            component="button"
-            disabled={isSuspended}
-            startIcon={<DeleteOutlineIcon />}
-            alignSelf="start"
-            color="error"
-          >
-            {t('removeChangePlanRequestLink.label')}
-          </IconLink>
+          {
+            // if the purpose was created by the delegate and I am the delegator and the delegation is still active
+            purpose.delegation?.delegator.id === jwt?.organizationId && (
+              <>
+                <Divider />
+                <IconLink
+                  onClick={handleDeleteDailyCallsUpdate}
+                  component="button"
+                  disabled={isSuspended}
+                  startIcon={<DeleteOutlineIcon />}
+                  alignSelf="start"
+                  color="error"
+                >
+                  {t('removeChangePlanRequestLink.label')}
+                </IconLink>
+              </>
+            )
+          }
         </Stack>
       </CardContent>
     </Card>
