@@ -14,10 +14,12 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerPurposeDetailsPage: React.FC = () => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
   const { t } = useTranslation('purpose')
+  const { jwt } = AuthHooks.useJwt()
 
   const { data: purpose, isLoading: isPurposeLoading } = useQuery(
     PurposeQueries.getSingle(purposeId)
@@ -38,6 +40,10 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   const { actions } = useGetConsumerPurposesActions(purpose)
 
   const isPurposeArchived = purpose?.currentVersion?.state === 'ARCHIVED'
+
+  const canAccessClientTab =
+    descriptor?.eservice.isClientAccessDelegable ||
+    purpose?.delegation?.delegate.id !== jwt?.organizationId
 
   const alertProps = useGetPurposeStateAlertProps(
     purpose,
@@ -84,17 +90,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
           </Trans>
         </Alert>
       )}
-      {!descriptor?.eservice.isClientAccessDelegable && purpose?.delegation ? (
-        <Grid container>
-          <Grid item xs={8}>
-            {purpose && !isPurposeLoading ? (
-              <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
-            ) : (
-              <PurposeDetailTabSkeleton />
-            )}
-          </Grid>
-        </Grid>
-      ) : (
+      {canAccessClientTab ? (
         <TabContext value={activeTab}>
           <TabList
             onChange={updateActiveTab}
@@ -121,6 +117,16 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
             <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
           </TabPanel>
         </TabContext>
+      ) : (
+        <Grid container>
+          <Grid item xs={8}>
+            {purpose && !isPurposeLoading ? (
+              <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
+            ) : (
+              <PurposeDetailTabSkeleton />
+            )}
+          </Grid>
+        </Grid>
       )}
       {purpose && purpose.rejectedVersion?.rejectionReason && (
         <RejectReasonDrawer
