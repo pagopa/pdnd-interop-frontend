@@ -20,7 +20,7 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
   const { t } = useTranslation('purpose', {
     keyPrefix: 'consumerView.sections.loadEstimate.planCard',
   })
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -83,7 +83,14 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
             <Box flexGrow={1}>
               <Typography variant="h4">{formatThousands(dailyCalls)}</Typography>
             </Box>
-            {!(isSuspended || isArchived || waitingForApprovalVersion || isNewPurposeRejected) && (
+            {!(
+              isSuspended ||
+              isArchived ||
+              waitingForApprovalVersion ||
+              isNewPurposeRejected ||
+              // if the purpose was created by the delegate and I am the delegator and the delegation is still active
+              purpose.delegation?.delegator.id === jwt?.organizationId
+            ) && (
               <>
                 <Divider />
                 <IconLink
