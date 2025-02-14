@@ -51,7 +51,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
       {t('eserviceName', {
         name: eservice.name,
         version: descriptor.version,
-      })}{' '}
+      })}
       {isDelegated && <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />}
     </>
   )

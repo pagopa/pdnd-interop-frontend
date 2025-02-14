@@ -16,7 +16,7 @@ export const ByDelegationChip: React.FC<ByDelegationChipProps> = ({ tenantRole }
     .with(undefined, () => t('label.default'))
     .exhaustive()
 
-  return <Chip label={tenantRoleLabel} color={'default'} sx={{ borderRadius: 1 }} />
+  return <Chip label={tenantRoleLabel} color={'default'} sx={{ borderRadius: 1, ml: 1 }} />
 }
 
 export const ByDelegationChipSkeleton: React.FC = () => {
