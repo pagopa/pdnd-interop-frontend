@@ -275,7 +275,10 @@
       },
       "confirmDialog": {
         "title": "Confirm declared attribute",
-        "description": "Do you declare under your responsibility that your institution has this attribute?"
+        "description": {
+          "default": "Do you declare under your responsibility that your institution has this attribute?",
+          "isDelegated": "Do you confirm on behalf of the delegator that <strong>{{delegatorName}}</strong> has the requested declared attribute?"
+        }
       }
     },
     "revokeDeclaredPartyAttribute": {
@@ -309,7 +312,10 @@
       },
       "confirmDialog": {
         "title": "Confirm request submit",
-        "description": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated"
+        "description": {
+          "default": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated",
+          "isDelegated": "By clicking on \"confirm\", the request for use will be forwarded to the e-service provider for approval and a notification will be forwarded to the delegating body for information."
+        }
       }
     },
     "submitToOwnEService": {
@@ -614,7 +620,7 @@
         "error": "Contact Infos could not be updated. Please, try again!"
       }
     },
-    "updateProducerDelegationAvailability": {
+    "updateDelegationAvailability": {
       "loading": "Updating delegation availability",
       "outcome": {
         "success": "Delegation availability updated succesfully",
@@ -700,7 +706,7 @@
     }
   },
   "delegation": {
-    "createProducerDelegation": {
+    "createDelegation": {
       "loading": "We are forwarding the delegation",
       "outcome": {
         "success": "The new delegation has been created correctly and has been forwarded to the member for evaluation",
@@ -714,18 +720,25 @@
         "error": "Delegation could not be activated. Please try again!"
       }
     },
-    "rejectProducerDelegation": {
+    "rejectDelegation": {
       "loading": "We are rejecting the delegation",
       "outcome": {
         "success": "The delegation was successfully rejected.",
         "error": "It was not possible to reject the delegation. Please try again!"
       }
     },
-    "revokeProducerDelegation": {
+    "revokeDelegation": {
       "loading": "We are revoking the delegation",
       "outcome": {
         "success": "The delegation was successfully revoked.",
         "error": "It was not possible to revoke the delegation. Please try again!"
+      }
+    },
+    "approveConsumerDelegation": {
+      "loading": "We are activating the delegation",
+      "outcome": {
+        "success": "Delegation has been activated successfully. From this moment you can manage the fruiction of the e-service by delegation",
+        "error": "Delegation could not be activated. Please try again!"
       }
     },
     "downloadDelegationContract": {

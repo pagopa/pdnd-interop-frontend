@@ -14,26 +14,12 @@ function useUpdateMail() {
   })
 }
 
-function useAssignTenantDelegatedProducerFeature() {
+function useUpdateTenantDelegatedFeatures() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'party.updateProducerDelegationAvailability',
+    keyPrefix: 'party.updateDelegationAvailability',
   })
   return useMutation({
-    mutationFn: TenantServices.assignTenantDelegatedProducerFeature,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
-function useDeleteTenantDelegatedProducerFeature() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'party.updateProducerDelegationAvailability',
-  })
-  return useMutation({
-    mutationFn: TenantServices.deleteTenantDelegatedProducerFeature,
+    mutationFn: TenantServices.UpdateTenantDelegatedFeatures,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -44,6 +30,5 @@ function useDeleteTenantDelegatedProducerFeature() {
 
 export const TenantMutations = {
   useUpdateMail,
-  useAssignTenantDelegatedProducerFeature,
-  useDeleteTenantDelegatedProducerFeature,
+  useUpdateTenantDelegatedFeatures,
 }

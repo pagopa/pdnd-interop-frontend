@@ -12,12 +12,13 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import { useQueryClient } from '@tanstack/react-query'
+import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('purpose')
   const { t: tCommon } = useTranslation('common')
   const queryClient = useQueryClient()
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
 
   const { actions } = useGetConsumerPurposesActions(purpose)
 
@@ -30,11 +31,27 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
     queryClient.prefetchQuery(PurposeQueries.getSingle(purpose.id))
   }
 
+  const isDelegator = Boolean(
+    purpose.delegation && purpose.delegation?.delegator.id === jwt?.organizationId
+  )
+  const isDelegate = Boolean(
+    purpose.delegation && purpose.delegation?.delegate.id === jwt?.organizationId
+  )
+
+  const isDelegated = isDelegate || isDelegator
+
+  const eserviceCellData = (
+    <>
+      {purpose.eservice.name}
+      {isDelegated && <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />}
+    </>
+  )
+
   return (
     <TableRow
       cellData={[
         purpose.title,
-        purpose.eservice.name,
+        eserviceCellData,
         purpose.eservice.producer.name,
         <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
       ]}

@@ -12,7 +12,6 @@ import type { EServiceDescriptorState, ProducerEService } from '@/api/api.genera
 import { AuthHooks } from '@/api/auth'
 import { useQueryClient } from '@tanstack/react-query'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -24,10 +23,12 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
 
   const queryClient = useQueryClient()
 
-  const { isDelegate, isDelegator } = useGetDelegationUserRole({
-    eserviceId: eservice.id,
-    organizationId: jwt?.organizationId,
-  })
+  const isDelegate = Boolean(
+    eservice.delegation && eservice.delegation?.delegate.id === jwt?.organizationId
+  )
+  const isDelegator = Boolean(
+    eservice.delegation && eservice.delegation?.delegator.id === jwt?.organizationId
+  )
 
   const { actions } = useGetProviderEServiceActions(
     eservice.id,
@@ -35,7 +36,9 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     eservice.draftDescriptor?.state,
     eservice.activeDescriptor?.id,
     eservice.draftDescriptor?.id,
-    eservice.mode
+    eservice.mode,
+    eservice.name,
+    eservice.delegation
   )
 
   const hasActiveDescriptor = eservice.activeDescriptor
@@ -60,7 +63,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         isEServiceByDelegation ? (
           <Stack direction="row" spacing={1}>
             <Typography variant="body2">{eservice.name}</Typography>
-            <ByDelegationChip />
+            <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />
           </Stack>
         ) : (
           eservice.name

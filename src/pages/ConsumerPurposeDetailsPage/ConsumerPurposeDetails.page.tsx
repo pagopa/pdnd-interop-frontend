@@ -13,12 +13,24 @@ import useGetPurposeStateAlertProps from './hooks/useGetPurposeStateAlertProps'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useQuery } from '@tanstack/react-query'
+import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerPurposeDetailsPage: React.FC = () => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
   const { t } = useTranslation('purpose')
 
-  const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
+  const { data: purpose, isLoading: isPurposeLoading } = useQuery(
+    PurposeQueries.getSingle(purposeId)
+  )
+
+  const { data: descriptor, isLoading: isDescriptorLoading } = useQuery({
+    ...EServiceQueries.getDescriptorCatalog(
+      purpose?.eservice.id as string,
+      purpose?.eservice.descriptor.id as string
+    ),
+    enabled: Boolean(purpose),
+  })
+
   const { activeTab, updateActiveTab } = useActiveTab('details')
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -27,13 +39,16 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
 
   const isPurposeArchived = purpose?.currentVersion?.state === 'ARCHIVED'
 
-  const alertProps = useGetPurposeStateAlertProps(purpose)
+  const alertProps = useGetPurposeStateAlertProps(
+    purpose,
+    descriptor?.eservice.isClientAccessDelegable
+  )
 
   return (
     <PageContainer
       title={purpose?.title}
       description={purpose?.description}
-      isLoading={isLoading}
+      isLoading={isPurposeLoading || isDescriptorLoading}
       topSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
       backToAction={{
@@ -69,32 +84,44 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
           </Trans>
         </Alert>
       )}
-      <TabContext value={activeTab}>
-        <TabList
-          onChange={updateActiveTab}
-          aria-label={t('consumerView.tabs.ariaLabel')}
-          variant="fullWidth"
-        >
-          <Tab label={t('consumerView.tabs.details')} value="details" />
-          <Tab label={t('consumerView.tabs.clients')} value="clients" />
-        </TabList>
-
-        <TabPanel value="details">
-          <Grid container>
-            <Grid item xs={8}>
-              {purpose && !isLoading ? (
-                <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
-              ) : (
-                <PurposeDetailTabSkeleton />
-              )}
-            </Grid>
+      {!descriptor?.eservice.isClientAccessDelegable && purpose?.delegation ? (
+        <Grid container>
+          <Grid item xs={8}>
+            {purpose && !isPurposeLoading ? (
+              <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
+            ) : (
+              <PurposeDetailTabSkeleton />
+            )}
           </Grid>
-        </TabPanel>
+        </Grid>
+      ) : (
+        <TabContext value={activeTab}>
+          <TabList
+            onChange={updateActiveTab}
+            aria-label={t('consumerView.tabs.ariaLabel')}
+            variant="fullWidth"
+          >
+            <Tab label={t('consumerView.tabs.details')} value="details" />
+            <Tab label={t('consumerView.tabs.clients')} value="clients" />
+          </TabList>
 
-        <TabPanel value="clients">
-          <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
-        </TabPanel>
-      </TabContext>
+          <TabPanel value="details">
+            <Grid container>
+              <Grid item xs={8}>
+                {purpose && !isPurposeLoading ? (
+                  <PurposeDetailsTab purpose={purpose} openRejectReasonDrawer={openDrawer} />
+                ) : (
+                  <PurposeDetailTabSkeleton />
+                )}
+              </Grid>
+            </Grid>
+          </TabPanel>
+
+          <TabPanel value="clients">
+            <PurposeClientsTab purposeId={purposeId} isPurposeArchived={isPurposeArchived} />
+          </TabPanel>
+        </TabContext>
+      )}
       {purpose && purpose.rejectedVersion?.rejectionReason && (
         <RejectReasonDrawer
           isOpen={isOpen}

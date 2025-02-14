@@ -32,4 +32,12 @@ export function useGetConsumerAgreementCreateAlertProps(agreement: Agreement | u
       action: () => openDialog({ type: 'setTenantMail' }),
     }
   }
+
+  const isDelegated = agreement && agreement.delegation
+  if (isDelegated) {
+    return {
+      severity: 'info',
+      content: t('edit.delegatedAttributesAlert', { delegatorName: agreement.consumer.name }),
+    }
+  }
 }

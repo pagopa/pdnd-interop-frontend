@@ -42,6 +42,18 @@
           "switchLabel": "Sì, è disponibile"
         }
       },
+      "delegationSection": {
+        "title": "Deleghe",
+        "description": "Consulta la <1>documentazione</1> relativa al funzionamento delle deleghe",
+        "delegationField": {
+          "label": "L’e-service può essere fruito tramite delega?",
+          "switchLabel": "Autorizzo che i fruitori dell’e-service possano delegare altri enti ad iscriversi per conto proprio"
+        },
+        "clientAccessDelegableField": {
+          "label": "Autorizzo l’accesso ai dati in delega",
+          "checkboxLabel": "Autorizzo che i delegati possano associare i propri client alle finalità che hanno creato in qualità di delegati alla fruizione. Consulta la <1>documentazione</1> per approfondire"
+        }
+      },
       "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
     },
     "stepPurpose": {
@@ -165,6 +177,22 @@
           "true": "Sì, è disponibile",
           "false": "No, non è disponibile",
           "undefined": "No, non è disponibile"
+        }
+      },
+      "isConsumerDelegable": {
+        "label": "L’e-service può essere fruito tramite delega?",
+        "value": {
+          "true": "Sì",
+          "false": "No",
+          "undefined": "No"
+        }
+      },
+      "isClientAccessDelegable": {
+        "label": "Autorizzo l’accesso ai dati in delega?",
+        "value": {
+          "true": "Sì",
+          "false": "No",
+          "undefined": "No"
         }
       }
     },

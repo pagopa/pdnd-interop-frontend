@@ -11,7 +11,6 @@ import CloseIcon from '@mui/icons-material/Close'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { AuthHooks } from '@/api/auth'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
@@ -29,10 +28,10 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
-  const { isDelegator } = useGetDelegationUserRole({
-    eserviceId: agreement?.eservice.id,
-    organizationId: jwt?.organizationId,
-  })
+
+  const isDelegator = Boolean(
+    agreement?.delegation && agreement.consumer.id === jwt?.organizationId
+  )
 
   if (!agreement || mode === null || !isAdmin || isDelegator) return { actions: [] }
 

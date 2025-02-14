@@ -7,17 +7,13 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import CloseIcon from '@mui/icons-material/Close'
 import { useDialog } from '@/stores'
-import { useGetDelegationUserRole } from './useGetDelegationUserRole'
 
 function useGetProviderPurposesActions(purpose?: Purpose) {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { isAdmin, jwt } = AuthHooks.useJwt()
 
-  const { isDelegator } = useGetDelegationUserRole({
-    eserviceId: purpose?.eservice.id,
-    organizationId: jwt?.organizationId,
-  })
+  const isDelegator = purpose?.delegation?.delegator.id === jwt?.organizationId
 
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { mutate: suspendVersion } = PurposeMutations.useSuspendVersion()

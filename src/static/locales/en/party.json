@@ -122,30 +122,34 @@
     "create": {
       "title": "Create delegation",
       "kindSectionTitle": "Delegation's kinds",
-      "consumeDelegationTitle": "Consume delegation",
-      "provideDelegationTitle": "Provide delegation",
+      "consumerDelegationTitle": "Consumer delegation",
+      "providerDelegationTitle": "Provider delegation",
       "cancelBtn": "Cancel",
       "backWithoutSaveBtn": "Go back",
       "forwardWithSaveBtn": "Next",
       "submitBtn": "Submit delegation",
       "cards": {
         "common": "I want to create a ",
-        "consume": "consumer's delegation",
-        "provide": "provider's delegation"
+        "consumer": "consumer's delegation",
+        "provider": "provider's delegation"
       },
       "eserviceField": {
         "label": "E-service name (required)",
         "infoLabel": "Min 5 chars, max 60 chars",
-        "infoLabelAutocomplete": "The list includes only those  e-services for which the respective producers have given availability to consume by delegation.",
+        "infoLabelAutocomplete": {
+          "consumer": "The list includes only those e-services for which the respective providers have given availability to consume by delegation.",
+          "producer": "The list includes only those e-services for which the respective producers have given availability to provide by delegation."
+        },
         "descriptionLabel": "E-service description",
-        "descriptionInfoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
+        "descriptionInfoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars",
+        "eserviceNameLabel": "Provide by"
       },
       "delegateField": {
-        "consume": {
+        "consumer": {
           "label": "Delegated tenant (required)",
           "infoLabel": "The list includes only members who have given their willingness to become consumer delegates."
         },
-        "provide": {
+        "provider": {
           "label": "Delegated tenant (required)",
           "infoLabel": "The list includes only members who have given their willingness to become provider delegates.",
           "switch": "I have already created the e-service for which I want to activate a delegation"
@@ -157,7 +161,9 @@
         "proceedLabel": "Submit delegation",
         "cancelLabel": "Cancella",
         "checkboxLabel": "I understand"
-      }
+      },
+      "hasAgreementsAlert": "There is already an active or suspended agreement for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active or suspended agreement be removed and try again.",
+      "isDelegatedAlert": "A delegation request already exists for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active request be removed and try again."
     },
     "actions": {
       "backToTenant": "Return to tenant",

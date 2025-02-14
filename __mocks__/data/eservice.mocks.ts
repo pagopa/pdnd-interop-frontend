@@ -1,4 +1,5 @@
 import type {
+  CatalogDescriptorEService,
   CatalogEService,
   CatalogEServiceDescriptor,
   ProducerEService,
@@ -31,7 +32,6 @@ const createMockEServiceCatalog = createMockFactory<CatalogEService>({
   },
   name: '!! -- CAMMELLO -- Test 18/10 [1]',
   description: 'lorem ipsum',
-  hasCertifiedAttributes: true,
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
   isMine: false,
   producer: {
@@ -93,6 +93,36 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
   },
 })
 
+const createMockCatalogDescriptorEService = createMockFactory<CatalogDescriptorEService>({
+  activeDescriptor: {
+    id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
+    state: 'PUBLISHED',
+    version: '1',
+    audience: [],
+  },
+  producer: {
+    id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
+    name: '-- CAMMELLO --',
+  },
+  description: 'lorem',
+  descriptors: [
+    {
+      id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
+      state: 'PUBLISHED',
+      version: '1',
+      audience: [],
+    },
+  ],
+  hasCertifiedAttributes: false,
+  id: '03d0c725-47e5-4ec5-8ecd-1a1f3ce45d29',
+  isMine: false,
+  isSubscribed: false,
+  name: '!! -- CAMMELLO -- Test 18/10 [1] - clone',
+  technology: 'REST',
+  mode: 'DELIVER',
+  riskAnalysis: [],
+})
+
 const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceDescriptor>({
   agreementApprovalPolicy: 'MANUAL',
   audience: ['nikon'],
@@ -142,5 +172,6 @@ export {
   createMockEServiceCatalog,
   createMockEServiceRead,
   createMockEServiceDescriptorCatalog,
+  createMockCatalogDescriptorEService,
   createMockEServiceDescriptorProvider,
 }

@@ -33,12 +33,14 @@ const ConsumerAgreementDetailsPage: React.FC = () => {
 const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common')
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
 
   const { openDialog } = useDialog()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
+
+  const isDelegated = Boolean(agreement?.delegation)
 
   const { actions } = useGetAgreementsActions(agreement)
 
@@ -48,7 +50,8 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { hasAllCertifiedAttributes, hasAllDeclaredAttributes, hasAllVerifiedAttributes } =
     useDescriptorAttributesPartyOwnership(
       agreement.eservice.id,
-      agreement.eservice.activeDescriptor?.id
+      agreement.eservice.activeDescriptor?.id,
+      isDelegated ? agreement?.consumer.id : jwt?.organizationId
     )
   const shouldDisableUpgradeButton = !hasAllCertifiedAttributes
 

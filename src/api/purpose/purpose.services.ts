@@ -44,7 +44,7 @@ function REMOVE_ME_remapPurpose(purpose: Purpose): Purpose {
 
 async function getProducersList(params: GetProducerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
-    `${BACKEND_FOR_FRONTEND_URL}/producer/purposes`,
+    `${BACKEND_FOR_FRONTEND_URL}/producers/purposes`,
     {
       params,
     }
@@ -54,7 +54,7 @@ async function getProducersList(params: GetProducerPurposesParams) {
 
 async function getConsumersList(params: GetConsumerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
-    `${BACKEND_FOR_FRONTEND_URL}/consumer/purposes`,
+    `${BACKEND_FOR_FRONTEND_URL}/consumers/purposes`,
     {
       params,
     }

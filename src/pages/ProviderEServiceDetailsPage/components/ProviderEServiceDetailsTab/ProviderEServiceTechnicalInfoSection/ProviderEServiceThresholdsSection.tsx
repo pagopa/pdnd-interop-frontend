@@ -9,7 +9,7 @@ import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderEServiceUpdateThresholdsDrawer } from './ProviderEServiceUpdateThresholdsDrawer'
 import { AuthHooks } from '@/api/auth'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 
 type ProviderEServiceThresholdsSectionProps = {
   descriptor: ProducerEServiceDescriptor
@@ -25,7 +25,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
 
   const { jwt } = AuthHooks.useJwt()
 
-  const { isDelegator } = useGetDelegationUserRole({
+  const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId: descriptor.eservice.id,
     organizationId: jwt?.organizationId,
   })

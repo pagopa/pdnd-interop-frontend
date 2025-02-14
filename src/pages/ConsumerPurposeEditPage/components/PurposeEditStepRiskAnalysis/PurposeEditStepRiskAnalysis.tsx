@@ -16,7 +16,10 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
 
   const { mutate: updatePurpose } = PurposeMutations.useUpdateDraft()
   const { data: purpose } = useQuery(PurposeQueries.getSingle(purposeId))
-  const { data: riskAnalysis } = useQuery(PurposeQueries.getRiskAnalysisLatest())
+
+  const { data: riskAnalysis } = useQuery(
+    PurposeQueries.getRiskAnalysisLatest({ tenantKind: purpose?.consumer.kind })
+  )
 
   const hasVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
 

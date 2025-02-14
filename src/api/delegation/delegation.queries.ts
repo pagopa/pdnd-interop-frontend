@@ -1,11 +1,16 @@
 import { queryOptions } from '@tanstack/react-query'
-import type { GetDelegationsParams } from '../api.generatedTypes'
+import type {
+  GetConsumerDelegatorsParams,
+  GetConsumerDelegatedEservicesParams,
+  GetConsumerDelegatorsWithAgreementsParams,
+  GetDelegationsParams,
+} from '../api.generatedTypes'
 import { DelegationServices } from './delegation.services'
 
-function getProducerDelegationsList(params: GetDelegationsParams) {
+function getList(params: GetDelegationsParams) {
   return queryOptions({
-    queryKey: ['DelegationGetProducerDelegationsList', params],
-    queryFn: () => DelegationServices.getProducerDelegations(params),
+    queryKey: ['DelegationGetDelegationsList', params],
+    queryFn: () => DelegationServices.getList(params),
   })
 }
 
@@ -16,7 +21,31 @@ function getSingle({ delegationId }: { delegationId: string }) {
   })
 }
 
+function getConsumerDelegators(params: GetConsumerDelegatorsParams) {
+  return queryOptions({
+    queryKey: ['DelegationGetConsumerDelegators', params],
+    queryFn: () => DelegationServices.getConsumerDelegators(params),
+  })
+}
+
+function getConsumerDelegatorsWithAgreements(params: GetConsumerDelegatorsWithAgreementsParams) {
+  return queryOptions({
+    queryKey: ['DelegationGetConsumerDelegatorsWithAgreements', params],
+    queryFn: () => DelegationServices.getConsumerDelegatorsWithAgreements(params),
+  })
+}
+
+function getConsumerDelegatedEservices(params: GetConsumerDelegatedEservicesParams) {
+  return queryOptions({
+    queryKey: ['DelegationGetConsumerDelegatedEservices', params],
+    queryFn: () => DelegationServices.getConsumerDelegatedEservices(params),
+  })
+}
+
 export const DelegationQueries = {
-  getProducerDelegationsList,
+  getList,
   getSingle,
+  getConsumerDelegators,
+  getConsumerDelegatorsWithAgreements,
+  getConsumerDelegatedEservices,
 }
