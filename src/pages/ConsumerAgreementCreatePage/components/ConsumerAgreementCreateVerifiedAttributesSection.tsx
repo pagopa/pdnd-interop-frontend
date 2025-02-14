@@ -12,7 +12,7 @@ import { ConsumerNotesInputSection } from './ConsumerNotesInputSection'
 import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 import { TenantHooks, TenantQueries } from '@/api/tenant'
 import { isAttributeOwned } from '@/utils/attribute.utils'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 type ConsumerAgreementCreateVerifiedAttributesSectionProps = {
   agreementId: string
@@ -31,18 +31,20 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
 
   const isDelegated = Boolean(agreement?.delegation)
 
-  const { data: delegatedParty } = useSuspenseQuery(
-    TenantQueries.getParty(agreement?.delegation?.delegate.id as string)
-  )
+  const { data: delegatedParty } = useQuery({
+    ...TenantQueries.getParty(agreement?.delegation?.delegate.id as string),
+    enabled: isDelegated,
+  })
 
   /**
    * To check if the consumer already has verified attributes from the active party
    */
   const { data: activeParty } = TenantHooks.useGetActiveUserParty()
 
-  const ownedVerifiedAttributes = isDelegated
-    ? delegatedParty.attributes.verified
-    : activeParty.attributes.verified
+  const ownedVerifiedAttributes =
+    isDelegated && delegatedParty
+      ? delegatedParty.attributes.verified
+      : activeParty.attributes.verified
   const hasAlreadyVerifiedAttribute = verifiedAttributeGroups.some((group, i) =>
     isAttributeOwned('verified', group[i].id, ownedVerifiedAttributes, agreement?.producer.id)
   )
