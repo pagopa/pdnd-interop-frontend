@@ -1,11 +1,14 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
+  DescriptorAttributesSeed,
   EServiceTemplateDescriptionUpdateSeed,
   EServiceTemplateNameUpdateSeed,
+  EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
   ProducerEServiceTemplates,
 } from '../api.generatedTypes'
+import { AttributeKey } from '@/types/attribute.types'
 
 async function getProviderTemplatesList() {
   //TODO params: GetProducerTemplatesParams
@@ -68,106 +71,108 @@ async function getProviderTemplatesList() {
   return response
 }
 
-async function getSingle(eServiceTemplateId: string) {
-  /*const response = await axiosInstance.get<EServiceTemplate>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}`
+async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string) {
+  /*const response = await axiosInstance.get<GetEServiceTemplateVersion>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`
   )
   return response.data*/
-  const response = {
-    id: 'b7a5c9d2-7d91-4f39-8baf-c214de60b707',
+  const response: EServiceTemplateVersionDetails = {
+    id: '123e4567-e89b-12d3-a456-426614174000',
     version: 1,
-    description: 'Test description for the service',
-    voucherLifespan: 365,
-    dailyCallsPerConsumer: 5,
-    dailyCallsTotal: 100,
+    description: 'This is a sample e-service template version.',
+    voucherLifespan: 30,
+    dailyCallsPerConsumer: 1000,
+    dailyCallsTotal: 5000,
     interface: {
-      id: 'd2a9cbd0-9b4e-4c60-bf8d-980b5367d5f9',
-      name: 'Sample Interface',
+      id: '123e4567-e89b-12d3-a456-426614174001',
+      name: 'Sample API',
       contentType: 'application/json',
-      prettyName: 'Sample JSON Interface',
+      prettyName: 'Sample API Interface',
     },
     docs: [
       {
-        id: 'a5f98e62-4b56-40d3-933f-29246630bb71',
+        id: '123e4567-e89b-12d3-a456-426614174002',
         name: 'API Documentation',
         contentType: 'application/pdf',
-        prettyName: 'API Docs',
+        prettyName: 'API Documentation File',
       },
     ],
     state: 'PUBLISHED',
-    agreementApprovalPolicy: 'MANUAL',
+    agreementApprovalPolicy: 'AUTOMATIC',
     attributes: {
       certified: [
         [
           {
-            id: 'b6a5f2bc-81e0-4b8b-b8b5-8f9845be2c2a',
-            name: 'Certification Status',
-            description: 'Indicates if the service is certified',
+            id: '123e4567-e89b-12d3-a456-426614174010',
+            name: 'Certified Attribute 1',
+            description: 'Description for certified attribute 1.',
             explicitAttributeVerification: true,
+          },
+          {
+            id: '123e4567-e89b-12d3-a456-426614174011',
+            name: 'Certified Attribute 2',
+            description: 'Description for certified attribute 2.',
+            explicitAttributeVerification: false,
           },
         ],
       ],
       declared: [
         [
           {
-            id: 'c1b3f0d2-c6b3-4926-906b-c84ef9a9d92b',
-            name: 'Service Description',
-            description: 'Description of the service functionality',
+            id: '123e4567-e89b-12d3-a456-426614174012',
+            name: 'Declared Attribute 1',
+            description: 'Description for declared attribute 1.',
             explicitAttributeVerification: false,
+          },
+          {
+            id: '123e4567-e89b-12d3-a456-426614174013',
+            name: 'Declared Attribute 2',
+            description: 'Description for declared attribute 2.',
+            explicitAttributeVerification: true,
           },
         ],
       ],
       verified: [
         [
           {
-            id: 'e7d537bb-53b3-4671-bc3b-9801fd592be3',
-            name: 'Verification Status',
-            description: 'Indicates whether the service is verified',
+            id: '123e4567-e89b-12d3-a456-426614174014',
+            name: 'Verified Attribute 1',
+            description: 'Description for verified attribute 1.',
             explicitAttributeVerification: true,
           },
         ],
       ],
     },
     eserviceTemplate: {
-      id: 'f64bd7b7-fc36-4bff-9be0-8db1c9c16e27',
+      id: '123e4567-e89b-12d3-a456-426614174003',
       creator: {
-        id: '7fa86fd1-bba3-4b6e-98b7-0fcf53f5b89d',
-        name: 'John Doe',
-        kind: 'PA',
-        contactMail: {
-          address: 'johndoe@example.com',
-          description: 'Primary contact email for support',
-        },
+        id: 'org-123',
+        name: 'Sample Organization',
       },
-      name: 'Sample eService',
-      audienceDescription: 'A sample eService for testing purposes',
-      eserviceDescription: 'This service allows users to test various API features',
+      name: 'Sample E-Service Template',
+      audienceDescription: 'Targeted at developers and API consumers.',
+      eserviceDescription: 'This is a sample e-service template for testing purposes.',
       technology: 'REST',
       versions: [
         {
-          id: 'a92b154d-7439-493b-bd8b-bd1fbb8a2e32',
+          id: '123e4567-e89b-12d3-a456-426614174004',
           version: 1,
-          state: 'DRAFT',
+          state: 'PUBLISHED',
         },
       ],
       riskAnalysis: [
         {
-          id: 'e85c4701-b586-4319-b083-184f37d87769',
-          name: 'Security Risk Analysis',
+          id: '123e4567-e89b-12d3-a456-426614174005',
+          name: 'Sample Risk Analysis',
           riskAnalysisForm: {
             version: '1.0',
-            answers: {
-              additionalProp1: ['High risk of data breach'],
-              additionalProp2: ['Low risk of service downtime'],
-              additionalProp3: ['Medium risk of unauthorized access'],
-            },
-            riskAnalysisId: 'e85c4701-b586-4319-b083-184f37d87769',
+            answers: { risk1: 'high', risk2: 'medium' },
           },
-          createdAt: '2025-02-13T16:20:00.169Z',
+          createdAt: '2025-02-14T10:00:00Z',
         },
       ],
       mode: 'DELIVER',
-      isSignalHubEnabled: false,
+      isSignalHubEnabled: true,
     },
   }
 
@@ -370,6 +375,87 @@ function deleteTemplateRiskAnalysis({
   return console.log('template risk analysis deleted')
 }
 
+async function updateAttributes({
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
+  attributeKey: _attributeKey,
+  ...payload
+}: {
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
+  attributeKey: AttributeKey
+} & DescriptorAttributesSeed) {
+  /* axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/attributes/update`,
+    payload
+  )*/
+  return console.log('attributes updated')
+}
+
+function publishVersionDraft({
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
+}: {
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
+}) {
+  /*return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/publish`
+  )*/
+  return console.log('draft published')
+}
+
+function deleteVersionDraft({
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
+}: {
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
+}) {
+  //return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}`)
+  return console.log('deleted draft version')
+}
+
+function suspendVersion({
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
+}: {
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
+}) {
+  /*return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/${eServiceTemplateVersionId}/suspend`
+  )*/
+  return console.log('version suspended')
+}
+
+function reactivateVersion({
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
+}: {
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
+}) {
+  /*return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/${eServiceTemplateVersionId}/activate`
+  )*/
+  return console.log('version activated')
+}
+
+async function cloneFromVersion({
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
+}: {
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
+}) {
+  /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/clone` //todo manca nell'srs
+  )
+  return response.data*/
+  return
+}
+
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
@@ -387,4 +473,10 @@ export const TemplateServices = {
   addTemplateRiskAnalysis,
   updateTemplateRiskAnalysis,
   deleteTemplateRiskAnalysis,
+  updateAttributes,
+  publishVersionDraft,
+  deleteVersionDraft,
+  suspendVersion,
+  reactivateVersion,
+  cloneFromVersion,
 }
