@@ -341,11 +341,11 @@
         "audience": "Audience",
         "eserviceId": {
           "label": "ID e-service",
-          "copySuccessFeedbackText": "ID e-service copiato correttamente"
+          "copySuccessFeedbackText": "ID copiato correttamente"
         },
         "descriptorId": {
           "label": "ID versione",
-          "copySuccessFeedbackText": "ID versione copiato correttamente"
+          "copySuccessFeedbackText": "ID copiato correttamente"
         },
         "publishedAt": "Data ultima versione",
         "deprecatedAt": "Data deprecazione versione",

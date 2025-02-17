@@ -19,7 +19,7 @@
     },
     "tenantIdField": {
       "label": "ID ente",
-      "copySuccessFeedbackText": "Id copiato correttamente"
+      "copySuccessFeedbackText": "ID copiato correttamente"
     }
   },
   "contacts": {
