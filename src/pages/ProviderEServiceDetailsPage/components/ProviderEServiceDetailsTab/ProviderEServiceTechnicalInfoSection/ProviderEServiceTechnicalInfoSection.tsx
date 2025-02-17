@@ -11,6 +11,7 @@ import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocument
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
+import { formatDateString } from '@/utils/format.utils'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
@@ -32,6 +33,40 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
       <Stack spacing={2}>
         <SectionContainer innerSection>
           <Stack spacing={2}>
+            <InformationContainer
+              label={t('eserviceId.label')}
+              content={eserviceId}
+              copyToClipboard={{
+                value: eserviceId,
+                tooltipTitle: t('eserviceId.copySuccessFeedbackText'),
+              }}
+            />
+            <InformationContainer
+              label={t('descriptorId.label')}
+              content={descriptor.id}
+              copyToClipboard={{
+                value: descriptor.id,
+                tooltipTitle: t('descriptorId.copySuccessFeedbackText'),
+              }}
+            />
+            {descriptor.publishedAt && (
+              <InformationContainer
+                label={t('publishedAt')}
+                content={formatDateString(descriptor.publishedAt)}
+              />
+            )}
+            {descriptor.deprecatedAt && (
+              <InformationContainer
+                label={t('deprecatedAt')}
+                content={formatDateString(descriptor.deprecatedAt)}
+              />
+            )}
+            {descriptor.archivedAt && (
+              <InformationContainer
+                label={t('archivedAt')}
+                content={formatDateString(descriptor.archivedAt)}
+              />
+            )}
             <InformationContainer
               label={t('technology')}
               content={descriptor.eservice.technology}
