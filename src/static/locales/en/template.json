@@ -94,6 +94,17 @@
           }
         }
       },
+      "updateEServiceTemplateDescriptionDrawer": {
+        "title": "Edit the template e-service description",
+        "subtitle": "From this panel, you can update the description of the template. The changes made will take effect immediately.",
+        "templateDescriptionField": {
+          "label": "Template e-service description",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The template e-service description must be different from the current one"
+          }
+        }
+      },
       "updateEServiceTemplateThresholdsDrawer": {
         "subtitle": "From this panel, you can update the quotas of the template eservice. The changes made will take effect immediately",
         "dailyCallsPerConsumerLabel": "Per subscriber suggested threshold",
