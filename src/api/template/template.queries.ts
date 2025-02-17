@@ -16,7 +16,16 @@ function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string
   })
 }
 
+function getProviderTemplateInstancesList(eServiceTemplateId: string) {
+  //TODO aggiungi params
+  return queryOptions({
+    queryKey: ['EServiceTemplatesGetProviderTemplateInstancesList'],
+    queryFn: () => TemplateServices.getProviderTemplateInstancesList(eServiceTemplateId),
+  })
+}
+
 export const TemplateQueries = {
   getProviderTemplatesList,
   getSingle,
+  getProviderTemplateInstancesList,
 }
