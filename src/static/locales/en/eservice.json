@@ -349,6 +349,7 @@
         },
         "publishedAt": "Last version date",
         "deprecatedAt": "Deprecated version date",
+        "archivedAt": "Archived version date",
         "mode": {
           "label": "E-service mode",
           "labelDescription": "Receive / Deliver",

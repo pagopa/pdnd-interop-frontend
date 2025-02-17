@@ -349,6 +349,7 @@
         },
         "publishedAt": "Data ultima versione",
         "deprecatedAt": "Data deprecazione versione",
+        "archivedAt": "Data archiviazione versione",
         "mode": {
           "label": "Tipologia e-service",
           "labelDescription": "Riceve / Eroga",

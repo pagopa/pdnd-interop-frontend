@@ -367,6 +367,8 @@ export interface ProducerEServiceDescriptor {
   publishedAt?: string
   /** @format date-time */
   deprecatedAt?: string
+  /** @format date-time */
+  archivedAt?: string
 }
 
 export interface ProducerDescriptorEService {

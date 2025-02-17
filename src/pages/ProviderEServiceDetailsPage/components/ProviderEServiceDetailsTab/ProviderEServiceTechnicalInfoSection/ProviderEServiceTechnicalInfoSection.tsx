@@ -61,6 +61,12 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
                 content={formatDateString(descriptor.deprecatedAt)}
               />
             )}
+            {descriptor.archivedAt && (
+              <InformationContainer
+                label={t('archivedAt')}
+                content={formatDateString(descriptor.archivedAt)}
+              />
+            )}
             <InformationContainer
               label={t('technology')}
               content={descriptor.eservice.technology}
