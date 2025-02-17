@@ -32,6 +32,18 @@
         }
       },
       "technicalInformations": {
+        "title": "E-service technical specifications",
+        "description": "In this section you can check the specifications of the e-service and make changes.",
+        "technology": "Technology",
+        "audience": "Audience",
+        "mode": {
+          "label": "E-service mode",
+          "labelDescription": "Receive / Deliver",
+          "value": {
+            "DELIVER": "Deliver",
+            "RECEIVE": "Receive"
+          }
+        },
         "thresholds": {
           "title": "Thresholds",
           "voucherLifespan": {
@@ -46,6 +58,10 @@
             "label": "Total suggested threshold",
             "labelDescription": "API calls/day"
           }
+        },
+        "documentation": {
+          "title": "Documentation",
+          "label": "Documents list"
         },
         "usefulLinks": {
           "title": "Useful links",

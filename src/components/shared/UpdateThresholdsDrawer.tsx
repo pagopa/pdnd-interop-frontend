@@ -25,12 +25,14 @@ type UpdateThresholdsDrawerProps = {
   voucherLifespan: number
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
+  versionId?: string
   onSubmit: (
     id: string,
     voucherLifespan: number,
     dailyCallsPerConsumer: number,
     dailyCallsTotal: number,
-    descriptorId?: string
+    descriptorId?: string,
+    versionId?: string
   ) => void
 }
 
@@ -45,6 +47,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
   voucherLifespan,
   dailyCallsPerConsumer,
   dailyCallsTotal,
+  versionId,
   onSubmit,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.updateThresholdsDrawer' })
@@ -64,7 +67,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
       dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
       dailyCallsTotal: dailyCallsTotal ?? 1,
     })
-  }, [descriptorId, id, formMethods])
+  }, [descriptorId, versionId, id, formMethods])
 
   const handleSubmit = (values: UpdateThresholdsFormValues) => {
     if (descriptorId) {
@@ -74,6 +77,16 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
         values.dailyCallsPerConsumer,
         values.dailyCallsTotal,
         descriptorId
+      )
+    }
+    if (versionId) {
+      //TODO
+      onSubmit(
+        id,
+        minutesToSeconds(values.voucherLifespan),
+        values.dailyCallsPerConsumer,
+        values.dailyCallsTotal,
+        versionId
       )
     } else {
       onSubmit(
