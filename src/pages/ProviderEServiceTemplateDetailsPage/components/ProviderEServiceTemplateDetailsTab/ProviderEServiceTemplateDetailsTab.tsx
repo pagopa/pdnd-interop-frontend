@@ -5,12 +5,15 @@ import { useQuery } from '@tanstack/react-query'
 import { ProviderEServiceTemplateGeneralInfoSection } from './ProviderEServiceTemplateGeneralInfoSection/ProviderEServiceTemplateGeneralInfoSection'
 import { TemplateQueries } from '@/api/template'
 import { ProviderEServiceTemplateTechnicalInfoSection } from './ProviderEServiceTemplateTechnicalInfoSection'
-import { ProviderEServiceTemplateAttributes } from './ProviderEServiceTemplateAttributes'
+import { ProviderEServiceTemplateAttributes } from './ProviderEServiceTemplateAttributesSection'
 
 export const ProviderEServiceTemplateDetailsTab: React.FC = () => {
-  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
+  const { eServiceTemplateId, eServiceTemplateVersionId } =
+    useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const { data: template } = useQuery(TemplateQueries.getSingle(eserviceTemplateId))
+  const { data: template } = useQuery(
+    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId) //TODO
+  )
 
   return (
     <>

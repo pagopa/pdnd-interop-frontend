@@ -13,24 +13,30 @@ import { ProviderEServiceTemplateDocumentationSection } from './ProviderEService
 import { ProviderEServiceTemplateUsefulLinksSection } from './ProviderEServiceTemplateUsefulLinksSection'
 
 export const ProviderEServiceTemplateTechnicalInfoSection: React.FC = () => {
-  const { t } = useTranslation('eservice', {
+  const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.technicalInformations',
   })
 
-  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
-  const { data: template } = useSuspenseQuery(TemplateQueries.getSingle(eserviceTemplateId))
+  const { eServiceTemplateId, eServiceTemplateVersionId } =
+    useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
+  const { data: template } = useSuspenseQuery(
+    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+  )
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
       <Stack spacing={2}>
         <SectionContainer innerSection>
           <Stack spacing={2}>
-            <InformationContainer label={t('technology')} content={template.technology} />
+            <InformationContainer
+              label={t('technology')}
+              content={template.eserviceTemplate.technology}
+            />
 
             <InformationContainer
               label={t('mode.label')}
               labelDescription={t('mode.labelDescription')}
-              content={t(`mode.value.${template.mode}`)}
+              content={t(`mode.value.${template.eserviceTemplate.mode}`)}
             />
           </Stack>
         </SectionContainer>

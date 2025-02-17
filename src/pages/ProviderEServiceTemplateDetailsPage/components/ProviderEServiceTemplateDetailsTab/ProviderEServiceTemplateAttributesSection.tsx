@@ -10,29 +10,20 @@ import EditIcon from '@mui/icons-material/Edit'
 import type { AttributeKey } from '@/types/attribute.types'
 import { AuthHooks } from '@/api/auth'
 import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
-import { EServiceQueries } from '@/api/eservice'
+import { ProviderEServiceTemplateUpdateAttributesDrawer } from './ProviderEServiceTemplateUpdateAttributesDrawer'
 
 export const ProviderEServiceTemplateAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
   const { t: tCommon } = useTranslation('common')
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
-  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
-  /* const { data: templateAttributes } = useSuspenseQuery({ //TODO
-    TemplateQueries.getSingle(eserviceTemplateId),
-    //select: (d) => d.attributes,
-  })*/
+  const { eServiceTemplateId, eServiceTemplateVersionId } =
+    useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  /*const { data: descriptorAttributes } = useSuspenseQuery({
-    //TODO DA TOGLIERE
-    ...EServiceQueries.getDescriptorProvider(
-      '98a7e77e-7919-4120-a94a-4addf40b9089',
-      '84383096-1153-410d-a9e3-aa957449bfc9'
-    ),
+  const { data: eserviceTemplateAttributes } = useSuspenseQuery({
+    ...TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId),
     select: (d) => d.attributes,
-  })*/
-
-  const { data: template } = useQuery(TemplateQueries.getSingle(eserviceTemplateId))
+  })
 
   const [editAttributeDrawerState, setEditAttributeDrawerState] = useState<{
     kind: AttributeKey
@@ -40,8 +31,7 @@ export const ProviderEServiceTemplateAttributes: React.FC = () => {
   }>({ isOpen: false, kind: 'certified' })
 
   const getAttributeSectionActions = (kind: AttributeKey): Array<ActionItemButton> | undefined => {
-    // TODO
-    //if (descriptorAttributes[kind].length === 0 || !isAdmin) return
+    if (eserviceTemplateAttributes[kind].length === 0 || !isAdmin) return
 
     return [
       {
@@ -54,30 +44,30 @@ export const ProviderEServiceTemplateAttributes: React.FC = () => {
   return (
     <>
       <SectionContainer title={t('title')} description={t('description')}>
-        {/* <AttributeGroupsListSection
+        <AttributeGroupsListSection
           attributeKey="certified"
-          descriptorAttributes={} //TODO
-          topSideActions={getAttributeSectionActions('certified')}        />
+          descriptorAttributes={eserviceTemplateAttributes}
+          topSideActions={getAttributeSectionActions('certified')}
+        />
         <Divider sx={{ my: 3 }} />
         <AttributeGroupsListSection
           attributeKey="verified"
-          descriptorAttributes={descriptorAttributes} //TODO
+          descriptorAttributes={eserviceTemplateAttributes}
           topSideActions={getAttributeSectionActions('verified')}
         />
         <Divider sx={{ my: 3 }} />
         <AttributeGroupsListSection
           attributeKey="declared"
-          descriptorAttributes={descriptorAttributes} //TODO
+          descriptorAttributes={eserviceTemplateAttributes}
           topSideActions={getAttributeSectionActions('declared')}
-  />*/}
-        TODO
+        />
       </SectionContainer>
-      {/*<ProviderEServiceUpdateTemplateAttributesDrawer
+      <ProviderEServiceTemplateUpdateAttributesDrawer
         isOpen={editAttributeDrawerState.isOpen}
         onClose={() => setEditAttributeDrawerState({ ...editAttributeDrawerState, isOpen: false })}
         attributeKey={editAttributeDrawerState.kind}
-        templateAttributes={template?.attributes}
-  />*/}
+        attributes={eserviceTemplateAttributes}
+      />
     </>
   )
 }

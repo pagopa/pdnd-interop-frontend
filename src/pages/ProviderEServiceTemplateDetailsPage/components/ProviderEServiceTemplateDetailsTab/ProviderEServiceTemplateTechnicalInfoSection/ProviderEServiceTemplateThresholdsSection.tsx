@@ -9,41 +9,12 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'
 import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
+import { EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
+import { useParams } from '@/router'
 
 type ProviderEServiceTemplateThresholdsSectionProps = {
-  template: //ProducerEServiceTemplate TODO
-  {
-    id: string
-    name: string
-    versions: [
-      {
-        id: string
-        version: string
-        description: string
-        state: string
-        voucherLifespan: number
-        dailyCallsPerConsumer: number
-        dailyCallsTotal: number
-        //attributes: EServiceAttributes,
-      },
-    ]
-    state: string
-    eserviceDescription: string
-    audienceDescription: string
-    creatorId: string
-    technology: string
-    mode: string
-    isSignalHubEnabled: boolean
-    attributes: [
-      {
-        certified: ['']
-        verified: ['']
-        declared: ['']
-      },
-    ]
-  }
+  template: EServiceTemplateVersionDetails
 }
-
 export const ProviderEServiceThresholdsSection: React.FC<
   ProviderEServiceTemplateThresholdsSectionProps
 > = ({ template }) => {
@@ -55,9 +26,11 @@ export const ProviderEServiceThresholdsSection: React.FC<
     keyPrefix: 'read.drawers.updateEServiceTemplateThresholdsDrawer',
   })
 
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt } = AuthHooks.useJwt() //TODO
 
-  const voucherLifespan = secondsToMinutes(template.versions[0].voucherLifespan) //TODO
+  const voucherLifespan = secondsToMinutes(template.voucherLifespan)
+
+  const { eServiceTemplateVersionId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -69,13 +42,15 @@ export const ProviderEServiceThresholdsSection: React.FC<
 
   const handleThresholdsUpdate = (
     id: string,
+    versionId: string,
     voucherLifespan: number,
     dailyCallsPerConsumer: number,
     dailyCallsTotal: number
   ) => {
     updateEserviceTemplateQuotas(
       {
-        eserviceTemplateId: id,
+        eServiceTemplateId: id,
+        eServiceTemplateVersionId: versionId,
         voucherLifespan: voucherLifespan,
         dailyCallsPerConsumer: dailyCallsPerConsumer,
         dailyCallsTotal: dailyCallsTotal,
@@ -109,13 +84,17 @@ export const ProviderEServiceThresholdsSection: React.FC<
           <InformationContainer
             label={t('thresholds.dailyCallsPerConsumer.label')}
             labelDescription={t('thresholds.dailyCallsPerConsumer.labelDescription')}
-            content={`${formatThousands(template.versions[0].dailyCallsPerConsumer)}`}
+            content={
+              template.dailyCallsPerConsumer
+                ? `${formatThousands(template.dailyCallsPerConsumer)}`
+                : ''
+            }
           />
 
           <InformationContainer
             label={t('thresholds.dailyCallsTotal.label')}
             labelDescription={t('thresholds.dailyCallsTotal.labelDescription')}
-            content={`${formatThousands(template.versions[0].dailyCallsTotal)}`}
+            content={template.dailyCallsTotal ? `${formatThousands(template.dailyCallsTotal)}` : ''}
           />
         </Stack>
       </SectionContainer>
@@ -123,9 +102,10 @@ export const ProviderEServiceThresholdsSection: React.FC<
         isOpen={isOpen}
         onClose={closeDrawer}
         id={template.id}
-        voucherLifespan={template.versions[0].voucherLifespan}
-        dailyCallsPerConsumer={template.versions[0].dailyCallsPerConsumer}
-        dailyCallsTotal={template.versions[0].dailyCallsTotal}
+        voucherLifespan={template.voucherLifespan}
+        dailyCallsPerConsumer={template.dailyCallsPerConsumer ?? 1} //TODO
+        dailyCallsTotal={template.dailyCallsTotal ?? 1}
+        versionId={eServiceTemplateVersionId}
         onSubmit={handleThresholdsUpdate}
         subtitle={tDrawer('subtitle')}
         dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerLabel')}

@@ -10,54 +10,24 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { AuthHooks } from '@/api/auth'
 import { ProviderEServiceTemplateUpdateDocumentationDrawer } from './ProviderEServiceTemplateDocumentationDrawer'
 import { TemplateDownloads } from '@/api/template/template.downloads'
-import { EServiceDoc } from '@/api/api.generatedTypes'
+import { EServiceDoc, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type ProviderEServiceTemplateDocumentationSectionProps = {
-  template: //ProducerEServiceTemplate TODO
-  {
-    id: string
-    name: string
-    versions: [
-      {
-        id: string
-        version: string
-        description: string
-        state: string
-        voucherLifespan: number
-        dailyCallsPerConsumer: number
-        dailyCallsTotal: number
-        //attributes: EServiceAttributes,
-      },
-    ]
-    state: string
-    eserviceDescription: string
-    audienceDescription: string
-    creatorId: string
-    technology: string
-    mode: string
-    isSignalHubEnabled: boolean
-    attributes: [
-      {
-        certified: ['']
-        verified: ['']
-        declared: ['']
-      },
-    ]
-  }
+  template: EServiceTemplateVersionDetails
 }
 
 export const ProviderEServiceTemplateDocumentationSection: React.FC<
   ProviderEServiceTemplateDocumentationSectionProps
 > = ({ template }) => {
-  const { t } = useTranslation('eservice', {
+  const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
 
   const { jwt } = AuthHooks.useJwt()
 
-  //const docs = [template.interface, ...template.docs]
+  const docs = [template.interface, ...template.docs]
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -94,7 +64,7 @@ export const ProviderEServiceTemplateDocumentationSection: React.FC<
           label={t('documentation.label')}
           content={
             <Stack alignItems="start" spacing={0.5}>
-              {/*{docs.map((doc) => {
+              {docs.map((doc) => {
                 if (!doc) return null
                 return (
                   <IconLink
@@ -106,16 +76,7 @@ export const ProviderEServiceTemplateDocumentationSection: React.FC<
                     {doc.prettyName}
                   </IconLink>
                 )
-              })}*/}
-
-              <IconLink //TODO
-                key="DOCUMENTO 1"
-                component="button"
-                onClick={() => {}}
-                startIcon={<AttachFileIcon fontSize="small" />}
-              >
-                DOCUMENTO MOCK
-              </IconLink>
+              })}
             </Stack>
           }
         />

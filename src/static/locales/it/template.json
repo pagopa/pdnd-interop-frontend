@@ -32,6 +32,18 @@
         }
       },
       "technicalInformations": {
+        "title": "Specifiche tecniche e-service",
+        "description": "In questa sezione potrai verificare le specifiche dell’e-service ed apportare modifiche.",
+        "technology": "Tecnologia",
+        "audience": "Audience",
+        "mode": {
+          "label": "Tipologia e-service",
+          "labelDescription": "Riceve / Eroga",
+          "value": {
+            "DELIVER": "Eroga",
+            "RECEIVE": "Riceve"
+          }
+        },
         "thresholds": {
           "title": "Soglie",
           "voucherLifespan": {
@@ -46,6 +58,10 @@
             "label": "Soglia suggerita totale",
             "labelDescription": "chiamate API/giorno"
           }
+        },
+        "documentation": {
+          "title": "Documentazione",
+          "label": "Elenco documenti"
         },
         "usefulLinks": {
           "title": "Link utili",

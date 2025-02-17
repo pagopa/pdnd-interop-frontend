@@ -25,15 +25,18 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
 
-  const { eserviceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
+  const { eServiceTemplateId, eServiceTemplateVersionId } =
+    useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
   //const { data: template } = useSuspenseQuery(TemplateQueries.getSingle(eserviceTemplateId))
-  const { data: template } = useQuery(TemplateQueries.getSingle(eserviceTemplateId))
+  const { data: template } = useQuery(
+    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+  )
 
   const { mutate: updateEserviceTemplateDescription } =
-    TemplateMutations.useUpdateTemplateEServiceDescription()
+    TemplateMutations.useUpdateEServiceTemplateDescription()
 
-  const { mutate: updateEserviceTemplateAudience } =
-    TemplateMutations.useUpdateEServiceTemplateAudience()
+  const { mutate: updateEserviceTemplateAudienceDescription } =
+    TemplateMutations.useUpdateEServiceTemplateAudienceDescription()
 
   const { mutate: updateEserviceTemplateName } = TemplateMutations.useUpdateEServiceTemplateName()
 
@@ -93,7 +96,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
     })
   }*/
 
-  const hasSingleVersion = template!.versions.length <= 1 //TODO
+  const hasSingleVersion = template && template.version <= 1 //TODO
 
   const navigateTemplateVersionsAction = {
     startIcon: <FileCopyIcon fontSize="small" />,
@@ -119,7 +122,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const handleNameUpdate = (templateId: string, name: string) => {
     updateEserviceTemplateName(
       {
-        eserviceTemplateId: templateId,
+        eServiceTemplateId: templateId,
         name: name,
       },
       { onSuccess: closeEServiceUpdateNameDrawer }
@@ -129,18 +132,18 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const handleDescriptionUpdate = (templateId: string, description: string) => {
     updateEserviceTemplateDescription(
       {
-        eserviceTemplateId: templateId,
+        eServiceTemplateId: templateId,
         description: description,
       },
       { onSuccess: closeEServiceTemplateUpdateDescriptionDrawer }
     )
   }
 
-  const handleAudienceDescriptionUpdate = (templateId: string, description: string) => {
-    updateEserviceTemplateAudience(
+  const handleAudienceDescriptionUpdate = (templateId: string) => {
+    //TODO CONTROLLARE
+    updateEserviceTemplateAudienceDescription(
       {
-        eserviceTemplateId: templateId,
-        description: description,
+        eServiceTemplateId: templateId,
       },
       { onSuccess: closeEServiceUpdateAudienceDrawer }
     )
@@ -159,7 +162,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
         <Stack spacing={2}>
           <InformationContainer
             label={t('version.label')}
-            content={template?.versions[0].id || ''} //TODO
+            content={template?.description || ''} //TODO
           />
           <Divider />
           <SectionContainer
@@ -174,7 +177,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
               },
             ]}
           >
-            <Typography variant="body2">{template?.name}</Typography>
+            <Typography variant="body2">{template?.eserviceTemplate.name}</Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -189,7 +192,9 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
               },
             ]}
           >
-            <Typography variant="body2">{template?.audienceDescription}</Typography>
+            <Typography variant="body2">
+              {template?.eserviceTemplate.audienceDescription}
+            </Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -204,7 +209,9 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
               },
             ]}
           >
-            <Typography variant="body2">{template?.eserviceDescription}</Typography>
+            <Typography variant="body2">
+              {template?.eserviceTemplate.eserviceDescription}
+            </Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -212,7 +219,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             title={t('versionDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
           >
-            <Typography variant="body2">{template?.versions[0].description ?? ''}</Typography>
+            <Typography variant="body2">{template?.description ?? ''}</Typography>
           </SectionContainer>
         </Stack>
       </SectionContainer>
@@ -222,7 +229,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             isOpen={isEServiceTemplateUpdateNameDrawerOpen}
             onClose={closeEServiceUpdateNameDrawer}
             id={template.id}
-            name={template.name}
+            name={template.eserviceTemplate.name}
             onSubmit={handleNameUpdate}
             title={tDrawer('updateEServiceTemplateNameDrawer.title')}
             subtitle={tDrawer('updateEServiceTemplateNameDrawer.subtitle')}
@@ -236,7 +243,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
             onClose={closeEServiceUpdateAudienceDrawer}
             id={template.id}
-            description={template.audienceDescription}
+            description={template.eserviceTemplate.audienceDescription}
             onSubmit={handleAudienceDescriptionUpdate}
             title={tDrawer('updateEServiceTemplateAudienceDrawer.title')}
             subtitle={tDrawer('updateEServiceTemplateAudienceDrawer.subtitle')}
@@ -252,7 +259,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
             onClose={closeEServiceTemplateUpdateDescriptionDrawer}
             id={template.id}
-            description={template.eserviceDescription}
+            description={template.eserviceTemplate.eserviceDescription}
             onSubmit={handleDescriptionUpdate}
           />
         </>
