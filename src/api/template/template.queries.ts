@@ -9,10 +9,10 @@ function getProviderTemplatesList() {
   })
 }
 
-function getSingle(eserviceTemplateId: string) {
+function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string) {
   return queryOptions({
-    queryKey: ['EServiceTemplateGetSingle', eserviceTemplateId],
-    queryFn: () => TemplateServices.getSingle(eserviceTemplateId),
+    queryKey: ['EServiceTemplateGetSingle', eServiceTemplateId, eServiceTemplateVersionId],
+    queryFn: () => TemplateServices.getSingle(eServiceTemplateId, eServiceTemplateVersionId),
   })
 }
 
