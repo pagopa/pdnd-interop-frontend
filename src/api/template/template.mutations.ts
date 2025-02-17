@@ -195,6 +195,123 @@ function useDeleteTemplateRiskAnalysis() {
   })
 }
 
+function useUpdateAttributes() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateDescriptorAttributes',
+  })
+  const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'type' })
+  return useMutation({
+    mutationFn: TemplateServices.updateAttributes,
+    meta: {
+      successToastLabel: (_: unknown, variables: unknown) =>
+        t('outcome.success', {
+          attributeKind: tAttribute(
+            `${(variables as { attributeKey: AttributeKey }).attributeKey}_other`
+          ),
+        }),
+      errorToastLabel: (_: unknown, variables: unknown) =>
+        t('outcome.error', {
+          attributeKind: tAttribute(
+            `${(variables as { attributeKey: AttributeKey }).attributeKey}_other`
+          ),
+        }),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function usePublishVersionDraft() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.publishVersionDraft',
+  })
+  return useMutation({
+    mutationFn: ({
+      eServiceTemplateId,
+      eServiceTemplateVersionId,
+    }: {
+      eServiceTemplateId: string
+      eServiceTemplateVersionId: string
+    }) => TemplateServices.publishVersionDraft({ eServiceTemplateId, eServiceTemplateVersionId }),
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+        proceedLabel: undefined,
+      },
+    },
+  })
+}
+
+function useDeleteVersionDraft() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.deleteVersionDraft',
+  })
+  return useMutation({
+    mutationFn: TemplateServices.deleteVersionDraft,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
+function useSuspendVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
+  return useMutation({
+    mutationFn: TemplateServices.suspendVersion,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
+function useReactivateVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.reactivateVersion' })
+  return useMutation({
+    mutationFn: TemplateServices.reactivateVersion,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
+function useCloneFromVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.cloneFromVersion' })
+
+  return useMutation({
+    mutationFn: TemplateServices.cloneFromVersion,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateAudienceDescription,
@@ -209,4 +326,10 @@ export const TemplateMutations = {
   useAddTemplateRiskAnalysis,
   useUpdateTemplateRiskAnalysis,
   useDeleteTemplateRiskAnalysis,
+  useUpdateAttributes,
+  usePublishVersionDraft,
+  useDeleteVersionDraft,
+  useSuspendVersion,
+  useReactivateVersion,
+  useCloneFromVersion,
 }
