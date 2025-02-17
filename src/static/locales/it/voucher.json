@@ -57,8 +57,8 @@
       "title": "Header dell'asserzione",
       "kidField": {
         "label": "KID",
-        "description": "L’id della chiave selezionata nel passaggio precedente",
-        "copySuccessFeedbackText": "Id copiato correttamente"
+        "description": "L’ID della chiave selezionata nel passaggio precedente",
+        "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "algField": {
         "label": "ALG",
@@ -75,13 +75,13 @@
       "title": "Payload dell'asserzione",
       "issField": {
         "label": "ISS",
-        "description": "L’issuer della richiesta; in questo caso l’id di questo client",
-        "copySuccessFeedbackText": "Id copiato correttamente"
+        "description": "L’issuer della richiesta; in questo caso l’ID di questo client",
+        "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "subField": {
         "label": "SUB",
-        "description": "Il subject della richiesta, in questo caso sempre l'id del client",
-        "copySuccessFeedbackText": "Id copiato correttamente"
+        "description": "Il subject della richiesta, in questo caso sempre l'ID del client",
+        "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "audField": {
         "label": "AUD",
@@ -90,8 +90,8 @@
       },
       "purposeIdField": {
         "label": "PurposeId",
-        "description": "L’id della finalità selezionata nel passaggio precedente",
-        "copySuccessFeedbackText": "Id copiato correttamente"
+        "description": "L’ID della finalità selezionata nel passaggio precedente",
+        "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "jtiField": {
         "label": "JTI",
@@ -135,7 +135,7 @@
       "title": "Body della richiesta",
       "clientIdField": {
         "label": "client_id",
-        "copySuccessFeedbackText": "Id copiato correttamente"
+        "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "clientAssertionField": {
         "label": "client_assertion",

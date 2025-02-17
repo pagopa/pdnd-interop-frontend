@@ -363,6 +363,12 @@ export interface ProducerEServiceDescriptor {
   eservice: ProducerDescriptorEService
   attributes: DescriptorAttributes
   rejectionReasons?: DescriptorRejectionReason[]
+  /** @format date-time */
+  publishedAt?: string
+  /** @format date-time */
+  deprecatedAt?: string
+  /** @format date-time */
+  archivedAt?: string
 }
 
 export interface ProducerDescriptorEService {
@@ -832,8 +838,14 @@ export interface ProducerKeychain {
   createdAt: string
   producer: CompactOrganization
   name: string
-  eservices: CompactEService[]
+  eservices: ProducerKeychainEService[]
   description: string
+}
+
+export interface ProducerKeychainEService {
+  /** @format uuid */
+  id: string
+  name: string
 }
 
 export interface EServiceAdditionDetailsSeed {
@@ -1219,6 +1231,7 @@ export interface Tenant {
   id: string
   /** @format uuid */
   selfcareId?: string
+  kind?: TenantKind
   externalId: ExternalId
   features: TenantFeature[]
   /** @format date-time */

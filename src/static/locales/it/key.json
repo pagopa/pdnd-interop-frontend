@@ -11,12 +11,12 @@
         "label": "Caricata da"
       },
       "kidField": {
-        "label": "Id della chiave (kid)",
-        "copySuccessFeedbackText": "Id copiato correttamente"
+        "label": "ID della chiave (kid)",
+        "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "clientIdField": {
-        "label": "Id del client (clientId)",
-        "copySuccessFeedbackText": "Id copiato correttamente"
+        "label": "ID del client (clientId)",
+        "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "goToTechnicalDocButton": "Vai alla documentazione tecnica"
     }
