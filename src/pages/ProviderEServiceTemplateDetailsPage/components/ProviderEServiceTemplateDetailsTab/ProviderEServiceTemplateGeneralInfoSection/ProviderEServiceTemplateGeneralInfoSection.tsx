@@ -239,6 +239,24 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
             )}
           />
           <UpdateDescriptionDrawer
+            isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
+            onClose={closeEServiceTemplateUpdateDescriptionDrawer}
+            id={template.id}
+            description={template.eserviceTemplate.eserviceDescription}
+            onSubmit={handleDescriptionUpdate}
+            title={tDrawer('updateEServiceTemplateDescriptionDrawer.title')}
+            subtitle={tDrawer('updateEServiceTemplateDescriptionDrawer.subtitle')}
+            label={tDrawer(
+              'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.label'
+            )}
+            infoLabel={tDrawer(
+              'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.infoLabel'
+            )}
+            validateLabel={tDrawer(
+              'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.validation.sameValue'
+            )}
+          />
+          <UpdateDescriptionDrawer
             isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
             onClose={closeEServiceUpdateAudienceDrawer}
             id={template.id}

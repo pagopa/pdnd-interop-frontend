@@ -31,8 +31,6 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
     template?.eserviceTemplate.mode
   )
 
-  console.log(actions)
-
   return (
     <PageContainer
       title={template?.eserviceTemplate.name || ''}

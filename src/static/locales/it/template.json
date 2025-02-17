@@ -94,6 +94,17 @@
           }
         }
       },
+      "updateEServiceTemplateDescriptionDrawer": {
+        "title": "Modifica descrizione del template dell'e-service",
+        "subtitle": "Da questo pannello puoi aggiornare la descrizione del template dell’e-service. Le modifiche apportate avranno effetto da subito.",
+        "templateDescriptionField": {
+          "label": "Descrizione del template eservice",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "validation": {
+            "sameValue": "La descrizione del template dell'e-service deve essere diverso da quella attuale"
+          }
+        }
+      },
       "updateEServiceTemplateThresholdsDrawer": {
         "subtitle": "Da questo pannello puoi aggiornare i parametri della tua versione del template di e-service. Le modifiche apportate avranno effetto da subito.",
         "dailyCallsPerConsumerLabel": "Soglia suggerita per fruitore",
