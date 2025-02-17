@@ -3,6 +3,7 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
   DescriptorAttributesSeed,
   EServiceTemplateDescriptionUpdateSeed,
+  EServiceTemplateInstances,
   EServiceTemplateNameUpdateSeed,
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
@@ -456,6 +457,42 @@ async function cloneFromVersion({
   return
 }
 
+async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
+  /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances
+  )
+  return response.data*/
+
+  const response: EServiceTemplateInstances = {
+    results: [
+      {
+        id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+        producerName: 'Producer One',
+        state: 'PUBLISHED',
+        instanceId: 'instance-001',
+        version: 1,
+      },
+      {
+        id: 'a9f23b1d-36fd-4570-81a0-7a423d15f928',
+        producerName: 'Producer Two',
+        state: 'DRAFT',
+        instanceId: 'instance-002',
+        version: 2,
+      },
+      {
+        id: 'fbe3ad6c-875d-4c32-b88e-287bc0a2fcbb',
+        producerName: 'Producer Three',
+        state: 'SUSPENDED',
+        instanceId: 'instance-003',
+        version: 3,
+      },
+    ],
+    totalCount: 3,
+  }
+
+  return response
+}
+
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
@@ -479,4 +516,5 @@ export const TemplateServices = {
   suspendVersion,
   reactivateVersion,
   cloneFromVersion,
+  getProviderTemplateInstancesList,
 }
