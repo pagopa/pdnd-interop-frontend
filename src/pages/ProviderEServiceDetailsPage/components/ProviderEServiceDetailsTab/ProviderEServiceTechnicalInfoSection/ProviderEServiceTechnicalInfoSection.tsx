@@ -34,11 +34,6 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
         <SectionContainer innerSection>
           <Stack spacing={2}>
             <InformationContainer
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 42197b7e (chore: added info for eservice and TenantId)
               label={t('eserviceId.label')}
               content={eserviceId}
               copyToClipboard={{
@@ -54,7 +49,6 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
                 tooltipTitle: t('descriptorId.copySuccessFeedbackText'),
               }}
             />
-<<<<<<< HEAD
             {descriptor.publishedAt && (
               <InformationContainer
                 label={t('publishedAt')}
@@ -68,10 +62,6 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               />
             )}
             <InformationContainer
->>>>>>> 6706375a (chore: added info deprecatedAt,publishedAt)
-=======
-            <InformationContainer
->>>>>>> 42197b7e (chore: added info for eservice and TenantId)
               label={t('technology')}
               content={descriptor.eservice.technology}
             />

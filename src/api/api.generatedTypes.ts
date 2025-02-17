@@ -836,11 +836,7 @@ export interface ProducerKeychain {
   createdAt: string
   producer: CompactOrganization
   name: string
-<<<<<<< HEAD
-  eservices: CompactEService[]
-=======
   eservices: ProducerKeychainEService[]
->>>>>>> 93304e4f (chore: add check private/pa)
   description: string
 }
 
@@ -4240,7 +4236,6 @@ export namespace Eservices {
     }
     export type ResponseBody = CreatedResource
   }
-<<<<<<< HEAD
   /**
    * No description
    * @tags eservices
@@ -4297,8 +4292,6 @@ export namespace Eservices {
     }
     export type ResponseBody = CreatedResource
   }
-=======
->>>>>>> 93304e4f (chore: add check private/pa)
 }
 
 export namespace Export {

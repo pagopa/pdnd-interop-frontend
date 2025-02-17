@@ -24,17 +24,12 @@ export const PartyGeneralInfoSection: React.FC = () => {
               content={onBoardedAtFormatted}
             />
             <InformationContainer
-<<<<<<< HEAD
               label={isPrivateParty ? t('vatCodeField.label') : t('ipaCodeField.label')}
-              content={user.externalId.value}
-=======
-              label={t('ipaCodeField.label')}
               content={user.externalId.value}
               copyToClipboard={{
                 value: user.externalId.value,
                 tooltipTitle: t('ipaCodeField.copySuccessFeedbackText'),
               }}
->>>>>>> 42197b7e (chore: added info for eservice and TenantId)
             />
             {user?.subUnitType && (
               <InformationContainer
