@@ -121,5 +121,19 @@
         "downloadDocumentTooltip": "Download document"
       }
     }
+  },
+  "list": {
+    "filters": {
+      "tenantField": "Find by name",
+      "statusField": {
+        "label": "Instance status",
+        "optionLabels": {
+          "ACTIVE": "Active",
+          "DRAFT": "Draft",
+          "SUSPENDED": "Suspended",
+          "DEPRECATED": "Deprecated"
+        }
+      }
+    }
   }
 }

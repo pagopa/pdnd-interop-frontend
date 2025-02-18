@@ -64,7 +64,11 @@
       "keychain": "Keychain",
       "delegationKind": "Delegation for",
       "delegatorName": "Delegation requested by",
-      "delegateName": "Delegation granted to"
+      "delegateName": "Delegation granted to",
+      "eserviceTemplateUsingTenant": "Tenant",
+      "eserviceTemplateInstanceId": "Instance suffix",
+      "eserviceTemplateInstanceVersion": "Version",
+      "eserviceTemplateInstanceState": "Instance state"
     }
   },
   "status": {
