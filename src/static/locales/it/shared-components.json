@@ -8,8 +8,8 @@
         "label": "Descrizione dell'attributo"
       },
       "attributeIdField": {
-        "label": "Id dell'attributo (attributeId)",
-        "tooltipTitle": "Id copiato correttamente"
+        "label": "ID dell'attributo (attributeId)",
+        "tooltipTitle": "ID copiato correttamente"
       }
     }
   },
@@ -183,7 +183,7 @@
   "apiInfoSection": {
     "title": "Api di Interoperabilità",
     "content": "Parametri utili per ottenere informazioni programmaticamente attraverso <1>i tuoi client API Interop</1>",
-    "tooltipTitle": "Id copiato correttamente"
+    "tooltipTitle": "ID copiato correttamente"
   },
   "environmentBanner": {
     "content": {
@@ -199,8 +199,8 @@
     "bodyMultipleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata dalle {{maintenanceStartHour}} del {{maintenanceStartDay}} alle {{maintenanceEndHour}} del {{maintenanceEndDay}}. Ci scusiamo per gli eventuali disservizi causati."
   },
   "attributeContainer": {
-    "attributeIdLabel": "Id dell'attributo (attributeId)",
-    "idCopytooltipLabel": "Id copiato correttamente",
+    "attributeIdLabel": "ID dell'attributo (attributeId)",
+    "idCopytooltipLabel": "ID copiato correttamente",
     "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}"
   },
   "attributeGroupContainer": {
