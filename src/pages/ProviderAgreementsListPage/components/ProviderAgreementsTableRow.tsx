@@ -37,7 +37,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
       {t('eserviceName', {
         name: eservice.name,
         version: descriptor.version,
-      })}{' '}
+      })}
       {agreement.delegation && <ByDelegationChip />}
     </>
   )

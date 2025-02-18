@@ -52,6 +52,7 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
       offset: 0,
       eserviceIds: [eservice.id],
       kind: 'DELEGATED_CONSUMER',
+      states: ['ACTIVE'],
       delegateIds: jwt?.organizationId ? [jwt.organizationId] : undefined,
       delegatorIds: selectedConsumerId ? [selectedConsumerId] : undefined,
     }),

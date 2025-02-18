@@ -188,9 +188,9 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             <DelegationCreateTenantAutocomplete delegationKind={delegationKind} />
             {delegationKind === 'DELEGATED_CONSUMER' && (hasAgreement || isDelegated) && (
               <Alert severity="warning">
-                {hasAgreement
-                  ? t('delegations.create.hasAgreementsAlert')
-                  : t('delegations.create.isDelegatedAlert')}
+                {isDelegated
+                  ? t('delegations.create.isDelegatedAlert')
+                  : t('delegations.create.hasAgreementsAlert')}
               </Alert>
             )}
           </Stack>
