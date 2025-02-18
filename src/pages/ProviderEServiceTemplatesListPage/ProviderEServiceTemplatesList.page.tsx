@@ -34,17 +34,16 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
   const { data: totalPageCount = 0 } = useQuery({
-    //TODO sostituire eservicequeries
     ...TemplateQueries.getProviderTemplatesList(), //TODO PARAMS
     placeholderData: keepPreviousData,
-    //select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
+    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
 
   return (
     <PageContainer title={t('title')} topSideActions={isAdmin ? topSideActions : undefined}>
       <Filters {...filtersHandlers} />
       <TemplateTableWrapper params={queryParams} />
-      <Pagination {...paginationProps} totalPages={1} />
+      <Pagination {...paginationProps} totalPages={totalPageCount} />
     </PageContainer>
   )
 }

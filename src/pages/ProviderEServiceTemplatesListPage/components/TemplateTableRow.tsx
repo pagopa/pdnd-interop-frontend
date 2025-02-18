@@ -26,7 +26,12 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
   //const { actions } = []
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(TemplateQueries.getSingle(template.id))
+    queryClient.prefetchQuery(
+      TemplateQueries.getSingle(
+        template.id,
+        template.activeVersion?.id ?? template.draftVersion?.id //TODO
+      )
+    )
   }
 
   const isTemplateDraft = template.activeVersion?.state === 'DRAFT'
@@ -35,7 +40,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
     <TableRow
       cellData={[
         template.name,
-        template.activeVersion?.version || '1',
+        template.activeVersion?.version || '1', //TODO
         <Stack key={template.id} direction="row" spacing={1}>
           {template.activeVersion && (
             <StatusChip for="template" state={template.activeVersion.state} />
