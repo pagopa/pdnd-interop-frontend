@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
+import { UpdateEServiceTemplateVersionSeed } from '../api.generatedTypes'
 
 //TODO SUCCESS/ERROR/LOADING TOAST LABEL
 
@@ -129,8 +130,9 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   return useMutation({
     mutationFn: (
       payload: {
-        eserviceTemplateId: string
-      } //& UpdateEServiceTemplateSeed TODO
+        eServiceTemplateId: string
+        eServiceTemplateVersionId: string
+      } & UpdateEServiceTemplateVersionSeed
     ) => TemplateServices.updateVersionDraft(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
