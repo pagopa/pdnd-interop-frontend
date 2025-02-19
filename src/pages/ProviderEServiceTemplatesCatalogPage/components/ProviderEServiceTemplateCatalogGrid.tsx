@@ -1,7 +1,7 @@
 import { Grid, Alert } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import type { CatalogEServiceTemplate, EServiceTemplate } from '@/api/api.generatedTypes'
+import type { CatalogEServiceTemplate } from '@/api/api.generatedTypes'
 import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -15,15 +15,6 @@ export const ProviderEServiceCatalogGrid: React.FC<ProviderEServiceCatalogGridPr
   const { t } = useTranslation('shared-components', { keyPrefix: 'table' })
 
   const isEmpty = !eservicesTemplateList || eservicesTemplateList.length === 0
-
-  const queryClient = useQueryClient()
-
-  const handlePrefetch = () => {
-    // if (!eservice.activeDescriptor) return
-    // queryClient.prefetchQuery(
-    //   EServiceQueries.getDescriptorCatalog(eservice.id, eservice.activeDescriptor.id)
-    // )
-  }
 
   if (isEmpty) return <Alert severity="info">{t('noDataLabel')}</Alert>
 

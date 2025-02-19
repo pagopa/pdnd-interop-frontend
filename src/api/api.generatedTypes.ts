@@ -362,6 +362,12 @@ export interface ProducerEServiceDescriptor {
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: ProducerDescriptorEService
   attributes: DescriptorAttributes
+  /** @format date-time */
+  publishedAt?: string
+  /** @format date-time */
+  deprecatedAt?: string
+  /** @format date-time */
+  archivedAt?: string
   rejectionReasons?: DescriptorRejectionReason[]
 }
 
@@ -1219,6 +1225,7 @@ export interface Tenant {
   id: string
   /** @format uuid */
   selfcareId?: string
+  kind?: TenantKind
   externalId: ExternalId
   features: TenantFeature[]
   /** @format date-time */
@@ -2417,6 +2424,22 @@ export interface GetEServiceTemplatesCatalogParams {
 
 export interface GetProducerEServices2Params {
   /** Query to filter EServices templates by name */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface GetEServiceTemplateCreatorsParams {
+  /** Query to filter creators by name */
   q?: string
   /**
    * @format int32
@@ -4802,6 +4825,34 @@ export namespace Eservices {
   /**
    * No description
    * @tags eserviceTemplates
+   * @name PublishEServiceTemplateVersion
+   * @summary Publish the selected eservice template version.
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/publish
+   * @secure
+   */
+  export namespace PublishEServiceTemplateVersion {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the eservice template version id
+       * @format uuid
+       */
+      eServiceTemplateVersionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
    * @name ActivateEServiceTemplateVersion
    * @summary Activate the selected eservice template version.
    * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/activate
@@ -6724,6 +6775,40 @@ export namespace Delegations {
       'X-Correlation-Id': string
     }
     export type ResponseBody = File
+  }
+}
+
+export namespace Eservice {
+  /**
+   * @description Retrieves Tenants that are producers of published e-service templates
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplateCreators
+   * @summary Retrieves Tenants that are creators of published e-service templates
+   * @request GET:/eservice/templates/filter/creators
+   * @secure
+   */
+  export namespace GetEServiceTemplateCreators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter creators by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactOrganizations
   }
 }
 

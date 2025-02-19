@@ -1,6 +1,9 @@
 import { queryOptions } from '@tanstack/react-query'
 import { TemplateServices } from './template.services'
-import { GetEServiceTemplatesCatalogParams } from '../api.generatedTypes'
+import type {
+  GetEServiceTemplateCreatorsParams,
+  GetEServiceTemplatesCatalogParams,
+} from '../api.generatedTypes'
 
 function getProviderTemplatesList() {
   //TODO aggiungi params
@@ -24,8 +27,16 @@ function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatalogPara
   })
 }
 
+function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
+  return queryOptions({
+    queryKey: ['TemplateEserviceGetProducers', params],
+    queryFn: () => TemplateServices.getProducersTemplateEserviceList(params),
+  })
+}
+
 export const TemplateQueries = {
   getProviderTemplatesList,
   getProviderTemplatesCatalogList,
   getSingle,
+  getProducersTemplateEserviceList,
 }

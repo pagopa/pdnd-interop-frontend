@@ -14,7 +14,7 @@ import {
 } from '@pagopa/interop-fe-commons'
 import { EServiceCatalogGridSkeleton } from '../ConsumerEServiceCatalogPage/components'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { GetEServicesCatalogParams } from '@/api/api.generatedTypes'
+import type { GetEServiceTemplatesCatalogParams } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
@@ -24,10 +24,24 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   const [templateProducersAutocompleteInput, setTemplateProducersAutocompleteInput] =
     useAutocompleteTextInput()
 
+  const { data: templateProducersOptions = [] } = useQuery({
+    ...TemplateQueries.getProducersTemplateEserviceList({
+      offset: 0,
+      limit: 50,
+      q: templateProducersAutocompleteInput ? templateProducersAutocompleteInput : undefined, // To remove this
+    }),
+    placeholderData: keepPreviousData,
+    select: (data) =>
+      data.results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
+  })
+
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
+    Omit<GetEServiceTemplatesCatalogParams, 'limit' | 'offset'>
   >([
     {
       name: 'q',
@@ -35,10 +49,10 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
       type: 'freetext',
     },
     {
-      name: 'producersIds',
+      name: 'creatorsIds',
       label: tTemplate('templateProviderField.label'),
       type: 'autocomplete-multiple',
-      options: [],
+      options: templateProducersOptions,
       onTextInputChange: setTemplateProducersAutocompleteInput,
     },
   ])
@@ -58,7 +72,7 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
       topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
-      <ProviderEServiceTemplatesCatalogWrapper params={{ limit: 20, offset: 1 }} />
+      <ProviderEServiceTemplatesCatalogWrapper params={queryParams} />
       <Pagination
         {...paginationProps}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}

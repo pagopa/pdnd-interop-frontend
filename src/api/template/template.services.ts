@@ -1,6 +1,13 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import { CatalogEServiceTemplates, GetEServiceTemplatesCatalogParams } from '../api.generatedTypes'
+import {
+  CatalogEServiceTemplates,
+  CompactOrganizations,
+  GetEServiceTemplateCreatorsParams,
+  GetEServiceTemplatesCatalogParams,
+  GetProducerEServices2Params,
+  ProducerEServiceTemplates,
+} from '../api.generatedTypes'
 
 async function getProviderTemplatesList() {
   //TODO params: GetProducerTemplatesParams
@@ -185,8 +192,18 @@ async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatal
 
   return response.data
 }
+async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
+  const response = await axiosInstance.get<CompactOrganizations>(
+    `http://localhost:8080/backend-for-frontend/0.0/eservice/templates/filter/creators
+`,
+    { params }
+  )
+
+  return response.data
+}
 
 export const TemplateServices = {
+  getProducersTemplateEserviceList,
   getProviderTemplatesCatalogList,
   getProviderTemplatesList,
   getSingle,
