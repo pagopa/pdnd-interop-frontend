@@ -1,10 +1,10 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
-import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { EServiceMode, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 
 type EServiceTemplateCreateContextType = {
-  template: ProducerEServiceTemplate | undefined
+  template: EServiceTemplateVersionDetails | undefined //TODO
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -40,7 +40,7 @@ const { useContext, Provider } = createContext<EServiceTemplateCreateContextType
 
 type EServiceTemplateCreateContextProviderProps = {
   children: React.ReactNode
-  template: ProducerEServiceTemplate | undefined
+  template: EServiceTemplateVersionDetails | undefined //ProducerEServiceTemplate | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -73,12 +73,13 @@ const EServiceTemplateCreateContextProvider: React.FC<
   }
 
   const providerValue = React.useMemo(() => {
-    const areEServiceTemplateGeneralInfoEditable = true /*Boolean( TODO DECOMMENTARE
+    const areEServiceTemplateGeneralInfoEditable = Boolean(
+      //TODO CONTROLLARE CHECK
       // case 1: new e-service template
-      !template.versions || //TODO controllare il check
+      !template ||
         // case 3: already existing service template and version, but version is 1 and still a draft
-        (template.versions && template.versions[0].version === '1' && template.state === 'DRAFT') //TODO CONTROLLARE CHECK
-    )*/
+        (template.version === 1 && template.state === 'DRAFT')
+    )
 
     return {
       template,
