@@ -14,11 +14,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { payloadVerificationGuideLink } from '@/config/constants'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { TemplateMutations, TemplateQueries } from '@/api/template'
+import { useQuery } from '@tanstack/react-query'
 
 export type EServiceTemplateCreateStepVersionFormValues = {
   audienceDescription: string
-  version: string
+  version: number
   voucherLifespan: number
   eserviceDescription: string
   dailyCallsPerConsumer?: number
@@ -29,27 +30,37 @@ export type EServiceTemplateCreateStepVersionFormValues = {
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('template', { keyPrefix: 'create' })
 
-  const { template, forward, back } = useEServiceTemplateCreateContext()
+  const { template: producerEserviceTemplate, forward, back } = useEServiceTemplateCreateContext()
+
+  const templateId = producerEserviceTemplate?.id
+  const versionTemplateId = producerEserviceTemplate?.draftVersion?.id
+
+  const template =
+    templateId && versionTemplateId
+      ? useQuery(TemplateQueries.getSingle(templateId, versionTemplateId))
+      : undefined
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
   const defaultValues: EServiceTemplateCreateStepVersionFormValues = {
-    version: template?.version ?? '1',
-    audienceDescription: template?.audienceDescription ?? '',
-    voucherLifespan: template ? secondsToMinutes(template.voucherLifespan) : 1,
-    eserviceDescription: template?.eserviceDescription ?? '',
-    dailyCallsPerConsumer: template?.dailyCallsPerConsumer,
-    dailyCallsTotal: template?.dailyCallsTotal,
-    agreementApprovalPolicy: template ? template.agreementApprovalPolicy === 'MANUAL' : false,
+    version: template?.data?.version ?? 1,
+    audienceDescription: template?.data?.eserviceTemplate.audienceDescription ?? '',
+    voucherLifespan: template?.data ? secondsToMinutes(template.data.voucherLifespan) : 1,
+    eserviceDescription: template?.data?.eserviceTemplate.eserviceDescription ?? '',
+    dailyCallsPerConsumer: template?.data?.dailyCallsPerConsumer,
+    dailyCallsTotal: template?.data?.dailyCallsTotal,
+    agreementApprovalPolicy: template?.data
+      ? template.data.agreementApprovalPolicy === 'MANUAL'
+      : false,
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
     forward()
-    if (!template) return //TODO CONTROLLO CHECK
+    if (!template?.data) return //TODO CONTROLLO CHECK
 
     const newTemplateData = {
       ...values,
@@ -61,14 +72,14 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     }
 
     // If nothing has changed skip the update call
-    const areTemplatesEquals = compareObjects(newTemplateData, template)
+    const areTemplatesEquals = compareObjects(newTemplateData, template.data)
     if (areTemplatesEquals) {
       forward()
       return
     }
 
     const payload = {
-      eserviceTemplateId: template.id,
+      eserviceTemplateId: template.data.id,
       attributes: { certified: [], verified: [], declared: [] },
       ...omit(newTemplateData, ['version']),
     }
@@ -89,7 +100,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
-          title={t('step2.versionTitle', { versionNumber: template?.version ?? '1' })}
+          title={t('step2.versionTitle', { versionNumber: template?.data?.version ?? 1 })}
           component="div"
         >
           <RHFTextField

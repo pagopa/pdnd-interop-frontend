@@ -21,26 +21,30 @@ import {
   EServiceTemplateCreateStepAttributes,
   EServiceTemplateCreateStepAttributesSkeleton,
 } from './components/EServiceTemplateCreateStepAttributes'
+import {
+  EServiceTemplateCreateStepPurpose,
+  EServiceTemplateCreateStepPurposeSkeleton,
+} from './components/EServiceTemplateCreateStepPurpose/EServiceTemplateCreateStepPurpose'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('template')
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_TEMPLATE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
-  const isNewEServiceTemplate = !params?.eserviceTemplateId
+  const isNewEServiceTemplate = !params?.templateId
 
   const [selectedEServiceTemplateMode, setSelectedEServiceTemplateMode] = React.useState<
     EServiceMode | undefined
   >()
 
   const { data: template, isLoading: isLoadingTemplate } = useQuery({
-    ...TemplateQueries.getSingle(params?.eserviceTemplateId as string),
+    ...TemplateQueries.getSingle(params?.templateId as string, params?.versionId as string),
     enabled: !isNewEServiceTemplate,
   })
 
   const eserviceTemplateMode =
     selectedEServiceTemplateMode || // The mode selected by the user
-    template?.mode || // The mode of the e-service
+    template?.eserviceTemplate.mode || // The mode of the e-service
     'DELIVER' // Default mode
 
   const steps: Array<StepperStep> =
@@ -56,7 +60,10 @@ const ProviderEServiceCreatePage: React.FC = () => {
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceTemplateCreateStepGeneral },
-          //{ label: t('create.stepper.step2ReceiveLabel'), component: EServiceCreateStepPurpose },
+          {
+            label: t('create.stepper.step2ReceiveLabel'),
+            component: EServiceTemplateCreateStepPurpose,
+          },
           { label: t('create.stepper.step2Label'), component: EServiceTemplateCreateStepVersion },
           {
             label: t('create.stepper.step3Label'),
@@ -89,7 +96,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
         ]
       : [
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
-          //<EServiceCreateStepPurposeSkeleton key={2} />,
+          <EServiceTemplateCreateStepPurposeSkeleton key={2} />,
           <EServiceTemplateCreateStepVersionSkeleton key={3} />,
           <EServiceTemplateCreateStepAttributesSkeleton key={4} />,
           //<EServiceCreateStepDocumentsSkeleton key={5} />,
@@ -98,8 +105,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const intro = isNewEServiceTemplate
     ? { title: t('create.emptyTitle') }
     : {
-        title: template?.name,
-        description: template?.eserviceDescription,
+        title: template?.eserviceTemplate.name,
+        description: template?.eserviceTemplate.eserviceDescription,
       }
 
   return (
