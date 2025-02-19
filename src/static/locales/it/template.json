@@ -94,5 +94,15 @@
         "downloadDocumentTooltip": "Scarica documento"
       }
     }
+  },
+  "list": {
+    "filters" :  {
+      "nameField": {
+        "label": "Cerca per nome"
+      },
+      "templateProviderField": {
+        "label": "Cerca per creatore template"
+      }
+    }
   }
 }

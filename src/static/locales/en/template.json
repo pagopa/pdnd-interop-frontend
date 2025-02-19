@@ -94,5 +94,15 @@
         "downloadDocumentTooltip": "Download document"
       }
     }
+  },
+  "list": {
+    "filters" :  {
+      "nameField": {
+        "label": "Find by name"
+      },
+      "templateProviderField": {
+        "label": "Find by provider's template"
+      }
+    }
   }
 }
