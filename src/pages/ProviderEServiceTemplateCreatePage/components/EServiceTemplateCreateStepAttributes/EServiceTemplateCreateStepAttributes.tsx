@@ -8,6 +8,8 @@ import type {
   DescriptorAttribute,
   DescriptorAttributes,
   UpdateEServiceDescriptorSeed,
+  UpdateEServiceTemplateSeed,
+  UpdateEServiceTemplateVersionSeed,
 } from '@/api/api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
@@ -16,13 +18,22 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttributeDrawer'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { TemplateMutations, TemplateQueries } from '@/api/template'
 import { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
+import { useQuery } from '@tanstack/react-query'
 
 export const EServiceTemplateCreateStepAttributes: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'create' })
-  const { template, forward, back } = useEServiceTemplateCreateContext()
+  const { template: producerEserviceTemplate, forward, back } = useEServiceTemplateCreateContext()
+
+  const templateId = producerEserviceTemplate?.id
+  const versionTemplateId = producerEserviceTemplate?.draftVersion?.id
+
+  const template =
+    templateId && versionTemplateId
+      ? useQuery(TemplateQueries.getSingle(templateId, versionTemplateId))
+      : undefined
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -46,13 +57,13 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
     }
 
   const defaultValues: CreateStepAttributesFormValues = {
-    attributes: template?.attributes ?? { certified: [], verified: [], declared: [] },
+    attributes: template?.data?.attributes ?? { certified: [], verified: [], declared: [] },
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: CreateStepAttributesFormValues) => {
-    if (!template) return //TODO CONTROLLO CHECK
+    if (!template?.data) return //TODO CONTROLLO CHECK
 
     const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
       return attributes.filter((group) => group.length > 0)
@@ -64,24 +75,21 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       declared: removeEmptyAttributeGroups(values.attributes.declared),
     }
 
-    const areAttributesEquals = compareObjects(attributes, template.attributes)
+    const areAttributesEquals = compareObjects(attributes, template.data.attributes)
 
     if (areAttributesEquals) {
       forward()
       return
     }
 
-    const payload: UpdateEServiceTemplateSeed & {
-      eserviceTemplateId: string
-      versionId: string //TODO
+    const payload: UpdateEServiceTemplateVersionSeed & {
+      eServiceTemplateId: string
+      eServiceTemplateVersionId: string
     } = {
-      audienceDescription: template.audienceDescription, //TODO
-      voucherLifespan: template.voucherLifespan,
-      dailyCallsPerConsumer: template.dailyCallsPerConsumer,
-      dailyCallsTotal: template.dailyCallsTotal,
-      agreementApprovalPolicy: template.agreementApprovalPolicy,
-      descriptionEservice: template.descriptionEservice,
+      eServiceTemplateVersionId: template.data.id,
+      eServiceTemplateId: template.data.eserviceTemplate.id, //TODO
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
+      voucherLifespan: template.data.voucherLifespan,
     }
 
     updateVersionDraft(payload, { onSuccess: forward })
@@ -92,7 +100,7 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <SectionContainer
-            title={t('step3.attributesTitle', { versionNumber: template?.version ?? '1' })} //TODO
+            title={t('step3.attributesTitle', { versionNumber: template?.data?.version ?? 1 })}
             description={t('step3.attributesDescription')}
           >
             <AddAttributesToForm attributeKey="certified" readOnly={false} />

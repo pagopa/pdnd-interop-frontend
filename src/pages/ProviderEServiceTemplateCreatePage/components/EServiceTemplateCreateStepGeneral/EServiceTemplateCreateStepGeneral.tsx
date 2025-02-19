@@ -13,8 +13,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { TemplateMutations, TemplateQueries } from '@/api/template'
 import { isSignalHubEnabled } from '@/config/env'
+import { useQuery } from '@tanstack/react-query'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -43,12 +44,12 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { mutate: createDraft } = TemplateMutations.useCreateDraft()
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
-    name: template?.eservice?.name ?? '',
-    eserviceDescription: template?.description ?? '',
-    audienceDescription: template?.audience ?? '',
-    technology: template?.technology ?? 'REST',
+    name: template?.eserviceTemplate.name ?? '',
+    eserviceDescription: template?.eserviceTemplate.eserviceDescription ?? '',
+    audienceDescription: template?.eserviceTemplate.audienceDescription ?? '',
+    technology: template?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
-    isSignalHubEnabled: template?.isSignalHubEnabled ?? false,
+    isSignalHubEnabled: template?.eserviceTemplate.isSignalHubEnabled ?? false,
   }
 
   const formMethods = useForm({ defaultValues })
@@ -58,7 +59,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     if (template) {
       //TODO CONTROLLA
       // If nothing has changed skip the update call
-      const isEServiceTemplateTheSame = compareObjects(formValues, template)
+      const isEServiceTemplateTheSame = compareObjects(formValues, template.eserviceTemplate)
 
       if (!isEServiceTemplateTheSame)
         updateDraft({ eserviceTemplateId: template.id, ...formValues }, { onSuccess: forward })
