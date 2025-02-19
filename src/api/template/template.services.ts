@@ -8,6 +8,7 @@ import {
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
   ProducerEServiceTemplates,
+  UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import { AttributeKey } from '@/types/attribute.types'
 
@@ -325,8 +326,8 @@ async function updateVersionDraft({
   ...payload
 }: {
   eServiceTemplateId: string
-  descriptorId: string
-} & UpdateEServiceDescriptorSeed) {
+  eServiceTemplateVersionId: string
+} & UpdateEServiceTemplateVersionSeed) {
   /*const response = await axiosInstance.put<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`,
     payload
