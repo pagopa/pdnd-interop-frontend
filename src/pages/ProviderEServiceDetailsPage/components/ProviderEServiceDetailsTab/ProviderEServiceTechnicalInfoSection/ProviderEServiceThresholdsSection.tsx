@@ -103,7 +103,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
         isOpen={isOpen}
         onClose={closeDrawer}
         id={descriptor.eservice.id}
-        descriptorId={descriptor.id}
+        versionId={descriptor.id}
         voucherLifespan={descriptor.voucherLifespan}
         dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
         dailyCallsTotal={descriptor.dailyCallsTotal}

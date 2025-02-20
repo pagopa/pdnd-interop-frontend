@@ -9,7 +9,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'
 import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
-import { EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
+import type { EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { useParams } from '@/router'
 
 type ProviderEServiceTemplateThresholdsSectionProps = {
@@ -42,15 +42,15 @@ export const ProviderEServiceTemplateThresholdsSection: React.FC<
 
   const handleThresholdsUpdate = (
     id: string,
-    versionId: string,
     voucherLifespan: number,
     dailyCallsPerConsumer: number,
-    dailyCallsTotal: number
+    dailyCallsTotal: number,
+    versionId?: string
   ) => {
     updateEserviceTemplateQuotas(
       {
         eServiceTemplateId: id,
-        eServiceTemplateVersionId: versionId,
+        eServiceTemplateVersionId: versionId!,
         voucherLifespan: voucherLifespan,
         dailyCallsPerConsumer: dailyCallsPerConsumer,
         dailyCallsTotal: dailyCallsTotal,

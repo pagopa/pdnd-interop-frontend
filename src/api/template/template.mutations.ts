@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
 
@@ -48,7 +48,7 @@ function useUpdateEServiceTemplateDescription() {
 
 function useUpdateQuotas() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eserviceTemplate.updateVersion',
+    keyPrefix: 'eservice.updateVersion',
   })
   return useMutation({
     mutationFn: TemplateServices.updateEServiceTemplateQuotas,
