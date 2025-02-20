@@ -67,8 +67,11 @@
           "infoLabel": "Max value: 1440 minuites (24 hours)"
         }
       },
-      "thresholdSection": {
-        "title": "Suggested threshold of calls expected for consumers (optional)",
+      "thresholdsSection": {
+        "thresholdsSwitch": {
+          "label": "Suggest custom API threshold values to the implementer"
+        },
+        "title": "Expected call threshold for users",
         "dailyCallsPerConsumerField": {
           "label": "API calls/day per consumer"
         },

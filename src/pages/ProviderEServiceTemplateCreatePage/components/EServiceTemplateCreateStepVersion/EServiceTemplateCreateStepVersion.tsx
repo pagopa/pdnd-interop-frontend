@@ -27,6 +27,8 @@ export type EServiceTemplateCreateStepVersionFormValues = {
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('template', { keyPrefix: 'create' })
 
+  const [areThresholdsSuggested, setAreThresholdsSuggested] = React.useState(false)
+
   const { template, forward, back } = useEServiceTemplateCreateContext()
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
@@ -115,33 +117,47 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
               />
             </Stack>
           </SectionContainer>
-          <SectionContainer innerSection title={t('step2.thresholdSection.title')} sx={{ mt: 3 }}>
-            <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-              <RHFTextField
-                size="small"
-                name="dailyCallsPerConsumer"
-                label={t('step2.thresholdSection.dailyCallsPerConsumerField.label')}
-                type="number"
-                inputProps={{ min: '1' }}
-                rules={{ min: 1 }}
-                sx={{ my: 0, flex: 1 }}
-              />
+          <SectionContainer innerSection sx={{ mt: 3 }}>
+            <RHFSwitch
+              label={t('step2.thresholdsSection.thresholdsSwitch.label')}
+              name="thresholdsSection"
+              sx={{ my: 0 }}
+              onClick={() => setAreThresholdsSuggested(!areThresholdsSuggested)}
+            />
+            {areThresholdsSuggested && (
+              <SectionContainer
+                innerSection
+                sx={{ mt: 3 }}
+                title={t('step2.thresholdsSection.title')}
+              >
+                <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+                  <RHFTextField
+                    size="small"
+                    name="dailyCallsPerConsumer"
+                    label={t('step2.thresholdsSection.dailyCallsPerConsumerField.label')}
+                    type="number"
+                    inputProps={{ min: '1' }}
+                    rules={{ min: 1 }}
+                    sx={{ my: 0, flex: 1 }}
+                  />
 
-              <RHFTextField
-                size="small"
-                name="dailyCallsTotal"
-                label={t('step2.thresholdSection.dailyCallsTotalField.label')}
-                type="number"
-                inputProps={{ min: '1' }}
-                sx={{ my: 0, flex: 1 }}
-                rules={{
-                  min: {
-                    value: dailyCallsPerConsumer ?? 1,
-                    message: t('step2.thresholdSection.dailyCallsTotalField.validation.min'),
-                  },
-                }}
-              />
-            </Stack>
+                  <RHFTextField
+                    size="small"
+                    name="dailyCallsTotal"
+                    label={t('step2.thresholdsSection.dailyCallsTotalField.label')}
+                    type="number"
+                    inputProps={{ min: '1' }}
+                    sx={{ my: 0, flex: 1 }}
+                    rules={{
+                      min: {
+                        value: dailyCallsPerConsumer ?? 1,
+                        message: t('step2.thresholdSection.dailyCallsTotalField.validation.min'),
+                      },
+                    }}
+                  />
+                </Stack>
+              </SectionContainer>
+            )}
           </SectionContainer>
 
           <SectionContainer innerSection sx={{ mt: 3 }}>

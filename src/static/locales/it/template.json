@@ -78,8 +78,11 @@
           "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
         }
       },
-      "thresholdSection": {
-        "title": "Suggerisci le soglie di chiamate previste per i fruitori (opzionale)",
+      "thresholdsSection": {
+        "thresholdsSwitch": {
+          "label": "Suggerisci all’implementatore valori di soglia API personalizzate"
+        },
+        "title": "Soglia di chiamate previste per i fruitori",
         "dailyCallsPerConsumerField": {
           "label": "Chiamate API/giorno per fruitore"
         },
