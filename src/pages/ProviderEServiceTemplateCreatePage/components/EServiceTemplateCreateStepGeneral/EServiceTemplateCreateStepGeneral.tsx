@@ -14,6 +14,8 @@ import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateMutations } from '@/api/template'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
+import { AuthHooks } from '@/api/auth'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -27,6 +29,11 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('template')
   const navigate = useNavigate()
+
+  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
+  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
+    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
+    : true
 
   const [isSignalHubSuggested, setIsSignalHubSuggested] = React.useState(true)
 
@@ -157,43 +164,47 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
           />
-          <SectionContainer innerSection sx={{ mt: 3 }}>
-            <FormControlLabel
-              disabled={!areEServiceTemplateGeneralInfoEditable}
-              control={
-                <Checkbox
-                  checked={isSignalHubSuggested}
-                  onClick={() => setIsSignalHubSuggested(!isSignalHubSuggested)}
-                  name="isSignalHubEnabled"
-                />
-              }
-              label={
-                <>
-                  {' '}
-                  <span>
+          {isSignalHubFlagEnabled && (
+            <SectionContainer innerSection sx={{ mt: 3 }}>
+              <FormControlLabel
+                disabled={!areEServiceTemplateGeneralInfoEditable}
+                control={
+                  <Checkbox
+                    checked={isSignalHubSuggested}
+                    onClick={() => setIsSignalHubSuggested(!isSignalHubSuggested)}
+                    name="isSignalHubEnabled"
+                  />
+                }
+                label={
+                  <>
                     {' '}
-                    {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')}{' '}
-                  </span>
-                  <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
-                    {t(
-                      'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before'
-                    )}{' '}
-                    <IconLink
-                      href={''} //TODO
-                      target="_blank"
-                      endIcon={<LaunchIcon fontSize="small" />}
-                    >
+                    <span>
+                      {' '}
+                      {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')}{' '}
+                    </span>
+                    <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
                       {t(
-                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel'
+                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before'
+                      )}{' '}
+                      <IconLink
+                        href={''} //TODO
+                        target="_blank"
+                        endIcon={<LaunchIcon fontSize="small" />}
+                      >
+                        {t(
+                          'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel'
+                        )}
+                      </IconLink>{' '}
+                      {t(
+                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after'
                       )}
-                    </IconLink>{' '}
-                    {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after')}
-                  </Typography>
-                </>
-              }
-              sx={{ my: 0 }}
-            />
-          </SectionContainer>
+                    </Typography>
+                  </>
+                }
+                sx={{ my: 0 }}
+              />
+            </SectionContainer>
+          )}
         </SectionContainer>
 
         <StepActions
