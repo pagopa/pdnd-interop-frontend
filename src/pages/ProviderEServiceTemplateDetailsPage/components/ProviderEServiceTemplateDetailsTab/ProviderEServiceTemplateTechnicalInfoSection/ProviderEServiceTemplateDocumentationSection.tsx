@@ -10,7 +10,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { AuthHooks } from '@/api/auth'
 import { ProviderEServiceTemplateUpdateDocumentationDrawer } from './ProviderEServiceTemplateDocumentationDrawer'
 import { TemplateDownloads } from '@/api/template/template.downloads'
-import { EServiceDoc, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
+import type { EServiceDoc, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type ProviderEServiceTemplateDocumentationSectionProps = {
@@ -58,7 +58,7 @@ export const ProviderEServiceTemplateDocumentationSection: React.FC<
             label: tCommon('actions.edit'),
             icon: EditIcon,
           },
-        ]} //TODO
+        ]}
       >
         <InformationContainer
           label={t('documentation.label')}
