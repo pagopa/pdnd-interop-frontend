@@ -35,14 +35,17 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_TEMPLATE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
-  const isNewEServiceTemplate = !params?.templateId
+  const isNewEServiceTemplate = !params?.eServiceTemplateId
 
   const [selectedEServiceTemplateMode, setSelectedEServiceTemplateMode] = React.useState<
     EServiceMode | undefined
   >()
 
   const { data: template, isLoading: isLoadingTemplate } = useQuery({
-    ...TemplateQueries.getSingle(params?.templateId as string, params?.versionId as string),
+    ...TemplateQueries.getSingle(
+      params?.eServiceTemplateId as string,
+      params?.eServiceTemplateVersionId as string
+    ),
     enabled: !isNewEServiceTemplate,
   })
 

@@ -13,9 +13,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
-import { isSignalHubEnabled } from '@/config/env'
-import { useQuery } from '@tanstack/react-query'
+import { TemplateMutations } from '@/api/template'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string

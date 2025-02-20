@@ -128,5 +128,69 @@
       },
       "uploadBtn": "Upload"
     }
+  },
+  "summary": {
+    "title": "{{eserviceTemplateName}}, version {{versionEserviceTemplateNumber}}",
+    "generalInfoSummary": {
+      "title": "General informations",
+      "description": {
+        "label": "Description"
+      },
+      "apiTechnology": {
+        "label": "API Technology"
+      },
+      "isSignalHubEnabled": {
+        "label": "Is it suggested to use the data update system (Signal Hub)? ",
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "No"
+        }
+      }
+    },
+    "riskAnalysisSummaryList": {
+      "title": "Purpose",
+      "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
+    },
+    "versionInfoSummary": {
+      "title": "Version's informations",
+      "description": {
+        "label": "Eservice description"
+      },
+      "audience": {
+        "label": "Audience description"
+      },
+      "voucherLifespan": {
+        "label": "Voucher lifespan"
+      },
+      "dailyCallsPerConsumer": {
+        "label": "Daily calls per consumer suggested",
+        "value": "{{value}} API calls per day"
+      },
+      "dailyCallsTotal": {
+        "label": "Total daily calls suggested",
+        "value": "{{value}} API calls per day"
+      },
+      "manualApproval": {
+        "label": "Manual approval requests",
+        "value": {
+          "true": "Yes, it is suggested",
+          "false": "No, it is not suggested"
+        }
+      }
+    },
+    "attributeVersionSummary": {
+      "title": "Version access requirements"
+    },
+    "documentationSummary": {
+      "title": "Version's documentations",
+      "interface": {
+        "label": "OpenAPI Interface"
+      },
+      "emptyLabel": "No uploaded documents"
+    },
+    "notPublishableTooltip": {
+      "label": "One or more required fields have not been filled out. Complete the draft, please."
+    }
   }
 }
