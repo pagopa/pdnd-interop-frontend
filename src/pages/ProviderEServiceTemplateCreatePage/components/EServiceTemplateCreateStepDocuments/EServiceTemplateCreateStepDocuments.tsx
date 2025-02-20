@@ -4,43 +4,36 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { EServiceTemplateCreateStepDocumentsDoc } from './EServiceTemplateCreateStepDocumentsDoc'
 import { EServiceTemplateCreateStepDocumentsInterface } from './EServiceTemplateCreateStepDocumentsInterface'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { openApiCheckerLink } from '@/config/constants'
-import { trackEvent } from '@/config/tracking'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
+import { EServiceTemplateCreateStepDocumentsDoc } from './EServiceTemplateCreateStepDocumentsDoc'
+import { Alert, Stack } from '@mui/material'
 
 export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
-  //TODO
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('template')
   const navigate = useNavigate()
 
   const { template, back } = useEServiceTemplateCreateContext()
 
   const sectionDescription =
-    template?.eservice.technology === 'SOAP' ? (
+    template?.eserviceTemplate.technology === 'SOAP' ? (
       t(`create.step4.interface.description.soap`)
     ) : (
-      <>
-        {t(`create.step4.interface.description.rest`)}{' '}
-        <IconLink
-          href={openApiCheckerLink}
-          target="_blank"
-          endIcon={<LaunchIcon fontSize="small" />}
-        >
-          {t('create.step4.interface.description.restLinkLabel')}
-        </IconLink>
-      </>
+      <>{t(`create.step4.interface.description.rest`)} </>
     )
 
   return (
     <>
       <SectionContainer title={t('create.step4.interface.title')} description={sectionDescription}>
-        <EServiceTemplateCreateStepDocumentsInterface />
+        <Stack spacing={3}>
+          <Alert severity="info"> {t('create.step4.interface.alert')}</Alert>
+          <EServiceTemplateCreateStepDocumentsInterface />
+        </Stack>
       </SectionContainer>
       <SectionContainer
         title={t('create.step4.documentation.title')}
@@ -60,13 +53,15 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
           label: t('create.goToSummary'),
           type: 'button',
           onClick: () => {
-            if (!template) return //TODO
-            navigate('PROVIDE_ESERVICE_SUMMARY', {
+            if (!template) return //TODO PROVIDE_ESERVICE_TEMPLATE_SUMMARY
+            navigate(
+              'NOT_FOUND' /*{
               params: {
-                eserviceId: descriptor.eservice.id,
-                descriptorId: descriptor.id,
+                eServiceTemplateId: template.eserviceTemplate.id,
+                eServiceTemplateVersionId: template.id,
               },
-            })
+            }*/
+            )
           },
           endIcon: <ArrowForwardIcon />,
         }}
