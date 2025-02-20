@@ -4,8 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
-import { useQuery } from '@tanstack/react-query'
+import { TemplateMutations } from '@/api/template'
 
 export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () => {
   const { t } = useTranslation('eservice', {

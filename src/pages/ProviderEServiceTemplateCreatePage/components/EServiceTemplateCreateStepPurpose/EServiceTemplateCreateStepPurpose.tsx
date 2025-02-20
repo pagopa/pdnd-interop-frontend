@@ -7,8 +7,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { EServiceTemplateCreateStepPurposeRiskAnalysis } from './EServiceTemplateCreateStepPurposeRiskAnalysis/EServiceTemplateCreateStepPurposeRiskAnalysis'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateQueries } from '@/api/template'
-import { useQuery } from '@tanstack/react-query'
 import { EServiceTemplateCreateStepPurposeAddPurposesTable } from './EServiceTemplateCreateStepPurposeAddPurposeTable'
 
 export const EServiceTemplateCreateStepPurpose: React.FC = () => {
@@ -18,9 +16,6 @@ export const EServiceTemplateCreateStepPurpose: React.FC = () => {
 
   return (
     <>
-      <Alert severity="warning" sx={{ mb: 3 }}>
-        {t('stepPurpose.firstVersionOnlyEditableInfoAlert')}
-      </Alert>
       {!riskAnalysisFormState.isOpen ? (
         <>
           <SectionContainer
@@ -61,9 +56,6 @@ export const EServiceTemplateCreateStepPurposeSkeleton: React.FC = () => {
 
   return (
     <>
-      <Alert severity="warning" sx={{ mb: 3 }}>
-        {t('firstVersionOnlyEditableInfoAlert')}
-      </Alert>
       <SectionContainerSkeleton height={246} />
     </>
   )

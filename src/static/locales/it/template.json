@@ -115,6 +115,29 @@
         },
         "submitBtnLabel": "Crea attributo"
       }
+    },
+    "step4": {
+      "interface": {
+        "title": "Interfaccia",
+        "alert": "Puoi caricare un file privo dei dati di contatto, i Termini e Condizioni, e l’indirizzo dei server in quanto verranno compilati dall’implementatore in una fase successiva.",
+        "description": {
+          "rest": "Carica una bozza del file OpenAPI che descrive l’API.",
+          "soap": "Carica una bozza del file WSDL che descrive l'API"
+        },
+        "prettyName": "Specifica API"
+      },
+      "documentation": {
+        "title": "Documentazione",
+        "description": "Inserisci tutta la documentazione tecnica utile all’implementazione di un’integrazione con questo e-service"
+      },
+      "uploadFileField": {
+        "label": "Seleziona documento"
+      },
+      "nameField": {
+        "label": "Nome documento",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
+      "uploadBtn": "Carica"
     }
   }
 }

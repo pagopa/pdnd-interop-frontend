@@ -25,6 +25,10 @@ import {
   EServiceTemplateCreateStepPurpose,
   EServiceTemplateCreateStepPurposeSkeleton,
 } from './components/EServiceTemplateCreateStepPurpose/EServiceTemplateCreateStepPurpose'
+import {
+  EServiceTemplateCreateStepDocuments,
+  EServiceTemplateCreateStepDocumentsSkeleton,
+} from './components/EServiceTemplateCreateStepDocuments/EServiceTemplateCreateStepDocuments'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('template')
@@ -56,7 +60,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
             label: t('create.stepper.step3Label'),
             component: EServiceTemplateCreateStepAttributes,
           },
-          //{ label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
+          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepDocuments },
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceTemplateCreateStepGeneral },
@@ -69,7 +73,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
             label: t('create.stepper.step3Label'),
             component: EServiceTemplateCreateStepAttributes,
           },
-          //{ label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
+          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepDocuments },
         ]
 
   const { component: Step } = steps[activeStep]
@@ -92,14 +96,14 @@ const ProviderEServiceCreatePage: React.FC = () => {
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
           <EServiceTemplateCreateStepVersionSkeleton key={2} />,
           <EServiceTemplateCreateStepAttributesSkeleton key={3} />,
-          //<EServiceCreateStepDocumentsSkeleton key={4} />,
+          <EServiceTemplateCreateStepDocumentsSkeleton key={4} />,
         ]
       : [
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
           <EServiceTemplateCreateStepPurposeSkeleton key={2} />,
           <EServiceTemplateCreateStepVersionSkeleton key={3} />,
           <EServiceTemplateCreateStepAttributesSkeleton key={4} />,
-          //<EServiceCreateStepDocumentsSkeleton key={5} />,
+          <EServiceTemplateCreateStepDocumentsSkeleton key={5} />,
         ]
 
   const intro = isNewEServiceTemplate

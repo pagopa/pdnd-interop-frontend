@@ -28,7 +28,7 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     prettyName: t('create.step4.interface.prettyName'),
   }
 
-  const actualInterface: EServiceDoc | null = descriptor?.interface ?? null
+  const actualInterface: EServiceDoc | null = template?.interface ?? null
 
   const formMethods = useForm({
     defaultValues,
@@ -39,10 +39,10 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     interfaceDoc,
     prettyName,
   }: EServiceTemplateCreateStepDocumentsInterfaceFormValues) => {
-    if (!interfaceDoc || !descriptor) return
+    if (!interfaceDoc || !template) return
     uploadDocument({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
+      eServiceTemplateId: template.eserviceTemplate.id,
+      eServiceTemplateVersionId: template.id,
       doc: interfaceDoc,
       prettyName,
       kind: 'INTERFACE',
@@ -50,20 +50,18 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
   }
 
   const handleDeleteInterface = () => {
-    if (!actualInterface || !descriptor) return
+    if (!actualInterface || !template) return
     deleteDocument({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
+      templateId: template.eserviceTemplate.id,
       documentId: actualInterface.id,
     })
   }
 
   const handleDownloadInterface = () => {
-    if (!actualInterface || !descriptor) return
+    if (!actualInterface || !template) return
     downloadDocument(
       {
-        eserviceId: descriptor.eservice.id,
-        descriptorId: descriptor.id,
+        templateId: template.eserviceTemplate.id,
         documentId: actualInterface.id,
       },
       getDownloadDocumentName(actualInterface)

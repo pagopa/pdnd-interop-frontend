@@ -104,6 +104,29 @@
         },
         "submitBtnLabel": "Crea attributo"
       }
+    },
+    "step4": {
+      "interface": {
+        "title": "Interface",
+        "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
+        "description": {
+          "rest": "Upload a draft of the OpenAPI specification that describes the API.",
+          "soap": "Upload a draft of the WSDL specification that describes the API"
+        },
+        "prettyName": "API specification"
+      },
+      "documentation": {
+        "title": "Documentation",
+        "description": "Upload all the technical documentation useful for the implementation of an integration with this e-service."
+      },
+      "uploadFileField": {
+        "label": "Select document"
+      },
+      "nameField": {
+        "label": "Name document",
+        "infoLabel": "Min 5 chars, max 60 chars"
+      },
+      "uploadBtn": "Upload"
     }
   }
 }

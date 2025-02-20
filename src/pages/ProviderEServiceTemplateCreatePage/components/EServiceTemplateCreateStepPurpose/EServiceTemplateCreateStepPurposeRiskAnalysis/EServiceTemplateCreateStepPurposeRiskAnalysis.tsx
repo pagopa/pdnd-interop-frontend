@@ -12,16 +12,10 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
   const {
     riskAnalysisFormState,
     closeRiskAnalysisForm,
-    template: producerEserviceTemplate,
+    template: TodoDaTogliere,
   } = useEServiceTemplateCreateContext()
 
-  const templateId = producerEserviceTemplate?.id
-  const versionTemplateId = producerEserviceTemplate?.draftVersion?.id
-
-  const template =
-    templateId && versionTemplateId
-      ? useQuery(TemplateQueries.getSingle(templateId, versionTemplateId))
-      : undefined
+  const { data: template } = useQuery(TemplateQueries.getSingle('1', '1')) //TODO DA TOGLIERE
 
   const { mutate: addEServiceTemplateRiskAnalysis } = TemplateMutations.useAddTemplateRiskAnalysis()
   const { mutate: updateEServiceTemplateRiskAnalysis } =
@@ -29,13 +23,13 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
 
   const { data: riskAnalysisLatest } = useQuery(
     PurposeQueries.getRiskAnalysisLatest({
-      tenantKind: template?.data?.eserviceTemplate.creator.kind, //TODO CONTROLLARE
+      tenantKind: template?.eserviceTemplate.creator.kind, //TODO CONTROLLARE
     })
   )
 
-  if (!riskAnalysisLatest || !template?.data) return <RiskAnalysisFormSkeleton />
+  if (!riskAnalysisLatest || !template) return <RiskAnalysisFormSkeleton />
 
-  const riskAnalysisToEdit = template?.data.eserviceTemplate.riskAnalysis.find(
+  const riskAnalysisToEdit = template.eserviceTemplate.riskAnalysis.find(
     (item) => item.id === riskAnalysisFormState.riskAnalysisId
   )
 
@@ -47,7 +41,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
       updateEServiceTemplateRiskAnalysis(
         {
-          eServiceTemplateId: templateId,
+          eServiceTemplateId: template.id,
           riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
           name: name,
           riskAnalysisForm: {
@@ -66,7 +60,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     if (!riskAnalysisFormState.riskAnalysisId) {
       addEServiceTemplateRiskAnalysis(
         {
-          eServiceTemplateId: templateId,
+          eServiceTemplateId: template.id,
           name: name,
           riskAnalysisForm: {
             version: riskAnalysisLatest.version,

@@ -6,9 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import type {
   DescriptorAttribute,
-  DescriptorAttributes,
-  UpdateEServiceDescriptorSeed,
-  UpdateEServiceTemplateSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '@/api/api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -21,19 +18,10 @@ import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateCon
 import { TemplateMutations, TemplateQueries } from '@/api/template'
 import { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
-import { useQuery } from '@tanstack/react-query'
 
 export const EServiceTemplateCreateStepAttributes: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'create' })
-  const { template: producerEserviceTemplate, forward, back } = useEServiceTemplateCreateContext()
-
-  const templateId = producerEserviceTemplate?.id
-  const versionTemplateId = producerEserviceTemplate?.draftVersion?.id
-
-  const template =
-    templateId && versionTemplateId
-      ? useQuery(TemplateQueries.getSingle(templateId, versionTemplateId))
-      : undefined
+  const { template, forward, back } = useEServiceTemplateCreateContext()
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -57,13 +45,14 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
     }
 
   const defaultValues: CreateStepAttributesFormValues = {
-    attributes: template?.data?.attributes ?? { certified: [], verified: [], declared: [] },
+    attributes: template?.attributes ?? { certified: [], verified: [], declared: [] },
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: CreateStepAttributesFormValues) => {
-    if (!template?.data) return //TODO CONTROLLO CHECK
+    forward() //TODO DA TOGLIERE
+    if (!template) return
 
     const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
       return attributes.filter((group) => group.length > 0)
@@ -75,7 +64,7 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       declared: removeEmptyAttributeGroups(values.attributes.declared),
     }
 
-    const areAttributesEquals = compareObjects(attributes, template.data.attributes)
+    const areAttributesEquals = compareObjects(attributes, template.attributes)
 
     if (areAttributesEquals) {
       forward()
@@ -86,10 +75,10 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       eServiceTemplateId: string
       eServiceTemplateVersionId: string
     } = {
-      eServiceTemplateVersionId: template.data.id,
-      eServiceTemplateId: template.data.eserviceTemplate.id, //TODO
+      eServiceTemplateVersionId: template.id,
+      eServiceTemplateId: template.eserviceTemplate.id,
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
-      voucherLifespan: template.data.voucherLifespan,
+      voucherLifespan: template.voucherLifespan,
     }
 
     updateVersionDraft(payload, { onSuccess: forward })
@@ -100,7 +89,7 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <SectionContainer
-            title={t('step3.attributesTitle', { versionNumber: template?.data?.version ?? 1 })}
+            title={t('step3.attributesTitle', { versionNumber: template?.version ?? 1 })}
             description={t('step3.attributesDescription')}
           >
             <AddAttributesToForm attributeKey="certified" readOnly={false} />

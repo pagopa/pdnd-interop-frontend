@@ -30,37 +30,27 @@ export type EServiceTemplateCreateStepVersionFormValues = {
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('template', { keyPrefix: 'create' })
 
-  const { template: producerEserviceTemplate, forward, back } = useEServiceTemplateCreateContext()
-
-  const templateId = producerEserviceTemplate?.id
-  const versionTemplateId = producerEserviceTemplate?.draftVersion?.id
-
-  const template =
-    templateId && versionTemplateId
-      ? useQuery(TemplateQueries.getSingle(templateId, versionTemplateId))
-      : undefined
+  const { template, forward, back } = useEServiceTemplateCreateContext()
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
   const defaultValues: EServiceTemplateCreateStepVersionFormValues = {
-    version: template?.data?.version ?? 1,
-    audienceDescription: template?.data?.eserviceTemplate.audienceDescription ?? '',
-    voucherLifespan: template?.data ? secondsToMinutes(template.data.voucherLifespan) : 1,
-    eserviceDescription: template?.data?.eserviceTemplate.eserviceDescription ?? '',
-    dailyCallsPerConsumer: template?.data?.dailyCallsPerConsumer,
-    dailyCallsTotal: template?.data?.dailyCallsTotal,
-    agreementApprovalPolicy: template?.data
-      ? template.data.agreementApprovalPolicy === 'MANUAL'
-      : false,
+    version: template?.version ?? 1,
+    audienceDescription: template?.eserviceTemplate.audienceDescription ?? '',
+    voucherLifespan: template ? secondsToMinutes(template.voucherLifespan) : 1,
+    eserviceDescription: template?.eserviceTemplate.eserviceDescription ?? '',
+    dailyCallsPerConsumer: template?.dailyCallsPerConsumer,
+    dailyCallsTotal: template?.dailyCallsTotal,
+    agreementApprovalPolicy: template ? template.agreementApprovalPolicy === 'MANUAL' : false,
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
-    forward()
-    if (!template?.data) return //TODO CONTROLLO CHECK
+    forward() //TODO DA TOGLIERE
+    if (!template) return
 
     const newTemplateData = {
       ...values,
@@ -72,26 +62,27 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     }
 
     // If nothing has changed skip the update call
-    const areTemplatesEquals = compareObjects(newTemplateData, template.data)
+    const areTemplatesEquals = compareObjects(newTemplateData, template)
     if (areTemplatesEquals) {
       forward()
       return
     }
 
     const payload = {
-      eserviceTemplateId: template.data.id,
+      eserviceTemplateId: template.id,
       attributes: { certified: [], verified: [], declared: [] },
       ...omit(newTemplateData, ['version']),
     }
 
-    /*updateVersionDraft(
+    updateVersionDraft(
+      //TODO CONTROLLARE PAYLOAD
       {
         ...payload,
-        eserviceTemplateId: template.id,
-        attributes: remapDescriptorAttributesToDescriptorAttributesSeed(template.attributes), //TODO
+        eServiceTemplateId: template.eserviceTemplate.id,
+        eServiceTemplateVersionId: template.id,
       },
       { onSuccess: forward }
-    )*/
+    )
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
@@ -100,7 +91,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
-          title={t('step2.versionTitle', { versionNumber: template?.data?.version ?? 1 })}
+          title={t('step2.versionTitle', { versionNumber: template?.version ?? 1 })}
           component="div"
         >
           <RHFTextField
