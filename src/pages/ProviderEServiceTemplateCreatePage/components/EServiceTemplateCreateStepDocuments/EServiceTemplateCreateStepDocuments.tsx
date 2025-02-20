@@ -7,9 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { EServiceTemplateCreateStepDocumentsInterface } from './EServiceTemplateCreateStepDocumentsInterface'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { IconLink } from '@/components/shared/IconLink'
-import LaunchIcon from '@mui/icons-material/Launch'
-import { openApiCheckerLink } from '@/config/constants'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateCreateStepDocumentsDoc } from './EServiceTemplateCreateStepDocumentsDoc'
 import { Alert, Stack } from '@mui/material'
@@ -53,15 +50,13 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
           label: t('create.goToSummary'),
           type: 'button',
           onClick: () => {
-            if (!template) return //TODO PROVIDE_ESERVICE_TEMPLATE_SUMMARY
-            navigate(
-              'NOT_FOUND' /*{
+            //if (!template) return TODO DECOMMENTARE
+            navigate('PROVIDE_ESERVICE_TEMPLATE_SUMMARY', {
               params: {
-                eServiceTemplateId: template.eserviceTemplate.id,
-                eServiceTemplateVersionId: template.id,
+                eServiceTemplateId: '1', //template.eserviceTemplate.id, TODO
+                eServiceTemplateVersionId: '1', // template.id,  TODO
               },
-            }*/
-            )
+            })
           },
           endIcon: <ArrowForwardIcon />,
         }}

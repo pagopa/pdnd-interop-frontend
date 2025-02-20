@@ -11,11 +11,8 @@ import omit from 'lodash/omit'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { payloadVerificationGuideLink } from '@/config/constants'
-import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
-import { useQuery } from '@tanstack/react-query'
+import { TemplateMutations } from '@/api/template'
 
 export type EServiceTemplateCreateStepVersionFormValues = {
   audienceDescription: string

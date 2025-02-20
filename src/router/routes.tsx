@@ -47,6 +47,7 @@ import {
   ProviderEServiceTemplatesCatalogPage,
   ProviderEServiceTemplatesListPage,
   ProviderEServiceTemplateCreatePage,
+  ProviderEServiceTemplateSummaryPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -493,8 +494,16 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_EDIT',
-    path: '/erogazione/template/:templateId/:versionId/modifica',
+    path: '/erogazione/template/:eServiceTemplateId/:eServiceTemplateVersionId/modifica',
     element: <ProviderEServiceTemplateCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY',
+    path: '/erogazione/template/:eServiceTemplateId/:eServiceTemplateVersionId/modifica/riepilogo',
+    element: <ProviderEServiceTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api'],

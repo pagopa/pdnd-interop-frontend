@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
-import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
@@ -30,7 +29,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: updateDocumentName } =
-    EServiceMutations.useUpdateVersionDraftDocumentDescription()
+    TemplateMutations.useUpdateVersionDraftDocumentDescription()
   const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
 
   const docs = template?.docs ?? []
@@ -76,7 +75,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
   const handleDeleteDocument = (document: EServiceDoc) => {
     if (!template) return
     deleteDocument({
-      eserviceTemplateId: template.eserviceTemplate.id,
+      eserviceTemplateId: template.eserviceTemplate.id, //TODO
       eServiceTemplateVersionId: template.id,
       documentId: document.id,
     })
@@ -86,7 +85,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
     if (!template) return
     downloadDocument(
       {
-        eserviceTemplateId: template.eserviceTemplate.id,
+        eserviceTemplateId: template.eserviceTemplate.id, //TODO
         eServiceTemplateVersionId: template.id,
         documentId: document.id,
       },
