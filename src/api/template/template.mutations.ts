@@ -47,9 +47,11 @@ function useUpdateEServiceTemplateDescription() {
 }
 
 function useUpdateQuotas() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eserviceTemplate.updateVersion',
+  })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateQuotas, //TODO
+    mutationFn: TemplateServices.updateEServiceTemplateQuotas,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),

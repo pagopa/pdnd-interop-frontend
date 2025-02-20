@@ -8,7 +8,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { STAGE } from '@/config/env'
 import type { PagoPAEnvVars } from '@/types/common.types'
 import { TemplateQueries } from '@/api/template'
-import { ProviderEServiceThresholdsSection } from './ProviderEServiceTemplateThresholdsSection'
+import { ProviderEServiceTemplateThresholdsSection } from './ProviderEServiceTemplateThresholdsSection'
 import { ProviderEServiceTemplateDocumentationSection } from './ProviderEServiceTemplateDocumentationSection'
 import { ProviderEServiceTemplateUsefulLinksSection } from './ProviderEServiceTemplateUsefulLinksSection'
 
@@ -41,7 +41,7 @@ export const ProviderEServiceTemplateTechnicalInfoSection: React.FC = () => {
           </Stack>
         </SectionContainer>
         <Divider />
-        <ProviderEServiceThresholdsSection template={template} />
+        <ProviderEServiceTemplateThresholdsSection template={template} />
         <Divider />
         <ProviderEServiceTemplateDocumentationSection template={template} />
         <Divider />

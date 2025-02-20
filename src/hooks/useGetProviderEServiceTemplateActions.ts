@@ -6,11 +6,9 @@ import { AuthHooks } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
-import PublishIcon from '@mui/icons-material/Publish'
 import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
 import { TemplateMutations } from '@/api/template'
@@ -34,8 +32,7 @@ export function useGetProviderEServiceTemplateActions(
   const { mutate: deleteVersionDraft } = TemplateMutations.useDeleteVersionDraft()
   const { mutate: suspend } = TemplateMutations.useSuspendVersion()
   const { mutate: reactivate } = TemplateMutations.useReactivateVersion()
-  const { mutate: clone } = TemplateMutations.useCloneFromVersion()
-  const { mutate: createNewDraft } = TemplateMutations.useCreateDraft() //TODO NON C'è NELL'SRS
+  const { mutate: createNewDraft } = TemplateMutations.useCreateDraft() // TODO NON C'è NELL'SRS
 
   const state = descriptorState ?? 'DRAFT' //draftDescriptorState ?? 'DRAFT'
   const hasVersionDraft = state === 'DRAFT' //!!draftDescriptorId
@@ -102,31 +99,6 @@ export function useGetProviderEServiceTemplateActions(
     icon: PlayCircleOutlineIcon,
   }
 
-  const handleClone = () => {
-    //if (activeDescriptorId)
-    if (state === 'PUBLISHED')
-      clone(
-        {
-          eServiceTemplateId,
-          eServiceTemplateVersionId,
-        },
-        {
-          onSuccess({ id, eserviceTemplateVersionId }) {
-            navigate('NOT_FOUND', {
-              //TODO
-              // params: { eServiceTemplateId: id, eserviceTemplateVersionId },
-            })
-          },
-        }
-      )
-  }
-
-  const cloneAction: ActionItemButton = {
-    action: handleClone,
-    label: t('clone'),
-    icon: ContentCopyIcon,
-  }
-
   const handleCreateNewDraft = () => {
     createNewDraft(
       { eServiceTemplateId },
@@ -171,13 +143,8 @@ export function useGetProviderEServiceTemplateActions(
     hasVersionDraft,
     isDraftWaitingForApproval,
   })
-    .with({ isAdmin: true, hasVersionDraft: false }, () => [
-      cloneAction,
-      createNewDraftAction,
-      suspendAction,
-    ])
+    .with({ isAdmin: true, hasVersionDraft: false }, () => [createNewDraftAction, suspendAction])
     .with({ isAdmin: true, hasVersionDraft: true }, () => [
-      cloneAction,
       editDraftAction,
       deleteAction,
       suspendAction,
@@ -216,12 +183,8 @@ export function useGetProviderEServiceTemplateActions(
       },
       () => [suspendAction]
     )
-    .with({ isAdmin: false, hasVersionDraft: false }, () => [cloneAction, createNewDraftAction])
-    .with({ isAdmin: false, hasVersionDraft: true }, () => [
-      cloneAction,
-      editDraftAction,
-      deleteAction,
-    ])
+    .with({ isAdmin: false, hasVersionDraft: false }, () => [createNewDraftAction])
+    .with({ isAdmin: false, hasVersionDraft: true }, () => [editDraftAction, deleteAction])
     .with({ isAdmin: false, hasVersionDraft: false }, () => [])
     .with(
       {
@@ -263,14 +226,9 @@ export function useGetProviderEServiceTemplateActions(
     hasVersionDraft,
     isDraftWaitingForApproval,
   })
-    .with({ isAdmin: true, hasVersionDraft: false }, () => [
-      reactivateAction,
-      cloneAction,
-      createNewDraftAction,
-    ])
+    .with({ isAdmin: true, hasVersionDraft: false }, () => [reactivateAction, createNewDraftAction])
     .with({ isAdmin: true, hasVersionDraft: true }, () => [
       reactivateAction,
-      cloneAction,
       editDraftAction,
       deleteAction,
     ])
@@ -308,12 +266,8 @@ export function useGetProviderEServiceTemplateActions(
       },
       () => [reactivateAction]
     )
-    .with({ isAdmin: false, hasVersionDraft: false }, () => [cloneAction, createNewDraftAction])
-    .with({ isAdmin: false, hasVersionDraft: true }, () => [
-      cloneAction,
-      editDraftAction,
-      deleteAction,
-    ])
+    .with({ isAdmin: false, hasVersionDraft: false }, () => [createNewDraftAction])
+    .with({ isAdmin: false, hasVersionDraft: true }, () => [editDraftAction, deleteAction])
     .with({ isAdmin: false, hasVersionDraft: false }, () => [])
     .with(
       {

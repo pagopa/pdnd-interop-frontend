@@ -73,10 +73,11 @@ async function getProviderTemplatesList() {
 }
 
 async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string) {
-  /*const response = await axiosInstance.get<GetEServiceTemplateVersion>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`
-  )
-  return response.data*/
+  // const response = await axiosInstance.get<EServiceTemplateVersionDetails>(
+  //   `http://localhost:8080/backend-for-frontend/0.0/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}`
+  // )
+
+  // console.log('response', response)
   const response: EServiceTemplateVersionDetails = {
     id: '123e4567-e89b-12d3-a456-426614174000',
     version: 1,
@@ -177,7 +178,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
     },
   }
 
-  return response
+  return response;
 }
 
 async function updateEServiceTemplateName({
@@ -295,6 +296,14 @@ async function downloadVersionDraftDocument({
   )
   return response.data*/
   return console.log('downloaded file')
+}
+
+async function downloadConsumerList({ eServiceTemplateId }: { eServiceTemplateId: string }) {
+  const response = await axiosInstance.get<File>(
+    `http://localhost:8080/eservices/templates/${eServiceTemplateId}/instances`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
 }
 
 async function createDraft(payload: EServiceTemplateSeed) {
@@ -504,6 +513,7 @@ export const TemplateServices = {
   deleteVersionDraftDocument,
   updateVersionDraftDocumentDescription,
   downloadVersionDraftDocument,
+  downloadConsumerList,
   createDraft,
   updateDraft,
   updateVersionDraft,

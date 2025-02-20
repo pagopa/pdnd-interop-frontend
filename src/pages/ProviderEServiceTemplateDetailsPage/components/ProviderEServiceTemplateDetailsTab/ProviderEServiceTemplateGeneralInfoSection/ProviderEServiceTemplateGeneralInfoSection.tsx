@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
+import { TemplateDownloads } from '@/api/template/template.downloads'
 export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.generalInformations',
@@ -31,6 +32,8 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
+  const downloadTemplateConsumerList = TemplateDownloads.useDownloadTemplateConsumerList()
+
   const { mutate: updateEserviceTemplateDescription } =
     TemplateMutations.useUpdateEServiceTemplateDescription()
 
@@ -39,9 +42,7 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
 
   const { mutate: updateEserviceTemplateName } = TemplateMutations.useUpdateEServiceTemplateName()
 
-  /*const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
-  const exportVersion = EServiceDownloads.useExportVersion()
-
+  /* 
   const {
     isOpen: isVersionSelectorDrawerOpen,
     openDrawer: openVersionSelectorDrawer,
@@ -66,16 +67,18 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
     closeDrawer: closeEServiceTemplateUpdateDescriptionDrawer,
   } = useDrawerState()
 
-  /*const handleDownloadConsumerList = () => {
-    downloadConsumerList(
-      { eserviceId },
+  const handleDownloadTemplateConsumerList = () => {
+    alert('DOWNLOAD')
+    downloadTemplateConsumerList(
+      { eServiceTemplateId },
       t('consumerListFileName', {
         timestamp: new Date().toISOString(),
-        eserviceName: descriptor.eservice.name,
+        eserviceTemplateName: template?.eserviceTemplate.name,
       })
     )
   }
 
+  /*
   const handleExportVersion = () => {
     trackEvent('INTEROP_ESERVICE_DOWNLOAD_REQUEST', {
       eserviceId: eserviceId,
@@ -107,15 +110,8 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
   const downloadUsingTenantsListAction = {
     startIcon: <DownloadIcon fontSize="small" />,
     component: 'button',
-    onClick: () => {}, //handleDownloadUsingTenantsList, TODO
+    onClick: handleDownloadTemplateConsumerList,
     label: t('bottomActions.downloadUsingTenantsList'),
-  }
-
-  const viewTechnicalInfoAction = {
-    startIcon: <EngineeringIcon fontSize="small" />,
-    component: 'button',
-    onClick: () => {}, //handleViewTechincalInfo, TODO
-    label: t('bottomActions.viewTechnicalInfo'),
   }
 
   const handleNameUpdate = (templateId: string, name: string) => {
@@ -155,7 +151,6 @@ export const ProviderEServiceTemplateGeneralInfoSection: React.FC = () => {
         bottomActions={[
           ...(!hasSingleVersion ? [navigateTemplateVersionsAction] : []),
           downloadUsingTenantsListAction,
-          viewTechnicalInfoAction,
         ]}
       >
         <Stack spacing={2}>

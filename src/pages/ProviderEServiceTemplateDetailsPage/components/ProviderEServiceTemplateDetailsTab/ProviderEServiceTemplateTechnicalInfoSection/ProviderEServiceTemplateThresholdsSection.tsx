@@ -15,7 +15,7 @@ import { useParams } from '@/router'
 type ProviderEServiceTemplateThresholdsSectionProps = {
   template: EServiceTemplateVersionDetails
 }
-export const ProviderEServiceThresholdsSection: React.FC<
+export const ProviderEServiceTemplateThresholdsSection: React.FC<
   ProviderEServiceTemplateThresholdsSectionProps
 > = ({ template }) => {
   const { t } = useTranslation('template', {
@@ -70,7 +70,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
             label: tCommon('actions.edit'),
             icon: EditIcon,
           },
-        ]} //TODO
+        ]}
       >
         <Stack spacing={2}>
           <InformationContainer
@@ -106,10 +106,10 @@ export const ProviderEServiceThresholdsSection: React.FC<
         dailyCallsPerConsumer={template.dailyCallsPerConsumer ?? 1} //TODO
         dailyCallsTotal={template.dailyCallsTotal ?? 1}
         versionId={eServiceTemplateVersionId}
-        onSubmit={handleThresholdsUpdate}
         subtitle={tDrawer('subtitle')}
         dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerLabel')}
         dailyCallsTotalLabel={tDrawer('dailyCallsTotalLabel')}
+        onSubmit={handleThresholdsUpdate}
       />
     </>
   )

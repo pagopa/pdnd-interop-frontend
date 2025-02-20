@@ -29,7 +29,8 @@
           "navigateTemplateVersions": "Navigate to another e-service template version",
           "downloadUsingTenantsList": "Download list of using tenants",
           "viewTechnicalInfo": "View eservice technical information "
-        }
+        },
+        "consumerListFileName":"{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv"
       },
       "technicalInformations": {
         "title": "E-service technical specifications",

@@ -29,7 +29,8 @@
           "navigateTemplateVersions": "Naviga a un’altra versione del template",
           "downloadUsingTenantsList": "Scarica l’elenco degli implementatori",
           "viewTechnicalInfo": "Visualizza le specifiche tecniche dell’e-service"
-        }
+        },
+        "consumerListFileName":"{{timestamp}}-lista-consumatori-template-{{eServiceTemplateName}}.csv"
       },
       "technicalInformations": {
         "title": "Specifiche tecniche e-service",

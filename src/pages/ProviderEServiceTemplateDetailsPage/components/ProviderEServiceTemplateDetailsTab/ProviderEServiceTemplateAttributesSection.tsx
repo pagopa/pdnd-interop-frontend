@@ -25,6 +25,8 @@ export const ProviderEServiceTemplateAttributes: React.FC = () => {
     select: (d) => d.attributes,
   })
 
+  console.log('eserviceTemplateAttributes', eserviceTemplateAttributes)
+
   const [editAttributeDrawerState, setEditAttributeDrawerState] = useState<{
     kind: AttributeKey
     isOpen: boolean
