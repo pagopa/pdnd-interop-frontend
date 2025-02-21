@@ -444,20 +444,6 @@ function reactivateVersion({
   return console.log('version activated')
 }
 
-async function cloneFromVersion({
-  eServiceTemplateId,
-  eServiceTemplateVersionId,
-}: {
-  eServiceTemplateId: string
-  eServiceTemplateVersionId: string
-}) {
-  /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/clone` //todo manca nell'srs
-  )
-  return response.data*/
-  return
-}
-
 async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
   /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances
@@ -516,6 +502,5 @@ export const TemplateServices = {
   deleteVersionDraft,
   suspendVersion,
   reactivateVersion,
-  cloneFromVersion,
   getProviderTemplateInstancesList,
 }
