@@ -1,3 +1,6 @@
 export * from './EServiceTemplateAttributes'
 export * from './EServiceTemplateGeneralInfoSection'
 export * from './EServiceTemplateTechnicalInfoSection'
+export * from './EServiceTemplateDocumentationSection'
+export * from './EServiceTemplateUsefulLinksSection'
+export * from './EServiceTemplateUpdateDocumentationDrawer'

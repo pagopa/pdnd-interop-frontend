@@ -6,17 +6,22 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
-import { ProviderEServiceTemplateThresholdsSection } from '@/pages/ProviderEServiceTemplateDetailsPage/components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateTechnicalInfoSection/ProviderEServiceTemplateThresholdsSection'
-import { ProviderEServiceTemplateDocumentationSection } from '@/pages/ProviderEServiceTemplateDetailsPage/components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateTechnicalInfoSection/ProviderEServiceTemplateDocumentationSection'
-import { ProviderEServiceTemplateUsefulLinksSection } from '@/pages/ProviderEServiceTemplateDetailsPage/components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateTechnicalInfoSection/ProviderEServiceTemplateUsefulLinksSection'
+import { EServiceTemplateThresholdsSection } from './EServiceTemplateThresholdsSection'
+import { EServiceTemplateDocumentationSection } from './EServiceTemplateDocumentationSection'
+import { EServiceTemplateUsefulLinksSection } from './EServiceTemplateUsefulLinksSection'
 
-export const EServiceTemplateTechnicalInfoSection: React.FC = () => {
+type EServiceTemplateTechnicalInfoSectionProps = {
+  readonly: boolean
+  routeKey: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS' | 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
+}
+export const EServiceTemplateTechnicalInfoSection: React.FC<
+  EServiceTemplateTechnicalInfoSectionProps
+> = ({ readonly, routeKey }) => {
   const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.technicalInformations',
   })
 
-  const { eServiceTemplateId, eServiceTemplateVersionId } =
-    useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
+  const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
   const { data: template } = useSuspenseQuery(
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
@@ -39,11 +44,11 @@ export const EServiceTemplateTechnicalInfoSection: React.FC = () => {
           </Stack>
         </SectionContainer>
         <Divider />
-        <ProviderEServiceTemplateThresholdsSection template={template} />
+        <EServiceTemplateThresholdsSection readonly={readonly} template={template} />
         <Divider />
-        <ProviderEServiceTemplateDocumentationSection template={template} />
+        <EServiceTemplateDocumentationSection readonly={readonly} template={template} />
         <Divider />
-        <ProviderEServiceTemplateUsefulLinksSection />
+        <EServiceTemplateUsefulLinksSection />
       </Stack>
     </SectionContainer>
   )
