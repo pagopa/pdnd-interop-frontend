@@ -9,9 +9,10 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 //import { useGetProviderTemplateActions } from '@/hooks/useGetProviderTemplateActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { AuthHooks } from '@/api/auth'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
 import { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
+import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
 
 type TemplateTableRow = {
   template: ProducerEServiceTemplate
@@ -23,27 +24,39 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
 
   const queryClient = useQueryClient()
 
-  //const { actions } = []
+  const versionEserviceTemplate = template.activeVersion?.id ?? template.draftVersion?.id
+
+  const { data: eserviceTemplate } = useQuery(
+    TemplateQueries.getSingle(template.id, versionEserviceTemplate as string)
+  )
+
+  const { actions } = useGetProviderEServiceTemplateActions(
+    eserviceTemplate?.eserviceTemplate.id as string, //TODO
+    eserviceTemplate?.id as string,
+    eserviceTemplate?.eserviceTemplate.mode,
+    template.activeVersion?.state,
+    template.draftVersion?.state
+  )
 
   const handlePrefetch = () => {
     queryClient.prefetchQuery(
-      TemplateQueries.getSingle(
-        template.id,
-        template.activeVersion?.id ?? template.draftVersion?.id //TODO
-      )
+      TemplateQueries.getSingle(template.id, versionEserviceTemplate as string)
     )
   }
 
-  const isTemplateDraft = template.activeVersion?.state === 'DRAFT'
+  const isTemplateDraft = template.activeVersion?.state === 'DRAFT' ? true : false
 
   return (
     <TableRow
       cellData={[
         template.name,
-        template.activeVersion?.version || '1', //TODO
+        template.activeVersion?.version.toString() || '1', //TODO
         <Stack key={template.id} direction="row" spacing={1}>
           {template.activeVersion && (
             <StatusChip for="template" state={template.activeVersion.state} />
+          )}
+          {template.draftVersion && (
+            <StatusChip for="template" state={template.draftVersion.state} />
           )}
         </Stack>,
       ]}
@@ -60,7 +73,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
       </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-        <ActionMenu actions={['']} />
+        <ActionMenu actions={actions} />
       </Box>
     </TableRow>
   )
