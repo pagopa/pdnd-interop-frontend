@@ -297,23 +297,6 @@ function useReactivateVersion() {
   })
 }
 
-function useCloneFromVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.cloneFromVersion' })
-
-  return useMutation({
-    mutationFn: TemplateServices.cloneFromVersion,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
-    },
-  })
-}
-
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateAudienceDescription,
@@ -333,5 +316,4 @@ export const TemplateMutations = {
   useDeleteVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
-  useCloneFromVersion,
 }
