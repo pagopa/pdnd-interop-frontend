@@ -1,8 +1,10 @@
 import React from 'react'
 import { Grid } from '@mui/material'
-import { EServiceTemplateGeneralInfoSection } from '@/components/shared/EserviceTemplate/EServiceTemplateGeneralInfoSection'
-import { ProviderEServiceTemplateAttributes } from '@/pages/ProviderEServiceTemplateDetailsPage/components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateAttributesSection'
-import { EServiceTemplateTechnicalInfoSection } from '@/components/shared/EserviceTemplate'
+import {
+  EServiceTemplateGeneralInfoSection,
+  EServiceTemplateAttributes,
+  EServiceTemplateTechnicalInfoSection,
+} from '@/components/shared/EserviceTemplate'
 
 export const ConsumerEServiceTemplateDetails: React.FC = () => {
   const readyonly = true
@@ -14,7 +16,7 @@ export const ConsumerEServiceTemplateDetails: React.FC = () => {
         <Grid item xs={8}>
           <EServiceTemplateGeneralInfoSection readonly={readyonly} routeKey={routeKey} />
           <EServiceTemplateTechnicalInfoSection readonly={readyonly} routeKey={routeKey} />
-          <ProviderEServiceTemplateAttributes />
+          <EServiceTemplateAttributes readonly={readyonly} routeKey={routeKey} />
         </Grid>
       </Grid>
     </>
