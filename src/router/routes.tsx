@@ -51,6 +51,7 @@ import {
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
+import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -487,6 +488,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
     path: '/erogazione/template/:eServiceTemplateId/:eServiceTemplateVersionId',
     element: <ProviderEServiceTemplateDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS',
+    path: 'fruizione/template/:eServiceTemplateId/:eServiceTemplateVersionId',
+    element: <ConsumerEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support'],
