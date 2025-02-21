@@ -12,7 +12,7 @@ import { TemplateTable, TemplateTableSkeleton } from './components'
 import { TemplateQueries } from '@/api/template'
 
 const ProviderEServiceTemplatesListPage: React.FC = () => {
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
@@ -40,7 +40,10 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   })
 
   return (
-    <PageContainer title={t('title')} topSideActions={isAdmin ? topSideActions : undefined}>
+    <PageContainer
+      title={t('title')}
+      topSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
+    >
       <Filters {...filtersHandlers} />
       <TemplateTableWrapper params={queryParams} />
       <Pagination {...paginationProps} totalPages={totalPageCount} />
