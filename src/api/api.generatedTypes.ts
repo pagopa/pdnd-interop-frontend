@@ -362,13 +362,13 @@ export interface ProducerEServiceDescriptor {
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: ProducerDescriptorEService
   attributes: DescriptorAttributes
-  rejectionReasons?: DescriptorRejectionReason[]
   /** @format date-time */
   publishedAt?: string
   /** @format date-time */
   deprecatedAt?: string
   /** @format date-time */
   archivedAt?: string
+  rejectionReasons?: DescriptorRejectionReason[]
 }
 
 export interface ProducerDescriptorEService {
@@ -763,8 +763,6 @@ export interface PurposeAdditionDetailsSeed {
 
 export type CompactUsers = CompactUser[]
 
-export type KeysSeed = KeySeed[]
-
 /** Models the seed for a public key to be persisted */
 export interface KeySeed {
   /** Base64 UTF-8 encoding of a public key in PEM format */
@@ -838,14 +836,8 @@ export interface ProducerKeychain {
   createdAt: string
   producer: CompactOrganization
   name: string
-  eservices: ProducerKeychainEService[]
+  eservices: CompactEService[]
   description: string
-}
-
-export interface ProducerKeychainEService {
-  /** @format uuid */
-  id: string
-  name: string
 }
 
 export interface EServiceAdditionDetailsSeed {
@@ -5191,12 +5183,12 @@ export namespace Clients {
   /**
    * @description Creates one or more keys for the corresponding client.
    * @tags clients
-   * @name CreateKeys
+   * @name CreateKey
    * @summary Create Keys for the specific clientId.
    * @request POST:/clients/{clientId}/keys
    * @secure
    */
-  export namespace CreateKeys {
+  export namespace CreateKey {
     export type RequestParams = {
       /**
        * ID of client that the added keys MUST belong to
@@ -5205,7 +5197,7 @@ export namespace Clients {
       clientId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = KeysSeed
+    export type RequestBody = KeySeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }

@@ -10,7 +10,7 @@ import type {
   EncodedClientKey,
   GetClientKeysParams,
   GetClientsParams,
-  KeysSeed,
+  KeySeed,
   PublicKey,
   PublicKeys,
 } from '../api.generatedTypes'
@@ -78,7 +78,7 @@ function deleteOne({ clientId }: { clientId: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}`)
 }
 
-async function postKey({ clientId, payload }: { clientId: string; payload: KeysSeed }) {
+async function postKey({ clientId, payload }: { clientId: string; payload: KeySeed }) {
   const response = await axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/keys`,
     payload
