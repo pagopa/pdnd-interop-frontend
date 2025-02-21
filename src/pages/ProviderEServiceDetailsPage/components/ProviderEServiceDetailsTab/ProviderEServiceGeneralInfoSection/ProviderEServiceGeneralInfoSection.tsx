@@ -11,7 +11,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
@@ -30,7 +30,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  const { isDelegator } = useGetDelegationUserRole({
+  const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId,
     organizationId: jwt?.organizationId,
   })

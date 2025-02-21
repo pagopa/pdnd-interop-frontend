@@ -9,12 +9,16 @@ import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsS
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { STAGE } from '@/config/env'
-import type { PagoPAEnvVars } from '@/types/common.types'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
+import { AuthHooks } from '@/api/auth'
+import { formatDateString } from '@/utils/format.utils'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
-  const signalHubFlagDisabledStage: PagoPAEnvVars['STAGE'][] = ['PROD', 'UAT']
-  const isSignalHubFlagDisabled = signalHubFlagDisabledStage.includes(STAGE) //check on the environment for signal hub flag
+  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
+  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
+    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
+    : true
+
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.technicalInformations',
   })
@@ -30,6 +34,40 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
         <SectionContainer innerSection>
           <Stack spacing={2}>
             <InformationContainer
+              label={t('eserviceId.label')}
+              content={eserviceId}
+              copyToClipboard={{
+                value: eserviceId,
+                tooltipTitle: t('eserviceId.copySuccessFeedbackText'),
+              }}
+            />
+            <InformationContainer
+              label={t('descriptorId.label')}
+              content={descriptor.id}
+              copyToClipboard={{
+                value: descriptor.id,
+                tooltipTitle: t('descriptorId.copySuccessFeedbackText'),
+              }}
+            />
+            {descriptor.publishedAt && (
+              <InformationContainer
+                label={t('publishedAt')}
+                content={formatDateString(descriptor.publishedAt)}
+              />
+            )}
+            {descriptor.deprecatedAt && (
+              <InformationContainer
+                label={t('deprecatedAt')}
+                content={formatDateString(descriptor.deprecatedAt)}
+              />
+            )}
+            {descriptor.archivedAt && (
+              <InformationContainer
+                label={t('archivedAt')}
+                content={formatDateString(descriptor.archivedAt)}
+              />
+            )}
+            <InformationContainer
               label={t('technology')}
               content={descriptor.eservice.technology}
             />
@@ -41,7 +79,7 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${descriptor.eservice.mode}`)}
             />
-            {!isSignalHubFlagDisabled && (
+            {isSignalHubFlagEnabled && (
               <InformationContainer
                 label={t('isSignalHubEnabled.label')}
                 content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}

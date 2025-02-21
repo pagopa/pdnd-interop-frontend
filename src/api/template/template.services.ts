@@ -1,13 +1,19 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
+  CreateEServiceDocumentPayload,
   DescriptorAttributesSeed,
+  EServiceRiskAnalysisSeed,
   EServiceTemplateDescriptionUpdateSeed,
   EServiceTemplateInstances,
   EServiceTemplateNameUpdateSeed,
+  EServiceTemplateSeed,
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
   ProducerEServiceTemplates,
+  UpdateEServiceDescriptorDocumentSeed,
+  UpdateEServiceTemplateSeed,
+  UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import { AttributeKey } from '@/types/attribute.types'
 
@@ -73,11 +79,10 @@ async function getProviderTemplatesList() {
 }
 
 async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string) {
-  // const response = await axiosInstance.get<EServiceTemplateVersionDetails>(
-  //   `http://localhost:8080/backend-for-frontend/0.0/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}`
-  // )
-
-  // console.log('response', response)
+  /*const response = await axiosInstance.get<GetEServiceTemplateVersion>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`
+  )
+  return response.data*/
   const response: EServiceTemplateVersionDetails = {
     id: '123e4567-e89b-12d3-a456-426614174000',
     version: 1,
@@ -334,8 +339,8 @@ async function updateVersionDraft({
   ...payload
 }: {
   eServiceTemplateId: string
-  descriptorId: string
-} & UpdateEServiceDescriptorSeed) {
+  eServiceTemplateVersionId: string
+} & UpdateEServiceTemplateVersionSeed) {
   /*const response = await axiosInstance.put<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`,
     payload
@@ -452,20 +457,6 @@ function reactivateVersion({
   return console.log('version activated')
 }
 
-async function cloneFromVersion({
-  eServiceTemplateId,
-  eServiceTemplateVersionId,
-}: {
-  eServiceTemplateId: string
-  eServiceTemplateVersionId: string
-}) {
-  /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/clone` //todo manca nell'srs
-  )
-  return response.data*/
-  return
-}
-
 async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
   /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances
@@ -525,6 +516,5 @@ export const TemplateServices = {
   deleteVersionDraft,
   suspendVersion,
   reactivateVersion,
-  cloneFromVersion,
   getProviderTemplateInstancesList,
 }

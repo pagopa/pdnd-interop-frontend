@@ -12,13 +12,14 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import UpdateIcon from '@mui/icons-material/Update'
 import { useQueryClient } from '@tanstack/react-query'
+import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 
 export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntry }> = ({
   agreement,
 }) => {
   const { t } = useTranslation('agreement', { keyPrefix: 'list' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isAdmin, jwt } = AuthHooks.useJwt()
   const queryClient = useQueryClient()
 
   const { actions } = useGetAgreementsActions(agreement)
@@ -36,10 +37,29 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
     queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
   }
 
+  const isDelegator = Boolean(
+    agreement.delegation && agreement.delegation?.delegator.id === jwt?.organizationId
+  )
+  const isDelegate = Boolean(
+    agreement.delegation && agreement.delegation?.delegate.id === jwt?.organizationId
+  )
+
+  const isDelegated = isDelegate || isDelegator
+
+  const eserviceCellData = (
+    <>
+      {t('eserviceName', {
+        name: eservice.name,
+        version: descriptor.version,
+      })}
+      {isDelegated && <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />}
+    </>
+  )
+
   return (
     <TableRow
       cellData={[
-        t('eserviceName', { name: eservice.name, version: descriptor.version }),
+        eserviceCellData,
         agreement.eservice.producer.name,
         <StatusChip key={agreement.id} for="agreement" agreement={agreement} />,
       ]}

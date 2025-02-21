@@ -47,6 +47,13 @@ const ConsumerAgreementCreateAgreementGeneralInformation: React.FC = () => {
         />
 
         <InformationContainer content={agreement?.producer.name} label={t('providerField.label')} />
+        <InformationContainer content={agreement?.consumer.name} label={t('consumerField.label')} />
+        {agreement.delegation && (
+          <InformationContainer
+            content={agreement?.delegation.delegate.name}
+            label={t('delegatedConsumerField.label')}
+          />
+        )}
       </Stack>
     </SectionContainer>
   )

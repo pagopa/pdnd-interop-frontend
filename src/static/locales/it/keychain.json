@@ -102,8 +102,8 @@
       "label": "Caricato da"
     },
     "keyIdField": {
-      "label": "Id della chiave (kid)",
-      "copySuccessFeedbackText": "Id copiato correttamente"
+      "label": "ID della chiave (kid)",
+      "copySuccessFeedbackText": "ID copiato correttamente"
     },
     "list": {
       "userEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente nella tab «Membri del portachiavi",

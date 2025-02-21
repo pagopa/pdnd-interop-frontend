@@ -25,5 +25,5 @@ function useDownloadTemplateConsumerList() {
 
 export const TemplateDownloads = {
   useDownloadVersionDocument,
-  useDownloadTemplateConsumerList
+  useDownloadTemplateConsumerList,
 }

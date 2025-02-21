@@ -1,6 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
+import { UpdateEServiceTemplateVersionSeed } from '../api.generatedTypes'
 
 //TODO SUCCESS/ERROR/LOADING TOAST LABEL
 
@@ -131,8 +132,9 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   return useMutation({
     mutationFn: (
       payload: {
-        eserviceTemplateId: string
-      } //& UpdateEServiceTemplateSeed TODO
+        eServiceTemplateId: string
+        eServiceTemplateVersionId: string
+      } & UpdateEServiceTemplateVersionSeed
     ) => TemplateServices.updateVersionDraft(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
@@ -297,23 +299,6 @@ function useReactivateVersion() {
   })
 }
 
-function useCloneFromVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.cloneFromVersion' })
-
-  return useMutation({
-    mutationFn: TemplateServices.cloneFromVersion,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
-    },
-  })
-}
-
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateAudienceDescription,
@@ -333,5 +318,4 @@ export const TemplateMutations = {
   useDeleteVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
-  useCloneFromVersion,
 }

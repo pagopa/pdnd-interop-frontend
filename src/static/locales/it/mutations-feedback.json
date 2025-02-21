@@ -275,7 +275,10 @@
       },
       "confirmDialog": {
         "title": "Conferma attributo dichiarato",
-        "description": "Dichiari sotto la tua responsabilità che il tuo ente possiede questo attributo?"
+        "description": {
+          "defualt": "Dichiari sotto la tua responsabilità che il tuo ente possiede questo attributo?",
+          "isDelegated": "Confermi per conto del delegante che <strong>{{delegatorName}}</strong> possiede l’attributo dichiarato richiesto?"
+        }
       }
     },
     "revokeDeclaredPartyAttribute": {
@@ -309,7 +312,10 @@
       },
       "confirmDialog": {
         "title": "Conferma inoltro richiesta",
-        "description": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione"
+        "description": {
+          "default": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione",
+          "isDelegated": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione e verrà inoltrata una notifica all’ente delegante per conoscenza."
+        }
       }
     },
     "submitToOwnEService": {
@@ -614,7 +620,7 @@
         "error": "Non è stato possibile aggiornare i contatti. Per favore, riprova!"
       }
     },
-    "updateProducerDelegationAvailability": {
+    "updateDelegationAvailability": {
       "loading": "Stiamo aggiornando la disponibilità",
       "outcome": {
         "success": "La disponibilità è stata aggiornata correttamente",
@@ -700,7 +706,7 @@
     }
   },
   "delegation": {
-    "createProducerDelegation": {
+    "createDelegation": {
       "loading": "Stiamo inoltrando la delega",
       "outcome": {
         "success": "La nuova delega è stata creata correttamente ed è stata inoltrata all’aderente per valutazione",
@@ -714,18 +720,25 @@
         "error": "Non è stato possibile attivare la delega. Per favore, riprova!"
       }
     },
-    "rejectProducerDelegation": {
+    "rejectDelegation": {
       "loading": "Stiamo rifiutando la delega",
       "outcome": {
         "success": "La delega è stata rifiutata correttamente.",
         "error": "Non è stato possibile rifiutare la delega. Per favore, riprova!"
       }
     },
-    "revokeProducerDelegation": {
+    "revokeDelegation": {
       "loading": "Stiamo revocando la delega",
       "outcome": {
         "success": "La delega è stata revocata correttamente.",
         "error": "Non è stato possibile revocare la delega. Per favore, riprova!"
+      }
+    },
+    "approveConsumerDelegation": {
+      "loading": "Stiamo attivando la delega",
+      "outcome": {
+        "success": "La delega è stata attivata correttamente. Da questo momento puoi gestire la fruizione dell’e-service in delega",
+        "error": "Non è stato possibile attivare la delega. Per favore, riprova!"
       }
     },
     "downloadDelegationContract": {

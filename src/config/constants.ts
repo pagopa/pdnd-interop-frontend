@@ -33,6 +33,8 @@ export const clientKeyGuideLink = `${documentationLink}/manuale-operativo/client
 export const generateKeyGuideLink = `${documentationLink}/manuale-operativo/generare-e-caricare-chiavi-di-sicurezza`
 export const payloadVerificationGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#verifiche-sul-payload`
 export const apiGuideLink = `${documentationLink}/manuale-operativo/api-esposte-da-pdnd-interoperabilita`
+export const delegationGuideLink = `${documentationLink}/manuale-operativo/deleghe`
+export const delegationEServiceGuideLink = `${documentationLink}/manuale-operativo/e-service#impostazioni-per-le-deleghe`
 export const openApiCheckerLink = 'https://italia.github.io/api-oas-checker/'
 export const eserviceNamingBestPracticeLink =
   'https://italia.github.io/pdnd-guida-nomenclatura-eservice/'

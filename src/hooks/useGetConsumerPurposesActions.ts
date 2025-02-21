@@ -34,7 +34,12 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
       purpose?.agreement.state === 'ARCHIVED' ||
       purpose?.eservice.descriptor.state === 'ARCHIVED')
 
-  if (!purpose || !isAdmin) return { actions: [] }
+  if (
+    !purpose ||
+    !isAdmin ||
+    (purpose.delegation && purpose.delegation.delegator.id === jwt?.organizationId)
+  )
+    return { actions: [] }
 
   function handleArchive() {
     if (!purpose) return

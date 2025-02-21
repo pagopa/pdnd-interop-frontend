@@ -20,10 +20,18 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { agreement } = useProviderAgreementDetailsContext()
   const downloadContract = AgreementDownloads.useDownloadContract()
 
+  const isDelegated = Boolean('delegation' in agreement)
+
   const {
     isOpen: isContactDrawerOpen,
     openDrawer: openContactDrawer,
     closeDrawer: closeContactDrawer,
+  } = useDrawerState()
+
+  const {
+    isOpen: isDelegatedContactDrawerOpen,
+    openDrawer: openDelegatedContactDrawer,
+    closeDrawer: closeDelegatedContactDrawer,
   } = useDrawerState()
 
   const [attributesDrawerData, setAttributesDrawerData] = React.useState<{
@@ -33,10 +41,6 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
     isOpen: false,
     attributeType: 'certified',
   })
-
-  const handleOpenContactDrawer = () => {
-    openContactDrawer()
-  }
 
   const handleOpenAttributesDrawer = (type: 'certified' | 'declared') => {
     setAttributesDrawerData({
@@ -92,7 +96,17 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
       label: t('consumerDetailsLink.label'),
       component: 'button',
       type: 'button',
-      onClick: handleOpenContactDrawer,
+      onClick: openContactDrawer,
+    })
+  }
+
+  if (isDelegated && agreement.delegation?.delegate.contactMail) {
+    actions.push({
+      startIcon: <ContactMailIcon fontSize="small" />,
+      label: t('delegatedConsumerDetailsLink.label'),
+      component: 'button',
+      type: 'button',
+      onClick: openDelegatedContactDrawer,
     })
   }
 
@@ -121,6 +135,12 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
             label={t('consumerField.label')}
             content={agreement.consumer.name}
           />
+          {isDelegated && (
+            <InformationContainer
+              label={t('delegatedConsumerField.label')}
+              content={agreement.delegation?.delegate.name ?? '-'}
+            />
+          )}
           {agreement.state === 'REJECTED' && agreement.rejectionReason && (
             <InformationContainer
               label={t('rejectionMessageField.label')}
@@ -135,6 +155,14 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
           isOpen={isContactDrawerOpen}
           onClose={closeContactDrawer}
           contact={agreement.consumer.contactMail}
+        />
+      )}
+      {agreement.delegation?.delegate.contactMail && (
+        <ProviderAgreementDetailsContactDrawer
+          isOpen={isDelegatedContactDrawerOpen}
+          onClose={closeDelegatedContactDrawer}
+          contact={agreement.delegation?.delegate.contactMail}
+          isDelegatedConsumer={true}
         />
       )}
       <ProviderAgreementDetailsAttributesDrawer

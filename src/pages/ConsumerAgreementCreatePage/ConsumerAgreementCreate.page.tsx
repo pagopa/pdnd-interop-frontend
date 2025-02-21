@@ -3,7 +3,7 @@ import { AgreementMutations, AgreementQueries } from '@/api/agreement'
 import { PageContainer } from '@/components/layout/containers'
 import { useNavigate, useParams } from '@/router'
 import { useTranslation, Trans } from 'react-i18next'
-import { Button, Stack, Tooltip, Alert, Link } from '@mui/material'
+import { Button, Stack, Tooltip, Alert, Link, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import MailIcon from '@mui/icons-material/Mail'
 import SaveIcon from '@mui/icons-material/Save'
@@ -15,23 +15,31 @@ import {
 import { useGetConsumerAgreementCreateAlertProps } from './hooks/useGetConsumerAgreementCreateAlertProps'
 import { isNewEServiceVersionAvailable } from '@/utils/agreement.utils'
 import { useQuery } from '@tanstack/react-query'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
   const { t: tCommon } = useTranslation('common')
   const navigate = useNavigate()
+  const { jwt } = AuthHooks.useJwt()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
   const { data: agreement } = useQuery(AgreementQueries.getSingle(agreementId))
 
+  const isDelegated = Boolean(agreement && agreement.delegation)
+
   const [consumerNotes, setConsumerNotes] = React.useState(agreement?.consumerNotes ?? '')
 
-  const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft()
+  const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft(isDelegated)
   const { mutate: updateAgreementDraft } = AgreementMutations.useUpdateDraft()
   const { mutate: deleteAgreementDraft } = AgreementMutations.useDeleteDraft()
 
   const { hasAllCertifiedAttributes, hasAllDeclaredAttributes } =
-    useDescriptorAttributesPartyOwnership(agreement?.eservice.id, agreement?.descriptorId)
+    useDescriptorAttributesPartyOwnership(
+      agreement?.eservice.id,
+      agreement?.descriptorId,
+      isDelegated ? agreement?.consumer.id : jwt?.organizationId
+    )
 
   const hasSetContactEmail = Boolean(agreement?.consumer.contactMail?.address)
   const isEServiceSuspended = agreement?.eservice.activeDescriptor?.state === 'SUSPENDED'
@@ -40,7 +48,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   const handleSubmitAgreementDraft = () => {
     submitAgreementDraft(
-      { agreementId, consumerNotes },
+      { agreementId, consumerNotes, delegatorName: agreement?.consumer.name },
       {
         onSuccess() {
           navigate('SUBSCRIBE_AGREEMENT_READ', {
@@ -128,6 +136,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
                   }}
                 />
               ),
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
           >
             {alertProps.content}
