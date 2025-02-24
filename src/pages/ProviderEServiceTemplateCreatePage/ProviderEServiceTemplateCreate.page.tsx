@@ -82,14 +82,14 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const { component: Step } = steps[activeStep]
 
   // If this e-service is not in draft, you cannot edit it
-  if (template && template.state !== 'DRAFT') {
+  /*if (template && template.state !== 'DRAFT') { TODO
     return (
       <Redirect
-        to="NOT_FOUND" //TODO pagina di dettaglio PROVIDE_ESERVICE_TEMPLATE_MANAGE
+        to="PROVIDE_ESERVICE_TEMPLATE_DETAILS" 
         //params={{ eServiceTemplateId: template.id, versionId: }}
       />
     )
-  }
+  }*/
 
   const isReady = Boolean(isNewEServiceTemplate || (!isLoadingTemplate && template))
 

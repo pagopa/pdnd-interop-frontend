@@ -40,7 +40,7 @@ const { useContext, Provider } = createContext<EServiceTemplateCreateContextType
 
 type EServiceTemplateCreateContextProviderProps = {
   children: React.ReactNode
-  template: EServiceTemplateVersionDetails | undefined //ProducerEServiceTemplate | undefined
+  template: EServiceTemplateVersionDetails | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -78,7 +78,7 @@ const EServiceTemplateCreateContextProvider: React.FC<
       // case 1: new e-service template
       !template ||
         // case 3: already existing service template and version, but version is 1 and still a draft
-        (template.version === 1 && template.state === 'DRAFT')
+        (template && template.version === 1 && template.state === 'DRAFT')
     )
 
     return {

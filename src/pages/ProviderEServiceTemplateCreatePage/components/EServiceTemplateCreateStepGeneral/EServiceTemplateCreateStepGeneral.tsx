@@ -60,6 +60,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
+    forward() //TODO DA TOGLIERE
     // If we are editing an existing e-service, we update the draft
     if (template) {
       //TODO CONTROLLA
@@ -73,19 +74,19 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
       return
     }
 
-    // If we are creating a new e-service, we create a new draft
-    /*createDraft(formValues, {
-      onSuccess({ id }) {
-        navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
-          //TODO
-          params: { templateId },
-          replace: true,
-          state: { stepIndexDestination: 1 },
-        })
-        forward()
-      },
-    })*/ //TODO
-    forward()
+    // If we are creating a new e-service, we create a new draft TODO DECOMMENTARE
+    // createDraft(formValues, {
+    //   onSuccess({eServiceTemplateId, eServiceTemplateVersionId}) {
+    //     navigate(
+    //       'PROVIDE_ESERVICE_TEMPLATE_EDIT' {
+    //       params: { eServiceTemplateId, eServiceTemplateVersionId },
+    //       replace: true,
+    //       state: { stepIndexDestination: 1 },
+    //     }
+    //     )
+    //     forward()
+    //   },
+    // })
   }
 
   return (

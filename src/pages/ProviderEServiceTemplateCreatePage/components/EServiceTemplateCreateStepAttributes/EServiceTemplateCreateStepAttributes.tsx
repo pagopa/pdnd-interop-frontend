@@ -51,8 +51,8 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: CreateStepAttributesFormValues) => {
-    forward() //TODO DA TOGLIERE
-    if (!template) return
+    if (!template) forward() //TODO DA TOGLIERE E DECOMMETARE RETURN
+    //return
 
     const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
       return attributes.filter((group) => group.length > 0)
