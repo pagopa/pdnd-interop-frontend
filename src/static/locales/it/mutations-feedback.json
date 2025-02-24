@@ -762,6 +762,17 @@
         "error": "A chi è rivolto il template dell'e-service non aggiornato. Riprovare.",
         "success": "A chi è rivolto il template dell'e-service aggiornato correttamente"
       }
+    },
+    "suspendVersion": {
+      "loading": "Stiamo sospendendo la versione del template e-service",
+      "outcome": {
+        "success": "La versione del template e-service è stata sospesa",
+        "error": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma sospensione template",
+        "description": "Cliccando \"conferma\" questa versione di template sarà sospesa. Nessun implementatore potrà accedere a questa versione finché non sarà riattivata."
+      }
     }
   }
 }

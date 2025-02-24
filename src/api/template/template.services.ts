@@ -431,6 +431,7 @@ function deleteVersionDraft({
   return console.log('deleted draft version')
 }
 
+
 function suspendVersion({
   eServiceTemplateId,
   eServiceTemplateVersionId,
@@ -438,9 +439,9 @@ function suspendVersion({
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
-  /*return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/${eServiceTemplateVersionId}/suspend`
-  )*/
+  return axiosInstance.post(
+    `http://localhost:8080/backend-for-frontend/0.0/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/suspend`
+  )
   return console.log('version suspended')
 }
 
