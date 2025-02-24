@@ -767,7 +767,7 @@
       "loading": "Stiamo sospendendo la versione del template e-service",
       "outcome": {
         "success": "La versione del template e-service è stata sospesa",
-        "error": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!"
+        "error": "Non è stato possibile sospendere questa versione del template e-service. Per favore, riprova!"
       },
       "confirmDialog": {
         "title": "Conferma sospensione template",
