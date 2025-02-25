@@ -55,6 +55,17 @@
         }
       }
     },
+    "stepPurpose": {
+      "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+      "purposeTableSection": {
+        "title": "Purpose",
+        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+        "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+        "purposeTable": {
+          "noDataLabel": "No added purpose"
+        }
+      }
+    },
     "step2": {
       "versionTitle": "Informations for version  {{versionNumber}}",
       "versionDescriptionField": {

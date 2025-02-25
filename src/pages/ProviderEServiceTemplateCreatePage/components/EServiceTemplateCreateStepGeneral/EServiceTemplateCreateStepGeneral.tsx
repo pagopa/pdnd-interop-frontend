@@ -6,7 +6,11 @@ import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
-import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
+import type {
+  EServiceMode,
+  EServiceTechnology,
+  VersionSeedForEServiceTemplateCreation,
+} from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -23,7 +27,8 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
   audienceDescription: string
   technology: EServiceTechnology
   mode: EServiceMode
-  isSignalHubEnabled: boolean
+  version: VersionSeedForEServiceTemplateCreation
+  isSignalHubEnabled?: boolean
 }
 
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
@@ -48,45 +53,52 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { mutate: updateDraft } = TemplateMutations.useUpdateDraft()
   const { mutate: createDraft } = TemplateMutations.useCreateDraft()
 
+  const defaultVersionValue = {
+    description: template?.description ?? '',
+    voucherLifespan: template?.voucherLifespan ?? 1,
+    dailyCallsPerConsumer: template?.dailyCallsPerConsumer,
+    dailyCallsTotal: template?.dailyCallsTotal,
+    agreementApprovalPolicy: template?.agreementApprovalPolicy,
+    attributes: template?.attributes,
+  }
+
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: template?.eserviceTemplate.name ?? '',
     eserviceDescription: template?.eserviceTemplate.eserviceDescription ?? '',
     audienceDescription: template?.eserviceTemplate.audienceDescription ?? '',
     technology: template?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
+    version: defaultVersionValue,
     isSignalHubEnabled: template?.eserviceTemplate.isSignalHubEnabled ?? false,
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
-    forward() //TODO DA TOGLIERE
+    forward() //TODO TOGLIERE
     // If we are editing an existing e-service, we update the draft
     if (template) {
-      //TODO CONTROLLA
       // If nothing has changed skip the update call
       const isEServiceTemplateTheSame = compareObjects(formValues, template.eserviceTemplate)
 
       if (!isEServiceTemplateTheSame)
-        updateDraft({ eserviceTemplateId: template.id, ...formValues }, { onSuccess: forward })
+        updateDraft({ eServiceTemplateId: template.id, ...formValues }, { onSuccess: forward })
       else forward()
 
       return
     }
 
-    // If we are creating a new e-service, we create a new draft TODO DECOMMENTARE
-    // createDraft(formValues, {
-    //   onSuccess({eServiceTemplateId, eServiceTemplateVersionId}) {
-    //     navigate(
-    //       'PROVIDE_ESERVICE_TEMPLATE_EDIT' {
-    //       params: { eServiceTemplateId, eServiceTemplateVersionId },
-    //       replace: true,
-    //       state: { stepIndexDestination: 1 },
-    //     }
-    //     )
-    //     forward()
-    //   },
-    // })
+    // If we are creating a new e-service, we create a new draft
+    createDraft(formValues, {
+      onSuccess({ eServiceTemplateId, eServiceTemplateVersionId }) {
+        navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
+          params: { eServiceTemplateId, eServiceTemplateVersionId },
+          replace: true,
+          state: { stepIndexDestination: 1 },
+        })
+        forward()
+      },
+    })
   }
 
   return (
