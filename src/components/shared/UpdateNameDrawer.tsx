@@ -1,5 +1,3 @@
-import type { ProducerDescriptorEService } from '@/api/api.generatedTypes'
-import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/material'
@@ -7,46 +5,53 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type UpdateEServiceNameFormValues = {
+type UpdateNameFormValues = {
   eserviceName: string
 }
 
-type ProviderEServiceUpdateNameDrawerProps = {
+type UpdateNameDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  eservice: ProducerDescriptorEService
+  id: string
+  name: string
+  title?: string
+  subtitle?: string
+  label?: string
+  infoLabel?: string
+  validateLabel?: string
+  onSubmit: (id: string, newName: string) => void
 }
 
-export const ProviderEServiceUpdateNameDrawer: React.FC<ProviderEServiceUpdateNameDrawerProps> = ({
+export const UpdateNameDrawer: React.FC<UpdateNameDrawerProps> = ({
   isOpen,
   onClose,
-  eservice,
+  id,
+  name,
+  title,
+  subtitle,
+  label,
+  infoLabel,
+  validateLabel,
+  onSubmit,
 }) => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.updateEServiceNameDrawer',
   })
+
   const { t: tCommon } = useTranslation('common')
 
-  const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
-
   const defaultValues = {
-    eserviceName: eservice.name,
+    eserviceName: name,
   }
 
-  const formMethods = useForm<UpdateEServiceNameFormValues>({ defaultValues })
+  const formMethods = useForm<UpdateNameFormValues>({ defaultValues })
 
   React.useEffect(() => {
-    formMethods.reset({ eserviceName: eservice.name })
-  }, [eservice.name, formMethods])
+    formMethods.reset({ eserviceName: name })
+  }, [name, formMethods])
 
-  const onSubmit = (values: UpdateEServiceNameFormValues) => {
-    updateEserviceName(
-      {
-        eserviceId: eservice.id,
-        name: values.eserviceName,
-      },
-      { onSuccess: onClose }
-    )
+  const handleSubmit = (values: UpdateNameFormValues) => {
+    onSubmit(id, values.eserviceName)
   }
 
   const handleCloseDrawer = () => {
@@ -63,10 +68,10 @@ export const ProviderEServiceUpdateNameDrawer: React.FC<ProviderEServiceUpdateNa
         isOpen={isOpen}
         onTransitionExited={handleTransitionExited}
         onClose={handleCloseDrawer}
-        title={t('title')}
-        subtitle={t('subtitle')}
+        title={title || t('title')}
+        subtitle={subtitle || t('subtitle')}
         buttonAction={{
-          action: formMethods.handleSubmit(onSubmit),
+          action: formMethods.handleSubmit(handleSubmit),
           label: tCommon('actions.upgrade'),
         }}
       >
@@ -75,8 +80,8 @@ export const ProviderEServiceUpdateNameDrawer: React.FC<ProviderEServiceUpdateNa
             sx={{ mt: 2, mb: 2 }}
             focusOnMount
             name="eserviceName"
-            label={t('eserviceNameField.label')}
-            infoLabel={t('eserviceNameField.infoLabel')}
+            label={label || t('eserviceNameField.label')}
+            infoLabel={infoLabel || t('eserviceNameField.infoLabel')}
             type="text"
             size="small"
             inputProps={{ maxLength: 60 }}
@@ -84,7 +89,7 @@ export const ProviderEServiceUpdateNameDrawer: React.FC<ProviderEServiceUpdateNa
               required: true,
               minLength: 5,
               validate: (value) =>
-                value !== eservice.name || t('eserviceNameField.validation.sameValue'),
+                value !== name || validateLabel || t('eserviceNameField.validation.sameValue'),
             }}
           />
         </Box>

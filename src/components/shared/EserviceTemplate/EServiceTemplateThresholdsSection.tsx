@@ -1,4 +1,3 @@
-import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,30 +7,31 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
-import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
-import { EServiceMutations } from '@/api/eservice'
+import { TemplateMutations } from '@/api/template'
 import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
+import type { EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
+import { useParams } from '@/router'
 
-type ProviderEServiceThresholdsSectionProps = {
-  descriptor: ProducerEServiceDescriptor
+type EServiceTemplateThresholdsSectionProps = {
+  readonly: boolean
+  template: EServiceTemplateVersionDetails
 }
-
-export const ProviderEServiceThresholdsSection: React.FC<
-  ProviderEServiceThresholdsSectionProps
-> = ({ descriptor }) => {
-  const { t } = useTranslation('eservice', {
+export const EServiceTemplateThresholdsSection: React.FC<
+  EServiceTemplateThresholdsSectionProps
+> = ({ template, readonly }) => {
+  const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
-
-  const { jwt } = AuthHooks.useJwt()
-
-  const { isDelegator } = useGetProducerDelegationUserRole({
-    eserviceId: descriptor.eservice.id,
-    organizationId: jwt?.organizationId,
+  const { t: tDrawer } = useTranslation('template', {
+    keyPrefix: 'read.drawers.updateEServiceTemplateThresholdsDrawer',
   })
 
-  const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
+  const { jwt } = AuthHooks.useJwt() //TODO
+
+  const voucherLifespan = secondsToMinutes(template.voucherLifespan)
+
+  const { eServiceTemplateVersionId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -39,19 +39,19 @@ export const ProviderEServiceThresholdsSection: React.FC<
     openDrawer()
   }
 
-  const { mutate: updateVersion } = EServiceMutations.useUpdateVersion()
+  const { mutate: updateEserviceTemplateQuotas } = TemplateMutations.useUpdateQuotas()
 
   const handleThresholdsUpdate = (
     id: string,
     voucherLifespan: number,
     dailyCallsPerConsumer: number,
     dailyCallsTotal: number,
-    descriptorId?: string
+    versionId?: string
   ) => {
-    updateVersion(
+    updateEserviceTemplateQuotas(
       {
-        eserviceId: id,
-        descriptorId: descriptorId!,
+        eServiceTemplateId: id,
+        eServiceTemplateVersionId: versionId!,
         voucherLifespan: voucherLifespan,
         dailyCallsPerConsumer: dailyCallsPerConsumer,
         dailyCallsTotal: dailyCallsTotal,
@@ -66,8 +66,8 @@ export const ProviderEServiceThresholdsSection: React.FC<
         innerSection
         title={t('thresholds.title')}
         topSideActions={
-          isDelegator
-            ? []
+          readonly
+            ? undefined
             : [
                 {
                   action: onEdit,
@@ -89,24 +89,31 @@ export const ProviderEServiceThresholdsSection: React.FC<
           <InformationContainer
             label={t('thresholds.dailyCallsPerConsumer.label')}
             labelDescription={t('thresholds.dailyCallsPerConsumer.labelDescription')}
-            content={`${formatThousands(descriptor.dailyCallsPerConsumer)}`}
+            content={
+              template.dailyCallsPerConsumer
+                ? `${formatThousands(template.dailyCallsPerConsumer)}`
+                : ''
+            }
           />
 
           <InformationContainer
             label={t('thresholds.dailyCallsTotal.label')}
             labelDescription={t('thresholds.dailyCallsTotal.labelDescription')}
-            content={`${formatThousands(descriptor.dailyCallsTotal)}`}
+            content={template.dailyCallsTotal ? `${formatThousands(template.dailyCallsTotal)}` : ''}
           />
         </Stack>
       </SectionContainer>
       <UpdateThresholdsDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        id={descriptor.eservice.id}
-        versionId={descriptor.id}
-        voucherLifespan={descriptor.voucherLifespan}
-        dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
-        dailyCallsTotal={descriptor.dailyCallsTotal}
+        id={template.id}
+        voucherLifespan={template.voucherLifespan}
+        dailyCallsPerConsumer={template.dailyCallsPerConsumer ?? 1} //TODO
+        dailyCallsTotal={template.dailyCallsTotal ?? 1}
+        versionId={eServiceTemplateVersionId}
+        subtitle={tDrawer('subtitle')}
+        dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerLabel')}
+        dailyCallsTotalLabel={tDrawer('dailyCallsTotalLabel')}
         onSubmit={handleThresholdsUpdate}
       />
     </>

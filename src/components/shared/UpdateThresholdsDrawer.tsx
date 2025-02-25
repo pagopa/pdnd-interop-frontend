@@ -1,5 +1,3 @@
-import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
-import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
@@ -14,49 +12,77 @@ type UpdateThresholdsFormValues = {
   dailyCallsTotal: number
 }
 
-type ProviderEServiceUpdateThresholdsDrawerProps = {
+type UpdateThresholdsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  descriptor: ProducerEServiceDescriptor
+  id: string
+  subtitle?: string
+  dailyCallsPerConsumerLabel?: string
+  dailyCallsTotalLabel?: string
+  voucherLifespan: number
+  dailyCallsPerConsumer: number
+  dailyCallsTotal: number
+  /** @description  This field is used to represent the version of specific item: it could be for an EService (descriptorId) or
+   *  for a EServiceTemplate (TemplateVersionId) */
+  versionId?: string
+  onSubmit: (
+    id: string,
+    voucherLifespan: number,
+    dailyCallsPerConsumer: number,
+    dailyCallsTotal: number,
+    versionId?: string
+  ) => void
 }
 
-export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
-  ProviderEServiceUpdateThresholdsDrawerProps
-> = ({ isOpen, onClose, descriptor }) => {
+export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
+  isOpen,
+  onClose,
+  id,
+  subtitle,
+  dailyCallsPerConsumerLabel,
+  dailyCallsTotalLabel,
+  voucherLifespan,
+  dailyCallsPerConsumer,
+  dailyCallsTotal,
+  versionId,
+  onSubmit,
+}) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.updateThresholdsDrawer' })
   const { t: tCommon } = useTranslation('common')
 
-  const { mutate: updateVersion } = EServiceMutations.useUpdateVersion()
-
   const defaultValues = {
-    voucherLifespan: descriptor.voucherLifespan ? secondsToMinutes(descriptor.voucherLifespan) : 1,
-    dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
-    dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
+    voucherLifespan: voucherLifespan ? secondsToMinutes(voucherLifespan) : 1,
+    dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
+    dailyCallsTotal: dailyCallsTotal ?? 1,
   }
 
   const formMethods = useForm<UpdateThresholdsFormValues>({ defaultValues })
 
   React.useEffect(() => {
     formMethods.reset({
-      voucherLifespan: descriptor.voucherLifespan
-        ? secondsToMinutes(descriptor.voucherLifespan)
-        : 1,
-      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
-      dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
+      voucherLifespan: voucherLifespan ? secondsToMinutes(voucherLifespan) : 1,
+      dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
+      dailyCallsTotal: dailyCallsTotal ?? 1,
     })
-  }, [descriptor, formMethods])
+  }, [versionId, id, formMethods])
 
-  const onSubmit = (values: UpdateThresholdsFormValues) => {
-    updateVersion(
-      {
-        eserviceId: descriptor.eservice.id,
-        descriptorId: descriptor.id,
-        voucherLifespan: minutesToSeconds(values.voucherLifespan),
-        dailyCallsPerConsumer: values.dailyCallsPerConsumer,
-        dailyCallsTotal: values.dailyCallsTotal,
-      },
-      { onSuccess: onClose }
-    )
+  const handleSubmit = (values: UpdateThresholdsFormValues) => {
+    if (versionId) {
+      onSubmit(
+        id,
+        minutesToSeconds(values.voucherLifespan),
+        values.dailyCallsPerConsumer,
+        values.dailyCallsTotal,
+        versionId
+      )
+    } else {
+      onSubmit(
+        id,
+        minutesToSeconds(values.voucherLifespan),
+        values.dailyCallsPerConsumer,
+        values.dailyCallsTotal
+      )
+    }
   }
 
   const handleCloseDrawer = () => {
@@ -73,10 +99,10 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
         isOpen={isOpen}
         onClose={handleCloseDrawer}
         title={t('title')}
-        subtitle={t('subtitle')}
+        subtitle={subtitle || t('subtitle')}
         buttonAction={{
           label: tCommon('actions.upgrade'),
-          action: formMethods.handleSubmit(onSubmit),
+          action: formMethods.handleSubmit(handleSubmit),
         }}
         onTransitionExited={handleTransitionExited}
       >
@@ -97,7 +123,7 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
             <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               name="dailyCallsPerConsumer"
-              label={t('dailyCallsPerConsumerField.label')}
+              label={dailyCallsPerConsumerLabel || t('dailyCallsPerConsumerField.label')}
               infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
               type="number"
               rules={{
@@ -108,7 +134,7 @@ export const ProviderEServiceUpdateThresholdsDrawer: React.FC<
             <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               name="dailyCallsTotal"
-              label={t('dailyCallsTotalField.label')}
+              label={dailyCallsTotalLabel || t('dailyCallsTotalField.label')}
               infoLabel={t('dailyCallsTotalField.infoLabel')}
               type="number"
               rules={{

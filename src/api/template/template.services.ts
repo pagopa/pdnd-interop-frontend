@@ -1,13 +1,19 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
+  CreatedEServiceDescriptor,
+  CreateEServiceDocumentPayload,
   DescriptorAttributesSeed,
+  EServiceRiskAnalysisSeed,
   EServiceTemplateDescriptionUpdateSeed,
   EServiceTemplateInstances,
   EServiceTemplateNameUpdateSeed,
+  EServiceTemplateSeed,
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
   ProducerEServiceTemplates,
+  UpdateEServiceDescriptorDocumentSeed,
+  UpdateEServiceTemplateSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import { AttributeKey } from '@/types/attribute.types'
@@ -178,7 +184,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
     },
   }
 
-  return response
+  return response;
 }
 
 async function updateEServiceTemplateName({
@@ -296,6 +302,14 @@ async function downloadVersionDraftDocument({
   )
   return response.data*/
   return console.log('downloaded file')
+}
+
+async function downloadConsumerList({ eServiceTemplateId }: { eServiceTemplateId: string }) {
+  const response = await axiosInstance.get<File>(
+    `http://localhost:8080/eservices/templates/${eServiceTemplateId}/instances`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
 }
 
 async function createDraft(payload: EServiceTemplateSeed) {
@@ -480,6 +494,24 @@ async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
   return response
 }
 
+async function createInstanceFromEServiceTemplate({
+  eServiceTemplateId,
+}: {
+  eServiceTemplateId: string
+}) {
+  /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instance
+  )
+  return response.data*/
+
+  const response: CreatedEServiceDescriptor = {
+    id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+    descriptorId: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+  }
+
+  return response
+}
+
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
@@ -491,6 +523,7 @@ export const TemplateServices = {
   deleteVersionDraftDocument,
   updateVersionDraftDocumentDescription,
   downloadVersionDraftDocument,
+  downloadConsumerList,
   createDraft,
   updateDraft,
   updateVersionDraft,
@@ -503,4 +536,5 @@ export const TemplateServices = {
   suspendVersion,
   reactivateVersion,
   getProviderTemplateInstancesList,
+  createInstanceFromEServiceTemplate,
 }

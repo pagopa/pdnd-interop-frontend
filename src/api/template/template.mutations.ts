@@ -48,9 +48,11 @@ function useUpdateEServiceTemplateDescription() {
 }
 
 function useUpdateQuotas() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateVersion',
+  })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateQuotas, //TODO
+    mutationFn: TemplateServices.updateEServiceTemplateQuotas,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -297,6 +299,17 @@ function useReactivateVersion() {
   })
 }
 
+function useCreateInstanceFromEServiceTemplate() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
+  return useMutation({
+    mutationFn: TemplateServices.createInstanceFromEServiceTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateAudienceDescription,
@@ -316,4 +329,5 @@ export const TemplateMutations = {
   useDeleteVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
+  useCreateInstanceFromEServiceTemplate,
 }
