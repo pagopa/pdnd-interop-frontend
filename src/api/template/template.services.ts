@@ -11,14 +11,14 @@ import {
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
   GetEServiceTemplatesCatalogParams,
+  GetProducerEServices2Params,
   ProducerEServiceTemplates,
   UpdateEServiceTemplateSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import { AttributeKey } from '@/types/attribute.types'
 
-async function getProviderTemplatesList() {
-  //TODO params: GetProducerTemplatesParams
+async function getProviderTemplatesList(params: GetProducerEServices2Params) {
   /*const response = await axiosInstance.get<EServiceTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates`,
     { params }
