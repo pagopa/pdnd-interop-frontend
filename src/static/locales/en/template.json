@@ -139,5 +139,10 @@
   },
   "actions":{
     "createNewEServiceInstance": "Use template"
+  },
+  "createInstance": {
+    "title": "Create e-service from template",
+    "templateDescriptionLink": "Instance of <1>{{templateName}}</1>"
+
   }
 }

@@ -1,8 +1,9 @@
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
+import { Link } from '@mui/material'
 import { TemplateQueries } from '@/api/template'
 import { StepperStep } from '@/types/common.types'
 import {
@@ -28,8 +29,11 @@ import {
 import { PageContainer } from '@/components/layout/containers'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from '../ProviderEServiceCreatePage/components/EServiceCreateContext'
+import { attributesHelpLink } from '@/config/constants'
+
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
+  const { t: tTemplate } = useTranslation('template')
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
   const { activeStep, ...stepProps } = useActiveStep()
 
@@ -70,9 +74,19 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           <EServiceCreateStepAttributesSkeleton key={4} />,
           <EServiceCreateStepDocumentsSkeleton key={5} />,
         ]
+
   return (
     <PageContainer
-      title="TO ADD"
+      title={tTemplate('createInstance.title')}
+      description={
+        <Trans
+          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+        >
+          {tTemplate('createInstance.templateDescriptionLink', {
+            templateName: template?.name,
+          })}
+        </Trans>
+      }
       backToAction={{
         label: t('backToListBtn'),
         to: 'PROVIDE_ESERVICE_LIST',
@@ -80,7 +94,11 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
       isLoading={false}
     >
       <Stepper steps={steps} activeIndex={activeStep} />
-      <div>test</div>
+      <Trans
+        components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+      >
+        {t('create.emptyTitle')}
+      </Trans>
       {/* <EServiceCreateContextProvider
         descriptor={descriptor}
         eserviceMode={eserviceMode}

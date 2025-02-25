@@ -524,14 +524,14 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
     id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     creator: {
       id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      name: 'string',
+      name: 'Template di prova',
       kind: 'PA',
       contactMail: {
         address: 'string',
         description: 'string',
       },
     },
-    name: 'string',
+    name: 'Template di prova',
     audienceDescription: 'string',
     eserviceDescription: 'string',
     technology: 'REST',
