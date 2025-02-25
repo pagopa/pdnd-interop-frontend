@@ -50,11 +50,11 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
           label: t('create.goToSummary'),
           type: 'button',
           onClick: () => {
-            //if (!template) return TODO DECOMMENTARE
+            if (!template) return
             navigate('PROVIDE_ESERVICE_TEMPLATE_SUMMARY', {
               params: {
-                eServiceTemplateId: '1', //template.eserviceTemplate.id, TODO
-                eServiceTemplateVersionId: '1', // template.id,  TODO
+                eServiceTemplateId: template.id,
+                eServiceTemplateVersionId: template.eserviceTemplate.id,
               },
             })
           },

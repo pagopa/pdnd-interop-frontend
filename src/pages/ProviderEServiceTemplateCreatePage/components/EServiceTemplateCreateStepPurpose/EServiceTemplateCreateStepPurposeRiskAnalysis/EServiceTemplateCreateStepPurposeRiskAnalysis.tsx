@@ -9,13 +9,8 @@ import {
 } from '@/components/shared/CreateStepPurposeRiskAnalysisForm'
 
 export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
-  const {
-    riskAnalysisFormState,
-    closeRiskAnalysisForm,
-    template: TodoDaTogliere,
-  } = useEServiceTemplateCreateContext()
-
-  const { data: template } = useQuery(TemplateQueries.getSingle('1', '1')) //TODO DA TOGLIERE
+  const { riskAnalysisFormState, closeRiskAnalysisForm, template } =
+    useEServiceTemplateCreateContext()
 
   const { mutate: addEServiceTemplateRiskAnalysis } = TemplateMutations.useAddTemplateRiskAnalysis()
   const { mutate: updateEServiceTemplateRiskAnalysis } =
@@ -23,7 +18,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
 
   const { data: riskAnalysisLatest } = useQuery(
     PurposeQueries.getRiskAnalysisLatest({
-      tenantKind: template?.eserviceTemplate.creator.kind, //TODO CONTROLLARE
+      tenantKind: template?.eserviceTemplate.creator.kind,
     })
   )
 

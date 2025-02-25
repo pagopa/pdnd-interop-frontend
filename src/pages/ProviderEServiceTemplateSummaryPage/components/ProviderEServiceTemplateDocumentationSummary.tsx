@@ -31,8 +31,8 @@ export const ProviderEServiceTemplateDocumentationSummary: React.FC = () => {
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
-        templateId: template.eserviceTemplate.id,
-        //versionId: template.id //TODO
+        eServiceTemplateId: template.eserviceTemplate.id,
+        eServiceTemplateVersionId: template.id,
         documentId: document.id,
       },
       getDownloadDocumentName(document)

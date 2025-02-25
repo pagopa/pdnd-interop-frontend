@@ -4,7 +4,7 @@ import noop from 'lodash/noop'
 import type { EServiceMode, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 
 type EServiceTemplateCreateContextType = {
-  template: EServiceTemplateVersionDetails | undefined //TODO
+  template: EServiceTemplateVersionDetails | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -74,7 +74,6 @@ const EServiceTemplateCreateContextProvider: React.FC<
 
   const providerValue = React.useMemo(() => {
     const areEServiceTemplateGeneralInfoEditable = Boolean(
-      //TODO CONTROLLARE CHECK
       // case 1: new e-service template
       !template ||
         // case 3: already existing service template and version, but version is 1 and still a draft

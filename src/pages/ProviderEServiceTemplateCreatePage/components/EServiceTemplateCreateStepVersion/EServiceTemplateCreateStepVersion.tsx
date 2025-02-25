@@ -48,7 +48,6 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
-    forward() //TODO DA TOGLIERE
     if (!template) return
 
     const newTemplateData = {
@@ -74,7 +73,6 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     }
 
     updateVersionDraft(
-      //TODO CONTROLLARE PAYLOAD
       {
         ...payload,
         eServiceTemplateId: template.eserviceTemplate.id,

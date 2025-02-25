@@ -7,8 +7,7 @@ import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateCon
 import { TemplateMutations } from '@/api/template'
 
 export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () => {
-  const { t } = useTranslation('eservice', {
-    //TODO
+  const { t } = useTranslation('template', {
     keyPrefix: 'create.stepPurpose.purposeTableSection.purposeTable',
   })
   const { t: tCommon } = useTranslation('common')

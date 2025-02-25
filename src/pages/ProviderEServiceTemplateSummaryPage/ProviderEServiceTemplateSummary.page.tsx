@@ -37,7 +37,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
 
     deleteVersion(
       { eServiceTemplateId, eServiceTemplateVersionId },
-      { onSuccess: () => navigate('PROVIDE_ESERVICE_LIST') } //TODO 'PROVIDE_ESERVICE_TEMPLATE_LIST'
+      { onSuccess: () => navigate('PROVIDE_ESERVICE_TEMPLATE_LIST') }
     )
   }
 
@@ -63,12 +63,12 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       {
         onSuccess: () =>
           navigate(
-            'NOT_FOUND' /*{ //TODO PROVIDE_ESERVICE_TEMPLATE_DETAILS
+            ' PROVIDE_ESERVICE_TEMPLATE_DETAILS' { 
             params: {
                 eServiceTemplateId: eServiceTemplateId,
                 eServiceTemplateVersionId: eServiceTemplateVersionId,
             },
-          }*/
+          }
           ),
       }
     )
