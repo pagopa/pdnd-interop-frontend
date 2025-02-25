@@ -3,13 +3,16 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import {
   CatalogEServiceTemplates,
   DescriptorAttributesSeed,
+  EServiceRiskAnalysisSeed,
   EServiceTemplateDescriptionUpdateSeed,
   EServiceTemplateInstances,
   EServiceTemplateNameUpdateSeed,
+  EServiceTemplateSeed,
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
   GetEServiceTemplatesCatalogParams,
   ProducerEServiceTemplates,
+  UpdateEServiceTemplateSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import { AttributeKey } from '@/types/attribute.types'
@@ -238,7 +241,7 @@ async function updateEServiceTemplateQuotas({
 }
 
 async function postVersionDraftDocument({
-  templateId,
+  eServiceTemplateId,
   ...payload
 }: {
   eserviceId: string
@@ -257,10 +260,12 @@ async function postVersionDraftDocument({
 }
 
 function deleteVersionDraftDocument({
-  templateId,
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
   documentId,
 }: {
-  templateId: string
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
   documentId: string
 }) {
   /* return axiosInstance.delete(
@@ -270,11 +275,13 @@ function deleteVersionDraftDocument({
 }
 
 async function updateVersionDraftDocumentDescription({
-  templateId,
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
   documentId,
   ...payload
 }: {
-  templateId: string
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
   documentId: string
 } & UpdateEServiceDescriptorDocumentSeed) {
   /*const response = await axiosInstance.post<EServiceDoc>(
@@ -286,10 +293,12 @@ async function updateVersionDraftDocumentDescription({
 }
 
 async function downloadVersionDraftDocument({
-  templateId,
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
   documentId,
 }: {
-  templateId: string
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
   documentId: string
 }) {
   /*const response = await axiosInstance.get<File>(
@@ -313,7 +322,7 @@ async function updateDraft({
   eServiceTemplateId,
   ...payload
 }: {
-  eserviceTemplateId: string
+  eServiceTemplateId: string
 } & UpdateEServiceTemplateSeed) {
   /*const response = await axiosInstance.put<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}`,
@@ -325,6 +334,7 @@ async function updateDraft({
 
 async function updateVersionDraft({
   eServiceTemplateId,
+  eServiceTemplateVersionId,
   ...payload
 }: {
   eServiceTemplateId: string
