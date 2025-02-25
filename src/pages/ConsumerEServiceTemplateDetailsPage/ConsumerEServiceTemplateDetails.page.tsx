@@ -3,10 +3,9 @@ import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { useActiveTab } from '@/hooks/useActiveTab'
 import { TemplateQueries } from '@/api/template'
-import { ProviderEServiceTemplateDetailsTab } from '../ProviderEServiceTemplateDetailsPage/components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateDetailsTab'
 import { ConsumerEServiceTemplateDetails } from './components'
+import { useGetConsumerEServiceTemplateActions } from './hooks/useGetConsumerEServiceTemplateActions'
 
 const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'read' })
@@ -17,10 +16,16 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
+  const { actions } = useGetConsumerEServiceTemplateActions(
+    eServiceTemplateId,
+    eServiceTemplateVersionId,
+    template?.state
+  )
   return (
     <PageContainer
       title={template?.eserviceTemplate.name || ''}
       isLoading={!template}
+      topSideActions={actions}
       statusChip={
         //TODO è la chip per template è già implementata nel branch pin-6016
         template

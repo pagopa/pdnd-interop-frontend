@@ -136,5 +136,8 @@
         }
       }
     }
+  },
+  "actions":{
+    "createNewEServiceInstance": "Usa template"
   }
 }

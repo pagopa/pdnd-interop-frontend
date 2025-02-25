@@ -362,6 +362,12 @@ export interface ProducerEServiceDescriptor {
   agreementApprovalPolicy: AgreementApprovalPolicy
   eservice: ProducerDescriptorEService
   attributes: DescriptorAttributes
+  /** @format date-time */
+  publishedAt?: string
+  /** @format date-time */
+  deprecatedAt?: string
+  /** @format date-time */
+  archivedAt?: string
   rejectionReasons?: DescriptorRejectionReason[]
 }
 
@@ -1219,6 +1225,7 @@ export interface Tenant {
   id: string
   /** @format uuid */
   selfcareId?: string
+  kind?: TenantKind
   externalId: ExternalId
   features: TenantFeature[]
   /** @format date-time */
@@ -1588,6 +1595,8 @@ export interface UpdateEServiceTemplateSeed {
   isSignalHubEnabled?: boolean
 }
 
+export type EService = object
+
 export interface EServiceTemplate {
   /** @format uuid */
   id: string
@@ -1666,6 +1675,14 @@ export interface EServiceTemplateSeed {
   mode: EServiceMode
   version: VersionSeedForEServiceTemplateCreation
   isSignalHubEnabled?: boolean
+}
+
+export interface InstanceEServiceSeed {
+  /**
+   * Optional identifier to be appended to the template name
+   * @format uuid
+   */
+  instanceId?: string
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
@@ -4071,6 +4088,29 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
+   * @name CreateEServiceInstanceFromTemplate
+   * @summary Create a new e-service instance from a template
+   * @request POST:/eservices/templates/{templateId}/instance
+   * @secure
+   */
+  export namespace CreateEServiceInstanceFromTemplate {
+    export type RequestParams = {
+      /**
+       * The template id to create the e-service from
+       * @format uuid
+       */
+      templateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = InstanceEServiceSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = EService
+  }
+  /**
+   * No description
+   * @tags eservices
    * @name GetEServiceConsumers
    * @summary Retrieve Consumers for an EService
    * @request GET:/eservices/{eServiceId}/consumers
@@ -4780,6 +4820,34 @@ export namespace Eservices {
    * @secure
    */
   export namespace SuspendEServiceTemplateVersion {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the eservice template version id
+       * @format uuid
+       */
+      eServiceTemplateVersionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name PublishEServiceTemplateVersion
+   * @summary Publish the selected eservice template version.
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/publish
+   * @secure
+   */
+  export namespace PublishEServiceTemplateVersion {
     export type RequestParams = {
       /**
        * the eservice template id
