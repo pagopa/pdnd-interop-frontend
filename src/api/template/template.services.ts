@@ -6,6 +6,7 @@ import {
   DescriptorAttributesSeed,
   EServiceRiskAnalysisSeed,
   EServiceTemplateDescriptionUpdateSeed,
+  EServiceTemplateDetails,
   EServiceTemplateInstances,
   EServiceTemplateNameUpdateSeed,
   EServiceTemplateSeed,
@@ -184,7 +185,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
     },
   }
 
-  return response;
+  return response
 }
 
 async function updateEServiceTemplateName({
@@ -512,6 +513,54 @@ async function createInstanceFromEServiceTemplate({
   return response
 }
 
+async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
+  // const response = await axiosInstance.get<EServiceTemplateDetails>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}`
+  // )
+
+  // return response;
+
+  const response: EServiceTemplateDetails = {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    creator: {
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      name: 'string',
+      kind: 'PA',
+      contactMail: {
+        address: 'string',
+        description: 'string',
+      },
+    },
+    name: 'string',
+    audienceDescription: 'string',
+    eserviceDescription: 'string',
+    technology: 'REST',
+    versions: [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        version: 0,
+        state: 'DRAFT',
+      },
+    ],
+    riskAnalysis: [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        name: 'string',
+        riskAnalysisForm: {
+          version: 'string',
+          answers: {},
+          riskAnalysisId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        },
+        createdAt: '2025-02-25T11:38:40.778Z',
+      },
+    ],
+    mode: 'RECEIVE',
+    isSignalHubEnabled: true,
+  }
+
+  return response
+}
+
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
@@ -537,4 +586,5 @@ export const TemplateServices = {
   reactivateVersion,
   getProviderTemplateInstancesList,
   createInstanceFromEServiceTemplate,
+  getSingleByEServiceTemplateId,
 }
