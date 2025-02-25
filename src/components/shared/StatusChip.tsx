@@ -11,6 +11,7 @@ import type {
   AgreementState,
   DelegationState,
   EServiceDescriptorState,
+  EServiceTemplateVersionState,
   Purpose,
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
@@ -50,8 +51,7 @@ const CHIP_COLORS_DELEGATION: Record<DelegationState, MUIColor> = {
   WAITING_FOR_APPROVAL: 'warning',
 }
 
-const CHIP_COLORS_E_SERVICE_TEMPLATE: Record<string, MUIColor> = {
-  //TODO EServiceTemplateDescriptorState
+const CHIP_COLORS_E_SERVICE_TEMPLATE: Record<EServiceTemplateVersionState, MUIColor> = {
   PUBLISHED: 'success',
   DRAFT: 'info',
   SUSPENDED: 'error',
@@ -86,8 +86,8 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
         state: DelegationState
       }
     | {
-        for: 'template' //TODO
-        state: string
+        for: 'template'
+        state: EServiceTemplateVersionState
       }
   )
 

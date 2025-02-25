@@ -1,12 +1,10 @@
 import React from 'react'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { Box, Skeleton, Stack, Typography } from '@mui/material'
+import { Box, Skeleton, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@/router'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-//import { TemplateQueries } from '@/api/template'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
-//import { useGetProviderTemplateActions } from '@/hooks/useGetProviderTemplateActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { AuthHooks } from '@/api/auth'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -31,7 +29,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
   )
 
   const { actions } = useGetProviderEServiceTemplateActions(
-    eserviceTemplate?.eserviceTemplate.id as string, //TODO
+    eserviceTemplate?.eserviceTemplate.id as string,
     eserviceTemplate?.id as string,
     eserviceTemplate?.eserviceTemplate.mode,
     template.activeVersion?.state,
@@ -44,13 +42,13 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
     )
   }
 
-  const isTemplateDraft = template.activeVersion?.state === 'DRAFT' ? true : false
+  const isTemplateDraft = eserviceTemplate?.state === 'DRAFT'
 
   return (
     <TableRow
       cellData={[
         template.name,
-        template.activeVersion?.version.toString() || '1', //TODO
+        eserviceTemplate?.version.toString() || '1',
         <Stack key={template.id} direction="row" spacing={1}>
           {template.activeVersion && (
             <StatusChip for="template" state={template.activeVersion.state} />
@@ -67,7 +65,15 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        to={isTemplateDraft ? 'NOT_FOUND' : 'NOT_FOUND'} //TODO SUMMARY TEMPLATE : DETTAGLIO TEMPLATE CON I RELATIVI PARAMS
+        to={
+          isTemplateDraft
+            ? 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'
+            : 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
+        }
+        params={{
+          eServiceTemplateId: eserviceTemplate?.id ?? '',
+          eServiceTemplateVersionId: eserviceTemplate?.eserviceTemplate.id ?? '',
+        }}
       >
         {isTemplateDraft ? t('manageDraft') : t('inspect')}
       </Link>

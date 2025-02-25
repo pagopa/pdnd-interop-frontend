@@ -6,7 +6,7 @@ import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
-import { GetProducerEServicesParams } from '@/api/api.generatedTypes' //TODO change with the correct import
+import { GetProducerEServices2Params } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { TemplateTable, TemplateTableSkeleton } from './components'
 import { TemplateQueries } from '@/api/template'
@@ -20,7 +20,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
 
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('NOT_FOUND'), //navigate('PROVIDE_TEMPLATE_CREATE'), //TODO CREATE TEMPLATE
+      action: () => navigate('PROVIDE_TEMPLATE_CREATE'),
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
@@ -28,13 +28,13 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   ]
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetProducerEServicesParams, 'limit' | 'offset'> //TODO GetProducerTemplatesParams (?)
+    Omit<GetProducerEServices2Params, 'limit' | 'offset'>
   >([{ name: 'q', label: tTemplate('nameField.label'), type: 'freetext' }])
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
   const { data: totalPageCount = 0 } = useQuery({
-    ...TemplateQueries.getProviderTemplatesList(), //TODO PARAMS
+    ...TemplateQueries.getProviderTemplatesList(queryParams),
     placeholderData: keepPreviousData,
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
@@ -51,9 +51,8 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   )
 }
 
-const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = ({ params }) => {
-  //TODO sostituire params
-  const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesList()) //TODO PARAM
+const TemplateTableWrapper: React.FC<{ params: GetProducerEServices2Params }> = ({ params }) => {
+  const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesList(params))
 
   if (!data && isFetching) return <TemplateTableSkeleton />
   return <TemplateTable templates={data!.results} /> //TODO !
