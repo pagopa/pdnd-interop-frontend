@@ -333,6 +333,7 @@ export interface EServiceRiskAnalysis {
 export interface ProducerEServiceDescriptor {
   /** @format uuid */
   id: string
+  templateVersionId: string;
   version: string
   description?: string
   interface?: EServiceDoc
@@ -374,6 +375,7 @@ export interface ProducerEServiceDescriptor {
 export interface ProducerDescriptorEService {
   /** @format uuid */
   id: string
+  templateId: string
   name: string
   description: string
   producer: ProducerDescriptorEServiceProducer
@@ -1181,17 +1183,17 @@ export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER' | 
 
 export type TenantFeature =
   | {
-      /** Certifier Tenant Feature */
-      certifier?: Certifier
-    }
+    /** Certifier Tenant Feature */
+    certifier?: Certifier
+  }
   | {
-      /** Delegated producer Tenant Feature */
-      delegatedProducer?: DelegatedProducer
-    }
+    /** Delegated producer Tenant Feature */
+    delegatedProducer?: DelegatedProducer
+  }
   | {
-      /** Delegated consumer Tenant Feature */
-      delegatedConsumer?: DelegatedConsumer
-    }
+    /** Delegated consumer Tenant Feature */
+    delegatedConsumer?: DelegatedConsumer
+  }
 
 /** Certifier Tenant Feature */
 export interface Certifier {

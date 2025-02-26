@@ -57,6 +57,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const descriptor: ProducerEServiceDescriptor | undefined = eserviceId
     ? {
         id: '162171d0-b3fc-4698-a98f-63b4f016db69',
+        templateVersionId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         version: '1',
         description: 'sdfdsfssdfdsf',
         docs: [],
@@ -68,6 +69,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
         agreementApprovalPolicy: 'AUTOMATIC',
         eservice: {
           id: 'fc60ac59-e989-46db-96f6-367c20bce324',
+          templateId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           name: 'dssdsdfds',
           description: 'ddssdfdssdfdsd',
           producer: {
