@@ -335,6 +335,7 @@ export interface ProducerEServiceDescriptor {
   id: string
   templateVersionId: string;
   version: string
+  instanceId: string
   description?: string
   interface?: EServiceDoc
   docs: EServiceDoc[]

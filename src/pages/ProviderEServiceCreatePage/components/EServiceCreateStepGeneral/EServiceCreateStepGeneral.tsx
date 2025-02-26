@@ -54,7 +54,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const navigate = useNavigate()
 
   const { eServiceTemplateId } = useParams<
-    'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_TEMPLATE_EDIT'
+    'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT'
   >()
 
   const {
@@ -116,7 +116,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const onCreateDraft = (
     formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed
   ) => {
-    console.log('formValues', formValues)
     // If we are creating a new e-service we need to understand if we are creating it from a template or not
     if (!isEServiceFromTemplate) {
       createDraft(formValues, {
