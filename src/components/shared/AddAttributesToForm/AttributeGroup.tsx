@@ -5,10 +5,10 @@ import { Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import { AttributeAutocomplete } from '../../../../../components/shared/AttributeAutocomplete'
+import { AttributeAutocomplete } from '../AttributeAutocomplete'
 import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
-import type { EServiceCreateStepAttributesFormValues } from '../EServiceCreateStepAttributes'
+import { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 
 export type AttributeGroupProps = {
   group: Array<DescriptorAttribute>
@@ -38,7 +38,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     onRemoveAttributeFromGroup(attributeId, groupIndex)
   }
 
-  const { watch, setValue } = useFormContext<EServiceCreateStepAttributesFormValues>()
+  const { watch, setValue } = useFormContext<CreateStepAttributesFormValues>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
   const handleAddAttributeToGroup = (attribute: DescriptorAttribute) => {
