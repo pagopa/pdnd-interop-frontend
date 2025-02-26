@@ -56,22 +56,28 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
 
   const descriptor: ProducerEServiceDescriptor | undefined = eserviceId
     ? {
-        id: '162171d0-b3fc-4698-a98f-63b4f016db69',
-        templateVersionId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-        version: '1',
-        description: 'sdfdsfssdfdsf',
+        id: '69159c90-7be3-4e6c-8729-ca279dc7fad1',
+        templateVersionId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
+        version: '2',
+        description: 'questa versione è nuova',
+        interface: {
+          id: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
+          name: 'push-signals_1.2.0_.yaml',
+          contentType: 'application/x-yaml',
+          prettyName: 'Specifica API',
+        },
         docs: [],
-        state: 'DRAFT',
-        audience: ['dsfdsf'],
+        state: 'PUBLISHED',
+        audience: ['audience.test'],
         voucherLifespan: 60,
         dailyCallsPerConsumer: 1,
         dailyCallsTotal: 1,
         agreementApprovalPolicy: 'AUTOMATIC',
         eservice: {
-          id: 'fc60ac59-e989-46db-96f6-367c20bce324',
-          templateId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          name: 'dssdsdfds',
-          description: 'ddssdfdssdfdsd',
+          id: 'dcca5968-d3b3-4255-9087-31d915847c0a',
+          templateId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
+          name: 'E-service con attributi',
+          description: 'test con attributi',
           producer: {
             id: '69e2865e-65ab-4e48-a638-2037a9ee2ee7',
             tenantKind: 'GSP',
@@ -79,13 +85,20 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           technology: 'REST',
           mode: 'DELIVER',
           riskAnalysis: [],
-          descriptors: [],
-          draftDescriptor: {
-            id: '162171d0-b3fc-4698-a98f-63b4f016db69',
-            state: 'DRAFT',
-            version: '1',
-            audience: ['dsfdsf'],
-          },
+          descriptors: [
+            {
+              id: '6eca6529-9430-41a6-ad49-f2c87df10058',
+              state: 'ARCHIVED',
+              version: '1',
+              audience: ['audience.test'],
+            },
+            {
+              id: '69159c90-7be3-4e6c-8729-ca279dc7fad1',
+              state: 'PUBLISHED',
+              version: '2',
+              audience: ['audience.test'],
+            },
+          ],
           mail: {
             address: 'lamail2@mail.it',
             description: 'descrizione modificata',
@@ -95,10 +108,38 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           isClientAccessDelegable: false,
         },
         attributes: {
-          certified: [],
-          declared: [],
-          verified: [],
+          certified: [
+            [
+              {
+                id: '2b17dbd4-2e42-4492-aaeb-d7cfb098a1ab',
+                name: 'PagoPA S.p.A.',
+                description: 'PagoPA S.p.A.',
+                explicitAttributeVerification: true,
+              },
+            ],
+          ],
+          declared: [
+            [
+              {
+                id: 'e50c7b32-b8f7-4129-9c08-ff6212b804d9',
+                name: 'Attributo dichiarato demo',
+                description: 'asdasd asd asd sad qsad',
+                explicitAttributeVerification: true,
+              },
+            ],
+          ],
+          verified: [
+            [
+              {
+                id: 'e25e6582-6448-40a2-b2c9-cf42d4f82b98',
+                name: 'nuovo attributo verificato',
+                description: 'desc attributo verificato',
+                explicitAttributeVerification: true,
+              },
+            ],
+          ],
         },
+        publishedAt: '2025-02-26T14:05:16.219Z',
       }
     : undefined
 
