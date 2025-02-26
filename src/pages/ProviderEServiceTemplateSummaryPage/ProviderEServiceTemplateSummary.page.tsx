@@ -62,14 +62,12 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       },
       {
         onSuccess: () =>
-          navigate(
-            ' PROVIDE_ESERVICE_TEMPLATE_DETAILS' { 
+          navigate('PROVIDE_ESERVICE_TEMPLATE_DETAILS', {
             params: {
-                eServiceTemplateId: eServiceTemplateId,
-                eServiceTemplateVersionId: eServiceTemplateVersionId,
+              eServiceTemplateId: eServiceTemplateId,
+              eServiceTemplateVersionId: eServiceTemplateVersionId,
             },
-          }
-          ),
+          }),
       }
     )
   }
@@ -81,7 +79,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       template.eserviceTemplate.eserviceDescription &&
       template.eserviceTemplate.audienceDescription &&
       template.voucherLifespan &&
-      template.dailyCallsPerConsumer && //TODO OPZIONALI CONTROLLARE
+      template.dailyCallsPerConsumer &&
       template.dailyCallsTotal &&
       template.dailyCallsTotal >= template.dailyCallsPerConsumer
     )
@@ -97,11 +95,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       })}
       backToAction={{
         label: t('backToListBtn'),
-        to: 'NOT_FOUND', //'PROVIDE_ESERVICE_TEMPLATE_LIST', TODO
+        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
       }}
       isLoading={isLoading}
       statusChip={{
-        for: 'eservice', //TODO SOSTITUIRE CON TEMPLATE
+        for: 'template',
         state: 'DRAFT',
       }}
     >

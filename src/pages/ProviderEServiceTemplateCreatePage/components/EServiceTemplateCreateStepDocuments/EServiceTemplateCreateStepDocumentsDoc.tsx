@@ -75,7 +75,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
   const handleDeleteDocument = (document: EServiceDoc) => {
     if (!template) return
     deleteDocument({
-      eserviceTemplateId: template.eserviceTemplate.id, //TODO
+      eServiceTemplateId: template.eserviceTemplate.id,
       eServiceTemplateVersionId: template.id,
       documentId: document.id,
     })
@@ -85,7 +85,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
     if (!template) return
     downloadDocument(
       {
-        eserviceTemplateId: template.eserviceTemplate.id, //TODO
+        eServiceTemplateId: template.eserviceTemplate.id,
         eServiceTemplateVersionId: template.id,
         documentId: document.id,
       },
