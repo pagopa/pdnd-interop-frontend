@@ -24,6 +24,10 @@
         "label": "E-service name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
+      "istanceNameField": {
+        "label":" Instance ID (optional)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
       "eserviceDescriptionField": {
         "label": "E-service description",
         "infoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"

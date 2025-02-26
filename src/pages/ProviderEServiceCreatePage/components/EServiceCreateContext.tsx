@@ -16,6 +16,7 @@ type EServiceCreateContextType = {
   }
   openRiskAnalysisForm: (riskAnalysisId?: string) => void
   closeRiskAnalysisForm: VoidFunction
+  isEServiceFromTemplate: boolean
 }
 
 const initialState: EServiceCreateContextType = {
@@ -31,6 +32,7 @@ const initialState: EServiceCreateContextType = {
   },
   openRiskAnalysisForm: noop,
   closeRiskAnalysisForm: noop,
+  isEServiceFromTemplate: false,
 }
 
 const { useContext, Provider } = createContext<EServiceCreateContextType>(
@@ -45,6 +47,7 @@ type EServiceCreateContextProviderProps = {
   onEserviceModeChange: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
+  isEServiceFromTemplate: boolean
 }
 
 const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps> = ({
@@ -54,6 +57,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
   onEserviceModeChange,
   back,
   forward,
+  isEServiceFromTemplate,
 }) => {
   const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<{
     isOpen: boolean
@@ -95,8 +99,17 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       riskAnalysisFormState,
       openRiskAnalysisForm,
       closeRiskAnalysisForm,
+      isEServiceFromTemplate,
     }
-  }, [descriptor, eserviceMode, onEserviceModeChange, back, forward, riskAnalysisFormState])
+  }, [
+    descriptor,
+    eserviceMode,
+    onEserviceModeChange,
+    back,
+    forward,
+    riskAnalysisFormState,
+    isEServiceFromTemplate,
+  ])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

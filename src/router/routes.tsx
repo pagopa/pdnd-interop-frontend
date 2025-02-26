@@ -509,6 +509,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     hideSideNav: true,
     authLevels: ['admin', 'api'],
   })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT',
+    path: '/erogazione/template/:eServiceTemplateId/e-service/:eserviceId/:descriptorId/modifica',
+    element: <ProviderEServiceFromTemplateCreate />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
+  })
   .build()
 
 export type RouteKey = InferRouteKey<typeof routes>

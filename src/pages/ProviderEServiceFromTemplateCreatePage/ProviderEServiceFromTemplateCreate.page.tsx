@@ -30,16 +30,27 @@ import { PageContainer } from '@/components/layout/containers'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from '../ProviderEServiceCreatePage/components/EServiceCreateContext'
 import { attributesHelpLink } from '@/config/constants'
+import { EServiceQueries } from '@/api/eservice'
+import { EServiceMode } from '@/api/api.generatedTypes'
 
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { t: tTemplate } = useTranslation('template')
-  const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
+  const { eServiceTemplateId, eserviceId, descriptorId } = useParams<
+    'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_TEMPLATE_EDIT'
+  >()
   const { activeStep, ...stepProps } = useActiveStep()
 
-  const { data: template } = useQuery(
-    TemplateQueries.getSingleByEServiceTemplateId(eServiceTemplateId)
-  )
+  const isNewEService = !eserviceId || !descriptorId
+
+  const { data: template } = useQuery({
+    ...TemplateQueries.getSingleByEServiceTemplateId(eServiceTemplateId),
+  })
+
+  const { data: descriptor, isLoading: isLoadingDescriptor } = useQuery({
+    ...EServiceQueries.getDescriptorProvider(eserviceId as string, descriptorId as string),
+    enabled: !isNewEService,
+  })
 
   const steps: Array<StepperStep> =
     template?.mode === 'DELIVER'
@@ -58,6 +69,8 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
         ]
 
   const { component: Step } = steps[activeStep]
+
+  const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
 
   const stepsLoadingSkeletons =
     template?.mode === 'DELIVER'
@@ -89,26 +102,23 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
       }
       backToAction={{
         label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_LIST',
+        to: 'PROVIDE_ESERVICE_TEMPLATES_CATALOG',
       }}
       isLoading={false}
     >
       <Stepper steps={steps} activeIndex={activeStep} />
-      <Trans
-        components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
-      >
-        {t('create.emptyTitle')}
-      </Trans>
-      {/* <EServiceCreateContextProvider
-        descriptor={descriptor}
-        eserviceMode={eserviceMode}
-        onEserviceModeChange={setSelectedEServiceMode}
-        {...stepProps}
-      > */}
-      <Step />
-      {/* </EServiceCreateContextProvider> */}
-
-      {/* {!isReady && stepsLoadingSkeletons[activeStep]} */}
+      {isReady && (
+        <EServiceCreateContextProvider
+          isEServiceFromTemplate={true}
+          descriptor={descriptor}
+          eserviceMode={template?.mode as EServiceMode}
+          onEserviceModeChange={() => alert('change')}
+          {...stepProps}
+        >
+          <Step />
+        </EServiceCreateContextProvider>
+      )}
+      {!isReady && stepsLoadingSkeletons[activeStep]}
     </PageContainer>
   )
 }

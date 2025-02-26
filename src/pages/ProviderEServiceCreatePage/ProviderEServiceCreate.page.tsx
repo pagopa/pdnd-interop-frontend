@@ -119,6 +119,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceCreateContextProvider
+          isEServiceFromTemplate={false}
           descriptor={descriptor}
           eserviceMode={eserviceMode}
           onEserviceModeChange={setSelectedEServiceMode}

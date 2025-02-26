@@ -53,6 +53,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     forward,
     eserviceMode,
     onEserviceModeChange,
+    isEServiceFromTemplate,
   } = useEServiceCreateContext()
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
@@ -98,9 +99,11 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <Alert severity="warning" sx={{ mb: 3 }}>
-        {t('create.step1.firstVersionOnlyEditableInfo')}
-      </Alert>
+      {!isEServiceFromTemplate && (
+        <Alert severity="warning" sx={{ mb: 3 }}>
+          {t('create.step1.firstVersionOnlyEditableInfo')}
+        </Alert>
+      )}
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
           title={t('create.step1.detailsTitle')}
@@ -128,12 +131,23 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             label={t('create.step1.eserviceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
             name="name"
+            disabled={!areEServiceGeneralInfoEditable || isEServiceFromTemplate}
+            rules={{ required: true, minLength: 5 }}
+            focusOnMount
+            inputProps={{ maxLength: 60 }}
+            size="small"
+            sx={{ width: '49%', my: 0, mt: 1 }}
+          />
+          <RHFTextField
+            label={t('create.step1.istanceNameField.label')}
+            infoLabel={t('create.step1.eserviceNameField.infoLabel')}
+            name="instanceName"
             disabled={!areEServiceGeneralInfoEditable}
             rules={{ required: true, minLength: 5 }}
             focusOnMount
             inputProps={{ maxLength: 60 }}
             size="small"
-            sx={{ width: '50%', my: 0, mt: 1 }}
+            sx={{ width: '49%', my: 0, mt: 1, ml: 2 }}
           />
 
           <RHFTextField
@@ -141,7 +155,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
             name="description"
             multiline
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areEServiceGeneralInfoEditable || isEServiceFromTemplate}
             size="small"
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
@@ -156,7 +170,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
             ]}
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areEServiceGeneralInfoEditable || isEServiceFromTemplate}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
           />
@@ -175,7 +189,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 value: 'RECEIVE',
               },
             ]}
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areEServiceGeneralInfoEditable || isEServiceFromTemplate}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
