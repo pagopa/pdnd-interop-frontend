@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
-import { UpdateEServiceTemplateVersionSeed } from '../api.generatedTypes'
+import { EServiceRiskAnalysisSeed, UpdateEServiceTemplateVersionSeed } from '../api.generatedTypes'
+import { AttributeKey } from '@/types/attribute.types'
 
 //TODO SUCCESS/ERROR/LOADING TOAST LABEL
 

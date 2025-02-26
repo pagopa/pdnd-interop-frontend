@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
 import { Link } from '@mui/material'
 import { TemplateQueries } from '@/api/template'
-import { StepperStep } from '@/types/common.types'
+import type { StepperStep } from '@/types/common.types'
 import {
   EServiceCreateStepAttributes,
   EServiceCreateStepAttributesSkeleton,
@@ -31,13 +31,13 @@ import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from '../ProviderEServiceCreatePage/components/EServiceCreateContext'
 import { attributesHelpLink } from '@/config/constants'
 import { EServiceQueries } from '@/api/eservice'
-import { EServiceMode } from '@/api/api.generatedTypes'
+import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { t: tTemplate } = useTranslation('template')
   const { eServiceTemplateId, eserviceId, descriptorId } = useParams<
-    'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_TEMPLATE_EDIT'
+    'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT'
   >()
   const { activeStep, ...stepProps } = useActiveStep()
 
@@ -47,10 +47,58 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
     ...TemplateQueries.getSingleByEServiceTemplateId(eServiceTemplateId),
   })
 
-  const { data: descriptor, isLoading: isLoadingDescriptor } = useQuery({
-    ...EServiceQueries.getDescriptorProvider(eserviceId as string, descriptorId as string),
-    enabled: !isNewEService,
-  })
+  // const { data: descriptor, isLoading: isLoadingDescriptor } = useQuery({
+  //   ...EServiceQueries.getDescriptorProvider(eserviceId as string, descriptorId as string),
+  //   enabled: !isNewEService,
+  // })
+
+  const isLoadingDescriptor = false
+
+  const descriptor: ProducerEServiceDescriptor | undefined = eserviceId
+    ? {
+        id: '162171d0-b3fc-4698-a98f-63b4f016db69',
+        version: '1',
+        description: 'sdfdsfssdfdsf',
+        docs: [],
+        state: 'DRAFT',
+        audience: ['dsfdsf'],
+        voucherLifespan: 60,
+        dailyCallsPerConsumer: 1,
+        dailyCallsTotal: 1,
+        agreementApprovalPolicy: 'AUTOMATIC',
+        eservice: {
+          id: 'fc60ac59-e989-46db-96f6-367c20bce324',
+          name: 'dssdsdfds',
+          description: 'ddssdfdssdfdsd',
+          producer: {
+            id: '69e2865e-65ab-4e48-a638-2037a9ee2ee7',
+            tenantKind: 'GSP',
+          },
+          technology: 'REST',
+          mode: 'DELIVER',
+          riskAnalysis: [],
+          descriptors: [],
+          draftDescriptor: {
+            id: '162171d0-b3fc-4698-a98f-63b4f016db69',
+            state: 'DRAFT',
+            version: '1',
+            audience: ['dsfdsf'],
+          },
+          mail: {
+            address: 'lamail2@mail.it',
+            description: 'descrizione modificata',
+          },
+          isSignalHubEnabled: false,
+          isConsumerDelegable: false,
+          isClientAccessDelegable: false,
+        },
+        attributes: {
+          certified: [],
+          declared: [],
+          verified: [],
+        },
+      }
+    : undefined
 
   const steps: Array<StepperStep> =
     template?.mode === 'DELIVER'
@@ -71,6 +119,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { component: Step } = steps[activeStep]
 
   const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
+  const isTemplateReady = Boolean(template)
 
   const stepsLoadingSkeletons =
     template?.mode === 'DELIVER'
@@ -107,8 +156,9 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
       isLoading={false}
     >
       <Stepper steps={steps} activeIndex={activeStep} />
-      {isReady && (
+      {isReady && isTemplateReady && (
         <EServiceCreateContextProvider
+          template={template}
           isEServiceFromTemplate={true}
           descriptor={descriptor}
           eserviceMode={template?.mode as EServiceMode}

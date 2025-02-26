@@ -12,6 +12,7 @@ import {
   EServiceTemplateSeed,
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
+  InstanceEServiceSeed,
   ProducerEServiceTemplates,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceTemplateSeed,
@@ -497,13 +498,15 @@ async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
 
 async function createInstanceFromEServiceTemplate({
   eServiceTemplateId,
+  ...payload
 }: {
   eServiceTemplateId: string
-}) {
-  /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instance
-  )
-  return response.data*/
+} & InstanceEServiceSeed) {
+  // const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances`,
+  //   payload
+  // )
+  // return response.data
 
   const response: CreatedEServiceDescriptor = {
     id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
@@ -533,7 +536,7 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
     },
     name: 'Template di prova',
     audienceDescription: 'string',
-    eserviceDescription: 'string',
+    eserviceDescription: 'questa è una descrizione di prova',
     technology: 'REST',
     versions: [
       {

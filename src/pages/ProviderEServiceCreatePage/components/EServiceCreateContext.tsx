@@ -1,7 +1,11 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
-import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type {
+  EServiceMode,
+  EServiceTemplateDetails,
+  ProducerEServiceDescriptor,
+} from '@/api/api.generatedTypes'
 
 type EServiceCreateContextType = {
   descriptor: ProducerEServiceDescriptor | undefined
@@ -17,10 +21,12 @@ type EServiceCreateContextType = {
   openRiskAnalysisForm: (riskAnalysisId?: string) => void
   closeRiskAnalysisForm: VoidFunction
   isEServiceFromTemplate: boolean
+  template: EServiceTemplateDetails | undefined
 }
 
 const initialState: EServiceCreateContextType = {
   descriptor: undefined,
+  template: undefined,
   eserviceMode: 'DELIVER',
   onEserviceModeChange: noop,
   back: noop,
@@ -43,6 +49,7 @@ const { useContext, Provider } = createContext<EServiceCreateContextType>(
 type EServiceCreateContextProviderProps = {
   children: React.ReactNode
   descriptor: ProducerEServiceDescriptor | undefined
+  template: EServiceTemplateDetails | undefined
   eserviceMode: EServiceMode
   onEserviceModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -53,6 +60,7 @@ type EServiceCreateContextProviderProps = {
 const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps> = ({
   children,
   descriptor,
+  template,
   eserviceMode,
   onEserviceModeChange,
   back,
@@ -100,6 +108,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       openRiskAnalysisForm,
       closeRiskAnalysisForm,
       isEServiceFromTemplate,
+      template,
     }
   }, [
     descriptor,
@@ -109,6 +118,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
     forward,
     riskAnalysisFormState,
     isEServiceFromTemplate,
+    template,
   ])
 
   return <Provider value={providerValue}>{children}</Provider>
