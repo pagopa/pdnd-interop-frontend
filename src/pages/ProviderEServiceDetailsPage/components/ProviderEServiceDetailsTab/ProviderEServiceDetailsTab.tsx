@@ -29,9 +29,9 @@ export const ProviderEserviceDetailsTab: React.FC = () => {
       <ProviderEServiceDetailsAlerts descriptor={descriptor} />
       <Grid container>
         <Grid item xs={8}>
-          <React.Suspense
-            fallback={<ProviderEServiceGeneralInfoSectionSkeleton />}
-          ></React.Suspense>
+          <React.Suspense fallback={<ProviderEServiceGeneralInfoSectionSkeleton />}>
+            <ProviderEServiceGeneralInfoSection />
+          </React.Suspense>
           <React.Suspense fallback={<ProviderEServiceTechnicalInfoSectionSkeleton />}>
             <ProviderEServiceTechnicalInfoSection />
           </React.Suspense>
