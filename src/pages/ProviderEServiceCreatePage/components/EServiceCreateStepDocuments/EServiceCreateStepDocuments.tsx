@@ -13,6 +13,7 @@ import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { openApiCheckerLink } from '@/config/constants'
 import { trackEvent } from '@/config/tracking'
+import { EServiceEditInfoInterface } from './EServiceEditInfoInterface'
 
 export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
@@ -41,6 +42,12 @@ export const EServiceCreateStepDocuments: React.FC<ActiveStepProps> = () => {
     <>
       <SectionContainer title={t('create.step4.interface.title')} description={sectionDescription}>
         <EServiceCreateStepDocumentsInterface />
+      </SectionContainer>
+      <SectionContainer
+        title={t('create.step4.template.interface.title')}
+        description={t('create.step4.template.interface.description.rest')}
+      >
+        <EServiceEditInfoInterface />
       </SectionContainer>
       <SectionContainer
         title={t('create.step4.documentation.title')}

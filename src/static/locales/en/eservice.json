@@ -142,6 +142,31 @@
       }
     },
     "step4": {
+      
+      "template" : {
+        "interface": {
+          "title": "Interface",
+          "contactSection":{
+            "title":"Contact's info details",
+            "contactNameField": "Contact's name",
+            "emailField":"email",
+            "urlField":"URL"
+          },
+          "termsAndConditions": {
+            "title": "Terms and conditions",
+            "label":"Terms and conditions URL"
+          },
+
+          "serverSection": {
+            "title": "Server",
+            "label":"Server url"
+          },
+          "description": {
+            "rest": "Compile following fields and openAPI will be automatically generated",
+            "download": "Download interface API file"
+          }
+        }
+      },
       "interface": {
         "title": "Interface (required)",
         "description": {

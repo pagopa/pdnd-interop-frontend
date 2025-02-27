@@ -142,6 +142,31 @@
       }
     },
     "step4": {
+      "template" : {
+        "interface" : {
+          "title": "Interfaccia",
+          "contactSection":{
+            "title":"Dati di contatto",
+            "contactNameField": "Nome contatto",
+            "emailField":"e-mail",
+            "urlField":"URL"
+          },
+          "termsAndConditions": {
+            "title": "Termini e condizioni",
+            "label":" URL termini e condizioni"
+          },
+
+          "serverSection": {
+            "title": "Server",
+            "label":"URL server"
+          },
+          "description": {
+            "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",
+            "download": "Scarica il file di interfaccia"
+
+          }
+        }
+      },
       "interface": {
         "title": "Interfaccia (richiesto)",
         "description": {
