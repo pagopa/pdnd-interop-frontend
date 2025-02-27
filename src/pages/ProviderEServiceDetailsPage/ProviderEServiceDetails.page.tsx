@@ -31,9 +31,13 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptor?.eservice.name
   )
 
+  const title = descriptor?.instanceId
+    ? `${descriptor?.eservice.name} (${descriptor.instanceId})`
+    : `${descriptor?.eservice.name}`
+
   return (
     <PageContainer
-      title={descriptor?.eservice.name || ''}
+      title={title || ''}
       topSideActions={actions}
       isLoading={!descriptor}
       statusChip={

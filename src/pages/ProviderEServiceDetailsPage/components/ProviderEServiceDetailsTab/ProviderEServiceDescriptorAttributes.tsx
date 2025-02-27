@@ -19,10 +19,17 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
-  const { data: descriptorAttributes } = useSuspenseQuery({
+  /*const { data: descriptorAttributes } = useSuspenseQuery({
     ...EServiceQueries.getDescriptorProvider(eserviceId, descriptorId),
     select: (d) => d.attributes,
+  })*/
+  const { data: descriptor } = useSuspenseQuery({
+    ...EServiceQueries.getDescriptorProvider(eserviceId, descriptorId),
   })
+
+  const descriptorAttributes = descriptor.attributes
+
+  const isEserviceFromTemplate = descriptor.templateVersionId
 
   const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId,
@@ -35,7 +42,13 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   }>({ isOpen: false, kind: 'certified' })
 
   const getAttributeSectionActions = (kind: AttributeKey): Array<ActionItemButton> | undefined => {
-    if (descriptorAttributes[kind].length === 0 || isDelegator || !isAdmin) return
+    if (
+      descriptorAttributes[kind].length === 0 ||
+      isDelegator ||
+      !isAdmin ||
+      isEserviceFromTemplate
+    )
+      return
 
     return [
       {
@@ -45,6 +58,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
       },
     ]
   }
+
   return (
     <>
       <SectionContainer title={t('title')} description={t('description')}>
