@@ -144,6 +144,7 @@
     "step4": {
       "template" : {
         "interface" : {
+          "save":"Salva dati interfaccia",
           "title": "Interfaccia",
           "contactSection":{
             "title":"Dati di contatto",
@@ -155,10 +156,10 @@
             "title": "Termini e condizioni",
             "label":" URL termini e condizioni"
           },
-
           "serverSection": {
             "title": "Server",
-            "label":"URL server"
+            "label":"URL server",
+            "add": "Aggiungi URL server"
           },
           "description": {
             "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",

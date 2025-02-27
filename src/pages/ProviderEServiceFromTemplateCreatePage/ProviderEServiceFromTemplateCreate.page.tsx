@@ -11,6 +11,7 @@ import {
   EServiceCreateStepAttributesSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import {
+  EServiceFromTemplateCreateStepDocuments,
   EServiceCreateStepDocuments,
   EServiceCreateStepDocumentsSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepDocuments'
@@ -149,14 +150,20 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
           { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
-          { label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
+          {
+            label: t('create.stepper.step4Label'),
+            component: EServiceFromTemplateCreateStepDocuments,
+          },
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
           { label: t('create.stepper.step2ReceiveLabel'), component: EServiceCreateStepPurpose },
           { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
-          { label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
+          {
+            label: t('create.stepper.step4Label'),
+            component: EServiceFromTemplateCreateStepDocuments,
+          },
         ]
 
   const { component: Step } = steps[activeStep]

@@ -142,9 +142,9 @@
       }
     },
     "step4": {
-      
       "template" : {
         "interface": {
+          "save" :"Save data",
           "title": "Interface",
           "contactSection":{
             "title":"Contact's info details",
@@ -156,10 +156,10 @@
             "title": "Terms and conditions",
             "label":"Terms and conditions URL"
           },
-
           "serverSection": {
             "title": "Server",
-            "label":"Server url"
+            "label":"Server URL",
+            "add": "Add server URL"
           },
           "description": {
             "rest": "Compile following fields and openAPI will be automatically generated",
