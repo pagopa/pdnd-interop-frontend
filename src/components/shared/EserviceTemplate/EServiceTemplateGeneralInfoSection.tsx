@@ -47,12 +47,11 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
 
   const { mutate: updateEserviceTemplateName } = TemplateMutations.useUpdateEServiceTemplateName()
 
-  /* 
   const {
     isOpen: isVersionSelectorDrawerOpen,
     openDrawer: openVersionSelectorDrawer,
     closeDrawer: closeVersionSelectorDrawer,
-  } = useDrawerState()*/
+  } = useDrawerState()
 
   const {
     isOpen: isEServiceTemplateUpdateNameDrawerOpen,
@@ -83,32 +82,12 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     )
   }
 
-  /*
-  const handleExportVersion = () => {
-    trackEvent('INTEROP_ESERVICE_DOWNLOAD_REQUEST', {
-      eserviceId: eserviceId,
-      descriptorId: descriptorId,
-    })
-    exportVersion({ eserviceId, descriptorId }, undefined, {
-      onSuccess: () => {
-        trackEvent('INTEROP_ESERVICE_DOWNLOAD_RESPONSE_SUCCESS', {})
-      },
-      onError: (error) => {
-        if (isAxiosError(error) && error.response) {
-          trackEvent('INTEROP_ESERVICE_DOWNLOAD_RESPONSE_ERROR', {
-            errorCode: error.response.status,
-          })
-        }
-      },
-    })
-  }*/
-
-  const hasSingleVersion = template && template.version <= 1 //TODO
+  const hasSingleVersion = template && template.version === 1
 
   const navigateTemplateVersionsAction = {
     startIcon: <FileCopyIcon fontSize="small" />,
     component: 'button',
-    onClick: () => {}, //openVersionSelectorDrawer, TODO
+    onClick: openVersionSelectorDrawer,
     label: t('bottomActions.navigateTemplateVersions'),
   }
 
@@ -140,7 +119,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   }
 
   const handleAudienceDescriptionUpdate = (templateId: string) => {
-    //TODO CONTROLLARE
     updateEserviceTemplateAudienceDescription(
       {
         eServiceTemplateId: templateId,
@@ -161,7 +139,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
         <Stack spacing={2}>
           <InformationContainer
             label={t('version.label')}
-            content={template?.description || ''} //TODO
+            content={template?.version.toString() || '1'}
           />
           <Divider />
           <SectionContainer

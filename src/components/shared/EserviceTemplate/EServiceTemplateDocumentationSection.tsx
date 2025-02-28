@@ -26,8 +26,6 @@ export const EServiceTemplateDocumentationSection: React.FC<
   })
   const { t: tCommon } = useTranslation('common')
 
-  const { jwt } = AuthHooks.useJwt()
-
   const docs = [template.interface, ...template.docs]
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -44,7 +42,7 @@ export const EServiceTemplateDocumentationSection: React.FC<
         templateId: template.id,
         documentId: document.id,
       },
-      getDownloadDocumentName(document) //TODO
+      getDownloadDocumentName(document)
     )
   }
 

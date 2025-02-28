@@ -18,7 +18,7 @@ import { TemplateMutations } from '@/api/template'
 import { TemplateDownloads } from '@/api/template/template.downloads'
 
 type EServiceTemplateCreateStepDocumentsDocFormValues = {
-  doc: File | null | string //TODO TOGLIERE STRING
+  doc: File | null
   prettyName: string
 }
 
@@ -31,7 +31,7 @@ type EServiceTemplateUpdateDocumentationDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   templateId: string
-  interfaceDocs?: string //ProducerEServiceTemplate TODO
+  interfaceDocs?: EServiceDoc
   templateDocs: EServiceDoc[]
 }
 

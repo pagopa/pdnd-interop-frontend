@@ -23,7 +23,6 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   )
 
   const { actions } = useGetProviderEServiceTemplateActions(
-    //TODO ACTIVEVERSION E DRAFT VERSION NON MI VENGONO TORNATE DALLA GETSINGLE
     eServiceTemplateId,
     eServiceTemplateVersionId,
     template?.state,
@@ -36,10 +35,9 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
       topSideActions={actions}
       isLoading={!template}
       statusChip={
-        //TODO è la chip per template è già implementata nel branch pin-6016
         template
           ? {
-              for: 'eservice', // TODO sostituire con template
+              for: 'template',
               state: template?.state,
             }
           : undefined
