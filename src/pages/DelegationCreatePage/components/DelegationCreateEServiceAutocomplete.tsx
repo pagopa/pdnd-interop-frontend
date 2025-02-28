@@ -6,14 +6,16 @@ import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
+import { TemplateQueries } from '@/api/template'
 
 type DelegationCreateEServiceAutocompleteProps = {
   delegationKind: DelegationKind
+  createFromTemplate: boolean
 }
 
 export const DelegationCreateEServiceAutocomplete: React.FC<
   DelegationCreateEServiceAutocompleteProps
-> = ({ delegationKind }) => {
+> = ({ delegationKind, createFromTemplate }) => {
   const { t } = useTranslation('party')
   const selectedEServiceRef = React.useRef<CatalogEService | ProducerEService | undefined>(
     undefined
@@ -79,17 +81,37 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
     select: (d) => d.results ?? [],
   })
 
+  const { data: catalogEservicesTemplates = [], isLoading: isLoadingCatalogEservicesTemplates } =
+    useQuery({
+      ...TemplateQueries.getProviderTemplatesCatalogList({
+        q: getQ(),
+        limit: 50,
+        offset: 0,
+      }),
+      select: (d) => d.results ?? [],
+    })
+
   const eservices = delegationKind === 'DELEGATED_CONSUMER' ? catalogEservices : producerEservice
 
-  const autocompleteOptions = eservices.map((eservice) => ({
-    label: formatAutocompleteOptionLabel(eservice),
-    value: eservice.id,
-  }))
+  const autocompleteOptions =
+    createFromTemplate === false
+      ? eservices.map((eservice) => ({
+          label: formatAutocompleteOptionLabel(eservice),
+          value: eservice.id,
+        }))
+      : catalogEservicesTemplates.map((eservice) => ({
+          label: formatAutocompleteOptionLabel(eservice),
+          value: eservice.id,
+        }))
 
   return (
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
-      loading={isLoadingCatalogEservices || isLoadingProducerEservices}
+      loading={
+        createFromTemplate === false
+          ? isLoadingCatalogEservices || isLoadingProducerEservices
+          : isLoadingCatalogEservicesTemplates
+      }
       name="eserviceId"
       label={t('delegations.create.eserviceField.label')}
       infoLabel={t(

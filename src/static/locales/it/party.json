@@ -159,7 +159,9 @@
         "provider": {
           "label": "Ente da delegare all'erogazione (richiesto)",
           "infoLabel": "La lista include solo gli aderenti che hanno dato la loro disponibilità a diventare delegati all’erogazione",
-          "switch": "Ho già creato l’e-service per il quale voglio attivare una delega"
+          "switch": "Devo ancora creare l’e-service per il quale voglio attivare una delega",
+          "switchEserviceFromTemplate": "Voglio creare un e-service partendo da un template disponibile a catalogo",
+          "alertEserviceFromTemplate": "Una volta selezionato il template e inviata la delega, verrà generata una bozza di istanza che rimarrà sotto la tua gestione."
         }
       },
       "dialog": {

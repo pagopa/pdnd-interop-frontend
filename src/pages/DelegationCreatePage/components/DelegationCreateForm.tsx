@@ -1,4 +1,3 @@
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { Alert, Box, FormControlLabel, Stack, Switch } from '@mui/material'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -16,6 +15,7 @@ import { AuthHooks } from '@/api/auth'
 import { AgreementQueries } from '@/api/agreement'
 import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
+import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
 
 export type DelegationCreateFormValues = {
   eserviceId: string
@@ -43,7 +43,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const { t } = useTranslation('party')
   const { jwt } = AuthHooks.useJwt()
 
-  const [isExistingEservice, setIsExistingEservice] = useState(false)
+  const [isEserviceToBeCreated, setIsEserviceToBeCreated] = useState(false)
 
   const { openDialog } = useDialog()
 
@@ -94,8 +94,8 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const navigate = useNavigate()
 
   function onConfirm(formValues: DelegationCreateFormValues) {
-    if (!isExistingEservice && delegationKind === 'DELEGATED_PRODUCER') {
-      // if it is a producer delegation and isExistingEservice is false the eservice must be created
+    if (isEserviceToBeCreated && delegationKind === 'DELEGATED_PRODUCER') {
+      // if it is a producer delegation and isEserviceToBeCreated is true the eservice must be created
       createProducerDelegationAndEservice(
         {
           name: formValues.eserviceName,
@@ -151,8 +151,8 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
               <FormControlLabel
                 control={
                   <Switch
-                    checked={isExistingEservice}
-                    onChange={() => setIsExistingEservice((prev) => !prev)}
+                    checked={isEserviceToBeCreated}
+                    onChange={() => setIsEserviceToBeCreated((prev) => !prev)}
                   />
                 }
                 label={t('delegations.create.delegateField.provider.switch')}
@@ -160,30 +160,13 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
                 componentsProps={{ typography: { variant: 'body2' } }}
               />
             )}
-            {isExistingEservice || delegationKind === 'DELEGATED_CONSUMER' ? (
-              <DelegationCreateEServiceAutocomplete delegationKind={delegationKind} />
+            {!isEserviceToBeCreated || delegationKind === 'DELEGATED_CONSUMER' ? (
+              <DelegationCreateEServiceAutocomplete
+                delegationKind={delegationKind}
+                createFromTemplate={false}
+              />
             ) : (
-              <>
-                <RHFTextField
-                  focusOnMount={true}
-                  name="eserviceName"
-                  label={t('delegations.create.eserviceField.label')}
-                  infoLabel={t('delegations.create.eserviceField.infoLabel')}
-                  inputProps={{ maxLength: 60 }}
-                  rules={{ required: true, minLength: 5 }}
-                  sx={{ my: 2 }}
-                />
-                <RHFTextField
-                  name="eserviceDescription"
-                  label={t('delegations.create.eserviceField.descriptionLabel')}
-                  infoLabel={t('delegations.create.eserviceField.descriptionInfoLabel')}
-                  multiline
-                  size="small"
-                  inputProps={{ maxLength: 250 }}
-                  rules={{ required: true, minLength: 10 }}
-                  sx={{ mb: 1, mt: 1 }}
-                />
-              </>
+              <DelegationCreateFormCreateEservice delegationKind={delegationKind} />
             )}
             <DelegationCreateTenantAutocomplete delegationKind={delegationKind} />
             {delegationKind === 'DELEGATED_CONSUMER' && (hasAgreement || isDelegated) && (
