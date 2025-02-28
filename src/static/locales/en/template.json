@@ -1,1 +1,10 @@
-{}
+{
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Find by name"
+      }
+    }
+  },
+  "noMultiDataLabel": "You have not yet created e-service templates."
+}
