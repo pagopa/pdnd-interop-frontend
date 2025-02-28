@@ -159,7 +159,8 @@
           "serverSection": {
             "title": "Server",
             "label":"Server URL",
-            "add": "Add server URL"
+            "add": "Add server URL",
+            "remove":"Remove field"
           },
           "description": {
             "rest": "Compile following fields and openAPI will be automatically generated",

@@ -13,6 +13,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Box, Stack } from '@mui/system'
 import { Button } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
+import { CustomizedInterfaceMetadata } from '@/api/api.generatedTypes'
 
 export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
@@ -20,20 +21,24 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
 
   const { descriptor, back } = useEServiceCreateContext()
 
-  const defaultValues = {
-    name: descriptor?.name ?? '',
-    email: descriptor?.email ?? '',
-    url: descriptor?.url ?? '',
-    termsAndConditions: descriptor?.termsAndConditions ?? '',
-    serverUrl: descriptor?.serverUrl ?? ['url1', 'url2'],
+  const defaultValues: CustomizedInterfaceMetadata = {
+    name: descriptor?.templateRef?.interfaceMetadata?.name ?? '',
+    email: descriptor?.templateRef?.interfaceMetadata?.email ?? '',
+    url: descriptor?.templateRef?.interfaceMetadata?.url ?? '',
+    termsAndConditionsUrl: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl ?? '',
+    serverUrls: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl.split(',') ?? [
+      '',
+    ],
   }
 
   const formMethods = useForm({ defaultValues })
 
   const fieldsArray = useFieldArray({
     control: formMethods.control,
-    name: 'serverUrl',
+    name: 'serverUrls',
   })
+
+  fieldsArray.fields
 
   // const sectionDescription =
   //   descriptor?.eservice.technology === 'SOAP' ? (
@@ -52,33 +57,31 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
   //     </>
   //   )
 
-  const onSubmit = (values: any) => {
-    console.log('values', values)
+  const onSubmit = (values: CustomizedInterfaceMetadata) => {
+    console.log('Valori:', values)
     alert('SUBMIT')
   }
 
   return (
     <FormProvider {...formMethods}>
-      {' '}
       <SectionContainer
         title={t('create.step4.template.interface.title')}
         description={t('create.step4.template.interface.description.rest')}
-        onSubmit={formMethods.handleSubmit(() => alert('SUBMIT'))}
       >
-        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <EServiceEditInfoInterface fieldsArray={fieldsArray} defaultValues={defaultValues} />
+        <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <EServiceEditInfoInterface fieldsArray={fieldsArray} />
+          <Stack direction="row" justifyContent="flex-start" mt={2}>
+            <Button type="submit" variant="contained" startIcon={<SaveIcon />}>
+              {t('create.step4.template.interface.save')}
+            </Button>
+          </Stack>
         </Box>
-        <Stack direction="row" justifyContent="flex-start" mt={2}>
-          <Button type="submit" variant="contained" startIcon={<SaveIcon />}>
-            {t('create.step4.template.interface.save')}
-          </Button>
-        </Stack>
       </SectionContainer>
       <SectionContainer
         title={t('create.step4.documentation.title')}
         description={t('create.step4.documentation.description')}
       >
-        <EServiceCreateStepDocumentsDoc />
+        <EServiceCreateStepDocumentsDoc readonly={true} />
       </SectionContainer>
       <StepActions
         back={{

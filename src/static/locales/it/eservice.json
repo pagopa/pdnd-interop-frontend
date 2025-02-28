@@ -159,13 +159,14 @@
           "serverSection": {
             "title": "Server",
             "label":"URL server",
-            "add": "Aggiungi URL server"
+            "add": "Aggiungi URL server",
+            "remove":"Rimuovi campo"
           },
           "description": {
             "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",
             "download": "Scarica il file di interfaccia"
-
           }
+          
         }
       },
       "interface": {

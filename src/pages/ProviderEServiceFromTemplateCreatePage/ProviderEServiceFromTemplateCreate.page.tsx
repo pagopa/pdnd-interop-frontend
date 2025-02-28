@@ -67,7 +67,14 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           contentType: 'application/x-yaml',
           prettyName: 'Specifica API',
         },
-        docs: [],
+        docs: [
+          {
+            contentType: 'application/pdf',
+            id: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
+            name: 'API Documentation',
+            prettyName: 'API Documentation File',
+          },
+        ],
         state: 'PUBLISHED',
         audience: ['audience.test'],
         voucherLifespan: 60,
