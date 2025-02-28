@@ -75,31 +75,31 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
         </Stack>
       </Box>
       <Stack spacing={3} sx={{ mt: 2 }}>
-        <Stack direction="row" spacing={2}>
-          <Button
-            sx={{ fontWeight: 700 }}
-            color="primary"
-            type="button"
-            variant="outlined"
-            onClick={handleAddAttributesGroup}
-            disabled={readOnly}
-          >
-            {t('attributesAddBtn')}
-          </Button>
-
-          {attributeKey !== 'certified' && (
+        {!readOnly && (
+          <Stack direction="row" spacing={2}>
             <Button
               sx={{ fontWeight: 700 }}
               color="primary"
               type="button"
               variant="outlined"
-              onClick={openCreateAttributeDrawer}
-              disabled={readOnly}
+              onClick={handleAddAttributesGroup}
             >
-              {t('attributesCreateBtn')}
+              {t('attributesAddBtn')}
             </Button>
-          )}
-        </Stack>
+
+            {attributeKey !== 'certified' && (
+              <Button
+                sx={{ fontWeight: 700 }}
+                color="primary"
+                type="button"
+                variant="outlined"
+                onClick={openCreateAttributeDrawer}
+              >
+                {t('attributesCreateBtn')}
+              </Button>
+            )}
+          </Stack>
+        )}
       </Stack>
     </SectionContainer>
   )

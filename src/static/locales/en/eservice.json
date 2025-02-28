@@ -24,6 +24,10 @@
         "label": "E-service name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
+      "istanceNameField": {
+        "label":" Instance ID (optional)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
       "eserviceDescriptionField": {
         "label": "E-service description",
         "infoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
@@ -138,6 +142,32 @@
       }
     },
     "step4": {
+      "template" : {
+        "interface": {
+          "save" :"Save data",
+          "title": "Interface",
+          "contactSection":{
+            "title":"Contact's info details",
+            "contactNameField": "Contact's name",
+            "emailField":"email",
+            "urlField":"URL"
+          },
+          "termsAndConditions": {
+            "title": "Terms and conditions",
+            "label":"Terms and conditions URL"
+          },
+          "serverSection": {
+            "title": "Server",
+            "label":"Server URL",
+            "add": "Add server URL",
+            "remove":"Remove field"
+          },
+          "description": {
+            "rest": "Compile following fields and openAPI will be automatically generated",
+            "download": "Download interface API file"
+          }
+        }
+      },
       "interface": {
         "title": "Interface (required)",
         "description": {

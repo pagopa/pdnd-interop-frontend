@@ -16,6 +16,13 @@ function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string
   })
 }
 
+function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
+  return queryOptions({
+    queryKey: ['EServiceTemplateGetSingleByEServiceTemplateId', eserviceTemplateId],
+    queryFn: () => TemplateServices.getSingleByEServiceTemplateId(eserviceTemplateId),
+  })
+}
+
 function getProviderTemplateInstancesList(eServiceTemplateId: string) {
   //TODO aggiungi params
   return queryOptions({
@@ -28,4 +35,5 @@ export const TemplateQueries = {
   getProviderTemplatesList,
   getSingle,
   getProviderTemplateInstancesList,
+  getSingleByEServiceTemplateId,
 }

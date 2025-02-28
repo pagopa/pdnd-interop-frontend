@@ -1,7 +1,11 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
-import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type {
+  EServiceMode,
+  EServiceTemplateDetails,
+  ProducerEServiceDescriptor,
+} from '@/api/api.generatedTypes'
 
 type EServiceCreateContextType = {
   descriptor: ProducerEServiceDescriptor | undefined
@@ -16,10 +20,13 @@ type EServiceCreateContextType = {
   }
   openRiskAnalysisForm: (riskAnalysisId?: string) => void
   closeRiskAnalysisForm: VoidFunction
+  isEServiceFromTemplate: boolean
+  template: EServiceTemplateDetails | undefined
 }
 
 const initialState: EServiceCreateContextType = {
   descriptor: undefined,
+  template: undefined,
   eserviceMode: 'DELIVER',
   onEserviceModeChange: noop,
   back: noop,
@@ -31,6 +38,7 @@ const initialState: EServiceCreateContextType = {
   },
   openRiskAnalysisForm: noop,
   closeRiskAnalysisForm: noop,
+  isEServiceFromTemplate: false,
 }
 
 const { useContext, Provider } = createContext<EServiceCreateContextType>(
@@ -41,19 +49,23 @@ const { useContext, Provider } = createContext<EServiceCreateContextType>(
 type EServiceCreateContextProviderProps = {
   children: React.ReactNode
   descriptor: ProducerEServiceDescriptor | undefined
+  template: EServiceTemplateDetails | undefined
   eserviceMode: EServiceMode
   onEserviceModeChange: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
+  isEServiceFromTemplate: boolean
 }
 
 const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps> = ({
   children,
   descriptor,
+  template,
   eserviceMode,
   onEserviceModeChange,
   back,
   forward,
+  isEServiceFromTemplate,
 }) => {
   const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<{
     isOpen: boolean
@@ -95,8 +107,19 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       riskAnalysisFormState,
       openRiskAnalysisForm,
       closeRiskAnalysisForm,
+      isEServiceFromTemplate,
+      template,
     }
-  }, [descriptor, eserviceMode, onEserviceModeChange, back, forward, riskAnalysisFormState])
+  }, [
+    descriptor,
+    eserviceMode,
+    onEserviceModeChange,
+    back,
+    forward,
+    riskAnalysisFormState,
+    isEServiceFromTemplate,
+    template,
+  ])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

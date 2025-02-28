@@ -369,6 +369,7 @@ export interface ProducerEServiceDescriptor {
   /** @format date-time */
   archivedAt?: string
   rejectionReasons?: DescriptorRejectionReason[]
+  templateRef?: EServiceTemplateRef
 }
 
 export interface ProducerDescriptorEService {
@@ -394,6 +395,16 @@ export interface ProducerDescriptorEServiceProducer {
   /** @format uuid */
   id: string
   tenantKind?: TenantKind
+}
+
+export interface EServiceTemplateRef {
+  /** @format uuid */
+  templateId: string
+  /** @format uuid */
+  templateVersionId?: string
+  templateName: string
+  instanceId?: string
+  interfaceMetadata?: CustomizedInterfaceMetadata
 }
 
 export interface EServiceDoc {
@@ -546,6 +557,17 @@ export interface CompactDescriptor {
   state: EServiceDescriptorState
   version: string
   audience: string[]
+}
+
+export interface CustomizedInterfaceMetadata {
+  name: string
+  /** @format email */
+  email: string
+  /** @format uri */
+  url: string
+  /** @format uri */
+  termsAndConditionsUrl: string
+  serverUrls: string[]
 }
 
 export interface CompactEService {
@@ -762,8 +784,6 @@ export interface PurposeAdditionDetailsSeed {
 }
 
 export type CompactUsers = CompactUser[]
-
-export type KeysSeed = KeySeed[]
 
 /** Models the seed for a public key to be persisted */
 export interface KeySeed {
@@ -1595,64 +1615,6 @@ export interface UpdateEServiceTemplateSeed {
   isSignalHubEnabled?: boolean
 }
 
-export type EService = object
-
-export interface EServiceTemplate {
-  /** @format uuid */
-  id: string
-  /** @format uuid */
-  creatorId: string
-  name: string
-  audienceDescription: string
-  eserviceDescription: string
-  /** EService Descriptor State */
-  technology: EServiceTechnology
-  versions: EServiceTemplateVersion[]
-  riskAnalysis: EServiceRiskAnalysis[]
-  /** Risk Analysis Mode */
-  mode: EServiceMode
-  isSignalHubEnabled?: boolean
-}
-
-export interface EServiceTemplateVersion {
-  /** @format uuid */
-  id: string
-  /** @format int32 */
-  version: number
-  description?: string
-  /** @format int32 */
-  voucherLifespan: number
-  /**
-   * maximum number of daily calls that this descriptor can afford per consumer.
-   * @format int32
-   * @min 1
-   */
-  dailyCallsPerConsumer?: number
-  /**
-   * total daily calls available for this e-service.
-   * @format int32
-   * @min 1
-   */
-  dailyCallsTotal?: number
-  interface?: EServiceDoc
-  docs: EServiceDoc[]
-  /** EService Descriptor State */
-  state: EServiceTemplateVersionState
-  /**
-   * EService Descriptor policy for new Agreements approval.
-   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
-   * MANUAL - the Producer must approve every agreement for this Descriptor.
-   */
-  agreementApprovalPolicy?: AgreementApprovalPolicy
-  /** @format date-time */
-  publishedAt?: string
-  /** @format date-time */
-  suspendedAt?: string
-  /** @format date-time */
-  deprecatedAt?: string
-  attributes: Attributes
-}
-
 export interface EServiceTemplateSeed {
   /**
    * @minLength 5
@@ -1678,11 +1640,10 @@ export interface EServiceTemplateSeed {
 }
 
 export interface InstanceEServiceSeed {
-  /**
-   * Optional identifier to be appended to the template name
-   * @format uuid
-   */
   instanceId?: string
+  isSignalHubEnabled?: boolean
+  isConsumerDelegable?: boolean
+  isClientAccessDelegable?: boolean
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
@@ -1720,18 +1681,18 @@ export interface VersionSeedForEServiceTemplateCreation {
 export interface EServiceTemplateInstance {
   /** @format uuid */
   id: string
+  name: string
+  /** @format uuid */
+  producerId: string
   producerName: string
-  /** EService Descriptor State */
-  state: EServiceDescriptorState
+  activeDescriptor?: CompactDescriptor
+  descriptors: CompactDescriptor[]
   instanceId?: string
-  /** @format int32 */
-  version: number
 }
 
 export interface EServiceTemplateInstances {
   results: EServiceTemplateInstance[]
-  /** @format int32 */
-  totalCount: number
+  pagination: Pagination
 }
 
 export interface CatalogEServiceTemplate {
@@ -1842,6 +1803,26 @@ export interface EServiceTemplateVersionAttributeSeed {
   explicitAttributeVerification: boolean
 }
 
+export interface UpdateEServiceTemplateVersionDocumentSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  prettyName: string
+}
+
+/** contains eservice api custom data to add on interface document provided by template */
+export interface EserviceInterfaceTemplatePayload {
+  contactName: string
+  /** @format email */
+  email: string
+  /** @format uri */
+  contactUrl: string
+  /** @format uri */
+  termsAndConditionsUrl: string
+  serverUrls: string[]
+}
+
 export interface ProblemError {
   /**
    * Internal code of the error
@@ -1922,7 +1903,7 @@ export interface GetProducerAgreementsParams {
   showOnlyUpgradeable?: boolean
 }
 
-export interface GetAgreementProducersParams {
+export interface GetAgreementsProducersParams {
   /** Query to filter Producers by name */
   q?: string
   /**
@@ -1938,7 +1919,7 @@ export interface GetAgreementProducersParams {
   limit: number
 }
 
-export interface GetAgreementConsumersParams {
+export interface GetAgreementsConsumersParams {
   /** Query to filter Consumers by name */
   q?: string
   /**
@@ -2077,14 +2058,9 @@ export interface GetProducerEServicesParams {
   limit: number
 }
 
-export interface GetAgreementEServiceProducersParams {
+export interface GetAgreementsProducerEServicesParams {
   /** Query to filter EServices by name */
   q?: string
-  /**
-   * comma separated sequence of states
-   * @default []
-   */
-  states?: AgreementState[]
   /**
    * @format int32
    * @min 0
@@ -2098,7 +2074,7 @@ export interface GetAgreementEServiceProducersParams {
   limit: number
 }
 
-export interface GetAgreementEServiceConsumersParams {
+export interface GetAgreementsConsumerEServicesParams {
   /** Query to filter EServices by name */
   q?: string
   /**
@@ -2448,6 +2424,30 @@ export interface GetProducerEServices2Params {
   limit: number
 }
 
+export interface GetEServiceTemplateCreatorsParams {
+  /** Query to filter creators by name */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface CreateEServiceTemplateDocumentPayload {
+  /** Document Type */
+  kind: 'INTERFACE' | 'DOCUMENT'
+  prettyName: string
+  /** @format binary */
+  doc: File
+}
+
 export namespace Consumers {
   /**
    * @description retrieves a list of consumer agreements
@@ -2573,12 +2573,12 @@ export namespace Consumers {
   /**
    * @description Retrieves eservices for consumers in agreements
    * @tags agreements
-   * @name GetAgreementEServiceConsumers
+   * @name GetAgreementsConsumerEServices
    * @summary Retrieves eservices for consumers in agreements
    * @request GET:/consumers/agreements/eservices
    * @secure
    */
-  export namespace GetAgreementEServiceConsumers {
+  export namespace GetAgreementsConsumerEServices {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter EServices by name */
@@ -2864,21 +2864,16 @@ export namespace Producers {
   /**
    * @description Retrieves eservices for producers in agreements
    * @tags agreements
-   * @name GetAgreementEServiceProducers
+   * @name GetAgreementsProducerEServices
    * @summary Retrieves eservices for producers in agreements
    * @request GET:/producers/agreements/eservices
    * @secure
    */
-  export namespace GetAgreementEServiceProducers {
+  export namespace GetAgreementsProducerEServices {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter EServices by name */
       q?: string
-      /**
-       * comma separated sequence of states
-       * @default []
-       */
-      states?: AgreementState[]
       /**
        * @format int32
        * @min 0
@@ -3129,12 +3124,12 @@ export namespace Agreements {
   /**
    * @description Retrieves Tenants that are producers with existing Agreements
    * @tags agreements
-   * @name GetAgreementProducers
+   * @name GetAgreementsProducers
    * @summary Retrieves Tenants that are producers with existing Agreements
    * @request GET:/agreements/filter/producers
    * @secure
    */
-  export namespace GetAgreementProducers {
+  export namespace GetAgreementsProducers {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter Producers by name */
@@ -3160,12 +3155,12 @@ export namespace Agreements {
   /**
    * @description Retrieves Tenants that are consumers with existing Agreements
    * @tags agreements
-   * @name GetAgreementConsumers
+   * @name GetAgreementsConsumers
    * @summary Retrieves Tenants that are consumers with existing Agreements
    * @request GET:/agreements/filter/consumers
    * @secure
    */
-  export namespace GetAgreementConsumers {
+  export namespace GetAgreementsConsumers {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter Consumers by name */
@@ -4090,7 +4085,7 @@ export namespace Eservices {
    * @tags eservices
    * @name CreateEServiceInstanceFromTemplate
    * @summary Create a new e-service instance from a template
-   * @request POST:/eservices/templates/{templateId}/instance
+   * @request POST:/eservices/templates/{templateId}/instances
    * @secure
    */
   export namespace CreateEServiceInstanceFromTemplate {
@@ -4106,7 +4101,7 @@ export namespace Eservices {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = EService
+    export type ResponseBody = CreatedResource
   }
   /**
    * No description
@@ -4321,6 +4316,34 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name AddEServiceInterfaceDocumentByTemplateId
+   * @summary Add e-service interface for provided template
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/instances/interface
+   * @secure
+   */
+  export namespace AddEServiceInterfaceDocumentByTemplateId {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the eservice descriptor id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EserviceInterfaceTemplatePayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
   }
   /**
    * No description
@@ -4776,6 +4799,27 @@ export namespace Eservices {
   }
   /**
    * No description
+   * @tags eservices
+   * @name UpgradeEServiceInstance
+   * @summary Upgrade an instance of a template
+   * @request POST:/eservices/{eServiceId}/instance/upgrade
+   * @secure
+   */
+  export namespace UpgradeEServiceInstance {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedEServiceDescriptor
+  }
+  /**
+   * No description
    * @tags eserviceTemplates
    * @name CreateEServiceTemplate
    * @summary Create a new e-service template
@@ -4810,6 +4854,26 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplate
+   * @summary Retrive e-service template
+   * @request GET:/eservices/templates/{eServiceTemplateId}
+   * @secure
+   */
+  export namespace GetEServiceTemplate {
+    export type RequestParams = {
+      /** The E-Service id to retrieve */
+      eServiceTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = EServiceTemplateDetails
   }
   /**
    * No description
@@ -5179,7 +5243,7 @@ export namespace Eservices {
   }
   /**
    * @description Retrieves EService template instances
-   * @tags eserviceTemplates
+   * @tags eservices
    * @name GetEServiceTemplateInstances
    * @summary Retrieves EService template instances
    * @request GET:/eservices/templates/{eServiceTemplateId}/instances
@@ -5218,6 +5282,114 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = EServiceTemplateInstances
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name CreateEServiceTemplateVersion
+   * @summary Adds a mew version to the specified e-service template
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions
+   * @secure
+   */
+  export namespace CreateEServiceTemplateVersion {
+    export type RequestParams = {
+      /**
+       * The E-Service template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name CreateEServiceTemplateDocument
+   * @summary Add new e-service template document
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/documents
+   * @secure
+   */
+  export namespace CreateEServiceTemplateDocument {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the version Id
+       * @format uuid
+       */
+      eServiceTemplateVersionId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = CreateEServiceTemplateDocumentPayload
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplateDocumentById
+   * @summary Get an e-service template document
+   * @request GET:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/documents/{documentId}
+   * @secure
+   */
+  export namespace GetEServiceTemplateDocumentById {
+    export type RequestParams = {
+      /** the eService template id */
+      eServiceTemplateId: string
+      /** the template version Id */
+      eServiceTemplateVersionId: string
+      /** the document id */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = File
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
+   * @name UpdateEServiceTemplateDocumentById
+   * @summary Updates an e-service template document
+   * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/documents/{documentId}/update
+   * @secure
+   */
+  export namespace UpdateEServiceTemplateDocumentById {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+      /**
+       * the version Id
+       * @format uuid
+       */
+      eServiceTemplateVersionId: string
+      /**
+       * the document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceTemplateVersionDocumentSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = EServiceDoc
   }
 }
 
@@ -6116,12 +6288,12 @@ export namespace Clients {
   /**
    * @description Creates one or more keys for the corresponding client.
    * @tags clients
-   * @name CreateKeys
+   * @name CreateKey
    * @summary Create Keys for the specific clientId.
    * @request POST:/clients/{clientId}/keys
    * @secure
    */
-  export namespace CreateKeys {
+  export namespace CreateKey {
     export type RequestParams = {
       /**
        * ID of client that the added keys MUST belong to
@@ -6130,7 +6302,7 @@ export namespace Clients {
       clientId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = KeysSeed
+    export type RequestBody = KeySeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
@@ -6792,6 +6964,40 @@ export namespace Delegations {
       'X-Correlation-Id': string
     }
     export type ResponseBody = File
+  }
+}
+
+export namespace Eservice {
+  /**
+   * @description Retrieves Tenants that are producers of published e-service templates
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplateCreators
+   * @summary Retrieves Tenants that are creators of published e-service templates
+   * @request GET:/eservice/templates/filter/creators
+   * @secure
+   */
+  export namespace GetEServiceTemplateCreators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter creators by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactOrganizations
   }
 }
 
