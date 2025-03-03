@@ -37,7 +37,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     organizationId: jwt?.organizationId,
   })
 
-  const isEserviceFromTemplate = Boolean(descriptor.templateVersionId)
+  const isEserviceFromTemplate = Boolean(descriptor.templateRef)
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
@@ -173,11 +173,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                   <Link
                     to="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
                     params={{
-                      eServiceTemplateId: descriptor.eservice.templateId,
-                      eServiceTemplateVersionId: descriptor.templateVersionId as string,
+                      eServiceTemplateId: descriptor.templateRef?.templateId as string,
+                      eServiceTemplateVersionId: descriptor.templateRef
+                        ?.templateVersionId as string,
                     }}
                   >
-                    TODO TEMPLATE NAME
+                    {descriptor.templateRef?.templateName}
                   </Link>
                 }
               />
@@ -187,18 +188,18 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                 title={t('instanceId.label')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
                 topSideActions={
-                  isDelegator
+                  isDelegator || isEserviceFromTemplate //TODO TEMP! Remove this once the function call is implemented
                     ? []
                     : [
                         {
-                          action: openEServiceUpdateInstanceIdDrawer, //TODO
+                          action: openEServiceUpdateInstanceIdDrawer,
                           label: tCommon('actions.edit'),
                           icon: EditIcon,
                         },
                       ]
                 }
               >
-                <Typography variant="body2">{descriptor.instanceId}</Typography>
+                <Typography variant="body2">{descriptor.templateRef?.instanceId}</Typography>
               </SectionContainer>
             </>
           ) : (
@@ -276,7 +277,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         isOpen={isEServiceUpdateInstanceIdDrawerOpen}
         onClose={closeEServiceUpdateInstanceIdDrawer}
         id={descriptor.eservice.id}
-        instanceId={descriptor.instanceId as string}
+        instanceId={descriptor.templateRef?.instanceId as string}
         onSubmit={handleNameUpdate}
       />
     </>

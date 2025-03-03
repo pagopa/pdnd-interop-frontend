@@ -19,17 +19,14 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
-  /*const { data: descriptorAttributes } = useSuspenseQuery({
-    ...EServiceQueries.getDescriptorProvider(eserviceId, descriptorId),
-    select: (d) => d.attributes,
-  })*/
+
   const { data: descriptor } = useSuspenseQuery({
     ...EServiceQueries.getDescriptorProvider(eserviceId, descriptorId),
   })
 
   const descriptorAttributes = descriptor.attributes
 
-  const isEserviceFromTemplate = descriptor.templateVersionId
+  const isEserviceFromTemplate = Boolean(descriptor.templateRef)
 
   const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId,
