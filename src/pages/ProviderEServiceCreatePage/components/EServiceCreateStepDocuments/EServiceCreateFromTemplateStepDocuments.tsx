@@ -13,7 +13,11 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Box, Stack } from '@mui/system'
 import { Button } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
-import type { CustomizedInterfaceMetadata } from '@/api/api.generatedTypes'
+import type {
+  CustomizedInterfaceMetadata,
+  EserviceInterfaceTemplatePayload,
+} from '@/api/api.generatedTypes'
+import { EServiceMutations } from '@/api/eservice'
 
 export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
@@ -28,6 +32,10 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     termsAndConditionsUrl: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl ?? '',
     serverUrls: descriptor?.templateRef?.interfaceMetadata?.serverUrls ?? [''],
   }
+
+  const { mutate: updateEServiceInterfaceInfo } = EServiceMutations.useUpdatEServiceInterfaceInfo({
+    suppressSuccessToast: true,
+  })
 
   const formMethods = useForm({ defaultValues })
 
@@ -54,8 +62,21 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
   //   )
 
   const onSubmit = (values: CustomizedInterfaceMetadata) => {
-    console.log('Valori:', values)
-    alert('SUBMIT')
+    if (!descriptor) return
+
+    const payload: EserviceInterfaceTemplatePayload = {
+      contactName: values.name,
+      email: values.email,
+      contactUrl: values.url,
+      termsAndConditionsUrl: values.termsAndConditionsUrl,
+      serverUrls: values.serverUrls,
+    }
+
+    updateEServiceInterfaceInfo({
+      ...payload,
+      eserviceId: descriptor?.eservice.id,
+      descriptorId: descriptor?.id,
+    })
   }
 
   return (

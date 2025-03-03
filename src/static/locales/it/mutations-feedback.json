@@ -226,6 +226,13 @@
         "error": "Nome dell'e-service non aggiornato. Riprovare.",
         "success": "Nome dell'e-service aggiornato correttamente"
       }
+    },
+    "updateEServiceInterfaceInfo" : {
+      "loading": "Stiamo modificando i dati di interfaccia dell e-service",
+      "outcome": {
+        "error": "Dati di interfaccia non aggiornati. Riprovare",
+        "success": "Dati di interfaccia aggiornati corettamente"
+      }
     }
   },
   "attribute": {
