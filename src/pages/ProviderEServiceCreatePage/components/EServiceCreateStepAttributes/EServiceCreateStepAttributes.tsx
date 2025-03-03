@@ -31,7 +31,7 @@ export const EServiceCreateStepAttributes: React.FC = () => {
     suppressSuccessToast: true,
   })
 
-  const isReadOnly = Boolean(descriptor?.templateVersionId)
+  const isReadOnly = Boolean(descriptor?.templateRef?.templateVersionId)
 
   const [createAttributeCreateDrawerState, setCreateAttributeCreateDrawerState] = React.useState<{
     attributeKey: Exclude<AttributeKey, 'certified'>

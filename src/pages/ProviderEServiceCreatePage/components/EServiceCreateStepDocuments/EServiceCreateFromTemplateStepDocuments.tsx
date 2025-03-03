@@ -13,7 +13,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import { Box, Stack } from '@mui/system'
 import { Button } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
-import { CustomizedInterfaceMetadata } from '@/api/api.generatedTypes'
+import type { CustomizedInterfaceMetadata } from '@/api/api.generatedTypes'
 
 export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
@@ -78,8 +78,8 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
         </Box>
       </SectionContainer>
       <SectionContainer
-        title={t('create.step4.documentation.title')}
-        description={t('create.step4.documentation.description')}
+        title={t('create.step4.template.interface.documentation.title')}
+        description={t('create.step4.template.interface.documentation.description')}
       >
         <EServiceCreateStepDocumentsDoc readonly />
       </SectionContainer>

@@ -144,6 +144,10 @@
     "step4": {
       "template" : {
         "interface" : {
+          "documentation": {
+            "title":"Documentazione",
+            "description" :"Verifica la documentazione tecnica utile all’implementazione di un’integrazione con questo template di e-service."
+          },
           "save":"Salva dati interfaccia",
           "title": "Interfaccia",
           "contactSection":{

@@ -58,7 +58,6 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const descriptor: ProducerEServiceDescriptor | undefined = eserviceId
     ? {
         id: '69159c90-7be3-4e6c-8729-ca279dc7fad1',
-        templateVersionId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
         version: '2',
         description: 'questa versione è nuova',
         interface: {
@@ -66,6 +65,14 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           name: 'push-signals_1.2.0_.yaml',
           contentType: 'application/x-yaml',
           prettyName: 'Specifica API',
+        },
+        templateRef: {
+          templateInterfaceId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
+          templateId: '24a7f7d-f5a4-4488-8e4b-57298c1677ce',
+          templateName: 'Template test name',
+          instanceId: 'template instanceID',
+          interfaceMetadata: undefined,
+          templateVersionId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
         },
         docs: [
           {
@@ -95,7 +102,6 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
         agreementApprovalPolicy: 'AUTOMATIC',
         eservice: {
           id: 'dcca5968-d3b3-4255-9087-31d915847c0a',
-          templateId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
           name: 'E-service con attributi',
           description: 'test con attributi',
           producer: {
@@ -228,7 +234,6 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
       {isReady && isTemplateReady && (
         <EServiceCreateContextProvider
           template={template}
-          isEServiceFromTemplate={true}
           descriptor={descriptor}
           eserviceMode={template?.mode as EServiceMode}
           onEserviceModeChange={() => alert('change')}

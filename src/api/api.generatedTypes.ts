@@ -404,6 +404,7 @@ export interface EServiceTemplateRef {
   templateVersionId?: string
   templateName: string
   instanceId?: string
+  templateInterfaceId?: string
   interfaceMetadata?: CustomizedInterfaceMetadata
 }
 
@@ -4083,29 +4084,6 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
-   * @name CreateEServiceInstanceFromTemplate
-   * @summary Create a new e-service instance from a template
-   * @request POST:/eservices/templates/{templateId}/instances
-   * @secure
-   */
-  export namespace CreateEServiceInstanceFromTemplate {
-    export type RequestParams = {
-      /**
-       * The template id to create the e-service from
-       * @format uuid
-       */
-      templateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = InstanceEServiceSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CreatedResource
-  }
-  /**
-   * No description
-   * @tags eservices
    * @name GetEServiceConsumers
    * @summary Retrieve Consumers for an EService
    * @request GET:/eservices/{eServiceId}/consumers
@@ -4802,7 +4780,7 @@ export namespace Eservices {
    * @tags eservices
    * @name UpgradeEServiceInstance
    * @summary Upgrade an instance of a template
-   * @request POST:/eservices/{eServiceId}/instance/upgrade
+   * @request POST:/eservices/{eServiceId}/instances/upgrade
    * @secure
    */
   export namespace UpgradeEServiceInstance {
@@ -4817,6 +4795,29 @@ export namespace Eservices {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = CreatedEServiceDescriptor
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name CreateEServiceInstanceFromTemplate
+   * @summary Create a new e-service instance from a template
+   * @request POST:/eservices/templates/{templateId}/instances
+   * @secure
+   */
+  export namespace CreateEServiceInstanceFromTemplate {
+    export type RequestParams = {
+      /**
+       * The template id to create the e-service from
+       * @format uuid
+       */
+      templateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = InstanceEServiceSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
   }
   /**
    * No description
@@ -4839,7 +4840,7 @@ export namespace Eservices {
    * No description
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplate
-   * @summary Updates e-service template general information
+   * @summary Updates a draft e-service template general information
    * @request POST:/eservices/templates/{eServiceTemplateId}
    * @secure
    */
@@ -4859,7 +4860,7 @@ export namespace Eservices {
    * No description
    * @tags eserviceTemplates
    * @name GetEServiceTemplate
-   * @summary Retrive e-service template
+   * @summary Retrieve e-service template
    * @request GET:/eservices/templates/{eServiceTemplateId}
    * @secure
    */

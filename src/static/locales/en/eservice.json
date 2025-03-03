@@ -144,6 +144,10 @@
     "step4": {
       "template" : {
         "interface": {
+          "documentation": {
+            "title":"Documentation",
+            "description": "Check technical documentations needed for the implementation of an integration with this template of e-service."
+          },
           "save" :"Save data",
           "title": "Interface",
           "contactSection":{

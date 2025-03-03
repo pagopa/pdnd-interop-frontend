@@ -84,7 +84,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
   // if this field is true some textField should be disabled
-  const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateVersionId)
+  const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
 
   return (
     <FormProvider {...formMethods}>
