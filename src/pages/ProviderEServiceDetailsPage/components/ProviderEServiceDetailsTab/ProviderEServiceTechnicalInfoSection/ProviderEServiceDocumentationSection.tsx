@@ -54,7 +54,7 @@ export const ProviderEServiceDocumentationSection: React.FC<
     )
   }
 
-  const isEserviceFromTemplate = Boolean(descriptor.templateVersionId)
+  const isEserviceFromTemplate = Boolean(descriptor.templateRef)
 
   return (
     <>
