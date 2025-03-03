@@ -19,11 +19,11 @@ import {
 } from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
 
-export type EServiceCreateStepPurposeRiskAnalysisFormValues = {
+export type CreateStepPurposeRiskAnalysisFormValues = {
   name: string
 } & Answers
 
-type EServiceCreateStepPurposeRiskAnalysisFormProps = {
+type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName: string | undefined
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
@@ -31,8 +31,8 @@ type EServiceCreateStepPurposeRiskAnalysisFormProps = {
   onCancel: VoidFunction
 }
 
-export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
-  EServiceCreateStepPurposeRiskAnalysisFormProps
+export const CreateStepPurposeRiskAnalysisForm: React.FC<
+  CreateStepPurposeRiskAnalysisFormProps
 > = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
 
@@ -44,7 +44,7 @@ export const EServiceCreateStepPurposeRiskAnalysisForm: React.FC<
     getUpdatedQuestions(defaultValues, riskAnalysis.questions)
   )
 
-  const formMethods = useForm<EServiceCreateStepPurposeRiskAnalysisFormValues>({
+  const formMethods = useForm<CreateStepPurposeRiskAnalysisFormValues>({
     defaultValues: {
       name: defaultName ?? '',
       ...defaultValues,
