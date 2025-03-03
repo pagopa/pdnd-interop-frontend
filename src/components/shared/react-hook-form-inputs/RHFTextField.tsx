@@ -51,8 +51,6 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
 
   const fieldName = indexFieldArray !== undefined ? `${name}.${indexFieldArray}` : name
 
-  console.log('name:', name)
-  console.log('error', error)
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(fieldName, {
     infoLabel,
     error,

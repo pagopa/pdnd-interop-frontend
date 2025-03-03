@@ -26,9 +26,7 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     email: descriptor?.templateRef?.interfaceMetadata?.email ?? '',
     url: descriptor?.templateRef?.interfaceMetadata?.url ?? '',
     termsAndConditionsUrl: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl ?? '',
-    serverUrls: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl.split(',') ?? [
-      '',
-    ],
+    serverUrls: descriptor?.templateRef?.interfaceMetadata?.serverUrls ?? [''],
   }
 
   const formMethods = useForm({ defaultValues })
@@ -37,8 +35,6 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     control: formMethods.control,
     name: 'serverUrls',
   })
-
-  fieldsArray.fields
 
   // const sectionDescription =
   //   descriptor?.eservice.technology === 'SOAP' ? (

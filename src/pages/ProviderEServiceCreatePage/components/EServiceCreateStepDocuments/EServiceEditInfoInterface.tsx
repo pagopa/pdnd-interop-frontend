@@ -8,7 +8,10 @@ import AddIcon from '@mui/icons-material/Add'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import type { UseFieldArrayReturn } from 'react-hook-form'
-import type { CustomizedInterfaceMetadata } from '@/api/api.generatedTypes'
+import type { CustomizedInterfaceMetadata, EServiceDoc } from '@/api/api.generatedTypes'
+import { TemplateDownloads } from '@/api/template/template.downloads'
+import { useEServiceCreateContext } from '../EServiceCreateContext'
+import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type EServiceEditInfoInterfaceProps = {
   fieldsArray: UseFieldArrayReturn<CustomizedInterfaceMetadata, never, 'id'>
@@ -19,6 +22,20 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { t: tCommon } = useTranslation('common')
+  const { descriptor } = useEServiceCreateContext()
+
+  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
+
+  const handleDownloadInterfaceDocument = () => {
+    if (descriptor?.templateRef?.templateId && descriptor?.templateRef?.templateInterfaceId)
+      downloadDocument(
+        {
+          templateId: descriptor?.templateRef?.templateId,
+          documentId: descriptor?.templateRef?.templateInterfaceId,
+        },
+        getDownloadDocumentName(descriptor.interface as EServiceDoc)
+      )
+  }
 
   return (
     <Box component="div" bgcolor="common.white">
@@ -27,7 +44,8 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
           fontWeight={600}
           key="test"
           component="button"
-          onClick={() => alert('download')}
+          type="button"
+          onClick={handleDownloadInterfaceDocument}
           endIcon={<DownloadIcon sx={{ ml: 1 }} fontSize="small" />}
         >
           {t('step4.template.interface.description.download')}
@@ -41,7 +59,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
         <RHFTextField
           size="small"
           sx={{ flex: '1 1 50%' }}
-          name="contactName"
+          name="name"
           label={t('step4.template.interface.contactSection.contactNameField')}
           rules={{ required: true }}
         />
@@ -72,7 +90,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
       <RHFTextField
         size="small"
         sx={{ width: '50%' }}
-        name="termsAndConditionsLink"
+        name="termsAndConditionsUrl"
         label={t('step4.template.interface.termsAndConditions.label')}
         rules={{ required: true }}
       />
@@ -83,23 +101,26 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
         <RHFTextField
           size="small"
           sx={{ width: '50%' }}
-          name={`serverUrl`}
+          name={`serverUrls`}
           indexFieldArray={0}
           label={t('step4.template.interface.serverSection.label')}
           rules={{
             required: true,
           }}
         />
-        {fieldsArray.fields.map((item, index) => (
+        {fieldsArray.fields.slice(1).map((item, index) => {
           // Starting from 1 because first field is already rendered and need to be rendered always.
-          <UrlInputField key={index} id={item.id} index={index + 1} remove={fieldsArray.remove} />
-        ))}
+          return (
+            <UrlInputField key={index} id={item.id} index={index + 1} remove={fieldsArray.remove} />
+          )
+        })}
         <IconLink
           sx={{ mt: 1 }}
           fontWeight={800}
           key="test"
           alignSelf="start"
           component="button"
+          type="button"
           onClick={() => fieldsArray.append('')}
           startIcon={<AddIcon fontSize="small" />}
         >
@@ -121,7 +142,7 @@ export const UrlInputField: React.FC<{
     <Stack direction="row" alignItems="center" key={id}>
       {index >= 1 && (
         <Tooltip title={t('step4.template.interface.serverSection.remove')}>
-          <Button color="error" sx={{ p: 1 }} onClick={() => remove(index)} variant="naked">
+          <Button color="error" sx={{ p: 1 }} onClick={() => remove(index - 1)} variant="naked">
             <RemoveCircleOutlineIcon fontSize="small" />
           </Button>
         </Tooltip>
@@ -129,8 +150,8 @@ export const UrlInputField: React.FC<{
       <RHFTextField
         size="small"
         sx={{ width: '50%' }}
-        name={`serverUrl`}
-        indexFieldArray={index + 1}
+        name={`serverUrls`}
+        indexFieldArray={index}
         label={t('step4.template.interface.serverSection.label')}
       />
     </Stack>

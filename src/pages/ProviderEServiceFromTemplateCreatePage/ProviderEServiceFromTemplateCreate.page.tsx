@@ -2,7 +2,7 @@ import { useActiveStep } from '@/hooks/useActiveStep'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useParams } from '@/router'
+import { useParams, useGeneratePath } from '@/router'
 import { Link } from '@mui/material'
 import { TemplateQueries } from '@/api/template'
 import type { StepperStep } from '@/types/common.types'
@@ -30,7 +30,6 @@ import {
 import { PageContainer } from '@/components/layout/containers'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from '../ProviderEServiceCreatePage/components/EServiceCreateContext'
-import { attributesHelpLink } from '@/config/constants'
 import { EServiceQueries } from '@/api/eservice'
 import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
@@ -41,6 +40,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
     'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT'
   >()
   const { activeStep, ...stepProps } = useActiveStep()
+  const generatePath = useGeneratePath()
 
   const isNewEService = !eserviceId || !descriptorId
 
@@ -71,7 +71,13 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           templateId: '24a7f7d-f5a4-4488-8e4b-57298c1677ce',
           templateName: 'Template test name',
           instanceId: 'template instanceID',
-          interfaceMetadata: undefined,
+          interfaceMetadata: {
+            email: 'pippo@gmail.com',
+            name: 'pippo',
+            termsAndConditionsUrl: 'https://google.com',
+            url: 'https://googlae.com',
+            serverUrls: ['https://testo0.com', 'https://testo1.com'],
+          },
           templateVersionId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
         },
         docs: [
@@ -196,6 +202,9 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
   const isTemplateReady = Boolean(template)
 
+  const activeTemplateversionId = template?.versions.find((v) => v.state === 'PUBLISHED')
+    ?.id as string
+
   const stepsLoadingSkeletons =
     template?.mode === 'DELIVER'
       ? [
@@ -215,20 +224,38 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   return (
     <PageContainer
       title={tTemplate('createInstance.title')}
+      isLoading={!isTemplateReady}
       description={
-        <Trans
-          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
-        >
-          {tTemplate('createInstance.templateDescriptionLink', {
-            templateName: template?.name,
-          })}
-        </Trans>
+        !isTemplateReady ? (
+          ''
+        ) : (
+          <Trans
+            components={{
+              1: (
+                <Link
+                  underline="hover"
+                  href={
+                    '/ui' +
+                    generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
+                      eServiceTemplateId: template?.id as string,
+                      eServiceTemplateVersionId: activeTemplateversionId,
+                    })
+                  }
+                  target="_blank"
+                />
+              ),
+            }}
+          >
+            {tTemplate('createInstance.templateDescriptionLink', {
+              templateName: template?.name,
+            })}
+          </Trans>
+        )
       }
       backToAction={{
         label: t('backToListBtn'),
         to: 'PROVIDE_ESERVICE_TEMPLATES_CATALOG',
       }}
-      isLoading={false}
     >
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && isTemplateReady && (
