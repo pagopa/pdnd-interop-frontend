@@ -1,32 +1,30 @@
 import React from 'react'
+import { PurposeQueries } from '@/api/purpose'
+import { useQuery } from '@tanstack/react-query'
+import { TemplateMutations, TemplateQueries } from '@/api/template'
+import { useEServiceTemplateCreateContext } from '../../ProviderEServiceTemplateContext'
 import {
   CreateStepPurposeRiskAnalysisForm,
   RiskAnalysisFormSkeleton,
-} from '../../../../../components/shared/CreateStepPurposeRiskAnalysisForm'
-import { useEServiceCreateContext } from '../../EServiceCreateContext'
-import { PurposeQueries } from '@/api/purpose'
-import { EServiceMutations } from '@/api/eservice'
-import { useQuery } from '@tanstack/react-query'
+} from '@/components/shared/CreateStepPurposeRiskAnalysisForm'
 
-export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
-  const { riskAnalysisFormState, closeRiskAnalysisForm, descriptor } = useEServiceCreateContext()
+export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
+  const { riskAnalysisFormState, closeRiskAnalysisForm, template } =
+    useEServiceTemplateCreateContext()
 
-  const { mutate: addEServiceRiskAnalysis } = EServiceMutations.useAddEServiceRiskAnalysis()
-  const { mutate: updateEServiceRiskAnalysis } = EServiceMutations.useUpdateEServiceRiskAnalysis()
+  const { mutate: addEServiceTemplateRiskAnalysis } = TemplateMutations.useAddTemplateRiskAnalysis()
+  const { mutate: updateEServiceTemplateRiskAnalysis } =
+    TemplateMutations.useUpdateTemplateRiskAnalysis()
 
   const { data: riskAnalysisLatest } = useQuery(
     PurposeQueries.getRiskAnalysisLatest({
-      /**
-       * We need to retrieve the risk analysis configuration for the tenant kind of the producer
-       * because the actual user might be a producer delegate with a different tenant kind.
-       */
-      tenantKind: descriptor?.eservice.producer.tenantKind,
+      tenantKind: template?.eserviceTemplate.creator.kind,
     })
   )
 
-  if (!riskAnalysisLatest || !descriptor) return <RiskAnalysisFormSkeleton />
+  if (!riskAnalysisLatest || !template) return <RiskAnalysisFormSkeleton />
 
-  const riskAnalysisToEdit = descriptor?.eservice.riskAnalysis.find(
+  const riskAnalysisToEdit = template.eserviceTemplate.riskAnalysis.find(
     (item) => item.id === riskAnalysisFormState.riskAnalysisId
   )
 
@@ -36,9 +34,9 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
 
   const handleSubmit = (name: string, answers: Record<string, string[]>) => {
     if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
-      updateEServiceRiskAnalysis(
+      updateEServiceTemplateRiskAnalysis(
         {
-          eserviceId: descriptor?.eservice.id,
+          eServiceTemplateId: template.id,
           riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
           name: name,
           riskAnalysisForm: {
@@ -55,9 +53,9 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
     }
 
     if (!riskAnalysisFormState.riskAnalysisId) {
-      addEServiceRiskAnalysis(
+      addEServiceTemplateRiskAnalysis(
         {
-          eserviceId: descriptor?.eservice.id,
+          eServiceTemplateId: template.id,
           name: name,
           riskAnalysisForm: {
             version: riskAnalysisLatest.version,
