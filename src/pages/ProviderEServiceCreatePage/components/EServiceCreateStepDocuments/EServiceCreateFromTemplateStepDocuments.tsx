@@ -81,7 +81,7 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
         title={t('create.step4.documentation.title')}
         description={t('create.step4.documentation.description')}
       >
-        <EServiceCreateStepDocumentsDoc readonly={true} />
+        <EServiceCreateStepDocumentsDoc readonly />
       </SectionContainer>
       <StepActions
         back={{
