@@ -6,10 +6,9 @@ import { Link } from '@/router'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import { AuthHooks } from '@/api/auth'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
-import { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
+import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
 
 type TemplateTableRow = {
@@ -18,7 +17,6 @@ type TemplateTableRow = {
 
 export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
 
   const queryClient = useQueryClient()
 
@@ -65,15 +63,16 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        to={
-          isTemplateDraft
-            ? 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'
-            : 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
-        }
-        params={{
-          eServiceTemplateId: eserviceTemplate?.id ?? '',
-          eServiceTemplateVersionId: eserviceTemplate?.eserviceTemplate.id ?? '',
-        }}
+        to={'NOT_FOUND'} // TODO: To change with below
+        // to={
+        //   isTemplateDraft
+        //     ? 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'
+        //     : 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
+        // }
+        // params={{
+        //   eServiceTemplateId: eserviceTemplate?.id ?? '',
+        //   eServiceTemplateVersionId: eserviceTemplate?.eserviceTemplate.id ?? '',
+        // }}
       >
         {isTemplateDraft ? t('manageDraft') : t('inspect')}
       </Link>

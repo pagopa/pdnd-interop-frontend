@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { TemplateTableRow, TemplateTableRowSkeleton } from './TemplateTableRow'
 import { Table } from '@pagopa/interop-fe-commons'
-import { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
+import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 
 type TemplateTableProps = {
   templates: Array<ProducerEServiceTemplate>

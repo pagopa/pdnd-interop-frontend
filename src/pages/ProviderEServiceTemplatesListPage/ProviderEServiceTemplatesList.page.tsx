@@ -6,7 +6,7 @@ import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
-import { GetProducerEServices2Params } from '@/api/api.generatedTypes'
+import type { GetProducerEServices2Params } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { TemplateTable, TemplateTableSkeleton } from './components'
 import { TemplateQueries } from '@/api/template'
@@ -20,7 +20,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
 
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('PROVIDE_ESERVICE_TEMPLATE_CREATE'),
+      action: () => navigate('PROVIDE_ESERVICE_CREATE'), // TODO: to change with PROVIDE_ESERVICE_TEMPLATE_CREATE
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
@@ -55,7 +55,7 @@ const TemplateTableWrapper: React.FC<{ params: GetProducerEServices2Params }> = 
   const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesList(params))
 
   if (!data && isFetching) return <TemplateTableSkeleton />
-  return <TemplateTable templates={data!.results} /> //TODO !
+  return <TemplateTable templates={[]} /> //TODO !
 }
 
 export default ProviderEServiceTemplatesListPage
