@@ -10,7 +10,7 @@ import type {
 type EServiceCreateContextType = {
   descriptor: ProducerEServiceDescriptor | undefined
   eserviceMode: EServiceMode
-  onEserviceModeChange: (value: EServiceMode) => void
+  onEserviceModeChange?: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
   areEServiceGeneralInfoEditable: boolean
@@ -49,7 +49,7 @@ type EServiceCreateContextProviderProps = {
   descriptor: ProducerEServiceDescriptor | undefined
   template: EServiceTemplateDetails | undefined
   eserviceMode: EServiceMode
-  onEserviceModeChange: (value: EServiceMode) => void
+  onEserviceModeChange?: (value: EServiceMode) => void
   back: VoidFunction
   forward: VoidFunction
 }

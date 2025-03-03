@@ -263,7 +263,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           template={template}
           descriptor={descriptor}
           eserviceMode={template?.mode as EServiceMode}
-          onEserviceModeChange={() => alert('change')}
+          onEserviceModeChange={undefined}
           {...stepProps}
         >
           <Step />

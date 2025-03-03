@@ -120,7 +120,6 @@ const ProviderEServiceCreatePage: React.FC = () => {
       {isReady && (
         <EServiceCreateContextProvider
           template={undefined}
-          isEServiceFromTemplate={false}
           descriptor={descriptor}
           eserviceMode={eserviceMode}
           onEserviceModeChange={setSelectedEServiceMode}
