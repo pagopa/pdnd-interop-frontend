@@ -149,7 +149,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
                     rules={{
                       min: {
                         value: dailyCallsPerConsumer ?? 1,
-                        message: t('step2.thresholdSection.dailyCallsTotalField.validation.min'),
+                        message: t('step2.thresholdsSection.dailyCallsTotalField.validation.min'),
                       },
                     }}
                   />

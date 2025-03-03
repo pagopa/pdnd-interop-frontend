@@ -16,7 +16,7 @@ import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttri
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateMutations } from '@/api/template'
-import { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
+import type { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
 
 export const EServiceTemplateCreateStepAttributes: React.FC = () => {

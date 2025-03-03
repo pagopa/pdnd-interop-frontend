@@ -20,7 +20,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
 
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('PROVIDE_ESERVICE_CREATE'), // TODO: to change with PROVIDE_ESERVICE_TEMPLATE_CREATE
+      action: () => navigate('PROVIDE_ESERVICE_TEMPLATE_CREATE'),
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
