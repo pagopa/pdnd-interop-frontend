@@ -38,7 +38,7 @@ declare module 'i18next' {
       key: typeof keyNs
       assistance: typeof assistanceNs
       keychain: typeof keychainNs
-      template: typeof template
+      template: typeof templateNs
     }
   }
 }
