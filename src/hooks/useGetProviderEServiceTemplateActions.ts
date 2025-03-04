@@ -297,15 +297,7 @@ export function useGetProviderEServiceTemplateActions(
     SUSPENDED: suspendedActions,
   }
 
-  console.log("operatorAPIActions", operatorAPIActions)
-
-  console.log("state", state);
-
-
   const availableAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
-
-  console.log("availableAction", availableAction)
-
 
   return { actions: availableAction }
 }
