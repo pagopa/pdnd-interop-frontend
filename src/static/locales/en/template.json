@@ -138,13 +138,7 @@
     }
   },
   "actions":{
-    "createNewEServiceInstance": "Use template",
-  "list": {
-    "filters": {
-      "nameField": {
-        "label": "Find by name"
-      }
-    }
+    "createNewEServiceInstance": "Use template"
   },
   "noMultiDataLabel": "You have not yet created e-service templates.",
   "backToListBtn": "Back to templates",
@@ -348,5 +342,3 @@
     }
   }
 }
-}
-

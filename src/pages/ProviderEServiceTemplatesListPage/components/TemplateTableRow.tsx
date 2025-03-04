@@ -63,16 +63,15 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
         onFocusVisible={handlePrefetch}
         variant="outlined"
         size="small"
-        to={'NOT_FOUND'} // TODO: To change with below
-        // to={
-        //   isTemplateDraft
-        //     ? 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'
-        //     : 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
-        // }
-        // params={{
-        //   eServiceTemplateId: eserviceTemplate?.id ?? '',
-        //   eServiceTemplateVersionId: eserviceTemplate?.eserviceTemplate.id ?? '',
-        // }}
+        to={
+          isTemplateDraft
+            ? 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'
+            : 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
+        }
+        params={{
+          eServiceTemplateId: eserviceTemplate?.id ?? '',
+          eServiceTemplateVersionId: eserviceTemplate?.eserviceTemplate.id ?? '',
+        }}
       >
         {isTemplateDraft ? t('manageDraft') : t('inspect')}
       </Link>
