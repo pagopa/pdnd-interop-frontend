@@ -1,1 +1,1 @@
-export * from './ProviderEServiceFromTemplateCreate.page'
+export { default as ProviderEServiceFromTemplateCreatePage } from './ProviderEServiceFromTemplateCreate.page'

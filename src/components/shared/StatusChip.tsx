@@ -11,6 +11,7 @@ import type {
   AgreementState,
   DelegationState,
   EServiceDescriptorState,
+  EServiceTemplateVersionState,
   Purpose,
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
@@ -50,11 +51,19 @@ const CHIP_COLORS_DELEGATION: Record<DelegationState, MUIColor> = {
   WAITING_FOR_APPROVAL: 'warning',
 }
 
+const CHIP_COLORS_E_SERVICE_TEMPLATE: Record<EServiceTemplateVersionState, MUIColor> = {
+  PUBLISHED: 'success',
+  DRAFT: 'info',
+  SUSPENDED: 'error',
+  DEPRECATED: 'warning',
+}
+
 const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
   delegation: CHIP_COLORS_DELEGATION,
+  template: CHIP_COLORS_E_SERVICE_TEMPLATE,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
@@ -75,6 +84,10 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'delegation'
         state: DelegationState
+      }
+    | {
+        for: 'template'
+        state: EServiceTemplateVersionState
       }
   )
 
@@ -140,6 +153,11 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   if (props.for === 'delegation') {
     color = chipColors['delegation'][props.state]
     label = t(`status.delegation.${props.state}`)
+  }
+
+  if (props.for === 'template') {
+    color = chipColors['template'][props.state]
+    label = t(`status.template.${props.state}`)
   }
 
   return (

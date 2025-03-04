@@ -27,8 +27,6 @@ export const EServiceTemplateThresholdsSection: React.FC<
     keyPrefix: 'read.drawers.updateEServiceTemplateThresholdsDrawer',
   })
 
-  const { jwt } = AuthHooks.useJwt() //TODO
-
   const voucherLifespan = secondsToMinutes(template.voucherLifespan)
 
   const { eServiceTemplateVersionId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
@@ -108,7 +106,7 @@ export const EServiceTemplateThresholdsSection: React.FC<
         onClose={closeDrawer}
         id={template.id}
         voucherLifespan={template.voucherLifespan}
-        dailyCallsPerConsumer={template.dailyCallsPerConsumer ?? 1} //TODO
+        dailyCallsPerConsumer={template.dailyCallsPerConsumer ?? undefined}
         dailyCallsTotal={template.dailyCallsTotal ?? 1}
         versionId={eServiceTemplateVersionId}
         subtitle={tDrawer('subtitle')}

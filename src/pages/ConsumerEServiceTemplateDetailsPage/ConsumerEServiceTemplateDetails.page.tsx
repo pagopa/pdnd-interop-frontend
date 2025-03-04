@@ -27,10 +27,9 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
       isLoading={!template}
       topSideActions={actions}
       statusChip={
-        //TODO è la chip per template è già implementata nel branch pin-6016
         template
           ? {
-              for: 'eservice', // TODO sostituire con template
+              for: 'template',
               state: template?.state,
             }
           : undefined

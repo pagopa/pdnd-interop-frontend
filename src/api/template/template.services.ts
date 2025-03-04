@@ -1,6 +1,6 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import {
+import type {
   CreatedEServiceDescriptor,
   CreateEServiceDocumentPayload,
   DescriptorAttributesSeed,
@@ -13,15 +13,17 @@ import {
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
   InstanceEServiceSeed,
+  GetEServiceTemplatesCatalogParams,
+  GetProducerEServices2Params,
   ProducerEServiceTemplates,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceTemplateSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
-import { AttributeKey } from '@/types/attribute.types'
+import { CatalogEServiceTemplates } from '../api.generatedTypes'
+import type { AttributeKey } from '@/types/attribute.types'
 
-async function getProviderTemplatesList() {
-  //TODO params: GetProducerTemplatesParams
+async function getProviderTemplatesList(params: GetProducerEServices2Params) {
   /*const response = await axiosInstance.get<EServiceTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates`,
     { params }
@@ -244,7 +246,7 @@ async function updateEServiceTemplateQuotas({
 }
 
 async function postVersionDraftDocument({
-  templateId,
+  eServiceTemplateId,
   ...payload
 }: {
   eserviceId: string
@@ -263,10 +265,12 @@ async function postVersionDraftDocument({
 }
 
 function deleteVersionDraftDocument({
-  templateId,
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
   documentId,
 }: {
-  templateId: string
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
   documentId: string
 }) {
   /* return axiosInstance.delete(
@@ -276,11 +280,13 @@ function deleteVersionDraftDocument({
 }
 
 async function updateVersionDraftDocumentDescription({
-  templateId,
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
   documentId,
   ...payload
 }: {
-  templateId: string
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
   documentId: string
 } & UpdateEServiceDescriptorDocumentSeed) {
   /*const response = await axiosInstance.post<EServiceDoc>(
@@ -292,10 +298,12 @@ async function updateVersionDraftDocumentDescription({
 }
 
 async function downloadVersionDraftDocument({
-  templateId,
+  eServiceTemplateId,
+  eServiceTemplateVersionId,
   documentId,
 }: {
-  templateId: string
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
   documentId: string
 }) {
   /*const response = await axiosInstance.get<File>(
@@ -327,7 +335,7 @@ async function updateDraft({
   eServiceTemplateId,
   ...payload
 }: {
-  eserviceTemplateId: string
+  eServiceTemplateId: string
 } & UpdateEServiceTemplateSeed) {
   /*const response = await axiosInstance.put<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}`,
@@ -339,6 +347,7 @@ async function updateDraft({
 
 async function updateVersionDraft({
   eServiceTemplateId,
+  eServiceTemplateVersionId,
   ...payload
 }: {
   eServiceTemplateId: string
@@ -462,7 +471,7 @@ function reactivateVersion({
 
 async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
   /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances`
   )
   return response.data*/
 
@@ -511,6 +520,62 @@ async function createInstanceFromEServiceTemplate({
   const response: CreatedEServiceDescriptor = {
     id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
     descriptorId: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+  }
+
+  return response
+}
+async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
+  /*const response = await axiosInstance.get<CatalogEServiceTemplates>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/templates`,
+    { params }
+  )
+
+  return response.data*/
+  const response = {
+    results: [
+      {
+        id: 'b92f23d1-72b3-4b87-bf2f-5278657cb123',
+        name: 'Template A',
+        description: 'A description of Template A.',
+        creator: {
+          id: 'c0b24d89-26fe-496b-9901-13348f5f9f0a',
+          name: 'Organization A',
+          kind: 'PA',
+          contactMail: {
+            address: 'contact@orgA.com',
+            description: 'Main contact email',
+          },
+        },
+        publishedVersion: {
+          id: 'a1c4ef23-6359-4f0f-93f4-7a9c2830e2b5',
+          version: 1,
+          state: 'PUBLISHED',
+        },
+      },
+      {
+        id: '7ad55c3b-bde3-4f75-bb68-8d5d036f865d',
+        name: 'Template B',
+        description: 'A description of Template B.',
+        creator: {
+          id: 'f123bb38-d5a1-43b5-b590-0c64c47f901e',
+          name: 'Organization B',
+          kind: 'PRIVATE',
+          contactMail: {
+            address: 'support@orgB.com',
+          },
+        },
+        publishedVersion: {
+          id: '3f8e7b6b-4707-47c0-95a4-b6b1a2cc87f7',
+          version: 2,
+          state: 'DRAFT',
+        },
+      },
+    ],
+    pagination: {
+      offset: 0,
+      limit: 2,
+      totalCount: 10,
+    },
   }
 
   return response
@@ -590,4 +655,5 @@ export const TemplateServices = {
   getProviderTemplateInstancesList,
   createInstanceFromEServiceTemplate,
   getSingleByEServiceTemplateId,
+  getProviderTemplatesCatalogList,
 }

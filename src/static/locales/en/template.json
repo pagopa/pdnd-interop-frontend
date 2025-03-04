@@ -143,6 +143,206 @@
   "createInstance": {
     "title": "Create e-service from template",
     "templateDescriptionLink": "Instance of <1>{{templateName}}</1>"
-
+  },
+  "noMultiDataLabel": "You have not yet created e-service templates.",
+  "backToListBtn": "Back to templates",
+  "create": {
+    "emptyTitle": "Create eservice template",
+    "stepper": {
+      "step1Label": "General",
+      "step2Label": "Version",
+      "step2ReceiveLabel": "Purpose",
+      "step3Label": "Attributes",
+      "step4Label": "Documentation"
+    },
+    "backWithoutSaveBtn": "Back",
+    "forwardWithSaveBtn": "Save draft and proceed",
+    "forwardWithoutSaveBtn": "Proceed",
+    "goToSummary": "Go to summary",
+    "step1": {
+      "detailsTitle": "Eservice template instance details",
+      "detailsDescription": "The information in this section will not be modifiable by the implementers of the instances.",
+      "eserviceTemplateNameField": {
+        "label": "Eservice template instance name",
+        "infoLabel": "Min 5 chars, max 60 chars"
+      },
+      "audienceDescriptionField": {
+        "label": "Who is the template intended for?",
+        "infoLabel": "Min 10 chars, max 250 chars"
+      },
+      "eserviceDescriptionField": {
+        "label": "What does this e-service allow you to do?",
+        "infoLabel": "Min 10 chars, max 250 chars"
+      },
+      "eserviceTemplateTechnologyField": {
+        "label": "What technology is your API built with?"
+      },
+      "eserviceTemplateModeField": {
+        "label": "Does the e-service deliver or receive data?",
+        "options": {
+          "DELIVER": "Deliver",
+          "RECEIVE": "Receive"
+        },
+        "isSignalHubEnabled": {
+          "label": "I suggest the implementer to report any data changes on Signal Hub.",
+          "infoLabel": {
+            "before": "Signal Hub uses the",
+            "linkLabel": "push service",
+            "after": "to generate notifications related to data changes regarding the e-service."
+          }
+        }
+      }
+    },
+    "stepPurpose": {
+      "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+      "purposeTableSection": {
+        "title": "Purpose",
+        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+        "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+        "purposeTable": {
+          "noDataLabel": "No added purpose"
+        }
+      }
+    },
+    "step2": {
+      "versionTitle": "Informations for version  {{versionNumber}}",
+      "versionDescriptionField": {
+        "label": "What changed in this version?"
+      },
+      "voucherSection": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Validity duration (minutes)",
+          "infoLabel": "Max value: 1440 minuites (24 hours)"
+        }
+      },
+      "thresholdsSection": {
+        "thresholdsSwitch": {
+          "label": "Suggest custom API threshold values to the implementer"
+        },
+        "title": "Expected call threshold for users",
+        "dailyCallsPerConsumerField": {
+          "label": "API calls/day per consumer"
+        },
+        "dailyCallsTotalField": {
+          "label": "Total API calls/day",
+          "validation": {
+            "min": "This value cannot be below the threshold set for the API calls/day for each subscriber"
+          }
+        }
+      },
+      "agreementApprovalPolicySection": {
+        "label": "Suggest to the implementer the manual activation of the received fruition requests."
+      }
+    },
+    "step3": {
+      "attributesTitle": "Access requirements for version {{versionNumber}}",
+      "attributesDescription": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service",
+      "attributesAddBtn": "Add attribute",
+      "attributesCreateBtn": "Create new attribute",
+      "createAttributeDrawer": {
+        "title": {
+          "verified": "Create new verified attribute",
+          "declared": "Create new declared attribute"
+        },
+        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "nameField": {
+          "label": "Nome dell'attributo",
+          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+        },
+        "descriptionField": {
+          "label": "Descrizione dell'attributo",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri"
+        },
+        "submitBtnLabel": "Crea attributo"
+      }
+    },
+    "step4": {
+      "interface": {
+        "title": "Interface",
+        "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
+        "description": {
+          "rest": "Upload a draft of the OpenAPI specification that describes the API.",
+          "soap": "Upload a draft of the WSDL specification that describes the API"
+        },
+        "prettyName": "API specification"
+      },
+      "documentation": {
+        "title": "Documentation",
+        "description": "Upload all the technical documentation useful for the implementation of an integration with this e-service."
+      },
+      "uploadFileField": {
+        "label": "Select document"
+      },
+      "nameField": {
+        "label": "Name document",
+        "infoLabel": "Min 5 chars, max 60 chars"
+      },
+      "uploadBtn": "Upload"
+    }
+  },
+  "summary": {
+    "title": "{{eserviceTemplateName}}, version {{versionEserviceTemplateNumber}}",
+    "generalInfoSummary": {
+      "title": "General informations",
+      "description": {
+        "label": "Description"
+      },
+      "apiTechnology": {
+        "label": "API Technology"
+      },
+      "isSignalHubEnabled": {
+        "label": "Is it suggested to use the data update system (Signal Hub)? ",
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "No"
+        }
+      }
+    },
+    "riskAnalysisSummaryList": {
+      "title": "Purpose",
+      "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
+    },
+    "versionInfoSummary": {
+      "title": "Version's informations",
+      "description": {
+        "label": "Eservice description"
+      },
+      "audience": {
+        "label": "Audience description"
+      },
+      "voucherLifespan": {
+        "label": "Voucher lifespan"
+      },
+      "dailyCallsPerConsumer": {
+        "label": "Daily calls per consumer suggested",
+        "value": "{{value}} API calls per day"
+      },
+      "dailyCallsTotal": {
+        "label": "Total daily calls suggested",
+        "value": "{{value}} API calls per day"
+      },
+      "manualApproval": {
+        "label": "Manual approval requests",
+        "value": {
+          "true": "Yes, it is suggested",
+          "false": "No, it is not suggested"
+        }
+      }
+    },
+    "attributeVersionSummary": {
+      "title": "Version access requirements"
+    },
+    "documentationSummary": {
+      "title": "Version's documentations",
+      "interface": {
+        "label": "OpenAPI Interface"
+      },
+      "emptyLabel": "No uploaded documents"
+    },
+    "notPublishableTooltip": {
+      "label": "One or more required fields have not been filled out. Complete the draft, please."
+    }
   }
 }
