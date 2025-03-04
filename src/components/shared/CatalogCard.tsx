@@ -89,10 +89,10 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({
                 as="button"
                 size="small"
                 variant="contained"
-                to="SUBSCRIBE_CATALOG_VIEW"
+                to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
                 params={{
-                  eserviceId: id,
-                  descriptorId: detailId,
+                  eServiceTemplateId: id,
+                  eServiceTemplateVersionId: detailId,
                 }}
                 onFocusVisible={handlePrefetch}
                 color="primary"

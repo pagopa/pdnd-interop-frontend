@@ -25,8 +25,8 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const { actions } = useGetProviderEServiceTemplateActions(
     eServiceTemplateId,
     eServiceTemplateVersionId,
-    template?.state,
-    template?.eserviceTemplate.mode
+    template?.eserviceTemplate.mode,
+    template?.state
   )
 
   return (

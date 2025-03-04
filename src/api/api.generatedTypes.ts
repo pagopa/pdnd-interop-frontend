@@ -89,10 +89,6 @@ export interface HasCertifiedAttributes {
   hasCertifiedAttributes: boolean
 }
 
-export interface HasCertifiedAttributes {
-  hasCertifiedAttributes: boolean
-}
-
 export interface HideOption {
   id: string
   value: string
@@ -198,11 +194,6 @@ export interface EServiceDelegationFlagsUpdateSeed {
   isClientAccessDelegable: boolean
 }
 
-export interface EServiceDelegationFlagsUpdateSeed {
-  isConsumerDelegable: boolean
-  isClientAccessDelegable: boolean
-}
-
 export interface EServiceNameUpdateSeed {
   name: string
 }
@@ -292,12 +283,6 @@ export interface CatalogDescriptorEService {
   descriptors: CompactDescriptor[]
   agreement?: CompactAgreement
   isMine: boolean
-  /**
-   * True in case:
-   *   - the requester has the certified attributes required to consume the eservice, or
-   *   - the requester is the delegated consumer for the eservice and
-   *     the delegator has the certified attributes required to consume the eservice
-   */
   /**
    * True in case:
    *   - the requester has the certified attributes required to consume the eservice, or
@@ -591,11 +576,6 @@ export interface CompactEService {
   id: string
   name: string
   producer: CompactOrganization
-}
-
-export interface CompactEServices {
-  results: CompactEService[]
-  pagination: Pagination
 }
 
 export interface CompactEServices {
@@ -918,13 +898,6 @@ export interface ReversePurposeUpdateContent {
 export interface Purposes {
   results: Purpose[]
   pagination: Pagination
-}
-
-export interface DelegationWithCompactTenants {
-  /** @format uuid */
-  id: string
-  delegate: CompactOrganization
-  delegator: CompactOrganization
 }
 
 export interface DelegationWithCompactTenants {
@@ -1260,12 +1233,6 @@ export interface DelegatedConsumer {
   availabilityTimestamp: string
 }
 
-/** Delegated consumer Tenant Feature */
-export interface DelegatedConsumer {
-  /** @format date-time */
-  availabilityTimestamp: string
-}
-
 export interface CompactTenant {
   /** @format uuid */
   id: string
@@ -1334,11 +1301,6 @@ export interface VerifiedTenantAttributeSeed {
   agreementId: string
   /** @format date-time */
   expirationDate?: string
-}
-
-export interface TenantDelegatedFeaturesFlagsUpdateSeed {
-  isDelegatedConsumerFeatureEnabled: boolean
-  isDelegatedProducerFeatureEnabled: boolean
 }
 
 export interface TenantDelegatedFeaturesFlagsUpdateSeed {
@@ -1469,11 +1431,6 @@ export interface DelegationTenant {
   /** @format uuid */
   id: string
   name: string
-}
-
-export interface DelegationTenants {
-  results: DelegationTenant[]
-  pagination: Pagination
 }
 
 export interface DelegationTenants {
@@ -1659,65 +1616,6 @@ export interface UpdateEServiceTemplateSeed {
   isSignalHubEnabled?: boolean
 }
 
-<<<<<<< HEAD
-=======
-export interface EServiceTemplate {
-  /** @format uuid */
-  id: string
-  /** @format uuid */
-  creatorId: string
-  name: string
-  audienceDescription: string
-  eserviceDescription: string
-  /** EService Descriptor State */
-  technology: EServiceTechnology
-  versions: EServiceTemplateVersion[]
-  riskAnalysis: EServiceRiskAnalysis[]
-  /** Risk Analysis Mode */
-  mode: EServiceMode
-  isSignalHubEnabled?: boolean
-}
-
-export interface EServiceTemplateVersion {
-  /** @format uuid */
-  id: string
-  /** @format int32 */
-  version: number
-  description?: string
-  /** @format int32 */
-  voucherLifespan: number
-  /**
-   * maximum number of daily calls that this descriptor can afford per consumer.
-   * @format int32
-   * @min 1
-   */
-  dailyCallsPerConsumer?: number
-  /**
-   * total daily calls available for this e-service.
-   * @format int32
-   * @min 1
-   */
-  dailyCallsTotal?: number
-  interface?: EServiceDoc
-  docs: EServiceDoc[]
-  /** EService Descriptor State */
-  state: EServiceTemplateVersionState
-  /**
-   * EService Descriptor policy for new Agreements approval.
-   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
-   * MANUAL - the Producer must approve every agreement for this Descriptor.
-   */
-  agreementApprovalPolicy?: AgreementApprovalPolicy
-  /** @format date-time */
-  publishedAt?: string
-  /** @format date-time */
-  suspendedAt?: string
-  /** @format date-time */
-  deprecatedAt?: string
-  attributes: Attributes
-}
-
->>>>>>> feature/pin-6017-provider-template-details
 export interface EServiceTemplateSeed {
   /**
    * @minLength 5
@@ -1742,199 +1640,11 @@ export interface EServiceTemplateSeed {
   isSignalHubEnabled?: boolean
 }
 
-<<<<<<< HEAD
 export interface InstanceEServiceSeed {
   instanceId?: string
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
-=======
-export interface VersionSeedForEServiceTemplateCreation {
-  /**
-   * @minLength 10
-   * @maxLength 250
-   */
-  description?: string
-  /**
-   * @format int32
-   * @min 60
-   * @max 86400
-   */
-  voucherLifespan: number
-  /**
-   * maximum number of daily calls that this descriptor can afford.
-   * @format int32
-   * @min 1
-   */
-  dailyCallsPerConsumer?: number
-  /**
-   * total daily calls available for this e-service.
-   * @format int32
-   * @min 1
-   */
-  dailyCallsTotal?: number
-  /**
-   * EService Descriptor policy for new Agreements approval.
-   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
-   * MANUAL - the Producer must approve every agreement for this Descriptor.
-   */
-  agreementApprovalPolicy?: AgreementApprovalPolicy
-}
-
-export interface EServiceTemplateInstance {
-  /** @format uuid */
-  id: string
-  producerName: string
-  /** EService Descriptor State */
-  state: EServiceDescriptorState
-  instanceId?: string
-  /** @format int32 */
-  version: number
-}
-
-export interface EServiceTemplateInstances {
-  results: EServiceTemplateInstance[]
-  /** @format int32 */
-  totalCount: number
-}
-
-export interface CatalogEServiceTemplate {
-  /** @format uuid */
-  id: string
-  name: string
-  description: string
-  creator: CompactOrganization
-  publishedVersion: CompactEServiceTemplateVersion
-}
-
-export interface ProducerEServiceTemplate {
-  /** @format uuid */
-  id: string
-  name: string
-  activeVersion?: CompactEServiceTemplateVersion
-  draftVersion?: CompactEServiceTemplateVersion
-}
-
-export interface CatalogEServiceTemplates {
-  results: CatalogEServiceTemplate[]
-  pagination: Pagination
-}
-
-export interface ProducerEServiceTemplates {
-  results: ProducerEServiceTemplate[]
-  pagination: Pagination
-}
-
-/** contains the id of the created resource with the versionId */
-export interface CreatedEServiceTemplateVersion {
-  /** @format uuid */
-  id: string
-  /** @format uuid */
-  versionId: string
-}
-
-export interface UpdateEServiceTemplateSeed {
-  /**
-   * @minLength 5
-   * @maxLength 60
-   */
-  name: string
-  /**
-   * @minLength 10
-   * @maxLength 250
-   */
-  audienceDescription: string
-  /**
-   * @minLength 10
-   * @maxLength 250
-   */
-  eserviceDescription: string
-  /** EService Descriptor State */
-  technology: EServiceTechnology
-  /** Risk Analysis Mode */
-  mode: EServiceMode
-  isSignalHubEnabled?: boolean
-}
-
-export interface EServiceTemplate {
-  /** @format uuid */
-  id: string
-  /** @format uuid */
-  creatorId: string
-  name: string
-  audienceDescription: string
-  eserviceDescription: string
-  /** EService Descriptor State */
-  technology: EServiceTechnology
-  versions: EServiceTemplateVersion[]
-  riskAnalysis: EServiceRiskAnalysis[]
-  /** Risk Analysis Mode */
-  mode: EServiceMode
-  isSignalHubEnabled?: boolean
-}
-
-export interface EServiceTemplateVersion {
-  /** @format uuid */
-  id: string
-  /** @format int32 */
-  version: number
-  description?: string
-  /** @format int32 */
-  voucherLifespan: number
-  /**
-   * maximum number of daily calls that this descriptor can afford per consumer.
-   * @format int32
-   * @min 1
-   */
-  dailyCallsPerConsumer?: number
-  /**
-   * total daily calls available for this e-service.
-   * @format int32
-   * @min 1
-   */
-  dailyCallsTotal?: number
-  interface?: EServiceDoc
-  docs: EServiceDoc[]
-  /** EService Descriptor State */
-  state: EServiceTemplateVersionState
-  /**
-   * EService Descriptor policy for new Agreements approval.
-   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
-   * MANUAL - the Producer must approve every agreement for this Descriptor.
-   */
-  agreementApprovalPolicy?: AgreementApprovalPolicy
-  /** @format date-time */
-  publishedAt?: string
-  /** @format date-time */
-  suspendedAt?: string
-  /** @format date-time */
-  deprecatedAt?: string
-  attributes: Attributes
-}
-
-export interface EServiceTemplateSeed {
-  /**
-   * @minLength 5
-   * @maxLength 60
-   */
-  name: string
-  /**
-   * @minLength 10
-   * @maxLength 250
-   */
-  audienceDescription: string
-  /**
-   * @minLength 10
-   * @maxLength 250
-   */
-  eserviceDescription: string
-  /** EService Descriptor State */
-  technology: EServiceTechnology
-  /** Risk Analysis Mode */
-  mode: EServiceMode
-  version: VersionSeedForEServiceTemplateCreation
-  isSignalHubEnabled?: boolean
->>>>>>> feature/pin-6017-provider-template-details
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
@@ -2180,6 +1890,11 @@ export interface GetProducerAgreementsParams {
    * @default []
    */
   eservicesIds?: string[]
+  /**
+   * comma separated sequence of consumers IDs
+   * @default []
+   */
+  consumersIds?: string[]
   /**
    * comma separated sequence of agreement states to filter the response with
    * @default []
@@ -2694,7 +2409,7 @@ export interface GetEServiceTemplatesCatalogParams {
   limit: number
 }
 
-export interface GetProducerEServices2Params {
+export interface GetProducerEServiceTemplatesParams {
   /** Query to filter EServices templates by name */
   q?: string
   /**
@@ -3359,14 +3074,12 @@ export namespace Producers {
   /**
    * @description Retrieves Producer EService templates
    * @tags eserviceTemplates
-   * @name GetProducerEServices2
+   * @name GetProducerEServiceTemplates
    * @summary Retrieves Producer EService templates
    * @request GET:/producers/eservices/templates
-   * @originalName getProducerEServices
-   * @duplicate
    * @secure
    */
-  export namespace GetProducerEServices2 {
+  export namespace GetProducerEServiceTemplates {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter EServices templates by name */
@@ -3496,7 +3209,6 @@ export namespace Agreements {
    * No description
    * @tags agreements
    * @name DeleteAgreement
-   * @summary Delete an agreement
    * @summary Delete an agreement
    * @request DELETE:/agreements/{agreementId}
    * @secure
@@ -4227,13 +3939,13 @@ export namespace Tenants {
   }
 }
 
-export namespace Tenants {
+export namespace Catalog {
   /**
-   * @description Verify a Tenant has required certified attributes
-   * @tags agreements
-   * @name VerifyTenantCertifiedAttributes
-   * @summary Verify a Tenant has required certified attributes
-   * @request GET:/tenants/{tenantId}/eservices/{eserviceId}/descriptors/{descriptorId}/certifiedAttributes/validate
+   * @description Retrieves EServices catalog
+   * @tags eservices
+   * @name GetEServicesCatalog
+   * @summary Retrieves EServices catalog
+   * @request GET:/catalog
    * @secure
    */
   export namespace GetEServicesCatalog {
@@ -4310,6 +4022,42 @@ export namespace Tenants {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CatalogEServiceDescriptor
+  }
+  /**
+   * @description Retrieves EService templates catalog
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplatesCatalog
+   * @summary Retrieves EService templates catalog
+   * @request GET:/catalog/eservices/templates
+   * @secure
+   */
+  export namespace GetEServiceTemplatesCatalog {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EService template by name */
+      q?: string
+      /**
+       * comma separated sequence of creators IDs
+       * @default []
+       */
+      creatorsIds?: string[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CatalogEServiceTemplates
   }
 }
 
@@ -5612,6 +5360,30 @@ export namespace Eservices {
   /**
    * No description
    * @tags eserviceTemplates
+   * @name DeleteEServiceTemplateDocumentById
+   * @summary Deletes an e-service template document
+   * @request DELETE:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/documents/{documentId}
+   * @secure
+   */
+  export namespace DeleteEServiceTemplateDocumentById {
+    export type RequestParams = {
+      /** the eService template id */
+      eServiceTemplateId: string
+      /** the template version Id */
+      eServiceTemplateVersionId: string
+      /** the document id */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eserviceTemplates
    * @name UpdateEServiceTemplateDocumentById
    * @summary Updates an e-service template document
    * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/documents/{documentId}/update
@@ -5646,7 +5418,6 @@ export namespace Eservices {
 
 export namespace Export {
   /**
-   * No description
    * No description
    * @tags eservices
    * @name ExportEServiceDescriptor
