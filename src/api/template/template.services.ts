@@ -1,22 +1,27 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import {
-  CatalogEServiceTemplates,
+import type {
+  CreatedEServiceDescriptor,
+  CreateEServiceDocumentPayload,
   DescriptorAttributesSeed,
   EServiceRiskAnalysisSeed,
   EServiceTemplateDescriptionUpdateSeed,
+  EServiceTemplateDetails,
   EServiceTemplateInstances,
   EServiceTemplateNameUpdateSeed,
   EServiceTemplateSeed,
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
+  InstanceEServiceSeed,
   GetEServiceTemplatesCatalogParams,
   GetProducerEServices2Params,
   ProducerEServiceTemplates,
+  UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceTemplateSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
-import { AttributeKey } from '@/types/attribute.types'
+import { CatalogEServiceTemplates } from '../api.generatedTypes'
+import type { AttributeKey } from '@/types/attribute.types'
 
 async function getProviderTemplatesList(params: GetProducerEServices2Params) {
   /*const response = await axiosInstance.get<EServiceTemplates>(
@@ -309,6 +314,14 @@ async function downloadVersionDraftDocument({
   return console.log('downloaded file')
 }
 
+async function downloadConsumerList({ eServiceTemplateId }: { eServiceTemplateId: string }) {
+  const response = await axiosInstance.get<File>(
+    `http://localhost:8080/eservices/templates/${eServiceTemplateId}/instances`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
+}
+
 async function createDraft(payload: EServiceTemplateSeed) {
   /*const response = await axiosInstance.post<CreatedEServiceTemplateDescriptor>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates`,
@@ -430,6 +443,7 @@ function deleteVersionDraft({
   return console.log('deleted draft version')
 }
 
+
 function suspendVersion({
   eServiceTemplateId,
   eServiceTemplateVersionId,
@@ -437,9 +451,9 @@ function suspendVersion({
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
-  /*return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/${eServiceTemplateVersionId}/suspend`
-  )*/
+  return axiosInstance.post(
+    `http://localhost:8080/backend-for-frontend/0.0/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/suspend`
+  )
   return console.log('version suspended')
 }
 
@@ -492,6 +506,25 @@ async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
   return response
 }
 
+async function createInstanceFromEServiceTemplate({
+  eServiceTemplateId,
+  ...payload
+}: {
+  eServiceTemplateId: string
+} & InstanceEServiceSeed) {
+  // const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances`,
+  //   payload
+  // )
+  // return response.data
+
+  const response: CreatedEServiceDescriptor = {
+    id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+    descriptorId: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+  }
+
+  return response
+}
 async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
   /*const response = await axiosInstance.get<CatalogEServiceTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/templates`,
@@ -549,6 +582,54 @@ async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatal
   return response
 }
 
+async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
+  // const response = await axiosInstance.get<EServiceTemplateDetails>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}`
+  // )
+
+  // return response;
+
+  const response: EServiceTemplateDetails = {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    creator: {
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      name: 'Template di prova',
+      kind: 'PA',
+      contactMail: {
+        address: 'string',
+        description: 'string',
+      },
+    },
+    name: 'Template di prova',
+    audienceDescription: 'string',
+    eserviceDescription: 'questa è una descrizione di prova',
+    technology: 'REST',
+    versions: [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        version: 0,
+        state: 'PUBLISHED',
+      },
+    ],
+    riskAnalysis: [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        name: 'string',
+        riskAnalysisForm: {
+          version: 'string',
+          answers: {},
+          riskAnalysisId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        },
+        createdAt: '2025-02-25T11:38:40.778Z',
+      },
+    ],
+    mode: 'DELIVER',
+    isSignalHubEnabled: true,
+  }
+
+  return response
+}
+
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
@@ -560,6 +641,7 @@ export const TemplateServices = {
   deleteVersionDraftDocument,
   updateVersionDraftDocumentDescription,
   downloadVersionDraftDocument,
+  downloadConsumerList,
   createDraft,
   updateDraft,
   updateVersionDraft,
@@ -572,5 +654,7 @@ export const TemplateServices = {
   suspendVersion,
   reactivateVersion,
   getProviderTemplateInstancesList,
+  createInstanceFromEServiceTemplate,
+  getSingleByEServiceTemplateId,
   getProviderTemplatesCatalogList,
 }

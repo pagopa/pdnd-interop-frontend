@@ -12,6 +12,18 @@ function useDownloadVersionDocument() {
   })
 }
 
+function useDownloadTemplateConsumerList() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.downloadConsumerList',
+  })
+  return useDownloadFile(TemplateServices.downloadConsumerList, {
+    errorToastLabel: t('outcome.error'),
+    successToastLabel: t('outcome.success'),
+    loadingLabel: t('loading'),
+  })
+}
+
 export const TemplateDownloads = {
   useDownloadVersionDocument,
+  useDownloadTemplateConsumerList,
 }

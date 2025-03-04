@@ -1,10 +1,141 @@
 {
+  "read": {
+    "tabs": {
+      "eserviceTemplateDetails": "Dettagli template",
+      "eserviceTemplateTenants": "Enti aderenti"
+    },
+    "actions": {
+      "backToEserviceTemplateListLabel": "Torna ai template"
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Informazioni template",
+        "version": {
+          "label": "Stai vedendo la versione"
+        },
+        "eserviceTemplateName": {
+          "label": "Nome del template di e-service"
+        },
+        "eserviceTemplateAudienceDescription": {
+          "label": "A chi è rivolto il template"
+        },
+        "eserviceTemplateDescription": {
+          "label": "Descrizione dell’e-service"
+        },
+        "versionDescription": {
+          "label": "Descrizione della versione"
+        },
+        "bottomActions": {
+          "navigateTemplateVersions": "Naviga a un’altra versione del template",
+          "downloadUsingTenantsList": "Scarica l’elenco degli implementatori",
+          "viewTechnicalInfo": "Visualizza le specifiche tecniche dell’e-service"
+        },
+        "consumerListFileName":"{{timestamp}}-lista-consumatori-template-{{eServiceTemplateName}}.csv"
+      },
+      "technicalInformations": {
+        "title": "Specifiche tecniche e-service",
+        "description": "In questa sezione potrai verificare le specifiche dell’e-service ed apportare modifiche.",
+        "technology": "Tecnologia",
+        "audience": "Audience",
+        "mode": {
+          "label": "Tipologia e-service",
+          "labelDescription": "Riceve / Eroga",
+          "value": {
+            "DELIVER": "Eroga",
+            "RECEIVE": "Riceve"
+          }
+        },
+        "thresholds": {
+          "title": "Soglie",
+          "voucherLifespan": {
+            "label": "Durata del voucher",
+            "labelDescription": "in minuti"
+          },
+          "dailyCallsPerConsumer": {
+            "label": "Soglia suggerita per fruitore",
+            "labelDescription": "chiamate API/giorno"
+          },
+          "dailyCallsTotal": {
+            "label": "Soglia suggerita totale",
+            "labelDescription": "chiamate API/giorno"
+          }
+        },
+        "documentation": {
+          "title": "Documentazione",
+          "label": "Elenco documenti"
+        },
+        "usefulLinks": {
+          "title": "Link utili",
+          "implementAndManageEServiceTemplate": "Come implemento e gestisco un template di e-service?",
+          "updateEserviceInstance": "Come faccio ad aggiornare una istanza di e-service?",
+          "wellKnown": "URL .well-known"
+        }
+      }
+    },
+    "drawers": {
+      "updateEServiceTemplateNameDrawer": {
+        "title": "Modifica nome template e-service",
+        "subtitle": "Da questo pannello puoi aggiornare il nome del template dell’e-service. Le modifiche apportate avranno effetto da subito.",
+        "templateNameField": {
+          "label": "Nome template e-service",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "validation": {
+            "sameValue": "Il nome del template dell'e-service deve essere diverso da quella attuale"
+          }
+        }
+      },
+      "updateEServiceTemplateAudienceDrawer": {
+        "title": "Modifica a chi è rivolto il template",
+        "subtitle": "Da questo pannello puoi aggiornare  a chi è rivolto il template dell’e-service. Le modifiche apportate avranno effetto da subito.",
+        "templateAudienceField": {
+          "label": "A chi è rivolto il template",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "validation": {
+            "sameValue": "A chi è rivolto il template deve essere diverso da quella attuale"
+          }
+        }
+      },
+      "updateEServiceTemplateDescriptionDrawer": {
+        "title": "Modifica descrizione del template dell'e-service",
+        "subtitle": "Da questo pannello puoi aggiornare la descrizione del template dell’e-service. Le modifiche apportate avranno effetto da subito.",
+        "templateDescriptionField": {
+          "label": "Descrizione del template eservice",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "validation": {
+            "sameValue": "La descrizione del template dell'e-service deve essere diverso da quella attuale"
+          }
+        }
+      },
+      "updateEServiceTemplateThresholdsDrawer": {
+        "subtitle": "Da questo pannello puoi aggiornare i parametri della tua versione del template di e-service. Le modifiche apportate avranno effetto da subito.",
+        "dailyCallsPerConsumerLabel": "Soglia suggerita per fruitore",
+        "dailyCallsTotalLabel": "Soglia suggerita totale"
+      },
+      "updateDocumentationDrawer": {
+        "title": "Modifica documentazione",
+        "subtitle": "Ora puoi modificare, scaricare ed eliminare i documenti allegati al template dell'e-service.",
+        "addDocumentLabel": "Aggiungi documentazione",
+        "nameField": {
+          "label": "Nome documento"
+        },
+        "interfaceInfoTooltip": "Il file “Specifica API” non è modificabile. Per aggiornarlo, crea una nuova versione.",
+        "downloadDocumentTooltip": "Scarica documento"
+      }
+    }
+  },
   "list": {
     "filters": {
       "nameField": {
         "label": "Cerca per nome"
       }
     }
+  },
+  "actions":{
+    "createNewEServiceInstance": "Usa template"
+  },
+  "createInstance": {
+    "title": "Crea e-service da template",
+    "templateDescriptionLink": "Istanza di <1>{{templateName}}</1>"
   },
   "noMultiDataLabel": "Non hai ancora creato template di e-service.",
   "backToListBtn": "Torna ai template",
@@ -208,3 +339,4 @@
     }
   }
 }
+

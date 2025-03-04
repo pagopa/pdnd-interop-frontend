@@ -54,13 +54,15 @@ export const ProviderEServiceDocumentationSection: React.FC<
     )
   }
 
+  const isEserviceFromTemplate = Boolean(descriptor.templateRef)
+
   return (
     <>
       <SectionContainer
         innerSection
         title={t('documentation.title')}
         topSideActions={
-          isDelegator
+          isDelegator || isEserviceFromTemplate
             ? []
             : [
                 {

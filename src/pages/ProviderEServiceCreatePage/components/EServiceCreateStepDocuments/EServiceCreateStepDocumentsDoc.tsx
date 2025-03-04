@@ -10,6 +10,9 @@ import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
+import { IconLink } from '@/components/shared/IconLink'
+import { t } from 'i18next'
+import DownloadIcon from '@mui/icons-material/Download'
 
 type EServiceCreateStepDocumentsDocFormValues = {
   doc: File | null
@@ -21,7 +24,13 @@ const defaultValues: EServiceCreateStepDocumentsDocFormValues = {
   prettyName: '',
 }
 
-export function EServiceCreateStepDocumentsDoc() {
+type EServiceCreateStepDocumentsDocProps = {
+  readonly?: boolean
+}
+
+export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocumentsDocProps> = ({
+  readonly = false,
+}) => {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
   const { descriptor } = useEServiceCreateContext()
@@ -92,7 +101,7 @@ export function EServiceCreateStepDocumentsDoc() {
     )
   }
 
-  return (
+  return !readonly ? (
     <Box>
       <Stack spacing={2} sx={{ mt: 4, mb: docs.length > 0 ? 2 : 0 }}>
         {docs.length > 0 &&
@@ -117,7 +126,6 @@ export function EServiceCreateStepDocumentsDoc() {
             bgcolor="common.white"
           >
             <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
-
             <RHFTextField
               size="small"
               sx={{ my: 2 }}
@@ -146,5 +154,28 @@ export function EServiceCreateStepDocumentsDoc() {
         </Button>
       )}
     </Box>
+  ) : (
+    <EServiceCreateStepDocumentDocReadonly
+      docs={docs}
+      handleDownloadDocument={handleDownloadDocument}
+    />
   )
 }
+
+const EServiceCreateStepDocumentDocReadonly: React.FC<{
+  docs: EServiceDoc[]
+  handleDownloadDocument: (document: EServiceDoc) => void
+}> = ({ docs, handleDownloadDocument }) =>
+  docs.map((doc) => (
+    <Stack key={doc.id} alignItems="start" mb={2}>
+      <IconLink
+        fontWeight={600}
+        key="test"
+        component="button"
+        onClick={() => handleDownloadDocument(doc)}
+        endIcon={<DownloadIcon sx={{ ml: 1 }} fontSize="small" />}
+      >
+        {doc.prettyName}
+      </IconLink>
+    </Stack>
+  ))

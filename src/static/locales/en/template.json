@@ -1,10 +1,148 @@
 {
-  "list": {
-    "filters": {
-      "nameField": {
-        "label": "Find by name"
+  "read": {
+    "tabs": {
+      "eserviceTemplateDetails": "Template details",
+      "eserviceTemplateTenants": "Using Tenants"
+    },
+    "actions": {
+      "backToEserviceTemplateListLabel": "Back to the e-service templates"
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Template informations",
+        "version": {
+          "label": "You are watching version number"
+        },
+        "eserviceTemplateName": {
+          "label": "E-Service template name"
+        },
+        "eserviceTemplateAudienceDescription": {
+          "label": "The template is aimed at "
+        },
+        "eserviceTemplateDescription": {
+          "label": "E-Service template description"
+        },
+        "versionDescription": {
+          "label": "Version description"
+        },
+        "bottomActions": {
+          "navigateTemplateVersions": "Navigate to another e-service template version",
+          "downloadUsingTenantsList": "Download list of using tenants",
+          "viewTechnicalInfo": "View eservice technical information "
+        },
+        "consumerListFileName":"{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv"
+      },
+      "technicalInformations": {
+        "title": "E-service technical specifications",
+        "description": "In this section you can check the specifications of the e-service and make changes.",
+        "technology": "Technology",
+        "audience": "Audience",
+        "mode": {
+          "label": "E-service mode",
+          "labelDescription": "Receive / Deliver",
+          "value": {
+            "DELIVER": "Deliver",
+            "RECEIVE": "Receive"
+          }
+        },
+        "thresholds": {
+          "title": "Thresholds",
+          "voucherLifespan": {
+            "label": "Voucher lifespan",
+            "labelDescription": "in minutes"
+          },
+          "dailyCallsPerConsumer": {
+            "label": "Per subscriber suggested threshold",
+            "labelDescription": "API calls/day"
+          },
+          "dailyCallsTotal": {
+            "label": "Total suggested threshold",
+            "labelDescription": "API calls/day"
+          }
+        },
+        "documentation": {
+          "title": "Documentation",
+          "label": "Documents list"
+        },
+        "usefulLinks": {
+          "title": "Useful links",
+          "implementAndManageEServiceTemplate": "How do I implement and manage an e-service template?",
+          "updateEserviceInstance": "How can I update an e-service instance?",
+          "wellKnown": "URL .well-known"
+        }
+      }
+    },
+    "drawers": {
+      "updateEServiceTemplateNameDrawer": {
+        "title": "Edit template e-service name",
+        "subtitle": "From this panel you can update the name of the template e-service. The changes made will take effect immediately",
+        "templateNameField": {
+          "label": "Template e-service name",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The template e-service name must be different from the current one"
+          }
+        }
+      },
+      "updateEServiceTemplateAudienceDrawer": {
+        "title": "Edit the target audience",
+        "subtitle": "From this panel, you can update the target audience of the template. The changes made will take effect immediately",
+        "templateAudienceField": {
+          "label": "Template target audience ",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The template target audience  must be different from the current one"
+          }
+        }
+      },
+      "updateEServiceTemplateDescriptionDrawer": {
+        "title": "Edit the template e-service description",
+        "subtitle": "From this panel, you can update the description of the template. The changes made will take effect immediately.",
+        "templateDescriptionField": {
+          "label": "Template e-service description",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The template e-service description must be different from the current one"
+          }
+        }
+      },
+      "updateEServiceTemplateThresholdsDrawer": {
+        "subtitle": "From this panel, you can update the quotas of the template eservice. The changes made will take effect immediately",
+        "dailyCallsPerConsumerLabel": "Per subscriber suggested threshold",
+        "dailyCallsTotalLabel": "Total suggested threshold"
+      },
+      "updateDocumentationDrawer": {
+        "title": "Edit documentation",
+        "subtitle": "Now you can edit, download and delete documents attached to the e-service template.",
+        "addDocumentLabel": "Add documentation",
+        "nameField": {
+          "label": "Document name"
+        },
+        "interfaceInfoTooltip": "The “API Specification” file is not editable. To update it, create a new version.",
+        "downloadDocumentTooltip": "Download document"
       }
     }
+  },
+  "list": {
+    "filters": {
+      "tenantField": "Find by name",
+      "statusField": {
+        "label": "Instance status",
+        "optionLabels": {
+          "ACTIVE": "Active",
+          "DRAFT": "Draft",
+          "SUSPENDED": "Suspended",
+          "DEPRECATED": "Deprecated"
+        }
+      }
+    }
+  },
+  "actions":{
+    "createNewEServiceInstance": "Use template"
+  },
+  "createInstance": {
+    "title": "Create e-service from template",
+    "templateDescriptionLink": "Instance of <1>{{templateName}}</1>"
   },
   "noMultiDataLabel": "You have not yet created e-service templates.",
   "backToListBtn": "Back to templates",

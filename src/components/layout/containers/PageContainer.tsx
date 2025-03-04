@@ -25,7 +25,7 @@ type PageContainerBreadcrumbsProps = {
 
 type PageContainerIntroProps = {
   title?: string
-  description?: string
+  description?: string | React.ReactNode
 }
 
 type PageContainerProps = {
@@ -75,17 +75,26 @@ const PageContainerIntro: React.FC<PageContainerIntroProps> = ({ title, descript
               {title}
             </Typography>
           )}
-          {description && (
-            <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
-              {description}
-            </Typography>
-          )}
+          {description && <PageContainerSubtitle description={description} />}
         </Box>
       </Stack>
     </Box>
   )
 }
 
+type PageContainerSubtitle = {
+  description: string | React.ReactNode
+}
+
+const PageContainerSubtitle: React.FC<PageContainerSubtitle> = ({ description }) => {
+  return typeof description === 'string' ? (
+    <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
+      {description}
+    </Typography>
+  ) : (
+    description
+  )
+}
 const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ backToAction }) => {
   return (
     <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>

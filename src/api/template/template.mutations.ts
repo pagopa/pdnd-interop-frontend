@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
-import { UpdateEServiceTemplateVersionSeed } from '../api.generatedTypes'
+import { EServiceRiskAnalysisSeed, UpdateEServiceTemplateVersionSeed } from '../api.generatedTypes'
+import { AttributeKey } from '@/types/attribute.types'
 
 //TODO SUCCESS/ERROR/LOADING TOAST LABEL
 
@@ -48,9 +49,11 @@ function useUpdateEServiceTemplateDescription() {
 }
 
 function useUpdateQuotas() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateVersion',
+  })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateQuotas, //TODO
+    mutationFn: TemplateServices.updateEServiceTemplateQuotas,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -266,7 +269,7 @@ function useDeleteVersionDraft() {
 }
 
 function useSuspendVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'template.suspendVersion' })
   return useMutation({
     mutationFn: TemplateServices.suspendVersion,
     meta: {
@@ -297,6 +300,17 @@ function useReactivateVersion() {
   })
 }
 
+function useCreateInstanceFromEServiceTemplate() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
+  return useMutation({
+    mutationFn: TemplateServices.createInstanceFromEServiceTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateAudienceDescription,
@@ -316,4 +330,5 @@ export const TemplateMutations = {
   useDeleteVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
+  useCreateInstanceFromEServiceTemplate,
 }

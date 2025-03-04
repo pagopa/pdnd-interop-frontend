@@ -226,8 +226,14 @@
         "error": "E-service name not updated. Try again.",
         "success": "E-service name updated correctly"
       }
-    }
   },
+    "updateEServiceInterfaceInfo" : {
+      "loading": "We are updating the e-service interface info",
+      "outcome": {
+        "error": "E-service interface info not updated. Try again.",
+        "success": "E-service interface info updated correctly"
+      }
+    },
   "attribute": {
     "create": {
       "loading": "Saving new attribute",
@@ -747,5 +753,33 @@
         "error": "It was not possible to download the contract. Please try again"
       }
     }
+  },
+  "template": {
+    "updateEServiceTemplateName": {
+      "loading": "We are updating the e-service template name",
+      "outcome": {
+        "error": "Template e-service name not updated. Try again.",
+        "success": "Template e-service name updated correctly"
+      }
+    },
+    "updateEServiceTemplateAudience": {
+      "loading": "We are updating the e-service template target audience",
+      "outcome": {
+        "error": "Template e-service target audience not updated. Try again.",
+        "success": "Template e-service target audience updated correctly"
+      }
+    },
+    "suspendVersion": {
+      "loading": "Suspending e-service template version",
+      "outcome": {
+        "success": "E-service template version suspended successfully",
+        "error": "The e-service template version could not be suspended. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm version template suspension",
+        "description": "By clicking \"confirm\", this e-service template version will be suspended. No Subscriber will be able to access it until it is reactivated."
+      }
+    }
+  }
   }
 }
