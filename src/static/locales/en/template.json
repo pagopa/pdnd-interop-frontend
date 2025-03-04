@@ -125,6 +125,12 @@
   },
   "list": {
     "filters": {
+      "nameField": {
+        "label": "Find by name"
+      },
+      "templateProviderField": {
+        "label": "Find by provider's template"
+      },
       "tenantField": "Find by name",
       "statusField": {
         "label": "Instance status",

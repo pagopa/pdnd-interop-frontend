@@ -127,6 +127,19 @@
     "filters": {
       "nameField": {
         "label": "Cerca per nome"
+      },
+      "templateProviderField": {
+        "label": "Cerca per creatore template"
+      },
+      "tenantField": "Cerca per nome",
+      "statusField": {
+        "label": "Stato istanza",
+        "optionLabels": {
+          "ACTIVE": "Attiva",
+          "DRAFT": "In bozza",
+          "SUSPENDED": "Sospesa",
+          "DEPRECATED": "Deprecata"
+        }
       }
     }
   },
