@@ -268,7 +268,7 @@ function useDeleteVersionDraft() {
 }
 
 function useSuspendVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'template.suspendVersion' })
   return useMutation({
     mutationFn: TemplateServices.suspendVersion,
     meta: {
