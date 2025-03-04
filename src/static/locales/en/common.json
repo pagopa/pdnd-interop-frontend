@@ -64,7 +64,8 @@
       "keychain": "Keychain",
       "delegationKind": "Delegation for",
       "delegatorName": "Delegation requested by",
-      "delegateName": "Delegation granted to"
+      "delegateName": "Delegation granted to",
+      "templateName": "Template"
     }
   },
   "status": {
@@ -104,6 +105,12 @@
       "REJECTED": "rejected",
       "REVOKED": "revoked",
       "WAITING_FOR_APPROVAL": "waiting for acceptance"
+    },
+    "template": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "DEPRECATED": "deprecated"
     }
   },
   "userProductRole": {

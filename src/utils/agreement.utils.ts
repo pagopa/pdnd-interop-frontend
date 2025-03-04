@@ -3,7 +3,7 @@ import type {
   AgreementState,
   CatalogDescriptorEService,
   CatalogEService,
-  EServiceDescriptorState,
+  CatalogEServiceDescriptor,
 } from '@/api/api.generatedTypes'
 
 /**
@@ -37,14 +37,14 @@ export const checkIfhasAlreadyAgreementDraft = (
 /**
  * Checks if the user can create an agreement draft for the given e-service.
  * @param eservice The e-service to check
- * @param descriptorState The state of the actual viewing descriptor
+ * @param descriptor the actual viewing descriptor
  * @returns `true` if the user can create an agreement draft for the given e-service, `false` otherwise
  */
 export const checkIfcanCreateAgreementDraft = (
   eservice: CatalogEService | CatalogDescriptorEService | undefined,
-  descriptorState: EServiceDescriptorState | undefined
+  descriptor?: CatalogEServiceDescriptor
 ) => {
-  if (!eservice || !descriptorState) return false
+  if (!eservice || !descriptor) return false
 
   let result = false
 
@@ -53,7 +53,7 @@ export const checkIfcanCreateAgreementDraft = (
    * ... I own all the certified attributes...
    * ...or if the subscriber is the owner of the eservice...
    * */
-  if (eservice.hasCertifiedAttributes || eservice.isMine) {
+  if (descriptor.eservice.hasCertifiedAttributes || eservice.isMine) {
     result = true
   }
 
@@ -69,7 +69,7 @@ export const checkIfcanCreateAgreementDraft = (
   }
 
   // ... and the actual viewing descriptor is published or suspended!
-  if (!['PUBLISHED', 'SUSPENDED'].includes(descriptorState)) {
+  if (!['PUBLISHED', 'SUSPENDED'].includes(descriptor.state)) {
     result = false
   }
 

@@ -3,20 +3,35 @@ import { TemplateServices } from './template.services'
 import type {
   GetEServiceTemplateCreatorsParams,
   GetEServiceTemplatesCatalogParams,
+  GetProducerEServices2Params,
 } from '../api.generatedTypes'
 
-function getProviderTemplatesList() {
-  //TODO aggiungi params
+function getProviderTemplatesList(params: GetProducerEServices2Params) {
   return queryOptions({
     queryKey: ['EServiceTemplatesGetProviderList'],
-    queryFn: () => TemplateServices.getProviderTemplatesList(),
+    queryFn: () => TemplateServices.getProviderTemplatesList(params),
   })
 }
 
-function getSingle(eserviceTemplateId: string) {
+function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string) {
   return queryOptions({
-    queryKey: ['EServiceTemplateGetSingle', eserviceTemplateId],
-    queryFn: () => TemplateServices.getSingle(eserviceTemplateId),
+    queryKey: ['EServiceTemplateGetSingle', eServiceTemplateId, eServiceTemplateVersionId],
+    queryFn: () => TemplateServices.getSingle(eServiceTemplateId, eServiceTemplateVersionId),
+  })
+}
+
+function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
+  return queryOptions({
+    queryKey: ['EServiceTemplateGetSingleByEServiceTemplateId', eserviceTemplateId],
+    queryFn: () => TemplateServices.getSingleByEServiceTemplateId(eserviceTemplateId),
+  })
+}
+
+function getProviderTemplateInstancesList(eServiceTemplateId: string) {
+  //TODO aggiungi params
+  return queryOptions({
+    queryKey: ['EServiceTemplatesGetProviderTemplateInstancesList'],
+    queryFn: () => TemplateServices.getProviderTemplateInstancesList(eServiceTemplateId),
   })
 }
 
@@ -39,4 +54,6 @@ export const TemplateQueries = {
   getProviderTemplatesCatalogList,
   getSingle,
   getProducersTemplateEserviceList,
+  getProviderTemplateInstancesList,
+  getSingleByEServiceTemplateId,
 }

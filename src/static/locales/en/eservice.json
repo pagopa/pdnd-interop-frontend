@@ -24,6 +24,10 @@
         "label": "E-service name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
+      "istanceNameField": {
+        "label": " Instance ID (optional)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
       "eserviceDescriptionField": {
         "label": "E-service description",
         "infoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
@@ -40,6 +44,18 @@
         "isSignalHubEnabled": {
           "label": "Is available the data update system (Signal Hub)? ",
           "switchLabel": "Yes, it is available"
+        }
+      },
+      "delegationSection": {
+        "title": "Delegations",
+        "description": "Read the <1>documentation</1> relating to how delegations work",
+        "delegationField": {
+          "label": "Can the e-service be used via delegation?",
+          "switchLabel": "I authorize that users of the e-service can delegate other entities to register on their behalf"
+        },
+        "clientAccessDelegableField": {
+          "label": "I authorize access to the delegated data",
+          "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
         }
       },
       "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
@@ -126,6 +142,36 @@
       }
     },
     "step4": {
+      "template" : {
+        "interface": {
+          "documentation": {
+            "title":"Documentation",
+            "description": "Check technical documentations needed for the implementation of an integration with this template of e-service."
+          },
+          "save" :"Save data",
+          "title": "Interface",
+          "contactSection":{
+            "title":"Contact's info details",
+            "contactNameField": "Contact's name",
+            "emailField":"email",
+            "urlField":"URL"
+          },
+          "termsAndConditions": {
+            "title": "Terms and conditions",
+            "label":"Terms and conditions URL"
+          },
+          "serverSection": {
+            "title": "Server",
+            "label":"Server URL",
+            "add": "Add server URL",
+            "remove":"Remove field"
+          },
+          "description": {
+            "rest": "Compile following fields and openAPI will be automatically generated",
+            "download": "Download interface API file"
+          }
+        }
+      },
       "interface": {
         "title": "Interface (required)",
         "description": {
@@ -165,6 +211,22 @@
           "true": "Yes, it is available",
           "false": "No, it is not available",
           "undefined": "No, it is not available"
+        }
+      },
+      "isConsumerDelegable": {
+        "label": "Can the e-service be used via delegation?",
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "No"
+        }
+      },
+      "isClientAccessDelegable": {
+        "label": "Do I authorize access to delegated data?",
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "No"
         }
       }
     },
@@ -288,6 +350,12 @@
         "version": {
           "label": "You are watching version number"
         },
+        "eserviceTempalteName": {
+          "label": "Template reference"
+        },
+        "instanceId": {
+          "label": "Instance Id"
+        },
         "eserviceName": {
           "label": "E-Service name"
         },
@@ -311,6 +379,17 @@
         "description": "In this section you can check the specifications of the e-service and make changes.",
         "technology": "Technology",
         "audience": "Audience",
+        "eserviceId": {
+          "label": "E-service's ID",
+          "copySuccessFeedbackText": "E-service ID copied successfully"
+        },
+        "descriptorId": {
+          "label": "Version ID",
+          "copySuccessFeedbackText": "Version id copied successfully"
+        },
+        "publishedAt": "Last version date",
+        "deprecatedAt": "Deprecated version date",
+        "archivedAt": "Archived version date",
         "mode": {
           "label": "E-service mode",
           "labelDescription": "Receive / Deliver",
@@ -370,6 +449,17 @@
           }
         }
       },
+      "updateEserviceInstanceIdDrawer": {
+        "title": "Edit instance id",
+        "subtitle": "From this panel you can update the instance id of the e-service. The changes made will take effect immediately.",
+        "eserviceInstanceIdField": {
+          "label": "Instance id",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The instance id of the e-service must be different from the current one"
+          }
+        }
+      },
       "updateEServiceDescriptionDrawer": {
         "title": "Edit e-service description",
         "subtitle": "From this panel you can update the description of the e-service. The changes made will take effect immediately.",
@@ -410,6 +500,14 @@
           "value": {
             "DELIVER": "Deliver",
             "RECEIVE": "Receive"
+          }
+        },
+        "isSignalHubEnabled": {
+          "label": "Is available the data update system (Signal Hub)? ",
+          "value": {
+            "true": "Yes, it is available",
+            "false": "No, it is not available",
+            "undefined": "No, it is not available"
           }
         },
         "documentation": "Documentation",

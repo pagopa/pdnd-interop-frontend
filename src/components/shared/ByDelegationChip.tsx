@@ -1,11 +1,22 @@
 import { Chip, Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
 
-export const ByDelegationChip: React.FC = () => {
+type ByDelegationChipProps = {
+  tenantRole?: 'DELEGATOR' | 'DELEGATE'
+}
+
+export const ByDelegationChip: React.FC<ByDelegationChipProps> = ({ tenantRole }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'byDelegationChip' })
 
-  return <Chip label={t('label')} color={'default'} sx={{ borderRadius: 1 }} />
+  const tenantRoleLabel = match(tenantRole)
+    .with('DELEGATOR', () => t('label.delegator'))
+    .with('DELEGATE', () => t('label.delegate'))
+    .with(undefined, () => t('label.default'))
+    .exhaustive()
+
+  return <Chip label={tenantRoleLabel} color={'default'} sx={{ borderRadius: 1, ml: 1 }} />
 }
 
 export const ByDelegationChipSkeleton: React.FC = () => {

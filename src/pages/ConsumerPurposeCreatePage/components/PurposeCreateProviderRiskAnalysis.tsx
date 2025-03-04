@@ -1,7 +1,7 @@
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import type { PurposeCreateFormValues } from './PurposeCreateEServiceForm'
+import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { useFormContext } from 'react-hook-form'
 import { PurposeQueries } from '@/api/purpose'
 import { List, ListItem, ListItemText, Typography } from '@mui/material'

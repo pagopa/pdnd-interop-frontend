@@ -1,15 +1,15 @@
 import { DelegationQueries } from '@/api/delegation'
 import { useQuery } from '@tanstack/react-query'
 
-export function useGetDelegationUserRole({
+export function useGetProducerDelegationUserRole({
   eserviceId,
   organizationId,
 }: {
   eserviceId: string | undefined
   organizationId: string | undefined
 }) {
-  const { data: producerDelegations } = useQuery({
-    ...DelegationQueries.getProducerDelegationsList({
+  const { data: producerDelegations = [] } = useQuery({
+    ...DelegationQueries.getList({
       eserviceIds: [eserviceId as string],
       states: ['ACTIVE'],
       kind: 'DELEGATED_PRODUCER',
@@ -17,7 +17,7 @@ export function useGetDelegationUserRole({
       limit: 50,
     }),
     enabled: Boolean(eserviceId),
-    select: (delegations) => delegations.results,
+    select: (delegations) => delegations.results ?? [],
   })
 
   const isDelegate = Boolean(

@@ -1,5 +1,6 @@
 import type {
   CatalogEService,
+  CompactEService,
   PurposeEServiceSeed,
   PurposeSeed,
   RiskAnalysisForm,
@@ -18,15 +19,17 @@ import { PurposeCreateProviderRiskAnalysisAutocomplete } from './PurposeCreatePr
 import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAnalysis'
 import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
+import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutocomplete'
 
 export type PurposeCreateFormValues = {
-  eservice: CatalogEService | null
+  consumerId: string
+  eservice: CatalogEService | CompactEService | undefined
   useTemplate: boolean
   templateId: string | null
   providerRiskAnalysisId: string | null
 }
 
-export const PurposeCreateEServiceForm: React.FC = () => {
+export const PurposeCreateForm: React.FC = () => {
   const { t } = useTranslation('purpose')
   const navigate = useNavigate()
   const { jwt } = AuthHooks.useJwt()
@@ -36,7 +39,8 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
   const formMethods = useForm<PurposeCreateFormValues>({
     defaultValues: {
-      eservice: null,
+      consumerId: jwt?.organizationId as string,
+      eservice: undefined,
       useTemplate: false,
       templateId: null,
       providerRiskAnalysisId: null,
@@ -60,12 +64,12 @@ export const PurposeCreateEServiceForm: React.FC = () => {
   const { data: selectedEServiceDescriptorId } = useQuery({
     ...EServiceQueries.getCatalogList({
       q: selectedEService?.name,
-      agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
     }),
+    enabled: Boolean(selectedEService),
     select: (d) =>
       d.results.find((eservice) => eservice.id === selectedEServiceId)?.activeDescriptor?.id,
   })
@@ -78,7 +82,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
-  const onSubmit = ({ eservice, providerRiskAnalysisId }: PurposeCreateFormValues) => {
+  const onSubmit = ({ consumerId, eservice, providerRiskAnalysisId }: PurposeCreateFormValues) => {
     if (!jwt?.organizationId || !eservice) return
 
     /**
@@ -106,7 +110,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
       if (!providerRiskAnalysisId) return
 
       const payloadCreatePurposeDraft: PurposeEServiceSeed = {
-        consumerId: jwt?.organizationId,
+        consumerId: consumerId,
         eserviceId: eservice.id,
         title,
         description,
@@ -126,7 +130,7 @@ export const PurposeCreateEServiceForm: React.FC = () => {
 
     if (mode === 'DELIVER') {
       const payloadCreatePurposeDraft: PurposeSeed = {
-        consumerId: jwt?.organizationId,
+        consumerId: consumerId,
         eserviceId: eservice.id,
         title,
         description,
@@ -149,13 +153,20 @@ export const PurposeCreateEServiceForm: React.FC = () => {
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer title={t('create.preliminaryInformationSectionTitle')}>
-          <PurposeCreateEServiceAutocomplete />
-          {/* {isEServiceSelected && mode === 'DELIVER' && (
+          <Stack spacing={3}>
+            <PurposeCreateConsumerAutocomplete
+              preselectedConsumer={
+                jwt ? { id: jwt?.organizationId, name: jwt?.organization.name } : undefined
+              }
+            />
+            <PurposeCreateEServiceAutocomplete />
+            {/* {isEServiceSelected && mode === 'DELIVER' && (
             <>
               <RHFSwitch name="useTemplate" label={t('create.isTemplateField.label')} />
               <PurposeCreateTemplateAutocomplete />
             </>
           )} */}
+          </Stack>
         </SectionContainer>
         {/* <PurposeCreateRiskAnalysisPreview /> */}
         {isEServiceSelected && mode === 'RECEIVE' && (

@@ -9,14 +9,21 @@ import { AuthHooks } from '@/api/auth'
 export function useGetDelegationActions(delegation: Delegation | CompactDelegation | undefined) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { openDialog } = useDialog()
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const actions: Array<ActionItemButton> = []
 
   if (!delegation) return { actions: actions }
 
+  const isCurrentTenantDelgate = delegation.delegate.id === jwt?.organizationId
+  const isCurrentTenantDelgator = delegation.delegator.id === jwt?.organizationId
+
   const handleAccept = () => {
-    openDialog({ type: 'acceptDelegation', delegationId: delegation.id })
+    openDialog({
+      type: 'acceptDelegation',
+      delegationId: delegation.id,
+      delegationKind: delegation.kind,
+    })
   }
 
   const acceptAction: ActionItemButton = {
@@ -27,7 +34,11 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
   }
 
   const handleReject = () => {
-    openDialog({ type: 'rejectDelegation', delegationId: delegation.id })
+    openDialog({
+      type: 'rejectDelegation',
+      delegationId: delegation.id,
+      delegationKind: delegation.kind,
+    })
   }
 
   const rejectAction: ActionItemButton = {
@@ -39,9 +50,10 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
 
   const handleRevoke = () => {
     openDialog({
-      type: 'revokeProducerDelegation',
+      type: 'revokeDelegation',
       delegationId: delegation.id,
       eserviceName: delegation.eservice?.name ?? '-',
+      delegationKind: delegation.kind,
     })
   }
 
@@ -52,19 +64,11 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
     icon: CloseIcon,
   }
 
-  if (
-    delegation.kind === 'DELEGATED_PRODUCER' &&
-    delegation.state === 'WAITING_FOR_APPROVAL' &&
-    delegation.delegate.id === jwt?.organizationId
-  ) {
+  if (delegation.state === 'WAITING_FOR_APPROVAL' && isCurrentTenantDelgate && isAdmin) {
     actions.push(...[acceptAction, rejectAction])
   }
 
-  if (
-    delegation.kind === 'DELEGATED_PRODUCER' &&
-    delegation.state === 'ACTIVE' &&
-    delegation.delegator.id === jwt?.organizationId
-  ) {
+  if (delegation.state === 'ACTIVE' && isCurrentTenantDelgator) {
     actions.push(revokeAction)
   }
 

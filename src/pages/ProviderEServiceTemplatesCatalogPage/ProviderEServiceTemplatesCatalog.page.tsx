@@ -88,7 +88,7 @@ const ProviderEServiceTemplatesCatalogWrapper: React.FC<{
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
 
-  return <ProviderEServiceCatalogGrid eservicesTemplateList={data?.results} />
+  return <ProviderEServiceCatalogGrid eservicesTemplateList={data?.results ?? []} />
 }
 
 export default ProviderEServiceTemplatesCatalogPage

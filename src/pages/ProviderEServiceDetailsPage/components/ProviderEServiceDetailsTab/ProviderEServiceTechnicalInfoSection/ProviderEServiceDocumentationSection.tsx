@@ -12,7 +12,7 @@ import { EServiceDownloads } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { ProviderEServiceUpdateDocumentationDrawer } from './ProviderEServiceUpdateDocumentationDrawer'
 import { AuthHooks } from '@/api/auth'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 
 type ProviderEServiceDocumentationSectionProps = {
   descriptor: ProducerEServiceDescriptor
@@ -28,7 +28,7 @@ export const ProviderEServiceDocumentationSection: React.FC<
 
   const { jwt } = AuthHooks.useJwt()
 
-  const { isDelegator } = useGetDelegationUserRole({
+  const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId: descriptor.eservice.id,
     organizationId: jwt?.organizationId,
   })
@@ -54,13 +54,15 @@ export const ProviderEServiceDocumentationSection: React.FC<
     )
   }
 
+  const isEserviceFromTemplate = Boolean(descriptor.templateRef)
+
   return (
     <>
       <SectionContainer
         innerSection
         title={t('documentation.title')}
         topSideActions={
-          isDelegator
+          isDelegator || isEserviceFromTemplate
             ? []
             : [
                 {

@@ -1,5 +1,3 @@
-import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
-import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
@@ -18,19 +16,21 @@ type UpdateThresholdsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   id: string
-  descriptorId?: string
   subtitle?: string
   dailyCallsPerConsumerLabel?: string
   dailyCallsTotalLabel?: string
   voucherLifespan: number
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
+  /** @description  This field is used to represent the version of specific item: it could be for an EService (descriptorId) or
+   *  for a EServiceTemplate (TemplateVersionId) */
+  versionId?: string
   onSubmit: (
     id: string,
     voucherLifespan: number,
     dailyCallsPerConsumer: number,
     dailyCallsTotal: number,
-    descriptorId?: string
+    versionId?: string
   ) => void
 }
 
@@ -38,13 +38,13 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
   isOpen,
   onClose,
   id,
-  descriptorId,
   subtitle,
   dailyCallsPerConsumerLabel,
   dailyCallsTotalLabel,
   voucherLifespan,
   dailyCallsPerConsumer,
   dailyCallsTotal,
+  versionId,
   onSubmit,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.updateThresholdsDrawer' })
@@ -64,16 +64,16 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
       dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
       dailyCallsTotal: dailyCallsTotal ?? 1,
     })
-  }, [descriptorId, id, formMethods])
+  }, [versionId, id, formMethods])
 
   const handleSubmit = (values: UpdateThresholdsFormValues) => {
-    if (descriptorId) {
+    if (versionId) {
       onSubmit(
         id,
         minutesToSeconds(values.voucherLifespan),
         values.dailyCallsPerConsumer,
         values.dailyCallsTotal,
-        descriptorId
+        versionId
       )
     } else {
       onSubmit(

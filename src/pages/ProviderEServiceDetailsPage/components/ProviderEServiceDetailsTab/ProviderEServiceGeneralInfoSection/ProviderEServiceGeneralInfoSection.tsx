@@ -11,12 +11,14 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
+import { ProviderEServiceFromTemplateUpdateInstanceIdDrawer } from './ProviderEServiceFromTemplateUpdateInstanceIdDrawer'
+import { Link } from '@/router'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -30,10 +32,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  const { isDelegator } = useGetDelegationUserRole({
+  const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId,
     organizationId: jwt?.organizationId,
   })
+
+  const isEserviceFromTemplate = Boolean(descriptor.templateRef)
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
@@ -57,6 +61,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     isOpen: isEServiceUpdateDescriptionDrawerOpen,
     openDrawer: openEServiceUpdateDescriptionDrawer,
     closeDrawer: closeEServiceUpdateDescriptionDrawer,
+  } = useDrawerState()
+
+  const {
+    isOpen: isEServiceUpdateInstanceIdDrawerOpen,
+    openDrawer: openEServiceUpdateInstanceIdDrawer,
+    closeDrawer: closeEServiceUpdateInstanceIdDrawer,
   } = useDrawerState()
 
   const handleDownloadConsumerList = () => {
@@ -132,6 +142,17 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     )
   }
 
+  const handleInstanceIdUpdate = (eserviceId: string, name: string) => {
+    //TODO
+    /*updateEserviceName(
+      {
+        eserviceId: eserviceId,
+        name: name,
+      },
+      { onSuccess: closeEServiceUpdateNameDrawer }
+    )*/
+  }
+
   return (
     <>
       <SectionContainer
@@ -144,32 +165,73 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
       >
         <Stack spacing={2}>
           <InformationContainer label={t('version.label')} content={descriptor.version} />
-          <Divider />
-          <SectionContainer
-            innerSection
-            title={t('eserviceName.label')}
-            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-            topSideActions={
-              isDelegator
-                ? []
-                : [
-                    {
-                      action: openEServiceUpdateNameDrawer,
-                      label: tCommon('actions.edit'),
-                      icon: EditIcon,
-                    },
-                  ]
-            }
-          >
-            <Typography variant="body2">{descriptor.eservice.name}</Typography>
-          </SectionContainer>
+          {isEserviceFromTemplate ? (
+            <>
+              <InformationContainer
+                label={t('eserviceTempalteName.label')}
+                content={
+                  <Link
+                    to="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
+                    params={{
+                      eServiceTemplateId: descriptor.templateRef?.templateId as string,
+                      eServiceTemplateVersionId: descriptor.templateRef
+                        ?.templateVersionId as string,
+                    }}
+                  >
+                    {descriptor.templateRef?.templateName}
+                  </Link>
+                }
+              />
+              <Divider />
+              <SectionContainer
+                innerSection
+                title={t('instanceId.label')}
+                titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+                topSideActions={
+                  isDelegator || isEserviceFromTemplate //TODO TEMP! Remove this once the function call is implemented
+                    ? []
+                    : [
+                        {
+                          action: openEServiceUpdateInstanceIdDrawer,
+                          label: tCommon('actions.edit'),
+                          icon: EditIcon,
+                        },
+                      ]
+                }
+              >
+                <Typography variant="body2">{descriptor.templateRef?.instanceId}</Typography>
+              </SectionContainer>
+            </>
+          ) : (
+            <>
+              <Divider />
+              <SectionContainer
+                innerSection
+                title={t('eserviceName.label')}
+                titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+                topSideActions={
+                  isDelegator || isEserviceFromTemplate
+                    ? []
+                    : [
+                        {
+                          action: openEServiceUpdateNameDrawer,
+                          label: tCommon('actions.edit'),
+                          icon: EditIcon,
+                        },
+                      ]
+                }
+              >
+                <Typography variant="body2">{descriptor.eservice.name}</Typography>
+              </SectionContainer>
+            </>
+          )}
           <Divider />
           <SectionContainer
             innerSection
             title={t('eserviceDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
             topSideActions={
-              isDelegator
+              isDelegator || isEserviceFromTemplate
                 ? []
                 : [
                     {
@@ -209,6 +271,13 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         onClose={closeEServiceUpdateNameDrawer}
         id={descriptor.eservice.id}
         name={descriptor.eservice.name}
+        onSubmit={handleNameUpdate}
+      />
+      <ProviderEServiceFromTemplateUpdateInstanceIdDrawer
+        isOpen={isEServiceUpdateInstanceIdDrawerOpen}
+        onClose={closeEServiceUpdateInstanceIdDrawer}
+        id={descriptor.eservice.id}
+        instanceId={descriptor.templateRef?.instanceId as string}
         onSubmit={handleNameUpdate}
       />
     </>

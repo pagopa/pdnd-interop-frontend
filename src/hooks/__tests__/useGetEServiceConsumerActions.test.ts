@@ -1,11 +1,8 @@
 import useGetEServiceConsumerActions from '../useGetEServiceConsumerActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
-import type {
-  CatalogEService,
-  CatalogEServiceDescriptor,
-  EServiceDescriptorState,
-} from '@/api/api.generatedTypes'
+import type { CatalogEService, CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 import {
+  createMockCatalogDescriptorEService,
   createMockEServiceCatalog,
   createMockEServiceDescriptorCatalog,
 } from '@/../__mocks__/data/eservice.mocks'
@@ -41,7 +38,7 @@ afterAll(() => {
 
 function renderUseGetEServiceConsumerActionsHook(
   eserviceMock?: CatalogEService | CatalogEServiceDescriptor['eservice'],
-  descriptorMock?: { id: string; state: EServiceDescriptorState; version: string }
+  descriptorMock?: CatalogEServiceDescriptor
 ) {
   return renderHookWithApplicationContext(
     () => useGetEServiceConsumerActions(eserviceMock, descriptorMock),
@@ -147,7 +144,9 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
 
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       eserviceMock,
-      createMockEServiceDescriptorCatalog()
+      createMockEServiceDescriptorCatalog({
+        eservice: createMockCatalogDescriptorEService({ hasCertifiedAttributes: true }),
+      })
     )
     expect(result.current.actions).toHaveLength(1)
     const createAgreementDraftAction = result.current.actions[0]!

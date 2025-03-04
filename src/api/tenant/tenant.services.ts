@@ -1,11 +1,12 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
-  DelegatedProducer,
   GetInstitutionUsersParams,
   GetTenantsParams,
+  HasCertifiedAttributes,
   MailSeed,
   Tenant,
+  TenantDelegatedFeaturesFlagsUpdateSeed,
   Tenants,
   Users,
 } from '../api.generatedTypes'
@@ -42,12 +43,24 @@ function updateMail({
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/mails`, payload)
 }
 
-function assignTenantDelegatedProducerFeature() {
-  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
+function UpdateTenantDelegatedFeatures(payload: TenantDelegatedFeaturesFlagsUpdateSeed) {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedFeatures/update`, payload)
 }
 
-function deleteTenantDelegatedProducerFeature() {
-  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/tenants/delegatedProducer`)
+async function verifyTenantCertifiedAttributes({
+  tenantId,
+  eserviceId,
+  descriptorId,
+}: {
+  tenantId: string
+  eserviceId: string
+  descriptorId: string
+}) {
+  const response = await axiosInstance.get<HasCertifiedAttributes>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/eservices/${eserviceId}/descriptors/${descriptorId}/certifiedAttributes/validate`
+  )
+
+  return response.data
 }
 
 export const TenantServices = {
@@ -55,6 +68,6 @@ export const TenantServices = {
   getPartyUsersList,
   getTenants,
   updateMail,
-  assignTenantDelegatedProducerFeature,
-  deleteTenantDelegatedProducerFeature,
+  UpdateTenantDelegatedFeatures,
+  verifyTenantCertifiedAttributes,
 }

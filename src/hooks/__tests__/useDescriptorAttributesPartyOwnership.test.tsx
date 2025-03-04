@@ -40,7 +40,9 @@ const mockUseGetPartyAttributes = (
 }
 
 const renderUseDescriptorAttributesPartyOwnership = () =>
-  renderHook(() => useDescriptorAttributesPartyOwnership('e-service', 'descriptor-id'))
+  renderHook(() =>
+    useDescriptorAttributesPartyOwnership('e-service', 'descriptor-id', 'organizationId')
+  )
 
 describe('useDescriptorAttributesPartyOwnership', () => {
   it('should return false when descriptor is undefined', () => {

@@ -8,7 +8,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
-import { useGetDelegationUserRole } from '@/hooks/useGetDelegationUserRole'
+import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { EServiceMutations } from '@/api/eservice'
 import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
 
@@ -26,7 +26,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
 
   const { jwt } = AuthHooks.useJwt()
 
-  const { isDelegator } = useGetDelegationUserRole({
+  const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId: descriptor.eservice.id,
     organizationId: jwt?.organizationId,
   })
@@ -103,7 +103,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
         isOpen={isOpen}
         onClose={closeDrawer}
         id={descriptor.eservice.id}
-        descriptorId={descriptor.id}
+        versionId={descriptor.id}
         voucherLifespan={descriptor.voucherLifespan}
         dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
         dailyCallsTotal={descriptor.dailyCallsTotal}

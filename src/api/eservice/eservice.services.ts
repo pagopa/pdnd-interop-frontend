@@ -10,6 +10,7 @@ import type {
   DescriptorAttributesSeed,
   EServiceDescriptionUpdateSeed,
   EServiceDoc,
+  EserviceInterfaceTemplatePayload,
   EServiceNameUpdateSeed,
   EServiceRiskAnalysis,
   EServiceRiskAnalysisSeed,
@@ -448,6 +449,19 @@ async function updateEServiceName({
   return response.data
 }
 
+async function updateEServiceInterfaceInfo({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: { eserviceId: string; descriptorId: string } & EserviceInterfaceTemplatePayload) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/instances/interface`,
+    payload
+  )
+
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -483,4 +497,5 @@ export const EServiceServices = {
   approveDelegatedVersionDraft,
   rejectDelegatedVersionDraft,
   updateEServiceName,
+  updateEServiceInterfaceInfo,
 }

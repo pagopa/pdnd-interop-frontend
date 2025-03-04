@@ -1,5 +1,5 @@
 import { AgreementQueries } from '@/api/agreement'
-import type { AgreementState, GetAgreementsParams } from '@/api/api.generatedTypes'
+import type { AgreementState, GetProducerAgreementsParams } from '@/api/api.generatedTypes'
 import { PageContainer } from '@/components/layout/containers'
 import {
   Filters,
@@ -11,14 +11,11 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProviderAgreementsTable, ProviderAgreementsTableSkeleton } from './components'
-import { AuthHooks } from '@/api/auth'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 const ProviderAgreementsListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerAgreementsList' })
   const { t: tAgreement } = useTranslation('agreement', { keyPrefix: 'list.filters' })
-
-  const { jwt } = AuthHooks.useJwt()
 
   const [consumersAutocompleteInput, setConsumersAutocompleteInput] = useAutocompleteTextInput()
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
@@ -49,7 +46,7 @@ const ProviderAgreementsListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetAgreementsParams, 'limit' | 'offset'>
+    Omit<GetProducerAgreementsParams, 'limit' | 'offset'>
   >([
     {
       name: 'eservicesIds',
@@ -84,14 +81,13 @@ const ProviderAgreementsListPage: React.FC = () => {
       ? ['ACTIVE', 'ARCHIVED', 'PENDING', 'SUSPENDED', 'REJECTED']
       : filtersParams.states
 
-  const params = {
+  const params: GetProducerAgreementsParams = {
     ...filtersParams,
     ...paginationParams,
-    producersIds: [jwt?.organizationId] as Array<string>,
     states,
   }
   const { data } = useQuery({
-    ...AgreementQueries.getList(params),
+    ...AgreementQueries.getProducerAgreementsList(params),
     placeholderData: keepPreviousData,
   })
 
@@ -107,8 +103,10 @@ const ProviderAgreementsListPage: React.FC = () => {
   )
 }
 
-const ProviderAgreementsTableWrapper: React.FC<{ params: GetAgreementsParams }> = ({ params }) => {
-  const { data, isFetching } = useQuery(AgreementQueries.getList(params))
+const ProviderAgreementsTableWrapper: React.FC<{ params: GetProducerAgreementsParams }> = ({
+  params,
+}) => {
+  const { data, isFetching } = useQuery(AgreementQueries.getProducerAgreementsList(params))
 
   if (!data && isFetching) return <ProviderAgreementsTableSkeleton />
   return <ProviderAgreementsTable agreements={data?.results ?? []} />

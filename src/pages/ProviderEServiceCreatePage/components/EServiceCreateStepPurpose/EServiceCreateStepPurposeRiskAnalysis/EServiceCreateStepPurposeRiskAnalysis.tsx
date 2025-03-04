@@ -1,8 +1,8 @@
 import React from 'react'
 import {
-  EServiceCreateStepPurposeRiskAnalysisForm,
+  CreateStepPurposeRiskAnalysisForm,
   RiskAnalysisFormSkeleton,
-} from './EServiceCreateStepPurposeRiskAnalysisForm'
+} from '../../../../../components/shared/CreateStepPurposeRiskAnalysisForm'
 import { useEServiceCreateContext } from '../../EServiceCreateContext'
 import { PurposeQueries } from '@/api/purpose'
 import { EServiceMutations } from '@/api/eservice'
@@ -74,7 +74,7 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
   }
 
   return (
-    <EServiceCreateStepPurposeRiskAnalysisForm
+    <CreateStepPurposeRiskAnalysisForm
       defaultName={riskAnalysisToEdit?.name}
       defaultAnswers={riskAnalysisToEdit?.riskAnalysisForm.answers}
       riskAnalysis={riskAnalysisLatest}

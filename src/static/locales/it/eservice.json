@@ -24,6 +24,10 @@
         "label": "Nome dell'e-service",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
+      "istanceNameField": {
+        "label": "Identificativo istanza (opzionale)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
       "eserviceDescriptionField": {
         "label": "Descrizione dell'e-service",
         "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
@@ -40,6 +44,18 @@
         "isSignalHubEnabled": {
           "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
           "switchLabel": "Sì, è disponibile"
+        }
+      },
+      "delegationSection": {
+        "title": "Deleghe",
+        "description": "Consulta la <1>documentazione</1> relativa al funzionamento delle deleghe",
+        "delegationField": {
+          "label": "L’e-service può essere fruito tramite delega?",
+          "switchLabel": "Autorizzo che i fruitori dell’e-service possano delegare altri enti ad iscriversi per conto proprio"
+        },
+        "clientAccessDelegableField": {
+          "label": "Autorizzo l’accesso ai dati in delega",
+          "checkboxLabel": "Autorizzo che i delegati possano associare i propri client alle finalità che hanno creato in qualità di delegati alla fruizione. Consulta la <1>documentazione</1> per approfondire"
         }
       },
       "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
@@ -126,6 +142,37 @@
       }
     },
     "step4": {
+      "template" : {
+        "interface" : {
+          "documentation": {
+            "title":"Documentazione",
+            "description" :"Verifica la documentazione tecnica utile all’implementazione di un’integrazione con questo template di e-service."
+          },
+          "save":"Salva dati interfaccia",
+          "title": "Interfaccia",
+          "contactSection":{
+            "title":"Dati di contatto",
+            "contactNameField": "Nome contatto",
+            "emailField":"e-mail",
+            "urlField":"URL"
+          },
+          "termsAndConditions": {
+            "title": "Termini e condizioni",
+            "label":" URL termini e condizioni"
+          },
+          "serverSection": {
+            "title": "Server",
+            "label":"URL server",
+            "add": "Aggiungi URL server",
+            "remove":"Rimuovi campo"
+          },
+          "description": {
+            "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",
+            "download": "Scarica il file di interfaccia"
+          }
+          
+        }
+      },
       "interface": {
         "title": "Interfaccia (richiesto)",
         "description": {
@@ -165,6 +212,22 @@
           "true": "Sì, è disponibile",
           "false": "No, non è disponibile",
           "undefined": "No, non è disponibile"
+        }
+      },
+      "isConsumerDelegable": {
+        "label": "L’e-service può essere fruito tramite delega?",
+        "value": {
+          "true": "Sì",
+          "false": "No",
+          "undefined": "No"
+        }
+      },
+      "isClientAccessDelegable": {
+        "label": "Autorizzo l’accesso ai dati in delega?",
+        "value": {
+          "true": "Sì",
+          "false": "No",
+          "undefined": "No"
         }
       }
     },
@@ -288,6 +351,12 @@
         "version": {
           "label": "Stai vedendo la versione"
         },
+        "eserviceTempalteName": {
+          "label": "Riferimento template"
+        },
+        "instanceId": {
+          "label": "Identificativo istanza"
+        },
         "eserviceName": {
           "label": "Nome dell’e-service"
         },
@@ -311,6 +380,17 @@
         "description": "In questa sezione potrai verificare le specifiche dell’e-service ed apportare modifiche.",
         "technology": "Tecnologia",
         "audience": "Audience",
+        "eserviceId": {
+          "label": "ID e-service",
+          "copySuccessFeedbackText": "ID copiato correttamente"
+        },
+        "descriptorId": {
+          "label": "ID versione",
+          "copySuccessFeedbackText": "ID copiato correttamente"
+        },
+        "publishedAt": "Data ultima versione",
+        "deprecatedAt": "Data deprecazione versione",
+        "archivedAt": "Data archiviazione versione",
         "mode": {
           "label": "Tipologia e-service",
           "labelDescription": "Riceve / Eroga",
@@ -370,6 +450,17 @@
           }
         }
       },
+      "updateEserviceInstanceIdDrawer": {
+        "title": "Modifica identificativo istanza e-service",
+        "subtitle": "Da questo pannello puoi aggiornare l'identificativo dell'istanza dell’e-service. Le modifiche apportate avranno effetto da subito.",
+        "eserviceInstanceIdField": {
+          "label": "Identificativo istanza",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "validation": {
+            "sameValue": "L'identificativo dell'istanza dell'e-service deve essere diverso da quello attuale"
+          }
+        }
+      },
       "updateEServiceDescriptionDrawer": {
         "title": "Modifica descrizione e-service",
         "subtitle": "Da questo pannello puoi aggiornare la descrizione dell’e-service. Le modifiche apportate avranno effetto da subito.",
@@ -410,6 +501,14 @@
           "value": {
             "DELIVER": "Eroga",
             "RECEIVE": "Riceve"
+          }
+        },
+        "isSignalHubEnabled": {
+          "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
+          "value": {
+            "true": "Sì, è disponibile",
+            "false": "No, non è disponibile",
+            "undefined": "No, non è disponibile"
           }
         },
         "documentation": "Documentazione",

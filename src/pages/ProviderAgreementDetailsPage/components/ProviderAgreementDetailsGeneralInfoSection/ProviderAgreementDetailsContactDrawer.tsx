@@ -9,17 +9,22 @@ type ProviderAgreementDetailsContactDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   contact: Mail
+  isDelegatedConsumer?: boolean
 }
 
 export const ProviderAgreementDetailsContactDrawer: React.FC<
   ProviderAgreementDetailsContactDrawerProps
-> = ({ isOpen, onClose, contact }) => {
+> = ({ isOpen, onClose, contact, isDelegatedConsumer }) => {
   const { t } = useTranslation('agreement', {
     keyPrefix: 'providerRead.sections.generalInformations.contactDrawer',
   })
 
   return (
-    <Drawer isOpen={isOpen} onClose={onClose} title={t('title')}>
+    <Drawer
+      isOpen={isOpen}
+      onClose={onClose}
+      title={t(isDelegatedConsumer ? 'title.delegatedConsumer' : 'title.consumer')}
+    >
       <Stack spacing={2}>
         <InformationContainer
           label={t('emailField.label')}

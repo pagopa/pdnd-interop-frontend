@@ -83,6 +83,8 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
+  // if this field is true some textField should be disabled
+  const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
 
   return (
     <FormProvider {...formMethods}>
@@ -99,6 +101,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
             focusOnMount
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
+            disabled={isEServiceCreatedFromTemplate}
             sx={{ my: 0, mt: 1 }}
           />
           <SectionContainer innerSection title={t('step2.voucherSection.title')} sx={{ mt: 3 }}>
@@ -112,6 +115,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
                 inputProps={{ min: 1, max: 1440 }}
                 rules={{ required: true, min: 1, max: 1440 }}
                 sx={{ flex: 1, my: 0 }}
+                disabled={isEServiceCreatedFromTemplate}
               />
 
               <RHFTextField

@@ -6,15 +6,15 @@ import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { AttributeGroup } from './AttributeGroup'
-import type { EServiceCreateStepAttributesFormValues } from '..'
+import { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 
-export type AddAttributesToEServiceFormProps = {
+export type AddAttributesToFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
   openCreateAttributeDrawer?: VoidFunction
 }
 
-export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormProps> = ({
+export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
   attributeKey,
   readOnly,
   openCreateAttributeDrawer,
@@ -22,7 +22,7 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
   const { t } = useTranslation('eservice', { keyPrefix: `create.step3` })
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { watch, setValue } = useFormContext<EServiceCreateStepAttributesFormValues>()
+  const { watch, setValue } = useFormContext<CreateStepAttributesFormValues>()
 
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
@@ -75,31 +75,31 @@ export const AddAttributesToEServiceForm: React.FC<AddAttributesToEServiceFormPr
         </Stack>
       </Box>
       <Stack spacing={3} sx={{ mt: 2 }}>
-        <Stack direction="row" spacing={2}>
-          <Button
-            sx={{ fontWeight: 700 }}
-            color="primary"
-            type="button"
-            variant="outlined"
-            onClick={handleAddAttributesGroup}
-            disabled={readOnly}
-          >
-            {t('attributesAddBtn')}
-          </Button>
-
-          {attributeKey !== 'certified' && (
+        {!readOnly && (
+          <Stack direction="row" spacing={2}>
             <Button
               sx={{ fontWeight: 700 }}
               color="primary"
               type="button"
               variant="outlined"
-              onClick={openCreateAttributeDrawer}
-              disabled={readOnly}
+              onClick={handleAddAttributesGroup}
             >
-              {t('attributesCreateBtn')}
+              {t('attributesAddBtn')}
             </Button>
-          )}
-        </Stack>
+
+            {attributeKey !== 'certified' && (
+              <Button
+                sx={{ fontWeight: 700 }}
+                color="primary"
+                type="button"
+                variant="outlined"
+                onClick={openCreateAttributeDrawer}
+              >
+                {t('attributesCreateBtn')}
+              </Button>
+            )}
+          </Stack>
+        )}
       </Stack>
     </SectionContainer>
   )
