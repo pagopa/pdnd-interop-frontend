@@ -49,12 +49,12 @@ import {
   ProviderEServiceTemplateDetailsPage,
   ProviderEServiceTemplateCreatePage,
   ProviderEServiceTemplateSummaryPage,
+  ProviderEServiceFromTemplateCreatePage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
-import ProviderEServiceFromTemplateCreate from '@/pages/ProviderEServiceFromTemplateCreatePage/ProviderEServiceFromTemplateCreate.page'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -523,6 +523,22 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY',
     path: '/erogazione/template/:eServiceTemplateId/:eServiceTemplateVersionId/modifica/riepilogo',
     element: <ProviderEServiceTemplateSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE',
+    path: '/erogazione/template/:eServiceTemplateId/e-service/crea',
+    element: <ProviderEServiceFromTemplateCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT',
+    path: '/erogazione/template/:eServiceTemplateId/e-service/:eserviceId/:descriptorId/modifica',
+    element: <ProviderEServiceFromTemplateCreatePage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api'],

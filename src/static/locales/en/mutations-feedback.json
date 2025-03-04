@@ -226,8 +226,14 @@
         "error": "E-service name not updated. Try again.",
         "success": "E-service name updated correctly"
       }
-    }
   },
+    "updateEServiceInterfaceInfo" : {
+      "loading": "We are updating the e-service interface info",
+      "outcome": {
+        "error": "E-service interface info not updated. Try again.",
+        "success": "E-service interface info updated correctly"
+      }
+    },
   "attribute": {
     "create": {
       "loading": "Saving new attribute",
@@ -774,5 +780,6 @@
         "description": "By clicking \"confirm\", this e-service template version will be suspended. No Subscriber will be able to access it until it is reactivated."
       }
     }
+  }
   }
 }

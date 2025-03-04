@@ -6,11 +6,13 @@ import type {
   DescriptorAttributesSeed,
   EServiceRiskAnalysisSeed,
   EServiceTemplateDescriptionUpdateSeed,
+  EServiceTemplateDetails,
   EServiceTemplateInstances,
   EServiceTemplateNameUpdateSeed,
   EServiceTemplateSeed,
   EServiceTemplateVersionDetails,
   EServiceTemplateVersionQuotasUpdateSeed,
+  InstanceEServiceSeed,
   GetEServiceTemplatesCatalogParams,
   GetProducerEServices2Params,
   ProducerEServiceTemplates,
@@ -506,13 +508,15 @@ async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
 
 async function createInstanceFromEServiceTemplate({
   eServiceTemplateId,
+  ...payload
 }: {
   eServiceTemplateId: string
-}) {
-  /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instance
-  )
-  return response.data*/
+} & InstanceEServiceSeed) {
+  // const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances`,
+  //   payload
+  // )
+  // return response.data
 
   const response: CreatedEServiceDescriptor = {
     id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
@@ -578,6 +582,54 @@ async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatal
   return response
 }
 
+async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
+  // const response = await axiosInstance.get<EServiceTemplateDetails>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}`
+  // )
+
+  // return response;
+
+  const response: EServiceTemplateDetails = {
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    creator: {
+      id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      name: 'Template di prova',
+      kind: 'PA',
+      contactMail: {
+        address: 'string',
+        description: 'string',
+      },
+    },
+    name: 'Template di prova',
+    audienceDescription: 'string',
+    eserviceDescription: 'questa è una descrizione di prova',
+    technology: 'REST',
+    versions: [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        version: 0,
+        state: 'PUBLISHED',
+      },
+    ],
+    riskAnalysis: [
+      {
+        id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        name: 'string',
+        riskAnalysisForm: {
+          version: 'string',
+          answers: {},
+          riskAnalysisId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        },
+        createdAt: '2025-02-25T11:38:40.778Z',
+      },
+    ],
+    mode: 'DELIVER',
+    isSignalHubEnabled: true,
+  }
+
+  return response
+}
+
 export const TemplateServices = {
   getProviderTemplatesList,
   getSingle,
@@ -603,5 +655,6 @@ export const TemplateServices = {
   reactivateVersion,
   getProviderTemplateInstancesList,
   createInstanceFromEServiceTemplate,
+  getSingleByEServiceTemplateId,
   getProviderTemplatesCatalogList,
 }

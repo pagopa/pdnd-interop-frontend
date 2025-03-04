@@ -46,3 +46,4 @@ export { ProviderEServiceTemplatesListPage } from './ProviderEServiceTemplatesLi
 export { ProviderEServiceTemplateDetailsPage } from './ProviderEServiceTemplateDetailsPage'
 export { ProviderEServiceTemplateCreatePage } from './ProviderEServiceTemplateCreatePage'
 export { ProviderEServiceTemplateSummaryPage } from './ProviderEServiceTemplateSummaryPage'
+export { ProviderEServiceFromTemplateCreatePage } from './ProviderEServiceFromTemplateCreatePage'

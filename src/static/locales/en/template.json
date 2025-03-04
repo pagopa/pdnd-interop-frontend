@@ -140,6 +140,10 @@
   "actions":{
     "createNewEServiceInstance": "Use template"
   },
+  "createInstance": {
+    "title": "Create e-service from template",
+    "templateDescriptionLink": "Instance of <1>{{templateName}}</1>"
+  },
   "noMultiDataLabel": "You have not yet created e-service templates.",
   "backToListBtn": "Back to templates",
   "create": {
