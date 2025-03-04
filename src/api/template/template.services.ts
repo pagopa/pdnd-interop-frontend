@@ -712,4 +712,5 @@ export const TemplateServices = {
   createInstanceFromEServiceTemplate,
   getSingleByEServiceTemplateId,
   getProviderTemplatesCatalogList,
+  getProducersTemplateEserviceList,
 }
