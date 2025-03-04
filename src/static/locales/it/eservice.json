@@ -24,6 +24,10 @@
         "label": "Nome dell'e-service",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
+      "istanceNameField": {
+        "label": "Identificativo istanza (opzionale)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
       "eserviceDescriptionField": {
         "label": "Descrizione dell'e-service",
         "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
@@ -138,6 +142,37 @@
       }
     },
     "step4": {
+      "template" : {
+        "interface" : {
+          "documentation": {
+            "title":"Documentazione",
+            "description" :"Verifica la documentazione tecnica utile all’implementazione di un’integrazione con questo template di e-service."
+          },
+          "save":"Salva dati interfaccia",
+          "title": "Interfaccia",
+          "contactSection":{
+            "title":"Dati di contatto",
+            "contactNameField": "Nome contatto",
+            "emailField":"e-mail",
+            "urlField":"URL"
+          },
+          "termsAndConditions": {
+            "title": "Termini e condizioni",
+            "label":" URL termini e condizioni"
+          },
+          "serverSection": {
+            "title": "Server",
+            "label":"URL server",
+            "add": "Aggiungi URL server",
+            "remove":"Rimuovi campo"
+          },
+          "description": {
+            "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",
+            "download": "Scarica il file di interfaccia"
+          }
+          
+        }
+      },
       "interface": {
         "title": "Interfaccia (richiesto)",
         "description": {
@@ -316,6 +351,12 @@
         "version": {
           "label": "Stai vedendo la versione"
         },
+        "eserviceTempalteName": {
+          "label": "Riferimento template"
+        },
+        "instanceId": {
+          "label": "Identificativo istanza"
+        },
         "eserviceName": {
           "label": "Nome dell’e-service"
         },
@@ -409,6 +450,17 @@
           "infoLabel": "Min 5 caratteri, max 60 caratteri",
           "validation": {
             "sameValue": "Il nome dell'e-service deve essere diverso da quella attuale"
+          }
+        }
+      },
+      "updateEserviceInstanceIdDrawer": {
+        "title": "Modifica identificativo istanza e-service",
+        "subtitle": "Da questo pannello puoi aggiornare l'identificativo dell'istanza dell’e-service. Le modifiche apportate avranno effetto da subito.",
+        "eserviceInstanceIdField": {
+          "label": "Identificativo istanza",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "validation": {
+            "sameValue": "L'identificativo dell'istanza dell'e-service deve essere diverso da quello attuale"
           }
         }
       },

@@ -11,9 +11,13 @@ import {
   RHFTextField,
 } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
-import { useNavigate } from '@/router'
+import { useNavigate, useParams } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
-import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
+import type {
+  EServiceMode,
+  EServiceTechnology,
+  InstanceEServiceSeed,
+} from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -27,6 +31,8 @@ import {
 import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
+import { TemplateMutations, TemplateQueries } from '@/api/template'
+import { useQuery } from '@tanstack/react-query'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -47,18 +53,26 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
+  const { eServiceTemplateId } = useParams<
+    'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT'
+  >()
+
   const {
     descriptor,
     areEServiceGeneralInfoEditable,
     forward,
     eserviceMode,
     onEserviceModeChange,
+
+    template,
   } = useEServiceCreateContext()
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
+  const { mutate: createDraftFromTemplate } =
+    TemplateMutations.useCreateInstanceFromEServiceTemplate()
 
-  const defaultValues: EServiceCreateStepGeneralFormValues = {
+  const eServiceDefaultValues: EServiceCreateStepGeneralFormValues = {
     name: descriptor?.eservice.name ?? '',
     description: descriptor?.eservice.description ?? '',
     technology: descriptor?.eservice.technology ?? 'REST',
@@ -68,9 +82,22 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
   }
 
+  const fromTemplateDefaultValues: EServiceCreateStepGeneralFormValues = {
+    name: template?.name ?? '',
+    description: template?.eserviceDescription ?? '',
+    technology: template?.technology ?? 'REST',
+    mode: template?.mode ?? 'RECEIVE',
+    isSignalHubEnabled: template?.isSignalHubEnabled ?? false,
+    isConsumerDelegable: false,
+    isClientAccessDelegable: false,
+  }
+
+  // If Template ID is present we are inheriting an e-service fields from a template
+  const defaultValues = eServiceTemplateId ? fromTemplateDefaultValues : eServiceDefaultValues
+
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (formValues: EServiceCreateStepGeneralFormValues) => {
+  const onSubmit = (formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed) => {
     // If we are editing an existing e-service, we update the draft
     if (descriptor) {
       // If nothing has changed skip the update call
@@ -83,24 +110,50 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       return
     }
 
-    // If we are creating a new e-service, we create a new draft
-    createDraft(formValues, {
-      onSuccess({ id, descriptorId }) {
-        navigate('PROVIDE_ESERVICE_EDIT', {
-          params: { eserviceId: id, descriptorId },
-          replace: true,
-          state: { stepIndexDestination: 1 },
-        })
-        forward()
-      },
-    })
+    onCreateDraft(formValues)
+  }
+
+  const onCreateDraft = (
+    formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed
+  ) => {
+    // If we are creating a new e-service we need to understand if we are creating it from a template or not
+    if (!template) {
+      createDraft(formValues, {
+        onSuccess({ id, descriptorId }) {
+          navigate('PROVIDE_ESERVICE_EDIT', {
+            params: { eserviceId: id, descriptorId },
+            replace: true,
+            state: { stepIndexDestination: 1 },
+          })
+          forward()
+        },
+      })
+    } else {
+      const body: InstanceEServiceSeed & { eServiceTemplateId: string } = {
+        instanceId: formValues.instanceId,
+        eServiceTemplateId: eServiceTemplateId,
+      }
+
+      createDraftFromTemplate(body, {
+        onSuccess({ id, descriptorId }) {
+          navigate('PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT', {
+            params: { eserviceId: id, descriptorId, eServiceTemplateId: eServiceTemplateId },
+            replace: true,
+            state: { stepIndexDestination: 1 },
+          })
+          forward()
+        },
+      })
+    }
   }
 
   return (
     <FormProvider {...formMethods}>
-      <Alert severity="warning" sx={{ mb: 3 }}>
-        {t('create.step1.firstVersionOnlyEditableInfo')}
-      </Alert>
+      {!template && (
+        <Alert severity="warning" sx={{ mb: 3 }}>
+          {t('create.step1.firstVersionOnlyEditableInfo')}
+        </Alert>
+      )}
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
           title={t('create.step1.detailsTitle')}
@@ -128,12 +181,22 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             label={t('create.step1.eserviceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
             name="name"
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areEServiceGeneralInfoEditable || !!template}
             rules={{ required: true, minLength: 5 }}
             focusOnMount
             inputProps={{ maxLength: 60 }}
             size="small"
-            sx={{ width: '50%', my: 0, mt: 1 }}
+            sx={{ width: '49%', my: 0, mt: 1 }}
+          />
+          <RHFTextField
+            label={t('create.step1.istanceNameField.label')}
+            infoLabel={t('create.step1.eserviceNameField.infoLabel')}
+            name="instanceId"
+            rules={{ minLength: 5 }}
+            focusOnMount
+            inputProps={{ maxLength: 60 }}
+            size="small"
+            sx={{ width: '49%', my: 0, mt: 1, ml: 2 }}
           />
 
           <RHFTextField
@@ -141,7 +204,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
             name="description"
             multiline
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areEServiceGeneralInfoEditable || !!template}
             size="small"
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
@@ -156,7 +219,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
             ]}
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areEServiceGeneralInfoEditable || !!template}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
           />
@@ -175,7 +238,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 value: 'RECEIVE',
               },
             ]}
-            disabled={!areEServiceGeneralInfoEditable}
+            disabled={!areEServiceGeneralInfoEditable || !!template}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
