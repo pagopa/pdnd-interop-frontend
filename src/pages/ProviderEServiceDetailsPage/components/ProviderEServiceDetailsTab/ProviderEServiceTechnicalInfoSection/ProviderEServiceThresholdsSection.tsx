@@ -7,9 +7,10 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { ProviderEServiceUpdateThresholdsDrawer } from './ProviderEServiceUpdateThresholdsDrawer'
 import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
+import { EServiceMutations } from '@/api/eservice'
+import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
 
 type ProviderEServiceThresholdsSectionProps = {
   descriptor: ProducerEServiceDescriptor
@@ -36,6 +37,27 @@ export const ProviderEServiceThresholdsSection: React.FC<
 
   const onEdit = () => {
     openDrawer()
+  }
+
+  const { mutate: updateVersion } = EServiceMutations.useUpdateVersion()
+
+  const handleThresholdsUpdate = (
+    id: string,
+    voucherLifespan: number,
+    dailyCallsPerConsumer: number,
+    dailyCallsTotal: number,
+    descriptorId?: string
+  ) => {
+    updateVersion(
+      {
+        eserviceId: id,
+        descriptorId: descriptorId!,
+        voucherLifespan: voucherLifespan,
+        dailyCallsPerConsumer: dailyCallsPerConsumer,
+        dailyCallsTotal: dailyCallsTotal,
+      },
+      { onSuccess: closeDrawer }
+    )
   }
 
   return (
@@ -77,10 +99,15 @@ export const ProviderEServiceThresholdsSection: React.FC<
           />
         </Stack>
       </SectionContainer>
-      <ProviderEServiceUpdateThresholdsDrawer
+      <UpdateThresholdsDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        descriptor={descriptor}
+        id={descriptor.eservice.id}
+        versionId={descriptor.id}
+        voucherLifespan={descriptor.voucherLifespan}
+        dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
+        dailyCallsTotal={descriptor.dailyCallsTotal}
+        onSubmit={handleThresholdsUpdate}
       />
     </>
   )

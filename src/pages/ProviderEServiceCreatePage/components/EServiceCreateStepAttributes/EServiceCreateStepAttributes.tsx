@@ -31,6 +31,8 @@ export const EServiceCreateStepAttributes: React.FC = () => {
     suppressSuccessToast: true,
   })
 
+  const isReadOnly = Boolean(descriptor?.templateRef?.templateVersionId)
+
   const [createAttributeCreateDrawerState, setCreateAttributeCreateDrawerState] = React.useState<{
     attributeKey: Exclude<AttributeKey, 'certified'>
     isOpen: boolean
@@ -100,17 +102,17 @@ export const EServiceCreateStepAttributes: React.FC = () => {
             title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
             description={t('step3.attributesDescription')}
           >
-            <AddAttributesToForm attributeKey="certified" readOnly={false} />
+            <AddAttributesToForm attributeKey="certified" readOnly={isReadOnly} />
             <Divider sx={{ my: 3 }} />
             <AddAttributesToForm
               attributeKey="verified"
-              readOnly={false}
+              readOnly={isReadOnly}
               openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
             />
             <Divider sx={{ my: 3 }} />
             <AddAttributesToForm
               attributeKey="declared"
-              readOnly={false}
+              readOnly={isReadOnly}
               openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
             />
           </SectionContainer>
