@@ -25,7 +25,7 @@
         "infoLabel": "Min 5 chars, max 60 chars"
       },
       "istanceNameField": {
-        "label":" Instance ID (optional)",
+        "label": " Instance ID (optional)",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
       "eserviceDescriptionField": {
@@ -350,6 +350,12 @@
         "version": {
           "label": "You are watching version number"
         },
+        "eserviceTempalteName": {
+          "label": "Template reference"
+        },
+        "instanceId": {
+          "label": "Instance Id"
+        },
         "eserviceName": {
           "label": "E-Service name"
         },
@@ -440,6 +446,17 @@
           "infoLabel": "Min 5 chars, max 60 chars",
           "validation": {
             "sameValue": "The e-service name must be different from the current one"
+          }
+        }
+      },
+      "updateEserviceInstanceIdDrawer": {
+        "title": "Edit instance id",
+        "subtitle": "From this panel you can update the instance id of the e-service. The changes made will take effect immediately.",
+        "eserviceInstanceIdField": {
+          "label": "Instance id",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The instance id of the e-service must be different from the current one"
           }
         }
       },
