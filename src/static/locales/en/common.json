@@ -65,10 +65,7 @@
       "delegationKind": "Delegation for",
       "delegatorName": "Delegation requested by",
       "delegateName": "Delegation granted to",
-      "eserviceTemplateUsingTenant": "Tenant",
-      "eserviceTemplateInstanceId": "Instance suffix",
-      "eserviceTemplateInstanceVersion": "Version",
-      "eserviceTemplateInstanceState": "Instance state"
+      "templateName": "Template"
     }
   },
   "status": {
@@ -108,6 +105,12 @@
       "REJECTED": "rejected",
       "REVOKED": "revoked",
       "WAITING_FOR_APPROVAL": "waiting for acceptance"
+    },
+    "template": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "DEPRECATED": "deprecated"
     }
   },
   "userProductRole": {
