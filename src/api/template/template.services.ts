@@ -2,7 +2,6 @@ import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   CreatedEServiceDescriptor,
-  CreateEServiceDocumentPayload,
   DescriptorAttributesSeed,
   EServiceRiskAnalysisSeed,
   EServiceTemplateDescriptionUpdateSeed,
@@ -14,19 +13,21 @@ import type {
   EServiceTemplateVersionQuotasUpdateSeed,
   InstanceEServiceSeed,
   GetEServiceTemplatesCatalogParams,
-  GetProducerEServices2Params,
   ProducerEServiceTemplates,
-  UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceTemplateSeed,
   UpdateEServiceTemplateVersionSeed,
   GetEServiceTemplateCreatorsParams,
+  GetProducerEServiceTemplatesParams,
+  CreateEServiceTemplateDocumentPayload,
+  UpdateEServiceTemplateVersionDocumentSeed,
+  CreatedEServiceTemplateVersion,
+  CatalogEServiceTemplates,
 } from '../api.generatedTypes'
-import { CatalogEServiceTemplates } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
-async function getProviderTemplatesList(params: GetProducerEServices2Params) {
+async function getProviderTemplatesList(params: GetProducerEServiceTemplatesParams) {
   /*const response = await axiosInstance.get<EServiceTemplates>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates`,
+    `${BACKEND_FOR_FRONTEND_URL}/producers/eservices/templates`,
     { params }
   )
   return response.data*/
@@ -85,10 +86,12 @@ async function getProviderTemplatesList(params: GetProducerEServices2Params) {
 }
 
 async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string) {
-  /*const response = await axiosInstance.get<GetEServiceTemplateVersion>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`
-  )
-  return response.data*/
+  // const response = await axiosInstance.get<EServiceTemplateVersionDetails>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}`
+  // )
+
+  // return response.data
+
   const response: EServiceTemplateVersionDetails = {
     id: '123e4567-e89b-12d3-a456-426614174000',
     version: 1,
@@ -193,15 +196,15 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
 }
 
 async function updateEServiceTemplateName({
-  eserviceTemplateId,
+  eServiceTemplateId,
   ...payload
-}: { eserviceTemplateId: string } & EServiceTemplateNameUpdateSeed) {
-  /*const response = await axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}/name/update`,
-    payload
-  )
-  return response.data*/
-  return console.log('name template updated') //TODO
+}: { eServiceTemplateId: string } & EServiceTemplateNameUpdateSeed) {
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/name/update`,
+  //   payload
+  // )
+
+  return
 }
 
 async function updateEServiceTemplateAudienceDescription({
@@ -210,24 +213,22 @@ async function updateEServiceTemplateAudienceDescription({
 }: {
   eServiceTemplateId: string
 }) {
-  /*const response = await axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/audienceDescription/update`,
-    payload
-  )
-  return response.data*/
-  return console.log('audience description template updated') //TODO
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/audienceDescription/update`,
+  //   payload
+  // )
+  return
 }
 
 async function updateEServiceTemplateDescription({
   eServiceTemplateId,
   ...payload
 }: { eServiceTemplateId: string } & EServiceTemplateDescriptionUpdateSeed) {
-  /*const response = await axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/eserviceDescription/update`,
-    payload
-  )
-  return response.data*/
-  return console.log('template eservice description updated') //TODO
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/eserviceDescription/update`,
+  //   payload
+  // )
+  return
 }
 
 async function updateEServiceTemplateQuotas({
@@ -238,21 +239,22 @@ async function updateEServiceTemplateQuotas({
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 } & EServiceTemplateVersionQuotasUpdateSeed) {
-  /*const response = await axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/quotas/update`,
-    payload
-  )
-  return response.data*/
-  return console.log('template eservice quotas updated') //TODO
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/quotas/update`,
+  //   payload
+  // )
+
+  return
 }
 
 async function postVersionDraftDocument({
   eServiceTemplateId,
+  eServiceTemplateVersionId,
   ...payload
 }: {
-  eserviceId: string
-  descriptorId: string
-} & CreateEServiceDocumentPayload) {
+  eServiceTemplateId: string
+  eServiceTemplateVersionId: string
+} & CreateEServiceTemplateDocumentPayload) {
   /*const formData = new FormData()
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
@@ -262,10 +264,10 @@ async function postVersionDraftDocument({
     { headers: { 'Content-Type': 'multipart/form-data' } }
   )
   return response.data*/
-  return console.log('uploaded doc')
+  return
 }
 
-function deleteVersionDraftDocument({
+async function deleteVersionDraftDocument({
   eServiceTemplateId,
   eServiceTemplateVersionId,
   documentId,
@@ -274,10 +276,10 @@ function deleteVersionDraftDocument({
   eServiceTemplateVersionId: string
   documentId: string
 }) {
-  /* return axiosInstance.delete(
+  /* return await axiosInstance.delete<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/documents/${documentId}`
   )*/
-  return console.log('deleted doc')
+  return
 }
 
 async function updateVersionDraftDocumentDescription({
@@ -289,13 +291,13 @@ async function updateVersionDraftDocumentDescription({
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
   documentId: string
-} & UpdateEServiceDescriptorDocumentSeed) {
+} & UpdateEServiceTemplateVersionDocumentSeed) {
   /*const response = await axiosInstance.post<EServiceDoc>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/documents/${documentId}/update`,
     payload
   )
   return response.data*/
-  return console.log('updated doc')
+  return
 }
 
 async function downloadVersionDraftDocument({
@@ -312,12 +314,12 @@ async function downloadVersionDraftDocument({
     { responseType: 'arraybuffer' }
   )
   return response.data*/
-  return console.log('downloaded file')
+  return
 }
 
 async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
   //   const response = await axiosInstance.get<CompactOrganizations>(
-  //     `http://localhost:8080/backend-for-frontend/0.0/eservice/templates/filter/creators
+  //     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/filter/creators
   // `,
   //     { params }
   //   )
@@ -370,6 +372,7 @@ async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreat
   return mockResponse
 }
 
+// TODO: To be filled
 async function downloadConsumerList({ eServiceTemplateId }: { eServiceTemplateId: string }) {
   const response = await axiosInstance.get<File>(
     `http://localhost:8080/eservices/templates/${eServiceTemplateId}/instances`,
@@ -379,12 +382,12 @@ async function downloadConsumerList({ eServiceTemplateId }: { eServiceTemplateId
 }
 
 async function createDraft(payload: EServiceTemplateSeed) {
-  /*const response = await axiosInstance.post<CreatedEServiceTemplateDescriptor>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates`,
-    payload
-  )
-  return response.data*/
-  return console.log('Draft created')
+  // const response = await axiosInstance.post<CreatedEServiceTemplateVersion>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates`,
+  //   payload
+  // )
+  // return response.data
+  return
 }
 
 async function updateDraft({
@@ -393,12 +396,12 @@ async function updateDraft({
 }: {
   eServiceTemplateId: string
 } & UpdateEServiceTemplateSeed) {
-  /*const response = await axiosInstance.put<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}`,
-    payload
-  )
-  return response.data*/
-  return console.log('Draft updated')
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}`,
+  //   payload
+  // )
+
+  return
 }
 
 async function updateVersionDraft({
@@ -409,28 +412,27 @@ async function updateVersionDraft({
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 } & UpdateEServiceTemplateVersionSeed) {
-  /*const response = await axiosInstance.put<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`,
-    payload
-  )
-  return response.data*/
-  return console.log('version draft updated')
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}`,
+  //   payload
+  // )
+  return
 }
 
-function addTemplateRiskAnalysis({
+async function addTemplateRiskAnalysis({
   eServiceTemplateId,
   ...payload
 }: {
   eServiceTemplateId: string
 } & EServiceRiskAnalysisSeed) {
-  /*return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/riskAnalysis`,
-    payload
-  )*/
-  return console.log('added template risk analysis')
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/riskAnalysis`,
+  //   payload
+  // )
+  return
 }
 
-function updateTemplateRiskAnalysis({
+async function updateTemplateRiskAnalysis({
   eServiceTemplateId,
   riskAnalysisId,
   ...payload
@@ -438,24 +440,24 @@ function updateTemplateRiskAnalysis({
   eServiceTemplateId: string
   riskAnalysisId: string
 } & EServiceRiskAnalysisSeed) {
-  /*return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/{riskAnalysisId}`,
-    payload
-  )*/
-  return console.log('template risk analysis updated')
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/{riskAnalysisId}`,
+  //   payload
+  // )
+  return
 }
 
-function deleteTemplateRiskAnalysis({
+async function deleteTemplateRiskAnalysis({
   eServiceTemplateId,
   riskAnalysisId,
 }: {
   eServiceTemplateId: string
   riskAnalysisId: string
 }) {
-  /*return axiosInstance.delete(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/{riskAnalysisId} `
+  /*return await  axiosInstance.delete<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/${riskAnalysisId} `
   )*/
-  return console.log('template risk analysis deleted')
+  return
 }
 
 async function updateAttributes({
@@ -475,58 +477,58 @@ async function updateAttributes({
   return console.log('attributes updated')
 }
 
-function publishVersionDraft({
+async function publishVersionDraft({
   eServiceTemplateId,
   eServiceTemplateVersionId,
 }: {
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
-  /*return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/publish`
-  )*/
-  return console.log('draft published')
+  //  return await  axiosInstance.post<void(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/publish`
+  // )
+  return
 }
 
-function deleteVersionDraft({
+async function deleteVersionDraft({
   eServiceTemplateId,
   eServiceTemplateVersionId,
 }: {
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
-  //return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}`)
-  return console.log('deleted draft version')
+  //return await axiosInstance.delete<void>(`${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}`)
+  return
 }
 
-function suspendVersion({
+async function suspendVersion({
   eServiceTemplateId,
   eServiceTemplateVersionId,
 }: {
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
-  return axiosInstance.post(
-    `http://localhost:8080/backend-for-frontend/0.0/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/suspend`
-  )
-  return console.log('version suspended')
+  // return await axiosInstance.post<void>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/suspend`
+  // )
+  return
 }
 
-function reactivateVersion({
+async function reactivateVersion({
   eServiceTemplateId,
   eServiceTemplateVersionId,
 }: {
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
-  /*return axiosInstance.post(
+  /*return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/${eServiceTemplateVersionId}/activate`
   )*/
-  return console.log('version activated')
+  return
 }
-
+// TODO: To fix
 async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
-  /*const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+  /*const response = await axiosInstance.get<CreatedEServiceDescriptor>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances`
   )
   return response.data*/
@@ -536,26 +538,51 @@ async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
       {
         id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
         producerName: 'Producer One',
-        state: 'PUBLISHED',
+        activeDescriptor: {
+          id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+          state: 'DRAFT',
+          version: '1',
+          audience: [''],
+        },
         instanceId: 'instance-001',
-        version: 1,
+        name: '',
+        producerId: '',
+        descriptors: [],
       },
       {
         id: 'a9f23b1d-36fd-4570-81a0-7a423d15f928',
         producerName: 'Producer Two',
-        state: 'DRAFT',
+        activeDescriptor: {
+          id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+          state: 'DRAFT',
+          version: '1',
+          audience: [''],
+        },
         instanceId: 'instance-002',
-        version: 2,
+        name: '',
+        producerId: '',
+        descriptors: [],
       },
       {
         id: 'fbe3ad6c-875d-4c32-b88e-287bc0a2fcbb',
         producerName: 'Producer Three',
-        state: 'SUSPENDED',
+        activeDescriptor: {
+          id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
+          state: 'DRAFT',
+          version: '1',
+          audience: [''],
+        },
         instanceId: 'instance-003',
-        version: 3,
+        name: '',
+        producerId: '',
+        descriptors: [],
       },
     ],
-    totalCount: 3,
+    pagination: {
+      totalCount: 3,
+      limit: 3,
+      offset: 0,
+    },
   }
 
   return response
@@ -580,6 +607,7 @@ async function createInstanceFromEServiceTemplate({
 
   return response
 }
+
 async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
   /*const response = await axiosInstance.get<CatalogEServiceTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/templates`,

@@ -3,10 +3,10 @@ import { TemplateServices } from './template.services'
 import type {
   GetEServiceTemplateCreatorsParams,
   GetEServiceTemplatesCatalogParams,
-  GetProducerEServices2Params,
+  GetProducerEServicesParams,
 } from '../api.generatedTypes'
 
-function getProviderTemplatesList(params: GetProducerEServices2Params) {
+function getProviderTemplatesList(params: GetProducerEServicesParams) {
   return queryOptions({
     queryKey: ['EServiceTemplatesGetProviderList'],
     queryFn: () => TemplateServices.getProviderTemplatesList(params),

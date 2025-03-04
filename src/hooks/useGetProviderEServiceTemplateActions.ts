@@ -22,8 +22,8 @@ import { TemplateMutations } from '@/api/template'
 export function useGetProviderEServiceTemplateActions(
   eServiceTemplateId: string,
   eServiceTemplateVersionId: string,
-  activeVersionState?: EServiceTemplateVersionState | undefined,
   mode: EServiceMode | undefined, //TODO
+  activeVersionState?: EServiceTemplateVersionState | undefined,
   draftVersionState?: EServiceTemplateVersionState | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
