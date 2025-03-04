@@ -19,6 +19,7 @@ import type {
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceTemplateSeed,
   UpdateEServiceTemplateVersionSeed,
+  GetEServiceTemplateCreatorsParams,
 } from '../api.generatedTypes'
 import { CatalogEServiceTemplates } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -192,11 +193,11 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
 }
 
 async function updateEServiceTemplateName({
-  eServiceTemplateId,
+  eserviceTemplateId,
   ...payload
-}: { eServiceTemplateId: string } & EServiceTemplateNameUpdateSeed) {
+}: { eserviceTemplateId: string } & EServiceTemplateNameUpdateSeed) {
   /*const response = await axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/name/update`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}/name/update`,
     payload
   )
   return response.data*/
@@ -312,6 +313,61 @@ async function downloadVersionDraftDocument({
   )
   return response.data*/
   return console.log('downloaded file')
+}
+
+async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
+  //   const response = await axiosInstance.get<CompactOrganizations>(
+  //     `http://localhost:8080/backend-for-frontend/0.0/eservice/templates/filter/creators
+  // `,
+  //     { params }
+  //   )
+
+  const mockResponse = {
+    pagination: {
+      offset: 0,
+      limit: 6,
+      totalCount: 1,
+    },
+    results: [
+      {
+        creator: {
+          kind: 'PA',
+          name: 'name',
+          id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+          contactMail: {
+            address: 'address',
+            description: 'description',
+          },
+        },
+        publishedVersion: {
+          id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+          version: 5,
+        },
+        name: 'name',
+        description: 'description',
+        id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+      },
+      {
+        creator: {
+          kind: 'PA',
+          name: 'name',
+          id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+          contactMail: {
+            address: 'address',
+            description: 'description',
+          },
+        },
+        publishedVersion: {
+          id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+          version: 5,
+        },
+        name: 'name',
+        description: 'description',
+        id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+      },
+    ],
+  }
+  return mockResponse
 }
 
 async function downloadConsumerList({ eServiceTemplateId }: { eServiceTemplateId: string }) {
@@ -442,7 +498,6 @@ function deleteVersionDraft({
   //return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}`)
   return console.log('deleted draft version')
 }
-
 
 function suspendVersion({
   eServiceTemplateId,
@@ -657,4 +712,5 @@ export const TemplateServices = {
   createInstanceFromEServiceTemplate,
   getSingleByEServiceTemplateId,
   getProviderTemplatesCatalogList,
+  getProducersTemplateEserviceList,
 }
