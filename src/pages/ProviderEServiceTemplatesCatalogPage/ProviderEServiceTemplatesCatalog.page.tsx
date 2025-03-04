@@ -28,7 +28,7 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
     ...TemplateQueries.getProducersTemplateEserviceList({
       offset: 0,
       limit: 50,
-      q: templateProducersAutocompleteInput ? templateProducersAutocompleteInput : undefined, // To remove this
+      q: templateProducersAutocompleteInput ? templateProducersAutocompleteInput : undefined, //TODO: To remove this
     }),
     placeholderData: keepPreviousData,
     select: (data) =>

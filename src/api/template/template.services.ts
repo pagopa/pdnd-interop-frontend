@@ -193,13 +193,58 @@ async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatal
   return response.data
 }
 async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
-  const response = await axiosInstance.get<CompactOrganizations>(
-    `http://localhost:8080/backend-for-frontend/0.0/eservice/templates/filter/creators
-`,
-    { params }
-  )
+  //   const response = await axiosInstance.get<CompactOrganizations>(
+  //     `http://localhost:8080/backend-for-frontend/0.0/eservice/templates/filter/creators
+  // `,
+  //     { params }
+  //   )
 
-  return response.data
+  const mockResponse = {
+    pagination: {
+      offset: 0,
+      limit: 6,
+      totalCount: 1,
+    },
+    results: [
+      {
+        creator: {
+          kind: 'PA',
+          name: 'name',
+          id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+          contactMail: {
+            address: 'address',
+            description: 'description',
+          },
+        },
+        publishedVersion: {
+          id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+          version: 5,
+        },
+        name: 'name',
+        description: 'description',
+        id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+      },
+      {
+        creator: {
+          kind: 'PA',
+          name: 'name',
+          id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+          contactMail: {
+            address: 'address',
+            description: 'description',
+          },
+        },
+        publishedVersion: {
+          id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+          version: 5,
+        },
+        name: 'name',
+        description: 'description',
+        id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
+      },
+    ],
+  }
+  return mockResponse
 }
 
 export const TemplateServices = {
