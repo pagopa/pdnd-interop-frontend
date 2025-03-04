@@ -159,7 +159,9 @@
         "provider": {
           "label": "Delegated tenant (required)",
           "infoLabel": "The list includes only members who have given their willingness to become provider delegates.",
-          "switch": "I have already created the e-service for which I want to activate a delegation"
+          "switch": "I still need to create the e-service for which I want to activate a delegation.",
+          "switchEserviceFromTemplate": "I want to create an e-service from a template available in the catalog.",
+          "alertEserviceFromTemplate": "Once the template is selected and the delegation is sent, a draft instance will be generated and will remain under your management."
         }
       },
       "dialog": {
