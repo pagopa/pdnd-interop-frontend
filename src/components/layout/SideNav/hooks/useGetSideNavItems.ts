@@ -5,6 +5,7 @@ import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
 import { isTenantCertifier } from '@/utils/tenant.utils'
+import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
 
 const views = [
   {
@@ -43,7 +44,9 @@ export function useGetSideNavItems() {
 
   const isCertifier = isTenantCertifier(tenant)
 
-  const isPA = jwt?.externalId?.origin === 'IPA'
+  const isOrganizationAllowedToView = PRODUCER_ALLOWED_ORIGINS.includes(
+    jwt?.externalId?.origin as string
+  )
 
   return React.useMemo(() => {
     /**
@@ -57,7 +60,7 @@ export function useGetSideNavItems() {
 
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
 
-      if (!isPA && routeKey === 'DELEGATIONS') return false
+      if (!isOrganizationAllowedToView && routeKey === 'DELEGATIONS') return false
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))
