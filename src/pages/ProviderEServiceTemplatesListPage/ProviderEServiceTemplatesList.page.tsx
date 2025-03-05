@@ -6,10 +6,10 @@ import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
-import type { GetProducerEServices2Params } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { TemplateTable, TemplateTableSkeleton } from './components'
 import { TemplateQueries } from '@/api/template'
+import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplatesListPage: React.FC = () => {
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
@@ -28,7 +28,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   ]
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetProducerEServices2Params, 'limit' | 'offset'>
+    Omit<GetProducerEServicesParams, 'limit' | 'offset'>
   >([{ name: 'q', label: tTemplate('nameField.label'), type: 'freetext' }])
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
@@ -51,7 +51,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   )
 }
 
-const TemplateTableWrapper: React.FC<{ params: GetProducerEServices2Params }> = ({ params }) => {
+const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = ({ params }) => {
   const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesList(params))
 
   if (!data && isFetching) return <TemplateTableSkeleton />

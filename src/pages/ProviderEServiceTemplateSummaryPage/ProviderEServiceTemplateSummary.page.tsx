@@ -37,7 +37,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
 
     deleteVersion(
       { eServiceTemplateId, eServiceTemplateVersionId },
-      { onSuccess: () => navigate('PROVIDE_ESERVICE_TEMPLATE_LIST') }
+      { onSuccess: () => navigate('PROVIDE_ESERVICE_TEMPLATES_LIST') }
     )
   }
 
@@ -95,7 +95,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       })}
       backToAction={{
         label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
+        to: 'PROVIDE_ESERVICE_TEMPLATES_LIST',
       }}
       isLoading={isLoading}
       statusChip={{
