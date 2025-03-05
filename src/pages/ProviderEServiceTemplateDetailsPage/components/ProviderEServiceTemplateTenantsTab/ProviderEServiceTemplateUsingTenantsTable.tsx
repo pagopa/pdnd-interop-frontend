@@ -8,7 +8,7 @@ import {
   ProviderEServiceTemplateUsingTenantsTableRow,
   ProviderEServiceTemplateUsingTenantsTableRowSkeleton,
 } from './ProviderEServiceTemplateUsingTenantsTableRow'
-import { GetEServiceTemplateInstancesParams } from '@/api/api.generatedTypes'
+import type { GetEServiceTemplateInstancesParams } from '@/api/api.generatedTypes'
 
 type ProviderEServiceTemplateUsingTenantsTableProps = {
   eserviceTemplateId: string
@@ -22,7 +22,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 
   const { data: templateInstancesCount } = useQuery({
     ...TemplateQueries.getProviderTemplateInstancesList(eserviceTemplateId),
-    select: (data) => data.totalCount,
+    select: (data) => data.pagination.totalCount,
   })
 
   return (

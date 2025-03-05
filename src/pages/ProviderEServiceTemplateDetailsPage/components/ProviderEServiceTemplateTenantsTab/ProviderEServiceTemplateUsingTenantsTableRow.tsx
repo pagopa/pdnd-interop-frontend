@@ -1,4 +1,4 @@
-import type { EServiceTemplateInstance } from '@/api/api.generatedTypes'
+import type { EServiceDescriptorState, EServiceTemplateInstance } from '@/api/api.generatedTypes'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -14,11 +14,16 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
 > = ({ instance }) => {
   return (
     <TableRow
+      key={instance.activeDescriptor?.id}
       cellData={[
         `${instance.producerName}`,
         `${instance.instanceId}`,
-        `${instance.version}`,
-        <StatusChip for="template" state={instance.state} />,
+        `${instance.activeDescriptor?.version}`,
+        <StatusChip
+          for="eservice"
+          key={instance.instanceId}
+          state={instance.activeDescriptor?.state as EServiceDescriptorState}
+        />,
       ]}
     />
   )

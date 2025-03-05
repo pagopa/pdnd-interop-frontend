@@ -115,9 +115,8 @@ export function useGetProviderEServiceTemplateActions(
 
   const handleEditDraft = () => {
     if (state === 'DRAFT' || draftVersionState === 'DRAFT') {
-      navigate('NOT_FOUND', {
-        //TODO PROVIDE_ESERVICE_TEMPLATE_SUMMARY
-        //params: { eServiceTemplateId, eServiceTemplateVersionId: draftDescriptorId },
+      navigate('PROVIDE_ESERVICE_TEMPLATE_SUMMARY', {
+        params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateVersionId },
       })
     }
   }

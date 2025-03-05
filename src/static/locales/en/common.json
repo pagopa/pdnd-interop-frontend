@@ -65,6 +65,10 @@
       "delegationKind": "Delegation for",
       "delegatorName": "Delegation requested by",
       "delegateName": "Delegation granted to",
+      "eserviceTemplateUsingTenant": "Tenant",
+      "eserviceTemplateInstanceId": "Instance's suffix",
+      "eserviceTemplateInstanceVersion": "Version",
+      "eserviceTemplateInstanceState": "Instance's state",
       "templateName": "Template"
     }
   },

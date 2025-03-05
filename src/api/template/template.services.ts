@@ -484,6 +484,7 @@ async function publishVersionDraft({
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
+
   //  return await  axiosInstance.post<void(
   //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/publish`
   // )
