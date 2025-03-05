@@ -98,7 +98,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
 
   const response: EServiceTemplateVersionDetails = {
     id: '123e4567-e89b-12d3-a456-426614174000',
-    version: 1,
+    version: 2,
     description: 'This is a sample e-service template version.',
     voucherLifespan: 30,
     dailyCallsPerConsumer: 1000,
@@ -175,8 +175,13 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
       technology: 'REST',
       versions: [
         {
-          id: '123e4567-e89b-12d3-a456-426614174004',
+          id: '123e4567-e89b-12d3-a456-000000',
           version: 1,
+          state: 'PUBLISHED',
+        },
+        {
+          id: '123e4567-e89b-12d3-a456-421214000',
+          version: 2,
           state: 'PUBLISHED',
         },
       ],

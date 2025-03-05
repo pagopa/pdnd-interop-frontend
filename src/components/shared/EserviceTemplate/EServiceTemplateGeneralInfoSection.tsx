@@ -14,6 +14,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 
 type EServiceTemplateGeneralInfoSectionProps = {
   readonly: boolean
@@ -72,7 +73,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   } = useDrawerState()
 
   const handleDownloadTemplateConsumerList = () => {
-    alert('DOWNLOAD')
     downloadTemplateConsumerList(
       { eServiceTemplateId },
       t('consumerListFileName', {
@@ -214,6 +214,13 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
       </SectionContainer>
       {template && (
         <>
+          <EServiceTemplateVersionSelectorDrawer
+            isOpen={isVersionSelectorDrawerOpen}
+            onClose={closeVersionSelectorDrawer}
+            actualVersion={template.version.toString()}
+            versions={template?.eserviceTemplate.versions ?? []}
+            eServiceTemplateId={template.id}
+          />
           <UpdateNameDrawer
             isOpen={isEServiceTemplateUpdateNameDrawerOpen}
             onClose={closeEServiceUpdateNameDrawer}
