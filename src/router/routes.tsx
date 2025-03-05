@@ -464,7 +464,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support'],
   })
   .addRoute({
-    key: 'PROVIDE_ESERVICE_TEMPLATES_CATALOG',
+    key: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
     path: '/erogazione/catalogo-template',
     element: <ProviderEServiceTemplatesCatalogPage />,
     public: false,
@@ -472,7 +472,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support'],
   })
   .addRoute({
-    key: 'PROVIDE_ESERVICE_TEMPLATES_LIST',
+    key: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
     path: '/erogazione/template',
     element: <ProviderEServiceTemplatesListPage />,
     public: false,
@@ -482,7 +482,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'PROVIDE',
     path: '/erogazione',
-    redirect: 'PROVIDE_ESERVICE_TEMPLATES_CATALOG',
+    redirect: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api'],

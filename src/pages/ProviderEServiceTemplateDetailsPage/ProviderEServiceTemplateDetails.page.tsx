@@ -44,7 +44,7 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
       }
       backToAction={{
         label: t('actions.backToEserviceTemplateListLabel'),
-        to: 'PROVIDE_ESERVICE_TEMPLATES_LIST',
+        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
       }}
     >
       <TabContext value={activeTab}>

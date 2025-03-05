@@ -2,7 +2,8 @@
   "read": {
     "tabs": {
       "eserviceTemplateDetails": "Template details",
-      "eserviceTemplateTenants": "Using Tenants"
+      "eserviceTemplateTenants": "Using Tenants",
+      "ariaLabel": "Two separate tabs: one for the template e-service details and another for using tenants."
     },
     "actions": {
       "backToEserviceTemplateListLabel": "Back to the e-service templates"
@@ -30,7 +31,7 @@
           "downloadUsingTenantsList": "Download list of using tenants",
           "viewTechnicalInfo": "View eservice technical information "
         },
-        "consumerListFileName":"{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv"
+        "consumerListFileName": "{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv"
       },
       "technicalInformations": {
         "title": "E-service technical specifications",
@@ -143,7 +144,7 @@
       }
     }
   },
-  "actions":{
+  "actions": {
     "createNewEServiceInstance": "Use template"
   },
   "createInstance": {

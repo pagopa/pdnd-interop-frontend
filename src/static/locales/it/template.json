@@ -2,7 +2,8 @@
   "read": {
     "tabs": {
       "eserviceTemplateDetails": "Dettagli template",
-      "eserviceTemplateTenants": "Enti aderenti"
+      "eserviceTemplateTenants": "Enti aderenti",
+      "ariaLabel": "Due tab diverse: una per i dettagli del template dell'e-service e l'altra per gli enti aderenti"
     },
     "actions": {
       "backToEserviceTemplateListLabel": "Torna ai template"
@@ -30,7 +31,7 @@
           "downloadUsingTenantsList": "Scarica l’elenco degli implementatori",
           "viewTechnicalInfo": "Visualizza le specifiche tecniche dell’e-service"
         },
-        "consumerListFileName":"{{timestamp}}-lista-consumatori-template-{{eServiceTemplateName}}.csv"
+        "consumerListFileName": "{{timestamp}}-lista-consumatori-template-{{eServiceTemplateName}}.csv"
       },
       "technicalInformations": {
         "title": "Specifiche tecniche e-service",
@@ -143,7 +144,7 @@
       }
     }
   },
-  "actions":{
+  "actions": {
     "createNewEServiceInstance": "Usa template"
   },
   "createInstance": {
@@ -352,4 +353,3 @@
     }
   }
 }
-

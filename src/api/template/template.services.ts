@@ -22,6 +22,7 @@ import type {
   UpdateEServiceTemplateVersionDocumentSeed,
   CreatedEServiceTemplateVersion,
   CatalogEServiceTemplates,
+  GetEServiceTemplateInstancesParams,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
@@ -484,7 +485,6 @@ async function publishVersionDraft({
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
-
   //  return await  axiosInstance.post<void(
   //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/publish`
   // )
@@ -528,9 +528,10 @@ async function reactivateVersion({
   return
 }
 // TODO: To fix
-async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
+async function getProviderTemplateInstancesList(params: GetEServiceTemplateInstancesParams) {
   /*const response = await axiosInstance.get<CreatedEServiceDescriptor>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances` ,
+    {params}
   )
   return response.data*/
 
