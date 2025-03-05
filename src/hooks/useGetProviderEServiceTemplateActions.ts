@@ -30,13 +30,12 @@ export function useGetProviderEServiceTemplateActions(
 
   const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
-  const { openDialog, closeDialog } = useDialog()
 
   const { mutate: publishDraft } = TemplateMutations.usePublishVersionDraft()
   const { mutate: deleteVersionDraft } = TemplateMutations.useDeleteVersionDraft()
   const { mutate: suspend } = TemplateMutations.useSuspendVersion()
   const { mutate: reactivate } = TemplateMutations.useReactivateVersion()
-  const { mutate: createNewDraft } = TemplateMutations.useCreateDraft()
+  const { mutate: createNewVersionDraft } = TemplateMutations.useCreateNewVersionDraft()
 
   const state = activeVersionState ?? 'DRAFT'
   const hasVersionDraft = state === 'DRAFT' || draftVersionState === 'DRAFT'
@@ -92,19 +91,14 @@ export function useGetProviderEServiceTemplateActions(
 
   const handleCreateNewDraft = () => {
     if (state === 'PUBLISHED' && (!draftVersionState || draftVersionState === 'DRAFT'))
-      createNewDraft(
-        { eServiceTemplateId },
-        {
-          onSuccess({ id }) {
-            navigate('NOT_FOUND', {
-              //TODO
-              //PROVIDE_ESERVICE_TEMPLATE_EDIT
-              // params: { eServiceTemplateId, eServiceTemplateVersionId: id },
-              //state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
-            })
-          },
-        }
-      )
+      createNewVersionDraft(eServiceTemplateId, {
+        onSuccess({ id }) {
+          navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
+            params: { eServiceTemplateId, eServiceTemplateVersionId: id },
+            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+          })
+        },
+      })
   }
 
   const createNewDraftAction: ActionItemButton = {
@@ -144,7 +138,6 @@ export function useGetProviderEServiceTemplateActions(
       {
         isAdmin: true,
         hasVersionDraft: true,
-        isDraftWaitingForApproval: false,
       },
       () => [editDraftAction]
     )
@@ -152,7 +145,6 @@ export function useGetProviderEServiceTemplateActions(
       {
         isAdmin: true,
         hasVersionDraft: true,
-        isDraftWaitingForApproval: true,
       },
       () => [editDraftAction]
     )
@@ -161,7 +153,6 @@ export function useGetProviderEServiceTemplateActions(
       {
         isAdmin: true,
         hasVersionDraft: true,
-        isDraftWaitingForApproval: false,
       },
       () => [editDraftAction, deleteAction, suspendAction]
     )

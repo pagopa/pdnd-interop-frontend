@@ -7,11 +7,9 @@ import type {
 } from '../api.generatedTypes'
 import { AttributeKey } from '@/types/attribute.types'
 
-//TODO SUCCESS/ERROR/LOADING TOAST LABEL
-
 function useUpdateEServiceTemplateName() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'template.updateEServiceTemplateName',
+    keyPrefix: 'eserviceTemplate.updateEServiceTemplateName',
   })
   return useMutation({
     mutationFn: TemplateServices.updateEServiceTemplateName,
@@ -25,7 +23,7 @@ function useUpdateEServiceTemplateName() {
 
 function useUpdateEServiceTemplateAudienceDescription() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'template.updateEServiceTemplateAudience',
+    keyPrefix: 'eserviceTemplate.updateEServiceTemplateAudience',
   })
   return useMutation({
     mutationFn: TemplateServices.updateEServiceTemplateAudienceDescription,
@@ -39,7 +37,7 @@ function useUpdateEServiceTemplateAudienceDescription() {
 
 function useUpdateEServiceTemplateDescription() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateEServiceDescription',
+    keyPrefix: 'eserviceTemplate.updateEServiceDescription',
   })
   return useMutation({
     mutationFn: TemplateServices.updateEServiceTemplateDescription,
@@ -53,7 +51,7 @@ function useUpdateEServiceTemplateDescription() {
 
 function useUpdateQuotas() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateVersion',
+    keyPrefix: 'eserviceTemplate.updateVersion',
   })
   return useMutation({
     mutationFn: TemplateServices.updateEServiceTemplateQuotas,
@@ -67,7 +65,7 @@ function useUpdateQuotas() {
 
 function usePostVersionDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.postVersionDraftDocument',
+    keyPrefix: 'eserviceTemplate.postVersionDraftDocument',
   })
   return useMutation({
     mutationFn: TemplateServices.postVersionDraftDocument,
@@ -81,7 +79,7 @@ function usePostVersionDraftDocument() {
 
 function useDeleteVersionDraftDocument() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.deleteVersionDraftDocument',
+    keyPrefix: 'eserviceTemplate.deleteVersionDraftDocument',
   })
   return useMutation({
     mutationFn: TemplateServices.deleteVersionDraftDocument,
@@ -95,7 +93,7 @@ function useDeleteVersionDraftDocument() {
 
 function useUpdateVersionDraftDocumentDescription() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateVersionDraftDocumentDescription',
+    keyPrefix: 'eserviceTemplate.updateVersionDraftDocumentDescription',
   })
   return useMutation({
     mutationFn: TemplateServices.updateVersionDraftDocumentDescription,
@@ -108,7 +106,7 @@ function useUpdateVersionDraftDocumentDescription() {
 }
 
 function useCreateDraft() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'template.createDraft' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.createDraft' })
   return useMutation({
     mutationFn: TemplateServices.createDraft,
     meta: {
@@ -118,8 +116,26 @@ function useCreateDraft() {
   })
 }
 
+function useCreateNewVersionDraft() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eserviceTemplate.createNewVersionDraft',
+  })
+  return useMutation({
+    mutationFn: TemplateServices.createNewVersionDraft,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
 function useUpdateDraft() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateDraft' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.updateDraft' })
   return useMutation({
     mutationFn: TemplateServices.updateDraft,
     meta: {
@@ -131,7 +147,7 @@ function useUpdateDraft() {
 
 function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateVersionDraft',
+    keyPrefix: 'eserviceTemplate.updateVersionDraft',
   })
   return useMutation({
     mutationFn: (
@@ -150,12 +166,12 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
 
 function useAddTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.addEServiceRiskAnalysis',
+    keyPrefix: 'eserviceTemplate.addEServiceTemplateRiskAnalysis',
   })
   return useMutation({
     mutationFn: (
       payload: {
-        eserviceTemplateId: string
+        eServiceTemplateId: string
       } & EServiceRiskAnalysisSeed
     ) => TemplateServices.addTemplateRiskAnalysis(payload),
     meta: {
@@ -168,12 +184,12 @@ function useAddTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
 
 function useUpdateTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateEServiceRiskAnalysis',
+    keyPrefix: 'eserviceTemplate.updateEServiceTemplateRiskAnalysis',
   })
   return useMutation({
     mutationFn: (
       payload: {
-        eserviceTemplateId: string
+        eServiceTemplateId: string
         riskAnalysisId: string
       } & EServiceRiskAnalysisSeed
     ) => TemplateServices.updateTemplateRiskAnalysis(payload),
@@ -187,7 +203,7 @@ function useUpdateTemplateRiskAnalysis(config = { suppressSuccessToast: false })
 
 function useDeleteTemplateRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.deleteEServiceRiskAnalysis',
+    keyPrefix: 'eserviceTemplate.deleteEServiceTemplateRiskAnalysis',
   })
   return useMutation({
     mutationFn: TemplateServices.deleteTemplateRiskAnalysis,
@@ -205,7 +221,7 @@ function useDeleteTemplateRiskAnalysis() {
 
 function useUpdateAttributes() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateDescriptorAttributes',
+    keyPrefix: 'eserviceTemplate.updateDescriptorAttributes',
   })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'type' })
   return useMutation({
@@ -230,7 +246,7 @@ function useUpdateAttributes() {
 
 function usePublishVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.publishVersionDraft',
+    keyPrefix: 'eserviceTemplate.publishVersionDraft',
   })
   return useMutation({
     mutationFn: ({
@@ -255,7 +271,7 @@ function usePublishVersionDraft() {
 
 function useDeleteVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.deleteVersionDraft',
+    keyPrefix: 'eserviceTemplate.deleteVersionDraft',
   })
   return useMutation({
     mutationFn: TemplateServices.deleteVersionDraft,
@@ -272,7 +288,9 @@ function useDeleteVersionDraft() {
 }
 
 function useSuspendVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'template.suspendVersion' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eserviceTemplate.suspendVersion',
+  })
   return useMutation({
     mutationFn: TemplateServices.suspendVersion,
     meta: {
@@ -288,7 +306,9 @@ function useSuspendVersion() {
 }
 
 function useReactivateVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.reactivateVersion' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eserviceTemplate.reactivateVersion',
+  })
   return useMutation({
     mutationFn: TemplateServices.reactivateVersion,
     meta: {
@@ -304,7 +324,7 @@ function useReactivateVersion() {
 }
 
 function useCreateInstanceFromEServiceTemplate() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.createDraft' })
   return useMutation({
     mutationFn: TemplateServices.createInstanceFromEServiceTemplate,
     meta: {
@@ -323,6 +343,7 @@ export const TemplateMutations = {
   useDeleteVersionDraftDocument,
   useUpdateVersionDraftDocumentDescription,
   useCreateDraft,
+  useCreateNewVersionDraft,
   useUpdateDraft,
   useUpdateVersionDraft,
   useAddTemplateRiskAnalysis,

@@ -391,6 +391,15 @@ async function createDraft(payload: EServiceTemplateSeed) {
   return
 }
 
+async function createNewVersionDraft(eServiceTemplateId: string) {
+  // const response = await axiosInstance.post<CreatedResource>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions`,
+  //   payload
+  // )
+  // return response.data
+  return
+}
+
 async function updateDraft({
   eServiceTemplateId,
   ...payload
@@ -728,6 +737,7 @@ export const TemplateServices = {
   downloadVersionDraftDocument,
   downloadConsumerList,
   createDraft,
+  createNewVersionDraft,
   updateDraft,
   updateVersionDraft,
   addTemplateRiskAnalysis,
