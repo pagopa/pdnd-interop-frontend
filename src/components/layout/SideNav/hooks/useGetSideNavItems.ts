@@ -44,10 +44,6 @@ export function useGetSideNavItems() {
 
   const isCertifier = isTenantCertifier(tenant)
 
-  const isOrganizationAllowedToView = PRODUCER_ALLOWED_ORIGINS.includes(
-    jwt?.externalId?.origin as string
-  )
-
   return React.useMemo(() => {
     /**
      * Checks if the user as the authorization level required to access a given route.
@@ -60,7 +56,7 @@ export function useGetSideNavItems() {
 
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
 
-      if (!isOrganizationAllowedToView && routeKey === 'DELEGATIONS') return false
+      if (!isOrganizationAllowedToProduce && routeKey === 'DELEGATIONS') return false
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))
