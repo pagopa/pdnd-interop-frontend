@@ -63,15 +63,13 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 
   function isUserAllowedToAccessDelegationsRoutes() {
     // The IsUserAllowedToAccessDelegationsRoutes method checks if the organization is a PA. Only a PA can access the delegations routes
-    const isOrganizationAllowedToView = PRODUCER_ALLOWED_ORIGINS.includes(
-      jwt?.externalId?.origin as string
-    )
+
     const delegationsRoutes: Array<RouteKey> = [
       'DELEGATIONS',
       'DELEGATION_DETAILS',
       'CREATE_DELEGATION',
     ]
-    return isOrganizationAllowedToView || !delegationsRoutes.includes(routeKey)
+    return isOrganizationAllowedToProduce || !delegationsRoutes.includes(routeKey)
   }
 
   // JWT will be undefined just in case route is public.
