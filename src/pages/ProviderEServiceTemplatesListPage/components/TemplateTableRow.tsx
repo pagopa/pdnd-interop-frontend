@@ -40,7 +40,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
     )
   }
 
-  const isTemplateDraft = eserviceTemplate?.state === 'DRAFT'
+  const hasNotActiveVersionTemplate = !template.activeVersion
 
   return (
     <TableRow
@@ -64,7 +64,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
         variant="outlined"
         size="small"
         to={
-          isTemplateDraft
+          hasNotActiveVersionTemplate
             ? 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'
             : 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
         }
@@ -73,7 +73,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
           eServiceTemplateVersionId: eserviceTemplate?.eserviceTemplate.id ?? '',
         }}
       >
-        {isTemplateDraft ? t('manageDraft') : t('inspect')}
+        {hasNotActiveVersionTemplate ? t('manageDraft') : t('inspect')}
       </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

@@ -1,8 +1,4 @@
-import type {
-  EServiceDescriptorState,
-  EServiceMode,
-  EServiceTemplateVersionState,
-} from '@/api/api.generatedTypes'
+import type { EServiceMode, EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
@@ -10,12 +6,9 @@ import { AuthHooks } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
-import PublishIcon from '@mui/icons-material/Publish'
-import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
 import { TemplateMutations } from '@/api/template'
 
@@ -92,9 +85,9 @@ export function useGetProviderEServiceTemplateActions(
   const handleCreateNewDraft = () => {
     if (state === 'PUBLISHED' && (!draftVersionState || draftVersionState === 'DRAFT'))
       createNewVersionDraft(eServiceTemplateId, {
-        onSuccess({ id }) {
+        onSuccess({ eServiceTemplateVersionId }) {
           navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
-            params: { eServiceTemplateId, eServiceTemplateVersionId: id },
+            params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateVersionId },
             state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
           })
         },

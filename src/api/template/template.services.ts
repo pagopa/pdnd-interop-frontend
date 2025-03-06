@@ -114,7 +114,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
         prettyName: 'API Documentation File',
       },
     ],
-    state: 'PUBLISHED',
+    state: 'DRAFT',
     agreementApprovalPolicy: 'AUTOMATIC',
     attributes: {
       certified: [
