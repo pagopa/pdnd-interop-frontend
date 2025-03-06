@@ -62,8 +62,6 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   }
 
   function isUserAllowedToAccessDelegationsRoutes() {
-    // The IsUserAllowedToAccessDelegationsRoutes method checks if the organization is a PA. Only a PA can access the delegations routes
-
     const delegationsRoutes: Array<RouteKey> = [
       'DELEGATIONS',
       'DELEGATION_DETAILS',

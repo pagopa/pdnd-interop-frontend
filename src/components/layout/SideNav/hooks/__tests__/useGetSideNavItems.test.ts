@@ -306,7 +306,7 @@ describe('useGetSideNavItems', () => {
     expect(result.current).not.toContain('TENANT_CERTIFIER')
   })
 
-  it("should not include 'DELEGATIONS' routes if the user is not an IPA organization", () => {
+  it("should not include 'DELEGATIONS' routes  if isOrganizationAllowedToProduce is set to false'", () => {
     mockUseJwt({ currentRoles: ['admin'], isOrganizationAllowedToProduce: false })
 
     const { result } = renderHook(() => useGetSideNavItems())
@@ -316,7 +316,7 @@ describe('useGetSideNavItems', () => {
     )
   })
 
-  it("should include 'DELEGATIONS' routes if the user is an IPA organization", () => {
+  it("should include 'DELEGATIONS' routes  if isOrganizationAllowedToProduce is set to true'", () => {
     mockUseJwt({ currentRoles: ['admin'], isOrganizationAllowedToProduce: true })
 
     const { result } = renderHook(() => useGetSideNavItems())
