@@ -187,17 +187,18 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                 innerSection
                 title={t('instanceId.label')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-                topSideActions={
-                  isDelegator || isEserviceFromTemplate //TODO TEMP! Remove this once the function call is implemented
-                    ? []
-                    : [
-                        {
-                          action: openEServiceUpdateInstanceIdDrawer,
-                          label: tCommon('actions.edit'),
-                          icon: EditIcon,
-                        },
-                      ]
-                }
+                //TODO: Remove this once the function call is implemented (missing BE API)
+                // topSideActions={
+                //   isDelegator
+                //     ? []
+                //     : [
+                //         {
+                //           action: openEServiceUpdateInstanceIdDrawer,
+                //           label: tCommon('actions.edit'),
+                //           icon: EditIcon,
+                //         },
+                //       ]
+                // }
               >
                 <Typography variant="body2">{descriptor.templateRef?.instanceId}</Typography>
               </SectionContainer>
