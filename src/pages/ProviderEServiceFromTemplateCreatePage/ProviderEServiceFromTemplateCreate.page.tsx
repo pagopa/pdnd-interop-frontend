@@ -12,7 +12,6 @@ import {
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import {
   EServiceFromTemplateCreateStepDocuments,
-  EServiceCreateStepDocuments,
   EServiceCreateStepDocumentsSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepDocuments'
 import {
