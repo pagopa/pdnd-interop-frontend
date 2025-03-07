@@ -185,7 +185,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
               <Divider />
               <SectionContainer
                 innerSection
-                title={t('instanceId.label')}
+                title={t('instanceLabel.label')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
                 //TODO: Remove this once the function call is implemented (missing BE API)
                 // topSideActions={
@@ -200,7 +200,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                 //       ]
                 // }
               >
-                <Typography variant="body2">{descriptor.templateRef?.instanceId}</Typography>
+                <Typography variant="body2">{descriptor.templateRef?.instanceLabel}</Typography>
               </SectionContainer>
             </>
           ) : (
@@ -278,7 +278,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         isOpen={isEServiceUpdateInstanceIdDrawerOpen}
         onClose={closeEServiceUpdateInstanceIdDrawer}
         id={descriptor.eservice.id}
-        instanceId={descriptor.templateRef?.instanceId as string}
+        instanceLabel={descriptor.templateRef?.instanceLabel as string}
         onSubmit={handleNameUpdate}
       />
     </>

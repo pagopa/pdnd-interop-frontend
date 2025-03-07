@@ -354,7 +354,7 @@
         "eserviceTempalteName": {
           "label": "Riferimento template"
         },
-        "instanceId": {
+        "instanceLabel": {
           "label": "Identificativo istanza"
         },
         "eserviceName": {

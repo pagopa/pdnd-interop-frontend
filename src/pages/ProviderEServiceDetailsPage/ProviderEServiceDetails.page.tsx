@@ -34,11 +34,11 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   )
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
-  const isInstanceIdAvailable = Boolean(descriptor?.templateRef?.instanceId)
+  const isInstanceIdAvailable = Boolean(descriptor?.templateRef?.instanceLabel)
 
   const title =
     isEserviceFromTemplate && isInstanceIdAvailable
-      ? `${descriptor?.eservice.name} (${descriptor?.templateRef?.instanceId})`
+      ? `${descriptor?.eservice.name} (${descriptor?.templateRef?.instanceLabel})`
       : `${descriptor?.eservice.name}`
 
   return (

@@ -6,20 +6,20 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 type UpdateInstanceIdFormValues = {
-  instanceId: string
+  instanceLabel: string
 }
 
 type UpdateInstanceIdDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   id: string
-  instanceId: string
+  instanceLabel: string
   onSubmit: (id: string, newName: string) => void
 }
 
 export const ProviderEServiceFromTemplateUpdateInstanceIdDrawer: React.FC<
   UpdateInstanceIdDrawerProps
-> = ({ isOpen, onClose, id, instanceId, onSubmit }) => {
+> = ({ isOpen, onClose, id, instanceLabel, onSubmit }) => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.updateEserviceInstanceIdDrawer',
   })
@@ -27,17 +27,17 @@ export const ProviderEServiceFromTemplateUpdateInstanceIdDrawer: React.FC<
   const { t: tCommon } = useTranslation('common')
 
   const defaultValues = {
-    instanceId: instanceId,
+    instanceLabel: instanceLabel,
   }
 
   const formMethods = useForm<UpdateInstanceIdFormValues>({ defaultValues })
 
   React.useEffect(() => {
-    formMethods.reset({ instanceId: instanceId })
-  }, [instanceId, formMethods])
+    formMethods.reset({ instanceLabel: instanceLabel })
+  }, [instanceLabel, formMethods])
 
   const handleSubmit = (values: UpdateInstanceIdFormValues) => {
-    onSubmit(id, values.instanceId)
+    onSubmit(id, values.instanceLabel)
   }
 
   const handleCloseDrawer = () => {
@@ -65,7 +65,7 @@ export const ProviderEServiceFromTemplateUpdateInstanceIdDrawer: React.FC<
           <RHFTextField
             sx={{ mt: 2, mb: 2 }}
             focusOnMount
-            name="instanceId"
+            name="instanceLabel"
             label={t('eserviceInstanceIdField.label')}
             infoLabel={t('eserviceInstanceIdField.infoLabel')}
             type="text"
@@ -75,7 +75,7 @@ export const ProviderEServiceFromTemplateUpdateInstanceIdDrawer: React.FC<
               required: true,
               minLength: 5,
               validate: (value) =>
-                value !== instanceId || t('eserviceInstanceIdField.validation.sameValue'),
+                value !== instanceLabel || t('eserviceInstanceIdField.validation.sameValue'),
             }}
           />
         </Box>

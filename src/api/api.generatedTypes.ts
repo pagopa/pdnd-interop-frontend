@@ -1236,17 +1236,17 @@ export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER' | 
 
 export type TenantFeature =
   | {
-      /** Certifier Tenant Feature */
-      certifier?: Certifier
-    }
+    /** Certifier Tenant Feature */
+    certifier?: Certifier
+  }
   | {
-      /** Delegated producer Tenant Feature */
-      delegatedProducer?: DelegatedProducer
-    }
+    /** Delegated producer Tenant Feature */
+    delegatedProducer?: DelegatedProducer
+  }
   | {
-      /** Delegated consumer Tenant Feature */
-      delegatedConsumer?: DelegatedConsumer
-    }
+    /** Delegated consumer Tenant Feature */
+    delegatedConsumer?: DelegatedConsumer
+  }
 
 /** Certifier Tenant Feature */
 export interface Certifier {

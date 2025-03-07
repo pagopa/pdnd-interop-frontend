@@ -130,7 +130,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       })
     } else {
       const body: InstanceEServiceSeed & { eServiceTemplateId: string } = {
-        instanceId: formValues.instanceId,
+        instanceLabel: formValues.instanceLabel,
         eServiceTemplateId: eServiceTemplateId,
       }
 
@@ -191,7 +191,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           <RHFTextField
             label={t('create.step1.istanceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
-            name="instanceId"
+            name="instanceLabel"
             rules={{ minLength: 5 }}
             focusOnMount
             inputProps={{ maxLength: 60 }}

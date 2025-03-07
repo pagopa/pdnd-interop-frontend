@@ -17,11 +17,11 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
       key={instance.activeDescriptor?.id}
       cellData={[
         `${instance.producerName}`,
-        `${instance.instanceId}`,
+        `${instance.instanceLabel}`,
         `${instance.activeDescriptor?.version}`,
         <StatusChip
           for="eservice"
-          key={instance.instanceId}
+          key={instance.instanceLabel}
           state={instance.activeDescriptor?.state as EServiceDescriptorState}
         />,
       ]}

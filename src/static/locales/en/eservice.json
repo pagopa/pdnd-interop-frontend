@@ -353,7 +353,7 @@
         "eserviceTempalteName": {
           "label": "Template reference"
         },
-        "instanceId": {
+        "instanceLabel": {
           "label": "Instance Id"
         },
         "eserviceName": {
