@@ -17,40 +17,9 @@ type ProviderEServiceTemplateUsingTenantsTableProps = {
 export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   ProviderEServiceTemplateUsingTenantsTableProps
 > = ({ eserviceTemplateId }) => {
-  const { jwt } = AuthHooks.useJwt()
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
-  const { data: templateInstancesCount } = useQuery({
-    ...TemplateQueries.getProviderTemplateInstancesList(eserviceTemplateId),
-    select: (data) => data.pagination.totalCount,
-  })
-
-  return (
-    <>
-      <React.Suspense fallback={<ProviderEServiceTemplateUsingTenantsTableSkeleton />}>
-        <ProviderEServiceTemplateUsingTenantsTableWrapper eserviceTemplateId={eserviceTemplateId} />
-      </React.Suspense>
-      <Pagination {...paginationProps} totalPages={getTotalPageCount(templateInstancesCount)} />
-    </>
-  )
-}
-
-const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
-  eserviceTemplateId: string
-}> = ({ eserviceTemplateId }) => {
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
-  const { data: templateInstances } = useSuspenseQuery(
-    TemplateQueries.getProviderTemplateInstancesList(eserviceTemplateId)
-  )
-
-  const headLabels = [
-    tCommon('eserviceTemplateUsingTenant'),
-    tCommon('eserviceTemplateInstanceId'),
-    tCommon('eserviceTemplateInstanceVersion'),
-    tCommon('eserviceTemplateInstanceState'),
-  ]
-  const isEmpty = templateInstances.results.length === 0
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetEServiceTemplateInstancesParams, 'limit' | 'offset'>
@@ -69,15 +38,48 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
     },
   ])
 
+  const queryParams = { ...paginationParams, ...filtersParams }
+
+  const { data: templateInstancesCount } = useQuery({
+    ...TemplateQueries.getProviderTemplateInstancesList(queryParams),
+    select: (data) => data.pagination.totalCount,
+  })
+
   return (
     <>
       <Filters {...filtersHandlers} />
+      <React.Suspense fallback={<ProviderEServiceTemplateUsingTenantsTableSkeleton />}>
+        <ProviderEServiceTemplateUsingTenantsTableWrapper params={queryParams} />
+      </React.Suspense>
+      <Pagination {...paginationProps} totalPages={getTotalPageCount(templateInstancesCount)} />
+    </>
+  )
+}
+
+const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
+  params: GetEServiceTemplateInstancesParams
+}> = ({ params }) => {
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
+  const { data: templateInstances } = useSuspenseQuery(
+    TemplateQueries.getProviderTemplateInstancesList(params)
+  )
+
+  const headLabels = [
+    tCommon('eserviceTemplateUsingTenant'),
+    tCommon('eserviceTemplateInstanceId'),
+    tCommon('eserviceTemplateInstanceVersion'),
+    tCommon('eserviceTemplateInstanceState'),
+  ]
+  const isEmpty = templateInstances.results.length === 0
+
+  return (
+    <>
       <Table headLabels={headLabels} isEmpty={isEmpty}>
         {!isEmpty &&
           templateInstances?.results.map((instance) => (
             <ProviderEServiceTemplateUsingTenantsTableRow
               key={instance.id}
-              eserviceTemplateId={eserviceTemplateId}
+              eserviceTemplateId={params.eServiceTemplateId}
               instance={instance}
             />
           ))}

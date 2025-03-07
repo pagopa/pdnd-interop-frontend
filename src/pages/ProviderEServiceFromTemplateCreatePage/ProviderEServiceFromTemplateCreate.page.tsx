@@ -254,7 +254,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
       }
       backToAction={{
         label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_TEMPLATES_CATALOG',
+        to: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
       }}
     >
       <Stepper steps={steps} activeIndex={activeStep} />

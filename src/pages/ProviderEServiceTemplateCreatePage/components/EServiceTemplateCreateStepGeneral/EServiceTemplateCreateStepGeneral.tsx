@@ -75,7 +75,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
-    // If we are editing an existing e-service, we update the draft
+    // If we are editing an existing e-service template, we update the draft
     if (template) {
       // If nothing has changed skip the update call
       const isEServiceTemplateTheSame = compareObjects(formValues, template.eserviceTemplate)
@@ -87,7 +87,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
       return
     }
 
-    // If we are creating a new e-service, we create a new draft
+    // If we are creating a new e-service template, we create a new draft
     createDraft(formValues, {
       onSuccess({ eServiceTemplateId, eServiceTemplateVersionId }) {
         navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {

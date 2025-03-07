@@ -227,7 +227,7 @@
         "success": "Nome dell'e-service aggiornato correttamente"
       }
     },
-    "updateEServiceInterfaceInfo" : {
+    "updateEServiceInterfaceInfo": {
       "loading": "Stiamo modificando i dati di interfaccia dell e-service",
       "outcome": {
         "error": "Dati di interfaccia non aggiornati. Riprovare",
@@ -755,7 +755,7 @@
       }
     }
   },
-  "template": {
+  "eserviceTemplate": {
     "updateEServiceTemplateName": {
       "loading": "Stiamo modificando il nome del template dell'e-service",
       "outcome": {
@@ -766,8 +766,8 @@
     "updateEServiceTemplateAudience": {
       "loading": "Stiamo modificando a chi è rivolto il template",
       "outcome": {
-        "error": "A chi è rivolto il template dell'e-service non aggiornato. Riprovare.",
-        "success": "A chi è rivolto il template dell'e-service aggiornato correttamente"
+        "error": "A chi è rivolto il template dell'e-service non aggiornata. Riprovare.",
+        "success": "A chi è rivolto il template dell'e-service aggiornata correttamente"
       }
     },
     "suspendVersion": {
@@ -779,6 +779,136 @@
       "confirmDialog": {
         "title": "Conferma sospensione template",
         "description": "Cliccando \"conferma\" questa versione di template sarà sospesa. Nessun implementatore potrà accedere a questa versione finché non sarà riattivata."
+      }
+    },
+    "updateEServiceDescription": {
+      "loading": "Stiamo modificando la descrizione dell'e-service del template",
+      "outcome": {
+        "error": "Descrizione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
+        "success": "Descrizione dell'e-service del template dell'e-service aggiornata correttamente"
+      }
+    },
+    "updateVersion": {
+      "loading": "Stiamo modificando la descrizione della versione dell'e-service del template",
+      "outcome": {
+        "error": "Descrizione della versione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
+        "success": "Descrizione della versione dell'e-service del template dell'e-service aggiornata correttamente"
+      }
+    },
+    "postVersionDraftDocument": {
+      "loading": "Stiamo caricando il documento",
+      "outcome": {
+        "success": "Il nuovo documento è stato caricato correttamente",
+        "error": "Non è stato possibile caricare il documento. Assicurati di aver caricato il documento corretto. Per favore, riprova! Attenzione: il documento non può contenere la stringa \"localhost\"."
+      }
+    },
+    "deleteVersionDraftDocument": {
+      "loading": "Stiamo eliminando il documento",
+      "outcome": {
+        "success": "Il documento è stato cancellato correttamente",
+        "error": "Non è stato possibile eliminare il documento. Per favore, riprova!"
+      }
+    },
+    "updateVersionDraftDocumentDescription": {
+      "loading": "Stiamo aggiornando la descrizione del documento",
+      "outcome": {
+        "success": "La descrizione del documento è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la descrizione. Per favore, riprova!"
+      }
+    },
+    "createDraft": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile creare la bozza. Verifica di aver compilato i campi richiesti e riprova!"
+      }
+    },
+    "createNewVersionDraft": {
+      "loading": "Stiamo creando la nuova versione (in bozza)",
+      "outcome": {
+        "success": "La nuova versione del template dell'e-service è disponibile in bozza",
+        "error": "Non è stato possibile creare una bozza per la nuova versione del template dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
+      },
+      "confirmDialog": {
+        "title": "Conferma creazione bozza versione",
+        "description": "Verrà creata una nuova versione (in bozza) del template dell'e-service selezionato"
+      }
+    },
+    "updateDraft": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare la bozza. Verifica di aver compilato i campi richiesti e riprova!"
+      }
+    },
+    "updateVersionDraft": {
+      "loading": "Stiamo aggiornando la nuova versione (in bozza)",
+      "outcome": {
+        "success": "La nuova versione del template dell'e-service è disponibile in bozza",
+        "error": "Non è stato possibile aggiornare una bozza per la nuova versione del template dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
+      }
+    },
+    "addEServiceTemplateRiskAnalysis": {
+      "loading": "Stiamo salvando la finalità",
+      "outcome": {
+        "success": "La finalità è stata salvata correttamente",
+        "error": "Non è stato possibile salvare la finalità. Per favore, riprova!"
+      }
+    },
+    "updateEServiceTemplateRiskAnalysis": {
+      "loading": "Stiamo aggiornando la finalità",
+      "outcome": {
+        "success": "La finalità è stata aggiornata correttamente",
+        "error": "Non è stato possibile aggiornare la finalità. Assicurati di aver compilato tutti i campi e riprova!"
+      }
+    },
+    "deleteEServiceTemplateRiskAnalysis": {
+      "loading": "Stiamo eliminando la finalità",
+      "outcome": {
+        "success": "La finalità è stata eliminata correttamente",
+        "error": "Non è stato possibile eliminare la finalità. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma eliminazione finalità",
+        "description": "Cliccando \"conferma\" la finalità sarà eliminata da questo template di e-service."
+      }
+    },
+    "updateDescriptorAttributes": {
+      "loading": "Stiamo aggiornando gli attributi",
+      "outcome": {
+        "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
+        "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
+      }
+    },
+    "publishVersionDraft": {
+      "loading": "Stiamo pubblicando la versione in bozza",
+      "outcome": {
+        "success": "La nuova versione del template dell'e-service è stata pubblicata correttamente",
+        "error": "Non è stato possibile pubblicare la nuova versione del template dell'e-service."
+      },
+      "confirmDialog": {
+        "title": "Conferma pubblicazione bozza",
+        "description": "Una volta pubblicata, una versione del template dell'e-service non è più cancellabile e diventa disponibile nel catalogo dei template degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
+      }
+    },
+    "deleteVersionDraft": {
+      "loading": "Stiamo cancellando la bozza",
+      "outcome": {
+        "success": "La bozza è stata cancellata correttamente",
+        "error": "Non è stato possibile cancellare la bozza del template dell'e-service. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione bozza",
+        "description": "Cliccando \"conferma\" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozze"
+      }
+    },
+    "reactivateVersion": {
+      "loading": "Stiamo riattivando la versione",
+      "outcome": {
+        "success": "La versione del template dell'e-service è stata riattivata",
+        "error": "Non è stato possibile riattivare questa versione del template dell'e-service. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma riattivazione versione",
+        "description": "Cliccando \"conferma\" questa versione del template di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione del template di e-service potranno nuovamente usufruirne"
       }
     }
   }
