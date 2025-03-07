@@ -196,7 +196,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
           createdAt: '2025-02-14T10:00:00Z',
         },
       ],
-      mode: 'DELIVER',
+      mode: 'RECEIVE',
       isSignalHubEnabled: true,
     },
   }
@@ -725,7 +725,7 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
         createdAt: '2025-02-25T11:38:40.778Z',
       },
     ],
-    mode: 'DELIVER',
+    mode: 'RECEIVE',
     isSignalHubEnabled: true,
   }
 

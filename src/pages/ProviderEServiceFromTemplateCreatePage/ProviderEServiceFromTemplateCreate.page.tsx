@@ -114,7 +114,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
             tenantKind: 'GSP',
           },
           technology: 'REST',
-          mode: 'DELIVER',
+          mode: 'RECEIVE',
           riskAnalysis: [],
           descriptors: [
             {

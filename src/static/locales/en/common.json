@@ -42,7 +42,8 @@
     "saveEdits": "Save edits",
     "accept": "Accept",
     "approve": "Approve",
-    "createNewDraftFromEserviceTemplate": "Create draft from template"
+    "createNewDraftFromEserviceTemplate": "Create draft from template",
+    "updateIstance": "Update instance"
   },
   "table": {
     "headData": {
