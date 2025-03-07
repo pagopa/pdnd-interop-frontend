@@ -53,6 +53,7 @@ export function useGetProviderEServiceActions(
   const { mutate: createNewDraft } = EServiceMutations.useCreateVersionDraft()
   const { mutate: approveDelegatedVersionDraft } =
     EServiceMutations.useApproveDelegatedVersionDraft()
+  const { mutate: upgradeEService } = EServiceMutations.useUpgradeEService()
 
   const state = descriptorState ?? draftDescriptorState ?? 'DRAFT'
   const hasVersionDraft = !!draftDescriptorId
@@ -218,7 +219,17 @@ export function useGetProviderEServiceActions(
   }
 
   const handleUpdateIstance = () => {
-    alert('Update instance')
+    upgradeEService(
+      { eserviceId },
+      {
+        onSuccess({ id }) {
+          navigate('PROVIDE_ESERVICE_EDIT', {
+            params: { eserviceId, descriptorId: id },
+            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+          })
+        },
+      }
+    )
   }
 
   const updateIstance: ActionItemButton = {
