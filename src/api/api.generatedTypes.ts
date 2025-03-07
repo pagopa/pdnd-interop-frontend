@@ -368,6 +368,8 @@ export interface ProducerEServiceDescriptor {
   deprecatedAt?: string
   /** @format date-time */
   archivedAt?: string
+  /** @format date-time */
+  suspendedAt?: string
   rejectionReasons?: DescriptorRejectionReason[]
   templateRef?: EServiceTemplateRef
 }
@@ -405,7 +407,7 @@ export interface EServiceTemplateRef {
   templateName: string
   instanceId?: string
   templateInterfaceId?: string
-  interfaceMetadata?: CustomizedInterfaceMetadata
+  interfaceMetadata?: TemplateInstanceInterfaceMetadata
 }
 
 export interface EServiceDoc {
@@ -414,6 +416,7 @@ export interface EServiceDoc {
   name: string
   contentType: string
   prettyName: string
+  checksum: string
 }
 
 export interface UpdateEServiceDescriptorDocumentSeed {
@@ -560,7 +563,7 @@ export interface CompactDescriptor {
   audience: string[]
 }
 
-export interface CustomizedInterfaceMetadata {
+export interface TemplateInstanceInterfaceMetadata {
   name: string
   /** @format email */
   email: string
@@ -1709,6 +1712,8 @@ export interface ProducerEServiceTemplate {
   /** @format uuid */
   id: string
   name: string
+  /** Risk Analysis Mode */
+  mode: EServiceMode
   activeVersion?: CompactEServiceTemplateVersion
   draftVersion?: CompactEServiceTemplateVersion
 }
@@ -5283,10 +5288,41 @@ export namespace Eservices {
     export type ResponseBody = EServiceTemplateInstances
   }
   /**
+   * @description Retrieves Tenants that are producers of published e-service templates
+   * @tags eserviceTemplates
+   * @name GetEServiceTemplateCreators
+   * @summary Retrieves Tenants that are creators of published e-service templates
+   * @request GET:/eservices/templates/filter/creators
+   * @secure
+   */
+  export namespace GetEServiceTemplateCreators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter creators by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CompactOrganizations
+  }
+  /**
    * No description
    * @tags eserviceTemplates
    * @name CreateEServiceTemplateVersion
-   * @summary Adds a mew version to the specified e-service template
+   * @summary Adds a new version to the specified e-service template
    * @request POST:/eservices/templates/{eServiceTemplateId}/versions
    * @secure
    */
@@ -5412,7 +5448,7 @@ export namespace Eservices {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = EServiceDoc
+    export type ResponseBody = void
   }
 }
 
@@ -6987,40 +7023,6 @@ export namespace Delegations {
       'X-Correlation-Id': string
     }
     export type ResponseBody = File
-  }
-}
-
-export namespace Eservice {
-  /**
-   * @description Retrieves Tenants that are producers of published e-service templates
-   * @tags eserviceTemplates
-   * @name GetEServiceTemplateCreators
-   * @summary Retrieves Tenants that are creators of published e-service templates
-   * @request GET:/eservice/templates/filter/creators
-   * @secure
-   */
-  export namespace GetEServiceTemplateCreators {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      /** Query to filter creators by name */
-      q?: string
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CompactOrganizations
   }
 }
 

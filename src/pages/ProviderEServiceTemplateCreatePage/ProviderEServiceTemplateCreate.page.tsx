@@ -124,7 +124,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
       {...intro}
       backToAction={{
         label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_TEMPLATES_LIST',
+        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
       }}
       isLoading={!isReady}
     >

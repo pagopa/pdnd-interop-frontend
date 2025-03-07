@@ -1,8 +1,4 @@
-import type {
-  EServiceDescriptorState,
-  EServiceMode,
-  EServiceTemplateVersionState,
-} from '@/api/api.generatedTypes'
+import type { EServiceMode, EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
@@ -10,45 +6,42 @@ import { AuthHooks } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
-import PublishIcon from '@mui/icons-material/Publish'
-import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
 import { TemplateMutations } from '@/api/template'
 
 export function useGetProviderEServiceTemplateActions(
   eServiceTemplateId: string,
-  eServiceTemplateVersionId: string,
-  mode: EServiceMode | undefined, //TODO
-  activeVersionState?: EServiceTemplateVersionState | undefined,
-  draftVersionState?: EServiceTemplateVersionState | undefined
+  activeVersionId: string | undefined,
+  draftVersionId: string | undefined,
+  activeVersionState: EServiceTemplateVersionState | undefined,
+  draftVersionState: EServiceTemplateVersionState | undefined,
+  mode: EServiceMode | undefined //TODO
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
-  const { openDialog, closeDialog } = useDialog()
 
   const { mutate: publishDraft } = TemplateMutations.usePublishVersionDraft()
   const { mutate: deleteVersionDraft } = TemplateMutations.useDeleteVersionDraft()
   const { mutate: suspend } = TemplateMutations.useSuspendVersion()
   const { mutate: reactivate } = TemplateMutations.useReactivateVersion()
-  const { mutate: createNewDraft } = TemplateMutations.useCreateDraft()
+  const { mutate: createNewVersionDraft } = TemplateMutations.useCreateNewVersionDraft()
 
-  const state = activeVersionState ?? 'DRAFT'
-  const hasVersionDraft = state === 'DRAFT' || draftVersionState === 'DRAFT'
+  const state = activeVersionState ?? draftVersionState ?? 'DRAFT'
+  const hasVersionDraft = !!draftVersionId
 
   // Only admin and operatorAPI can see actions
   if (!isAdmin && !isOperatorAPI) return { actions: [] }
 
   const handlePublishDraft = () => {
-    if (state === 'DRAFT')
+    if (draftVersionId)
       publishDraft({
         eServiceTemplateId,
-        eServiceTemplateVersionId,
+        eServiceTemplateVersionId: draftVersionId,
       })
   }
 
@@ -59,7 +52,8 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleDeleteVersionDraft = () => {
-    if (state === 'DRAFT') deleteVersionDraft({ eServiceTemplateId, eServiceTemplateVersionId })
+    if (draftVersionId)
+      deleteVersionDraft({ eServiceTemplateId, eServiceTemplateVersionId: draftVersionId })
   }
 
   const deleteVersionDraftAction: ActionItemButton = {
@@ -70,7 +64,7 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleSuspend = () => {
-    if (state === 'PUBLISHED') suspend({ eServiceTemplateId, eServiceTemplateVersionId })
+    if (activeVersionId) suspend({ eServiceTemplateId, eServiceTemplateVersionId: activeVersionId })
   }
 
   const suspendAction: ActionItemButton = {
@@ -81,7 +75,8 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleReactivate = () => {
-    if (state === 'SUSPENDED') reactivate({ eServiceTemplateId, eServiceTemplateVersionId })
+    if (activeVersionId)
+      reactivate({ eServiceTemplateId, eServiceTemplateVersionId: activeVersionId })
   }
 
   const reactivateAction: ActionItemButton = {
@@ -91,32 +86,26 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleCreateNewDraft = () => {
-    if (state === 'PUBLISHED' && (!draftVersionState || draftVersionState === 'DRAFT'))
-      createNewDraft(
-        { eServiceTemplateId },
-        {
-          onSuccess({ id }) {
-            navigate('NOT_FOUND', {
-              //TODO
-              //PROVIDE_ESERVICE_TEMPLATE_EDIT
-              // params: { eServiceTemplateId, eServiceTemplateVersionId: id },
-              //state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
-            })
-          },
-        }
-      )
+    createNewVersionDraft(eServiceTemplateId, {
+      onSuccess({ eServiceTemplateVersionId }) {
+        navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
+          params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateVersionId },
+          state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+        })
+      },
+    })
   }
 
   const createNewDraftAction: ActionItemButton = {
     action: handleCreateNewDraft,
-    label: t('createNewDraft'),
+    label: t('createNewDraftFromEserviceTemplate'),
     icon: FiberNewIcon,
   }
 
   const handleEditDraft = () => {
-    if (state === 'DRAFT' || draftVersionState === 'DRAFT') {
+    if (draftVersionId) {
       navigate('PROVIDE_ESERVICE_TEMPLATE_SUMMARY', {
-        params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateVersionId },
+        params: { eServiceTemplateId, eServiceTemplateVersionId: draftVersionId },
       })
     }
   }
@@ -144,7 +133,6 @@ export function useGetProviderEServiceTemplateActions(
       {
         isAdmin: true,
         hasVersionDraft: true,
-        isDraftWaitingForApproval: false,
       },
       () => [editDraftAction]
     )
@@ -152,7 +140,6 @@ export function useGetProviderEServiceTemplateActions(
       {
         isAdmin: true,
         hasVersionDraft: true,
-        isDraftWaitingForApproval: true,
       },
       () => [editDraftAction]
     )
@@ -161,7 +148,6 @@ export function useGetProviderEServiceTemplateActions(
       {
         isAdmin: true,
         hasVersionDraft: true,
-        isDraftWaitingForApproval: false,
       },
       () => [editDraftAction, deleteAction, suspendAction]
     )

@@ -22,6 +22,7 @@ import type {
   UpdateEServiceTemplateVersionDocumentSeed,
   CreatedEServiceTemplateVersion,
   CatalogEServiceTemplates,
+  GetEServiceTemplateInstancesParams,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
@@ -36,6 +37,7 @@ async function getProviderTemplatesList(params: GetProducerEServiceTemplatesPara
       {
         id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         name: 'Mock template 1',
+        mode: 'DELIVER',
         activeVersion: {
           id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           version: 1,
@@ -50,6 +52,7 @@ async function getProviderTemplatesList(params: GetProducerEServiceTemplatesPara
       {
         id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
         name: 'Mock template 2',
+        mode: 'RECEIVE',
         activeVersion: {
           id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
           version: 1,
@@ -64,6 +67,7 @@ async function getProviderTemplatesList(params: GetProducerEServiceTemplatesPara
       {
         id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
         name: 'Mock template 3',
+        mode: 'DELIVER',
         activeVersion: {
           id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
           version: 2,
@@ -390,6 +394,15 @@ async function createDraft(payload: EServiceTemplateSeed) {
   return
 }
 
+async function createNewVersionDraft(eServiceTemplateId: string) {
+  // const response = await axiosInstance.post<CreatedResource>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions`,
+  //   payload
+  // )
+  // return response.data
+  return
+}
+
 async function updateDraft({
   eServiceTemplateId,
   ...payload
@@ -484,7 +497,6 @@ async function publishVersionDraft({
   eServiceTemplateId: string
   eServiceTemplateVersionId: string
 }) {
-
   //  return await  axiosInstance.post<void(
   //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/publish`
   // )
@@ -528,9 +540,10 @@ async function reactivateVersion({
   return
 }
 // TODO: To fix
-async function getProviderTemplateInstancesList(eServiceTemplateId: string) {
+async function getProviderTemplateInstancesList(params: GetEServiceTemplateInstancesParams) {
   /*const response = await axiosInstance.get<CreatedEServiceDescriptor>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances` ,
+    {params}
   )
   return response.data*/
 
@@ -727,6 +740,7 @@ export const TemplateServices = {
   downloadVersionDraftDocument,
   downloadConsumerList,
   createDraft,
+  createNewVersionDraft,
   updateDraft,
   updateVersionDraft,
   addTemplateRiskAnalysis,
