@@ -10,6 +10,7 @@ import { TemplateQueries } from '@/api/template'
 import { ProviderEServiceTemplateDetailsTab } from './components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateDetailsTab'
 import { ProviderEServiceTemplateTenantsTab } from './components/ProviderEServiceTemplateTenantsTab/ProviderEServiceTemplateTenantsTab'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
+import { EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'read' })
@@ -22,11 +23,21 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
+  const [draftVersionId, setDraftVersionId] = React.useState<string | undefined>()
+  const [draftState, setDraftState] = React.useState<EServiceTemplateVersionState | undefined>()
+
+  if (template?.version && template.version > 1) {
+    setDraftVersionId(template.eserviceTemplate.versions[template.version - 1].id)
+    setDraftState(template.eserviceTemplate.versions[template.version - 1].state)
+  }
+
   const { actions } = useGetProviderEServiceTemplateActions(
     eServiceTemplateId,
     eServiceTemplateVersionId,
-    template?.eserviceTemplate.mode,
-    template?.state
+    draftVersionId,
+    template?.state,
+    draftState,
+    template?.eserviceTemplate.mode
   )
 
   return (

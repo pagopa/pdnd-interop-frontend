@@ -37,6 +37,7 @@ async function getProviderTemplatesList(params: GetProducerEServiceTemplatesPara
       {
         id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         name: 'Mock template 1',
+        mode: 'DELIVER',
         activeVersion: {
           id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
           version: 1,
@@ -51,6 +52,7 @@ async function getProviderTemplatesList(params: GetProducerEServiceTemplatesPara
       {
         id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
         name: 'Mock template 2',
+        mode: 'RECEIVE',
         activeVersion: {
           id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
           version: 1,
@@ -65,6 +67,7 @@ async function getProviderTemplatesList(params: GetProducerEServiceTemplatesPara
       {
         id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
         name: 'Mock template 3',
+        mode: 'DELIVER',
         activeVersion: {
           id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
           version: 2,
@@ -114,7 +117,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
         prettyName: 'API Documentation File',
       },
     ],
-    state: 'DRAFT',
+    state: 'PUBLISHED',
     agreementApprovalPolicy: 'AUTOMATIC',
     attributes: {
       certified: [

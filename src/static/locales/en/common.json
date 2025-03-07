@@ -41,7 +41,8 @@
     "import": "Import",
     "saveEdits": "Save edits",
     "accept": "Accept",
-    "approve": "Approve"
+    "approve": "Approve",
+    "createNewDraftFromEserviceTemplate": "Create draft from template"
   },
   "table": {
     "headData": {
