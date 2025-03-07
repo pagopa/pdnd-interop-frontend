@@ -407,24 +407,9 @@ function useUpdatEServiceInterfaceInfo() {
   })
 }
 
-// TODO: Understand id confirmationDilog is nedeed
-function useUpgradeEService(
-  config = { suppressSuccessToast: false, showConfirmationDialog: true }
-) {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.upgradeEService' })
+function useUpgradeEService() {
   return useMutation({
     mutationFn: EServiceServices.upgradeEService,
-    meta: {
-      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-      confirmationDialog: config.showConfirmationDialog
-        ? {
-          title: t('confirmDialog.title'),
-          description: t('confirmDialog.description'),
-        }
-        : undefined,
-    },
   })
 }
 

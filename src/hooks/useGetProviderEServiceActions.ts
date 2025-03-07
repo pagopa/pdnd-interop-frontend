@@ -218,7 +218,7 @@ export function useGetProviderEServiceActions(
     icon: PublishIcon,
   }
 
-  const handleUpdateIstance = () => {
+  const handleUpgradeEService = () => {
     upgradeEService(
       { eserviceId },
       {
@@ -232,8 +232,8 @@ export function useGetProviderEServiceActions(
     )
   }
 
-  const updateIstance: ActionItemButton = {
-    action: handleUpdateIstance,
+  const upgradeEServiceAction: ActionItemButton = {
+    action: handleUpgradeEService,
     label: t('updateIstance'),
     icon: FiberNewIcon,
   }
@@ -506,7 +506,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [updateIstance, suspendAction]
+      () => [upgradeEServiceAction, suspendAction]
     )
     .with(
       {
@@ -526,7 +526,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isNewTemplateVersionAvailable: true,
       },
-      () => [updateIstance, editDraftAction, deleteAction, suspendAction]
+      () => [upgradeEServiceAction, editDraftAction, deleteAction, suspendAction]
     )
     .with(
       {
@@ -567,7 +567,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [updateIstance, suspendAction]
+      () => [upgradeEServiceAction, suspendAction]
     )
     .with(
       {
@@ -588,7 +588,7 @@ export function useGetProviderEServiceActions(
         isDraftWaitingForApproval: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [updateIstance, editDraftAction, deleteAction, suspendAction]
+      () => [upgradeEServiceAction, editDraftAction, deleteAction, suspendAction]
     )
     .with(
       {
@@ -619,7 +619,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [createNewDraftAction, updateIstance]
+      () => [createNewDraftAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -666,7 +666,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [updateIstance]
+      () => [upgradeEServiceAction]
     )
     .with(
       {
@@ -717,7 +717,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [reactivateAction, updateIstance]
+      () => [reactivateAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -737,7 +737,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isNewTemplateVersionAvailable: true,
       },
-      () => [reactivateAction, editDraftAction, updateIstance]
+      () => [reactivateAction, editDraftAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -778,7 +778,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [reactivateAction, updateIstance]
+      () => [reactivateAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -799,7 +799,7 @@ export function useGetProviderEServiceActions(
         isDraftWaitingForApproval: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [reactivateAction, updateIstance]
+      () => [reactivateAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -830,7 +830,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [updateIstance]
+      () => [upgradeEServiceAction]
     )
     .with(
       {
@@ -850,7 +850,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isNewTemplateVersionAvailable: true,
       },
-      () => [updateIstance, editDraftAction, deleteAction]
+      () => [upgradeEServiceAction, editDraftAction, deleteAction]
     )
     .with(
       {
@@ -894,7 +894,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [updateIstance]
+      () => [upgradeEServiceAction]
     )
     .with(
       {
