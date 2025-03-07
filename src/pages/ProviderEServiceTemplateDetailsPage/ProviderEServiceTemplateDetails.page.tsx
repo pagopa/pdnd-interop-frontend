@@ -22,11 +22,21 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
+  let draftVersionId
+  let draftState
+
+  if (template?.version && template.version > 1) {
+    draftVersionId = template.eserviceTemplate.versions[template.version - 1].id
+    draftState = template.eserviceTemplate.versions[template.version - 1].state
+  }
+
   const { actions } = useGetProviderEServiceTemplateActions(
     eServiceTemplateId,
     eServiceTemplateVersionId,
-    template?.eserviceTemplate.mode,
-    template?.state
+    draftVersionId,
+    template?.state,
+    draftState,
+    template?.eserviceTemplate.mode
   )
 
   return (

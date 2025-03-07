@@ -14,10 +14,11 @@ import { TemplateMutations } from '@/api/template'
 
 export function useGetProviderEServiceTemplateActions(
   eServiceTemplateId: string,
-  eServiceTemplateVersionId: string,
-  mode: EServiceMode | undefined, //TODO
-  activeVersionState?: EServiceTemplateVersionState | undefined,
-  draftVersionState?: EServiceTemplateVersionState | undefined
+  activeVersionId: string | undefined,
+  draftVersionId: string | undefined,
+  activeVersionState: EServiceTemplateVersionState | undefined,
+  draftVersionState: EServiceTemplateVersionState | undefined,
+  mode: EServiceMode | undefined //TODO
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
@@ -30,17 +31,17 @@ export function useGetProviderEServiceTemplateActions(
   const { mutate: reactivate } = TemplateMutations.useReactivateVersion()
   const { mutate: createNewVersionDraft } = TemplateMutations.useCreateNewVersionDraft()
 
-  const state = activeVersionState ?? 'DRAFT'
-  const hasVersionDraft = state === 'DRAFT' || draftVersionState === 'DRAFT'
+  const state = activeVersionState ?? draftVersionState ?? 'DRAFT'
+  const hasVersionDraft = !!draftVersionId
 
   // Only admin and operatorAPI can see actions
   if (!isAdmin && !isOperatorAPI) return { actions: [] }
 
   const handlePublishDraft = () => {
-    if (state === 'DRAFT')
+    if (draftVersionId)
       publishDraft({
         eServiceTemplateId,
-        eServiceTemplateVersionId,
+        eServiceTemplateVersionId: draftVersionId,
       })
   }
 
@@ -51,7 +52,8 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleDeleteVersionDraft = () => {
-    if (state === 'DRAFT') deleteVersionDraft({ eServiceTemplateId, eServiceTemplateVersionId })
+    if (draftVersionId)
+      deleteVersionDraft({ eServiceTemplateId, eServiceTemplateVersionId: draftVersionId })
   }
 
   const deleteVersionDraftAction: ActionItemButton = {
@@ -62,7 +64,7 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleSuspend = () => {
-    if (state === 'PUBLISHED') suspend({ eServiceTemplateId, eServiceTemplateVersionId })
+    if (activeVersionId) suspend({ eServiceTemplateId, eServiceTemplateVersionId: activeVersionId })
   }
 
   const suspendAction: ActionItemButton = {
@@ -73,7 +75,8 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleReactivate = () => {
-    if (state === 'SUSPENDED') reactivate({ eServiceTemplateId, eServiceTemplateVersionId })
+    if (activeVersionId)
+      reactivate({ eServiceTemplateId, eServiceTemplateVersionId: activeVersionId })
   }
 
   const reactivateAction: ActionItemButton = {
@@ -83,27 +86,26 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleCreateNewDraft = () => {
-    if (state === 'PUBLISHED' && (!draftVersionState || draftVersionState === 'DRAFT'))
-      createNewVersionDraft(eServiceTemplateId, {
-        onSuccess({ eServiceTemplateVersionId }) {
-          navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
-            params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateVersionId },
-            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
-          })
-        },
-      })
+    createNewVersionDraft(eServiceTemplateId, {
+      onSuccess({ eServiceTemplateVersionId }) {
+        navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
+          params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateVersionId },
+          state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+        })
+      },
+    })
   }
 
   const createNewDraftAction: ActionItemButton = {
     action: handleCreateNewDraft,
-    label: t('createNewDraft'),
+    label: t('createNewDraftFromEserviceTemplate'),
     icon: FiberNewIcon,
   }
 
   const handleEditDraft = () => {
-    if (state === 'DRAFT' || draftVersionState === 'DRAFT') {
+    if (draftVersionId) {
       navigate('PROVIDE_ESERVICE_TEMPLATE_SUMMARY', {
-        params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateVersionId },
+        params: { eServiceTemplateId, eServiceTemplateVersionId: draftVersionId },
       })
     }
   }

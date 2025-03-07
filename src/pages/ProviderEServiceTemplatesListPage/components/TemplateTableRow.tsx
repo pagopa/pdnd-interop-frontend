@@ -20,23 +20,22 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
 
   const queryClient = useQueryClient()
 
-  const versionEserviceTemplate = template.activeVersion?.id ?? template.draftVersion?.id
-
-  const { data: eserviceTemplate } = useQuery(
-    TemplateQueries.getSingle(template.id, versionEserviceTemplate as string)
-  )
+  const versionIdEserviceTemplate = template.activeVersion?.id ?? template.draftVersion?.id
+  const versionEserviceTemplate =
+    template.activeVersion?.version ?? template.draftVersion?.version ?? 1
 
   const { actions } = useGetProviderEServiceTemplateActions(
-    eserviceTemplate?.eserviceTemplate.id as string,
-    eserviceTemplate?.id as string,
-    eserviceTemplate?.eserviceTemplate.mode,
+    template.id,
+    template.activeVersion?.id,
+    template.draftVersion?.id,
     template.activeVersion?.state,
-    template.draftVersion?.state
+    template.draftVersion?.state,
+    template.mode
   )
 
   const handlePrefetch = () => {
     queryClient.prefetchQuery(
-      TemplateQueries.getSingle(template.id, versionEserviceTemplate as string)
+      TemplateQueries.getSingle(template.id, versionIdEserviceTemplate as string)
     )
   }
 
@@ -46,7 +45,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
     <TableRow
       cellData={[
         template.name,
-        eserviceTemplate?.version.toString() || '1',
+        versionEserviceTemplate.toString(),
         <Stack key={template.id} direction="row" spacing={1}>
           {template.activeVersion && (
             <StatusChip for="template" state={template.activeVersion.state} />
@@ -69,8 +68,8 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
             : 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
         }
         params={{
-          eServiceTemplateId: eserviceTemplate?.id ?? '',
-          eServiceTemplateVersionId: eserviceTemplate?.eserviceTemplate.id ?? '',
+          eServiceTemplateId: template.id ?? '',
+          eServiceTemplateVersionId: versionEserviceTemplate.toString(),
         }}
       >
         {hasNotActiveVersionTemplate ? t('manageDraft') : t('inspect')}
