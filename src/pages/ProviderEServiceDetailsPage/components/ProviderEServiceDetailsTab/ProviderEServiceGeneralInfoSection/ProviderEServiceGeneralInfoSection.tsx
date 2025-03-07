@@ -17,7 +17,7 @@ import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
-import { ProviderEServiceFromTemplateUpdateInstanceIdDrawer } from './ProviderEServiceFromTemplateUpdateInstanceIdDrawer'
+import { ProviderEServiceFromTemplateUpdateInstanceLabelDrawer } from './ProviderEServiceFromTemplateUpdateInstanceLabelDrawer'
 import { Link } from '@/router'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
@@ -64,9 +64,9 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   } = useDrawerState()
 
   const {
-    isOpen: isEServiceUpdateInstanceIdDrawerOpen,
-    openDrawer: openEServiceUpdateInstanceIdDrawer,
-    closeDrawer: closeEServiceUpdateInstanceIdDrawer,
+    isOpen: isEServiceUpdateInstanceLabelDrawerOpen,
+    openDrawer: openEServiceUpdateInstanceLabelDrawer,
+    closeDrawer: closeEServiceUpdateInstanceLabelDrawer,
   } = useDrawerState()
 
   const handleDownloadConsumerList = () => {
@@ -142,7 +142,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     )
   }
 
-  const handleInstanceIdUpdate = (eserviceId: string, name: string) => {
+  const handleInstanceLabelUpdate = (eserviceId: string, name: string) => {
     //TODO
     /*updateEserviceName(
       {
@@ -274,9 +274,9 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         name={descriptor.eservice.name}
         onSubmit={handleNameUpdate}
       />
-      <ProviderEServiceFromTemplateUpdateInstanceIdDrawer
-        isOpen={isEServiceUpdateInstanceIdDrawerOpen}
-        onClose={closeEServiceUpdateInstanceIdDrawer}
+      <ProviderEServiceFromTemplateUpdateInstanceLabelDrawer
+        isOpen={isEServiceUpdateInstanceLabelDrawerOpen}
+        onClose={closeEServiceUpdateInstanceLabelDrawer}
         id={descriptor.eservice.id}
         instanceLabel={descriptor.templateRef?.instanceLabel as string}
         onSubmit={handleNameUpdate}

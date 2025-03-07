@@ -5,7 +5,6 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 
 type ProviderEServiceTemplateUsingTenantsTableRowProps = {
-  eserviceTemplateId: string
   instance: EServiceTemplateInstance
 }
 
