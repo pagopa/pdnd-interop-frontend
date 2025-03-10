@@ -105,7 +105,6 @@ export const ProviderEServiceImportVersionDrawer: React.FC<
       >
         <Box component="form" noValidate>
           <RHFSingleFileInput
-            dropzoneButton="TBD"
             sx={{ my: 0 }}
             name="eserviceFile"
             rules={{ required: true }}
