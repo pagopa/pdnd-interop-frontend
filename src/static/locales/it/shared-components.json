@@ -237,7 +237,10 @@
     "noDataLabel": "Nessun risultato trovato"
   },
   "singleFileInput": {
-    "dropzoneLabel": "Trascina qui il file o clicca qui per selezionarlo dal tuo computer",
+    "dropzone": {
+      "button": "Carica il file",
+      "label": "Trascina qui il file o clicca qui per selezionarlo dal tuo computer"
+    },
     "loadingLabel": "Caricamento in corso..."
   },
   "documentContainer": {
