@@ -6,7 +6,6 @@ import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 
 const singleFileInputProps = {
   name: 'testFile',
-  dropzoneButton: 'TBD',
 }
 
 describe('determine whether the integration between react-hook-form and MUI’s Switch works', () => {
