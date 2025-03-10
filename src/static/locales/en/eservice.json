@@ -183,7 +183,7 @@
         "label": "Document name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
-      "uploadBtn": "Upload"
+      "uploadBtn": "Save document"
     }
   },
   "summary": {

@@ -237,7 +237,10 @@
     "noDataLabel": "No results"
   },
   "singleFileInput": {
-    "dropzoneLabel": "Drag here file or click here to select it from your computer",
+    "dropzone": {
+      "button": "Upload file",
+      "label": "Drag here file or click here to select it from your computer"
+    },
     "loadingLabel": "Loading..."
   },
   "documentContainer": {
