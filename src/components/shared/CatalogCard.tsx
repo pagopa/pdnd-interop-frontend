@@ -22,20 +22,20 @@ type CatalogRoutesKey = Extract<
   RouteKey,
   'SUBSCRIBE_CATALOG_VIEW' | 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'
 >
-interface CatalogCardProps {
+interface CatalogCardProps<T> {
   disabled?: boolean
   title: string
   description: string
   producerName: string
   handlePrefetch: () => void
-  to: CatalogRoutesKey
+  to: T
   // params: CatalogCardRouteParams<CatalogCardProps['to']>
-  params: CatalogRoutesKey extends 'SUBSCRIBE_CATALOG_VIEW'
+  params: T extends 'SUBSCRIBE_CATALOG_VIEW'
     ? CatalogCardRouteParams<'SUBSCRIBE_CATALOG_VIEW'>
     : CatalogCardRouteParams<'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>
 }
 
-export const CatalogCard: React.FC<CatalogCardProps> = ({
+export const CatalogCard: React.FC<CatalogCardProps<CatalogRoutesKey>> = ({
   title,
   description,
   disabled,
