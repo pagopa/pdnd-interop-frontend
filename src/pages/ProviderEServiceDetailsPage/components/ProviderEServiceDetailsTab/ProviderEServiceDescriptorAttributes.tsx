@@ -9,9 +9,9 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import type { AttributeKey } from '@/types/attribute.types'
-import { ProviderEServiceUpdateDescriptorAttributesDrawer } from './ProviderEServiceUpdateDescriptorAttributesDrawer'
 import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
+import { UpdateAttributesDrawer } from '@/components/shared/UpdateAttributesDrawer'
 
 export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
@@ -77,11 +77,12 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
           topSideActions={getAttributeSectionActions('declared')}
         />
       </SectionContainer>
-      <ProviderEServiceUpdateDescriptorAttributesDrawer
+      <UpdateAttributesDrawer
         isOpen={editAttributeDrawerState.isOpen}
         onClose={() => setEditAttributeDrawerState({ ...editAttributeDrawerState, isOpen: false })}
         attributeKey={editAttributeDrawerState.kind}
-        descriptorAttributes={descriptorAttributes}
+        attributes={descriptorAttributes}
+        kind="ESERVICE"
       />
     </>
   )
