@@ -1,5 +1,5 @@
 import React from 'react'
-import type { RouteKey, routes } from '@/router'
+import type { RouteKey, useParams } from '@/router'
 import { Link } from '@/router'
 import {
   Avatar,
@@ -14,28 +14,24 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
-import type { ExtractRouteParams } from '@pagopa/interop-fe-commons/dist/features/router/router.types'
-
-type CatalogCardRouteParams<T extends RouteKey> = ExtractRouteParams<(typeof routes)[T]['path']>
 
 type CatalogRoutesKey = Extract<
   RouteKey,
   'SUBSCRIBE_CATALOG_VIEW' | 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'
 >
-interface CatalogCardProps<T> {
-  disabled?: boolean
+type CatalogCardRouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
+
+interface CatalogCardProps<TRouteKey extends CatalogRoutesKey> {
   title: string
   description: string
   producerName: string
   handlePrefetch: () => void
-  to: T
-  // params: CatalogCardRouteParams<CatalogCardProps['to']>
-  params: T extends 'SUBSCRIBE_CATALOG_VIEW'
-    ? CatalogCardRouteParams<'SUBSCRIBE_CATALOG_VIEW'>
-    : CatalogCardRouteParams<'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>
+  to: TRouteKey
+  params: CatalogCardRouteParams<TRouteKey>
+  disabled?: boolean
 }
 
-export const CatalogCard: React.FC<CatalogCardProps<CatalogRoutesKey>> = ({
+export function CatalogCard<TRouteKey extends CatalogRoutesKey>({
   title,
   description,
   disabled,
@@ -43,7 +39,7 @@ export const CatalogCard: React.FC<CatalogCardProps<CatalogRoutesKey>> = ({
   handlePrefetch,
   to,
   params,
-}) => {
+}: CatalogCardProps<TRouteKey>) {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('eservice')
 
