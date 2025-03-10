@@ -7,7 +7,6 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
-import { AuthHooks } from '@/api/auth'
 import { TemplateDownloads } from '@/api/template/template.downloads'
 import type { EServiceDoc, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
@@ -39,7 +38,8 @@ export const EServiceTemplateDocumentationSection: React.FC<
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
-        templateId: template.id,
+        eServiceTemplateId: template.eserviceTemplate.id,
+        eServiceTemplateVersionId: template.id,
         documentId: document.id,
       },
       getDownloadDocumentName(document)
@@ -88,7 +88,7 @@ export const EServiceTemplateDocumentationSection: React.FC<
         isOpen={isOpen}
         onClose={closeDrawer}
         templateId={template.id}
-        templateDocs={[]}
+        templateDocs={template.docs}
       />
     </>
   )

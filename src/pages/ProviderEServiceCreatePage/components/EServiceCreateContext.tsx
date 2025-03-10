@@ -47,7 +47,7 @@ const { useContext, Provider } = createContext<EServiceCreateContextType>(
 type EServiceCreateContextProviderProps = {
   children: React.ReactNode
   descriptor: ProducerEServiceDescriptor | undefined
-  template: EServiceTemplateDetails | undefined
+  template?: EServiceTemplateDetails
   eserviceMode: EServiceMode
   onEserviceModeChange?: (value: EServiceMode) => void
   back: VoidFunction
@@ -112,7 +112,6 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
     back,
     forward,
     riskAnalysisFormState,
-    ,
     template,
   ])
 

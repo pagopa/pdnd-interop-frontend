@@ -14,7 +14,7 @@ import { Box, Stack } from '@mui/system'
 import { Button } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 import type {
-  CustomizedInterfaceMetadata,
+  TemplateInstanceInterfaceMetadata,
   EserviceInterfaceTemplatePayload,
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
@@ -25,7 +25,7 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
 
   const { descriptor, back } = useEServiceCreateContext()
 
-  const defaultValues: CustomizedInterfaceMetadata = {
+  const defaultValues: TemplateInstanceInterfaceMetadata = {
     name: descriptor?.templateRef?.interfaceMetadata?.name ?? '',
     email: descriptor?.templateRef?.interfaceMetadata?.email ?? '',
     url: descriptor?.templateRef?.interfaceMetadata?.url ?? '',
@@ -33,9 +33,7 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     serverUrls: descriptor?.templateRef?.interfaceMetadata?.serverUrls ?? [''],
   }
 
-  const { mutate: updateEServiceInterfaceInfo } = EServiceMutations.useUpdatEServiceInterfaceInfo({
-    suppressSuccessToast: true,
-  })
+  const { mutate: updateEServiceInterfaceInfo } = EServiceMutations.useUpdatEServiceInterfaceInfo()
 
   const formMethods = useForm({ defaultValues })
 
@@ -61,7 +59,7 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
   //     </>
   //   )
 
-  const onSubmit = (values: CustomizedInterfaceMetadata) => {
+  const onSubmit = (values: TemplateInstanceInterfaceMetadata) => {
     if (!descriptor) return
 
     const payload: EserviceInterfaceTemplatePayload = {
