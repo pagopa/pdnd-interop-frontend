@@ -12,17 +12,23 @@ import cloneDeep from 'lodash/cloneDeep'
 import { EServiceMutations } from '@/api/eservice'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useParams } from '@/router'
+import { TemplateMutations } from '@/api/template'
 
-type ProviderEServiceUpdateDescriptorAttributesDrawerProps = {
+type UpdateAttributesDrawerProps = {
   isOpen: boolean
   onClose: () => void
   attributeKey: AttributeKey
-  descriptorAttributes: DescriptorAttributes
+  attributes: DescriptorAttributes
+  kind: 'ESERVICE' | 'ESERVICE TEMPLATE'
 }
 
-export const ProviderEServiceUpdateDescriptorAttributesDrawer: React.FC<
-  ProviderEServiceUpdateDescriptorAttributesDrawerProps
-> = ({ isOpen, onClose, descriptorAttributes, attributeKey }) => {
+export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
+  isOpen,
+  onClose,
+  attributes,
+  attributeKey,
+  kind,
+}) => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.updateDescriptorAttributesDrawer',
   })
@@ -30,13 +36,17 @@ export const ProviderEServiceUpdateDescriptorAttributesDrawer: React.FC<
   const { t: tCommon } = useTranslation('common')
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
+  const { eServiceTemplateId, eServiceTemplateVersionId } =
+    useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const [selectedDescriptorAttributes, setSelectedDescriptorAttributes] =
-    React.useState<DescriptorAttributes>(() => cloneDeep(descriptorAttributes))
+  const [selectedAttributes, setSelectedAttributes] = React.useState<DescriptorAttributes>(() =>
+    cloneDeep(attributes)
+  )
 
-  const { mutate: updateAttributes } = EServiceMutations.useUpdateDescriptorAttributes()
+  const { mutate: updateEserviceAttributes } = EServiceMutations.useUpdateDescriptorAttributes()
+  const { mutate: updateEserviceTemplateAttributes } = TemplateMutations.useUpdateAttributes()
 
-  const attributeGroups = selectedDescriptorAttributes[attributeKey]
+  const attributeGroups = selectedAttributes[attributeKey]
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)
 
   const alreadySelectedAttributeIds = React.useMemo(
@@ -49,7 +59,7 @@ export const ProviderEServiceUpdateDescriptorAttributesDrawer: React.FC<
   )
 
   const handleAddAttributeToGroup = (groupdIdx: number, attribute: DescriptorAttribute) => {
-    setSelectedDescriptorAttributes((prev) => {
+    setSelectedAttributes((prev) => {
       const newAttributeGroups = [...prev[attributeKey]]
       newAttributeGroups[groupdIdx].push(attribute)
       return {
@@ -61,7 +71,7 @@ export const ProviderEServiceUpdateDescriptorAttributesDrawer: React.FC<
   }
 
   const handleRemoveAttributeFromGroup = (groupIdx: number, attributeId: string) => {
-    setSelectedDescriptorAttributes((prev) => {
+    setSelectedAttributes((prev) => {
       const newAttributeGroups = [...prev[attributeKey]]
       newAttributeGroups[groupIdx] = newAttributeGroups[groupIdx].filter(
         ({ id }) => id !== attributeId
@@ -73,29 +83,39 @@ export const ProviderEServiceUpdateDescriptorAttributesDrawer: React.FC<
     })
   }
 
-  const canAttributeBeRemoved = (groupIdx: number, descriptorAttribute: DescriptorAttribute) => {
-    return !descriptorAttributes[attributeKey][groupIdx].some(
-      (att) => att.id === descriptorAttribute.id
-    )
+  const canAttributeBeRemoved = (groupIdx: number, attribute: DescriptorAttribute) => {
+    return !attributes[attributeKey][groupIdx].some((att) => att.id === attribute.id)
   }
 
   const handleSubmit = () => {
-    updateAttributes(
-      {
-        eserviceId,
-        descriptorId,
-        attributeKey,
-        ...remapDescriptorAttributesToDescriptorAttributesSeed(selectedDescriptorAttributes),
-      },
-      { onSuccess: onClose }
-    )
+    if (kind === 'ESERVICE') {
+      updateEserviceAttributes(
+        {
+          eserviceId,
+          descriptorId,
+          attributeKey,
+          ...remapDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
+        },
+        { onSuccess: onClose }
+      )
+    } else {
+      updateEserviceTemplateAttributes(
+        {
+          eServiceTemplateId,
+          eServiceTemplateVersionId,
+          attributeKey,
+          ...remapDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
+        },
+        { onSuccess: onClose }
+      )
+    }
   }
 
   return (
     <Drawer
       isOpen={isOpen}
       onClose={onClose}
-      onTransitionExited={() => setSelectedDescriptorAttributes(cloneDeep(descriptorAttributes))}
+      onTransitionExited={() => setSelectedAttributes(cloneDeep(attributes))}
       title={t('title', { attributeKind: tAttribute(`type.${attributeKey}_other`) })}
       subtitle={t('subtitle')}
       buttonAction={{
