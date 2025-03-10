@@ -1,9 +1,9 @@
 import { queryOptions } from '@tanstack/react-query'
 import type {
-  GetAgreementConsumersParams,
-  GetAgreementEServiceConsumersParams,
-  GetAgreementEServiceProducersParams,
-  GetAgreementProducersParams,
+  GetAgreementsConsumersParams,
+  GetAgreementsConsumerEServicesParams,
+  GetAgreementsProducerEServicesParams,
+  GetAgreementsProducersParams,
   GetConsumerAgreementsParams,
   GetProducerAgreementsParams,
 } from '../api.generatedTypes'
@@ -30,28 +30,28 @@ function getSingle(agreementId: string) {
   })
 }
 
-function getProducers(params: GetAgreementProducersParams) {
+function getProducers(params: GetAgreementsProducersParams) {
   return queryOptions({
     queryKey: ['AgreementGetProducers', params],
     queryFn: () => AgreementServices.getProducers(params),
   })
 }
 
-function getConsumers(params: GetAgreementConsumersParams) {
+function getConsumers(params: GetAgreementsConsumersParams) {
   return queryOptions({
     queryKey: ['AgreementGetConsumers', params],
     queryFn: () => AgreementServices.getConsumers(params),
   })
 }
 
-function getProducerEServiceList(params: GetAgreementEServiceProducersParams) {
+function getProducerEServiceList(params: GetAgreementsProducerEServicesParams) {
   return queryOptions({
     queryKey: ['AgreementGetProducerEServiceList', params],
     queryFn: () => AgreementServices.getProducerEServiceList(params),
   })
 }
 
-function getConsumerEServiceList(params: GetAgreementEServiceConsumersParams) {
+function getConsumerEServiceList(params: GetAgreementsConsumerEServicesParams) {
   return queryOptions({
     queryKey: ['AgreementGetConsumerEServiceList', params],
     queryFn: () => AgreementServices.getConsumerEServiceList(params),
