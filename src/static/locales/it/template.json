@@ -121,6 +121,12 @@
         },
         "interfaceInfoTooltip": "Il file “Specifica API” non è modificabile. Per aggiornarlo, crea una nuova versione.",
         "downloadDocumentTooltip": "Scarica documento"
+      },
+      "versionSelectorDrawer": {
+        "title": "Naviga ad un’altra versione di questo template e-service",
+        "label": "Seleziona versione",
+        "currentVersion": "{{ versionNum }} - versione visualizzata",
+        "goToSelectedVersion": "Vai alla versione selezionata"
       }
     }
   },

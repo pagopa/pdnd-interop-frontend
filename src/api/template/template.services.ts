@@ -98,7 +98,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
 
   const response: EServiceTemplateVersionDetails = {
     id: '123e4567-e89b-12d3-a456-426614174000',
-    version: 1,
+    version: 2,
     description: 'This is a sample e-service template version.',
     voucherLifespan: 30,
     dailyCallsPerConsumer: 1000,
@@ -175,8 +175,13 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
       technology: 'REST',
       versions: [
         {
-          id: '123e4567-e89b-12d3-a456-426614174004',
+          id: '123e4567-e89b-12d3-a456-000000',
           version: 1,
+          state: 'PUBLISHED',
+        },
+        {
+          id: '123e4567-e89b-12d3-a456-421214000',
+          version: 2,
           state: 'PUBLISHED',
         },
       ],
@@ -191,7 +196,7 @@ async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: 
           createdAt: '2025-02-14T10:00:00Z',
         },
       ],
-      mode: 'DELIVER',
+      mode: 'RECEIVE',
       isSignalHubEnabled: true,
     },
   }
@@ -558,7 +563,7 @@ async function getProviderTemplateInstancesList(params: GetEServiceTemplateInsta
           version: '1',
           audience: [''],
         },
-        instanceId: 'instance-001',
+        instanceLabel: 'instance-001',
         name: '',
         producerId: '',
         descriptors: [],
@@ -572,7 +577,7 @@ async function getProviderTemplateInstancesList(params: GetEServiceTemplateInsta
           version: '1',
           audience: [''],
         },
-        instanceId: 'instance-002',
+        instanceLabel: 'instance-002',
         name: '',
         producerId: '',
         descriptors: [],
@@ -586,7 +591,7 @@ async function getProviderTemplateInstancesList(params: GetEServiceTemplateInsta
           version: '1',
           audience: [''],
         },
-        instanceId: 'instance-003',
+        instanceLabel: 'instance-003',
         name: '',
         producerId: '',
         descriptors: [],
@@ -720,7 +725,7 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
         createdAt: '2025-02-25T11:38:40.778Z',
       },
     ],
-    mode: 'DELIVER',
+    mode: 'RECEIVE',
     isSignalHubEnabled: true,
   }
 

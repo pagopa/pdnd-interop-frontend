@@ -26,10 +26,10 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const [draftVersionId, setDraftVersionId] = React.useState<string | undefined>()
   const [draftState, setDraftState] = React.useState<EServiceTemplateVersionState | undefined>()
 
-  if (template?.version && template.version > 1) {
-    setDraftVersionId(template.eserviceTemplate.versions[template.version - 1].id)
-    setDraftState(template.eserviceTemplate.versions[template.version - 1].state)
-  }
+  // if (template?.version && template.version > 1) {
+  //   setDraftVersionId(template.eserviceTemplate.versions[template.version - 1].id)
+  //   setDraftState(template.eserviceTemplate.versions[template.version - 1].state)
+  // }
 
   const { actions } = useGetProviderEServiceTemplateActions(
     eServiceTemplateId,

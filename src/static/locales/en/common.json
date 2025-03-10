@@ -42,7 +42,8 @@
     "saveEdits": "Save edits",
     "accept": "Accept",
     "approve": "Approve",
-    "createNewDraftFromEserviceTemplate": "Create draft from template"
+    "createNewDraftFromEserviceTemplate": "Create draft from template",
+    "updateIstance": "Update instance"
   },
   "table": {
     "headData": {
@@ -67,7 +68,7 @@
       "delegatorName": "Delegation requested by",
       "delegateName": "Delegation granted to",
       "eserviceTemplateUsingTenant": "Tenant",
-      "eserviceTemplateInstanceId": "Instance's suffix",
+      "eserviceTemplateInstanceLabel": "Instance's suffix",
       "eserviceTemplateInstanceVersion": "Version",
       "eserviceTemplateInstanceState": "Instance's state",
       "templateName": "Template"
