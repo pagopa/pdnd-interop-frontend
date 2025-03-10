@@ -97,7 +97,7 @@ export const ConsumerAgreementDocsInputSection: React.FC<
             </Button>
           ) : (
             <>
-              <RHFSingleFileInput dropzoneButton="TBD" name="doc" sx={{ my: 0 }} />
+              <RHFSingleFileInput name="doc" sx={{ my: 0 }} />
               {selectedDoc && (
                 <>
                   <RHFTextField

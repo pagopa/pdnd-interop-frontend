@@ -1,5 +1,4 @@
 import React from 'react'
-import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { Stack, Box, Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -100,9 +99,15 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
     )
   }
 
+  const isSelectedDocUploadable = Boolean(
+    formMethods.watch('doc') &&
+      formMethods.watch('prettyName') &&
+      formMethods.watch('prettyName') !== ''
+  )
+
   return !readonly ? (
     <Box>
-      <Stack spacing={2} sx={{ mt: 4, mb: docs.length > 0 ? 2 : 0 }}>
+      <Stack spacing={2} sx={{ mt: docs.length > 0 ? 3 : 0, mb: docs.length > 0 ? 2 : 0 }}>
         {docs.length > 0 &&
           docs.map((doc) => (
             <DocumentContainer
@@ -111,6 +116,7 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
               onUpdateDescription={handleUpdateDescription.bind(null, doc.id)}
               onDelete={handleDeleteDocument}
               onDownload={handleDownloadDocument}
+              size="small"
             />
           ))}
       </Stack>
@@ -121,13 +127,11 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
             component="form"
             noValidate
             onSubmit={formMethods.handleSubmit(onSubmit)}
-            sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
             bgcolor="common.white"
           >
             <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
             <RHFTextField
               size="small"
-              sx={{ my: 2 }}
               name="prettyName"
               label={t('create.step4.nameField.label')}
               infoLabel={t('create.step4.nameField.infoLabel')}
@@ -135,11 +139,15 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
               rules={{ required: true, minLength: 5 }}
             />
 
-            <Stack direction="row" justifyContent="flex-end">
-              <Button type="submit" variant="contained">
-                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step4.uploadBtn')}
-              </Button>
-            </Stack>
+            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
+
+            {isSelectedDocUploadable && (
+              <Stack direction="row" justifyContent="flex-start" mt={3}>
+                <Button type="submit" variant="contained">
+                  {t('create.step4.uploadBtn')}
+                </Button>
+              </Stack>
+            )}
           </Box>
         </FormProvider>
       ) : (
