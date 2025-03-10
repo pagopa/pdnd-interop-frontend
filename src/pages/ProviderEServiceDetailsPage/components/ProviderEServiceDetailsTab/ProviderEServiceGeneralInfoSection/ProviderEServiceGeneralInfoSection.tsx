@@ -25,6 +25,9 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     keyPrefix: 'read.sections.generalInformations',
   })
   const { t: tCommon } = useTranslation('common')
+  const { t: tDrawer } = useTranslation('eservice', {
+    keyPrefix: 'read.drawers',
+  })
   const { jwt } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
@@ -265,6 +268,13 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         onClose={closeEServiceUpdateDescriptionDrawer}
         id={descriptor.eservice.id}
         description={descriptor.eservice.description}
+        title={tDrawer('updateEServiceDescriptionDrawer.title')}
+        subtitle={tDrawer('updateEServiceDescriptionDrawer.subtitle')}
+        label={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.label')}
+        infoLabel={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.infoLabel')}
+        validateLabel={tDrawer(
+          'updateEServiceDescriptionDrawer.eserviceDescriptionField.validation.sameValue'
+        )}
         onSubmit={handleDescriptionUpdate}
       />
       <UpdateNameDrawer
@@ -272,6 +282,11 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         onClose={closeEServiceUpdateNameDrawer}
         id={descriptor.eservice.id}
         name={descriptor.eservice.name}
+        title={tDrawer('updateEServiceNameDrawer.title')}
+        subtitle={tDrawer('updateEServiceNameDrawer.subtitle')}
+        label={tDrawer('updateEServiceNameDrawer.eserviceNameField.label')}
+        infoLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.infoLabel')}
+        validateLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.validation.sameValue')}
         onSubmit={handleNameUpdate}
       />
       <ProviderEServiceFromTemplateUpdateInstanceLabelDrawer

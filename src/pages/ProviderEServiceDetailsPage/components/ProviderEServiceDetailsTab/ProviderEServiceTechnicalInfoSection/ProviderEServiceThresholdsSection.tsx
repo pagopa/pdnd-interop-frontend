@@ -23,6 +23,9 @@ export const ProviderEServiceThresholdsSection: React.FC<
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
+  const { t: tDrawer } = useTranslation('eservice', {
+    keyPrefix: 'read.drawers.updateThresholdsDrawer',
+  })
 
   const { jwt } = AuthHooks.useJwt()
 
@@ -107,6 +110,9 @@ export const ProviderEServiceThresholdsSection: React.FC<
         voucherLifespan={descriptor.voucherLifespan}
         dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
         dailyCallsTotal={descriptor.dailyCallsTotal}
+        subtitle={tDrawer('subtitle')}
+        dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerField.label')}
+        dailyCallsTotalLabel={tDrawer('dailyCallsTotalField.label')}
         onSubmit={handleThresholdsUpdate}
       />
     </>

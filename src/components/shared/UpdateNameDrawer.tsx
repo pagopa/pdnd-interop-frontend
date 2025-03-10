@@ -14,11 +14,11 @@ type UpdateNameDrawerProps = {
   onClose: VoidFunction
   id: string
   name: string
-  title?: string
-  subtitle?: string
-  label?: string
-  infoLabel?: string
-  validateLabel?: string
+  title: string
+  subtitle: string
+  label: string
+  infoLabel: string
+  validateLabel: string
   onSubmit: (id: string, newName: string) => void
 }
 
@@ -34,10 +34,6 @@ export const UpdateNameDrawer: React.FC<UpdateNameDrawerProps> = ({
   validateLabel,
   onSubmit,
 }) => {
-  const { t } = useTranslation('eservice', {
-    keyPrefix: 'read.drawers.updateEServiceNameDrawer',
-  })
-
   const { t: tCommon } = useTranslation('common')
 
   const defaultValues = {
@@ -68,8 +64,8 @@ export const UpdateNameDrawer: React.FC<UpdateNameDrawerProps> = ({
         isOpen={isOpen}
         onTransitionExited={handleTransitionExited}
         onClose={handleCloseDrawer}
-        title={title || t('title')}
-        subtitle={subtitle || t('subtitle')}
+        title={title}
+        subtitle={subtitle}
         buttonAction={{
           action: formMethods.handleSubmit(handleSubmit),
           label: tCommon('actions.upgrade'),
@@ -80,16 +76,15 @@ export const UpdateNameDrawer: React.FC<UpdateNameDrawerProps> = ({
             sx={{ mt: 2, mb: 2 }}
             focusOnMount
             name="eserviceName"
-            label={label || t('eserviceNameField.label')}
-            infoLabel={infoLabel || t('eserviceNameField.infoLabel')}
+            label={label}
+            infoLabel={infoLabel}
             type="text"
             size="small"
             inputProps={{ maxLength: 60 }}
             rules={{
               required: true,
               minLength: 5,
-              validate: (value) =>
-                value !== name || validateLabel || t('eserviceNameField.validation.sameValue'),
+              validate: (value) => value !== name || validateLabel,
             }}
           />
         </Box>
