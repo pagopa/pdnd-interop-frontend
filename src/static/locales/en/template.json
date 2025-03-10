@@ -121,6 +121,12 @@
         },
         "interfaceInfoTooltip": "The “API Specification” file is not editable. To update it, create a new version.",
         "downloadDocumentTooltip": "Download document"
+      },
+      "versionSelectorDrawer": {
+        "title": "Navigate to another  e-service template version",
+        "label": "Select version",
+        "currentVersion": "{{ versionNum }} - current versino",
+        "goToSelectedVersion": "Go to the selected version"
       }
     }
   },

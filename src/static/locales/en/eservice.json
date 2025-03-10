@@ -353,7 +353,7 @@
         "eserviceTempalteName": {
           "label": "Template reference"
         },
-        "instanceId": {
+        "instanceLabel": {
           "label": "Instance Id"
         },
         "eserviceName": {
@@ -452,10 +452,10 @@
           }
         }
       },
-      "updateEserviceInstanceIdDrawer": {
+      "updateEserviceInstanceLabelDrawer": {
         "title": "Edit instance id",
         "subtitle": "From this panel you can update the instance id of the e-service. The changes made will take effect immediately.",
-        "eserviceInstanceIdField": {
+        "eserviceInstanceLabelField": {
           "label": "Instance id",
           "infoLabel": "Min 5 chars, max 60 chars",
           "validation": {

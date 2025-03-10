@@ -5,39 +5,39 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type UpdateInstanceIdFormValues = {
-  instanceId: string
+type UpdateInstanceLabelFormValues = {
+  instanceLabel: string
 }
 
-type UpdateInstanceIdDrawerProps = {
+type UpdateInstanceLabelDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   id: string
-  instanceId: string
+  instanceLabel: string
   onSubmit: (id: string, newName: string) => void
 }
 
-export const ProviderEServiceFromTemplateUpdateInstanceIdDrawer: React.FC<
-  UpdateInstanceIdDrawerProps
-> = ({ isOpen, onClose, id, instanceId, onSubmit }) => {
+export const ProviderEServiceFromTemplateUpdateInstanceLabelDrawer: React.FC<
+  UpdateInstanceLabelDrawerProps
+> = ({ isOpen, onClose, id, instanceLabel, onSubmit }) => {
   const { t } = useTranslation('eservice', {
-    keyPrefix: 'read.drawers.updateEserviceInstanceIdDrawer',
+    keyPrefix: 'read.drawers.updateEserviceInstanceLabelDrawer',
   })
 
   const { t: tCommon } = useTranslation('common')
 
   const defaultValues = {
-    instanceId: instanceId,
+    instanceLabel: instanceLabel,
   }
 
-  const formMethods = useForm<UpdateInstanceIdFormValues>({ defaultValues })
+  const formMethods = useForm<UpdateInstanceLabelFormValues>({ defaultValues })
 
   React.useEffect(() => {
-    formMethods.reset({ instanceId: instanceId })
-  }, [instanceId, formMethods])
+    formMethods.reset({ instanceLabel: instanceLabel })
+  }, [instanceLabel, formMethods])
 
-  const handleSubmit = (values: UpdateInstanceIdFormValues) => {
-    onSubmit(id, values.instanceId)
+  const handleSubmit = (values: UpdateInstanceLabelFormValues) => {
+    onSubmit(id, values.instanceLabel)
   }
 
   const handleCloseDrawer = () => {
@@ -65,9 +65,9 @@ export const ProviderEServiceFromTemplateUpdateInstanceIdDrawer: React.FC<
           <RHFTextField
             sx={{ mt: 2, mb: 2 }}
             focusOnMount
-            name="instanceId"
-            label={t('eserviceInstanceIdField.label')}
-            infoLabel={t('eserviceInstanceIdField.infoLabel')}
+            name="instanceLabel"
+            label={t('eserviceInstanceLabelField.label')}
+            infoLabel={t('eserviceInstanceLabelField.infoLabel')}
             type="text"
             size="small"
             inputProps={{ maxLength: 60 }}
@@ -75,7 +75,7 @@ export const ProviderEServiceFromTemplateUpdateInstanceIdDrawer: React.FC<
               required: true,
               minLength: 5,
               validate: (value) =>
-                value !== instanceId || t('eserviceInstanceIdField.validation.sameValue'),
+                value !== instanceLabel || t('eserviceInstanceLabelField.validation.sameValue'),
             }}
           />
         </Box>

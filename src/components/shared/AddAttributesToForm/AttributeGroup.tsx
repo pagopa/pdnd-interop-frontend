@@ -8,7 +8,7 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from '../AttributeAutocomplete'
 import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
-import { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
+import type { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 
 export type AttributeGroupProps = {
   group: Array<DescriptorAttribute>
@@ -50,6 +50,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
 
   return (
     <AttributeGroupContainer
+      color={readOnly ? 'gray' : 'primary'}
       title={t('read.provider')}
       onRemove={!readOnly ? handleDeleteAttributesGroup : undefined}
     >

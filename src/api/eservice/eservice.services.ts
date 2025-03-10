@@ -69,6 +69,7 @@ async function getDescriptorProvider(eserviceId: string, descriptorId: string) {
   return response.data
 }
 
+
 async function getConsumers(params: GetConsumersParams) {
   const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers`,
@@ -462,6 +463,25 @@ async function updateEServiceInterfaceInfo({
   return response.data
 }
 
+/**
+ * This API allow to upgrade an an EService inherit from template
+ * @param eServiceID
+ * @returns
+ */
+async function upgradeEService({ eserviceId }: { eserviceId: string }) {
+  // const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/upgrade`
+  // )
+
+
+  const mockResponse: CreatedEServiceDescriptor = {
+    id: '57298c1677ce',
+    descriptorId: '12012-12-12',
+  }
+
+  return mockResponse
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -498,4 +518,5 @@ export const EServiceServices = {
   rejectDelegatedVersionDraft,
   updateEServiceName,
   updateEServiceInterfaceInfo,
+  upgradeEService,
 }
