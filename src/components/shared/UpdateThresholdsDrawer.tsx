@@ -16,12 +16,12 @@ type UpdateThresholdsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   id: string
-  subtitle?: string
-  dailyCallsPerConsumerLabel?: string
-  dailyCallsTotalLabel?: string
+  subtitle: string
+  dailyCallsPerConsumerLabel: string
+  dailyCallsTotalLabel: string
   voucherLifespan: number
-  dailyCallsPerConsumer: number
-  dailyCallsTotal: number
+  dailyCallsPerConsumer: number | undefined
+  dailyCallsTotal: number | undefined
   /** @description  This field is used to represent the version of specific item: it could be for an EService (descriptorId) or
    *  for a EServiceTemplate (TemplateVersionId) */
   versionId?: string
@@ -99,7 +99,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
         isOpen={isOpen}
         onClose={handleCloseDrawer}
         title={t('title')}
-        subtitle={subtitle || t('subtitle')}
+        subtitle={subtitle}
         buttonAction={{
           label: tCommon('actions.upgrade'),
           action: formMethods.handleSubmit(handleSubmit),
@@ -123,7 +123,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
             <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               name="dailyCallsPerConsumer"
-              label={dailyCallsPerConsumerLabel || t('dailyCallsPerConsumerField.label')}
+              label={dailyCallsPerConsumerLabel}
               infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
               type="number"
               rules={{
@@ -134,7 +134,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
             <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               name="dailyCallsTotal"
-              label={dailyCallsTotalLabel || t('dailyCallsTotalField.label')}
+              label={dailyCallsTotalLabel}
               infoLabel={t('dailyCallsTotalField.infoLabel')}
               type="number"
               rules={{

@@ -14,11 +14,11 @@ type UpdateDescriptionDrawerProps = {
   onClose: VoidFunction
   id: string
   description: string
-  title?: string
-  subtitle?: string
-  label?: string
-  infoLabel?: string
-  validateLabel?: string
+  title: string
+  subtitle: string
+  label: string
+  infoLabel: string
+  validateLabel: string
   onSubmit: (id: string, newDescription: string) => void
 }
 
@@ -34,10 +34,6 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
   validateLabel,
   onSubmit,
 }) => {
-  const { t } = useTranslation('eservice', {
-    keyPrefix: 'read.drawers.updateEServiceDescriptionDrawer',
-  })
-
   const { t: tCommon } = useTranslation('common')
 
   const defaultValues = {
@@ -68,8 +64,8 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
         isOpen={isOpen}
         onTransitionExited={handleTransitionExited}
         onClose={handleCloseDrawer}
-        title={title || t('title')}
-        subtitle={subtitle || t('subtitle')}
+        title={title}
+        subtitle={subtitle}
         buttonAction={{
           action: formMethods.handleSubmit(handleSubmit),
           label: tCommon('actions.upgrade'),
@@ -80,8 +76,8 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
             sx={{ mt: 2, mb: 2 }}
             focusOnMount
             name="eserviceDescription"
-            label={label || t('eserviceDescriptionField.label')}
-            infoLabel={infoLabel || t('eserviceDescriptionField.infoLabel')}
+            label={label}
+            infoLabel={infoLabel}
             type="text"
             multiline
             size="small"
@@ -91,10 +87,7 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
               required: true,
               minLength: 10,
               maxLength: 250,
-              validate: (value) =>
-                value !== description ||
-                validateLabel ||
-                t('eserviceDescriptionField.validation.sameValue'),
+              validate: (value) => value !== description || validateLabel,
             }}
           />
         </Box>
