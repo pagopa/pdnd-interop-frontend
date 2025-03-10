@@ -2,19 +2,18 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack, Box, Typography, Tooltip, Button } from '@mui/material'
 import { emailRegex } from '@/utils/form.utils'
-import { IconLink } from '@/components/shared/IconLink'
 import DownloadIcon from '@mui/icons-material/Download'
 import AddIcon from '@mui/icons-material/Add'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import type { UseFieldArrayReturn } from 'react-hook-form'
-import type { CustomizedInterfaceMetadata, EServiceDoc } from '@/api/api.generatedTypes'
+import type { TemplateInstanceInterfaceMetadata, EServiceDoc } from '@/api/api.generatedTypes'
 import { TemplateDownloads } from '@/api/template/template.downloads'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
 type EServiceEditInfoInterfaceProps = {
-  fieldsArray: UseFieldArrayReturn<CustomizedInterfaceMetadata, never, 'id'>
+  fieldsArray: UseFieldArrayReturn<TemplateInstanceInterfaceMetadata, never, 'id'>
 }
 
 export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps> = ({
@@ -30,7 +29,8 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
     if (descriptor?.templateRef?.templateId && descriptor?.templateRef?.templateInterfaceId)
       downloadDocument(
         {
-          templateId: descriptor?.templateRef?.templateId,
+          eServiceTemplateId: descriptor?.templateRef?.templateId,
+          eServiceTemplateVersionId: descriptor?.templateRef?.templateVersionId as string,
           documentId: descriptor?.templateRef?.templateInterfaceId,
         },
         getDownloadDocumentName(descriptor.interface as EServiceDoc)
@@ -40,16 +40,14 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
   return (
     <Box component="div" bgcolor="common.white">
       <Stack alignItems="start" mb={2}>
-        <IconLink
-          fontWeight={600}
-          key="test"
-          component="button"
-          type="button"
+        <Button
+          variant="naked"
+          sx={{ fontWeight: 600 }}
           onClick={handleDownloadInterfaceDocument}
           endIcon={<DownloadIcon sx={{ ml: 1 }} fontSize="small" />}
         >
           {t('step4.template.interface.description.download')}
-        </IconLink>
+        </Button>
       </Stack>
 
       <Typography variant="body2" fontWeight={600}>
@@ -114,18 +112,16 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
             <UrlInputField key={index} id={item.id} index={index + 1} remove={fieldsArray.remove} />
           )
         })}
-        <IconLink
-          sx={{ mt: 1 }}
-          fontWeight={800}
-          key="test"
-          alignSelf="start"
-          component="button"
-          type="button"
+
+        <Button
+          size="small"
+          variant="naked"
+          sx={{ my: 1, fontWeight: 800, alignSelf: 'start', fontSize: '1rem' }}
           onClick={() => fieldsArray.append('')}
           startIcon={<AddIcon fontSize="small" />}
         >
           {t('step4.template.interface.serverSection.add')}
-        </IconLink>
+        </Button>
       </Stack>
     </Box>
   )
@@ -134,7 +130,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
 export const UrlInputField: React.FC<{
   index: number
   id: string
-  remove: UseFieldArrayReturn<CustomizedInterfaceMetadata, never, 'id'>['remove']
+  remove: UseFieldArrayReturn<TemplateInstanceInterfaceMetadata, never, 'id'>['remove']
 }> = ({ index, id, remove }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
 

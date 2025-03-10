@@ -405,6 +405,7 @@ async function createNewVersionDraft(eServiceTemplateId: string) {
   //   payload
   // )
   // return response.data
+
   return
 }
 
@@ -725,7 +726,7 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
         createdAt: '2025-02-25T11:38:40.778Z',
       },
     ],
-    mode: 'RECEIVE',
+    mode: 'DELIVER',
     isSignalHubEnabled: true,
   }
 
