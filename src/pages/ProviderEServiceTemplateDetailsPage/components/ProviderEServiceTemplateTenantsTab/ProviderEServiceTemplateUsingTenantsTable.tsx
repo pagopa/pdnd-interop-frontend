@@ -2,7 +2,6 @@ import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/i
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { AuthHooks } from '@/api/auth'
 import { TemplateQueries } from '@/api/template'
 import {
   ProviderEServiceTemplateUsingTenantsTableRow,
@@ -16,7 +15,7 @@ type ProviderEServiceTemplateUsingTenantsTableProps = {
 
 export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   ProviderEServiceTemplateUsingTenantsTableProps
-> = ({ eserviceTemplateId }) => {
+> = ({}) => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
   const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
@@ -66,7 +65,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 
   const headLabels = [
     tCommon('eserviceTemplateUsingTenant'),
-    tCommon('eserviceTemplateInstanceId'),
+    tCommon('eserviceTemplateInstanceLabel'),
     tCommon('eserviceTemplateInstanceVersion'),
     tCommon('eserviceTemplateInstanceState'),
   ]
@@ -77,11 +76,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
       <Table headLabels={headLabels} isEmpty={isEmpty}>
         {!isEmpty &&
           templateInstances?.results.map((instance) => (
-            <ProviderEServiceTemplateUsingTenantsTableRow
-              key={instance.id}
-              eserviceTemplateId={params.eServiceTemplateId}
-              instance={instance}
-            />
+            <ProviderEServiceTemplateUsingTenantsTableRow key={instance.id} instance={instance} />
           ))}
       </Table>
     </>

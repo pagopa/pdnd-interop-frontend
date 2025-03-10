@@ -12,7 +12,6 @@ import {
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import {
   EServiceFromTemplateCreateStepDocuments,
-  EServiceCreateStepDocuments,
   EServiceCreateStepDocumentsSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepDocuments'
 import {
@@ -70,7 +69,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           templateInterfaceId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',
           templateId: '24a7f7d-f5a4-4488-8e4b-57298c1677ce',
           templateName: 'Template test name',
-          instanceId: 'template instanceID',
+          instanceLabel: 'template instanceLabel',
           interfaceMetadata: {
             email: 'pippo@gmail.com',
             name: 'pippo',
@@ -115,7 +114,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
             tenantKind: 'GSP',
           },
           technology: 'REST',
-          mode: 'DELIVER',
+          mode: 'RECEIVE',
           riskAnalysis: [],
           descriptors: [
             {

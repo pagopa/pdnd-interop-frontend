@@ -42,7 +42,8 @@
     "saveEdits": "Salva modifiche",
     "accept": "Accetta",
     "approve": "Approva",
-    "createNewDraftFromEserviceTemplate": "Crea bozza da template"
+    "createNewDraftFromEserviceTemplate": "Crea bozza da template",
+    "updateIstance": "Aggiorna istanza"
   },
   "table": {
     "headData": {

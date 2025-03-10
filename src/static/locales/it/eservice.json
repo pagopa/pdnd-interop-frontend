@@ -354,7 +354,7 @@
         "eserviceTempalteName": {
           "label": "Riferimento template"
         },
-        "instanceId": {
+        "instanceLabel": {
           "label": "Identificativo istanza"
         },
         "eserviceName": {
@@ -450,10 +450,10 @@
           }
         }
       },
-      "updateEserviceInstanceIdDrawer": {
+      "updateEserviceInstanceLabelDrawer": {
         "title": "Modifica identificativo istanza e-service",
         "subtitle": "Da questo pannello puoi aggiornare l'identificativo dell'istanza dell’e-service. Le modifiche apportate avranno effetto da subito.",
-        "eserviceInstanceIdField": {
+        "eserviceInstanceLabelField": {
           "label": "Identificativo istanza",
           "infoLabel": "Min 5 caratteri, max 60 caratteri",
           "validation": {

@@ -28,15 +28,17 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptorId,
     descriptor?.eservice.draftDescriptor?.id,
     descriptor?.eservice.mode,
-    descriptor?.eservice.name
+    descriptor?.eservice.name,
+    undefined, // delegations not needeed
+    descriptor?.templateRef
   )
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
-  const isInstanceIdAvailable = Boolean(descriptor?.templateRef?.instanceId)
+  const isInstaceLabelAvailable = Boolean(descriptor?.templateRef?.instanceLabel)
 
   const title =
-    isEserviceFromTemplate && isInstanceIdAvailable
-      ? `${descriptor?.eservice.name} (${descriptor?.templateRef?.instanceId})`
+    isEserviceFromTemplate && isInstaceLabelAvailable
+      ? `${descriptor?.eservice.name} (${descriptor?.templateRef?.instanceLabel})`
       : `${descriptor?.eservice.name}`
 
   return (

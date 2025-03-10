@@ -407,6 +407,12 @@ function useUpdatEServiceInterfaceInfo() {
   })
 }
 
+function useUpgradeEService() {
+  return useMutation({
+    mutationFn: EServiceServices.upgradeEService,
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -432,4 +438,5 @@ export const EServiceMutations = {
   useRejectDelegatedVersionDraft,
   useUpdateEServiceName,
   useUpdatEServiceInterfaceInfo,
+  useUpgradeEService,
 }
