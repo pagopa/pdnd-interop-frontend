@@ -3,21 +3,17 @@ import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
-import { useDialog } from '@/stores'
-import { match } from 'ts-pattern'
 import { TemplateMutations } from '@/api/template'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
-  eServiceTemplateVersionId: string,
   activeVersionState?: EServiceTemplateVersionState | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('template', { keyPrefix: 'actions' })
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
-  const { openDialog, closeDialog } = useDialog()
 
   const { mutate: createEServiceFromTemplate } =
     TemplateMutations.useCreateInstanceFromEServiceTemplate()
@@ -28,18 +24,16 @@ export function useGetConsumerEServiceTemplateActions(
   if (!isAdmin && !isOperatorAPI) return { actions: [] }
 
   const handleCreateEServiceFromTemplate = () => {
-    if (state === 'PUBLISHED')
-      createEServiceFromTemplate(
-        { eServiceTemplateId },
-        {
-          onSuccess({ id }) {
-            navigate('PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE', {
-              params: { eServiceTemplateId: id },
-            })
-          },
-        }
-      )
-    // Add navigation field
+    createEServiceFromTemplate(
+      { eServiceTemplateId },
+      {
+        onSuccess({ id }) {
+          navigate('PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE', {
+            params: { eServiceTemplateId: id },
+          })
+        },
+      }
+    )
   }
 
   const newEServiceFromTemplateAction: ActionItemButton = {
@@ -48,14 +42,10 @@ export function useGetConsumerEServiceTemplateActions(
     icon: FiberNewIcon,
   }
 
-  const publishedConsumerActions = match({
-    isAdmin,
-  })
-    .with({ isAdmin: true }, () => [newEServiceFromTemplateAction])
-    .otherwise(() => [])
+  const publishedConsumerActions = [newEServiceFromTemplateAction]
 
   const adminActions: Record<EServiceTemplateVersionState, Array<ActionItemButton>> = {
-    PUBLISHED: publishedConsumerActions,
+    PUBLISHED: isAdmin ? publishedConsumerActions : [],
     DRAFT: [],
     SUSPENDED: [],
     DEPRECATED: [],

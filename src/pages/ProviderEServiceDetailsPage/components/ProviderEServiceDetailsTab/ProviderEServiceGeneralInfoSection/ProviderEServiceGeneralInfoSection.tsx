@@ -211,7 +211,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                 title={t('eserviceName.label')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
                 topSideActions={
-                  isDelegator || isEserviceFromTemplate
+                  isDelegator
                     ? []
                     : [
                         {

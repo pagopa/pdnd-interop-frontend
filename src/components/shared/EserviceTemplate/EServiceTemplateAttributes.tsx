@@ -3,7 +3,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { useParams } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
 import { Divider } from '@mui/material'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
@@ -22,7 +22,7 @@ export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProp
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
   const { t: tCommon } = useTranslation('common')
-  const { jwt, isAdmin } = AuthHooks.useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
 

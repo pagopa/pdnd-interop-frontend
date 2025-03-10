@@ -22,7 +22,7 @@ export function useGetProviderEServiceTemplateActions(
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
-  const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
+  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
 
   const { mutate: publishDraft } = TemplateMutations.usePublishVersionDraft()
@@ -128,68 +128,8 @@ export function useGetProviderEServiceTemplateActions(
       deleteAction,
       suspendAction,
     ])
-    .with({ isAdmin: true, hasVersionDraft: false }, () => [])
-    .with(
-      {
-        isAdmin: true,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction]
-    )
-    .with(
-      {
-        isAdmin: true,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction]
-    )
-    .with({ isAdmin: true, hasVersionDraft: false }, () => [createNewDraftAction, suspendAction])
-    .with(
-      {
-        isAdmin: true,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction, deleteAction, suspendAction]
-    )
-    .with(
-      {
-        isAdmin: true,
-        hasVersionDraft: true,
-      },
-      () => [suspendAction]
-    )
     .with({ isAdmin: false, hasVersionDraft: false }, () => [createNewDraftAction])
     .with({ isAdmin: false, hasVersionDraft: true }, () => [editDraftAction, deleteAction])
-    .with({ isAdmin: false, hasVersionDraft: false }, () => [])
-    .with(
-      {
-        isAdmin: false,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction]
-    )
-    .with(
-      {
-        isAdmin: false,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction]
-    )
-    .with({ isAdmin: false, hasVersionDraft: false }, () => [createNewDraftAction])
-    .with(
-      {
-        isAdmin: false,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction, deleteAction]
-    )
-    .with(
-      {
-        isAdmin: false,
-        hasVersionDraft: true,
-      },
-      () => []
-    )
     .otherwise(() => [])
 
   const suspendedActions = match({
@@ -202,68 +142,8 @@ export function useGetProviderEServiceTemplateActions(
       editDraftAction,
       deleteAction,
     ])
-    .with({ isAdmin: true, hasVersionDraft: false }, () => [])
-    .with(
-      {
-        isAdmin: true,
-        hasVersionDraft: true,
-      },
-      () => []
-    )
-    .with(
-      {
-        isAdmin: true,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction]
-    )
-    .with({ isAdmin: true, hasVersionDraft: false }, () => [reactivateAction, createNewDraftAction])
-    .with(
-      {
-        isAdmin: true,
-        hasVersionDraft: true,
-      },
-      () => [reactivateAction, editDraftAction, deleteAction]
-    )
-    .with(
-      {
-        isAdmin: true,
-        hasVersionDraft: true,
-      },
-      () => [reactivateAction]
-    )
     .with({ isAdmin: false, hasVersionDraft: false }, () => [createNewDraftAction])
     .with({ isAdmin: false, hasVersionDraft: true }, () => [editDraftAction, deleteAction])
-    .with({ isAdmin: false, hasVersionDraft: false }, () => [])
-    .with(
-      {
-        isAdmin: false,
-        hasVersionDraft: true,
-      },
-      () => []
-    )
-    .with(
-      {
-        isAdmin: false,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction]
-    )
-    .with({ isAdmin: false, hasVersionDraft: false }, () => [createNewDraftAction])
-    .with(
-      {
-        isAdmin: false,
-        hasVersionDraft: true,
-      },
-      () => [editDraftAction, deleteAction]
-    )
-    .with(
-      {
-        isAdmin: false,
-        hasVersionDraft: true,
-      },
-      () => []
-    )
     .otherwise(() => [])
 
   const draftActions = [publishDraftAction, deleteAction]
@@ -277,9 +157,9 @@ export function useGetProviderEServiceTemplateActions(
 
   const operatorAPIActions: Record<EServiceTemplateVersionState, Array<ActionItemButton>> = {
     PUBLISHED: publishedActions,
-    DEPRECATED: [],
     DRAFT: draftActions,
     SUSPENDED: suspendedActions,
+    DEPRECATED: [],
   }
 
   const availableAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
