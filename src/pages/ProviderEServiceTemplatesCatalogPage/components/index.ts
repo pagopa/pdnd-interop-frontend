@@ -1,1 +1,1 @@
-export * from './ProviderEServiceTemplateCatalogGrid'
+export * from './EServiceTemplateCatalogGrid'

@@ -4,7 +4,7 @@ import { AuthHooks } from '@/api/auth'
 import { TemplateQueries } from '@/api/template'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
-import { ProviderEServiceCatalogGrid } from './components'
+import { EServiceTemplateCatalogGrid } from './components'
 import {
   Filters,
   Pagination,
@@ -88,7 +88,7 @@ const ProviderEServiceTemplatesCatalogWrapper: React.FC<{
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
 
-  return <ProviderEServiceCatalogGrid eservicesTemplateList={data?.results ?? []} />
+  return <EServiceTemplateCatalogGrid eservicesTemplateList={data?.results ?? []} />
 }
 
 export default ProviderEServiceTemplatesCatalogPage

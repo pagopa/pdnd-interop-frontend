@@ -6,11 +6,11 @@ import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCar
 import { useQueryClient } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
 
-type ProviderEServiceCatalogGridProps = {
+type EServiceTemplateCatalogGridProps = {
   eservicesTemplateList: Array<CatalogEServiceTemplate> | undefined
 }
 
-export const ProviderEServiceCatalogGrid: React.FC<ProviderEServiceCatalogGridProps> = ({
+export const EServiceTemplateCatalogGrid: React.FC<EServiceTemplateCatalogGridProps> = ({
   eservicesTemplateList,
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'table' })
@@ -59,7 +59,7 @@ export const EServiceTemplateCatalogCard: React.FC<{
   )
 }
 
-export const ProviderEServiceCatalogGridSkeletron: React.FC = () => {
+export const EServiceTemplateCatalogGridSkeletron: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (
