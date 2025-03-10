@@ -10,7 +10,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import type { AttributeKey } from '@/types/attribute.types'
 import { AuthHooks } from '@/api/auth'
 import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
-import { EServiceTemplateUpdateAttributesDrawer } from './EServiceTemplateUpdateAttributesDrawer'
+import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
 
 type EServiceTemplateAttributesProps = {
   readonly: boolean
@@ -68,11 +68,12 @@ export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProp
           topSideActions={readonly ? undefined : getAttributeSectionActions('declared')}
         />
       </SectionContainer>
-      <EServiceTemplateUpdateAttributesDrawer
+      <UpdateAttributesDrawer
         isOpen={editAttributeDrawerState.isOpen}
         onClose={() => setEditAttributeDrawerState({ ...editAttributeDrawerState, isOpen: false })}
         attributeKey={editAttributeDrawerState.kind}
         attributes={eserviceTemplateAttributes}
+        kind="ESERVICE TEMPLATE"
       />
     </>
   )
