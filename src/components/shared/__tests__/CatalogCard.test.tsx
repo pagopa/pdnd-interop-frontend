@@ -17,7 +17,17 @@ describe('Checks CatalogCard button', () => {
       },
     })
     const { history, ...screen } = renderWithApplicationContext(
-      <CatalogCard eservice={eserviceMock} />,
+      <CatalogCard
+        to="SUBSCRIBE_CATALOG_VIEW"
+        description={eserviceMock.description}
+        producerName={eserviceMock.producer.name}
+        handlePrefetch={() => {}}
+        title={eserviceMock.name}
+        params={{
+          eserviceId: eserviceMock.id,
+          descriptorId: eserviceMock.activeDescriptor?.id as string,
+        }}
+      />,
       {
         withRouterContext: true,
         withReactQueryContext: true,
