@@ -106,8 +106,8 @@ export const EServiceTemplateThresholdsSection: React.FC<
         onClose={closeDrawer}
         id={template.id}
         voucherLifespan={template.voucherLifespan}
-        dailyCallsPerConsumer={template.dailyCallsPerConsumer ?? undefined}
-        dailyCallsTotal={template.dailyCallsTotal ?? 1}
+        dailyCallsPerConsumer={template.dailyCallsPerConsumer}
+        dailyCallsTotal={template.dailyCallsTotal}
         versionId={eServiceTemplateVersionId}
         subtitle={tDrawer('subtitle')}
         dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerLabel')}

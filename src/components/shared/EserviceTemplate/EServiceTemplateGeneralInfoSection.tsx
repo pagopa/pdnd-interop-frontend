@@ -177,9 +177,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   ]
             }
           >
-            <Typography variant="body2">
-              {template?.eserviceTemplate.audienceDescription}
-            </Typography>
+            <Typography variant="body2">{template?.eserviceTemplate.intendedTarget}</Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -198,9 +196,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   ]
             }
           >
-            <Typography variant="body2">
-              {template?.eserviceTemplate.eserviceDescription}
-            </Typography>
+            <Typography variant="body2">{template?.eserviceTemplate.description}</Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -239,7 +235,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
             onClose={closeEServiceTemplateUpdateDescriptionDrawer}
             id={template.id}
-            description={template.eserviceTemplate.eserviceDescription}
+            description={template.eserviceTemplate.description}
             onSubmit={handleDescriptionUpdate}
             title={tDrawer('updateEServiceTemplateDescriptionDrawer.title')}
             subtitle={tDrawer('updateEServiceTemplateDescriptionDrawer.subtitle')}
@@ -257,7 +253,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
             onClose={closeEServiceUpdateAudienceDrawer}
             id={template.id}
-            description={template.eserviceTemplate.audienceDescription}
+            description={template.eserviceTemplate.intendedTarget}
             onSubmit={handleAudienceDescriptionUpdate}
             title={tDrawer('updateEServiceTemplateAudienceDrawer.title')}
             subtitle={tDrawer('updateEServiceTemplateAudienceDrawer.subtitle')}
