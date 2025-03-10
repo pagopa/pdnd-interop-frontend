@@ -8,7 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
+import type { Document, EServiceDoc } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
 
 type EServiceCreateStepDocumentsDocFormValues = {
@@ -71,7 +71,7 @@ export function EServiceCreateStepDocumentsDoc() {
     })
   }
 
-  const handleDeleteDocument = (document: EServiceDoc) => {
+  const handleDeleteDocument = (document: EServiceDoc | Document) => {
     if (!descriptor) return
     deleteDocument({
       eserviceId: descriptor.eservice.id,
@@ -80,7 +80,7 @@ export function EServiceCreateStepDocumentsDoc() {
     })
   }
 
-  const handleDownloadDocument = (document: EServiceDoc) => {
+  const handleDownloadDocument = (document: EServiceDoc | Document) => {
     if (!descriptor) return
     downloadDocument(
       {
