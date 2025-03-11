@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type' | 'label'> & {
   name: string
   indexFieldArray?: number
+  fieldArrayKeyName?: string
   label: string
   labelType?: 'external' | 'shrink'
   infoLabel?: React.ReactNode
@@ -38,6 +39,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   size = 'small',
   rows,
   indexFieldArray,
+  fieldArrayKeyName,
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -46,10 +48,13 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   const error =
     indexFieldArray !== undefined
       ? //@ts-ignore
-        (formState.errors[name]?.[indexFieldArray]?.message as string | undefined)
+        (formState.errors[name]?.[indexFieldArray]?.[fieldArrayKeyName]?.message as
+          | string
+          | undefined)
       : (formState.errors[name]?.message as string | undefined)
 
-  const fieldName = indexFieldArray !== undefined ? `${name}.${indexFieldArray}` : name
+  const fieldName =
+    indexFieldArray !== undefined ? `${name}.${indexFieldArray}.${fieldArrayKeyName}` : name
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(fieldName, {
     infoLabel,

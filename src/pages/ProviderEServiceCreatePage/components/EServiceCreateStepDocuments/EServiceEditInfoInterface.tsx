@@ -11,9 +11,10 @@ import type { TemplateInstanceInterfaceMetadata, EServiceDoc } from '@/api/api.g
 import { TemplateDownloads } from '@/api/template/template.downloads'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import type { ExtendedTemplateInstanceInterfaceMetadata } from './EServiceCreateFromTemplateStepDocuments'
 
 type EServiceEditInfoInterfaceProps = {
-  fieldsArray: UseFieldArrayReturn<TemplateInstanceInterfaceMetadata, never, 'id'>
+  fieldsArray: UseFieldArrayReturn<ExtendedTemplateInstanceInterfaceMetadata, 'serverUrls', 'id'>
 }
 
 export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps> = ({
@@ -101,6 +102,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
           sx={{ width: '50%' }}
           name={`serverUrls`}
           indexFieldArray={0}
+          fieldArrayKeyName="url"
           label={t('step4.template.interface.serverSection.label')}
           rules={{
             required: true,
@@ -117,7 +119,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
           size="small"
           variant="naked"
           sx={{ my: 1, fontWeight: 800, alignSelf: 'start', fontSize: '1rem' }}
-          onClick={() => fieldsArray.append('')}
+          onClick={() => fieldsArray.append({ url: '' })}
           startIcon={<AddIcon fontSize="small" />}
         >
           {t('step4.template.interface.serverSection.add')}
@@ -138,7 +140,7 @@ export const UrlInputField: React.FC<{
     <Stack direction="row" alignItems="center" key={id}>
       {index >= 1 && (
         <Tooltip title={t('step4.template.interface.serverSection.remove')}>
-          <Button color="error" sx={{ p: 1 }} onClick={() => remove(index - 1)} variant="naked">
+          <Button color="error" sx={{ p: 1 }} onClick={() => remove(index)} variant="naked">
             <RemoveCircleOutlineIcon fontSize="small" />
           </Button>
         </Tooltip>
@@ -148,6 +150,7 @@ export const UrlInputField: React.FC<{
         sx={{ width: '50%' }}
         name={`serverUrls`}
         indexFieldArray={index}
+        fieldArrayKeyName="url"
         label={t('step4.template.interface.serverSection.label')}
       />
     </Stack>
