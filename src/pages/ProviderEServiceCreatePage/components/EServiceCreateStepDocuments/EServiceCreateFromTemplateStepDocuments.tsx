@@ -38,7 +38,9 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     email: descriptor?.templateRef?.interfaceMetadata?.email ?? '',
     url: descriptor?.templateRef?.interfaceMetadata?.url ?? '',
     termsAndConditionsUrl: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl ?? '',
-    serverUrls: [{ url: '' }],
+    serverUrls: descriptor?.templateRef?.interfaceMetadata?.serverUrls.map((url) => ({ url })) ?? [
+      { url: '' },
+    ],
   }
 
   const { mutate: updateEServiceInterfaceInfo } = EServiceMutations.useUpdatEServiceInterfaceInfo()
