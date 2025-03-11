@@ -19,7 +19,7 @@ type UpdateAttributesDrawerProps = {
   onClose: () => void
   attributeKey: AttributeKey
   attributes: DescriptorAttributes
-  kind: 'ESERVICE' | 'ESERVICE TEMPLATE'
+  kind: 'ESERVICE' | 'ESERVICE_TEMPLATE'
 }
 
 export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({

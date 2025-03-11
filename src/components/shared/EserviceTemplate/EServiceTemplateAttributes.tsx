@@ -73,7 +73,7 @@ export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProp
         onClose={() => setEditAttributeDrawerState({ ...editAttributeDrawerState, isOpen: false })}
         attributeKey={editAttributeDrawerState.kind}
         attributes={eserviceTemplateAttributes}
-        kind="ESERVICE TEMPLATE"
+        kind="ESERVICE_TEMPLATE"
       />
     </>
   )
