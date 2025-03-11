@@ -1,12 +1,12 @@
 import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Alert, Box, Stack } from '@mui/material'
+import { Alert, Box, Divider, Stack } from '@mui/material'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import type {
   Answers,
@@ -27,14 +27,15 @@ type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName: string | undefined
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
+  kind: 'ESERVICE' | 'ESERVICE_TEMPLATE'
   onSubmit: (name: string, answers: Record<string, string[]>) => void
   onCancel: VoidFunction
 }
 
 export const CreateStepPurposeRiskAnalysisForm: React.FC<
   CreateStepPurposeRiskAnalysisFormProps
-> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+> = ({ defaultName, defaultAnswers, riskAnalysis, kind, onSubmit, onCancel }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
 
   const [_, startTransition] = React.useTransition()
   const [defaultValues, __] = React.useState<Answers>(() =>
@@ -81,26 +82,55 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
         <SectionContainer
-          title={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.title')}
-          description={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.description')}
+          title={t('riskAnalysis.riskAnalysisNameSection.title')}
+          description={t('riskAnalysis.riskAnalysisNameSection.description')}
         >
           <RHFTextField
             name="name"
-            label={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.nameField.label')}
-            infoLabel={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.nameField.infoLabel')}
+            label={t('riskAnalysis.riskAnalysisNameSection.nameField.label')}
+            infoLabel={t('riskAnalysis.riskAnalysisNameSection.nameField.infoLabel')}
             focusOnMount
             inputProps={{ maxLength: 60 }}
             rules={{ required: true }}
           />
         </SectionContainer>
         <SectionContainer
-          title={t('stepPurpose.riskAnalysis.riskAnalysisSection.title')}
-          description={t('stepPurpose.riskAnalysis.riskAnalysisSection.description')}
+          title={t('riskAnalysis.riskAnalysisSection.title')}
+          description={t('riskAnalysis.riskAnalysisSection.description')}
         >
           <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
-            {t('stepPurpose.riskAnalysis.riskAnalysisSection.personalDataAlert')}
+            {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
           </Alert>
         </SectionContainer>
+        {kind === 'ESERVICE_TEMPLATE' && (
+          <SectionContainer
+            sx={{ mb: 2 }}
+            title={t('riskAnalysis.riskAnalysisSection.eserviceTemplateRiskAnalysis.title')}
+            description={t(
+              'riskAnalysis.riskAnalysisSection.eserviceTemplateRiskAnalysis.description'
+            )}
+          >
+            <RHFRadioGroup
+              name="tenantKind"
+              options={[
+                {
+                  label: t(
+                    'riskAnalysis.riskAnalysisSection.eserviceTemplateRiskAnalysis.tenantKind.labelPA'
+                  ),
+                  value: 'PA',
+                },
+                {
+                  label: t(
+                    'riskAnalysis.riskAnalysisSection.eserviceTemplateRiskAnalysis.tenantKind.labelNotPA'
+                  ),
+                  value: 'PRIVATE',
+                },
+              ]}
+              rules={{ required: true }}
+              sx={{ mb: 0, mt: 1 }}
+            />
+          </SectionContainer>
+        )}
         <Stack spacing={2}>
           <RiskAnalysisFormComponents questions={questions} />
         </Stack>

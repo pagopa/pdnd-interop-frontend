@@ -64,8 +64,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: template?.eserviceTemplate.name ?? '',
-    description: template?.eserviceTemplate.description ?? '',
-    intentendTarget: template?.eserviceTemplate.intendedTarget ?? '',
+    eserviceDescription: template?.eserviceTemplate.description ?? '',
+    audienceDescription: template?.eserviceTemplate.intendedTarget ?? '',
     technology: template?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
     version: defaultVersionValue,
@@ -75,6 +75,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
+    forward()
     // If we are editing an existing e-service template, we update the draft
     if (template) {
       // If nothing has changed skip the update call

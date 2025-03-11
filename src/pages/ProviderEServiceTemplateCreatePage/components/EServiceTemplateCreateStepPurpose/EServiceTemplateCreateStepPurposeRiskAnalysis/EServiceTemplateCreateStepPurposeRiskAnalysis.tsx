@@ -1,6 +1,6 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { TemplateMutations, TemplateQueries } from '@/api/template'
 import { useEServiceTemplateCreateContext } from '../../ProviderEServiceTemplateContext'
 import {
@@ -76,6 +76,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
       defaultName={riskAnalysisToEdit?.name}
       defaultAnswers={riskAnalysisToEdit?.riskAnalysisForm.answers}
       riskAnalysis={riskAnalysisLatest}
+      kind="ESERVICE_TEMPLATE"
       onSubmit={handleSubmit}
       onCancel={handleCancel}
     />
