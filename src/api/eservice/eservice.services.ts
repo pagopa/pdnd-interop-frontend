@@ -455,10 +455,14 @@ async function updateEServiceInterfaceInfo({
   descriptorId,
   ...payload
 }: { eserviceId: string; descriptorId: string } & EserviceInterfaceTemplatePayload) {
-  const response = await axiosInstance.post(
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/instances/interface`,
     payload
   )
+
+  // const mockResponse: CreatedResource = {
+  //   id: '1234'
+  // }
 
   return response.data
 }

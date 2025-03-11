@@ -138,7 +138,7 @@ export const UrlInputField: React.FC<{
     <Stack direction="row" alignItems="center" key={id}>
       {index >= 1 && (
         <Tooltip title={t('step4.template.interface.serverSection.remove')}>
-          <Button color="error" sx={{ p: 1 }} onClick={() => remove(index - 1)} variant="naked">
+          <Button color="error" sx={{ p: 1 }} onClick={() => remove(index)} variant="naked">
             <RemoveCircleOutlineIcon fontSize="small" />
           </Button>
         </Tooltip>
