@@ -230,8 +230,8 @@
     "updateEServiceInterfaceInfo": {
       "loading": "Stiamo modificando i dati di interfaccia dell e-service",
       "outcome": {
-        "error": "Dati di interfaccia non aggiornati. Riprovare",
-        "success": "Dati di interfaccia aggiornati corettamente"
+        "error": "Non è stato possibile salvare i dati di interfaccia. Assicurati di aver inserito le informazioni corrette.",
+        "success": "Dati di interfaccia sono stati salvati corettamente"
       }
     }
   },

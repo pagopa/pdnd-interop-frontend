@@ -64,6 +64,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           name: 'push-signals_1.2.0_.yaml',
           contentType: 'application/x-yaml',
           prettyName: 'Specifica API',
+          checksum: 'checksum',
         },
         templateRef: {
           templateInterfaceId: 'f24a7f7d-f5a4-4488-8e4b-57298c1677ce',

@@ -1,6 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import type { EServiceRiskAnalysisSeed, UpdateEServiceDescriptorSeed } from '../api.generatedTypes'
+import type {
+  EServiceRiskAnalysisSeed,
+  UpdateEServiceDescriptorSeed,
+  UpdateEServiceDescriptorTemplateInstanceSeed,
+} from '../api.generatedTypes'
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -413,6 +417,25 @@ function useUpgradeEService() {
   })
 }
 
+function useUpdateInstanceVersionDraft(config = { suppressSuccessToast: false }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateVersionDraft',
+  })
+  return useMutation({
+    mutationFn: (
+      payload: {
+        eserviceId: string
+        descriptorId: string
+      } & UpdateEServiceDescriptorTemplateInstanceSeed
+    ) => EServiceServices.updateInstanceVersionDraft(payload),
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -439,4 +462,5 @@ export const EServiceMutations = {
   useUpdateEServiceName,
   useUpdatEServiceInterfaceInfo,
   useUpgradeEService,
+  useUpdateInstanceVersionDraft
 }
