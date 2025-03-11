@@ -19,18 +19,26 @@ import type {
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 
+/* This interface is needed just for useFieldArrays with work only with objects and not with array
+ https://github.com/orgs/react-hook-form/discussions/7586 
+*/
+export interface ExtendedTemplateInstanceInterfaceMetadata
+  extends Omit<TemplateInstanceInterfaceMetadata, 'serverUrls'> {
+  serverUrls: { url: string }[]
+}
+
 export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
   const { descriptor, back } = useEServiceCreateContext()
 
-  const defaultValues: TemplateInstanceInterfaceMetadata = {
+  const defaultValues: ExtendedTemplateInstanceInterfaceMetadata = {
     name: descriptor?.templateRef?.interfaceMetadata?.name ?? '',
     email: descriptor?.templateRef?.interfaceMetadata?.email ?? '',
     url: descriptor?.templateRef?.interfaceMetadata?.url ?? '',
     termsAndConditionsUrl: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl ?? '',
-    serverUrls: descriptor?.templateRef?.interfaceMetadata?.serverUrls ?? [''],
+    serverUrls: [{ url: '' }],
   }
 
   const { mutate: updateEServiceInterfaceInfo } = EServiceMutations.useUpdatEServiceInterfaceInfo()
@@ -59,15 +67,21 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
   //     </>
   //   )
 
-  const onSubmit = (values: TemplateInstanceInterfaceMetadata) => {
+  const onSubmit = (values: ExtendedTemplateInstanceInterfaceMetadata) => {
     if (!descriptor) return
+
+    const mapServerUrls = (
+      serverUrls: ExtendedTemplateInstanceInterfaceMetadata['serverUrls']
+    ): TemplateInstanceInterfaceMetadata['serverUrls'] => {
+      return serverUrls.map((serverUrl) => serverUrl.url)
+    }
 
     const payload: EserviceInterfaceTemplatePayload = {
       contactName: values.name,
       email: values.email,
       contactUrl: values.url,
       termsAndConditionsUrl: values.termsAndConditionsUrl,
-      serverUrls: values.serverUrls,
+      serverUrls: mapServerUrls(values.serverUrls),
     }
 
     updateEServiceInterfaceInfo({
