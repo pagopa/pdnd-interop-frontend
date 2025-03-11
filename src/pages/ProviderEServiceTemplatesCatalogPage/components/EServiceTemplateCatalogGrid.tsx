@@ -4,12 +4,13 @@ import { useTranslation } from 'react-i18next'
 import type { CatalogEServiceTemplate } from '@/api/api.generatedTypes'
 import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
 import { useQueryClient } from '@tanstack/react-query'
+import { TemplateQueries } from '@/api/template'
 
-type ProviderEServiceCatalogGridProps = {
+type EServiceTemplateCatalogGridProps = {
   eservicesTemplateList: Array<CatalogEServiceTemplate> | undefined
 }
 
-export const ProviderEServiceCatalogGrid: React.FC<ProviderEServiceCatalogGridProps> = ({
+export const EServiceTemplateCatalogGrid: React.FC<EServiceTemplateCatalogGridProps> = ({
   eservicesTemplateList,
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'table' })
@@ -34,25 +35,31 @@ export const EServiceTemplateCatalogCard: React.FC<{
 }> = ({ eserviceTemplate }) => {
   const queryClient = useQueryClient()
 
+  const { id: eServiceTemplateVersionId, publishedVersion } = eserviceTemplate
+
   const handlePrefetch = () => {
     if (!eserviceTemplate.publishedVersion.id) return
-    // TODO PREFETCH DETAIL TEMPLATE VERSION
-    console.log('Prefetch')
+    queryClient.prefetchQuery(
+      TemplateQueries.getSingle(publishedVersion.id, eServiceTemplateVersionId)
+    )
   }
   return (
     <CatalogCard
-      id={eserviceTemplate.id}
-      key={eserviceTemplate?.id}
+      key={eserviceTemplate.id}
       producerName={eserviceTemplate.creator.name}
       description={eserviceTemplate.description}
       title={eserviceTemplate.name}
-      detailId={eserviceTemplate.publishedVersion.id}
       handlePrefetch={handlePrefetch}
+      to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+      params={{
+        eServiceTemplateVersionId: eserviceTemplate.id,
+        eServiceTemplateId: eserviceTemplate.publishedVersion.id,
+      }}
     />
   )
 }
 
-export const ProviderEServiceCatalogGridSkeletron: React.FC = () => {
+export const EServiceTemplateCatalogGridSkeletron: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (

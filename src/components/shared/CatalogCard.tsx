@@ -1,5 +1,5 @@
 import React from 'react'
-import { EServiceQueries } from '@/api/eservice'
+import type { RouteKey, useParams } from '@/router'
 import { Link } from '@/router'
 import {
   Avatar,
@@ -14,27 +14,32 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
-import { useQueryClient } from '@tanstack/react-query'
 
-interface CatalogCardProps {
-  disabled?: boolean
-  id: string
-  detailId: string
+type CatalogRoutesKeys = Extract<
+  RouteKey,
+  'SUBSCRIBE_CATALOG_VIEW' | 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'
+>
+type CatalogCardRouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
+
+interface CatalogCardProps<TRouteKey extends CatalogRoutesKeys> {
   title: string
   description: string
   producerName: string
   handlePrefetch: () => void
+  to: TRouteKey
+  params: CatalogCardRouteParams<TRouteKey>
+  disabled?: boolean
 }
 
-export const CatalogCard: React.FC<CatalogCardProps> = ({
-  id,
-  detailId,
+export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
   title,
   description,
   disabled,
   producerName,
   handlePrefetch,
-}) => {
+  to,
+  params,
+}: CatalogCardProps<TRouteKey>) {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('eservice')
 
@@ -89,11 +94,8 @@ export const CatalogCard: React.FC<CatalogCardProps> = ({
                 as="button"
                 size="small"
                 variant="contained"
-                to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
-                params={{
-                  eServiceTemplateId: id,
-                  eServiceTemplateVersionId: detailId,
-                }}
+                to={to}
+                params={params}
                 onFocusVisible={handlePrefetch}
                 color="primary"
                 disabled={disabled}
