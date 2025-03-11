@@ -28,6 +28,7 @@ import type {
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
+  UpdateEServiceDescriptorTemplateInstanceSeed,
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -477,13 +478,28 @@ async function upgradeEService({ eserviceId }: { eserviceId: string }) {
   //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/upgrade`
   // )
 
-
   const mockResponse: CreatedEServiceDescriptor = {
     id: '57298c1677ce',
     descriptorId: '12012-12-12',
   }
 
   return mockResponse
+}
+
+
+async function updateInstanceVersionDraft({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & UpdateEServiceDescriptorTemplateInstanceSeed) {
+  const response = await axiosInstance.put<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}`,
+    payload
+  )
+  return response.data
 }
 
 export const EServiceServices = {
@@ -523,4 +539,5 @@ export const EServiceServices = {
   updateEServiceName,
   updateEServiceInterfaceInfo,
   upgradeEService,
+  updateInstanceVersionDraft,
 }

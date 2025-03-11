@@ -15,6 +15,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { payloadVerificationGuideLink } from '@/config/constants'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import type { UpdateEServiceDescriptorTemplateInstanceSeed } from '@/api/api.generatedTypes'
 
 export type EServiceCreateStepVersionFormValues = {
   audience: string
@@ -32,6 +33,10 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { descriptor, forward, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
+    suppressSuccessToast: true,
+  })
+
+  const { mutate: updateInstanceVersionDraft } = EServiceMutations.useUpdateInstanceVersionDraft({
     suppressSuccessToast: true,
   })
 
@@ -66,20 +71,35 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
       return
     }
 
-    const payload = {
-      eserviceId: descriptor.eservice.id,
-      attributes: { certified: [], verified: [], declared: [] },
-      ...omit(newDescriptorData, ['version']),
-    }
+    if (isEServiceCreatedFromTemplate) {
+      const payload: UpdateEServiceDescriptorTemplateInstanceSeed = {
+        agreementApprovalPolicy: newDescriptorData.agreementApprovalPolicy,
+        audience: newDescriptorData.audience,
+        dailyCallsPerConsumer: values.dailyCallsPerConsumer,
+        dailyCallsTotal: values.dailyCallsTotal,
+      }
 
-    updateVersionDraft(
-      {
+      updateInstanceVersionDraft({
         ...payload,
+        eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
-        attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
-      },
-      { onSuccess: forward }
-    )
+      })
+    } else {
+      const payload = {
+        eserviceId: descriptor.eservice.id,
+        attributes: { certified: [], verified: [], declared: [] },
+        ...omit(newDescriptorData, ['version']),
+      }
+
+      updateVersionDraft(
+        {
+          ...payload,
+          descriptorId: descriptor.id,
+          attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
+        },
+        { onSuccess: forward }
+      )
+    }
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
