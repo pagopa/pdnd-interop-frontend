@@ -1,6 +1,5 @@
 import React from 'react'
 import { ReadOnlyDescriptorAttributes } from '@/components/shared/ReadOnlyDescriptorAttributes'
-import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
@@ -11,8 +10,6 @@ export const ProviderEServiceTemplateAttributeVersionSummary: React.FC = () => {
   const { data: template } = useSuspenseQuery(
     TemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
   )
-
-  if (!template) return null
 
   return <ReadOnlyDescriptorAttributes descriptorAttributes={template.attributes} />
 }
