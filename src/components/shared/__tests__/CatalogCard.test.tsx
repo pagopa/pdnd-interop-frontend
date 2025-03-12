@@ -21,7 +21,7 @@ describe('Checks CatalogCard button', () => {
         to="SUBSCRIBE_CATALOG_VIEW"
         description={eserviceMock.description}
         producerName={eserviceMock.producer.name}
-        handlePrefetch={() => {}}
+        prefetchFn={() => {}}
         title={eserviceMock.name}
         params={{
           eserviceId: eserviceMock.id,
