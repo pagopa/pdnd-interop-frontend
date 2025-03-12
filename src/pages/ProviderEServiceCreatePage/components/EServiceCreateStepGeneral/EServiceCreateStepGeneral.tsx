@@ -73,12 +73,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     TemplateMutations.useCreateInstanceFromEServiceTemplate()
 
   // If Template ID is present we are inheriting an e-service fields from a template
-  const defaultValues = evaluateFormDefaultValues(
-    !!eServiceTemplateId,
-    template,
-    descriptor,
-    eserviceMode
-  )
+  const defaultValues = evaluateFormDefaultValues(template, descriptor, eserviceMode)
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed) => {
@@ -330,12 +325,11 @@ export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
 }
 
 function evaluateFormDefaultValues(
-  isEServiceFromTemplate: boolean,
   template: EServiceTemplateDetails | undefined,
   descriptor: ProducerEServiceDescriptor | undefined,
   eserviceMode: EServiceMode
 ): EServiceCreateStepGeneralFormValues {
-  if (isEServiceFromTemplate)
+  if (!template)
     return {
       name: descriptor?.eservice.name ?? '',
       description: descriptor?.eservice.description ?? '',
@@ -347,10 +341,10 @@ function evaluateFormDefaultValues(
     }
 
   return {
-    name: template?.name ?? '',
-    description: template?.intendedTarget ?? '',
-    technology: template?.technology ?? 'REST',
-    mode: template?.mode ?? 'RECEIVE',
+    name: template?.name,
+    description: template?.description,
+    technology: template?.technology,
+    mode: template?.mode,
     isSignalHubEnabled: template?.isSignalHubEnabled ?? false,
     isConsumerDelegable: false,
     isClientAccessDelegable: false,

@@ -23,8 +23,8 @@ import { AuthHooks } from '@/api/auth'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
-  eserviceDescription: string
-  audienceDescription: string
+  description: string
+  intentendTarget: string
   technology: EServiceTechnology
   mode: EServiceMode
   version: VersionSeedForEServiceTemplateCreation
@@ -64,8 +64,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: template?.eserviceTemplate.name ?? '',
-    eserviceDescription: template?.eserviceTemplate.description ?? '',
-    audienceDescription: template?.eserviceTemplate.intendedTarget ?? '',
+    description: template?.eserviceTemplate.description ?? '',
+    intentendTarget: template?.eserviceTemplate.intendedTarget ?? '',
     technology: template?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
     version: defaultVersionValue,

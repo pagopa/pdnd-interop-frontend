@@ -18,7 +18,7 @@ export type EServiceTemplateCreateStepVersionFormValues = {
   intendedTarget: string
   version: number
   voucherLifespan: number
-  eserviceDescription: string
+  description: string
   dailyCallsPerConsumer?: number
   dailyCallsTotal?: number
   agreementApprovalPolicy: boolean
@@ -39,7 +39,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     version: template?.version ?? 1,
     intendedTarget: template?.eserviceTemplate.intendedTarget ?? '',
     voucherLifespan: template ? secondsToMinutes(template.voucherLifespan) : 1,
-    eserviceDescription: template?.eserviceTemplate.description ?? '',
+    description: template?.eserviceTemplate.description ?? '',
     dailyCallsPerConsumer: template?.dailyCallsPerConsumer,
     dailyCallsTotal: template?.dailyCallsTotal,
     agreementApprovalPolicy: template ? template.agreementApprovalPolicy === 'MANUAL' : false,
