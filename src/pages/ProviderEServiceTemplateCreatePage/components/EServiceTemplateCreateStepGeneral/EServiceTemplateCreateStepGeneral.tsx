@@ -64,8 +64,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: template?.eserviceTemplate.name ?? '',
-    eserviceDescription: template?.eserviceTemplate.eserviceDescription ?? '',
-    audienceDescription: template?.eserviceTemplate.audienceDescription ?? '',
+    eserviceDescription: template?.eserviceTemplate.description ?? '',
+    audienceDescription: template?.eserviceTemplate.intendedTarget ?? '',
     technology: template?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
     version: defaultVersionValue,
@@ -121,8 +121,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           />
 
           <RHFTextField
-            label={t('create.step1.audienceDescriptionField.label')}
-            infoLabel={t('create.step1.audienceDescriptionField.infoLabel')}
+            label={t('create.step1.intendedTargetField.label')}
+            infoLabel={t('create.step1.intendedTargetField.infoLabel')}
             name="audienceDescription"
             multiline
             disabled={!areEServiceTemplateGeneralInfoEditable}

@@ -15,7 +15,7 @@ import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateCon
 import { TemplateMutations } from '@/api/template'
 
 export type EServiceTemplateCreateStepVersionFormValues = {
-  audienceDescription: string
+  intendedTarget: string
   version: number
   voucherLifespan: number
   eserviceDescription: string
@@ -37,9 +37,9 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
 
   const defaultValues: EServiceTemplateCreateStepVersionFormValues = {
     version: template?.version ?? 1,
-    audienceDescription: template?.eserviceTemplate.audienceDescription ?? '',
+    intendedTarget: template?.eserviceTemplate.intendedTarget ?? '',
     voucherLifespan: template ? secondsToMinutes(template.voucherLifespan) : 1,
-    eserviceDescription: template?.eserviceTemplate.eserviceDescription ?? '',
+    eserviceDescription: template?.eserviceTemplate.description ?? '',
     dailyCallsPerConsumer: template?.dailyCallsPerConsumer,
     dailyCallsTotal: template?.dailyCallsTotal,
     agreementApprovalPolicy: template ? template.agreementApprovalPolicy === 'MANUAL' : false,
@@ -53,7 +53,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     const newTemplateData = {
       ...values,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
-      audienceDescription: [values.audienceDescription],
+      audienceDescription: [values.intendedTarget],
       agreementApprovalPolicy: values.agreementApprovalPolicy
         ? ('MANUAL' as const)
         : ('AUTOMATIC' as const),

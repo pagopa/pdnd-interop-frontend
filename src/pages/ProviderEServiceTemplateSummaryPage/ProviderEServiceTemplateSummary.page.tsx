@@ -76,8 +76,8 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
     return !!(
       template &&
       template.interface &&
-      template.eserviceTemplate.eserviceDescription &&
-      template.eserviceTemplate.audienceDescription &&
+      template.eserviceTemplate.description &&
+      template.eserviceTemplate.intendedTarget &&
       template.voucherLifespan &&
       template.dailyCallsPerConsumer &&
       template.dailyCallsTotal &&

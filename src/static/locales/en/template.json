@@ -17,7 +17,7 @@
         "eserviceTemplateName": {
           "label": "E-Service template name"
         },
-        "eserviceTemplateAudienceDescription": {
+        "eserviceTemplateintendedTarget": {
           "label": "The template is aimed at "
         },
         "eserviceTemplateDescription": {
@@ -179,7 +179,7 @@
         "label": "Eservice template instance name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
-      "audienceDescriptionField": {
+      "intendedTargetField": {
         "label": "Who is the template intended for?",
         "infoLabel": "Min 10 chars, max 250 chars"
       },
