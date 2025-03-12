@@ -477,7 +477,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplatesListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support'],
+    authLevels: ['admin','api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE',
@@ -485,7 +485,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     redirect: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
@@ -493,7 +493,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS',
@@ -501,7 +501,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_CREATE',
@@ -509,7 +509,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplateCreatePage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_EDIT',
@@ -517,7 +517,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplateCreatePage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY',
@@ -525,7 +525,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE',
@@ -533,7 +533,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceFromTemplateCreatePage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT',
@@ -541,7 +541,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceFromTemplateCreatePage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .build()
 
