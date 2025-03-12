@@ -25,7 +25,7 @@ interface CatalogCardProps<TRouteKey extends CatalogRoutesKeys> {
   title: string
   description: string
   producerName: string
-  handlePrefetch: () => void
+  prefetchFn: () => void
   to: TRouteKey
   params: CatalogCardRouteParams<TRouteKey>
   disabled?: boolean
@@ -36,7 +36,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
   description,
   disabled,
   producerName,
-  handlePrefetch,
+  prefetchFn,
   to,
   params,
 }: CatalogCardProps<TRouteKey>) {
@@ -96,7 +96,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
                 variant="contained"
                 to={to}
                 params={params}
-                onFocusVisible={handlePrefetch}
+                onFocusVisible={prefetchFn}
                 color="primary"
                 disabled={disabled}
               >

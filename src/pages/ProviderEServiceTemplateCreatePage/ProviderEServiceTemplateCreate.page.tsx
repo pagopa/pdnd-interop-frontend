@@ -116,7 +116,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
     ? { title: t('create.emptyTitle') }
     : {
         title: template?.eserviceTemplate.name,
-        description: template?.eserviceTemplate.eserviceDescription,
+        description: template?.eserviceTemplate.description,
       }
 
   return (

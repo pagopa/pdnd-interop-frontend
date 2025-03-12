@@ -19,8 +19,6 @@ export const ProviderEServiceTemplateDocumentationSummary: React.FC = () => {
   )
 
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
-
-  if (!template) return null
   if (!template.interface && template.docs.length === 0)
     return (
       <Typography variant="body2" color="text.secondary">

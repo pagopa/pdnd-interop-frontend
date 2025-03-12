@@ -52,7 +52,7 @@ export const EServiceCatalogCard: React.FC<{ eservice: CatalogEService; disabled
       producerName={eservice.producer.name}
       description={eservice.description}
       title={eservice.name}
-      handlePrefetch={handlePrefetch}
+      prefetchFn={handlePrefetch}
       to="SUBSCRIBE_CATALOG_VIEW"
       params={{
         eserviceId: eservice.id,

@@ -16,7 +16,9 @@ import { EServiceMutations } from '@/api/eservice'
 import type {
   EServiceMode,
   EServiceTechnology,
+  EServiceTemplateDetails,
   InstanceEServiceSeed,
+  ProducerEServiceDescriptor,
 } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
@@ -31,8 +33,7 @@ import {
 import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
-import { useQuery } from '@tanstack/react-query'
+import { TemplateMutations } from '@/api/template'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -63,7 +64,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     forward,
     eserviceMode,
     onEserviceModeChange,
-
     template,
   } = useEServiceCreateContext()
 
@@ -72,29 +72,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { mutate: createDraftFromTemplate } =
     TemplateMutations.useCreateInstanceFromEServiceTemplate()
 
-  const eServiceDefaultValues: EServiceCreateStepGeneralFormValues = {
-    name: descriptor?.eservice.name ?? '',
-    description: descriptor?.eservice.description ?? '',
-    technology: descriptor?.eservice.technology ?? 'REST',
-    mode: eserviceMode,
-    isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
-    isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
-    isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
-  }
-
-  const fromTemplateDefaultValues: EServiceCreateStepGeneralFormValues = {
-    name: template?.name ?? '',
-    description: template?.eserviceDescription ?? '',
-    technology: template?.technology ?? 'REST',
-    mode: template?.mode ?? 'RECEIVE',
-    isSignalHubEnabled: template?.isSignalHubEnabled ?? false,
-    isConsumerDelegable: false,
-    isClientAccessDelegable: false,
-  }
-
   // If Template ID is present we are inheriting an e-service fields from a template
-  const defaultValues = eServiceTemplateId ? fromTemplateDefaultValues : eServiceDefaultValues
-
+  const defaultValues = evaluateFormDefaultValues(template, descriptor, eserviceMode)
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed) => {
@@ -188,16 +167,18 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             size="small"
             sx={{ width: '49%', my: 0, mt: 1 }}
           />
-          <RHFTextField
-            label={t('create.step1.istanceNameField.label')}
-            infoLabel={t('create.step1.eserviceNameField.infoLabel')}
-            name="instanceLabel"
-            rules={{ minLength: 5 }}
-            focusOnMount
-            inputProps={{ maxLength: 60 }}
-            size="small"
-            sx={{ width: '49%', my: 0, mt: 1, ml: 2 }}
-          />
+          {template && (
+            <RHFTextField
+              label={t('create.step1.istanceNameField.label')}
+              infoLabel={t('create.step1.eserviceNameField.infoLabel')}
+              name="instanceLabel"
+              rules={{ minLength: 5 }}
+              focusOnMount
+              inputProps={{ maxLength: 60 }}
+              size="small"
+              sx={{ width: '49%', my: 0, mt: 1, ml: 2 }}
+            />
+          )}
 
           <RHFTextField
             label={t('create.step1.eserviceDescriptionField.label')}
@@ -241,7 +222,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             disabled={!areEServiceGeneralInfoEditable || !!template}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
-            onValueChange={(mode) => onEserviceModeChange(mode as EServiceMode)}
+            onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
           {isSignalHubFlagEnabled && (
             <SectionContainer
@@ -341,4 +322,31 @@ export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
       <SectionContainerSkeleton height={354} />
     </>
   )
+}
+
+function evaluateFormDefaultValues(
+  template: EServiceTemplateDetails | undefined,
+  descriptor: ProducerEServiceDescriptor | undefined,
+  eserviceMode: EServiceMode
+): EServiceCreateStepGeneralFormValues {
+  if (!template)
+    return {
+      name: descriptor?.eservice.name ?? '',
+      description: descriptor?.eservice.description ?? '',
+      technology: descriptor?.eservice.technology ?? 'REST',
+      mode: eserviceMode,
+      isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
+      isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
+      isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
+    }
+
+  return {
+    name: template?.name,
+    description: template?.description,
+    technology: template?.technology,
+    mode: template?.mode,
+    isSignalHubEnabled: template?.isSignalHubEnabled ?? false,
+    isConsumerDelegable: false,
+    isClientAccessDelegable: false,
+  }
 }
