@@ -73,16 +73,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const canBePublished = () => {
-    return !!(
-      template &&
-      template.interface &&
-      template.eserviceTemplate.eserviceDescription &&
-      template.eserviceTemplate.audienceDescription &&
-      template.voucherLifespan &&
-      template.dailyCallsPerConsumer &&
-      template.dailyCallsTotal &&
-      template.dailyCallsTotal >= template.dailyCallsPerConsumer
-    )
+    return !!template?.interface
   }
 
   const isReceiveMode = template?.eserviceTemplate.mode === 'RECEIVE'

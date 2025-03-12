@@ -23,8 +23,8 @@ import { AuthHooks } from '@/api/auth'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
-  eserviceDescription: string
-  audienceDescription: string
+  description: string
+  intentendTarget: string
   technology: EServiceTechnology
   mode: EServiceMode
   version: VersionSeedForEServiceTemplateCreation
@@ -64,8 +64,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: template?.eserviceTemplate.name ?? '',
-    eserviceDescription: template?.eserviceTemplate.eserviceDescription ?? '',
-    audienceDescription: template?.eserviceTemplate.audienceDescription ?? '',
+    description: template?.eserviceTemplate.description ?? '',
+    intentendTarget: template?.eserviceTemplate.intendedTarget ?? '',
     technology: template?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
     version: defaultVersionValue,
@@ -121,8 +121,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           />
 
           <RHFTextField
-            label={t('create.step1.audienceDescriptionField.label')}
-            infoLabel={t('create.step1.audienceDescriptionField.infoLabel')}
+            label={t('create.step1.intendedTargetField.label')}
+            infoLabel={t('create.step1.intendedTargetField.infoLabel')}
             name="audienceDescription"
             multiline
             disabled={!areEServiceTemplateGeneralInfoEditable}

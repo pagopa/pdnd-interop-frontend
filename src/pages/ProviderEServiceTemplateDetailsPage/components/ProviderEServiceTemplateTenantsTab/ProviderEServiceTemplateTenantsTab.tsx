@@ -5,9 +5,5 @@ import { ProviderEServiceTemplateUsingTenantsTable } from './ProviderEServiceTem
 export const ProviderEServiceTemplateTenantsTab: React.FC = () => {
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  return (
-    <>
-      <ProviderEServiceTemplateUsingTenantsTable eserviceTemplateId={eServiceTemplateId} />
-    </>
-  )
+  return <ProviderEServiceTemplateUsingTenantsTable eserviceTemplateId={eServiceTemplateId} />
 }
