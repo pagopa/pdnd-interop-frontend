@@ -469,7 +469,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplatesCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_LIST',

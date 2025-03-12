@@ -1,8 +1,6 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
-import { AuthHooks } from '@/api/auth'
 import { TemplateQueries } from '@/api/template'
-import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import { EServiceTemplateCatalogGrid } from './components'
 import {
@@ -17,7 +15,6 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import type { GetEServiceTemplatesCatalogParams } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
-  const { isAdmin } = AuthHooks.useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesCatalog' })
   const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
 
@@ -63,14 +60,8 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
     placeholderData: keepPreviousData,
   })
 
-  const topSideActions: Array<ActionItemButton> = []
-
   return (
-    <PageContainer
-      title={t('title')}
-      description={t('description')}
-      topSideActions={isAdmin ? topSideActions : undefined}
-    >
+    <PageContainer title={t('title')} description={t('description')}>
       <Filters {...filtersHandlers} />
       <ProviderEServiceTemplatesCatalogWrapper params={queryParams} />
       <Pagination
