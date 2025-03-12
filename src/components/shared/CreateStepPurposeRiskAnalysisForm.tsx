@@ -1,7 +1,7 @@
-import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
+import type { RiskAnalysisFormConfig, TenantKind } from '@/api/api.generatedTypes'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Alert, Box, Divider, Stack } from '@mui/material'
+import { Alert, Box, Stack } from '@mui/material'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import SaveIcon from '@mui/icons-material/Save'
@@ -27,22 +27,33 @@ type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName: string | undefined
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
+  riskAnalysisPrivate?: RiskAnalysisFormConfig
   kind: 'ESERVICE' | 'ESERVICE_TEMPLATE'
-  onSubmit: (name: string, answers: Record<string, string[]>) => void
+  onSubmit: (name: string, answers: Record<string, string[]>, tenantKind: TenantKind) => void
   onCancel: VoidFunction
 }
 
 export const CreateStepPurposeRiskAnalysisForm: React.FC<
   CreateStepPurposeRiskAnalysisFormProps
-> = ({ defaultName, defaultAnswers, riskAnalysis, kind, onSubmit, onCancel }) => {
+> = ({
+  defaultName,
+  defaultAnswers,
+  riskAnalysis,
+  riskAnalysisPrivate,
+  kind,
+  onSubmit,
+  onCancel,
+}) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
+
+  const [actualRiskAnalysis, setActualRiskAnalysis] = React.useState(riskAnalysis)
 
   const [_, startTransition] = React.useTransition()
   const [defaultValues, __] = React.useState<Answers>(() =>
-    getRiskAnalysisDefaultValues(riskAnalysis.questions, defaultAnswers)
+    getRiskAnalysisDefaultValues(actualRiskAnalysis.questions, defaultAnswers)
   )
   const [questions, setQuestions] = React.useState<Questions>(() =>
-    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
+    getUpdatedQuestions(defaultValues, actualRiskAnalysis.questions)
   )
 
   const formMethods = useForm<CreateStepPurposeRiskAnalysisFormValues>({
@@ -63,20 +74,28 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
   React.useEffect(() => {
     const subscription = watch((answers) => {
       startTransition(() => {
-        setQuestions(getUpdatedQuestions(answers as Answers, riskAnalysis.questions))
+        setQuestions(getUpdatedQuestions(answers as Answers, actualRiskAnalysis.questions))
       })
     })
     return () => subscription.unsubscribe()
-  }, [watch, riskAnalysis])
+  }, [watch, actualRiskAnalysis])
 
   const handleSubmit = formMethods.handleSubmit((values) => {
     const currentQuestionsIds = Object.keys(questions)
 
-    const { name, ...answers } = values
+    const { name, tenantKind, ...answers } = values
     const validAnswers = getValidAnswers(currentQuestionsIds, answers)
 
-    onSubmit(name, validAnswers)
+    onSubmit(name, validAnswers, tenantKind as TenantKind)
   })
+
+  const onTenantKindChange = (value: string) => {
+    if (value === 'PRIVATE' && riskAnalysisPrivate) {
+      setActualRiskAnalysis(riskAnalysisPrivate)
+    } else {
+      setActualRiskAnalysis(riskAnalysis)
+    }
+  }
 
   return (
     <FormProvider {...formMethods}>
@@ -128,6 +147,8 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
               ]}
               rules={{ required: true }}
               sx={{ mb: 0, mt: 1 }}
+              defaultValue={'PA'}
+              onValueChange={onTenantKindChange}
             />
           </SectionContainer>
         )}

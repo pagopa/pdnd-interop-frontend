@@ -3,7 +3,6 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   CreatedEServiceDescriptor,
   DescriptorAttributesSeed,
-  EServiceRiskAnalysisSeed,
   EServiceTemplateDescriptionUpdateSeed,
   EServiceTemplateDetails,
   EServiceTemplateInstances,
@@ -23,6 +22,7 @@ import type {
   CreatedEServiceTemplateVersion,
   CatalogEServiceTemplates,
   GetEServiceTemplateInstancesParams,
+  EServiceTemplateRiskAnalysisSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
@@ -443,7 +443,7 @@ async function addTemplateRiskAnalysis({
   ...payload
 }: {
   eServiceTemplateId: string
-} & EServiceRiskAnalysisSeed) {
+} & EServiceTemplateRiskAnalysisSeed) {
   // return await axiosInstance.post<void>(
   //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/{eServiceTemplateId}/riskAnalysis`,
   //   payload
@@ -458,7 +458,7 @@ async function updateTemplateRiskAnalysis({
 }: {
   eServiceTemplateId: string
   riskAnalysisId: string
-} & EServiceRiskAnalysisSeed) {
+} & EServiceTemplateRiskAnalysisSeed) {
   // return await axiosInstance.post<void>(
   //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/{riskAnalysisId}`,
   //   payload

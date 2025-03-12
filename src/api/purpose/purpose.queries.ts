@@ -30,7 +30,7 @@ function getSingle(purposeId: string) {
 
 function getRiskAnalysisLatest(params?: RetrieveLatestRiskAnalysisConfigurationParams) {
   return queryOptions({
-    queryKey: ['GetRiskAnalysisLatest'],
+    queryKey: ['GetRiskAnalysisLatest', params?.tenantKind],
     queryFn: () => PurposeServices.getRiskAnalysisLatest(params),
   })
 }

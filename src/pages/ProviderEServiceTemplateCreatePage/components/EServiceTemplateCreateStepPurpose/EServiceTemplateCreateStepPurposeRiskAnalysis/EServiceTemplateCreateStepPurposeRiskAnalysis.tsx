@@ -7,6 +7,7 @@ import {
   CreateStepPurposeRiskAnalysisForm,
   RiskAnalysisFormSkeleton,
 } from '@/components/shared/CreateStepPurposeRiskAnalysisForm'
+import { TenantKind } from '@/api/api.generatedTypes'
 
 export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
   const { riskAnalysisFormState, closeRiskAnalysisForm, template } =
@@ -18,7 +19,13 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
 
   const { data: riskAnalysisLatest } = useQuery(
     PurposeQueries.getRiskAnalysisLatest({
-      tenantKind: template?.eserviceTemplate.creator.kind,
+      tenantKind: 'PA', //DEFAULT VALUE
+    })
+  )
+
+  const { data: riskAnalysisPrivate } = useQuery(
+    PurposeQueries.getRiskAnalysisLatest({
+      tenantKind: 'PRIVATE', //RISK ANALYSIS FOR GSP, PRIVATE, SCP
     })
   )
 
@@ -32,7 +39,11 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     closeRiskAnalysisForm()
   }
 
-  const handleSubmit = (name: string, answers: Record<string, string[]>) => {
+  const handleSubmit = (
+    name: string,
+    answers: Record<string, string[]>,
+    tenantKind: TenantKind
+  ) => {
     if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
       updateEServiceTemplateRiskAnalysis(
         {
@@ -43,6 +54,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
             version: riskAnalysisToEdit.riskAnalysisForm.version,
             answers: answers,
           },
+          tenantKind: riskAnalysisToEdit.tenantKind,
         },
         {
           onSuccess() {
@@ -61,6 +73,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
             version: riskAnalysisLatest.version,
             answers: answers,
           },
+          tenantKind: tenantKind,
         },
         {
           onSuccess() {
@@ -76,6 +89,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
       defaultName={riskAnalysisToEdit?.name}
       defaultAnswers={riskAnalysisToEdit?.riskAnalysisForm.answers}
       riskAnalysis={riskAnalysisLatest}
+      riskAnalysisPrivate={riskAnalysisPrivate}
       kind="ESERVICE_TEMPLATE"
       onSubmit={handleSubmit}
       onCancel={handleCancel}

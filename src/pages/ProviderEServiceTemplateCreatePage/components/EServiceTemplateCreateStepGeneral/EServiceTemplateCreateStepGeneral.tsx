@@ -75,7 +75,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
-    forward()
+    forward() //TODO TOGLIERE
     // If we are editing an existing e-service template, we update the draft
     if (template) {
       // If nothing has changed skip the update call
