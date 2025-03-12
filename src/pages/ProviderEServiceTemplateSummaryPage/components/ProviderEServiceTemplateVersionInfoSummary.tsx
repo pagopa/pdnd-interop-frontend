@@ -23,11 +23,11 @@ export const ProviderEServiceTemplateVersionInfoSummary: React.FC = () => {
     <Stack spacing={2}>
       <InformationContainer
         label={t('description.label')}
-        content={template.eserviceTemplate.eserviceDescription ?? 'n/a'}
+        content={template.eserviceTemplate.description ?? 'n/a'}
       />
       <InformationContainer
         label={t('audience.label')}
-        content={template.eserviceTemplate.audienceDescription}
+        content={template.eserviceTemplate.intendedTarget}
       />
       <InformationContainer
         label={t('voucherLifespan.label')}

@@ -49,7 +49,7 @@ export const EServiceTemplateCatalogCard: React.FC<{
       producerName={eserviceTemplate.creator.name}
       description={eserviceTemplate.description}
       title={eserviceTemplate.name}
-      handlePrefetch={handlePrefetch}
+      prefetchFn={handlePrefetch}
       to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
       params={{
         eServiceTemplateVersionId: eserviceTemplate.id,

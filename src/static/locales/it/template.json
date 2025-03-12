@@ -17,7 +17,7 @@
         "eserviceTemplateName": {
           "label": "Nome del template di e-service"
         },
-        "eserviceTemplateAudienceDescription": {
+        "eserviceTemplateintendedTarget": {
           "label": "A chi è rivolto il template"
         },
         "eserviceTemplateDescription": {
@@ -179,7 +179,7 @@
         "label": "Nome dell’istanza di e-service",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
-      "audienceDescriptionField": {
+      "intendedTargetField": {
         "label": "A chi è rivolto il template?",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },

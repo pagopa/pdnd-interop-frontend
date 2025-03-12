@@ -208,7 +208,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
           </SectionContainer>
         </Stack>
       </SectionContainer>
-      {template && (
+      {template && !readonly && (
         <>
           <EServiceTemplateVersionSelectorDrawer
             isOpen={isVersionSelectorDrawerOpen}
