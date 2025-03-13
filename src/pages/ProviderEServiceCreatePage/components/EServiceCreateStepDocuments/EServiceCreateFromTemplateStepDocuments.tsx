@@ -16,6 +16,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import type {
   TemplateInstanceInterfaceMetadata,
   EserviceInterfaceTemplatePayload,
+  EServiceTechnology,
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 
@@ -33,6 +34,8 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
 
   const { descriptor, back } = useEServiceCreateContext()
 
+  const descriptionLabelByTechnology = descriptor?.eservice.technology === 'REST' ? 'rest' : 'soap'
+
   const defaultValues: ExtendedTemplateInstanceInterfaceMetadata = {
     name: descriptor?.templateRef?.interfaceMetadata?.name ?? '',
     email: descriptor?.templateRef?.interfaceMetadata?.email ?? '',
@@ -43,7 +46,10 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     ],
   }
 
-  const { mutate: updateEServiceInterfaceInfo } = EServiceMutations.useUpdatEServiceInterfaceInfo()
+  const { mutate: updateEServiceRESTInterfaceInfo } =
+    EServiceMutations.useUpdateEServiceInterfaceRESTInfo()
+  const { mutate: updateEServiceSOAPInterfaceInfo } =
+    EServiceMutations.useUpdateEServiceInterfaceSOAPInfo()
 
   const formMethods = useForm({ defaultValues })
 
@@ -78,29 +84,38 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
       return serverUrls.map((serverUrl) => serverUrl.url)
     }
 
-    const payload: EserviceInterfaceTemplatePayload = {
-      contactName: values.name,
-      email: values.email,
-      contactUrl: values.url,
-      termsAndConditionsUrl: values.termsAndConditionsUrl,
-      serverUrls: mapServerUrls(values.serverUrls),
-    }
+    if (descriptor.eservice.technology === 'REST') {
+      const payload: EserviceInterfaceTemplatePayload = {
+        contactName: values.name,
+        email: values.email,
+        contactUrl: values.url,
+        termsAndConditionsUrl: values.termsAndConditionsUrl,
+        serverUrls: mapServerUrls(values.serverUrls),
+      }
 
-    updateEServiceInterfaceInfo({
-      ...payload,
-      eserviceId: descriptor?.eservice.id,
-      descriptorId: descriptor?.id,
-    })
+      updateEServiceRESTInterfaceInfo({
+        ...payload,
+        eserviceId: descriptor?.eservice.id,
+        descriptorId: descriptor?.id,
+      })
+
+      return
+    }
   }
 
   return (
     <FormProvider {...formMethods}>
       <SectionContainer
         title={t('create.step4.template.interface.title')}
-        description={t('create.step4.template.interface.description.rest')}
+        description={t(
+          `create.step4.template.interface.description.${descriptionLabelByTechnology}`
+        )}
       >
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <EServiceEditInfoInterface fieldsArray={fieldsArray} />
+          <EServiceEditInfoInterface
+            fieldsArray={fieldsArray}
+            eServiceTechnology={descriptor?.eservice?.technology as EServiceTechnology}
+          />
           <Stack direction="row" justifyContent="flex-start" mt={2}>
             <Button type="submit" variant="contained" startIcon={<SaveIcon />}>
               {t('create.step4.template.interface.save')}

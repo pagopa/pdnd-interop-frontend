@@ -70,7 +70,6 @@ async function getDescriptorProvider(eserviceId: string, descriptorId: string) {
   return response.data
 }
 
-
 async function getConsumers(params: GetConsumersParams) {
   const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers`,
@@ -451,21 +450,38 @@ async function updateEServiceName({
   return response.data
 }
 
-async function updateEServiceInterfaceInfo({
+async function updateEServiceInterfaceRESTInfo({
   eserviceId,
   descriptorId,
   ...payload
 }: { eserviceId: string; descriptorId: string } & EserviceInterfaceTemplatePayload) {
-  const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/instances/interface`,
-    payload
-  )
+  // const response = await axiosInstance.post<CreatedResource>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/instances/interface/rest`,
+  //   payload
+  // )
 
-  // const mockResponse: CreatedResource = {
-  //   id: '1234'
-  // }
+  const mockResponse: CreatedResource = {
+    id: '1234',
+  }
 
-  return response.data
+  return mockResponse
+}
+
+async function updateEServiceInterfaceSOAPInfo({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: { eserviceId: string; descriptorId: string } & EserviceInterfaceTemplatePayload) {
+  // const response = await axiosInstance.post<CreatedResource>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/instances/interface/soap`,
+  //   payload
+  // )
+
+  const mockResponse: CreatedResource = {
+    id: '1234',
+  }
+
+  return mockResponse
 }
 
 /**
@@ -485,7 +501,6 @@ async function upgradeEService({ eserviceId }: { eserviceId: string }) {
 
   return mockResponse
 }
-
 
 async function updateInstanceVersionDraft({
   eserviceId,
@@ -537,7 +552,8 @@ export const EServiceServices = {
   approveDelegatedVersionDraft,
   rejectDelegatedVersionDraft,
   updateEServiceName,
-  updateEServiceInterfaceInfo,
+  updateEServiceInterfaceRESTInfo,
+  updateEServiceInterfaceSOAPInfo,
   upgradeEService,
   updateInstanceVersionDraft,
 }

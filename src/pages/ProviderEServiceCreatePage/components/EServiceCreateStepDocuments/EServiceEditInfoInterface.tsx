@@ -7,7 +7,11 @@ import AddIcon from '@mui/icons-material/Add'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import type { UseFieldArrayReturn } from 'react-hook-form'
-import type { TemplateInstanceInterfaceMetadata, EServiceDoc } from '@/api/api.generatedTypes'
+import type {
+  TemplateInstanceInterfaceMetadata,
+  EServiceDoc,
+  EServiceTechnology,
+} from '@/api/api.generatedTypes'
 import { TemplateDownloads } from '@/api/template/template.downloads'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
@@ -15,13 +19,14 @@ import type { ExtendedTemplateInstanceInterfaceMetadata } from './EServiceCreate
 
 type EServiceEditInfoInterfaceProps = {
   fieldsArray: UseFieldArrayReturn<ExtendedTemplateInstanceInterfaceMetadata, 'serverUrls', 'id'>
+  eServiceTechnology: EServiceTechnology
 }
 
 export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps> = ({
   fieldsArray,
+  eServiceTechnology,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { t: tCommon } = useTranslation('common')
   const { descriptor } = useEServiceCreateContext()
 
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
@@ -51,6 +56,47 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
         </Button>
       </Stack>
 
+      {eServiceTechnology === 'REST' && <EditRESTInfoIntefaceFields />}
+
+      <Stack direction="column">
+        <RHFTextField
+          size="small"
+          sx={{ width: '50%' }}
+          name={`serverUrls`}
+          indexFieldArray={0}
+          fieldArrayKeyName="url"
+          label={t('step4.template.interface.serverSection.label')}
+          rules={{
+            required: true,
+          }}
+        />
+        {fieldsArray.fields.slice(1).map((item, index) => {
+          // Starting from 1 because first field is already rendered and need to be rendered always.
+          return (
+            <UrlInputField key={index} id={item.id} index={index + 1} remove={fieldsArray.remove} />
+          )
+        })}
+
+        <Button
+          size="small"
+          variant="naked"
+          sx={{ my: 1, fontWeight: 800, alignSelf: 'start', fontSize: '1rem' }}
+          onClick={() => fieldsArray.append({ url: '' })}
+          startIcon={<AddIcon fontSize="small" />}
+        >
+          {t('step4.template.interface.serverSection.add')}
+        </Button>
+      </Stack>
+    </Box>
+  )
+}
+
+export const EditRESTInfoIntefaceFields: React.FC = () => {
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const { t: tCommon } = useTranslation('common')
+
+  return (
+    <>
       <Typography variant="body2" fontWeight={600}>
         {t('step4.template.interface.contactSection.title')}
       </Typography>
@@ -96,36 +142,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
       <Typography variant="body2" fontWeight={600}>
         {t('step4.template.interface.serverSection.title')}
       </Typography>
-      <Stack direction="column">
-        <RHFTextField
-          size="small"
-          sx={{ width: '50%' }}
-          name={`serverUrls`}
-          indexFieldArray={0}
-          fieldArrayKeyName="url"
-          label={t('step4.template.interface.serverSection.label')}
-          rules={{
-            required: true,
-          }}
-        />
-        {fieldsArray.fields.slice(1).map((item, index) => {
-          // Starting from 1 because first field is already rendered and need to be rendered always.
-          return (
-            <UrlInputField key={index} id={item.id} index={index + 1} remove={fieldsArray.remove} />
-          )
-        })}
-
-        <Button
-          size="small"
-          variant="naked"
-          sx={{ my: 1, fontWeight: 800, alignSelf: 'start', fontSize: '1rem' }}
-          onClick={() => fieldsArray.append({ url: '' })}
-          startIcon={<AddIcon fontSize="small" />}
-        >
-          {t('step4.template.interface.serverSection.add')}
-        </Button>
-      </Stack>
-    </Box>
+    </>
   )
 }
 
