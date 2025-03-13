@@ -15,8 +15,9 @@ import { Button } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 import type {
   TemplateInstanceInterfaceMetadata,
-  EserviceInterfaceTemplatePayload,
   EServiceTechnology,
+  TemplateInstanceInterfaceRESTSeed,
+  TemplateInstanceInterfaceSOAPSeed,
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 
@@ -37,9 +38,9 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
   const descriptionLabelByTechnology = descriptor?.eservice.technology === 'REST' ? 'rest' : 'soap'
 
   const defaultValues: ExtendedTemplateInstanceInterfaceMetadata = {
-    name: descriptor?.templateRef?.interfaceMetadata?.name ?? '',
-    email: descriptor?.templateRef?.interfaceMetadata?.email ?? '',
-    url: descriptor?.templateRef?.interfaceMetadata?.url ?? '',
+    contactName: descriptor?.templateRef?.interfaceMetadata?.contactName ?? '',
+    contactEmail: descriptor?.templateRef?.interfaceMetadata?.contactEmail ?? '',
+    contactUrl: descriptor?.templateRef?.interfaceMetadata?.contactUrl ?? '',
     termsAndConditionsUrl: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl ?? '',
     serverUrls: descriptor?.templateRef?.interfaceMetadata?.serverUrls.map((url) => ({ url })) ?? [
       { url: '' },
@@ -58,23 +59,6 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     name: 'serverUrls',
   })
 
-  // const sectionDescription =
-  //   descriptor?.eservice.technology === 'SOAP' ? (
-  //     t(`create.step4.interface.description.soap`)
-  //   ) : (
-  //     <>
-  //       {t(`create.step4.interface.description.rest`)}{' '}
-  //       <IconLink
-  //         href={openApiCheckerLink}
-  //         target="_blank"
-  //         endIcon={<LaunchIcon fontSize="small" />}
-  //         onClick={() => trackEvent('INTEROP_EXT_LINK_DTD_API_CHECKER', { src: 'CREATE_ESERVICE' })}
-  //       >
-  //         {t('create.step4.interface.description.restLinkLabel')}
-  //       </IconLink>
-  //     </>
-  //   )
-
   const onSubmit = (values: ExtendedTemplateInstanceInterfaceMetadata) => {
     if (!descriptor) return
 
@@ -85,22 +69,48 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     }
 
     if (descriptor.eservice.technology === 'REST') {
-      const payload: EserviceInterfaceTemplatePayload = {
-        contactName: values.name,
-        email: values.email,
-        contactUrl: values.url,
-        termsAndConditionsUrl: values.termsAndConditionsUrl,
-        serverUrls: mapServerUrls(values.serverUrls),
-      }
-
-      updateEServiceRESTInterfaceInfo({
-        ...payload,
-        eserviceId: descriptor?.eservice.id,
-        descriptorId: descriptor?.id,
-      })
-
-      return
+      onRestApiSubmit(
+        values,
+        mapServerUrls(values.serverUrls),
+        descriptor?.eservice.id,
+        descriptor?.id
+      )
+    } else {
+      onSoapApiSubmit(mapServerUrls(values.serverUrls), descriptor?.eservice.id, descriptor?.id)
     }
+  }
+
+  const onRestApiSubmit = (
+    values: ExtendedTemplateInstanceInterfaceMetadata,
+    serverUrls: string[],
+    eserviceId: string,
+    descriptorId: string
+  ) => {
+    const payload: TemplateInstanceInterfaceRESTSeed = {
+      contactName: values.contactName as string,
+      contactEmail: values.contactEmail as string,
+      contactUrl: values.contactUrl,
+      termsAndConditionsUrl: values.termsAndConditionsUrl,
+      serverUrls,
+    }
+
+    updateEServiceRESTInterfaceInfo({
+      ...payload,
+      eserviceId,
+      descriptorId,
+    })
+  }
+
+  const onSoapApiSubmit = (serverUrls: string[], eserviceId: string, descriptorId: string) => {
+    const payload: TemplateInstanceInterfaceSOAPSeed = {
+      serverUrls,
+    }
+
+    updateEServiceSOAPInterfaceInfo({
+      ...payload,
+      eserviceId,
+      descriptorId,
+    })
   }
 
   return (

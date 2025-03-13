@@ -114,7 +114,7 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
           name="email"
           label={t('step4.template.interface.contactSection.emailField')}
           rules={{
-            required: true,
+            required: false,
             pattern: {
               value: emailRegex,
               message: tCommon('validation.string.email'),
@@ -126,7 +126,6 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
           sx={{ flex: '0 0 50%' }}
           name="url"
           label={t('step4.template.interface.contactSection.urlField')}
-          rules={{ required: true }}
         />
       </Stack>
       <Typography variant="body2" fontWeight={600}>
@@ -137,7 +136,7 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
         sx={{ width: '50%' }}
         name="termsAndConditionsUrl"
         label={t('step4.template.interface.termsAndConditions.label')}
-        rules={{ required: true }}
+        rules={{ required: false }}
       />
       <Typography variant="body2" fontWeight={600}>
         {t('step4.template.interface.serverSection.title')}
