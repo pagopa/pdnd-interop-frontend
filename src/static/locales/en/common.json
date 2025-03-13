@@ -43,7 +43,8 @@
     "accept": "Accept",
     "approve": "Approve",
     "createNewDraftFromEserviceTemplate": "Create draft from template",
-    "updateIstance": "Update instance"
+    "updateIstance": "Update instance",
+    "select": "Select"
   },
   "table": {
     "headData": {

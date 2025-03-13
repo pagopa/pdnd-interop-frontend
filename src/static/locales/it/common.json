@@ -43,7 +43,8 @@
     "accept": "Accetta",
     "approve": "Approva",
     "createNewDraftFromEserviceTemplate": "Crea bozza da template",
-    "updateIstance": "Aggiorna istanza"
+    "updateIstance": "Aggiorna istanza",
+    "select": "Seleziona"
   },
   "table": {
     "headData": {

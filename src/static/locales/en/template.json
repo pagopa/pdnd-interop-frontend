@@ -246,6 +246,14 @@
       },
       "agreementApprovalPolicySection": {
         "label": "Suggest to the implementer the manual activation of the received fruition requests."
+      },
+      "tenantKindDialog": {
+        "title": "Indicate who will be able to use the following risk analysis.",
+        "description": "Indicate for whom the following risk analysis is filled.",
+        "tenantKind": {
+          "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell’Amministrazione Digitale)",
+          "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
+        }
       }
     },
     "step3": {

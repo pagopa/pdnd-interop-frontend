@@ -1,7 +1,11 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
-import type { EServiceMode, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
+import type {
+  EServiceMode,
+  EServiceTemplateVersionDetails,
+  TenantKind,
+} from '@/api/api.generatedTypes'
 
 type EServiceTemplateCreateContextType = {
   template: EServiceTemplateVersionDetails | undefined
@@ -14,7 +18,8 @@ type EServiceTemplateCreateContextType = {
     isOpen: boolean
     riskAnalysisId: string | undefined
   }
-  openRiskAnalysisForm: (riskAnalysisId?: string) => void
+  tenantKind: TenantKind
+  openRiskAnalysisForm: (riskAnalysisId?: string, tenantKindSelected?: TenantKind) => void
   closeRiskAnalysisForm: VoidFunction
 }
 
@@ -29,6 +34,7 @@ const initialState: EServiceTemplateCreateContextType = {
     isOpen: false,
     riskAnalysisId: undefined,
   },
+  tenantKind: 'PA',
   openRiskAnalysisForm: noop,
   closeRiskAnalysisForm: noop,
 }
@@ -58,7 +64,12 @@ const EServiceTemplateCreateContextProvider: React.FC<
     riskAnalysisId: undefined,
   })
 
-  const openRiskAnalysisForm = (riskAnalysisId?: string) => {
+  const [tenantKind, setTenantKind] = React.useState<TenantKind>('PA')
+
+  const openRiskAnalysisForm = (riskAnalysisId?: string, tenantKindSelected?: TenantKind) => {
+    if (tenantKindSelected) {
+      setTenantKind(tenantKindSelected)
+    }
     setRiskAnalysisFormState({
       isOpen: true,
       riskAnalysisId: riskAnalysisId,
@@ -90,6 +101,7 @@ const EServiceTemplateCreateContextProvider: React.FC<
       riskAnalysisFormState,
       openRiskAnalysisForm,
       closeRiskAnalysisForm,
+      tenantKind,
     }
   }, [
     template,

@@ -6,7 +6,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { StepActions } from '@/components/shared/StepActions'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import type {
   Answers,
@@ -27,33 +27,24 @@ type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName: string | undefined
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
-  riskAnalysisPrivate?: RiskAnalysisFormConfig
-  kind: 'ESERVICE' | 'ESERVICE_TEMPLATE'
+  //riskAnalysisPrivate?: RiskAnalysisFormConfig
   onSubmit: (name: string, answers: Record<string, string[]>, tenantKind: TenantKind) => void
   onCancel: VoidFunction
 }
 
 export const CreateStepPurposeRiskAnalysisForm: React.FC<
   CreateStepPurposeRiskAnalysisFormProps
-> = ({
-  defaultName,
-  defaultAnswers,
-  riskAnalysis,
-  riskAnalysisPrivate,
-  kind,
-  onSubmit,
-  onCancel,
-}) => {
+> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
 
-  const [actualRiskAnalysis, setActualRiskAnalysis] = React.useState(riskAnalysis)
+  //const [riskAnalysis, setriskAnalysis] = React.useState(riskAnalysis)
 
   const [_, startTransition] = React.useTransition()
   const [defaultValues, __] = React.useState<Answers>(() =>
-    getRiskAnalysisDefaultValues(actualRiskAnalysis.questions, defaultAnswers)
+    getRiskAnalysisDefaultValues(riskAnalysis.questions, defaultAnswers)
   )
   const [questions, setQuestions] = React.useState<Questions>(() =>
-    getUpdatedQuestions(defaultValues, actualRiskAnalysis.questions)
+    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
   )
 
   const formMethods = useForm<CreateStepPurposeRiskAnalysisFormValues>({
@@ -74,11 +65,11 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
   React.useEffect(() => {
     const subscription = watch((answers) => {
       startTransition(() => {
-        setQuestions(getUpdatedQuestions(answers as Answers, actualRiskAnalysis.questions))
+        setQuestions(getUpdatedQuestions(answers as Answers, riskAnalysis.questions))
       })
     })
     return () => subscription.unsubscribe()
-  }, [watch, actualRiskAnalysis])
+  }, [watch, riskAnalysis])
 
   const handleSubmit = formMethods.handleSubmit((values) => {
     const currentQuestionsIds = Object.keys(questions)
@@ -88,14 +79,6 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
 
     onSubmit(name, validAnswers, tenantKind as TenantKind)
   })
-
-  const onTenantKindChange = (value: string) => {
-    if (value === 'PRIVATE' && riskAnalysisPrivate) {
-      setActualRiskAnalysis(riskAnalysisPrivate)
-    } else {
-      setActualRiskAnalysis(riskAnalysis)
-    }
-  }
 
   return (
     <FormProvider {...formMethods}>
@@ -121,37 +104,6 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
             {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
           </Alert>
         </SectionContainer>
-        {kind === 'ESERVICE_TEMPLATE' && (
-          <SectionContainer
-            sx={{ mb: 2 }}
-            title={t('riskAnalysis.riskAnalysisSection.eserviceTemplateRiskAnalysis.title')}
-            description={t(
-              'riskAnalysis.riskAnalysisSection.eserviceTemplateRiskAnalysis.description'
-            )}
-          >
-            <RHFRadioGroup
-              name="tenantKind"
-              options={[
-                {
-                  label: t(
-                    'riskAnalysis.riskAnalysisSection.eserviceTemplateRiskAnalysis.tenantKind.labelPA'
-                  ),
-                  value: 'PA',
-                },
-                {
-                  label: t(
-                    'riskAnalysis.riskAnalysisSection.eserviceTemplateRiskAnalysis.tenantKind.labelNotPA'
-                  ),
-                  value: 'PRIVATE',
-                },
-              ]}
-              rules={{ required: true }}
-              sx={{ mb: 0, mt: 1 }}
-              defaultValue={'PA'}
-              onValueChange={onTenantKindChange}
-            />
-          </SectionContainer>
-        )}
         <Stack spacing={2}>
           <RiskAnalysisFormComponents questions={questions} />
         </Stack>

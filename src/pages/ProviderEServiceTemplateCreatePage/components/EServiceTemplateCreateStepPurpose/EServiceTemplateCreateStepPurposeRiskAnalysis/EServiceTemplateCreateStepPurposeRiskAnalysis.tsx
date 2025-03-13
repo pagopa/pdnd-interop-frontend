@@ -10,7 +10,7 @@ import {
 import { TenantKind } from '@/api/api.generatedTypes'
 
 export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
-  const { riskAnalysisFormState, closeRiskAnalysisForm, template } =
+  const { riskAnalysisFormState, closeRiskAnalysisForm, template, tenantKind } =
     useEServiceTemplateCreateContext()
 
   const { mutate: addEServiceTemplateRiskAnalysis } = TemplateMutations.useAddTemplateRiskAnalysis()
@@ -19,13 +19,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
 
   const { data: riskAnalysisLatest } = useQuery(
     PurposeQueries.getRiskAnalysisLatest({
-      tenantKind: 'PA', //DEFAULT VALUE
-    })
-  )
-
-  const { data: riskAnalysisPrivate } = useQuery(
-    PurposeQueries.getRiskAnalysisLatest({
-      tenantKind: 'PRIVATE', //RISK ANALYSIS FOR GSP, PRIVATE, SCP
+      tenantKind: tenantKind,
     })
   )
 
@@ -89,8 +83,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
       defaultName={riskAnalysisToEdit?.name}
       defaultAnswers={riskAnalysisToEdit?.riskAnalysisForm.answers}
       riskAnalysis={riskAnalysisLatest}
-      riskAnalysisPrivate={riskAnalysisPrivate}
-      kind="ESERVICE_TEMPLATE"
+      //riskAnalysisPrivate={riskAnalysisPrivate}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
     />

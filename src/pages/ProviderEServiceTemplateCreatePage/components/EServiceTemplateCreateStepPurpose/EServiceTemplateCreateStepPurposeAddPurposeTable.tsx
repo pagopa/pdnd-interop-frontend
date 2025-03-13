@@ -1,10 +1,12 @@
 import { Button, Typography } from '@mui/material'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateMutations } from '@/api/template'
+import { useDialog } from '@/stores'
+import { TenantKind } from '@/api/api.generatedTypes'
 
 export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () => {
   const { t } = useTranslation('template', {
@@ -17,8 +19,17 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
 
   const { mutate: deleteRiskAnalysis } = TemplateMutations.useDeleteTemplateRiskAnalysis()
 
+  const { openDialog } = useDialog()
+
+  const handleDialogConfirm = (selectedTenantKind: string) => {
+    openRiskAnalysisForm(undefined, selectedTenantKind as TenantKind)
+  }
+
   const handleAddNewPurpose = () => {
-    openRiskAnalysisForm()
+    openDialog({
+      type: 'tenantKind',
+      onConfirm: handleDialogConfirm,
+    })
   }
 
   const handleEditPurpose = (riskAnalysisId: string) => {

@@ -246,6 +246,14 @@
       },
       "agreementApprovalPolicySection": {
         "label": "Suggerisci all’implementatore l’attivazione manuale delle richieste di fruizione pervenute"
+      },
+      "tenantKindDialog": {
+        "title": "Seleziona la destinazione dell’analisi del rischio",
+        "description": "Indica chi potrà utilizzare l’analisi del rischio che stai creando.",
+        "tenantKind": {
+          "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del Codice dell’Amministrazione Digitale)",
+          "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
+        }
       }
     },
     "step3": {
