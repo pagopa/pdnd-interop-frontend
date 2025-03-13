@@ -331,7 +331,6 @@ async function downloadVersionDraftDocument({
 }
 
 async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
-  console.log("params", params)
   const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/filter/creators`,
     { params }
