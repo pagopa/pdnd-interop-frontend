@@ -589,32 +589,16 @@ export interface CompactDescriptor {
   state: EServiceDescriptorState
   version: string
   audience: string[]
-  serverUrls?: string[]
 }
 
-export interface TemplateInstanceInterfaceRESTSeed {
+export interface TemplateInstanceInterfaceMetadata {
   contactName: string
   /** @format email */
   contactEmail: string
   /** @format uri */
-  contactUrl?: string
+  contactUrl: string
   /** @format uri */
-  termsAndConditionsUrl?: string
-  serverUrls: string[]
-}
-
-export interface TemplateInstanceInterfaceSOAPSeed {
-  serverUrls: string[]
-}
-
-export interface TemplateInstanceInterfaceMetadata {
-  contactName?: string
-  /** @format email */
-  contactEmail?: string
-  /** @format uri */
-  contactUrl?: string
-  /** @format uri */
-  termsAndConditionsUrl?: string
+  termsAndConditionsUrl: string
   serverUrls: string[]
 }
 
@@ -1578,6 +1562,7 @@ export interface EServiceTemplateDetails {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  draftVersion?: CompactEServiceTemplateVersion
 }
 
 export interface EServiceTemplateVersionDetails {
@@ -4956,12 +4941,12 @@ export namespace Eservices {
   /**
    * No description
    * @tags eserviceTemplates
-   * @name UpdateEServiceIntendedTarget
+   * @name UpdateEServiceTemplateIntendedTarget
    * @summary Update an e-service template intended target description
    * @request POST:/eservices/templates/{eServiceTemplateId}/intendedTarget/update
    * @secure
    */
-  export namespace UpdateEServiceIntendedTarget {
+  export namespace UpdateEServiceTemplateIntendedTarget {
     export type RequestParams = {
       /**
        * the eservice template id
@@ -5433,12 +5418,12 @@ export namespace Templates {
   /**
    * No description
    * @tags eservices
-   * @name AddEServiceTemplateInstanceInterfaceRest
-   * @summary Add EService template instance interface for REST protocol
-   * @request POST:/templates/eservices/{eServiceId}/descriptors/{descriptorId}/interface/rest
+   * @name AddEServiceTemplateInstanceInterface
+   * @summary Add EService template instance interface
+   * @request POST:/templates/eservices/{eServiceId}/descriptors/{descriptorId}/interface
    * @secure
    */
-  export namespace AddEServiceTemplateInstanceInterfaceRest {
+  export namespace AddEServiceTemplateInstanceInterface {
     export type RequestParams = {
       /**
        * the eservice id
@@ -5452,35 +5437,7 @@ export namespace Templates {
       descriptorId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = TemplateInstanceInterfaceRESTSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CreatedResource
-  }
-  /**
-   * No description
-   * @tags eservices
-   * @name AddEServiceTemplateInstanceInterfaceSoap
-   * @summary Add EService template instance interface for SOAP protocol
-   * @request POST:/templates/eservices/{eServiceId}/descriptors/{descriptorId}/interface/soap
-   * @secure
-   */
-  export namespace AddEServiceTemplateInstanceInterfaceSoap {
-    export type RequestParams = {
-      /**
-       * the eservice id
-       * @format uuid
-       */
-      eServiceId: string
-      /**
-       * the eservice descriptor id
-       * @format uuid
-       */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = TemplateInstanceInterfaceSOAPSeed
+    export type RequestBody = TemplateInstanceInterfaceMetadata
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
@@ -5525,7 +5482,9 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {}
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
     export type ResponseBody = CreatedEServiceDescriptor
   }
   /**
