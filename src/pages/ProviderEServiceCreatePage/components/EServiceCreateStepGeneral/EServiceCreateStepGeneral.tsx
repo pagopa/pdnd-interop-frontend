@@ -188,7 +188,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             disabled={!areEServiceGeneralInfoEditable || !!template}
             size="small"
             inputProps={{ maxLength: 250 }}
-            rules={{ required: true, minLength: 10 }}
+            rules={!template ? { required: true, minLength: 10 } : undefined}
             sx={{ mb: 0, mt: 3 }}
           />
 

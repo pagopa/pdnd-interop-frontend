@@ -168,6 +168,7 @@
           },
           "description": {
             "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",
+            "soap": "Compila i seguenti campi e ti verrà generato automaticamente il file WSDL.",
             "download": "Scarica il file di interfaccia"
           }
           

@@ -7,7 +7,11 @@ import AddIcon from '@mui/icons-material/Add'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import type { UseFieldArrayReturn } from 'react-hook-form'
-import type { TemplateInstanceInterfaceMetadata, EServiceDoc } from '@/api/api.generatedTypes'
+import type {
+  TemplateInstanceInterfaceMetadata,
+  EServiceDoc,
+  EServiceTechnology,
+} from '@/api/api.generatedTypes'
 import { TemplateDownloads } from '@/api/template/template.downloads'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
@@ -15,13 +19,14 @@ import type { ExtendedTemplateInstanceInterfaceMetadata } from './EServiceCreate
 
 type EServiceEditInfoInterfaceProps = {
   fieldsArray: UseFieldArrayReturn<ExtendedTemplateInstanceInterfaceMetadata, 'serverUrls', 'id'>
+  eServiceTechnology: EServiceTechnology
 }
 
 export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps> = ({
   fieldsArray,
+  eServiceTechnology,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { t: tCommon } = useTranslation('common')
   const { descriptor } = useEServiceCreateContext()
 
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
@@ -51,51 +56,8 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
         </Button>
       </Stack>
 
-      <Typography variant="body2" fontWeight={600}>
-        {t('step4.template.interface.contactSection.title')}
-      </Typography>
-      <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
-        <RHFTextField
-          size="small"
-          sx={{ flex: '1 1 50%' }}
-          name="name"
-          label={t('step4.template.interface.contactSection.contactNameField')}
-          rules={{ required: true }}
-        />
-        <RHFTextField
-          size="small"
-          sx={{ flex: '1 1 50%', pl: 1 }}
-          name="email"
-          label={t('step4.template.interface.contactSection.emailField')}
-          rules={{
-            required: true,
-            pattern: {
-              value: emailRegex,
-              message: tCommon('validation.string.email'),
-            },
-          }}
-        />
-        <RHFTextField
-          size="small"
-          sx={{ flex: '0 0 50%' }}
-          name="url"
-          label={t('step4.template.interface.contactSection.urlField')}
-          rules={{ required: true }}
-        />
-      </Stack>
-      <Typography variant="body2" fontWeight={600}>
-        {t('step4.template.interface.termsAndConditions.title')}
-      </Typography>
-      <RHFTextField
-        size="small"
-        sx={{ width: '50%' }}
-        name="termsAndConditionsUrl"
-        label={t('step4.template.interface.termsAndConditions.label')}
-        rules={{ required: true }}
-      />
-      <Typography variant="body2" fontWeight={600}>
-        {t('step4.template.interface.serverSection.title')}
-      </Typography>
+      {eServiceTechnology === 'REST' && <EditRESTInfoIntefaceFields />}
+
       <Stack direction="column">
         <RHFTextField
           size="small"
@@ -126,6 +88,60 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
         </Button>
       </Stack>
     </Box>
+  )
+}
+
+export const EditRESTInfoIntefaceFields: React.FC = () => {
+  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const { t: tCommon } = useTranslation('common')
+
+  return (
+    <>
+      <Typography variant="body2" fontWeight={600}>
+        {t('step4.template.interface.contactSection.title')}
+      </Typography>
+      <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
+        <RHFTextField
+          size="small"
+          sx={{ flex: '1 1 50%' }}
+          name="name"
+          label={t('step4.template.interface.contactSection.contactNameField')}
+          rules={{ required: true }}
+        />
+        <RHFTextField
+          size="small"
+          sx={{ flex: '1 1 50%', pl: 1 }}
+          name="email"
+          label={t('step4.template.interface.contactSection.emailField')}
+          rules={{
+            required: false,
+            pattern: {
+              value: emailRegex,
+              message: tCommon('validation.string.email'),
+            },
+          }}
+        />
+        <RHFTextField
+          size="small"
+          sx={{ flex: '0 0 50%' }}
+          name="url"
+          label={t('step4.template.interface.contactSection.urlField')}
+        />
+      </Stack>
+      <Typography variant="body2" fontWeight={600}>
+        {t('step4.template.interface.termsAndConditions.title')}
+      </Typography>
+      <RHFTextField
+        size="small"
+        sx={{ width: '50%' }}
+        name="termsAndConditionsUrl"
+        label={t('step4.template.interface.termsAndConditions.label')}
+        rules={{ required: false }}
+      />
+      <Typography variant="body2" fontWeight={600}>
+        {t('step4.template.interface.serverSection.title')}
+      </Typography>
+    </>
   )
 }
 

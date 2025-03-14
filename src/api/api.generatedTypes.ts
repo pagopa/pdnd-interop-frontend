@@ -589,16 +589,32 @@ export interface CompactDescriptor {
   state: EServiceDescriptorState
   version: string
   audience: string[]
+  serverUrls?: string[]
+}
+
+export interface TemplateInstanceInterfaceRESTSeed {
+  contactName: string
+  /** @format email */
+  contactEmail: string
+  /** @format uri */
+  contactUrl?: string
+  /** @format uri */
+  termsAndConditionsUrl?: string
+  serverUrls: string[]
+}
+
+export interface TemplateInstanceInterfaceSOAPSeed {
+  serverUrls: string[]
 }
 
 export interface TemplateInstanceInterfaceMetadata {
-  name: string
+  contactName?: string
   /** @format email */
-  email: string
+  contactEmail?: string
   /** @format uri */
-  url: string
+  contactUrl?: string
   /** @format uri */
-  termsAndConditionsUrl: string
+  termsAndConditionsUrl?: string
   serverUrls: string[]
 }
 
@@ -1236,17 +1252,17 @@ export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER' | 
 
 export type TenantFeature =
   | {
-    /** Certifier Tenant Feature */
-    certifier?: Certifier
-  }
+      /** Certifier Tenant Feature */
+      certifier?: Certifier
+    }
   | {
-    /** Delegated producer Tenant Feature */
-    delegatedProducer?: DelegatedProducer
-  }
+      /** Delegated producer Tenant Feature */
+      delegatedProducer?: DelegatedProducer
+    }
   | {
-    /** Delegated consumer Tenant Feature */
-    delegatedConsumer?: DelegatedConsumer
-  }
+      /** Delegated consumer Tenant Feature */
+      delegatedConsumer?: DelegatedConsumer
+    }
 
 /** Certifier Tenant Feature */
 export interface Certifier {
@@ -1844,18 +1860,6 @@ export interface UpdateEServiceTemplateVersionDocumentSeed {
    * @maxLength 60
    */
   prettyName: string
-}
-
-/** contains eservice api custom data to add on interface document provided by template */
-export interface EserviceInterfaceTemplatePayload {
-  contactName: string
-  /** @format email */
-  email: string
-  /** @format uri */
-  contactUrl: string
-  /** @format uri */
-  termsAndConditionsUrl: string
-  serverUrls: string[]
 }
 
 export interface ProblemError {
@@ -4330,34 +4334,6 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
-   * @name AddEServiceInterfaceDocumentByTemplateId
-   * @summary Add e-service interface for provided template
-   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/instances/interface
-   * @secure
-   */
-  export namespace AddEServiceInterfaceDocumentByTemplateId {
-    export type RequestParams = {
-      /**
-       * the eservice id
-       * @format uuid
-       */
-      eServiceId: string
-      /**
-       * the eservice descriptor id
-       * @format uuid
-       */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EserviceInterfaceTemplatePayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = CreatedResource
-  }
-  /**
-   * No description
-   * @tags eservices
    * @name CreateEServiceDocument
    * @summary Add new e-service document
    * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/documents
@@ -4834,7 +4810,10 @@ export namespace Eservices {
    */
   export namespace UpdateEServiceTemplate {
     export type RequestParams = {
-      /** The E-Service id to update */
+      /**
+       * The E-Service id to retrieve
+       * @format uuid
+       */
       eServiceTemplateId: string
     }
     export type RequestQuery = {}
@@ -4854,7 +4833,10 @@ export namespace Eservices {
    */
   export namespace GetEServiceTemplate {
     export type RequestParams = {
-      /** The E-Service id to retrieve */
+      /**
+       * The E-Service id to retrieve
+       * @format uuid
+       */
       eServiceTemplateId: string
     }
     export type RequestQuery = {}
@@ -5055,9 +5037,15 @@ export namespace Eservices {
    */
   export namespace UpdateDraftTemplateVersion {
     export type RequestParams = {
-      /** The E-Service template id */
+      /**
+       * The internal identifier of the eservice template
+       * @format uuid
+       */
       eServiceTemplateId: string
-      /** The E-Service template version Id */
+      /**
+       * the eservice template version id
+       * @format uuid
+       */
       eServiceTemplateVersionId: string
     }
     export type RequestQuery = {}
@@ -5078,7 +5066,7 @@ export namespace Eservices {
   export namespace DeleteDraftTemplateVersion {
     export type RequestParams = {
       /**
-       * the eservice template id
+       * The internal identifier of the eservice template
        * @format uuid
        */
       eServiceTemplateId: string
@@ -5190,7 +5178,7 @@ export namespace Eservices {
        */
       eServiceTemplateId: string
       /**
-       * the risk analysis id
+       * the eservice template id
        * @format uuid
        */
       riskAnalysisId: string
@@ -5322,11 +5310,20 @@ export namespace Eservices {
    */
   export namespace GetEServiceTemplateDocumentById {
     export type RequestParams = {
-      /** the eService template id */
+      /**
+       * the eService template id
+       * @format uuid
+       */
       eServiceTemplateId: string
-      /** the template version Id */
+      /**
+       * the template version Id
+       * @format uuid
+       */
       eServiceTemplateVersionId: string
-      /** the document id */
+      /**
+       * the document id
+       * @format uuid
+       */
       documentId: string
     }
     export type RequestQuery = {}
@@ -5346,11 +5343,20 @@ export namespace Eservices {
    */
   export namespace DeleteEServiceTemplateDocumentById {
     export type RequestParams = {
-      /** the eService template id */
+      /**
+       * the eService template id
+       * @format uuid
+       */
       eServiceTemplateId: string
-      /** the template version Id */
+      /**
+       * the template version Id
+       * @format uuid
+       */
       eServiceTemplateVersionId: string
-      /** the document id */
+      /**
+       * the document id
+       * @format uuid
+       */
       documentId: string
     }
     export type RequestQuery = {}
@@ -5419,6 +5425,62 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceDescriptorTemplateInstanceSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name AddEServiceTemplateInstanceInterfaceRest
+   * @summary Add EService template instance interface for REST protocol
+   * @request POST:/templates/eservices/{eServiceId}/descriptors/{descriptorId}/interface/rest
+   * @secure
+   */
+  export namespace AddEServiceTemplateInstanceInterfaceRest {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the eservice descriptor id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = TemplateInstanceInterfaceRESTSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name AddEServiceTemplateInstanceInterfaceSoap
+   * @summary Add EService template instance interface for SOAP protocol
+   * @request POST:/templates/eservices/{eServiceId}/descriptors/{descriptorId}/interface/soap
+   * @secure
+   */
+  export namespace AddEServiceTemplateInstanceInterfaceSoap {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the eservice descriptor id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = TemplateInstanceInterfaceSOAPSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
