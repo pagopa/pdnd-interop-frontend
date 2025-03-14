@@ -25,14 +25,14 @@ const defaultValues: EServiceTemplateCreateStepDocumentsDocFormValues = {
 export function EServiceTemplateCreateStepDocumentsDoc() {
   const { t } = useTranslation('template')
   const { t: tCommon } = useTranslation('common')
-  const { template } = useEServiceTemplateCreateContext()
+  const { template: templateVersion } = useEServiceTemplateCreateContext()
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: updateDocumentName } =
     TemplateMutations.useUpdateVersionDraftDocumentDescription()
   const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
 
-  const docs = template?.docs ?? []
+  const docs = templateVersion?.docs ?? []
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
@@ -49,11 +49,11 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
   })
 
   const onSubmit = ({ doc, prettyName }: EServiceTemplateCreateStepDocumentsDocFormValues) => {
-    if (!doc || !template) return
+    if (!doc || !templateVersion) return
     uploadDocument(
       {
-        eserviceTemplateId: template.eserviceTemplate.id,
-        eServiceTemplateVersionId: template.id,
+        eServiceTemplateId: templateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: templateVersion.id,
         doc,
         prettyName,
         kind: 'DOCUMENT',
@@ -63,30 +63,30 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
   }
 
   const handleUpdateDescription = (documentId: string, prettyName: string) => {
-    if (!template) return
+    if (!templateVersion) return
     updateDocumentName({
-      eserviceTemplateId: template.eserviceTemplate.id,
-      eServiceTemplateVersionId: template.id,
+      eServiceTemplateId: templateVersion.eserviceTemplate.id,
+      eServiceTemplateVersionId: templateVersion.id,
       documentId,
       prettyName,
     })
   }
 
   const handleDeleteDocument = (document: EServiceDoc) => {
-    if (!template) return
+    if (!templateVersion) return
     deleteDocument({
-      eServiceTemplateId: template.eserviceTemplate.id,
-      eServiceTemplateVersionId: template.id,
+      eServiceTemplateId: templateVersion.eserviceTemplate.id,
+      eServiceTemplateVersionId: templateVersion.id,
       documentId: document.id,
     })
   }
 
   const handleDownloadDocument = (document: EServiceDoc) => {
-    if (!template) return
+    if (!templateVersion) return
     downloadDocument(
       {
-        eServiceTemplateId: template.eserviceTemplate.id,
-        eServiceTemplateVersionId: template.id,
+        eServiceTemplateId: templateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: templateVersion.id,
         documentId: document.id,
       },
       getDownloadDocumentName(document)

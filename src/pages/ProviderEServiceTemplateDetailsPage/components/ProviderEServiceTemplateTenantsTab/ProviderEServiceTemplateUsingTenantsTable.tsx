@@ -15,7 +15,7 @@ type ProviderEServiceTemplateUsingTenantsTableProps = {
 
 export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   ProviderEServiceTemplateUsingTenantsTableProps
-> = ({}) => {
+> = ({ eserviceTemplateId }) => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
   const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
@@ -40,7 +40,10 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data: templateInstancesCount } = useQuery({
-    ...TemplateQueries.getProviderTemplateInstancesList(queryParams),
+    ...TemplateQueries.getProviderTemplateInstancesList({
+      eserviceTemplateId: eserviceTemplateId,
+      ...queryParams,
+    }),
     select: (data) => data.pagination.totalCount,
   })
 

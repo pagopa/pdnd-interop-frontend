@@ -21,12 +21,12 @@ function useUpdateEServiceTemplateName() {
   })
 }
 
-function useUpdateEServiceTemplateAudienceDescription() {
+function useUpdateEServiceTemplateIntendedTarget() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eserviceTemplate.updateEServiceTemplateAudience',
   })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateAudienceDescription,
+    mutationFn: TemplateServices.updateEServiceTemplateIntendedTarget,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -336,7 +336,7 @@ function useCreateInstanceFromEServiceTemplate() {
 
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
-  useUpdateEServiceTemplateAudienceDescription,
+  useUpdateEServiceTemplateIntendedTarget,
   useUpdateEServiceTemplateDescription,
   useUpdateQuotas,
   usePostVersionDraftDocument,

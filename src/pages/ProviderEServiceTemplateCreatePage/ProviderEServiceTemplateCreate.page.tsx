@@ -49,6 +49,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
     enabled: !isNewEServiceTemplate,
   })
 
+  console.log('template', template)
+
   const eserviceTemplateMode =
     selectedEServiceTemplateMode || // The mode selected by the user
     template?.eserviceTemplate.mode || // The mode of the e-service

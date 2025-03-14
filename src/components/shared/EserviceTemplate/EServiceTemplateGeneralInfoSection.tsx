@@ -5,7 +5,6 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
-import { AuthHooks } from '@/api/auth'
 import { TemplateMutations, TemplateQueries } from '@/api/template'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -31,7 +30,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     keyPrefix: 'read.drawers',
   })
   const { t: tCommon } = useTranslation('common')
-  const { jwt } = AuthHooks.useJwt()
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
   const { data: template } = useQuery(
@@ -43,8 +41,8 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   const { mutate: updateEserviceTemplateDescription } =
     TemplateMutations.useUpdateEServiceTemplateDescription()
 
-  const { mutate: updateEserviceTemplateAudienceDescription } =
-    TemplateMutations.useUpdateEServiceTemplateAudienceDescription()
+  const { mutate: updateEserviceTemplateIntendedTarget } =
+    TemplateMutations.useUpdateEServiceTemplateIntendedTarget()
 
   const { mutate: updateEserviceTemplateName } = TemplateMutations.useUpdateEServiceTemplateName()
 
@@ -118,10 +116,11 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     )
   }
 
-  const handleAudienceDescriptionUpdate = (templateId: string) => {
-    updateEserviceTemplateAudienceDescription(
+  const handleIntendedTargetUpdate = (templateId: string, intendedTarget: string) => {
+    updateEserviceTemplateIntendedTarget(
       {
         eServiceTemplateId: templateId,
+        intendedTarget: intendedTarget,
       },
       { onSuccess: closeEServiceUpdateAudienceDrawer }
     )
@@ -163,7 +162,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
           <Divider />
           <SectionContainer
             innerSection
-            title={t('eserviceTemplateAudienceDescription.label')}
+            title={t('eserviceTemplateIntendedTarget.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
             topSideActions={
               readonly
@@ -220,7 +219,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
           <UpdateNameDrawer
             isOpen={isEServiceTemplateUpdateNameDrawerOpen}
             onClose={closeEServiceUpdateNameDrawer}
-            id={template.id}
+            id={template.eserviceTemplate.id}
             name={template.eserviceTemplate.name}
             onSubmit={handleNameUpdate}
             title={tDrawer('updateEServiceTemplateNameDrawer.title')}
@@ -234,7 +233,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
           <UpdateDescriptionDrawer
             isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
             onClose={closeEServiceTemplateUpdateDescriptionDrawer}
-            id={template.id}
+            id={template.eserviceTemplate.id}
             description={template.eserviceTemplate.description}
             onSubmit={handleDescriptionUpdate}
             title={tDrawer('updateEServiceTemplateDescriptionDrawer.title')}
@@ -252,9 +251,9 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
           <UpdateDescriptionDrawer
             isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
             onClose={closeEServiceUpdateAudienceDrawer}
-            id={template.id}
+            id={template.eserviceTemplate.id}
             description={template.eserviceTemplate.intendedTarget}
-            onSubmit={handleAudienceDescriptionUpdate}
+            onSubmit={handleIntendedTargetUpdate}
             title={tDrawer('updateEServiceTemplateAudienceDrawer.title')}
             subtitle={tDrawer('updateEServiceTemplateAudienceDrawer.subtitle')}
             label={tDrawer('updateEServiceTemplateAudienceDrawer.templateAudienceField.label')}

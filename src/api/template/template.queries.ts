@@ -28,10 +28,17 @@ function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
   })
 }
 
-function getProviderTemplateInstancesList(params: GetEServiceTemplateInstancesParams) {
+function getProviderTemplateInstancesList({
+  eserviceTemplateId,
+  ...params
+}: GetEServiceTemplateInstancesParams & { eserviceTemplateId: string }) {
   return queryOptions({
     queryKey: ['EServiceTemplatesGetProviderTemplateInstancesList'],
-    queryFn: () => TemplateServices.getProviderTemplateInstancesList(params),
+    queryFn: () =>
+      TemplateServices.getProviderTemplateInstancesList({
+        eServiceTemplateId: eserviceTemplateId,
+        ...params,
+      }),
   })
 }
 

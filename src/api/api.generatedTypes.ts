@@ -1669,7 +1669,7 @@ export interface EServiceTemplateSeed {
   technology: EServiceTechnology
   /** Risk Analysis Mode */
   mode: EServiceMode
-  version: VersionSeedForEServiceTemplateCreation
+  version?: VersionSeedForEServiceTemplateCreation
   isSignalHubEnabled?: boolean
 }
 
@@ -2432,7 +2432,7 @@ export interface GetEServiceTemplatesCatalogParams {
   limit: number
 }
 
-export interface GetProducerEServiceTemplatesParams {
+export interface GetCreatorEServiceTemplatesParams {
   /** Query to filter EServices templates by name */
   q?: string
   /**
@@ -3093,37 +3093,6 @@ export namespace Producers {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
-  }
-  /**
-   * @description Retrieves Producer EService templates
-   * @tags eserviceTemplates
-   * @name GetProducerEServiceTemplates
-   * @summary Retrieves Producer EService templates
-   * @request GET:/producers/eservices/templates
-   * @secure
-   */
-  export namespace GetProducerEServiceTemplates {
-    export type RequestParams = {}
-    export type RequestQuery = {
-      /** Query to filter EServices templates by name */
-      q?: string
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
-    export type ResponseBody = ProducerEServiceTemplates
   }
 }
 
@@ -7125,6 +7094,40 @@ export namespace Delegations {
       'X-Correlation-Id': string
     }
     export type ResponseBody = File
+  }
+}
+
+export namespace Creators {
+  /**
+   * @description Retrieves Creator EService templates
+   * @tags eserviceTemplates
+   * @name GetCreatorEServiceTemplates
+   * @summary Retrieves Creator EService templates
+   * @request GET:/creators/eservices/templates
+   * @secure
+   */
+  export namespace GetCreatorEServiceTemplates {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EServices templates by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = ProducerEServiceTemplates
   }
 }
 

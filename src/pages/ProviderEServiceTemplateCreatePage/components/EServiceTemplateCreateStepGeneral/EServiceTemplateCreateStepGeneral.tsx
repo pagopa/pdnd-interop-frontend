@@ -27,7 +27,6 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
   intendedTarget: string
   technology: EServiceTechnology
   mode: EServiceMode
-  version: VersionSeedForEServiceTemplateCreation
   isSignalHubEnabled?: boolean
 }
 
@@ -53,21 +52,12 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { mutate: updateDraft } = TemplateMutations.useUpdateDraft()
   const { mutate: createDraft } = TemplateMutations.useCreateDraft()
 
-  const defaultVersionValue = {
-    voucherLifespan: template?.voucherLifespan ?? 60, // TODO: to remove
-    // dailyCallsPerConsumer: template?.dailyCallsPerConsumer,
-    // dailyCallsTotal: template?.dailyCallsTotal,
-    // agreementApprovalPolicy: template?.agreementApprovalPolicy,
-    // attributes: template?.attributes,
-  }
-
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: template?.eserviceTemplate.name ?? '',
     description: template?.eserviceTemplate.description ?? '',
     intendedTarget: template?.eserviceTemplate.intendedTarget ?? '',
     technology: template?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
-    version: defaultVersionValue,
     isSignalHubEnabled: template?.eserviceTemplate.isSignalHubEnabled ?? false,
   }
 
