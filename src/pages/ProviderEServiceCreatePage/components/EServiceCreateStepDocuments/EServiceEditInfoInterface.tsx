@@ -32,6 +32,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
 
   const handleDownloadInterfaceDocument = () => {
+    console.log('templateRef', descriptor?.templateRef)
     if (descriptor?.templateRef?.templateId && descriptor?.templateRef?.templateInterfaceId)
       downloadDocument(
         {
@@ -104,14 +105,14 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
         <RHFTextField
           size="small"
           sx={{ flex: '1 1 50%' }}
-          name="name"
+          name="contactName"
           label={t('step4.template.interface.contactSection.contactNameField')}
           rules={{ required: true }}
         />
         <RHFTextField
           size="small"
           sx={{ flex: '1 1 50%', pl: 1 }}
-          name="email"
+          name="contactEmail"
           label={t('step4.template.interface.contactSection.emailField')}
           rules={{
             required: false,
@@ -124,7 +125,7 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
         <RHFTextField
           size="small"
           sx={{ flex: '0 0 50%' }}
-          name="url"
+          name="contactUrl"
           label={t('step4.template.interface.contactSection.urlField')}
         />
       </Stack>

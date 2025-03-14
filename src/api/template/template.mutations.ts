@@ -334,6 +334,17 @@ function useCreateInstanceFromEServiceTemplate() {
   })
 }
 
+function useUpdateInstanceFromEServiceTemplate() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.createDraft' })
+  return useMutation({
+    mutationFn: TemplateServices.updateInstanceFromEServiceTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const TemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateIntendedTarget,
@@ -355,4 +366,5 @@ export const TemplateMutations = {
   useSuspendVersion,
   useReactivateVersion,
   useCreateInstanceFromEServiceTemplate,
+  useUpdateInstanceFromEServiceTemplate,
 }

@@ -29,27 +29,17 @@ import {
 import { PageContainer } from '@/components/layout/containers'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from '../ProviderEServiceCreatePage/components/EServiceCreateContext'
-import { EServiceQueries } from '@/api/eservice'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { t: tTemplate } = useTranslation('template')
-  const { eServiceTemplateId, eserviceId, descriptorId } = useParams<
-    'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT'
-  >()
+  const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
   const { activeStep, ...stepProps } = useActiveStep()
   const generatePath = useGeneratePath()
 
-  const isNewEService = !eserviceId || !descriptorId
-
   const { data: template } = useQuery({
     ...TemplateQueries.getSingleByEServiceTemplateId(eServiceTemplateId),
-  })
-
-  const { data: descriptor, isLoading: isLoadingDescriptor } = useQuery({
-    ...EServiceQueries.getDescriptorProvider(eserviceId as string, descriptorId as string),
-    enabled: !isNewEService,
   })
 
   const steps: Array<StepperStep> =
@@ -76,7 +66,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
 
   const { component: Step } = steps[activeStep]
 
-  const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
+  // const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
   const isTemplateReady = Boolean(template)
 
   const activeTemplateversionId = template?.versions.find((v) => v.state === 'PUBLISHED')
@@ -135,10 +125,10 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
       }}
     >
       <Stepper steps={steps} activeIndex={activeStep} />
-      {isReady && isTemplateReady && (
+      {isTemplateReady && (
         <EServiceCreateContextProvider
           template={template}
-          descriptor={descriptor}
+          descriptor={undefined}
           eserviceMode={template?.mode as EServiceMode}
           onEserviceModeChange={undefined}
           {...stepProps}
@@ -146,7 +136,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           <Step />
         </EServiceCreateContextProvider>
       )}
-      {!isReady && stepsLoadingSkeletons[activeStep]}
+      {!isTemplateReady && stepsLoadingSkeletons[activeStep]}
     </PageContainer>
   )
 }

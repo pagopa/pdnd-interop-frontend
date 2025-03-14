@@ -6,7 +6,7 @@ import { Link } from '@/router'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
 import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
@@ -69,7 +69,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
         }
         params={{
           eServiceTemplateId: template.id ?? '',
-          eServiceTemplateVersionId: versionEserviceTemplate.toString(),
+          eServiceTemplateVersionId: template.activeVersion?.id ?? '',
         }}
       >
         {hasNotActiveVersionTemplate ? t('manageDraft') : t('inspect')}

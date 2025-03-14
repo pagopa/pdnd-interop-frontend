@@ -26,6 +26,7 @@ import type {
   CreatedResource,
   EServiceDoc,
   CompactOrganizations,
+  UpdateEServiceTemplateInstanceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
@@ -219,7 +220,6 @@ async function downloadVersionDraftDocument({
     { responseType: 'arraybuffer' }
   )
   return response.data
-  return
 }
 
 async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
@@ -516,6 +516,17 @@ async function createInstanceFromEServiceTemplate({
   return response.data
 }
 
+async function updateInstanceFromEServiceTemplate({
+  eServiceId,
+  ...payload
+}: UpdateEServiceTemplateInstanceSeed & { eServiceId: string }) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eServiceId}`,
+    payload
+  )
+  return response.data
+}
+
 async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServiceTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/templates`,
@@ -599,4 +610,5 @@ export const TemplateServices = {
   getSingleByEServiceTemplateId,
   getProviderTemplatesCatalogList,
   getProducersTemplateEserviceList,
+  updateInstanceFromEServiceTemplate,
 }

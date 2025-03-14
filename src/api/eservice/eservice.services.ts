@@ -456,16 +456,12 @@ async function updateEServiceInterfaceRESTInfo({
   descriptorId,
   ...payload
 }: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceRESTSeed) {
-  // const response = await axiosInstance.post<CreatedResource>(
-  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/interface/rest`,
-  //   payload
-  // )
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface`, // TODO: add rest at the end of url 
+    payload
+  )
 
-  const mockResponse: CreatedResource = {
-    id: '1234',
-  }
-
-  return mockResponse
+  return response.data
 }
 
 async function updateEServiceInterfaceSOAPInfo({
@@ -473,16 +469,12 @@ async function updateEServiceInterfaceSOAPInfo({
   descriptorId,
   ...payload
 }: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceSOAPSeed) {
-  // const response = await axiosInstance.post<CreatedResource>(
-  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/interface/soap`,
-  //   payload
-  // )
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface/soap`,
+    payload
+  )
 
-  const mockResponse: CreatedResource = {
-    id: '1234',
-  }
-
-  return mockResponse
+  return response.data
 }
 
 /**

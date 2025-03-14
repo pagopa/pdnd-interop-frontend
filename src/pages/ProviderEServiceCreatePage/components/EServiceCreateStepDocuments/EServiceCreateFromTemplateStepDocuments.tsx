@@ -16,8 +16,8 @@ import SaveIcon from '@mui/icons-material/Save'
 import type {
   TemplateInstanceInterfaceMetadata,
   EServiceTechnology,
-  TemplateInstanceInterfaceRESTSeed,
-  TemplateInstanceInterfaceSOAPSeed,
+  // TemplateInstanceInterfaceRESTSeed,
+  // TemplateInstanceInterfaceSOAPSeed,
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 
