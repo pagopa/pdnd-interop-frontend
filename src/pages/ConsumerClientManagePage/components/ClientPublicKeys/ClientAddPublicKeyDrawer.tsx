@@ -31,7 +31,7 @@ export const ClientAddPublicKeyDrawer: React.FC<ClientAddPublicKeyDrawerProps> =
   const handleSubmit = formMethods.handleSubmit((values) => {
     const { key, name } = values
     postKey(
-      { clientId, payload: [{ use: 'SIG', alg: 'RS256', name, key: window.btoa(key.trim()) }] },
+      { clientId, payload: { use: 'SIG', alg: 'RS256', name, key: window.btoa(key.trim()) } },
       { onSuccess: onClose }
     )
   })
