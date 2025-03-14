@@ -168,6 +168,7 @@
           },
           "description": {
             "rest": "Compile following fields and openAPI will be automatically generated",
+            "soap": "Compile following fields and WASDL will be automatically generated",
             "download": "Download interface API file"
           }
         }

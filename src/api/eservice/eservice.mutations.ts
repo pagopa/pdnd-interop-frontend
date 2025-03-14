@@ -397,12 +397,26 @@ function useUpdateEServiceName() {
   })
 }
 
-function useUpdatEServiceInterfaceInfo() {
+function useUpdateEServiceInterfaceRESTInfo() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateEServiceInterfaceInfo',
   })
   return useMutation({
-    mutationFn: EServiceServices.updateEServiceInterfaceInfo,
+    mutationFn: EServiceServices.updateEServiceInterfaceRESTInfo,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateEServiceInterfaceSOAPInfo() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceInterfaceInfo',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServiceInterfaceSOAPInfo,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -460,7 +474,8 @@ export const EServiceMutations = {
   useApproveDelegatedVersionDraft,
   useRejectDelegatedVersionDraft,
   useUpdateEServiceName,
-  useUpdatEServiceInterfaceInfo,
+  useUpdateEServiceInterfaceRESTInfo,
+  useUpdateEServiceInterfaceSOAPInfo,
   useUpgradeEService,
   useUpdateInstanceVersionDraft,
 }
