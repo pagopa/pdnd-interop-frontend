@@ -511,7 +511,7 @@ async function updateInstanceVersionDraft({
   eserviceId: string
   descriptorId: string
 } & UpdateEServiceDescriptorTemplateInstanceSeed) {
-  const response = await axiosInstance.put<CreatedResource>(
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}`,
     payload
   )
