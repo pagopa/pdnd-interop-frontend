@@ -27,7 +27,6 @@ type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName: string | undefined
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
-  //riskAnalysisPrivate?: RiskAnalysisFormConfig
   onSubmit: (name: string, answers: Record<string, string[]>, tenantKind: TenantKind) => void
   onCancel: VoidFunction
 }
@@ -36,8 +35,6 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
   CreateStepPurposeRiskAnalysisFormProps
 > = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
-
-  //const [riskAnalysis, setriskAnalysis] = React.useState(riskAnalysis)
 
   const [_, startTransition] = React.useTransition()
   const [defaultValues, __] = React.useState<Answers>(() =>

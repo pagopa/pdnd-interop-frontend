@@ -19,7 +19,10 @@ type EServiceTemplateCreateContextType = {
     riskAnalysisId: string | undefined
   }
   tenantKind: TenantKind
-  openRiskAnalysisForm: (riskAnalysisId?: string, tenantKindSelected?: TenantKind) => void
+  openRiskAnalysisForm: (value: {
+    riskAnalysisId?: string
+    tenantKindSelected?: TenantKind
+  }) => void
   closeRiskAnalysisForm: VoidFunction
 }
 
@@ -66,7 +69,13 @@ const EServiceTemplateCreateContextProvider: React.FC<
 
   const [tenantKind, setTenantKind] = React.useState<TenantKind>('PA')
 
-  const openRiskAnalysisForm = (riskAnalysisId?: string, tenantKindSelected?: TenantKind) => {
+  const openRiskAnalysisForm = ({
+    riskAnalysisId,
+    tenantKindSelected,
+  }: {
+    riskAnalysisId?: string
+    tenantKindSelected?: TenantKind
+  }) => {
     if (tenantKindSelected) {
       setTenantKind(tenantKindSelected)
     }

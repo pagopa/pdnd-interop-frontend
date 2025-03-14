@@ -21,8 +21,8 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
 
   const { openDialog } = useDialog()
 
-  const handleDialogConfirm = (selectedTenantKind: string) => {
-    openRiskAnalysisForm(undefined, selectedTenantKind as TenantKind)
+  const handleDialogConfirm = (tenantKindSelected: string) => {
+    openRiskAnalysisForm({ tenantKindSelected: tenantKindSelected as TenantKind })
   }
 
   const handleAddNewPurpose = () => {
@@ -33,7 +33,7 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
   }
 
   const handleEditPurpose = (riskAnalysisId: string) => {
-    openRiskAnalysisForm(riskAnalysisId)
+    openRiskAnalysisForm({ riskAnalysisId })
   }
 
   const handleDeletePurpose = (riskAnalysisId: string) => {

@@ -83,7 +83,6 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
       defaultName={riskAnalysisToEdit?.name}
       defaultAnswers={riskAnalysisToEdit?.riskAnalysisForm.answers}
       riskAnalysis={riskAnalysisLatest}
-      //riskAnalysisPrivate={riskAnalysisPrivate}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
     />
