@@ -28,12 +28,22 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptorId,
     descriptor?.eservice.draftDescriptor?.id,
     descriptor?.eservice.mode,
-    descriptor?.eservice.name
+    descriptor?.eservice.name,
+    undefined, // delegations not needeed
+    descriptor?.templateRef
   )
+
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
+  const isInstaceLabelAvailable = Boolean(descriptor?.templateRef?.instanceLabel)
+
+  const title =
+    isEserviceFromTemplate && isInstaceLabelAvailable
+      ? `${descriptor?.eservice.name} (${descriptor?.templateRef?.instanceLabel})`
+      : `${descriptor?.eservice.name}`
 
   return (
     <PageContainer
-      title={descriptor?.eservice.name || ''}
+      title={title || ''}
       topSideActions={actions}
       isLoading={!descriptor}
       statusChip={
