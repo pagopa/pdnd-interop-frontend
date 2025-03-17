@@ -506,7 +506,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction, suspendAction]
+      () => [upgradeEServiceAction, suspendAction, createNewDraftAction]
     )
     .with(
       {
@@ -516,7 +516,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => [suspendAction]
+      () => [suspendAction, createNewDraftAction]
     )
     .with(
       {
@@ -717,7 +717,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [reactivateAction, upgradeEServiceAction]
+      () => [reactivateAction, upgradeEServiceAction, createNewDraftAction]
     )
     .with(
       {
@@ -727,7 +727,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => [reactivateAction]
+      () => [reactivateAction, createNewDraftAction]
     )
     .with(
       {
