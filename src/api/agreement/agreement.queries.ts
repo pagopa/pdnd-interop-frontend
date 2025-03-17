@@ -1,11 +1,11 @@
 import { queryOptions } from '@tanstack/react-query'
 import type {
   GetAgreementsConsumersParams,
-  GetAgreementsConsumerEServicesParams,
-  GetAgreementsProducerEServicesParams,
   GetAgreementsProducersParams,
   GetConsumerAgreementsParams,
   GetProducerAgreementsParams,
+  GetAgreementsProducerEServicesParams,
+  GetAgreementsConsumerEServicesParams,
 } from '../api.generatedTypes'
 import { AgreementServices } from './agreement.services'
 

@@ -15,6 +15,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { payloadVerificationGuideLink } from '@/config/constants'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import type { UpdateEServiceDescriptorTemplateInstanceSeed } from '@/api/api.generatedTypes'
 
 export type EServiceCreateStepVersionFormValues = {
   audience: string
@@ -32,6 +33,10 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { descriptor, forward, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
+    suppressSuccessToast: true,
+  })
+
+  const { mutate: updateInstanceVersionDraft } = EServiceMutations.useUpdateInstanceVersionDraft({
     suppressSuccessToast: true,
   })
 
@@ -66,23 +71,43 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
       return
     }
 
-    const payload = {
-      eserviceId: descriptor.eservice.id,
-      attributes: { certified: [], verified: [], declared: [] },
-      ...omit(newDescriptorData, ['version']),
-    }
+    if (isEServiceCreatedFromTemplate) {
+      const payload: UpdateEServiceDescriptorTemplateInstanceSeed = {
+        agreementApprovalPolicy: newDescriptorData.agreementApprovalPolicy,
+        audience: newDescriptorData.audience,
+        dailyCallsPerConsumer: values.dailyCallsPerConsumer,
+        dailyCallsTotal: values.dailyCallsTotal,
+      }
 
-    updateVersionDraft(
-      {
-        ...payload,
-        descriptorId: descriptor.id,
-        attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
-      },
-      { onSuccess: forward }
-    )
+      updateInstanceVersionDraft(
+        {
+          ...payload,
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+        },
+        { onSuccess: forward }
+      )
+    } else {
+      const payload = {
+        eserviceId: descriptor.eservice.id,
+        attributes: { certified: [], verified: [], declared: [] },
+        ...omit(newDescriptorData, ['version']),
+      }
+
+      updateVersionDraft(
+        {
+          ...payload,
+          descriptorId: descriptor.id,
+          attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
+        },
+        { onSuccess: forward }
+      )
+    }
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
+  // if this field is true some textField should be disabled
+  const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
 
   return (
     <FormProvider {...formMethods}>
@@ -99,6 +124,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
             focusOnMount
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
+            disabled={isEServiceCreatedFromTemplate}
             sx={{ my: 0, mt: 1 }}
           />
           <SectionContainer innerSection title={t('step2.voucherSection.title')} sx={{ mt: 3 }}>
@@ -112,6 +138,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
                 inputProps={{ min: 1, max: 1440 }}
                 rules={{ required: true, min: 1, max: 1440 }}
                 sx={{ flex: 1, my: 0 }}
+                disabled={isEServiceCreatedFromTemplate}
               />
 
               <RHFTextField
