@@ -2,6 +2,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { IconLink } from '@/components/shared/IconLink'
 import {
   implementAndManageEServiceGuideLink,
+  interfaceVerificationGuideLink,
   voucherVerificationGuideLink,
 } from '@/config/constants'
 import { WELL_KNOWN_URLS } from '@/config/env'
@@ -38,6 +39,13 @@ export const ProviderEServiceUsefulLinksSection: React.FC = () => {
           startIcon={<LaunchIcon fontSize="small" />}
         >
           {t('usefulLinks.wellKnown')}
+        </IconLink>
+        <IconLink
+          href={interfaceVerificationGuideLink}
+          target="_blank"
+          startIcon={<LaunchIcon fontSize="small" />}
+        >
+          {t('usefulLinks.interfaceChecksum')}
         </IconLink>
       </Stack>
     </SectionContainer>

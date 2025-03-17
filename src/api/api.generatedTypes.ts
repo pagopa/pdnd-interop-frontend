@@ -368,6 +368,8 @@ export interface ProducerEServiceDescriptor {
   deprecatedAt?: string
   /** @format date-time */
   archivedAt?: string
+  /** @format date-time */
+  suspendedAt?: string
   rejectionReasons?: DescriptorRejectionReason[]
 }
 
@@ -402,6 +404,7 @@ export interface EServiceDoc {
   name: string
   contentType: string
   prettyName: string
+  checksum: string
 }
 
 export interface UpdateEServiceDescriptorDocumentSeed {
@@ -1589,7 +1592,7 @@ export interface GetProducerAgreementsParams {
   showOnlyUpgradeable?: boolean
 }
 
-export interface GetAgreementProducersParams {
+export interface GetAgreementsProducersParams {
   /** Query to filter Producers by name */
   q?: string
   /**
@@ -1605,7 +1608,7 @@ export interface GetAgreementProducersParams {
   limit: number
 }
 
-export interface GetAgreementConsumersParams {
+export interface GetAgreementsConsumersParams {
   /** Query to filter Consumers by name */
   q?: string
   /**
@@ -1744,14 +1747,9 @@ export interface GetProducerEServicesParams {
   limit: number
 }
 
-export interface GetAgreementEServiceProducersParams {
+export interface GetAgreementsProducerEServicesParams {
   /** Query to filter EServices by name */
   q?: string
-  /**
-   * comma separated sequence of states
-   * @default []
-   */
-  states?: AgreementState[]
   /**
    * @format int32
    * @min 0
@@ -1765,7 +1763,7 @@ export interface GetAgreementEServiceProducersParams {
   limit: number
 }
 
-export interface GetAgreementEServiceConsumersParams {
+export interface GetAgreementsConsumerEServicesParams {
   /** Query to filter EServices by name */
   q?: string
   /**
@@ -2177,12 +2175,12 @@ export namespace Consumers {
   /**
    * @description Retrieves eservices for consumers in agreements
    * @tags agreements
-   * @name GetAgreementEServiceConsumers
+   * @name GetAgreementsConsumerEServices
    * @summary Retrieves eservices for consumers in agreements
    * @request GET:/consumers/agreements/eservices
    * @secure
    */
-  export namespace GetAgreementEServiceConsumers {
+  export namespace GetAgreementsConsumerEServices {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter EServices by name */
@@ -2468,21 +2466,16 @@ export namespace Producers {
   /**
    * @description Retrieves eservices for producers in agreements
    * @tags agreements
-   * @name GetAgreementEServiceProducers
+   * @name GetAgreementsProducerEServices
    * @summary Retrieves eservices for producers in agreements
    * @request GET:/producers/agreements/eservices
    * @secure
    */
-  export namespace GetAgreementEServiceProducers {
+  export namespace GetAgreementsProducerEServices {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter EServices by name */
       q?: string
-      /**
-       * comma separated sequence of states
-       * @default []
-       */
-      states?: AgreementState[]
       /**
        * @format int32
        * @min 0
@@ -2700,12 +2693,12 @@ export namespace Agreements {
   /**
    * @description Retrieves Tenants that are producers with existing Agreements
    * @tags agreements
-   * @name GetAgreementProducers
+   * @name GetAgreementsProducers
    * @summary Retrieves Tenants that are producers with existing Agreements
    * @request GET:/agreements/filter/producers
    * @secure
    */
-  export namespace GetAgreementProducers {
+  export namespace GetAgreementsProducers {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter Producers by name */
@@ -2731,12 +2724,12 @@ export namespace Agreements {
   /**
    * @description Retrieves Tenants that are consumers with existing Agreements
    * @tags agreements
-   * @name GetAgreementConsumers
+   * @name GetAgreementsConsumers
    * @summary Retrieves Tenants that are consumers with existing Agreements
    * @request GET:/agreements/filter/consumers
    * @secure
    */
-  export namespace GetAgreementConsumers {
+  export namespace GetAgreementsConsumers {
     export type RequestParams = {}
     export type RequestQuery = {
       /** Query to filter Consumers by name */

@@ -91,6 +91,15 @@ export const ProviderEServiceDocumentationSection: React.FC<
             </Stack>
           }
         />
+        {descriptor.interface?.checksum && (
+          <InformationContainer
+            label={t('documentation.interfaceChecksum')}
+            content={descriptor.interface.checksum}
+            copyToClipboard={{
+              value: descriptor.interface.checksum,
+            }}
+          />
+        )}
       </SectionContainer>
       <ProviderEServiceUpdateDocumentationDrawer
         isOpen={isOpen}
