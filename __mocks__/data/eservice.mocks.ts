@@ -78,6 +78,7 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
   },
   id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
   interface: {
+    checksum: 'checksum',
     contentType: 'application/octet-stream',
     id: '4cd1ef19-77b7-468f-8693-c6cebac12912',
     name: 'example_open_api.yml',
