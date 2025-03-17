@@ -396,6 +396,11 @@
     "DELEGATION_DETAILS": "Manage delegation",
     "PROVIDE_ESERVICE_TEMPLATE_CATALOG": "Templates catalog",
     "PROVIDE_ESERVICE_TEMPLATE_LIST": "Your templates",
-    "PROVIDE_ESERVICE_TEMPLATE_DETAILS": "View template"
+    "PROVIDE_ESERVICE_TEMPLATE_DETAILS": "View template",
+    "SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS": "View template",
+    "PROVIDE_ESERVICE_TEMPLATE_CREATE":"Create E-Service template",
+    "PROVIDE_ESERVICE_TEMPLATE_EDIT":"Update E-Service template",
+    "PROVIDE_ESERVICE_TEMPLATE_SUMMARY":"E-Service template Summary",
+    "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE" :"Create E-Service from template"
   }
 }

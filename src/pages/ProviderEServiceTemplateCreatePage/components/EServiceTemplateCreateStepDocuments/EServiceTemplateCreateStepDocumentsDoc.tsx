@@ -6,7 +6,7 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
+import type { Document } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateDownloads } from '@/api/template/template.downloads'
@@ -32,7 +32,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
     TemplateMutations.useUpdateVersionDraftDocumentDescription()
   const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
 
-  const docs = templateVersion?.docs ?? []
+  const docs = (templateVersion?.docs as unknown as Document[]) ?? [] //TODO: Change after BE updated BFF
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
@@ -72,7 +72,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
     })
   }
 
-  const handleDeleteDocument = (document: EServiceDoc) => {
+  const handleDeleteDocument = (document: Document) => {
     if (!templateVersion) return
     deleteDocument({
       eServiceTemplateId: templateVersion.eserviceTemplate.id,
@@ -81,7 +81,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
     })
   }
 
-  const handleDownloadDocument = (document: EServiceDoc) => {
+  const handleDownloadDocument = (document: Document) => {
     if (!templateVersion) return
     downloadDocument(
       {

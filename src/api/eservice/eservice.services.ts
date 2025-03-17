@@ -24,8 +24,9 @@ import type {
   ProducerEServiceDetails,
   ProducerEServices,
   RejectDelegatedEServiceDescriptorSeed,
-  TemplateInstanceInterfaceRESTSeed,
-  TemplateInstanceInterfaceSOAPSeed,
+  TemplateInstanceInterfaceMetadata,
+  // TemplateInstanceInterfaceRESTSeed,
+  // TemplateInstanceInterfaceSOAPSeed,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
@@ -455,9 +456,9 @@ async function updateEServiceInterfaceRESTInfo({
   eserviceId,
   descriptorId,
   ...payload
-}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceRESTSeed) {
+}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceMetadata) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface`, // TODO: add rest at the end of url 
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface`, // TODO: add rest at the end of url
     payload
   )
 
@@ -468,7 +469,7 @@ async function updateEServiceInterfaceSOAPInfo({
   eserviceId,
   descriptorId,
   ...payload
-}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceSOAPSeed) {
+}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceMetadata) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface/soap`,
     payload

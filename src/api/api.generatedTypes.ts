@@ -1536,6 +1536,10 @@ export interface EServiceTemplateDescriptionUpdateSeed {
   description: string
 }
 
+export interface EServiceTemplateIntendedTargetUpdateSeed {
+  intendedTarget: string
+}
+
 /** EService Descriptor State */
 export type EServiceTemplateVersionState = 'DRAFT' | 'PUBLISHED' | 'DEPRECATED' | 'SUSPENDED'
 
@@ -4924,7 +4928,7 @@ export namespace Eservices {
       eServiceTemplateId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceTemplateDescriptionUpdateSeed
+    export type RequestBody = EServiceTemplateIntendedTargetUpdateSeed
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }

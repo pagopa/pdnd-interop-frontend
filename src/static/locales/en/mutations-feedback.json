@@ -234,6 +234,7 @@
         "success": "E-service interface info updated correctly"
       }
     },
+  },
     "attribute": {
       "create": {
         "loading": "Saving new attribute",
@@ -753,8 +754,7 @@
           "error": "It was not possible to download the contract. Please try again"
         }
       }
-    }
-  },
+    },
   "eserviceTemplate": {
     "updateEServiceTemplateName": {
       "loading": "We are updating the e-service template name",

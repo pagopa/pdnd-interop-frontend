@@ -22,7 +22,7 @@ import type {
   CreatedEServiceTemplateVersion,
   CatalogEServiceTemplates,
   GetEServiceTemplateInstancesParams,
-  EServiceTemplateRiskAnalysisSeed,
+  // EServiceTemplateRiskAnalysisSeed,
   CreatedResource,
   EServiceDoc,
   CompactOrganizations,
@@ -36,61 +36,6 @@ async function getProviderTemplatesList(params: GetProducerEServicesParams) {
     { params }
   )
   return response.data
-  // const response: ProducerEServiceTemplates = {
-  //   results: [
-  //     {
-  //       id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  //       name: 'Mock template 1',
-  //       mode: 'DELIVER',
-  //       activeVersion: {
-  //         id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  //         version: 1,
-  //         state: 'PUBLISHED',
-  //       },
-  //       draftVersion: {
-  //         id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  //         version: 2,
-  //         state: 'DRAFT',
-  //       },
-  //     },
-  //     {
-  //       id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
-  //       name: 'Mock template 2',
-  //       mode: 'RECEIVE',
-  //       activeVersion: {
-  //         id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
-  //         version: 1,
-  //         state: 'DRAFT',
-  //       },
-  //       draftVersion: {
-  //         id: 'd9e1f34f-2c74-423f-9235-b56e9b99b3bf',
-  //         version: 1,
-  //         state: 'DRAFT',
-  //       },
-  //     },
-  //     {
-  //       id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
-  //       name: 'Mock template 3',
-  //       mode: 'DELIVER',
-  //       activeVersion: {
-  //         id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
-  //         version: 2,
-  //         state: 'PUBLISHED',
-  //       },
-  //       draftVersion: {
-  //         id: '29a8a7f8-6f93-4d47-a63d-6f31e54762f9',
-  //         version: 3,
-  //         state: 'DRAFT',
-  //       },
-  //     },
-  //   ],
-  //   pagination: {
-  //     offset: 0,
-  //     limit: 3,
-  //     totalCount: 3,
-  //   },
-  // }
-  // return response
 }
 
 async function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string) {
@@ -148,8 +93,6 @@ async function updateEServiceTemplateQuotas({
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/quotas/update`,
     payload
   )
-
-  return
 }
 
 async function postVersionDraftDocument({
@@ -169,7 +112,6 @@ async function postVersionDraftDocument({
     { headers: { 'Content-Type': 'multipart/form-data' } }
   )
   return response.data
-  return
 }
 
 async function deleteVersionDraftDocument({
@@ -184,8 +126,6 @@ async function deleteVersionDraftDocument({
   return await axiosInstance.delete<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/documents/${documentId}`
   )
-
-  return
 }
 
 async function updateVersionDraftDocumentDescription({
@@ -203,7 +143,6 @@ async function updateVersionDraftDocumentDescription({
     payload
   )
   return response.data
-  return
 }
 
 async function downloadVersionDraftDocument({
@@ -227,52 +166,6 @@ async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreat
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/filter/creators`,
     { params }
   )
-
-  // const mockResponse = {
-  //   pagination: {
-  //     offset: 0,
-  //     limit: 6,
-  //     totalCount: 1,
-  //   },
-  //   results: [
-  //     {
-  //       creator: {
-  //         kind: 'PA',
-  //         name: 'name',
-  //         id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
-  //         contactMail: {
-  //           address: 'address',
-  //           description: 'description',
-  //         },
-  //       },
-  //       publishedVersion: {
-  //         id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
-  //         version: 5,
-  //       },
-  //       name: 'name',
-  //       description: 'description',
-  //       id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
-  //     },
-  //     {
-  //       creator: {
-  //         kind: 'PA',
-  //         name: 'name',
-  //         id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
-  //         contactMail: {
-  //           address: 'address',
-  //           description: 'description',
-  //         },
-  //       },
-  //       publishedVersion: {
-  //         id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
-  //         version: 5,
-  //       },
-  //       name: 'name',
-  //       description: 'description',
-  //       id: '046b6c7f-0b8a-43b9-b35d-6489e6daee91',
-  //     },
-  //   ],
-  // }
   return response.data
 }
 
@@ -313,8 +206,6 @@ async function updateDraft({
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}`,
     payload
   )
-
-  return
 }
 
 async function updateVersionDraft({
@@ -336,7 +227,8 @@ async function addTemplateRiskAnalysis({
   ...payload
 }: {
   eServiceTemplateId: string
-} & EServiceTemplateRiskAnalysisSeed) {
+} & unknown) {
+  //TODO: This has to be removed when EServiceTemplateRiskAnalysisSeed will be available
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis`,
     payload
@@ -350,7 +242,8 @@ async function updateTemplateRiskAnalysis({
 }: {
   eServiceTemplateId: string
   riskAnalysisId: string
-} & EServiceTemplateRiskAnalysisSeed) {
+} & unknown) {
+  //TODO: This has to be removed when EServiceTemplateRiskAnalysisSeed will be available
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/${riskAnalysisId}`,
     payload
@@ -367,7 +260,6 @@ async function deleteTemplateRiskAnalysis({
   return await axiosInstance.delete<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/${riskAnalysisId} `
   )
-  return
 }
 
 async function updateAttributes({
@@ -396,7 +288,6 @@ async function publishVersionDraft({
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/publish`
   )
-  return
 }
 
 async function deleteVersionDraft({
@@ -409,7 +300,6 @@ async function deleteVersionDraft({
   return await axiosInstance.delete<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}`
   )
-  return
 }
 
 async function suspendVersion({
@@ -422,7 +312,6 @@ async function suspendVersion({
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/suspend`
   )
-  return
 }
 
 async function reactivateVersion({
@@ -435,7 +324,6 @@ async function reactivateVersion({
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/activate`
   )
-  return
 }
 // TODO: To fix
 async function getProviderTemplateInstancesList({
@@ -486,44 +374,6 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
   const response = await axiosInstance.get<EServiceTemplateDetails>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}`
   )
-  // return response;
-  // const response: EServiceTemplateDetails = {
-  //   id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  //   creator: {
-  //     id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  //     name: 'Template di prova',
-  //     kind: 'PA',
-  //     contactMail: {
-  //       address: 'string',
-  //       description: 'string',
-  //     },
-  //   },
-  //   name: 'Template di prova',
-  //   audienceDescription: 'string',
-  //   eserviceDescription: 'questa è una descrizione di prova',
-  //   technology: 'REST',
-  //   versions: [
-  //     {
-  //       id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  //       version: 0,
-  //       state: 'PUBLISHED',
-  //     },
-  //   ],
-  //   riskAnalysis: [
-  //     {
-  //       id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  //       name: 'string',
-  //       riskAnalysisForm: {
-  //         version: 'string',
-  //         answers: {},
-  //         riskAnalysisId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  //       },
-  //       createdAt: '2025-02-25T11:38:40.778Z',
-  //     },
-  //   ],
-  //   mode: 'DELIVER',
-  //   isSignalHubEnabled: true,
-  // }
   return response.data
 }
 

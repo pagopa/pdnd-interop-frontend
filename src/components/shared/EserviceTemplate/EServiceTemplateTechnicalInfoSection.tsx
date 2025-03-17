@@ -46,7 +46,7 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
         <Divider />
         <EServiceTemplateThresholdsSection readonly={readonly} template={template} />
         <Divider />
-        <EServiceTemplateDocumentationSection readonly={readonly} template={template} />
+        <EServiceTemplateDocumentationSection readonly={readonly} templateVersion={template} />
         <Divider />
         <EServiceTemplateUsefulLinksSection />
       </Stack>

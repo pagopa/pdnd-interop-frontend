@@ -162,7 +162,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
           <Divider />
           <SectionContainer
             innerSection
-            title={t('eserviceTemplateIntendedTarget.label')}
+            title={t('eserviceTemplateintendedTarget.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
             topSideActions={
               readonly

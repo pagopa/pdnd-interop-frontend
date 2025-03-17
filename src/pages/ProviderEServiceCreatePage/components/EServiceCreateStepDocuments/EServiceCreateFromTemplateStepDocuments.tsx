@@ -86,7 +86,8 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     eserviceId: string,
     descriptorId: string
   ) => {
-    const payload: TemplateInstanceInterfaceRESTSeed = {
+    const payload: TemplateInstanceInterfaceMetadata = {
+      // TODO: to be changed in TemplateInstanceInterfaceRESTSeed when it will be available
       contactName: values.contactName as string,
       contactEmail: values.contactEmail as string,
       contactUrl: values.contactUrl,
@@ -102,15 +103,15 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
   }
 
   const onSoapApiSubmit = (serverUrls: string[], eserviceId: string, descriptorId: string) => {
-    const payload: TemplateInstanceInterfaceSOAPSeed = {
-      serverUrls,
-    }
-
-    updateEServiceSOAPInterfaceInfo({
-      ...payload,
-      eserviceId,
-      descriptorId,
-    })
+    // const payload: TemplateInstanceInterfaceSOAPSeed = {
+    //   serverUrls,
+    // }
+    //TODO: This will be updated when API will be ready
+    // updateEServiceSOAPInterfaceInfo({
+    //   ...payload,
+    //   eserviceId,
+    //   descriptorId,
+    // })
   }
 
   return (
