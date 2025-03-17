@@ -348,6 +348,7 @@
           "copySuccessFeedbackText": "Version id copied successfully"
         },
         "publishedAt": "Last version date",
+        "suspendedAt": "Last suspended date",
         "deprecatedAt": "Deprecated version date",
         "archivedAt": "Archived version date",
         "mode": {
@@ -375,13 +376,15 @@
         },
         "documentation": {
           "title": "Documentation",
-          "label": "Documents list"
+          "label": "Documents list",
+          "interfaceChecksum": "Interface file checksum"
         },
         "usefulLinks": {
           "title": "Useful links",
           "implementAndManageEService": "How do I implement and manage an e-service?",
           "verifyVoucher": "How do I verify a consumer's voucher?",
-          "wellKnown": "URL .well-known"
+          "wellKnown": "URL .well-known",
+          "interfaceChecksum": "How to calculate the interface file checksum yourself?"
         },
         "isSignalHubEnabled": {
           "label": "Is available the data update system (Signal Hub)? ",
@@ -438,6 +441,7 @@
       },
       "technicalInfoDrawer": {
         "title": "E-Service technical informations",
+        "suspendedAt": "Last suspended date",
         "technology": "Technology",
         "audience": "Audience",
         "voucherLifespan": "Voucher lifespan",
@@ -460,12 +464,14 @@
           }
         },
         "documentation": "Documentation",
+        "interfaceChecksum": "How to calculate the interface file checksum yourself?",
         "usefulLinks": {
           "title": "Useful links",
           "integrateEService": "How do I integrate an e-service?",
           "implementAndManageEService": "How do I implement and manage an e-service?",
           "verifyVoucher": "How do I verify a consumer's voucher?",
-          "wellKnown": "URL .well-known"
+          "wellKnown": "URL .well-known",
+          "interfaceChecksum": "How to calculate the interface file checksum yourself?"
         }
       },
       "producerContactsInfoDrawer": {

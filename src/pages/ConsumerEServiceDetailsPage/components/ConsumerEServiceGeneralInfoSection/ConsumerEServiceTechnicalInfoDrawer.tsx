@@ -9,8 +9,8 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
-import { manageEServiceGuideLink } from '@/config/constants'
-import { secondsToMinutes } from '@/utils/format.utils'
+import { interfaceVerificationGuideLink, manageEServiceGuideLink } from '@/config/constants'
+import { formatDateString, secondsToMinutes } from '@/utils/format.utils'
 
 type ConsumerEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
@@ -45,6 +45,14 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title={t('title')}>
       <Stack spacing={3}>
+        {descriptor.suspendedAt && descriptor.state === 'SUSPENDED' && (
+          <InformationContainer
+            label={t('suspendedAt')}
+            content={formatDateString(descriptor.suspendedAt)}
+            direction="column"
+          />
+        )}
+
         <InformationContainer
           label={t('technology')}
           content={descriptor.eservice.technology}
@@ -111,6 +119,16 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
           direction="column"
         />
 
+        {descriptor.interface?.checksum && (
+          <InformationContainer
+            label={t('interfaceChecksum')}
+            content={descriptor.interface.checksum}
+            copyToClipboard={{
+              value: descriptor.interface.checksum,
+            }}
+          />
+        )}
+
         <InformationContainer
           label={t('usefulLinks.title')}
           content={
@@ -121,6 +139,13 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
                 startIcon={<LaunchIcon fontSize="small" />}
               >
                 {t('usefulLinks.integrateEService')}
+              </IconLink>
+              <IconLink
+                href={interfaceVerificationGuideLink}
+                target="_blank"
+                startIcon={<LaunchIcon fontSize="small" />}
+              >
+                {t('usefulLinks.interfaceChecksum')}
               </IconLink>
             </Stack>
           }

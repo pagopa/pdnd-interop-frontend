@@ -1,4 +1,4 @@
-import type { EServiceDoc, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { Document, EServiceDoc, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { Box, Button, Divider, Stack, Tooltip, Typography } from '@mui/material'
 import React from 'react'
@@ -100,7 +100,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
     )
   }
 
-  const handleDeleteDocument = (document: EServiceDoc) => {
+  const handleDeleteDocument = (document: EServiceDoc | Document) => {
     if (!descriptor) return
     // check if the only document in the current page, that means we should go to the previous page when this is deleted
     const isTheOnlyDocumentInCurrentPage = paginatedDocs.length === 1
@@ -131,7 +131,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
     })
   }
 
-  const handleDownloadDocument = (document: EServiceDoc) => {
+  const handleDownloadDocument = (document: EServiceDoc | Document) => {
     downloadDocument(
       {
         eserviceId: descriptor.eservice.id,
