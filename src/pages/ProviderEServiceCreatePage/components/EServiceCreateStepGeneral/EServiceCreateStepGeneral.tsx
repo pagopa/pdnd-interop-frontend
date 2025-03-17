@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Link } from '@mui/material'
+import { Alert, Box, FormControlLabel, Link, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -82,9 +82,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       // If nothing has changed skip the update call
       const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
 
-      if (!isEServiceTheSame)
+      if (!isEServiceTheSame) {
         updateDraft({ eserviceId: descriptor.eservice.id, ...formValues }, { onSuccess: forward })
-      else forward()
+      } else forward()
 
       return
     }
@@ -225,15 +225,33 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
           {isSignalHubFlagEnabled && (
-            <SectionContainer
-              innerSection
-              title={t('create.step1.eserviceModeField.isSignalHubEnabled.label')}
-              sx={{ mt: 3 }}
-            >
-              <RHFSwitch
-                label={t('create.step1.eserviceModeField.isSignalHubEnabled.switchLabel')}
+            <SectionContainer innerSection sx={{ mt: 3 }}>
+              <FormControlLabel
+                disabled={!areEServiceGeneralInfoEditable || !!template}
                 name="isSignalHubEnabled"
-                disabled={!areEServiceGeneralInfoEditable}
+                control={
+                  <RHFCheckbox
+                    name="isSignalHubEnabled"
+                    label={
+                      <>
+                        {' '}
+                        <span> {t('create.step1.isSignalHubEnabled.label')}</span>
+                        <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
+                          {t('create.step1.isSignalHubEnabled.infoLabel.before')}{' '}
+                          <IconLink
+                            href={''} //TODO
+                            target="_blank"
+                            endIcon={<LaunchIcon fontSize="small" />}
+                          >
+                            {t('create.step1.isSignalHubEnabled.infoLabel.linkLabel')}
+                          </IconLink>{' '}
+                          {t('create.step1.isSignalHubEnabled.infoLabel.after')}
+                        </Typography>
+                      </>
+                    }
+                  />
+                }
+                label={undefined}
                 sx={{ my: 0 }}
               />
             </SectionContainer>

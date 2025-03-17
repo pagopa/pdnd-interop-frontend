@@ -40,10 +40,14 @@
         "options": {
           "DELIVER": "Deliver",
           "RECEIVE": "Receive"
-        },
-        "isSignalHubEnabled": {
-          "label": "Is available the data update system (Signal Hub)? ",
-          "switchLabel": "Yes, it is available"
+        }
+      },
+      "isSignalHubEnabled": {
+        "label": "I will report any data changes on Signal Hub.",
+        "infoLabel": {
+          "before": "Signal Hub uses the",
+          "linkLabel": "push service",
+          "after": "to generate notifications related to data changes regarding the e-service."
         }
       },
       "delegationSection": {

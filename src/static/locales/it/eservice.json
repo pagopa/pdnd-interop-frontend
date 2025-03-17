@@ -40,10 +40,14 @@
         "options": {
           "DELIVER": "Eroga",
           "RECEIVE": "Riceve"
-        },
-        "isSignalHubEnabled": {
-          "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
-          "switchLabel": "Sì, è disponibile"
+        }
+      },
+      "isSignalHubEnabled": {
+        "label": "Notificherò su Signal Hub le variazioni dei dati",
+        "infoLabel": {
+          "before": "Signal Hub utilizza il",
+          "linkLabel": "servizio di push",
+          "after": "per generare notifiche relative alle variazioni dei dati relativi all’e-service."
         }
       },
       "delegationSection": {
