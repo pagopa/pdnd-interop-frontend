@@ -35,6 +35,7 @@ export type DialogProps =
   | DialogRevokeDelegationProps
   | DialogRejectDelegatedVersionDraftProps
   | DialogCreateAgreementDraftProps
+  | DialogTenantKindEserviceTemplateProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -160,4 +161,9 @@ export type DialogCreateAgreementDraftProps = {
     isOwnEService: boolean
     delegationId?: string
   }) => void
+}
+
+export type DialogTenantKindEserviceTemplateProps = {
+  type: 'tenantKind'
+  onConfirm: (tenantKind: string) => void
 }

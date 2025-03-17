@@ -23,6 +23,7 @@ import type {
   DialogCreateAgreementDraftProps,
   DialogRejectDelegatedVersionDraftProps,
   DialogRevokeDelegationProps,
+  DialogTenantKindEserviceTemplateProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -43,6 +44,7 @@ import { DialogRejectDelegation } from './DialogRejectDelegation'
 import { DialogRevokeDelegation } from './DialogRevokeDelegation'
 import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersionDraft'
 import { DialogCreateAgreementDraft } from './DialogCreateAgreementDraft/DialogCreateAgreementDraft'
+import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -63,7 +65,8 @@ function match<T>(
   onRejectDelegation: (props: DialogRejectDelegationProps) => T,
   onCreateAgreementDraft: (props: DialogCreateAgreementDraftProps) => T,
   onRevokeDelegation: (props: DialogRevokeDelegationProps) => T,
-  onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T
+  onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
+  onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -105,6 +108,8 @@ function match<T>(
         return onRejectDelegatedVersionDraft(props)
       case 'createAgreementDraft':
         return onCreateAgreementDraft(props)
+      case 'tenantKind':
+        return onDialogTenantKindEserviceTemplate(props)
     }
   }
 }
@@ -128,7 +133,8 @@ const _Dialog = match(
   (props) => <DialogRejectDelegation {...props} />,
   (props) => <DialogCreateAgreementDraft {...props} />,
   (props) => <DialogRevokeDelegation {...props} />,
-  (props) => <DialogRejectDelegatedVersionDraft {...props} />
+  (props) => <DialogRejectDelegatedVersionDraft {...props} />,
+  (props) => <DialogTenantKindEserviceTemplate {...props} />
 )
 
 export const Dialog: React.FC = () => {

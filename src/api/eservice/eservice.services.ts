@@ -24,9 +24,13 @@ import type {
   ProducerEServiceDetails,
   ProducerEServices,
   RejectDelegatedEServiceDescriptorSeed,
+  TemplateInstanceInterfaceMetadata,
+  // TemplateInstanceInterfaceRESTSeed,
+  // TemplateInstanceInterfaceSOAPSeed,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
+  UpdateEServiceDescriptorTemplateInstanceSeed,
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -448,6 +452,65 @@ async function updateEServiceName({
   return response.data
 }
 
+async function updateEServiceInterfaceRESTInfo({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceMetadata) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface`, // TODO: add rest at the end of url
+    payload
+  )
+
+  return response.data
+}
+
+async function updateEServiceInterfaceSOAPInfo({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceMetadata) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface/soap`,
+    payload
+  )
+
+  return response.data
+}
+
+/**
+ * This API allow to upgrade an an EService inherit from template
+ * @param eServiceID
+ * @returns
+ */
+async function upgradeEService({ eserviceId }: { eserviceId: string }) {
+  // const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/upgrade`
+  // )
+
+  const mockResponse: CreatedEServiceDescriptor = {
+    id: '57298c1677ce',
+    descriptorId: '12012-12-12',
+  }
+
+  return mockResponse
+}
+
+async function updateInstanceVersionDraft({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & UpdateEServiceDescriptorTemplateInstanceSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -483,4 +546,8 @@ export const EServiceServices = {
   approveDelegatedVersionDraft,
   rejectDelegatedVersionDraft,
   updateEServiceName,
+  updateEServiceInterfaceRESTInfo,
+  updateEServiceInterfaceSOAPInfo,
+  upgradeEService,
+  updateInstanceVersionDraft,
 }

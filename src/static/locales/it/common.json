@@ -41,7 +41,10 @@
     "import": "Importa",
     "saveEdits": "Salva modifiche",
     "accept": "Accetta",
-    "approve": "Approva"
+    "approve": "Approva",
+    "createNewDraftFromEserviceTemplate": "Crea bozza da template",
+    "updateIstance": "Aggiorna istanza",
+    "select": "Seleziona"
   },
   "table": {
     "headData": {
@@ -64,7 +67,12 @@
       "certifiedAttribute": "Attributo certificato",
       "delegationKind": "Delega per",
       "delegatorName": "Delega richiesta da",
-      "delegateName": "Delega conferita a"
+      "delegateName": "Delega conferita a",
+      "eserviceTemplateUsingTenant": "Ente",
+      "eserviceTemplateInstanceId": "Suffisso istanza",
+      "eserviceTemplateInstanceVersion": "Versione template",
+      "eserviceTemplateInstanceState": "Stato istanza",
+      "templateName": "Template"
     }
   },
   "status": {
@@ -104,6 +112,12 @@
       "REJECTED": "rifiutata",
       "REVOKED": "revocata",
       "WAITING_FOR_APPROVAL": "in attesa di accettazione"
+    },
+    "template": {
+      "PUBLISHED": "attivo",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospeso",
+      "DEPRECATED": "deprecato"
     }
   },
   "userProductRole": {
