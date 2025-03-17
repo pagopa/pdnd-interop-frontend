@@ -2,7 +2,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { Box, Divider } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { AddAttributesToEServiceForm } from './AddAttributesToEServiceForm'
+import { AddAttributesToForm } from '../../../../components/shared/AddAttributesToForm'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import { useTranslation } from 'react-i18next'
@@ -16,10 +16,10 @@ import type { AttributeKey } from '@/types/attribute.types'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { CreateAttributeDrawer } from './CreateAttributeDrawer'
+import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttributeDrawer'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 
-export type EServiceCreateStepAttributesFormValues = {
+export type CreateStepAttributesFormValues = {
   attributes: DescriptorAttributes
 }
 
@@ -30,6 +30,8 @@ export const EServiceCreateStepAttributes: React.FC = () => {
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
+
+  const isReadOnly = Boolean(descriptor?.templateRef?.templateVersionId)
 
   const [createAttributeCreateDrawerState, setCreateAttributeCreateDrawerState] = React.useState<{
     attributeKey: Exclude<AttributeKey, 'certified'>
@@ -48,13 +50,13 @@ export const EServiceCreateStepAttributes: React.FC = () => {
       setCreateAttributeCreateDrawerState({ attributeKey, isOpen: true })
     }
 
-  const defaultValues: EServiceCreateStepAttributesFormValues = {
+  const defaultValues: CreateStepAttributesFormValues = {
     attributes: descriptor?.attributes ?? { certified: [], verified: [], declared: [] },
   }
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (values: EServiceCreateStepAttributesFormValues) => {
+  const onSubmit = (values: CreateStepAttributesFormValues) => {
     if (!descriptor) return
 
     const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
@@ -100,17 +102,17 @@ export const EServiceCreateStepAttributes: React.FC = () => {
             title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
             description={t('step3.attributesDescription')}
           >
-            <AddAttributesToEServiceForm attributeKey="certified" readOnly={false} />
+            <AddAttributesToForm attributeKey="certified" readOnly={isReadOnly} />
             <Divider sx={{ my: 3 }} />
-            <AddAttributesToEServiceForm
+            <AddAttributesToForm
               attributeKey="verified"
-              readOnly={false}
+              readOnly={isReadOnly}
               openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
             />
             <Divider sx={{ my: 3 }} />
-            <AddAttributesToEServiceForm
+            <AddAttributesToForm
               attributeKey="declared"
-              readOnly={false}
+              readOnly={isReadOnly}
               openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
             />
           </SectionContainer>

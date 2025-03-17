@@ -12,6 +12,8 @@ import {
 import {
   EServiceCreateStepDocuments,
   EServiceCreateStepDocumentsSkeleton,
+  EServiceCreateFromTemplateStepDocumentsSkeleton,
+  EServiceFromTemplateCreateStepDocuments,
 } from './components/EServiceCreateStepDocuments'
 import { useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
@@ -48,11 +50,16 @@ const ProviderEServiceCreatePage: React.FC = () => {
   })
 
   const eservice = descriptor?.eservice
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   const eserviceMode =
     selectedEServiceMode || // The mode selected by the user
     eservice?.mode || // The mode of the e-service
     'DELIVER' // Default mode
+
+  const CreateStepDocuments = isEserviceFromTemplate
+    ? EServiceFromTemplateCreateStepDocuments
+    : EServiceCreateStepDocuments
 
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
@@ -60,14 +67,14 @@ const ProviderEServiceCreatePage: React.FC = () => {
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
           { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
-          { label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
+          { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
           { label: t('create.stepper.step2ReceiveLabel'), component: EServiceCreateStepPurpose },
           { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
-          { label: t('create.stepper.step4Label'), component: EServiceCreateStepDocuments },
+          { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
         ]
 
   const { component: Step } = steps[activeStep]
@@ -84,20 +91,24 @@ const ProviderEServiceCreatePage: React.FC = () => {
 
   const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
 
+  const CreateStepDocumentsSkeleton = isEserviceFromTemplate
+    ? EServiceCreateFromTemplateStepDocumentsSkeleton
+    : EServiceCreateStepDocumentsSkeleton
+
   const stepsLoadingSkeletons =
     eserviceMode === 'DELIVER'
       ? [
           <EServiceCreateStepGeneralSkeleton key={1} />,
           <EServiceCreateStepVersionSkeleton key={2} />,
           <EServiceCreateStepAttributesSkeleton key={3} />,
-          <EServiceCreateStepDocumentsSkeleton key={4} />,
+          <CreateStepDocumentsSkeleton key={4} />,
         ]
       : [
           <EServiceCreateStepGeneralSkeleton key={1} />,
           <EServiceCreateStepPurposeSkeleton key={2} />,
           <EServiceCreateStepVersionSkeleton key={3} />,
           <EServiceCreateStepAttributesSkeleton key={4} />,
-          <EServiceCreateStepDocumentsSkeleton key={5} />,
+          <CreateStepDocumentsSkeleton key={5} />,
         ]
 
   const intro = isNewEService
