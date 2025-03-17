@@ -69,7 +69,7 @@
       "delegatorName": "Delegation requested by",
       "delegateName": "Delegation granted to",
       "eserviceTemplateUsingTenant": "Tenant",
-      "eserviceTemplateInstanceLabel": "Instance's suffix",
+      "eserviceTemplateInstanceId": "Instance's suffix",
       "eserviceTemplateInstanceVersion": "Version",
       "eserviceTemplateInstanceState": "Instance's state",
       "templateName": "Template"

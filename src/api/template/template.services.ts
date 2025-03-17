@@ -442,65 +442,11 @@ async function getProviderTemplateInstancesList({
   eServiceTemplateId,
   ...params
 }: GetEServiceTemplateInstancesParams & { eServiceTemplateId: string }) {
-  const response = await axiosInstance.get<CreatedEServiceDescriptor>(
+  const response = await axiosInstance.get<EServiceTemplateInstances>(
     `${BACKEND_FOR_FRONTEND_URL}/templates/${eServiceTemplateId}/eservices`,
     { params }
   )
   return response.data
-
-  // const response: EServiceTemplateInstances = {
-  //   results: [
-  //     {
-  //       id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
-  //       producerName: 'Producer One',
-  //       activeDescriptor: {
-  //         id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
-  //         state: 'DRAFT',
-  //         version: '1',
-  //         audience: [''],
-  //       },
-  //       instanceLabel: 'instance-001',
-  //       name: '',
-  //       producerId: '',
-  //       descriptors: [],
-  //     },
-  //     {
-  //       id: 'a9f23b1d-36fd-4570-81a0-7a423d15f928',
-  //       producerName: 'Producer Two',
-  //       activeDescriptor: {
-  //         id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
-  //         state: 'DRAFT',
-  //         version: '1',
-  //         audience: [''],
-  //       },
-  //       instanceLabel: 'instance-002',
-  //       name: '',
-  //       producerId: '',
-  //       descriptors: [],
-  //     },
-  //     {
-  //       id: 'fbe3ad6c-875d-4c32-b88e-287bc0a2fcbb',
-  //       producerName: 'Producer Three',
-  //       activeDescriptor: {
-  //         id: 'd3e7b88d-7a2b-4b56-9872-85fc5c7a4399',
-  //         state: 'DRAFT',
-  //         version: '1',
-  //         audience: [''],
-  //       },
-  //       instanceLabel: 'instance-003',
-  //       name: '',
-  //       producerId: '',
-  //       descriptors: [],
-  //     },
-  //   ],
-  //   pagination: {
-  //     totalCount: 3,
-  //     limit: 3,
-  //     offset: 0,
-  //   },
-  // }
-
-  // return response
 }
 
 async function createInstanceFromEServiceTemplate({

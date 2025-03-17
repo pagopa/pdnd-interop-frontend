@@ -41,8 +41,8 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 
   const { data: templateInstancesCount } = useQuery({
     ...TemplateQueries.getProviderTemplateInstancesList({
-      eserviceTemplateId: eserviceTemplateId,
       ...queryParams,
+      eserviceTemplateId: eserviceTemplateId,
     }),
     select: (data) => data.pagination.totalCount,
   })
@@ -51,7 +51,10 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
     <>
       <Filters {...filtersHandlers} />
       <React.Suspense fallback={<ProviderEServiceTemplateUsingTenantsTableSkeleton />}>
-        <ProviderEServiceTemplateUsingTenantsTableWrapper params={queryParams} />
+        <ProviderEServiceTemplateUsingTenantsTableWrapper
+          params={queryParams}
+          eserviceTemplateId={eserviceTemplateId}
+        />
       </React.Suspense>
       <Pagination {...paginationProps} totalPages={getTotalPageCount(templateInstancesCount)} />
     </>
@@ -60,15 +63,21 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 
 const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   params: GetEServiceTemplateInstancesParams
-}> = ({ params }) => {
+  eserviceTemplateId: string
+}> = ({ params, eserviceTemplateId }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { data: templateInstances } = useSuspenseQuery(
-    TemplateQueries.getProviderTemplateInstancesList(params)
+    TemplateQueries.getProviderTemplateInstancesList({
+      ...params,
+      eserviceTemplateId: eserviceTemplateId,
+    })
   )
+
+  console.log('templateInstances', templateInstances)
 
   const headLabels = [
     tCommon('eserviceTemplateUsingTenant'),
-    tCommon('eserviceTemplateInstanceLabel'),
+    tCommon('eserviceTemplateInstanceId'),
     tCommon('eserviceTemplateInstanceVersion'),
     tCommon('eserviceTemplateInstanceState'),
   ]
@@ -89,7 +98,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 export const ProviderEServiceTemplateUsingTenantsTableSkeleton: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
 
-  const headLabels = [tCommon('table.headData.keychain'), '']
+  const headLabels = [tCommon('table.headData.eserviceTemplateUsingTenant'), '']
   return (
     <Table headLabels={headLabels}>
       <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />
