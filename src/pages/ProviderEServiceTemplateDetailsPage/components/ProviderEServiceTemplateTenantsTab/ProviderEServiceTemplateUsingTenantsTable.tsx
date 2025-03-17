@@ -29,10 +29,10 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
       label: tTemplate('statusField.label'),
       type: 'autocomplete-multiple',
       options: [
-        { label: tTemplate('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
-        { label: tTemplate('statusField.optionLabels.DRAFT'), value: 'DRAFT' },
+        { label: tTemplate('statusField.optionLabels.ACTIVE'), value: 'PUBLISHED' },
         { label: tTemplate('statusField.optionLabels.DEPRECATED'), value: 'DEPRECATED' },
         { label: tTemplate('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
+        { label: tTemplate('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
       ],
     },
   ])
@@ -66,14 +66,13 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   eserviceTemplateId: string
 }> = ({ params, eserviceTemplateId }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
+
   const { data: templateInstances } = useSuspenseQuery(
     TemplateQueries.getProviderTemplateInstancesList({
       ...params,
       eserviceTemplateId: eserviceTemplateId,
     })
   )
-
-  console.log('templateInstances', templateInstances)
 
   const headLabels = [
     tCommon('eserviceTemplateUsingTenant'),

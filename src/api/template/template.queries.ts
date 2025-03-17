@@ -9,7 +9,7 @@ import type {
 
 function getProviderTemplatesList(params: GetProducerEServicesParams) {
   return queryOptions({
-    queryKey: ['EServiceTemplatesGetProviderList'],
+    queryKey: ['EServiceTemplatesGetProviderList', params],
     queryFn: () => TemplateServices.getProviderTemplatesList(params),
   })
 }
@@ -33,7 +33,13 @@ function getProviderTemplateInstancesList({
   ...params
 }: GetEServiceTemplateInstancesParams & { eserviceTemplateId: string }) {
   return queryOptions({
-    queryKey: ['EServiceTemplatesGetProviderTemplateInstancesList'],
+    queryKey: [
+      'EServiceTemplatesGetProviderTemplateInstancesList',
+      {
+        eserviceTemplateId,
+        ...params,
+      },
+    ],
     queryFn: () =>
       TemplateServices.getProviderTemplateInstancesList({
         eServiceTemplateId: eserviceTemplateId,

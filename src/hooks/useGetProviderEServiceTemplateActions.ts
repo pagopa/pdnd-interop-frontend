@@ -87,6 +87,7 @@ export function useGetProviderEServiceTemplateActions(
 
   const handleCreateNewDraft = () => {
     createNewVersionDraft(eServiceTemplateId, {
+      //TODO: understand what's API get back
       onSuccess({ }) {
         navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
           params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateId },
