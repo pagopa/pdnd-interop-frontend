@@ -38,7 +38,8 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
           eServiceTemplateId: descriptor?.templateRef?.templateId,
           eServiceTemplateVersionId: descriptor?.templateRef?.templateVersionId as string,
           documentId: descriptor?.templateRef?.templateInterfaceId,
-        }
+        },
+        'interface.yaml'
         // getDownloadDocumentName(descriptor.interface as EServiceDoc)
       )
     }
