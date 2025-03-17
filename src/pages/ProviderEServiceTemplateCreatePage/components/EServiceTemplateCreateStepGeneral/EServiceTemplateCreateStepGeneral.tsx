@@ -182,8 +182,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                 disabled={!areEServiceTemplateGeneralInfoEditable}
                 control={
                   <Checkbox
-                    checked={isSignalHubSuggested}
-                    onClick={() => setIsSignalHubSuggested(!isSignalHubSuggested)}
+                    //checked={isSignalHubSuggested}
+                    //onClick={() => setIsSignalHubSuggested(!isSignalHubSuggested)}
                     name="isSignalHubEnabled"
                   />
                 }
