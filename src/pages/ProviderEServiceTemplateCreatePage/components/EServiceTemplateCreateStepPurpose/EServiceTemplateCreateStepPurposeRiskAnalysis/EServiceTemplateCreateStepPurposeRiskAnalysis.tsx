@@ -1,15 +1,16 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { TemplateMutations, TemplateQueries } from '@/api/template'
 import { useEServiceTemplateCreateContext } from '../../ProviderEServiceTemplateContext'
 import {
   CreateStepPurposeRiskAnalysisForm,
   RiskAnalysisFormSkeleton,
 } from '@/components/shared/CreateStepPurposeRiskAnalysisForm'
+import { TenantKind } from '@/api/api.generatedTypes'
 
 export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
-  const { riskAnalysisFormState, closeRiskAnalysisForm, template } =
+  const { riskAnalysisFormState, closeRiskAnalysisForm, template, tenantKind } =
     useEServiceTemplateCreateContext()
 
   const { mutate: addEServiceTemplateRiskAnalysis } = TemplateMutations.useAddTemplateRiskAnalysis()
@@ -18,7 +19,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
 
   const { data: riskAnalysisLatest } = useQuery(
     PurposeQueries.getRiskAnalysisLatest({
-      tenantKind: template?.eserviceTemplate.creator.kind,
+      tenantKind: tenantKind,
     })
   )
 
@@ -32,7 +33,11 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     closeRiskAnalysisForm()
   }
 
-  const handleSubmit = (name: string, answers: Record<string, string[]>) => {
+  const handleSubmit = (
+    name: string,
+    answers: Record<string, string[]>,
+    tenantKind: TenantKind
+  ) => {
     if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
       updateEServiceTemplateRiskAnalysis(
         {
@@ -43,6 +48,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
             version: riskAnalysisToEdit.riskAnalysisForm.version,
             answers: answers,
           },
+          tenantKind: riskAnalysisToEdit.tenantKind,
         },
         {
           onSuccess() {
@@ -61,6 +67,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
             version: riskAnalysisLatest.version,
             answers: answers,
           },
+          tenantKind: tenantKind,
         },
         {
           onSuccess() {

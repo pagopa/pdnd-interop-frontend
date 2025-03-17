@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
 import type {
-  EServiceRiskAnalysisSeed,
+  EServiceTemplateRiskAnalysisSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import { AttributeKey } from '@/types/attribute.types'
@@ -172,7 +172,7 @@ function useAddTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
     mutationFn: (
       payload: {
         eServiceTemplateId: string
-      } & EServiceRiskAnalysisSeed
+      } & EServiceTemplateRiskAnalysisSeed
     ) => TemplateServices.addTemplateRiskAnalysis(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
@@ -191,7 +191,7 @@ function useUpdateTemplateRiskAnalysis(config = { suppressSuccessToast: false })
       payload: {
         eServiceTemplateId: string
         riskAnalysisId: string
-      } & EServiceRiskAnalysisSeed
+      } & EServiceTemplateRiskAnalysisSeed
     ) => TemplateServices.updateTemplateRiskAnalysis(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),

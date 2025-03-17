@@ -313,6 +313,35 @@
       }
     }
   },
+  "create": {
+    "stepPurpose": {
+      "backWithoutSaveBtn": "Indietro",
+      "forwardWithSaveBtn": "Salva bozza e procedi",
+      "riskAnalysis": {
+        "riskAnalysisNameSection": {
+          "title": "Finalità",
+          "description": "Indica un caso d’uso per i quali intendi raccogliere dati e compila l’analisi del rischio.",
+          "nameField": {
+            "label": "Nome della finalità",
+            "infoLabel": "Massimo 60 caratteri"
+          }
+        },
+        "riskAnalysisSection": {
+          "title": "Analisi del rischio",
+          "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
+          "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo",
+          "eserviceTemplateRiskAnalysis": {
+            "title": "Indicare chi potrà utilizzare la seguente analisi del rischio",
+            "description": "Indicare per chi viene compilata la seguente analisi del rischio.",
+            "tenantKind": {
+              "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del Codice dell’Amministrazione Digitale)",
+              "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
+            }
+          }
+        }
+      }
+    }
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",
