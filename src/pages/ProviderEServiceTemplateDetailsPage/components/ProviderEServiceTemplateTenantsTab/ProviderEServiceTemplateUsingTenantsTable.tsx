@@ -82,7 +82,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 
   const headLabels = [
     tCommon('eserviceTemplateUsingTenant'),
-    tCommon('eserviceTemplateInstanceId'),
+    tCommon('eserviceTemplateInstanceLabel'),
     tCommon('eserviceTemplateInstanceVersion'),
     tCommon('eserviceTemplateInstanceState'),
   ]
