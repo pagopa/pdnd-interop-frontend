@@ -1,4 +1,4 @@
-import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
+import type { RiskAnalysisFormConfig, TenantKind } from '@/api/api.generatedTypes'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Alert, Box, Stack } from '@mui/material'
@@ -27,14 +27,14 @@ type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName: string | undefined
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
-  onSubmit: (name: string, answers: Record<string, string[]>) => void
+  onSubmit: (name: string, answers: Record<string, string[]>, tenantKind: TenantKind) => void
   onCancel: VoidFunction
 }
 
 export const CreateStepPurposeRiskAnalysisForm: React.FC<
   CreateStepPurposeRiskAnalysisFormProps
 > = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
 
   const [_, startTransition] = React.useTransition()
   const [defaultValues, __] = React.useState<Answers>(() =>
@@ -71,34 +71,34 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
   const handleSubmit = formMethods.handleSubmit((values) => {
     const currentQuestionsIds = Object.keys(questions)
 
-    const { name, ...answers } = values
+    const { name, tenantKind, ...answers } = values
     const validAnswers = getValidAnswers(currentQuestionsIds, answers)
 
-    onSubmit(name, validAnswers)
+    onSubmit(name, validAnswers, tenantKind as TenantKind)
   })
 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
         <SectionContainer
-          title={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.title')}
-          description={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.description')}
+          title={t('riskAnalysis.riskAnalysisNameSection.title')}
+          description={t('riskAnalysis.riskAnalysisNameSection.description')}
         >
           <RHFTextField
             name="name"
-            label={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.nameField.label')}
-            infoLabel={t('stepPurpose.riskAnalysis.riskAnalysisNameSection.nameField.infoLabel')}
+            label={t('riskAnalysis.riskAnalysisNameSection.nameField.label')}
+            infoLabel={t('riskAnalysis.riskAnalysisNameSection.nameField.infoLabel')}
             focusOnMount
             inputProps={{ maxLength: 60 }}
             rules={{ required: true }}
           />
         </SectionContainer>
         <SectionContainer
-          title={t('stepPurpose.riskAnalysis.riskAnalysisSection.title')}
-          description={t('stepPurpose.riskAnalysis.riskAnalysisSection.description')}
+          title={t('riskAnalysis.riskAnalysisSection.title')}
+          description={t('riskAnalysis.riskAnalysisSection.description')}
         >
           <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
-            {t('stepPurpose.riskAnalysis.riskAnalysisSection.personalDataAlert')}
+            {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
           </Alert>
         </SectionContainer>
         <Stack spacing={2}>

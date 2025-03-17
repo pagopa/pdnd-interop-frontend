@@ -69,21 +69,6 @@
         "purposeTable": {
           "noDataLabel": "No added purpose"
         }
-      },
-      "riskAnalysis": {
-        "riskAnalysisNameSection": {
-          "title": "Purpose",
-          "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
-          "nameField": {
-            "label": "Purpose name",
-            "infoLabel": "Max 60 chars"
-          }
-        },
-        "riskAnalysisSection": {
-          "title": "Risk analysis",
-          "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
-          "personalDataAlert": "Be careful not to enter personal data in the free text fields"
-        }
       }
     },
     "step2": {
@@ -142,29 +127,29 @@
       }
     },
     "step4": {
-      "template" : {
+      "template": {
         "interface": {
           "documentation": {
-            "title":"Documentation",
+            "title": "Documentation",
             "description": "Check technical documentations needed for the implementation of an integration with this template of e-service."
           },
-          "save" :"Save data",
+          "save": "Save data",
           "title": "Interface",
-          "contactSection":{
-            "title":"Contact's info details",
+          "contactSection": {
+            "title": "Contact's info details",
             "contactNameField": "Contact's name",
-            "emailField":"email",
-            "urlField":"URL"
+            "emailField": "email",
+            "urlField": "URL"
           },
           "termsAndConditions": {
             "title": "Terms and conditions",
-            "label":"Terms and conditions URL"
+            "label": "Terms and conditions URL"
           },
           "serverSection": {
             "title": "Server",
-            "label":"Server URL",
+            "label": "Server URL",
             "add": "Add server URL",
-            "remove":"Remove field"
+            "remove": "Remove field"
           },
           "description": {
             "rest": "Compile following fields and openAPI will be automatically generated",
