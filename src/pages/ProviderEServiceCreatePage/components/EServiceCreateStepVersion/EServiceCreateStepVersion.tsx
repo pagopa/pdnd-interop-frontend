@@ -53,7 +53,6 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceCreateStepVersionFormValues) => {
-    forward()
     if (!descriptor) return
 
     const newDescriptorData = {
