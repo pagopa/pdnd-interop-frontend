@@ -6,7 +6,7 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
+import type { Document } from '@/api/api.generatedTypes'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateDownloads } from '@/api/template/template.downloads'
 import { TemplateMutations } from '@/api/template'
@@ -18,7 +18,7 @@ type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
 
 export function EServiceTemplateCreateStepDocumentsInterface() {
   const { t } = useTranslation('template')
-  const { template } = useEServiceTemplateCreateContext()
+  const { template: templateVersion } = useEServiceTemplateCreateContext()
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
@@ -28,7 +28,8 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     prettyName: t('create.step4.interface.prettyName'),
   }
 
-  const actualInterface: EServiceDoc | null = template?.interface ?? null
+  const actualInterface: Document | null =
+    (templateVersion?.interface as unknown as Document) ?? null // TODO: This has
 
   const formMethods = useForm({
     defaultValues,
@@ -39,10 +40,10 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     interfaceDoc,
     prettyName,
   }: EServiceTemplateCreateStepDocumentsInterfaceFormValues) => {
-    if (!interfaceDoc || !template) return
+    if (!interfaceDoc || !templateVersion) return
     uploadDocument({
-      eServiceTemplateId: template.eserviceTemplate.id,
-      eServiceTemplateVersionId: template.id,
+      eServiceTemplateId: templateVersion.eserviceTemplate.id,
+      eServiceTemplateVersionId: templateVersion.id,
       doc: interfaceDoc,
       prettyName,
       kind: 'INTERFACE',
@@ -50,18 +51,20 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
   }
 
   const handleDeleteInterface = () => {
-    if (!actualInterface || !template) return
+    if (!actualInterface || !templateVersion) return
     deleteDocument({
-      templateId: template.eserviceTemplate.id,
+      eServiceTemplateId: templateVersion.eserviceTemplate.id,
+      eServiceTemplateVersionId: templateVersion.id,
       documentId: actualInterface.id,
     })
   }
 
   const handleDownloadInterface = () => {
-    if (!actualInterface || !template) return
+    if (!actualInterface || !templateVersion) return
     downloadDocument(
       {
-        templateId: template.eserviceTemplate.id,
+        eServiceTemplateId: templateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: templateVersion.id,
         documentId: actualInterface.id,
       },
       getDownloadDocumentName(actualInterface)

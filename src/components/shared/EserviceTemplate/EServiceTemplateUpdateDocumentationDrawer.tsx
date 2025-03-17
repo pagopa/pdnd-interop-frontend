@@ -1,10 +1,9 @@
-import type { EServiceDoc, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { Document } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { Box, Button, Divider, Stack, Tooltip, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
-import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -31,13 +30,14 @@ type EServiceTemplateUpdateDocumentationDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   templateId: string
-  interfaceDocs?: EServiceDoc
-  templateDocs: EServiceDoc[]
+  templateVersionId: string
+  interfaceDocs?: Document
+  templateDocs: Document[]
 }
 
 export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
   EServiceTemplateUpdateDocumentationDrawerProps
-> = ({ isOpen, onClose, templateId, interfaceDocs, templateDocs }) => {
+> = ({ isOpen, onClose, templateId, templateVersionId, interfaceDocs, templateDocs }) => {
   const { t } = useTranslation('template', { keyPrefix: 'read.drawers.updateDocumentationDrawer' })
   const { t: tCommon } = useTranslation('common')
 
@@ -84,10 +84,11 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
 
     uploadDocument(
       {
-        templateId: templateId,
-        doc,
+        eServiceTemplateId: templateId,
+        eServiceTemplateVersionId: templateVersionId,
         prettyName,
         kind: 'DOCUMENT',
+        doc,
       },
       {
         onSuccess: () => {
@@ -103,13 +104,14 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
     )
   }
 
-  const handleDeleteDocument = (document: EServiceDoc) => {
+  const handleDeleteDocument = (document: Document) => {
     //if (!descriptor) return
     // check if the only document in the current page, that means we should go to the previous page when this is deleted
     const isTheOnlyDocumentInCurrentPage = paginatedDocs.length === 1
     deleteDocument(
       {
-        templateId: templateId,
+        eServiceTemplateId: templateId,
+        eServiceTemplateVersionId: templateVersionId,
         documentId: document.id,
       },
       {
@@ -126,16 +128,18 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
   const handleUpdateDescription = (documentId: string, prettyName: string) => {
     //if (!descriptor) return
     updateDocumentName({
-      templateId: templateId,
+      eServiceTemplateId: templateId,
+      eServiceTemplateVersionId: templateVersionId,
       documentId,
       prettyName,
     })
   }
 
-  const handleDownloadDocument = (document: EServiceDoc) => {
+  const handleDownloadDocument = (document: Document) => {
     downloadDocument(
       {
-        templateId: templateId,
+        eServiceTemplateId: templateId,
+        eServiceTemplateVersionId: templateVersionId,
         documentId: document.id,
       },
       getDownloadDocumentName(document)
@@ -238,8 +242,8 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
 }
 
 type InterfaceDocumentContainerProps = {
-  doc: EServiceDoc
-  onDownload?: (document: EServiceDoc) => void
+  doc: Document
+  onDownload?: (document: Document) => void
 }
 
 const InterfaceDocumentContainer: React.FC<InterfaceDocumentContainerProps> = ({

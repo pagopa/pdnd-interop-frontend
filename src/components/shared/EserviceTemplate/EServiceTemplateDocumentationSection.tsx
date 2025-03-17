@@ -8,24 +8,24 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { TemplateDownloads } from '@/api/template/template.downloads'
-import type { EServiceDoc, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
+import type { Document, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { EServiceTemplateUpdateDocumentationDrawer } from '.'
 
 type EServiceTemplateDocumentationSectionProps = {
   readonly?: boolean
-  template: EServiceTemplateVersionDetails
+  templateVersion: EServiceTemplateVersionDetails
 }
 
 export const EServiceTemplateDocumentationSection: React.FC<
   EServiceTemplateDocumentationSectionProps
-> = ({ template, readonly }) => {
+> = ({ templateVersion, readonly }) => {
   const { t } = useTranslation('template', {
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
 
-  const docs = [template.interface, ...template.docs]
+  const docs = [templateVersion.interface, ...templateVersion.docs] as unknown as Document[] // TODO: Change after BE updated BFF
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -35,11 +35,11 @@ export const EServiceTemplateDocumentationSection: React.FC<
 
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
 
-  const handleDownloadDocument = (document: EServiceDoc) => {
+  const handleDownloadDocument = (document: Document) => {
     downloadDocument(
       {
-        eServiceTemplateId: template.eserviceTemplate.id,
-        eServiceTemplateVersionId: template.id,
+        eServiceTemplateId: templateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: templateVersion.id,
         documentId: document.id,
       },
       getDownloadDocumentName(document)
@@ -87,8 +87,9 @@ export const EServiceTemplateDocumentationSection: React.FC<
       <EServiceTemplateUpdateDocumentationDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        templateId={template.id}
-        templateDocs={template.docs}
+        templateId={templateVersion.eserviceTemplate.id}
+        templateVersionId={templateVersion.id}
+        templateDocs={templateVersion.docs as unknown as Document[]}
       />
     </>
   )

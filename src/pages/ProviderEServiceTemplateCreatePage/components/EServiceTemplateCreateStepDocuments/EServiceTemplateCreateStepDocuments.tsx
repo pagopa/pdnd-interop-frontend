@@ -15,10 +15,10 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
   const { t } = useTranslation('template')
   const navigate = useNavigate()
 
-  const { template, back } = useEServiceTemplateCreateContext()
+  const { template: templateVersion, back } = useEServiceTemplateCreateContext()
 
   const sectionDescription =
-    template?.eserviceTemplate.technology === 'SOAP' ? (
+    templateVersion?.eserviceTemplate.technology === 'SOAP' ? (
       t(`create.step4.interface.description.soap`)
     ) : (
       <>{t(`create.step4.interface.description.rest`)} </>
@@ -50,11 +50,11 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
           label: t('create.goToSummary'),
           type: 'button',
           onClick: () => {
-            if (!template) return
+            if (!templateVersion) return
             navigate('PROVIDE_ESERVICE_TEMPLATE_SUMMARY', {
               params: {
-                eServiceTemplateId: template.id,
-                eServiceTemplateVersionId: template.eserviceTemplate.id,
+                eServiceTemplateId: templateVersion.eserviceTemplate.id,
+                eServiceTemplateVersionId: templateVersion.id,
               },
             })
           },

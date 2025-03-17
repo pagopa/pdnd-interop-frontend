@@ -43,6 +43,7 @@ export type EServiceCreateStepGeneralFormValues = {
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
+  instanceLabel?: string
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
@@ -54,9 +55,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
-  const { eServiceTemplateId } = useParams<
-    'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT'
-  >()
+  const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
 
   const {
     descriptor,
@@ -71,6 +70,10 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
   const { mutate: createDraftFromTemplate } =
     TemplateMutations.useCreateInstanceFromEServiceTemplate()
+  const { mutate: updateDraftFromTemplate } =
+    TemplateMutations.useUpdateInstanceFromEServiceTemplate()
+
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef) || !!template
 
   // If Template ID is present we are inheriting an e-service fields from a template
   const defaultValues = evaluateFormDefaultValues(template, descriptor, eserviceMode)
@@ -83,7 +86,21 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
 
       if (!isEServiceTheSame) {
-        updateDraft({ eserviceId: descriptor.eservice.id, ...formValues }, { onSuccess: forward })
+        isEserviceFromTemplate
+          ? updateDraftFromTemplate(
+              {
+                eServiceId: descriptor.eservice.id,
+                instanceLabel: formValues.instanceLabel,
+                isClientAccessDelegable: formValues.isClientAccessDelegable,
+                isConsumerDelegable: formValues.isConsumerDelegable,
+                isSignalHubEnabled: formValues.isSignalHubEnabled,
+              },
+              { onSuccess: forward }
+            )
+          : updateDraft(
+              { eserviceId: descriptor.eservice.id, ...formValues },
+              { onSuccess: forward }
+            )
       } else forward()
 
       return
@@ -111,12 +128,15 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       const body: InstanceEServiceSeed & { eServiceTemplateId: string } = {
         instanceLabel: formValues.instanceLabel,
         eServiceTemplateId: eServiceTemplateId,
+        isClientAccessDelegable: formValues.isClientAccessDelegable,
+        isConsumerDelegable: formValues.isConsumerDelegable,
+        isSignalHubEnabled: formValues.isSignalHubEnabled,
       }
 
       createDraftFromTemplate(body, {
         onSuccess({ id, descriptorId }) {
-          navigate('PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT', {
-            params: { eserviceId: id, descriptorId, eServiceTemplateId: eServiceTemplateId },
+          navigate('PROVIDE_ESERVICE_EDIT', {
+            params: { eserviceId: id, descriptorId },
             replace: true,
             state: { stepIndexDestination: 1 },
           })
@@ -128,7 +148,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   return (
     <FormProvider {...formMethods}>
-      {!template && (
+      {!isEserviceFromTemplate && (
         <Alert severity="warning" sx={{ mb: 3 }}>
           {t('create.step1.firstVersionOnlyEditableInfo')}
         </Alert>
@@ -160,14 +180,14 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             label={t('create.step1.eserviceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
             name="name"
-            disabled={!areEServiceGeneralInfoEditable || !!template}
+            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
             rules={{ required: true, minLength: 5 }}
             focusOnMount
             inputProps={{ maxLength: 60 }}
             size="small"
             sx={{ width: '49%', my: 0, mt: 1 }}
           />
-          {template && (
+          {isEserviceFromTemplate && (
             <RHFTextField
               label={t('create.step1.istanceNameField.label')}
               infoLabel={t('create.step1.eserviceNameField.infoLabel')}
@@ -185,7 +205,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
             name="description"
             multiline
-            disabled={!areEServiceGeneralInfoEditable || !!template}
+            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
             size="small"
             inputProps={{ maxLength: 250 }}
             rules={!template ? { required: true, minLength: 10 } : undefined}
@@ -200,7 +220,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
             ]}
-            disabled={!areEServiceGeneralInfoEditable || !!template}
+            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
           />
@@ -219,7 +239,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 value: 'RECEIVE',
               },
             ]}
-            disabled={!areEServiceGeneralInfoEditable || !!template}
+            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
@@ -356,9 +376,11 @@ function evaluateFormDefaultValues(
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
+      instanceLabel: descriptor?.templateRef?.instanceLabel ?? '',
     }
 
   return {
+    instanceLabel: descriptor?.templateRef?.instanceLabel ?? '',
     name: template?.name,
     description: template?.description,
     technology: template?.technology,

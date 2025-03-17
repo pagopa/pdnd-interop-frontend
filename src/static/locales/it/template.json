@@ -145,7 +145,8 @@
           "ACTIVE": "Attiva",
           "DRAFT": "In bozza",
           "SUSPENDED": "Sospesa",
-          "DEPRECATED": "Deprecata"
+          "DEPRECATED": "Deprecata",
+          "ARCHIVED": "Archiviata"
         }
       }
     }

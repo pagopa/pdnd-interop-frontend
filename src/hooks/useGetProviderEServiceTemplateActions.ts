@@ -86,14 +86,16 @@ export function useGetProviderEServiceTemplateActions(
   }
 
   const handleCreateNewDraft = () => {
-    createNewVersionDraft(eServiceTemplateId, {
-      onSuccess({ eServiceTemplateVersionId }) {
-        navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
-          params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateVersionId },
-          state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
-        })
-      },
-    })
+    //TODO: This has to be defined within BE
+    // createNewVersionDraft(eServiceTemplateId, {
+    //   //TODO: understand what's API get back
+    //   onSuccess({ }) {
+    //     navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
+    //       params: { eServiceTemplateId, eServiceTemplateVersionId: eServiceTemplateId },
+    //       state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+    //     })
+    //   },
+    // })
   }
 
   const createNewDraftAction: ActionItemButton = {

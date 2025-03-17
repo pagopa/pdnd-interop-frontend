@@ -24,16 +24,9 @@ export function useGetConsumerEServiceTemplateActions(
   if (!isAdmin && !isOperatorAPI) return { actions: [] }
 
   const handleCreateEServiceFromTemplate = () => {
-    createEServiceFromTemplate(
-      { eServiceTemplateId },
-      {
-        onSuccess({ id }) {
-          navigate('PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE', {
-            params: { eServiceTemplateId: id },
-          })
-        },
-      }
-    )
+    navigate('PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE', {
+      params: { eServiceTemplateId: eServiceTemplateId },
+    })
   }
 
   const newEServiceFromTemplateAction: ActionItemButton = {

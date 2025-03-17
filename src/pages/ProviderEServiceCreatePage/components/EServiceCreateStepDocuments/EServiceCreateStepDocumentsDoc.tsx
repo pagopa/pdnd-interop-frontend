@@ -8,10 +8,9 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { Document, EServiceDoc } from '@/api/api.generatedTypes'
+import type { Document } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
 import { IconLink } from '@/components/shared/IconLink'
-import { t } from 'i18next'
 import DownloadIcon from '@mui/icons-material/Download'
 
 type EServiceCreateStepDocumentsDocFormValues = {
@@ -40,7 +39,7 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
     EServiceMutations.useUpdateVersionDraftDocumentDescription()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
 
-  const docs = descriptor?.docs ?? []
+  const docs = (descriptor?.docs ?? []) as unknown as Document[] // TODO: This will updated with new version of BFF
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
@@ -80,7 +79,7 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
     })
   }
 
-  const handleDeleteDocument = (document: EServiceDoc | Document) => {
+  const handleDeleteDocument = (document: Document) => {
     if (!descriptor) return
     deleteDocument({
       eserviceId: descriptor.eservice.id,
@@ -89,7 +88,7 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
     })
   }
 
-  const handleDownloadDocument = (document: EServiceDoc | Document) => {
+  const handleDownloadDocument = (document: Document) => {
     if (!descriptor) return
     downloadDocument(
       {
@@ -163,8 +162,8 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
 }
 
 const EServiceCreateStepDocumentDocReadonly: React.FC<{
-  docs: EServiceDoc[]
-  handleDownloadDocument: (document: EServiceDoc) => void
+  docs: Document[]
+  handleDownloadDocument: (document: Document) => void
 }> = ({ docs, handleDownloadDocument }) =>
   docs.map((doc) => (
     <Stack key={doc.id} alignItems="start" mb={2}>

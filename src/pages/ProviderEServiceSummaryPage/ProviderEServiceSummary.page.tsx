@@ -56,6 +56,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+  const isEServiceFromTemplate = descriptor?.templateRef
 
   const handleDeleteDraft = () => {
     if (!descriptor) return

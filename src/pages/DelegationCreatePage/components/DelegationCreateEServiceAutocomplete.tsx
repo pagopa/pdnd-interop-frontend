@@ -1,4 +1,9 @@
-import type { CatalogEService, DelegationKind, ProducerEService } from '@/api/api.generatedTypes'
+import type {
+  CatalogEService,
+  CatalogEServiceTemplate,
+  DelegationKind,
+  ProducerEService,
+} from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
@@ -25,7 +30,7 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
     useAutocompleteTextInput()
 
   const formatAutocompleteOptionLabel = React.useCallback(
-    (eservice: CatalogEService | ProducerEService) => {
+    (eservice: CatalogEService | ProducerEService | CatalogEServiceTemplate) => {
       return match(delegationKind)
         .with('DELEGATED_CONSUMER', () => {
           if (!('producer' in eservice)) return eservice.name
