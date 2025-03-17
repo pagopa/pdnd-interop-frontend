@@ -589,6 +589,8 @@ export interface CompactDescriptor {
   state: EServiceDescriptorState
   version: string
   audience: string[]
+  /** @format uuid */
+  templateVersionId?: string
 }
 
 export interface TemplateInstanceInterfaceMetadata {
@@ -1723,7 +1725,7 @@ export interface EServiceTemplateInstance {
   /** @format uuid */
   producerId: string
   producerName: string
-  activeDescriptor?: CompactDescriptor
+  latestDescriptor?: CompactDescriptor
   descriptors: CompactDescriptor[]
   instanceLabel?: string
 }

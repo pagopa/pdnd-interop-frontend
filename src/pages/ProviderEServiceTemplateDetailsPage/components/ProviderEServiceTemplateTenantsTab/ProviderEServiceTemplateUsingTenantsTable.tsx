@@ -7,15 +7,19 @@ import {
   ProviderEServiceTemplateUsingTenantsTableRow,
   ProviderEServiceTemplateUsingTenantsTableRowSkeleton,
 } from './ProviderEServiceTemplateUsingTenantsTableRow'
-import type { GetEServiceTemplateInstancesParams } from '@/api/api.generatedTypes'
+import type {
+  CompactEServiceTemplateVersion,
+  GetEServiceTemplateInstancesParams,
+} from '@/api/api.generatedTypes'
 
 type ProviderEServiceTemplateUsingTenantsTableProps = {
   eserviceTemplateId: string
+  templateVersions: CompactEServiceTemplateVersion[]
 }
 
 export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   ProviderEServiceTemplateUsingTenantsTableProps
-> = ({ eserviceTemplateId }) => {
+> = ({ eserviceTemplateId, templateVersions }) => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
   const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
@@ -54,6 +58,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
         <ProviderEServiceTemplateUsingTenantsTableWrapper
           params={queryParams}
           eserviceTemplateId={eserviceTemplateId}
+          templateVersions={templateVersions}
         />
       </React.Suspense>
       <Pagination {...paginationProps} totalPages={getTotalPageCount(templateInstancesCount)} />
@@ -64,7 +69,8 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   params: GetEServiceTemplateInstancesParams
   eserviceTemplateId: string
-}> = ({ params, eserviceTemplateId }) => {
+  templateVersions: CompactEServiceTemplateVersion[]
+}> = ({ params, eserviceTemplateId, templateVersions }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const { data: templateInstances } = useSuspenseQuery(
@@ -87,7 +93,11 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
       <Table headLabels={headLabels} isEmpty={isEmpty}>
         {!isEmpty &&
           templateInstances?.results.map((instance) => (
-            <ProviderEServiceTemplateUsingTenantsTableRow key={instance.id} instance={instance} />
+            <ProviderEServiceTemplateUsingTenantsTableRow
+              key={instance.id}
+              instance={instance}
+              templateVersions={templateVersions}
+            />
           ))}
       </Table>
     </>
