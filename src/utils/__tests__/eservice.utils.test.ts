@@ -3,7 +3,6 @@ import { getDownloadDocumentName, getLastDescriptor } from '../eservice.utils'
 describe('getDownloadDocumentName utility function testing', () => {
   it('should correctly get the document namy from a DocumentRead data type', () => {
     const result = getDownloadDocumentName({
-      checksum: 'checksum',
       id: 'test-id',
       contentType: 'pdf',
       name: 'test.pdf',

@@ -78,7 +78,6 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
   },
   id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
   interface: {
-    checksum: 'checksum',
     contentType: 'application/octet-stream',
     id: '4cd1ef19-77b7-468f-8693-c6cebac12912',
     name: 'example_open_api.yml',
@@ -159,7 +158,6 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
     id: '7b92cd7e-c485-4660-9344-608242ba0786',
     name: 'VerificaCodiceFiscale.yaml',
     prettyName: 'Specifica API',
-    checksum: 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2',
   },
   state: 'PUBLISHED',
   version: '3',
