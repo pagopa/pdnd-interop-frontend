@@ -6,11 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
-import type {
-  EServiceMode,
-  EServiceTechnology,
-  VersionSeedForEServiceTemplateCreation,
-} from '@/api/api.generatedTypes'
+import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'

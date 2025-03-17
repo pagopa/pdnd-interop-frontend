@@ -68,7 +68,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
-
   const { mutate: createDraftFromTemplate } =
     TemplateMutations.useCreateInstanceFromEServiceTemplate()
   const { mutate: updateDraftFromTemplate } =

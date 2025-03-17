@@ -32,7 +32,6 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
 
   const handleDownloadInterfaceDocument = () => {
-    console.log('templateRef', descriptor?.templateRef)
     if (descriptor?.templateRef?.templateId && descriptor?.templateRef?.templateInterfaceId)
       downloadDocument(
         {

@@ -8,11 +8,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { TemplateDownloads } from '@/api/template/template.downloads'
-import type {
-  EServiceDoc,
-  Document,
-  EServiceTemplateVersionDetails,
-} from '@/api/api.generatedTypes'
+import type { Document, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { EServiceTemplateUpdateDocumentationDrawer } from '.'
 

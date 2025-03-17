@@ -141,6 +141,17 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     })
   }
 
+  const checklistEServiceFromTemplate = (): boolean => {
+    const isEServiceFromTemplate = descriptor?.templateRef
+
+    // if the descriptor is not from a template, return true, means that in canBePublished has not to have any condition
+    if (!isEServiceFromTemplate) {
+      return true
+    }
+
+    return !!descriptor.templateRef?.interfaceMetadata
+  }
+
   const canBePublished = () => {
     return !!(
       descriptor &&
@@ -149,7 +160,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       descriptor.audience[0] &&
       descriptor.voucherLifespan &&
       descriptor.dailyCallsPerConsumer &&
-      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer
+      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
+      checklistEServiceFromTemplate()
     )
   }
 
