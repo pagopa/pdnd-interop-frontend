@@ -52,8 +52,8 @@ export const EServiceTemplateCatalogCard: React.FC<{
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
       params={{
-        eServiceTemplateVersionId: eserviceTemplate.id,
-        eServiceTemplateId: eserviceTemplate.publishedVersion.id,
+        eServiceTemplateVersionId: eserviceTemplate.publishedVersion.id,
+        eServiceTemplateId: eserviceTemplate.id,
       }}
     />
   )

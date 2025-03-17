@@ -145,7 +145,8 @@
           "ACTIVE": "Active",
           "DRAFT": "Draft",
           "SUSPENDED": "Suspended",
-          "DEPRECATED": "Deprecated"
+          "DEPRECATED": "Deprecated",
+          "ARCHIVED": "Archived"
         }
       }
     }

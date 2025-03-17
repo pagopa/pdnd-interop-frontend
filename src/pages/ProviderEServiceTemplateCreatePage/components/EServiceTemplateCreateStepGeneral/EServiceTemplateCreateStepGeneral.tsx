@@ -6,11 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
-import type {
-  EServiceMode,
-  EServiceTechnology,
-  VersionSeedForEServiceTemplateCreation,
-} from '@/api/api.generatedTypes'
+import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -24,10 +20,9 @@ import { AuthHooks } from '@/api/auth'
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
   description: string
-  intentendTarget: string
+  intendedTarget: string
   technology: EServiceTechnology
   mode: EServiceMode
-  version: VersionSeedForEServiceTemplateCreation
   isSignalHubEnabled?: boolean
 }
 
@@ -53,22 +48,12 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { mutate: updateDraft } = TemplateMutations.useUpdateDraft()
   const { mutate: createDraft } = TemplateMutations.useCreateDraft()
 
-  const defaultVersionValue = {
-    description: template?.description ?? '',
-    voucherLifespan: template?.voucherLifespan ?? 1,
-    dailyCallsPerConsumer: template?.dailyCallsPerConsumer,
-    dailyCallsTotal: template?.dailyCallsTotal,
-    agreementApprovalPolicy: template?.agreementApprovalPolicy,
-    attributes: template?.attributes,
-  }
-
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: template?.eserviceTemplate.name ?? '',
     description: template?.eserviceTemplate.description ?? '',
-    intentendTarget: template?.eserviceTemplate.intendedTarget ?? '',
+    intendedTarget: template?.eserviceTemplate.intendedTarget ?? '',
     technology: template?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
-    version: defaultVersionValue,
     isSignalHubEnabled: template?.eserviceTemplate.isSignalHubEnabled ?? false,
   }
 
@@ -89,9 +74,9 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
     // If we are creating a new e-service template, we create a new draft
     createDraft(formValues, {
-      onSuccess({ eServiceTemplateId, eServiceTemplateVersionId }) {
+      onSuccess({ id, versionId }) {
         navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
-          params: { eServiceTemplateId, eServiceTemplateVersionId },
+          params: { eServiceTemplateId: id, eServiceTemplateVersionId: versionId },
           replace: true,
           state: { stepIndexDestination: 1 },
         })
@@ -123,7 +108,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           <RHFTextField
             label={t('create.step1.intendedTargetField.label')}
             infoLabel={t('create.step1.intendedTargetField.infoLabel')}
-            name="audienceDescription"
+            name="intendedTarget"
             multiline
             disabled={!areEServiceTemplateGeneralInfoEditable}
             size="small"
@@ -135,7 +120,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           <RHFTextField
             label={t('create.step1.eserviceDescriptionField.label')}
             infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
-            name="eserviceDescription"
+            name="description"
             multiline
             disabled={!areEServiceTemplateGeneralInfoEditable}
             size="small"

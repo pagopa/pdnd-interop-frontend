@@ -8,7 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
+import type { Document } from '@/api/api.generatedTypes'
 
 type EServiceCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -27,7 +27,7 @@ export function EServiceCreateStepDocumentsInterface() {
     prettyName: t('create.step4.interface.prettyName'),
   }
 
-  const actualInterface: EServiceDoc | null = descriptor?.interface ?? null
+  const actualInterface: Document | null = (descriptor?.interface as unknown as Document) ?? null // TODO: This will updated with new version of BFF
 
   const formMethods = useForm({
     defaultValues,

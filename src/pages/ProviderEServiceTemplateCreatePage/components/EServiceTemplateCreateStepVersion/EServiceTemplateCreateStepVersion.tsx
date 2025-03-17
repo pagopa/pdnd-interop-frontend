@@ -7,16 +7,14 @@ import { Box, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import omit from 'lodash/omit'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateMutations } from '@/api/template'
+import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 
 export type EServiceTemplateCreateStepVersionFormValues = {
-  intendedTarget: string
-  version: number
   voucherLifespan: number
   description: string
   dailyCallsPerConsumer?: number
@@ -29,54 +27,52 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
 
   const [areThresholdsSuggested, setAreThresholdsSuggested] = React.useState(false)
 
-  const { template, forward, back } = useEServiceTemplateCreateContext()
+  const { template: templateVersion, forward, back } = useEServiceTemplateCreateContext()
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
   const defaultValues: EServiceTemplateCreateStepVersionFormValues = {
-    version: template?.version ?? 1,
-    intendedTarget: template?.eserviceTemplate.intendedTarget ?? '',
-    voucherLifespan: template ? secondsToMinutes(template.voucherLifespan) : 1,
-    description: template?.eserviceTemplate.description ?? '',
-    dailyCallsPerConsumer: template?.dailyCallsPerConsumer,
-    dailyCallsTotal: template?.dailyCallsTotal,
-    agreementApprovalPolicy: template ? template.agreementApprovalPolicy === 'MANUAL' : false,
+    voucherLifespan: templateVersion ? secondsToMinutes(templateVersion.voucherLifespan) : 1,
+    description: templateVersion?.description ?? '',
+    dailyCallsPerConsumer: templateVersion?.dailyCallsPerConsumer,
+    dailyCallsTotal: templateVersion?.dailyCallsTotal,
+    agreementApprovalPolicy: templateVersion
+      ? templateVersion.agreementApprovalPolicy === 'MANUAL'
+      : false,
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
-    if (!template) return
+    if (!templateVersion) return
 
     const newTemplateData = {
       ...values,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
-      audienceDescription: [values.intendedTarget],
       agreementApprovalPolicy: values.agreementApprovalPolicy
         ? ('MANUAL' as const)
         : ('AUTOMATIC' as const),
     }
 
     // If nothing has changed skip the update call
-    const areTemplatesEquals = compareObjects(newTemplateData, template)
+    const areTemplatesEquals = compareObjects(newTemplateData, templateVersion)
     if (areTemplatesEquals) {
       forward()
       return
     }
 
     const payload = {
-      eserviceTemplateId: template.id,
-      attributes: { certified: [], verified: [], declared: [] },
-      ...omit(newTemplateData, ['version']),
+      ...newTemplateData,
+      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(templateVersion.attributes),
     }
 
     updateVersionDraft(
       {
         ...payload,
-        eServiceTemplateId: template.eserviceTemplate.id,
-        eServiceTemplateVersionId: template.id,
+        eServiceTemplateId: templateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: templateVersion.id,
       },
       { onSuccess: forward }
     )
@@ -88,12 +84,12 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
-          title={t('step2.versionTitle', { versionNumber: template?.version ?? 1 })}
+          title={t('step2.versionTitle', { versionNumber: templateVersion?.version ?? 1 })}
           component="div"
         >
           <RHFTextField
             size="small"
-            name="versionDescription"
+            name="description"
             label={t('step2.versionDescriptionField.label')}
             multiline
             focusOnMount

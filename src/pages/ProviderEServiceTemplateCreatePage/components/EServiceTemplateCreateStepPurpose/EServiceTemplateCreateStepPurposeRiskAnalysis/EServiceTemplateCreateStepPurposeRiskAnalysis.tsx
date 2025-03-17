@@ -33,49 +33,49 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     closeRiskAnalysisForm()
   }
 
+  // TODO: UpdateRiskAnalysis (RECEIVE MODE) is not available yet
   const handleSubmit = (
     name: string,
     answers: Record<string, string[]>,
     tenantKind: TenantKind
   ) => {
-    if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
-      updateEServiceTemplateRiskAnalysis(
-        {
-          eServiceTemplateId: template.id,
-          riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
-          name: name,
-          riskAnalysisForm: {
-            version: riskAnalysisToEdit.riskAnalysisForm.version,
-            answers: answers,
-          },
-          tenantKind: riskAnalysisToEdit.tenantKind,
-        },
-        {
-          onSuccess() {
-            closeRiskAnalysisForm()
-          },
-        }
-      )
-    }
-
-    if (!riskAnalysisFormState.riskAnalysisId) {
-      addEServiceTemplateRiskAnalysis(
-        {
-          eServiceTemplateId: template.id,
-          name: name,
-          riskAnalysisForm: {
-            version: riskAnalysisLatest.version,
-            answers: answers,
-          },
-          tenantKind: tenantKind,
-        },
-        {
-          onSuccess() {
-            closeRiskAnalysisForm()
-          },
-        }
-      )
-    }
+    // if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
+    //   updateEServiceTemplateRiskAnalysis(
+    //     {
+    //       eServiceTemplateId: template.id,
+    //       riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
+    //       name: name,
+    //       riskAnalysisForm: {
+    //         version: riskAnalysisToEdit.riskAnalysisForm.version,
+    //         answers: answers,
+    //       },
+    //       tenantKind: riskAnalysisToEdit.tenantKind,
+    //     },
+    //     {
+    //       onSuccess() {
+    //         closeRiskAnalysisForm()
+    //       },
+    //     }
+    //   )
+    // }
+    // if (!riskAnalysisFormState.riskAnalysisId) {
+    //   addEServiceTemplateRiskAnalysis(
+    //     {
+    //       eServiceTemplateId: template.id,
+    //       name: name,
+    //       riskAnalysisForm: {
+    //         version: riskAnalysisLatest.version,
+    //         answers: answers,
+    //       },
+    //       tenantKind: tenantKind,
+    //     },
+    //     {
+    //       onSuccess() {
+    //         closeRiskAnalysisForm()
+    //       },
+    //     }
+    //   )
+    // }
   }
 
   return (

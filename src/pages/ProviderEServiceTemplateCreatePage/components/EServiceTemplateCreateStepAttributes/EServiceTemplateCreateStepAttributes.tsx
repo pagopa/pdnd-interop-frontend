@@ -21,7 +21,7 @@ import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
 
 export const EServiceTemplateCreateStepAttributes: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'create' })
-  const { template, forward, back } = useEServiceTemplateCreateContext()
+  const { template: templateVersion, forward, back } = useEServiceTemplateCreateContext()
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -45,13 +45,13 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
     }
 
   const defaultValues: CreateStepAttributesFormValues = {
-    attributes: template?.attributes ?? { certified: [], verified: [], declared: [] },
+    attributes: templateVersion?.attributes ?? { certified: [], verified: [], declared: [] },
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: CreateStepAttributesFormValues) => {
-    if (!template) return
+    if (!templateVersion) return
 
     const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
       return attributes.filter((group) => group.length > 0)
@@ -63,7 +63,7 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       declared: removeEmptyAttributeGroups(values.attributes.declared),
     }
 
-    const areAttributesEquals = compareObjects(attributes, template.attributes)
+    const areAttributesEquals = compareObjects(attributes, templateVersion.attributes)
 
     if (areAttributesEquals) {
       forward()
@@ -74,10 +74,14 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       eServiceTemplateId: string
       eServiceTemplateVersionId: string
     } = {
-      eServiceTemplateVersionId: template.id,
-      eServiceTemplateId: template.eserviceTemplate.id,
+      dailyCallsPerConsumer: templateVersion.dailyCallsPerConsumer,
+      dailyCallsTotal: templateVersion.dailyCallsTotal,
+      agreementApprovalPolicy: templateVersion.agreementApprovalPolicy,
+      description: templateVersion.description,
+      eServiceTemplateVersionId: templateVersion.id,
+      eServiceTemplateId: templateVersion.eserviceTemplate.id,
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
-      voucherLifespan: template.voucherLifespan,
+      voucherLifespan: templateVersion.voucherLifespan,
     }
 
     updateVersionDraft(payload, { onSuccess: forward })
@@ -88,7 +92,7 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <SectionContainer
-            title={t('step3.attributesTitle', { versionNumber: template?.version ?? 1 })}
+            title={t('step3.attributesTitle', { versionNumber: templateVersion?.version ?? 1 })}
             description={t('step3.attributesDescription')}
           >
             <AddAttributesToForm attributeKey="certified" readOnly={false} />

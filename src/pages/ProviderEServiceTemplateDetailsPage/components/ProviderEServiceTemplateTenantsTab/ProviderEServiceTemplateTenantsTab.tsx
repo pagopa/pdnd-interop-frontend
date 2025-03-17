@@ -1,9 +1,20 @@
 import React from 'react'
 import { useParams } from '@/router'
 import { ProviderEServiceTemplateUsingTenantsTable } from './ProviderEServiceTemplateUsingTenantsTable'
+import type { CompactEServiceTemplateVersion } from '@/api/api.generatedTypes'
 
-export const ProviderEServiceTemplateTenantsTab: React.FC = () => {
+type ProviderEServiceTemplateTenantsTabProps = {
+  templateVersions: CompactEServiceTemplateVersion[]
+}
+export const ProviderEServiceTemplateTenantsTab: React.FC<
+  ProviderEServiceTemplateTenantsTabProps
+> = ({ templateVersions }) => {
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  return <ProviderEServiceTemplateUsingTenantsTable eserviceTemplateId={eServiceTemplateId} />
+  return (
+    <ProviderEServiceTemplateUsingTenantsTable
+      eserviceTemplateId={eServiceTemplateId}
+      templateVersions={templateVersions}
+    />
+  )
 }

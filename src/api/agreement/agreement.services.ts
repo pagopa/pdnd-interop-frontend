@@ -11,10 +11,10 @@ import type {
   CompactEServicesLight,
   CompactOrganizations,
   CreatedResource,
-  GetAgreementConsumersParams,
-  GetAgreementEServiceConsumersParams,
-  GetAgreementEServiceProducersParams,
-  GetAgreementProducersParams,
+  GetAgreementsConsumerEServicesParams,
+  GetAgreementsConsumersParams,
+  GetAgreementsProducerEServicesParams,
+  GetAgreementsProducersParams,
   GetConsumerAgreementsParams,
   GetProducerAgreementsParams,
 } from '../api.generatedTypes'
@@ -47,7 +47,7 @@ async function getSingle(agreementId: string) {
   return response.data
 }
 
-async function getProducers(params?: GetAgreementProducersParams) {
+async function getProducers(params?: GetAgreementsProducersParams) {
   const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/producers`,
     { params }
@@ -55,7 +55,7 @@ async function getProducers(params?: GetAgreementProducersParams) {
   return response.data
 }
 
-async function getConsumers(params?: GetAgreementConsumersParams) {
+async function getConsumers(params?: GetAgreementsConsumersParams) {
   const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/filter/consumers`,
     { params }
@@ -63,7 +63,7 @@ async function getConsumers(params?: GetAgreementConsumersParams) {
   return response.data
 }
 
-async function getProducerEServiceList(params: GetAgreementEServiceProducersParams) {
+async function getProducerEServiceList(params: GetAgreementsProducerEServicesParams) {
   const response = await axiosInstance.get<CompactEServicesLight>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/agreements/eservices`,
     { params }
@@ -71,7 +71,7 @@ async function getProducerEServiceList(params: GetAgreementEServiceProducersPara
   return response.data
 }
 
-async function getConsumerEServiceList(params: GetAgreementEServiceConsumersParams) {
+async function getConsumerEServiceList(params: GetAgreementsConsumerEServicesParams) {
   const response = await axiosInstance.get<CompactEServicesLight>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers/agreements/eservices`,
     { params }

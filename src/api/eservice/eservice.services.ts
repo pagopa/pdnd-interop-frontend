@@ -24,8 +24,9 @@ import type {
   ProducerEServiceDetails,
   ProducerEServices,
   RejectDelegatedEServiceDescriptorSeed,
-  TemplateInstanceInterfaceRESTSeed,
-  TemplateInstanceInterfaceSOAPSeed,
+  TemplateInstanceInterfaceMetadata,
+  // TemplateInstanceInterfaceRESTSeed,
+  // TemplateInstanceInterfaceSOAPSeed,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
@@ -455,34 +456,26 @@ async function updateEServiceInterfaceRESTInfo({
   eserviceId,
   descriptorId,
   ...payload
-}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceRESTSeed) {
-  // const response = await axiosInstance.post<CreatedResource>(
-  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/interface/rest`,
-  //   payload
-  // )
+}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceMetadata) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface`, // TODO: add rest at the end of url
+    payload
+  )
 
-  const mockResponse: CreatedResource = {
-    id: '1234',
-  }
-
-  return mockResponse
+  return response.data
 }
 
 async function updateEServiceInterfaceSOAPInfo({
   eserviceId,
   descriptorId,
   ...payload
-}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceSOAPSeed) {
-  // const response = await axiosInstance.post<CreatedResource>(
-  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/interface/soap`,
-  //   payload
-  // )
+}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceMetadata) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface/soap`,
+    payload
+  )
 
-  const mockResponse: CreatedResource = {
-    id: '1234',
-  }
-
-  return mockResponse
+  return response.data
 }
 
 /**
@@ -511,7 +504,7 @@ async function updateInstanceVersionDraft({
   eserviceId: string
   descriptorId: string
 } & UpdateEServiceDescriptorTemplateInstanceSeed) {
-  const response = await axiosInstance.put<CreatedResource>(
+  const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}`,
     payload
   )

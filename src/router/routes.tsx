@@ -477,7 +477,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplatesListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin','api', 'support'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE',
@@ -530,14 +530,6 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE',
     path: '/erogazione/template/:eServiceTemplateId/e-service/crea',
-    element: <ProviderEServiceFromTemplateCreatePage />,
-    public: false,
-    hideSideNav: true,
-    authLevels: ['admin', 'api', 'support'],
-  })
-  .addRoute({
-    key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_EDIT',
-    path: '/erogazione/template/:eServiceTemplateId/e-service/:eserviceId/:descriptorId/modifica',
     element: <ProviderEServiceFromTemplateCreatePage />,
     public: false,
     hideSideNav: true,

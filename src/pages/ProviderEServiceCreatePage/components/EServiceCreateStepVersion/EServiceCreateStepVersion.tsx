@@ -79,11 +79,14 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
         dailyCallsTotal: values.dailyCallsTotal,
       }
 
-      updateInstanceVersionDraft({
-        ...payload,
-        eserviceId: descriptor.eservice.id,
-        descriptorId: descriptor.id,
-      })
+      updateInstanceVersionDraft(
+        {
+          ...payload,
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+        },
+        { onSuccess: forward }
+      )
     } else {
       const payload = {
         eserviceId: descriptor.eservice.id,
