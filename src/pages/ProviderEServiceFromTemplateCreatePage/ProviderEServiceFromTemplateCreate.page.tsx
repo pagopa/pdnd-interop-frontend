@@ -66,7 +66,6 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
 
   const { component: Step } = steps[activeStep]
 
-  // const isReady = Boolean(isNewEService || (!isLoadingDescriptor && descriptor))
   const isTemplateReady = Boolean(template)
 
   const activeTemplateversionId = template?.versions.find((v) => v.state === 'PUBLISHED')

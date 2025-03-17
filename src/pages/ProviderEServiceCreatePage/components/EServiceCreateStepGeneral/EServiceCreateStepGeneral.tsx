@@ -129,6 +129,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       const body: InstanceEServiceSeed & { eServiceTemplateId: string } = {
         instanceLabel: formValues.instanceLabel,
         eServiceTemplateId: eServiceTemplateId,
+        isClientAccessDelegable: formValues.isClientAccessDelegable,
+        isConsumerDelegable: formValues.isConsumerDelegable,
+        isSignalHubEnabled: formValues.isSignalHubEnabled,
       }
 
       createDraftFromTemplate(body, {

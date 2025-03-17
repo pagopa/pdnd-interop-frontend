@@ -10,7 +10,6 @@ import { TemplateQueries } from '@/api/template'
 import { ProviderEServiceTemplateDetailsTab } from './components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateDetailsTab'
 import { ProviderEServiceTemplateTenantsTab } from './components/ProviderEServiceTemplateTenantsTab/ProviderEServiceTemplateTenantsTab'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
-import { EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'read' })

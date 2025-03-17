@@ -41,6 +41,10 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
 
   const hasNotActiveVersionTemplate = !template.activeVersion
 
+  const versionId = hasNotActiveVersionTemplate
+    ? template.draftVersion?.id
+    : template.activeVersion?.id
+
   return (
     <TableRow
       cellData={[
@@ -69,7 +73,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
         }
         params={{
           eServiceTemplateId: template.id ?? '',
-          eServiceTemplateVersionId: template.activeVersion?.id ?? '',
+          eServiceTemplateVersionId: versionId ?? '',
         }}
       >
         {hasNotActiveVersionTemplate ? t('manageDraft') : t('inspect')}
