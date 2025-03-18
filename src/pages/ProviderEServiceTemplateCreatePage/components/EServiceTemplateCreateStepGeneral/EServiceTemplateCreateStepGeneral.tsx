@@ -85,8 +85,6 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     })
   }
 
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false)
-
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -154,7 +152,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
               },
               {
                 label: (
-                  <Tooltip
+                  <Tooltip //TODO: TEMP tooltip for disabled receive mode
                     title={t('create.step1.eserviceTemplateModeField.tooltipReceiveMode')}
                     placement="top"
                     arrow
