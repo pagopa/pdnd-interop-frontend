@@ -90,7 +90,7 @@
         "subtitle": "Da questo pannello puoi aggiornare  a chi è rivolto il template dell’e-service. Le modifiche apportate avranno effetto da subito.",
         "templateAudienceField": {
           "label": "A chi è rivolto il template",
-          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri",
           "validation": {
             "sameValue": "A chi è rivolto il template deve essere diverso da quella attuale"
           }
@@ -101,7 +101,7 @@
         "subtitle": "Da questo pannello puoi aggiornare la descrizione del template dell’e-service. Le modifiche apportate avranno effetto da subito.",
         "templateDescriptionField": {
           "label": "Descrizione del template eservice",
-          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "infoLabel": "Min 10 caratteri, max 250 caratteri",
           "validation": {
             "sameValue": "La descrizione del template dell'e-service deve essere diverso da quella attuale"
           }
@@ -149,6 +149,10 @@
           "ARCHIVED": "Archiviata"
         }
       }
+    },
+    "usingTenantTable": {
+      "noDataLabel": "Questo template non è stato ancora utilizzato dagli enti.",
+      "noResultsLabel": "La ricerca corrente non ha prodotto risultati."
     }
   },
   "actions": {

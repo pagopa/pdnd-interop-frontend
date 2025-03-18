@@ -90,7 +90,7 @@
         "subtitle": "From this panel, you can update the target audience of the template. The changes made will take effect immediately",
         "templateAudienceField": {
           "label": "Template target audience ",
-          "infoLabel": "Min 5 chars, max 60 chars",
+          "infoLabel": "Min 10 chars, max 250 chars",
           "validation": {
             "sameValue": "The template target audience  must be different from the current one"
           }
@@ -101,7 +101,7 @@
         "subtitle": "From this panel, you can update the description of the template. The changes made will take effect immediately.",
         "templateDescriptionField": {
           "label": "Template e-service description",
-          "infoLabel": "Min 5 chars, max 60 chars",
+          "infoLabel": "Min 10 chars, max 250 chars",
           "validation": {
             "sameValue": "The template e-service description must be different from the current one"
           }
@@ -149,6 +149,10 @@
           "ARCHIVED": "Archived"
         }
       }
+    },
+    "usingTenantTable": {
+      "noDataLabel": "This template has not yet been used by the tenants.",
+      "noResultsLabel": "Your current search returned no results"
     }
   },
   "actions": {
