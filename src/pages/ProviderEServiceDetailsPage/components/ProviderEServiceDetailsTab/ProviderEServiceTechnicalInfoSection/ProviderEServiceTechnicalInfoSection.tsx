@@ -55,6 +55,12 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
                 content={formatDateString(descriptor.publishedAt)}
               />
             )}
+            {descriptor.suspendedAt && descriptor.state === 'SUSPENDED' && (
+              <InformationContainer
+                label={t('suspendedAt')}
+                content={formatDateString(descriptor.suspendedAt)}
+              />
+            )}
             {descriptor.deprecatedAt && (
               <InformationContainer
                 label={t('deprecatedAt')}
