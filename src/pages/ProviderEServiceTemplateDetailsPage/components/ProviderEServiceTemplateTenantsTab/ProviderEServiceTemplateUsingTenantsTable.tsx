@@ -11,6 +11,7 @@ import type {
   CompactEServiceTemplateVersion,
   GetEServiceTemplateInstancesParams,
 } from '@/api/api.generatedTypes'
+import { Alert } from '@mui/material'
 
 type ProviderEServiceTemplateUsingTenantsTableProps = {
   eserviceTemplateId: string
@@ -51,14 +52,20 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
     select: (data) => data.pagination.totalCount,
   })
 
+  const isDataEmpty = Boolean(!templateInstancesCount || templateInstancesCount === 0)
+  const areFiltersEmpty = Boolean(
+    filtersParams.producerName === undefined && filtersParams.states === undefined
+  )
+
   return (
     <>
-      <Filters {...filtersHandlers} />
+      {(!isDataEmpty || !areFiltersEmpty) && <Filters {...filtersHandlers} />}
       <React.Suspense fallback={<ProviderEServiceTemplateUsingTenantsTableSkeleton />}>
         <ProviderEServiceTemplateUsingTenantsTableWrapper
           params={queryParams}
           eserviceTemplateId={eserviceTemplateId}
           templateVersions={templateVersions}
+          noTableData={isDataEmpty && areFiltersEmpty}
         />
       </React.Suspense>
       <Pagination {...paginationProps} totalPages={getTotalPageCount(templateInstancesCount)} />
@@ -70,8 +77,10 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   params: GetEServiceTemplateInstancesParams
   eserviceTemplateId: string
   templateVersions: CompactEServiceTemplateVersion[]
-}> = ({ params, eserviceTemplateId, templateVersions }) => {
+  noTableData: boolean
+}> = ({ params, eserviceTemplateId, templateVersions, noTableData }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
+  const { t } = useTranslation('template', { keyPrefix: 'list.usingTenantTable' })
 
   const { data: templateInstances } = useSuspenseQuery(
     TemplateQueries.getProviderTemplateInstancesList({
@@ -90,16 +99,23 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 
   return (
     <>
-      <Table headLabels={headLabels} isEmpty={isEmpty}>
-        {!isEmpty &&
-          templateInstances?.results.map((instance) => (
+      {isEmpty ? (
+        <Alert severity="info"> {noTableData ? t('noDataLabel') : t('noResultsLabel')} </Alert>
+      ) : (
+        <Table
+          headLabels={headLabels}
+          isEmpty={isEmpty}
+          noDataLabel={noTableData ? t('noDataLabel') : t('noResultsLabel')}
+        >
+          {templateInstances?.results.map((instance) => (
             <ProviderEServiceTemplateUsingTenantsTableRow
               key={instance.id}
               instance={instance}
               templateVersions={templateVersions}
             />
           ))}
-      </Table>
+        </Table>
+      )}
     </>
   )
 }
