@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
+import { Box, Checkbox, FormControlLabel, Tooltip, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -85,6 +85,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     })
   }
 
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false)
+
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -141,7 +143,6 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
           />
-
           <RHFRadioGroup
             name="mode"
             row
@@ -152,15 +153,24 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                 value: 'DELIVER',
               },
               {
-                label: t('create.step1.eserviceTemplateModeField.options.RECEIVE'),
+                label: (
+                  <Tooltip
+                    title={t('create.step1.eserviceTemplateModeField.tooltipReceiveMode')}
+                    placement="top"
+                    arrow
+                  >
+                    <span>{t('create.step1.eserviceTemplateModeField.options.RECEIVE')}</span>
+                  </Tooltip>
+                ),
                 value: 'RECEIVE',
               },
             ]}
-            disabled={!areEServiceTemplateGeneralInfoEditable}
+            disabled={true} //{!areEServiceTemplateGeneralInfoEditable} TODO: TEMP  Receive mode is currently disabled
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
           />
+
           {isSignalHubFlagEnabled && (
             <SectionContainer innerSection sx={{ mt: 3 }}>
               <FormControlLabel

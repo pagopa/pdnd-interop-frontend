@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
-  label?: string
+  label?: string | JSX.Element
   options: Array<InputOption & { disabled?: boolean }>
   name: string
   infoLabel?: string
