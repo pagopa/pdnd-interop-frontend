@@ -52,20 +52,20 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
     select: (data) => data.pagination.totalCount,
   })
 
-  const isEmpty = Boolean(!templateInstancesCount || templateInstancesCount === 0)
+  const isDataEmpty = Boolean(!templateInstancesCount || templateInstancesCount === 0)
   const areFiltersEmpty = Boolean(
     filtersParams.producerName === undefined && filtersParams.states === undefined
   )
 
   return (
     <>
-      {(!isEmpty || !areFiltersEmpty) && <Filters {...filtersHandlers} />}
+      {(!isDataEmpty || !areFiltersEmpty) && <Filters {...filtersHandlers} />}
       <React.Suspense fallback={<ProviderEServiceTemplateUsingTenantsTableSkeleton />}>
         <ProviderEServiceTemplateUsingTenantsTableWrapper
           params={queryParams}
           eserviceTemplateId={eserviceTemplateId}
           templateVersions={templateVersions}
-          noTableData={isEmpty && areFiltersEmpty}
+          noTableData={isDataEmpty && areFiltersEmpty}
         />
       </React.Suspense>
       <Pagination {...paginationProps} totalPages={getTotalPageCount(templateInstancesCount)} />
