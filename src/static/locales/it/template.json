@@ -151,7 +151,8 @@
       }
     },
     "usingTenantTable": {
-      "noDataLabel": "Questo template non è stato ancora utilizzato dagli enti."
+      "noDataLabel": "Questo template non è stato ancora utilizzato dagli enti.",
+      "noResultsLabel": "La ricerca corrente non ha prodotto risultati."
     }
   },
   "actions": {
