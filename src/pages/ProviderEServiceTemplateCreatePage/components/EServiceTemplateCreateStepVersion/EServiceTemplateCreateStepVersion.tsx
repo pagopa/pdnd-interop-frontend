@@ -45,10 +45,8 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
       : false,
   }
 
-  const [areThresholdsSuggested, setAreThresholdsSuggested] = React.useState(
-    defaultValues.thresholdsSection
-  )
   const formMethods = useForm({ defaultValues })
+  const isThresholdSectionVisible = formMethods.watch('thresholdsSection')
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
     if (!templateVersion) return
@@ -129,9 +127,8 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
               label={t('step2.thresholdsSection.thresholdsSwitch.label')}
               name="thresholdsSection"
               sx={{ my: 0 }}
-              onClick={() => setAreThresholdsSuggested(!areThresholdsSuggested)}
             />
-            {areThresholdsSuggested && (
+            {isThresholdSectionVisible && (
               <SectionContainer
                 innerSection
                 sx={{ mt: 3 }}
