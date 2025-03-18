@@ -109,6 +109,8 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
           value: eservice.id,
         }))
 
+  const delegationKindTKey = delegationKind === 'DELEGATED_CONSUMER' ? 'consumer' : 'producer'
+
   return (
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
@@ -118,12 +120,18 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
           : isLoadingCatalogEservicesTemplates
       }
       name="eserviceId"
-      label={t('delegations.create.eserviceField.label')}
-      infoLabel={t(
-        `delegations.create.eserviceField.infoLabelAutocomplete.${
-          delegationKind === 'DELEGATED_CONSUMER' ? 'consumer' : 'producer'
-        }`
-      )}
+      label={
+        createFromTemplate
+          ? t('delegations.create.eserviceField.labelFromTemplate')
+          : t('delegations.create.eserviceField.label')
+      }
+      infoLabel={
+        createFromTemplate
+          ? t(
+              `delegations.create.eserviceField.infoLabelAutocompleteFromTemplate.${delegationKindTKey}`
+            )
+          : t(`delegations.create.eserviceField.infoLabelAutocomplete.${delegationKindTKey}`)
+      }
       options={autocompleteOptions}
       onValueChange={(value) => {
         selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)

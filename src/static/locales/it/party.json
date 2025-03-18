@@ -142,10 +142,15 @@
       },
       "eserviceField": {
         "label": "Nome dell'e-service (richiesto)",
+        "labelFromTemplate": "Nome del template dell'eservice (richiesto)",
         "infoLabel": "Min 5 caratteri, max 60 caratteri",
         "infoLabelAutocomplete": {
           "consumer": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità alla fruizione per delega.",
           "producer": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega."
+        },
+        "infoLabelAutocompleteFromTemplate": {
+          "consumer": "La lista include solo i template degli e-service per i quali i rispettivi erogatori hanno dato disponibilità alla fruizione per delega.",
+          "producer": "La lista include solo i template degli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega."
         },
         "descriptionLabel": "Descrizione dell'e-service",
         "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri",
