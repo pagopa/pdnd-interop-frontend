@@ -341,6 +341,8 @@ export interface ProducerEServiceDescriptor {
   deprecatedAt?: string
   /** @format date-time */
   archivedAt?: string
+  /** @format date-time */
+  suspendedAt?: string
 }
 
 export interface ProducerDescriptorEService {
@@ -365,6 +367,7 @@ export interface EServiceDoc {
   name: string
   contentType: string
   prettyName: string
+  checksum: string
 }
 
 export interface UpdateEServiceDescriptorDocumentSeed {
@@ -2957,6 +2960,34 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateDescriptorAttributes
+   * @summary Update e-service published descriptor attributes
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/attributes/update
+   * @secure
+   */
+  export namespace UpdateDescriptorAttributes {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = DescriptorAttributesSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
   }
 }
 

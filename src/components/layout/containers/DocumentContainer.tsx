@@ -7,12 +7,12 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
 import { InputWrapper } from '@/components/shared/InputWrapper'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
+import type { Document, EServiceDoc } from '@/api/api.generatedTypes'
 
 type DocumentContainerProps = {
-  doc: EServiceDoc
-  onDownload?: (document: EServiceDoc) => void
-  onDelete?: (document: EServiceDoc) => void
+  doc: EServiceDoc | Document
+  onDownload?: (document: EServiceDoc | Document) => void
+  onDelete?: (document: EServiceDoc | Document) => void
   onUpdateDescription?: (newDescription: string) => void
   sx?: SxProps
   isDrawerStyle?: boolean

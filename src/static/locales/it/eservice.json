@@ -316,6 +316,7 @@
           "copySuccessFeedbackText": "ID copiato correttamente"
         },
         "publishedAt": "Data ultima versione",
+        "suspendedAt": "Data ultima sospensione",
         "deprecatedAt": "Data deprecazione versione",
         "archivedAt": "Data archiviazione versione",
         "mode": {
@@ -343,13 +344,15 @@
         },
         "documentation": {
           "title": "Documentazione",
-          "label": "Elenco documenti"
+          "label": "Elenco documenti",
+          "interfaceChecksum": "Checksum file di interfaccia"
         },
         "usefulLinks": {
           "title": "Link utili",
           "implementAndManageEService": "Come implemento e gestisco un e-service?",
           "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
-          "wellKnown": "URL .well-known"
+          "wellKnown": "URL .well-known",
+          "interfaceChecksum": "Come calcolo autonomamente il checksum del file di interfaccia?"
         },
         "isSignalHubEnabled": {
           "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
@@ -406,6 +409,7 @@
       },
       "technicalInfoDrawer": {
         "title": "Specifiche tecniche e-service",
+        "suspendedAt": "Data ultima sospensione",
         "technology": "Tecnologia",
         "audience": "Audience",
         "voucherLifespan": "Durata del voucher",
@@ -428,12 +432,14 @@
           }
         },
         "documentation": "Documentazione",
+        "interfaceChecksum": "Checksum file di interfaccia",
         "usefulLinks": {
           "title": "Link utili",
           "integrateEService": "Come faccio a integrare un e-service?",
           "implementAndManageEService": "Come implemento e gestisco un e-service?",
           "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
-          "wellKnown": "URL .well-known"
+          "wellKnown": "URL .well-known",
+          "interfaceChecksum": "Come calcolo autonomamente il checksum del file di interfaccia?"
         }
       },
       "producerContactsInfoDrawer": {
