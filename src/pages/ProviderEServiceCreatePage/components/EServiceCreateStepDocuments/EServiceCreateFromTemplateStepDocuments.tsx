@@ -16,8 +16,8 @@ import SaveIcon from '@mui/icons-material/Save'
 import type {
   TemplateInstanceInterfaceMetadata,
   EServiceTechnology,
-  // TemplateInstanceInterfaceRESTSeed,
-  // TemplateInstanceInterfaceSOAPSeed,
+  TemplateInstanceInterfaceSOAPSeed,
+  TemplateInstanceInterfaceRESTSeed,
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 
@@ -42,9 +42,7 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     contactEmail: descriptor?.templateRef?.interfaceMetadata?.contactEmail ?? '',
     contactUrl: descriptor?.templateRef?.interfaceMetadata?.contactUrl ?? '',
     termsAndConditionsUrl: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl ?? '',
-    serverUrls: descriptor?.templateRef?.interfaceMetadata?.serverUrls.map((url) => ({ url })) ?? [
-      { url: '' },
-    ],
+    serverUrls: descriptor?.serverUrls?.map((url) => ({ url })) ?? [{ url: '' }],
   }
 
   const { mutate: updateEServiceRESTInterfaceInfo } =
@@ -64,7 +62,7 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
 
     const mapServerUrls = (
       serverUrls: ExtendedTemplateInstanceInterfaceMetadata['serverUrls']
-    ): TemplateInstanceInterfaceMetadata['serverUrls'] => {
+    ): string[] => {
       return serverUrls.map((serverUrl) => serverUrl.url)
     }
 
@@ -86,7 +84,7 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     eserviceId: string,
     descriptorId: string
   ) => {
-    const payload: TemplateInstanceInterfaceMetadata = {
+    const payload: TemplateInstanceInterfaceRESTSeed = {
       // TODO: to be changed in TemplateInstanceInterfaceRESTSeed when it will be available
       contactName: values.contactName as string,
       contactEmail: values.contactEmail as string,
@@ -103,15 +101,14 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
   }
 
   const onSoapApiSubmit = (serverUrls: string[], eserviceId: string, descriptorId: string) => {
-    // const payload: TemplateInstanceInterfaceSOAPSeed = {
-    //   serverUrls,
-    // }
-    //TODO: This will be updated when API will be ready
-    // updateEServiceSOAPInterfaceInfo({
-    //   ...payload,
-    //   eserviceId,
-    //   descriptorId,
-    // })
+    const payload: TemplateInstanceInterfaceSOAPSeed = {
+      serverUrls,
+    }
+    updateEServiceSOAPInterfaceInfo({
+      ...payload,
+      eserviceId,
+      descriptorId,
+    })
   }
 
   return (
