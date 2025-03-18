@@ -13,6 +13,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateMutations } from '@/api/template'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
 
 export type EServiceTemplateCreateStepVersionFormValues = {
   voucherLifespan: number
@@ -20,12 +21,11 @@ export type EServiceTemplateCreateStepVersionFormValues = {
   dailyCallsPerConsumer?: number
   dailyCallsTotal?: number
   agreementApprovalPolicy: boolean
+  thresholdsSection: boolean
 }
 
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('template', { keyPrefix: 'create' })
-
-  const [areThresholdsSuggested, setAreThresholdsSuggested] = React.useState(false)
 
   const { template: templateVersion, forward, back } = useEServiceTemplateCreateContext()
 
@@ -34,6 +34,8 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
   })
 
   const defaultValues: EServiceTemplateCreateStepVersionFormValues = {
+    thresholdsSection:
+      templateVersion?.dailyCallsPerConsumer && templateVersion.dailyCallsTotal ? true : false,
     voucherLifespan: templateVersion ? secondsToMinutes(templateVersion.voucherLifespan) : 1,
     description: templateVersion?.description ?? '',
     dailyCallsPerConsumer: templateVersion?.dailyCallsPerConsumer,
@@ -43,6 +45,9 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
       : false,
   }
 
+  const [areThresholdsSuggested, setAreThresholdsSuggested] = React.useState(
+    defaultValues.thresholdsSection
+  )
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
@@ -63,9 +68,17 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
       return
     }
 
-    const payload = {
-      ...newTemplateData,
+    const payload: UpdateEServiceTemplateVersionSeed = {
+      description: newTemplateData.description,
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(templateVersion.attributes),
+      voucherLifespan: newTemplateData.voucherLifespan,
+      agreementApprovalPolicy: newTemplateData.agreementApprovalPolicy,
+      dailyCallsPerConsumer: newTemplateData.thresholdsSection
+        ? newTemplateData.dailyCallsPerConsumer
+        : undefined,
+      dailyCallsTotal: newTemplateData.thresholdsSection
+        ? newTemplateData.dailyCallsTotal
+        : undefined,
     }
 
     updateVersionDraft(
