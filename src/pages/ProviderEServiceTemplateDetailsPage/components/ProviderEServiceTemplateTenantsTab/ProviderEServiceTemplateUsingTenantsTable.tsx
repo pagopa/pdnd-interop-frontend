@@ -11,6 +11,7 @@ import type {
   CompactEServiceTemplateVersion,
   GetEServiceTemplateInstancesParams,
 } from '@/api/api.generatedTypes'
+import { Alert } from '@mui/material'
 
 type ProviderEServiceTemplateUsingTenantsTableProps = {
   eserviceTemplateId: string
@@ -51,9 +52,11 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
     select: (data) => data.pagination.totalCount,
   })
 
+  const isEmpy = Boolean(templateInstancesCount && templateInstancesCount > 0)
+
   return (
     <>
-      <Filters {...filtersHandlers} />
+      {isEmpy && <Filters {...filtersHandlers} />}
       <React.Suspense fallback={<ProviderEServiceTemplateUsingTenantsTableSkeleton />}>
         <ProviderEServiceTemplateUsingTenantsTableWrapper
           params={queryParams}
@@ -72,6 +75,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   templateVersions: CompactEServiceTemplateVersion[]
 }> = ({ params, eserviceTemplateId, templateVersions }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
+  const { t } = useTranslation('template', { keyPrefix: 'list.usingTenantTable' })
 
   const { data: templateInstances } = useSuspenseQuery(
     TemplateQueries.getProviderTemplateInstancesList({
@@ -90,16 +94,19 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 
   return (
     <>
-      <Table headLabels={headLabels} isEmpty={isEmpty}>
-        {!isEmpty &&
-          templateInstances?.results.map((instance) => (
+      {isEmpty ? (
+        <Alert severity="info"> {t('noDataLabel')} </Alert>
+      ) : (
+        <Table headLabels={headLabels} isEmpty={isEmpty} noDataLabel={t('noDataLabel')}>
+          {templateInstances?.results.map((instance) => (
             <ProviderEServiceTemplateUsingTenantsTableRow
               key={instance.id}
               instance={instance}
               templateVersions={templateVersions}
             />
           ))}
-      </Table>
+        </Table>
+      )}
     </>
   )
 }

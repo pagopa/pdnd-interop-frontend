@@ -149,6 +149,9 @@
           "ARCHIVED": "Archiviata"
         }
       }
+    },
+    "usingTenantTable": {
+      "noDataLabel": "Questo template non è stato ancora utilizzato dagli enti."
     }
   },
   "actions": {
