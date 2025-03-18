@@ -37,10 +37,10 @@
           "label": "Visualizza attributi dichiarati"
         },
         "consumerDetailsLink": {
-          "label": "Visualizza dettagli fruitore"
+          "label": "Visualizza contatti fruitore"
         },
         "delegatedConsumerDetailsLink": {
-          "label": "Visualizza dettagli del delegato alla fruizione"
+          "label": "Visualizza contatti del delegato alla fruizione"
         },
         "contactDrawer": {
           "title": {
@@ -161,7 +161,7 @@
           "label": "Visualizza attributi certificati"
         },
         "providerDetailsLink": {
-          "label": "Visualizza dettagli erogatore"
+          "label": "Visualizza contatti erogatore"
         },
         "contactDrawer": {
           "title": "Contatti dell'erogatore",
