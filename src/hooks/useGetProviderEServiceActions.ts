@@ -19,6 +19,7 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import PublishIcon from '@mui/icons-material/Publish'
 import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
+import { waitFor } from '@/utils/common.utils'
 
 export function useGetProviderEServiceActions(
   eserviceId: string,
@@ -34,6 +35,9 @@ export function useGetProviderEServiceActions(
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
+  })
+  const { t: tConfirmationDialog } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.deleteDraft.confirmDialog',
   })
   const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
@@ -54,6 +58,9 @@ export function useGetProviderEServiceActions(
   const { mutate: approveDelegatedVersionDraft } =
     EServiceMutations.useApproveDelegatedVersionDraft()
   const { mutate: upgradeEService } = EServiceMutations.useUpgradeEService()
+  const { mutate: deleteVersionDraftForUpgrade } = EServiceMutations.useDeleteVersionDraft(
+    tConfirmationDialog('descriptionForUpgrade')
+  )
 
   const state = descriptorState ?? draftDescriptorState ?? 'DRAFT'
   const hasVersionDraft = !!draftDescriptorId
@@ -218,7 +225,11 @@ export function useGetProviderEServiceActions(
     icon: PublishIcon,
   }
 
-  const handleUpgradeEService = () => {
+  const handleUpgradeEService = async () => {
+    if (hasVersionDraft) {
+      deleteVersionDraftForUpgrade({ eserviceId, descriptorId: draftDescriptorId })
+      await waitFor(3000)
+    }
     upgradeEService(
       { eserviceId },
       {
