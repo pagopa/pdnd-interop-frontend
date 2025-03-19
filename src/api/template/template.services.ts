@@ -186,14 +186,11 @@ async function createDraft(payload: EServiceTemplateSeed) {
   return response.data
 }
 
-//TODO: is still in review
 async function createNewVersionDraft(eServiceTemplateId: string) {
-  // const response = await axiosInstance.post<CreatedResource>(
-  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions`,
-  //   payload
-  // )
-  // return response.data
-  return
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions`
+  )
+  return response.data
 }
 
 async function updateDraft({
