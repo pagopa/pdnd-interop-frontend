@@ -222,9 +222,9 @@ export function useGetProviderEServiceActions(
     upgradeEService(
       { eserviceId },
       {
-        onSuccess({ id }) {
+        onSuccess({ id, descriptorId }) {
           navigate('PROVIDE_ESERVICE_EDIT', {
-            params: { eserviceId, descriptorId: id },
+            params: { eserviceId: id, descriptorId: descriptorId },
             state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
           })
         },
