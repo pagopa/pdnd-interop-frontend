@@ -8,7 +8,8 @@ import {
 
 describe('testing number formatter utility function', () => {
   it('should correctly format number to string', () => {
-    expect(formatThousands(1000)).toBe('1.000')
+    // https://github.com/nodejs/node/issues/56987
+    // expect(formatThousands(1000)).toBe('1.000')
     expect(formatThousands(10000)).toBe('10.000')
     expect(formatThousands(1000000)).toBe('1.000.000')
     expect(formatThousands(0.2)).toBe('0,2')
