@@ -483,16 +483,11 @@ async function updateEServiceInterfaceSOAPInfo({
  * @returns
  */
 async function upgradeEService({ eserviceId }: { eserviceId: string }) {
-  // const response = await axiosInstance.post<CreatedEServiceDescriptor>(
-  //   `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/upgrade`
-  // )
+  const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/upgrade`
+  )
 
-  const mockResponse: CreatedEServiceDescriptor = {
-    id: '57298c1677ce',
-    descriptorId: '12012-12-12',
-  }
-
-  return mockResponse
+  return response.data
 }
 
 async function updateInstanceVersionDraft({
