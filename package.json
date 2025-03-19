@@ -1,6 +1,6 @@
 {
   "name": "interop-dashboard-frontend",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -30,6 +30,7 @@
     "axios": "^1.6.0",
     "date-fns": "^2.30.0",
     "i18next": "^23.5.1",
+    "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "mixpanel-browser": "^2.49.0",
     "react": "^18.2.0",
@@ -74,7 +75,7 @@
     "rollup-plugin-visualizer": "^5.9.2",
     "swagger-typescript-api": "^13.0.3",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.4",
-    "vite": "^4.5.9"
+    "vite": "^4.5.9",
+    "vitest": "^0.34.4"
   }
 }
