@@ -202,8 +202,6 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
               {t('addDocumentLabel')}
             </Typography>
 
-            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} drawerStyle />
-
             <RHFTextField
               size="small"
               sx={{ my: 2 }}
@@ -212,6 +210,8 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
               inputProps={{ maxLength: 60 }}
               rules={{ required: true, minLength: 5 }}
             />
+
+            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} drawerStyle />
 
             <Stack direction="row" justifyContent="flex-end" spacing={1} mb={2}>
               <Button variant="text" onClick={handleHideFileInput} size="small">
