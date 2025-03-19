@@ -159,9 +159,7 @@ async function createProducerDelegationAndEserviceFromTemplate({
   }
   const response = await TemplateServices.createInstanceFromEServiceTemplate(requestPayload)
   //!!! Temporary, in order to avoid eventual consistency issues.
-  console.log(response)
   await waitFor(4000)
-  console.log('resto in attesa')
   const delegationParams = {
     eserviceId: response.id,
     delegateId,
