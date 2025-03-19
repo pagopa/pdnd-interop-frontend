@@ -376,7 +376,7 @@ function evaluateFormDefaultValues(
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
-      instanceLabel: descriptor?.templateRef?.instanceLabel ?? '',
+      instanceLabel: descriptor?.templateRef?.instanceLabel ?? undefined,
     }
 
   return {
