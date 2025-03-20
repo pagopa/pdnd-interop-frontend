@@ -197,6 +197,7 @@
       },
       "eserviceTemplateModeField": {
         "label": "Does the e-service deliver or receive data?",
+        "tooltipReceiveMode": "Currently, the use of templates is limited to the delivery of data.",
         "options": {
           "DELIVER": "Deliver",
           "RECEIVE": "Receive"

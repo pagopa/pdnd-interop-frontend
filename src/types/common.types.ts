@@ -65,7 +65,7 @@ export type StepperStep = {
   component: React.ElementType<StepperStepComponentProps & any>
 }
 
-export type InputOption = { label: string; value: string | number }
+export type InputOption = { label: string | JSX.Element; value: string | number }
 
 /**
  * InputDescriptors describes the various labels and messages that can be
