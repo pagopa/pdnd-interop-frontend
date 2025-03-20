@@ -15,10 +15,10 @@ export default defineConfig(({ mode }) => {
     mode === 'development'
       ? devPlugins
       : mode === 'production'
-      ? prodPlugins
-      : mode === 'test'
-      ? testPlugins
-      : undefined
+        ? prodPlugins
+        : mode === 'test'
+          ? testPlugins
+          : undefined
 
   return {
     base: '/ui',
@@ -44,6 +44,15 @@ export default defineConfig(({ mode }) => {
     envPrefix: 'REACT_APP_',
     server: {
       port: 3000,
+      proxy: {
+        '/0.0/backend-for-frontend': {
+          target: 'https://selfcare.dev.interop.pagopa.it',
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) =>
+            path.replace(/^\/0\.0\/backend-for-frontend/, '/0.0/backend-for-frontend'),
+        },
+      },
     },
     test: {
       globals: true,
