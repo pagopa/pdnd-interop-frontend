@@ -29,8 +29,9 @@ export function useGetProviderEServiceActions(
   draftDescriptorId: string | undefined,
   mode: EServiceMode | undefined,
   eserviceName: string | undefined,
-  delegation?: DelegationWithCompactTenants,
-  templateRef?: EServiceTemplateRef
+  isNewTemplateVersionAvailable: boolean,
+  isTemplateInstance: boolean,
+  delegation?: DelegationWithCompactTenants
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
@@ -499,7 +500,7 @@ export function useGetProviderEServiceActions(
     )
     .otherwise(() => [])
 
-  const isNewTemplateVersionAvailable = templateRef?.isNewTemplateVersionAvailable
+  //const isNewTemplateVersionAvailable = templateRef?.isNewTemplateVersionAvailable
 
   const fromTemplatePublishActions = match({
     isAdmin,
@@ -994,7 +995,7 @@ export function useGetProviderEServiceActions(
     ? EServiceFromTemplateAdminActions[state]
     : EServiceFromTemplateOperatorAPIActions[state]
 
-  const availableAction = templateRef
+  const availableAction = isTemplateInstance
     ? availableFromTemplateEserviceAction
     : availableClassicEServiceAction
 
