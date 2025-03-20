@@ -43,7 +43,8 @@
       },
       "confirmDialog": {
         "title": "Conferma cancellazione bozza",
-        "description": "Cliccando \"conferma\" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozza"
+        "description": "Cliccando \"conferma\" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozza",
+        "descriptionForUpgrade": "Cliccando \"conferma\" verrà cancellata la bozza precedentemente creata e non sarà più recuperabile. Una volta cancellata la bozza, potrai procedere con l’aggiornamento dell’istanza alla versione più recente."
       }
     },
     "cloneFromVersion": {
