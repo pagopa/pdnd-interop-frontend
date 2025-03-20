@@ -197,6 +197,7 @@
       },
       "eserviceTemplateModeField": {
         "label": "L’e-service eroga o riceve dati?",
+        "tooltipReceiveMode": "Al momento l’utilizzo dei template è limitato all’erogazione di dati",
         "options": {
           "DELIVER": "Eroga",
           "RECEIVE": "Riceve"

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import {
   FormControlLabel,
   Radio,
@@ -34,6 +34,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
 }) => {
   const { formState } = useFormContext()
   const { t } = useTranslation()
+  const labelId = useId()
 
   const error = formState.errors[name]?.message as string | undefined
 
@@ -67,7 +68,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
             {options.map((o) => (
               <FormControlLabel
                 disabled={disabled || o.disabled}
-                key={o.label}
+                key={`${labelId}-${o.value}`}
                 value={o.value}
                 control={<Radio />}
                 label={o.label}
