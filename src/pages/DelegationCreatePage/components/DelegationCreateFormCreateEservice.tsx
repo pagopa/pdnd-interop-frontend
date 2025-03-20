@@ -7,26 +7,30 @@ import { DelegationKind } from '@/api/api.generatedTypes'
 
 type DelegationCreateFormCreateEserviceProps = {
   delegationKind: DelegationKind
+  onChange: (value: boolean) => void
 }
 
 export const DelegationCreateFormCreateEservice: React.FC<
   DelegationCreateFormCreateEserviceProps
-> = ({ delegationKind }) => {
+> = ({ delegationKind, onChange }) => {
   const { t } = useTranslation('party', {
     keyPrefix: 'delegations.create',
   })
 
   const [isEserviceFromTemplate, setIsEserviceFromTemplate] = useState(false)
 
+  const handleChange = () => {
+    setIsEserviceFromTemplate((prev) => {
+      const updatedState = !prev
+      onChange(updatedState)
+      return updatedState
+    })
+  }
+
   return (
     <>
       <FormControlLabel
-        control={
-          <Switch
-            checked={isEserviceFromTemplate}
-            onChange={() => setIsEserviceFromTemplate((prev) => !prev)}
-          />
-        }
+        control={<Switch checked={isEserviceFromTemplate} onChange={handleChange} />}
         label={t('delegateField.provider.switchEserviceFromTemplate')}
         labelPlacement="end"
         componentsProps={{ typography: { variant: 'body2' } }}
