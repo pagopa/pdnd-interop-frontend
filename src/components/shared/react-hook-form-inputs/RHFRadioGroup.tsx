@@ -67,7 +67,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
             {options.map((o) => (
               <FormControlLabel
                 disabled={disabled || o.disabled}
-                key={o.label}
+                key={`${labelId}-${o.value}`}
                 value={o.value}
                 control={<Radio />}
                 label={o.label}

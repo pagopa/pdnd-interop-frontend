@@ -48,7 +48,7 @@ export const ProviderAgreementDetailsVerifiedAttributesDrawerRadioGroup: React.F
           {options.map((o) => (
             <FormControlLabel
               disabled={o.disabled}
-              key={o.label}
+              key={`${labelId}-${o.value}`}
               value={o.value}
               control={<Radio />}
               label={o.label}
