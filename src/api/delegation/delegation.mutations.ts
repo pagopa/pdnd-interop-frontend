@@ -139,6 +139,20 @@ function useRevokeConsumerDelegation() {
   })
 }
 
+function useCreateProducerDelegationAndEserviceFromTemplate() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'delegation.createDelegation',
+  })
+  return useMutation({
+    mutationFn: DelegationServices.createProducerDelegationAndEserviceFromTemplate,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const DelegationMutations = {
   useCreateProducerDelegation,
   useApproveProducerDelegation,
@@ -149,4 +163,5 @@ export const DelegationMutations = {
   useCreateProducerDelegationAndEservice,
   useCreateConsumerDelegation,
   useRevokeConsumerDelegation,
+  useCreateProducerDelegationAndEserviceFromTemplate,
 }
