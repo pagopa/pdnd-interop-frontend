@@ -500,8 +500,6 @@ export function useGetProviderEServiceActions(
     )
     .otherwise(() => [])
 
-  //const isNewTemplateVersionAvailable = templateRef?.isNewTemplateVersionAvailable
-
   const fromTemplatePublishActions = match({
     isAdmin,
     isDelegator,
