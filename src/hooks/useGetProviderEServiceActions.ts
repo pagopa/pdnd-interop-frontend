@@ -59,9 +59,8 @@ export function useGetProviderEServiceActions(
   const { mutate: approveDelegatedVersionDraft } =
     EServiceMutations.useApproveDelegatedVersionDraft()
   const { mutate: upgradeEService } = EServiceMutations.useUpgradeEService()
-  const { mutate: deleteVersionDraftForUpgrade } = EServiceMutations.useDeleteVersionDraft(
-    tConfirmationDialog('descriptionForUpgrade')
-  )
+  const { mutate: deleteDraftAndUpgradeEService } =
+    EServiceMutations.useDeleteDraftAndUpgradeEService()
 
   const state = descriptorState ?? draftDescriptorState ?? 'DRAFT'
   const hasVersionDraft = !!draftDescriptorId
@@ -228,8 +227,17 @@ export function useGetProviderEServiceActions(
 
   const handleUpgradeEService = async () => {
     if (hasVersionDraft) {
-      deleteVersionDraftForUpgrade({ eserviceId, descriptorId: draftDescriptorId })
-      await waitFor(3000)
+      deleteDraftAndUpgradeEService(
+        { eserviceId, descriptorId: draftDescriptorId },
+        {
+          onSuccess({ id: descriptorId }) {
+            navigate('PROVIDE_ESERVICE_EDIT', {
+              params: { eserviceId: eserviceId, descriptorId: descriptorId },
+              state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+            })
+          },
+        }
+      )
     }
     upgradeEService(
       { eserviceId },

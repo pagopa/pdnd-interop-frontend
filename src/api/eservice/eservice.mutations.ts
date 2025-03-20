@@ -189,19 +189,19 @@ function useUpdateVersion() {
   })
 }
 
-function useDeleteVersionDraft(description?: string) {
+function useDeleteVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraft',
   })
   return useMutation({
     mutationFn: EServiceServices.deleteVersionDraft,
     meta: {
-      successToastLabel: description ? undefined : t('outcome.success'),
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
         title: t('confirmDialog.title'),
-        description: description ?? t('confirmDialog.description'),
+        description: t('confirmDialog.description'),
       },
     },
   })
@@ -450,6 +450,23 @@ function useUpdateInstanceVersionDraft(config = { suppressSuccessToast: false })
   })
 }
 
+function useDeleteDraftAndUpgradeEService() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.deleteAndUpgradeEService',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.deleteDraftAndUpgradeEService,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -478,4 +495,5 @@ export const EServiceMutations = {
   useUpdateEServiceInterfaceSOAPInfo,
   useUpgradeEService,
   useUpdateInstanceVersionDraft,
+  useDeleteDraftAndUpgradeEService,
 }
