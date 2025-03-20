@@ -434,7 +434,7 @@ export interface EServiceTemplateRef {
   templateVersionId?: string
   templateName: string
   instanceLabel?: string
-  templateInterfaceId?: string
+  templateInterface?: EServiceDoc
   interfaceMetadata?: TemplateInstanceInterfaceMetadata
   isNewTemplateVersionAvailable?: boolean
 }
@@ -767,6 +767,7 @@ export interface ProducerEService {
   activeDescriptor?: CompactProducerDescriptor
   draftDescriptor?: CompactProducerDescriptor
   delegation?: DelegationWithCompactTenants
+  isTemplateInstance: boolean
   isNewTemplateVersionAvailable?: boolean
 }
 
@@ -5503,7 +5504,7 @@ export namespace Templates {
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }
-    export type ResponseBody = CreatedEServiceDescriptor
+    export type ResponseBody = CreatedResource
   }
   /**
    * @description Retrieves EService template instances

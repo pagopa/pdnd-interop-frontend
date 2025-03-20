@@ -189,19 +189,19 @@ function useUpdateVersion() {
   })
 }
 
-function useDeleteVersionDraft() {
+function useDeleteVersionDraft(description?: string) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraft',
   })
   return useMutation({
     mutationFn: EServiceServices.deleteVersionDraft,
     meta: {
-      successToastLabel: t('outcome.success'),
+      successToastLabel: description ? undefined : t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
         title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
+        description: description ?? t('confirmDialog.description'),
       },
     },
   })
