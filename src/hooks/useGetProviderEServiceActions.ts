@@ -233,9 +233,9 @@ export function useGetProviderEServiceActions(
     upgradeEService(
       { eserviceId },
       {
-        onSuccess({ id, descriptorId }) {
+        onSuccess({ id: descriptorId }) {
           navigate('PROVIDE_ESERVICE_EDIT', {
-            params: { eserviceId: id, descriptorId: descriptorId },
+            params: { eserviceId: eserviceId, descriptorId: descriptorId },
             state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
           })
         },
