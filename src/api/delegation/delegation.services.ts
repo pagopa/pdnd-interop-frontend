@@ -13,9 +13,11 @@ import type {
   GetConsumerDelegatorsWithAgreementsParams,
   GetDelegationsParams,
   RejectDelegationPayload,
+  InstanceEServiceSeed,
 } from '../api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { EServiceServices } from '../eservice'
+import { TemplateServices } from '../template'
 
 async function getList(params: GetDelegationsParams) {
   const response = await axiosInstance.get<CompactDelegations>(
@@ -146,6 +148,25 @@ async function revokeConsumerDelegation({ delegationId }: { delegationId: string
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/consumers/delegations/${delegationId}`)
 }
 
+async function createProducerDelegationAndEserviceFromTemplate({
+  delegateId,
+  eServiceTemplateId,
+  ...crateDraftPayload
+}: InstanceEServiceSeed & { delegateId: string; eServiceTemplateId: string }) {
+  const requestPayload = {
+    eServiceTemplateId,
+    ...crateDraftPayload,
+  }
+  const response = await TemplateServices.createInstanceFromEServiceTemplate(requestPayload)
+  //!!! Temporary, in order to avoid eventual consistency issues.
+  await waitFor(4000)
+  const delegationParams = {
+    eserviceId: response.id,
+    delegateId,
+  }
+  return await createProducerDelegation(delegationParams)
+}
+
 export const DelegationServices = {
   getList,
   getSingle,
@@ -162,4 +183,5 @@ export const DelegationServices = {
   getConsumerDelegatorsWithAgreements,
   getConsumerDelegatedEservices,
   revokeConsumerDelegation,
+  createProducerDelegationAndEserviceFromTemplate,
 }

@@ -16,12 +16,14 @@ import { AgreementQueries } from '@/api/agreement'
 import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
+import { TemplateMutations } from '@/api/template'
 
 export type DelegationCreateFormValues = {
   eserviceId: string
   eserviceName: string
   eserviceDescription: string
   delegateId: string
+  isEserviceFromTemplate?: boolean
 }
 
 type DelegationCreateFormProps = {
@@ -44,6 +46,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const { jwt } = AuthHooks.useJwt()
 
   const [isEserviceToBeCreated, setIsEserviceToBeCreated] = useState(false)
+  const [isEserviceFromTemplate, setIsEserviceFromTemplate] = useState(false)
 
   const { openDialog } = useDialog()
 
@@ -83,6 +86,8 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const { mutate: createProducerDelegation } = DelegationMutations.useCreateProducerDelegation()
   const { mutate: createProducerDelegationAndEservice } =
     DelegationMutations.useCreateProducerDelegationAndEservice()
+  const { mutate: createProducerDelegationAndEserviceFromTemplate } =
+    DelegationMutations.useCreateProducerDelegationAndEserviceFromTemplate()
 
   const onSubmit = async (formValues: DelegationCreateFormValues) => {
     openDialog({
@@ -94,7 +99,11 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const navigate = useNavigate()
 
   function onConfirm(formValues: DelegationCreateFormValues) {
-    if (isEserviceToBeCreated && delegationKind === 'DELEGATED_PRODUCER') {
+    if (
+      isEserviceToBeCreated &&
+      delegationKind === 'DELEGATED_PRODUCER' &&
+      !isEserviceFromTemplate
+    ) {
       // if it is a producer delegation and isEserviceToBeCreated is true the eservice must be created
       createProducerDelegationAndEservice(
         {
@@ -103,6 +112,25 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           technology: 'REST',
           mode: 'DELIVER',
           delegateId: formValues.delegateId,
+        },
+        {
+          onSuccess: () => {
+            navigate('DELEGATIONS')
+          },
+        }
+      )
+      return
+    }
+
+    if (
+      isEserviceToBeCreated &&
+      delegationKind === 'DELEGATED_PRODUCER' &&
+      isEserviceFromTemplate
+    ) {
+      createProducerDelegationAndEserviceFromTemplate(
+        {
+          delegateId: formValues.delegateId,
+          eServiceTemplateId: formValues.eserviceId,
         },
         {
           onSuccess: () => {
@@ -142,6 +170,10 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       ? t('delegations.create.providerDelegationTitle')
       : t('delegations.create.consumerDelegationTitle')
 
+  const handleChange = (value: boolean) => {
+    setIsEserviceFromTemplate(value)
+  }
+
   return (
     <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
       <FormProvider {...formMethods}>
@@ -166,7 +198,10 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
                 createFromTemplate={false}
               />
             ) : (
-              <DelegationCreateFormCreateEservice delegationKind={delegationKind} />
+              <DelegationCreateFormCreateEservice
+                delegationKind={delegationKind}
+                onChange={handleChange}
+              />
             )}
             <DelegationCreateTenantAutocomplete delegationKind={delegationKind} />
             {delegationKind === 'DELEGATED_CONSUMER' && (hasAgreement || isDelegated) && (
