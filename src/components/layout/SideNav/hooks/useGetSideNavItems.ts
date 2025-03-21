@@ -37,13 +37,11 @@ const views = [
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles, isSupport, isOrganizationAllowedToProduce, jwt } = AuthHooks.useJwt()
+  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
   const isCertifier = isTenantCertifier(tenant)
-
-  const isPA = jwt?.externalId?.origin === 'IPA'
 
   return React.useMemo(() => {
     /**
@@ -57,7 +55,7 @@ export function useGetSideNavItems() {
 
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
 
-      if (!isPA && routeKey === 'DELEGATIONS') return false
+      if (!isOrganizationAllowedToProduce && routeKey === 'DELEGATIONS') return false
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))

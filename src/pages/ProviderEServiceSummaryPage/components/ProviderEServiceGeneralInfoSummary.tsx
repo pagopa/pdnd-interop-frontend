@@ -14,6 +14,8 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
     ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
     : true
 
+  const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
@@ -37,14 +39,20 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
           content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
         />
       )}
-      <InformationContainer
-        label={t('isConsumerDelegable.label')}
-        content={t(`isConsumerDelegable.value.${descriptor.eservice.isConsumerDelegable}`)}
-      />
-      <InformationContainer
-        label={t('isClientAccessDelegable.label')}
-        content={t(`isClientAccessDelegable.value.${descriptor.eservice.isClientAccessDelegable}`)}
-      />
+      {isOrganizationAllowedToProduce && (
+        <>
+          <InformationContainer
+            label={t('isConsumerDelegable.label')}
+            content={t(`isConsumerDelegable.value.${descriptor.eservice.isConsumerDelegable}`)}
+          />
+          <InformationContainer
+            label={t('isClientAccessDelegable.label')}
+            content={t(
+              `isClientAccessDelegable.value.${descriptor.eservice.isClientAccessDelegable}`
+            )}
+          />
+        </>
+      )}
     </Stack>
   )
 }
