@@ -95,9 +95,6 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
       serverUrls,
     }
 
-    console.log('descriptor', descriptor)
-    console.log('documentId', descriptor?.interface?.id)
-
     deleteAndUpdateEServiceRESTInterfaceInfo({
       ...payload,
       eserviceId,
