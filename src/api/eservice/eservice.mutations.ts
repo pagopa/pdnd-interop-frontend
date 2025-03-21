@@ -397,12 +397,12 @@ function useUpdateEServiceName() {
   })
 }
 
-function useUpdateEServiceInterfaceRESTInfo() {
+function useDeleteAndUpdateEServiceInterfaceRESTInfo() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateEServiceInterfaceInfo',
   })
   return useMutation({
-    mutationFn: EServiceServices.updateEServiceInterfaceRESTInfo,
+    mutationFn: EServiceServices.deleteDocAndUpdateEServiceInterfaceRESTInfo,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -411,12 +411,12 @@ function useUpdateEServiceInterfaceRESTInfo() {
   })
 }
 
-function useUpdateEServiceInterfaceSOAPInfo() {
+function useDeleteAndUpdateEServiceInterfaceSOAPInfo() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateEServiceInterfaceInfo',
   })
   return useMutation({
-    mutationFn: EServiceServices.updateEServiceInterfaceSOAPInfo,
+    mutationFn: EServiceServices.deleteDocAndUpdateEServiceInterfaceSOAPInfo,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -491,8 +491,8 @@ export const EServiceMutations = {
   useApproveDelegatedVersionDraft,
   useRejectDelegatedVersionDraft,
   useUpdateEServiceName,
-  useUpdateEServiceInterfaceRESTInfo,
-  useUpdateEServiceInterfaceSOAPInfo,
+  useDeleteAndUpdateEServiceInterfaceRESTInfo,
+  useDeleteAndUpdateEServiceInterfaceSOAPInfo,
   useUpgradeEService,
   useUpdateInstanceVersionDraft,
   useDeleteDraftAndUpgradeEService,
