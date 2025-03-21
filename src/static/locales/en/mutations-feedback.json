@@ -43,8 +43,7 @@
       },
       "confirmDialog": {
         "title": "Confirm draft deletion",
-        "description": "By clicking \"confirm\", this draft will be deleted and it will not be recoverable. It will always be possible to create new drafts",
-        "descriptionForUpgrade": "By clicking \"confirm\", the draft previously created will be deleted and it will no longer be recoverable. Once the draft is deleted, you can proceed with updating the instance to the latest version."
+        "description": "By clicking \"confirm\", this draft will be deleted and it will not be recoverable. It will always be possible to create new drafts"
       }
     },
     "cloneFromVersion": {
@@ -233,6 +232,17 @@
       "outcome": {
         "error": "E-service interface info not updated. Try again.",
         "success": "E-service interface info updated correctly"
+      }
+    },
+    "deleteAndUpgradeEService": {
+      "loading": "Deleting draft",
+      "outcome": {
+        "success": "Draft deleted successfully",
+        "error": "Upgrading eservice failed. Try again, please!"
+      },
+      "confirmDialog": {
+        "title": "Confirm draft deletion",
+        "description": "By clicking \"confirm\", the draft previously created will be deleted and it will no longer be recoverable. Once the draft is deleted, you can proceed with updating the instance to the latest version."
       }
     }
   },

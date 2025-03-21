@@ -38,6 +38,8 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     eservice.draftDescriptor?.id,
     eservice.mode,
     eservice.name,
+    eservice.isNewTemplateVersionAvailable ?? false,
+    eservice.isTemplateInstance,
     eservice.delegation
   )
 
