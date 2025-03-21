@@ -21,6 +21,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
+
   const { actions } = useGetProviderEServiceActions(
     eserviceId,
     descriptor?.state,
@@ -29,11 +31,11 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptor?.eservice.draftDescriptor?.id,
     descriptor?.eservice.mode,
     descriptor?.eservice.name,
-    undefined, // delegations not needeed
-    descriptor?.templateRef
+    descriptor?.templateRef?.isNewTemplateVersionAvailable ?? false,
+    isEserviceFromTemplate,
+    undefined // delegations not needeed
   )
 
-  const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
   const isInstaceLabelAvailable = Boolean(descriptor?.templateRef?.instanceLabel)
 
   const title =
