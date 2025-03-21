@@ -5,7 +5,6 @@ import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
 import { isTenantCertifier } from '@/utils/tenant.utils'
-import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
 
 const views = [
   {
@@ -38,7 +37,7 @@ const views = [
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles, isSupport, isOrganizationAllowedToProduce, jwt } = AuthHooks.useJwt()
+  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 

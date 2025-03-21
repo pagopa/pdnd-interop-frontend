@@ -44,6 +44,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
     : true
 
+  const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
 
@@ -196,59 +198,61 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           )}
         </SectionContainer>
 
-        <SectionContainer
-          title={t('create.step1.delegationSection.title')}
-          description={
-            <Trans
-              components={{
-                1: <Link underline="hover" href={delegationGuideLink} target="_blank" />,
-              }}
-            >
-              {t('create.step1.delegationSection.description')}
-            </Trans>
-          }
-          component="div"
-        >
+        {isOrganizationAllowedToProduce && (
           <SectionContainer
-            innerSection
-            title={t('create.step1.delegationSection.delegationField.label')}
-            sx={{ mt: 3 }}
+            title={t('create.step1.delegationSection.title')}
+            description={
+              <Trans
+                components={{
+                  1: <Link underline="hover" href={delegationGuideLink} target="_blank" />,
+                }}
+              >
+                {t('create.step1.delegationSection.description')}
+              </Trans>
+            }
+            component="div"
           >
-            <RHFSwitch
-              label={t('create.step1.delegationSection.delegationField.switchLabel')}
-              name="isConsumerDelegable"
-              disabled={!areEServiceGeneralInfoEditable}
-              sx={{ my: 0 }}
-            />
-          </SectionContainer>
-
-          {formMethods.watch('isConsumerDelegable') && (
             <SectionContainer
               innerSection
-              title={t('create.step1.delegationSection.clientAccessDelegableField.label')}
+              title={t('create.step1.delegationSection.delegationField.label')}
               sx={{ mt: 3 }}
             >
-              <RHFCheckbox
-                name="isClientAccessDelegable"
-                label={
-                  <Trans
-                    components={{
-                      1: (
-                        <Link
-                          underline="hover"
-                          href={delegationEServiceGuideLink}
-                          target="_blank"
-                        />
-                      ),
-                    }}
-                  >
-                    {t('create.step1.delegationSection.clientAccessDelegableField.checkboxLabel')}
-                  </Trans>
-                }
+              <RHFSwitch
+                label={t('create.step1.delegationSection.delegationField.switchLabel')}
+                name="isConsumerDelegable"
+                disabled={!areEServiceGeneralInfoEditable}
+                sx={{ my: 0 }}
               />
             </SectionContainer>
-          )}
-        </SectionContainer>
+
+            {formMethods.watch('isConsumerDelegable') && (
+              <SectionContainer
+                innerSection
+                title={t('create.step1.delegationSection.clientAccessDelegableField.label')}
+                sx={{ mt: 3 }}
+              >
+                <RHFCheckbox
+                  name="isClientAccessDelegable"
+                  label={
+                    <Trans
+                      components={{
+                        1: (
+                          <Link
+                            underline="hover"
+                            href={delegationEServiceGuideLink}
+                            target="_blank"
+                          />
+                        ),
+                      }}
+                    >
+                      {t('create.step1.delegationSection.clientAccessDelegableField.checkboxLabel')}
+                    </Trans>
+                  }
+                />
+              </SectionContainer>
+            )}
+          </SectionContainer>
+        )}
 
         <StepActions
           forward={
