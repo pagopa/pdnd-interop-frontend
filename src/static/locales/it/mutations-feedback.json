@@ -43,8 +43,7 @@
       },
       "confirmDialog": {
         "title": "Conferma cancellazione bozza",
-        "description": "Cliccando \"conferma\" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozza",
-        "descriptionForUpgrade": "Cliccando \"conferma\" verrà cancellata la bozza precedentemente creata e non sarà più recuperabile. Una volta cancellata la bozza, potrai procedere con l’aggiornamento dell’istanza alla versione più recente."
+        "description": "Cliccando \"conferma\" questa bozza verrà cancellata e non sarà più recuperabile. Sarà sempre possibile creare nuove bozza"
       }
     },
     "cloneFromVersion": {
@@ -233,6 +232,16 @@
       "outcome": {
         "error": "Non è stato possibile salvare i dati di interfaccia. Assicurati di aver inserito le informazioni corrette.",
         "success": "Dati di interfaccia sono stati salvati corettamente"
+      }
+    },
+    "deleteAndUpgradeEService": {
+      "loading": "Stiamo cancellando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile cancellare aggiornare l'e-service. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione bozza",
+        "description": "Cliccando \"conferma\" verrà cancellata la bozza precedentemente creata e non sarà più recuperabile. Una volta cancellata la bozza, potrai procedere con l’aggiornamento dell’istanza alla versione più recente."
       }
     }
   },

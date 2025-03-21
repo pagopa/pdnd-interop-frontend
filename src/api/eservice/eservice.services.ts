@@ -33,6 +33,7 @@ import type {
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
+import { waitFor } from '@/utils/common.utils'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -505,6 +506,19 @@ async function updateInstanceVersionDraft({
   return response.data
 }
 
+async function deleteDraftAndUpgradeEService({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  await EServiceServices.deleteVersionDraft({ eserviceId, descriptorId })
+  //!!! Temporary, in order to avoid eventual consistency issues.
+  await waitFor(4000)
+  return await EServiceServices.upgradeEService({ eserviceId })
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -544,4 +558,5 @@ export const EServiceServices = {
   updateEServiceInterfaceSOAPInfo,
   upgradeEService,
   updateInstanceVersionDraft,
+  deleteDraftAndUpgradeEService,
 }
