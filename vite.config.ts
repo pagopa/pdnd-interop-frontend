@@ -15,10 +15,10 @@ export default defineConfig(({ mode }) => {
     mode === 'development'
       ? devPlugins
       : mode === 'production'
-        ? prodPlugins
-        : mode === 'test'
-          ? testPlugins
-          : undefined
+      ? prodPlugins
+      : mode === 'test'
+      ? testPlugins
+      : undefined
 
   return {
     base: '/ui',
