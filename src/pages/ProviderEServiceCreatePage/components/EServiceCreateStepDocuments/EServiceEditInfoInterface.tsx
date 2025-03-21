@@ -9,7 +9,6 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import type { UseFieldArrayReturn } from 'react-hook-form'
 import type {
   TemplateInstanceInterfaceMetadata,
-  EServiceDoc,
   EServiceTechnology,
 } from '@/api/api.generatedTypes'
 import { TemplateDownloads } from '@/api/template/template.downloads'

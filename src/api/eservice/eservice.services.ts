@@ -452,11 +452,21 @@ async function updateEServiceName({
   return response.data
 }
 
-async function updateEServiceInterfaceRESTInfo({
+async function deleteDocAndUpdateEServiceInterfaceRESTInfo({
   eserviceId,
   descriptorId,
+  documentId,
   ...payload
-}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceRESTSeed) {
+}: {
+  eserviceId: string
+  descriptorId: string
+  documentId: string | undefined
+} & TemplateInstanceInterfaceRESTSeed) {
+  // Need to Delete document and wait before to update interface's data
+  if (documentId) {
+    await deleteVersionDraftDocument({ eserviceId, descriptorId, documentId })
+    await waitFor(4000)
+  }
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface/rest`,
     payload
@@ -465,11 +475,21 @@ async function updateEServiceInterfaceRESTInfo({
   return response.data
 }
 
-async function updateEServiceInterfaceSOAPInfo({
+async function deleteDocAndUpdateEServiceInterfaceSOAPInfo({
   eserviceId,
   descriptorId,
+  documentId,
   ...payload
-}: { eserviceId: string; descriptorId: string } & TemplateInstanceInterfaceSOAPSeed) {
+}: {
+  eserviceId: string
+  descriptorId: string
+  documentId: string | undefined
+} & TemplateInstanceInterfaceSOAPSeed) {
+  // Need to Delete document and wait before to update interface's data
+  if (documentId) {
+    await deleteVersionDraftDocument({ eserviceId, descriptorId, documentId })
+    await waitFor(4000)
+  }
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface/soap`,
     payload
@@ -554,8 +574,8 @@ export const EServiceServices = {
   approveDelegatedVersionDraft,
   rejectDelegatedVersionDraft,
   updateEServiceName,
-  updateEServiceInterfaceRESTInfo,
-  updateEServiceInterfaceSOAPInfo,
+  deleteDocAndUpdateEServiceInterfaceRESTInfo,
+  deleteDocAndUpdateEServiceInterfaceSOAPInfo,
   upgradeEService,
   updateInstanceVersionDraft,
   deleteDraftAndUpgradeEService,
