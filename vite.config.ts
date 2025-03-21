@@ -44,6 +44,13 @@ export default defineConfig(({ mode }) => {
     envPrefix: 'REACT_APP_',
     server: {
       port: 3000,
+      proxy: {
+        '/0.0/backend-for-frontend': {
+          target: 'https://selfcare.dev.interop.pagopa.it',
+          changeOrigin: true,
+          secure: false,
+        },
+      },
     },
     test: {
       globals: true,
