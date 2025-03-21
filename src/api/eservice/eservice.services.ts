@@ -539,6 +539,14 @@ async function deleteDraftAndUpgradeEService({
   return await EServiceServices.upgradeEService({ eserviceId })
 }
 
+async function getIsEServiceNameAvailable({ eserviceName }: { eserviceName: string }) {
+  const response = await axiosInstance.get<boolean>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/names/availability`,
+    { params: { name: eserviceName } }
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -579,4 +587,5 @@ export const EServiceServices = {
   upgradeEService,
   updateInstanceVersionDraft,
   deleteDraftAndUpgradeEService,
+  getIsEServiceNameAvailable,
 }

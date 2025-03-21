@@ -12,7 +12,7 @@ import {
 } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate, useParams } from '@/router'
-import { EServiceMutations } from '@/api/eservice'
+import { EServiceMutations, EServiceQueries } from '@/api/eservice'
 import type {
   EServiceMode,
   EServiceTechnology,
@@ -34,6 +34,7 @@ import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'
+import { useQuery } from '@tanstack/react-query'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -148,6 +149,11 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     }
   }
 
+  const { data: isEserviceNameAvailable } = useQuery({
+    ...EServiceQueries.getIsEServiceNameAvailable(template?.name as string),
+    enabled: isEserviceFromTemplate,
+  })
+
   return (
     <FormProvider {...formMethods}>
       {!isEserviceFromTemplate && (
@@ -178,6 +184,11 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           }
           component="div"
         >
+          {!isEserviceNameAvailable && isEserviceFromTemplate && (
+            <Alert severity="warning" sx={{ mb: 3 }}>
+              {t('create.step1.alertInstanceLabelRequired')}
+            </Alert>
+          )}
           <RHFTextField
             label={t('create.step1.eserviceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
@@ -194,7 +205,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               label={t('create.step1.istanceNameField.label')}
               infoLabel={t('create.step1.eserviceNameField.infoLabel')}
               name="instanceLabel"
-              rules={{ minLength: 5 }}
+              rules={{ required: isEserviceNameAvailable ? undefined : true, minLength: 5 }}
               focusOnMount
               inputProps={{ maxLength: 60 }}
               size="small"

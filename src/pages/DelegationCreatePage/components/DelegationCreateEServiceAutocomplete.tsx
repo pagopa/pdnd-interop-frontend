@@ -16,11 +16,12 @@ import { TemplateQueries } from '@/api/template'
 type DelegationCreateEServiceAutocompleteProps = {
   delegationKind: DelegationKind
   createFromTemplate: boolean
+  handleTemplateNameAutocompleteChange: (eserviceTemplateName: string) => void
 }
 
 export const DelegationCreateEServiceAutocomplete: React.FC<
   DelegationCreateEServiceAutocompleteProps
-> = ({ delegationKind, createFromTemplate }) => {
+> = ({ delegationKind, createFromTemplate, handleTemplateNameAutocompleteChange }) => {
   const { t } = useTranslation('party')
   const selectedEServiceRef = React.useRef<CatalogEService | ProducerEService | undefined>(
     undefined
@@ -134,7 +135,9 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
       }
       options={autocompleteOptions}
       onValueChange={(value) => {
-        selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)
+        const eservice = eservices.find((eservice) => eservice.id === value?.value)
+        selectedEServiceRef.current = eservice
+        value && createFromTemplate && handleTemplateNameAutocompleteChange(value?.label)
       }}
       onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
       rules={{ required: true }}

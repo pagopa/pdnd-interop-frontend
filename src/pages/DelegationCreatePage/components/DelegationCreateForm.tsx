@@ -16,13 +16,15 @@ import { AgreementQueries } from '@/api/agreement'
 import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
-import { TemplateMutations } from '@/api/template'
+import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { EServiceQueries } from '@/api/eservice'
 
 export type DelegationCreateFormValues = {
   eserviceId: string
   eserviceName: string
   eserviceDescription: string
   delegateId: string
+  instanceLabel?: string
   isEserviceFromTemplate?: boolean
 }
 
@@ -131,6 +133,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         {
           delegateId: formValues.delegateId,
           eServiceTemplateId: formValues.eserviceId,
+          instanceLabel: formValues.instanceLabel,
         },
         {
           onSuccess: () => {
@@ -174,6 +177,17 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     setIsEserviceFromTemplate(value)
   }
 
+  const [eserviceTemplateName, setEserviceTemplateName] = useState('')
+
+  const handleTemplateNameAutocompleteChange = (eserviceTemplateName: string) => {
+    setEserviceTemplateName(eserviceTemplateName)
+  }
+
+  const { data: isEserviceNameAvailable } = useQuery({
+    ...EServiceQueries.getIsEServiceNameAvailable(eserviceTemplateName),
+    enabled: !!eserviceTemplateName,
+  })
+
   return (
     <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
       <FormProvider {...formMethods}>
@@ -196,11 +210,13 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
               <DelegationCreateEServiceAutocomplete
                 delegationKind={delegationKind}
                 createFromTemplate={false}
+                handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
               />
             ) : (
               <DelegationCreateFormCreateEservice
                 delegationKind={delegationKind}
                 onChange={handleChange}
+                handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
               />
             )}
             <DelegationCreateTenantAutocomplete delegationKind={delegationKind} />
@@ -210,6 +226,16 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
                   ? t('delegations.create.isDelegatedAlert')
                   : t('delegations.create.hasAgreementsAlert')}
               </Alert>
+            )}
+            {isEserviceToBeCreated && isEserviceFromTemplate && (
+              <RHFTextField
+                name="instanceLabel"
+                label={t('delegations.create.instanceField.label')}
+                infoLabel={t('delegations.create.instanceField.infoLabel')}
+                inputProps={{ maxLength: 60 }}
+                rules={{ required: isEserviceNameAvailable ? undefined : true, minLength: 5 }}
+                sx={{ my: 2 }}
+              />
             )}
           </Stack>
         </SectionContainer>
