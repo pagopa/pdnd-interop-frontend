@@ -8,11 +8,12 @@ import { DelegationKind } from '@/api/api.generatedTypes'
 type DelegationCreateFormCreateEserviceProps = {
   delegationKind: DelegationKind
   onChange: (value: boolean) => void
+  handleTemplateNameAutocompleteChange: (eserviceTemplateName: string) => void
 }
 
 export const DelegationCreateFormCreateEservice: React.FC<
   DelegationCreateFormCreateEserviceProps
-> = ({ delegationKind, onChange }) => {
+> = ({ delegationKind, onChange, handleTemplateNameAutocompleteChange }) => {
   const { t } = useTranslation('party', {
     keyPrefix: 'delegations.create',
   })
@@ -41,6 +42,7 @@ export const DelegationCreateFormCreateEservice: React.FC<
           <DelegationCreateEServiceAutocomplete
             delegationKind={delegationKind}
             createFromTemplate={true}
+            handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
           />
         </>
       ) : (

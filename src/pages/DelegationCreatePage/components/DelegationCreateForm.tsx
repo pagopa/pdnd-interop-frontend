@@ -16,8 +16,8 @@ import { AgreementQueries } from '@/api/agreement'
 import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
-import { TemplateMutations } from '@/api/template'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { EServiceQueries } from '@/api/eservice'
 
 export type DelegationCreateFormValues = {
   eserviceId: string
@@ -177,6 +177,17 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
     setIsEserviceFromTemplate(value)
   }
 
+  const [eserviceTemplateName, setEserviceTemplateName] = useState('')
+
+  const handleTemplateNameAutocompleteChange = (eserviceTemplateName: string) => {
+    setEserviceTemplateName(eserviceTemplateName)
+  }
+
+  const { data: isEserviceNameAvailable } = useQuery({
+    ...EServiceQueries.getIsEServiceNameAvailable(eserviceTemplateName),
+    enabled: !!eserviceTemplateName,
+  })
+
   return (
     <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
       <FormProvider {...formMethods}>
@@ -199,11 +210,13 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
               <DelegationCreateEServiceAutocomplete
                 delegationKind={delegationKind}
                 createFromTemplate={false}
+                handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
               />
             ) : (
               <DelegationCreateFormCreateEservice
                 delegationKind={delegationKind}
                 onChange={handleChange}
+                handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
               />
             )}
             <DelegationCreateTenantAutocomplete delegationKind={delegationKind} />
@@ -220,7 +233,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
                 label={t('delegations.create.instanceField.label')}
                 infoLabel={t('delegations.create.instanceField.infoLabel')}
                 inputProps={{ maxLength: 60 }}
-                rules={{ required: true, minLength: 5 }} //TODO: 'required' should be true only if there is already an instance of eservice.
+                rules={{ required: isEserviceNameAvailable ? undefined : true, minLength: 5 }}
                 sx={{ my: 2 }}
               />
             )}
