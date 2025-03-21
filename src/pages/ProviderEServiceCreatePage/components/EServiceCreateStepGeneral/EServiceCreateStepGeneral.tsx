@@ -184,7 +184,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           }
           component="div"
         >
-          {!isEserviceNameAvailable && (
+          {!isEserviceNameAvailable && isEserviceFromTemplate && (
             <Alert severity="warning" sx={{ mb: 3 }}>
               {t('create.step1.alertInstanceLabelRequired')}
             </Alert>
