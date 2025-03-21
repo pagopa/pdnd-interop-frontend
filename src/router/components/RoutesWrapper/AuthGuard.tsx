@@ -1,5 +1,6 @@
 import { AuthQueries } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
+import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
 import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
@@ -61,14 +62,12 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   }
 
   function isUserAllowedToAccessDelegationsRoutes() {
-    // The IsUserAllowedToAccessDelegationsRoutes method checks if the organization is a PA. Only a PA can access the delegations routes
-    const isPA = jwt?.externalId?.origin === 'IPA'
     const delegationsRoutes: Array<RouteKey> = [
       'DELEGATIONS',
       'DELEGATION_DETAILS',
       'CREATE_DELEGATION',
     ]
-    return isPA || !delegationsRoutes.includes(routeKey)
+    return isOrganizationAllowedToProduce || !delegationsRoutes.includes(routeKey)
   }
 
   // JWT will be undefined just in case route is public.
