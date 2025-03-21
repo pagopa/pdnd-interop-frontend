@@ -177,7 +177,11 @@
         "checkboxLabel": "Ho capito"
       },
       "hasAgreementsAlert": "Esiste già una richiesta di fruizione attiva o sospesa per l’e-service selezionato, pertanto non è possibile conferirlo in delega. Per delegare questo e-service, chiedi che venga rimossa la richiesta attualmente attiva o sospesa e riprova.",
-      "isDelegatedAlert": "Esiste già una richiesta di delega per l’e-service selezionato, pertanto non è possibile conferirlo in delega. Per delegare questo e-service, chiedi che venga rimossa la richiesta attualmente attiva e riprova."
+      "isDelegatedAlert": "Esiste già una richiesta di delega per l’e-service selezionato, pertanto non è possibile conferirlo in delega. Per delegare questo e-service, chiedi che venga rimossa la richiesta attualmente attiva e riprova.",
+      "instanceField": {
+        "label": "Identificativo istanza",
+        "infoLabel": "Il codice identificativo viene aggiunto al nome e-service e serve per differenziare due o più istanza generate da template."
+      }
     },
     "actions": {
       "backToTenant": "Torna al tuo ente",
