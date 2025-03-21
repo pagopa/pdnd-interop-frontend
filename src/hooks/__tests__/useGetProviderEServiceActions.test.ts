@@ -50,6 +50,8 @@ function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerES
         descriptorMock.draftDescriptor?.id,
         descriptorMock.mode,
         descriptorMock.name,
+        descriptorMock.isTemplateInstance,
+        descriptorMock.isNewTemplateVersionAvailable ?? false,
         descriptorMock.delegation
       ),
     {
