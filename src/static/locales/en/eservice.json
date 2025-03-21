@@ -62,7 +62,8 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
         }
       },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
+      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published",
+      "alertInstanceLabelRequired": "An instance has already been created from this template. To make it easier to differentiate, add an instance identifier."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",

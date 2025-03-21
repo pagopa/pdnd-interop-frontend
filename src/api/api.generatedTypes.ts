@@ -2494,6 +2494,11 @@ export interface CreateEServiceTemplateDocumentPayload {
   doc: File
 }
 
+export interface IsEServiceNameAvailableParams {
+  /** the e-service name to check for */
+  name: string
+}
+
 export namespace Consumers {
   /**
    * @description retrieves a list of consumer agreements
@@ -5374,6 +5379,26 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name IsEServiceNameAvailable
+   * @summary Check if the e-service name is available
+   * @request GET:/eservices/names/availability
+   * @secure
+   */
+  export namespace IsEServiceNameAvailable {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** the e-service name to check for */
+      name: string
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = boolean
   }
 }
 

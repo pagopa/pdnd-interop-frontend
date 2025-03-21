@@ -177,7 +177,11 @@
         "checkboxLabel": "I understand"
       },
       "hasAgreementsAlert": "There is already an active or suspended agreement for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active or suspended agreement be removed and try again.",
-      "isDelegatedAlert": "A delegation request already exists for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active request be removed and try again."
+      "isDelegatedAlert": "A delegation request already exists for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active request be removed and try again.",
+      "instanceField": {
+        "label": "Instance id",
+        "infoLabel": "The identification code is added to the e-service name and is used to differentiate two or more instances generated from a template."
+      }
     },
     "actions": {
       "backToTenant": "Return to tenant",
