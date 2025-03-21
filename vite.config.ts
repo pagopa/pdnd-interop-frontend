@@ -49,8 +49,6 @@ export default defineConfig(({ mode }) => {
           target: 'https://selfcare.dev.interop.pagopa.it',
           changeOrigin: true,
           secure: false,
-          rewrite: (path) =>
-            path.replace(/^\/0\.0\/backend-for-frontend/, '/0.0/backend-for-frontend'),
         },
       },
     },
