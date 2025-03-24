@@ -1,9 +1,4 @@
-import type {
-  CatalogEService,
-  CatalogEServiceTemplate,
-  DelegationKind,
-  ProducerEService,
-} from '@/api/api.generatedTypes'
+import type { CatalogEServiceTemplate, DelegationKind } from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
@@ -21,24 +16,22 @@ export const DelegationCreateEServiceFromTemplateAutocomplete: React.FC<
   DelegationCreateEServiceFromTemplateAutocompleteProps
 > = ({ delegationKind, handleTemplateNameAutocompleteChange }) => {
   const { t } = useTranslation('party')
-  const selectedEServiceRef = React.useRef<CatalogEService | ProducerEService | undefined>(
-    undefined
-  )
+  const selectedEServiceTemplateRef = React.useRef<CatalogEServiceTemplate | undefined>(undefined)
 
-  const [eserviceAutocompleteTextInput, setEserviceAutocompleteTextInput] =
+  const [eserviceTemplateAutocompleteTextInput, setEserviceTemplateAutocompleteTextInput] =
     useAutocompleteTextInput()
 
   const formatAutocompleteOptionLabel = React.useCallback(
-    (eservice: CatalogEService | ProducerEService | CatalogEServiceTemplate) => {
+    (eserviceTemplate: CatalogEServiceTemplate) => {
       return match(delegationKind)
         .with('DELEGATED_CONSUMER', () => {
-          if (!('producer' in eservice)) return eservice.name
-          return `${eservice.name} ${t('delegations.create.eserviceField.eserviceNameLabel')} ${
-            eservice.producer.name
-          }`
+          if (!('producer' in eserviceTemplate)) return eserviceTemplate.name
+          return `${eserviceTemplate.name} ${t(
+            'delegations.create.eserviceField.eserviceNameLabel'
+          )} ${eserviceTemplate.producer}`
         })
         .with('DELEGATED_PRODUCER', () => {
-          return eservice.name
+          return eserviceTemplate.name
         })
         .exhaustive()
     },
@@ -49,11 +42,12 @@ export const DelegationCreateEServiceFromTemplateAutocomplete: React.FC<
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected eservice name.
    */
   function getQ() {
-    let result = eserviceAutocompleteTextInput
+    let result = eserviceTemplateAutocompleteTextInput
 
     if (
-      selectedEServiceRef.current &&
-      eserviceAutocompleteTextInput === formatAutocompleteOptionLabel(selectedEServiceRef.current)
+      selectedEServiceTemplateRef.current &&
+      eserviceTemplateAutocompleteTextInput ===
+        formatAutocompleteOptionLabel(selectedEServiceTemplateRef.current)
     ) {
       result = ''
     }
@@ -71,9 +65,9 @@ export const DelegationCreateEServiceFromTemplateAutocomplete: React.FC<
       select: (d) => d.results ?? [],
     })
 
-  const autocompleteOptions = catalogEservicesTemplates.map((eservice) => ({
-    label: formatAutocompleteOptionLabel(eservice),
-    value: eservice.id,
+  const autocompleteOptions = catalogEservicesTemplates.map((eserviceTemplate) => ({
+    label: formatAutocompleteOptionLabel(eserviceTemplate),
+    value: eserviceTemplate.id,
   }))
 
   const delegationKindTKey = delegationKind === 'DELEGATED_CONSUMER' ? 'consumer' : 'producer'
@@ -91,7 +85,7 @@ export const DelegationCreateEServiceFromTemplateAutocomplete: React.FC<
       onValueChange={(value) => {
         value && handleTemplateNameAutocompleteChange(value?.label)
       }}
-      onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
+      onInputChange={(_, value) => setEserviceTemplateAutocompleteTextInput(value)}
       rules={{ required: true }}
     />
   )
