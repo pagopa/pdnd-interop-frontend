@@ -149,8 +149,10 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     }
   }
 
+  const templateName = template?.name || descriptor?.templateRef?.templateName
+
   const { data: isEserviceNameAvailable } = useQuery({
-    ...EServiceQueries.getIsEServiceNameAvailable(template?.name as string),
+    ...EServiceQueries.getIsEServiceNameAvailable(templateName as string),
     enabled: isEserviceFromTemplate,
   })
 
