@@ -7,19 +7,19 @@ import type {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { TemplateQueries } from '@/api/template'
 
-type DelegationCreateEServiceAutocompleteProps = {
+type DelegationCreateEServiceFromTemplateAutocompleteProps = {
   delegationKind: DelegationKind
+  handleTemplateNameAutocompleteChange: (eserviceTemplateName: string) => void
 }
 
-export const DelegationCreateEServiceAutocomplete: React.FC<
-  DelegationCreateEServiceAutocompleteProps
-> = ({ delegationKind }) => {
+export const DelegationCreateEServiceFromTemplateAutocomplete: React.FC<
+  DelegationCreateEServiceFromTemplateAutocompleteProps
+> = ({ delegationKind, handleTemplateNameAutocompleteChange }) => {
   const { t } = useTranslation('party')
   const selectedEServiceRef = React.useRef<CatalogEService | ProducerEService | undefined>(
     undefined
@@ -61,33 +61,17 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
     return result
   }
 
-  const { data: producerEservice = [], isLoading: isLoadingProducerEservices } = useQuery({
-    ...EServiceQueries.getProviderList({
-      q: getQ(),
-      limit: 50,
-      offset: 0,
-      delegated: false,
-    }),
-    enabled: delegationKind === 'DELEGATED_PRODUCER',
-    select: (d) => d.results ?? [],
-  })
+  const { data: catalogEservicesTemplates = [], isLoading: isLoadingCatalogEservicesTemplates } =
+    useQuery({
+      ...TemplateQueries.getProviderTemplatesCatalogList({
+        q: getQ(),
+        limit: 50,
+        offset: 0,
+      }),
+      select: (d) => d.results ?? [],
+    })
 
-  const { data: catalogEservices = [], isLoading: isLoadingCatalogEservices } = useQuery({
-    ...EServiceQueries.getCatalogList({
-      q: getQ(),
-      // e-service might also be on 'DEPRECATED' state
-      states: ['PUBLISHED'],
-      limit: 50,
-      offset: 0,
-      isConsumerDelegable: true,
-    }),
-    enabled: delegationKind === 'DELEGATED_CONSUMER',
-    select: (d) => d.results ?? [],
-  })
-
-  const eservices = delegationKind === 'DELEGATED_CONSUMER' ? catalogEservices : producerEservice
-
-  const autocompleteOptions = eservices.map((eservice) => ({
+  const autocompleteOptions = catalogEservicesTemplates.map((eservice) => ({
     label: formatAutocompleteOptionLabel(eservice),
     value: eservice.id,
   }))
@@ -97,13 +81,15 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
   return (
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
-      loading={isLoadingCatalogEservices || isLoadingProducerEservices}
+      loading={isLoadingCatalogEservicesTemplates}
       name="eserviceId"
-      label={t('delegations.create.eserviceField.label')}
-      infoLabel={t(`delegations.create.eserviceField.infoLabelAutocomplete.${delegationKindTKey}`)}
+      label={t('delegations.create.eserviceField.labelFromTemplate')}
+      infoLabel={t(
+        `delegations.create.eserviceField.infoLabelAutocompleteFromTemplate.${delegationKindTKey}`
+      )}
       options={autocompleteOptions}
       onValueChange={(value) => {
-        selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)
+        value && handleTemplateNameAutocompleteChange(value?.label)
       }}
       onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
       rules={{ required: true }}
