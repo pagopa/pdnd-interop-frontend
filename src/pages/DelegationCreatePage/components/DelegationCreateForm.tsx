@@ -207,11 +207,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
               />
             )}
             {!isEserviceToBeCreated || delegationKind === 'DELEGATED_CONSUMER' ? (
-              <DelegationCreateEServiceAutocomplete
-                delegationKind={delegationKind}
-                createFromTemplate={false}
-                handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
-              />
+              <DelegationCreateEServiceAutocomplete delegationKind={delegationKind} />
             ) : (
               <DelegationCreateFormCreateEservice
                 delegationKind={delegationKind}

@@ -15,13 +15,11 @@ import { TemplateQueries } from '@/api/template'
 
 type DelegationCreateEServiceAutocompleteProps = {
   delegationKind: DelegationKind
-  createFromTemplate: boolean
-  handleTemplateNameAutocompleteChange: (eserviceTemplateName: string) => void
 }
 
 export const DelegationCreateEServiceAutocomplete: React.FC<
   DelegationCreateEServiceAutocompleteProps
-> = ({ delegationKind, createFromTemplate, handleTemplateNameAutocompleteChange }) => {
+> = ({ delegationKind }) => {
   const { t } = useTranslation('party')
   const selectedEServiceRef = React.useRef<CatalogEService | ProducerEService | undefined>(
     undefined
@@ -87,57 +85,25 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
     select: (d) => d.results ?? [],
   })
 
-  const { data: catalogEservicesTemplates = [], isLoading: isLoadingCatalogEservicesTemplates } =
-    useQuery({
-      ...TemplateQueries.getProviderTemplatesCatalogList({
-        q: getQ(),
-        limit: 50,
-        offset: 0,
-      }),
-      select: (d) => d.results ?? [],
-    })
-
   const eservices = delegationKind === 'DELEGATED_CONSUMER' ? catalogEservices : producerEservice
 
-  const autocompleteOptions =
-    createFromTemplate === false
-      ? eservices.map((eservice) => ({
-          label: formatAutocompleteOptionLabel(eservice),
-          value: eservice.id,
-        }))
-      : catalogEservicesTemplates.map((eservice) => ({
-          label: formatAutocompleteOptionLabel(eservice),
-          value: eservice.id,
-        }))
+  const autocompleteOptions = eservices.map((eservice) => ({
+    label: formatAutocompleteOptionLabel(eservice),
+    value: eservice.id,
+  }))
 
   const delegationKindTKey = delegationKind === 'DELEGATED_CONSUMER' ? 'consumer' : 'producer'
 
   return (
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
-      loading={
-        createFromTemplate === false
-          ? isLoadingCatalogEservices || isLoadingProducerEservices
-          : isLoadingCatalogEservicesTemplates
-      }
+      loading={isLoadingCatalogEservices || isLoadingProducerEservices}
       name="eserviceId"
-      label={
-        createFromTemplate
-          ? t('delegations.create.eserviceField.labelFromTemplate')
-          : t('delegations.create.eserviceField.label')
-      }
-      infoLabel={
-        createFromTemplate
-          ? t(
-              `delegations.create.eserviceField.infoLabelAutocompleteFromTemplate.${delegationKindTKey}`
-            )
-          : t(`delegations.create.eserviceField.infoLabelAutocomplete.${delegationKindTKey}`)
-      }
+      label={t('delegations.create.eserviceField.label')}
+      infoLabel={t(`delegations.create.eserviceField.infoLabelAutocomplete.${delegationKindTKey}`)}
       options={autocompleteOptions}
       onValueChange={(value) => {
-        const eservice = eservices.find((eservice) => eservice.id === value?.value)
-        selectedEServiceRef.current = eservice
-        value && createFromTemplate && handleTemplateNameAutocompleteChange(value?.label)
+        selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)
       }}
       onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
       rules={{ required: true }}
