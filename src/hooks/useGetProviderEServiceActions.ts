@@ -231,6 +231,19 @@ export function useGetProviderEServiceActions(
         { eserviceId, descriptorId: draftDescriptorId },
         {
           onSuccess({ id: descriptorId }) {
+            console.log(descriptorId)
+            navigate('PROVIDE_ESERVICE_EDIT', {
+              params: { eserviceId: eserviceId, descriptorId: descriptorId },
+              state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+            })
+          },
+        }
+      )
+    } else {
+      upgradeEService(
+        { eserviceId },
+        {
+          onSuccess({ id: descriptorId }) {
             navigate('PROVIDE_ESERVICE_EDIT', {
               params: { eserviceId: eserviceId, descriptorId: descriptorId },
               state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
@@ -239,17 +252,6 @@ export function useGetProviderEServiceActions(
         }
       )
     }
-    upgradeEService(
-      { eserviceId },
-      {
-        onSuccess({ id: descriptorId }) {
-          navigate('PROVIDE_ESERVICE_EDIT', {
-            params: { eserviceId: eserviceId, descriptorId: descriptorId },
-            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
-          })
-        },
-      }
-    )
   }
 
   const upgradeEServiceAction: ActionItemButton = {
