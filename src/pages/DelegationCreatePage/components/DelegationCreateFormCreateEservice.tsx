@@ -1,9 +1,9 @@
 import { Alert, FormControlLabel, Switch } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
 import { useState } from 'react'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { DelegationKind } from '@/api/api.generatedTypes'
+import { DelegationCreateEServiceFromTemplateAutocomplete } from './DelegationCreateEServiceFromTemplateAutocomplete'
 
 type DelegationCreateFormCreateEserviceProps = {
   delegationKind: DelegationKind
@@ -39,9 +39,8 @@ export const DelegationCreateFormCreateEservice: React.FC<
       {isEserviceFromTemplate ? (
         <>
           <Alert severity="info">{t('delegateField.provider.alertEserviceFromTemplate')}</Alert>
-          <DelegationCreateEServiceAutocomplete
+          <DelegationCreateEServiceFromTemplateAutocomplete
             delegationKind={delegationKind}
-            createFromTemplate={true}
             handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
           />
         </>
