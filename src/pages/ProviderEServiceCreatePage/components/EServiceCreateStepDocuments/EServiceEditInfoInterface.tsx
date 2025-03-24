@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack, Box, Typography, Tooltip, Button } from '@mui/material'
-import { emailRegex } from '@/utils/form.utils'
+import { emailRegex, urlRegex } from '@/utils/form.utils'
 import DownloadIcon from '@mui/icons-material/Download'
 import AddIcon from '@mui/icons-material/Add'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -130,6 +130,13 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
           sx={{ flex: '0 0 50%' }}
           name="contactUrl"
           label={t('step4.template.interface.contactSection.urlField')}
+          rules={{
+            required: undefined,
+            pattern: {
+              value: urlRegex,
+              message: tCommon('validation.string.url'),
+            },
+          }}
         />
       </Stack>
       <Typography variant="body2" fontWeight={600}>
@@ -140,7 +147,13 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
         sx={{ width: '50%' }}
         name="termsAndConditionsUrl"
         label={t('step4.template.interface.termsAndConditions.label')}
-        rules={{ required: false }}
+        rules={{
+          required: undefined,
+          pattern: {
+            value: urlRegex,
+            message: tCommon('validation.string.url'),
+          },
+        }}
       />
       <Typography variant="body2" fontWeight={600}>
         {t('step4.template.interface.serverSection.title')}
