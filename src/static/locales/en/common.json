@@ -8,6 +8,7 @@
     },
     "string": {
       "email": "Invalid email format",
+      "url": "Invalid URL format",
       "minLength": "This field must contain at least {{min}} chars"
     },
     "number": {

@@ -151,7 +151,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   const templateName = template?.name || descriptor?.templateRef?.templateName
 
-  const { data: isEserviceNameAvailable } = useQuery({
+  const { data: isEserviceNameAvailable, isLoading: isEserviceNameAvailableLoading } = useQuery({
     ...EServiceQueries.getIsEServiceNameAvailable(templateName as string),
     enabled: isEserviceFromTemplate,
   })
@@ -186,11 +186,13 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           }
           component="div"
         >
-          {!isEserviceNameAvailable && isEserviceFromTemplate && (
-            <Alert severity="warning" sx={{ mb: 3 }}>
-              {t('create.step1.alertInstanceLabelRequired')}
-            </Alert>
-          )}
+          {!isEserviceNameAvailable &&
+            isEserviceFromTemplate &&
+            !isEserviceNameAvailableLoading && (
+              <Alert severity="warning" sx={{ mb: 3 }}>
+                {t('create.step1.alertInstanceLabelRequired')}
+              </Alert>
+            )}
           <RHFTextField
             label={t('create.step1.eserviceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
@@ -367,13 +369,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 }
 
 export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
-  const { t } = useTranslation('eservice')
-
   return (
     <>
-      <Alert severity="warning" sx={{ mb: 3 }}>
-        {t('create.step1.firstVersionOnlyEditableInfo')}
-      </Alert>
       <SectionContainerSkeleton height={354} />
     </>
   )

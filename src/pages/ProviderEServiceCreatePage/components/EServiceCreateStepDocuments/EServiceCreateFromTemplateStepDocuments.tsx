@@ -20,7 +20,6 @@ import type {
   TemplateInstanceInterfaceRESTSeed,
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
-import { waitFor } from '@/utils/common.utils'
 
 /* This interface is needed just for useFieldArrays with work only with objects and not with array
  https://github.com/orgs/react-hook-form/discussions/7586 
@@ -50,8 +49,6 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     EServiceMutations.useDeleteAndUpdateEServiceInterfaceRESTInfo()
   const { mutate: deleteAndupdateEServiceSOAPInterfaceInfo } =
     EServiceMutations.useDeleteAndUpdateEServiceInterfaceSOAPInfo()
-
-  const { mutateAsync: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
 
   const formMethods = useForm({ defaultValues })
 
@@ -90,11 +87,10 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
     const payload: TemplateInstanceInterfaceRESTSeed = {
       contactName: values?.contactName as string,
       contactEmail: values.contactEmail as string,
-      contactUrl: values.contactUrl,
-      termsAndConditionsUrl: values.termsAndConditionsUrl,
+      ...(values.contactUrl && { contactUrl: values.contactUrl }),
+      ...(values.termsAndConditionsUrl && { termsAndConditionsUrl: values.termsAndConditionsUrl }),
       serverUrls,
     }
-
     deleteAndUpdateEServiceRESTInterfaceInfo({
       ...payload,
       eserviceId,
