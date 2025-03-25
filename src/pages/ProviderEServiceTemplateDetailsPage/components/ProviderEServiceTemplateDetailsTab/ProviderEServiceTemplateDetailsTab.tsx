@@ -5,9 +5,15 @@ import {
   EServiceTemplateGeneralInfoSection,
   EServiceTemplateTechnicalInfoSection,
 } from '@/components/shared/EserviceTemplate'
+import type { EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 
-export const ProviderEServiceTemplateDetailsTab: React.FC = () => {
-  const readonly = false
+type ProviderEServiceDetailsTabProps = {
+  templateVersionState: EServiceTemplateVersionState | undefined
+}
+export const ProviderEServiceTemplateDetailsTab: React.FC<ProviderEServiceDetailsTabProps> = ({
+  templateVersionState,
+}) => {
+  const readonly = templateVersionState === 'DEPRECATED'
   const routeKey = 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
   return (
     <>

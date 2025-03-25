@@ -55,7 +55,7 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
           <Tab label={t('tabs.eserviceTemplateTenants')} value="eserviceTemplateTenants" />
         </TabList>
         <TabPanel value="eserviceTemplateDetails">
-          <ProviderEServiceTemplateDetailsTab />
+          <ProviderEServiceTemplateDetailsTab templateVersionState={template?.state} />
         </TabPanel>
         <TabPanel value="eserviceTemplateTenants">
           <ProviderEServiceTemplateTenantsTab

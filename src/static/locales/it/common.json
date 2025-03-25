@@ -8,6 +8,7 @@
     },
     "string": {
       "email": "Formato email non valido",
+      "url": "Formato URL non valido",
       "minLength": "Questo campo deve contenere almeno {{min}} caratteri"
     },
     "number": {
