@@ -36,16 +36,9 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     undefined // delegations not needeed
   )
 
-  const isInstaceLabelAvailable = Boolean(descriptor?.templateRef?.instanceLabel)
-
-  const title =
-    isEserviceFromTemplate && isInstaceLabelAvailable
-      ? `${descriptor?.eservice.name} (${descriptor?.templateRef?.instanceLabel})`
-      : `${descriptor?.eservice.name}`
-
   return (
     <PageContainer
-      title={title || ''}
+      title={descriptor?.eservice.name || ''}
       topSideActions={actions}
       isLoading={!descriptor}
       statusChip={
