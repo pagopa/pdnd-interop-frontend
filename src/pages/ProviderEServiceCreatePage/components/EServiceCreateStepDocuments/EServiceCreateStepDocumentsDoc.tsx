@@ -129,7 +129,6 @@ export const EServiceCreateStepDocumentsDoc: React.FC<EServiceCreateStepDocument
             onSubmit={formMethods.handleSubmit(onSubmit)}
             bgcolor="common.white"
           >
-            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
             <RHFTextField
               size="small"
               name="prettyName"
