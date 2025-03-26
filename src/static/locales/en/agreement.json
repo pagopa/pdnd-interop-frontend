@@ -37,10 +37,10 @@
           "label": "View declared attributes"
         },
         "consumerDetailsLink": {
-          "label": "View consumer details"
+          "label": "View consumer contacts"
         },
         "delegatedConsumerDetailsLink": {
-          "label": "View delegated consumer details"
+          "label": "View delegated consumer contacts"
         },
         "contactDrawer": {
           "title": {
@@ -161,7 +161,7 @@
           "label": "View certified attributes"
         },
         "providerDetailsLink": {
-          "label": "View provider details"
+          "label": "View provider contacts"
         },
         "contactDrawer": {
           "title": "Provider contacts",
