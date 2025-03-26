@@ -132,7 +132,8 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
         title={t('title')}
         bottomActions={[
           ...(!hasSingleVersion ? [navigateTemplateVersionsAction] : []),
-          downloadUsingTenantsListAction,
+          //TODO: THE API is not ready yet
+          // downloadUsingTenantsListAction,
         ]}
       >
         <Stack spacing={2}>

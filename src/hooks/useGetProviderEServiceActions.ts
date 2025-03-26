@@ -77,22 +77,6 @@ export function useGetProviderEServiceActions(
     color: 'error',
   }
 
-  const handlePublishDraft = () => {
-    if (draftDescriptorId)
-      publishDraft({
-        eserviceId,
-        descriptorId: draftDescriptorId,
-        delegatorName: delegation?.delegator.name,
-        eserviceName: eserviceName,
-      })
-  }
-
-  const publishDraftAction: ActionItemButton = {
-    action: handlePublishDraft,
-    label: t('publishDraft'),
-    icon: CheckCircleOutlineIcon,
-  }
-
   const handleDeleteVersionDraft = () => {
     if (draftDescriptorId) deleteVersionDraft({ eserviceId, descriptorId: draftDescriptorId })
   }
@@ -383,9 +367,8 @@ export function useGetProviderEServiceActions(
     .otherwise(() => [])
 
   const draftActions = match({ isDelegator, isDelegate })
-    .with({ isDelegator: false, isDelegate: false }, () => [publishDraftAction, deleteAction])
-    .with({ isDelegator: true, isDelegate: false }, () => [])
-    .with({ isDelegator: false, isDelegate: true }, () => [publishDraftAction])
+    .with({ isDelegator: false, isDelegate: false }, () => [deleteAction])
+    /** Delegation */
     .otherwise(() => [])
 
   const suspendedActions = match({
