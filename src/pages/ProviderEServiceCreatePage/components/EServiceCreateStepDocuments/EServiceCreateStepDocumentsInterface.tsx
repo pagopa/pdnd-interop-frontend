@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -78,20 +78,20 @@ export function EServiceCreateStepDocumentsInterface() {
     )
   }
 
+  const selectedInterface = formMethods.watch('interfaceDoc')
+
   return (
     <FormProvider {...formMethods}>
-      <Box component="form" noValidate sx={{ py: 2 }}>
-        <RHFSingleFileInput
-          sx={{ my: 0 }}
-          name="interfaceDoc"
-          label={t('create.step4.uploadFileField.label')}
-          rules={{ required: true }}
-          onValueChange={(value) => {
-            if (Boolean(value)) {
-              formMethods.handleSubmit(onSubmit)()
-            }
-          }}
-        />
+      <Box component="form" noValidate sx={{ py: 2 }} onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <RHFSingleFileInput sx={{ my: 0 }} name="interfaceDoc" rules={{ required: true }} />
+
+        {selectedInterface && (
+          <Stack direction="row" justifyContent="flex-start" mt={3}>
+            <Button type="submit" variant="contained">
+              {t('create.step4.uploadBtn')}
+            </Button>
+          </Stack>
+        )}
       </Box>
     </FormProvider>
   )
