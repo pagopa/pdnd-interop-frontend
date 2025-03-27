@@ -129,7 +129,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       })
     } else {
       const body: InstanceEServiceSeed & { eServiceTemplateId: string } = {
-        instanceLabel: formValues.instanceLabel,
+        ...(formValues.instanceLabel && { instanceLabel: formValues.instanceLabel }),
         eServiceTemplateId: eServiceTemplateId,
         isClientAccessDelegable: formValues.isClientAccessDelegable,
         isConsumerDelegable: formValues.isConsumerDelegable,
