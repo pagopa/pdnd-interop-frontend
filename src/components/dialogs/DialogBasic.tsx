@@ -1,10 +1,12 @@
 import React from 'react'
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   Typography,
 } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
@@ -19,6 +21,7 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   proceedLabel,
   disabled = false,
   maxWidth,
+  checkbox,
 }) => {
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
@@ -33,6 +36,14 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   const handleProceed = () => {
     onProceed()
     closeDialog()
+  }
+
+  const [isCheckboxChecked, setIsCheckboxChecked] = React.useState<boolean>(false)
+
+  const handleCheckBoxChange = () => {
+    setIsCheckboxChecked((prev) => {
+      return !prev
+    })
   }
 
   return (
@@ -57,12 +68,26 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
           </Trans>
         </DialogContent>
       )}
+      {checkbox && (
+        <FormControlLabel
+          key={'confirmationCheckbox'}
+          value={isCheckboxChecked}
+          onChange={handleCheckBoxChange}
+          control={<Checkbox />}
+          label={checkbox}
+          sx={{ mx: 1 }}
+        />
+      )}
 
       <DialogActions>
         <Button variant="outlined" onClick={handleCancel}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleProceed} disabled={disabled}>
+        <Button
+          variant="contained"
+          onClick={handleProceed}
+          disabled={disabled || (!!checkbox && !isCheckboxChecked)}
+        >
           {proceedLabel ?? tCommon('confirm')}
         </Button>
       </DialogActions>

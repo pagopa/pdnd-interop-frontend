@@ -23,6 +23,7 @@ declare module '@tanstack/react-query' {
       title: string | ((variables: TVariables) => string)
       description?: string | ((variables: TVariables) => string)
       proceedLabel?: string
+      checkbox?: string
     }
   }
 }
@@ -75,12 +76,14 @@ const resolveMeta = (query: {
 
   const proceedLabel = confirmationDialog?.proceedLabel
 
+  const checkbox = confirmationDialog?.checkbox
+
   return {
     loadingLabel,
     successToastLabel,
     errorToastLabel,
     confirmationDialog: confirmationDialog
-      ? { title: title as string, description, proceedLabel }
+      ? { title: title as string, description, proceedLabel, checkbox }
       : undefined,
   }
 }
@@ -89,6 +92,7 @@ const waitForUserConfirmation = (confirmationDialog: {
   title: string
   description?: string
   proceedLabel?: string
+  checkbox?: string
 }) => {
   return new Promise((resolve) => {
     openDialog({
@@ -96,6 +100,7 @@ const waitForUserConfirmation = (confirmationDialog: {
       title: confirmationDialog.title,
       description: confirmationDialog.description,
       proceedLabel: confirmationDialog.proceedLabel,
+      checkbox: confirmationDialog.checkbox,
       onProceed: () => {
         resolve(true)
       },

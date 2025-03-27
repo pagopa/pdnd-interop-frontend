@@ -29,7 +29,6 @@ export type DialogProps =
   | DialogSetTenantMailProps
   | DialogRemoveUserFromKeychainProps
   | DialogDeleteProducerKeychainKeyProps
-  | DialogDelegationsProps
   | DialogAcceptDelegationProps
   | DialogRejectDelegationProps
   | DialogRevokeDelegationProps
@@ -54,6 +53,7 @@ export type DialogBasicProps = DialogDefaultProps & {
   onProceed: VoidFunction
   onCancel?: VoidFunction
   disabled?: boolean
+  checkbox?: string
 }
 
 export type DialogRejectAgreementProps = {
@@ -111,11 +111,6 @@ export type DialogDeleteProducerKeychainKeyProps = {
   type: 'deleteProducerKeychainKey'
   keychainId: string
   keyId: string
-}
-
-export type DialogDelegationsProps = {
-  type: 'delegations'
-  onConfirm: () => void
 }
 
 export type DialogAcceptDelegationProps = {

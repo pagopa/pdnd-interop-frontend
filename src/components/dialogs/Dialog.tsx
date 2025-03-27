@@ -17,7 +17,6 @@ import type {
   DialogSetTenantMailProps,
   DialogRemoveUserFromKeychainProps,
   DialogDeleteProducerKeychainKeyProps,
-  DialogDelegationsProps,
   DialogAcceptDelegationProps,
   DialogRejectDelegationProps,
   DialogCreateAgreementDraftProps,
@@ -38,7 +37,6 @@ import { DialogRejectPurposeVersion } from './DialogRejectPurposeVersion'
 import { DialogSetTenantMail } from './DialogSetTenantMail'
 import { DialogRemoveUserFromKeychain } from './DialogRemoveUserFromKeychain'
 import { DialogDeleteProducerKeychainKey } from './DialogDeleteProducerKeychainKey'
-import { DialogDelegations } from './DialogDelegations'
 import { DialogAcceptDelegation } from './DialogAcceptDelegation'
 import { DialogRejectDelegation } from './DialogRejectDelegation'
 import { DialogRevokeDelegation } from './DialogRevokeDelegation'
@@ -60,7 +58,6 @@ function match<T>(
   onSetTenantMail: (props: DialogSetTenantMailProps) => T,
   onRemoveUserFromKeychain: (props: DialogRemoveUserFromKeychainProps) => T,
   onDeleteProducerKeychainKey: (props: DialogDeleteProducerKeychainKeyProps) => T,
-  onDelegations: (props: DialogDelegationsProps) => T,
   onAcceptDelegation: (props: DialogAcceptDelegationProps) => T,
   onRejectDelegation: (props: DialogRejectDelegationProps) => T,
   onCreateAgreementDraft: (props: DialogCreateAgreementDraftProps) => T,
@@ -96,8 +93,6 @@ function match<T>(
         return onRemoveUserFromKeychain(props)
       case 'deleteProducerKeychainKey':
         return onDeleteProducerKeychainKey(props)
-      case 'delegations':
-        return onDelegations(props)
       case 'acceptDelegation':
         return onAcceptDelegation(props)
       case 'rejectDelegation':
@@ -128,7 +123,6 @@ const _Dialog = match(
   (props) => <DialogSetTenantMail {...props} />,
   (props) => <DialogRemoveUserFromKeychain {...props} />,
   (props) => <DialogDeleteProducerKeychainKey {...props} />,
-  (props) => <DialogDelegations {...props} />,
   (props) => <DialogAcceptDelegation {...props} />,
   (props) => <DialogRejectDelegation {...props} />,
   (props) => <DialogCreateAgreementDraft {...props} />,
