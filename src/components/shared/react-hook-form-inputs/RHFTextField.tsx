@@ -45,13 +45,20 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   const { formState } = useFormContext()
   const { t } = useTranslation()
 
-  const error =
-    indexFieldArray !== undefined
-      ? //@ts-ignore
-        (formState.errors[name]?.[indexFieldArray]?.[fieldArrayKeyName]?.message as
-          | string
-          | undefined)
-      : (formState.errors[name]?.message as string | undefined)
+  const error = React.useMemo(() => {
+    const getErrors = (): string | undefined => {
+      if (indexFieldArray !== undefined && fieldArrayKeyName) {
+        // If indexFieldArray and fieldArrayKeyName are provided, means that we're working with fieldArray and we need to handling errors in a different way
+        const err = formState.errors[name] as
+          | Array<Record<string, { message?: string }>>
+          | undefined
+        return err?.[indexFieldArray]?.[fieldArrayKeyName]?.message as string | undefined
+      }
+
+      return formState.errors[name]?.message as string | undefined
+    }
+    return getErrors()
+  }, [formState.errors, name, indexFieldArray, fieldArrayKeyName])
 
   const fieldName =
     indexFieldArray !== undefined ? `${name}.${indexFieldArray}.${fieldArrayKeyName}` : name
