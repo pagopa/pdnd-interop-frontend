@@ -298,9 +298,6 @@
         "title": "Documentation",
         "description": "Upload all the technical documentation useful for the implementation of an integration with this e-service."
       },
-      "uploadFileField": {
-        "label": "Select document"
-      },
       "nameField": {
         "label": "Name document",
         "infoLabel": "Min 5 chars, max 60 chars"

@@ -176,9 +176,6 @@
         "title": "Documentazione",
         "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo e-service"
       },
-      "uploadFileField": {
-        "label": "Seleziona documento"
-      },
       "nameField": {
         "label": "Nome documento",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
