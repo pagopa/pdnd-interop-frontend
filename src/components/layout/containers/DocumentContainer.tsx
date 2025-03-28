@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import type { SxProps } from '@mui/material'
+import type { SxProps, TextFieldProps } from '@mui/material'
 import { InputAdornment, Stack, Tooltip, Button, TextField } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -16,6 +16,7 @@ type DocumentContainerProps = {
   onUpdateDescription?: (newDescription: string) => void
   sx?: SxProps
   isDrawerStyle?: boolean
+  size?: TextFieldProps['size']
 }
 
 export function DocumentContainer({
@@ -25,6 +26,7 @@ export function DocumentContainer({
   onUpdateDescription,
   sx,
   isDrawerStyle = false,
+  size,
 }: DocumentContainerProps) {
   const { t } = useTranslation('shared-components', { keyPrefix: 'documentContainer' })
   const [canEdit, setCanEdit] = useState(false)
@@ -58,7 +60,7 @@ export function DocumentContainer({
           onChange={(e) => setNewValue(e.target.value)}
           onBlur={handleUpdateDescription}
           inputProps={{ maxLength: 60 }}
-          size={isDrawerStyle ? 'small' : undefined}
+          size={isDrawerStyle ? 'small' : size}
           InputProps={
             isDrawerStyle
               ? undefined
@@ -76,8 +78,8 @@ export function DocumentContainer({
       <Stack
         direction="row"
         alignItems="start"
-        sx={isDrawerStyle ? undefined : { flexShrink: 0, ml: 1, mt: 0.8 }}
-        spacing={isDrawerStyle ? 1 : undefined}
+        sx={isDrawerStyle ? undefined : { flexShrink: 0, ml: 1, alignItems: 'center' }}
+        spacing={1}
         justifyContent={isDrawerStyle ? 'end' : undefined}
       >
         {onUpdateDescription && (
@@ -86,7 +88,8 @@ export function DocumentContainer({
               sx={{
                 bgcolor: canEdit ? 'primary.main' : 'transparent',
                 color: canEdit ? 'common.white' : 'primary.main',
-                p: 1,
+                px: 2,
+                py: 1,
               }}
               variant={isDrawerStyle ? 'naked' : undefined}
               onClick={handleStartEditing}
@@ -98,7 +101,7 @@ export function DocumentContainer({
         {onDownload && (
           <Tooltip title={t('downloadDocument')}>
             <Button
-              sx={{ p: 1 }}
+              sx={{ px: 2, py: 1 }}
               onClick={onDownload.bind(null, doc)}
               variant={isDrawerStyle ? 'naked' : undefined}
             >
@@ -110,7 +113,7 @@ export function DocumentContainer({
           <Tooltip title={t('deleteDocument')}>
             <Button
               color="error"
-              sx={{ p: 1 }}
+              sx={{ px: 2, py: 1 }}
               onClick={onDelete.bind(null, doc)}
               variant={isDrawerStyle ? 'naked' : undefined}
             >

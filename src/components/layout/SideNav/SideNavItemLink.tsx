@@ -8,8 +8,8 @@ import {
   Typography,
 } from '@mui/material'
 import type { SvgIconComponent } from '@mui/icons-material'
-import { type RouteKey } from '@/router'
-import { Link } from '@/router'
+import { useGeneratePath, type RouteKey } from '@/router'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
 
@@ -30,6 +30,8 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
   const isSelected = isRouteInCurrentSubtree(routeKey)
 
+  const generatePath = useGeneratePath()
+
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
@@ -38,7 +40,7 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
       //@ts-ignore
       component={Link}
       underline="none"
-      to={routeKey}
+      to={generatePath(routeKey)}
       sx={{
         pl: 3,
         py: 2,
