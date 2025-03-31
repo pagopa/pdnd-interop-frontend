@@ -31,6 +31,7 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
   rules,
   onValueChange,
   drawerStyle = false,
+  ...props
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'singleFileInput' })
   const { t: tCommon } = useTranslation()
@@ -71,6 +72,7 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
               error={!!error}
               dropzoneLabel={t('dropzone.label')}
               loadingLabel={t('loadingLabel')}
+              {...props}
             />
           )
         }}
