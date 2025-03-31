@@ -30,6 +30,7 @@ import type {
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
   UpdateEServiceDescriptorTemplateInstanceSeed,
+  UpdateEServiceInstanceDescriptorQuotas,
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -206,6 +207,20 @@ function updateVersion({
 } & UpdateEServiceDescriptorQuotas) {
   return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/update`,
+    payload
+  )
+}
+
+function updateInstanceVersion({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & UpdateEServiceInstanceDescriptorQuotas) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/update`,
     payload
   )
 }
@@ -564,6 +579,7 @@ export const EServiceServices = {
   publishVersionDraft,
   suspendVersion,
   updateVersion,
+  updateInstanceVersion,
   reactivateVersion,
   deleteVersionDraft,
   addEServiceRiskAnalysis,

@@ -81,9 +81,9 @@ function useCreateVersionDraft(
       loadingLabel: t('loading'),
       confirmationDialog: config.showConfirmationDialog
         ? {
-            title: t('confirmDialog.title'),
-            description: t('confirmDialog.description'),
-          }
+          title: t('confirmDialog.title'),
+          description: t('confirmDialog.description'),
+        }
         : undefined,
     },
   })
@@ -132,12 +132,12 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
         title: t('confirmDialog.title'),
         description: isByDelegation
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (variables: any) => {
-              return t('confirmDialog.description', {
-                delegatorName: variables.delegatorName,
-                eserviceName: variables.eserviceName,
-              })
-            }
+          (variables: any) => {
+            return t('confirmDialog.description', {
+              delegatorName: variables.delegatorName,
+              eserviceName: variables.eserviceName,
+            })
+          }
           : () => t('confirmDialog.description'),
         proceedLabel: isByDelegation ? t('confirmDialog.actions.proceed') : undefined,
       },
@@ -181,6 +181,18 @@ function useUpdateVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
   return useMutation({
     mutationFn: EServiceServices.updateVersion,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateInstanceVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+  return useMutation({
+    mutationFn: EServiceServices.updateInstanceVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -496,4 +508,5 @@ export const EServiceMutations = {
   useUpgradeEService,
   useUpdateInstanceVersionDraft,
   useDeleteDraftAndUpgradeEService,
+  useUpdateInstanceVersion,
 }
