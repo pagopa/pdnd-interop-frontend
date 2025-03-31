@@ -13,6 +13,7 @@ type UpdateThresholdsFormValues = {
 }
 
 type UpdateThresholdsDrawerProps = {
+  isEserviceFromTemplate?: boolean
   isOpen: boolean
   onClose: VoidFunction
   id: string
@@ -46,6 +47,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
   dailyCallsTotal,
   versionId,
   onSubmit,
+  isEserviceFromTemplate,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.updateThresholdsDrawer' })
   const { t: tCommon } = useTranslation('common')
@@ -119,6 +121,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
                 required: true,
                 min: 1,
               }}
+              disabled={isEserviceFromTemplate}
             />
             <RHFTextField
               sx={{ mt: 2, mb: 0 }}

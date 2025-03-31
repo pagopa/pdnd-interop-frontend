@@ -37,6 +37,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
   const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   const onEdit = () => {
     openDrawer()
@@ -114,6 +115,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
         dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerField.label')}
         dailyCallsTotalLabel={tDrawer('dailyCallsTotalField.label')}
         onSubmit={handleThresholdsUpdate}
+        isEserviceFromTemplate={isEserviceFromTemplate}
       />
     </>
   )

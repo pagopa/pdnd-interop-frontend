@@ -164,7 +164,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         bottomActions={[
           ...(!hasSingleVersion ? [navigateVersionsAction] : []),
           downloadConsumerListAction,
-          exportVersionListAction,
+          ...(!isEserviceFromTemplate ? [exportVersionListAction] : []),
         ]}
       >
         <Stack spacing={2}>
