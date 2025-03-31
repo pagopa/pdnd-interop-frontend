@@ -29,6 +29,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
   })
   const { jwt } = AuthHooks.useJwt()
+  const { isSupport } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const navigate = useNavigate()
@@ -56,7 +57,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
-  const isEServiceFromTemplate = descriptor?.templateRef
 
   const handleDeleteDraft = () => {
     if (!descriptor) return
@@ -263,13 +263,19 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             variant="text"
             color="error"
             onClick={handleDeleteDraft}
+            disabled={isSupport}
           >
             {tCommon('deleteDraft')}
           </Button>
-          <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+          <Button
+            startIcon={<CreateIcon />}
+            variant="text"
+            onClick={handleEditDraft}
+            disabled={isSupport}
+          >
             {tCommon('editDraft')}
           </Button>
-          <PublishButton onClick={handlePublishDraft} disabled={!canBePublished()} />
+          <PublishButton onClick={handlePublishDraft} disabled={!canBePublished() || isSupport} />
         </Stack>
       )}
       {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
@@ -279,6 +285,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             variant="text"
             color="error"
             onClick={handleRejectDelegatedVersionDraft}
+            disabled={isSupport}
           >
             {tCommon('reject')}
           </Button>
@@ -286,6 +293,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             startIcon={<PublishIcon />}
             variant="contained"
             onClick={handleApproveDelegatedVersionDraft}
+            disabled={isSupport}
           >
             {tCommon('publish')}
           </Button>
