@@ -23,6 +23,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
+  descriptor?.delegation
   const { actions } = useGetProviderEServiceActions(
     eserviceId,
     descriptor?.state,
@@ -33,7 +34,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptor?.eservice.name,
     descriptor?.templateRef?.isNewTemplateVersionAvailable ?? false,
     isEserviceFromTemplate,
-    undefined // delegations not needeed
+    descriptor?.delegation
   )
 
   return (

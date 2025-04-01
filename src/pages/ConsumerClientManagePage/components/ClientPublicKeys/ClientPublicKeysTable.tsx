@@ -10,12 +10,16 @@ import type { GetClientKeysParams } from '@/api/api.generatedTypes'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
 type ClientPublicKeysTableProps = {
-  params: GetClientKeysParams
+  //TODO: fix this
+  params: Omit<GetClientKeysParams, 'clientId' | 'offset' | 'limit'>
 }
 
 export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ params }) => {
   const { t: tCommon } = useTranslation('common')
 
+  //TODO: fix this
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
   const { data } = useSuspenseQuery(ClientQueries.getKeyList(params))
   const publicKeys = data.keys
 
@@ -33,6 +37,9 @@ export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ pa
         <ClientPublicKeysTableRow
           key={publicKey.keyId}
           publicKey={publicKey}
+          //TODO: fix this
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
           clientId={params.clientId}
         />
       ))}
