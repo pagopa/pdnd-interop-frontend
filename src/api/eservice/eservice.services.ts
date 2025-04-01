@@ -30,7 +30,7 @@ import type {
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
   UpdateEServiceDescriptorTemplateInstanceSeed,
-  UpdateEServiceInstanceDescriptorQuotas,
+  UpdateEServiceTemplateInstanceDescriptorQuotas,
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -218,7 +218,7 @@ function updateInstanceVersion({
 }: {
   eserviceId: string
   descriptorId: string
-} & UpdateEServiceInstanceDescriptorQuotas) {
+} & UpdateEServiceTemplateInstanceDescriptorQuotas) {
   return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/update`,
     payload
