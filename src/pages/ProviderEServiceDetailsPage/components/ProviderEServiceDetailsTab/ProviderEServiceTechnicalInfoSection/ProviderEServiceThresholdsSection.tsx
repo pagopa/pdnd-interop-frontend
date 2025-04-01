@@ -44,6 +44,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
   }
 
   const { mutate: updateVersion } = EServiceMutations.useUpdateVersion()
+  const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion()
 
   const handleThresholdsUpdate = (
     id: string,
@@ -52,6 +53,18 @@ export const ProviderEServiceThresholdsSection: React.FC<
     dailyCallsTotal: number,
     descriptorId?: string
   ) => {
+    if (isEserviceFromTemplate) {
+      updateInstanceVersion(
+        {
+          eserviceId: id,
+          descriptorId: descriptorId!,
+          dailyCallsPerConsumer: dailyCallsPerConsumer,
+          dailyCallsTotal: dailyCallsTotal,
+        },
+        { onSuccess: closeDrawer }
+      )
+      return
+    }
     updateVersion(
       {
         eserviceId: id,
