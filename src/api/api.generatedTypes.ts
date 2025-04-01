@@ -167,6 +167,21 @@ export interface UpdateEServiceDescriptorQuotas {
   dailyCallsTotal: number
 }
 
+export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
+  /**
+   * maximum number of daily calls that this descriptor can afford.
+   * @format int32
+   * @min 0
+   */
+  dailyCallsPerConsumer: number
+  /**
+   * total daily calls available for this e-service.
+   * @format int32
+   * @min 0
+   */
+  dailyCallsTotal: number
+}
+
 export interface UpdateEServiceDescriptorSeed {
   description?: string
   audience: string[]
@@ -5447,6 +5462,34 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceDescriptorTemplateInstanceSeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateTemplateInstanceDescriptor
+   * @summary Update the selected template instance descriptor.
+   * @request POST:/templates/eservices/{eServiceId}/descriptors/{descriptorId}/update
+   * @secure
+   */
+  export namespace UpdateTemplateInstanceDescriptor {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceTemplateInstanceDescriptorQuotas
     export type RequestHeaders = {
       'X-Correlation-Id': string
     }

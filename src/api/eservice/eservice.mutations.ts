@@ -189,6 +189,18 @@ function useUpdateVersion() {
   })
 }
 
+function useUpdateInstanceVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+  return useMutation({
+    mutationFn: EServiceServices.updateInstanceVersion,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useDeleteVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraft',
@@ -496,4 +508,5 @@ export const EServiceMutations = {
   useUpgradeEService,
   useUpdateInstanceVersionDraft,
   useDeleteDraftAndUpgradeEService,
+  useUpdateInstanceVersion,
 }
