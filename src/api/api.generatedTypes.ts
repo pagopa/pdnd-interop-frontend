@@ -128,6 +128,10 @@ export interface UpdateEServiceTemplateInstanceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
   instanceLabel?: string
 }
 
@@ -400,6 +404,7 @@ export interface ProducerEServiceDescriptor {
   rejectionReasons?: DescriptorRejectionReason[]
   serverUrls?: string[]
   templateRef?: EServiceTemplateRef
+  delegation?: DelegationWithCompactTenants
 }
 
 export interface ProducerDescriptorEService {
@@ -1464,6 +1469,7 @@ export interface CompactUser {
 
 export interface PublicKeys {
   keys: PublicKey[]
+  pagination?: Pagination
 }
 
 export interface CertifiedTenantAttributeSeed {
@@ -1696,6 +1702,10 @@ export interface EServiceTemplateSeed {
 }
 
 export interface InstanceEServiceSeed {
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
   instanceLabel?: string
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
@@ -2324,6 +2334,17 @@ export interface GetClientKeysParams {
    * @default []
    */
   userIds?: string[]
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
   /**
    * ID of Client
    * @format uuid
@@ -6535,6 +6556,17 @@ export namespace Clients {
        * @default []
        */
       userIds?: string[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
     }
     export type RequestBody = never
     export type RequestHeaders = {
