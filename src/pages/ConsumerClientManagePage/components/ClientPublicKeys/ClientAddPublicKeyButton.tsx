@@ -29,7 +29,8 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const isInClient = Boolean(jwt && usersIds.includes(jwt.uid))
 
   const { data } = useQuery({
-    ...ClientQueries.getKeyList({ clientId }),
+    //TODO: Fix this
+    ...ClientQueries.getKeyList({ clientId, limit: 1, offset: 0 }),
     placeholderData: keepPreviousData,
   })
 

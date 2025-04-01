@@ -26,7 +26,10 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
       })),
   })
 
-  const { filtersParams, ...filtersHandlers } = useFilters<Omit<GetClientKeysParams, 'clientId'>>([
+  //TODO: fix this
+  const { filtersParams, ...filtersHandlers } = useFilters<
+    Omit<GetClientKeysParams, 'clientId' | 'offset' | 'limit'>
+  >([
     {
       name: 'userIds',
       label: t('operatorField.label'),
