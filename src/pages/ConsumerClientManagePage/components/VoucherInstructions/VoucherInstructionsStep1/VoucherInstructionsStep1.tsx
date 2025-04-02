@@ -28,7 +28,6 @@ export const VoucherInstructionsStep1: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  //TODO: fix this
   const { data: clientKeys } = useSuspenseQuery(
     ClientQueries.getKeyList({ clientId, limit: 1, offset: 0 })
   )
