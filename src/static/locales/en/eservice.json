@@ -176,14 +176,11 @@
         "title": "Documentation",
         "description": "Upload the technical documents that can help implement the use of this e-service"
       },
-      "uploadFileField": {
-        "label": "Choose document"
-      },
       "nameField": {
         "label": "Document name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
-      "uploadBtn": "Upload"
+      "uploadBtn": "Save document"
     }
   },
   "summary": {
