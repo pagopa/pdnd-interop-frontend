@@ -91,12 +91,7 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
         sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
         bgcolor="common.white"
       >
-        <RHFSingleFileInput
-          sx={{ my: 0 }}
-          name="interfaceDoc"
-          label={t('create.step4.uploadFileField.label')}
-          rules={{ required: true }}
-        />
+        <RHFSingleFileInput sx={{ my: 0 }} name="interfaceDoc" rules={{ required: true }} />
 
         <RHFTextField
           size="small"
