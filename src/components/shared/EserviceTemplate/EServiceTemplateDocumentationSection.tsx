@@ -8,7 +8,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { TemplateDownloads } from '@/api/template/template.downloads'
-import type { Document, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
+import type { EServiceDoc, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { EServiceTemplateUpdateDocumentationDrawer } from '.'
 
@@ -25,7 +25,7 @@ export const EServiceTemplateDocumentationSection: React.FC<
   })
   const { t: tCommon } = useTranslation('common')
 
-  const docs = [templateVersion.interface, ...templateVersion.docs] as unknown as Document[] // TODO: Change after BE updated BFF
+  const docs = [templateVersion.interface, ...templateVersion.docs]
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -35,7 +35,7 @@ export const EServiceTemplateDocumentationSection: React.FC<
 
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
 
-  const handleDownloadDocument = (document: Document) => {
+  const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
         eServiceTemplateId: templateVersion.eserviceTemplate.id,
@@ -89,7 +89,7 @@ export const EServiceTemplateDocumentationSection: React.FC<
         onClose={closeDrawer}
         templateId={templateVersion.eserviceTemplate.id}
         templateVersionId={templateVersion.id}
-        templateDocs={templateVersion.docs as unknown as Document[]}
+        templateDocs={templateVersion.docs}
       />
     </>
   )

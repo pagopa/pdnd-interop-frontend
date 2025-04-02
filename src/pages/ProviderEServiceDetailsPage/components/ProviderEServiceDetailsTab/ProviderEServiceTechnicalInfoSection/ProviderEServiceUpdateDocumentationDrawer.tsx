@@ -1,4 +1,4 @@
-import type { Document, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { EServiceDoc, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { Box, Button, Divider, Stack, Tooltip, Typography } from '@mui/material'
 import React from 'react'
@@ -45,7 +45,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
-  const docs = [descriptor.interface, ...descriptor.docs] as unknown as Document[] // TODO: Update this when BE will update BFF
+  const docs = [descriptor.interface, ...descriptor.docs]
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 3 })
 
@@ -100,7 +100,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
     )
   }
 
-  const handleDeleteDocument = (document: Document) => {
+  const handleDeleteDocument = (document: EServiceDoc) => {
     if (!descriptor) return
     // check if the only document in the current page, that means we should go to the previous page when this is deleted
     const isTheOnlyDocumentInCurrentPage = paginatedDocs.length === 1
@@ -131,7 +131,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
     })
   }
 
-  const handleDownloadDocument = (document: Document) => {
+  const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
         eserviceId: descriptor.eservice.id,
@@ -238,8 +238,8 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
 }
 
 type InterfaceDocumentContainerProps = {
-  doc: Document
-  onDownload?: (document: Document) => void
+  doc: EServiceDoc
+  onDownload?: (document: EServiceDoc) => void
 }
 
 const InterfaceDocumentContainer: React.FC<InterfaceDocumentContainerProps> = ({
