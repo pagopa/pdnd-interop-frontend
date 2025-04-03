@@ -1,4 +1,3 @@
-import { ClientQueries } from '@/api/client'
 import { Table } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -6,22 +5,15 @@ import {
   ClientPublicKeysTableRow,
   ClientPublicKeysTableRowSkeleton,
 } from './ClientPublicKeysTableRow'
-import type { GetClientKeysParams } from '@/api/api.generatedTypes'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import type { PublicKey } from '@/api/api.generatedTypes'
 
 type ClientPublicKeysTableProps = {
-  //TODO: fix this
-  params: Omit<GetClientKeysParams, 'clientId' | 'offset' | 'limit'>
+  keys: PublicKey[]
+  clientId: string
 }
 
-export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ params }) => {
+export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ keys, clientId }) => {
   const { t: tCommon } = useTranslation('common')
-
-  //TODO: fix this
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
-  const { data } = useSuspenseQuery(ClientQueries.getKeyList(params))
-  const publicKeys = data.keys
 
   const headLabels = [
     tCommon('table.headData.keyName'),
@@ -29,19 +21,12 @@ export const ClientPublicKeysTable: React.FC<ClientPublicKeysTableProps> = ({ pa
     tCommon('table.headData.keyUploadDate'),
     '',
   ]
-  const isEmpty = publicKeys.length === 0
+  const isEmpty = keys.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
-      {publicKeys.map((publicKey) => (
-        <ClientPublicKeysTableRow
-          key={publicKey.keyId}
-          publicKey={publicKey}
-          //TODO: fix this
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore
-          clientId={params.clientId}
-        />
+      {keys.map((publicKey) => (
+        <ClientPublicKeysTableRow key={publicKey.keyId} publicKey={publicKey} clientId={clientId} />
       ))}
     </Table>
   )
