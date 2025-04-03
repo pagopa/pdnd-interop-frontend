@@ -192,7 +192,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                         'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before'
                       )}{' '}
                       <IconLink
-                        href={''} //TODO
+                        href={''} //TODO: Link not yet available
                         target="_blank"
                         endIcon={<LaunchIcon fontSize="small" />}
                       >

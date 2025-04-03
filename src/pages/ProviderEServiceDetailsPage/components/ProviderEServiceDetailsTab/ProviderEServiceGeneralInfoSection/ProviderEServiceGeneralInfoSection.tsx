@@ -147,7 +147,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   //TODO: Is not available yet from BE
   const handleInstanceLabelUpdate = (eserviceId: string, name: string) => {
-    //TODO
     /*updateEserviceName(
       {
         eserviceId: eserviceId,

@@ -10,7 +10,7 @@ import { InputWrapper } from '@/components/shared/InputWrapper'
 import type { Document, EServiceDoc } from '@/api/api.generatedTypes'
 
 type DocumentContainerProps = {
-  doc: EServiceDoc //Document
+  doc: EServiceDoc
   onDownload?: (document: EServiceDoc) => void
   onDelete?: (document: EServiceDoc) => void
   onUpdateDescription?: (newDescription: string) => void

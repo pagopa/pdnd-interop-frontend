@@ -7,7 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { Document } from '@/api/api.generatedTypes'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 
 type ConsumerAgreementDocsInputSectionProps = {
@@ -56,15 +56,15 @@ export const ConsumerAgreementDocsInputSection: React.FC<
     )
   }
 
-  const handleDeleteDocument = (doc: Document) => {
+  const handleDeleteDocument = (doc: EServiceDoc) => {
     deleteDocument({ agreementId, documentId: doc.id })
   }
 
-  const handleDownloadDocument = (doc: Document) => {
+  const handleDownloadDocument = (doc: EServiceDoc) => {
     downloadDocument({ agreementId, documentId: doc.id }, getDownloadDocumentName(doc))
   }
 
-  const docs = agreement?.consumerDocuments ?? []
+  const docs = (agreement?.consumerDocuments as unknown as EServiceDoc[]) ?? []
 
   return (
     <SectionContainer innerSection title={t('title')} description={t('description')}>
