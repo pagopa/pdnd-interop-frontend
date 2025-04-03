@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextField as MUITextField, type TextFieldProps as MUITextFieldProps } from '@mui/material'
 import { InputWrapper } from '../InputWrapper'
+import type { FieldErrors, FieldValues } from 'react-hook-form'
 import { useFormContext, Controller } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
@@ -45,13 +46,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   const { formState } = useFormContext()
   const { t } = useTranslation()
 
-  const error =
-    indexFieldArray !== undefined
-      ? //@ts-ignore
-        (formState.errors[name]?.[indexFieldArray]?.[fieldArrayKeyName]?.message as
-          | string
-          | undefined)
-      : (formState.errors[name]?.message as string | undefined)
+  const error = getErrors(indexFieldArray, fieldArrayKeyName, formState.errors, name)
 
   const fieldName =
     indexFieldArray !== undefined ? `${name}.${indexFieldArray}.${fieldArrayKeyName}` : name
@@ -107,4 +102,19 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
       />
     </InputWrapper>
   )
+}
+
+const getErrors = (
+  indexFieldArray: number | undefined,
+  fieldArrayKeyName: string | undefined,
+  errors: FieldErrors<FieldValues>,
+  name: string
+): string | undefined => {
+  if (indexFieldArray !== undefined && fieldArrayKeyName) {
+    // If indexFieldArray and fieldArrayKeyName are provided, means that we're working with fieldArray and we need to handling errors in a different way
+    const err = errors[name] as Array<Record<string, { message?: string }>> | undefined
+    return err?.[indexFieldArray]?.[fieldArrayKeyName]?.message as string | undefined
+  }
+
+  return errors[name]?.message as string | undefined
 }

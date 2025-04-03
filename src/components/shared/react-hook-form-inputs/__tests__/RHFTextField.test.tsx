@@ -3,7 +3,7 @@ import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import { TestInputWrapper } from './test-utils'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import userEvent from '@testing-library/user-event'
-import { useFormContext } from 'react-hook-form'
+import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { vi } from 'vitest'
 
 const testValues = {
@@ -76,6 +76,65 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     user.type(input, testValues.first)
     await waitFor(() => {
       expect(onValueChange).toHaveBeenCalledWith(testValues.first)
+    })
+  })
+
+  it('should be able to show errors when are present in case of indexFieldArray and fieldArrayKeyName are populated', async () => {
+    const FieldArrayErrorTestWrapper = () => {
+      const formMethods = useForm({
+        defaultValues: {
+          users: [{ name: '' }, { name: '' }],
+        },
+        mode: 'onBlur',
+      })
+
+      return (
+        <FormProvider {...formMethods}>
+          <RHFTextField
+            label="username"
+            name="users"
+            indexFieldArray={0}
+            fieldArrayKeyName="name"
+            rules={{ required: true, minLength: 5 }}
+          />
+        </FormProvider>
+      )
+    }
+
+    const { getByRole } = render(<FieldArrayErrorTestWrapper />)
+    const input = getByRole('textbox')
+    input.focus()
+    input.blur()
+
+    await waitFor(() => {
+      screen.debug()
+      expect(screen.getByText('validation.mixed.required')).toBeInTheDocument()
+    })
+  })
+  it('should be able to show errors when are present without indexFieldArray and fieldArrayKeyName', async () => {
+    const FieldArrayErrorTestWrapper = () => {
+      const formMethods = useForm({
+        defaultValues: {
+          username: '',
+        },
+        mode: 'onBlur',
+      })
+
+      return (
+        <FormProvider {...formMethods}>
+          <RHFTextField label="username" name="users" rules={{ required: true }} />
+        </FormProvider>
+      )
+    }
+
+    const { getByRole } = render(<FieldArrayErrorTestWrapper />)
+    const input = getByRole('textbox')
+    input.focus()
+    input.blur()
+
+    await waitFor(() => {
+      screen.debug()
+      expect(screen.getByText('validation.mixed.required')).toBeInTheDocument()
     })
   })
 })
