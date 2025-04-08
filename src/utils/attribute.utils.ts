@@ -89,6 +89,11 @@ export function isAttributeOwned(
   verifierId?: string
 ) {
   const matchIndex = ownedAttributes.findIndex((a) => a.id === attributeId)
+
+  if (matchIndex === -1) {
+    return false
+  }
+
   const match = ownedAttributes[matchIndex]
 
   /**

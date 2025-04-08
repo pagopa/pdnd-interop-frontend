@@ -12,6 +12,7 @@ import { ConsumerNotesInputSection } from './ConsumerNotesInputSection'
 import { useConsumerAgreementCreateContentContext } from '../ConsumerAgreementCreateContentContext'
 import { TenantHooks } from '@/api/tenant'
 import { isAttributeOwned } from '@/utils/attribute.utils'
+import type { DescriptorAttribute, VerifiedTenantAttribute } from '@/api/api.generatedTypes'
 
 type ConsumerAgreementCreateVerifiedAttributesSectionProps = {
   agreementId: string
@@ -24,7 +25,7 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
 > = ({ agreementId, consumerNotes, onConsumerNotesChange }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { descriptorAttributes } = useConsumerAgreementCreateContentContext()
+  const { descriptorAttributes,agreement } = useConsumerAgreementCreateContentContext()
 
   const verifiedAttributeGroups = descriptorAttributes?.verified ?? []
 
@@ -33,10 +34,6 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
    */
   const { data: activeParty } = TenantHooks.useGetActiveUserParty()
   const ownedVerifiedAttributes = activeParty.attributes.verified
-  const { agreement } = useConsumerAgreementCreateContentContext()
-  const hasAlreadyVerifiedAttribute = verifiedAttributeGroups.some((group, i) =>
-    isAttributeOwned('verified', group[i].id, ownedVerifiedAttributes, agreement?.producer.id)
-  )
 
   return (
     <SectionContainer
@@ -60,31 +57,21 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
       ) : (
         <>
           <Stack spacing={2}>
-            {verifiedAttributeGroups.map((group, i) => (
-              <AttributeGroupContainer
-                key={i}
-                title={
-                  hasAlreadyVerifiedAttribute
-                    ? tAttribute('group.manage.success.consumer')
-                    : tAttribute('group.manage.warning.verified.consumer')
-                }
-                color={hasAlreadyVerifiedAttribute ? 'success' : 'warning'}
-              >
-                <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-                  {group.map((attribute) => (
-                    <AttributeContainer key={attribute.id} attribute={attribute} checked={false} />
-                  ))}
-                </Stack>
-              </AttributeGroupContainer>
-            ))}
+            {verifiedAttributeGroups.map((attributesGroup, i) => {
+              return (
+                <VerifiedAttributesGroup
+                  key={i}
+                  attributesGroup={attributesGroup}
+                  ownedVerifiedAttributes={ownedVerifiedAttributes}
+                  verifiedId={agreement?.producer.id as string}
+                  index={i}
+                />
+              )
+            })}
           </Stack>
-
           <Divider sx={{ my: 3 }} />
-
           <ConsumerAgreementDocsInputSection agreementId={agreementId} />
-
           <Divider sx={{ my: 3 }} />
-
           <ConsumerNotesInputSection
             agreementId={agreementId}
             consumerNotes={consumerNotes}
@@ -97,3 +84,39 @@ const ConsumerAgreementCreateVerifiedAttributesSection: React.FC<
 }
 
 export default ConsumerAgreementCreateVerifiedAttributesSection
+
+type VerifiedAttributesGroupProps = {
+  ownedVerifiedAttributes: VerifiedTenantAttribute[]
+  attributesGroup: DescriptorAttribute[]
+  index: number
+  verifiedId: string
+}
+const VerifiedAttributesGroup: React.FC<VerifiedAttributesGroupProps> = ({
+  attributesGroup,
+  index,
+  ownedVerifiedAttributes,
+  verifiedId: verifierId,
+}) => {
+  const { t: tAttribute } = useTranslation('attribute')
+
+  const hasAtLeastOneVerifiedAttribute = attributesGroup.some((group) =>
+    isAttributeOwned('verified', group.id, ownedVerifiedAttributes, verifierId)
+  )
+  return (
+    <AttributeGroupContainer
+      key={index}
+      title={
+        hasAtLeastOneVerifiedAttribute
+          ? tAttribute('group.manage.success.consumer')
+          : tAttribute('group.manage.warning.verified.consumer')
+      }
+      color={hasAtLeastOneVerifiedAttribute ? 'success' : 'warning'}
+    >
+      <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
+        {attributesGroup.map((attribute) => (
+          <AttributeContainer key={attribute.id} attribute={attribute} checked={false} />
+        ))}
+      </Stack>
+    </AttributeGroupContainer>
+  )
+}
