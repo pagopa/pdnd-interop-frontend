@@ -237,7 +237,10 @@
     "noDataLabel": "No results"
   },
   "singleFileInput": {
-    "dropzoneLabel": "Drag here file or click here to select it from your computer",
+    "dropzone": {
+      "button": "Upload file",
+      "label": "Drag here file or click here to select it from your computer"
+    },
     "loadingLabel": "Loading..."
   },
   "documentContainer": {
@@ -313,6 +316,35 @@
       }
     }
   },
+  "create": {
+    "stepPurpose": {
+      "backWithoutSaveBtn": "Back",
+      "forwardWithSaveBtn": "Save draft and proceed",
+      "riskAnalysis": {
+        "riskAnalysisNameSection": {
+          "title": "Purpose",
+          "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
+          "nameField": {
+            "label": "Purpose name",
+            "infoLabel": "Max 60 chars"
+          }
+        },
+        "riskAnalysisSection": {
+          "title": "Risk analysis",
+          "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
+          "personalDataAlert": "Be careful not to enter personal data in the free text fields",
+          "eserviceTemplateRiskAnalysis": {
+            "title": "Indicate who will be able to use the following risk analysis.",
+            "description": "Indicate for whom the following risk analysis is filled.",
+            "tenantKind": {
+              "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell’Amministrazione Digitale)",
+              "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
+            }
+          }
+        }
+      }
+    }
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of service",
@@ -364,6 +396,14 @@
     "PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS": "Manage keychain public key",
     "DELEGATIONS": "Delegations",
     "CREATE_DELEGATION": "Create delegation",
-    "DELEGATION_DETAILS": "Manage delegation"
+    "DELEGATION_DETAILS": "Manage delegation",
+    "PROVIDE_ESERVICE_TEMPLATE_CATALOG": "Templates catalog",
+    "PROVIDE_ESERVICE_TEMPLATE_LIST": "Your templates",
+    "PROVIDE_ESERVICE_TEMPLATE_DETAILS": "View template",
+    "SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS": "View template",
+    "PROVIDE_ESERVICE_TEMPLATE_CREATE":"Create E-Service template",
+    "PROVIDE_ESERVICE_TEMPLATE_EDIT":"Update E-Service template",
+    "PROVIDE_ESERVICE_TEMPLATE_SUMMARY":"E-Service template Summary",
+    "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE" :"Create E-Service from template"
   }
 }

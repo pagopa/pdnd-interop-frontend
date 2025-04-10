@@ -24,6 +24,10 @@
         "label": "E-service name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
+      "istanceNameField": {
+        "label": " Instance ID (optional)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
       "eserviceDescriptionField": {
         "label": "E-service description",
         "infoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
@@ -36,10 +40,14 @@
         "options": {
           "DELIVER": "Deliver",
           "RECEIVE": "Receive"
-        },
-        "isSignalHubEnabled": {
-          "label": "Is available the data update system (Signal Hub)? ",
-          "switchLabel": "Yes, it is available"
+        }
+      },
+      "isSignalHubEnabled": {
+        "label": "I will report any data changes on Signal Hub.",
+        "infoLabel": {
+          "before": "Signal Hub uses the",
+          "linkLabel": "push service",
+          "after": "to generate notifications related to data changes regarding the e-service."
         }
       },
       "delegationSection": {
@@ -54,7 +62,8 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
         }
       },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
+      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published",
+      "alertInstanceLabelRequired": "An instance has already been created from this template. To make it easier to differentiate, add an instance identifier."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
@@ -64,21 +73,6 @@
         "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
         "purposeTable": {
           "noDataLabel": "No added purpose"
-        }
-      },
-      "riskAnalysis": {
-        "riskAnalysisNameSection": {
-          "title": "Purpose",
-          "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
-          "nameField": {
-            "label": "Purpose name",
-            "infoLabel": "Max 60 chars"
-          }
-        },
-        "riskAnalysisSection": {
-          "title": "Risk analysis",
-          "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
-          "personalDataAlert": "Be careful not to enter personal data in the free text fields"
         }
       }
     },
@@ -138,6 +132,37 @@
       }
     },
     "step4": {
+      "template": {
+        "interface": {
+          "documentation": {
+            "title": "Documentation",
+            "description": "Check technical documentations needed for the implementation of an integration with this template of e-service."
+          },
+          "save": "Save data",
+          "title": "Interface",
+          "contactSection": {
+            "title": "Contact's info details",
+            "contactNameField": "Contact's name",
+            "emailField": "email",
+            "urlField": "URL"
+          },
+          "termsAndConditions": {
+            "title": "Terms and conditions",
+            "label": "Terms and conditions URL"
+          },
+          "serverSection": {
+            "title": "Server",
+            "label": "Server URL",
+            "add": "Add server URL",
+            "remove": "Remove field"
+          },
+          "description": {
+            "rest": "Compile following fields and openAPI will be automatically generated",
+            "soap": "Compile following fields and WASDL will be automatically generated",
+            "download": "Download interface API file"
+          }
+        }
+      },
       "interface": {
         "title": "Interface (required)",
         "description": {
@@ -151,14 +176,11 @@
         "title": "Documentation",
         "description": "Upload the technical documents that can help implement the use of this e-service"
       },
-      "uploadFileField": {
-        "label": "Choose document"
-      },
       "nameField": {
         "label": "Document name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
-      "uploadBtn": "Upload"
+      "uploadBtn": "Save document"
     }
   },
   "summary": {
@@ -316,6 +338,12 @@
         "version": {
           "label": "You are watching version number"
         },
+        "eserviceTempalteName": {
+          "label": "Template reference"
+        },
+        "instanceLabel": {
+          "label": "Instance Id"
+        },
         "eserviceName": {
           "label": "E-Service name"
         },
@@ -409,6 +437,17 @@
           "infoLabel": "Min 5 chars, max 60 chars",
           "validation": {
             "sameValue": "The e-service name must be different from the current one"
+          }
+        }
+      },
+      "updateEserviceInstanceLabelDrawer": {
+        "title": "Edit instance id",
+        "subtitle": "From this panel you can update the instance id of the e-service. The changes made will take effect immediately.",
+        "eserviceInstanceLabelField": {
+          "label": "Instance id",
+          "infoLabel": "Min 5 chars, max 60 chars",
+          "validation": {
+            "sameValue": "The instance id of the e-service must be different from the current one"
           }
         }
       },

@@ -24,6 +24,10 @@
         "label": "Nome dell'e-service",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
+      "istanceNameField": {
+        "label": "Identificativo istanza (opzionale)",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
       "eserviceDescriptionField": {
         "label": "Descrizione dell'e-service",
         "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
@@ -36,10 +40,14 @@
         "options": {
           "DELIVER": "Eroga",
           "RECEIVE": "Riceve"
-        },
-        "isSignalHubEnabled": {
-          "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
-          "switchLabel": "Sì, è disponibile"
+        }
+      },
+      "isSignalHubEnabled": {
+        "label": "Notificherò su Signal Hub le variazioni dei dati",
+        "infoLabel": {
+          "before": "Signal Hub utilizza il",
+          "linkLabel": "servizio di push",
+          "after": "per generare notifiche relative alle variazioni dei dati relativi all’e-service."
         }
       },
       "delegationSection": {
@@ -54,7 +62,8 @@
           "checkboxLabel": "Autorizzo che i delegati possano associare i propri client alle finalità che hanno creato in qualità di delegati alla fruizione. Consulta la <1>documentazione</1> per approfondire"
         }
       },
-      "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
+      "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+      "alertInstanceLabelRequired": "È già stata creata una istanza da questo template. Per facilitarne la differenziazione, aggiungi un identificativo istanza."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
@@ -64,21 +73,6 @@
         "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
         "purposeTable": {
           "noDataLabel": "Nessuna finalità aggiunta"
-        }
-      },
-      "riskAnalysis": {
-        "riskAnalysisNameSection": {
-          "title": "Finalità",
-          "description": "Indica un caso d’uso per i quali intendi raccogliere dati e compila l’analisi del rischio.",
-          "nameField": {
-            "label": "Nome della finalità",
-            "infoLabel": "Massimo 60 caratteri"
-          }
-        },
-        "riskAnalysisSection": {
-          "title": "Analisi del rischio",
-          "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
-          "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo"
         }
       }
     },
@@ -138,6 +132,37 @@
       }
     },
     "step4": {
+      "template": {
+        "interface": {
+          "documentation": {
+            "title": "Documentazione",
+            "description": "Verifica la documentazione tecnica utile all’implementazione di un’integrazione con questo template di e-service."
+          },
+          "save": "Salva dati interfaccia",
+          "title": "Interfaccia",
+          "contactSection": {
+            "title": "Dati di contatto",
+            "contactNameField": "Nome contatto",
+            "emailField": "e-mail",
+            "urlField": "URL"
+          },
+          "termsAndConditions": {
+            "title": "Termini e condizioni",
+            "label": " URL termini e condizioni"
+          },
+          "serverSection": {
+            "title": "Server",
+            "label": "URL server",
+            "add": "Aggiungi URL server",
+            "remove": "Rimuovi campo"
+          },
+          "description": {
+            "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",
+            "soap": "Compila i seguenti campi e ti verrà generato automaticamente il file WSDL.",
+            "download": "Scarica il file di interfaccia"
+          }
+        }
+      },
       "interface": {
         "title": "Interfaccia (richiesto)",
         "description": {
@@ -151,14 +176,11 @@
         "title": "Documentazione",
         "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo e-service"
       },
-      "uploadFileField": {
-        "label": "Seleziona documento"
-      },
       "nameField": {
         "label": "Nome documento",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
-      "uploadBtn": "Carica"
+      "uploadBtn": "Salva documento"
     }
   },
   "summary": {
@@ -316,6 +338,12 @@
         "version": {
           "label": "Stai vedendo la versione"
         },
+        "eserviceTempalteName": {
+          "label": "Riferimento template"
+        },
+        "instanceLabel": {
+          "label": "Identificativo istanza"
+        },
         "eserviceName": {
           "label": "Nome dell’e-service"
         },
@@ -409,6 +437,17 @@
           "infoLabel": "Min 5 caratteri, max 60 caratteri",
           "validation": {
             "sameValue": "Il nome dell'e-service deve essere diverso da quella attuale"
+          }
+        }
+      },
+      "updateEserviceInstanceLabelDrawer": {
+        "title": "Modifica identificativo istanza e-service",
+        "subtitle": "Da questo pannello puoi aggiornare l'identificativo dell'istanza dell’e-service. Le modifiche apportate avranno effetto da subito.",
+        "eserviceInstanceLabelField": {
+          "label": "Identificativo istanza",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri",
+          "validation": {
+            "sameValue": "L'identificativo dell'istanza dell'e-service deve essere diverso da quello attuale"
           }
         }
       },

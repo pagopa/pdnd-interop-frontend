@@ -1,4 +1,9 @@
-import type { CatalogEService, DelegationKind, ProducerEService } from '@/api/api.generatedTypes'
+import type {
+  CatalogEService,
+  CatalogEServiceTemplate,
+  DelegationKind,
+  ProducerEService,
+} from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
@@ -6,6 +11,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
+import { TemplateQueries } from '@/api/template'
 
 type DelegationCreateEServiceAutocompleteProps = {
   delegationKind: DelegationKind
@@ -23,7 +29,7 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
     useAutocompleteTextInput()
 
   const formatAutocompleteOptionLabel = React.useCallback(
-    (eservice: CatalogEService | ProducerEService) => {
+    (eservice: CatalogEService | ProducerEService | CatalogEServiceTemplate) => {
       return match(delegationKind)
         .with('DELEGATED_CONSUMER', () => {
           if (!('producer' in eservice)) return eservice.name
@@ -86,17 +92,15 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
     value: eservice.id,
   }))
 
+  const delegationKindTKey = delegationKind === 'DELEGATED_CONSUMER' ? 'consumer' : 'producer'
+
   return (
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
       loading={isLoadingCatalogEservices || isLoadingProducerEservices}
       name="eserviceId"
       label={t('delegations.create.eserviceField.label')}
-      infoLabel={t(
-        `delegations.create.eserviceField.infoLabelAutocomplete.${
-          delegationKind === 'DELEGATED_CONSUMER' ? 'consumer' : 'producer'
-        }`
-      )}
+      infoLabel={t(`delegations.create.eserviceField.infoLabelAutocomplete.${delegationKindTKey}`)}
       options={autocompleteOptions}
       onValueChange={(value) => {
         selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)

@@ -21,6 +21,7 @@ const createMockEServiceProvider = createMockFactory<ProducerEService>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
   name: '-- CAMMELLO --',
   mode: 'DELIVER',
+  isTemplateInstance: false,
 })
 
 const createMockEServiceCatalog = createMockFactory<CatalogEService>({
@@ -153,11 +154,11 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   interface: {
+    checksum: 'checksum',
     contentType: 'application/octet-stream',
     id: '7b92cd7e-c485-4660-9344-608242ba0786',
     name: 'VerificaCodiceFiscale.yaml',
     prettyName: 'Specifica API',
-    checksum: 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2',
   },
   state: 'PUBLISHED',
   version: '3',

@@ -142,10 +142,15 @@
       },
       "eserviceField": {
         "label": "Nome dell'e-service (richiesto)",
+        "labelFromTemplate": "Nome del template dell'eservice (richiesto)",
         "infoLabel": "Min 5 caratteri, max 60 caratteri",
         "infoLabelAutocomplete": {
           "consumer": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità alla fruizione per delega.",
           "producer": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega."
+        },
+        "infoLabelAutocompleteFromTemplate": {
+          "consumer": "La lista include solo i template degli e-service per i quali i rispettivi erogatori hanno dato disponibilità alla fruizione per delega.",
+          "producer": "La lista include solo i template degli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega."
         },
         "descriptionLabel": "Descrizione dell'e-service",
         "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri",
@@ -159,7 +164,9 @@
         "provider": {
           "label": "Ente da delegare all'erogazione (richiesto)",
           "infoLabel": "La lista include solo gli aderenti che hanno dato la loro disponibilità a diventare delegati all’erogazione",
-          "switch": "Ho già creato l’e-service per il quale voglio attivare una delega"
+          "switch": "Devo ancora creare l’e-service per il quale voglio attivare una delega",
+          "switchEserviceFromTemplate": "Voglio creare un e-service partendo da un template disponibile a catalogo",
+          "alertEserviceFromTemplate": "Una volta selezionato il template e inviata la delega, verrà generata una bozza di istanza che rimarrà sotto la tua gestione."
         }
       },
       "dialog": {
@@ -170,7 +177,11 @@
         "checkboxLabel": "Ho capito"
       },
       "hasAgreementsAlert": "Esiste già una richiesta di fruizione attiva o sospesa per l’e-service selezionato, pertanto non è possibile conferirlo in delega. Per delegare questo e-service, chiedi che venga rimossa la richiesta attualmente attiva o sospesa e riprova.",
-      "isDelegatedAlert": "Esiste già una richiesta di delega per l’e-service selezionato, pertanto non è possibile conferirlo in delega. Per delegare questo e-service, chiedi che venga rimossa la richiesta attualmente attiva e riprova."
+      "isDelegatedAlert": "Esiste già una richiesta di delega per l’e-service selezionato, pertanto non è possibile conferirlo in delega. Per delegare questo e-service, chiedi che venga rimossa la richiesta attualmente attiva e riprova.",
+      "instanceField": {
+        "label": "Identificativo istanza",
+        "infoLabel": "Il codice identificativo viene aggiunto al nome e-service e serve per differenziare due o più istanza generate da template."
+      }
     },
     "actions": {
       "backToTenant": "Torna al tuo ente",

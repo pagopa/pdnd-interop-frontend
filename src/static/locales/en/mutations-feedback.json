@@ -226,6 +226,24 @@
         "error": "E-service name not updated. Try again.",
         "success": "E-service name updated correctly"
       }
+    },
+    "updateEServiceInterfaceInfo": {
+      "loading": "We are updating the e-service interface info",
+      "outcome": {
+        "error": "E-service interface info not updated. Try again.",
+        "success": "E-service interface info updated correctly"
+      }
+    },
+    "deleteAndUpgradeEService": {
+      "loading": "Deleting draft",
+      "outcome": {
+        "success": "Draft deleted successfully",
+        "error": "Upgrading eservice failed. Try again, please!"
+      },
+      "confirmDialog": {
+        "title": "Confirm draft deletion",
+        "description": "By clicking \"confirm\", the draft previously created will be deleted and it will no longer be recoverable. Once the draft is deleted, you can proceed with updating the instance to the latest version."
+      }
     }
   },
   "attribute": {
@@ -745,6 +763,163 @@
       "loading": "Downloading contract",
       "outcome": {
         "error": "It was not possible to download the contract. Please try again"
+      }
+    }
+  },
+  "eserviceTemplate": {
+    "updateEServiceTemplateName": {
+      "loading": "We are updating the e-service template name",
+      "outcome": {
+        "error": "Template e-service name not updated. Try again.",
+        "success": "Template e-service name updated correctly"
+      }
+    },
+    "updateEServiceTemplateAudience": {
+      "loading": "We are updating the e-service template target audience",
+      "outcome": {
+        "error": "Template e-service target audience not updated. Try again.",
+        "success": "Template e-service target audience updated correctly"
+      }
+    },
+    "suspendVersion": {
+      "loading": "Suspending e-service template version",
+      "outcome": {
+        "success": "E-service template version suspended successfully",
+        "error": "The e-service template version could not be suspended. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm version template suspension",
+        "description": "By clicking \"confirm\", this e-service template version will be suspended. No Subscriber will be able to access it until it is reactivated."
+      }
+    },
+    "updateEServiceDescription": {
+      "loading": "We are updating the e-service template description",
+      "outcome": {
+        "error": "Template e-service description not updated. Try again.",
+        "success": "Template e-service description updated correctly"
+      }
+    },
+    "updateVersion": {
+      "loading": "We are updating the e-service template version description",
+      "outcome": {
+        "error": "Template e-service version description not updated. Try again.",
+        "success": "Template e-service version description updated correctly"
+      }
+    },
+    "postVersionDraftDocument": {
+      "loading": "Uploading document",
+      "outcome": {
+        "success": "The new document was uploaded successfully",
+        "error": "The document could not be uploaded. Please make sure that you uploaded the right document. Please, try again! Note: it cannot contain the string \"localhost\"."
+      }
+    },
+    "deleteVersionDraftDocument": {
+      "loading": "Deleting document",
+      "outcome": {
+        "success": "The document was deleted successfully",
+        "error": "The document could not be deleted. Please, try again!"
+      }
+    },
+    "updateVersionDraftDocumentDescription": {
+      "loading": "Updating document name",
+      "outcome": {
+        "success": "The document name was updated successfully",
+        "error": "The document name could not be updated. Please, try again!"
+      }
+    },
+    "createDraft": {
+      "loading": "Creating draft",
+      "outcome": {
+        "error": "Draft could not be created. Make sure you have filled all the required fields and try again!"
+      }
+    },
+    "createNewVersionDraft": {
+      "loading": "Creating draft of new e-service template version",
+      "outcome": {
+        "success": "New e-service template version draft created successfully",
+        "error": "A new e-service template version draft could not be created. Make sure all the required fields are filled in in the original e-service and try again, please!"
+      },
+      "confirmDialog": {
+        "title": "Confirm e-service template version draft creation",
+        "description": "A new draft version of the selected e-service template will be created"
+      }
+    },
+    "updateDraft": {
+      "loading": "Updating draft",
+      "outcome": {
+        "error": "Draft could not be updated. Make sure you have filled all the required fields and try again!"
+      }
+    },
+    "updateVersionDraft": {
+      "loading": "Updateing draft of new e-service template version",
+      "outcome": {
+        "success": "New e-service template version draft updated successfully",
+        "error": "The new e-service template version draft could not be updated. Make sure all the required fields are filled in in the original e-service template and try again, please!"
+      }
+    },
+    "addEServiceTemplateRiskAnalysis": {
+      "loading": "Adding the risk analysis to this e-service template",
+      "outcome": {
+        "success": "New risk analysis added successfully",
+        "error": "The risk analysis could not be added. Please make sure this risk analysis exists and try again!"
+      }
+    },
+    "updateEServiceTemplateRiskAnalysis": {
+      "loading": "Updating risk analysis",
+      "outcome": {
+        "success": "New risk analysis updated successfully",
+        "error": "The new risk analysis could not be updated. Make sure all the required fields are filled in the original risk analysis and try again, please!"
+      }
+    },
+    "deleteEServiceTemplateRiskAnalysis": {
+      "loading": "Removing the risk analysis from this e-service template",
+      "outcome": {
+        "success": "Risk analysis removed successfully",
+        "error": "The risk analysis could not be removed from the e-service template. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm risk analysis removal from e-service template",
+        "description": "The risk analysis will be deleted from this e-service template."
+      }
+    },
+    "updateDescriptorAttributes": {
+      "loading": "Saving new attributes",
+      "outcome": {
+        "success": "The {{attributeKind}} attributes have been modified correctly",
+        "error": "It was not possible to modify the {{attributeKind}} attributes. Please, try again!"
+      }
+    },
+    "publishVersionDraft": {
+      "loading": "Publishing e-service template version draft",
+      "outcome": {
+        "success": "New e-service template version published successfully",
+        "error": "The new e-service template  version could not be published."
+      },
+      "confirmDialog": {
+        "title": "Confirm draft publishing",
+        "description": "You will not be able to delete an e-service template  version after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or make it deprecated when a new version is published"
+      }
+    },
+    "deleteVersionDraft": {
+      "loading": "Deleting e-service template version draft",
+      "outcome": {
+        "success": "E-service template version draft deleted successfully",
+        "error": "The e-service template version draft could not be deleted. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm draft deletion",
+        "description": "By clicking \"confirm\", this draft will be deleted and it will not be recoverable. It will always be possible to create new drafts"
+      }
+    },
+    "reactivateVersion": {
+      "loading": "Reactivating e-service template version",
+      "outcome": {
+        "success": "E-service template version reactivated successfully",
+        "error": "The e-service template version could not be reactivated. Please, try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm version reactivation",
+        "description": "By clicking \"confirm\",  this e-service template version will be reactivated. All the Subscribers that have an active fruition request for this e-service template version will be able to access it"
       }
     }
   }

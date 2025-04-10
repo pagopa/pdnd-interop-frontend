@@ -50,6 +50,8 @@ function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerES
         descriptorMock.draftDescriptor?.id,
         descriptorMock.mode,
         descriptorMock.name,
+        descriptorMock.isTemplateInstance,
+        descriptorMock.isNewTemplateVersionAvailable ?? false,
         descriptorMock.delegation
       ),
     {
@@ -66,9 +68,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('publishDraft')
-    expect(result.current.actions[1].label).toBe('delete')
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('delete')
   })
 
   it('should not return actions if user is admin and delegator, e-service is DRAFT with no active descriptors', () => {
@@ -96,8 +97,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
       }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('publishDraft')
+    expect(result.current.actions).toHaveLength(0)
   })
 
   it('should not return actions if user is admin and e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
@@ -465,9 +465,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(2)
-    expect(result.current.actions[0].label).toBe('publishDraft')
-    expect(result.current.actions[1].label).toBe('delete')
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('delete')
   })
 
   it('should not return actions if user is an api operator and delegator, e-service is DRAFT with no active descriptors', () => {
@@ -497,8 +496,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
       }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0].label).toBe('publishDraft')
+    expect(result.current.actions).toHaveLength(0)
   })
 
   it('should not return actions if user is an api operator and e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {

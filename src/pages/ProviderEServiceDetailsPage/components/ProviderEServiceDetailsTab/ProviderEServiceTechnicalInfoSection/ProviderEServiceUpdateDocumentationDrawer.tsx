@@ -1,4 +1,4 @@
-import type { Document, EServiceDoc, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { Document, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { Box, Button, Divider, Stack, Tooltip, Typography } from '@mui/material'
 import React from 'react'
@@ -45,7 +45,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
-  const docs = [descriptor.interface, ...descriptor.docs]
+  const docs = [descriptor.interface, ...descriptor.docs] as unknown as Document[] // TODO: Update this when BE will update BFF
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 3 })
 
@@ -100,7 +100,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
     )
   }
 
-  const handleDeleteDocument = (document: EServiceDoc | Document) => {
+  const handleDeleteDocument = (document: Document) => {
     if (!descriptor) return
     // check if the only document in the current page, that means we should go to the previous page when this is deleted
     const isTheOnlyDocumentInCurrentPage = paginatedDocs.length === 1
@@ -131,7 +131,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
     })
   }
 
-  const handleDownloadDocument = (document: EServiceDoc | Document) => {
+  const handleDownloadDocument = (document: Document) => {
     downloadDocument(
       {
         eserviceId: descriptor.eservice.id,
@@ -202,8 +202,6 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
               {t('addDocumentLabel')}
             </Typography>
 
-            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} drawerStyle />
-
             <RHFTextField
               size="small"
               sx={{ my: 2 }}
@@ -212,6 +210,8 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
               inputProps={{ maxLength: 60 }}
               rules={{ required: true, minLength: 5 }}
             />
+
+            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} drawerStyle />
 
             <Stack direction="row" justifyContent="flex-end" spacing={1} mb={2}>
               <Button variant="text" onClick={handleHideFileInput} size="small">
@@ -238,8 +238,8 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
 }
 
 type InterfaceDocumentContainerProps = {
-  doc: EServiceDoc
-  onDownload?: (document: EServiceDoc) => void
+  doc: Document
+  onDownload?: (document: Document) => void
 }
 
 const InterfaceDocumentContainer: React.FC<InterfaceDocumentContainerProps> = ({

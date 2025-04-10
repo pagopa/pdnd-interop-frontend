@@ -67,6 +67,13 @@ function getEServiceRiskAnalysis(eserviceId: string, riskAnalysisId: string) {
   })
 }
 
+function getIsEServiceNameAvailable(eserviceName: string) {
+  return queryOptions({
+    queryKey: ['EServiceGetNameAvailable', eserviceName],
+    queryFn: () => EServiceServices.getIsEServiceNameAvailable({ eserviceName }),
+  })
+}
+
 export const EServiceQueries = {
   getCatalogList,
   getProviderList,
@@ -76,4 +83,5 @@ export const EServiceQueries = {
   getConsumers,
   getProducers,
   getEServiceRiskAnalysis,
+  getIsEServiceNameAvailable,
 }

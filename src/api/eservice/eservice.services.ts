@@ -24,12 +24,17 @@ import type {
   ProducerEServiceDetails,
   ProducerEServices,
   RejectDelegatedEServiceDescriptorSeed,
+  TemplateInstanceInterfaceRESTSeed,
+  TemplateInstanceInterfaceSOAPSeed,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
+  UpdateEServiceDescriptorTemplateInstanceSeed,
+  UpdateEServiceTemplateInstanceDescriptorQuotas,
   UpdateEServiceSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
+import { waitFor } from '@/utils/common.utils'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -202,6 +207,20 @@ function updateVersion({
 } & UpdateEServiceDescriptorQuotas) {
   return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/update`,
+    payload
+  )
+}
+
+function updateInstanceVersion({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & UpdateEServiceTemplateInstanceDescriptorQuotas) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/update`,
     payload
   )
 }
@@ -448,6 +467,101 @@ async function updateEServiceName({
   return response.data
 }
 
+async function deleteDocAndUpdateEServiceInterfaceRESTInfo({
+  eserviceId,
+  descriptorId,
+  documentId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+  documentId: string | undefined
+} & TemplateInstanceInterfaceRESTSeed) {
+  // Need to Delete document and wait before to update interface's data
+  if (documentId) {
+    await deleteVersionDraftDocument({ eserviceId, descriptorId, documentId })
+    await waitFor(4000)
+  }
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface/rest`,
+    payload
+  )
+
+  return response.data
+}
+
+async function deleteDocAndUpdateEServiceInterfaceSOAPInfo({
+  eserviceId,
+  descriptorId,
+  documentId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+  documentId: string | undefined
+} & TemplateInstanceInterfaceSOAPSeed) {
+  // Need to Delete document and wait before to update interface's data
+  if (documentId) {
+    await deleteVersionDraftDocument({ eserviceId, descriptorId, documentId })
+    await waitFor(4000)
+  }
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/interface/soap`,
+    payload
+  )
+
+  return response.data
+}
+
+/**
+ * This API allow to upgrade an an EService inherit from template
+ * @param eServiceID
+ * @returns
+ */
+async function upgradeEService({ eserviceId }: { eserviceId: string }) {
+  const response = await axiosInstance.post<CreatedEServiceDescriptor>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/upgrade`
+  )
+
+  return response.data
+}
+
+async function updateInstanceVersionDraft({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & UpdateEServiceDescriptorTemplateInstanceSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}`,
+    payload
+  )
+  return response.data
+}
+
+async function deleteDraftAndUpgradeEService({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  await EServiceServices.deleteVersionDraft({ eserviceId, descriptorId })
+  //!!! Temporary, in order to avoid eventual consistency issues.
+  await waitFor(4000)
+  return await EServiceServices.upgradeEService({ eserviceId })
+}
+
+async function getIsEServiceNameAvailable({ eserviceName }: { eserviceName: string }) {
+  const response = await axiosInstance.get<boolean>(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/names/availability`,
+    { params: { name: eserviceName } }
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -465,6 +579,7 @@ export const EServiceServices = {
   publishVersionDraft,
   suspendVersion,
   updateVersion,
+  updateInstanceVersion,
   reactivateVersion,
   deleteVersionDraft,
   addEServiceRiskAnalysis,
@@ -483,4 +598,10 @@ export const EServiceServices = {
   approveDelegatedVersionDraft,
   rejectDelegatedVersionDraft,
   updateEServiceName,
+  deleteDocAndUpdateEServiceInterfaceRESTInfo,
+  deleteDocAndUpdateEServiceInterfaceSOAPInfo,
+  upgradeEService,
+  updateInstanceVersionDraft,
+  deleteDraftAndUpgradeEService,
+  getIsEServiceNameAvailable,
 }

@@ -14,7 +14,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile'
 
 export type RHFSingleFileInputProps = Omit<
   PagoPASingleFileInputProps,
-  'value' | 'onFileSelected' | 'onFileRemoved' | 'dropzoneLabel' | 'loadingLabel'
+  'value' | 'onFileSelected' | 'onFileRemoved' | 'dropzoneLabel' | 'loadingLabel' | 'dropzoneButton'
 > & {
   name: string
   infoLabel?: string | JSX.Element
@@ -31,6 +31,7 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
   rules,
   onValueChange,
   drawerStyle = false,
+  ...props
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'singleFileInput' })
   const { t: tCommon } = useTranslation()
@@ -57,6 +58,8 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
 
           return (
             <PagoPASingleFileInput
+              vertical
+              dropzoneButton={t('dropzone.button')}
               value={field.value}
               onFileSelected={(file: File) => {
                 field.onChange(file)
@@ -67,8 +70,9 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
                 if (onValueChange) onValueChange(null)
               }}
               error={!!error}
-              dropzoneLabel={t('dropzoneLabel')}
+              dropzoneLabel={t('dropzone.label')}
               loadingLabel={t('loadingLabel')}
+              {...props}
             />
           )
         }}

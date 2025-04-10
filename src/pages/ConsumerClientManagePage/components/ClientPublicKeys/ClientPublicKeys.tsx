@@ -4,11 +4,11 @@ import {
   ClientAddPublicKeyButtonSkeleton,
 } from './ClientAddPublicKeyButton'
 import { ClientPublicKeysTable, ClientPublicKeysTableSkeleton } from './ClientPublicKeysTable'
-import { Filters, useFilters } from '@pagopa/interop-fe-commons'
+import { Filters, useFilters, Pagination, usePagination } from '@pagopa/interop-fe-commons'
 import { ClientQueries } from '@/api/client'
 import type { GetClientKeysParams } from '@/api/api.generatedTypes'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 interface ClientPublicKeysProps {
   clientId: string
@@ -26,7 +26,9 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
       })),
   })
 
-  const { filtersParams, ...filtersHandlers } = useFilters<Omit<GetClientKeysParams, 'clientId'>>([
+  const { filtersParams, ...filtersHandlers } = useFilters<
+    Omit<GetClientKeysParams, 'clientId' | 'limit' | 'offset'>
+  >([
     {
       name: 'userIds',
       label: t('operatorField.label'),
@@ -35,10 +37,19 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
     },
   ])
 
-  const params = {
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+
+  const queryParams = {
     ...filtersParams,
+    ...paginationParams,
     clientId: clientId,
   }
+
+  const { data: totalPageCount = 0 } = useQuery({
+    ...ClientQueries.getKeyList(queryParams),
+    placeholderData: keepPreviousData,
+    select: ({ pagination }) => getTotalPageCount(pagination?.totalCount),
+  })
 
   return (
     <>
@@ -47,8 +58,16 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
       </React.Suspense>
       <Filters {...filtersHandlers} />
       <React.Suspense fallback={<ClientPublicKeysTableSkeleton />}>
-        <ClientPublicKeysTable params={params} />
+        <ClientPublicKeysWrapper params={queryParams} />
+        <Pagination {...paginationProps} totalPages={totalPageCount} />
       </React.Suspense>
     </>
   )
+}
+
+const ClientPublicKeysWrapper: React.FC<{ params: GetClientKeysParams }> = ({ params }) => {
+  const { data, isFetching } = useQuery(ClientQueries.getKeyList(params))
+
+  if (!data && isFetching) return <ClientPublicKeysTableSkeleton />
+  return <ClientPublicKeysTable clientId={params.clientId} keys={data?.keys || []} />
 }

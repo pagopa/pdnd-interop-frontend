@@ -46,5 +46,12 @@
   "delegations": {
     "title": "Deleghe",
     "description": "Qui puoi gestire tutte le deleghe che hai dato o ricveuto da altri enti"
+  },
+  "providerEServiceTemplatesCatalog": {
+    "title": "Catalogo dei template di e-service",
+    "description": "I template ti permettono di creare istanze di e-service partendo da un modello preesistente."
+  },
+  "providerEServiceTemplatesList": {
+    "title": "I tuoi template"
   }
 }

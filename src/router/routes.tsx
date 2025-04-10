@@ -44,10 +44,17 @@ import {
   DelegationsPage,
   DelegationCreatePage,
   DelegationDetailsPage,
+  ProviderEServiceTemplatesCatalogPage,
+  ProviderEServiceTemplatesListPage,
+  ProviderEServiceTemplateDetailsPage,
+  ProviderEServiceTemplateCreatePage,
+  ProviderEServiceTemplateSummaryPage,
+  ProviderEServiceFromTemplateCreatePage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
+import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -82,7 +89,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_CREATE',
-    path: '/erogazione/e-service/crea',
+    path: '/erogazione/e-service/crea/',
     element: <ProviderEServiceCreatePage />,
     public: false,
     hideSideNav: true,
@@ -102,7 +109,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_MANAGE',
@@ -148,14 +155,6 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_PURPOSE_DETAILS',
     path: '/erogazione/finalita/:purposeId',
     element: <ProviderPurposeDetailsPage />,
-    public: false,
-    hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
-  })
-  .addRoute({
-    key: 'PROVIDE',
-    path: '/erogazione',
-    redirect: 'PROVIDE_ESERVICE_LIST',
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'api'],
@@ -463,6 +462,78 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
+    path: '/erogazione/catalogo-template',
+    element: <ProviderEServiceTemplatesCatalogPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
+    path: '/erogazione/template',
+    element: <ProviderEServiceTemplatesListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE',
+    path: '/erogazione',
+    redirect: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
+    path: '/erogazione/template/:eServiceTemplateId/:eServiceTemplateVersionId',
+    element: <ProviderEServiceTemplateDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS',
+    path: 'fruizione/template/:eServiceTemplateId/:eServiceTemplateVersionId',
+    element: <ConsumerEServiceTemplateDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_CREATE',
+    path: '/erogazione/template/crea',
+    element: <ProviderEServiceTemplateCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_EDIT',
+    path: '/erogazione/template/:eServiceTemplateId/:eServiceTemplateVersionId/modifica',
+    element: <ProviderEServiceTemplateCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_SUMMARY',
+    path: '/erogazione/template/:eServiceTemplateId/:eServiceTemplateVersionId/modifica/riepilogo',
+    element: <ProviderEServiceTemplateSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE',
+    path: '/erogazione/template/:eServiceTemplateId/e-service/crea',
+    element: <ProviderEServiceFromTemplateCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api', 'support'],
   })
   .build()
 

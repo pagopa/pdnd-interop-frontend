@@ -29,6 +29,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
   })
   const { jwt } = AuthHooks.useJwt()
+  const { isSupport } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const navigate = useNavigate()
@@ -140,6 +141,17 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     })
   }
 
+  const checklistEServiceFromTemplate = (): boolean => {
+    const isEServiceFromTemplate = descriptor?.templateRef
+
+    // if the descriptor is not from a template, return true, means that in canBePublished has not to have any condition
+    if (!isEServiceFromTemplate) {
+      return true
+    }
+
+    return !!descriptor.templateRef?.interfaceMetadata
+  }
+
   const canBePublished = () => {
     return !!(
       descriptor &&
@@ -148,7 +160,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       descriptor.audience[0] &&
       descriptor.voucherLifespan &&
       descriptor.dailyCallsPerConsumer &&
-      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer
+      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
+      checklistEServiceFromTemplate()
     )
   }
 
@@ -250,13 +263,19 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             variant="text"
             color="error"
             onClick={handleDeleteDraft}
+            disabled={isSupport}
           >
             {tCommon('deleteDraft')}
           </Button>
-          <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+          <Button
+            startIcon={<CreateIcon />}
+            variant="text"
+            onClick={handleEditDraft}
+            disabled={isSupport}
+          >
             {tCommon('editDraft')}
           </Button>
-          <PublishButton onClick={handlePublishDraft} disabled={!canBePublished()} />
+          <PublishButton onClick={handlePublishDraft} disabled={!canBePublished() || isSupport} />
         </Stack>
       )}
       {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
@@ -266,6 +285,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             variant="text"
             color="error"
             onClick={handleRejectDelegatedVersionDraft}
+            disabled={isSupport}
           >
             {tCommon('reject')}
           </Button>
@@ -273,6 +293,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             startIcon={<PublishIcon />}
             variant="contained"
             onClick={handleApproveDelegatedVersionDraft}
+            disabled={isSupport}
           >
             {tCommon('publish')}
           </Button>

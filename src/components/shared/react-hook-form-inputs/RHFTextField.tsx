@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextField as MUITextField, type TextFieldProps as MUITextFieldProps } from '@mui/material'
 import { InputWrapper } from '../InputWrapper'
+import type { FieldErrors, FieldValues } from 'react-hook-form'
 import { useFormContext, Controller } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
@@ -8,6 +9,8 @@ import { useTranslation } from 'react-i18next'
 
 export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type' | 'label'> & {
   name: string
+  indexFieldArray?: number
+  fieldArrayKeyName?: string
   label: string
   labelType?: 'external' | 'shrink'
   infoLabel?: React.ReactNode
@@ -36,14 +39,19 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   rules,
   size = 'small',
   rows,
+  indexFieldArray,
+  fieldArrayKeyName,
   ...props
 }) => {
   const { formState } = useFormContext()
   const { t } = useTranslation()
 
-  const error = formState.errors[name]?.message as string | undefined
+  const error = getErrors(indexFieldArray, fieldArrayKeyName, formState.errors, name)
 
-  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+  const fieldName =
+    indexFieldArray !== undefined ? `${name}.${indexFieldArray}.${fieldArrayKeyName}` : name
+
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(fieldName, {
     infoLabel,
     error,
   })
@@ -51,12 +59,12 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       <Controller
-        name={name}
+        name={fieldName}
         rules={mapValidationErrorMessages(rules, t)}
         render={({ field: { ref, onChange: _onChange, ...fieldProps } }) => (
           <MUITextField
             autoFocus={focusOnMount}
-            id={name}
+            id={fieldName}
             size={size}
             label={label}
             inputProps={{ ...props.inputProps, ...accessibilityProps }}
@@ -94,4 +102,19 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
       />
     </InputWrapper>
   )
+}
+
+const getErrors = (
+  indexFieldArray: number | undefined,
+  fieldArrayKeyName: string | undefined,
+  errors: FieldErrors<FieldValues>,
+  name: string
+): string | undefined => {
+  if (indexFieldArray !== undefined && fieldArrayKeyName) {
+    // If indexFieldArray and fieldArrayKeyName are provided, means that we're working with fieldArray and we need to handling errors in a different way
+    const err = errors[name] as Array<Record<string, { message?: string }>> | undefined
+    return err?.[indexFieldArray]?.[fieldArrayKeyName]?.message as string | undefined
+  }
+
+  return errors[name]?.message as string | undefined
 }

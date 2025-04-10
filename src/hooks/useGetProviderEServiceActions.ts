@@ -2,6 +2,7 @@ import type {
   DelegationWithCompactTenants,
   EServiceDescriptorState,
   EServiceMode,
+  EServiceTemplateRef,
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { useNavigate } from '@/router'
@@ -18,6 +19,7 @@ import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import PublishIcon from '@mui/icons-material/Publish'
 import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
+import { waitFor } from '@/utils/common.utils'
 
 export function useGetProviderEServiceActions(
   eserviceId: string,
@@ -27,11 +29,16 @@ export function useGetProviderEServiceActions(
   draftDescriptorId: string | undefined,
   mode: EServiceMode | undefined,
   eserviceName: string | undefined,
+  isNewTemplateVersionAvailable: boolean,
+  isTemplateInstance: boolean,
   delegation?: DelegationWithCompactTenants
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
+  })
+  const { t: tConfirmationDialog } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.deleteDraft.confirmDialog',
   })
   const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
@@ -51,6 +58,9 @@ export function useGetProviderEServiceActions(
   const { mutate: createNewDraft } = EServiceMutations.useCreateVersionDraft()
   const { mutate: approveDelegatedVersionDraft } =
     EServiceMutations.useApproveDelegatedVersionDraft()
+  const { mutate: upgradeEService } = EServiceMutations.useUpgradeEService()
+  const { mutate: deleteDraftAndUpgradeEService } =
+    EServiceMutations.useDeleteDraftAndUpgradeEService()
 
   const state = descriptorState ?? draftDescriptorState ?? 'DRAFT'
   const hasVersionDraft = !!draftDescriptorId
@@ -65,22 +75,6 @@ export function useGetProviderEServiceActions(
     label: t('delete'),
     icon: DeleteOutlineIcon,
     color: 'error',
-  }
-
-  const handlePublishDraft = () => {
-    if (draftDescriptorId)
-      publishDraft({
-        eserviceId,
-        descriptorId: draftDescriptorId,
-        delegatorName: delegation?.delegator.name,
-        eserviceName: eserviceName,
-      })
-  }
-
-  const publishDraftAction: ActionItemButton = {
-    action: handlePublishDraft,
-    label: t('publishDraft'),
-    icon: CheckCircleOutlineIcon,
   }
 
   const handleDeleteVersionDraft = () => {
@@ -215,6 +209,40 @@ export function useGetProviderEServiceActions(
     icon: PublishIcon,
   }
 
+  const handleUpgradeEService = async () => {
+    if (hasVersionDraft) {
+      deleteDraftAndUpgradeEService(
+        { eserviceId, descriptorId: draftDescriptorId },
+        {
+          onSuccess({ id: descriptorId }) {
+            navigate('PROVIDE_ESERVICE_EDIT', {
+              params: { eserviceId: eserviceId, descriptorId: descriptorId },
+              state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+            })
+          },
+        }
+      )
+    } else {
+      upgradeEService(
+        { eserviceId },
+        {
+          onSuccess({ id: descriptorId }) {
+            navigate('PROVIDE_ESERVICE_EDIT', {
+              params: { eserviceId: eserviceId, descriptorId: descriptorId },
+              state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+            })
+          },
+        }
+      )
+    }
+  }
+
+  const upgradeEServiceAction: ActionItemButton = {
+    action: handleUpgradeEService,
+    label: t('updateIstance'),
+    icon: FiberNewIcon,
+  }
+
   const deleteAction = !activeDescriptorId ? deleteDraftAction : deleteVersionDraftAction
 
   const publishedActions = match({
@@ -339,9 +367,8 @@ export function useGetProviderEServiceActions(
     .otherwise(() => [])
 
   const draftActions = match({ isDelegator, isDelegate })
-    .with({ isDelegator: false, isDelegate: false }, () => [publishDraftAction, deleteAction])
-    .with({ isDelegator: true, isDelegate: false }, () => [])
-    .with({ isDelegator: false, isDelegate: true }, () => [publishDraftAction])
+    .with({ isDelegator: false, isDelegate: false }, () => [deleteAction])
+    /** Delegation */
     .otherwise(() => [])
 
   const suspendedActions = match({
@@ -465,6 +492,472 @@ export function useGetProviderEServiceActions(
     )
     .otherwise(() => [])
 
+  const fromTemplatePublishActions = match({
+    isAdmin,
+    isDelegator,
+    isDelegate,
+    hasVersionDraft,
+    isDraftWaitingForApproval,
+    isNewTemplateVersionAvailable,
+  })
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [upgradeEServiceAction, suspendAction, createNewDraftAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [suspendAction, createNewDraftAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [upgradeEServiceAction, editDraftAction, deleteAction, suspendAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [editDraftAction, deleteAction, suspendAction]
+    )
+    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [])
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [editDraftAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [editDraftAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [upgradeEServiceAction, suspendAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [suspendAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [upgradeEServiceAction, editDraftAction, deleteAction, suspendAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [editDraftAction, deleteAction, suspendAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [suspendAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [createNewDraftAction, upgradeEServiceAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => []
+    )
+    .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      deleteAction,
+    ])
+    .with(
+      { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [editDraftAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [editDraftAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [upgradeEServiceAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [editDraftAction, deleteAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => []
+    )
+    .otherwise(() => [])
+
+  // Suspension
+  const fromTemplateSuspendActions = match({
+    isAdmin,
+    isDelegator,
+    isDelegate,
+    hasVersionDraft,
+    isDraftWaitingForApproval,
+    isNewTemplateVersionAvailable,
+  })
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [reactivateAction, upgradeEServiceAction, createNewDraftAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [reactivateAction, createNewDraftAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [reactivateAction, editDraftAction, upgradeEServiceAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [reactivateAction, editDraftAction]
+    ) /* Delegations */
+    .with({ isAdmin: true, isDelegator: true, isDelegate: false, hasVersionDraft: false }, () => [])
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [editDraftAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [reactivateAction, upgradeEServiceAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [reactivateAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [reactivateAction, upgradeEServiceAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [reactivateAction, deleteAction]
+    )
+    .with(
+      {
+        isAdmin: true,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [reactivateAction]
+    ) // Not an admin
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [upgradeEServiceAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [upgradeEServiceAction, editDraftAction, deleteAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => [editDraftAction, deleteAction]
+    )
+    .with(
+      { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: true,
+        isDelegate: false,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => [editDraftAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: true,
+      },
+      () => [upgradeEServiceAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: false,
+        isNewTemplateVersionAvailable: false,
+      },
+      () => []
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: false,
+      },
+      () => [editDraftAction, deleteAction]
+    )
+    .with(
+      {
+        isAdmin: false,
+        isDelegator: false,
+        isDelegate: true,
+        hasVersionDraft: true,
+        isDraftWaitingForApproval: true,
+      },
+      () => []
+    )
+    .otherwise(() => [])
+
+  const EServiceFromTemplateAdminActions: Record<
+    EServiceDescriptorState,
+    Array<ActionItemButton>
+  > = {
+    PUBLISHED: fromTemplatePublishActions,
+    ARCHIVED: [],
+    DEPRECATED: isDelegator ? [] : [suspendAction],
+    DRAFT: draftActions,
+    SUSPENDED: fromTemplateSuspendActions,
+    WAITING_FOR_APPROVAL: isDelegator
+      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      : [],
+  }
+
+  const EServiceFromTemplateOperatorAPIActions: Record<
+    EServiceDescriptorState,
+    Array<ActionItemButton>
+  > = {
+    PUBLISHED: fromTemplatePublishActions,
+    ARCHIVED: [],
+    DEPRECATED: [],
+    DRAFT: draftActions,
+    SUSPENDED: fromTemplateSuspendActions,
+    WAITING_FOR_APPROVAL: isDelegator
+      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+      : [],
+  }
+
   const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
     PUBLISHED: publishedActions,
     ARCHIVED: [],
@@ -487,7 +980,14 @@ export function useGetProviderEServiceActions(
       : [],
   }
 
-  const availableAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
+  const availableClassicEServiceAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
+  const availableFromTemplateEserviceAction = isAdmin
+    ? EServiceFromTemplateAdminActions[state]
+    : EServiceFromTemplateOperatorAPIActions[state]
+
+  const availableAction = isTemplateInstance
+    ? availableFromTemplateEserviceAction
+    : availableClassicEServiceAction
 
   return { actions: availableAction }
 }

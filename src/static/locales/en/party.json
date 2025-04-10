@@ -142,10 +142,15 @@
       },
       "eserviceField": {
         "label": "E-service name (required)",
+        "labelFromTemplate": "E-service template name (required)",
         "infoLabel": "Min 5 chars, max 60 chars",
         "infoLabelAutocomplete": {
           "consumer": "The list includes only those e-services for which the respective providers have given availability to consume by delegation.",
           "producer": "The list includes only those e-services for which the respective producers have given availability to provide by delegation."
+        },
+        "infoLabelAutocompleteFromTemplate": {
+          "consumer": "The list includes only those e-services templates for which the respective providers have given availability to consume by delegation.",
+          "producer": "The list includes only those e-services templates for which the respective producers have given availability to provide by delegation."
         },
         "descriptionLabel": "E-service description",
         "descriptionInfoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars",
@@ -159,7 +164,9 @@
         "provider": {
           "label": "Delegated tenant (required)",
           "infoLabel": "The list includes only members who have given their willingness to become provider delegates.",
-          "switch": "I have already created the e-service for which I want to activate a delegation"
+          "switch": "I still need to create the e-service for which I want to activate a delegation.",
+          "switchEserviceFromTemplate": "I want to create an e-service from a template available in the catalog.",
+          "alertEserviceFromTemplate": "Once the template is selected and the delegation is sent, a draft instance will be generated and will remain under your management."
         }
       },
       "dialog": {
@@ -170,7 +177,11 @@
         "checkboxLabel": "I understand"
       },
       "hasAgreementsAlert": "There is already an active or suspended agreement for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active or suspended agreement be removed and try again.",
-      "isDelegatedAlert": "A delegation request already exists for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active request be removed and try again."
+      "isDelegatedAlert": "A delegation request already exists for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active request be removed and try again.",
+      "instanceField": {
+        "label": "Instance id",
+        "infoLabel": "The identification code is added to the e-service name and is used to differentiate two or more instances generated from a template."
+      }
     },
     "actions": {
       "backToTenant": "Return to tenant",

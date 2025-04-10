@@ -1,6 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import type { EServiceRiskAnalysisSeed, UpdateEServiceDescriptorSeed } from '../api.generatedTypes'
+import type {
+  EServiceRiskAnalysisSeed,
+  UpdateEServiceDescriptorSeed,
+  UpdateEServiceDescriptorTemplateInstanceSeed,
+} from '../api.generatedTypes'
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -177,6 +181,18 @@ function useUpdateVersion() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
   return useMutation({
     mutationFn: EServiceServices.updateVersion,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateInstanceVersion() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+  return useMutation({
+    mutationFn: EServiceServices.updateInstanceVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -393,6 +409,76 @@ function useUpdateEServiceName() {
   })
 }
 
+function useDeleteAndUpdateEServiceInterfaceRESTInfo() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceInterfaceInfo',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.deleteDocAndUpdateEServiceInterfaceRESTInfo,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useDeleteAndUpdateEServiceInterfaceSOAPInfo() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceInterfaceInfo',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.deleteDocAndUpdateEServiceInterfaceSOAPInfo,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpgradeEService() {
+  return useMutation({
+    mutationFn: EServiceServices.upgradeEService,
+  })
+}
+
+function useUpdateInstanceVersionDraft(config = { suppressSuccessToast: false }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateVersionDraft',
+  })
+  return useMutation({
+    mutationFn: (
+      payload: {
+        eserviceId: string
+        descriptorId: string
+      } & UpdateEServiceDescriptorTemplateInstanceSeed
+    ) => EServiceServices.updateInstanceVersionDraft(payload),
+    meta: {
+      successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useDeleteDraftAndUpgradeEService() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.deleteAndUpgradeEService',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.deleteDraftAndUpgradeEService,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -417,4 +503,10 @@ export const EServiceMutations = {
   useApproveDelegatedVersionDraft,
   useRejectDelegatedVersionDraft,
   useUpdateEServiceName,
+  useDeleteAndUpdateEServiceInterfaceRESTInfo,
+  useDeleteAndUpdateEServiceInterfaceSOAPInfo,
+  useUpgradeEService,
+  useUpdateInstanceVersionDraft,
+  useDeleteDraftAndUpgradeEService,
+  useUpdateInstanceVersion,
 }
