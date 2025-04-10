@@ -1,118 +1,148 @@
-import type { ExtendedWindow, PagoPAEnvVars } from '@/types/common.types'
+import type { ExtendedWindow } from '@/types/common.types'
+import { z } from 'zod'
 
-export const PAGOPA_ENV = (window as unknown as ExtendedWindow).pagopa_env
+const injectedInWindowConfigs = (window as unknown as ExtendedWindow).pagopa_env
 
-export const NODE_ENV = import.meta.env.MODE
-export const isDevelopment = !!(import.meta.env.MODE === 'development')
-export const isProduction = !!(import.meta.env.MODE === 'production')
-export const isTest = !!(import.meta.env.MODE === 'test')
+const localhost = 'http://localhost:3000/0.0'
 
-export const TEST_MIXPANEL_PROJECT_ID = import.meta.env.REACT_APP_TEST_MIXPANEL_PROJECT_ID
-
-if (!PAGOPA_ENV && !isTest) {
-  console.warn('pagopa_env not available.')
+const defaultConfigs: FEConfigs = {
+  STAGE: 'DEV',
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: 'https://auth.dev.interop.pagopa.it/token.oauth2',
+  SELFCARE_LOGIN_URL: 'https://uat.selfcare.pagopa.it/',
+  SELFCARE_BASE_URL: 'https://uat.selfcare.pagopa.it',
+  INTEROP_RESOURCES_BASE_URL: 'https://interop-dev-public.s3.eu-central-1.amazonaws.com',
+  BACKEND_FOR_FRONTEND_URL: `${localhost}/backend-for-frontend`,
+  API_GATEWAY_INTERFACE_URL: `${localhost}/swagger/docs/interface-specification.yaml`,
+  MIXPANEL_PROJECT_ID: 'b6c8c3c3ed0b32d66c61593bcb84e705',
+  ONETRUST_DOMAIN_SCRIPT_ID: '018ef6c1-31f6-70a6-bf72-ds7d45c0ade7e',
+  CLIENT_ASSERTION_JWT_AUDIENCE: '',
+  M2M_JWT_AUDIENCE: 'dev.interop.pagopa.it/m2m',
+  WELL_KNOWN_URLS: 'https://dev.interop.pagopa.it/.well-known/jwks.json',
+  PRODUCER_ALLOWED_ORIGINS: 'IPA',
+  API_SIGNAL_HUB_PUSH_INTERFACE_URL:
+    'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/push-signals.yaml',
+  API_SIGNAL_HUB_PULL_INTERFACE_URL:
+    'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/pull-signals.yaml',
+  FEATURE_FLAG_SIGNALHUB_WHITELIST: 'true',
+  SIGNALHUB_WHITELIST_CONSUMER:
+    '69e2865e-65ab-4e48-a638-2037a9ee2ee7,e79a24cd-8edc-441e-ae8d-e87c3aea0059',
+  SIGNALHUB_WHITELIST_PRODUCER: '69e2865e-65ab-4e48-a638-2037a9ee2ee7',
+  NODE_ENV: 'development',
+  PUBLIC_URL: '/ui',
 }
 
-const DEV_FEATURE_FLAG_SIGNALHUB_WHITELIST = import.meta.env
-  .REACT_APP_FEATURE_FLAG_SIGNALHUB_WHITELIST
-const DEV_SIGNALHUB_WHITELIST_PRODUCER = import.meta.env.REACT_APP_SIGNALHUB_WHITELIST_PRODUCER
-const DEV_SIGNALHUB_WHITELIST_CONSUMER = import.meta.env.REACT_APP_SIGNALHUB_WHITELIST_CONSUMER
+const envConfig = z.enum(['development', 'production', 'test'])
+type EnvMode = z.infer<typeof envConfig>
 
-const DEV_FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE = import.meta.env
-  .REACT_APP_FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE
+const GeneralConfigs = z.object({
+  NODE_ENV: z.enum(['development', 'production', 'test']),
+  STAGE: z.enum(['DEV', 'PROD', 'UAT', 'ATT', 'QA', 'VAPT']),
+  MIXPANEL_PROJECT_ID: z.string(),
+  ONETRUST_DOMAIN_SCRIPT_ID: z.string(),
+  CLIENT_ASSERTION_JWT_AUDIENCE: z.string(),
+  WELL_KNOWN_URLS: z.string(),
+  PRODUCER_ALLOWED_ORIGINS: z.string(),
+  PUBLIC_URL: z.string().default('/ui'),
+  M2M_JWT_AUDIENCE: z.string().optional(),
+})
 
-export const FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE =
-  isProduction && PAGOPA_ENV
-    ? !!(PAGOPA_ENV.FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE == 'true')
-    : !!(DEV_FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE == 'true')
+const FeatureFlagConfigs = z.object({
+  FEATURE_FLAG_SIGNALHUB_WHITELIST: z.enum(['true', 'false']),
+  SIGNALHUB_WHITELIST_PRODUCER: z.string(),
+  SIGNALHUB_WHITELIST_CONSUMER: z.string(),
+})
 
-export const FEATURE_FLAG_SIGNALHUB_WHITELIST =
-  isProduction && PAGOPA_ENV
-    ? !!(PAGOPA_ENV.FEATURE_FLAG_SIGNALHUB_WHITELIST == 'true')
-    : !!(DEV_FEATURE_FLAG_SIGNALHUB_WHITELIST == 'true')
+const EndpointConfigs = z.object({
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: z.string().url(),
+  BACKEND_FOR_FRONTEND_URL: z.string().url(),
+  SELFCARE_LOGIN_URL: z.string().url(),
+  INTEROP_RESOURCES_BASE_URL: z.string().url(),
+  API_GATEWAY_INTERFACE_URL: z.string().url(),
+  SELFCARE_BASE_URL: z.string().url(),
+  API_SIGNAL_HUB_PUSH_INTERFACE_URL: z.string().url(),
+  API_SIGNAL_HUB_PULL_INTERFACE_URL: z.string().url(),
+})
 
-export const SIGNALHUB_WHITELIST_PRODUCER: string =
-  isProduction && PAGOPA_ENV
-    ? PAGOPA_ENV.SIGNALHUB_WHITELIST_PRODUCER
-    : DEV_SIGNALHUB_WHITELIST_PRODUCER
+const FEConfigs = FeatureFlagConfigs.merge(EndpointConfigs).merge(GeneralConfigs)
+export type FEConfigs = z.infer<typeof FEConfigs>
 
-export const SIGNALHUB_WHITELIST_CONSUMER: string =
-  isProduction && PAGOPA_ENV
-    ? PAGOPA_ENV.SIGNALHUB_WHITELIST_CONSUMER
-    : DEV_SIGNALHUB_WHITELIST_CONSUMER
+const transformedFEConfigs = FeatureFlagConfigs.merge(EndpointConfigs)
+  .merge(GeneralConfigs)
+  .transform((c) => ({
+    ...c,
+    PRODUCER_ALLOWED_ORIGINS: c.PRODUCER_ALLOWED_ORIGINS.split(',')
+      .map((o) => o.trim())
+      .filter(Boolean) ?? ['IPA'],
+    WELL_KNOWN_URLS: c.WELL_KNOWN_URLS.split(',')
+      .filter((url) => !!url)
+      .map((url) => url.trim()),
+    SIGNALHUB_WHITELIST_CONSUMER: c.SIGNALHUB_WHITELIST_CONSUMER.split(',')
+      .map((o) => o.trim())
+      .filter(Boolean),
+    SIGNALHUB_WHITELIST_PRODUCER: c.SIGNALHUB_WHITELIST_PRODUCER.split(',')
+      .map((o) => o.trim())
+      .filter(Boolean),
+    TEMP_USER_BLACKLIST_URL: c.INTEROP_RESOURCES_BASE_URL + '/blacklist.json',
+  }))
 
-const DEV_API_HOST_URL = import.meta.env.REACT_APP_API_HOST
-const DEV_SELFCARE_LOGIN_URL = import.meta.env.REACT_APP_SELFCARE_LOGIN_URL
-const DEV_INTEROP_RESOURCES_BASE_URL = import.meta.env.REACT_APP_INTEROP_RESOURCES_BASE_URL
-const DEV_ONETRUST_DOMAIN_SCRIPT_ID = import.meta.env.REACT_APP_ONETRUST_DOMAIN_SCRIPT_ID
+export type InteropFEConfigs = z.infer<typeof transformedFEConfigs>
 
-export const FE_LOGIN_URL = (
-  isProduction && PAGOPA_ENV ? PAGOPA_ENV.SELFCARE_LOGIN_URL : DEV_SELFCARE_LOGIN_URL
-) as string
-export const PUBLIC_URL = import.meta.env.PUBLIC_URL || '/ui'
+const parseAppMode = (): EnvMode => {
+  return envConfig.parse(import.meta.env.MODE)
+}
+
+const parseConfigs = (): InteropFEConfigs => {
+  const appMode = envConfig.parse(import.meta.env.MODE)
+
+  //Meaning that we're running application locally or in test (es. vitest run)
+  if (appMode === 'development' || appMode === 'test') {
+    const configs = transformedFEConfigs.safeParse(defaultConfigs)
+    if (!configs.success) {
+      mapAndThrowZodConfigsError(configs.error, defaultConfigs.STAGE)
+    } else return configs.data
+  }
+
+  const configs = transformedFEConfigs.safeParse(injectedInWindowConfigs)
+  if (!configs.success) {
+    mapAndThrowZodConfigsError(configs.error, defaultConfigs.STAGE)
+  }
+
+  return configs.data!
+}
+
+const mapAndThrowZodConfigsError = (
+  errors: z.ZodError<InteropFEConfigs>,
+  stage: InteropFEConfigs['STAGE']
+) => {
+  const invalidEnvVars = errors.issues.flatMap((issue) => issue.path + ':' + issue.message)
+  throw new Error(
+    `Invalid or missing env vars within FE-interop app [stage=${stage}]: ${invalidEnvVars}`
+  )
+}
+
+export const {
+  BACKEND_FOR_FRONTEND_URL,
+  SELFCARE_LOGIN_URL: FE_LOGIN_URL,
+  SELFCARE_BASE_URL,
+  API_GATEWAY_INTERFACE_URL,
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+  CLIENT_ASSERTION_JWT_AUDIENCE,
+  API_SIGNAL_HUB_PULL_INTERFACE_URL,
+  API_SIGNAL_HUB_PUSH_INTERFACE_URL,
+  INTEROP_RESOURCES_BASE_URL,
+  MIXPANEL_PROJECT_ID,
+  ONETRUST_DOMAIN_SCRIPT_ID,
+  WELL_KNOWN_URLS,
+  PUBLIC_URL,
+  STAGE,
+  PRODUCER_ALLOWED_ORIGINS,
+  TEMP_USER_BLACKLIST_URL,
+  FEATURE_FLAG_SIGNALHUB_WHITELIST,
+  M2M_JWT_AUDIENCE,
+  SIGNALHUB_WHITELIST_CONSUMER,
+  SIGNALHUB_WHITELIST_PRODUCER,
+  NODE_ENV,
+} = parseConfigs()
+
+export const APP_MODE = parseAppMode()
 export const FE_URL = `${window.location.origin}${PUBLIC_URL}`
-
-export const INTEROP_RESOURCES_BASE_URL =
-  isProduction && PAGOPA_ENV
-    ? PAGOPA_ENV.INTEROP_RESOURCES_BASE_URL
-    : DEV_INTEROP_RESOURCES_BASE_URL
-export const ONETRUST_DOMAIN_SCRIPT_ID = (
-  isProduction && PAGOPA_ENV ? PAGOPA_ENV.ONETRUST_DOMAIN_SCRIPT_ID : DEV_ONETRUST_DOMAIN_SCRIPT_ID
-) as string
-export const MIXPANEL_PROJECT_ID =
-  isProduction && PAGOPA_ENV ? PAGOPA_ENV.MIXPANEL_PROJECT_ID : TEST_MIXPANEL_PROJECT_ID
-
-export const TEMP_USER_BLACKLIST_URL = `${INTEROP_RESOURCES_BASE_URL}/temp-blacklist.json`
-
-function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string): string {
-  return isProduction && PAGOPA_ENV ? PAGOPA_ENV[varName] : `${DEV_API_HOST_URL}/${devVarName}`
-}
-
-const SERVICE_VERSION = import.meta.env.REACT_APP_SERVICE_VERSION
-export const API_GATEWAY_V1_INTERFACE_URL = getEnvVar(
-  'API_GATEWAY_V1_INTERFACE_URL',
-  'swagger/docs/interface-specification.yml'
-)
-export const API_GATEWAY_V2_INTERFACE_URL = getEnvVar(
-  'API_GATEWAY_V2_INTERFACE_URL',
-  'swagger/docs/interface-specification.yml'
-)
-export const BACKEND_FOR_FRONTEND_URL = getEnvVar(
-  'BACKEND_FOR_FRONTEND_URL',
-  `${SERVICE_VERSION}/backend-for-frontend`
-)
-export const AUTHORIZATION_SERVER_TOKEN_CREATION_URL = getEnvVar(
-  'AUTHORIZATION_SERVER_TOKEN_CREATION_URL',
-  'authorization-server/token.oauth2'
-)
-export const CLIENT_ASSERTION_JWT_AUDIENCE =
-  isProduction && PAGOPA_ENV ? PAGOPA_ENV.CLIENT_ASSERTION_JWT_AUDIENCE : ''
-
-function getWellKnownUrls(wellKnownUrls: string | undefined) {
-  return wellKnownUrls?.split(',').filter((url) => !!url) || []
-}
-
-export const WELL_KNOWN_URLS =
-  isProduction && PAGOPA_ENV ? getWellKnownUrls(PAGOPA_ENV.WELL_KNOWN_URLS) : ['#']
-
-export const SELFCARE_BASE_URL =
-  isProduction && PAGOPA_ENV ? PAGOPA_ENV.SELFCARE_BASE_URL : 'https://uat.selfcare.pagopa.it'
-
-export const STAGE = PAGOPA_ENV?.STAGE ?? 'DEV'
-
-export const PRODUCER_ALLOWED_ORIGINS = PAGOPA_ENV?.PRODUCER_ALLOWED_ORIGINS.split(',')
-  .map((o) => o.trim())
-  .filter(Boolean) ?? ['IPA']
-
-export const API_SIGNAL_HUB_PUSH_INTERFACE_URL =
-  isProduction && PAGOPA_ENV
-    ? PAGOPA_ENV['API_SIGNAL_HUB_PUSH_INTERFACE_URL']
-    : `https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/main/docs/openAPI/push-signals.yaml`
-
-export const API_SIGNAL_HUB_PULL_INTERFACE_URL =
-  isProduction && PAGOPA_ENV
-    ? PAGOPA_ENV['API_SIGNAL_HUB_PULL_INTERFACE_URL']
-    : `https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/main/docs/openAPI/pull-signals.yaml`
-
-export const SIGNALHUB_PERSONAL_DATA_PROCESS_URL =
-  isProduction && PAGOPA_ENV ? PAGOPA_ENV['SIGNALHUB_PERSONAL_DATA_PROCESS_URL'] : ``
