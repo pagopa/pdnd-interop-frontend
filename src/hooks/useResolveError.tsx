@@ -11,18 +11,14 @@ import {
   UnauthorizedError,
 } from '@/utils/errors.utils'
 import type { FallbackProps } from 'react-error-boundary'
-import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
+import { FE_LOGIN_URL, APP_MODE, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
 import { Stack } from '@mui/system'
 import { assistanceLink } from '@/config/constants'
 import { CopyToClipboardButton } from '@pagopa/mui-italia'
 
-type UseResolveErrorReturnType = {
-  title: string
-  description: string
-  content: JSX.Element | null
-}
+type UseResolveErrorReturnType = { title: string; description: string; content: JSX.Element | null }
 
 function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnType {
   const { t } = useTranslation('error')
@@ -89,7 +85,9 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   if (error instanceof Error) {
     content = (
       <>
-        {isDevelopment && <CodeBlock code={error?.stack || error.message || error?.name} />}
+        {APP_MODE === 'development' && (
+          <CodeBlock code={error?.stack || error.message || error?.name} />
+        )}
         {reloadPageButton}
       </>
     )
@@ -110,7 +108,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     description = t('axiosError.description')
     content = (
       <>
-        {isDevelopment && <CodeBlock code={error.response ?? error} />}
+        {APP_MODE === 'development' && <CodeBlock code={error.response ?? error} />}
         {retryQueryButton}
         {correlationId && correlationIdSection}
       </>

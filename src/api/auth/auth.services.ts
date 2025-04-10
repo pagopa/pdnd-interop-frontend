@@ -1,5 +1,5 @@
 import axiosInstance from '@/config/axios'
-import { BACKEND_FOR_FRONTEND_URL, TEMP_USER_BLACKLIST_URL, isDevelopment } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL, TEMP_USER_BLACKLIST_URL, APP_MODE } from '@/config/env'
 import axios from 'axios'
 import type { SAMLTokenRequest, SessionToken } from '../api.generatedTypes'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
@@ -30,7 +30,7 @@ async function getSessionToken(): Promise<string | null> {
   }
 
   // 1. Check if there is a mock token: only used for dev purposes
-  if (isDevelopment && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+  if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
 
   // 2. See if we are coming from Self Care and have a new token
   const hasSelfCareIdentityToken = window.location.hash.includes('#id=')

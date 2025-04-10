@@ -1,5 +1,6 @@
 import type { PagoPAEnvVars } from '@/types/common.types'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
+import { InteropFEConfigs } from './env'
 
 export const DEFAULT_LANG = 'it'
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
@@ -42,7 +43,7 @@ export const eserviceNamingBestPracticeLink =
 export const keychainGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#garanzia-dellintegrita-della-risposta`
 export const keychainSetupGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#precondizioni`
 
-export const SH_ESERVICES_TO_HIDE_TEMP: Partial<Record<PagoPAEnvVars['STAGE'], Array<string>>> = {
+export const SH_ESERVICES_TO_HIDE_TEMP: Partial<Record<InteropFEConfigs['STAGE'], Array<string>>> = {
   ATT: ['9b6993ee-60e3-4901-9a32-e6987d690ec4'],
   UAT: [
     '7ab0a0fc-7d22-4007-b2f3-fddd68fe2f17',
