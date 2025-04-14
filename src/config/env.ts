@@ -1,5 +1,6 @@
 import type { ExtendedWindow } from '@/types/common.types'
 import { z } from 'zod'
+import { PUBLIC_URL } from './constants'
 
 const viteConfigMode = z.enum(['development', 'production', 'test'])
 type ViteConfigMode = z.infer<typeof viteConfigMode>
@@ -12,7 +13,6 @@ const GeneralConfigs = z.object({
   CLIENT_ASSERTION_JWT_AUDIENCE: z.string(),
   WELL_KNOWN_URLS: z.string(),
   PRODUCER_ALLOWED_ORIGINS: z.string(),
-  PUBLIC_URL: z.string().default('/ui'),
   M2M_JWT_AUDIENCE: z.string().optional(),
   SELFCARE_LOGIN_URL: z.string().url(),
   API_SIGNAL_HUB_PUSH_INTERFACE_URL: z.string().url(),
@@ -38,12 +38,10 @@ export type FEConfigs = z.infer<typeof FEConfigs>
 
 const transformedFEConfigs = FEConfigs.transform((c) => ({
   ...c,
-  PRODUCER_ALLOWED_ORIGINS: c.PRODUCER_ALLOWED_ORIGINS.split(',')
-    .map((o) => o.trim())
-    .filter(Boolean) ?? ['IPA'],
-  WELL_KNOWN_URLS: c.WELL_KNOWN_URLS.split(',')
-    .filter((url) => !!url)
-    .map((url) => url.trim()),
+  PRODUCER_ALLOWED_ORIGINS: c.PRODUCER_ALLOWED_ORIGINS
+    ? parseCommaSeparatedToArray(c.PRODUCER_ALLOWED_ORIGINS)
+    : ['IPA'],
+  WELL_KNOWN_URLS: parseCommaSeparatedToArray(c.WELL_KNOWN_URLS),
   SIGNALHUB_WHITELIST_CONSUMER: parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_CONSUMER),
   SIGNALHUB_WHITELIST_PRODUCER: parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_PRODUCER),
   TEMP_USER_BLACKLIST_URL: c.INTEROP_RESOURCES_BASE_URL + '/blacklist.json',
@@ -89,7 +87,6 @@ export const {
   MIXPANEL_PROJECT_ID,
   ONETRUST_DOMAIN_SCRIPT_ID,
   WELL_KNOWN_URLS,
-  PUBLIC_URL,
   STAGE,
   PRODUCER_ALLOWED_ORIGINS,
   TEMP_USER_BLACKLIST_URL,
