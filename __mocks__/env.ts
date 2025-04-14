@@ -1,6 +1,7 @@
 const localhost = 'http://localhost:3000/0.0'
 
 export const testConfigs = {
+  NODE_ENV: 'test',
   STAGE: 'DEV',
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: 'https://auth.dev.interop.pagopa.it/token.oauth2',
   SELFCARE_LOGIN_URL: 'https://uat.selfcare.pagopa.it/',
@@ -22,6 +23,5 @@ export const testConfigs = {
   SIGNALHUB_WHITELIST_CONSUMER:
     '69e2865e-65ab-4e48-a638-2037a9ee2ee7,e79a24cd-8edc-441e-ae8d-e87c3aea0059',
   SIGNALHUB_WHITELIST_PRODUCER: '69e2865e-65ab-4e48-a638-2037a9ee2ee7',
-  NODE_ENV: 'test',
   PUBLIC_URL: '/ui',
 }

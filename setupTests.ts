@@ -4,11 +4,6 @@ import { cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 import { testConfigs } from './__mocks__/env'
 
-beforeAll(() => {
-  // https://vitest.dev/guide/mocking.html
-  vi.stubGlobal('pagopa_env', testConfigs)
-})
-
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup()
@@ -22,6 +17,8 @@ global.crypto.randomUUID = () =>
   Math.random().toString() as `${string}-${string}-${string}-${string}-${string}`
 
 vi.stubGlobal('scroll', vi.fn())
+vi.stubGlobal('pagopa_env', testConfigs)
+
 vi.mock('zustand')
 vi.mock('react-i18next')
 
