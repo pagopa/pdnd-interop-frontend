@@ -2,6 +2,12 @@ import { afterEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 // extends Vitest's expect method with methods from react-testing-library
 import '@testing-library/jest-dom/vitest'
+import { testConfigs } from './__mocks__/env'
+
+beforeAll(() => {
+  // https://vitest.dev/guide/mocking.html
+  vi.stubGlobal('pagopa_env', testConfigs)
+})
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
