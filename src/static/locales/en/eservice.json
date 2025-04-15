@@ -24,10 +24,6 @@
         "label": "E-service name",
         "infoLabel": "Min 5 chars, max 60 chars"
       },
-      "istanceNameField": {
-        "label": " Instance ID (optional)",
-        "infoLabel": "Min 5 caratteri, max 60 caratteri"
-      },
       "eserviceDescriptionField": {
         "label": "E-service description",
         "infoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
@@ -62,8 +58,7 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
         }
       },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published",
-      "alertInstanceLabelRequired": "An instance has already been created from this template. To make it easier to differentiate, add an instance identifier."
+      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
@@ -341,9 +336,6 @@
         "eserviceTempalteName": {
           "label": "Template reference"
         },
-        "instanceLabel": {
-          "label": "Instance Id"
-        },
         "eserviceName": {
           "label": "E-Service name"
         },
@@ -437,17 +429,6 @@
           "infoLabel": "Min 5 chars, max 60 chars",
           "validation": {
             "sameValue": "The e-service name must be different from the current one"
-          }
-        }
-      },
-      "updateEserviceInstanceLabelDrawer": {
-        "title": "Edit instance id",
-        "subtitle": "From this panel you can update the instance id of the e-service. The changes made will take effect immediately.",
-        "eserviceInstanceLabelField": {
-          "label": "Instance id",
-          "infoLabel": "Min 5 chars, max 60 chars",
-          "validation": {
-            "sameValue": "The instance id of the e-service must be different from the current one"
           }
         }
       },

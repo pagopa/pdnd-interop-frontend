@@ -12,7 +12,7 @@ import {
 } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate, useParams } from '@/router'
-import { EServiceMutations, EServiceQueries } from '@/api/eservice'
+import { EServiceMutations } from '@/api/eservice'
 import type {
   EServiceMode,
   EServiceTechnology,
@@ -34,7 +34,6 @@ import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'
-import { useQuery } from '@tanstack/react-query'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -44,7 +43,6 @@ export type EServiceCreateStepGeneralFormValues = {
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
-  instanceLabel?: string
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
@@ -93,7 +91,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           ? updateDraftFromTemplate(
               {
                 eServiceId: descriptor.eservice.id,
-                instanceLabel: formValues.instanceLabel,
                 isClientAccessDelegable: formValues.isClientAccessDelegable,
                 isConsumerDelegable: formValues.isConsumerDelegable,
                 isSignalHubEnabled: formValues.isSignalHubEnabled,
@@ -129,7 +126,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       })
     } else {
       const body: InstanceEServiceSeed & { eServiceTemplateId: string } = {
-        ...(formValues.instanceLabel && { instanceLabel: formValues.instanceLabel }),
         eServiceTemplateId: eServiceTemplateId,
         isClientAccessDelegable: formValues.isClientAccessDelegable,
         isConsumerDelegable: formValues.isConsumerDelegable,
@@ -148,13 +144,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       })
     }
   }
-
-  const templateName = template?.name || descriptor?.templateRef?.templateName
-
-  const { data: isEserviceNameAvailable, isLoading: isEserviceNameAvailableLoading } = useQuery({
-    ...EServiceQueries.getIsEServiceNameAvailable(templateName as string),
-    enabled: isEserviceFromTemplate,
-  })
 
   return (
     <FormProvider {...formMethods}>
@@ -186,13 +175,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           }
           component="div"
         >
-          {!isEserviceNameAvailable &&
-            isEserviceFromTemplate &&
-            !isEserviceNameAvailableLoading && (
-              <Alert severity="warning" sx={{ mb: 3 }}>
-                {t('create.step1.alertInstanceLabelRequired')}
-              </Alert>
-            )}
           <RHFTextField
             label={t('create.step1.eserviceNameField.label')}
             infoLabel={t('create.step1.eserviceNameField.infoLabel')}
@@ -204,18 +186,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             size="small"
             sx={{ width: '49%', my: 0, mt: 1 }}
           />
-          {isEserviceFromTemplate && (
-            <RHFTextField
-              label={t('create.step1.istanceNameField.label')}
-              infoLabel={t('create.step1.eserviceNameField.infoLabel')}
-              name="instanceLabel"
-              rules={{ required: isEserviceNameAvailable ? undefined : true, minLength: 5 }}
-              focusOnMount
-              inputProps={{ maxLength: 60 }}
-              size="small"
-              sx={{ width: '49%', my: 0, mt: 1, ml: 2 }}
-            />
-          )}
 
           <RHFTextField
             label={t('create.step1.eserviceDescriptionField.label')}
@@ -390,11 +360,9 @@ function evaluateFormDefaultValues(
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
-      instanceLabel: descriptor?.templateRef?.instanceLabel ?? undefined,
     }
 
   return {
-    instanceLabel: descriptor?.templateRef?.instanceLabel ?? '',
     name: template?.name,
     description: template?.description,
     technology: template?.technology,

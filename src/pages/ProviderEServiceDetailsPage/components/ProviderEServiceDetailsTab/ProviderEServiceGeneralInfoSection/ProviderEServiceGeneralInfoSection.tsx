@@ -17,7 +17,6 @@ import { trackEvent } from '@/config/tracking'
 import { isAxiosError } from 'axios'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
-import { ProviderEServiceFromTemplateUpdateInstanceLabelDrawer } from './ProviderEServiceFromTemplateUpdateInstanceLabelDrawer'
 import { Link } from '@/router'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
@@ -64,12 +63,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     isOpen: isEServiceUpdateDescriptionDrawerOpen,
     openDrawer: openEServiceUpdateDescriptionDrawer,
     closeDrawer: closeEServiceUpdateDescriptionDrawer,
-  } = useDrawerState()
-
-  const {
-    isOpen: isEServiceUpdateInstanceLabelDrawerOpen,
-    openDrawer: openEServiceUpdateInstanceLabelDrawer,
-    closeDrawer: closeEServiceUpdateInstanceLabelDrawer,
   } = useDrawerState()
 
   const handleDownloadConsumerList = () => {
@@ -145,18 +138,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     )
   }
 
-  //TODO: Is not available yet from BE
-  const handleInstanceLabelUpdate = (eserviceId: string, name: string) => {
-    //TODO
-    /*updateEserviceName(
-      {
-        eserviceId: eserviceId,
-        name: name,
-      },
-      { onSuccess: closeEServiceUpdateNameDrawer }
-    )*/
-  }
-
   return (
     <>
       <SectionContainer
@@ -186,26 +167,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                   </Link>
                 }
               />
-              <Divider />
-              <SectionContainer
-                innerSection
-                title={t('instanceLabel.label')}
-                titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-                //TODO: Remove this once the function call is implemented (missing BE API)
-                // topSideActions={
-                //   isDelegator
-                //     ? []
-                //     : [
-                //         {
-                //           action: openEServiceUpdateInstanceIdDrawer,
-                //           label: tCommon('actions.edit'),
-                //           icon: EditIcon,
-                //         },
-                //       ]
-                // }
-              >
-                <Typography variant="body2">{descriptor.templateRef?.instanceLabel}</Typography>
-              </SectionContainer>
             </>
           ) : (
             <>
@@ -288,13 +249,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         label={tDrawer('updateEServiceNameDrawer.eserviceNameField.label')}
         infoLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.infoLabel')}
         validateLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.validation.sameValue')}
-        onSubmit={handleNameUpdate}
-      />
-      <ProviderEServiceFromTemplateUpdateInstanceLabelDrawer
-        isOpen={isEServiceUpdateInstanceLabelDrawerOpen}
-        onClose={closeEServiceUpdateInstanceLabelDrawer}
-        id={descriptor.eservice.id}
-        instanceLabel={descriptor.templateRef?.instanceLabel as string}
         onSubmit={handleNameUpdate}
       />
     </>

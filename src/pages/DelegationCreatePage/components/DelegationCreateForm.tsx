@@ -16,7 +16,6 @@ import { AgreementQueries } from '@/api/agreement'
 import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { EServiceQueries } from '@/api/eservice'
 
 export type DelegationCreateFormValues = {
@@ -24,7 +23,6 @@ export type DelegationCreateFormValues = {
   eserviceName: string
   eserviceDescription: string
   delegateId: string
-  instanceLabel?: string
   isEserviceFromTemplate?: boolean
 }
 
@@ -133,7 +131,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         {
           delegateId: formValues.delegateId,
           eServiceTemplateId: formValues.eserviceId,
-          instanceLabel: formValues.instanceLabel,
         },
         {
           onSuccess: () => {
@@ -222,16 +219,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
                   ? t('delegations.create.isDelegatedAlert')
                   : t('delegations.create.hasAgreementsAlert')}
               </Alert>
-            )}
-            {isEserviceToBeCreated && isEserviceFromTemplate && (
-              <RHFTextField
-                name="instanceLabel"
-                label={t('delegations.create.instanceField.label')}
-                infoLabel={t('delegations.create.instanceField.infoLabel')}
-                inputProps={{ maxLength: 60 }}
-                rules={{ required: isEserviceNameAvailable ? undefined : true, minLength: 5 }}
-                sx={{ my: 2 }}
-              />
             )}
           </Stack>
         </SectionContainer>
