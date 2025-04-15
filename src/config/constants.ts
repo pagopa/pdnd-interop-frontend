@@ -19,8 +19,6 @@ export const pagoPaLink = {
   title: 'Vai al sito di PagoPA S.p.A.',
 }
 
-export const PUBLIC_URL = '/ui'
-
 export const documentationLink = 'https://docs.pagopa.it/interoperabilita-1'
 export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${getCurrentSelfCareProductId()}`
 export const attributesHelpLink = `${documentationLink}/manuale-operativo/attributi`

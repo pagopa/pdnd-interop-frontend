@@ -1,6 +1,5 @@
 import type { ExtendedWindow } from '@/types/common.types'
 import { z } from 'zod'
-import { PUBLIC_URL } from './constants'
 
 const viteConfigMode = z.enum(['development', 'production', 'test'])
 type ViteConfigMode = z.infer<typeof viteConfigMode>
@@ -98,5 +97,5 @@ export const {
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()
-
+export const PUBLIC_URL = '/ui'
 export const FE_URL = `${window.location.origin}${PUBLIC_URL}`
