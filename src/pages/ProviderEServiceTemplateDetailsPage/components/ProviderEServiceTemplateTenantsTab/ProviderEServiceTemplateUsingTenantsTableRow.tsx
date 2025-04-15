@@ -21,7 +21,6 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
       key={instance.latestDescriptor?.id}
       cellData={[
         `${instance.producerName}`,
-        `${instance.instanceLabel ?? '-'}`,
         `${
           getStateByTemplateVersion(
             instance.latestDescriptor?.templateVersionId as string,
@@ -31,7 +30,7 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
         instance.latestDescriptor?.state ? (
           <StatusChip
             for="eservice"
-            key={instance.instanceLabel}
+            key={instance.latestDescriptor.id}
             state={instance.latestDescriptor?.state as EServiceDescriptorState}
           />
         ) : (
