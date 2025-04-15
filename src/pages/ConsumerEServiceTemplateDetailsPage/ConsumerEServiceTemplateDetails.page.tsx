@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
 import { ConsumerEServiceTemplateDetails } from './components'
 import { useGetConsumerEServiceTemplateActions } from './hooks/useGetConsumerEServiceTemplateActions'
+import { disable } from 'mixpanel-browser'
 
 const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'read' })
@@ -16,7 +17,11 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  const { actions } = useGetConsumerEServiceTemplateActions(eServiceTemplateId, template?.state)
+  const { actions } = useGetConsumerEServiceTemplateActions(
+    eServiceTemplateId,
+    template?.eserviceTemplate.name ?? '',
+    template?.state
+  )
   return (
     <PageContainer
       title={template?.eserviceTemplate.name || ''}

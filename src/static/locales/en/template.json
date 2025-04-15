@@ -156,7 +156,8 @@
     }
   },
   "actions": {
-    "createNewEServiceInstance": "Use template"
+    "createNewEServiceInstance": "Use template",
+    "createNewEServiceInstanceDisabled": "You have already created an instance from this\ntemplate."
   },
   "createInstance": {
     "title": "Create e-service from template",
