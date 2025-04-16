@@ -1,4 +1,4 @@
-import type { Document } from '@/api/api.generatedTypes'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { Box, Button, Divider, Stack, Tooltip, Typography } from '@mui/material'
 import React from 'react'
@@ -31,8 +31,8 @@ type EServiceTemplateUpdateDocumentationDrawerProps = {
   onClose: VoidFunction
   templateId: string
   templateVersionId: string
-  interfaceDocs?: Document
-  templateDocs: Document[]
+  interfaceDocs?: EServiceDoc
+  templateDocs: EServiceDoc[]
 }
 
 export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
@@ -104,7 +104,7 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
     )
   }
 
-  const handleDeleteDocument = (document: Document) => {
+  const handleDeleteDocument = (document: EServiceDoc) => {
     //if (!descriptor) return
     // check if the only document in the current page, that means we should go to the previous page when this is deleted
     const isTheOnlyDocumentInCurrentPage = paginatedDocs.length === 1
@@ -135,7 +135,7 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
     })
   }
 
-  const handleDownloadDocument = (document: Document) => {
+  const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
         eServiceTemplateId: templateId,
@@ -242,8 +242,8 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
 }
 
 type InterfaceDocumentContainerProps = {
-  doc: Document
-  onDownload?: (document: Document) => void
+  doc: EServiceDoc
+  onDownload?: (document: EServiceDoc) => void
 }
 
 const InterfaceDocumentContainer: React.FC<InterfaceDocumentContainerProps> = ({

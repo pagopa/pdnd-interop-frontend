@@ -1,16 +1,16 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { DocumentContainer } from '../DocumentContainer'
-import type { Document } from '@/api/api.generatedTypes'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
-const docMock: Document = {
+const docMock: EServiceDoc = {
   id: '1',
   name: 'name',
   contentType: 'pdf',
   prettyName: 'document',
-  createdAt: '2023-02-15T09:32:57.053Z',
+  checksum: 'test',
 }
 
 describe('DocumentContainer', () => {
