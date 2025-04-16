@@ -45,16 +45,13 @@ export function useGetConsumerEServiceTemplateActions(
       </span>
     ))
 
-  const newEServiceFromTemplateActionDisabled = !isLoading && !isFirstInstanceFromTemplate
-
   const newEServiceFromTemplateAction: ActionItemButton = {
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: newEServiceFromTemplateActionDisabled,
-    tooltip: newEServiceFromTemplateActionDisabled
-      ? (tooltipLabel as unknown as string)
-      : undefined,
+    disabled: !isLoading && !isFirstInstanceFromTemplate,
+    tooltip:
+      !isLoading && !isFirstInstanceFromTemplate ? (tooltipLabel as unknown as string) : undefined,
   }
 
   const publishedConsumerActions = [newEServiceFromTemplateAction]
