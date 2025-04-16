@@ -93,8 +93,12 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
 
   const onSubmit = async (formValues: DelegationCreateFormValues) => {
     openDialog({
-      type: 'delegations',
-      onConfirm: () => onConfirm(formValues),
+      type: 'basic',
+      onProceed: () => onConfirm(formValues),
+      title: t('delegations.create.dialog.title'),
+      description: t('delegations.create.dialog.description'),
+      checkbox: t('delegations.create.dialog.checkboxLabel'),
+      proceedLabel: t('delegations.create.dialog.proceedLabel'),
     })
   }
 
