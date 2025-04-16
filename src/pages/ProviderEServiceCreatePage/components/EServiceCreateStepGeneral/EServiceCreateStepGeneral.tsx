@@ -276,7 +276,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                         <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
                           {t('create.step1.isSignalHubEnabled.infoLabel.before')}{' '}
                           <IconLink
-                            href={''} //TODO
+                            href={''} //TODO: Link not yet available
                             target="_blank"
                             endIcon={<LaunchIcon fontSize="small" />}
                           >

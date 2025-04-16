@@ -6,7 +6,7 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { Document } from '@/api/api.generatedTypes'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateDownloads } from '@/api/template/template.downloads'
 import { TemplateMutations } from '@/api/template'
@@ -28,8 +28,7 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     prettyName: t('create.step4.interface.prettyName'),
   }
 
-  const actualInterface: Document | null =
-    (templateVersion?.interface as unknown as Document) ?? null // TODO: This has
+  const actualInterface: EServiceDoc | null = templateVersion?.interface ?? null
 
   const formMethods = useForm({
     defaultValues,

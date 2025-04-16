@@ -2,7 +2,6 @@ import type {
   DelegationWithCompactTenants,
   EServiceDescriptorState,
   EServiceMode,
-  EServiceTemplateRef,
 } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { useNavigate } from '@/router'
@@ -14,12 +13,10 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import PublishIcon from '@mui/icons-material/Publish'
 import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
-import { waitFor } from '@/utils/common.utils'
 
 export function useGetProviderEServiceActions(
   eserviceId: string,

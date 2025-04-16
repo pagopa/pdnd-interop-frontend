@@ -15,14 +15,14 @@ export const EServiceTemplateUsefulLinksSection: React.FC = () => {
     <SectionContainer innerSection title={t('usefulLinks.title')}>
       <Stack alignItems="start" mt={1} spacing={0.5}>
         <IconLink
-          href="" //TODO
+          href="" //TODO: Link not yet available
           target="_blank"
           startIcon={<LaunchIcon fontSize="small" />}
         >
           {t('usefulLinks.implementAndManageEServiceTemplate')}
         </IconLink>
         <IconLink
-          href="" //TODO
+          href="" //TODO: Link not yet available
           target="_blank"
           startIcon={<LaunchIcon fontSize="small" />}
         >
