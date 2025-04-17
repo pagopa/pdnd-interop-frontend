@@ -24,10 +24,6 @@
         "label": "Nome dell'e-service",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
-      "istanceNameField": {
-        "label": "Identificativo istanza (opzionale)",
-        "infoLabel": "Min 5 caratteri, max 60 caratteri"
-      },
       "eserviceDescriptionField": {
         "label": "Descrizione dell'e-service",
         "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
@@ -62,8 +58,7 @@
           "checkboxLabel": "Autorizzo che i delegati possano associare i propri client alle finalità che hanno creato in qualità di delegati alla fruizione. Consulta la <1>documentazione</1> per approfondire"
         }
       },
-      "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
-      "alertInstanceLabelRequired": "È già stata creata una istanza da questo template. Per facilitarne la differenziazione, aggiungi un identificativo istanza."
+      "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
@@ -341,9 +336,6 @@
         "eserviceTempalteName": {
           "label": "Riferimento template"
         },
-        "instanceLabel": {
-          "label": "Identificativo istanza"
-        },
         "eserviceName": {
           "label": "Nome dell’e-service"
         },
@@ -437,17 +429,6 @@
           "infoLabel": "Min 5 caratteri, max 60 caratteri",
           "validation": {
             "sameValue": "Il nome dell'e-service deve essere diverso da quella attuale"
-          }
-        }
-      },
-      "updateEserviceInstanceLabelDrawer": {
-        "title": "Modifica identificativo istanza e-service",
-        "subtitle": "Da questo pannello puoi aggiornare l'identificativo dell'istanza dell’e-service. Le modifiche apportate avranno effetto da subito.",
-        "eserviceInstanceLabelField": {
-          "label": "Identificativo istanza",
-          "infoLabel": "Min 5 caratteri, max 60 caratteri",
-          "validation": {
-            "sameValue": "L'identificativo dell'istanza dell'e-service deve essere diverso da quello attuale"
           }
         }
       },

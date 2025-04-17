@@ -70,7 +70,6 @@
       "delegatorName": "Delega richiesta da",
       "delegateName": "Delega conferita a",
       "eserviceTemplateUsingTenant": "Ente",
-      "eserviceTemplateInstanceLabel": "Suffisso istanza",
       "eserviceTemplateInstanceVersion": "Versione template",
       "eserviceTemplateInstanceState": "Stato istanza",
       "templateName": "Template"
