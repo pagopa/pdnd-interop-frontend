@@ -18,7 +18,7 @@ export function useGetProviderEServiceTemplateActions(
   draftVersionId: string | undefined,
   activeVersionState: EServiceTemplateVersionState | undefined,
   draftVersionState: EServiceTemplateVersionState | undefined,
-  mode: EServiceMode | undefined //TODO
+  mode: EServiceMode | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 

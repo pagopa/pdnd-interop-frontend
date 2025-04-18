@@ -169,7 +169,6 @@ async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreat
   return response.data
 }
 
-// TODO: To be filled
 async function downloadConsumerList({ eServiceTemplateId }: { eServiceTemplateId: string }) {
   const response = await axiosInstance.get<File>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/instances`,
@@ -322,7 +321,7 @@ async function reactivateVersion({
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/versions/${eServiceTemplateVersionId}/activate`
   )
 }
-// TODO: To fix
+
 async function getProviderTemplateInstancesList({
   eServiceTemplateId,
   ...params

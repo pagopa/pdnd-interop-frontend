@@ -156,7 +156,8 @@
     }
   },
   "actions": {
-    "createNewEServiceInstance": "Usa template"
+    "createNewEServiceInstance": "Usa template",
+    "createNewEServiceInstanceDisabled": "Hai già creato una istanza da questo\ntemplate."
   },
   "createInstance": {
     "title": "Crea e-service da template",

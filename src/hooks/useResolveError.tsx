@@ -95,10 +95,6 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     )
   }
 
-  if ((isRouteErrorResponse(error) && error.status === 404) || error instanceof NotFoundError) {
-    content = <Redirect to="NOT_FOUND" />
-  }
-
   if (error instanceof ForbiddenError) {
     title = t('forbidden.title')
     description = t('forbidden.description')
@@ -115,6 +111,10 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
         {correlationId && correlationIdSection}
       </>
     )
+  }
+
+  if ((isRouteErrorResponse(error) && error.status === 404) || error instanceof NotFoundError) {
+    content = <Redirect to="NOT_FOUND" />
   }
 
   if (error instanceof TokenExchangeError) {
