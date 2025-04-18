@@ -12,6 +12,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 import { formatDateString } from '@/utils/format.utils'
+import { ProviderEServiceAgreementApprovalPolicySection } from './ProviderEServiceAgreementApprovalPolicySection'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
@@ -95,6 +96,10 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
         </SectionContainer>
         <Divider />
         <ProviderEServiceThresholdsSection descriptor={descriptor} />
+        <Divider />
+        {FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_EDITABLE && (
+          <ProviderEServiceAgreementApprovalPolicySection descriptor={descriptor} />
+        )}
         <Divider />
         <ProviderEServiceDocumentationSection descriptor={descriptor} />
         <Divider />
