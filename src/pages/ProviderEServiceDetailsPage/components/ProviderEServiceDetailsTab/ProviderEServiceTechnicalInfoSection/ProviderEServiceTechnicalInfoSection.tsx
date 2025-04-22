@@ -9,7 +9,11 @@ import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsS
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
+import {
+  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_EDITABLE,
+  FEATURE_FLAG_SIGNALHUB_WHITELIST,
+  SIGNALHUB_WHITELIST_PRODUCER,
+} from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 import { formatDateString } from '@/utils/format.utils'
 import { ProviderEServiceAgreementApprovalPolicySection } from './ProviderEServiceAgreementApprovalPolicySection'
@@ -98,9 +102,11 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
         <ProviderEServiceThresholdsSection descriptor={descriptor} />
         <Divider />
         {FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_EDITABLE && (
-          <ProviderEServiceAgreementApprovalPolicySection descriptor={descriptor} />
+          <>
+            <ProviderEServiceAgreementApprovalPolicySection descriptor={descriptor} />
+            <Divider />
+          </>
         )}
-        <Divider />
         <ProviderEServiceDocumentationSection descriptor={descriptor} />
         <Divider />
         <ProviderEServiceUsefulLinksSection />
