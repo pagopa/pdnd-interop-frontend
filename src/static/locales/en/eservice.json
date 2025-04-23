@@ -416,10 +416,11 @@
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
-        "title": "Agreements",
+        "title": "Agreements approval",
         "subtitle": "From this panel you can establish how the agreements that the institutions will formulate towards this e-service are managed.",
         "agreementApprovalPolicyField": {
-          "label": "Manual approval"
+          "labelManual": "Manual approval",
+          "labelAutomatic": "Automatic approval"
         }
       },
       "technicalInfoDrawer": {
