@@ -1,7 +1,7 @@
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFRadioGroup, RHFSwitch } from '@/components/shared/react-hook-form-inputs'
+import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
