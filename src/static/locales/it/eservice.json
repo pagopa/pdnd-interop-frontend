@@ -419,8 +419,7 @@
         "title": "Accettazione richieste di fruizione",
         "subtitle": "Da questo pannello puoi stabilire come vengono gestite le richieste di fruizione che gli enti formuleranno verso questo e-service.",
         "agreementApprovalPolicyField": {
-          "labelManual": "Attivazione manuale",
-          "labelAutomatic": "Attivazione automatica"
+          "label": "Attivazione manuale"
         }
       },
       "technicalInfoDrawer": {

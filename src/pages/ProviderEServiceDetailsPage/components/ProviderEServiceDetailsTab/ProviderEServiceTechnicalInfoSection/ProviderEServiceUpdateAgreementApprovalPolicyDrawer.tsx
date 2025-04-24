@@ -1,14 +1,14 @@
-import type { AgreementApprovalPolicy, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { EServiceMutations } from '@/api/eservice'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup, RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 type UpdateAgreementApprovalPolicyFormValues = {
-  agreementApprovalPolicy: AgreementApprovalPolicy
+  isAgreementApprovalPolicyManual: boolean
 }
 
 type ProviderEServiceUpdateAgreementApprovalPolicyDrawerProps = {
@@ -29,14 +29,15 @@ export const ProviderEServiceUpdateAgreementApprovalPolicyDrawer: React.FC<
     EServiceMutations.useUpdateAgreementApprovalPolicy()
 
   const defaultValues = {
-    agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+    isAgreementApprovalPolicyManual: descriptor.agreementApprovalPolicy === 'MANUAL' ? true : false,
   }
 
   const formMethods = useForm<UpdateAgreementApprovalPolicyFormValues>({ defaultValues })
 
   React.useEffect(() => {
     formMethods.reset({
-      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+      isAgreementApprovalPolicyManual:
+        descriptor.agreementApprovalPolicy === 'MANUAL' ? true : false,
     })
   }, [descriptor, formMethods])
 
@@ -45,7 +46,7 @@ export const ProviderEServiceUpdateAgreementApprovalPolicyDrawer: React.FC<
       {
         eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
-        agreementApprovalPolicy: values.agreementApprovalPolicy,
+        agreementApprovalPolicy: values.isAgreementApprovalPolicyManual ? 'MANUAL' : 'AUTOMATIC',
       },
       { onSuccess: onClose }
     )
@@ -73,18 +74,9 @@ export const ProviderEServiceUpdateAgreementApprovalPolicyDrawer: React.FC<
         onTransitionExited={handleTransitionExited}
       >
         <Box component="form" noValidate>
-          <RHFRadioGroup
-            name="agreementApprovalPolicy"
-            options={[
-              {
-                label: t('agreementApprovalPolicyField.labelManual'),
-                value: 'MANUAL',
-              },
-              {
-                label: t('agreementApprovalPolicyField.labelAutomatic'),
-                value: 'AUTOMATIC',
-              },
-            ]}
+          <RHFSwitch
+            name="isAgreementApprovalPolicyManual"
+            label={t('agreementApprovalPolicyField.label')}
           />
         </Box>
       </Drawer>
