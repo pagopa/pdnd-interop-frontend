@@ -2573,8 +2573,8 @@ export namespace Eservices {
    * No description
    * @tags eservices
    * @name UpdateAgreementApprovalPolicy
-   * @summary Update descriptor agreement approval policy
-   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/agreementApprovalPolicy
+   * @summary Update agreement approval policy of published descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/agreementApprovalPolicy/update
    * @secure
    */
   export namespace UpdateAgreementApprovalPolicy {
