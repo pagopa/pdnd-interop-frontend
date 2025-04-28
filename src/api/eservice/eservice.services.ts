@@ -215,7 +215,7 @@ function updateAgreementApprovalPolicy({
   descriptorId: string
 } & UpdateEServiceDescriptorAgreementApprovalPolicySeed) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/agreementApprovalPolicy`,
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/agreementApprovalPolicy/update`,
     payload
   )
 }
