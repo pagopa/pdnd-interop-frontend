@@ -288,7 +288,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 label={t('create.step1.delegationSection.delegationField.switchLabel')}
                 name="isConsumerDelegable"
                 disabled={!areEServiceGeneralInfoEditable}
-                sx={{ my: 0 }}
+                sx={{ my: 0, ml: 1 }}
               />
             </SectionContainer>
 
