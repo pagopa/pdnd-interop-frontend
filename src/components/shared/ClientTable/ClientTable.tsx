@@ -5,6 +5,7 @@ import { ClientTableRow, ClientTableRowSkeleton } from './ClientTableRow'
 import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import type { ClientKind, GetClientsParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { FEATURE_FLAG_ADMIN_CLIENT_API } from '@/config/env'
 
 interface ClientTableProps {
   clientKind: ClientKind
@@ -50,7 +51,9 @@ const ClientTableWrapper: React.FC<{
   const { t } = useTranslation('client')
   const { data: clients } = useSuspenseQuery(ClientQueries.getList(params))
 
-  const headLabels = [tCommon('clientName'), '']
+  const headLabels = FEATURE_FLAG_ADMIN_CLIENT_API
+    ? [tCommon('clientName'), tCommon('clientAdminName'), '']
+    : [tCommon('clientName'), '']
   const isEmpty = clients.results.length === 0
 
   return (
