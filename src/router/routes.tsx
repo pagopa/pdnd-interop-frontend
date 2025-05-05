@@ -41,6 +41,7 @@ import {
   ProviderKeychainDetailsPage,
   ProviderKeychainUserDetailsPage,
   ProviderKeychainPublicKeyDetailsPage,
+  RiskAnalysisEServiceAssociatedPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -436,6 +437,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'WATCH_RISK_ANALISIS_FOR_ESERVICE',
+    path: '/erogazione/e-service/:eserviceId/:descriptorId/finalita',
+    element: <RiskAnalysisEServiceAssociatedPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
   })
   .build()
 
