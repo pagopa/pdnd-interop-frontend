@@ -185,6 +185,18 @@
           "label": "Vai a richiesta di fruizione"
         }
       },
+      "technicalInformations": {
+        "title": "Specifiche tecniche finalità",
+        "description": "In questa sezione potrai verificare le specifiche della finalità.",
+        "purposeField": {
+          "label": "ID finalità",
+          "copySuccessFeedbackText": "ID copiato correttamente"
+        },
+        "consumerField": {
+          "label": "ID fruitore",
+          "copySuccessFeedbackText": "ID copiato correttamente"
+        }
+      },
       "loadEstimate": {
         "title": "Stima di carico",
         "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
