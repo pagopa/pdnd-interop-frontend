@@ -299,7 +299,8 @@
           "showTechnicalDetails": "Show e-service technical details",
           "downloadConsumerList": "Download consumer list",
           "showProducerContacts": "Show producer contacts",
-          "exportVersion": "Download this e-service version"
+          "exportVersion": "Download this e-service version",
+          "watchRiskyAnalysisAssociated": "Consult risky analysis associated to this e-service"
         }
       },
       "technicalInformations": {

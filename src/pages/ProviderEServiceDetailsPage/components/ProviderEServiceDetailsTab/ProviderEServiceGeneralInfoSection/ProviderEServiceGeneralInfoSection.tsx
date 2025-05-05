@@ -7,6 +7,7 @@ import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
+import InsertLinkIcon from '@mui/icons-material/InsertLink'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
@@ -101,14 +102,24 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     label: t('bottomActions.exportVersion'),
   }
 
+  const watchRiskyAnalysisAssociatedAction = {
+    startIcon: <InsertLinkIcon fontSize="small" />,
+    component: 'button',
+    onClick: () => alert('ciao'),
+    label: t('bottomActions.watchRiskyAnalysisAssociated'),
+  }
+
+  const isAtLeastOneRiskyAnalysisAssociated =
+    descriptor.eservice.riskAnalysis && descriptor.eservice.riskAnalysis.length > 0
   return (
     <>
       <SectionContainer
         title={t('title')}
         bottomActions={[
           ...(!hasSingleVersion ? [navigateVersionsAction] : []),
+          ...(isAtLeastOneRiskyAnalysisAssociated ? [exportVersionListAction] : []),
+          watchRiskyAnalysisAssociatedAction,
           downloadConsumerListAction,
-          exportVersionListAction,
         ]}
       >
         <Stack spacing={2}>
