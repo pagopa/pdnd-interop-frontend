@@ -185,6 +185,18 @@
           "label": "Go to agreement"
         }
       },
+      "technicalInformations": {
+        "title": "Purpose technical informations",
+        "description": "In this section you can check the technical informations of the purpose.",
+        "purposeField": {
+          "label": "Purpose ID",
+          "copySuccessFeedbackText": "Purpose id copied successfully"
+        },
+        "consumerField": {
+          "label": "Consumer ID",
+          "copySuccessFeedbackText": "Consumer id copied successfully"
+        }
+      },
       "loadEstimate": {
         "title": "Load estimate",
         "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
