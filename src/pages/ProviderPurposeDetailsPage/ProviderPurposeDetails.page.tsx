@@ -17,6 +17,7 @@ import useGetPurposeStateAlertProps from './hooks/useGetPurposeStateAlertProps'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useQuery } from '@tanstack/react-query'
+import { ProviderPurposeDetailsTechnicalInfoSection } from './components/ProviderPurposeDetailsTechnicalInfoSection'
 
 const ProviderPurposeDetailsPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -68,6 +69,7 @@ const ProviderPurposeDetailsPage: React.FC = () => {
           ) : (
             <Stack spacing={3}>
               <ProviderPurposeDetailsGeneralInfoSection purpose={purpose} />
+              <ProviderPurposeDetailsTechnicalInfoSection purpose={purpose} />
               <ProviderPurposeDetailsLoadEstimateSection
                 purpose={purpose}
                 openRejectReasonDrawer={openDrawer}

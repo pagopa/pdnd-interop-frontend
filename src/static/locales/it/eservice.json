@@ -370,6 +370,10 @@
           "label": "ID versione",
           "copySuccessFeedbackText": "ID copiato correttamente"
         },
+        "producerId": {
+          "label": "ID erogatore",
+          "copySuccessFeedbackText": "ID copiato correttamente"
+        },
         "publishedAt": "Data ultima versione",
         "suspendedAt": "Data ultima sospensione",
         "deprecatedAt": "Data deprecazione versione",
