@@ -7,7 +7,7 @@ import type { ClientKind, GetClientsParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { FEATURE_FLAG_ADMIN_CLIENT_API } from '@/config/env'
 
-interface ClientTableProps {
+type ClientTableProps = {
   clientKind: ClientKind
 }
 
@@ -32,7 +32,7 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   return (
     <>
       <Filters {...handlers} />
-      <Suspense fallback={<ClientTableSkeleton />}>
+      <Suspense fallback={<ClientTableSkeleton clientKind={clientKind} />}>
         <ClientTableWrapper params={params} clientKind={clientKind} />
       </Suspense>
       <Pagination
@@ -51,9 +51,10 @@ const ClientTableWrapper: React.FC<{
   const { t } = useTranslation('client')
   const { data: clients } = useSuspenseQuery(ClientQueries.getList(params))
 
-  const headLabels = FEATURE_FLAG_ADMIN_CLIENT_API
-    ? [tCommon('clientName'), tCommon('clientAdminName'), '']
-    : [tCommon('clientName'), '']
+  const headLabels =
+    FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
+      ? [tCommon('clientName'), tCommon('clientAdminName'), '']
+      : [tCommon('clientName'), '']
   const isEmpty = clients.results.length === 0
 
   return (
@@ -66,16 +67,22 @@ const ClientTableWrapper: React.FC<{
   )
 }
 
-export const ClientTableSkeleton: React.FC = () => {
+export const ClientTableSkeleton: React.FC<{
+  clientKind: ClientKind
+}> = ({ clientKind }) => {
   const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const headLabels = [t('clientName'), '']
+  const headLabels =
+    FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
+      ? [t('clientName'), t('clientAdminName'), '']
+      : [t('clientName'), '']
+
   return (
     <Table headLabels={headLabels}>
-      <ClientTableRowSkeleton />
-      <ClientTableRowSkeleton />
-      <ClientTableRowSkeleton />
-      <ClientTableRowSkeleton />
-      <ClientTableRowSkeleton />
+      <ClientTableRowSkeleton clientKind={clientKind} />
+      <ClientTableRowSkeleton clientKind={clientKind} />
+      <ClientTableRowSkeleton clientKind={clientKind} />
+      <ClientTableRowSkeleton clientKind={clientKind} />
+      <ClientTableRowSkeleton clientKind={clientKind} />
     </Table>
   )
 }
