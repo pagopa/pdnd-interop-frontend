@@ -319,6 +319,10 @@
           "label": "Version ID",
           "copySuccessFeedbackText": "Version id copied successfully"
         },
+        "producerId": {
+          "label": "Producer ID",
+          "copySuccessFeedbackText": "Producer id copied successfully"
+        },
         "publishedAt": "Last version date",
         "suspendedAt": "Last suspended date",
         "deprecatedAt": "Deprecated version date",
