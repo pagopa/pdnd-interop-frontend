@@ -1,0 +1,79 @@
+import { alpha, type SxProps, type Theme } from '@mui/material';
+
+export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, SxProps> => ({
+    container: {
+        background: theme.palette.background.paper,
+        zIndex: collapsed ? 1 : 10,
+        position: 'sticky',
+        width: collapsed ? 'fit-content' : '300px',
+        height: '100vh',
+        maxHeight: '100vh',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        '&::-webkit-scrollbar': {
+            width: 4,
+        },
+        '&::-webkit-scrollbar-track': {
+            borderRadius: 1,
+        },
+        '&::-webkit-scrollbar-thumb': {
+            borderRadius: 1,
+            background: theme.palette.primary.main,
+            width: 1,
+        },
+
+        [theme.breakpoints.down('md')]: {
+            width: '100%'
+        },
+    },
+    nav: {
+        height: '100%',
+    },
+    itemButtonActive: {
+        '&.active': {
+            fontWeight: 'bold',
+            backgroundColor: alpha(theme.palette.primary.main, 0.08),
+            borderRight: '2px solid',
+            borderColor: theme.palette.primary.dark,
+            '.MuiTypography-root': {
+                fontWeight: 600,
+                color: theme.palette.primary.dark,
+            },
+            '.MuiListItemIcon-root': {
+                color: theme.palette.primary.dark,
+            },
+        }
+    },
+    hamburgerBox: {
+        marginTop: 'auto',
+    },
+    hamburgerIcon: {
+        pt: 3,
+        pb: 6,
+        pl: 2,
+        [theme.breakpoints.down('lg')]: {
+            mr: 0
+        },
+
+    },
+    hamburgerTypography: {
+        fontWeight: 600,
+        pl: 1
+    },
+    activeItem: collapsed
+        ? {
+            '&.active': {
+                fontWeight: 'bold',
+                backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                borderRight: '2px solid',
+                borderColor: theme.palette.primary.dark,
+                '.MuiTypography-root': {
+                    fontWeight: 600,
+                    color: theme.palette.primary.dark,
+                },
+                '.MuiListItemIcon-root': {
+                    color: theme.palette.primary.dark,
+                },
+            },
+        } : {},
+});

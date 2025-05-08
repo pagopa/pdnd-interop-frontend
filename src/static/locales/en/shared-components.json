@@ -221,7 +221,10 @@
   },
   "sidenav": {
     "userExternalLinkLabel": "Users",
-    "groupsExternalLinkLabel": "Groups"
+    "groupsExternalLinkLabel": "Groups",
+    "collapse":"Close",
+    "expand":"Open",
+    "navigationMenu": "Navigation menù"
   },
   "table": {
     "noDataLabel": "This search bears no results"
