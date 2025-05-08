@@ -237,6 +237,7 @@
     "deleteAndUpgradeEService": {
       "loading": "Stiamo cancellando la bozza",
       "outcome": {
+        "success": "Bozza cancellata correttamente",
         "error": "Non è stato possibile aggiornare l'e-service. Per favore, riprova!"
       },
       "confirmDialog": {
@@ -293,7 +294,7 @@
       "confirmDialog": {
         "title": "Conferma attributo dichiarato",
         "description": {
-          "defualt": "Dichiari sotto la tua responsabilità che il tuo ente possiede questo attributo?",
+          "default": "Dichiari sotto la tua responsabilità che il tuo ente possiede questo attributo?",
           "isDelegated": "Confermi per conto del delegante che <strong>{{delegatorName}}</strong> possiede l’attributo dichiarato richiesto?"
         }
       }
