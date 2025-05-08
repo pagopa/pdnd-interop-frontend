@@ -5,8 +5,9 @@ import { useGetRouteLabel } from './SidebarItemRoot'
 import { BadgeNotification } from './BadgeNotification'
 import type { Notification } from './sidebar.types'
 import { sidebarStyles } from './sidebar.styles'
-import type { RouteKey } from '@/router'
+import { useGeneratePath, type RouteKey } from '@/router'
 import { Link } from 'react-router-dom'
+import { useIsRouteInCurrentSubtree } from '../layout/SideNav/hooks/useIsRouteInCurrentSubtree'
 
 type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & Omit<
     ComponentPropsWithoutRef<C>,
@@ -17,37 +18,43 @@ export type SidebarItemProps<C extends ElementType = 'a'> = PolymorphicProps<
   C,
   {
     typographyProps?: ComponentPropsWithoutRef<typeof Typography>
-    isActive?: boolean
     disabled?: boolean
     collapsed: boolean
-    to: RouteKey
+    routeKey: RouteKey
     label?: string
     notification?: Notification
   }
 >
 
 export function SidebarItem<C extends ElementType = 'a'>({
-  isActive,
-  component,
   disabled,
   typographyProps,
   collapsed,
-  to,
   label,
   notification,
+  routeKey,
   ...props
 }: SidebarItemProps<C>) {
   const theme = useTheme()
   const styles = sidebarStyles(theme, collapsed)
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const routeLabel = label ? label : useGetRouteLabel(to)
+  const routeLabel = label ? label : useGetRouteLabel(routeKey)
+
+  const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
+  const generatePath = useGeneratePath()
+
+  const isSelected = isRouteInCurrentSubtree(routeKey)
+
   return (
     <ListItem sx={{ p: 0 }}>
       <ListItemButton
+        to={generatePath(routeKey)}
+        sx={{
+          ...(isSelected && styles.itemButtonActive),
+        }}
+        selected={isSelected}
         component={Link}
-        to={to}
         disabled={disabled}
-        sx={styles.itemButtonActive}
         {...props}
       >
         <ListItemText
@@ -58,7 +65,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
               color="inherit"
               {...typographyProps}
               sx={{
-                fontWeight: isActive ? 600 : 300,
+                fontWeight: isSelected ? 600 : 300,
                 ...typographyProps?.sx,
               }}
             >
