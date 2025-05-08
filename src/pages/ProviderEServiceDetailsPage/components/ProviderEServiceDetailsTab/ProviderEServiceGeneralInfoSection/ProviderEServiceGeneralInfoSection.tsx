@@ -125,7 +125,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         bottomActions={[
           ...(!hasSingleVersion ? [navigateVersionsAction] : []),
           ...(isAtLeastOneRiskyAnalysisAssociated ? [exportVersionListAction] : []),
-          watchRiskyAnalysisAssociatedAction,
+          ...(descriptor.eservice.mode === 'RECEIVE' ? [watchRiskyAnalysisAssociatedAction] : []),
           downloadConsumerListAction,
         ]}
       >

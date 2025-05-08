@@ -67,7 +67,7 @@
           "title": "Analisi del rischio",
           "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
           "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo"
-        }
+        }       
       }
     },
     "step2": {
@@ -486,5 +486,9 @@
     "inspect": "Visualizza richiesta",
     "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
     "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+  },
+  "watchRiskyAnalysisAssociated": {
+    "title": "Analisi del rischio",
+    "description":"Seleziona l'analisi del rischio da visualizzare"
   }
 }

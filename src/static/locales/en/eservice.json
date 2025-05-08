@@ -55,6 +55,7 @@
         }
       },
       "riskAnalysis": {
+       
         "riskAnalysisNameSection": {
           "title": "Purpose",
           "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
@@ -275,6 +276,7 @@
         "removeKeychainFromEService": "Remove from e-service"
       }
     },
+    
     "sections": {
       "generalInformations": {
         "title": "General informations",
@@ -485,5 +487,9 @@
     "inspect": "Inspect request",
     "eserviceSuspendedTooltip": "It is currently not possible to submit new requests, the e-service is suspended",
     "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
+  },
+  "watchRiskyAnalysisAssociated": {
+    "title": "Risk analysis",
+    "description":"Select which ris analysis you want to show"
   }
 }

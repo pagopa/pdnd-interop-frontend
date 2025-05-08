@@ -38,7 +38,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     {
       name: 'q',
       label: tEservice('nameField.label'),
-      type: 'freetext',
+      type: 'autocomplete-single',
     },
     {
       name: 'producersIds',

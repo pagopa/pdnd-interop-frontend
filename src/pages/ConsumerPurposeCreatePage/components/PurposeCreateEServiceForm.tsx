@@ -145,6 +145,8 @@ export const PurposeCreateEServiceForm: React.FC = () => {
     }
   }
 
+  console.log('providerRiskAnalysisId', selectedProviderRiskAnalysisId)
+
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
