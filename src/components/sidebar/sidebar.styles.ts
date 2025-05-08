@@ -1,4 +1,4 @@
-import { alpha, type SxProps, type Theme } from '@mui/material';
+import { alpha, type SxProps, type Theme } from '@mui/material'
 
 export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, SxProps> => ({
     container: {
@@ -23,7 +23,7 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
         },
 
         [theme.breakpoints.down('md')]: {
-            width: '100%'
+            width: '100%',
         },
     },
     nav: {
@@ -42,7 +42,7 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
             '.MuiListItemIcon-root': {
                 color: theme.palette.primary.dark,
             },
-        }
+        },
     },
     hamburgerBox: {
         marginTop: 'auto',
@@ -52,13 +52,12 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
         pb: 6,
         pl: 2,
         [theme.breakpoints.down('lg')]: {
-            mr: 0
+            mr: 0,
         },
-
     },
     hamburgerTypography: {
         fontWeight: 600,
-        pl: 1
+        pl: 1,
     },
     activeItem: collapsed
         ? {
@@ -75,5 +74,6 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
                     color: theme.palette.primary.dark,
                 },
             },
-        } : {},
-});
+        }
+        : {},
+})
