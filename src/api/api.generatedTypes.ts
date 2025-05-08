@@ -148,6 +148,15 @@ export interface UpdateEServiceDescriptorQuotas {
   dailyCallsTotal: number
 }
 
+export interface UpdateEServiceDescriptorAgreementApprovalPolicySeed {
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy: AgreementApprovalPolicy
+}
+
 export interface UpdateEServiceDescriptorSeed {
   description?: string
   audience: string[]
@@ -2559,6 +2568,34 @@ export namespace Eservices {
       'X-Correlation-Id': string
     }
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateAgreementApprovalPolicy
+   * @summary Update agreement approval policy of published descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/agreementApprovalPolicy/update
+   * @secure
+   */
+  export namespace UpdateAgreementApprovalPolicy {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceDescriptorAgreementApprovalPolicySeed
+    export type RequestHeaders = {
+      'X-Correlation-Id': string
+    }
+    export type ResponseBody = void
   }
   /**
    * No description

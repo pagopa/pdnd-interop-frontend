@@ -23,6 +23,7 @@ import type {
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
   ProducerEServices,
+  UpdateEServiceDescriptorAgreementApprovalPolicySeed,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
@@ -201,6 +202,20 @@ function updateVersion({
 } & UpdateEServiceDescriptorQuotas) {
   return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/update`,
+    payload
+  )
+}
+
+function updateAgreementApprovalPolicy({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & UpdateEServiceDescriptorAgreementApprovalPolicySeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/agreementApprovalPolicy/update`,
     payload
   )
 }
@@ -436,6 +451,7 @@ export const EServiceServices = {
   publishVersionDraft,
   suspendVersion,
   updateVersion,
+  updateAgreementApprovalPolicy,
   reactivateVersion,
   deleteVersionDraft,
   addEServiceRiskAnalysis,

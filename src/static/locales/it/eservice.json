@@ -342,6 +342,14 @@
             "labelDescription": "chiamate API/giorno"
           }
         },
+        "agreementApprovalPolicy": {
+          "title": "Richieste di fruizione",
+          "label": "Accettazione richieste",
+          "content": {
+            "AUTOMATIC": "Automatica",
+            "MANUAL": "Manuale"
+          }
+        },
         "documentation": {
           "title": "Documentazione",
           "label": "Elenco documenti",
@@ -405,6 +413,13 @@
         "dailyCallsTotalField": {
           "label": "Soglia totale",
           "infoLabel": "Chiamate API/giorno"
+        }
+      },
+      "updateAgreementApprovalPolicyDrawer": {
+        "title": "Accettazione richieste di fruizione",
+        "subtitle": "Da questo pannello puoi stabilire come vengono gestite le richieste di fruizione che gli enti formuleranno verso questo e-service.",
+        "agreementApprovalPolicyField": {
+          "label": "Attivazione manuale"
         }
       },
       "technicalInfoDrawer": {
