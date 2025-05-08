@@ -32,32 +32,32 @@ const RiskAnalysisEServiceAssociatedPageContent: React.FC = () => {
   )
   const [searchParams, setSearchParams] = useSearchParams()
 
+  const riskAnalysisList = descriptor?.eservice.riskAnalysis
+
+  const urlRiskAnalysisId = searchParams.get('riskAnalysisId')
+  const defaultRiskAnalysisId =
+    urlRiskAnalysisId &&
+    riskAnalysisList.some((riskAnalysis) => riskAnalysis.id === urlRiskAnalysisId)
+      ? urlRiskAnalysisId
+      : riskAnalysisList[0].id
+
   const formMethods = useForm<{ riskAnalysisId: string }>({
     defaultValues: {
-      riskAnalysisId: searchParams.get('riskAnalysisId') || '',
+      riskAnalysisId: defaultRiskAnalysisId,
     },
   })
 
   const riskAnalysisId = formMethods.watch('riskAnalysisId')
-  const riskAnalysisList = descriptor?.eservice.riskAnalysis
-
-  useEffect(() => {
-    if (riskAnalysisList && riskAnalysisList?.length > 0) {
-      const riskAnalysis = riskAnalysisList.find(
-        (riskAnalysis) => riskAnalysis.id === searchParams.get('riskAnalysisId')
-      )
-      if (riskAnalysis) {
-        formMethods.setValue('riskAnalysisId', riskAnalysis.id)
-      } else {
-        formMethods.setValue('riskAnalysisId', riskAnalysisList[0].id)
-      }
-    }
-  }, [riskAnalysisList])
 
   useEffect(() => {
     if (riskAnalysisId) {
       setSearchParams((prev) => {
         prev.set('riskAnalysisId', riskAnalysisId)
+        return prev
+      })
+    } else {
+      setSearchParams((prev) => {
+        prev.delete('riskAnalysisId')
         return prev
       })
     }
