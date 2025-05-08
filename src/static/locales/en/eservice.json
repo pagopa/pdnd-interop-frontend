@@ -1,5 +1,6 @@
 {
   "backToListBtn": "Back to the e-services",
+  "backToEServiceBtn": "Back to the e-service",
   "create": {
     "emptyTitle": "Create e-service",
     "stepper": {

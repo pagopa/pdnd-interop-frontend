@@ -72,8 +72,9 @@ const RiskAnalysisEServiceAssociatedPageContent: React.FC = () => {
   return (
     <PageContainer
       backToAction={{
-        label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_LIST',
+        label: t('backToEServiceBtn'),
+        to: 'PROVIDE_ESERVICE_MANAGE',
+        params: { eserviceId, descriptorId },
       }}
     >
       <FormProvider {...formMethods}>
