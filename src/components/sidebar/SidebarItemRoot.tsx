@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import {
   ListItem,
@@ -57,14 +58,14 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
     return children
       ?.filter((child) => !child.hide)
       .map((child) => {
+        const routeKey = child.to
         return (
           <SidebarItem
-            params={undefined}
-            key={child.to}
+            key={routeKey}
             label={child.label}
             component={Link}
             collapsed={true}
-            to={generatePath(child.to)}
+            routeKey={routeKey}
             notification={notification}
           />
         )
@@ -80,11 +81,14 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
   return (
     <>
       <ListItem disablePadding>
-        <ListItemButton
+        {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-ignore
+        }
+        <ListItemButton
           component={Link}
-          selected={collapsed && isExpanded}
+          selected={hasChildren ? collapsed && isExpanded : isExpanded}
+          //@ts-ignore
           to={collapsed && hasChildren ? children[0]?.to : hasChildren ? undefined : subPathLink}
           onClick={handleExpanded}
           sx={
