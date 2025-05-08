@@ -1,10 +1,12 @@
 import React from 'react'
 import { Box, Stack } from '@mui/material'
 import type { SxProps } from '@mui/material'
-import { SideNav } from '@/components/layout'
 import type { SidebarRoutes } from '../sidebar/sidebar.types'
+import DnsIcon from '@mui/icons-material/Dns'
 import PeopleIcon from '@mui/icons-material/People'
 import { Sidebar } from '../sidebar/Sidebar'
+import { CatalogIcon } from '@/assets/CatalogIcon'
+import { ConsumerIcon, ProviderIcon } from '@/assets'
 
 type AppLayoutProps = {
   children: React.ReactNode
@@ -16,13 +18,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
   const interopRoutes: SidebarRoutes = [
     {
       subpath: 'SUBSCRIBE_CATALOG_LIST',
-      icon: PeopleIcon,
+      icon: CatalogIcon,
       children: [],
       divider: true,
     },
     {
       showNotification: false,
-      icon: PeopleIcon,
+      icon: ConsumerIcon,
       label: 'Fruizione',
       subpath: 'PROVIDE_AGREEMENT_LIST',
       children: [
@@ -32,7 +34,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
       divider: false,
     },
     {
-      icon: PeopleIcon,
+      icon: ProviderIcon,
       label: 'Erogazione',
       subpath: 'PROVIDE_ESERVICE_LIST',
       hide: false,
@@ -43,31 +45,31 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
         { to: 'PROVIDE_PURPOSE_LIST', label: 'Finalità ricevute' },
       ],
     },
-    // {
-    //   icon: PeopleIcon,
-    //   subpath: '/privacy-policy',
-    //   label: 'Gestione del client',
-    //   hide: false,
-    //   children: [
-    //     { to: '/gestione-client/portachiavi', label: 'Portachiavi' },
-    //     { to: '/gestione-client/api-fruizione', label: 'API fruizione' },
-    //     { to: '/gestione-client/api-fruizione-interop', label: 'API Fruizione Interop' },
-    //     { to: '/gestione-client/debug-client-assertion', label: 'Debug client assertion' },
-    //   ],
-    // },
-    // {
-    //   icon: PeopleIcon,
-    //   label: 'Il mio ente',
-    //   subpath: '/il-mio-ente',
-    //   children: [
-    //     { to: '/il-mio-ente/anagrafica', label: 'Anagrafica e attributi' },
-    //     {
-    //       to: '/il-mio-ente/gestione-delle-deleghe',
-    //       hide: false,
-    //       label: 'Gestione delle deleghe',
-    //     },
-    //   ],
-    // },
+    {
+      icon: DnsIcon,
+      subpath: 'PROVIDE_KEYCHAINS_LIST',
+      label: 'Gestione del client',
+      hide: false,
+      children: [
+        { to: 'PROVIDE_KEYCHAINS_LIST', label: 'Portachiavi' },
+        { to: 'SUBSCRIBE_CLIENT_LIST', label: 'API fruizione' },
+        { to: 'SUBSCRIBE_INTEROP_M2M', label: 'API Fruizione Interop' },
+        { to: 'SUBSCRIBE_DEBUG_VOUCHER', label: 'Debug client assertion' },
+      ],
+    },
+    {
+      icon: PeopleIcon,
+      label: 'Il mio ente',
+      subpath: 'PARTY_REGISTRY',
+      children: [
+        { to: 'PARTY_REGISTRY', label: 'Anagrafica e attributi' },
+        {
+          to: 'DELEGATIONS',
+          hide: false,
+          label: 'Gestione delle deleghe',
+        },
+      ],
+    },
   ]
 
   if (hideSideNav) {
