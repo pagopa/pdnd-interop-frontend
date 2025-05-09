@@ -12,7 +12,7 @@ type ClientOperatorsTableProps = {
 export const ClientOperatorsTable: React.FC<ClientOperatorsTableProps> = ({ clientId }) => {
   const { t: tCommon } = useTranslation('common')
 
-  const { data: operators } = useSuspenseQuery(ClientQueries.getOperatorsList(clientId))
+  const { data: operators } = useSuspenseQuery(ClientQueries.getOperatorsList({ clientId }))
 
   const headLabels = [tCommon('table.headData.userName'), '']
   const isEmpty = operators.length === 0
