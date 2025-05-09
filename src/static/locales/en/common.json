@@ -45,7 +45,9 @@
     "approve": "Approve",
     "createNewDraftFromEserviceTemplate": "Create draft from template",
     "updateIstance": "Update instance",
-    "select": "Select"
+    "select": "Select",
+    "selectAdmin": "Select admin",
+    "substituteAdmin": "Substitute admin"
   },
   "table": {
     "headData": {
