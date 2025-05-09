@@ -69,15 +69,6 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
     select: (results) => results ?? [],
   })
 
-  // React.useEffect(() => {
-  //   if (!selectedAdminId && !hasSetAdmin.current && users && users?.length > 0) {
-  //     setValue('selectedAdminId', users[0].userId)
-  //     setAdminAutocompleteTextInput(users[0].name)
-  //     selectedAdminRef.current = users[0]
-  //     hasSetAdmin.current = true
-  //   }
-  // }, [setValue, selectedAdminId, hasSetAdmin, users, setAdminAutocompleteTextInput])
-
   const handleCloseDrawer = () => {
     onClose()
   }
