@@ -1,6 +1,10 @@
 import { queryOptions } from '@tanstack/react-query'
 import { ClientServices } from './client.services'
-import type { GetClientKeysParams, GetClientsParams } from '../api.generatedTypes'
+import type {
+  GetClientKeysParams,
+  GetClientsParams,
+  GetClientUsersParams,
+} from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
 
 function getList(params: GetClientsParams) {
@@ -36,10 +40,10 @@ function getSingleKey(clientId: string, kid: string) {
   })
 }
 
-function getOperatorsList(clientId: string) {
+function getOperatorsList(params: GetClientUsersParams) {
   return queryOptions({
-    queryKey: ['ClientGetOperatorsList', clientId],
-    queryFn: () => ClientServices.getOperatorList(clientId),
+    queryKey: ['ClientGetOperatorsList', params],
+    queryFn: () => ClientServices.getOperatorList(params),
   })
 }
 

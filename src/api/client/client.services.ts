@@ -10,9 +10,11 @@ import type {
   EncodedClientKey,
   GetClientKeysParams,
   GetClientsParams,
+  GetClientUsersParams,
   KeySeed,
   PublicKey,
   PublicKeys,
+  SetAdminToClientPayload,
 } from '../api.generatedTypes'
 
 async function getList(params: GetClientsParams) {
@@ -44,9 +46,10 @@ async function getSingleKey(clientId: string, kid: string) {
   return response.data
 }
 
-async function getOperatorList(clientId: string) {
+async function getOperatorList({ clientId, name }: GetClientUsersParams) {
   const response = await axiosInstance.get<CompactUsers>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`,
+    { params: { name } }
   )
   return response.data
 }
@@ -112,6 +115,23 @@ function removeOperator({ clientId, userId }: { clientId: string; userId: string
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users/${userId}`)
 }
 
+function setClientAdmin({
+  clientId,
+  payload,
+}: {
+  clientId: string
+  payload: SetAdminToClientPayload
+}) {
+  return axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/admin`,
+    payload
+  )
+}
+
+function removeClientAdmin({ clientId, adminId }: { clientId: string; adminId: string }) {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/admin/${adminId}`)
+}
+
 export const ClientServices = {
   getList,
   getSingle,
@@ -127,4 +147,6 @@ export const ClientServices = {
   deleteKey,
   addOperators,
   removeOperator,
+  setClientAdmin,
+  removeClientAdmin,
 }
