@@ -201,6 +201,20 @@ function useUpdateInstanceVersion() {
   })
 }
 
+function useUpdateAgreementApprovalPolicy() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateAgreementApprovalPolicy',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateAgreementApprovalPolicy,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useDeleteVersionDraft() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.deleteVersionDraft',
@@ -509,4 +523,5 @@ export const EServiceMutations = {
   useUpdateInstanceVersionDraft,
   useDeleteDraftAndUpgradeEService,
   useUpdateInstanceVersion,
+  useUpdateAgreementApprovalPolicy,
 }
