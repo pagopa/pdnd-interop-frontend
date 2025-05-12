@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import {
   ListItem,
@@ -10,7 +9,6 @@ import {
   Stack,
   Divider,
   useTheme,
-  alpha,
 } from '@mui/material'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -22,6 +20,7 @@ import { SidebarRootIcon } from './SidebarItemRootIcon'
 import { useGeneratePath, type RouteKey } from '@/router'
 import { SidebarItem } from './SidebarItem'
 import { Link } from 'react-router-dom'
+import { sidebarStyles } from './sidebar.styles'
 
 type SidebartItemRootProps = {
   notification?: Notification
@@ -52,6 +51,10 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
   notification,
 }) => {
   const theme = useTheme()
+  const generatePath = useGeneratePath()
+
+  const styles = sidebarStyles(theme, collapsed)
+
   const hasChildren = children && children.length > 0
 
   const renderChildItem = () => {
@@ -61,11 +64,12 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
         const routeKey = child.to
         return (
           <SidebarItem
+            to={generatePath(routeKey)}
             key={routeKey}
+            routeKey={routeKey}
             label={child.label}
             component={Link}
             collapsed={true}
-            routeKey={routeKey}
             notification={notification}
           />
         )
@@ -74,42 +78,31 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const routeLabel = label ? label : useGetRouteLabel(subpath)
-  const generatePath = useGeneratePath()
-
   const subPathLink = generatePath(subpath)
+
+  const getComponentType = () => {
+    if (hasChildren && !collapsed) {
+      return 'button'
+    }
+    return Link
+  }
+
+  const getNavigationLink = () => {
+    if (hasChildren && !collapsed) {
+      return undefined
+    }
+    return subPathLink
+  }
 
   return (
     <>
       <ListItem disablePadding>
-        {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore
-        }
         <ListItemButton
-          component={Link}
+          component={getComponentType()}
           selected={hasChildren ? collapsed && isExpanded : isExpanded}
-          //@ts-ignore
-          to={collapsed && hasChildren ? children[0]?.to : hasChildren ? undefined : subPathLink}
+          to={getNavigationLink()}
           onClick={handleExpanded}
-          sx={
-            collapsed || !hasChildren
-              ? {
-                  '&.active': {
-                    fontWeight: 'bold',
-                    backgroundColor: alpha(theme.palette.primary.main, 0.08),
-                    borderRight: '2px solid',
-                    borderColor: theme.palette.primary.dark,
-                    '.MuiTypography-root': {
-                      fontWeight: 600,
-                      color: theme.palette.primary.dark,
-                    },
-                    '.MuiListItemIcon-root': {
-                      color: theme.palette.primary.dark,
-                    },
-                  },
-                }
-              : {}
-          }
+          sx={collapsed || !hasChildren ? styles.itemButtonActive : {}}
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
             <SidebarRootIcon Icon={StartIcon} collapsed={collapsed} notification={notification} />

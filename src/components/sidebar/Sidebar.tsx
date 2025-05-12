@@ -23,6 +23,7 @@ import { SidebarLink } from './SidebarLink'
 import { useTranslation } from 'react-i18next'
 import type { SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
+import { match } from 'assert'
 
 type SidebarProps = {
   routes: SidebarRoutes
@@ -33,7 +34,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ routes }) => {
   const pathname = useCurrentRoute().routeKey
   const { t } = useTranslation('shared-components', { keyPrefix: 'sidenav' })
 
-  const matchMobile = useMediaQuery(theme.breakpoints.up('sm'))
+  const matchMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+  console.log('matchmobile', matchMobile)
 
   const [collapsed, setCollapsed] = useState(false)
   const handleCollapsed = () => {
@@ -138,6 +141,7 @@ const SidebarMobile: React.FC<SidebarProps> = ({ routes }) => {
   const pathname = useCurrentRoute().routeKey
   // const pathname = useCurrentRoute().pathname
 
+  console.log('MOBILE')
   const [expandItemRoot, setExpandItemRoot] = useState<RouteKey | undefined>(
     () => routes.find((route) => pathname.startsWith(route.subpath))?.subpath
   )

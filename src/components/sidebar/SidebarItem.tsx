@@ -5,7 +5,7 @@ import { useGetRouteLabel } from './SidebarItemRoot'
 import { BadgeNotification } from './BadgeNotification'
 import type { Notification } from './sidebar.types'
 import { sidebarStyles } from './sidebar.styles'
-import { useGeneratePath, type RouteKey } from '@/router'
+import { type RouteKey } from '@/router'
 import { Link } from 'react-router-dom'
 import { useIsRouteInCurrentSubtree } from '../layout/SideNav/hooks/useIsRouteInCurrentSubtree'
 
@@ -33,6 +33,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
   label,
   notification,
   routeKey,
+  to,
   ...props
 }: SidebarItemProps<C>) {
   const theme = useTheme()
@@ -41,19 +42,18 @@ export function SidebarItem<C extends ElementType = 'a'>({
   const routeLabel = label ? label : useGetRouteLabel(routeKey)
 
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
-  const generatePath = useGeneratePath()
 
   const isSelected = isRouteInCurrentSubtree(routeKey)
 
   return (
     <ListItem sx={{ p: 0 }}>
       <ListItemButton
-        to={generatePath(routeKey)}
+        component={Link}
+        to={to}
         sx={{
           ...(isSelected && styles.itemButtonActive),
         }}
         selected={isSelected}
-        component={Link}
         disabled={disabled}
         {...props}
       >
