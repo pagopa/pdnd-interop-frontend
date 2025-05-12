@@ -177,6 +177,15 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
   dailyCallsTotal: number
 }
 
+export interface UpdateEServiceDescriptorAgreementApprovalPolicySeed {
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy: AgreementApprovalPolicy
+}
+
 export interface UpdateEServiceDescriptorSeed {
   description?: string
   audience: string[]
@@ -292,6 +301,8 @@ export interface Client {
   /** @format date-time */
   createdAt: string
   consumer: CompactOrganization
+  /** Contains some details about user */
+  admin?: CompactUser
   name: string
   purposes: ClientPurpose[]
   description?: string
@@ -886,6 +897,8 @@ export interface CompactClient {
   id: string
   name: string
   hasKeys: boolean
+  /** Contains some details about user */
+  admin?: CompactUser
 }
 
 /** Producer keychain creation request body */
@@ -2324,6 +2337,16 @@ export interface GetClientsParams {
    * @max 50
    */
   limit: number
+}
+
+export interface GetClientUsersParams {
+  /** Filter users by name */
+  name?: string
+  /**
+   * ID of Client the users belong to
+   * @format uuid
+   */
+  clientId: string
 }
 
 export interface AddUsersToClientPayload {
@@ -4163,6 +4186,32 @@ export namespace Eservices {
     export type RequestBody = UpdateEServiceDescriptorQuotas
     export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateAgreementApprovalPolicy
+   * @summary Update agreement approval policy of published descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/agreementApprovalPolicy/update
+   * @secure
+   */
+  export namespace UpdateAgreementApprovalPolicy {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceDescriptorAgreementApprovalPolicySeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
   /**
    * No description
@@ -6090,6 +6139,32 @@ export namespace Clients {
     export type ResponseBody = void
   }
   /**
+   * @description Removes an admin from a client
+   * @tags clients
+   * @name RemoveClientAdmin
+   * @summary Removes an admin from a client
+   * @request DELETE:/clients/{clientId}/admin/{adminId}
+   * @secure
+   */
+  export namespace RemoveClientAdmin {
+    export type RequestParams = {
+      /**
+       * ID of Client
+       * @format uuid
+       */
+      clientId: string
+      /**
+       * ID of Admin
+       * @format uuid
+       */
+      adminId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Removes a purpose from a client
    * @tags clients
    * @name RemoveClientPurpose
@@ -6224,7 +6299,10 @@ export namespace Clients {
        */
       clientId: string
     }
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      /** Filter users by name */
+      name?: string
+    }
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = CompactUsers

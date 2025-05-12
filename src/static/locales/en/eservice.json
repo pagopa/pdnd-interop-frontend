@@ -398,6 +398,14 @@
             "labelDescription": "API calls/day"
           }
         },
+        "agreementApprovalPolicy": {
+          "title": "Agreements",
+          "label": "Requests acceptance",
+          "content": {
+            "AUTOMATIC": "Automatic",
+            "MANUAL": "Manual"
+          }
+        },
         "documentation": {
           "title": "Documentation",
           "label": "Documents list",
@@ -461,6 +469,13 @@
         "dailyCallsTotalField": {
           "label": "Total threshold",
           "infoLabel": "API calls/day"
+        }
+      },
+      "updateAgreementApprovalPolicyDrawer": {
+        "title": "Agreements approval",
+        "subtitle": "From this panel you can establish how the agreements that the institutions will formulate towards this e-service are managed.",
+        "agreementApprovalPolicyField": {
+          "label": "Manual approval"
         }
       },
       "technicalInfoDrawer": {

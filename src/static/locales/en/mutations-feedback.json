@@ -154,6 +154,13 @@
         "error": "The requested information could not be updated. Please try again!"
       }
     },
+    "updateAgreementApprovalPolicy": {
+      "loading": "Updating the agreement approval policy",
+      "outcome": {
+        "success": "The agreement approval policy has been updated successfully",
+        "error": "The agreement approval policy could not be updated. Please try again!"
+      }
+    },
     "deleteVersionDraft": {
       "loading": "Deleting e-service version draft",
       "outcome": {

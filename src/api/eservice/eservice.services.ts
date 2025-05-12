@@ -23,15 +23,16 @@ import type {
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
   ProducerEServices,
-  RejectDelegatedEServiceDescriptorSeed,
-  TemplateInstanceInterfaceRESTSeed,
-  TemplateInstanceInterfaceSOAPSeed,
+  UpdateEServiceDescriptorAgreementApprovalPolicySeed,
   UpdateEServiceDescriptorDocumentSeed,
   UpdateEServiceDescriptorQuotas,
   UpdateEServiceDescriptorSeed,
   UpdateEServiceDescriptorTemplateInstanceSeed,
   UpdateEServiceTemplateInstanceDescriptorQuotas,
   UpdateEServiceSeed,
+  RejectDelegatedEServiceDescriptorSeed,
+  TemplateInstanceInterfaceRESTSeed,
+  TemplateInstanceInterfaceSOAPSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { waitFor } from '@/utils/common.utils'
@@ -221,6 +222,20 @@ function updateInstanceVersion({
 } & UpdateEServiceTemplateInstanceDescriptorQuotas) {
   return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eserviceId}/descriptors/${descriptorId}/update`,
+    payload
+  )
+}
+
+function updateAgreementApprovalPolicy({
+  eserviceId,
+  descriptorId,
+  ...payload
+}: {
+  eserviceId: string
+  descriptorId: string
+} & UpdateEServiceDescriptorAgreementApprovalPolicySeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/agreementApprovalPolicy/update`,
     payload
   )
 }
@@ -580,6 +595,7 @@ export const EServiceServices = {
   suspendVersion,
   updateVersion,
   updateInstanceVersion,
+  updateAgreementApprovalPolicy,
   reactivateVersion,
   deleteVersionDraft,
   addEServiceRiskAnalysis,
