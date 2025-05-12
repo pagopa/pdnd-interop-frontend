@@ -154,6 +154,13 @@
         "error": "Non è stato possibile aggiornare le informazioni richieste. Per favore, riprova!"
       }
     },
+    "updateAgreementApprovalPolicy": {
+      "loading": "Stiamo modificando l'accettazione delle richieste di fruizione",
+      "outcome": {
+        "success": "L’accettazione delle richieste di fruizione è stata modificata correttamente!",
+        "error": "Non è stato possibile modificare l’accettazione delle richieste di fruizione. Per favore, riprova!"
+      }
+    },
     "deleteVersionDraft": {
       "loading": "Stiamo cancellando la bozza",
       "outcome": {

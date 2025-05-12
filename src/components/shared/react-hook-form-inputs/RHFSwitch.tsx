@@ -52,6 +52,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
                 inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 checked={value}
                 inputRef={ref}
+                sx={{ marginRight: 1 }}
               />
             }
             label={label}
