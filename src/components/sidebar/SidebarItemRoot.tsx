@@ -105,7 +105,12 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
           sx={collapsed || !hasChildren ? styles.itemButtonActive : {}}
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
-            <SidebarRootIcon Icon={StartIcon} collapsed={collapsed} notification={notification} />
+            <SidebarRootIcon
+              tooltipLabel={routeLabel}
+              Icon={StartIcon}
+              collapsed={collapsed}
+              notification={notification}
+            />
             {!collapsed && (
               <ListItemText
                 disableTypography

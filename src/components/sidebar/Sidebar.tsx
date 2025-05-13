@@ -20,7 +20,6 @@ type SidebarProps = {
 }
 export const Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
   const theme = useTheme()
-  // const pathname = useCurrentRoute().pathname
   const pathname = useCurrentRoute().routeKey
   const { t } = useTranslation('shared-components', { keyPrefix: 'sidenav' })
 
@@ -86,7 +85,7 @@ const SidebarList: React.FC<SidebarListProps> = ({
             key={route.label}
             notification={{
               show: route?.showNotification ?? false,
-              content: 10, // TODO: This will change, right now is fixed
+              content: 0, // TODO: This will change, right now is fixed to 0
             }}
             label={route.label}
             divider={route.divider}
@@ -125,12 +124,10 @@ const SidebarList: React.FC<SidebarListProps> = ({
 
 const SidebarMobile: React.FC<Omit<SidebarProps, 'mobile'>> = ({ routes }) => {
   const pathname = useCurrentRoute().routeKey
-  // const pathname = useCurrentRoute().pathname
 
   const [expandItemRoot, setExpandItemRoot] = useState<RouteKey | undefined>(
     () => routes.find((route) => pathname.startsWith(route.subpath))?.subpath
   )
-
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
   const handleExpandItemRoot = (subpath: RouteKey) => {
@@ -152,7 +149,7 @@ const SidebarMobile: React.FC<Omit<SidebarProps, 'mobile'>> = ({ routes }) => {
             onClick={handleOpenSidebar}
             size="large"
           >
-            <MenuIcon />
+            <MenuIcon color="disabled" />
           </IconButton>
         </Tooltip>
         <Typography ml={1} mt={1} variant="h6" component="h6">
@@ -196,7 +193,7 @@ const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ collapsed, handleCollap
             onClick={handleCollapsed}
             size="large"
           >
-            <MenuIcon />
+            <MenuIcon sx={{ fill: '#17324D' }} />
           </IconButton>
         </Tooltip>
       </Box>
