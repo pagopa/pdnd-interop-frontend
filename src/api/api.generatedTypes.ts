@@ -2339,6 +2339,14 @@ export interface GetClientsParams {
   limit: number
 }
 
+export interface SetAdminToClientPayload {
+  /**
+   * UserId to be added as admin
+   * @format uuid
+   */
+  adminId: string
+}
+
 export interface GetClientUsersParams {
   /** Filter users by name */
   name?: string
@@ -2347,14 +2355,6 @@ export interface GetClientUsersParams {
    * @format uuid
    */
   clientId: string
-}
-
-export interface SetAdminToClientPayload {
-  /**
-   * UserId to be added as admin
-   * @format uuid
-   */
-  adminId: string
 }
 
 export interface AddUsersToClientPayload {
