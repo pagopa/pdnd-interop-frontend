@@ -96,12 +96,10 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
-      results
-        .filter((tenant) => tenant.id !== activeTenant.id)
-        .map((tenant) => ({
-          label: tenant.name,
-          value: tenant,
-        })),
+      results.map((tenant) => ({
+        label: tenant.name,
+        value: tenant,
+      })),
   })
 
   const onSubmit = formMethods.handleSubmit((values: AssignAttributeFormValues) => {
