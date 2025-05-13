@@ -131,8 +131,8 @@ const SidebarMobile: React.FC<Omit<SidebarProps, 'mobile'>> = ({ routes }) => {
         <Tooltip placement="right" title="Menu">
           <IconButton
             sx={{ padding: { xs: 1 } }}
-            data-testid="hamburgerButton"
-            aria-label="hamburger-icon"
+            data-testid="hamburger-mobile-icon"
+            aria-label="hamburger-mobile-icon"
             onClick={handleOpenSidebar}
             size="large"
           >
@@ -164,7 +164,7 @@ const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ collapsed, handleCollap
   const tooltipTitle = t(!collapsed ? 'collapse' : 'expand')
 
   return (
-    <Box sx={styles.hamburgerBox}>
+    <Box sx={styles.hamburgerBox} data-testid="hamburger-box-icon">
       <Divider orientation="horizontal" />
       <Box sx={styles.hamburgerIcon}>
         <Tooltip placement="right" title={tooltipTitle}>
