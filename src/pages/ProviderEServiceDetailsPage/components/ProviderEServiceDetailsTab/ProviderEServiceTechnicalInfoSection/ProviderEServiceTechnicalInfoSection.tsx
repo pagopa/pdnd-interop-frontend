@@ -10,7 +10,7 @@ import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLink
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import {
-  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_EDITABLE,
+  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE,
   FEATURE_FLAG_SIGNALHUB_WHITELIST,
   SIGNALHUB_WHITELIST_PRODUCER,
 } from '@/config/env'
@@ -109,7 +109,7 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
         <Divider />
         <ProviderEServiceThresholdsSection descriptor={descriptor} />
         <Divider />
-        {FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_EDITABLE && (
+        {FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE && (
           <>
             <ProviderEServiceAgreementApprovalPolicySection descriptor={descriptor} />
             <Divider />
