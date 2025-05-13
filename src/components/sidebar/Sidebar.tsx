@@ -18,43 +18,35 @@ type SidebarProps = {
   routes: SidebarRoutes
   mobile: boolean
 }
+
+type SidebarListProps = {
+  routes: SidebarRoutes
+  collapsed: boolean
+}
 export const Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
   const theme = useTheme()
-  const pathname = useCurrentRoute().routeKey
   const { t } = useTranslation('shared-components', { keyPrefix: 'sidenav' })
 
   const [collapsed, setCollapsed] = useState(false)
+  const styles = sidebarStyles(theme, collapsed)
+
   const handleCollapsed = () => {
     setCollapsed((prev) => !prev)
   }
 
-  const styles = sidebarStyles(theme, collapsed)
-
-  const [expandItemRoot, setExpandItemRoot] = useState<RouteKey | undefined>(
-    () => routes.find((route) => pathname.startsWith(route.subpath))?.subpath
-  )
-
-  const handleExpandItemRoot = (subpath: RouteKey) => {
-    setExpandItemRoot((prev) => (prev === subpath ? undefined : subpath))
-  }
   return (
     <Box sx={styles.container} component="aside">
       {!mobile ? (
         <Stack
           component="nav"
+          role="navigation"
           display="flex"
           flexDirection="column"
-          aria-expanded={!collapsed}
           aria-label={t('navigationMenu')}
-          role="navigation"
+          aria-expanded={!collapsed}
           sx={styles.nav}
         >
-          <SidebarList
-            routes={routes}
-            expandItemRoot={expandItemRoot}
-            handleExpandItemRoot={handleExpandItemRoot}
-            collapsed={collapsed}
-          />
+          <SidebarList routes={routes} collapsed={collapsed} />
           <HamburgerBox collapsed={collapsed} handleCollapsed={handleCollapsed} />
         </Stack>
       ) : (
@@ -64,18 +56,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
   )
 }
 
-type SidebarListProps = {
-  routes: SidebarRoutes
-  expandItemRoot: RouteKey | undefined
-  handleExpandItemRoot: (subpath: RouteKey) => void
-  collapsed: boolean
-}
-const SidebarList: React.FC<SidebarListProps> = ({
-  routes,
-  expandItemRoot,
-  handleExpandItemRoot,
-  collapsed,
-}) => {
+const SidebarList: React.FC<SidebarListProps> = ({ routes, collapsed }) => {
+  const pathname = useCurrentRoute().routeKey
+
+  const [selectedRootItem, setSelectedRootItem] = useState<RouteKey | undefined>(
+    () => routes.find((route) => pathname.startsWith(route.subpath))?.subpath
+  )
+
+  const handleSelectedRootItem = (routeKey: RouteKey) => {
+    if (!collapsed) {
+      setSelectedRootItem((prev) => (prev === routeKey ? undefined : routeKey))
+    } else {
+      setSelectedRootItem(routeKey)
+    }
+  }
+
   return (
     <List disablePadding sx={{ marginTop: 1 }}>
       {routes
@@ -85,20 +80,21 @@ const SidebarList: React.FC<SidebarListProps> = ({
             key={route.label}
             notification={{
               show: route?.showNotification ?? false,
-              content: 0, // TODO: This will change, right now is fixed to 0
+              // TODO: This will change, right now is fixed to 0
+              content: 0,
             }}
             label={route.label}
             divider={route.divider}
-            isExpanded={expandItemRoot === route.subpath}
+            isItemSelected={selectedRootItem === route.subpath}
             // eslint-disable-next-line react/no-children-prop
-            children={route?.children}
+            childRoutes={route?.children}
             StartIcon={route.icon}
             subpath={route.subpath}
-            handleExpanded={() => handleExpandItemRoot(route.subpath)}
+            handleSelectedRootItem={handleSelectedRootItem}
             collapsed={collapsed}
           />
         ))}
-      <Divider />
+      <Divider sx={{ marginBottom: 2 }} />
       <SidebarLink
         label="Utenti"
         component="a"
@@ -123,16 +119,7 @@ const SidebarList: React.FC<SidebarListProps> = ({
 }
 
 const SidebarMobile: React.FC<Omit<SidebarProps, 'mobile'>> = ({ routes }) => {
-  const pathname = useCurrentRoute().routeKey
-
-  const [expandItemRoot, setExpandItemRoot] = useState<RouteKey | undefined>(
-    () => routes.find((route) => pathname.startsWith(route.subpath))?.subpath
-  )
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
-
-  const handleExpandItemRoot = (subpath: RouteKey) => {
-    setExpandItemRoot((prev) => (prev === subpath ? undefined : subpath))
-  }
 
   const handleOpenSidebar = () => {
     setIsOpenSidebar(!isOpenSidebar)
@@ -159,12 +146,7 @@ const SidebarMobile: React.FC<Omit<SidebarProps, 'mobile'>> = ({ routes }) => {
       <Divider orientation="horizontal" component="div" />
       {isOpenSidebar && (
         <>
-          <SidebarList
-            routes={routes}
-            expandItemRoot={expandItemRoot}
-            handleExpandItemRoot={handleExpandItemRoot}
-            collapsed={false}
-          />
+          <SidebarList routes={routes} collapsed={false} />
         </>
       )}
     </>

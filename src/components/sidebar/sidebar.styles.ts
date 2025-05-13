@@ -2,6 +2,7 @@ import { alpha, type SxProps, type Theme } from '@mui/material'
 
 export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, SxProps> => ({
   container: {
+    marginTop: 2,
     background: theme.palette.background.paper,
     zIndex: collapsed ? 1 : 10,
     position: 'sticky',
@@ -61,19 +62,19 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
   },
   activeItem: collapsed
     ? {
-        '&.active': {
-          fontWeight: 'bold',
-          backgroundColor: alpha(theme.palette.primary.main, 0.08),
-          borderRight: '2px solid',
-          borderColor: theme.palette.primary.dark,
-          '.MuiTypography-root': {
-            fontWeight: 600,
-            color: theme.palette.primary.dark,
-          },
-          '.MuiListItemIcon-root': {
-            color: theme.palette.primary.dark,
-          },
+      '&.active': {
+        fontWeight: 'bold',
+        backgroundColor: alpha(theme.palette.primary.main, 0.08),
+        borderRight: '2px solid',
+        borderColor: theme.palette.primary.dark,
+        '.MuiTypography-root': {
+          fontWeight: 600,
+          color: theme.palette.primary.dark,
         },
-      }
+        '.MuiListItemIcon-root': {
+          color: theme.palette.primary.dark,
+        },
+      },
+    }
     : {},
 })
