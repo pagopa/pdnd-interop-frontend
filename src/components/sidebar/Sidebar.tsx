@@ -1,15 +1,5 @@
 import React from 'react'
-import {
-  Box,
-  Divider,
-  List,
-  useTheme,
-  Tooltip,
-  IconButton,
-  Stack,
-  useMediaQuery,
-  Typography,
-} from '@mui/material'
+import { Box, Divider, List, useTheme, Tooltip, IconButton, Stack, Typography } from '@mui/material'
 import { sidebarStyles } from './sidebar.styles'
 import { SidebarItemRoot } from './SidebarItemRoot'
 import { useState } from 'react'
@@ -23,20 +13,16 @@ import { SidebarLink } from './SidebarLink'
 import { useTranslation } from 'react-i18next'
 import type { SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
-import { match } from 'assert'
 
 type SidebarProps = {
   routes: SidebarRoutes
+  mobile: boolean
 }
-export const Sidebar: React.FC<SidebarProps> = ({ routes }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
   const theme = useTheme()
   // const pathname = useCurrentRoute().pathname
   const pathname = useCurrentRoute().routeKey
   const { t } = useTranslation('shared-components', { keyPrefix: 'sidenav' })
-
-  const matchMobile = useMediaQuery(theme.breakpoints.down('sm'))
-
-  console.log('matchmobile', matchMobile)
 
   const [collapsed, setCollapsed] = useState(false)
   const handleCollapsed = () => {
@@ -54,7 +40,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ routes }) => {
   }
   return (
     <Box sx={styles.container} component="aside">
-      {matchMobile ? (
+      {!mobile ? (
         <Stack
           component="nav"
           display="flex"
@@ -100,7 +86,7 @@ const SidebarList: React.FC<SidebarListProps> = ({
             key={route.label}
             notification={{
               show: route?.showNotification ?? false,
-              content: 0, // TODO: This will change, right now is fixed
+              content: 10, // TODO: This will change, right now is fixed
             }}
             label={route.label}
             divider={route.divider}
@@ -137,11 +123,10 @@ const SidebarList: React.FC<SidebarListProps> = ({
   )
 }
 
-const SidebarMobile: React.FC<SidebarProps> = ({ routes }) => {
+const SidebarMobile: React.FC<Omit<SidebarProps, 'mobile'>> = ({ routes }) => {
   const pathname = useCurrentRoute().routeKey
   // const pathname = useCurrentRoute().pathname
 
-  console.log('MOBILE')
   const [expandItemRoot, setExpandItemRoot] = useState<RouteKey | undefined>(
     () => routes.find((route) => pathname.startsWith(route.subpath))?.subpath
   )
