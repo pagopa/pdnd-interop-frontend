@@ -114,7 +114,11 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
             {!collapsed && (
               <ListItemText
                 disableTypography
-                primary={<Typography color="inherit">{routeLabel}</Typography>}
+                primary={
+                  <Typography fontWeight={600} color="inherit">
+                    {routeLabel}
+                  </Typography>
+                }
               />
             )}
             {hasChildRoutes &&
