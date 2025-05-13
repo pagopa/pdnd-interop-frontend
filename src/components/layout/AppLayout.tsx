@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, useMediaQuery, useTheme } from '@mui/material'
 import type { SxProps } from '@mui/material'
 import type { SidebarRoutes } from '../sidebar/sidebar.types'
 import DnsIcon from '@mui/icons-material/Dns'
@@ -39,8 +39,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
       subpath: 'PROVIDE_ESERVICE_LIST',
       hide: false,
       children: [
-        { to: 'PROVIDE_ESERVICE_TEMPLATE_LIST', label: 'Template E-Service' },
         { to: 'PROVIDE_ESERVICE_LIST', label: 'I Miei E-service' },
+        { to: 'PROVIDE_ESERVICE_TEMPLATE_LIST', label: 'Template E-Service' },
         { to: 'PROVIDE_AGREEMENT_LIST', label: 'Richieste di fruizione' },
         { to: 'PROVIDE_PURPOSE_LIST', label: 'Finalità ricevute' },
       ],
@@ -72,6 +72,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
     },
   ]
 
+  const theme = useTheme()
+  const matchMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
   if (hideSideNav) {
     return (
       <Box
@@ -91,9 +94,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
 
   return (
     <Box sx={{ flexGrow: 1, height: '100%' }}>
-      <Stack direction="row" sx={{ height: '100%', overflowX: 'hidden' }}>
+      <Stack
+        direction={matchMobile ? 'column' : 'row'}
+        sx={{ height: '100%', overflowX: 'hidden' }}
+      >
         {/* <SideNav /> */}
-        <Sidebar routes={interopRoutes} />
+        <Sidebar mobile={matchMobile} routes={interopRoutes} />
         <Box
           sx={{
             px: 3,
