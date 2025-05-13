@@ -65,7 +65,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
               color="inherit"
               {...typographyProps}
               sx={{
-                fontWeight: isSelected ? 600 : 300,
+                fontWeight: 600,
                 ...typographyProps?.sx,
               }}
             >
