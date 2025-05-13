@@ -81,7 +81,7 @@ const SidebarList: React.FC<SidebarListProps> = ({ routes, collapsed }) => {
             notification={{
               show: route?.showNotification ?? false,
               // TODO: This will change, right now is fixed to 0
-              content: 0,
+              content: 10,
             }}
             label={route.label}
             divider={route.divider}
