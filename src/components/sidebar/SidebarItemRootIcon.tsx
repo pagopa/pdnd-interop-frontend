@@ -16,17 +16,17 @@ export const SidebarRootIcon: React.FC<SidebarRootIconProps> = ({
   notification,
   tooltipLabel,
 }) => {
-  return !collapsed || !notification || notification?.content <= 0 ? (
+  return (
     <Tooltip title={tooltipLabel}>
       <ListItemIcon>
-        <Icon fontSize="inherit" />
+        {!collapsed || !notification || notification?.content <= 0 ? (
+          <Icon fontSize="inherit" />
+        ) : (
+          <Badge color="primary" badgeContent={notification.content} variant="dot">
+            <Icon fontSize="inherit" />
+          </Badge>
+        )}
       </ListItemIcon>
     </Tooltip>
-  ) : (
-    <ListItemIcon>
-      <Badge color="primary" badgeContent={notification.content} variant="dot">
-        <Icon fontSize="inherit" />
-      </Badge>
-    </ListItemIcon>
   )
 }

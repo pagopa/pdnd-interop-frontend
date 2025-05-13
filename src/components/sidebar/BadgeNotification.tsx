@@ -1,3 +1,4 @@
+import React from 'react'
 import { Badge } from '@mui/material'
 
 type BadgeNotificationProps = {
@@ -9,6 +10,7 @@ export const BadgeNotification: React.FC<BadgeNotificationProps> = ({ badgeConte
       <Badge
         sx={{
           '&.MuiBadge-root': {
+            alignItems: 'center',
             paddingRight: 0.5,
           },
         }}
