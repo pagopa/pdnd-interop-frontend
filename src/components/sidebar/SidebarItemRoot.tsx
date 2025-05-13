@@ -25,11 +25,11 @@ import { sidebarStyles } from './sidebar.styles'
 type SidebartItemRootProps = {
   notification?: Notification
   label?: string
-  isExpanded: boolean
+  isItemSelected: boolean
   subpath: RouteKey
   StartIcon: SvgIconComponent
-  handleExpanded: () => void
-  children?: SidebarChildRoutes
+  handleSelectedRootItem: (routeKey: RouteKey) => void
+  childRoutes?: SidebarChildRoutes
   divider?: boolean
   collapsed: boolean
 }
@@ -40,11 +40,11 @@ export function useGetRouteLabel(to: RouteKey): string {
 }
 
 export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
-  children,
+  childRoutes,
   StartIcon,
   subpath,
-  isExpanded,
-  handleExpanded,
+  isItemSelected,
+  handleSelectedRootItem,
   divider,
   collapsed,
   label,
@@ -55,10 +55,10 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
 
   const styles = sidebarStyles(theme, collapsed)
 
-  const hasChildren = children && children.length > 0
+  const hasChildRoutes = childRoutes && childRoutes.length > 0
 
-  const renderChildItem = () => {
-    return children
+  const renderChildRoutesItems = () => {
+    return childRoutes
       ?.filter((child) => !child.hide)
       .map((child) => {
         const routeKey = child.to
@@ -81,14 +81,14 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
   const subPathLink = generatePath(subpath)
 
   const getComponentType = () => {
-    if (hasChildren && !collapsed) {
+    if (hasChildRoutes && !collapsed) {
       return 'button'
     }
     return Link
   }
 
   const getNavigationLink = () => {
-    if (hasChildren && !collapsed) {
+    if (hasChildRoutes && !collapsed) {
       return undefined
     }
     return subPathLink
@@ -99,10 +99,10 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
       <ListItem disablePadding>
         <ListItemButton
           component={getComponentType()}
-          selected={hasChildren ? collapsed && isExpanded : isExpanded}
+          selected={hasChildRoutes ? collapsed && isItemSelected : isItemSelected}
           to={getNavigationLink()}
-          onClick={handleExpanded}
-          sx={collapsed || !hasChildren ? styles.itemButtonActive : {}}
+          onClick={() => handleSelectedRootItem(subpath)}
+          sx={collapsed || !hasChildRoutes ? styles.itemButtonActive : {}}
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
             <SidebarRootIcon
@@ -117,18 +117,20 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
                 primary={<Typography color="inherit">{routeLabel}</Typography>}
               />
             )}
-            {hasChildren && !collapsed && (isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
+            {hasChildRoutes &&
+              !collapsed &&
+              (isItemSelected ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
 
-            {!hasChildren && !collapsed && notification && (
+            {!hasChildRoutes && !collapsed && notification && (
               <BadgeNotification badgeContent={notification.content} />
             )}
           </Stack>
         </ListItemButton>
       </ListItem>
       {divider && <Divider sx={{ mb: 2 }} />}
-      {hasChildren && !collapsed && (
-        <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-          <List disablePadding>{renderChildItem()}</List>
+      {hasChildRoutes && !collapsed && (
+        <Collapse in={isItemSelected} timeout="auto" unmountOnExit>
+          <List disablePadding>{renderChildRoutesItems()}</List>
         </Collapse>
       )}
     </>
