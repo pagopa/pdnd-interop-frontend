@@ -47,21 +47,25 @@ const RiskAnalysisEServiceAssociatedPageContent: React.FC = () => {
     },
   })
 
-  const riskAnalysisId = formMethods.watch('riskAnalysisId')
+  const watch = formMethods.watch
+  const riskAnalysisId = watch('riskAnalysisId')
 
   useEffect(() => {
-    if (riskAnalysisId) {
-      setSearchParams((prev) => {
-        prev.set('riskAnalysisId', riskAnalysisId)
-        return prev
-      })
-    } else {
-      setSearchParams((prev) => {
-        prev.delete('riskAnalysisId')
-        return prev
-      })
-    }
-  }, [riskAnalysisId, setSearchParams])
+    const { unsubscribe } = watch(({ riskAnalysisId }) => {
+      if (riskAnalysisId) {
+        setSearchParams((prev) => {
+          prev.set('riskAnalysisId', riskAnalysisId)
+          return prev
+        })
+      } else {
+        setSearchParams((prev) => {
+          prev.delete('riskAnalysisId')
+          return prev
+        })
+      }
+    })
+    return () => unsubscribe()
+  }, [watch, setSearchParams])
 
   if (riskAnalysisList?.length <= 0) {
     return <Redirect to="NOT_FOUND" />
