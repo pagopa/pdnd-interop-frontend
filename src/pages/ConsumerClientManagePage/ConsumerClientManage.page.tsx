@@ -17,6 +17,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
+import { FEATURE_FLAG_ADMIN_CLIENT_API } from '@/config/env'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
@@ -51,42 +52,44 @@ const ConsumerClientManagePage: React.FC = () => {
         to: clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST',
       }}
     >
-      <Grid container>
-        <Grid item xs={8}>
-          <SectionContainer
-            title={t('adminSection.title')}
-            description={t('adminSection.description')}
-            sx={{ mb: 3 }}
-          >
-            {client?.admin ? (
-              <Stack direction="row" justifyContent="space-between" alignItems={'center'}>
-                <InformationContainer
-                  label={t('adminSection.adminLabel')}
-                  content={client.admin.name}
-                  direction="column"
-                />
-                <Stack direction="row" spacing={2}>
-                  <Button variant="outlined" startIcon={<SyncIcon />} onClick={openDrawer}>
-                    {t('adminSection.actions.substituteAdminLabel')}
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    startIcon={<DeleteIcon />}
-                    onClick={handleRemoveClientAdmin}
-                  >
-                    {t('adminSection.actions.removeAdminLabel')}
-                  </Button>
+      {FEATURE_FLAG_ADMIN_CLIENT_API && (
+        <Grid container>
+          <Grid item xs={8}>
+            <SectionContainer
+              title={t('adminSection.title')}
+              description={t('adminSection.description')}
+              sx={{ mb: 3 }}
+            >
+              {client?.admin ? (
+                <Stack direction="row" justifyContent="space-between" alignItems={'center'}>
+                  <InformationContainer
+                    label={t('adminSection.adminLabel')}
+                    content={client.admin.name}
+                    direction="column"
+                  />
+                  <Stack direction="row" spacing={2}>
+                    <Button variant="outlined" startIcon={<SyncIcon />} onClick={openDrawer}>
+                      {t('adminSection.actions.substituteAdminLabel')}
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      startIcon={<DeleteIcon />}
+                      onClick={handleRemoveClientAdmin}
+                    >
+                      {t('adminSection.actions.removeAdminLabel')}
+                    </Button>
+                  </Stack>
                 </Stack>
-              </Stack>
-            ) : (
-              <Button variant="outlined" onClick={openDrawer}>
-                {t('adminSection.actions.selectAdminLabel')}
-              </Button>
-            )}
-          </SectionContainer>
+              ) : (
+                <Button variant="outlined" onClick={openDrawer}>
+                  {t('adminSection.actions.selectAdminLabel')}
+                </Button>
+              )}
+            </SectionContainer>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
           <Tab label={t('tabs.voucher')} value="voucher" />
@@ -106,12 +109,14 @@ const ConsumerClientManagePage: React.FC = () => {
           <ClientPublicKeys clientId={clientId} />
         </TabPanel>
       </TabContext>
-      <SetClientAdminDrawer
-        isOpen={isOpen}
-        onClose={closeDrawer}
-        clientId={clientId}
-        admin={client?.admin}
-      />
+      {FEATURE_FLAG_ADMIN_CLIENT_API && (
+        <SetClientAdminDrawer
+          isOpen={isOpen}
+          onClose={closeDrawer}
+          clientId={clientId}
+          admin={client?.admin}
+        />
+      )}
     </PageContainer>
   )
 }
