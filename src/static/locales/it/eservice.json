@@ -1,5 +1,6 @@
 {
   "backToListBtn": "Torna agli e-service",
+  "backToEServiceBtn": "Torna all'e-service",
   "create": {
     "emptyTitle": "Crea e-service",
     "stepper": {
@@ -69,6 +70,21 @@
         "purposeTable": {
           "noDataLabel": "Nessuna finalità aggiunta"
         }
+      },
+      "riskAnalysis": {
+        "riskAnalysisNameSection": {
+          "title": "Finalità",
+          "description": "Indica un caso d’uso per i quali intendi raccogliere dati e compila l’analisi del rischio.",
+          "nameField": {
+            "label": "Nome della finalità",
+            "infoLabel": "Massimo 60 caratteri"
+          }
+        },
+        "riskAnalysisSection": {
+          "title": "Analisi del rischio",
+          "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
+          "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo"
+        }       
       }
     },
     "step2": {
@@ -351,7 +367,9 @@
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
           "downloadConsumerList": "Scarica l'elenco dei fruitori",
           "showProducerContacts": "Visualizza i contatti dell’erogatore",
-          "exportVersion": "Scarica questa versione dell’e-service"
+          "exportVersion": "Scarica questa versione dell’e-service",
+          "watchRiskyAnalysisAssociated": "Consulta l'analisi del rischio di questo e-service"
+
         }
       },
       "technicalInformations": {
@@ -555,5 +573,9 @@
     "inspect": "Visualizza richiesta",
     "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
     "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+  },
+  "watchRiskyAnalysisAssociated": {
+    "title": "Analisi del rischio",
+    "description":"Seleziona l'analisi del rischio da visualizzare"
   }
 }

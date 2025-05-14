@@ -1,5 +1,6 @@
 {
   "backToListBtn": "Back to the e-services",
+  "backToEServiceBtn": "Back to the e-service",
   "create": {
     "emptyTitle": "Create e-service",
     "stepper": {
@@ -68,6 +69,21 @@
         "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
         "purposeTable": {
           "noDataLabel": "No added purpose"
+        }
+      },
+      "riskAnalysis": {
+        "riskAnalysisNameSection": {
+          "title": "Purpose",
+          "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
+          "nameField": {
+            "label": "Purpose name",
+            "infoLabel": "Max 60 chars"
+          }
+        },
+        "riskAnalysisSection": {
+          "title": "Risk analysis",
+          "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
+          "personalDataAlert": "Be careful not to enter personal data in the free text fields"
         }
       }
     },
@@ -324,6 +340,7 @@
         "removeKeychainFromEService": "Remove from e-service"
       }
     },
+    
     "sections": {
       "generalInformations": {
         "title": "General informations",
@@ -351,7 +368,8 @@
           "showTechnicalDetails": "Show e-service technical details",
           "downloadConsumerList": "Download consumer list",
           "showProducerContacts": "Show producer contacts",
-          "exportVersion": "Download this e-service version"
+          "exportVersion": "Download this e-service version",
+          "watchRiskyAnalysisAssociated": "Consult risky analysis associated to this e-service"
         }
       },
       "technicalInformations": {
@@ -555,5 +573,9 @@
     "inspect": "Inspect request",
     "eserviceSuspendedTooltip": "It is currently not possible to submit new requests, the e-service is suspended",
     "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
+  },
+  "watchRiskyAnalysisAssociated": {
+    "title": "Risk analysis",
+    "description":"Select which ris analysis you want to show"
   }
 }

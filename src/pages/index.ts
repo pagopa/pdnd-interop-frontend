@@ -47,3 +47,4 @@ export { ProviderEServiceTemplateDetailsPage } from './ProviderEServiceTemplateD
 export { ProviderEServiceTemplateCreatePage } from './ProviderEServiceTemplateCreatePage'
 export { ProviderEServiceTemplateSummaryPage } from './ProviderEServiceTemplateSummaryPage'
 export { ProviderEServiceFromTemplateCreatePage } from './ProviderEServiceFromTemplateCreatePage'
+export { RiskAnalysisEServiceAssociatedPage } from './RiskAnalysisEserviceAssociatedPage'
