@@ -13,6 +13,8 @@ import { SidebarLink } from './SidebarLink'
 import { useTranslation } from 'react-i18next'
 import type { SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
+import { SideNavSkeleton } from '../layout/SideNav'
+import { AuthHooks } from '@/api/auth'
 
 type SidebarProps = {
   routes: SidebarRoutes
@@ -23,7 +25,14 @@ type SidebarListProps = {
   routes: SidebarRoutes
   collapsed: boolean
 }
+
 export const Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
+  const { jwt } = AuthHooks.useJwt()
+  if (!jwt) return <SideNavSkeleton />
+  return <_Sidebar routes={routes} mobile={mobile} />
+}
+
+export const _Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
   const theme = useTheme()
   const { t } = useTranslation('shared-components', { keyPrefix: 'sidenav' })
 
