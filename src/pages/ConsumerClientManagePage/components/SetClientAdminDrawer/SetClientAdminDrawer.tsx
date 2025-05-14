@@ -32,7 +32,6 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
   const { mutate: setClientAdmin } = ClientMutations.useSetClientAdmin()
 
   const selectedAdminRef = React.useRef<CompactUser | undefined>(admin)
-  const hasSetAdmin = React.useRef(Boolean(admin))
 
   const formMethods = useForm<SetClientAdminFormValues>({
     defaultValues: {
@@ -40,12 +39,9 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
     },
   })
 
-  const { setValue, watch } = formMethods
   const [adminAutocompleteTextInput, setAdminAutocompleteTextInput] = useAutocompleteTextInput(
-    admin?.name ?? ''
+    admin ? `${admin?.name} ${admin?.familyName}` : ''
   )
-
-  const selectedAdminId = watch('selectedAdminId')
 
   /**
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected attribute name.
@@ -53,7 +49,11 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
   function getQ() {
     let result = adminAutocompleteTextInput
 
-    if (selectedAdminRef.current && adminAutocompleteTextInput === selectedAdminRef.current.name) {
+    if (
+      selectedAdminRef.current &&
+      adminAutocompleteTextInput ===
+        `${selectedAdminRef.current.name} ${selectedAdminRef.current.familyName}`
+    ) {
       result = ''
     }
 
@@ -74,7 +74,7 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
   }
 
   const autocompleteOptions = users.map((user) => ({
-    label: user.name,
+    label: `${user.name} ${user.familyName}`,
     value: user.userId,
   }))
 
