@@ -1,6 +1,6 @@
 import React from 'react'
 import { mockUseCurrentRoute, renderWithApplicationContext } from '@/utils/testing.utils'
-import { Sidebar } from '../Sidebar'
+import { _Sidebar } from '../Sidebar'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { screen } from '@testing-library/react'
@@ -36,12 +36,8 @@ describe('Sidebar', () => {
     },
   ]
 
-  //   beforeEach(() => {
-  //     ;(commonUtils.getCurrentSelfCareProductId as vi.Mock).mockReturnValue('mocked-product-id')
-  //   })
-
   it('should render the sidebar with routes', () => {
-    renderWithApplicationContext(<Sidebar routes={mockRoutes} mobile={false} />, {
+    renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={false} />, {
       withRouterContext: true,
     })
 
@@ -50,7 +46,7 @@ describe('Sidebar', () => {
   })
 
   it('should be able to expand root menu item if it has children', async () => {
-    renderWithApplicationContext(<Sidebar routes={mockRoutes} mobile={false} />, {
+    renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={false} />, {
       withRouterContext: true,
     })
     const user = userEvent.setup()
@@ -69,7 +65,7 @@ describe('Sidebar', () => {
   })
 
   it('should be able to collapse menu and show only root item icons', async () => {
-    renderWithApplicationContext(<Sidebar routes={mockRoutes} mobile={false} />, {
+    renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={false} />, {
       withRouterContext: true,
     })
 
@@ -85,7 +81,7 @@ describe('Sidebar', () => {
 
   describe('mobile sidebar', () => {
     it('should render only burger icon when menu is closed', async () => {
-      renderWithApplicationContext(<Sidebar routes={mockRoutes} mobile={true} />, {
+      renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={true} />, {
         withRouterContext: true,
       })
 
@@ -94,7 +90,7 @@ describe('Sidebar', () => {
     })
 
     it('should render root items when menu is open and root items are not expanded', async () => {
-      renderWithApplicationContext(<Sidebar routes={mockRoutes} mobile={true} />, {
+      renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={true} />, {
         withRouterContext: true,
       })
 
