@@ -404,6 +404,7 @@
     "PROVIDE_ESERVICE_TEMPLATE_CREATE":"Create E-Service template",
     "PROVIDE_ESERVICE_TEMPLATE_EDIT":"Update E-Service template",
     "PROVIDE_ESERVICE_TEMPLATE_SUMMARY":"E-Service template Summary",
-    "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE" :"Create E-Service from template"
+    "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE" :"Create E-Service from template",
+    "WATCH_RISK_ANALISIS_FOR_ESERVICE":"Risk analysis"
   }
 }
