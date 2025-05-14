@@ -40,7 +40,7 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
   })
 
   const [adminAutocompleteTextInput, setAdminAutocompleteTextInput] = useAutocompleteTextInput(
-    admin ? `${admin?.name} ${admin?.familyName}` : ''
+    admin ? `${admin.name} ${admin.familyName}` : ''
   )
 
   /**
