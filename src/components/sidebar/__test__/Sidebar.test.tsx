@@ -4,7 +4,6 @@ import { Sidebar } from '../Sidebar'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { screen } from '@testing-library/react'
-import { SELFCARE_BASE_URL } from '@/config/env'
 import * as commonUtils from '@/utils/common.utils'
 import type { SidebarRoutes } from '../sidebar.types'
 import { type RouteKey } from '@/router'
@@ -12,11 +11,6 @@ import { SvgIconComponent } from '@mui/icons-material'
 import * as useIsRouteInCurrentSubtree from '@/components/layout/SideNav/hooks/useIsRouteInCurrentSubtree'
 import { ConsumerIcon } from '@/assets'
 import { CatalogIcon } from '@/assets/CatalogIcon'
-
-// vi.mock('@/utils/common.utils', () => ({
-//   ...vi.importActual('@/utils/common.utils'),
-//   getCurrentSelfCareProductId: vi.fn(),
-// }))
 
 mockUseCurrentRoute({ routeKey: 'TOS' })
 vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnValue(() => false)
@@ -89,7 +83,7 @@ describe('Sidebar', () => {
     expect(screen.queryByText('item-child-2')).not.toBeInTheDocument()
   })
 
-  describe.only('mobile sidebar', () => {
+  describe('mobile sidebar', () => {
     it('should render only burger icon when menu is closed', async () => {
       renderWithApplicationContext(<Sidebar routes={mockRoutes} mobile={true} />, {
         withRouterContext: true,
