@@ -64,7 +64,7 @@ const ConsumerClientManagePage: React.FC = () => {
                 <Stack direction="row" justifyContent="space-between" alignItems={'center'}>
                   <InformationContainer
                     label={t('adminSection.adminLabel')}
-                    content={client.admin.name}
+                    content={`${client.admin.name} ${client.admin.familyName}`}
                     direction="column"
                   />
                   <Stack direction="row" spacing={2}>
