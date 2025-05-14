@@ -4,9 +4,10 @@ import { Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/eservice'
-import { useParams } from '@/router'
+import { useNavigate, useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
+import InsertLinkIcon from '@mui/icons-material/InsertLink'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
@@ -43,6 +44,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
+  const navigate = useNavigate()
 
   const { mutate: updateEserviceDescription } = EServiceMutations.useUpdateEServiceDescription()
   const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
@@ -138,12 +140,29 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     )
   }
 
+  const watchRiskyAnalysisAssociatedAction = {
+    startIcon: <InsertLinkIcon fontSize="small" />,
+    component: 'button',
+    onClick: () =>
+      navigate('WATCH_RISK_ANALISIS_FOR_ESERVICE', {
+        params: {
+          descriptorId: descriptor.id,
+          eserviceId: descriptor.eservice.id,
+        },
+      }),
+    label: t('bottomActions.watchRiskyAnalysisAssociated'),
+  }
+
+  const isAtLeastOneRiskyAnalysisAssociated =
+    descriptor.eservice.riskAnalysis && descriptor.eservice.riskAnalysis.length > 0
   return (
     <>
       <SectionContainer
         title={t('title')}
         bottomActions={[
           ...(!hasSingleVersion ? [navigateVersionsAction] : []),
+          ...(isAtLeastOneRiskyAnalysisAssociated ? [exportVersionListAction] : []),
+          ...(descriptor.eservice.mode === 'RECEIVE' ? [watchRiskyAnalysisAssociatedAction] : []),
           downloadConsumerListAction,
           ...(!isEserviceFromTemplate ? [exportVersionListAction] : []),
         ]}

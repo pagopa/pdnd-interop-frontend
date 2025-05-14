@@ -1,5 +1,6 @@
 {
   "backToListBtn": "Torna agli e-service",
+  "backToEServiceBtn": "Torna all'e-service",
   "create": {
     "emptyTitle": "Crea e-service",
     "stepper": {
@@ -351,7 +352,9 @@
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
           "downloadConsumerList": "Scarica l'elenco dei fruitori",
           "showProducerContacts": "Visualizza i contatti dell’erogatore",
-          "exportVersion": "Scarica questa versione dell’e-service"
+          "exportVersion": "Scarica questa versione dell’e-service",
+          "watchRiskyAnalysisAssociated": "Consulta l'analisi del rischio di questo e-service"
+
         }
       },
       "technicalInformations": {
@@ -551,5 +554,9 @@
     "inspect": "Visualizza richiesta",
     "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
     "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+  },
+  "watchRiskyAnalysisAssociated": {
+    "title": "Analisi del rischio",
+    "description":"Seleziona l'analisi del rischio da visualizzare"
   }
 }
