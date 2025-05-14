@@ -1,5 +1,6 @@
 {
   "backToListBtn": "Back to the e-services",
+  "backToEServiceBtn": "Back to the e-service",
   "create": {
     "emptyTitle": "Create e-service",
     "stepper": {
@@ -324,6 +325,7 @@
         "removeKeychainFromEService": "Remove from e-service"
       }
     },
+    
     "sections": {
       "generalInformations": {
         "title": "General informations",
@@ -351,7 +353,8 @@
           "showTechnicalDetails": "Show e-service technical details",
           "downloadConsumerList": "Download consumer list",
           "showProducerContacts": "Show producer contacts",
-          "exportVersion": "Download this e-service version"
+          "exportVersion": "Download this e-service version",
+          "watchRiskyAnalysisAssociated": "Consult risky analysis associated to this e-service"
         }
       },
       "technicalInformations": {
@@ -392,6 +395,14 @@
           "dailyCallsTotal": {
             "label": "Total threshold",
             "labelDescription": "API calls/day"
+          }
+        },
+        "agreementApprovalPolicy": {
+          "title": "Agreements",
+          "label": "Requests acceptance",
+          "content": {
+            "AUTOMATIC": "Automatic",
+            "MANUAL": "Manual"
           }
         },
         "documentation": {
@@ -457,6 +468,13 @@
         "dailyCallsTotalField": {
           "label": "Total threshold",
           "infoLabel": "API calls/day"
+        }
+      },
+      "updateAgreementApprovalPolicyDrawer": {
+        "title": "Agreements approval",
+        "subtitle": "From this panel you can establish how the agreements that the institutions will formulate towards this e-service are managed.",
+        "agreementApprovalPolicyField": {
+          "label": "Manual approval"
         }
       },
       "technicalInfoDrawer": {
@@ -536,5 +554,9 @@
     "inspect": "Inspect request",
     "eserviceSuspendedTooltip": "It is currently not possible to submit new requests, the e-service is suspended",
     "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
+  },
+  "watchRiskyAnalysisAssociated": {
+    "title": "Risk analysis",
+    "description":"Select which ris analysis you want to show"
   }
 }

@@ -1,5 +1,6 @@
 {
   "backToListBtn": "Torna agli e-service",
+  "backToEServiceBtn": "Torna all'e-service",
   "create": {
     "emptyTitle": "Crea e-service",
     "stepper": {
@@ -351,7 +352,9 @@
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
           "downloadConsumerList": "Scarica l'elenco dei fruitori",
           "showProducerContacts": "Visualizza i contatti dell’erogatore",
-          "exportVersion": "Scarica questa versione dell’e-service"
+          "exportVersion": "Scarica questa versione dell’e-service",
+          "watchRiskyAnalysisAssociated": "Consulta l'analisi del rischio di questo e-service"
+
         }
       },
       "technicalInformations": {
@@ -392,6 +395,14 @@
           "dailyCallsTotal": {
             "label": "Soglia totale",
             "labelDescription": "chiamate API/giorno"
+          }
+        },
+        "agreementApprovalPolicy": {
+          "title": "Richieste di fruizione",
+          "label": "Accettazione richieste",
+          "content": {
+            "AUTOMATIC": "Automatica",
+            "MANUAL": "Manuale"
           }
         },
         "documentation": {
@@ -457,6 +468,13 @@
         "dailyCallsTotalField": {
           "label": "Soglia totale",
           "infoLabel": "Chiamate API/giorno"
+        }
+      },
+      "updateAgreementApprovalPolicyDrawer": {
+        "title": "Accettazione richieste di fruizione",
+        "subtitle": "Da questo pannello puoi stabilire come vengono gestite le richieste di fruizione che gli enti formuleranno verso questo e-service.",
+        "agreementApprovalPolicyField": {
+          "label": "Attivazione manuale"
         }
       },
       "technicalInfoDrawer": {
@@ -536,5 +554,9 @@
     "inspect": "Visualizza richiesta",
     "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
     "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
+  },
+  "watchRiskyAnalysisAssociated": {
+    "title": "Analisi del rischio",
+    "description":"Seleziona l'analisi del rischio da visualizzare"
   }
 }
