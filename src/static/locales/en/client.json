@@ -50,6 +50,27 @@
     }
   },
   "edit": {
+    "adminSection": {
+      "title": "Admin API",
+      "description": "The Client Admin API is a user belonging to the entity who has the authority to perform write operations through the machine to machine channel.",
+      "adminLabel": "Admin",
+      "actions": {
+        "selectAdminLabel": "Select admin",
+        "substituteAdminLabel": "Substitute",
+        "removeAdminLabel": "Remove"
+      }
+    },
+    "setClientAdminDrawer": {
+      "title": {
+        "substitute": "Substitute Client Admin API",
+        "select": "Select Client Admin API"
+      },
+      "subtitle": "You can enable a client member to write via API to the machine to machine flow.",
+      "adminField": {
+        "label": "Client Admin API",
+        "infoLabel": "You can only choose one member per client."
+      }
+    },
     "tabs": {
       "ariaLabel": "Three different tabs with the instructions to obtain a voucher, for client members and public keys",
       "voucher": "How do I obtain a voucher?",

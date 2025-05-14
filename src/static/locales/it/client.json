@@ -50,6 +50,27 @@
     }
   },
   "edit": {
+    "adminSection": {
+      "title": "Admin API",
+      "description": "Il Client Admin API è un utente appartenente all’ente che ha facoltà di effettuare operazioni di scrittura attraverso il canale machine to machine.",
+      "adminLabel": "Responsabile",
+      "actions": {
+        "selectAdminLabel": "Seleziona admin",
+        "substituteAdminLabel": "Sostituisci",
+        "removeAdminLabel": "Rimuovi"
+      }
+    },
+    "setClientAdminDrawer": {
+      "title": {
+        "substitute": "Sostituisci Client Admin API",
+        "select": "Seleziona Client Admin API"
+      },
+      "subtitle": "Puoi abilitare un membro del client alla scrittura tramite API nel flusso machine to machine.",
+      "adminField": {
+        "label": "Client Admin API",
+        "infoLabel": "Puoi scegliere un solo membro per client."
+      }
+    },
     "tabs": {
       "ariaLabel": "Tre tab diverse per le istruzioni dell'ottenimento del voucher, i membri del client e le chiavi pubbliche",
       "voucher": "Come ottengo un voucher?",

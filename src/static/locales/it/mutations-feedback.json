@@ -635,6 +635,24 @@
         "success": "L'utente è stato rimosso correttamente dal client",
         "error": "Non è stato possibile rimuovere l'utente dal client. Per favore, riprova!"
       }
+    },
+    "setClientAdmin": {
+      "loading": "Stiamo assegnando l'admin API",
+      "outcome": {
+        "success": "L’admin API è stato assegnato correttamente!",
+        "error": "Non è stato possibile assegnare il ruolo di admin API. Per favore, riprova!"
+      }
+    },
+    "removeClientAdmin": {
+      "loading": "Stiamo rimuovendo l'admin API",
+      "outcome": {
+        "success": "L’admin API è stato rimosso correttamente!",
+        "error": "Non è stato possibile rimuovere l’admin API. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione Admin API",
+        "description": "Cliccando “Conferma” l’utente {{userName}} verrà rimosso dal ruolo di Client Admin API. Questo client non potrà più scrivere dati verso le API di Interop fino a quando non verrà selezionato un nuovo admin."
+      }
     }
   },
   "party": {

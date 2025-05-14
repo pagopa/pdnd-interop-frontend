@@ -45,7 +45,9 @@
     "approve": "Approva",
     "createNewDraftFromEserviceTemplate": "Crea bozza da template",
     "updateIstance": "Aggiorna istanza",
-    "select": "Seleziona"
+    "select": "Seleziona",
+    "selectAdmin": "Seleziona admin",
+    "substituteAdmin": "Sostituisci admin"
   },
   "table": {
     "headData": {

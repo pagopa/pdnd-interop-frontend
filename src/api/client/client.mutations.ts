@@ -96,6 +96,38 @@ function useRemoveOperator() {
   })
 }
 
+function useSetClientAdmin() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.setClientAdmin' })
+  return useMutation({
+    mutationFn: ClientServices.setClientAdmin,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useRemoveClientAdmin() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'client.removeClientAdmin' })
+  return useMutation({
+    mutationFn: ({ clientId, adminId }: { clientId: string; adminId: string; userName: string }) =>
+      ClientServices.removeClientAdmin({ clientId, adminId }),
+    meta: {
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        description: (variables: any) => {
+          return t('confirmDialog.description', { userName: variables.userName })
+        },
+      },
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const ClientMutations = {
   useCreate,
   useCreateInteropM2M,
@@ -104,4 +136,6 @@ export const ClientMutations = {
   useDeleteKey,
   useAddOperators,
   useRemoveOperator,
+  useSetClientAdmin,
+  useRemoveClientAdmin,
 }

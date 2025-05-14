@@ -635,6 +635,24 @@
         "success": "User removed successfully",
         "error": "The user could not be removed from the client. Please, try again!"
       }
+    },
+    "setClientAdmin": {
+      "loading": "Assigning the admin API",
+      "outcome": {
+        "success": "Admin API assigned successfully!",
+        "error": "The client API admin role could not be assigned. Please try again!"
+      }
+    },
+    "removeClientAdmin": {
+      "loading": "Removing the admin API",
+      "outcome": {
+        "success": "Admin API removed successfully!",
+        "error": "The client API admin could not be removed. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm Admin API Removal",
+        "description": "By clicking “Confirm” the user {{userName}} will be removed from the Client Admin API role. This client will no longer be able to write data to the Interop APIs until a new admin is selected."
+      }
     }
   },
   "party": {

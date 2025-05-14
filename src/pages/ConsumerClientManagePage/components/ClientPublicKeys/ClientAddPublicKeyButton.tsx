@@ -20,7 +20,7 @@ export const ClientAddPublicKeyButton: React.FC<ClientAddPublicKeyButtonProps> =
   const { t } = useTranslation('key')
   const { jwt, isSupport } = AuthHooks.useJwt()
   const { data: usersIds } = useSuspenseQuery({
-    ...ClientQueries.getOperatorsList(clientId),
+    ...ClientQueries.getOperatorsList({ clientId }),
     select: (users) => users.map((user) => user.userId),
   })
 
