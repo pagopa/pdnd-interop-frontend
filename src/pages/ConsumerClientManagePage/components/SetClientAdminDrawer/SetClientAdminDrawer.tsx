@@ -1,5 +1,7 @@
 import type { CompactUser } from '@/api/api.generatedTypes'
-import { ClientMutations, ClientQueries } from '@/api/client'
+import { AuthHooks } from '@/api/auth'
+import { ClientMutations } from '@/api/client'
+import { TenantQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/material'
@@ -27,6 +29,7 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
 }) => {
   const { t } = useTranslation('client', { keyPrefix: 'edit.setClientAdminDrawer' })
   const { t: tCommon } = useTranslation('common')
+  const { jwt } = AuthHooks.useJwt()
 
   const { mutate: setClientAdmin } = ClientMutations.useSetClientAdmin()
 
@@ -37,10 +40,10 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
   })
 
   const { data: users = [], isLoading } = useQuery({
-    ...ClientQueries.getOperatorsList({
-      clientId: clientId,
+    ...TenantQueries.getPartyUsersList({
+      tenantId: jwt?.organizationId as string,
+      roles: ['admin'],
     }),
-    enabled: Boolean(clientId),
     select: (results) => results ?? [],
   })
 
@@ -83,6 +86,7 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
             label={t('adminField.label')}
             infoLabel={t('adminField.infoLabel')}
             sx={{ my: 0 }}
+            size="small"
             name="selectedAdminId"
             rules={{ required: true }}
             options={autocompleteOptions}
