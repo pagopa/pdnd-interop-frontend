@@ -30,7 +30,7 @@ export const ClientTableRow: React.FC<ClientTableRowProps> = ({ client, clientKi
     <TableRow
       cellData={
         FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
-          ? [client.name, client.admin?.name ?? '-']
+          ? [client.name, client.admin ? `${client.admin.name} ${client.admin.familyName}` : '-']
           : [client.name]
       }
     >
