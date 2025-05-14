@@ -51,6 +51,7 @@
     "headData": {
       "eserviceName": "E-service",
       "clientName": "Client",
+      "clientAdminName": "Admin API",
       "purposeName": "Finalità",
       "providerName": "Erogatore",
       "subscriberName": "Fruitore",

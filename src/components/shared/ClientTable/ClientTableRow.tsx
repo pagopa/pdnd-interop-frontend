@@ -9,13 +9,14 @@ import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
 import { useQueryClient } from '@tanstack/react-query'
+import { FEATURE_FLAG_ADMIN_CLIENT_API } from '@/config/env'
 
-type ClientTableRow = {
+type ClientTableRowProps = {
   client: CompactClient
   clientKind: ClientKind
 }
 
-export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind }) => {
+export const ClientTableRow: React.FC<ClientTableRowProps> = ({ client, clientKind }) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const queryClient = useQueryClient()
 
@@ -26,7 +27,13 @@ export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind })
   }
 
   return (
-    <TableRow cellData={[client.name]}>
+    <TableRow
+      cellData={
+        FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
+          ? [client.name, client.admin ? `${client.admin.name} ${client.admin.familyName}` : '-']
+          : [client.name]
+      }
+    >
       <Link
         as="button"
         onPointerEnter={handlePrefetch}
@@ -48,9 +55,15 @@ export const ClientTableRow: React.FC<ClientTableRow> = ({ client, clientKind })
   )
 }
 
-export const ClientTableRowSkeleton: React.FC = () => {
+export const ClientTableRowSkeleton: React.FC<{ clientKind: ClientKind }> = ({ clientKind }) => {
   return (
-    <TableRow cellData={[<Skeleton key={0} width={440} />]}>
+    <TableRow
+      cellData={
+        FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
+          ? [<Skeleton key={0} width={260} />, <Skeleton key={1} width={180} />]
+          : [<Skeleton key={0} width={440} />]
+      }
+    >
       <ButtonSkeleton size="small" width={100} />
       <ActionMenuSkeleton />
     </TableRow>

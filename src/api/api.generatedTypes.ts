@@ -2339,6 +2339,14 @@ export interface GetClientsParams {
   limit: number
 }
 
+export interface SetAdminToClientPayload {
+  /**
+   * UserId to be added as admin
+   * @format uuid
+   */
+  adminId: string
+}
+
 export interface GetClientUsersParams {
   /** Filter users by name */
   name?: string
@@ -6137,6 +6145,27 @@ export namespace Clients {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = void
+  }
+  /**
+   * @description Sets an Admin to a Client
+   * @tags clients
+   * @name SetAdminToClient
+   * @summary Sets an Admin to a Client
+   * @request POST:/clients/{clientId}/admin
+   * @secure
+   */
+  export namespace SetAdminToClient {
+    export type RequestParams = {
+      /**
+       * ID of Client the users belong to
+       * @format uuid
+       */
+      clientId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = SetAdminToClientPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = Client
   }
   /**
    * @description Removes an admin from a client
