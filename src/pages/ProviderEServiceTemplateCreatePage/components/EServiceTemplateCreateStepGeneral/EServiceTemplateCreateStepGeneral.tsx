@@ -151,19 +151,11 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                 value: 'DELIVER',
               },
               {
-                label: (
-                  <Tooltip //TODO: TEMP tooltip for disabled receive mode
-                    title={t('create.step1.eserviceTemplateModeField.tooltipReceiveMode')}
-                    placement="top"
-                    arrow
-                  >
-                    <span>{t('create.step1.eserviceTemplateModeField.options.RECEIVE')}</span>
-                  </Tooltip>
-                ),
+                label: t('create.step1.eserviceTemplateModeField.options.RECEIVE'),
                 value: 'RECEIVE',
               },
             ]}
-            disabled={true} //{!areEServiceTemplateGeneralInfoEditable} TODO: TEMP  Receive mode is currently disabled
+            disabled={!areEServiceTemplateGeneralInfoEditable}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
