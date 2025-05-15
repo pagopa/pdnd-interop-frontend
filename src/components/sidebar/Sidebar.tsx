@@ -69,7 +69,7 @@ const SidebarList: React.FC<SidebarListProps> = ({ routes, collapsed }) => {
   const pathname = useCurrentRoute().routeKey
 
   const [selectedRootItem, setSelectedRootItem] = useState<RouteKey | undefined>(
-    () => routes.find((route) => pathname.startsWith(route.subpath))?.subpath
+    () => routes.find((route) => pathname.startsWith(route.rootRouteKey))?.rootRouteKey
   )
 
   const handleSelectedRootItem = (routeKey: RouteKey) => {
@@ -90,15 +90,15 @@ const SidebarList: React.FC<SidebarListProps> = ({ routes, collapsed }) => {
             notification={{
               show: route?.showNotification ?? false,
               // TODO: This will change, right now is fixed to 0
-              content: 10,
+              content: 0,
             }}
             label={route.label}
             divider={route.divider}
-            isItemSelected={selectedRootItem === route.subpath}
+            isItemSelected={selectedRootItem === route.rootRouteKey}
             // eslint-disable-next-line react/no-children-prop
             childRoutes={route?.children}
             StartIcon={route.icon}
-            subpath={route.subpath}
+            subpath={route.rootRouteKey}
             handleSelectedRootItem={handleSelectedRootItem}
             collapsed={collapsed}
           />
