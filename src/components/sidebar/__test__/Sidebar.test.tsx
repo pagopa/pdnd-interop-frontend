@@ -4,10 +4,7 @@ import { _Sidebar } from '../Sidebar'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { screen } from '@testing-library/react'
-import * as commonUtils from '@/utils/common.utils'
 import type { SidebarRoutes } from '../sidebar.types'
-import { type RouteKey } from '@/router'
-import { SvgIconComponent } from '@mui/icons-material'
 import * as useIsRouteInCurrentSubtree from '@/components/layout/SideNav/hooks/useIsRouteInCurrentSubtree'
 import { ConsumerIcon } from '@/assets'
 import { CatalogIcon } from '@/assets/CatalogIcon'
@@ -19,7 +16,7 @@ describe('Sidebar', () => {
   const mockRoutes: SidebarRoutes = [
     {
       label: 'item-root-1',
-      subpath: 'SUBSCRIBE_CATALOG_LIST',
+      rootRouteKey: 'SUBSCRIBE_CATALOG_LIST',
       icon: CatalogIcon,
       children: [],
     },
@@ -27,7 +24,7 @@ describe('Sidebar', () => {
       showNotification: false,
       icon: ConsumerIcon,
       label: 'item-root-2',
-      subpath: 'PROVIDE_AGREEMENT_LIST',
+      rootRouteKey: 'PROVIDE_AGREEMENT_LIST',
       children: [
         { to: 'PROVIDE_AGREEMENT_LIST', label: 'item-child-1' },
         { to: 'SUBSCRIBE_PURPOSE_LIST', label: 'item-child-2' },
