@@ -16,10 +16,10 @@ import { AuthHooks } from '@/api/auth'
 import { useNavigate } from '@/router'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import { PurposeCreateProviderRiskAnalysisAutocomplete } from './PurposeCreateProviderRiskAnalysisAutocomplete'
-import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAnalysis'
 import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutocomplete'
+import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 export type PurposeCreateFormValues = {
   consumerId: string
@@ -179,7 +179,10 @@ export const PurposeCreateForm: React.FC = () => {
               {isProviderPurposeSelected && (
                 <>
                   <Divider />
-                  <PurposeCreateProviderRiskAnalysis />
+                  <RiskAnalysisInfoSummary
+                    eServiceId={selectedEServiceId as string}
+                    riskAnalysisId={selectedProviderRiskAnalysisId as string}
+                  />
                 </>
               )}
             </Stack>
