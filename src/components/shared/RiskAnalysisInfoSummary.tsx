@@ -6,15 +6,18 @@ import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionContainer } from '../layout/containers'
+import { Purpose } from '@/api/api.generatedTypes'
 
 type RiskAnalysisInfoSummaryProps = {
-  riskAnalysisId: string
+  riskAnalysisId?: string
   eServiceId: string
+  purpose?: Purpose
 }
 
 export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
   riskAnalysisId,
   eServiceId,
+  purpose,
 }) => {
   type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
@@ -25,14 +28,20 @@ export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = (
     ...EServiceQueries.getEServiceRiskAnalysis(eServiceId!, riskAnalysisId!),
     enabled: Boolean(eServiceId && riskAnalysisId),
   })
-  const riskAnalysisTemplate = riskAnalysis?.riskAnalysisForm.answers
+  const riskAnalysisTemplate = purpose
+    ? purpose.riskAnalysisForm?.answers
+    : riskAnalysis?.riskAnalysisForm.answers
+
+  const riskAnalysisVersion = purpose
+    ? purpose.riskAnalysisForm?.version
+    : riskAnalysis?.riskAnalysisForm.version
 
   const { data: riskAnalysisConfig } = useQuery({
     ...PurposeQueries.getRiskAnalysisVersion({
-      riskAnalysisVersion: riskAnalysis?.riskAnalysisForm.version as string,
+      riskAnalysisVersion: riskAnalysisVersion as string,
       eserviceId: eServiceId!,
     }),
-    enabled: Boolean(riskAnalysis?.riskAnalysisForm.version && eServiceId),
+    enabled: Boolean(riskAnalysisVersion && eServiceId),
   })
 
   const questions: Array<QuestionItem> = React.useMemo(() => {
@@ -73,7 +82,7 @@ export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = (
   if (!riskAnalysisTemplate) return null
 
   return (
-    <SectionContainer innerSection title={t('riskAnalysis.title')}>
+    <SectionContainer innerSection title={riskAnalysisId && t('riskAnalysis.title')}>
       <List>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
           <ListItem key={i} sx={{ pl: 0 }}>

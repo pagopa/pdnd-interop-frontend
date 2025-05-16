@@ -1,11 +1,10 @@
-import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
-import { ProviderEServiceTemplateRiskAnalysisSummary } from './ProviderEServiceTemplateRiskAnalysisSummary'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
+import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 export const ProviderEServiceTemplateRiskAnalysisSummaryList: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'summary.riskAnalysisSummaryList' })
@@ -28,7 +27,10 @@ export const ProviderEServiceTemplateRiskAnalysisSummaryList: React.FC = () => {
               riskAnalysisName: riskAnalysis.name,
             })}
           </Typography>
-          <ProviderEServiceTemplateRiskAnalysisSummary riskAnalysisId={riskAnalysis.id} />
+          <RiskAnalysisInfoSummary
+            riskAnalysisId={riskAnalysis.id}
+            eServiceId={template.eserviceTemplate.id}
+          />
         </Stack>
       ))}
     </Stack>
