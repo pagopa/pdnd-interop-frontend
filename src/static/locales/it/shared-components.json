@@ -401,10 +401,10 @@
     "PROVIDE_ESERVICE_TEMPLATE_LIST": "I tuoi template",
     "PROVIDE_ESERVICE_TEMPLATE_DETAILS": "Visualizza template",
     "SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS": "Visualizza template",
-    "PROVIDE_ESERVICE_TEMPLATE_CREATE":"Crea Template E-Service",
-    "PROVIDE_ESERVICE_TEMPLATE_EDIT":"Modifica Template E-Service",
-    "PROVIDE_ESERVICE_TEMPLATE_SUMMARY":"Riepilogo E-Service template",
-    "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE" :"Crea E-Service da template",
-    "WATCH_RISK_ANALISIS_FOR_ESERVICE":"Analisi del rischio"
+    "PROVIDE_ESERVICE_TEMPLATE_CREATE": "Crea Template E-Service",
+    "PROVIDE_ESERVICE_TEMPLATE_EDIT": "Modifica Template E-Service",
+    "PROVIDE_ESERVICE_TEMPLATE_SUMMARY": "Riepilogo E-Service template",
+    "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE": "Crea E-Service da template",
+    "WATCH_RISK_ANALYSIS_FOR_ESERVICE": "Analisi del rischio"
   }
 }
