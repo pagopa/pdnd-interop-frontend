@@ -168,7 +168,6 @@ export const PurposeCreateForm: React.FC = () => {
           )} */}
           </Stack>
         </SectionContainer>
-        {/* <PurposeCreateRiskAnalysisPreview /> */}
         {isEServiceSelected && mode === 'RECEIVE' && (
           <SectionContainer
             title={t('create.eserviceRiskAnalysisSection.title')}
