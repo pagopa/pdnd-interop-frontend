@@ -54,6 +54,8 @@ export type ActionItemButton = ActionItem & {
   tooltip?: string
   disabled?: boolean
   variant?: ButtonProps['variant']
+  onPointerEnter?: VoidFunction
+  onFocusVisible?: VoidFunction
 }
 
 export type StepperStepComponentProps = {
