@@ -141,12 +141,14 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   const watchRiskyAnalysisAssociatedAction = {
     startIcon: <InsertLinkIcon fontSize="small" />,
-    component: Link,
-    to: 'WATCH_RISK_ANALISIS_FOR_ESERVICE',
-    params: {
-      descriptorId: descriptor.id,
-      eserviceId: descriptor.eservice.id,
-    },
+    component: 'button',
+    onClick: () =>
+      navigate('WATCH_RISK_ANALYSIS_FOR_ESERVICE', {
+        params: {
+          descriptorId: descriptor.id,
+          eserviceId: descriptor.eservice.id,
+        },
+      }),
     label: t('bottomActions.watchRiskyAnalysisAssociated'),
   }
 
