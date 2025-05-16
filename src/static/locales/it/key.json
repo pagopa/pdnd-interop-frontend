@@ -22,6 +22,8 @@
     }
   },
   "list": {
+    "title": "Chiavi pubbliche",
+    "description": "Le chiavi pubbliche appartenenti a questo client compariranno nell’elenco.",
     "userEnableInfo": "Per poter caricare una chiave, devi prima aggiungerti come utente nella tab «Membri del client»",
     "publicKeyLimitInfo": "Hai raggiunto il numero massimo di chiavi per questo client",
     "supportDisableInfo": "L'utenza di assistenza non è abilitata ad aggiungere chiavi"

@@ -1,5 +1,9 @@
 {
   "backToMemberListBtn": "Torna alla lista membri",
+  "clientOperatorsTab": {
+    "title": "Membri del client",
+    "description": "I membri appartenenti a questo client compariranno nell’elenco. Se viene nominato un Admin API, ciascun membro potrà effettuare operazioni di scrittura."
+  },
   "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
   "actions": {
     "removeFromClient": {
