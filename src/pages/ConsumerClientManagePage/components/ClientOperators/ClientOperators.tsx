@@ -1,4 +1,3 @@
-import { Button, Stack, Tooltip } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ClientOperatorsTable, ClientOperatorsTableSkeleton } from './ClientOperatorsTable'
@@ -10,6 +9,8 @@ import type { Users } from '@/api/api.generatedTypes'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { TenantQueries } from '@/api/tenant'
 import { AddOperatorsToClientDrawer } from '@/components/shared/AddOperatorsToClientDrawer'
+import { HeadSection } from '@/components/shared/HeadSection'
+import type { ActionItemButton } from '@/types/common.types'
 
 interface ClientOperatorsProps {
   clientId: string
@@ -46,28 +47,28 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
     )
   }
 
+  const action: ActionItemButton[] = [
+    {
+      action: openDrawer,
+      label: tCommon('addBtn'),
+      color: 'primary',
+      variant: 'contained',
+      onPointerEnter: handlePrefetchUserList,
+      onFocusVisible: handlePrefetchUserList,
+      icon: PlusOneIcon,
+      tooltip: !canAddOperator ? t('actionReservedToAdminTooltip') : undefined,
+      disabled: !canAddOperator,
+    },
+  ]
+
   return (
     <>
-      <Stack sx={{ mb: 2 }} alignItems="end">
-        <Tooltip
-          open={!canAddOperator ? undefined : false}
-          title={t('actionReservedToAdminTooltip')}
-        >
-          <span>
-            <Button
-              disabled={!canAddOperator}
-              variant="contained"
-              size="small"
-              onClick={openDrawer}
-              onPointerEnter={handlePrefetchUserList}
-              onFocusVisible={handlePrefetchUserList}
-              startIcon={<PlusOneIcon />}
-            >
-              {tCommon('addBtn')}
-            </Button>
-          </span>
-        </Tooltip>
-      </Stack>
+      <HeadSection
+        title={t('clientOperatorsTab.title')}
+        description={t('clientOperatorsTab.description')}
+        headVariant="secondary"
+        actions={action}
+      />
       <React.Suspense fallback={<ClientOperatorsTableSkeleton />}>
         <ClientOperatorsTable clientId={clientId} />
       </React.Suspense>
