@@ -10,6 +10,8 @@
     "agreement": "fruition agreement",
     "purpose": "purpose"
   },
+  "title": "Simulate getting a voucher",
+  "description": "Through this feature you can simulate obtaining a voucher. Once you have selected the parameters, you can perform a client assertion, request a voucher and verify that it is compatible.",
   "step1": {
     "stepperLabel": "Parameters selection",
     "title": {

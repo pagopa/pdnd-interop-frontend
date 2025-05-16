@@ -22,6 +22,8 @@
     }
   },
   "list": {
+    "title": "Public keys",
+    "description": "Public keys belonging to this client will appear in the list.",
     "userEnableInfo": "Add yourself as a member of this client before you can upload a key",
     "publicKeyLimitInfo": "You have reached the maximum number of keys for this client",
     "supportDisableInfo": "The support user is not authorized to add keys"
