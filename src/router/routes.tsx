@@ -537,12 +537,12 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
-    key: 'WATCH_RISK_ANALISIS_FOR_ESERVICE',
+    key: 'WATCH_RISK_ANALYSIS_FOR_ESERVICE',
     path: '/erogazione/e-service/:eserviceId/:descriptorId/finalita',
     element: <RiskAnalysisEServiceAssociatedPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api'],
+    authLevels: ['admin', 'api', 'support'],
   })
   .build()
 

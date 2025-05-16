@@ -144,7 +144,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     startIcon: <InsertLinkIcon fontSize="small" />,
     component: 'button',
     onClick: () =>
-      navigate('WATCH_RISK_ANALISIS_FOR_ESERVICE', {
+      navigate('WATCH_RISK_ANALYSIS_FOR_ESERVICE', {
         params: {
           descriptorId: descriptor.id,
           eserviceId: descriptor.eservice.id,
