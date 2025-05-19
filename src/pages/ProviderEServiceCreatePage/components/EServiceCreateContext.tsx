@@ -90,7 +90,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       // case 1: new e-service
       !descriptor ||
         // case 3: already existing service and version, but version is 1 and still a draft
-        (descriptor && descriptor.version === '1' && descriptor.state === 'DRAFT')
+        (descriptor && descriptor.version === 1 && descriptor.state === 'DRAFT')
     )
 
     return {

@@ -93,8 +93,7 @@ export const canAgreementBeUpgraded = (agreement?: Agreement) => {
   const isActiveDescriptorPublishedOrSuspended = ['PUBLISHED', 'SUSPENDED'].includes(
     eserviceActiveDescriptor.state
   )
-  const hasNewVersion =
-    parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
+  const hasNewVersion = eserviceActiveDescriptor.version > agreement.eservice.version
   const isAgreementActiveOrSuspended = ['ACTIVE', 'SUSPENDED'].includes(agreement.state)
 
   return hasNewVersion && isActiveDescriptorPublishedOrSuspended && isAgreementActiveOrSuspended
@@ -107,7 +106,6 @@ export const canAgreementBeUpgraded = (agreement?: Agreement) => {
 export const isNewEServiceVersionAvailable = (agreement: Agreement | undefined) => {
   const eserviceActiveDescriptor = agreement?.eservice.activeDescriptor
   return Boolean(
-    eserviceActiveDescriptor &&
-      parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
+    eserviceActiveDescriptor && eserviceActiveDescriptor.version > agreement.eservice.version
   )
 }

@@ -70,7 +70,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         ) : (
           eservice.name
         ),
-        eservice?.activeDescriptor?.version || '1',
+        eservice?.activeDescriptor?.version.toString() || '1',
         <Stack key={eservice?.id} direction="row" spacing={1}>
           {eservice?.activeDescriptor && (
             <StatusChip for="eservice" state={eservice.activeDescriptor.state} />

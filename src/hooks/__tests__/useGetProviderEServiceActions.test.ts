@@ -64,7 +64,7 @@ function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerES
 describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if the user is admin and e-service is DRAFT with no active descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -74,7 +74,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegator, e-service is DRAFT with no active descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -88,7 +88,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegate, e-service is DRAFT with no active descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -102,7 +102,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -111,7 +111,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegator, e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -127,7 +127,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegate, e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -141,7 +141,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and e-service is ARCHIVED', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -150,7 +150,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegator, e-service is ARCHIVED', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -164,7 +164,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegate, e-service is ARCHIVED', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -178,7 +178,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and e-service is DEPRECATED', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -188,7 +188,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegator, e-service is DEPRECATED', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -202,7 +202,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegate, e-service is DEPRECATED', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -217,7 +217,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and e-service is PUBLISHED with no draft descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -229,8 +229,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -243,7 +243,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegator, e-service is PUBLISHED with no draft descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -257,8 +257,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegator, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -273,8 +273,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegator, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -289,7 +289,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegate, e-service is PUBLISHED with no draft descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -305,8 +305,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegate, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -323,8 +323,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegate, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -339,7 +339,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and e-service is SUSPENDED with no draft descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -351,8 +351,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -365,7 +365,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegator, e-service is SUSPENDED with no draft descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -379,8 +379,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should not return actions if user is admin and delegator, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -394,8 +394,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegator, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -410,7 +410,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegate, e-service is SUSPENDED with no draft descriptors', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -426,8 +426,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegate, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -444,8 +444,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should return the correct actions if user is admin and delegate, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -461,7 +461,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and e-service is DRAFT with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -472,7 +472,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegator, e-service is DRAFT with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -487,7 +487,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and delegate, e-service is DRAFT with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'DRAFT', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -502,7 +502,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -512,7 +512,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and delegator, e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -529,7 +529,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegate, e-service is WAITING_FOR_APPROVAL with no active descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: '1' },
+      draftDescriptor: { id: 'test-1', state: 'WAITING_FOR_APPROVAL', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -544,7 +544,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and e-service is ARCHIVED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -554,7 +554,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegator, e-service is ARCHIVED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -569,7 +569,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegate, e-service is ARCHIVED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -584,7 +584,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and e-service is DEPRECATED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -594,7 +594,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegator, e-service is DEPRECATED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -609,7 +609,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegate, e-service is DEPRECATED', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -624,7 +624,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and e-service is PUBLISHED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -636,8 +636,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -650,7 +650,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegator, e-service is PUBLISHED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -665,8 +665,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegator, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -682,8 +682,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and delegator, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -699,7 +699,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and delegate, e-service is PUBLISHED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -715,8 +715,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and delegate, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -733,8 +733,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegate, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -749,7 +749,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and e-service is SUSPENDED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -761,8 +761,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -775,7 +775,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegator, e-service is SUSPENDED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -790,8 +790,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegator, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -806,8 +806,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and delegator, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegator: {
           id: 'organizationId',
@@ -823,7 +823,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and delegate, e-service is SUSPENDED with no draft descriptors', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -839,8 +839,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should return the correct actions if user is an api operator and delegate, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -857,8 +857,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should not return actions if user is an api operator and delegate, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'WAITING_FOR_APPROVAL', version: 2 },
       delegation: createMockDelegationWithCompactTenants({
         delegate: {
           id: 'organizationId',
@@ -873,8 +873,8 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should navigate to PROVIDE_ESERVICE_EDIT page on clone action success', async () => {
     mockUseJwt({ isAdmin: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
+      draftDescriptor: { id: 'test-2', state: 'DRAFT', version: 2 },
       delegation: undefined,
     })
     const { result, history } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -901,7 +901,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
   it('should navigate to PROVIDE_ESERVICE_EDIT page on create new draft action success', async () => {
     mockUseJwt({ isAdmin: true })
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: 1 },
       delegation: undefined,
     })
     const { result, history } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
@@ -929,7 +929,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     mockUseJwt({ isAdmin: false, isOperatorSecurity: true })
 
     const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: 1 },
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)

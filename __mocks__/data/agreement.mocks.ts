@@ -207,12 +207,12 @@ const createMockAgreement = createMockFactory<Agreement>({
     activeDescriptor: {
       id: 'b79fc9ac-2882-49bd-afd1-71f4284f117c',
       state: 'PUBLISHED',
-      version: '1',
+      version: 1,
       audience: [],
     },
     id: '47f82055-77fd-4efd-8ed6-8a7d3021c879',
     name: 'Test_15/02/23',
-    version: '1',
+    version: 1,
   },
   id: 'e8a8153e-9ab2-4aeb-a14c-96aebd4fa049',
   producer: {
@@ -260,7 +260,7 @@ const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
   descriptor: {
     id: '2881e984-4279-47e8-8fc4-aa236468436e',
     state: 'SUSPENDED',
-    version: '1',
+    version: 1,
     audience: [],
   },
   eservice: {

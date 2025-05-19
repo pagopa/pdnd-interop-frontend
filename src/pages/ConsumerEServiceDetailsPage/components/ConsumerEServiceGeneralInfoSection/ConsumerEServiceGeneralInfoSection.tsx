@@ -90,7 +90,10 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             label={t('producer.label')}
             content={descriptor.eservice.producer.name}
           />
-          <InformationContainer label={t('version.label')} content={descriptor.version} />
+          <InformationContainer
+            label={t('version.label')}
+            content={descriptor.version.toString()}
+          />
           <InformationContainer
             label={t('eserviceDescription.label')}
             content={descriptor.eservice.description}
