@@ -4,7 +4,7 @@ import { Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/eservice'
-import { useParams } from '@/router'
+import { useNavigate, useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import InsertLinkIcon from '@mui/icons-material/InsertLink'
@@ -44,6 +44,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
+  const navigate = useNavigate()
 
   const { mutate: updateEserviceDescription } = EServiceMutations.useUpdateEServiceDescription()
   const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
