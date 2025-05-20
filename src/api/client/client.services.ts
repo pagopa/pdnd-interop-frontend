@@ -13,6 +13,7 @@ import type {
   KeySeed,
   PublicKey,
   PublicKeys,
+  SetAdminToClientPayload,
 } from '../api.generatedTypes'
 
 async function getList(params: GetClientsParams) {
@@ -112,6 +113,23 @@ function removeOperator({ clientId, userId }: { clientId: string; userId: string
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users/${userId}`)
 }
 
+function setClientAdmin({
+  clientId,
+  payload,
+}: {
+  clientId: string
+  payload: SetAdminToClientPayload
+}) {
+  return axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/admin`,
+    payload
+  )
+}
+
+function removeClientAdmin({ clientId, adminId }: { clientId: string; adminId: string }) {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/admin/${adminId}`)
+}
+
 export const ClientServices = {
   getList,
   getSingle,
@@ -127,4 +145,6 @@ export const ClientServices = {
   deleteKey,
   addOperators,
   removeOperator,
+  setClientAdmin,
+  removeClientAdmin,
 }

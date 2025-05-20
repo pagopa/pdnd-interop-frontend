@@ -2347,16 +2347,6 @@ export interface SetAdminToClientPayload {
   adminId: string
 }
 
-export interface GetClientUsersParams {
-  /** Filter users by name */
-  name?: string
-  /**
-   * ID of Client the users belong to
-   * @format uuid
-   */
-  clientId: string
-}
-
 export interface AddUsersToClientPayload {
   /** @minItems 1 */
   userIds: string[]
@@ -6328,10 +6318,7 @@ export namespace Clients {
        */
       clientId: string
     }
-    export type RequestQuery = {
-      /** Filter users by name */
-      name?: string
-    }
+    export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = CompactUsers
