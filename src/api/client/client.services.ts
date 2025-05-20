@@ -10,7 +10,6 @@ import type {
   EncodedClientKey,
   GetClientKeysParams,
   GetClientsParams,
-  GetClientUsersParams,
   KeySeed,
   PublicKey,
   PublicKeys,
@@ -46,10 +45,9 @@ async function getSingleKey(clientId: string, kid: string) {
   return response.data
 }
 
-async function getOperatorList({ clientId, name }: GetClientUsersParams) {
+async function getOperatorList(clientId: string) {
   const response = await axiosInstance.get<CompactUsers>(
-    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`,
-    { params: { name } }
+    `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}/users`
   )
   return response.data
 }
