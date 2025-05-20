@@ -165,7 +165,11 @@ export function _RHFAutocompleteBase<
                       <Typography
                         component="span"
                         key={i}
-                        sx={{ fontWeight: part.highlight ? 700 : 400 }}
+                        variant="body1"
+                        sx={{
+                          fontWeight: part.highlight ? 700 : 400,
+                          fontSize: '1.125rem',
+                        }}
                       >
                         {part.text}
                       </Typography>
