@@ -25,7 +25,7 @@ const RiskAnalysisEServiceAssociatedPage: React.FC = () => {
 
 const RiskAnalysisEServiceAssociatedPageContent: React.FC = () => {
   const { t } = useTranslation('eservice')
-  const { eserviceId, descriptorId } = useParams<'WATCH_RISK_ANALISIS_FOR_ESERVICE'>()
+  const { eserviceId, descriptorId } = useParams<'WATCH_RISK_ANALYSIS_FOR_ESERVICE'>()
 
   const { data: descriptor } = useSuspenseQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
