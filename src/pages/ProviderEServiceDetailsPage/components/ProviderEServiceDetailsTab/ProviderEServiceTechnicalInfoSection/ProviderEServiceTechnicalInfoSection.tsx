@@ -54,6 +54,14 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
                 tooltipTitle: t('descriptorId.copySuccessFeedbackText'),
               }}
             />
+            <InformationContainer
+              label={t('producerId.label')}
+              content={producerId}
+              copyToClipboard={{
+                value: producerId,
+                tooltipTitle: t('producerId.copySuccessFeedbackText'),
+              }}
+            />
             {descriptor.publishedAt && (
               <InformationContainer
                 label={t('publishedAt')}
