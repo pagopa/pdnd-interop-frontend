@@ -34,11 +34,7 @@ export const HeadSection: React.FC<HeadSectionProps> = ({
     <Stack spacing={2} direction="column" my={3}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         {typeof title === 'string' ? (
-          <Typography
-            // TODO component={headVariant === 'primary' ? 'h1' : 'h2'}
-            variant={titleTypographyVariant as TypographyVariant}
-            fontWeight={700}
-          >
+          <Typography variant={titleTypographyVariant as TypographyVariant} fontWeight={700}>
             {title}
           </Typography>
         ) : (
@@ -47,9 +43,7 @@ export const HeadSection: React.FC<HeadSectionProps> = ({
         {actions && actions.length !== 0 && <ActionsButtons actions={actions} />}
       </Stack>
       {typeof description === 'string' ? (
-        <Typography
-          /* TODO component="p" */ variant={descriptionTypographyVariant as TypographyVariant}
-        >
+        <Typography variant={descriptionTypographyVariant as TypographyVariant}>
           {description}
         </Typography>
       ) : (
