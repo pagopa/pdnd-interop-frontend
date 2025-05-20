@@ -175,15 +175,17 @@ export const PurposeCreateForm: React.FC = () => {
           >
             <Stack spacing={3}>
               <PurposeCreateProviderRiskAnalysisAutocomplete />
-              {isProviderPurposeSelected && (
-                <>
-                  <Divider />
-                  <RiskAnalysisInfoSummary
-                    eServiceId={selectedEServiceId as string}
-                    riskAnalysisId={selectedProviderRiskAnalysisId as string}
-                  />
-                </>
-              )}
+              {isProviderPurposeSelected &&
+                selectedProviderRiskAnalysisId &&
+                selectedEServiceId && (
+                  <>
+                    <Divider />
+                    <RiskAnalysisInfoSummary
+                      eServiceId={selectedEServiceId}
+                      riskAnalysisId={selectedProviderRiskAnalysisId}
+                    />
+                  </>
+                )}
             </Stack>
           </SectionContainer>
         )}
