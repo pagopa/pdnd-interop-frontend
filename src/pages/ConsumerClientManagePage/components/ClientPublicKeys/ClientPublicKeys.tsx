@@ -18,7 +18,7 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
   const { t } = useTranslation('client', { keyPrefix: 'edit.filters' })
 
   const { data: userOptions = [] } = useQuery({
-    ...ClientQueries.getOperatorsList({ clientId }),
+    ...ClientQueries.getOperatorsList(clientId),
     select: (data) =>
       data.map((o) => ({
         label: `${o.name} ${o.familyName}`,

@@ -25,7 +25,7 @@ export const ClientOperators: React.FC<ClientOperatorsProps> = ({ clientId }) =>
 
   const { mutateAsync: addOperators } = ClientMutations.useAddOperators()
 
-  const { data: currentOperators = [] } = useQuery(ClientQueries.getOperatorsList({ clientId }))
+  const { data: currentOperators = [] } = useQuery(ClientQueries.getOperatorsList(clientId))
 
   const handleSubmit = async (operators: Users) => {
     addOperators({ clientId, userIds: operators.map(({ userId }) => userId) })
