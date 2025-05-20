@@ -16,10 +16,10 @@ import { AuthHooks } from '@/api/auth'
 import { useNavigate } from '@/router'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import { PurposeCreateProviderRiskAnalysisAutocomplete } from './PurposeCreateProviderRiskAnalysisAutocomplete'
-import { PurposeCreateProviderRiskAnalysis } from './PurposeCreateProviderRiskAnalysis'
 import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutocomplete'
+import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 export type PurposeCreateFormValues = {
   consumerId: string
@@ -168,7 +168,6 @@ export const PurposeCreateForm: React.FC = () => {
           )} */}
           </Stack>
         </SectionContainer>
-        {/* <PurposeCreateRiskAnalysisPreview /> */}
         {isEServiceSelected && mode === 'RECEIVE' && (
           <SectionContainer
             title={t('create.eserviceRiskAnalysisSection.title')}
@@ -176,12 +175,17 @@ export const PurposeCreateForm: React.FC = () => {
           >
             <Stack spacing={3}>
               <PurposeCreateProviderRiskAnalysisAutocomplete />
-              {isProviderPurposeSelected && (
-                <>
-                  <Divider />
-                  <PurposeCreateProviderRiskAnalysis />
-                </>
-              )}
+              {isProviderPurposeSelected &&
+                selectedProviderRiskAnalysisId &&
+                selectedEServiceId && (
+                  <>
+                    <Divider />
+                    <RiskAnalysisInfoSummary
+                      eServiceId={selectedEServiceId}
+                      riskAnalysisId={selectedProviderRiskAnalysisId}
+                    />
+                  </>
+                )}
             </Stack>
           </SectionContainer>
         )}
