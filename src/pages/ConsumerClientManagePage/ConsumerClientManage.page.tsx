@@ -37,7 +37,7 @@ const ConsumerClientManagePage: React.FC = () => {
     removeClientAdmin({
       clientId: client.id,
       adminId: client.admin.userId,
-      userName: client.admin.name,
+      userName: `${client.admin.name} ${client.admin.familyName}`,
     })
   }
 

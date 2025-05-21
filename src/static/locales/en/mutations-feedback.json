@@ -651,7 +651,7 @@
       },
       "confirmDialog": {
         "title": "Confirm Admin API Removal",
-        "description": "By clicking “Confirm” the user {{userName}} will be removed from the Client Admin API role. This client will no longer be able to write data to the Interop APIs until a new admin is selected."
+        "description": "By clicking “Confirm” the user <strong>{{userName}}</strong> will be removed from the Client Admin API role. This client will no longer be able to write data to the Interop APIs until a new admin is selected."
       }
     }
   },

@@ -68,7 +68,10 @@
       "subtitle": "You can enable a client member to write via API to the machine to machine flow.",
       "adminField": {
         "label": "Client Admin API",
-        "infoLabel": "You can only choose one member per client."
+        "infoLabel": "You can only choose one member per client.",
+        "validation": {
+          "sameValue": "The Client Admin API must be different from the current one"
+        }
       }
     },
     "tabs": {
