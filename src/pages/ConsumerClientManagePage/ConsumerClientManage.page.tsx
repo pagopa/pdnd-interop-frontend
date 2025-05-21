@@ -17,7 +17,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
-import { FEATURE_FLAG_ADMIN_CLIENT_API } from '@/config/env'
+import { FEATURE_FLAG_ADMIN_CLIENT } from '@/config/env'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
@@ -52,7 +52,7 @@ const ConsumerClientManagePage: React.FC = () => {
         to: clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST',
       }}
     >
-      {FEATURE_FLAG_ADMIN_CLIENT_API && (
+      {FEATURE_FLAG_ADMIN_CLIENT && (
         <Grid container>
           <Grid item xs={8}>
             <SectionContainer
@@ -109,7 +109,7 @@ const ConsumerClientManagePage: React.FC = () => {
           <ClientPublicKeys clientId={clientId} />
         </TabPanel>
       </TabContext>
-      {FEATURE_FLAG_ADMIN_CLIENT_API && (
+      {FEATURE_FLAG_ADMIN_CLIENT && (
         <SetClientAdminDrawer
           isOpen={isOpen}
           onClose={closeDrawer}
