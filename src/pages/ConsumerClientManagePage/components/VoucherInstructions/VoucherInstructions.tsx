@@ -11,6 +11,7 @@ import { VoucherInstructionsStep1 } from './VoucherInstructionsStep1'
 import { VoucherInstructionsStep2 } from './VoucherInstructionsStep2'
 import { VoucherInstructionsStep3 } from './VoucherInstructionsStep3'
 import { VoucherInstructionsStep4 } from './VoucherInstructionsStep4'
+import { HeadSection } from '@/components/shared/HeadSection'
 
 interface VoucherInstructionsProps {
   clientId: string
@@ -41,17 +42,20 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({ client
   }
 
   return (
-    <VoucherInstructionsContextProvider {...contextProps}>
-      <Grid container>
-        <Grid item xs={8}>
-          <Stepper steps={steps} activeIndex={activeStep} />
-          <React.Suspense
-            fallback={<SectionContainerSkeleton height={clientKind === 'CONSUMER' ? 356 : 297} />}
-          >
-            <Step />
-          </React.Suspense>
+    <>
+      <HeadSection title={t('title')} description={t('description')} headVariant="secondary" />
+      <VoucherInstructionsContextProvider {...contextProps}>
+        <Grid container>
+          <Grid item xs={8}>
+            <Stepper steps={steps} activeIndex={activeStep} />
+            <React.Suspense
+              fallback={<SectionContainerSkeleton height={clientKind === 'CONSUMER' ? 356 : 297} />}
+            >
+              <Step />
+            </React.Suspense>
+          </Grid>
         </Grid>
-      </Grid>
-    </VoucherInstructionsContextProvider>
+      </VoucherInstructionsContextProvider>
+    </>
   )
 }

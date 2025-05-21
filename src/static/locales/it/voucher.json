@@ -10,6 +10,8 @@
     "agreement": "accordo di fruizione",
     "purpose": "finalità"
   },
+  "title": "Simula l’ottenimento di un voucher",
+  "description": "Attraverso questa funzionalità potrai simulare l’ottenimento di un voucher. Una volta selezionati i parametri, potrai effettuare una client assertion, richiedere un voucher e verificare che sia compatibile.",
   "step1": {
     "stepperLabel": "Selezione parametri",
     "title": {
