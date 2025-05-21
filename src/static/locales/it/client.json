@@ -68,7 +68,10 @@
       "subtitle": "Puoi abilitare un membro del client alla scrittura tramite API nel flusso machine to machine.",
       "adminField": {
         "label": "Client Admin API",
-        "infoLabel": "Puoi scegliere un solo membro per client."
+        "infoLabel": "Puoi scegliere un solo membro per client.",
+        "validation": {
+          "sameValue": "Il Client Admin API deve essere diverso da quello attuale"
+        }
       }
     },
     "tabs": {

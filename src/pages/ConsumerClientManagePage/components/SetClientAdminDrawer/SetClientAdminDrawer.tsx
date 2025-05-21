@@ -88,7 +88,10 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
             sx={{ my: 0 }}
             size="small"
             name="selectedAdminId"
-            rules={{ required: true }}
+            rules={{
+              required: true,
+              validate: (value) => value !== admin?.userId || t('adminField.validation.sameValue'),
+            }}
             options={autocompleteOptions}
             loading={isLoading}
           />
