@@ -95,37 +95,34 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
   }
 
   return (
-    <Box sx={{ flexGrow: 1, height: '100%' }}>
-      <Stack
-        direction={matchMobile ? 'column' : 'row'}
-        sx={{ height: '100%', overflowX: 'hidden' }}
+    <Box
+      id="interop-main"
+      sx={{
+        background: 'orange',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        // justifyContent: 'space-between',
+        flexGrow: 1,
+      }}
+    >
+      {/* <Stack direction={matchMobile ? 'column' : 'row'}> */}
+      {/* <SideNav /> */}
+      <Sidebar mobile={matchMobile} routes={interopRoutes} />
+      <Box
+        sx={{
+          flexGrow: 1,
+          px: 3,
+          py: 2,
+          height: '100%',
+          // bgcolor: '#FAFAFA',
+        }}
       >
-        {/* <SideNav /> */}
-        <Sidebar mobile={matchMobile} routes={interopRoutes} />
-        <Box
-          sx={{
-            px: 3,
-            py: 2,
-            flexGrow: 1,
-            position: 'relative',
-            '::after': {
-              content: '""',
-              position: 'absolute',
-              right: 0,
-              top: 0,
-              bgcolor: 'background.default',
-              width: 10000,
-              height: '100%',
-              transform: 'translate(100%, 0)',
-            },
-          }}
-          bgcolor="#FAFAFA"
-        >
-          <Box component="main" sx={{ height: '100%', maxWidth: 1280 }}>
-            {children}
-          </Box>
+        <Box component="main" sx={{ maxWidth: 1280 }}>
+          {children}
         </Box>
-      </Stack>
+      </Box>
+      {/* </Stack> */}
     </Box>
   )
 }
