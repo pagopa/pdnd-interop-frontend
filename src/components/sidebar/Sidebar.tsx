@@ -49,8 +49,6 @@ export const _Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
         <Stack
           component="nav"
           role="navigation"
-          display="flex"
-          flexDirection="column"
           aria-label={t('navigationMenu')}
           aria-expanded={!collapsed}
           sx={styles.nav}
@@ -90,7 +88,7 @@ const SidebarList: React.FC<SidebarListProps> = ({ routes, collapsed }) => {
             notification={{
               show: route?.showNotification ?? false,
               // TODO: This will change, right now is fixed to 0
-              content: 0,
+              content: 3,
             }}
             label={route.label}
             divider={route.divider}
