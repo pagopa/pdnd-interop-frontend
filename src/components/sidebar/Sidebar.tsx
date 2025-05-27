@@ -51,7 +51,6 @@ export const _Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
           role="navigation"
           aria-label={t('navigationMenu')}
           aria-expanded={!collapsed}
-          sx={styles.nav}
         >
           <SidebarList routes={routes} collapsed={collapsed} />
           <HamburgerBox collapsed={collapsed} handleCollapsed={handleCollapsed} />
