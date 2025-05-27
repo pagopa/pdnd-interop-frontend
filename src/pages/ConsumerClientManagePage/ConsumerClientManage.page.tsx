@@ -52,7 +52,7 @@ const ConsumerClientManagePage: React.FC = () => {
         to: clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST',
       }}
     >
-      {FEATURE_FLAG_ADMIN_CLIENT && (
+      {FEATURE_FLAG_ADMIN_CLIENT && clientKind === 'API' && (
         <Grid container>
           <Grid item xs={8}>
             <SectionContainer
@@ -109,7 +109,7 @@ const ConsumerClientManagePage: React.FC = () => {
           <ClientPublicKeys clientId={clientId} />
         </TabPanel>
       </TabContext>
-      {FEATURE_FLAG_ADMIN_CLIENT && (
+      {FEATURE_FLAG_ADMIN_CLIENT && clientKind === 'API' && (
         <SetClientAdminDrawer
           isOpen={isOpen}
           onClose={closeDrawer}
