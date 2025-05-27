@@ -2,15 +2,15 @@ import { alpha, type SxProps, type Theme } from '@mui/material'
 
 export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, SxProps> => ({
   container: {
-    marginTop: 2,
+    top: '8rem',
     background: theme.palette.background.paper,
     zIndex: collapsed ? 1 : 10,
+    display: 'block',
     position: 'sticky',
+    height: 'calc(100vh - 8rem)',
     width: collapsed ? 'fit-content' : '300px',
-    height: '90vh',
-    maxHeight: '100vh',
+    overscrollBehavior: 'auto',
     overflowY: 'auto',
-    overflowX: 'hidden',
     '&::-webkit-scrollbar': {
       width: 4,
     },
@@ -28,7 +28,8 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
     },
   },
   nav: {
-    height: '100%',
+
+
   },
   itemButtonActive: {
     '&.active': {
