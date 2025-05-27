@@ -27,10 +27,6 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
       width: '100%',
     },
   },
-  nav: {
-
-
-  },
   itemButtonActive: {
     '&.active': {
       fontWeight: 'bold',
