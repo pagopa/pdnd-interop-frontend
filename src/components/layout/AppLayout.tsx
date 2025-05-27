@@ -74,7 +74,6 @@ const INTEROP_NAVIGATION_ROUTES: SidebarRoutes = [
 export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx }) => {
   const theme = useTheme()
   const interopRoutes = useGetSidebarItems(INTEROP_NAVIGATION_ROUTES)
-
   const matchMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   if (hideSideNav) {
@@ -95,19 +94,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
   }
 
   return (
-    <Box
-      id="interop-main"
+    <Stack
+      id="interop-sidenav-main"
       sx={{
-        background: 'orange',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        // justifyContent: 'space-between',
-        flexGrow: 1,
+        flexDirection: { xs: 'column', md: 'row' },
       }}
     >
-      {/* <Stack direction={matchMobile ? 'column' : 'row'}> */}
-      {/* <SideNav /> */}
       <Sidebar mobile={matchMobile} routes={interopRoutes} />
       <Box
         sx={{
@@ -115,14 +107,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
           px: 3,
           py: 2,
           height: '100%',
-          // bgcolor: '#FAFAFA',
+          bgcolor: '#FAFAFA',
         }}
       >
         <Box component="main" sx={{ maxWidth: 1280 }}>
           {children}
         </Box>
       </Box>
-      {/* </Stack> */}
-    </Box>
+    </Stack>
   )
 }
