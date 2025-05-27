@@ -33,7 +33,7 @@ const _RoutesWrapper: React.FC = () => {
   return (
     <>
       <Header jwt={jwt} isSupport={isSupport} />
-      <Box sx={{ flex: 1 }}>
+      <Box id="site-below-header" sx={{ display: 'flex', flexDirection: 'column' }}>
         <_TOSGuard>
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
@@ -50,9 +50,9 @@ const _RoutesWrapper: React.FC = () => {
             </ErrorBoundary>
           </AppLayout>
         </_TOSGuard>
+        <Footer jwt={jwt} />
+        <Dialog />
       </Box>
-      <Footer jwt={jwt} />
-      <Dialog />
     </>
   )
 }
