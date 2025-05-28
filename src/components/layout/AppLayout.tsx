@@ -97,7 +97,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
     <Stack
       id="interop-sidenav-main"
       sx={{
-        flexDirection: { xs: 'column', md: 'row' },
+        flexDirection: matchMobile ? 'column' : 'row',
       }}
     >
       <Sidebar mobile={matchMobile} routes={interopRoutes} />
