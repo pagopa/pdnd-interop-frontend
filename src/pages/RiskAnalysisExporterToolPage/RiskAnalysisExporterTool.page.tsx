@@ -7,17 +7,20 @@ import { Alert } from '@mui/material'
 import { RiskAnalysisFormStep } from './components/RiskAnalysisToolFormStep'
 import { RiskAnalysisToolJsonExportStep } from './components/RiskAnalysisToolJsonExportStep'
 import { RiskAnalysisExporterToolContextProvider } from './components/RiskAnalysisExporterToolContext'
+import { useTranslation } from 'react-i18next' // Import here
 
 const RiskAnalysisExporterToolPage: React.FC = () => {
+  const { t } = useTranslation('developer-tools')
+
   const { activeStep, ...stepActions } = useActiveStep()
 
   const steps: Array<StepperStep> = [
     {
-      label: 'Analisi del rischio',
+      label: t('riskAnalysisExporterTool.page.steps.riskAnalysis'),
       component: RiskAnalysisFormStep,
     },
     {
-      label: 'Generazione export',
+      label: t('riskAnalysisExporterTool.page.steps.exportGeneration'),
       component: RiskAnalysisToolJsonExportStep,
     },
   ]
@@ -26,13 +29,15 @@ const RiskAnalysisExporterToolPage: React.FC = () => {
 
   return (
     <PageContainer
-      title={'Export analisi del rischio'}
-      description={
-        'Lo strumento di export ti permette di esportare in formato .json formattato l’analisi del rischio che compili, pronta per essere utilizzata nelle chiamate di creazione di una finalità nei flussi machine to machine.'
-      }
+      title={t('riskAnalysisExporterTool.page.title')}
+      description={t('riskAnalysisExporterTool.page.description')}
+      backToAction={{
+        to: 'DEVELOPER_TOOLS',
+        label: t('backToDeveloperToolsLabel'),
+      }}
     >
       <Alert severity="info" sx={{ my: 2 }}>
-        {'La funzionalità di import dell’analisi del rischio sarà disponibile a breve.'}
+        {t('riskAnalysisExporterTool.page.alertInfo')}
       </Alert>
 
       <Stepper steps={steps} activeIndex={activeStep} />

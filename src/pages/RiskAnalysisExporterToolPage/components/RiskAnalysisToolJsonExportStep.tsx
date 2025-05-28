@@ -1,25 +1,33 @@
 import React from 'react'
 import { SectionContainer } from '@/components/layout/containers'
-import { Alert, Box, Button } from '@mui/material'
+import { Alert, Box, Button, Stack } from '@mui/material'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useRiskAnalysisExporterToolContext } from './RiskAnalysisExporterToolContext'
+import { useTranslation } from 'react-i18next'
+import CopyIcon from '@mui/icons-material/ContentCopy'
 
 export function RiskAnalysisToolJsonExportStep() {
+  const { t } = useTranslation('developer-tools', {
+    keyPrefix: 'riskAnalysisExporterTool.jsonExportStep',
+  })
+  const { t: tCommon } = useTranslation('common')
   const { errors, output, back } = useRiskAnalysisExporterToolContext()
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(JSON.stringify(output, null, 2))
+  }
 
   return (
     <>
-      <SectionContainer title="Il tuo export JSON">
+      <SectionContainer title={t('title')}>
         {errors.length === 0 ? (
           <Alert severity="success" sx={{ mb: 2 }}>
-            {
-              'L’analisi del rischio è stata compilata in ogni sua parte e ha generato un output formattato correttamente.'
-            }
+            {t('successAlert')}
           </Alert>
         ) : (
           <Alert severity="warning" sx={{ mb: 2 }}>
-            <strong>L’analisi del rischio è stata compilata parzialmente.</strong>
+            <strong>{t('warningAlertTitle')}</strong>
             <Box component="ul" sx={{ my: 0 }}>
               {errors.map((error, index) => (
                 <li key={index}>{error}</li>
@@ -28,12 +36,17 @@ export function RiskAnalysisToolJsonExportStep() {
           </Alert>
         )}
 
-        <Box>
-          <CodeBlock code={output} />
-        </Box>
+        <Stack direction="row" spacing={4}>
+          <Box flex={1}>
+            <CodeBlock code={output} hideCopyButton />
+          </Box>
+          <Button onClick={handleCopyToClipboard} startIcon={<CopyIcon />} variant="contained">
+            {tCommon('actions.copy')}
+          </Button>
+        </Stack>
       </SectionContainer>
       <Button startIcon={<ArrowBackIcon />} sx={{ mt: 2 }} variant="outlined" onClick={back}>
-        Indietro
+        {t('backButton')}
       </Button>
     </>
   )

@@ -47,7 +47,8 @@
     "updateIstance": "Aggiorna istanza",
     "select": "Seleziona",
     "selectAdmin": "Seleziona admin",
-    "substituteAdmin": "Sostituisci admin"
+    "substituteAdmin": "Sostituisci admin",
+    "copy": "Copia"
   },
   "table": {
     "headData": {

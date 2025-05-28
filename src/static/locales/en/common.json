@@ -47,7 +47,8 @@
     "updateIstance": "Update instance",
     "select": "Select",
     "selectAdmin": "Select admin",
-    "substituteAdmin": "Substitute admin"
+    "substituteAdmin": "Substitute admin",
+    "copy": "Copy"
   },
   "table": {
     "headData": {

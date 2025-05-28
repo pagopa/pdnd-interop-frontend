@@ -11,6 +11,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { FormProvider } from 'react-hook-form'
 import LoopIcon from '@mui/icons-material/Loop'
 import { useRiskAnalysisExporterToolContext } from './RiskAnalysisExporterToolContext'
+import { useTranslation } from 'react-i18next' // Import here
 
 export function RiskAnalysisFormStep() {
   const { selectedRiskAnalysisKind } = useRiskAnalysisExporterToolContext()
@@ -26,6 +27,9 @@ export function RiskAnalysisFormStep() {
 }
 
 function RiskAnalysisToolForm() {
+  const { t } = useTranslation('developer-tools', {
+    keyPrefix: 'riskAnalysisExporterTool.formStep',
+  })
   const currentLang = useCurrentLanguage()
   const { selectedRiskAnalysisKind, onRiskAnalysisFormSubmit } =
     useRiskAnalysisExporterToolContext()
@@ -61,7 +65,7 @@ function RiskAnalysisToolForm() {
           <RiskAnalysisFormComponents questions={formMethods.questions} />
           <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
             <Button startIcon={<LoopIcon />} variant="contained" type="submit">
-              Genera codice
+              {t('generateCodeButton')}
             </Button>
           </Stack>
         </Box>
@@ -71,34 +75,32 @@ function RiskAnalysisToolForm() {
 }
 
 function RiskAnalysisKindSelectSection() {
+  const { t } = useTranslation('developer-tools', {
+    keyPrefix: 'riskAnalysisExporterTool.formStep.riskAnalysisSection',
+  })
   const { selectedRiskAnalysisKind, tenantRiskAnalysisKind, onRiskAnalysisKindChange } =
     useRiskAnalysisExporterToolContext()
 
   return (
-    <SectionContainer
-      title="Analisi del rischio"
-      description="Indica per chi stai compilando questa analisi del rischio."
-    >
+    <SectionContainer title={t('title')} description={t('description')}>
       <FormControl fullWidth>
-        <InputLabel id="tenant-kind-select-label">Tipologia ente</InputLabel>
+        <InputLabel id="tenant-kind-select-label">{t('tenantKindLabel')}</InputLabel>
         <Select
           labelId="tenant-kind-select-label"
           id="tenant-kind-select"
           value={selectedRiskAnalysisKind}
-          label="Tipologia ente"
+          label={t('tenantKindLabel')}
           onChange={(event) => onRiskAnalysisKindChange(event.target.value as RiskAnalysisKind)}
         >
-          <MenuItem value={'PA' satisfies RiskAnalysisKind}>Pubbliche Amministrazioni</MenuItem>
-          <MenuItem value={'PRIVATE' satisfies RiskAnalysisKind}>
-            Gestori di pubblici servizi, Società a controllo pubblico oppure Privati
+          <MenuItem value={'PA' satisfies RiskAnalysisKind}>
+            {t('publicAdministrationOption')}
           </MenuItem>
+          <MenuItem value={'PRIVATE' satisfies RiskAnalysisKind}>{t('privateOption')}</MenuItem>
         </Select>
       </FormControl>
       {tenantRiskAnalysisKind !== selectedRiskAnalysisKind && (
         <Alert severity="warning" sx={{ mt: 2 }}>
-          {
-            'Hai scelto di compilare una analisi del rischio per un tipo di ente diverso dal tuo. Ricorda che le analisi del rischio variano sulla base della tipologia di ente, pertanto quella che stai compilando potrebbe non funzionare per te.'
-          }
+          {t('warningAlert')}
         </Alert>
       )}
     </SectionContainer>

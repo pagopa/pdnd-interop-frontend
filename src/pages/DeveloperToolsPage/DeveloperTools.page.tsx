@@ -4,19 +4,26 @@ import { Grid, Stack, Tooltip } from '@mui/material'
 import { Link } from '@/router'
 import DownloadIcon from '@mui/icons-material/Download'
 import UploadIcon from '@mui/icons-material/Upload'
+import { useTranslation } from 'react-i18next'
 
 const DeveloperToolsPage: React.FC = () => {
+  const { t } = useTranslation('developer-tools', { keyPrefix: 'developerTools.page' })
+
   return (
-    <PageContainer title={'Tool per sviluppatori'}>
+    <PageContainer title={t('title')}>
       <Grid container>
         <Grid item xs={7}>
           <SectionContainer
-            title="Export analisi del rischio"
-            description="Esporta e importa in formato .json formattato l’analisi del rischio che compili, pronta per essere utilizzata nelle chiamate di creazione di una finalità nei flussi machine to machine."
+            title={t('sectionRiskAnalysisExport.title')}
+            description={t('sectionRiskAnalysisExport.description')}
           >
             <Stack direction="row" spacing={2}>
               {/** TODO - implement import functionality */}
-              <Tooltip title={'Disponibile a breve'} arrow placement="bottom">
+              <Tooltip
+                title={t('sectionRiskAnalysisExport.importTooltip')}
+                arrow
+                placement="bottom"
+              >
                 <span>
                   <Link
                     startIcon={<UploadIcon />}
@@ -26,7 +33,7 @@ const DeveloperToolsPage: React.FC = () => {
                     disabled
                     to="NOT_FOUND"
                   >
-                    Importa .json
+                    {t('sectionRiskAnalysisExport.importButton')}
                   </Link>
                 </span>
               </Tooltip>
@@ -37,7 +44,7 @@ const DeveloperToolsPage: React.FC = () => {
                 size="medium"
                 to="RISK_ANALYSIS_EXPORTER_TOOL"
               >
-                Esporta .json
+                {t('sectionRiskAnalysisExport.exportButton')}
               </Link>
             </Stack>
           </SectionContainer>
