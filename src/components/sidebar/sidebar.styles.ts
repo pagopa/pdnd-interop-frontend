@@ -11,21 +11,7 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
     width: collapsed ? 'fit-content' : '300px',
     overscrollBehavior: 'auto',
     overflowY: 'auto',
-    '&::-webkit-scrollbar': {
-      width: 4,
-    },
-    '&::-webkit-scrollbar-track': {
-      borderRadius: 1,
-    },
-    '&::-webkit-scrollbar-thumb': {
-      borderRadius: 1,
-      background: theme.palette.primary.main,
-      width: 1,
-    },
-
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-    },
+    scrollbarWidth: 'thin',
   },
   itemButtonActive: {
     '&.active': {

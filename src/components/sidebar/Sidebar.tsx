@@ -44,21 +44,23 @@ export const _Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
   }
 
   return (
-    <Box sx={styles.container} component="aside">
+    <>
       {!mobile ? (
-        <Stack
-          component="nav"
-          role="navigation"
-          aria-label={t('navigationMenu')}
-          aria-expanded={!collapsed}
-        >
-          <SidebarList routes={routes} collapsed={collapsed} />
-          <HamburgerBox collapsed={collapsed} handleCollapsed={handleCollapsed} />
-        </Stack>
+        <Box sx={styles.container} component="aside">
+          <Stack
+            component="nav"
+            role="navigation"
+            aria-label={t('navigationMenu')}
+            aria-expanded={!collapsed}
+          >
+            <SidebarList routes={routes} collapsed={collapsed} />
+            <HamburgerBox collapsed={collapsed} handleCollapsed={handleCollapsed} />
+          </Stack>
+        </Box>
       ) : (
         <SidebarMobile routes={routes} />
       )}
-    </Box>
+    </>
   )
 }
 
