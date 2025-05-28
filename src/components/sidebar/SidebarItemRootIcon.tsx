@@ -17,7 +17,7 @@ export const SidebarRootIcon: React.FC<SidebarRootIconProps> = ({
   tooltipLabel,
 }) => {
   return (
-    <Tooltip title={tooltipLabel}>
+    <Tooltip title={tooltipLabel} placement="right">
       <ListItemIcon>
         {!collapsed || !notification || notification?.content <= 0 ? (
           <Icon fontSize="inherit" />
