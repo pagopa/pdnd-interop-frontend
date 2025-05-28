@@ -91,10 +91,9 @@ describe('Risk analysis form utils', () => {
       expect(result).toEqual(['hello'])
     })
 
-    it('should throw an error if an invalid type is passed', () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      expect(() => getBackendAnswerValue(1)).toThrow()
+    it('should return an empty array if an invalid type is passed', () => {
+      const result = getBackendAnswerValue(1)
+      expect(result).toEqual([])
     })
   })
 
