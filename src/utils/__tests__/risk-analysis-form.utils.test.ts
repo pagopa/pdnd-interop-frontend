@@ -92,6 +92,7 @@ describe('Risk analysis form utils', () => {
     })
 
     it('should return an empty array if an invalid type is passed', () => {
+      // @ts-expect-error Testing invalid type
       const result = getBackendAnswerValue(1)
       expect(result).toEqual([])
     })
