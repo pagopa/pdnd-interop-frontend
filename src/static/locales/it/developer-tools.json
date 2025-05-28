@@ -1,0 +1,30 @@
+{
+  "riskAnalysisExporterTool": {
+    "page": {
+      "title": "Export analisi del rischio",
+      "description": "Lo strumento di export ti permette di esportare in formato .json formattato l’analisi del rischio che compili, pronta per essere utilizzata nelle chiamate di creazione di una finalità nei flussi machine to machine.",
+      "alertInfo": "La funzionalità di import dell’analisi del rischio sarà disponibile a breve.",
+      "steps": {
+        "riskAnalysis": "Analisi del rischio",
+        "exportGeneration": "Generazione export"
+      }
+    },
+    "jsonExportStep": {
+      "title": "Il tuo export JSON",
+      "successAlert": "L’analisi del rischio è stata compilata in ogni sua parte e ha generato un output formattato correttamente.",
+      "warningAlertTitle": "L’analisi del rischio è stata compilata parzialmente.",
+      "backButton": "Indietro"
+    },
+    "formStep": {
+      "generateCodeButton": "Genera codice",
+      "riskAnalysisSection": {
+        "title": "Analisi del rischio",
+        "description": "Indica per chi stai compilando questa analisi del rischio.",
+        "tenantKindLabel": "Tipologia ente",
+        "publicAdministrationOption": "Pubbliche Amministrazioni",
+        "privateOption": "Gestori di pubblici servizi, Società a controllo pubblico oppure Privati",
+        "warningAlert": "Hai scelto di compilare una analisi del rischio per un tipo di ente diverso dal tuo. Ricorda che le analisi del rischio variano sulla base della tipologia di ente, pertanto quella che stai compilando potrebbe non funzionare per te."
+      }
+    }
+  }
+}

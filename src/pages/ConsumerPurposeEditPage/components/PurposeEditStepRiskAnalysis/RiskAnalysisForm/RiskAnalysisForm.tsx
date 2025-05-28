@@ -1,22 +1,14 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { Alert, Box, Stack } from '@mui/material'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { StepActions } from '@/components/shared/StepActions'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import type {
-  Answers,
-  Questions,
-} from '@/components/shared/RiskAnalysisFormComponents/types/risk-analysis-form.types'
-import {
-  getRiskAnalysisDefaultValues,
-  getUpdatedQuestions,
-  getValidAnswers,
-} from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
+import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
@@ -33,44 +25,15 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
 
-  const [_, startTransition] = React.useTransition()
-  const [defaultValues, __] = React.useState<Answers>(() =>
-    getRiskAnalysisDefaultValues(riskAnalysis.questions, defaultAnswers)
-  )
-  const [questions, setQuestions] = React.useState<Questions>(() =>
-    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
-  )
-
-  const formMethods = useForm<Answers>({
-    defaultValues,
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
+  const riskAnalysisForm = useRiskAnalysisForm({
+    riskAnalysisConfig: riskAnalysis,
+    defaultAnswers: defaultAnswers,
   })
 
-  const { watch } = formMethods
-
-  /**
-   * Subscribes to the form values changes
-   * and updates the actual visible questions on values change.
-   */
-  React.useEffect(() => {
-    const subscription = watch((answers) => {
-      startTransition(() => {
-        setQuestions(getUpdatedQuestions(answers as Answers, riskAnalysis.questions))
-      })
-    })
-    return () => subscription.unsubscribe()
-  }, [watch, riskAnalysis])
-
-  const handleSubmit = formMethods.handleSubmit((answers) => {
-    const currentQuestionsIds = Object.keys(questions)
-    const validAnswers = getValidAnswers(currentQuestionsIds, answers)
-
-    onSubmit(validAnswers)
-  })
+  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers }) => onSubmit(validAnswers))
 
   return (
-    <FormProvider {...formMethods}>
+    <FormProvider {...riskAnalysisForm}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
         <SectionContainer
           title={t('stepRiskAnalysis.title')}
@@ -81,7 +44,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
           </Alert>
         </SectionContainer>
         <Stack spacing={2}>
-          <RiskAnalysisFormComponents questions={questions} />
+          <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
         <StepActions
           back={{

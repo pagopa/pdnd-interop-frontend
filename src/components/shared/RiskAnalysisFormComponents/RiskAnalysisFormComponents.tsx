@@ -1,6 +1,9 @@
 import React from 'react'
 import type { FormConfigQuestion } from '@/api/api.generatedTypes'
-import type { Answers, Questions } from './types/risk-analysis-form.types'
+import type {
+  RiskAnalysisAnswers,
+  RiskAnalysisQuestions,
+} from '../../../types/risk-analysis-form.types'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
@@ -9,7 +12,7 @@ import {
   formatRiskAnalysisInputLabel,
   formatRiskAnalysisHerlperText,
   getRiskAnalysisInputOptions,
-} from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
+} from '@/utils/risk-analysis-form.utils'
 import { RiskAnalysisSwitch } from './RiskAnalysisSwitch'
 import { RiskAnalysisSelect } from './RiskAnalysisSelect'
 import { RiskAnalysisTextField } from './RiskAnalysisTextField'
@@ -22,10 +25,12 @@ import { RiskAnalysisRadioGroup } from './RiskAnalysisRadioGroup'
  * @param questions - the actual updated questions visible to the user
  * @returns Array of components that should be rendered inside the form
  * */
-export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({ questions }) => {
+export const RiskAnalysisFormComponents: React.FC<{ questions: RiskAnalysisQuestions }> = ({
+  questions,
+}) => {
   const { t } = useTranslation('shared-components')
   const lang = useCurrentLanguage()
-  const answers = useFormContext<Answers>().watch()
+  const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
 
   return React.useMemo(() => {
     function buildFormQuestionComponents(question: FormConfigQuestion) {
@@ -40,10 +45,12 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: Questions }> = ({
       const helperText = formatRiskAnalysisHerlperText(question, t)
 
       const sx = { mb: 0 }
+
+      const questionId = `answers.${question.id}`
       const commonProps = {
-        key: question.id,
-        name: question.id,
-        id: question.id,
+        key: questionId,
+        name: questionId,
+        id: questionId,
         label,
         infoLabel,
         helperText,

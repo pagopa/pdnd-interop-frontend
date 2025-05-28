@@ -51,6 +51,8 @@ import {
   ProviderEServiceTemplateSummaryPage,
   ProviderEServiceFromTemplateCreatePage,
   RiskAnalysisEServiceAssociatedPage,
+  DeveloperToolsPage,
+  RiskAnalysisExporterToolPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -543,6 +545,22 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'DEVELOPER_TOOLS',
+    path: '/developer-tools',
+    element: <DeveloperToolsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'RISK_ANALYSIS_EXPORTER_TOOL',
+    path: '/developer-tools/export-analisi-del-rischio',
+    element: <RiskAnalysisExporterToolPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api', 'support', 'security'],
   })
   .build()
 

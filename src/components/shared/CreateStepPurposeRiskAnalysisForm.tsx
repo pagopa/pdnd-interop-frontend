@@ -1,6 +1,6 @@
-import type { RiskAnalysisFormConfig, TenantKind } from '@/api/api.generatedTypes'
+import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import React from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { Alert, Box, Stack } from '@mui/material'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
@@ -8,26 +8,14 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
-import type {
-  Answers,
-  Questions,
-} from '@/components/shared/RiskAnalysisFormComponents/types/risk-analysis-form.types'
-import {
-  getRiskAnalysisDefaultValues,
-  getUpdatedQuestions,
-  getValidAnswers,
-} from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
-
-export type CreateStepPurposeRiskAnalysisFormValues = {
-  name: string
-} & Answers
+import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 
 type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName: string | undefined
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
-  onSubmit: (name: string, answers: Record<string, string[]>, tenantKind: TenantKind) => void
+  onSubmit: (name: string, answers: Record<string, string[]>) => void
   onCancel: VoidFunction
 }
 
@@ -36,49 +24,18 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
 > = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
 
-  const [_, startTransition] = React.useTransition()
-  const [defaultValues, __] = React.useState<Answers>(() =>
-    getRiskAnalysisDefaultValues(riskAnalysis.questions, defaultAnswers)
-  )
-  const [questions, setQuestions] = React.useState<Questions>(() =>
-    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
-  )
-
-  const formMethods = useForm<CreateStepPurposeRiskAnalysisFormValues>({
-    defaultValues: {
-      name: defaultName ?? '',
-      ...defaultValues,
-    },
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
+  const riskAnalysisForm = useRiskAnalysisForm({
+    riskAnalysisConfig: riskAnalysis,
+    defaultAnswers: defaultAnswers,
+    extraFields: { name: defaultName ?? '' },
   })
 
-  const { watch } = formMethods
-
-  /**
-   * Subscribes to the form values changes
-   * and updates the actual visible questions on values change.
-   */
-  React.useEffect(() => {
-    const subscription = watch((answers) => {
-      startTransition(() => {
-        setQuestions(getUpdatedQuestions(answers as Answers, riskAnalysis.questions))
-      })
-    })
-    return () => subscription.unsubscribe()
-  }, [watch, riskAnalysis])
-
-  const handleSubmit = formMethods.handleSubmit((values) => {
-    const currentQuestionsIds = Object.keys(questions)
-
-    const { name, tenantKind, ...answers } = values
-    const validAnswers = getValidAnswers(currentQuestionsIds, answers)
-
-    onSubmit(name, validAnswers, tenantKind as TenantKind)
+  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers, name }) => {
+    onSubmit(name, validAnswers)
   })
 
   return (
-    <FormProvider {...formMethods}>
+    <FormProvider {...riskAnalysisForm}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
         <SectionContainer
           title={t('riskAnalysis.riskAnalysisNameSection.title')}
@@ -102,7 +59,7 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
           </Alert>
         </SectionContainer>
         <Stack spacing={2}>
-          <RiskAnalysisFormComponents questions={questions} />
+          <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
         <StepActions
           back={{

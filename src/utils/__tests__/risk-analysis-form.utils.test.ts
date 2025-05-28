@@ -11,7 +11,7 @@ import {
   getValidAnswers,
   isDependencySatisfied,
 } from '../risk-analysis-form.utils'
-import type { Answers } from '../../types/risk-analysis-form.types'
+import type { RiskAnalysisAnswers } from '../../types/risk-analysis-form.types'
 import type { TFunction } from 'i18next'
 
 const _questions: Partial<FormConfigQuestion>[] = [
@@ -117,7 +117,7 @@ describe('Risk analysis form utils', () => {
         id: 'test-id',
         value: 'test',
       }
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': ['test'],
       }
       const result = isDependencySatisfied(dependency, answers)
@@ -129,7 +129,7 @@ describe('Risk analysis form utils', () => {
         id: 'test-id',
         value: 'test',
       }
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': 'test',
       }
       const result = isDependencySatisfied(dependency, answers)
@@ -141,7 +141,7 @@ describe('Risk analysis form utils', () => {
         id: 'test-id',
         value: 'test',
       }
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': 'test-fail',
       }
       const result = isDependencySatisfied(dependency, answers)
@@ -153,7 +153,7 @@ describe('Risk analysis form utils', () => {
         id: 'test-id',
         value: 'test',
       }
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': ['test-fail'],
       }
       const result = isDependencySatisfied(dependency, answers)
@@ -163,7 +163,7 @@ describe('Risk analysis form utils', () => {
 
   describe('getUpdatedQuestions', () => {
     it('should filter out questions with not satisfied dependencies', () => {
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': 'test',
         'test-id-2': 'test-2',
         'test-id-3': ['test-3'],
