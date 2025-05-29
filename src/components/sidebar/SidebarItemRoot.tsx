@@ -21,7 +21,6 @@ import { useGeneratePath, type RouteKey } from '@/router'
 import { SidebarItem } from './SidebarItem'
 import { Link } from 'react-router-dom'
 import { sidebarStyles } from './sidebar.styles'
-import { has } from 'lodash'
 
 type SidebartItemRootProps = {
   notification?: Notification
