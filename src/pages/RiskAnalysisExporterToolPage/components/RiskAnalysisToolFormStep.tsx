@@ -44,7 +44,13 @@ function RiskAnalysisToolForm() {
 
   const handleSubmit = formMethods.handleSubmit(
     ({ validAnswers }) => {
-      onRiskAnalysisFormSubmit(validAnswers, [])
+      onRiskAnalysisFormSubmit(
+        {
+          version: riskAnalysisConfig.version,
+          answers: validAnswers,
+        },
+        []
+      )
     },
     (errors) => {
       const errorMessages = Object.keys(errors.answers ?? {}).map(
@@ -52,9 +58,14 @@ function RiskAnalysisToolForm() {
       )
 
       const currentAnswers = formMethods.getValues('answers')
-      const validAnswers = getValidAnswers(Object.keys(formMethods.questions), currentAnswers)
 
-      onRiskAnalysisFormSubmit(validAnswers, errorMessages)
+      onRiskAnalysisFormSubmit(
+        {
+          version: riskAnalysisConfig.version,
+          answers: getValidAnswers(Object.keys(formMethods.questions), currentAnswers),
+        },
+        errorMessages
+      )
     }
   )
 
