@@ -31,7 +31,7 @@ function RiskAnalysisToolForm() {
     keyPrefix: 'riskAnalysisExporterTool.formStep',
   })
   const currentLang = useCurrentLanguage()
-  const { selectedRiskAnalysisKind, onRiskAnalysisFormSubmit } =
+  const { selectedRiskAnalysisKind, onRiskAnalysisFormSubmit, output } =
     useRiskAnalysisExporterToolContext()
 
   const { data: riskAnalysisConfig } = useSuspenseQuery(
@@ -40,6 +40,7 @@ function RiskAnalysisToolForm() {
 
   const formMethods = useRiskAnalysisForm({
     riskAnalysisConfig,
+    defaultAnswers: output?.answers,
   })
 
   const handleSubmit = formMethods.handleSubmit(
