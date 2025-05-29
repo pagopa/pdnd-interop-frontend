@@ -39,25 +39,4 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
       mr: 0,
     },
   },
-  hamburgerTypography: {
-    fontWeight: 600,
-    pl: 1,
-  },
-  activeItem: collapsed
-    ? {
-      '&.active': {
-        fontWeight: 'bold',
-        backgroundColor: alpha(theme.palette.primary.main, 0.08),
-        borderRight: '2px solid',
-        borderColor: theme.palette.primary.dark,
-        '.MuiTypography-root': {
-          fontWeight: 600,
-          color: theme.palette.primary.dark,
-        },
-        '.MuiListItemIcon-root': {
-          color: theme.palette.primary.dark,
-        },
-      },
-    }
-    : {},
 })
