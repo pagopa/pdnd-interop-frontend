@@ -8,9 +8,7 @@ import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
-  formatRiskAnalysisInputInfoLabel,
   formatRiskAnalysisInputLabel,
-  formatRiskAnalysisHerlperText,
   getRiskAnalysisInputOptions,
 } from '@/utils/risk-analysis-form.utils'
 import { RiskAnalysisSwitch } from './RiskAnalysisSwitch'
@@ -44,11 +42,11 @@ function QuestionComponent({ question }: { question: FormConfigQuestion }) {
 
   const inputOptions = getRiskAnalysisInputOptions(question, answers, lang)
   const label = formatRiskAnalysisInputLabel(question, lang, t)
-  const infoLabel = formatRiskAnalysisInputInfoLabel(question, lang)
 
-  const helperText = formatRiskAnalysisHerlperText(question, t)
-
-  const sx = { mb: 0 }
+  const infoLabel = question.infoLabel?.[lang]
+  const helperText = question.validation?.maxLength
+    ? t('riskAnalysis.formComponents.validation.maxLength', { num: maxLength })
+    : undefined
 
   const questionId = `answers.${question.id}`
   const commonProps = {
@@ -57,7 +55,7 @@ function QuestionComponent({ question }: { question: FormConfigQuestion }) {
     label,
     infoLabel,
     helperText,
-    sx,
+    sx: { mb: 0 },
   }
 
   return match(question.visualType)

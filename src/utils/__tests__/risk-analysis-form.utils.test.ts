@@ -1,8 +1,6 @@
 import type { Dependency, FormConfigQuestion } from '@/api/api.generatedTypes'
 import {
-  formatRiskAnalysisInputInfoLabel,
   formatRiskAnalysisInputLabel,
-  formatRiskAnalysisHerlperText,
   getBackendAnswerValue,
   getFrontendAnswerValue,
   getRiskAnalysisDefaultValues,
@@ -249,46 +247,6 @@ describe('Risk analysis form utils', () => {
       expect(result).toContain(
         'riskAnalysis.formComponents.validation.required, riskAnalysis.formComponents.validation.multipleChoice'
       )
-    })
-  })
-
-  describe('formatRiskAnalysisInputInfoLabel', () => {
-    it('should return undefined if no infoLabel has been set', () => {
-      const question = {
-        infoLabel: undefined,
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisInputInfoLabel(question, 'it')
-      expect(result).toBeUndefined()
-    })
-
-    it("should format correctly the infoLabel if it's present", () => {
-      const question = {
-        infoLabel: { it: 'test' },
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisInputInfoLabel(question, 'it')
-      expect(result).toEqual('test')
-    })
-  })
-
-  describe('formatRiskAnalysisHerlperText', () => {
-    it('should return undefined if the question has no max length validation', () => {
-      const question = {
-        validation: undefined,
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
-      expect(result).toBeUndefined()
-    })
-
-    it("should format correctly the validationInfoLabel if it's present", () => {
-      const question = {
-        validation: { maxLength: 40 },
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
-      expect(result).toEqual('riskAnalysis.formComponents.validation.maxLength')
     })
   })
 
