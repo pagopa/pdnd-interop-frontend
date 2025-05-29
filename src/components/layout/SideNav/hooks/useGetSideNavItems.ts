@@ -36,6 +36,10 @@ const views = [
     id: 'tenant',
     children: ['PARTY_REGISTRY', 'TENANT_CERTIFIER', 'DELEGATIONS'],
   },
+  {
+    routeKey: 'DEVELOPER_TOOLS',
+    id: 'deveoloperTools',
+  },
 ] as const
 
 export function useGetSideNavItems() {

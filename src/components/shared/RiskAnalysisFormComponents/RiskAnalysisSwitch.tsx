@@ -47,7 +47,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       {...ids}
     >
       <FormLabel sx={{ color: 'text.primary' }}>
-        <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={0.25}>
+        <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={1}>
           <Controller
             name={name}
             rules={mapValidationErrorMessages(rules, t)}
@@ -68,7 +68,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
             )}
           />
           {options.length > 0 && (
-            <Typography component="span" variant="body2" fontWeight={600}>
+            <Typography component="span" variant="body1">
               {options[0].label}
             </Typography>
           )}

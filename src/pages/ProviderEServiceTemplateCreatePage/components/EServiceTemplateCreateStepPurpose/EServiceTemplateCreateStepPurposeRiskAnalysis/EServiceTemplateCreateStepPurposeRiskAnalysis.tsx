@@ -36,8 +36,8 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
   // TODO: UpdateRiskAnalysis (RECEIVE MODE) is not available yet
   const handleSubmit = (
     name: string,
-    answers: Record<string, string[]>,
-    tenantKind: TenantKind
+    answers: Record<string, string[]>
+    // tenantKind: TenantKind
   ) => {
     // if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
     //   updateEServiceTemplateRiskAnalysis(

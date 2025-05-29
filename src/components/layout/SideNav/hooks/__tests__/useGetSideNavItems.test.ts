@@ -50,6 +50,10 @@ describe('useGetSideNavItems', () => {
           "id": "tenant",
           "routeKey": "TENANT",
         },
+        {
+          "id": "deveoloperTools",
+          "routeKey": "DEVELOPER_TOOLS",
+        },
       ]
     `)
   })
@@ -87,6 +91,10 @@ describe('useGetSideNavItems', () => {
           "id": "tenant",
           "routeKey": "TENANT",
         },
+        {
+          "id": "deveoloperTools",
+          "routeKey": "DEVELOPER_TOOLS",
+        },
       ]
     `)
   })
@@ -116,6 +124,10 @@ describe('useGetSideNavItems', () => {
           ],
           "id": "tenant",
           "routeKey": "TENANT",
+        },
+        {
+          "id": "deveoloperTools",
+          "routeKey": "DEVELOPER_TOOLS",
         },
       ]
     `)
@@ -158,6 +170,10 @@ describe('useGetSideNavItems', () => {
           ],
           "id": "tenant",
           "routeKey": "TENANT",
+        },
+        {
+          "id": "deveoloperTools",
+          "routeKey": "DEVELOPER_TOOLS",
         },
       ]
     `)
@@ -202,6 +218,10 @@ describe('useGetSideNavItems', () => {
           "id": "tenant",
           "routeKey": "TENANT",
         },
+        {
+          "id": "deveoloperTools",
+          "routeKey": "DEVELOPER_TOOLS",
+        },
       ]
     `)
   })
@@ -245,6 +265,10 @@ describe('useGetSideNavItems', () => {
           "id": "tenant",
           "routeKey": "TENANT",
         },
+        {
+          "id": "deveoloperTools",
+          "routeKey": "DEVELOPER_TOOLS",
+        },
       ]
     `)
   })
@@ -287,6 +311,10 @@ describe('useGetSideNavItems', () => {
           ],
           "id": "tenant",
           "routeKey": "TENANT",
+        },
+        {
+          "id": "deveoloperTools",
+          "routeKey": "DEVELOPER_TOOLS",
         },
       ]
     `)

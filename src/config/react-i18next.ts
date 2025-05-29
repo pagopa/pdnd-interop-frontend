@@ -20,6 +20,7 @@ import keyEnNs from '@/static/locales/en/key.json'
 import assistanceEnNs from '@/static/locales/en/assistance.json'
 import keychainEnNs from '@/static/locales/en/keychain.json'
 import templateEnNs from '@/static/locales/en/template.json'
+import developerToolsEnNs from '@/static/locales/en/developer-tools.json'
 
 import pagesItNs from '@/static/locales/it/pages.json'
 import commonItNs from '@/static/locales/it/common.json'
@@ -39,6 +40,7 @@ import keyItNs from '@/static/locales/it/key.json'
 import assistanceItNs from '@/static/locales/it/assistance.json'
 import keychainItNs from '@/static/locales/it/keychain.json'
 import templateItNs from '@/static/locales/it/template.json'
+import developerToolsItNs from '@/static/locales/it/developer-tools.json'
 
 i18n.use(initReactI18next).init({
   debug: false,
@@ -67,6 +69,7 @@ i18n.use(initReactI18next).init({
       assistance: assistanceItNs,
       keychain: keychainItNs,
       template: templateItNs,
+      'developer-tools': developerToolsItNs,
     },
     en: {
       pages: pagesEnNs,
@@ -87,6 +90,7 @@ i18n.use(initReactI18next).init({
       assistance: assistanceEnNs,
       keychain: keychainEnNs,
       template: templateEnNs,
+      'developer-tools': developerToolsEnNs,
     },
   },
 })

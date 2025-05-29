@@ -1,8 +1,6 @@
 import type { Dependency, FormConfigQuestion } from '@/api/api.generatedTypes'
 import {
-  formatRiskAnalysisInputInfoLabel,
   formatRiskAnalysisInputLabel,
-  formatRiskAnalysisHerlperText,
   getBackendAnswerValue,
   getFrontendAnswerValue,
   getRiskAnalysisDefaultValues,
@@ -11,7 +9,7 @@ import {
   getValidAnswers,
   isDependencySatisfied,
 } from '../risk-analysis-form.utils'
-import type { Answers } from '../../types/risk-analysis-form.types'
+import type { RiskAnalysisAnswers } from '../../types/risk-analysis-form.types'
 import type { TFunction } from 'i18next'
 
 const _questions: Partial<FormConfigQuestion>[] = [
@@ -91,10 +89,10 @@ describe('Risk analysis form utils', () => {
       expect(result).toEqual(['hello'])
     })
 
-    it('should throw an error if an invalid type is passed', () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      expect(() => getBackendAnswerValue(1)).toThrow()
+    it('should return an empty array if an invalid type is passed', () => {
+      // @ts-expect-error Testing invalid type
+      const result = getBackendAnswerValue(1)
+      expect(result).toEqual([])
     })
   })
 
@@ -117,7 +115,7 @@ describe('Risk analysis form utils', () => {
         id: 'test-id',
         value: 'test',
       }
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': ['test'],
       }
       const result = isDependencySatisfied(dependency, answers)
@@ -129,7 +127,7 @@ describe('Risk analysis form utils', () => {
         id: 'test-id',
         value: 'test',
       }
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': 'test',
       }
       const result = isDependencySatisfied(dependency, answers)
@@ -141,7 +139,7 @@ describe('Risk analysis form utils', () => {
         id: 'test-id',
         value: 'test',
       }
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': 'test-fail',
       }
       const result = isDependencySatisfied(dependency, answers)
@@ -153,7 +151,7 @@ describe('Risk analysis form utils', () => {
         id: 'test-id',
         value: 'test',
       }
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': ['test-fail'],
       }
       const result = isDependencySatisfied(dependency, answers)
@@ -163,7 +161,7 @@ describe('Risk analysis form utils', () => {
 
   describe('getUpdatedQuestions', () => {
     it('should filter out questions with not satisfied dependencies', () => {
-      const answers: Answers = {
+      const answers: RiskAnalysisAnswers = {
         'test-id': 'test',
         'test-id-2': 'test-2',
         'test-id-3': ['test-3'],
@@ -249,46 +247,6 @@ describe('Risk analysis form utils', () => {
       expect(result).toContain(
         'riskAnalysis.formComponents.validation.required, riskAnalysis.formComponents.validation.multipleChoice'
       )
-    })
-  })
-
-  describe('formatRiskAnalysisInputInfoLabel', () => {
-    it('should return undefined if no infoLabel has been set', () => {
-      const question = {
-        infoLabel: undefined,
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisInputInfoLabel(question, 'it')
-      expect(result).toBeUndefined()
-    })
-
-    it("should format correctly the infoLabel if it's present", () => {
-      const question = {
-        infoLabel: { it: 'test' },
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisInputInfoLabel(question, 'it')
-      expect(result).toEqual('test')
-    })
-  })
-
-  describe('formatRiskAnalysisHerlperText', () => {
-    it('should return undefined if the question has no max length validation', () => {
-      const question = {
-        validation: undefined,
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
-      expect(result).toBeUndefined()
-    })
-
-    it("should format correctly the validationInfoLabel if it's present", () => {
-      const question = {
-        validation: { maxLength: 40 },
-      } as FormConfigQuestion
-
-      const result = formatRiskAnalysisHerlperText(question, tSharedComponentsMock)
-      expect(result).toEqual('riskAnalysis.formComponents.validation.maxLength')
     })
   })
 

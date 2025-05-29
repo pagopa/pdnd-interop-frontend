@@ -3,10 +3,17 @@ import type {
   FormConfigQuestion,
   HideOption,
   LabeledValue,
+  TenantKind,
 } from '@/api/api.generatedTypes'
-import type { AnswerValue, Answers, Questions } from '../types/risk-analysis-form.types'
+import type {
+  RiskAnalysisAnswerValue,
+  RiskAnalysisAnswers,
+  RiskAnalysisKind,
+  RiskAnalysisQuestions,
+} from '@/types/risk-analysis-form.types'
 import type { InputOption, LangCode } from '@/types/common.types'
 import type { TFunction } from 'i18next'
+import { match } from 'ts-pattern'
 
 /**
  * Transform the answers from the backend to the frontend format
@@ -24,7 +31,7 @@ import type { TFunction } from 'i18next'
 export function getFrontendAnswerValue(
   backendAnswer: Array<string>,
   visualType?: FormConfigQuestion['visualType']
-): AnswerValue {
+): RiskAnalysisAnswerValue {
   if (visualType === 'switch') {
     return backendAnswer[0] === 'true'
   }
@@ -43,7 +50,7 @@ export function getFrontendAnswerValue(
  * @param answer The answer from the frontend
  * @returns The answer in the type that the backend needs
  * */
-export function getBackendAnswerValue(answer: AnswerValue): Array<string> {
+export function getBackendAnswerValue(answer: RiskAnalysisAnswerValue): Array<string> {
   if (typeof answer === 'boolean') {
     return [answer.toString()]
   }
@@ -56,7 +63,7 @@ export function getBackendAnswerValue(answer: AnswerValue): Array<string> {
     return [answer]
   }
 
-  throw new Error(`Invalid answer type: ${typeof answer} \n\n ${JSON.stringify(answer, null, 2)}`)
+  return []
 }
 
 /**
@@ -69,7 +76,7 @@ export function getBackendAnswerValue(answer: AnswerValue): Array<string> {
  * @param answers - the answers to all the questions
  * @returns the valid answers that should be sent to the backend
  * */
-export function getValidAnswers(currentQuestionsIds: Array<string>, answers: Answers) {
+export function getValidAnswers(currentQuestionsIds: Array<string>, answers: RiskAnalysisAnswers) {
   return Object.keys(answers).reduce<Record<string, Array<string>>>((acc, key) => {
     // If the question is actually visible, add it to the valid answers
     if (currentQuestionsIds.includes(key)) {
@@ -86,7 +93,10 @@ export function getValidAnswers(currentQuestionsIds: Array<string>, answers: Ans
  * @param answers - the actual form values
  * @returns `true` if the dependency is satisfied, `false` otherwise
  * */
-export function isDependencySatisfied(dependency: Dependency | HideOption, answers: Answers) {
+export function isDependencySatisfied(
+  dependency: Dependency | HideOption,
+  answers: RiskAnalysisAnswers
+) {
   const answer = answers[dependency.id]
   if (Array.isArray(answer)) {
     return answer.includes(dependency.value)
@@ -104,11 +114,11 @@ export function isDependencySatisfied(dependency: Dependency | HideOption, answe
  * @returns the updated questions data
  * */
 export function getUpdatedQuestions(
-  answers: Answers,
+  answers: RiskAnalysisAnswers,
   riskAnalysisQuestions: FormConfigQuestion[]
-): Questions {
+): RiskAnalysisQuestions {
   // Filters all the questions that not satisfies the dependency inside the "dependencies" property
-  return riskAnalysisQuestions.reduce<Questions>((acc, question) => {
+  return riskAnalysisQuestions.reduce<RiskAnalysisQuestions>((acc, question) => {
     const doesSatisfyDeps = question.dependencies.every((dependency) =>
       isDependencySatisfied(dependency, answers)
     )
@@ -133,8 +143,8 @@ export function getUpdatedQuestions(
 export function getRiskAnalysisDefaultValues(
   riskAnalysisConfigQuestions: FormConfigQuestion[],
   backendAnswers?: Record<string, Array<string>>
-): Answers {
-  return riskAnalysisConfigQuestions.reduce<Answers>((acc, question) => {
+): RiskAnalysisAnswers {
+  return riskAnalysisConfigQuestions.reduce<RiskAnalysisAnswers>((acc, question) => {
     const answer = backendAnswers?.[question.id] ?? question.defaultValue
     acc[question.id] = getFrontendAnswerValue(answer, question.visualType)
 
@@ -182,37 +192,6 @@ export function formatRiskAnalysisInputLabel(
 }
 
 /**
- * Returns the formatted info label for the risk analysis input.
- * The info label is the text that appears below section title.
- *
- * @param question - the question
- * @param lang - the current active language
- * @returns the formatted info label for the risk analysis input
- */
-export function formatRiskAnalysisInputInfoLabel(question: FormConfigQuestion, lang: LangCode) {
-  return question.infoLabel && question.infoLabel[lang]
-}
-
-/**
- * Returns the formatted validation herlper text for the risk analysis input.
- * The herlper text is the text that appears below the input.
- *
- * @param question - the question
- * @param t - the translation function
- * @returns the formatted validatio info label for the risk analysis input
- */
-export function formatRiskAnalysisHerlperText(
-  question: FormConfigQuestion,
-  t: TFunction<'shared-components'>
-) {
-  const maxLength = question.validation?.maxLength
-
-  if (maxLength) {
-    return t('riskAnalysis.formComponents.validation.maxLength', { num: maxLength })
-  }
-}
-
-/**
  * Returns the options for the risk analysis input.
  * If the question has the property "hideOption" and the conditions are satisfied
  * the option will be not added to the array of options.
@@ -224,7 +203,7 @@ export function formatRiskAnalysisHerlperText(
  * */
 export function getRiskAnalysisInputOptions(
   question: FormConfigQuestion,
-  answers: Answers,
+  answers: RiskAnalysisAnswers,
   lang: LangCode
 ) {
   const { options = [], hideOption } = question
@@ -243,4 +222,14 @@ export function getRiskAnalysisInputOptions(
     }
     return acc
   }, [])
+}
+
+export function getRiskAnalysisKind(tenantKind: TenantKind): RiskAnalysisKind {
+  return match(tenantKind)
+    .returnType<RiskAnalysisKind>()
+    .with('PA', () => 'PA')
+    .with('PRIVATE', () => 'PRIVATE')
+    .with('GSP', () => 'PRIVATE')
+    .with('SCP', () => 'PRIVATE')
+    .exhaustive()
 }
