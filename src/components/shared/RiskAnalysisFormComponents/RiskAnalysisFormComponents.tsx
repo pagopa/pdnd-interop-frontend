@@ -1,9 +1,9 @@
 import React from 'react'
 import type { FormConfigQuestion } from '@/api/api.generatedTypes'
-import type {
-  RiskAnalysisAnswers,
-  RiskAnalysisQuestions,
-} from '../../../types/risk-analysis-form.types'
+import {
+  type RiskAnalysisAnswers,
+  type RiskAnalysisQuestions,
+} from '@/types/risk-analysis-form.types'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
@@ -28,11 +28,11 @@ export const RiskAnalysisFormComponents: React.FC<{ questions: RiskAnalysisQuest
   questions,
 }) => {
   return Object.entries(questions).map(([questionId, question]) => (
-    <QuestionComponent key={questionId} question={question} />
+    <RiskAnalysisQuestion key={questionId} question={question} />
   ))
 }
 
-function QuestionComponent({ question }: { question: FormConfigQuestion }) {
+function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
 
