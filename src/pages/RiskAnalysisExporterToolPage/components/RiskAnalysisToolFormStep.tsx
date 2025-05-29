@@ -39,7 +39,7 @@ function RiskAnalysisToolForm() {
   )
 
   const formMethods = useRiskAnalysisForm({
-    riskAnalysisConfig: riskAnalysisConfig,
+    riskAnalysisConfig,
   })
 
   const handleSubmit = formMethods.handleSubmit(
