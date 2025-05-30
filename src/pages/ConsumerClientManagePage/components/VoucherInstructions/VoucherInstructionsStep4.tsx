@@ -8,7 +8,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { SectionContainer } from '@/components/layout/containers'
 import { PurposeQueries } from '@/api/purpose'
 import {
-  API_GATEWAY_INTERFACE_URL,
+  API_GATEWAY_V1_INTERFACE_URL,
+  API_GATEWAY_V2_INTERFACE_URL,
   API_SIGNAL_HUB_PULL_INTERFACE_URL,
   API_SIGNAL_HUB_PUSH_INTERFACE_URL,
   FEATURE_FLAG_SIGNALHUB_WHITELIST,
@@ -56,8 +57,12 @@ export const VoucherInstructionsStep4: React.FC = () => {
           <Typography variant="h6" component="h2">
             {t(`step4.${clientKind}.actionTitle`)}
           </Typography>
+          <Typography> {t(`step4.${clientKind}.actionDescription`)}</Typography>
+          <Typography variant="body2" fontWeight={600}>
+            {t(`step4.API.apiV1.title`)}
+          </Typography>
           <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
-            <Typography variant="body2">{t(`step4.${clientKind}.actionDescription`)}</Typography>
+            <Typography variant="body2">{t(`step4.API.apiV1.description`)}</Typography>
             {clientKind === 'API' && (
               <Button
                 sx={{
@@ -66,7 +71,46 @@ export const VoucherInstructionsStep4: React.FC = () => {
                   },
                 }}
                 disableRipple
-                href={API_GATEWAY_INTERFACE_URL}
+                href={API_GATEWAY_V1_INTERFACE_URL}
+                download
+              >
+                <DownloadIcon fontSize="small" />
+                {t(`step4.${clientKind}.actionLabel`)}
+              </Button>
+            )}
+            {purpose && clientKind === 'CONSUMER' && (
+              <Link
+                as="button"
+                to={'SUBSCRIBE_CATALOG_VIEW'}
+                params={{
+                  eserviceId: purpose.eservice.id,
+                  descriptorId: purpose.eservice.descriptor.id,
+                }}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'white',
+                  },
+                }}
+                disableRipple
+              >
+                {t(`step4.${clientKind}.actionLabel`)}
+              </Link>
+            )}
+          </Stack>
+          <Typography variant="body2" fontWeight={600}>
+            {t(`step4.API.apiV2.title`)}
+          </Typography>
+          <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+            <Typography variant="body2">{t(`step4.API.apiV2.description`)}</Typography>
+            {clientKind === 'API' && (
+              <Button
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'white',
+                  },
+                }}
+                disableRipple
+                href={API_GATEWAY_V2_INTERFACE_URL}
                 download
               >
                 <DownloadIcon fontSize="small" />
@@ -102,42 +146,42 @@ export const VoucherInstructionsStep4: React.FC = () => {
             </Typography>
             <Typography variant="body2" fontWeight={600}>
               {t(`step4.API.pushApiSH.title`)}
-              <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                <Typography variant="body2">{t(`step4.API.pushApiSH.description`)}</Typography>
-                <Button
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: 'white',
-                    },
-                  }}
-                  disableRipple
-                  href={API_SIGNAL_HUB_PUSH_INTERFACE_URL}
-                  download
-                >
-                  <DownloadIcon fontSize="small" />
-                  {t(`step4.actionLabel`)}
-                </Button>
-              </Stack>
             </Typography>
+            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+              <Typography variant="body2">{t(`step4.API.pushApiSH.description`)}</Typography>
+              <Button
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'white',
+                  },
+                }}
+                disableRipple
+                href={API_SIGNAL_HUB_PUSH_INTERFACE_URL}
+                download
+              >
+                <DownloadIcon fontSize="small" />
+                {t(`step4.actionLabel`)}
+              </Button>
+            </Stack>
             <Typography variant="body2" fontWeight={600}>
               {t(`step4.API.pullApiSH.title`)}
-              <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                <Typography variant="body2">{t(`step4.API.pullApiSH.description`)}</Typography>
-                <Button
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: 'white',
-                    },
-                  }}
-                  disableRipple
-                  href={API_SIGNAL_HUB_PULL_INTERFACE_URL}
-                  download
-                >
-                  <DownloadIcon fontSize="small" />
-                  {t(`step4.actionLabel`)}
-                </Button>
-              </Stack>
             </Typography>
+            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+              <Typography variant="body2">{t(`step4.API.pullApiSH.description`)}</Typography>
+              <Button
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'white',
+                  },
+                }}
+                disableRipple
+                href={API_SIGNAL_HUB_PULL_INTERFACE_URL}
+                download
+              >
+                <DownloadIcon fontSize="small" />
+                {t(`step4.actionLabel`)}
+              </Button>
+            </Stack>
           </Stack>
         </SectionContainer>
       )}

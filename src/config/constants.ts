@@ -55,3 +55,6 @@ export const SH_ESERVICES_TO_HIDE_TEMP: Partial<Record<PagoPAEnvVars['STAGE'], A
     '03c34a8a-a79a-4928-9afc-8647eefabdb1',
   ],
 }
+
+export const apiV2GuideLink =
+  'https://developer.pagopa.it/pdnd-interoperabilita/guides/pdnd-manuale-operativo/manuale-operativo/api-esposte-da-pdnd-interoperabilita'

@@ -50,6 +50,10 @@
     }
   },
   "edit": {
+    "alertApiV2": {
+      "description": "PDND will soon update its API model to version 2. In the future it will no longer be possible to interact with the previous version.",
+      "linkLabel": "Find out more"
+    },
     "adminSection": {
       "title": "Admin API",
       "description": "The Client Admin API is a user belonging to the entity who has the authority to perform write operations through the machine to machine channel.",

@@ -3,7 +3,7 @@ import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Button, Grid, Stack, Tab } from '@mui/material'
+import { Alert, Button, Grid, Link, Stack, Tab, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { VoucherInstructions } from './components/VoucherInstructions'
@@ -18,6 +18,7 @@ import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
 import { FEATURE_FLAG_ADMIN_CLIENT } from '@/config/env'
+import { apiV2GuideLink } from '@/config/constants'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
@@ -52,6 +53,14 @@ const ConsumerClientManagePage: React.FC = () => {
         to: clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST',
       }}
     >
+      <Alert severity="info">
+        <Stack direction="row" spacing={3}>
+          <Typography>{t('alertApiV2.description')}</Typography>
+          <Link variant="button" underline="none" href={apiV2GuideLink} target="_blank">
+            {t('alertApiV2.linkLabel')}
+          </Link>
+        </Stack>
+      </Alert>
       {FEATURE_FLAG_ADMIN_CLIENT && clientKind === 'API' && (
         <Grid container>
           <Grid item xs={8}>
