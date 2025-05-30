@@ -16,34 +16,6 @@ import type { TFunction } from 'i18next'
 import { match } from 'ts-pattern'
 
 /**
- * Transform the answers from the backend to the frontend format
- * The answer from the backend arrives as an array of strings, but the frontend
- * needs a specific format depending on the `visualType` value.
- *
- * - `switch` needs a boolean
- * - `checkbox` needs an array of strings
- * - the rest needs a string
- *
- * @param backendAnswer The answer from the backend
- * @param question The question that the answer belongs to
- * @returns The answer in the type that the frontend needs
- */
-export function getFrontendAnswerValue(
-  backendAnswer: Array<string>,
-  visualType?: FormConfigQuestion['visualType']
-): RiskAnalysisAnswerValue {
-  if (visualType === 'switch') {
-    return backendAnswer[0] === 'true'
-  }
-
-  if (visualType === 'checkbox') {
-    return backendAnswer
-  }
-
-  return backendAnswer[0]
-}
-
-/**
  * Transform the answers from the frontend to the backend format
  * The backend always needs an array of strings.
  *
@@ -146,7 +118,8 @@ export function getRiskAnalysisDefaultValues(
 ): RiskAnalysisAnswers {
   return riskAnalysisConfigQuestions.reduce<RiskAnalysisAnswers>((acc, question) => {
     const answer = backendAnswers?.[question.id] ?? question.defaultValue
-    acc[question.id] = getFrontendAnswerValue(answer, question.visualType)
+
+    acc[question.id] = question.visualType === 'checkbox' ? answer : answer[0]
 
     if (!acc[question.id] && question.dataType === 'FREETEXT') {
       acc[question.id] = ''
