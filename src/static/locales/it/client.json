@@ -50,6 +50,10 @@
     }
   },
   "edit": {
+    "alertApiV2": {
+      "description": "PDND aggiornerà presto il proprio modello API alla versione 2. In futuro non sarà più possibile interagire con la versione precedente.",
+      "linkLabel": "Scopri di più"
+    },
     "adminSection": {
       "title": "Admin API",
       "description": "Il Client Admin API è un utente appartenente all’ente che ha facoltà di effettuare operazioni di scrittura attraverso il canale machine to machine.",
