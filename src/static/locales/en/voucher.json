@@ -183,6 +183,14 @@
       "actionDescription": "The API that allows members to interact with PDND Interoperabilità in machine to machine mode",
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Download",
+      "apiV1": {
+        "title": "API v.1 (deprecated)",
+        "description": "The API version currently in use is being deprecated"
+      },
+      "apiV2": {
+        "title": "API v.2 (suggested)",
+        "description": "The latest API version as the new standard for machine-to-machine communications with Interoperabilità."
+      },
       "pushApiSH": {
         "title": "Signals storage(Push API)",
         "description": "The API that allows members to send the signal of data change"

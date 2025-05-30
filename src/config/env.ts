@@ -76,8 +76,12 @@ function getEnvVar(varName: keyof PagoPAEnvVars, devVarName: string): string {
 }
 
 const SERVICE_VERSION = import.meta.env.REACT_APP_SERVICE_VERSION
-export const API_GATEWAY_INTERFACE_URL = getEnvVar(
-  'API_GATEWAY_INTERFACE_URL',
+export const API_GATEWAY_V1_INTERFACE_URL = getEnvVar(
+  'API_GATEWAY_V1_INTERFACE_URL',
+  'swagger/docs/interface-specification.yml'
+)
+export const API_GATEWAY_V2_INTERFACE_URL = getEnvVar(
+  'API_GATEWAY_V2_INTERFACE_URL',
   'swagger/docs/interface-specification.yml'
 )
 export const BACKEND_FOR_FRONTEND_URL = getEnvVar(
