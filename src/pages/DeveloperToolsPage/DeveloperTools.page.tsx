@@ -10,7 +10,7 @@ const DeveloperToolsPage: React.FC = () => {
   const { t } = useTranslation('developer-tools', { keyPrefix: 'developerTools.page' })
 
   return (
-    <PageContainer title={t('title')}>
+    <PageContainer title={t('title')} description={t('description')}>
       <Grid container>
         <Grid item xs={7}>
           <SectionContainer

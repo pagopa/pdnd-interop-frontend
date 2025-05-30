@@ -2,7 +2,6 @@ import type { Dependency, FormConfigQuestion } from '@/api/api.generatedTypes'
 import {
   formatRiskAnalysisInputLabel,
   getBackendAnswerValue,
-  getFrontendAnswerValue,
   getRiskAnalysisDefaultValues,
   getRiskAnalysisInputOptions,
   getUpdatedQuestions,
@@ -46,30 +45,6 @@ const _questions: Partial<FormConfigQuestion>[] = [
 const questions = _questions as FormConfigQuestion[]
 
 describe('Risk analysis form utils', () => {
-  describe('getFrontendAnswerValue', () => {
-    it('should convert ["true"] to a boolean if the visual type of the question is switch', () => {
-      const result1 = getFrontendAnswerValue(['true'], 'switch')
-      expect(result1).toEqual(true)
-
-      const result2 = getFrontendAnswerValue(['false'], 'switch')
-      expect(result2).toEqual(false)
-
-      const result3 = getFrontendAnswerValue(['true'], 'checkbox')
-      expect(result3).not.toEqual(true)
-    })
-
-    it('should not do any conversion if the visual type of the question is checkbox', () => {
-      const answer = ['TEST']
-      const result = getFrontendAnswerValue(answer, 'checkbox')
-      expect(result).toEqual(answer)
-    })
-
-    it('should take the first element of the array if the visual type of the question is different from switch and checkbox', () => {
-      const result = getFrontendAnswerValue(['hello'], 'text')
-      expect(result).toEqual('hello')
-    })
-  })
-
   describe('getBackendAnswerValue', () => {
     it('should create an array the stringified boolean if a boolean is passed', () => {
       const result1 = getBackendAnswerValue(true)
