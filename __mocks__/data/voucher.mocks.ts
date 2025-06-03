@@ -49,7 +49,7 @@ const createMockDebugVoucherResultPassed = createMockFactory<TokenGenerationVali
   eservice: {
     id: 'id test',
     descriptorId: 'descriptor id test',
-    version: 'version test',
+    version: 1,
     name: 'name test',
   },
 })
