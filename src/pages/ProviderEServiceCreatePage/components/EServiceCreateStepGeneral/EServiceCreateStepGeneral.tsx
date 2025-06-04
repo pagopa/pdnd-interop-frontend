@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, FormControlLabel, Link, Typography } from '@mui/material'
+import { Alert, Box, Link } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -34,6 +34,7 @@ import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'
+import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -52,6 +53,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     : true
 
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+
+  const isAdmin = AuthHooks.useJwt().isAdmin
 
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
@@ -231,39 +234,44 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
-          {isSignalHubFlagEnabled && (
+        </SectionContainer>
+
+        {isSignalHubFlagEnabled && (
+          <SectionContainer
+            title={t('create.step1.isSignalHubEnabled.title')}
+            description={
+              <>
+                <p>
+                  {t('create.step1.isSignalHubEnabled.description.firstParagraph.before')}{' '}
+                  <IconLink href={''} target="_blank" endIcon={<LaunchIcon fontSize="small" />}>
+                    {' '}
+                    {/** TODO LINK */}
+                    {t('create.step1.isSignalHubEnabled.description.firstParagraph.linkLabel')}
+                  </IconLink>{' '}
+                  {t('create.step1.isSignalHubEnabled.description.firstParagraph.after')}
+                </p>
+                {t('create.step1.isSignalHubEnabled.description.secondParagraph.before')}{' '}
+                <Link href={SIGNALHUB_PERSONAL_DATA_PROCESS_URL} target="_blank" underline="none">
+                  {t('create.step1.isSignalHubEnabled.description.secondParagraph.linkLabel')}
+                </Link>{' '}
+                {t('create.step1.isSignalHubEnabled.description.secondParagraph.after')}
+              </>
+            }
+            component="div"
+          >
+            {!isAdmin && (
+              <Alert severity="warning">{t('create.step1.isSignalHubEnabled.alert')}</Alert>
+            )}
             <SectionContainer innerSection sx={{ mt: 3 }}>
-              <FormControlLabel
-                disabled={!areEServiceGeneralInfoEditable || !!template}
+              <RHFSwitch
+                label={t('create.step1.isSignalHubEnabled.switchLabel')}
                 name="isSignalHubEnabled"
-                control={
-                  <RHFCheckbox
-                    name="isSignalHubEnabled"
-                    label={
-                      <>
-                        {' '}
-                        <span> {t('create.step1.isSignalHubEnabled.label')}</span>
-                        <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
-                          {t('create.step1.isSignalHubEnabled.infoLabel.before')}{' '}
-                          <IconLink
-                            href={''} //TODO: Link not yet available
-                            target="_blank"
-                            endIcon={<LaunchIcon fontSize="small" />}
-                          >
-                            {t('create.step1.isSignalHubEnabled.infoLabel.linkLabel')}
-                          </IconLink>{' '}
-                          {t('create.step1.isSignalHubEnabled.infoLabel.after')}
-                        </Typography>
-                      </>
-                    }
-                  />
-                }
-                label={undefined}
-                sx={{ my: 0 }}
+                disabled={!areEServiceGeneralInfoEditable || !!template}
+                sx={{ my: 0, ml: 1 }}
               />
             </SectionContainer>
-          )}
-        </SectionContainer>
+          </SectionContainer>
+        )}
 
         {isOrganizationAllowedToProduce && (
           <SectionContainer

@@ -40,12 +40,21 @@
         }
       },
       "isSignalHubEnabled": {
-        "label": "Notificherò su Signal Hub le variazioni dei dati",
-        "infoLabel": {
-          "before": "Signal Hub utilizza il",
-          "linkLabel": "servizio di push",
-          "after": "per generare notifiche relative alle variazioni dei dati relativi all’e-service."
-        }
+        "title": "Signal Hub: servizio di notifica della variazione dei dati",
+        "description": {
+          "firstParagraph": {
+            "before": "Signal Hub è una",
+            "linkLabel": "soluzione integrata",
+            "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+          },
+          "secondParagraph": {
+            "before": "Attivando la funzionalità designi PagoPa S.p.A. responsabile del trattamento dei dati facendo proprio il",
+            "linkLabel": "documento di designazione di PagoPa S.p.A. come responsabile del trattamento dei dati personali ",
+            "after": "per \"Signal Hub\"."
+          }
+        },
+        "switchLabel": "Notificherò su Signal Hub le variazioni dei dati",
+        "alert": "Prima di procedere, assicurati che il documento di designazione sia visionato ed approvato da almeno un amministratore nel tuo ente."
       },
       "delegationSection": {
         "title": "Deleghe",
@@ -84,7 +93,7 @@
           "title": "Analisi del rischio",
           "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
           "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo"
-        }       
+        }
       }
     },
     "step2": {
@@ -369,7 +378,6 @@
           "showProducerContacts": "Visualizza i contatti dell’erogatore",
           "exportVersion": "Scarica questa versione dell’e-service",
           "watchRiskyAnalysisAssociated": "Consulta l'analisi del rischio di questo e-service"
-
         }
       },
       "technicalInformations": {
@@ -576,6 +584,6 @@
   },
   "watchRiskyAnalysisAssociated": {
     "title": "Analisi del rischio",
-    "description":"Seleziona l'analisi del rischio da visualizzare"
+    "description": "Seleziona l'analisi del rischio da visualizzare"
   }
 }
