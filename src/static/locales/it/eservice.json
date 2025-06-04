@@ -453,6 +453,28 @@
           }
         }
       },
+      "signalHub": {
+        "title": "Signal Hub",
+        "description": {
+          "before": "Signal Hub è una",
+          "linkLabel": "soluzione integrata",
+          "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+        },
+        "innerSection": {
+          "title": "Stato di attivazione",
+          "status": {
+            "label": "Adesione al servizio di notifica",
+            "content": {
+              "true": "Attivo",
+              "false": "Non attivo"
+            }
+          },
+          "document": {
+            "label": "Documento di nomina",
+            "content": "Nomina di PagoPa S.p.A. come responsabile del trattamento dei dati"
+          }
+        }
+      },
       "attributes": {
         "title": "Attributi",
         "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service."

@@ -454,6 +454,28 @@
           }
         }
       },
+      "signalHub": {
+        "title": "Signal Hub",
+        "description": {
+          "before": "Signal Hub is an",
+          "linkLabel": "integrated solution",
+          "after": "that informs consumers via push notification when the data of the e-service is changed."
+        },
+        "innerSection": {
+          "title": "Activation state",
+          "status": {
+            "label": "Subscription to the notification service",
+            "content": {
+              "true": "Active",
+              "false": "Not active"
+            }
+          },
+          "document": {
+            "label": "Appointment document",
+            "content": "Appointment of PagoPA S.p.A. as data controller"
+          }
+        }
+      },
       "attributes": {
         "title": "Attributes",
         "description": "Below are all the certified, verified or declared attributes that are required for the use of the E-service."

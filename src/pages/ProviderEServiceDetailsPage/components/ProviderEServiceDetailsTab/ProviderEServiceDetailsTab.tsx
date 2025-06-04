@@ -16,6 +16,10 @@ import {
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
+import {
+  ProviderEServiceSignalHubSection,
+  ProviderEServiceSignalHubSectionSkeleton,
+} from './ProviderEServiceSignalHubSection'
 
 export const ProviderEserviceDetailsTab: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
@@ -34,6 +38,9 @@ export const ProviderEserviceDetailsTab: React.FC = () => {
           </React.Suspense>
           <React.Suspense fallback={<ProviderEServiceTechnicalInfoSectionSkeleton />}>
             <ProviderEServiceTechnicalInfoSection />
+          </React.Suspense>
+          <React.Suspense fallback={<ProviderEServiceSignalHubSectionSkeleton />}>
+            <ProviderEServiceSignalHubSection />
           </React.Suspense>
           <React.Suspense fallback={<ProviderEServiceDescriptorAttributesSkeleton />}>
             <ProviderEServiceDescriptorAttributes />
