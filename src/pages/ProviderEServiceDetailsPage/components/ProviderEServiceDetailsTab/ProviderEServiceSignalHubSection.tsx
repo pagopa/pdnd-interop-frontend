@@ -24,30 +24,30 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
   const isSignalHubEnabled = descriptor.eservice.isSignalHubEnabled ?? false
 
   return (
-    <>
-      <SectionContainer
-        title={t('title')}
-        description={
-          <p>
-            {t('description.before')}{' '}
-            <IconLink href={''} target="_blank" endIcon={<LaunchIcon fontSize="small" />}>
-              {' '}
-              {/** TODO LINK */}
-              {t('description.linkLabel')}
-            </IconLink>{' '}
-            {t('description.after')}
-          </p>
-        }
-      >
-        <Stack spacing={2}>
-          <>
-            <Divider />
-            <SectionContainer innerSection title={t('innerSection.title')}>
-              <Stack spacing={2}>
-                <InformationContainer
-                  label={t('innerSection.status.label')}
-                  content={t(`innerSection.status.content.${isSignalHubEnabled}`)}
-                />
+    <SectionContainer
+      title={t('title')}
+      description={
+        <p>
+          {t('description.before')}{' '}
+          <IconLink href={''} target="_blank" endIcon={<LaunchIcon fontSize="small" />}>
+            {' '}
+            {/** TODO LINK */}
+            {t('description.linkLabel')}
+          </IconLink>{' '}
+          {t('description.after')}
+        </p>
+      }
+    >
+      <Stack spacing={2}>
+        <>
+          <Divider />
+          <SectionContainer innerSection title={t('innerSection.title')}>
+            <Stack spacing={2}>
+              <InformationContainer
+                label={t('innerSection.status.label')}
+                content={t(`innerSection.status.content.${isSignalHubEnabled}`)}
+              />
+              {isSignalHubEnabled && (
                 <InformationContainer
                   label={t('innerSection.document.label')}
                   content={
@@ -61,12 +61,12 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
                     </IconLink>
                   }
                 />
-              </Stack>
-            </SectionContainer>
-          </>
-        </Stack>
-      </SectionContainer>
-    </>
+              )}
+            </Stack>
+          </SectionContainer>
+        </>
+      </Stack>
+    </SectionContainer>
   )
 }
 

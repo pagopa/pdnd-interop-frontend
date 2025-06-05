@@ -443,14 +443,6 @@
           "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
           "wellKnown": "URL .well-known",
           "interfaceChecksum": "Come calcolo autonomamente il checksum del file di interfaccia?"
-        },
-        "isSignalHubEnabled": {
-          "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
-          "value": {
-            "true": "Sì, è disponibile",
-            "false": "No, non è disponibile",
-            "undefined": "No, non è disponibile"
-          }
         }
       },
       "signalHub": {
@@ -461,9 +453,9 @@
           "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
         },
         "innerSection": {
-          "title": "Stato di attivazione",
+          "title": "Adesione al servizio di notifica",
           "status": {
-            "label": "Adesione al servizio di notifica",
+            "label": "Stato di attivazione",
             "content": {
               "true": "Attivo",
               "false": "Non attivo"
@@ -472,6 +464,15 @@
           "document": {
             "label": "Documento di nomina",
             "content": "Nomina di PagoPa S.p.A. come responsabile del trattamento dei dati"
+          }
+        },
+        "consumer": {
+          "status": {
+            "label": "Disponibilità del servizio",
+            "content": {
+              "true": "Sì, è disponibile",
+              "false": "No, non è disponibile"
+            }
           }
         }
       },

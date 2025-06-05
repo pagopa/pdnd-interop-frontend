@@ -349,7 +349,6 @@
         "removeKeychainFromEService": "Remove from e-service"
       }
     },
-
     "sections": {
       "generalInformations": {
         "title": "General informations",
@@ -444,14 +443,6 @@
           "verifyVoucher": "How do I verify a consumer's voucher?",
           "wellKnown": "URL .well-known",
           "interfaceChecksum": "How to calculate the interface file checksum yourself?"
-        },
-        "isSignalHubEnabled": {
-          "label": "Is available the data update system (Signal Hub)? ",
-          "value": {
-            "true": "Yes, it is available",
-            "false": "No, it is not available",
-            "undefined": "No, it is not available"
-          }
         }
       },
       "signalHub": {
@@ -462,9 +453,9 @@
           "after": "that informs consumers via push notification when the data of the e-service is changed."
         },
         "innerSection": {
-          "title": "Activation state",
+          "title": "Subscription to the notification service",
           "status": {
-            "label": "Subscription to the notification service",
+            "label": "Activation state",
             "content": {
               "true": "Active",
               "false": "Not active"
@@ -473,6 +464,15 @@
           "document": {
             "label": "Appointment document",
             "content": "Appointment of PagoPA S.p.A. as data controller"
+          }
+        },
+        "consumer": {
+          "status": {
+            "label": "Service availability",
+            "content": {
+              "true": "Yes, it is available",
+              "false": "No, it is not available"
+            }
           }
         }
       },
