@@ -238,29 +238,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         {isSignalHubFlagEnabled && (
           <SectionContainer
             title={t('create.step1.isSignalHubEnabled.title')}
-            description={
-              <Stack spacing={1}>
-                <Typography color="text.secondary" variant="body2">
-                  {t('create.step1.isSignalHubEnabled.description.firstParagraph.before')}{' '}
-                  <IconLink
-                    href={SIGNALHUB_GUIDE_URL}
-                    target="_blank"
-                    endIcon={<LaunchIcon fontSize="small" />}
-                  >
-                    {' '}
-                    {t('create.step1.isSignalHubEnabled.description.firstParagraph.linkLabel')}
-                  </IconLink>{' '}
-                  {t('create.step1.isSignalHubEnabled.description.firstParagraph.after')}
-                </Typography>
-                <Typography color="text.secondary" variant="body2">
-                  {t('create.step1.isSignalHubEnabled.description.secondParagraph.before')}{' '}
-                  <Link href={SIGNALHUB_PERSONAL_DATA_PROCESS_URL} target="_blank" underline="none">
-                    {t('create.step1.isSignalHubEnabled.description.secondParagraph.linkLabel')}
-                  </Link>{' '}
-                  {t('create.step1.isSignalHubEnabled.description.secondParagraph.after')}
-                </Typography>
-              </Stack>
-            }
+            description={<SignalHubSectionDescription />}
             component="div"
           >
             {!isAdmin && (
@@ -354,6 +332,35 @@ export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
   return (
     <>
       <SectionContainerSkeleton height={354} />
+    </>
+  )
+}
+
+const SignalHubSectionDescription: React.FC = () => {
+  const { t } = useTranslation('eservice')
+  return (
+    <>
+      <Stack spacing={1}>
+        <Typography color="text.secondary" variant="body2">
+          {t('create.step1.isSignalHubEnabled.description.firstParagraph.before')}{' '}
+          <IconLink
+            href={SIGNALHUB_GUIDE_URL}
+            target="_blank"
+            endIcon={<LaunchIcon fontSize="small" />}
+          >
+            {' '}
+            {t('create.step1.isSignalHubEnabled.description.firstParagraph.linkLabel')}
+          </IconLink>{' '}
+          {t('create.step1.isSignalHubEnabled.description.firstParagraph.after')}
+        </Typography>
+        <Typography color="text.secondary" variant="body2">
+          {t('create.step1.isSignalHubEnabled.description.secondParagraph.before')}{' '}
+          <Link href={SIGNALHUB_PERSONAL_DATA_PROCESS_URL} target="_blank" underline="none">
+            {t('create.step1.isSignalHubEnabled.description.secondParagraph.linkLabel')}
+          </Link>{' '}
+          {t('create.step1.isSignalHubEnabled.description.secondParagraph.after')}
+        </Typography>
+      </Stack>
     </>
   )
 }
