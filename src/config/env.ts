@@ -123,3 +123,6 @@ export const API_SIGNAL_HUB_PULL_INTERFACE_URL =
 
 export const SIGNALHUB_PERSONAL_DATA_PROCESS_URL =
   isProduction && PAGOPA_ENV ? PAGOPA_ENV['SIGNALHUB_PERSONAL_DATA_PROCESS_URL'] : ``
+
+export const SIGNALHUB_GUIDE_URL =
+  'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-signal-hub'

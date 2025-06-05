@@ -30,7 +30,11 @@ import {
   delegationGuideLink,
   eserviceNamingBestPracticeLink,
 } from '@/config/constants'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
+import {
+  FEATURE_FLAG_SIGNALHUB_WHITELIST,
+  SIGNALHUB_GUIDE_URL,
+  SIGNALHUB_WHITELIST_PRODUCER,
+} from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'
@@ -243,9 +247,12 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               <Stack spacing={1}>
                 <Typography color="text.secondary" variant="body2">
                   {t('create.step1.isSignalHubEnabled.description.firstParagraph.before')}{' '}
-                  <IconLink href={''} target="_blank" endIcon={<LaunchIcon fontSize="small" />}>
+                  <IconLink
+                    href={SIGNALHUB_GUIDE_URL}
+                    target="_blank"
+                    endIcon={<LaunchIcon fontSize="small" />}
+                  >
                     {' '}
-                    {/** TODO LINK */}
                     {t('create.step1.isSignalHubEnabled.description.firstParagraph.linkLabel')}
                   </IconLink>{' '}
                   {t('create.step1.isSignalHubEnabled.description.firstParagraph.after')}

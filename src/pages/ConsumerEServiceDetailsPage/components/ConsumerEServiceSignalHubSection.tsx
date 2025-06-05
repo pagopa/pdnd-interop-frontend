@@ -8,6 +8,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
+import { SIGNALHUB_GUIDE_URL } from '@/config/env'
 
 export const ConsumerEServiceSignalHubSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -28,9 +29,12 @@ export const ConsumerEServiceSignalHubSection: React.FC = () => {
         description={
           <p>
             {t('description.before')}{' '}
-            <IconLink href={''} target="_blank" endIcon={<LaunchIcon fontSize="small" />}>
+            <IconLink
+              href={SIGNALHUB_GUIDE_URL}
+              target="_blank"
+              endIcon={<LaunchIcon fontSize="small" />}
+            >
               {' '}
-              {/** TODO LINK */}
               {t('description.linkLabel')}
             </IconLink>{' '}
             {t('description.after')}
