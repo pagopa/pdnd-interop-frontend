@@ -47,13 +47,16 @@ export type EServiceCreateStepGeneralFormValues = {
   isClientAccessDelegable: boolean
 }
 
+type SignalHubSectionProps = {
+  isEserviceFromTemplate: boolean
+  areEServiceGeneralInfoEditable: boolean
+}
+
 export const EServiceCreateStepGeneral: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
   const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
-
-  const isAdmin = AuthHooks.useJwt().isAdmin
 
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
@@ -236,23 +239,10 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         </SectionContainer>
 
         {isSignalHubFlagEnabled && (
-          <SectionContainer
-            title={t('create.step1.isSignalHubEnabled.title')}
-            description={<SignalHubSectionDescription />}
-            component="div"
-          >
-            {!isAdmin && (
-              <Alert severity="warning">{t('create.step1.isSignalHubEnabled.alert')}</Alert>
-            )}
-            <SectionContainer innerSection sx={{ mt: 3 }}>
-              <RHFSwitch
-                label={t('create.step1.isSignalHubEnabled.switchLabel')}
-                name="isSignalHubEnabled"
-                disabled={!areEServiceGeneralInfoEditable || !!template}
-                sx={{ my: 0, ml: 1 }}
-              />
-            </SectionContainer>
-          </SectionContainer>
+          <SignalHubSection
+            isEserviceFromTemplate={isEserviceFromTemplate}
+            areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+          />
         )}
 
         {isOrganizationAllowedToProduce && (
@@ -362,6 +352,32 @@ const SignalHubSectionDescription: React.FC = () => {
         </Typography>
       </Stack>
     </>
+  )
+}
+
+const SignalHubSection: React.FC<SignalHubSectionProps> = ({
+  isEserviceFromTemplate,
+  areEServiceGeneralInfoEditable,
+}) => {
+  const isAdmin = AuthHooks.useJwt().isAdmin
+  const { t } = useTranslation('eservice')
+
+  return (
+    <SectionContainer
+      title={t('create.step1.isSignalHubEnabled.title')}
+      description={<SignalHubSectionDescription />}
+      component="div"
+    >
+      {!isAdmin && <Alert severity="warning">{t('create.step1.isSignalHubEnabled.alert')}</Alert>}
+      <SectionContainer innerSection sx={{ mt: 3 }}>
+        <RHFSwitch
+          label={t('create.step1.isSignalHubEnabled.switchLabel')}
+          name="isSignalHubEnabled"
+          disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+          sx={{ my: 0, ml: 1 }}
+        />
+      </SectionContainer>
+    </SectionContainer>
   )
 }
 
