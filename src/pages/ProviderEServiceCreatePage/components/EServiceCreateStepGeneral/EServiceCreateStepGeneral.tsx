@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Link } from '@mui/material'
+import { Alert, Box, Link, Stack, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -240,8 +240,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           <SectionContainer
             title={t('create.step1.isSignalHubEnabled.title')}
             description={
-              <>
-                <p>
+              <Stack spacing={1}>
+                <Typography color="text.secondary" variant="body2">
                   {t('create.step1.isSignalHubEnabled.description.firstParagraph.before')}{' '}
                   <IconLink href={''} target="_blank" endIcon={<LaunchIcon fontSize="small" />}>
                     {' '}
@@ -249,13 +249,15 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                     {t('create.step1.isSignalHubEnabled.description.firstParagraph.linkLabel')}
                   </IconLink>{' '}
                   {t('create.step1.isSignalHubEnabled.description.firstParagraph.after')}
-                </p>
-                {t('create.step1.isSignalHubEnabled.description.secondParagraph.before')}{' '}
-                <Link href={SIGNALHUB_PERSONAL_DATA_PROCESS_URL} target="_blank" underline="none">
-                  {t('create.step1.isSignalHubEnabled.description.secondParagraph.linkLabel')}
-                </Link>{' '}
-                {t('create.step1.isSignalHubEnabled.description.secondParagraph.after')}
-              </>
+                </Typography>
+                <Typography color="text.secondary" variant="body2">
+                  {t('create.step1.isSignalHubEnabled.description.secondParagraph.before')}{' '}
+                  <Link href={SIGNALHUB_PERSONAL_DATA_PROCESS_URL} target="_blank" underline="none">
+                    {t('create.step1.isSignalHubEnabled.description.secondParagraph.linkLabel')}
+                  </Link>{' '}
+                  {t('create.step1.isSignalHubEnabled.description.secondParagraph.after')}
+                </Typography>
+              </Stack>
             }
             component="div"
           >
