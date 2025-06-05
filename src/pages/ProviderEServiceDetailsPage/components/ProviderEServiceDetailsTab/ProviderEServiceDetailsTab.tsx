@@ -21,7 +21,7 @@ import {
   ProviderEServiceSignalHubSection,
 } from './ProviderEServiceSignalHubSection'
 import { AuthHooks } from '@/api/auth'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
+import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export const ProviderEserviceDetailsTab: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
@@ -31,9 +31,7 @@ export const ProviderEserviceDetailsTab: React.FC = () => {
   )
 
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
-    : true
+  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   return (
     <>

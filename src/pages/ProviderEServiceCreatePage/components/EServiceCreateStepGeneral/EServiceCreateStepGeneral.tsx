@@ -30,15 +30,12 @@ import {
   delegationGuideLink,
   eserviceNamingBestPracticeLink,
 } from '@/config/constants'
-import {
-  FEATURE_FLAG_SIGNALHUB_WHITELIST,
-  SIGNALHUB_GUIDE_URL,
-  SIGNALHUB_WHITELIST_PRODUCER,
-} from '@/config/env'
+import { SIGNALHUB_GUIDE_URL } from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'
 import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
+import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -52,9 +49,7 @@ export type EServiceCreateStepGeneralFormValues = {
 
 export const EServiceCreateStepGeneral: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
-    : true
+  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
