@@ -48,8 +48,7 @@ export type EServiceCreateStepGeneralFormValues = {
 }
 
 type SignalHubSectionProps = {
-  isEserviceFromTemplate: boolean
-  areEServiceGeneralInfoEditable: boolean
+  isSignalHubActivationEditable: boolean
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
@@ -80,6 +79,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     TemplateMutations.useUpdateInstanceFromEServiceTemplate()
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef) || !!template
+
+  const isSignalHubActivationEditable = areEServiceGeneralInfoEditable && !isEserviceFromTemplate
 
   // If Template ID is present we are inheriting an e-service fields from a template
   const defaultValues = evaluateFormDefaultValues(template, descriptor, eserviceMode)
@@ -239,10 +240,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         </SectionContainer>
 
         {isSignalHubFlagEnabled && (
-          <SignalHubSection
-            isEserviceFromTemplate={isEserviceFromTemplate}
-            areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
-          />
+          <SignalHubSection isSignalHubActivationEditable={isSignalHubActivationEditable} />
         )}
 
         {isOrganizationAllowedToProduce && (
@@ -355,10 +353,7 @@ const SignalHubSectionDescription: React.FC = () => {
   )
 }
 
-const SignalHubSection: React.FC<SignalHubSectionProps> = ({
-  isEserviceFromTemplate,
-  areEServiceGeneralInfoEditable,
-}) => {
+const SignalHubSection: React.FC<SignalHubSectionProps> = ({ isSignalHubActivationEditable }) => {
   const isAdmin = AuthHooks.useJwt().isAdmin
   const { t } = useTranslation('eservice')
 
@@ -373,7 +368,7 @@ const SignalHubSection: React.FC<SignalHubSectionProps> = ({
         <RHFSwitch
           label={t('create.step1.isSignalHubEnabled.switchLabel')}
           name="isSignalHubEnabled"
-          disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+          disabled={!isSignalHubActivationEditable}
           sx={{ my: 0, ml: 1 }}
         />
       </SectionContainer>
