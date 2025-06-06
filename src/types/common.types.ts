@@ -23,6 +23,7 @@ export type PagoPAEnvVars = {
   SIGNALHUB_WHITELIST_CONSUMER: string
   FEATURE_FLAG_ADMIN_CLIENT: string
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: string
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL: string
 }
 
 export type ExtendedWindow = Window & {

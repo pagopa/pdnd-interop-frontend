@@ -40,12 +40,21 @@
         }
       },
       "isSignalHubEnabled": {
-        "label": "I will report any data changes on Signal Hub.",
-        "infoLabel": {
-          "before": "Signal Hub uses the",
-          "linkLabel": "push service",
-          "after": "to generate notifications related to data changes regarding the e-service."
-        }
+        "title": "Signal Hub: service for notificantion of data changes",
+        "description": {
+          "firstParagraph": {
+            "before": "Signal Hub is an",
+            "linkLabel": "integrated solution",
+            "after": "that informs consumers via push notification when the data of the e-service is changed."
+          },
+          "secondParagraph": {
+            "before": "By enabling the feature, you designate PagoPa S.p.A. as the data processor by adopting the",
+            "linkLabel": "document appointing PagoPa S.p.A. as the data processor for personal data ",
+            "after": "for \"Signal Hub\"."
+          }
+        },
+        "switchLabel": "I will report any data changes on Signal Hub.",
+        "alert": "Before proceeding, make sure that the designation document has been reviewed and approved by at least one administrator in your organization."
       },
       "delegationSection": {
         "title": "Delegations",
@@ -340,7 +349,6 @@
         "removeKeychainFromEService": "Remove from e-service"
       }
     },
-    
     "sections": {
       "generalInformations": {
         "title": "General informations",
@@ -435,13 +443,36 @@
           "verifyVoucher": "How do I verify a consumer's voucher?",
           "wellKnown": "URL .well-known",
           "interfaceChecksum": "How to calculate the interface file checksum yourself?"
+        }
+      },
+      "signalHub": {
+        "title": "Signal Hub",
+        "description": {
+          "before": "Signal Hub is an",
+          "linkLabel": "integrated solution",
+          "after": "that informs consumers via push notification when the data of the e-service is changed."
         },
-        "isSignalHubEnabled": {
-          "label": "Is available the data update system (Signal Hub)? ",
-          "value": {
-            "true": "Yes, it is available",
-            "false": "No, it is not available",
-            "undefined": "No, it is not available"
+        "innerSection": {
+          "title": "Subscription to the notification service",
+          "status": {
+            "label": "Activation state",
+            "content": {
+              "true": "Active",
+              "false": "Not active"
+            }
+          },
+          "document": {
+            "label": "Appointment document",
+            "content": "Appointment of PagoPA S.p.A. as data controller"
+          }
+        },
+        "consumer": {
+          "status": {
+            "label": "Service availability",
+            "content": {
+              "true": "Yes, it is available",
+              "false": "No, it is not available"
+            }
           }
         }
       },
@@ -576,6 +607,6 @@
   },
   "watchRiskyAnalysisAssociated": {
     "title": "Risk analysis",
-    "description":"Select which ris analysis you want to show"
+    "description": "Select which ris analysis you want to show"
   }
 }

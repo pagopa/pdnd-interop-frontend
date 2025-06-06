@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Checkbox, FormControlLabel, Tooltip, Typography } from '@mui/material'
+import { Box, Tooltip, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import {
+  RHFCheckbox,
+  RHFRadioGroup,
+  RHFTextField,
+} from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
@@ -14,8 +18,8 @@ import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateMutations } from '@/api/template'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
+import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -31,11 +35,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const navigate = useNavigate()
 
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
-    : true
-
-  const [isSignalHubSuggested, setIsSignalHubSuggested] = React.useState(true)
+  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   const {
     template,
@@ -171,15 +171,9 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
           {isSignalHubFlagEnabled && (
             <SectionContainer innerSection sx={{ mt: 3 }}>
-              <FormControlLabel
+              <RHFCheckbox
                 disabled={!areEServiceTemplateGeneralInfoEditable}
-                control={
-                  <Checkbox
-                    //checked={isSignalHubSuggested}
-                    //onClick={() => setIsSignalHubSuggested(!isSignalHubSuggested)}
-                    name="isSignalHubEnabled"
-                  />
-                }
+                name="isSignalHubEnabled"
                 label={
                   <>
                     {' '}
@@ -206,7 +200,6 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                     </Typography>
                   </>
                 }
-                sx={{ my: 0 }}
               />
             </SectionContainer>
           )}

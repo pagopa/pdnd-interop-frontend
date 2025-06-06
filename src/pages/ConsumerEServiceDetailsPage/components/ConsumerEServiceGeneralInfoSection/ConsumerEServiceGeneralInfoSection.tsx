@@ -26,11 +26,6 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
 
-  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST_CONSUMER.includes(producerId)
-    : true
-
   const {
     isOpen: isTechnicalInfoDrawerOpen,
     openDrawer: openTechnicalInfoDrawer,
@@ -107,7 +102,6 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
         isOpen={isTechnicalInfoDrawerOpen}
         onClose={closeTechnicalInfoDrawer}
         descriptor={descriptor}
-        isSignalHubFlagEnabled={isSignalHubFlagEnabled}
       />
       <ConsumerEServiceProducerContactsDrawer
         isOpen={isProducerContactsDrawerOpen}

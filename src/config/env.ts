@@ -120,3 +120,6 @@ export const API_SIGNAL_HUB_PULL_INTERFACE_URL =
   isProduction && PAGOPA_ENV
     ? PAGOPA_ENV['API_SIGNAL_HUB_PULL_INTERFACE_URL']
     : `https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/main/docs/openAPI/pull-signals.yaml`
+
+export const SIGNALHUB_PERSONAL_DATA_PROCESS_URL =
+  isProduction && PAGOPA_ENV ? PAGOPA_ENV['SIGNALHUB_PERSONAL_DATA_PROCESS_URL'] : ``

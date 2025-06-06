@@ -12,13 +12,12 @@ import {
   API_GATEWAY_V2_INTERFACE_URL,
   API_SIGNAL_HUB_PULL_INTERFACE_URL,
   API_SIGNAL_HUB_PUSH_INTERFACE_URL,
-  FEATURE_FLAG_SIGNALHUB_WHITELIST,
-  SIGNALHUB_WHITELIST_PRODUCER,
 } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
 import { Link } from '@/router'
 import { AuthHooks } from '@/api/auth'
+import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -35,9 +34,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
 
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
 
-  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
-    : true
+  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   return (
     <>

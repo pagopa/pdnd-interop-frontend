@@ -18,11 +18,21 @@ import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { AuthHooks } from '@/api/auth'
+import {
+  ConsumerEServiceSignalHubSection,
+  ConsumerEServiceSignalHubSectionSkeleton,
+} from './components/ConsumerEServiceSignalHubSection'
+import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_CONSUMER } from '@/config/env'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
   const { jwt } = AuthHooks.useJwt()
+
+  const producerId = jwt?.organizationId as string
+  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
+    ? SIGNALHUB_WHITELIST_CONSUMER.includes(producerId)
+    : true
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
@@ -82,6 +92,11 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
           <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
             <ConsumerEServiceGeneralInfoSection />
           </React.Suspense>
+          {isSignalHubFlagEnabled && (
+            <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
+              <ConsumerEServiceSignalHubSection />
+            </React.Suspense>
+          )}
           <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
             <ConsumerEServiceDescriptorAttributes />
           </React.Suspense>

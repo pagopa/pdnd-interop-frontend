@@ -9,20 +9,13 @@ import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsS
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import {
-  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE,
-  FEATURE_FLAG_SIGNALHUB_WHITELIST,
-  SIGNALHUB_WHITELIST_PRODUCER,
-} from '@/config/env'
+import { FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 import { formatDateString } from '@/utils/format.utils'
 import { ProviderEServiceAgreementApprovalPolicySection } from './ProviderEServiceAgreementApprovalPolicySection'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
-    : true
 
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.technicalInformations',
@@ -98,12 +91,6 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${descriptor.eservice.mode}`)}
             />
-            {isSignalHubFlagEnabled && (
-              <InformationContainer
-                label={t('isSignalHubEnabled.label')}
-                content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
-              />
-            )}
           </Stack>
         </SectionContainer>
         <Divider />

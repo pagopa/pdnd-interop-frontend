@@ -16,7 +16,7 @@ type ConsumerEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   descriptor: CatalogEServiceDescriptor
-  isSignalHubFlagEnabled: boolean
+  isSignalHubFlagEnabled?: boolean
 }
 
 export const ConsumerEServiceTechnicalInfoDrawer: React.FC<

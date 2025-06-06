@@ -4,15 +4,13 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 import { TemplateQueries } from '@/api/template'
+import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
-    : true
+  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   const { t } = useTranslation('template', { keyPrefix: 'summary.generalInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()

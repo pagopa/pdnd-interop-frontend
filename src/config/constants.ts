@@ -58,3 +58,6 @@ export const SH_ESERVICES_TO_HIDE_TEMP: Partial<Record<PagoPAEnvVars['STAGE'], A
 
 export const apiV2GuideLink =
   'https://developer.pagopa.it/pdnd-interoperabilita/guides/pdnd-manuale-operativo/manuale-operativo/api-esposte-da-pdnd-interoperabilita'
+
+export const SIGNALHUB_GUIDE_URL =
+  'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-signal-hub'
