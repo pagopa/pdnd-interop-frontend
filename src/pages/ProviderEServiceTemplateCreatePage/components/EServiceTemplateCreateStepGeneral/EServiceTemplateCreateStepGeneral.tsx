@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Checkbox, FormControlLabel, Tooltip, Typography } from '@mui/material'
+import { Box, Tooltip, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import {
+  RHFCheckbox,
+  RHFRadioGroup,
+  RHFTextField,
+} from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
@@ -32,8 +36,6 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
   const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
-
-  const [isSignalHubSuggested, setIsSignalHubSuggested] = React.useState(true)
 
   const {
     template,
@@ -169,15 +171,9 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
           {isSignalHubFlagEnabled && (
             <SectionContainer innerSection sx={{ mt: 3 }}>
-              <FormControlLabel
+              <RHFCheckbox
                 disabled={!areEServiceTemplateGeneralInfoEditable}
-                control={
-                  <Checkbox
-                    //checked={isSignalHubSuggested}
-                    //onClick={() => setIsSignalHubSuggested(!isSignalHubSuggested)}
-                    name="isSignalHubEnabled"
-                  />
-                }
+                name="isSignalHubEnabled"
                 label={
                   <>
                     {' '}
@@ -204,7 +200,6 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                     </Typography>
                   </>
                 }
-                sx={{ my: 0 }}
               />
             </SectionContainer>
           )}
