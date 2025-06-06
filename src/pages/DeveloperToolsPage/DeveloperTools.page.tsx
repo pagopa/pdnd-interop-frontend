@@ -48,6 +48,15 @@ const DeveloperToolsPage: React.FC = () => {
               </Link>
             </Stack>
           </SectionContainer>
+
+          <SectionContainer
+            title={t('sectionDebugVoucher.title')}
+            description={t('sectionDebugVoucher.description')}
+          >
+            <Link as="button" variant="outlined" size="medium" to="DEBUG_VOUCHER_TOOL">
+              {t('sectionDebugVoucher.debugButton')}
+            </Link>
+          </SectionContainer>
         </Grid>
       </Grid>
     </PageContainer>

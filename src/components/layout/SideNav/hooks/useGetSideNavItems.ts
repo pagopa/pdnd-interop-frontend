@@ -16,7 +16,6 @@ const views = [
       'SUBSCRIBE_PURPOSE_LIST',
       'SUBSCRIBE_CLIENT_LIST',
       'SUBSCRIBE_INTEROP_M2M',
-      'SUBSCRIBE_DEBUG_VOUCHER',
     ],
   },
   {

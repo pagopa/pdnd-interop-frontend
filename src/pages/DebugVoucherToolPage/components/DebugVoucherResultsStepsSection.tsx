@@ -6,7 +6,7 @@ import { Stack } from '@mui/material'
 import { useDebugVoucherContext } from '../DebugVoucherContext'
 
 export const DebugVoucherResultsStepsSection: React.FC = () => {
-  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result.stepSection' })
+  const { t } = useTranslation('voucher', { keyPrefix: 'debugVoucherTool.result.stepSection' })
 
   const { response } = useDebugVoucherContext()
 

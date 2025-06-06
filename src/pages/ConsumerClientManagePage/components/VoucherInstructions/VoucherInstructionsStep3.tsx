@@ -103,7 +103,7 @@ export const VoucherInstructionsStep3: React.FC = () => {
 
         <Alert severity="info" sx={{ mt: 4 }}>
           {t('step3.debugVoucherAlert.description')}{' '}
-          <Link to={'SUBSCRIBE_DEBUG_VOUCHER'}>{t('step3.debugVoucherAlert.link.label')}</Link>
+          <Link to={'DEBUG_VOUCHER_TOOL'}>{t('step3.debugVoucherAlert.link.label')}</Link>
         </Alert>
       </SectionContainer>
       <StepActions

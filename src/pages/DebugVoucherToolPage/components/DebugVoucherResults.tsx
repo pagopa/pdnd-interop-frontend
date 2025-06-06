@@ -8,7 +8,7 @@ import { useDebugVoucherContext } from '../DebugVoucherContext'
 import DebugVoucherResultsAlert from './DebugVoucherResultsAlert'
 
 export const DebugVoucherResults: React.FC = () => {
-  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
+  const { t } = useTranslation('voucher', { keyPrefix: 'debugVoucherTool.result' })
 
   const { handleMakeNewRequest } = useDebugVoucherContext()
 

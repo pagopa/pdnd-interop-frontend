@@ -1,5 +1,5 @@
 import React from 'react'
-import ConsumerDebugVoucherPage from '../ConsumerDebugVoucher.page'
+import DebugVoucherToolPage from '../DebugVoucherTool.page'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
@@ -38,9 +38,9 @@ const server = setupServer(
 beforeAll(() => server.listen())
 afterAll(() => server.close())
 
-describe('ConsumerDebugVoucherPage testing', () => {
+describe('debugVoucherToolPage testing', () => {
   it('should render correctly when the debugVoucherValues are defined', async () => {
-    const screen = renderWithApplicationContext(<ConsumerDebugVoucherPage />, {
+    const screen = renderWithApplicationContext(<DebugVoucherToolPage />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -59,7 +59,7 @@ describe('ConsumerDebugVoucherPage testing', () => {
   })
 
   it('should render correctly when resetting to make new request', async () => {
-    const screen = renderWithApplicationContext(<ConsumerDebugVoucherPage />, {
+    const screen = renderWithApplicationContext(<DebugVoucherToolPage />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })

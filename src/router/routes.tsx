@@ -29,7 +29,6 @@ import {
   ProviderEServiceCreatePage,
   ProviderPurposesListPage,
   ConsumerPurposeDetailsPage,
-  ConsumerDebugVoucherPage,
   AssistanceTenantSelectionPage,
   AssistanceTenantSelectionErrorPage,
   ConsumerPurposeSummaryPage,
@@ -58,6 +57,7 @@ import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
+import { DebugVoucherToolPage } from '@/pages/DebugVoucherToolPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -371,14 +371,6 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
-    key: 'SUBSCRIBE_DEBUG_VOUCHER',
-    path: '/fruizione/debug-voucher',
-    element: <ConsumerDebugVoucherPage />,
-    public: false,
-    hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
-  })
-  .addRoute({
     key: 'TENANT',
     path: '/aderente',
     redirect: 'PARTY_REGISTRY',
@@ -558,6 +550,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'RISK_ANALYSIS_EXPORTER_TOOL',
     path: '/developer-tools/export-analisi-del-rischio',
     element: <RiskAnalysisExporterToolPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'DEBUG_VOUCHER_TOOL',
+    path: '/developer-tools/debug-client-assertion',
+    element: <DebugVoucherToolPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support', 'security'],

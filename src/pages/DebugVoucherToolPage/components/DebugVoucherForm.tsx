@@ -22,7 +22,7 @@ export type DebugVoucherFormProps = {
 }
 
 export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVoucherValues }) => {
-  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.edit' })
+  const { t } = useTranslation('voucher', { keyPrefix: 'debugVoucherTool.edit' })
   const { mutate: validateVoucher } = VoucherMutations.useValidateTokenGeneration()
   const defaultValues: DebugVoucherFormValues = {
     clientAssertion: '',

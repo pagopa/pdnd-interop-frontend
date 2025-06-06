@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 export const DebugVoucherResultsRequestSection: React.FC = () => {
   const { t } = useTranslation('voucher', {
-    keyPrefix: 'consumerDebugVoucher.result.requestSection',
+    keyPrefix: 'debugVoucherTool.result.requestSection',
   })
   const { request } = useDebugVoucherContext()
 
