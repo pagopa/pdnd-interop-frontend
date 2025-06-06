@@ -10,6 +10,11 @@
         "importTooltip": "Disponibile a breve",
         "importButton": "Importa .json",
         "exportButton": "Esporta .json"
+      },
+      "sectionDebugVoucher": {
+        "title": "Debug Client Assertion",
+        "description": "Strumento per generare, visualizzare e validare client assertion JWT, utile per il debug e l’integrazione con flussi OAuth 2.0.",
+        "debugButton": "Effettua il debug"
       }
     }
   },
@@ -40,5 +45,9 @@
         "warningAlert": "Hai scelto di compilare una analisi del rischio per un tipo di ente diverso dal tuo. Ricorda che le analisi del rischio variano sulla base della tipologia di ente, pertanto quella che stai compilando potrebbe non funzionare per te."
       }
     }
+  },
+  "debugVoucherTool": {
+    "title": "Debug della client assertion",
+    "description": "Se non riesci ad ottenere un voucher e non sai perché, puoi effettuare il debugging con questo simulatore e capire i possibili errori"
   }
 }

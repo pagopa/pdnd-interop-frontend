@@ -201,7 +201,7 @@
       }
     }
   },
-  "consumerDebugVoucher": {
+  "debugVoucherTool": {
     "edit": {
       "title": "Server request data",
       "clientAssertionLabel": "Enter your client assertion (required)",

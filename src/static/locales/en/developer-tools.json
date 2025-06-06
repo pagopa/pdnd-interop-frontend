@@ -10,6 +10,11 @@
         "importTooltip": "Available soon",
         "importButton": "Import .json",
         "exportButton": "Export .json"
+      },
+      "sectionDebugVoucher": {
+        "title": "Debug Voucher",
+        "description": "Tool to generate, visualize and validate JWT client assertions, useful for debugging and integrating with OAuth 2.0 flows.",
+        "debugButton": "Debug"
       }
     }
   },
@@ -40,5 +45,9 @@
         "warningAlert": "You have chosen to compile a risk analysis for a different type of entity than yours. Remember that risk analyzes vary based on the type of entity, so the one you are compiling may not work for you."
       }
     }
+  },
+  "debugVoucherTool": {
+    "title": "Voucher debug",
+    "description": "If you can't get a voucher and don't know why, you can debug with this simulator and understand possible errors"
   }
 }

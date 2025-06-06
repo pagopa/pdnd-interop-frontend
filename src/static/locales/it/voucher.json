@@ -201,7 +201,7 @@
       }
     }
   },
-  "consumerDebugVoucher": {
+  "debugVoucherTool": {
     "edit": {
       "title": "Dati della richiesta al server",
       "clientAssertionLabel": "Inserisci la tua client assertion (richiesto)",
