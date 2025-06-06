@@ -29,8 +29,8 @@ import {
   delegationEServiceGuideLink,
   delegationGuideLink,
   eserviceNamingBestPracticeLink,
+  SIGNALHUB_GUIDE_URL,
 } from '@/config/constants'
-import { SIGNALHUB_GUIDE_URL } from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'

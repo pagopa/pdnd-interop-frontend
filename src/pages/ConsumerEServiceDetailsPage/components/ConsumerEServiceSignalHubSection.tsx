@@ -8,7 +8,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
-import { SIGNALHUB_GUIDE_URL } from '@/config/env'
+import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
 
 export const ConsumerEServiceSignalHubSection: React.FC = () => {
   const { t } = useTranslation('eservice', {

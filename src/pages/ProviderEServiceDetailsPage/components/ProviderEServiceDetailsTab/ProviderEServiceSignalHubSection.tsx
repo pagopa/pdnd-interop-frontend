@@ -9,7 +9,8 @@ import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
-import { SIGNALHUB_GUIDE_URL, SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
+import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
+import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
 
 export const ProviderEServiceSignalHubSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
