@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, FormControlLabel, Link, Typography } from '@mui/material'
+import { Alert, Box, Link, Stack, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -29,11 +29,13 @@ import {
   delegationEServiceGuideLink,
   delegationGuideLink,
   eserviceNamingBestPracticeLink,
+  SIGNALHUB_GUIDE_URL,
 } from '@/config/constants'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_PRODUCER } from '@/config/env'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { TemplateMutations } from '@/api/template'
+import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
+import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -45,11 +47,13 @@ export type EServiceCreateStepGeneralFormValues = {
   isClientAccessDelegable: boolean
 }
 
+type SignalHubSectionProps = {
+  isSignalHubActivationEditable: boolean
+}
+
 export const EServiceCreateStepGeneral: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = FEATURE_FLAG_SIGNALHUB_WHITELIST
-    ? SIGNALHUB_WHITELIST_PRODUCER.includes(producerId)
-    : true
+  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
@@ -231,39 +235,12 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
-          {isSignalHubFlagEnabled && (
-            <SectionContainer innerSection sx={{ mt: 3 }}>
-              <FormControlLabel
-                disabled={!areEServiceGeneralInfoEditable || !!template}
-                name="isSignalHubEnabled"
-                control={
-                  <RHFCheckbox
-                    name="isSignalHubEnabled"
-                    label={
-                      <>
-                        {' '}
-                        <span> {t('create.step1.isSignalHubEnabled.label')}</span>
-                        <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
-                          {t('create.step1.isSignalHubEnabled.infoLabel.before')}{' '}
-                          <IconLink
-                            href={''} //TODO: Link not yet available
-                            target="_blank"
-                            endIcon={<LaunchIcon fontSize="small" />}
-                          >
-                            {t('create.step1.isSignalHubEnabled.infoLabel.linkLabel')}
-                          </IconLink>{' '}
-                          {t('create.step1.isSignalHubEnabled.infoLabel.after')}
-                        </Typography>
-                      </>
-                    }
-                  />
-                }
-                label={undefined}
-                sx={{ my: 0 }}
-              />
-            </SectionContainer>
-          )}
         </SectionContainer>
+
+        {isSignalHubFlagEnabled && (
+          // Signalhub switch can be editable also if coming from a eservice template
+          <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
+        )}
 
         {isOrganizationAllowedToProduce && (
           <SectionContainer
@@ -343,6 +320,58 @@ export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
     <>
       <SectionContainerSkeleton height={354} />
     </>
+  )
+}
+
+const SignalHubSectionDescription: React.FC = () => {
+  const { t } = useTranslation('eservice')
+  return (
+    <>
+      <Stack spacing={1}>
+        <Typography color="text.secondary" variant="body2">
+          {t('create.step1.isSignalHubEnabled.description.firstParagraph.before')}{' '}
+          <IconLink
+            href={SIGNALHUB_GUIDE_URL}
+            target="_blank"
+            endIcon={<LaunchIcon fontSize="small" />}
+          >
+            {' '}
+            {t('create.step1.isSignalHubEnabled.description.firstParagraph.linkLabel')}
+          </IconLink>{' '}
+          {t('create.step1.isSignalHubEnabled.description.firstParagraph.after')}
+        </Typography>
+        <Typography color="text.secondary" variant="body2">
+          {t('create.step1.isSignalHubEnabled.description.secondParagraph.before')}{' '}
+          <Link href={SIGNALHUB_PERSONAL_DATA_PROCESS_URL} target="_blank" underline="none">
+            {t('create.step1.isSignalHubEnabled.description.secondParagraph.linkLabel')}
+          </Link>{' '}
+          {t('create.step1.isSignalHubEnabled.description.secondParagraph.after')}
+        </Typography>
+      </Stack>
+    </>
+  )
+}
+
+const SignalHubSection: React.FC<SignalHubSectionProps> = ({ isSignalHubActivationEditable }) => {
+  const isAdmin = AuthHooks.useJwt().isAdmin
+  const { t } = useTranslation('eservice')
+
+  return (
+    <SectionContainer
+      title={t('create.step1.isSignalHubEnabled.title')}
+      description={<SignalHubSectionDescription />}
+      component="div"
+    >
+      {!isAdmin && <Alert severity="warning">{t('create.step1.isSignalHubEnabled.alert')}</Alert>}
+      <SectionContainer innerSection sx={{ mt: 3 }}>
+        <RHFSwitch
+          label={t('create.step1.isSignalHubEnabled.switchLabel')}
+          name="isSignalHubEnabled"
+          disabled={!isSignalHubActivationEditable}
+          sx={{ my: 0, ml: 1 }}
+        />
+      </SectionContainer>
+    </SectionContainer>
   )
 }
 
