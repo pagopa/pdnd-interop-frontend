@@ -80,8 +80,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef) || !!template
 
-  const isSignalHubActivationEditable = areEServiceGeneralInfoEditable && !isEserviceFromTemplate
-
   // If Template ID is present we are inheriting an e-service fields from a template
   const defaultValues = evaluateFormDefaultValues(template, descriptor, eserviceMode)
   const formMethods = useForm({ defaultValues })
@@ -240,7 +238,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         </SectionContainer>
 
         {isSignalHubFlagEnabled && (
-          <SignalHubSection isSignalHubActivationEditable={isSignalHubActivationEditable} />
+          // Signalhub switch can be editable also if coming from a eservice template
+          <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
         )}
 
         {isOrganizationAllowedToProduce && (
