@@ -20,6 +20,7 @@ import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateCon
 import { TemplateMutations } from '@/api/template'
 import { AuthHooks } from '@/api/auth'
 import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
+import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -186,7 +187,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                         'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before'
                       )}{' '}
                       <IconLink
-                        href={''} //TODO: Link not yet available
+                        href={SIGNALHUB_GUIDE_URL}
                         target="_blank"
                         endIcon={<LaunchIcon fontSize="small" />}
                       >
@@ -223,7 +224,5 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 }
 
 export const EServiceTemplateCreateStepGeneralSkeleton: React.FC = () => {
-  const { t } = useTranslation('eservice')
-
   return <SectionContainerSkeleton height={354} />
 }
