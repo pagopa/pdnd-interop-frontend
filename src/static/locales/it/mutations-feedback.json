@@ -251,6 +251,13 @@
         "title": "Conferma cancellazione bozza",
         "description": "Cliccando \"conferma\" verrà cancellata la bozza precedentemente creata e non sarà più recuperabile. Una volta cancellata la bozza, potrai procedere con l’aggiornamento dell’istanza alla versione più recente."
       }
+    },
+    "updateEServiceIsSignalHubEnabled": {
+      "loading": "Stiamo aggiornando l'adesione a Signal Hub",
+      "outcome": {
+        "error": "Non è stato possibile modificare l’adesione a Signal Hub. Per favore, riprova!",
+        "success": "L’adesione a Signal Hub è stata modificata correttamente!"
+      }
     }
   },
   "attribute": {

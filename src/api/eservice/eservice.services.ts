@@ -577,6 +577,17 @@ async function getIsEServiceNameAvailable({ eserviceName }: { eserviceName: stri
   return response.data
 }
 
+async function updateEServiceIsSignalHubEnabled({
+  eserviceId,
+  ...payload
+}: { eserviceId: string; isSignalHubEnabled: boolean } & unknown) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/signalhub/update`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -620,4 +631,5 @@ export const EServiceServices = {
   updateInstanceVersionDraft,
   deleteDraftAndUpgradeEService,
   getIsEServiceNameAvailable,
+  updateEServiceIsSignalHubEnabled,
 }

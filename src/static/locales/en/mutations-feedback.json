@@ -251,6 +251,13 @@
         "title": "Confirm draft deletion",
         "description": "By clicking \"confirm\", the draft previously created will be deleted and it will no longer be recoverable. Once the draft is deleted, you can proceed with updating the instance to the latest version."
       }
+    },
+    "updateEServiceIsSignalHubEnabled": {
+      "loading": "We are updating the e-service subscription to Signal Hub service",
+      "outcome": {
+        "error": "Subscription to Signal Hub service not updated. Try again.",
+        "success": "Subscription to Signal Hub service updated correctly"
+      }
     }
   },
   "attribute": {

@@ -493,6 +493,20 @@ function useDeleteDraftAndUpgradeEService() {
   })
 }
 
+function useUpdateEServiceIsSignalHubEnabled() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceIsSignalHubEnabled',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServiceIsSignalHubEnabled,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -524,4 +538,5 @@ export const EServiceMutations = {
   useDeleteDraftAndUpgradeEService,
   useUpdateInstanceVersion,
   useUpdateAgreementApprovalPolicy,
+  useUpdateEServiceIsSignalHubEnabled,
 }
