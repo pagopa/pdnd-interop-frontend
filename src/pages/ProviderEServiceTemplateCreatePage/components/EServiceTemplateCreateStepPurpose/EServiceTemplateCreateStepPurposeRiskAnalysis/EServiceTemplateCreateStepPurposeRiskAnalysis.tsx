@@ -1,21 +1,22 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
+import { useQuery } from '@tanstack/react-query'
+import { TemplateMutations } from '@/api/template'
 import { useEServiceTemplateCreateContext } from '../../ProviderEServiceTemplateContext'
 import {
   CreateStepPurposeRiskAnalysisForm,
   RiskAnalysisFormSkeleton,
 } from '@/components/shared/CreateStepPurposeRiskAnalysisForm'
-import { TenantKind } from '@/api/api.generatedTypes'
+import type { TenantKind } from '@/api/api.generatedTypes'
 
 export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
   const { riskAnalysisFormState, closeRiskAnalysisForm, template, tenantKind } =
     useEServiceTemplateCreateContext()
 
-  const { mutate: addEServiceTemplateRiskAnalysis } = TemplateMutations.useAddTemplateRiskAnalysis()
+  const { mutate: addEServiceTemplateRiskAnalysis } =
+    TemplateMutations.useAddEServiceTemplateRiskAnalysis()
   const { mutate: updateEServiceTemplateRiskAnalysis } =
-    TemplateMutations.useUpdateTemplateRiskAnalysis()
+    TemplateMutations.useUpdateEServiceTemplateRiskAnalysis()
 
   const { data: riskAnalysisLatest } = useQuery(
     PurposeQueries.getRiskAnalysisLatest({
@@ -33,49 +34,48 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     closeRiskAnalysisForm()
   }
 
-  // TODO: UpdateRiskAnalysis (RECEIVE MODE) is not available yet
   const handleSubmit = (
     name: string,
     answers: Record<string, string[]>,
     tenantKind: TenantKind
   ) => {
-    // if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
-    //   updateEServiceTemplateRiskAnalysis(
-    //     {
-    //       eServiceTemplateId: template.id,
-    //       riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
-    //       name: name,
-    //       riskAnalysisForm: {
-    //         version: riskAnalysisToEdit.riskAnalysisForm.version,
-    //         answers: answers,
-    //       },
-    //       tenantKind: riskAnalysisToEdit.tenantKind,
-    //     },
-    //     {
-    //       onSuccess() {
-    //         closeRiskAnalysisForm()
-    //       },
-    //     }
-    //   )
-    // }
-    // if (!riskAnalysisFormState.riskAnalysisId) {
-    //   addEServiceTemplateRiskAnalysis(
-    //     {
-    //       eServiceTemplateId: template.id,
-    //       name: name,
-    //       riskAnalysisForm: {
-    //         version: riskAnalysisLatest.version,
-    //         answers: answers,
-    //       },
-    //       tenantKind: tenantKind,
-    //     },
-    //     {
-    //       onSuccess() {
-    //         closeRiskAnalysisForm()
-    //       },
-    //     }
-    //   )
-    // }
+    if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
+      updateEServiceTemplateRiskAnalysis(
+        {
+          eServiceTemplateId: template.id,
+          riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
+          name: name,
+          riskAnalysisForm: {
+            version: riskAnalysisToEdit.riskAnalysisForm.version,
+            answers: answers,
+          },
+          tenantKind: riskAnalysisToEdit.tenantKind,
+        },
+        {
+          onSuccess() {
+            closeRiskAnalysisForm()
+          },
+        }
+      )
+    }
+    if (!riskAnalysisFormState.riskAnalysisId) {
+      addEServiceTemplateRiskAnalysis(
+        {
+          eServiceTemplateId: template.id,
+          name: name,
+          riskAnalysisForm: {
+            version: riskAnalysisLatest.version,
+            answers: answers,
+          },
+          tenantKind: tenantKind,
+        },
+        {
+          onSuccess() {
+            closeRiskAnalysisForm()
+          },
+        }
+      )
+    }
   }
 
   return (

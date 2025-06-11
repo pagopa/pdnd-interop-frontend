@@ -128,11 +128,6 @@ export interface UpdateEServiceTemplateInstanceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
-  /**
-   * @minLength 5
-   * @maxLength 60
-   */
-  instanceLabel?: string
 }
 
 export interface EServiceSeed {
@@ -180,6 +175,15 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
    * @min 0
    */
   dailyCallsTotal: number
+}
+
+export interface UpdateEServiceDescriptorAgreementApprovalPolicySeed {
+  /**
+   * EService Descriptor policy for new Agreements approval.
+   * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+   * MANUAL - the Producer must approve every agreement for this Descriptor.
+   */
+  agreementApprovalPolicy: AgreementApprovalPolicy
 }
 
 export interface UpdateEServiceDescriptorSeed {
@@ -297,6 +301,8 @@ export interface Client {
   /** @format date-time */
   createdAt: string
   consumer: CompactOrganization
+  /** Contains some details about user */
+  admin?: CompactUser
   name: string
   purposes: ClientPurpose[]
   description?: string
@@ -367,11 +373,27 @@ export interface EServiceRiskAnalysisSeed {
   riskAnalysisForm: RiskAnalysisFormSeed
 }
 
+export interface EServiceTemplateRiskAnalysisSeed {
+  name: string
+  riskAnalysisForm: RiskAnalysisFormSeed
+  tenantKind: TenantKind
+}
+
 export interface EServiceRiskAnalysis {
   /** @format uuid */
   id: string
   name: string
   riskAnalysisForm: RiskAnalysisForm
+  /** @format date-time */
+  createdAt: string
+}
+
+export interface EServiceTemplateRiskAnalysis {
+  /** @format uuid */
+  id: string
+  name: string
+  riskAnalysisForm: RiskAnalysisForm
+  tenantKind: TenantKind
   /** @format date-time */
   createdAt: string
 }
@@ -453,7 +475,6 @@ export interface EServiceTemplateRef {
   /** @format uuid */
   templateVersionId?: string
   templateName: string
-  instanceLabel?: string
   templateInterface?: EServiceDoc
   interfaceMetadata?: TemplateInstanceInterfaceMetadata
   isNewTemplateVersionAvailable?: boolean
@@ -892,6 +913,8 @@ export interface CompactClient {
   id: string
   name: string
   hasKeys: boolean
+  /** Contains some details about user */
+  admin?: CompactUser
 }
 
 /** Producer keychain creation request body */
@@ -1601,7 +1624,7 @@ export interface EServiceTemplateDetails {
   /** EService Descriptor State */
   technology: EServiceTechnology
   versions: CompactEServiceTemplateVersion[]
-  riskAnalysis: EServiceRiskAnalysis[]
+  riskAnalysis: EServiceTemplateRiskAnalysis[]
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
@@ -1640,6 +1663,7 @@ export interface EServiceTemplateVersionDetails {
   agreementApprovalPolicy?: AgreementApprovalPolicy
   attributes: DescriptorAttributes
   eserviceTemplate: EServiceTemplateDetails
+  canBeInstantiated: boolean
 }
 
 export interface EServiceTemplateVersionQuotasUpdateSeed {
@@ -1717,11 +1741,6 @@ export interface EServiceTemplateSeed {
 }
 
 export interface InstanceEServiceSeed {
-  /**
-   * @minLength 5
-   * @maxLength 60
-   */
-  instanceLabel?: string
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
@@ -1768,7 +1787,6 @@ export interface EServiceTemplateInstance {
   producerName: string
   latestDescriptor?: CompactDescriptor
   descriptors: CompactDescriptor[]
-  instanceLabel?: string
 }
 
 export interface EServiceTemplateInstances {
@@ -2126,9 +2144,16 @@ export interface GetEServiceTemplateInstancesParams {
 
 export interface GetProducersParams {
   q?: string
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   offset: number
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
   limit: number
 }
 
@@ -2336,6 +2361,14 @@ export interface GetClientsParams {
    * @max 50
    */
   limit: number
+}
+
+export interface SetAdminToClientPayload {
+  /**
+   * UserId to be added as admin
+   * @format uuid
+   */
+  adminId: string
 }
 
 export interface AddUsersToClientPayload {
@@ -2577,9 +2610,7 @@ export namespace Consumers {
       showOnlyUpgradeable?: boolean
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreements
   }
   /**
@@ -2601,9 +2632,7 @@ export namespace Consumers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = DelegationTenants
   }
   /**
@@ -2623,9 +2652,7 @@ export namespace Consumers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = DelegationTenants
   }
   /**
@@ -2652,9 +2679,7 @@ export namespace Consumers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactOrganizations
   }
   /**
@@ -2683,9 +2708,7 @@ export namespace Consumers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactEServicesLight
   }
   /**
@@ -2727,9 +2750,7 @@ export namespace Consumers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Purposes
   }
   /**
@@ -2751,9 +2772,7 @@ export namespace Consumers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactEServices
   }
   /**
@@ -2768,9 +2787,7 @@ export namespace Consumers {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = DelegationSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -2791,9 +2808,7 @@ export namespace Consumers {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -2814,9 +2829,7 @@ export namespace Consumers {
     }
     export type RequestQuery = {}
     export type RequestBody = RejectDelegationPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -2834,9 +2847,7 @@ export namespace Consumers {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
 }
@@ -2883,9 +2894,7 @@ export namespace Producers {
       showOnlyUpgradeable?: boolean
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreements
   }
   /**
@@ -2899,15 +2908,20 @@ export namespace Producers {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 0
+       */
       offset: number
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactOrganizations
   }
   /**
@@ -2943,9 +2957,7 @@ export namespace Producers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = ProducerEServices
   }
   /**
@@ -2974,9 +2986,7 @@ export namespace Producers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactEServicesLight
   }
   /**
@@ -2997,9 +3007,7 @@ export namespace Producers {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = ProducerEServiceDetails
   }
   /**
@@ -3025,9 +3033,7 @@ export namespace Producers {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = ProducerEServiceDescriptor
   }
   /**
@@ -3069,9 +3075,7 @@ export namespace Producers {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Purposes
   }
   /**
@@ -3086,9 +3090,7 @@ export namespace Producers {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = DelegationSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -3109,9 +3111,7 @@ export namespace Producers {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -3132,9 +3132,7 @@ export namespace Producers {
     }
     export type RequestQuery = {}
     export type RequestBody = RejectDelegationPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -3152,9 +3150,7 @@ export namespace Producers {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
 }
@@ -3201,9 +3197,7 @@ export namespace Agreements {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactOrganizations
   }
   /**
@@ -3232,9 +3226,7 @@ export namespace Agreements {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactOrganizations
   }
   /**
@@ -3255,9 +3247,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
   /**
@@ -3278,9 +3268,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -3301,9 +3289,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
   /**
@@ -3324,9 +3310,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -3344,9 +3328,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = AddAgreementConsumerDocumentPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
   /**
@@ -3366,9 +3348,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
   /**
@@ -3388,9 +3368,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -3411,9 +3389,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
   /**
@@ -3434,9 +3410,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = AgreementSubmissionPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
   /**
@@ -3457,9 +3431,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
   /**
@@ -3480,9 +3452,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = AgreementRejectionPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
   /**
@@ -3503,9 +3473,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -3526,9 +3494,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = AgreementUpdatePayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
   /**
@@ -3549,9 +3515,7 @@ export namespace Agreements {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
 }
@@ -3585,9 +3549,7 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = HasCertifiedAttributes
   }
   /**
@@ -3621,9 +3583,7 @@ export namespace Tenants {
       query?: string
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Users
   }
   /**
@@ -3650,9 +3610,7 @@ export namespace Tenants {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = RequesterCertifiedAttributes
   }
   /**
@@ -3750,9 +3708,7 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = DeclaredAttributesResponse
   }
   /**
@@ -3773,9 +3729,7 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = VerifiedAttributesResponse
   }
   /**
@@ -3796,9 +3750,7 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = VerifiedTenantAttributeSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -3895,9 +3847,7 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Tenant
   }
   /**
@@ -3918,9 +3868,7 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = MailSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -3943,9 +3891,7 @@ export namespace Tenants {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -3972,9 +3918,7 @@ export namespace Tenants {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Tenants
   }
   /**
@@ -4045,9 +3989,7 @@ export namespace Catalog {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CatalogEServices
   }
   /**
@@ -4073,9 +4015,7 @@ export namespace Catalog {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CatalogEServiceDescriptor
   }
   /**
@@ -4109,9 +4049,7 @@ export namespace Catalog {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CatalogEServiceTemplates
   }
 }
@@ -4129,9 +4067,7 @@ export namespace Eservices {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = EServiceSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedEServiceDescriptor
   }
   /**
@@ -4152,9 +4088,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
   /**
@@ -4180,9 +4114,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4208,9 +4140,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceDescriptorSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4231,9 +4161,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4259,9 +4187,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4287,10 +4213,34 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceDescriptorQuotas
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateAgreementApprovalPolicy
+   * @summary Update agreement approval policy of published descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/agreementApprovalPolicy/update
+   * @secure
+   */
+  export namespace UpdateAgreementApprovalPolicy {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateEServiceDescriptorAgreementApprovalPolicySeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
   /**
    * No description
@@ -4315,9 +4265,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4343,9 +4291,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4371,9 +4317,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = CreateEServiceDocumentPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4404,9 +4348,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4428,9 +4370,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
   /**
@@ -4456,9 +4396,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedEServiceDescriptor
   }
   /**
@@ -4489,9 +4427,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceDescriptorDocumentSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = EServiceDoc
   }
   /**
@@ -4512,9 +4448,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4535,9 +4469,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4558,9 +4490,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceRiskAnalysisSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4586,9 +4516,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = EServiceRiskAnalysis
   }
   /**
@@ -4614,9 +4542,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceRiskAnalysisSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4642,9 +4568,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4665,9 +4589,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceDescriptionUpdateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4688,9 +4610,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceDelegationFlagsUpdateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4711,9 +4631,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceNameUpdateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4739,9 +4657,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = DescriptorAttributesSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4767,9 +4683,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4795,9 +4709,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = RejectDelegatedEServiceDescriptorSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -4812,9 +4724,7 @@ export namespace Eservices {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = EServiceTemplateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedEServiceTemplateVersion
   }
   /**
@@ -4835,9 +4745,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceTemplateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4858,9 +4766,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = EServiceTemplateDetails
   }
   /**
@@ -4886,9 +4792,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4914,9 +4818,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4942,9 +4844,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4965,9 +4865,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceTemplateNameUpdateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -4988,9 +4886,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceTemplateIntendedTargetUpdateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5011,9 +4907,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceTemplateDescriptionUpdateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5039,9 +4933,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = EServiceTemplateVersionDetails
   }
   /**
@@ -5067,9 +4959,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceTemplateVersionSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5095,9 +4985,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5123,9 +5011,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceTemplateVersionQuotasUpdateSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5145,10 +5031,8 @@ export namespace Eservices {
       eServiceTemplateId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceRiskAnalysisSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestBody = EServiceTemplateRiskAnalysisSeed
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5173,10 +5057,8 @@ export namespace Eservices {
       riskAnalysisId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceRiskAnalysisSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestBody = EServiceTemplateRiskAnalysisSeed
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5202,9 +5084,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5230,9 +5110,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = DescriptorAttributesSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5261,9 +5139,7 @@ export namespace Eservices {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactOrganizations
   }
   /**
@@ -5284,9 +5160,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5312,9 +5186,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = CreateEServiceTemplateDocumentPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5345,9 +5217,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
   /**
@@ -5378,9 +5248,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5411,9 +5279,7 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceTemplateVersionDocumentSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5431,9 +5297,7 @@ export namespace Eservices {
       name: string
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = boolean
   }
 }
@@ -5462,9 +5326,7 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceDescriptorTemplateInstanceSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5490,9 +5352,7 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = UpdateEServiceTemplateInstanceDescriptorQuotas
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5518,9 +5378,7 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = TemplateInstanceInterfaceRESTSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5546,9 +5404,7 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = TemplateInstanceInterfaceSOAPSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5590,9 +5446,7 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5632,9 +5486,7 @@ export namespace Templates {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = EServiceTemplateInstances
   }
   /**
@@ -5655,9 +5507,7 @@ export namespace Templates {
     }
     export type RequestQuery = {}
     export type RequestBody = InstanceEServiceSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
 }
@@ -5680,9 +5530,7 @@ export namespace Export {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = FileResource
   }
 }
@@ -5702,9 +5550,7 @@ export namespace Import {
       fileName: string
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PresignedUrl
   }
   /**
@@ -5719,9 +5565,7 @@ export namespace Import {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = FileResource
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedEServiceDescriptor
   }
 }
@@ -5739,9 +5583,7 @@ export namespace Reverse {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = PurposeEServiceSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5761,9 +5603,7 @@ export namespace Reverse {
     }
     export type RequestQuery = {}
     export type RequestBody = ReversePurposeUpdateContent
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
 }
@@ -5780,9 +5620,7 @@ export namespace Session {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = IdentityToken
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = SessionToken
   }
   /**
@@ -5797,9 +5635,7 @@ export namespace Session {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = SAMLTokenRequest
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = SessionToken
   }
 }
@@ -5817,9 +5653,7 @@ export namespace Tools {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = AccessTokenRequest
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = TokenGenerationValidationResult
   }
 }
@@ -5860,9 +5694,7 @@ export namespace Purposes {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = PurposeSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -5880,9 +5712,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = PurposeCloneSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
   /**
@@ -5902,9 +5732,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = PurposeVersionSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
   /**
@@ -5935,9 +5763,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
   /**
@@ -5957,9 +5783,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = RejectPurposeVersionPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -5979,9 +5803,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
   /**
@@ -6001,9 +5823,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
   /**
@@ -6023,9 +5843,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
   /**
@@ -6045,9 +5863,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Purpose
   }
   /**
@@ -6067,9 +5883,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6089,9 +5903,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = PurposeUpdateContent
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
   /**
@@ -6111,9 +5923,7 @@ export namespace Purposes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6129,9 +5939,7 @@ export namespace Purposes {
       tenantKind?: TenantKind
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = RiskAnalysisFormConfig
   }
   /**
@@ -6150,9 +5958,7 @@ export namespace Purposes {
       eserviceId: string
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = RiskAnalysisFormConfig
   }
 }
@@ -6170,9 +5976,7 @@ export namespace CertifiedAttributes {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = CertifiedAttributeSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Attribute
   }
 }
@@ -6190,9 +5994,7 @@ export namespace VerifiedAttributes {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = AttributeSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Attribute
   }
 }
@@ -6210,9 +6012,7 @@ export namespace DeclaredAttributes {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = AttributeSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Attribute
   }
 }
@@ -6242,9 +6042,7 @@ export namespace Attributes {
       kinds: AttributeKind[]
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Attributes
   }
   /**
@@ -6265,9 +6063,7 @@ export namespace Attributes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Attribute
   }
   /**
@@ -6287,9 +6083,7 @@ export namespace Attributes {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Attribute
   }
 }
@@ -6328,9 +6122,7 @@ export namespace Clients {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactClients
   }
   /**
@@ -6351,9 +6143,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Client
   }
   /**
@@ -6374,9 +6164,54 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Sets an Admin to a Client
+   * @tags clients
+   * @name SetAdminToClient
+   * @summary Sets an Admin to a Client
+   * @request POST:/clients/{clientId}/admin
+   * @secure
+   */
+  export namespace SetAdminToClient {
+    export type RequestParams = {
+      /**
+       * ID of Client the users belong to
+       * @format uuid
+       */
+      clientId: string
     }
+    export type RequestQuery = {}
+    export type RequestBody = SetAdminToClientPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = Client
+  }
+  /**
+   * @description Removes an admin from a client
+   * @tags clients
+   * @name RemoveClientAdmin
+   * @summary Removes an admin from a client
+   * @request DELETE:/clients/{clientId}/admin/{adminId}
+   * @secure
+   */
+  export namespace RemoveClientAdmin {
+    export type RequestParams = {
+      /**
+       * ID of Client
+       * @format uuid
+       */
+      clientId: string
+      /**
+       * ID of Admin
+       * @format uuid
+       */
+      adminId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6402,9 +6237,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6427,9 +6260,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PublicKey
   }
   /**
@@ -6452,9 +6283,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6480,9 +6309,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6503,9 +6330,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = PurposeAdditionDetailsSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6526,9 +6351,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactUsers
   }
   /**
@@ -6549,9 +6372,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = AddUsersToClientPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -6572,9 +6393,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = KeySeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6612,9 +6431,7 @@ export namespace Clients {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PublicKeys
   }
   /**
@@ -6637,9 +6454,7 @@ export namespace Clients {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = EncodedClientKey
   }
 }
@@ -6690,9 +6505,7 @@ export namespace ClientsConsumer {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = ClientSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
 }
@@ -6710,9 +6523,7 @@ export namespace ClientsApi {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = ClientSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
 }
@@ -6732,9 +6543,7 @@ export namespace User {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PrivacyNotice
   }
   /**
@@ -6751,9 +6560,7 @@ export namespace User {
     }
     export type RequestQuery = {}
     export type RequestBody = PrivacyNoticeSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
 }
@@ -6773,9 +6580,7 @@ export namespace PrivacyNotices {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
 }
@@ -6809,9 +6614,7 @@ export namespace ProducerKeychains {
     export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = ProducerKeychainSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
   }
   /**
@@ -6855,9 +6658,7 @@ export namespace ProducerKeychains {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactProducerKeychains
   }
   /**
@@ -6875,9 +6676,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = ProducerKeychain
   }
   /**
@@ -6895,9 +6694,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6918,9 +6715,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactUsers
   }
   /**
@@ -6941,9 +6736,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = AddProducerKeychainUsersPayload
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6969,9 +6762,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -6992,9 +6783,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = KeySeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -7021,9 +6810,7 @@ export namespace ProducerKeychains {
       userIds?: string[]
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PublicKeys
   }
   /**
@@ -7046,9 +6833,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = PublicKey
   }
   /**
@@ -7071,9 +6856,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -7094,9 +6877,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceAdditionDetailsSeed
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -7122,9 +6903,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -7147,9 +6926,7 @@ export namespace ProducerKeychains {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = EncodedClientKey
   }
 }
@@ -7198,9 +6975,7 @@ export namespace Delegations {
       eserviceIds?: string[]
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = CompactDelegations
   }
   /**
@@ -7218,9 +6993,7 @@ export namespace Delegations {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = Delegation
   }
   /**
@@ -7240,9 +7013,7 @@ export namespace Delegations {
     }
     export type RequestQuery = {}
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = File
   }
 }
@@ -7274,9 +7045,7 @@ export namespace Creators {
       limit: number
     }
     export type RequestBody = never
-    export type RequestHeaders = {
-      'X-Correlation-Id': string
-    }
+    export type RequestHeaders = {}
     export type ResponseBody = ProducerEServiceTemplates
   }
 }

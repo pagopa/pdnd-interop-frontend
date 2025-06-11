@@ -1,4 +1,3 @@
-import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { Divider, Stack, Typography } from '@mui/material'
 import React from 'react'

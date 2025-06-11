@@ -3,20 +3,17 @@ import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
-import { TemplateMutations } from '@/api/template'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
+  canBeInstantiated: boolean,
   activeVersionState?: EServiceTemplateVersionState | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('template', { keyPrefix: 'actions' })
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
-
-  const { mutate: createEServiceFromTemplate } =
-    TemplateMutations.useCreateInstanceFromEServiceTemplate()
 
   const state = activeVersionState ?? 'DRAFT'
 
@@ -33,6 +30,7 @@ export function useGetConsumerEServiceTemplateActions(
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
+    disabled: !canBeInstantiated,
   }
 
   const publishedConsumerActions = [newEServiceFromTemplateAction]

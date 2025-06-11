@@ -1,4 +1,3 @@
-import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import { TemplateQueries } from '@/api/template'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'

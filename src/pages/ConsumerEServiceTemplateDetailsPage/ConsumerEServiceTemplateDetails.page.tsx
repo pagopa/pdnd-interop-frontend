@@ -16,7 +16,13 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  const { actions } = useGetConsumerEServiceTemplateActions(eServiceTemplateId, template?.state)
+  const canBeInstantiated = template?.canBeInstantiated ?? false
+
+  const { actions } = useGetConsumerEServiceTemplateActions(
+    eServiceTemplateId,
+    canBeInstantiated,
+    template?.state
+  )
   return (
     <PageContainer
       title={template?.eserviceTemplate.name || ''}
