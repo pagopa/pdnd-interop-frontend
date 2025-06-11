@@ -493,12 +493,12 @@ function useDeleteDraftAndUpgradeEService() {
   })
 }
 
-function useUpdateEServiceIsSignalHubEnabled() {
+function useUpdateEServiceSignalHub() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateEServiceIsSignalHubEnabled',
   })
   return useMutation({
-    mutationFn: EServiceServices.updateEServiceIsSignalHubEnabled,
+    mutationFn: EServiceServices.updateEServiceSignalHub,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -538,5 +538,5 @@ export const EServiceMutations = {
   useDeleteDraftAndUpgradeEService,
   useUpdateInstanceVersion,
   useUpdateAgreementApprovalPolicy,
-  useUpdateEServiceIsSignalHubEnabled,
+  useUpdateEServiceSignalHub,
 }

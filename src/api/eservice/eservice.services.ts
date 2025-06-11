@@ -578,7 +578,7 @@ async function getIsEServiceNameAvailable({ eserviceName }: { eserviceName: stri
   return response.data
 }
 
-async function updateEServiceIsSignalHubEnabled({
+async function updateEServiceSignalHub({
   eserviceId,
   ...payload
 }: { eserviceId: string } & EServiceSignalhubActivateSeed) {
@@ -632,5 +632,5 @@ export const EServiceServices = {
   updateInstanceVersionDraft,
   deleteDraftAndUpgradeEService,
   getIsEServiceNameAvailable,
-  updateEServiceIsSignalHubEnabled,
+  updateEServiceSignalHub,
 }

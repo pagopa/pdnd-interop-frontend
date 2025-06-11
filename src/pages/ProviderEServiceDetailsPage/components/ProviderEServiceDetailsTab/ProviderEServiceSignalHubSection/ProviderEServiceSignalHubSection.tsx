@@ -28,8 +28,7 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  const { mutate: updateEserviceIsSignalHubEnabled } =
-    EServiceMutations.useUpdateEServiceIsSignalHubEnabled()
+  const { mutate: updateEserviceSignalHub } = EServiceMutations.useUpdateEServiceSignalHub()
 
   const isSignalHubEnabled = descriptor.eservice.isSignalHubEnabled ?? false
 
@@ -45,8 +44,8 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
     closeDrawer: closeSignalHubDrawer,
   } = useDrawerState()
 
-  const handleIsSignalHubEnabledUpdate = (eserviceId: string, isSignalHubEnabled: boolean) => {
-    updateEserviceIsSignalHubEnabled(
+  const handleSignalHubUpdate = (eserviceId: string, isSignalHubEnabled: boolean) => {
+    updateEserviceSignalHub(
       {
         eserviceId: eserviceId,
         isSignalHubEnabled: isSignalHubEnabled,
@@ -122,7 +121,7 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
         onClose={closeSignalHubDrawer}
         id={eserviceId}
         isSignalHubEnabled={isSignalHubEnabled}
-        onSubmit={handleIsSignalHubEnabledUpdate}
+        onSubmit={handleSignalHubUpdate}
       />
     </>
   )
