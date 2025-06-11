@@ -89,16 +89,6 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     </Stack>
   )
 
-  if (true) {
-    const sessionToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
-    if (sessionToken) {
-      const exp = parseJwt(sessionToken).jwt?.exp
-      if (hasSessionExpired(exp)) {
-        content = <DialogSessionExpired type="sessionExpired" />
-      }
-    }
-  }
-
   if (error instanceof Error) {
     content = (
       <>
@@ -150,7 +140,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     description = t('default.description')!
   }
 
-  if (true) {
+  if (error instanceof UnauthorizedError) {
     const sessionToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
     if (sessionToken) {
       const exp = parseJwt(sessionToken).jwt?.exp
