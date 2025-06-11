@@ -373,11 +373,27 @@ export interface EServiceRiskAnalysisSeed {
   riskAnalysisForm: RiskAnalysisFormSeed
 }
 
+export interface EServiceTemplateRiskAnalysisSeed {
+  name: string
+  riskAnalysisForm: RiskAnalysisFormSeed
+  tenantKind: TenantKind
+}
+
 export interface EServiceRiskAnalysis {
   /** @format uuid */
   id: string
   name: string
   riskAnalysisForm: RiskAnalysisForm
+  /** @format date-time */
+  createdAt: string
+}
+
+export interface EServiceTemplateRiskAnalysis {
+  /** @format uuid */
+  id: string
+  name: string
+  riskAnalysisForm: RiskAnalysisForm
+  tenantKind: TenantKind
   /** @format date-time */
   createdAt: string
 }
@@ -1608,7 +1624,7 @@ export interface EServiceTemplateDetails {
   /** EService Descriptor State */
   technology: EServiceTechnology
   versions: CompactEServiceTemplateVersion[]
-  riskAnalysis: EServiceRiskAnalysis[]
+  riskAnalysis: EServiceTemplateRiskAnalysis[]
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
@@ -1647,6 +1663,7 @@ export interface EServiceTemplateVersionDetails {
   agreementApprovalPolicy?: AgreementApprovalPolicy
   attributes: DescriptorAttributes
   eserviceTemplate: EServiceTemplateDetails
+  canBeInstantiated: boolean
 }
 
 export interface EServiceTemplateVersionQuotasUpdateSeed {
@@ -2127,9 +2144,16 @@ export interface GetEServiceTemplateInstancesParams {
 
 export interface GetProducersParams {
   q?: string
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   offset: number
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
   limit: number
 }
 
@@ -2884,9 +2908,16 @@ export namespace Producers {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 0
+       */
       offset: number
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
       limit: number
     }
     export type RequestBody = never
@@ -5000,7 +5031,7 @@ export namespace Eservices {
       eServiceTemplateId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceRiskAnalysisSeed
+    export type RequestBody = EServiceTemplateRiskAnalysisSeed
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
@@ -5026,7 +5057,7 @@ export namespace Eservices {
       riskAnalysisId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceRiskAnalysisSeed
+    export type RequestBody = EServiceTemplateRiskAnalysisSeed
     export type RequestHeaders = {}
     export type ResponseBody = void
   }

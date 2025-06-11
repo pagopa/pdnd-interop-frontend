@@ -3,27 +3,19 @@ import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
-import { TemplateMutations } from '@/api/template'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
-  eServiceTemplateName: string,
+  canBeInstantiated: boolean,
   activeVersionState?: EServiceTemplateVersionState | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('template', { keyPrefix: 'actions' })
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
-
-  const { mutate: createEServiceFromTemplate } =
-    TemplateMutations.useCreateInstanceFromEServiceTemplate() //TODO: to remove?
-
-  const { data: isFirstInstanceFromTemplate, isLoading } = useQuery({
-    ...EServiceQueries.getIsEServiceNameAvailable(eServiceTemplateName),
-  })
 
   const state = activeVersionState ?? 'DRAFT'
 
@@ -49,9 +41,7 @@ export function useGetConsumerEServiceTemplateActions(
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: !isLoading && !isFirstInstanceFromTemplate,
-    tooltip:
-      !isLoading && !isFirstInstanceFromTemplate ? (tooltipLabel as unknown as string) : undefined,
+    disabled: !canBeInstantiated,
   }
 
   const publishedConsumerActions = [newEServiceFromTemplateAction]
