@@ -7,9 +7,9 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useDialog } from '@/stores'
-import { DialogTenantKindEserviceTemplateProps } from '@/types/dialog.types'
+import type { DialogTenantKindEserviceTemplateProps } from '@/types/dialog.types'
 import { RHFRadioGroup } from '../shared/react-hook-form-inputs'
 import { FormProvider, useForm } from 'react-hook-form'
 
