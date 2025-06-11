@@ -7,7 +7,7 @@ import { useDebugVoucherContext } from '../DebugVoucherContext'
 import type { TokenGenerationValidationSteps } from '@/api/api.generatedTypes'
 
 const DebugVoucherResultsAlert: React.FC = () => {
-  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
+  const { t } = useTranslation('voucher', { keyPrefix: 'debugVoucherTool.result' })
 
   const { response } = useDebugVoucherContext()
 

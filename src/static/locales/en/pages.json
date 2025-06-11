@@ -31,10 +31,6 @@
     "title": "Purposes",
     "description": "Here you can manage the purposed created by you's e-service's subscribers"
   },
-  "consumerDebugVoucher": {
-    "title": "Voucher debug",
-    "description": "If you can't get a voucher and don't know why, you can debug with this simulator and understand possible errors"
-  },
   "tenantCertifier": {
     "title": "Tenant certifier",
     "description": "In this view you can manage the certified attributes you have created and their assignment"
