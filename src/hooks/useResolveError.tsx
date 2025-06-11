@@ -11,12 +11,15 @@ import {
   UnauthorizedError,
 } from '@/utils/errors.utils'
 import type { FallbackProps } from 'react-error-boundary'
-import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
+import { isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
 import { Stack } from '@mui/system'
-import { assistanceLink } from '@/config/constants'
+import { assistanceLink, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { CopyToClipboardButton } from '@pagopa/mui-italia'
+import { parseJwt } from '@/api/auth/auth.utils'
+import { hasSessionExpired } from '@/utils/common.utils'
+import { DialogSessionExpired } from '@/components/dialogs/DialogSessionExpired'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -86,6 +89,16 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     </Stack>
   )
 
+  if (true) {
+    const sessionToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
+    if (sessionToken) {
+      const exp = parseJwt(sessionToken).jwt?.exp
+      if (hasSessionExpired(exp)) {
+        content = <DialogSessionExpired type="sessionExpired" />
+      }
+    }
+  }
+
   if (error instanceof Error) {
     content = (
       <>
@@ -137,8 +150,14 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     description = t('default.description')!
   }
 
-  if (error instanceof UnauthorizedError) {
-    window.location.assign(FE_LOGIN_URL)
+  if (true) {
+    const sessionToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
+    if (sessionToken) {
+      const exp = parseJwt(sessionToken).jwt?.exp
+      if (hasSessionExpired(exp)) {
+        content = <DialogSessionExpired type="sessionExpired" />
+      }
+    }
   }
 
   return { title, description, content }

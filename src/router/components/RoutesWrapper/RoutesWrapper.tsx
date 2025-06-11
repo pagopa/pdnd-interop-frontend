@@ -12,7 +12,6 @@ import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute } from '@/router'
-import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
 import { AuthHooks } from '@/api/auth'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
@@ -24,7 +23,6 @@ const _RoutesWrapper: React.FC = () => {
   const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   useScrollTopOnLocationChange()
-  useCheckSessionExpired(jwt?.exp)
 
   /**
    * If the route is public, we don't need to check the TOS or the user's authorization.
