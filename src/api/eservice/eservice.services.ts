@@ -33,7 +33,7 @@ import type {
   RejectDelegatedEServiceDescriptorSeed,
   TemplateInstanceInterfaceRESTSeed,
   TemplateInstanceInterfaceSOAPSeed,
-  EServiceSignalhubActivateSeed,
+  EServiceSignalHubUpdateSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { waitFor } from '@/utils/common.utils'
@@ -581,7 +581,7 @@ async function getIsEServiceNameAvailable({ eserviceName }: { eserviceName: stri
 async function updateEServiceSignalHub({
   eserviceId,
   ...payload
-}: { eserviceId: string } & EServiceSignalhubActivateSeed) {
+}: { eserviceId: string } & EServiceSignalHubUpdateSeed) {
   const response = await axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/signalhub/update`,
     payload

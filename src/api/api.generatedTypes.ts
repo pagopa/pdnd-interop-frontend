@@ -248,7 +248,7 @@ export interface EServiceNameUpdateSeed {
   name: string
 }
 
-export interface EServiceSignalhubActivateSeed {
+export interface EServiceSignalHubUpdateSeed {
   isSignalHubEnabled: boolean
 }
 
@@ -4624,12 +4624,12 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
-   * @name UpdateSignalHubFlag
-   * @summary Enabling signalhub service
+   * @name UpdateEServiceSignalHubFlag
+   * @summary Enable/disable SignalHub for an e-service
    * @request POST:/eservices/{eServiceId}/signalhub/update
    * @secure
    */
-  export namespace UpdateSignalHubFlag {
+  export namespace UpdateEServiceSignalHubFlag {
     export type RequestParams = {
       /**
        * the eservice id
@@ -4638,7 +4638,7 @@ export namespace Eservices {
       eServiceId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = EServiceSignalhubActivateSeed
+    export type RequestBody = EServiceSignalHubUpdateSeed
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
