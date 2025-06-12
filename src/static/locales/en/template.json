@@ -157,7 +157,8 @@
   },
   "actions": {
     "createNewEServiceInstance": "Use template",
-    "createNewEServiceInstanceDisabled": "You have already created an instance from this\ntemplate."
+    "createNewEServiceInstanceDisabled": "You have already created an instance from this\ntemplate.",
+    "createInstanceDisabledTenantKind": "It is not possible to use the template because the provider has not created a purpose for your type of entity."
   },
   "createInstance": {
     "title": "Create e-service from template",
