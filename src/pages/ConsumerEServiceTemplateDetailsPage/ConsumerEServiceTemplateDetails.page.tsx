@@ -20,6 +20,7 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
 
   const { actions } = useGetConsumerEServiceTemplateActions(
     eServiceTemplateId,
+    template?.eserviceTemplate.name ?? '',
     canBeInstantiated,
     template?.state
   )
