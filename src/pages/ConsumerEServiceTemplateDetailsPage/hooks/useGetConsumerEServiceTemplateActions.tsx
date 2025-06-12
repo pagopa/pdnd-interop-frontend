@@ -1,9 +1,9 @@
+/* eslint-disable react/react-in-jsx-scope */
 import type { EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
-import { TemplateMutations } from '@/api/template'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
 import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
@@ -11,30 +11,19 @@ import { useQuery } from '@tanstack/react-query'
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
   eServiceTemplateName: string,
+  canBeInstantiated: boolean,
   activeVersionState?: EServiceTemplateVersionState | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('template', { keyPrefix: 'actions' })
-
-  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
-  const navigate = useNavigate()
-
-  const { mutate: createEServiceFromTemplate } =
-    TemplateMutations.useCreateInstanceFromEServiceTemplate() //TODO: to remove?
 
   const { data: isFirstInstanceFromTemplate, isLoading } = useQuery({
     ...EServiceQueries.getIsEServiceNameAvailable(eServiceTemplateName),
   })
 
+  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
+  const navigate = useNavigate()
+
   const state = activeVersionState ?? 'DRAFT'
-
-  // Only admin and operatorAPI can see actions
-  if (!isAdmin && !isOperatorAPI) return { actions: [] }
-
-  const handleCreateEServiceFromTemplate = () => {
-    navigate('PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE', {
-      params: { eServiceTemplateId: eServiceTemplateId },
-    })
-  }
 
   const tooltipLabel = t('createNewEServiceInstanceDisabled')
     .split('\n')
@@ -45,13 +34,33 @@ export function useGetConsumerEServiceTemplateActions(
       </span>
     ))
 
+  // Only admin and operatorAPI can see actions
+  if (!isAdmin && !isOperatorAPI) return { actions: [] }
+
+  const handleCreateEServiceFromTemplate = () => {
+    navigate('PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE', {
+      params: { eServiceTemplateId: eServiceTemplateId },
+    })
+  }
+
+  const tooltipToShow = (() => {
+    if (isLoading) return
+
+    if (!isFirstInstanceFromTemplate) {
+      return tooltipLabel as unknown as string
+    }
+
+    if (!canBeInstantiated) {
+      return t('createInstanceDisabledTenantKind')
+    }
+  })()
+
   const newEServiceFromTemplateAction: ActionItemButton = {
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: !isLoading && !isFirstInstanceFromTemplate,
-    tooltip:
-      !isLoading && !isFirstInstanceFromTemplate ? (tooltipLabel as unknown as string) : undefined,
+    disabled: !isLoading && (!isFirstInstanceFromTemplate || !canBeInstantiated),
+    tooltip: tooltipToShow,
   }
 
   const publishedConsumerActions = [newEServiceFromTemplateAction]

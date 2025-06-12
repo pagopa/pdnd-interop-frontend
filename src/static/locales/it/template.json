@@ -157,7 +157,8 @@
   },
   "actions": {
     "createNewEServiceInstance": "Usa template",
-    "createNewEServiceInstanceDisabled": "Hai già creato una istanza da questo\ntemplate."
+    "createNewEServiceInstanceDisabled": "Hai già creato una istanza da questo\ntemplate.",
+    "createInstanceDisabledTenantKind": "Non è possibile usare il template in quanto l’erogatore non ha creato una finalità per il tuo tipo di ente"
   },
   "createInstance": {
     "title": "Crea e-service da template",

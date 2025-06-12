@@ -51,8 +51,6 @@ export const EServiceTemplateCreateStepPurpose: React.FC = () => {
 }
 
 export const EServiceTemplateCreateStepPurposeSkeleton: React.FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create.stepPurpose' })
-
   return (
     <>
       <SectionContainerSkeleton height={246} />

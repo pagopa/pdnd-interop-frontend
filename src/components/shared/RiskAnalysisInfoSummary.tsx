@@ -1,4 +1,3 @@
-import { EServiceQueries } from '@/api/eservice'
 import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { List, ListItem, ListItemText, Typography } from '@mui/material'
