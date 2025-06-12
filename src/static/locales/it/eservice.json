@@ -595,6 +595,23 @@
       "updateDescriptorAttributesDrawer": {
         "title": "Modifica attributi {{attributeKind}}",
         "subtitle": "I requisiti già inseriti non possono essere modificati"
+      },
+      "updateSignalHubDrawer": {
+        "title": "Modifica adesione a Signal Hub",
+        "description": {
+          "firstParagraph": {
+            "before": "Signal Hub è una",
+            "linkLabel": "soluzione integrata",
+            "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+          },
+          "secondParagraph": {
+            "before": "Attivando la funzionalità designi PagoPa S.p.A. responsabile del trattamento dei dati facendo proprio il",
+            "linkLabel": "documento di designazione di PagoPa S.p.A. come responsabile del trattamento dei dati personali ",
+            "after": "per \"Signal Hub\"."
+          }
+        },
+        "switchLabel": "Notificherò su Signal Hub le variazioni dei dati",
+        "alert": "Prima di procedere, assicurati che il documento di designazione sia visionato ed approvato da almeno un amministratore nel tuo ente."
       }
     }
   },

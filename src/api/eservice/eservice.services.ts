@@ -33,6 +33,7 @@ import type {
   RejectDelegatedEServiceDescriptorSeed,
   TemplateInstanceInterfaceRESTSeed,
   TemplateInstanceInterfaceSOAPSeed,
+  EServiceSignalHubUpdateSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { waitFor } from '@/utils/common.utils'
@@ -577,6 +578,17 @@ async function getIsEServiceNameAvailable({ eserviceName }: { eserviceName: stri
   return response.data
 }
 
+async function updateEServiceSignalHub({
+  eserviceId,
+  ...payload
+}: { eserviceId: string } & EServiceSignalHubUpdateSeed) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/signalhub/update`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getProviderList,
@@ -620,4 +632,5 @@ export const EServiceServices = {
   updateInstanceVersionDraft,
   deleteDraftAndUpgradeEService,
   getIsEServiceNameAvailable,
+  updateEServiceSignalHub,
 }

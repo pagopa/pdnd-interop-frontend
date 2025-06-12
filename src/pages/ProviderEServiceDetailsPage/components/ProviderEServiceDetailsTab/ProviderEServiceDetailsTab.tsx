@@ -16,12 +16,12 @@ import {
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
+import { AuthHooks } from '@/api/auth'
+import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 import {
   ProviderEServiceSignalHubSectionSkeleton,
   ProviderEServiceSignalHubSection,
 } from './ProviderEServiceSignalHubSection'
-import { AuthHooks } from '@/api/auth'
-import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export const ProviderEserviceDetailsTab: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
