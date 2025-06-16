@@ -248,6 +248,10 @@ export interface EServiceNameUpdateSeed {
   name: string
 }
 
+export interface EServiceSignalHubUpdateSeed {
+  isSignalHubEnabled: boolean
+}
+
 export interface RejectDelegatedEServiceDescriptorSeed {
   rejectionReason: string
 }
@@ -2127,9 +2131,16 @@ export interface GetEServiceTemplateInstancesParams {
 
 export interface GetProducersParams {
   q?: string
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   offset: number
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
   limit: number
 }
 
@@ -2884,9 +2895,16 @@ export namespace Producers {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 0
+       */
       offset: number
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
       limit: number
     }
     export type RequestBody = never
@@ -4600,6 +4618,27 @@ export namespace Eservices {
     }
     export type RequestQuery = {}
     export type RequestBody = EServiceNameUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eservices
+   * @name UpdateEServiceSignalHubFlag
+   * @summary Enable/disable SignalHub for an e-service
+   * @request POST:/eservices/{eServiceId}/signalhub/update
+   * @secure
+   */
+  export namespace UpdateEServiceSignalHubFlag {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceSignalHubUpdateSeed
     export type RequestHeaders = {}
     export type ResponseBody = void
   }

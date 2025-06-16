@@ -595,6 +595,23 @@
       "updateDescriptorAttributesDrawer": {
         "title": "Edit {{attributeKind}} attributes",
         "subtitle": "The requirements already entered cannot be modified"
+      },
+      "updateSignalHubDrawer": {
+        "title": "Edit subscription to Signal Hub ",
+        "description": {
+          "firstParagraph": {
+            "before": "Signal Hub is an",
+            "linkLabel": "integrated solution",
+            "after": "that informs consumers via push notification when the data of the e-service is changed."
+          },
+          "secondParagraph": {
+            "before": "By enabling the feature, you designate PagoPa S.p.A. as the data processor by adopting the",
+            "linkLabel": "document appointing PagoPa S.p.A. as the data processor for personal data ",
+            "after": "for \"Signal Hub\"."
+          }
+        },
+        "switchLabel": "I will report any data changes on Signal Hub.",
+        "alert": "Before proceeding, make sure that the designation document has been reviewed and approved by at least one administrator in your organization."
       }
     }
   },
