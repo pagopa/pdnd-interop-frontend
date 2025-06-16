@@ -6,6 +6,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionContainer } from '../layout/containers'
 import { Purpose } from '@/api/api.generatedTypes'
+import { EServiceQueries } from '@/api/eservice'
 
 type RiskAnalysisInfoSummaryProps = {
   riskAnalysisId?: string

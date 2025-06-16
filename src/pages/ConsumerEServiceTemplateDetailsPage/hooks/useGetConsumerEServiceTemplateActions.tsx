@@ -5,20 +5,13 @@ import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
-import { EServiceQueries } from '@/api/eservice'
-import { useQuery } from '@tanstack/react-query'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
-  eServiceTemplateName: string,
   canBeInstantiated: boolean,
   activeVersionState?: EServiceTemplateVersionState | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('template', { keyPrefix: 'actions' })
-
-  const { data: isFirstInstanceFromTemplate, isLoading } = useQuery({
-    ...EServiceQueries.getIsEServiceNameAvailable(eServiceTemplateName),
-  })
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
@@ -43,24 +36,22 @@ export function useGetConsumerEServiceTemplateActions(
     })
   }
 
-  const tooltipToShow = (() => {
-    if (isLoading) return
+  // const tooltipToShow = (() => {
+  //   if (!isFirstInstanceFromTemplate) {
+  //     return tooltipLabel as unknown as string
+  //   }
 
-    if (!isFirstInstanceFromTemplate) {
-      return tooltipLabel as unknown as string
-    }
-
-    if (!canBeInstantiated) {
-      return t('createInstanceDisabledTenantKind')
-    }
-  })()
+  //   if (!canBeInstantiated) {
+  //     return t('createInstanceDisabledTenantKind')
+  //   }
+  // })()
 
   const newEServiceFromTemplateAction: ActionItemButton = {
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: !isLoading && (!isFirstInstanceFromTemplate || !canBeInstantiated),
-    tooltip: tooltipToShow,
+    disabled: false, //!isLoading && (!isFirstInstanceFromTemplate || !canBeInstantiated),
+    //tooltip: tooltipToShow,
   }
 
   const publishedConsumerActions = [newEServiceFromTemplateAction]
