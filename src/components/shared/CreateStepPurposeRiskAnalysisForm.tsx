@@ -1,4 +1,4 @@
-import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
+import type { RiskAnalysisFormConfig, Tenant, TenantKind } from '@/api/api.generatedTypes'
 import React from 'react'
 import { FormProvider } from 'react-hook-form'
 import { Alert, Box, Stack } from '@mui/material'

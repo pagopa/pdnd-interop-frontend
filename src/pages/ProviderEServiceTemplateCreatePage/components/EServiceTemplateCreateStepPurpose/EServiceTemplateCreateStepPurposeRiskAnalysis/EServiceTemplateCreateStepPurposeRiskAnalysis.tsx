@@ -7,7 +7,6 @@ import {
   CreateStepPurposeRiskAnalysisForm,
   RiskAnalysisFormSkeleton,
 } from '@/components/shared/CreateStepPurposeRiskAnalysisForm'
-import type { TenantKind } from '@/api/api.generatedTypes'
 
 export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
   const { riskAnalysisFormState, closeRiskAnalysisForm, template, tenantKind } =
@@ -34,11 +33,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     closeRiskAnalysisForm()
   }
 
-  const handleSubmit = (
-    name: string,
-    answers: Record<string, string[]>
-    // tenantKind: TenantKind
-  ) => {
+  const handleSubmit = (name: string, answers: Record<string, string[]>) => {
     if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
       updateEServiceTemplateRiskAnalysis(
         {
@@ -61,7 +56,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     if (!riskAnalysisFormState.riskAnalysisId) {
       addEServiceTemplateRiskAnalysis(
         {
-          eServiceTemplateId: template.id,
+          eServiceTemplateId: template.eserviceTemplate.id,
           name: name,
           riskAnalysisForm: {
             version: riskAnalysisLatest.version,
