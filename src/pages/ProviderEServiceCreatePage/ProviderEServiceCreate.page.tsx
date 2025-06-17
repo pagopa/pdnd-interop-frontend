@@ -31,6 +31,7 @@ import {
 } from './components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
+import { EServiceCreateFromTemplateStepPurpose } from './components/EServiceCreateStepPurpose/EServiceCreateFromTemplateStepPurpose'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -61,6 +62,10 @@ const ProviderEServiceCreatePage: React.FC = () => {
     ? EServiceFromTemplateCreateStepDocuments
     : EServiceCreateStepDocuments
 
+  const CreateStepPurpose = isEserviceFromTemplate
+    ? EServiceCreateFromTemplateStepPurpose
+    : EServiceCreateStepPurpose
+
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
       ? [
@@ -71,7 +76,10 @@ const ProviderEServiceCreatePage: React.FC = () => {
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-          { label: t('create.stepper.step2ReceiveLabel'), component: EServiceCreateStepPurpose },
+          {
+            label: t('create.stepper.step2ReceiveLabel'),
+            component: CreateStepPurpose,
+          },
           { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
           { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
@@ -95,6 +103,10 @@ const ProviderEServiceCreatePage: React.FC = () => {
     ? EServiceCreateFromTemplateStepDocumentsSkeleton
     : EServiceCreateStepDocumentsSkeleton
 
+  const CreateStepPurposeSkeleton = isEserviceFromTemplate
+    ? EServiceCreateFromTemplateStepDocumentsSkeleton
+    : EServiceCreateStepPurposeSkeleton
+
   const stepsLoadingSkeletons =
     eserviceMode === 'DELIVER'
       ? [
@@ -105,7 +117,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
         ]
       : [
           <EServiceCreateStepGeneralSkeleton key={1} />,
-          <EServiceCreateStepPurposeSkeleton key={2} />,
+          <CreateStepPurposeSkeleton key={2} />,
           <EServiceCreateStepVersionSkeleton key={3} />,
           <EServiceCreateStepAttributesSkeleton key={4} />,
           <CreateStepDocumentsSkeleton key={5} />,

@@ -75,6 +75,8 @@
       "purposeTableSection": {
         "title": "Purpose",
         "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+        "descriptionEServiceFromTemplate": "You can view the risk analyses associated with this template.",
+        "labelAutocompleteEServiceFromTemplate": "Select use case",
         "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
         "purposeTable": {
           "noDataLabel": "No added purpose"
