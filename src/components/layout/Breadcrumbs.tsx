@@ -22,6 +22,16 @@ export function Breadcrumbs() {
           : routeLabels.PROVIDE_ESERVICE_MANAGE,
 
         /*
+         * The PROVIDE_ESERVICE_MANAGE breadcrumb segment must not be visible in the PROVIDE_ESERVICE_EDIT and PROVIDE_ESERVICE_SUMMARY routes
+         */
+        PROVIDE_ESERVICE_TEMPLATE_DETAILS: [
+          'PROVIDE_ESERVICE_TEMPLATE_SUMMARY',
+          'PROVIDE_ESERVICE_TEMPLATE_EDIT',
+        ].includes(routeKey)
+          ? false
+          : routeLabels.PROVIDE_ESERVICE_TEMPLATE_DETAILS,
+
+        /*
          * The SUBSCRIBE_AGREEMENT_READ breadcrumb segment must not be visible in the SUBSCRIBE_AGREEMENT_EDIT route
          */
         SUBSCRIBE_AGREEMENT_READ:
