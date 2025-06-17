@@ -38,7 +38,10 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
 
   const handleDeletePurpose = (riskAnalysisId: string) => {
     if (!template) return
-    deleteRiskAnalysis({ eServiceTemplateId: template.id, riskAnalysisId: riskAnalysisId })
+    deleteRiskAnalysis({
+      eServiceTemplateId: template.eserviceTemplate.id,
+      riskAnalysisId: riskAnalysisId,
+    })
   }
 
   return (

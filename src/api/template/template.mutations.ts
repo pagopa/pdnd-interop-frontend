@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
 import type {
   EServiceTemplateRiskAnalysisSeed,
-  // EServiceTemplateRiskAnalysisSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
