@@ -8,7 +8,8 @@ import FiberNewIcon from '@mui/icons-material/FiberNew'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
-  canBeInstantiated: boolean,
+  isAlreadyInstantiated: boolean,
+  hasRequesterRiskAnalysis: boolean,
   activeVersionState?: EServiceTemplateVersionState | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('template', { keyPrefix: 'actions' })
@@ -36,22 +37,22 @@ export function useGetConsumerEServiceTemplateActions(
     })
   }
 
-  // const tooltipToShow = (() => {
-  //   if (!isFirstInstanceFromTemplate) {
-  //     return tooltipLabel as unknown as string
-  //   }
+  const tooltipToShow = (() => {
+    if (isAlreadyInstantiated) {
+      return tooltipLabel as unknown as string
+    }
 
-  //   if (!canBeInstantiated) {
-  //     return t('createInstanceDisabledTenantKind')
-  //   }
-  // })()
+    if (!hasRequesterRiskAnalysis) {
+      return t('createInstanceDisabledTenantKind')
+    }
+  })()
 
   const newEServiceFromTemplateAction: ActionItemButton = {
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: false, //!isLoading && (!isFirstInstanceFromTemplate || !canBeInstantiated),
-    //tooltip: tooltipToShow,
+    disabled: isAlreadyInstantiated || !hasRequesterRiskAnalysis,
+    tooltip: tooltipToShow,
   }
 
   const publishedConsumerActions = [newEServiceFromTemplateAction]

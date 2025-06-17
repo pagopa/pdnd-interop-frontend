@@ -1176,7 +1176,6 @@ export interface Attribute {
   id: string
   /** identifies the unique code of this attribute on the origin registry */
   code?: string
-  /** Kind of the attribute. It's one of CERTIFIED, VERIFIED, DECLARED. */
   kind: AttributeKind
   description: string
   /** represents the origin of this attribute (e.g.: IPA, Normattiva, etc.) */
@@ -1667,7 +1666,8 @@ export interface EServiceTemplateVersionDetails {
   agreementApprovalPolicy?: AgreementApprovalPolicy
   attributes: DescriptorAttributes
   eserviceTemplate: EServiceTemplateDetails
-  canBeInstantiated: boolean
+  isAlreadyInstantiated: boolean
+  hasRequesterRiskAnalysis?: boolean
 }
 
 export interface EServiceTemplateVersionQuotasUpdateSeed {
@@ -2320,7 +2320,9 @@ export interface GetAttributesParams {
   q?: string
   /** Query to filter Attributes by origin */
   origin?: string
+  /** @format int32 */
   limit: number
+  /** @format int32 */
   offset: number
   /**
    * Array of kinds
@@ -4683,7 +4685,7 @@ export namespace Eservices {
     export type RequestQuery = {}
     export type RequestBody = DescriptorAttributesSeed
     export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type ResponseBody = void
   }
   /**
    * No description
@@ -4709,7 +4711,7 @@ export namespace Eservices {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type ResponseBody = void
   }
   /**
    * No description
@@ -4735,7 +4737,7 @@ export namespace Eservices {
     export type RequestQuery = {}
     export type RequestBody = RejectDelegatedEServiceDescriptorSeed
     export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type ResponseBody = void
   }
   /**
    * No description
@@ -5136,7 +5138,7 @@ export namespace Eservices {
     export type RequestQuery = {}
     export type RequestBody = DescriptorAttributesSeed
     export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type ResponseBody = void
   }
   /**
    * @description Retrieves Tenants that are producers of published e-service templates
@@ -6058,7 +6060,9 @@ export namespace Attributes {
       q?: string
       /** Query to filter Attributes by origin */
       origin?: string
+      /** @format int32 */
       limit: number
+      /** @format int32 */
       offset: number
       /**
        * Array of kinds
