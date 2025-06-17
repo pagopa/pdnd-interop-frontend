@@ -37,7 +37,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
       updateEServiceTemplateRiskAnalysis(
         {
-          eServiceTemplateId: template.id,
+          eServiceTemplateId: template.eserviceTemplate.id,
           riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
           name: name,
           riskAnalysisForm: {
