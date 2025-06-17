@@ -10,6 +10,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
+type RiskAnalysisValue = { label: string; value: string }
+
 export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { t: tCommon } = useTranslation('common')
@@ -25,12 +27,20 @@ export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
     value: riskAnalysis.id,
   }))
 
-  const [selectedRiskAnalysis, setSelectedRiskAnalysis] = useState({ label: '', value: '' })
+  const [selectedRiskAnalysis, setSelectedRiskAnalysis] = useState<RiskAnalysisValue>({
+    label: '',
+    value: '',
+  })
   const [showRiskAnalysis, setShowRiskAnalisys] = useState(false)
 
   const resetStates = () => {
     setShowRiskAnalisys(false)
     setSelectedRiskAnalysis({ label: '', value: '' })
+  }
+
+  const setStates = (value: RiskAnalysisValue) => {
+    setShowRiskAnalisys(false)
+    setSelectedRiskAnalysis(value)
   }
 
   return (
@@ -45,9 +55,7 @@ export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
             name="riskAnalysis"
             label={t('stepPurpose.purposeTableSection.labelAutocompleteEServiceFromTemplate')}
             options={autocompleteOptions}
-            onValueChange={(value) =>
-              value === null ? resetStates() : setSelectedRiskAnalysis(value)
-            }
+            onValueChange={(value) => (value === null ? resetStates() : setStates(value))}
             rules={{ required: true }}
           />
           <Button
