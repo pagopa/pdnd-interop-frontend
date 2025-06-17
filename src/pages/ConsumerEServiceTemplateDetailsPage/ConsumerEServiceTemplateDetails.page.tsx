@@ -16,11 +16,15 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  const canBeInstantiated = template?.canBeInstantiated ?? false
+  console.log(template?.hasRequesterRiskAnalysis)
+
+  const isAlreadyInstantiated = template?.isAlreadyInstantiated ?? false
+  const hasRequesterRiskAnalysis = template?.hasRequesterRiskAnalysis ?? true
 
   const { actions } = useGetConsumerEServiceTemplateActions(
     eServiceTemplateId,
-    canBeInstantiated,
+    isAlreadyInstantiated,
+    hasRequesterRiskAnalysis,
     template?.state
   )
   return (
