@@ -39,8 +39,8 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
           : undefined
       }
       backToAction={{
-        label: t('actions.backToEserviceTemplateListLabel'),
-        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
+        label: t('actions.backToEserviceTemplateCatalog'),
+        to: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
       }}
     >
       <ConsumerEServiceTemplateDetails />
