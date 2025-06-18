@@ -6,7 +6,8 @@
       "ariaLabel": "Due tab diverse: una per i dettagli del template dell'e-service e l'altra per gli enti aderenti"
     },
     "actions": {
-      "backToEserviceTemplateListLabel": "Torna ai template"
+      "backToEserviceTemplateListLabel": "Torna ai template",
+      "backToEserviceTemplateCatalog": "Torna al catalogo"
     },
     "sections": {
       "generalInformations": {
@@ -157,7 +158,8 @@
   },
   "actions": {
     "createNewEServiceInstance": "Usa template",
-    "createNewEServiceInstanceDisabled": "Hai già creato una istanza da questo\ntemplate."
+    "createNewEServiceInstanceDisabled": "Hai già creato una istanza da questo\ntemplate.",
+    "createInstanceDisabledTenantKind": "Non è possibile usare il template in quanto l’erogatore non ha creato una finalità per il tuo tipo di ente"
   },
   "createInstance": {
     "title": "Crea e-service da template",

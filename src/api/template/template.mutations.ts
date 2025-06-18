@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { TemplateServices } from './template.services'
 import type {
-  // EServiceTemplateRiskAnalysisSeed,
+  EServiceTemplateRiskAnalysisSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -164,7 +164,7 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
   })
 }
 
-function useAddTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
+function useAddEServiceTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eserviceTemplate.addEServiceTemplateRiskAnalysis',
   })
@@ -172,8 +172,8 @@ function useAddTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
     mutationFn: (
       payload: {
         eServiceTemplateId: string
-      } & unknown // TODO: This has to be removed when EServiceTemplateRiskAnalysisSeed will be available
-    ) => TemplateServices.addTemplateRiskAnalysis(payload),
+      } & EServiceTemplateRiskAnalysisSeed
+    ) => TemplateServices.addEServiceTemplateRiskAnalysis(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -182,7 +182,7 @@ function useAddTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
   })
 }
 
-function useUpdateTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
+function useUpdateEServiceTemplateRiskAnalysis(config = { suppressSuccessToast: false }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eserviceTemplate.updateEServiceTemplateRiskAnalysis',
   })
@@ -191,8 +191,8 @@ function useUpdateTemplateRiskAnalysis(config = { suppressSuccessToast: false })
       payload: {
         eServiceTemplateId: string
         riskAnalysisId: string
-      } & unknown // TODO: This has to be removed when EServiceTemplateRiskAnalysisSeed will be available
-    ) => TemplateServices.updateTemplateRiskAnalysis(payload),
+      } & EServiceTemplateRiskAnalysisSeed
+    ) => TemplateServices.updateEServiceTemplateRiskAnalysis(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -201,12 +201,12 @@ function useUpdateTemplateRiskAnalysis(config = { suppressSuccessToast: false })
   })
 }
 
-function useDeleteTemplateRiskAnalysis() {
+function useDeleteEServiceTemplateRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eserviceTemplate.deleteEServiceTemplateRiskAnalysis',
   })
   return useMutation({
-    mutationFn: TemplateServices.deleteTemplateRiskAnalysis,
+    mutationFn: TemplateServices.deleteEServiceTemplateRiskAnalysis,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -357,9 +357,9 @@ export const TemplateMutations = {
   useCreateNewVersionDraft,
   useUpdateDraft,
   useUpdateVersionDraft,
-  useAddTemplateRiskAnalysis,
-  useUpdateTemplateRiskAnalysis,
-  useDeleteTemplateRiskAnalysis,
+  useAddEServiceTemplateRiskAnalysis,
+  useUpdateEServiceTemplateRiskAnalysis,
+  useDeleteEServiceTemplateRiskAnalysis,
   useUpdateAttributes,
   usePublishVersionDraft,
   useDeleteVersionDraft,

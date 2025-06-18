@@ -27,6 +27,7 @@ import type {
   EServiceDoc,
   CompactOrganizations,
   UpdateEServiceTemplateInstanceSeed,
+  EServiceTemplateRiskAnalysisSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
@@ -218,35 +219,33 @@ async function updateVersionDraft({
   )
 }
 
-async function addTemplateRiskAnalysis({
+async function addEServiceTemplateRiskAnalysis({
   eServiceTemplateId,
   ...payload
 }: {
   eServiceTemplateId: string
-} & unknown) {
-  //TODO: This has to be removed when EServiceTemplateRiskAnalysisSeed will be available
+} & EServiceTemplateRiskAnalysisSeed) {
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis`,
     payload
   )
 }
 
-async function updateTemplateRiskAnalysis({
+async function updateEServiceTemplateRiskAnalysis({
   eServiceTemplateId,
   riskAnalysisId,
   ...payload
 }: {
   eServiceTemplateId: string
   riskAnalysisId: string
-} & unknown) {
-  //TODO: This has to be removed when EServiceTemplateRiskAnalysisSeed will be available
+} & EServiceTemplateRiskAnalysisSeed) {
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eServiceTemplateId}/riskAnalysis/${riskAnalysisId}`,
     payload
   )
 }
 
-async function deleteTemplateRiskAnalysis({
+async function deleteEServiceTemplateRiskAnalysis({
   eServiceTemplateId,
   riskAnalysisId,
 }: {
@@ -389,9 +388,9 @@ export const TemplateServices = {
   createNewVersionDraft,
   updateDraft,
   updateVersionDraft,
-  addTemplateRiskAnalysis,
-  updateTemplateRiskAnalysis,
-  deleteTemplateRiskAnalysis,
+  addEServiceTemplateRiskAnalysis,
+  updateEServiceTemplateRiskAnalysis,
+  deleteEServiceTemplateRiskAnalysis,
   updateAttributes,
   publishVersionDraft,
   deleteVersionDraft,

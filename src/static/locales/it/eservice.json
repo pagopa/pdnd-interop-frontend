@@ -75,6 +75,8 @@
       "purposeTableSection": {
         "title": "Finalità",
         "description": "Indica i casi d’uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un’analisi del rischio.",
+        "descriptionEServiceFromTemplate": "Puoi prendere visione delle analisi del rischio associate a questo template.",
+        "labelAutocompleteEServiceFromTemplate": "Seleziona caso d'uso",
         "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
         "purposeTable": {
           "noDataLabel": "Nessuna finalità aggiunta"

@@ -16,9 +16,13 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
     TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
+  const isAlreadyInstantiated = template?.isAlreadyInstantiated ?? false
+  const hasRequesterRiskAnalysis = template?.hasRequesterRiskAnalysis ?? true
+
   const { actions } = useGetConsumerEServiceTemplateActions(
     eServiceTemplateId,
-    template?.eserviceTemplate.name ?? '',
+    isAlreadyInstantiated,
+    hasRequesterRiskAnalysis,
     template?.state
   )
   return (
@@ -35,8 +39,8 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
           : undefined
       }
       backToAction={{
-        label: t('actions.backToEserviceTemplateListLabel'),
-        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
+        label: t('actions.backToEserviceTemplateCatalog'),
+        to: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
       }}
     >
       <ConsumerEServiceTemplateDetails />
