@@ -6,7 +6,8 @@
       "ariaLabel": "Due tab diverse: una per i dettagli del template dell'e-service e l'altra per gli enti aderenti"
     },
     "actions": {
-      "backToEserviceTemplateListLabel": "Torna ai template"
+      "backToEserviceTemplateListLabel": "Torna ai template",
+      "backToEserviceTemplateCatalog": "Torna al catalogo"
     },
     "sections": {
       "generalInformations": {

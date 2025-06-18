@@ -6,7 +6,8 @@
       "ariaLabel": "Two separate tabs: one for the template e-service details and another for using tenants."
     },
     "actions": {
-      "backToEserviceTemplateListLabel": "Back to the e-service templates"
+      "backToEserviceTemplateListLabel": "Back to the e-service templates",
+      "backToEserviceTemplateCatalog": "Back to catalog"
     },
     "sections": {
       "generalInformations": {

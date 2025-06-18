@@ -500,7 +500,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS',
-    path: 'fruizione/template/:eServiceTemplateId/:eServiceTemplateVersionId',
+    path: '/erogazione/catalogo-template/:eServiceTemplateId/:eServiceTemplateVersionId',
     element: <ConsumerEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
