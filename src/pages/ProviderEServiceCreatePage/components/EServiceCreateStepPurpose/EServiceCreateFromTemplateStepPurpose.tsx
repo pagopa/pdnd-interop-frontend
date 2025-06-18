@@ -1,5 +1,5 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Button, Stack } from '@mui/material'
+import { Box, Button, Stack } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -10,15 +10,15 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
-type RiskAnalysisValue = { label: string; value: string }
-
 export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { t: tCommon } = useTranslation('common')
 
   const { descriptor, forward, back } = useEServiceCreateContext()
 
-  const methods = useForm()
+  const methods = useForm<{ riskAnalysisId: string | null }>({
+    defaultValues: { riskAnalysisId: null },
+  })
 
   const riskAnalysisList = descriptor?.eservice.riskAnalysis ?? []
 
@@ -27,57 +27,52 @@ export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
     value: riskAnalysis.id,
   }))
 
-  const [selectedRiskAnalysis, setSelectedRiskAnalysis] = useState<RiskAnalysisValue>({
-    label: '',
-    value: '',
-  })
-  const [showRiskAnalysis, setShowRiskAnalisys] = useState(false)
+  const [selectedRiskAnalysisId, setSelectedRiskAnalysisId] = useState<string | null>(null)
 
-  const [riskAnalysisToShow, setRiskAnalysisToShow] = useState<RiskAnalysisValue | undefined>(
-    undefined
+  const selectedRiskAnalysis = descriptor?.eservice.riskAnalysis.find(
+    (r) => r.id === selectedRiskAnalysisId
   )
 
-  const resetStates = () => {
-    setShowRiskAnalisys(false)
-    setSelectedRiskAnalysis({ label: '', value: '' })
-  }
-
-  const handleClick = () => {
-    setShowRiskAnalisys(true)
-    setRiskAnalysisToShow(selectedRiskAnalysis)
-  }
+  const handleSubmit = methods.handleSubmit(({ riskAnalysisId }) => {
+    setSelectedRiskAnalysisId(riskAnalysisId)
+  })
 
   return (
-    <FormProvider {...methods}>
+    <Box>
       <SectionContainer
         title={t('stepPurpose.purposeTableSection.title')}
         description={t('stepPurpose.purposeTableSection.descriptionEServiceFromTemplate')}
       >
-        <Stack spacing={2} alignItems="flex-start">
-          <RHFAutocompleteSingle
-            sx={{ my: 0 }}
-            name="riskAnalysis"
-            label={t('stepPurpose.purposeTableSection.labelAutocompleteEServiceFromTemplate')}
-            options={autocompleteOptions}
-            onValueChange={(value) =>
-              value === null ? resetStates() : setSelectedRiskAnalysis(value)
-            }
-            rules={{ required: true }}
-          />
-          <Button
-            variant="contained"
-            disabled={selectedRiskAnalysis.value === ''}
-            onClick={handleClick}
+        <FormProvider {...methods}>
+          <Stack
+            spacing={2}
+            alignItems="flex-start"
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
           >
-            {tCommon('actions.inspect')}
-          </Button>
-        </Stack>
+            <RHFAutocompleteSingle
+              sx={{ my: 0 }}
+              name="riskAnalysisId"
+              label={t('stepPurpose.purposeTableSection.labelAutocompleteEServiceFromTemplate')}
+              options={autocompleteOptions}
+            />
+            <Button
+              variant="contained"
+              disabled={methods.watch('riskAnalysisId') === null}
+              type="submit"
+            >
+              {tCommon('actions.inspect')}
+            </Button>
+          </Stack>
+        </FormProvider>
       </SectionContainer>
-      {showRiskAnalysis && riskAnalysisToShow && (
-        <SectionContainer title={riskAnalysisToShow.label}>
+
+      {selectedRiskAnalysisId && (
+        <SectionContainer title={selectedRiskAnalysis?.name}>
           <EServiceRiskAnalysisInfoSummary
             eserviceId={descriptor?.eservice.id as string}
-            riskAnalysisId={riskAnalysisToShow.value}
+            riskAnalysisId={selectedRiskAnalysisId}
           />
         </SectionContainer>
       )}
@@ -95,7 +90,7 @@ export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
           endIcon: <ArrowForwardIcon />,
         }}
       />
-    </FormProvider>
+    </Box>
   )
 }
 
