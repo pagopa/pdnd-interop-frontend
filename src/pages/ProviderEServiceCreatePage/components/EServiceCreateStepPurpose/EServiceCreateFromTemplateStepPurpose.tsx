@@ -33,14 +33,18 @@ export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
   })
   const [showRiskAnalysis, setShowRiskAnalisys] = useState(false)
 
+  const [riskAnalysisToShow, setRiskAnalysisToShow] = useState<RiskAnalysisValue | undefined>(
+    undefined
+  )
+
   const resetStates = () => {
     setShowRiskAnalisys(false)
     setSelectedRiskAnalysis({ label: '', value: '' })
   }
 
-  const setStates = (value: RiskAnalysisValue) => {
-    setShowRiskAnalisys(false)
-    setSelectedRiskAnalysis(value)
+  const handleClick = () => {
+    setShowRiskAnalisys(true)
+    setRiskAnalysisToShow(selectedRiskAnalysis)
   }
 
   return (
@@ -55,23 +59,25 @@ export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
             name="riskAnalysis"
             label={t('stepPurpose.purposeTableSection.labelAutocompleteEServiceFromTemplate')}
             options={autocompleteOptions}
-            onValueChange={(value) => (value === null ? resetStates() : setStates(value))}
+            onValueChange={(value) =>
+              value === null ? resetStates() : setSelectedRiskAnalysis(value)
+            }
             rules={{ required: true }}
           />
           <Button
             variant="contained"
             disabled={selectedRiskAnalysis.value === ''}
-            onClick={() => setShowRiskAnalisys(true)}
+            onClick={handleClick}
           >
             {tCommon('actions.inspect')}
           </Button>
         </Stack>
       </SectionContainer>
-      {showRiskAnalysis && (
-        <SectionContainer title={selectedRiskAnalysis.label}>
+      {showRiskAnalysis && riskAnalysisToShow && (
+        <SectionContainer title={riskAnalysisToShow.label}>
           <EServiceRiskAnalysisInfoSummary
             eserviceId={descriptor?.eservice.id as string}
-            riskAnalysisId={selectedRiskAnalysis.value}
+            riskAnalysisId={riskAnalysisToShow.value}
           />
         </SectionContainer>
       )}
