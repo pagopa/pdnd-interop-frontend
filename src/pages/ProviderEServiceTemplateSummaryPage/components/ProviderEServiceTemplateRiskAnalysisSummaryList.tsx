@@ -4,7 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
-import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { EServiceTemplateRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 export const ProviderEServiceTemplateRiskAnalysisSummaryList: React.FC = () => {
   const { t } = useTranslation('template', { keyPrefix: 'summary.riskAnalysisSummaryList' })
@@ -27,10 +27,7 @@ export const ProviderEServiceTemplateRiskAnalysisSummaryList: React.FC = () => {
               riskAnalysisName: riskAnalysis.name,
             })}
           </Typography>
-          <RiskAnalysisInfoSummary
-            riskAnalysisId={riskAnalysis.id}
-            eServiceId={template.eserviceTemplate.id}
-          />
+          <EServiceTemplateRiskAnalysisInfoSummary eserviceTemplateRiskAnalysis={riskAnalysis} />
         </Stack>
       ))}
     </Stack>

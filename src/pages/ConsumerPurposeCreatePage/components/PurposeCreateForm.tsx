@@ -19,7 +19,7 @@ import { PurposeCreateProviderRiskAnalysisAutocomplete } from './PurposeCreatePr
 import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutocomplete'
-import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 export type PurposeCreateFormValues = {
   consumerId: string
@@ -180,8 +180,8 @@ export const PurposeCreateForm: React.FC = () => {
                 selectedEServiceId && (
                   <>
                     <Divider />
-                    <RiskAnalysisInfoSummary
-                      eServiceId={selectedEServiceId}
+                    <EServiceRiskAnalysisInfoSummary
+                      eserviceId={selectedEServiceId}
                       riskAnalysisId={selectedProviderRiskAnalysisId}
                     />
                   </>
