@@ -8,7 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 type RiskAnalysisValue = { label: string; value: string }
 
@@ -69,8 +69,8 @@ export const EServiceCreateFromTemplateStepPurpose: React.FC = () => {
       </SectionContainer>
       {showRiskAnalysis && (
         <SectionContainer title={selectedRiskAnalysis.label}>
-          <RiskAnalysisInfoSummary
-            eServiceId={descriptor?.eservice.id as string}
+          <EServiceRiskAnalysisInfoSummary
+            eserviceId={descriptor?.eservice.id as string}
             riskAnalysisId={selectedRiskAnalysis.value}
           />
         </SectionContainer>

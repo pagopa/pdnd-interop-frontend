@@ -5,50 +5,44 @@ import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionContainer } from '../layout/containers'
-import { Purpose } from '@/api/api.generatedTypes'
+import type {
+  EServiceTemplateRiskAnalysis,
+  Purpose,
+  RiskAnalysisForm,
+  RiskAnalysisFormConfig,
+} from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
 
 type RiskAnalysisInfoSummaryProps = {
-  riskAnalysisId?: string
-  eServiceId: string
-  purpose?: Purpose
+  riskAnalysisConfig: RiskAnalysisFormConfig
+  riskAnalysisForm: RiskAnalysisForm
 }
 
-export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
-  riskAnalysisId,
-  eServiceId,
-  purpose,
+type EServiceRiskAnalysisInfoSummaryProps = {
+  eserviceId: string
+  riskAnalysisId: string
+}
+
+type EServiceTemplateRiskAnalysisInfoSummaryProps = {
+  eserviceTemplateRiskAnalysis: EServiceTemplateRiskAnalysis
+}
+
+type PurposeRiskAnalysisInfoSummaryProps = {
+  purpose: Purpose
+}
+
+const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
+  riskAnalysisConfig,
+  riskAnalysisForm,
 }) => {
   type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
   const { t } = useTranslation('purpose', { keyPrefix: 'create.eserviceRiskAnalysisSection' })
   const currentLanguage = useCurrentLanguage()
 
-  const { data: riskAnalysis } = useQuery({
-    ...EServiceQueries.getEServiceRiskAnalysis(eServiceId!, riskAnalysisId!),
-    enabled: Boolean(eServiceId && riskAnalysisId),
-  })
-  const riskAnalysisTemplate = purpose
-    ? purpose.riskAnalysisForm?.answers
-    : riskAnalysis?.riskAnalysisForm.answers
-
-  const riskAnalysisVersion = purpose
-    ? purpose.riskAnalysisForm?.version
-    : riskAnalysis?.riskAnalysisForm.version
-
-  const { data: riskAnalysisConfig } = useQuery({
-    ...PurposeQueries.getRiskAnalysisVersion({
-      riskAnalysisVersion: riskAnalysisVersion as string,
-      eserviceId: eServiceId!,
-    }),
-    enabled: Boolean(riskAnalysisVersion && eServiceId),
-  })
-
   const questions: Array<QuestionItem> = React.useMemo(() => {
-    if (!riskAnalysisTemplate || !riskAnalysisConfig) return []
-
     // Answers in this form
-    const answerIds = Object.keys(riskAnalysisTemplate)
+    const answerIds = Object.keys(riskAnalysisForm.answers)
 
     // Corresponding questions
     const questionsWithAnswer = riskAnalysisConfig.questions.filter(({ id }) =>
@@ -62,7 +56,7 @@ export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = (
 
       // Get the value of the answer
       // The value can be of three types: plain text, multiple options, single option
-      const answerValue = riskAnalysisTemplate[id]
+      const answerValue = riskAnalysisForm.answers[id]
 
       // Plain text: this value comes from a text field
       if (visualType === 'text') {
@@ -77,12 +71,10 @@ export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = (
     })
 
     return answers
-  }, [riskAnalysisTemplate, riskAnalysisConfig, currentLanguage])
-
-  if (!riskAnalysisTemplate) return null
+  }, [riskAnalysisForm, riskAnalysisConfig, currentLanguage])
 
   return (
-    <SectionContainer innerSection title={riskAnalysisId && t('riskAnalysis.title')}>
+    <SectionContainer innerSection title={t('riskAnalysis.title')}>
       <List>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
           <ListItem key={i} sx={{ pl: 0 }}>
@@ -101,5 +93,76 @@ export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = (
         ))}
       </List>
     </SectionContainer>
+  )
+}
+
+export const EServiceRiskAnalysisInfoSummary: React.FC<EServiceRiskAnalysisInfoSummaryProps> = ({
+  eserviceId,
+  riskAnalysisId,
+}) => {
+  const { data: riskAnalysis } = useQuery(
+    EServiceQueries.getEServiceRiskAnalysis(eserviceId, riskAnalysisId)
+  )
+  const riskAnalysisForm = riskAnalysis?.riskAnalysisForm
+
+  const riskAnalysisVersion = riskAnalysis?.riskAnalysisForm.version
+
+  const { data: riskAnalysisConfig } = useQuery({
+    ...PurposeQueries.getRiskAnalysisVersion({
+      riskAnalysisVersion: riskAnalysisVersion as string,
+      eserviceId: eserviceId,
+    }),
+    enabled: Boolean(riskAnalysisVersion),
+  })
+
+  if (!riskAnalysisForm || !riskAnalysisConfig) return null
+
+  return (
+    <RiskAnalysisInfoSummary
+      riskAnalysisConfig={riskAnalysisConfig}
+      riskAnalysisForm={riskAnalysisForm}
+    />
+  )
+}
+
+export const EServiceTemplateRiskAnalysisInfoSummary: React.FC<
+  EServiceTemplateRiskAnalysisInfoSummaryProps
+> = ({ eserviceTemplateRiskAnalysis }) => {
+  const { data: riskAnalysisConfig } = useQuery(
+    PurposeQueries.getRiskAnalysisLatest({
+      tenantKind: eserviceTemplateRiskAnalysis.tenantKind,
+    })
+  )
+
+  if (!riskAnalysisConfig) return null
+  return (
+    <RiskAnalysisInfoSummary
+      riskAnalysisConfig={riskAnalysisConfig}
+      riskAnalysisForm={eserviceTemplateRiskAnalysis.riskAnalysisForm}
+    />
+  )
+}
+
+export const PurposeRiskAnalysisInfoSummary: React.FC<PurposeRiskAnalysisInfoSummaryProps> = ({
+  purpose,
+}) => {
+  const riskAnalysisForm = purpose.riskAnalysisForm
+
+  const riskAnalysisVersion = purpose.riskAnalysisForm?.version
+
+  const { data: riskAnalysisConfig } = useQuery({
+    ...PurposeQueries.getRiskAnalysisVersion({
+      riskAnalysisVersion: riskAnalysisVersion as string,
+      eserviceId: purpose.eservice.id,
+    }),
+    enabled: Boolean(riskAnalysisVersion),
+  })
+
+  if (!riskAnalysisConfig || !riskAnalysisForm) return null
+  return (
+    <RiskAnalysisInfoSummary
+      riskAnalysisConfig={riskAnalysisConfig}
+      riskAnalysisForm={riskAnalysisForm}
+    />
   )
 }

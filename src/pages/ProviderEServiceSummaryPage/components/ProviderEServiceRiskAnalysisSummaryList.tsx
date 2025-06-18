@@ -4,7 +4,7 @@ import { Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 export const ProviderEServiceRiskAnalysisSummaryList: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.riskAnalysisSummaryList' })
@@ -27,9 +27,9 @@ export const ProviderEServiceRiskAnalysisSummaryList: React.FC = () => {
               riskAnalysisName: riskAnalysis.name,
             })}
           </Typography>
-          <RiskAnalysisInfoSummary
+          <EServiceRiskAnalysisInfoSummary
             riskAnalysisId={riskAnalysis.id}
-            eServiceId={params.eserviceId}
+            eserviceId={params.eserviceId}
           />
         </Stack>
       ))}

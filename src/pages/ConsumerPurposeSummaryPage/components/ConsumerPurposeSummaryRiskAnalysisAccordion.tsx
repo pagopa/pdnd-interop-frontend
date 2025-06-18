@@ -1,5 +1,5 @@
 import { PurposeQueries } from '@/api/purpose'
-import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { PurposeRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 import { Alert, Stack } from '@mui/material'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
@@ -18,7 +18,7 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   return (
     <>
       <Stack spacing={3}>
-        <RiskAnalysisInfoSummary eServiceId={purpose.eservice.id} purpose={purpose} />
+        <PurposeRiskAnalysisInfoSummary purpose={purpose} />
         {purpose.eservice.mode === 'RECEIVE' && (
           <Alert variant="outlined" severity="info">
             {t('providerRiskAnalysisAlert')}
