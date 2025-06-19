@@ -48,10 +48,9 @@ function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
     ? t('riskAnalysis.formComponents.validation.maxLength', { num: maxLength })
     : undefined
 
-  const questionId = `answers.${question.id}`
   const commonProps = {
-    name: questionId,
-    id: questionId,
+    questionId: question.id,
+    id: question.id,
     label,
     infoLabel,
     helperText,

@@ -6,9 +6,10 @@ import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
+import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 
 export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'> & {
-  name: string
+  questionId: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -18,7 +19,7 @@ export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'>
 }
 
 export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
-  name,
+  questionId,
   label,
   options,
   infoLabel,
@@ -28,8 +29,11 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
   ...props
 }) => {
   const { t } = useTranslation()
-  const { formState } = useFormContext()
-  const error = formState.errors[name]?.message as string | undefined
+  const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
+
+  const name = `answers.${questionId}`
+
+  const error = formState.errors.answers?.[questionId]?.message as string | undefined
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
