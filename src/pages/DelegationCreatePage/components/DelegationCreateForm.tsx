@@ -56,7 +56,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
 
   const selectedEServiceId = formMethods.watch('eserviceId')
   const isEserviceToBeCreated = formMethods.watch('isEserviceToBeCreated')
-  const isEserviceFromTemplate = formMethods.getValues('isEserviceFromTemplate')
+  const isEserviceFromTemplate = formMethods.watch('isEserviceFromTemplate')
 
   const { data: agreements = [] } = useQuery({
     ...AgreementQueries.getConsumerAgreementsList({

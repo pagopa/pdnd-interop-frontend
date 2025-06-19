@@ -82,6 +82,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
               <FormControlLabel
                 control={
                   <Switch
+                    sx={{ marginRight: 1 }}
                     checked={checkedConsumerDelegations}
                     onChange={() => {
                       setCheckedConsumerDelegations((prev) => !prev)
@@ -101,6 +102,7 @@ export const DelegationAvailabilityDrawer: React.FC<DelegationAvailabilityDrawer
               <FormControlLabel
                 control={
                   <Switch
+                    sx={{ marginRight: 1 }}
                     checked={checkedProducerDelegations}
                     onChange={() => {
                       setCheckedProducerDelegations((prev) => !prev)
