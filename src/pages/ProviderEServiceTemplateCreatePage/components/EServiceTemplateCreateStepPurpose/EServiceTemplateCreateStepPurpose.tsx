@@ -11,7 +11,8 @@ import { EServiceTemplateCreateStepPurposeAddPurposesTable } from './EServiceTem
 export const EServiceTemplateCreateStepPurpose: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
 
-  const { template, forward, back, riskAnalysisFormState } = useEServiceTemplateCreateContext()
+  const { templateVersion, forward, back, riskAnalysisFormState } =
+    useEServiceTemplateCreateContext()
 
   return (
     <>
@@ -35,9 +36,9 @@ export const EServiceTemplateCreateStepPurpose: React.FC = () => {
               type: 'button',
               onClick: forward,
               endIcon: <ArrowForwardIcon />,
-              disabled: template?.eserviceTemplate.riskAnalysis.length === 0,
+              disabled: templateVersion?.eserviceTemplate.riskAnalysis.length === 0,
               tooltip:
-                template?.eserviceTemplate.riskAnalysis.length === 0
+                templateVersion?.eserviceTemplate.riskAnalysis.length === 0
                   ? t('stepPurpose.purposeTableSection.noSelectedPurposesTooltip')
                   : undefined,
             }}
