@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Tooltip, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
@@ -67,7 +67,10 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
       const isEServiceTemplateTheSame = compareObjects(formValues, template.eserviceTemplate)
 
       if (!isEServiceTemplateTheSame)
-        updateDraft({ eServiceTemplateId: template.id, ...formValues }, { onSuccess: forward })
+        updateDraft(
+          { eServiceTemplateId: template.eserviceTemplate.id, ...formValues },
+          { onSuccess: forward }
+        )
       else forward()
 
       return
