@@ -48,8 +48,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const { t } = useTranslation('party')
   const { jwt } = AuthHooks.useJwt()
 
-  //const [isEserviceFromTemplate, setIsEserviceFromTemplate] = useState(false)
-
   const { openDialog } = useDialog()
 
   const formMethods = useForm<DelegationCreateFormValues>({ defaultValues })
