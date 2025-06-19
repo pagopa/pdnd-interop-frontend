@@ -178,10 +178,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       ? t('delegations.create.providerDelegationTitle')
       : t('delegations.create.consumerDelegationTitle')
 
-  // const handleChange = (value: boolean) => {
-  //   setIsEserviceFromTemplate(value)
-  // }
-
   const [, setEserviceTemplateName] = useState('')
 
   const handleTemplateNameAutocompleteChange = (eserviceTemplateName: string) => {
@@ -204,7 +200,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             ) : (
               <DelegationCreateFormCreateEservice
                 delegationKind={delegationKind}
-                //onChange={handleChange}
                 handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
               />
             )}
