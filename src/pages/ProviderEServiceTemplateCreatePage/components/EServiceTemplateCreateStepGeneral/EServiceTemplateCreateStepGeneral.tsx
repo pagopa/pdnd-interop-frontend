@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Tooltip, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
@@ -39,7 +39,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   const {
-    template,
+    templateVersion,
     areEServiceTemplateGeneralInfoEditable,
     forward,
     eserviceTemplateMode,
@@ -50,30 +50,33 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { mutate: createDraft } = TemplateMutations.useCreateDraft()
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
-    name: template?.eserviceTemplate.name ?? '',
-    description: template?.eserviceTemplate.description ?? '',
-    intendedTarget: template?.eserviceTemplate.intendedTarget ?? '',
-    technology: template?.eserviceTemplate.technology ?? 'REST',
+    name: templateVersion?.eserviceTemplate.name ?? '',
+    description: templateVersion?.eserviceTemplate.description ?? '',
+    intendedTarget: templateVersion?.eserviceTemplate.intendedTarget ?? '',
+    technology: templateVersion?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
-    isSignalHubEnabled: template?.eserviceTemplate.isSignalHubEnabled ?? false,
+    isSignalHubEnabled: templateVersion?.eserviceTemplate.isSignalHubEnabled ?? false,
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
-    // If we are editing an existing e-service template, we update the draft
-    if (template) {
+    // If we are editing an existing e-service templateVersion, we update the draft
+    if (templateVersion) {
       // If nothing has changed skip the update call
-      const isEServiceTemplateTheSame = compareObjects(formValues, template.eserviceTemplate)
+      const isEServiceTemplateTheSame = compareObjects(formValues, templateVersion.eserviceTemplate)
 
       if (!isEServiceTemplateTheSame)
-        updateDraft({ eServiceTemplateId: template.id, ...formValues }, { onSuccess: forward })
+        updateDraft(
+          { eServiceTemplateId: templateVersion.eserviceTemplate.id, ...formValues },
+          { onSuccess: forward }
+        )
       else forward()
 
       return
     }
 
-    // If we are creating a new e-service template, we create a new draft
+    // If we are creating a new e-service templateVersion, we create a new draft
     createDraft(formValues, {
       onSuccess({ id, versionId }) {
         navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {

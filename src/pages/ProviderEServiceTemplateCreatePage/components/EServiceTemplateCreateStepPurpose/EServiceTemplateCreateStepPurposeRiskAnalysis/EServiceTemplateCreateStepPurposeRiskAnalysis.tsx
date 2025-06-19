@@ -9,7 +9,7 @@ import {
 } from '@/components/shared/CreateStepPurposeRiskAnalysisForm'
 
 export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
-  const { riskAnalysisFormState, closeRiskAnalysisForm, template, tenantKind } =
+  const { riskAnalysisFormState, closeRiskAnalysisForm, templateVersion, tenantKind } =
     useEServiceTemplateCreateContext()
 
   const { mutate: addEServiceTemplateRiskAnalysis } =
@@ -23,9 +23,9 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     })
   )
 
-  if (!riskAnalysisLatest || !template) return <RiskAnalysisFormSkeleton />
+  if (!riskAnalysisLatest || !templateVersion) return <RiskAnalysisFormSkeleton />
 
-  const riskAnalysisToEdit = template.eserviceTemplate.riskAnalysis.find(
+  const riskAnalysisToEdit = templateVersion.eserviceTemplate.riskAnalysis.find(
     (item) => item.id === riskAnalysisFormState.riskAnalysisId
   )
 
@@ -37,7 +37,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     if (riskAnalysisFormState.riskAnalysisId && riskAnalysisToEdit) {
       updateEServiceTemplateRiskAnalysis(
         {
-          eServiceTemplateId: template.eserviceTemplate.id,
+          eServiceTemplateId: templateVersion.eserviceTemplate.id,
           riskAnalysisId: riskAnalysisFormState.riskAnalysisId,
           name: name,
           riskAnalysisForm: {
@@ -56,7 +56,7 @@ export const EServiceTemplateCreateStepPurposeRiskAnalysis: React.FC = () => {
     if (!riskAnalysisFormState.riskAnalysisId) {
       addEServiceTemplateRiskAnalysis(
         {
-          eServiceTemplateId: template.eserviceTemplate.id,
+          eServiceTemplateId: templateVersion.eserviceTemplate.id,
           name: name,
           riskAnalysisForm: {
             version: riskAnalysisLatest.version,

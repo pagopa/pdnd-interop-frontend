@@ -15,7 +15,7 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
   const { t } = useTranslation('template')
   const navigate = useNavigate()
 
-  const { template: templateVersion, back } = useEServiceTemplateCreateContext()
+  const { templateVersion, back } = useEServiceTemplateCreateContext()
 
   const sectionDescription =
     templateVersion?.eserviceTemplate.technology === 'SOAP' ? (

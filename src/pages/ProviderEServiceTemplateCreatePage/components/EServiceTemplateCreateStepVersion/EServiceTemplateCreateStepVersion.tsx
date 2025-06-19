@@ -27,7 +27,7 @@ export type EServiceTemplateCreateStepVersionFormValues = {
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('template', { keyPrefix: 'create' })
 
-  const { template: templateVersion, forward, back } = useEServiceTemplateCreateContext()
+  const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,

@@ -8,7 +8,7 @@ import type {
 } from '@/api/api.generatedTypes'
 
 type EServiceTemplateCreateContextType = {
-  template: EServiceTemplateVersionDetails | undefined
+  templateVersion: EServiceTemplateVersionDetails | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -27,7 +27,7 @@ type EServiceTemplateCreateContextType = {
 }
 
 const initialState: EServiceTemplateCreateContextType = {
-  template: undefined,
+  templateVersion: undefined,
   eserviceTemplateMode: 'DELIVER',
   onEserviceTemplateModeChange: noop,
   back: noop,
@@ -49,7 +49,7 @@ const { useContext, Provider } = createContext<EServiceTemplateCreateContextType
 
 type EServiceTemplateCreateContextProviderProps = {
   children: React.ReactNode
-  template: EServiceTemplateVersionDetails | undefined
+  templateVersion: EServiceTemplateVersionDetails | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -58,7 +58,14 @@ type EServiceTemplateCreateContextProviderProps = {
 
 const EServiceTemplateCreateContextProvider: React.FC<
   EServiceTemplateCreateContextProviderProps
-> = ({ children, template, eserviceTemplateMode, onEserviceTemplateModeChange, back, forward }) => {
+> = ({
+  children,
+  templateVersion,
+  eserviceTemplateMode,
+  onEserviceTemplateModeChange,
+  back,
+  forward,
+}) => {
   const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<{
     isOpen: boolean
     riskAnalysisId: string | undefined
@@ -95,13 +102,13 @@ const EServiceTemplateCreateContextProvider: React.FC<
   const providerValue = React.useMemo(() => {
     const areEServiceTemplateGeneralInfoEditable = Boolean(
       // case 1: new e-service template
-      !template ||
+      !templateVersion ||
         // case 3: already existing service template and version, but version is 1 and still a draft
-        (template && template.version === 1 && template.state === 'DRAFT')
+        (templateVersion && templateVersion.version === 1 && templateVersion.state === 'DRAFT')
     )
 
     return {
-      template,
+      templateVersion,
       eserviceTemplateMode,
       onEserviceTemplateModeChange,
       areEServiceTemplateGeneralInfoEditable,
@@ -113,12 +120,13 @@ const EServiceTemplateCreateContextProvider: React.FC<
       tenantKind,
     }
   }, [
-    template,
+    templateVersion,
     eserviceTemplateMode,
     onEserviceTemplateModeChange,
     back,
     forward,
     riskAnalysisFormState,
+    tenantKind,
   ])
 
   return <Provider value={providerValue}>{children}</Provider>
