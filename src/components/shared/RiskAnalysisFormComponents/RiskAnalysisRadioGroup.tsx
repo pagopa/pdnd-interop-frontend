@@ -11,9 +11,10 @@ import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
+import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 
 export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
-  name: string
+  questionId: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -23,7 +24,7 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
-  name,
+  questionId,
   label,
   options,
   infoLabel,
@@ -32,11 +33,13 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   rules,
   ...props
 }) => {
-  const { formState } = useFormContext()
+  const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
   const labelId = useId()
 
-  const error = formState.errors[name]?.message as string | undefined
+  const name = `answers.${questionId}`
+
+  const error = formState.errors.answers?.[questionId]?.message as string | undefined
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,

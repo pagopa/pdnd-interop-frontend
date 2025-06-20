@@ -6,9 +6,10 @@ import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
+import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 
 export type RiskAnalysisCheckboxGroupProps = {
-  name: string
+  questionId: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -17,17 +18,19 @@ export type RiskAnalysisCheckboxGroupProps = {
 }
 
 export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps> = ({
-  name,
+  questionId,
   label,
   options,
   infoLabel,
   helperText,
   rules,
 }) => {
-  const { formState } = useFormContext()
+  const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
 
-  const error = formState.errors[name]?.message as string | undefined
+  const name = `answers.${questionId}`
+
+  const error = formState.errors.answers?.[questionId]?.message as string | undefined
 
   return (
     <RiskAnalysisInputWrapper

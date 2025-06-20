@@ -7,13 +7,14 @@ import { useTranslation } from 'react-i18next'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import type { InputOption } from '@/types/common.types'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
+import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 
 type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
   infoLabel?: string
   helperText?: string
   options: Array<InputOption>
-  name: string
+  questionId: string
   rules?: ControllerProps['rules']
 }
 
@@ -22,14 +23,16 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   infoLabel,
   helperText,
   options,
-  name,
+  questionId,
   rules,
   ...switchProps
 }) => {
-  const { formState } = useFormContext()
+  const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
 
-  const error = formState.errors[name]?.message as string | undefined
+  const name = `answers.${questionId}`
+
+  const error = formState.errors.answers?.[questionId]?.message as string | undefined
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
