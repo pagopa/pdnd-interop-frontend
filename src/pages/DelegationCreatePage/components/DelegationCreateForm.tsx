@@ -1,4 +1,4 @@
-import { Alert, Box, FormControlLabel, Stack, Switch } from '@mui/material'
+import { Alert, Box, Stack } from '@mui/material'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -16,13 +16,14 @@ import { AgreementQueries } from '@/api/agreement'
 import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
-import { EServiceQueries } from '@/api/eservice'
+import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 
 export type DelegationCreateFormValues = {
   eserviceId: string
   eserviceName: string
   eserviceDescription: string
   delegateId: string
+  isEserviceToBeCreated: boolean
   isEserviceFromTemplate?: boolean
 }
 
@@ -36,6 +37,8 @@ const defaultValues: DelegationCreateFormValues = {
   eserviceName: '',
   eserviceDescription: '',
   delegateId: '',
+  isEserviceToBeCreated: false,
+  isEserviceFromTemplate: false,
 }
 
 export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
@@ -45,14 +48,13 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const { t } = useTranslation('party')
   const { jwt } = AuthHooks.useJwt()
 
-  const [isEserviceToBeCreated, setIsEserviceToBeCreated] = useState(false)
-  const [isEserviceFromTemplate, setIsEserviceFromTemplate] = useState(false)
-
   const { openDialog } = useDialog()
 
   const formMethods = useForm<DelegationCreateFormValues>({ defaultValues })
 
   const selectedEServiceId = formMethods.watch('eserviceId')
+  const isEserviceToBeCreated = formMethods.watch('isEserviceToBeCreated')
+  const isEserviceFromTemplate = formMethods.watch('isEserviceFromTemplate')
 
   const { data: agreements = [] } = useQuery({
     ...AgreementQueries.getConsumerAgreementsList({
@@ -174,20 +176,11 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       ? t('delegations.create.providerDelegationTitle')
       : t('delegations.create.consumerDelegationTitle')
 
-  const handleChange = (value: boolean) => {
-    setIsEserviceFromTemplate(value)
-  }
-
-  const [eserviceTemplateName, setEserviceTemplateName] = useState('')
+  const [, setEserviceTemplateName] = useState('')
 
   const handleTemplateNameAutocompleteChange = (eserviceTemplateName: string) => {
     setEserviceTemplateName(eserviceTemplateName)
   }
-
-  const { data: isEserviceNameAvailable } = useQuery({
-    ...EServiceQueries.getIsEServiceNameAvailable(eserviceTemplateName),
-    enabled: !!eserviceTemplateName,
-  })
 
   return (
     <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -195,16 +188,9 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         <SectionContainer title={sectionTitle}>
           <Stack spacing={3}>
             {delegationKind === 'DELEGATED_PRODUCER' && (
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={isEserviceToBeCreated}
-                    onChange={() => setIsEserviceToBeCreated((prev) => !prev)}
-                  />
-                }
+              <RHFSwitch
+                name="isEserviceToBeCreated"
                 label={t('delegations.create.delegateField.provider.switch')}
-                labelPlacement="end"
-                componentsProps={{ typography: { variant: 'body2' } }}
               />
             )}
             {!isEserviceToBeCreated || delegationKind === 'DELEGATED_CONSUMER' ? (
@@ -212,7 +198,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             ) : (
               <DelegationCreateFormCreateEservice
                 delegationKind={delegationKind}
-                onChange={handleChange}
                 handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
               />
             )}
