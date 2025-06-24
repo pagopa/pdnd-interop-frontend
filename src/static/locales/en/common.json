@@ -14,6 +14,9 @@
     "number": {
       "min": "The value must be more or equal to {{min}}",
       "max": "The value must be less or equal to {{max}}"
+    },
+    "file": {
+      "maxNameLength": "The document must have a title less than or equal to {{max}} characters"
     }
   },
   "actions": {
