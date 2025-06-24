@@ -69,7 +69,12 @@ export const AttributeGroupContainer: React.FC<AttributeGroupContainerProps> = (
         title={title}
         action={
           onRemove && (
-            <IconButton aria-label={t('removeGroupAriaLabel')} size="small" onClick={onRemove}>
+            <IconButton
+              aria-label={t('removeGroupAriaLabel')}
+              size="small"
+              onClick={onRemove}
+              sx={{ backgroundColor: 'transparent' }}
+            >
               <ClearIcon sx={{ color: 'white' }} />
             </IconButton>
           )
