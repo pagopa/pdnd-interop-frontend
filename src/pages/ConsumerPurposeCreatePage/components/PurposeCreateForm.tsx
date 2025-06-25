@@ -48,13 +48,10 @@ export const PurposeCreateForm: React.FC = () => {
   })
 
   const selectedEService = formMethods.watch('eservice')
-  const selectedEServiceId = selectedEService?.id
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
-  const isEServiceSelected = !!selectedEService
 
   const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
-  const isProviderPurposeSelected = !!selectedProviderRiskAnalysisId
 
   const { data: purpose } = useQuery({
     ...PurposeQueries.getSingle(purposeId!),
@@ -79,14 +76,18 @@ export const PurposeCreateForm: React.FC = () => {
     }),
     enabled: Boolean(selectedEService),
     select: (eservices) =>
-      eservices.find((eservice) => eservice.id === selectedEServiceId)?.activeDescriptor?.id,
+      eservices.find((eservice) => eservice.id === selectedEService?.id)?.activeDescriptor?.id,
   })
 
-  const { data: mode } = useQuery({
-    ...EServiceQueries.getDescriptorCatalog(selectedEServiceId!, selectedEServiceDescriptorId!),
-    enabled: Boolean(selectedEServiceId && selectedEServiceDescriptorId),
-    select: (data) => data.eservice.mode,
+  const { data: selectedEServiceDescriptor } = useQuery({
+    ...EServiceQueries.getDescriptorCatalog(
+      selectedEService?.id as string,
+      selectedEServiceDescriptorId!
+    ),
+    enabled: Boolean(selectedEService?.id && selectedEServiceDescriptorId),
   })
+
+  const selectedEServiceMode = selectedEServiceDescriptor?.eservice.mode
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
@@ -114,7 +115,7 @@ export const PurposeCreateForm: React.FC = () => {
       riskAnalysisForm = purpose.riskAnalysisForm
     }
 
-    if (mode === 'RECEIVE') {
+    if (selectedEServiceMode === 'RECEIVE') {
       if (!providerRiskAnalysisId) return
 
       const payloadCreatePurposeDraft: PurposeEServiceSeed = {
@@ -136,7 +137,7 @@ export const PurposeCreateForm: React.FC = () => {
       })
     }
 
-    if (mode === 'DELIVER') {
+    if (selectedEServiceMode === 'DELIVER') {
       const payloadCreatePurposeDraft: PurposeSeed = {
         consumerId: consumerId,
         eserviceId: eservice.id,
@@ -168,32 +169,26 @@ export const PurposeCreateForm: React.FC = () => {
               }
             />
             <PurposeCreateEServiceAutocomplete />
-            {/* {isEServiceSelected && mode === 'DELIVER' && (
-            <>
-              <RHFSwitch name="useTemplate" label={t('create.isTemplateField.label')} />
-              <PurposeCreateTemplateAutocomplete />
-            </>
-          )} */}
           </Stack>
         </SectionContainer>
-        {isEServiceSelected && mode === 'RECEIVE' && (
+        {selectedEServiceDescriptor && selectedEServiceMode === 'RECEIVE' && (
           <SectionContainer
             title={t('create.eserviceRiskAnalysisSection.title')}
             description={t('create.eserviceRiskAnalysisSection.description')}
           >
             <Stack spacing={3}>
-              <PurposeCreateProviderRiskAnalysisAutocomplete />
-              {isProviderPurposeSelected &&
-                selectedProviderRiskAnalysisId &&
-                selectedEServiceId && (
-                  <>
-                    <Divider />
-                    <EServiceRiskAnalysisInfoSummary
-                      eserviceId={selectedEServiceId}
-                      riskAnalysisId={selectedProviderRiskAnalysisId}
-                    />
-                  </>
-                )}
+              <PurposeCreateProviderRiskAnalysisAutocomplete
+                eserviceRiskAnalysis={selectedEServiceDescriptor.eservice.riskAnalysis}
+              />
+              {selectedProviderRiskAnalysisId && (
+                <>
+                  <Divider />
+                  <EServiceRiskAnalysisInfoSummary
+                    eserviceId={selectedEServiceDescriptor.eservice.id}
+                    riskAnalysisId={selectedProviderRiskAnalysisId}
+                  />
+                </>
+              )}
             </Stack>
           </SectionContainer>
         )}
