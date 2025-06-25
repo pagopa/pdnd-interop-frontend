@@ -61,17 +61,25 @@ export const PurposeCreateForm: React.FC = () => {
     enabled: Boolean(purposeId),
   })
 
+  /**
+   * TODO:
+   * For now the e-service we have in the form state does not have the mode information (RECEIVE or DELIVER).
+   * We need to query the catalog to get the e-service descriptor ID and then query the catalog again
+   * to get the mode of the e-service.
+   * This is a workaround until we have the mode information in the e-service object.
+   *
+   * We need to wait for this backend PR to be merged:
+   * https://github.com/pagopa/interop-be-monorepo/pull/2061
+   */
   const { data: selectedEServiceDescriptorId } = useQuery({
-    ...EServiceQueries.getCatalogList({
+    ...EServiceQueries.getAllCatalogEServices({
       q: selectedEService?.name,
-      // e-service might also be on 'DEPRECATED' state
+      producersIds: [selectedEService?.producer.id as string],
       states: ['PUBLISHED'],
-      limit: 50,
-      offset: 0,
     }),
     enabled: Boolean(selectedEService),
-    select: (d) =>
-      d.results.find((eservice) => eservice.id === selectedEServiceId)?.activeDescriptor?.id,
+    select: (eservices) =>
+      eservices.find((eservice) => eservice.id === selectedEServiceId)?.activeDescriptor?.id,
   })
 
   const { data: mode } = useQuery({
