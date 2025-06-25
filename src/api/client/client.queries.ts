@@ -1,7 +1,8 @@
 import { queryOptions } from '@tanstack/react-query'
 import { ClientServices } from './client.services'
-import type { GetClientKeysParams, GetClientsParams } from '../api.generatedTypes'
+import type { GetClientKeysParams, GetClientsParams, PublicKeys } from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
+import { MAX_VALUE_FOR_LIMIT_PAGINATION } from '@/config/constants'
 
 function getList(params: GetClientsParams) {
   return queryOptions({
@@ -20,7 +21,30 @@ function getSingle(clientId: string) {
 function getKeyList(params: GetClientKeysParams) {
   return queryOptions({
     queryKey: ['ClientGetKeyList', params],
-    queryFn: () => ClientServices.getKeyList(params),
+    queryFn: async () => {
+      const keys = await ClientServices.getKeyList(params)
+
+      if (
+        params.limit == MAX_VALUE_FOR_LIMIT_PAGINATION &&
+        keys.pagination &&
+        keys.pagination?.totalCount > MAX_VALUE_FOR_LIMIT_PAGINATION
+      ) {
+        //User can't have more than 100 keys so we need to make 2 requests to get all the keys
+        const keysFirstChunk: PublicKeys = await ClientServices.getKeyList(params)
+        const keysSecondChunk: PublicKeys = await ClientServices.getKeyList({
+          ...params,
+          offset: params.offset + params.limit,
+          limit: MAX_VALUE_FOR_LIMIT_PAGINATION,
+        })
+
+        const keys: PublicKeys = {
+          keys: [...keysFirstChunk.keys, ...keysSecondChunk.keys],
+        }
+        return keys
+      }
+
+      return keys
+    },
     throwOnError: (error) => {
       // The error boundary is disabled for 404 errors because the `getKeyList` service
       // returns 404 if the client has no keys associated.
