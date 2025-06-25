@@ -72,16 +72,14 @@ export const PurposeCreateForm: React.FC = () => {
    * https://github.com/pagopa/interop-be-monorepo/pull/2061
    */
   const { data: selectedEServiceDescriptorId } = useQuery({
-    ...EServiceQueries.getCatalogList({
+    ...EServiceQueries.getAllCatalogEServices({
       q: selectedEService?.name,
       producersIds: [selectedEService?.producer.id as string],
       states: ['PUBLISHED'],
-      limit: 50,
-      offset: 0,
     }),
     enabled: Boolean(selectedEService),
-    select: (d) =>
-      d.results.find((eservice) => eservice.id === selectedEServiceId)?.activeDescriptor?.id,
+    select: (eservices) =>
+      eservices.find((eservice) => eservice.id === selectedEServiceId)?.activeDescriptor?.id,
   })
 
   const { data: mode } = useQuery({

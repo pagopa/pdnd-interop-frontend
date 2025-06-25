@@ -36,7 +36,7 @@ import type {
   EServiceSignalHubUpdateSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
-import { waitFor } from '@/utils/common.utils'
+import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -44,6 +44,10 @@ async function getCatalogList(params: GetEServicesCatalogParams) {
     { params }
   )
   return response.data
+}
+
+async function getAllCatalogEServices(params: Omit<GetEServicesCatalogParams, 'limit' | 'offset'>) {
+  return await getAllFromPaginated((offset, limit) => getCatalogList({ ...params, limit, offset }))
 }
 
 async function getProviderList(params: GetProducerEServicesParams) {
@@ -591,6 +595,7 @@ async function updateEServiceSignalHub({
 
 export const EServiceServices = {
   getCatalogList,
+  getAllCatalogEServices,
   getProviderList,
   getSingle,
   getDescriptorCatalog,

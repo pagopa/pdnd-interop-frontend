@@ -14,6 +14,13 @@ function getCatalogList(params: GetEServicesCatalogParams) {
   })
 }
 
+function getAllCatalogEServices(params: Omit<GetEServicesCatalogParams, 'offset' | 'limit'>) {
+  return queryOptions({
+    queryKey: ['EServiceGetAllCatalogList', params],
+    queryFn: () => EServiceServices.getAllCatalogEServices(params),
+  })
+}
+
 function getProviderList(params: GetProducerEServicesParams) {
   return queryOptions({
     queryKey: ['EServiceGetProviderList', params],
@@ -76,6 +83,7 @@ function getIsEServiceNameAvailable(eserviceName: string) {
 
 export const EServiceQueries = {
   getCatalogList,
+  getAllCatalogEServices,
   getProviderList,
   getDescriptorCatalog,
   getDescriptorProvider,
