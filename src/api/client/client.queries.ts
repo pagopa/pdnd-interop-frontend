@@ -2,7 +2,6 @@ import { queryOptions } from '@tanstack/react-query'
 import { ClientServices } from './client.services'
 import type { GetClientKeysParams, GetClientsParams, PublicKeys } from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
-import { MAX_VALUE_FOR_LIMIT_PAGINATION } from '@/config/constants'
 
 function getList(params: GetClientsParams) {
   return queryOptions({
