@@ -30,7 +30,7 @@ function getKeyList(params: GetClientKeysParams) {
   })
 }
 
-function getAllKeysList(params: GetClientKeysParams) {
+function getAllKeysList(params: Omit<GetClientKeysParams, 'limit' | 'offset'>) {
   return queryOptions({
     queryKey: ['ClientGetKeyList', params],
     queryFn: () => ClientServices.getAllKeysList(params),

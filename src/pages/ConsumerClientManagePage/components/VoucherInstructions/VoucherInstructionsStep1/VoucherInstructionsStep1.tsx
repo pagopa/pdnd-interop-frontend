@@ -28,9 +28,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { data: clientKeys } = useSuspenseQuery(
-    ClientQueries.getAllKeysList({ clientId, limit: 50, offset: 0 })
-  )
+  const { data: clientKeys } = useSuspenseQuery(ClientQueries.getAllKeysList({ clientId }))
   const { data: client } = useSuspenseQuery(ClientQueries.getSingle(clientId))
 
   const purposeSelectLabelId = React.useId()
