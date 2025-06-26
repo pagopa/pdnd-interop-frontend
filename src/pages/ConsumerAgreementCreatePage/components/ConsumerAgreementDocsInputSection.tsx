@@ -66,6 +66,8 @@ export const ConsumerAgreementDocsInputSection: React.FC<
 
   const docs = (agreement?.consumerDocuments as unknown as EServiceDoc[]) ?? []
 
+  const docMaxFilenameLength = 60
+
   return (
     <SectionContainer innerSection title={t('title')} description={t('description')}>
       <Stack spacing={2}>
@@ -97,7 +99,16 @@ export const ConsumerAgreementDocsInputSection: React.FC<
             </Button>
           ) : (
             <>
-              <RHFSingleFileInput name="doc" sx={{ my: 0 }} />
+              <RHFSingleFileInput
+                name="doc"
+                sx={{ my: 0 }}
+                rules={{
+                  validate: (value) =>
+                    !value ||
+                    value.name.length <= docMaxFilenameLength ||
+                    tCommon('validation.file.maxNameLength', { max: docMaxFilenameLength }),
+                }}
+              />
               {selectedDoc && (
                 <>
                   <RHFTextField
