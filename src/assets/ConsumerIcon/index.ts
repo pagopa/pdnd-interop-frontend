@@ -1,2 +1,1 @@
-
-export * from "./ConsumerIcon"
+export * from './ConsumerIcon'
