@@ -66,7 +66,7 @@ export const ConsumerAgreementDocsInputSection: React.FC<
 
   const docs = (agreement?.consumerDocuments as unknown as EServiceDoc[]) ?? []
 
-  const docMaxNameLength = 60
+  const docMaxFilenameLength = 60
 
   return (
     <SectionContainer innerSection title={t('title')} description={t('description')}>
@@ -105,8 +105,8 @@ export const ConsumerAgreementDocsInputSection: React.FC<
                 rules={{
                   validate: (value) =>
                     !value ||
-                    value.name.length <= docMaxNameLength ||
-                    tCommon('validation.file.maxNameLength', { max: docMaxNameLength }),
+                    value.name.length <= docMaxFilenameLength ||
+                    tCommon('validation.file.maxNameLength', { max: docMaxFilenameLength }),
                 }}
               />
               {selectedDoc && (
