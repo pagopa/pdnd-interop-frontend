@@ -15,6 +15,7 @@ import type { SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
 import { SideNavSkeleton } from '../layout/SideNav'
 import { AuthHooks } from '@/api/auth'
+import { t } from 'i18next'
 
 type SidebarProps = {
   routes: SidebarRoutes
@@ -34,7 +35,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
 
 export const _Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
   const theme = useTheme()
-  const { t } = useTranslation('shared-components', { keyPrefix: 'sidenav' })
+  const { t } = useTranslation('sidebar')
 
   const [collapsed, setCollapsed] = useState(false)
   const styles = sidebarStyles(theme, collapsed)
@@ -148,7 +149,7 @@ const SidebarMobile: React.FC<Omit<SidebarProps, 'mobile'>> = ({ routes }) => {
           </IconButton>
         </Tooltip>
         <Typography ml={1} mt={1} variant="h6" component="h6">
-          Menù
+          {t('sidebar:navigationMenu')}
         </Typography>
       </Box>
       <Divider orientation="horizontal" component="div" />
@@ -168,7 +169,7 @@ type HamburgerMenuBoxProps = {
 const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ collapsed, handleCollapsed }) => {
   const theme = useTheme()
   const styles = sidebarStyles(theme, collapsed)
-  const { t } = useTranslation('shared-components', { keyPrefix: 'sidenav' })
+  const { t } = useTranslation('sidebar')
   const tooltipTitle = t(!collapsed ? 'collapse' : 'expand')
 
   return (

@@ -28,5 +28,11 @@
       "delegations": "Gestione delle deleghe"
     },
     "developerTools": "Tool per lo sviluppo"
-  }
+  },
+  "menu": "Menù",
+  "userExternalLinkLabel": "Utenti",
+  "groupsExternalLinkLabel": "Gruppi",
+  "collapse": "Chiudi Menù",
+  "expand": "Apri Menù",
+  "navigationMenu": "Menù di navigazione"
 }
