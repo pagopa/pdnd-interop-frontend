@@ -1,0 +1,32 @@
+{
+  "menuItem": {
+    "eserviceCatalog": "E-service catalog",
+    "subscribe": {
+      "subscribe": "Subscription",
+      "agreement": "Submitted agreement requests",
+      "purpose": "Submitted purposes"
+    },
+    "provider": {
+      "provider": "Provider",
+      "providerEservice": "My e-services",
+      "providerAgreeemnt": "Received agreement requests",
+      "providerPurpose": "Received purposes",
+      "eServiceTemplatesCatalog": "E-service templates",
+      "providerEserviceTemplate": "My e-service templates",
+      "providerKeychainsList": "My provider keychains"
+    },
+    "client": {
+      "client": "Client management",
+      "eservice": "E-service API",
+      "interop": "Interop API",
+      "debugClientAssertion": "Debug client assertion"
+    },
+    "tenant": {
+      "tenant": "My organization",
+      "partyRegistry": "Registry and attributes",
+      "tenantCertifier": "Certifying organization",
+      "delegations": "Delegation management"
+    },
+    "developerTools": "Developer tools"
+  }
+}
