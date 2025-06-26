@@ -22,15 +22,14 @@ function getKeyList(params: GetClientKeysParams) {
   return queryOptions({
     queryKey: ['ClientGetKeyList', params],
     queryFn: async () => {
-      const keys = await ClientServices.getKeyList(params)
+      const keyFirstChunks = await ClientServices.getKeyList(params)
 
       if (
         params.limit == MAX_VALUE_FOR_LIMIT_PAGINATION &&
-        keys.pagination &&
-        keys.pagination?.totalCount > MAX_VALUE_FOR_LIMIT_PAGINATION
+        keyFirstChunks.pagination &&
+        keyFirstChunks.pagination?.totalCount > MAX_VALUE_FOR_LIMIT_PAGINATION
       ) {
         //User can't have more than 100 keys so we need to make 2 requests to get all the keys
-        const keysFirstChunk: PublicKeys = await ClientServices.getKeyList(params)
         const keysSecondChunk: PublicKeys = await ClientServices.getKeyList({
           ...params,
           offset: params.offset + params.limit,
@@ -38,12 +37,12 @@ function getKeyList(params: GetClientKeysParams) {
         })
 
         const keys: PublicKeys = {
-          keys: [...keysFirstChunk.keys, ...keysSecondChunk.keys],
+          keys: [...keyFirstChunks.keys, ...keysSecondChunk.keys],
         }
         return keys
       }
 
-      return keys
+      return keyFirstChunks
     },
     throwOnError: (error) => {
       // The error boundary is disabled for 404 errors because the `getKeyList` service
