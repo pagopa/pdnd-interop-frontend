@@ -27,7 +27,7 @@ const INTEROP_NAVIGATION_ROUTES: SidebarRoutes = [
     label: 'Fruizione',
     rootRouteKey: 'PROVIDE_AGREEMENT_LIST',
     children: [
-      { to: 'PROVIDE_AGREEMENT_LIST', label: 'Richieste inoltrate' },
+      { to: 'SUBSCRIBE_AGREEMENT_LIST', label: 'Richieste inoltrate' },
       { to: 'SUBSCRIBE_PURPOSE_LIST', label: 'Finalità inoltrate' },
     ],
     divider: false,
@@ -38,10 +38,12 @@ const INTEROP_NAVIGATION_ROUTES: SidebarRoutes = [
     rootRouteKey: 'PROVIDE_ESERVICE_LIST',
     hide: false,
     children: [
-      { to: 'PROVIDE_ESERVICE_LIST', label: 'I Miei E-service' },
-      { to: 'PROVIDE_ESERVICE_TEMPLATE_LIST', label: 'Template E-Service' },
-      { to: 'PROVIDE_AGREEMENT_LIST', label: 'Richieste di fruizione' },
+      { to: 'PROVIDE_ESERVICE_LIST', label: 'I miei e-service' },
+      { to: 'PROVIDE_AGREEMENT_LIST', label: 'Richieste ricevute' },
       { to: 'PROVIDE_PURPOSE_LIST', label: 'Finalità ricevute' },
+      { to: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG', label: 'Template e-service' },
+      { to: 'PROVIDE_ESERVICE_TEMPLATE_LIST', label: 'I miei template' },
+      { to: 'PROVIDE_KEYCHAINS_LIST', label: 'I miei portachiavi erogatore' },
     ],
   },
   {
@@ -50,9 +52,8 @@ const INTEROP_NAVIGATION_ROUTES: SidebarRoutes = [
     label: 'Gestione del client',
     hide: false,
     children: [
-      { to: 'PROVIDE_KEYCHAINS_LIST', label: 'Portachiavi' },
-      { to: 'SUBSCRIBE_CLIENT_LIST', label: 'API fruizione' },
-      { to: 'SUBSCRIBE_INTEROP_M2M', label: 'API Fruizione Interop' },
+      { to: 'SUBSCRIBE_CLIENT_LIST', label: 'API e-service' },
+      { to: 'SUBSCRIBE_INTEROP_M2M', label: 'API interoperabilità' },
       { to: 'SUBSCRIBE_DEBUG_VOUCHER', label: 'Debug client assertion' },
     ],
   },
@@ -62,6 +63,11 @@ const INTEROP_NAVIGATION_ROUTES: SidebarRoutes = [
     rootRouteKey: 'PARTY_REGISTRY',
     children: [
       { to: 'PARTY_REGISTRY', label: 'Anagrafica e attributi' },
+      {
+        to: 'TENANT_CERTIFIER',
+        hide: false,
+        label: 'Ente certificatore',
+      },
       {
         to: 'DELEGATIONS',
         hide: false,
