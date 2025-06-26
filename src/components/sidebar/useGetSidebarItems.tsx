@@ -1,10 +1,10 @@
-import { SidebarRoutes } from './sidebar.types'
+import type { SidebarRoutes } from './sidebar.types'
 
 import { AuthHooks } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
 import { isTenantCertifier } from '@/utils/tenant.utils'
 import React from 'react'
-import { RouteKey } from '@/router'
+import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 
 export function useGetSidebarItems(interopRoutes: SidebarRoutes): SidebarRoutes {

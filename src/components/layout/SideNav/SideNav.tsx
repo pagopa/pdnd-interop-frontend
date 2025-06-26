@@ -46,8 +46,6 @@ const _SideNav = () => {
 
   const sideNavItems = useGetSideNavItems()
 
-  console.log('sidenavItems', sideNavItems)
-
   const isActive = () => {
     const parentRoutes: Array<RouteKey> = [...getParentRoutes(routeKey), routeKey]
 

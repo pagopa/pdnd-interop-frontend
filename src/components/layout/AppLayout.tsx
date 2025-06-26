@@ -8,6 +8,8 @@ import DnsIcon from '@mui/icons-material/Dns'
 import PeopleIcon from '@mui/icons-material/People'
 import { CatalogIcon } from '@/assets/CatalogIcon'
 import { ConsumerIcon, ProviderIcon } from '@/assets'
+import { DeveloperToolIcon } from '@/assets/DeveloperToolIcon'
+import { MyTenantIcon } from '@/assets/MyTenantIcon'
 type AppLayoutProps = {
   children: React.ReactNode
   hideSideNav?: boolean
@@ -58,7 +60,7 @@ const INTEROP_NAVIGATION_ROUTES: SidebarRoutes = [
     ],
   },
   {
-    icon: PeopleIcon,
+    icon: MyTenantIcon,
     label: 'Il mio ente',
     rootRouteKey: 'PARTY_REGISTRY',
     children: [
@@ -74,6 +76,13 @@ const INTEROP_NAVIGATION_ROUTES: SidebarRoutes = [
         label: 'Gestione delle deleghe',
       },
     ],
+  },
+  {
+    icon: DeveloperToolIcon,
+    rootRouteKey: 'DEVELOPER_TOOLS',
+    label: 'Tool per lo sviluppo ',
+    hide: false,
+    children: [],
   },
 ]
 
