@@ -21,29 +21,19 @@ function getSingle(clientId: string) {
 function getKeyList(params: GetClientKeysParams) {
   return queryOptions({
     queryKey: ['ClientGetKeyList', params],
-    queryFn: async () => {
-      const keyFirstChunks = await ClientServices.getKeyList(params)
-
-      if (
-        params.limit == MAX_VALUE_FOR_LIMIT_PAGINATION &&
-        keyFirstChunks.pagination &&
-        keyFirstChunks.pagination?.totalCount > MAX_VALUE_FOR_LIMIT_PAGINATION
-      ) {
-        //User can't have more than 100 keys so we need to make 2 requests to get all the keys
-        const keysSecondChunk: PublicKeys = await ClientServices.getKeyList({
-          ...params,
-          offset: params.offset + params.limit,
-          limit: MAX_VALUE_FOR_LIMIT_PAGINATION,
-        })
-
-        const keys: PublicKeys = {
-          keys: [...keyFirstChunks.keys, ...keysSecondChunk.keys],
-        }
-        return keys
-      }
-
-      return keyFirstChunks
+    queryFn: () => ClientServices.getKeyList(params),
+    throwOnError: (error) => {
+      // The error boundary is disabled for 404 errors because the `getKeyList` service
+      // returns 404 if the client has no keys associated.
+      return !(error instanceof NotFoundError)
     },
+  })
+}
+
+function getAllKeysList(params: GetClientKeysParams) {
+  return queryOptions({
+    queryKey: ['ClientGetKeyList', params],
+    queryFn: () => ClientServices.getAllKeysList(params),
     throwOnError: (error) => {
       // The error boundary is disabled for 404 errors because the `getKeyList` service
       // returns 404 if the client has no keys associated.
@@ -80,4 +70,5 @@ export const ClientQueries = {
   getSingleKey,
   getOperatorsList,
   getOperatorKeys,
+  getAllKeysList,
 }
