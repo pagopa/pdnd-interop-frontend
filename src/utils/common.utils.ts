@@ -3,7 +3,6 @@ import type { OneTrustContent } from '@/types/common.types'
 import { getKeys } from '@/utils/array.utils'
 import isEqual from 'lodash/isEqual'
 import { STAGE } from '@/config/env'
-import { MAX_VALUE_FOR_LIMIT_PAGINATION } from '@/config/constants'
 
 /**
  * Check if the session has expired.
@@ -186,7 +185,7 @@ export async function getAllFromPaginated<A>(
   ) => Promise<{ results: A[]; pagination?: { totalCount: number } }>
 ): Promise<A[]> {
   const getAllFromOffset = async (offset: number): Promise<A[]> => {
-    const limit = MAX_VALUE_FOR_LIMIT_PAGINATION
+    const limit = 50 // This is the default limit for pagination on BFF
     const { results, pagination } = await getPaginatedCall(offset, limit)
 
     return pagination?.totalCount ?? results.length < limit
