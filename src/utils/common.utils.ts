@@ -182,7 +182,7 @@ export async function getAllFromPaginated<A>(
   getPaginatedCall: (offset: number, limit: number) => Promise<{ results: A[] }>
 ): Promise<A[]> {
   const getAllFromOffset = async (offset: number): Promise<A[]> => {
-    const limit = 50
+    const limit = 50 // This is the default limit for pagination on BFF
     const { results } = await getPaginatedCall(offset, limit)
 
     return results.length < limit ? results : results.concat(await getAllFromOffset(offset + limit))

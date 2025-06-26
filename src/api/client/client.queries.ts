@@ -1,6 +1,6 @@
 import { queryOptions } from '@tanstack/react-query'
 import { ClientServices } from './client.services'
-import type { GetClientKeysParams, GetClientsParams } from '../api.generatedTypes'
+import type { GetClientKeysParams, GetClientsParams, PublicKeys } from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
 
 function getList(params: GetClientsParams) {
@@ -21,6 +21,18 @@ function getKeyList(params: GetClientKeysParams) {
   return queryOptions({
     queryKey: ['ClientGetKeyList', params],
     queryFn: () => ClientServices.getKeyList(params),
+    throwOnError: (error) => {
+      // The error boundary is disabled for 404 errors because the `getKeyList` service
+      // returns 404 if the client has no keys associated.
+      return !(error instanceof NotFoundError)
+    },
+  })
+}
+
+function getAllKeysList(params: Omit<GetClientKeysParams, 'limit' | 'offset'>) {
+  return queryOptions({
+    queryKey: ['ClientGetKeyList', params],
+    queryFn: () => ClientServices.getAllKeysList(params),
     throwOnError: (error) => {
       // The error boundary is disabled for 404 errors because the `getKeyList` service
       // returns 404 if the client has no keys associated.
@@ -57,4 +69,5 @@ export const ClientQueries = {
   getSingleKey,
   getOperatorsList,
   getOperatorKeys,
+  getAllKeysList,
 }

@@ -15,6 +15,7 @@ import type {
   PublicKeys,
   SetAdminToClientPayload,
 } from '../api.generatedTypes'
+import { getAllFromPaginated } from '@/utils/common.utils'
 
 async function getList(params: GetClientsParams) {
   const response = await axiosInstance.get<CompactClients>(`${BACKEND_FOR_FRONTEND_URL}/clients`, {
@@ -28,6 +29,13 @@ async function getSingle(clientId: string) {
     `${BACKEND_FOR_FRONTEND_URL}/clients/${clientId}`
   )
   return response.data
+}
+
+async function getAllKeysList(params: Omit<GetClientKeysParams, 'limit' | 'offset'>) {
+  return await getAllFromPaginated(async (offset, limit) => {
+    const publicKeys = await getKeyList({ ...params, limit, offset })
+    return { results: publicKeys.keys, pagination: publicKeys.pagination! }
+  })
 }
 
 async function getKeyList({ clientId, ...params }: GetClientKeysParams) {
@@ -134,6 +142,7 @@ export const ClientServices = {
   getList,
   getSingle,
   getKeyList,
+  getAllKeysList,
   getSingleKey,
   getOperatorList,
   getOperatorKeys,

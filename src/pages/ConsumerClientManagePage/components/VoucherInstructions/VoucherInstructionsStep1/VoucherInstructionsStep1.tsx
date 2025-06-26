@@ -28,9 +28,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { data: clientKeys } = useSuspenseQuery(
-    ClientQueries.getKeyList({ clientId, limit: 1, offset: 0 })
-  )
+  const { data: clientKeys } = useSuspenseQuery(ClientQueries.getAllKeysList({ clientId }))
   const { data: client } = useSuspenseQuery(ClientQueries.getSingle(clientId))
 
   const purposeSelectLabelId = React.useId()
@@ -52,7 +50,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
     return <Alert severity="info">{t('noPurposesLabel')}</Alert>
   }
 
-  if (clientKeys.keys.length === 0) {
+  if (clientKeys.length === 0) {
     return <Alert severity="info">{t('noKeysLabel')}</Alert>
   }
 
@@ -108,7 +106,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
               label={t('step1.keySelectInput.label')}
               onChange={(e) => handleSelectedKeyIdChange(e.target.value)}
             >
-              {clientKeys.keys.map((key) => (
+              {clientKeys.map((key) => (
                 <MenuItem key={key.keyId} value={key.keyId}>
                   {key.name}
                 </MenuItem>
