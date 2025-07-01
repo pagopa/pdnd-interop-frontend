@@ -1,6 +1,7 @@
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
-import React, { Suspense } from 'react'
+import type { FC } from 'react'
+import React, { Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -12,31 +13,26 @@ import { EServiceTemplateCreateStepEditRiskAnalysis } from './EServiceTemplateCr
 import { EServiceTemplateCreateStepAddRiskAnalysis } from './EServiceTemplateCreateStepAddRiskAnalysis'
 import type { EServiceTemplateRiskAnalysis, TenantKind } from '@/api/api.generatedTypes'
 
-type RiskAnalysisFormState =
-  | {
-      type: null
-    }
-  | {
-      type: 'edit'
-      riskAnalysis: EServiceTemplateRiskAnalysis
-    }
-  | {
-      type: 'add'
-      selectedTenantKind: TenantKind
-    }
-
-export const EServiceTemplateCreateStepPurpose: React.FC = () => {
+export const EServiceTemplateCreateStepPurpose: FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
 
-  const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<RiskAnalysisFormState>({
-    type: null,
-  })
+  const [riskAnalysisFormState, setRiskAnalysisFormState] = useState<
+    | { type: null }
+    | {
+        type: 'edit'
+        riskAnalysis: EServiceTemplateRiskAnalysis
+      }
+    | {
+        type: 'add'
+        selectedTenantKind: TenantKind
+      }
+  >({ type: null })
 
   const handleOpenEditRiskAnalysisForm = (riskAnalysis: EServiceTemplateRiskAnalysis) => {
     setRiskAnalysisFormState({
       type: 'edit',
-      riskAnalysis: riskAnalysis,
+      riskAnalysis,
     })
   }
 
@@ -48,10 +44,11 @@ export const EServiceTemplateCreateStepPurpose: React.FC = () => {
   }
 
   const closeRiskAnalysisForm = () => {
-    setRiskAnalysisFormState({
-      type: null,
-    })
+    setRiskAnalysisFormState({ type: null })
   }
+
+  // Disable the forward button if there are no risk analyses inserted
+  const isForwardButtonDisabled = templateVersion?.eserviceTemplate.riskAnalysis.length === 0
 
   return (
     <>
@@ -97,11 +94,10 @@ export const EServiceTemplateCreateStepPurpose: React.FC = () => {
               type: 'button',
               onClick: forward,
               endIcon: <ArrowForwardIcon />,
-              disabled: templateVersion?.eserviceTemplate.riskAnalysis.length === 0,
-              tooltip:
-                templateVersion?.eserviceTemplate.riskAnalysis.length === 0
-                  ? t('stepPurpose.purposeTableSection.noSelectedPurposesTooltip')
-                  : undefined,
+              disabled: isForwardButtonDisabled,
+              tooltip: isForwardButtonDisabled
+                ? t('stepPurpose.purposeTableSection.noSelectedPurposesTooltip')
+                : undefined,
             }}
           />
         </>
