@@ -1,25 +1,8 @@
-import React, { useCallback } from 'react'
+import type { FC, ReactNode } from 'react'
+import { useMemo } from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
-import type {
-  EServiceMode,
-  EServiceTemplateRiskAnalysis,
-  EServiceTemplateVersionDetails,
-  TenantKind,
-} from '@/api/api.generatedTypes'
-
-type RiskAnalysisFormState =
-  | {
-      type: null
-    }
-  | {
-      type: 'edit'
-      riskAnalysis: EServiceTemplateRiskAnalysis
-    }
-  | {
-      type: 'add'
-      selectedTenantKind: TenantKind
-    }
+import type { EServiceMode, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 
 type EServiceTemplateCreateContextType = {
   templateVersion: EServiceTemplateVersionDetails | undefined
@@ -28,14 +11,6 @@ type EServiceTemplateCreateContextType = {
   back: VoidFunction
   forward: VoidFunction
   areEServiceTemplateGeneralInfoEditable: boolean
-  riskAnalysisFormState: RiskAnalysisFormState
-  openEditRiskAnalysisForm: ({
-    riskAnalysis,
-  }: {
-    riskAnalysis: EServiceTemplateRiskAnalysis
-  }) => void
-  openAddRiskAnalysisForm: ({ selectedTenantKind }: { selectedTenantKind: TenantKind }) => void
-  closeRiskAnalysisForm: VoidFunction
 }
 
 const initialState: EServiceTemplateCreateContextType = {
@@ -45,12 +20,6 @@ const initialState: EServiceTemplateCreateContextType = {
   back: noop,
   forward: noop,
   areEServiceTemplateGeneralInfoEditable: true,
-  riskAnalysisFormState: {
-    type: null,
-  },
-  openEditRiskAnalysisForm: noop,
-  openAddRiskAnalysisForm: noop,
-  closeRiskAnalysisForm: noop,
 }
 
 const { useContext, Provider } = createContext<EServiceTemplateCreateContextType>(
@@ -59,7 +28,7 @@ const { useContext, Provider } = createContext<EServiceTemplateCreateContextType
 )
 
 type EServiceTemplateCreateContextProviderProps = {
-  children: React.ReactNode
+  children: ReactNode
   templateVersion: EServiceTemplateVersionDetails | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
@@ -67,9 +36,7 @@ type EServiceTemplateCreateContextProviderProps = {
   forward: VoidFunction
 }
 
-const EServiceTemplateCreateContextProvider: React.FC<
-  EServiceTemplateCreateContextProviderProps
-> = ({
+const EServiceTemplateCreateContextProvider: FC<EServiceTemplateCreateContextProviderProps> = ({
   children,
   templateVersion,
   eserviceTemplateMode,
@@ -77,37 +44,7 @@ const EServiceTemplateCreateContextProvider: React.FC<
   back,
   forward,
 }) => {
-  const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<RiskAnalysisFormState>({
-    type: null,
-  })
-
-  const openEditRiskAnalysisForm = useCallback<
-    EServiceTemplateCreateContextType['openEditRiskAnalysisForm']
-  >(({ riskAnalysis }) => {
-    setRiskAnalysisFormState({
-      type: 'edit',
-      riskAnalysis: riskAnalysis,
-    })
-  }, [])
-
-  const openAddRiskAnalysisForm = useCallback<
-    EServiceTemplateCreateContextType['openAddRiskAnalysisForm']
-  >(({ selectedTenantKind }) => {
-    setRiskAnalysisFormState({
-      type: 'add',
-      selectedTenantKind,
-    })
-  }, [])
-
-  const closeRiskAnalysisForm = useCallback<
-    EServiceTemplateCreateContextType['closeRiskAnalysisForm']
-  >(() => {
-    setRiskAnalysisFormState({
-      type: null,
-    })
-  }, [])
-
-  const providerValue = React.useMemo(() => {
+  const providerValue = useMemo(() => {
     const areEServiceTemplateGeneralInfoEditable = Boolean(
       // case 1: new e-service template
       !templateVersion ||
@@ -122,22 +59,8 @@ const EServiceTemplateCreateContextProvider: React.FC<
       areEServiceTemplateGeneralInfoEditable,
       back,
       forward,
-      riskAnalysisFormState,
-      openEditRiskAnalysisForm,
-      openAddRiskAnalysisForm,
-      closeRiskAnalysisForm,
     }
-  }, [
-    templateVersion,
-    eserviceTemplateMode,
-    onEserviceTemplateModeChange,
-    openEditRiskAnalysisForm,
-    openAddRiskAnalysisForm,
-    closeRiskAnalysisForm,
-    back,
-    forward,
-    riskAnalysisFormState,
-  ])
+  }, [templateVersion, eserviceTemplateMode, onEserviceTemplateModeChange, back, forward])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

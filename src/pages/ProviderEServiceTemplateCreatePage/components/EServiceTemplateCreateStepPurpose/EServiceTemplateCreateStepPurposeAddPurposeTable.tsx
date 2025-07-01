@@ -6,20 +6,19 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateMutations } from '@/api/template'
 import { useDialog } from '@/stores'
-import type { EServiceTemplateRiskAnalysis } from '@/api/api.generatedTypes'
+import type { EServiceTemplateRiskAnalysis, TenantKind } from '@/api/api.generatedTypes'
 
-export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () => {
+export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
+  onOpenAddRiskAnalysisForm: (selectedTenantKind: TenantKind) => void
+  onOpenEditRiskAnalysisForm: (riskAnalysis: EServiceTemplateRiskAnalysis) => void
+}> = ({ onOpenAddRiskAnalysisForm, onOpenEditRiskAnalysisForm }) => {
   const { t } = useTranslation('template', {
     keyPrefix: 'create.stepPurpose.purposeTableSection.purposeTable',
   })
   const { t: tCommon } = useTranslation('common')
 
-  const {
-    templateVersion,
-    openAddRiskAnalysisForm,
-    openEditRiskAnalysisForm,
-    areEServiceTemplateGeneralInfoEditable,
-  } = useEServiceTemplateCreateContext()
+  const { templateVersion, areEServiceTemplateGeneralInfoEditable } =
+    useEServiceTemplateCreateContext()
 
   const { mutate: deleteRiskAnalysis } = TemplateMutations.useDeleteEServiceTemplateRiskAnalysis()
 
@@ -28,14 +27,8 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
   const handleAddNewPurpose = () => {
     openDialog({
       type: 'tenantKind',
-      onConfirm: (selectedTenantKind) => {
-        openAddRiskAnalysisForm({ selectedTenantKind })
-      },
+      onConfirm: onOpenAddRiskAnalysisForm,
     })
-  }
-
-  const handleEditPurpose = (riskAnalysis: EServiceTemplateRiskAnalysis) => {
-    openEditRiskAnalysisForm({ riskAnalysis })
   }
 
   const handleDeletePurpose = (riskAnalysisId: string) => {
@@ -63,7 +56,7 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
             ]}
           >
             <Button
-              onClick={() => handleEditPurpose(riskAnalysis)}
+              onClick={() => onOpenEditRiskAnalysisForm(riskAnalysis)}
               disabled={!areEServiceTemplateGeneralInfoEditable}
               variant="naked"
               sx={{ mr: 3 }}
