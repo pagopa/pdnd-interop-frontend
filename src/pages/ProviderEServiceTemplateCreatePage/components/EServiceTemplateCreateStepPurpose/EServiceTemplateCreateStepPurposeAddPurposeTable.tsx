@@ -6,7 +6,7 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { TemplateMutations } from '@/api/template'
 import { useDialog } from '@/stores'
-import type { TenantKind } from '@/api/api.generatedTypes'
+import type { EServiceTemplateRiskAnalysis } from '@/api/api.generatedTypes'
 
 export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () => {
   const { t } = useTranslation('template', {
@@ -14,26 +14,28 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
   })
   const { t: tCommon } = useTranslation('common')
 
-  const { templateVersion, openRiskAnalysisForm, areEServiceTemplateGeneralInfoEditable } =
-    useEServiceTemplateCreateContext()
+  const {
+    templateVersion,
+    openAddRiskAnalysisForm,
+    openEditRiskAnalysisForm,
+    areEServiceTemplateGeneralInfoEditable,
+  } = useEServiceTemplateCreateContext()
 
   const { mutate: deleteRiskAnalysis } = TemplateMutations.useDeleteEServiceTemplateRiskAnalysis()
 
   const { openDialog } = useDialog()
 
-  const handleDialogConfirm = (tenantKindSelected: string) => {
-    openRiskAnalysisForm({ tenantKindSelected: tenantKindSelected as TenantKind })
-  }
-
   const handleAddNewPurpose = () => {
     openDialog({
       type: 'tenantKind',
-      onConfirm: handleDialogConfirm,
+      onConfirm: (selectedTenantKind) => {
+        openAddRiskAnalysisForm({ selectedTenantKind })
+      },
     })
   }
 
-  const handleEditPurpose = (riskAnalysisId: string) => {
-    openRiskAnalysisForm({ riskAnalysisId })
+  const handleEditPurpose = (riskAnalysis: EServiceTemplateRiskAnalysis) => {
+    openEditRiskAnalysisForm({ riskAnalysis })
   }
 
   const handleDeletePurpose = (riskAnalysisId: string) => {
@@ -61,7 +63,7 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
             ]}
           >
             <Button
-              onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
+              onClick={() => handleEditPurpose(riskAnalysis)}
               disabled={!areEServiceTemplateGeneralInfoEditable}
               variant="naked"
               sx={{ mr: 3 }}
@@ -69,7 +71,7 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
               {tCommon('actions.edit')}
             </Button>
             <Button
-              onClick={handleDeletePurpose.bind(null, riskAnalysis.id)}
+              onClick={() => handleDeletePurpose(riskAnalysis.id)}
               disabled={!areEServiceTemplateGeneralInfoEditable}
               variant="naked"
               color="error"

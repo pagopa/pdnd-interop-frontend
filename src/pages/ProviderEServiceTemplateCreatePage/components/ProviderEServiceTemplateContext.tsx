@@ -1,11 +1,25 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
 import type {
   EServiceMode,
+  EServiceTemplateRiskAnalysis,
   EServiceTemplateVersionDetails,
   TenantKind,
 } from '@/api/api.generatedTypes'
+
+type RiskAnalysisFormState =
+  | {
+      type: null
+    }
+  | {
+      type: 'edit'
+      riskAnalysis: EServiceTemplateRiskAnalysis
+    }
+  | {
+      type: 'add'
+      selectedTenantKind: TenantKind
+    }
 
 type EServiceTemplateCreateContextType = {
   templateVersion: EServiceTemplateVersionDetails | undefined
@@ -14,15 +28,13 @@ type EServiceTemplateCreateContextType = {
   back: VoidFunction
   forward: VoidFunction
   areEServiceTemplateGeneralInfoEditable: boolean
-  riskAnalysisFormState: {
-    isOpen: boolean
-    riskAnalysisId: string | undefined
-  }
-  tenantKind: TenantKind
-  openRiskAnalysisForm: (value: {
-    riskAnalysisId?: string
-    tenantKindSelected?: TenantKind
+  riskAnalysisFormState: RiskAnalysisFormState
+  openEditRiskAnalysisForm: ({
+    riskAnalysis,
+  }: {
+    riskAnalysis: EServiceTemplateRiskAnalysis
   }) => void
+  openAddRiskAnalysisForm: ({ selectedTenantKind }: { selectedTenantKind: TenantKind }) => void
   closeRiskAnalysisForm: VoidFunction
 }
 
@@ -34,11 +46,10 @@ const initialState: EServiceTemplateCreateContextType = {
   forward: noop,
   areEServiceTemplateGeneralInfoEditable: true,
   riskAnalysisFormState: {
-    isOpen: false,
-    riskAnalysisId: undefined,
+    type: null,
   },
-  tenantKind: 'PA',
-  openRiskAnalysisForm: noop,
+  openEditRiskAnalysisForm: noop,
+  openAddRiskAnalysisForm: noop,
   closeRiskAnalysisForm: noop,
 }
 
@@ -66,38 +77,35 @@ const EServiceTemplateCreateContextProvider: React.FC<
   back,
   forward,
 }) => {
-  const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<{
-    isOpen: boolean
-    riskAnalysisId: string | undefined
-  }>({
-    isOpen: false,
-    riskAnalysisId: undefined,
+  const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<RiskAnalysisFormState>({
+    type: null,
   })
 
-  const [tenantKind, setTenantKind] = React.useState<TenantKind>('PA')
-
-  const openRiskAnalysisForm = ({
-    riskAnalysisId,
-    tenantKindSelected,
-  }: {
-    riskAnalysisId?: string
-    tenantKindSelected?: TenantKind
-  }) => {
-    if (tenantKindSelected) {
-      setTenantKind(tenantKindSelected)
-    }
+  const openEditRiskAnalysisForm = useCallback<
+    EServiceTemplateCreateContextType['openEditRiskAnalysisForm']
+  >(({ riskAnalysis }) => {
     setRiskAnalysisFormState({
-      isOpen: true,
-      riskAnalysisId: riskAnalysisId,
+      type: 'edit',
+      riskAnalysis: riskAnalysis,
     })
-  }
+  }, [])
 
-  const closeRiskAnalysisForm = () => {
+  const openAddRiskAnalysisForm = useCallback<
+    EServiceTemplateCreateContextType['openAddRiskAnalysisForm']
+  >(({ selectedTenantKind }) => {
     setRiskAnalysisFormState({
-      isOpen: false,
-      riskAnalysisId: undefined,
+      type: 'add',
+      selectedTenantKind,
     })
-  }
+  }, [])
+
+  const closeRiskAnalysisForm = useCallback<
+    EServiceTemplateCreateContextType['closeRiskAnalysisForm']
+  >(() => {
+    setRiskAnalysisFormState({
+      type: null,
+    })
+  }, [])
 
   const providerValue = React.useMemo(() => {
     const areEServiceTemplateGeneralInfoEditable = Boolean(
@@ -115,18 +123,20 @@ const EServiceTemplateCreateContextProvider: React.FC<
       back,
       forward,
       riskAnalysisFormState,
-      openRiskAnalysisForm,
+      openEditRiskAnalysisForm,
+      openAddRiskAnalysisForm,
       closeRiskAnalysisForm,
-      tenantKind,
     }
   }, [
     templateVersion,
     eserviceTemplateMode,
     onEserviceTemplateModeChange,
+    openEditRiskAnalysisForm,
+    openAddRiskAnalysisForm,
+    closeRiskAnalysisForm,
     back,
     forward,
     riskAnalysisFormState,
-    tenantKind,
   ])
 
   return <Provider value={providerValue}>{children}</Provider>
