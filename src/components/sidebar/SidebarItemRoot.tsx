@@ -108,7 +108,6 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
             <SidebarRootIcon
               tooltipLabel={routeLabel}
               Icon={StartIcon}
-              collapsed={collapsed}
               notification={notification}
             />
             {!collapsed && (

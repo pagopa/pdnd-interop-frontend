@@ -13,6 +13,9 @@ export const BadgeNotification: React.FC<BadgeNotificationProps> = ({ badgeConte
             alignItems: 'center',
             paddingRight: 0.5,
           },
+          '& .MuiBadge-badge': {
+            boxShadow: 'none !important',
+          },
         }}
         variant="sidenav"
         color="primary"
