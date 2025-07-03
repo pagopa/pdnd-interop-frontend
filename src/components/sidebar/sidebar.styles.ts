@@ -2,7 +2,7 @@ import { alpha, type SxProps, type Theme } from '@mui/material'
 
 export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, SxProps> => ({
   container: {
-    top: '8rem',
+    top: '0rem',
     background: theme.palette.background.paper,
     zIndex: collapsed ? 1 : 10,
     display: 'block',
@@ -11,7 +11,8 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
     width: collapsed ? 'fit-content' : '300px',
     overscrollBehavior: 'auto',
     overflowY: 'auto',
-    scrollbarWidth: 'thin',
+    // scrollbarWidth: '0.2px',
+    // scrollbarColor: `${theme.palette.primary.main} transparent`,
   },
   itemButtonActive: {
     '&.active': {
