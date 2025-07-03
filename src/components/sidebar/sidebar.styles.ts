@@ -11,7 +11,7 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
     width: collapsed ? 'fit-content' : '300px',
     overscrollBehavior: 'auto',
     overflowY: 'auto',
-    // scrollbarWidth: '0.2px',
+    scrollbarWidth: 'thin',
     // scrollbarColor: `${theme.palette.primary.main} transparent`,
   },
   itemButtonActive: {
