@@ -5,7 +5,7 @@ import type { TokenGenerationValidationEntry } from '@/api/api.generatedTypes'
 export function useGetDebugVoucherResultChipProps(
   step?: TokenGenerationValidationEntry
 ): ChipProps | undefined {
-  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
+  const { t } = useTranslation('voucher', { keyPrefix: 'debugVoucherTool.result' })
 
   if (!step) {
     return

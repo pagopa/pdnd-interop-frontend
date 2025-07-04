@@ -6,7 +6,7 @@ import { useGetDebugVoucherResultChipProps } from '../hooks/useGetDebugVoucherRe
 import { Drawer } from '@/components/shared/Drawer'
 
 const DebugVoucherStepDrawer: React.FC = () => {
-  const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
+  const { t } = useTranslation('voucher', { keyPrefix: 'debugVoucherTool.result' })
   const { debugVoucherStepDrawer, response, goToNextStep, setDebugVoucherStepDrawer } =
     useDebugVoucherContext()
 

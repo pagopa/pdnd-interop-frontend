@@ -16,7 +16,7 @@ type ResultStepProps = {
 
 export const DebugVoucherResultsStep: React.FC<ResultStepProps> = ({ step, stepKey }) => {
   const { t } = useTranslation('voucher', {
-    keyPrefix: 'consumerDebugVoucher.result.stepSection.step',
+    keyPrefix: 'debugVoucherTool.result.stepSection.step',
   })
 
   const chipProps = useGetDebugVoucherResultChipProps(step)
