@@ -1,3 +1,4 @@
+import { CLEAR_CORRELATION_ID_TIMEOUT } from '@/config/constants'
 import { create } from 'zustand'
 
 type CorrelationIdStoreType = {
@@ -11,7 +12,6 @@ export const useCorrelationIdStore = create<CorrelationIdStoreType>((set, get) =
   correlationId: null,
   timeoutId: null,
   setCorrelationId: (correlationId: string) => {
-    console.log('correlationId setting', Date.now(), correlationId)
     const currentTimeoutId = get().timeoutId
     if (currentTimeoutId) {
       clearTimeout(currentTimeoutId)
@@ -22,7 +22,7 @@ export const useCorrelationIdStore = create<CorrelationIdStoreType>((set, get) =
     const newTimeoutId = setTimeout(() => {
       get().clearCorrelationId()
       console.log('correlationId expired', Date.now(), correlationId)
-    }, 10000)
+    }, CLEAR_CORRELATION_ID_TIMEOUT)
 
     set({ timeoutId: newTimeoutId })
   },
