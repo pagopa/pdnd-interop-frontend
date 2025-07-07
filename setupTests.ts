@@ -28,6 +28,13 @@ export const testConfigs = {
     '69e2865e-65ab-4e48-a638-2037a9ee2ee7,e79a24cd-8edc-441e-ae8d-e87c3aea0059',
   SIGNALHUB_WHITELIST_PRODUCER: '69e2865e-65ab-4e48-a638-2037a9ee2ee7',
   PUBLIC_URL: '/ui',
+  FEATURE_FLAG_ADMIN_CLIENT: 'true',
+  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',
+  API_GATEWAY_V1_INTERFACE_URL:
+    'https://selfcare.dev.interop.pagopa.it/m2m/v1-interface-specification.yaml',
+  API_GATEWAY_V2_INTERFACE_URL:
+    'https://selfcare.dev.interop.pagopa.it/m2m/v2-interface-specification.yaml',
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
 }
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
