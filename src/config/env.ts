@@ -16,9 +16,14 @@ const GeneralConfigs = z.object({
   SELFCARE_LOGIN_URL: z.string().url(),
   API_SIGNAL_HUB_PUSH_INTERFACE_URL: z.string().url(),
   API_SIGNAL_HUB_PULL_INTERFACE_URL: z.string().url(),
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL: z.string().url(),
+  API_GATEWAY_V1_INTERFACE_URL: z.string().url(),
+  API_GATEWAY_V2_INTERFACE_URL: z.string().url(),
 })
 
 const FeatureFlagConfigs = z.object({
+  FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
+  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
   FEATURE_FLAG_SIGNALHUB_WHITELIST: z.enum(['true', 'false']),
   SIGNALHUB_WHITELIST_PRODUCER: z.string(),
   SIGNALHUB_WHITELIST_CONSUMER: z.string(),
@@ -94,6 +99,11 @@ export const {
   SIGNALHUB_WHITELIST_CONSUMER,
   SIGNALHUB_WHITELIST_PRODUCER,
   NODE_ENV,
+  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE,
+  FEATURE_FLAG_ADMIN_CLIENT,
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
+  API_GATEWAY_V1_INTERFACE_URL,
+  API_GATEWAY_V2_INTERFACE_URL,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()

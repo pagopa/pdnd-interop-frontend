@@ -1,6 +1,5 @@
-import type { PagoPAEnvVars } from '@/types/common.types'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
-import { InteropFEConfigs } from './env'
+import type { InteropFEConfigs } from './env'
 
 export const DEFAULT_LANG = 'it'
 export const STORAGE_KEY_SESSION_TOKEN = 'token'

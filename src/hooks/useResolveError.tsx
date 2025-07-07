@@ -11,7 +11,7 @@ import {
   UnauthorizedError,
 } from '@/utils/errors.utils'
 import type { FallbackProps } from 'react-error-boundary'
-import { isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
+import { APP_MODE, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
 import { Stack } from '@mui/system'
@@ -102,7 +102,9 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   if (error instanceof Error) {
     content = (
       <>
-        {isDevelopment && <CodeBlock code={error?.stack || error.message || error?.name} />}
+        {APP_MODE === 'development' && (
+          <CodeBlock code={error?.stack || error.message || error?.name} />
+        )}
         {reloadPageButton}
       </>
     )
@@ -119,7 +121,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     description = t('axiosError.description')
     content = (
       <>
-        {isDevelopment && <CodeBlock code={error.response ?? error} />}
+        {APP_MODE === 'development' && <CodeBlock code={error.response ?? error} />}
         {retryQueryButton}
         {correlationId && correlationIdSection}
       </>
