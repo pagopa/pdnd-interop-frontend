@@ -1,5 +1,15 @@
 import React from 'react'
-import { Box, Divider, List, useTheme, Tooltip, IconButton, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Divider,
+  List,
+  useTheme,
+  Tooltip,
+  IconButton,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
 import { sidebarStyles } from './sidebar.styles'
 import { SidebarItemRoot } from './SidebarItemRoot'
 import { useState } from 'react'
@@ -13,12 +23,10 @@ import { SidebarLink } from './SidebarLink'
 import { useTranslation } from 'react-i18next'
 import type { SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
-import { SideNavSkeleton } from '../layout/SideNav'
-import { AuthHooks } from '@/api/auth'
 import { t } from 'i18next'
+import { useGetSidebarItems } from './useGetSidebarItems'
 
 type SidebarProps = {
-  routes: SidebarRoutes
   mobile: boolean
 }
 
@@ -27,15 +35,11 @@ type SidebarListProps = {
   collapsed: boolean
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
-  const { jwt } = AuthHooks.useJwt()
-  if (!jwt) return <SideNavSkeleton />
-  return <_Sidebar routes={routes} mobile={mobile} />
-}
-
-export const _Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
-  const theme = useTheme()
+export const Sidebar: React.FC<SidebarProps> = () => {
   const { t } = useTranslation('sidebar')
+  const theme = useTheme()
+  const interopRoutes = useGetSidebarItems()
+  const matchMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const [collapsed, setCollapsed] = useState(false)
   const styles = sidebarStyles(theme, collapsed)
@@ -46,7 +50,7 @@ export const _Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
 
   return (
     <>
-      {!mobile ? (
+      {!matchMobile ? (
         <Box sx={styles.container} component="aside">
           <Stack
             component="nav"
@@ -54,22 +58,23 @@ export const _Sidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
             aria-label={t('navigationMenu')}
             aria-expanded={!collapsed}
           >
-            <SidebarList routes={routes} collapsed={collapsed} />
+            <SidebarList routes={interopRoutes} collapsed={collapsed} />
             <HamburgerBox collapsed={collapsed} handleCollapsed={handleCollapsed} />
           </Stack>
         </Box>
       ) : (
-        <SidebarMobile routes={routes} />
+        <SidebarMobile routes={interopRoutes} />
       )}
     </>
   )
 }
 
-const SidebarList: React.FC<SidebarListProps> = ({ routes, collapsed }) => {
+const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
+  const interopRoutes = useGetSidebarItems()
   const pathname = useCurrentRoute().routeKey
 
   const [selectedRootItem, setSelectedRootItem] = useState<RouteKey | undefined>(
-    () => routes.find((route) => pathname.startsWith(route.rootRouteKey))?.rootRouteKey
+    () => interopRoutes.find((route) => pathname.startsWith(route.rootRouteKey))?.rootRouteKey
   )
 
   const handleSelectedRootItem = (routeKey: RouteKey) => {
@@ -127,7 +132,7 @@ const SidebarList: React.FC<SidebarListProps> = ({ routes, collapsed }) => {
   )
 }
 
-const SidebarMobile: React.FC<Omit<SidebarProps, 'mobile'>> = ({ routes }) => {
+const SidebarMobile: React.FC<{ routes: SidebarRoutes }> = ({ routes }) => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false)
 
   const handleOpenSidebar = () => {
