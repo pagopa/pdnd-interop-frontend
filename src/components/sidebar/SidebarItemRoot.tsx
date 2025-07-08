@@ -22,16 +22,21 @@ import { SidebarItem } from './SidebarItem'
 import { Link } from 'react-router-dom'
 import { sidebarStyles } from './sidebar.styles'
 
-type SidebartItemRootProps = {
+type SidebarItemRootBaseProps = {
   notification?: Notification
-  label?: string
+  label: string
   isItemSelected: boolean
   subpath: RouteKey
   StartIcon: SvgIconComponent
   handleSelectedRootItem: (routeKey: RouteKey) => void
-  childRoutes?: SidebarChildRoutes
   divider?: boolean
   collapsed: boolean
+}
+
+type SidebarItemRootSimpleProps = SidebarItemRootBaseProps & { to: string }
+
+type SidebarItemRootWithChildrenProps = SidebarItemRootBaseProps & {
+  childRoutes: SidebarChildRoutes
 }
 
 export function useGetRouteLabel(to: RouteKey): string {
@@ -39,7 +44,54 @@ export function useGetRouteLabel(to: RouteKey): string {
   return t(to)
 }
 
-export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
+export const SidebarItemRootSimple: React.FC<SidebarItemRootSimpleProps> = ({
+  StartIcon,
+  subpath,
+  isItemSelected,
+  handleSelectedRootItem,
+  divider,
+  collapsed,
+  label,
+  notification,
+  to,
+}) => {
+  const theme = useTheme()
+  const styles = sidebarStyles(theme, collapsed)
+
+  return (
+    <>
+      <ListItem disablePadding>
+        <ListItemButton
+          component={Link}
+          selected={isItemSelected}
+          to={to}
+          onClick={() => handleSelectedRootItem(subpath)}
+          sx={styles.itemButtonActive}
+        >
+          <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
+            <SidebarRootIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
+            {!collapsed && (
+              <ListItemText
+                disableTypography
+                primary={
+                  <Typography fontWeight={600} color="inherit">
+                    {label}
+                  </Typography>
+                }
+              />
+            )}
+            {!collapsed && notification && (
+              <BadgeNotification badgeContent={notification.content} />
+            )}
+          </Stack>
+        </ListItemButton>
+      </ListItem>
+      {divider && <Divider sx={{ mb: 2 }} />}
+    </>
+  )
+}
+
+export const SidebarItemRootWithChildren: React.FC<SidebarItemRootWithChildrenProps> = ({
   childRoutes,
   StartIcon,
   subpath,
@@ -54,8 +106,6 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
   const generatePath = useGeneratePath()
 
   const styles = sidebarStyles(theme, collapsed)
-
-  const hasChildRoutes = childRoutes && childRoutes.length > 0
 
   const renderChildRoutesItems = () => {
     return childRoutes
@@ -77,18 +127,18 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const routeLabel = label ? label : useGetRouteLabel(subpath)
   const subPathLink = generatePath(subpath)
 
+  console.log('subpath', subpath, 'subPathLink', subPathLink)
   const getComponentType = () => {
-    if (hasChildRoutes && !collapsed) {
+    if (!collapsed) {
       return 'button'
     }
     return Link
   }
 
   const getNavigationLink = () => {
-    if (hasChildRoutes && !collapsed) {
+    if (!collapsed) {
       return undefined
     }
     return subPathLink
@@ -99,43 +149,39 @@ export const SidebarItemRoot: React.FC<SidebartItemRootProps> = ({
       <ListItem disablePadding>
         <ListItemButton
           component={getComponentType()}
-          selected={hasChildRoutes ? collapsed && isItemSelected : isItemSelected}
+          selected={collapsed && isItemSelected}
           to={getNavigationLink()}
           onClick={() => handleSelectedRootItem(subpath)}
-          sx={collapsed || !hasChildRoutes ? styles.itemButtonActive : {}}
+          sx={collapsed ? styles.itemButtonActive : {}}
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
-            <SidebarRootIcon
-              tooltipLabel={routeLabel}
-              Icon={StartIcon}
-              notification={notification}
-            />
+            <SidebarRootIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
             {!collapsed && (
               <ListItemText
                 disableTypography
                 primary={
                   <Typography fontWeight={600} color="inherit">
-                    {routeLabel}
+                    {label}
                   </Typography>
                 }
               />
             )}
-            {hasChildRoutes &&
-              !collapsed &&
-              (isItemSelected ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
-
-            {!hasChildRoutes && !collapsed && notification && (
-              <BadgeNotification badgeContent={notification.content} />
-            )}
+            {!collapsed && (isItemSelected ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
           </Stack>
         </ListItemButton>
       </ListItem>
       {divider && <Divider sx={{ mb: 2 }} />}
-      {hasChildRoutes && !collapsed && (
+      {!collapsed && (
         <Collapse in={isItemSelected} timeout="auto" unmountOnExit>
           <List disablePadding>{renderChildRoutesItems()}</List>
         </Collapse>
       )}
     </>
   )
+}
+
+export type {
+  SidebarItemRootBaseProps,
+  SidebarItemRootSimpleProps,
+  SidebarItemRootWithChildrenProps,
 }
