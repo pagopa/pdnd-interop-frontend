@@ -1,11 +1,9 @@
 import type { SvgIconComponent } from '@mui/icons-material'
 import { type RouteKey } from '@/router'
 
-
-
 export type SidebarRoutes = Array<{
   icon: SvgIconComponent
-  label?: string
+  label: string
   rootRouteKey: RouteKey
   hide?: boolean
   children?: SidebarChildRoutes

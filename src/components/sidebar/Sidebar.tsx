@@ -11,9 +11,13 @@ import {
   useMediaQuery,
 } from '@mui/material'
 import { sidebarStyles } from './sidebar.styles'
-import { SidebarItemRoot } from './SidebarItemRoot'
+import {
+  SidebarItemRootSimple,
+  SidebarItemRootWithChildren,
+  useGetRouteLabel,
+} from './SidebarItemRoot'
 import { useState } from 'react'
-import { type RouteKey, useCurrentRoute } from '@/router'
+import { type RouteKey, useCurrentRoute, useGeneratePath } from '@/router'
 import MenuIcon from '@mui/icons-material/Menu'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
@@ -71,6 +75,8 @@ export const Sidebar: React.FC<SidebarProps> = () => {
 
 const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
   const interopRoutes = useGetSidebarItems()
+  const generatePath = useGeneratePath()
+
   const pathname = useCurrentRoute().routeKey
 
   const [selectedRootItem, setSelectedRootItem] = useState<RouteKey | undefined>(
@@ -89,25 +95,45 @@ const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
     <List disablePadding sx={{ marginTop: 1 }}>
       {routes
         .filter(({ hide }) => !hide)
-        .map((route) => (
-          <SidebarItemRoot
-            key={route.label}
-            notification={{
-              show: route?.showNotification ?? false,
-              // TODO: This will change, right now is fixed to 0
-              content: 0,
-            }}
-            label={route.label}
-            divider={route.divider}
-            isItemSelected={selectedRootItem === route.rootRouteKey}
-            // eslint-disable-next-line react/no-children-prop
-            childRoutes={route?.children}
-            StartIcon={route.icon}
-            subpath={route.rootRouteKey}
-            handleSelectedRootItem={handleSelectedRootItem}
-            collapsed={collapsed}
-          />
-        ))}
+        .map((route) => {
+          // const routeLabel = label ? label : useGetRouteLabel(route.rootRouteKey)
+
+          return route.children && route.children?.length > 0 ? (
+            <SidebarItemRootWithChildren
+              key={route.label}
+              notification={{
+                show: route?.showNotification ?? false,
+                // TODO: This will change, right now is fixed to 0
+                content: 10,
+              }}
+              label={route.label}
+              divider={route.divider}
+              isItemSelected={selectedRootItem === route.rootRouteKey}
+              // eslint-disable-next-line react/no-children-prop
+              childRoutes={route?.children}
+              StartIcon={route.icon}
+              subpath={route.rootRouteKey}
+              handleSelectedRootItem={handleSelectedRootItem}
+              collapsed={collapsed}
+            />
+          ) : (
+            <SidebarItemRootSimple
+              key={route.label}
+              notification={{
+                show: route?.showNotification ?? false,
+                content: 10,
+              }}
+              label={route.label}
+              divider={route.divider}
+              isItemSelected={selectedRootItem === route.rootRouteKey}
+              StartIcon={route.icon}
+              subpath={route.rootRouteKey}
+              handleSelectedRootItem={handleSelectedRootItem}
+              collapsed={collapsed}
+              to={generatePath(route.rootRouteKey)}
+            />
+          )
+        })}
       <Divider sx={{ marginBottom: 2 }} />
       <SidebarLink
         label="Utenti"
