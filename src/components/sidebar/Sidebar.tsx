@@ -112,7 +112,7 @@ const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
               // eslint-disable-next-line react/no-children-prop
               childRoutes={route?.children}
               StartIcon={route.icon}
-              subpath={route.rootRouteKey}
+              subpath={generatePath(route.rootRouteKey)}
               handleSelectedRootItem={handleSelectedRootItem}
               collapsed={collapsed}
             />
@@ -128,7 +128,6 @@ const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
               isItemSelected={selectedRootItem === route.rootRouteKey}
               StartIcon={route.icon}
               subpath={route.rootRouteKey}
-              handleSelectedRootItem={handleSelectedRootItem}
               collapsed={collapsed}
               to={generatePath(route.rootRouteKey)}
             />
