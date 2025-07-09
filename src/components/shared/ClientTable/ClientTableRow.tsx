@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
 import { useQueryClient } from '@tanstack/react-query'
-import { FEATURE_FLAG_ADMIN_CLIENT } from '@/config/env'
 
 type ClientTableRowProps = {
   client: CompactClient
@@ -29,7 +28,7 @@ export const ClientTableRow: React.FC<ClientTableRowProps> = ({ client, clientKi
   return (
     <TableRow
       cellData={
-        FEATURE_FLAG_ADMIN_CLIENT && clientKind === 'API'
+        clientKind === 'API'
           ? [client.name, client.admin ? `${client.admin.name} ${client.admin.familyName}` : '-']
           : [client.name]
       }
@@ -59,7 +58,7 @@ export const ClientTableRowSkeleton: React.FC<{ clientKind: ClientKind }> = ({ c
   return (
     <TableRow
       cellData={
-        FEATURE_FLAG_ADMIN_CLIENT && clientKind === 'API'
+        clientKind === 'API'
           ? [<Skeleton key={0} width={260} />, <Skeleton key={1} width={180} />]
           : [<Skeleton key={0} width={440} />]
       }
