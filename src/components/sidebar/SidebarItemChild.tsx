@@ -14,7 +14,7 @@ type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & O
     keyof P | 'component'
   >
 
-export type SidebarItemProps<C extends ElementType = 'a'> = PolymorphicProps<
+export type SidebarItemChild<C extends ElementType = 'a'> = PolymorphicProps<
   C,
   {
     typographyProps?: ComponentPropsWithoutRef<typeof Typography>
@@ -26,7 +26,7 @@ export type SidebarItemProps<C extends ElementType = 'a'> = PolymorphicProps<
   }
 >
 
-export function SidebarItem<C extends ElementType = 'a'>({
+export function SidebarItemChild<C extends ElementType = 'a'>({
   disabled,
   typographyProps,
   collapsed,
@@ -35,7 +35,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
   routeKey,
   to,
   ...props
-}: SidebarItemProps<C>) {
+}: SidebarItemChild<C>) {
   const theme = useTheme()
   const styles = sidebarStyles(theme, collapsed)
   // eslint-disable-next-line react-hooks/rules-of-hooks
