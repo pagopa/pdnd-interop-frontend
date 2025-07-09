@@ -107,9 +107,5 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
 }
 
 export const EServiceTemplateCreateStepPurposeSkeleton: React.FC = () => {
-  return (
-    <>
-      <SectionContainerSkeleton height={246} />
-    </>
-  )
+  return <SectionContainerSkeleton height={246} />
 }
