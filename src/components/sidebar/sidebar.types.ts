@@ -16,4 +16,4 @@ export type Notification = {
   content: number
 }
 
-export type SidebarChildRoutes = Array<{ to: RouteKey; hide?: boolean; label?: string }>
+export type SidebarChildRoutes = Array<{ to: RouteKey; hide?: boolean; label: string }>
