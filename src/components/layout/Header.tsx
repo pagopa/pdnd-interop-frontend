@@ -11,6 +11,7 @@ import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import { useQuery } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
+import { useCorrelationId } from '@/stores/correlation-id.store'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -111,6 +112,8 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const { data: parties } = useQuery({ ...SelfcareQueries.getPartyList(), enabled: Boolean(jwt) })
   const { data: products } = useQuery({ ...SelfcareQueries.getProducts(), enabled: Boolean(jwt) })
 
+  const { correlationId } = useCorrelationId()
+
   const partyList = getPartyList(parties, jwt, tCommon)
   const productList = getProductList(products)
 
@@ -120,6 +123,13 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const goToLoginPage = () => {
     window.location.assign(FE_LOGIN_URL)
+  }
+
+  const goToAssistance = () => {
+    window.open(
+      `${assistanceLink}${correlationId ? `?data={"traceId":"${correlationId}"}` : ''}`,
+      '_blank'
+    )
   }
 
   const handleSelectParty = (party: PartySwitchItem) => {
@@ -158,9 +168,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         onLogout={() => {
           navigate('LOGOUT')
         }}
-        onAssistanceClick={() => {
-          window.open(assistanceLink, '_blank')
-        }}
+        onAssistanceClick={goToAssistance}
         onDocumentationClick={() => {
           window.open(documentationLink, '_blank')
         }}

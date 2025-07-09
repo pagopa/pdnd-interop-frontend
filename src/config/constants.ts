@@ -5,6 +5,7 @@ export const DEFAULT_LANG = 'it'
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
 export const SIDENAV_WIDTH = 340
 export const MOCK_TOKEN = import.meta.env.REACT_APP_MOCK_TOKEN
+export const CLEAR_CORRELATION_ID_TIMEOUT = 60000
 
 export const LANGUAGES = {
   it: { it: 'Italiano', en: 'Inglese' },
