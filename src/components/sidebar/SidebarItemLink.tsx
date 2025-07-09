@@ -1,13 +1,13 @@
 import React from 'react'
 import { ListItem, ListItemButton, ListItemText, Typography, useTheme } from '@mui/material'
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
-import { useGetRouteLabel } from './SidebarItemRoot'
+import { useGetRouteLabel } from './SidebarItemCollapsable'
 import { BadgeNotification } from './BadgeNotification'
 import type { Notification } from './sidebar.types'
 import { sidebarStyles } from './sidebar.styles'
 import { type RouteKey } from '@/router'
-import { Link } from 'react-router-dom'
-import { useIsRouteInCurrentSubtree } from '../layout/SideNav/hooks/useIsRouteInCurrentSubtree'
+import type { SvgIconComponent } from '@mui/icons-material'
+import { SidebarRootIcon } from './SidebarItemRootIcon'
 
 type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & Omit<
     ComponentPropsWithoutRef<C>,
@@ -17,38 +17,35 @@ type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & O
 export type SidebarItemChild<C extends ElementType = 'a'> = PolymorphicProps<
   C,
   {
+    Icon?: SvgIconComponent
     typographyProps?: ComponentPropsWithoutRef<typeof Typography>
     disabled?: boolean
     collapsed: boolean
-    routeKey: RouteKey
-    label?: string
+    label: string
     notification?: Notification
+    isSelected?: boolean
   }
 >
 
-export function SidebarItemChild<C extends ElementType = 'a'>({
+export function SidebarItemLink<C extends ElementType = 'a'>({
+  isSelected,
+  component,
+  Icon,
   disabled,
   typographyProps,
   collapsed,
   label,
   notification,
-  routeKey,
   to,
   ...props
 }: SidebarItemChild<C>) {
   const theme = useTheme()
   const styles = sidebarStyles(theme, collapsed)
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const routeLabel = label ? label : useGetRouteLabel(routeKey)
-
-  const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
-
-  const isSelected = isRouteInCurrentSubtree(routeKey)
 
   return (
-    <ListItem sx={{ p: 0 }}>
+    <ListItem sx={{ p: 0, pl: 2 }}>
       <ListItemButton
-        component={Link}
+        component={component}
         to={to}
         sx={{
           ...(isSelected && styles.itemButtonActive),
@@ -57,6 +54,8 @@ export function SidebarItemChild<C extends ElementType = 'a'>({
         disabled={disabled}
         {...props}
       >
+        {Icon && <SidebarRootIcon tooltipLabel={label} Icon={Icon} notification={notification} />}
+
         <ListItemText
           disableTypography
           sx={{ color: 'inherit', marginLeft: 7 }}
@@ -69,7 +68,7 @@ export function SidebarItemChild<C extends ElementType = 'a'>({
                 ...typographyProps?.sx,
               }}
             >
-              {routeLabel}
+              {label}
             </Typography>
           }
         />

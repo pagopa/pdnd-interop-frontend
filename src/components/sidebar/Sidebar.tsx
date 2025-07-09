@@ -11,11 +11,7 @@ import {
   useMediaQuery,
 } from '@mui/material'
 import { sidebarStyles } from './sidebar.styles'
-import {
-  SidebarItemRootSimple,
-  SidebarItemRootWithChildren,
-  useGetRouteLabel,
-} from './SidebarItemRoot'
+import { SidebarItemCollapsable } from './SidebarItemCollapsable'
 import { useState } from 'react'
 import { type RouteKey, useCurrentRoute, useGeneratePath } from '@/router'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -29,6 +25,8 @@ import type { SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
 import { t } from 'i18next'
 import { useGetSidebarItems } from './useGetSidebarItems'
+import { SidebarItemLink } from './SidebarItemLink'
+import { Link } from 'react-router-dom'
 
 type SidebarProps = {
   mobile: boolean
@@ -96,10 +94,8 @@ const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
       {routes
         .filter(({ hide }) => !hide)
         .map((route) => {
-          // const routeLabel = label ? label : useGetRouteLabel(route.rootRouteKey)
-
           return route.children && route.children?.length > 0 ? (
-            <SidebarItemRootWithChildren
+            <SidebarItemCollapsable
               key={route.label}
               notification={{
                 show: route?.showNotification ?? false,
@@ -109,26 +105,43 @@ const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
               label={route.label}
               divider={route.divider}
               isItemSelected={selectedRootItem === route.rootRouteKey}
-              // eslint-disable-next-line react/no-children-prop
-              childRoutes={route?.children}
-              StartIcon={route.icon}
-              subpath={generatePath(route.rootRouteKey)}
-              handleSelectedRootItem={handleSelectedRootItem}
-              collapsed={collapsed}
-            />
-          ) : (
-            <SidebarItemRootSimple
-              key={route.label}
-              notification={{
-                show: route?.showNotification ?? false,
-                content: 10,
-              }}
-              label={route.label}
-              divider={route.divider}
-              isItemSelected={selectedRootItem === route.rootRouteKey}
               StartIcon={route.icon}
               subpath={route.rootRouteKey}
+              handleSelectedRootItem={handleSelectedRootItem}
               collapsed={collapsed}
+            >
+              {route.children
+                ?.filter((child) => !child.hide)
+                .map((child) => {
+                  const routeKey = child.to
+                  return (
+                    <SidebarItemLink
+                      isSelected={pathname === routeKey}
+                      component={Link}
+                      to={generatePath(routeKey)}
+                      key={routeKey}
+                      label={child.label}
+                      collapsed={true}
+                      notification={{
+                        content: 0,
+                        show: true,
+                      }}
+                    />
+                  )
+                })}
+            </SidebarItemCollapsable>
+          ) : (
+            <SidebarItemLink
+              isSelected={pathname === route.rootRouteKey}
+              Icon={route.icon}
+              key={route.label}
+              label={route.label}
+              collapsed={true}
+              notification={{
+                content: 0,
+                show: true,
+              }}
+              component={Link}
               to={generatePath(route.rootRouteKey)}
             />
           )
