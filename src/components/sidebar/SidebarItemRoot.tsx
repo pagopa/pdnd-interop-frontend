@@ -18,7 +18,7 @@ import type { Notification, SidebarChildRoutes } from './sidebar.types'
 import { BadgeNotification } from './BadgeNotification'
 import { SidebarRootIcon } from './SidebarItemRootIcon'
 import { useGeneratePath, type RouteKey } from '@/router'
-import { SidebarItem } from './SidebarItem'
+import { SidebarItemChild } from './SidebarItemChild'
 import { Link } from 'react-router-dom'
 import { sidebarStyles } from './sidebar.styles'
 
@@ -28,7 +28,6 @@ type SidebarItemRootBaseProps = {
   isItemSelected: boolean
   subpath: RouteKey
   StartIcon: SvgIconComponent
-  handleSelectedRootItem: (routeKey: RouteKey) => void
   divider?: boolean
   collapsed: boolean
 }
@@ -37,6 +36,7 @@ type SidebarItemRootSimpleProps = SidebarItemRootBaseProps & { to: string }
 
 type SidebarItemRootWithChildrenProps = SidebarItemRootBaseProps & {
   childRoutes: SidebarChildRoutes
+  handleSelectedRootItem: (routeKey: RouteKey) => void
 }
 
 export function useGetRouteLabel(to: RouteKey): string {
@@ -46,9 +46,7 @@ export function useGetRouteLabel(to: RouteKey): string {
 
 export const SidebarItemRootSimple: React.FC<SidebarItemRootSimpleProps> = ({
   StartIcon,
-  subpath,
   isItemSelected,
-  handleSelectedRootItem,
   divider,
   collapsed,
   label,
@@ -65,7 +63,6 @@ export const SidebarItemRootSimple: React.FC<SidebarItemRootSimpleProps> = ({
           component={Link}
           selected={isItemSelected}
           to={to}
-          onClick={() => handleSelectedRootItem(subpath)}
           sx={styles.itemButtonActive}
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
@@ -113,7 +110,7 @@ export const SidebarItemRootWithChildren: React.FC<SidebarItemRootWithChildrenPr
       .map((child) => {
         const routeKey = child.to
         return (
-          <SidebarItem
+          <SidebarItemChild
             to={generatePath(routeKey)}
             key={routeKey}
             routeKey={routeKey}
@@ -130,6 +127,7 @@ export const SidebarItemRootWithChildren: React.FC<SidebarItemRootWithChildrenPr
   const subPathLink = generatePath(subpath)
 
   console.log('subpath', subpath, 'subPathLink', subPathLink)
+
   const getComponentType = () => {
     if (!collapsed) {
       return 'button'
@@ -141,7 +139,7 @@ export const SidebarItemRootWithChildren: React.FC<SidebarItemRootWithChildrenPr
     if (!collapsed) {
       return undefined
     }
-    return subPathLink
+    return subpath
   }
 
   return (
