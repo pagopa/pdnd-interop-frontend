@@ -36,7 +36,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   if (!agreement || mode === null || !isAdmin || isDelegator) return { actions: [] }
 
   const handleActivate = () => {
-    activateAgreement({ agreementId: agreement.id })
+    activateAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
   }
   const activateAction: ActionItemButton = {
     action: handleActivate,
@@ -45,7 +45,7 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   }
 
   const handleSuspend = () => {
-    suspendAgreement({ agreementId: agreement.id })
+    suspendAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
   }
 
   const suspendAction: ActionItemButton = {

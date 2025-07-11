@@ -59,7 +59,11 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     if (!purpose) return
     const currentVersion = purpose.currentVersion
     if (currentVersion) {
-      suspendPurpose({ purposeId: purpose.id, versionId: currentVersion.id })
+      suspendPurpose({
+        purposeId: purpose.id,
+        versionId: currentVersion.id,
+        delegationId: purpose.delegation?.id,
+      })
     }
   }
 
@@ -74,7 +78,11 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     if (!purpose) return
     const currentVersion = purpose.currentVersion
     if (currentVersion) {
-      activatePurpose({ purposeId: purpose.id, versionId: currentVersion.id })
+      activatePurpose({
+        purposeId: purpose.id,
+        versionId: currentVersion.id,
+        delegationId: purpose.delegation?.id,
+      })
     }
   }
 
