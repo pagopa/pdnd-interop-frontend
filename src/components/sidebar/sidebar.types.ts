@@ -1,7 +1,7 @@
 import type { SvgIconComponent } from '@mui/icons-material'
 import { type RouteKey } from '@/router'
 
-export type SidebarRoutes = Array<{
+export type SidebarRoute = {
   icon: SvgIconComponent
   label: string
   rootRouteKey: RouteKey
@@ -9,7 +9,8 @@ export type SidebarRoutes = Array<{
   children?: SidebarChildRoutes
   divider?: boolean
   showNotification?: boolean
-}>
+}
+export type SidebarRoutes = Array<SidebarRoute>
 
 export type Notification = {
   show: boolean

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
   Box,
   Divider,
@@ -21,11 +21,11 @@ import PeopleIcon from '@mui/icons-material/People'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { SidebarLink } from './SidebarLink'
 import { useTranslation } from 'react-i18next'
-import type { SidebarRoutes } from './sidebar.types'
+import type { SidebarRoute, SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
 import { t } from 'i18next'
 import { useGetSidebarItems } from './useGetSidebarItems'
-import { SidebarItemLink } from './SidebarItemLink'
+import { SidebarItemLink, type SidebarItemLinkProps } from './SidebarItemLink'
 import { Link } from 'react-router-dom'
 import { useIsRouteInCurrentSubtree } from '../layout/SideNav/hooks/useIsRouteInCurrentSubtree'
 
@@ -79,106 +79,81 @@ const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
 
   const pathname = useCurrentRoute().routeKey
 
-  const [selectedRootItem, setSelectedRootItem] = useState<string | undefined>(
+  const [parentExpandedItem, setParentExpandedItem] = useState<string | undefined>(
     interopRoutes.find(
       (route) =>
         route.rootRouteKey === pathname || route.children?.some((child) => child.to === pathname)
     )?.rootRouteKey
   )
 
-  useEffect(() => {
-    console.log('pathname changed', pathname)
-  }, [pathname])
-  useEffect(() => {
-    console.log('selectedRootItem', selectedRootItem)
-  }, [selectedRootItem])
-
-  const handleSelectedRootItem = (routeKey: RouteKey) => {
-    console.log('clicked routeKey', routeKey)
-    if (!collapsed) {
-      setSelectedRootItem((prev) => (prev === routeKey ? undefined : routeKey))
-    } else {
-      setSelectedRootItem(routeKey)
-    }
+  const handleExpandParent = (routeKey: RouteKey) => {
+    setParentExpandedItem((prev) => (prev === routeKey ? undefined : routeKey))
   }
+
+  const renderChildItems = (route: SidebarRoute) =>
+    route.children
+      ?.filter((child) => !child.hide)
+      .map((child) => {
+        const routeKey = child.to
+        return (
+          <SidebarItemLink
+            isSelected={isRouteInCurrentSubtree(routeKey)}
+            component={Link}
+            to={generatePath(routeKey)}
+            key={routeKey}
+            label={child.label}
+            collapsed={collapsed}
+            notification={{
+              content: 0,
+              show: true,
+            }}
+          />
+        )
+      })
 
   return (
     <List disablePadding sx={{ marginTop: 1 }}>
       {routes
         .filter(({ hide }) => !hide)
         .map((route) => {
-          return route.children && route.children.length > 0 ? (
-            collapsed ? (
-              <SidebarItemLink
-                isSelected={isRouteInCurrentSubtree(route.rootRouteKey)}
-                // isSelected={pathname === route.rootRouteKey}
-                Icon={route.icon}
-                key={route.label}
-                label={route.label}
-                collapsed={collapsed}
-                notification={{
-                  content: 0,
-                  show: true,
-                }}
-                component={Link}
-                to={generatePath(route.rootRouteKey)}
-              />
+          const sidebarItemLinkProps: SidebarItemLinkProps<typeof Link> = {
+            isSelected: isRouteInCurrentSubtree(route.rootRouteKey),
+            Icon: route.icon,
+            label: route.label,
+            collapsed,
+            notification: {
+              content: 0,
+              show: true,
+            },
+            component: Link,
+            to: generatePath(route.rootRouteKey),
+          }
+
+          if (route.children && route.children.length > 0) {
+            return collapsed ? (
+              <SidebarItemLink key={route.label} {...sidebarItemLinkProps} />
             ) : (
               <SidebarItemCollapsable
                 key={route.label}
                 notification={{
                   show: route?.showNotification ?? false,
-                  // TODO: This will change, right now is fixed to 0
                   content: 10,
                 }}
-                isSelected={route.children?.some((child) => isRouteInCurrentSubtree(child.to))}
                 label={route.label}
                 divider={route.divider}
-                isOpen={selectedRootItem === route.rootRouteKey}
-                StartIcon={route.icon}
+                isSelected={route.children?.some((child) => isRouteInCurrentSubtree(child.to))}
+                isExpanded={parentExpandedItem === route.rootRouteKey}
+                handleExpandParent={() => handleExpandParent(route.rootRouteKey)}
+                icon={route.icon}
                 to={generatePath(route.rootRouteKey)}
-                subpath={route.rootRouteKey}
-                handleSelectedRootItem={handleSelectedRootItem}
                 collapsed={collapsed}
               >
-                {route.children
-                  ?.filter((child) => !child.hide)
-                  .map((child) => {
-                    const routeKey = child.to
-
-                    const isSelected = isRouteInCurrentSubtree(routeKey)
-                    return (
-                      <SidebarItemLink
-                        isSelected={isSelected}
-                        component={Link}
-                        to={generatePath(routeKey)}
-                        key={routeKey}
-                        label={child.label}
-                        collapsed={collapsed}
-                        notification={{
-                          content: 0,
-                          show: true,
-                        }}
-                      />
-                    )
-                  })}
+                {renderChildItems(route)}
               </SidebarItemCollapsable>
             )
-          ) : (
-            <SidebarItemLink
-              isSelected={isRouteInCurrentSubtree(route.rootRouteKey)}
-              Icon={route.icon}
-              key={route.label}
-              label={route.label}
-              collapsed={collapsed}
-              notification={{
-                content: 0,
-                show: true,
-              }}
-              component={Link}
-              to={generatePath(route.rootRouteKey)}
-            />
-          )
+          }
+
+          return <SidebarItemLink key={route.label} {...sidebarItemLinkProps} />
         })}
       <Divider sx={{ marginBottom: 2 }} />
       <SidebarLink
