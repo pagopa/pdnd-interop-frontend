@@ -38,6 +38,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
       }}
     >
       <Sidebar mobile={matchMobile} />
+      {/* <SideNav /> */}
       <Box
         sx={{
           flexGrow: 1,
