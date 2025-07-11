@@ -14,30 +14,27 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { type SvgIconComponent } from '@mui/icons-material'
 import type { Notification } from './sidebar.types'
 import { SidebarRootIcon } from './SidebarItemRootIcon'
-import { type RouteKey } from '@/router'
 import { Link } from 'react-router-dom'
 
 type SidebarItemCollapsableProps = {
   notification?: Notification
   label: string
-  isOpen: boolean
+  isExpanded: boolean
   isSelected: boolean
-  subpath: RouteKey
-  StartIcon: SvgIconComponent
+  icon: SvgIconComponent
   divider?: boolean
   collapsed: boolean
   children: React.ReactNode
   to: string
-  handleSelectedRootItem: (routeKey: RouteKey) => void
+  handleExpandParent: () => void
 }
 
 export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
   children,
-  StartIcon,
-  subpath,
-  isOpen,
+  icon: StartIcon,
+  isExpanded,
   isSelected,
-  handleSelectedRootItem,
+  handleExpandParent: handleSelectedRootItem,
   divider,
   collapsed,
   label,
@@ -58,8 +55,6 @@ export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
     return to
   }
 
-  console.log('ISSELECTED', isSelected)
-
   return (
     <>
       <ListItem disablePadding>
@@ -67,7 +62,7 @@ export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
           component={getComponentType()}
           selected={isSelected}
           to={getNavigationLink()}
-          onClick={() => handleSelectedRootItem(subpath)}
+          onClick={handleSelectedRootItem}
           sx={
             !collapsed && isSelected
               ? {
@@ -93,13 +88,13 @@ export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
                 }
               />
             )}
-            {!collapsed && (isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
+            {!collapsed && (isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
           </Stack>
         </ListItemButton>
       </ListItem>
       {divider && <Divider sx={{ mb: 2 }} />}
       {!collapsed && (
-        <Collapse in={isOpen} timeout="auto" unmountOnExit>
+        <Collapse in={isExpanded} timeout="auto" unmountOnExit>
           <List disablePadding>{children}</List>
         </Collapse>
       )}

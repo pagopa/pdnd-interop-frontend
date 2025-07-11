@@ -12,7 +12,7 @@ type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & O
     keyof P | 'component'
   >
 
-export type SidebarItemChild<C extends ElementType = 'a'> = PolymorphicProps<
+export type SidebarItemLinkProps<C extends ElementType = 'a'> = PolymorphicProps<
   C,
   {
     Icon?: SvgIconComponent
@@ -35,7 +35,7 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
   label,
   notification,
   ...props
-}: SidebarItemChild<C>) {
+}: SidebarItemLinkProps<C>) {
   const theme = useTheme()
   const styles = sidebarStyles(theme, collapsed)
 
