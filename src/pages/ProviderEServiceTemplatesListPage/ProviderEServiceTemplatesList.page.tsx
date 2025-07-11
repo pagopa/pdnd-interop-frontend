@@ -42,6 +42,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   return (
     <PageContainer
       title={t('title')}
+      description={t('description')}
       topSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
