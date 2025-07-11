@@ -19,17 +19,17 @@ import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import PeopleIcon from '@mui/icons-material/People'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
-import { SidebarLink } from './SidebarLink'
 import { useTranslation } from 'react-i18next'
 import type { SidebarRoute, SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
 import { t } from 'i18next'
-import { useGetSidebarItems } from './useGetSidebarItems'
 import { SidebarItemLink, type SidebarItemLinkProps } from './SidebarItemLink'
 import { Link } from 'react-router-dom'
 import { useIsRouteInCurrentSubtree } from '../layout/SideNav/hooks/useIsRouteInCurrentSubtree'
+import { AuthHooks } from '@/api/auth'
 
 type SidebarProps = {
+  routes: SidebarRoutes
   mobile: boolean
 }
 
@@ -38,11 +38,9 @@ type SidebarListProps = {
   collapsed: boolean
 }
 
-export const Sidebar: React.FC<SidebarProps> = () => {
+export const InteropSidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
   const { t } = useTranslation('sidebar')
   const theme = useTheme()
-  const interopRoutes = useGetSidebarItems()
-  const matchMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const [collapsed, setCollapsed] = useState(false)
   const styles = sidebarStyles(theme, collapsed)
@@ -53,7 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = () => {
 
   return (
     <>
-      {!matchMobile ? (
+      {!mobile ? (
         <Box sx={styles.container} component="aside">
           <Stack
             component="nav"
@@ -61,26 +59,29 @@ export const Sidebar: React.FC<SidebarProps> = () => {
             aria-label={t('navigationMenu')}
             aria-expanded={!collapsed}
           >
-            <SidebarList routes={interopRoutes} collapsed={collapsed} />
+            <InteropSidebarList routes={routes} collapsed={collapsed} />
             <HamburgerBox collapsed={collapsed} handleCollapsed={handleCollapsed} />
           </Stack>
         </Box>
       ) : (
-        <SidebarMobile routes={interopRoutes} />
+        <SidebarMobile routes={routes} />
       )}
     </>
   )
 }
 
-const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
-  const interopRoutes = useGetSidebarItems()
+const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
   const generatePath = useGeneratePath()
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
-
   const pathname = useCurrentRoute().routeKey
+  const { jwt } = AuthHooks.useJwt()
+
+  const selfcareUsersPageUrl =
+    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
+  const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
 
   const [parentExpandedItem, setParentExpandedItem] = useState<string | undefined>(
-    interopRoutes.find(
+    routes.find(
       (route) =>
         route.rootRouteKey === pathname || route.children?.some((child) => child.to === pathname)
     )?.rootRouteKey
@@ -118,7 +119,7 @@ const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
         .map((route) => {
           const sidebarItemLinkProps: SidebarItemLinkProps<typeof Link> = {
             isSelected: isRouteInCurrentSubtree(route.rootRouteKey),
-            Icon: route.icon,
+            StartIcon: route.icon,
             label: route.label,
             collapsed,
             notification: {
@@ -156,19 +157,16 @@ const SidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
           return <SidebarItemLink key={route.label} {...sidebarItemLinkProps} />
         })}
       <Divider sx={{ marginBottom: 2 }} />
-      <SidebarLink
+      <SidebarItemLink
+        href={selfcareUsersPageUrl}
         label="Utenti"
-        component="a"
-        href={`${SELFCARE_BASE_URL}/dashboard/${getCurrentSelfCareProductId()}/users#${getCurrentSelfCareProductId()}`}
-        target="_blank"
         StartIcon={PeopleIcon}
         EndIcon={ExitToAppRoundedIcon}
-        typographyProps={{ sx: { fontWeight: 600 } }}
         collapsed={collapsed}
       />
-      <SidebarLink
+      <SidebarItemLink
+        href={selfcareGroupsPageUrl}
         label="Gruppi"
-        href={`${SELFCARE_BASE_URL}/dashboard/${getCurrentSelfCareProductId()}/groups`}
         target="_blank"
         StartIcon={SupervisedUserCircleIcon}
         EndIcon={ExitToAppRoundedIcon}
@@ -207,7 +205,7 @@ const SidebarMobile: React.FC<{ routes: SidebarRoutes }> = ({ routes }) => {
       <Divider orientation="horizontal" component="div" />
       {isOpenSidebar && (
         <>
-          <SidebarList routes={routes} collapsed={false} />
+          <InteropSidebarList routes={routes} collapsed={false} />
         </>
       )}
     </>
