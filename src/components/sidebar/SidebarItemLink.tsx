@@ -1,11 +1,9 @@
 import React from 'react'
 import { ListItem, ListItemButton, ListItemText, Typography, useTheme } from '@mui/material'
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
-import { useGetRouteLabel } from './SidebarItemCollapsable'
 import { BadgeNotification } from './BadgeNotification'
 import type { Notification } from './sidebar.types'
 import { sidebarStyles } from './sidebar.styles'
-import { type RouteKey } from '@/router'
 import type { SvgIconComponent } from '@mui/icons-material'
 import { SidebarRootIcon } from './SidebarItemRootIcon'
 
@@ -36,18 +34,18 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
   collapsed,
   label,
   notification,
-  to,
   ...props
 }: SidebarItemChild<C>) {
   const theme = useTheme()
   const styles = sidebarStyles(theme, collapsed)
 
   return (
-    <ListItem sx={{ p: 0, pl: 2 }}>
+    <ListItem sx={{ p: 0 }}>
       <ListItemButton
-        component={component}
-        to={to}
+        component={component ?? 'a'}
+        to={props.to}
         sx={{
+          pl: 4,
           ...(isSelected && styles.itemButtonActive),
         }}
         selected={isSelected}
@@ -56,22 +54,24 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
       >
         {Icon && <SidebarRootIcon tooltipLabel={label} Icon={Icon} notification={notification} />}
 
-        <ListItemText
-          disableTypography
-          sx={{ color: 'inherit', marginLeft: 7 }}
-          primary={
-            <Typography
-              color="inherit"
-              {...typographyProps}
-              sx={{
-                fontWeight: 600,
-                ...typographyProps?.sx,
-              }}
-            >
-              {label}
-            </Typography>
-          }
-        />
+        {!collapsed && (
+          <ListItemText
+            disableTypography
+            sx={{ color: 'inherit', marginLeft: 7 }}
+            primary={
+              <Typography
+                color="inherit"
+                {...typographyProps}
+                sx={{
+                  fontWeight: 600,
+                  ...typographyProps?.sx,
+                }}
+              >
+                {label}
+              </Typography>
+            }
+          />
+        )}
         {notification && <BadgeNotification badgeContent={notification.content} />}
       </ListItemButton>
     </ListItem>

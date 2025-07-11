@@ -32,7 +32,7 @@ export function useGetSidebarItems(): SidebarRoutes {
         showNotification: false,
         icon: ConsumerIcon,
         label: t('subscribe.subscribe'),
-        rootRouteKey: 'PROVIDE_AGREEMENT_LIST',
+        rootRouteKey: 'SUBSCRIBE_AGREEMENT_LIST',
         children: [
           { to: 'SUBSCRIBE_AGREEMENT_LIST', label: t('subscribe.agreement') },
           { to: 'SUBSCRIBE_PURPOSE_LIST', label: t('subscribe.purpose') },
@@ -58,7 +58,7 @@ export function useGetSidebarItems(): SidebarRoutes {
       },
       {
         icon: DnsIcon,
-        rootRouteKey: 'PROVIDE_KEYCHAINS_LIST',
+        rootRouteKey: 'SUBSCRIBE_CLIENT_LIST',
         label: t('client.client'),
         hide: false,
         children: [
