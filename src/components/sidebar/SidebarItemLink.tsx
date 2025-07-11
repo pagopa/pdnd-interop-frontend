@@ -1,5 +1,12 @@
 import React from 'react'
-import { ListItem, ListItemButton, ListItemText, Typography, useTheme } from '@mui/material'
+import {
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  useTheme,
+} from '@mui/material'
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
 import { BadgeNotification } from './BadgeNotification'
 import type { Notification } from './sidebar.types'
@@ -15,7 +22,8 @@ type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & O
 export type SidebarItemLinkProps<C extends ElementType = 'a'> = PolymorphicProps<
   C,
   {
-    Icon?: SvgIconComponent
+    StartIcon?: SvgIconComponent
+    EndIcon?: SvgIconComponent
     typographyProps?: ComponentPropsWithoutRef<typeof Typography>
     disabled?: boolean
     collapsed: boolean
@@ -28,7 +36,8 @@ export type SidebarItemLinkProps<C extends ElementType = 'a'> = PolymorphicProps
 export function SidebarItemLink<C extends ElementType = 'a'>({
   isSelected,
   component,
-  Icon,
+  StartIcon,
+  EndIcon,
   disabled,
   typographyProps,
   collapsed,
@@ -52,7 +61,9 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
         disabled={disabled}
         {...props}
       >
-        {Icon && <SidebarRootIcon tooltipLabel={label} Icon={Icon} notification={notification} />}
+        {StartIcon && (
+          <SidebarRootIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
+        )}
 
         {!collapsed && (
           <ListItemText
@@ -73,6 +84,11 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
           />
         )}
         {notification && <BadgeNotification badgeContent={notification.content} />}
+        {!collapsed && EndIcon && (
+          <ListItemIcon>
+            <EndIcon color="action" />
+          </ListItemIcon>
+        )}
       </ListItemButton>
     </ListItem>
   )

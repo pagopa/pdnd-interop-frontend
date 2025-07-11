@@ -1,6 +1,10 @@
 import React from 'react'
-import { mockUseCurrentRoute, renderWithApplicationContext } from '@/utils/testing.utils'
-import { _Sidebar } from '../Sidebar'
+import {
+  mockUseCurrentRoute,
+  mockUseJwt,
+  renderWithApplicationContext,
+} from '@/utils/testing.utils'
+import { InteropSidebar } from '../InteropSidebar'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { screen } from '@testing-library/react'
@@ -10,9 +14,11 @@ import { ConsumerIcon } from '@/assets'
 import { CatalogIcon } from '@/assets/CatalogIcon'
 
 mockUseCurrentRoute({ routeKey: 'TOS' })
+mockUseJwt()
+
 vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnValue(() => false)
 
-describe('Sidebar', () => {
+describe('InteropSidebar', () => {
   const mockRoutes: SidebarRoutes = [
     {
       label: 'item-root-1',
@@ -34,7 +40,7 @@ describe('Sidebar', () => {
   ]
 
   it('should render the sidebar with routes', () => {
-    renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={false} />, {
+    renderWithApplicationContext(<InteropSidebar routes={mockRoutes} mobile={false} />, {
       withRouterContext: true,
     })
 
@@ -43,7 +49,7 @@ describe('Sidebar', () => {
   })
 
   it('should be able to expand root menu item if it has children', async () => {
-    renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={false} />, {
+    renderWithApplicationContext(<InteropSidebar routes={mockRoutes} mobile={false} />, {
       withRouterContext: true,
     })
     const user = userEvent.setup()
@@ -62,7 +68,7 @@ describe('Sidebar', () => {
   })
 
   it('should be able to collapse menu and show only root item icons', async () => {
-    renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={false} />, {
+    renderWithApplicationContext(<InteropSidebar routes={mockRoutes} mobile={false} />, {
       withRouterContext: true,
     })
 
@@ -78,7 +84,7 @@ describe('Sidebar', () => {
 
   describe('mobile sidebar', () => {
     it('should render only burger icon when menu is closed', async () => {
-      renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={true} />, {
+      renderWithApplicationContext(<InteropSidebar routes={mockRoutes} mobile={true} />, {
         withRouterContext: true,
       })
 
@@ -87,7 +93,7 @@ describe('Sidebar', () => {
     })
 
     it('should render root items when menu is open and root items are not expanded', async () => {
-      renderWithApplicationContext(<_Sidebar routes={mockRoutes} mobile={true} />, {
+      renderWithApplicationContext(<InteropSidebar routes={mockRoutes} mobile={true} />, {
         withRouterContext: true,
       })
 
