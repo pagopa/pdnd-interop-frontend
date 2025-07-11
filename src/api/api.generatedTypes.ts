@@ -145,19 +145,20 @@ export interface EServiceSeed {
 export interface UpdateEServiceDescriptorQuotas {
   /**
    * @format int32
-   * @min 0
+   * @min 60
+   * @max 86400
    */
   voucherLifespan: number
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
    */
   dailyCallsTotal: number
 }
@@ -2028,11 +2029,37 @@ export interface GetAgreementsConsumersParams {
   limit: number
 }
 
+export interface ActivateAgreementParams {
+  /**
+   * The identifier of the delegation to activate the agreement with
+   * @format uuid
+   */
+  delegationId?: string
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string
+}
+
 export interface AddAgreementConsumerDocumentPayload {
   name: string
   prettyName: string
   /** @format binary */
   doc: File
+}
+
+export interface SuspendAgreementParams {
+  /**
+   * The identifier of the delegation to suspend the agreement for
+   * @format uuid
+   */
+  delegationId?: string
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string
 }
 
 export interface GetEServicesCatalogParams {
@@ -2077,19 +2104,36 @@ export interface GetEServicesCatalogParams {
 
 export interface GetConsumerDelegatorsParams {
   q?: string
-  /** @default [] */
+  /**
+   * comma separated sequence of EService IDs
+   * @default []
+   */
   eserviceIds?: string[]
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   offset: number
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
   limit: number
 }
 
 export interface GetConsumerDelegatorsWithAgreementsParams {
   q?: string
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   offset: number
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
   limit: number
 }
 
@@ -2310,6 +2354,30 @@ export interface GetConsumerPurposesParams {
   limit: number
 }
 
+export interface SuspendPurposeVersionParams {
+  /**
+   * The identifier of the delegation to activate the agreement with
+   * @format uuid
+   */
+  delegationId?: string
+  /** @format uuid */
+  purposeId: string
+  /** @format uuid */
+  versionId: string
+}
+
+export interface ActivatePurposeVersionParams {
+  /**
+   * The identifier of the delegation to activate the agreement with
+   * @format uuid
+   */
+  delegationId?: string
+  /** @format uuid */
+  purposeId: string
+  /** @format uuid */
+  versionId: string
+}
+
 export interface RevokeVerifiedAttributePayload {
   /** @format uuid */
   agreementId: string
@@ -2324,10 +2392,7 @@ export interface GetAttributesParams {
   limit: number
   /** @format int32 */
   offset: number
-  /**
-   * Array of kinds
-   * @default []
-   */
+  /** Array of kinds */
   kinds: AttributeKind[]
 }
 
@@ -2630,11 +2695,21 @@ export namespace Consumers {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
-      /** @default [] */
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
       eserviceIds?: string[]
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 0
+       */
       offset: number
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
       limit: number
     }
     export type RequestBody = never
@@ -2652,9 +2727,16 @@ export namespace Consumers {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 0
+       */
       offset: number
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
       limit: number
     }
     export type RequestBody = never
@@ -2848,7 +2930,10 @@ export namespace Consumers {
    */
   export namespace RevokeConsumerDelegation {
     export type RequestParams = {
-      /** The delegation id */
+      /**
+       * The delegation id
+       * @format uuid
+       */
       delegationId: string
     }
     export type RequestQuery = {}
@@ -3151,7 +3236,10 @@ export namespace Producers {
    */
   export namespace RevokeProducerDelegation {
     export type RequestParams = {
-      /** The delegation id */
+      /**
+       * The delegation id
+       * @format uuid
+       */
       delegationId: string
     }
     export type RequestQuery = {}
@@ -3293,7 +3381,13 @@ export namespace Agreements {
        */
       agreementId: string
     }
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      /**
+       * The identifier of the delegation to activate the agreement with
+       * @format uuid
+       */
+      delegationId?: string
+    }
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = Agreement
@@ -3435,7 +3529,13 @@ export namespace Agreements {
        */
       agreementId: string
     }
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      /**
+       * The identifier of the delegation to suspend the agreement for
+       * @format uuid
+       */
+      delegationId?: string
+    }
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = Agreement
@@ -4367,11 +4467,20 @@ export namespace Eservices {
    */
   export namespace GetEServiceDocumentById {
     export type RequestParams = {
-      /** the eservice id */
+      /**
+       * the eservice id
+       * @format uuid
+       */
       eServiceId: string
-      /** the descriptor Id */
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
       descriptorId: string
-      /** the document id */
+      /**
+       * the document id
+       * @format uuid
+       */
       documentId: string
     }
     export type RequestQuery = {}
@@ -5848,7 +5957,13 @@ export namespace Purposes {
       /** @format uuid */
       versionId: string
     }
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      /**
+       * The identifier of the delegation to activate the agreement with
+       * @format uuid
+       */
+      delegationId?: string
+    }
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
@@ -5868,7 +5983,13 @@ export namespace Purposes {
       /** @format uuid */
       versionId: string
     }
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      /**
+       * The identifier of the delegation to activate the agreement with
+       * @format uuid
+       */
+      delegationId?: string
+    }
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
@@ -6064,10 +6185,7 @@ export namespace Attributes {
       limit: number
       /** @format int32 */
       offset: number
-      /**
-       * Array of kinds
-       * @default []
-       */
+      /** Array of kinds */
       kinds: AttributeKind[]
     }
     export type RequestBody = never
@@ -6700,7 +6818,10 @@ export namespace ProducerKeychains {
    */
   export namespace GetProducerKeychain {
     export type RequestParams = {
-      /** The Producer Keychain id */
+      /**
+       * The Producer Keychain id
+       * @format uuid
+       */
       producerKeychainId: string
     }
     export type RequestQuery = {}
@@ -6718,7 +6839,10 @@ export namespace ProducerKeychains {
    */
   export namespace DeleteProducerKeychain {
     export type RequestParams = {
-      /** The Producer Keychain id */
+      /**
+       * The Producer Keychain id
+       * @format uuid
+       */
       producerKeychainId: string
     }
     export type RequestQuery = {}
@@ -7017,7 +7141,10 @@ export namespace Delegations {
    */
   export namespace GetDelegation {
     export type RequestParams = {
-      /** The delegation id */
+      /**
+       * The delegation id
+       * @format uuid
+       */
       delegationId: string
     }
     export type RequestQuery = {}

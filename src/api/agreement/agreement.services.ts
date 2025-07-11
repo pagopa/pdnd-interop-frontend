@@ -1,6 +1,7 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
+  ActivateAgreementParams,
   AddAgreementConsumerDocumentPayload,
   Agreement,
   AgreementPayload,
@@ -17,6 +18,7 @@ import type {
   GetAgreementsProducersParams,
   GetConsumerAgreementsParams,
   GetProducerAgreementsParams,
+  SuspendAgreementParams,
 } from '../api.generatedTypes'
 import { waitFor } from '@/utils/common.utils'
 
@@ -170,9 +172,15 @@ function deleteDraftDocument({
   )
 }
 
-async function activate({ agreementId }: { agreementId: string }) {
+async function activate({
+  agreementId,
+  ...params
+}: { agreementId: string } & ActivateAgreementParams) {
   const response = await axiosInstance.post<Agreement>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`,
+    {
+      params,
+    }
   )
   return response.data
 }
@@ -188,9 +196,15 @@ async function reject({
   return response.data
 }
 
-async function suspend({ agreementId }: { agreementId: string }) {
+async function suspend({
+  agreementId,
+  ...params
+}: { agreementId: string } & SuspendAgreementParams) {
   const response = await axiosInstance.post<Agreement>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`,
+    {
+      params,
+    }
   )
   return response.data
 }
