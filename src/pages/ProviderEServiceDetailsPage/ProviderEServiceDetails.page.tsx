@@ -37,8 +37,6 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptor?.delegation
   )
 
-  console.log('qui', descriptor?.eservice.isConsumerDelegable)
-
   return (
     <PageContainer
       title={descriptor?.eservice.name || ''}

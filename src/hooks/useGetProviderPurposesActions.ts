@@ -32,8 +32,6 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
     select: ({ results }) => results ?? [],
   })
 
-  console.log(delegations)
-
   const { openDialog } = useDialog()
 
   const currentVersion = purpose?.currentVersion
