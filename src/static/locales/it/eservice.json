@@ -45,7 +45,7 @@
           "firstParagraph": {
             "before": "Signal Hub è una",
             "linkLabel": "soluzione integrata",
-            "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+            "after": "che informa i fruitori quando i dati dell'e-service vengono modificati."
           },
           "secondParagraph": {
             "before": "Attivando la funzionalità designi PagoPa S.p.A. responsabile del trattamento dei dati facendo proprio il",
@@ -452,7 +452,7 @@
         "description": {
           "before": "Signal Hub è una",
           "linkLabel": "soluzione integrata",
-          "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+          "after": "che informa i fruitori quando i dati dell'e-service vengono modificati."
         },
         "innerSection": {
           "title": "Adesione al servizio di notifica",
@@ -604,7 +604,7 @@
           "firstParagraph": {
             "before": "Signal Hub è una",
             "linkLabel": "soluzione integrata",
-            "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+            "after": "che informa i fruitori quando i dati dell'e-service vengono modificati."
           },
           "secondParagraph": {
             "before": "Attivando la funzionalità designi PagoPa S.p.A. responsabile del trattamento dei dati facendo proprio il",
