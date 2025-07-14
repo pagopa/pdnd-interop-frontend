@@ -12,25 +12,8 @@ export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, 
     overscrollBehavior: 'auto',
     overflowY: 'auto',
     scrollbarWidth: 'thin',
-    // scrollbarColor: `${theme.palette.primary.main} transparent`,
   },
 
-  itemCollapsableActive: {
-    '&.active': {
-      fontWeight: 'bold',
-      background: 'red',
-      color: alpha(theme.palette.primary.main, 0.08),
-      borderRight: '12px solid',
-      borderColor: theme.palette.primary.dark,
-      '.MuiTypography-root': {
-        fontWeight: 600,
-        color: theme.palette.primary.dark,
-      },
-      '.MuiListItemIcon-root': {
-        color: theme.palette.primary.dark,
-      },
-    },
-  },
   itemButtonActive: {
     '&.active': {
       fontWeight: 'bold',
