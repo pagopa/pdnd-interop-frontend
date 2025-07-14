@@ -7,10 +7,7 @@ import React from 'react'
 import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import DnsIcon from '@mui/icons-material/Dns'
-import { CatalogIcon } from '@/assets/CatalogIcon'
-import { ConsumerIcon, ProviderIcon } from '@/assets'
-import { DeveloperToolIcon } from '@/assets/DeveloperToolIcon'
-import { MyTenantIcon } from '@/assets/MyTenantIcon'
+import { ConsumerIcon, ProviderIcon, CatalogIcon, DeveloperToolIcon, MyTenantIcon } from '@/icons'
 import { useTranslation } from 'react-i18next'
 
 export function useGetSidebarItems(): SidebarRoutes {
