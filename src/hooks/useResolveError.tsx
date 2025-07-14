@@ -20,7 +20,7 @@ import { CopyToClipboardButton } from '@pagopa/mui-italia'
 import { parseJwt } from '@/api/auth/auth.utils'
 import { hasSessionExpired } from '@/utils/common.utils'
 import { DialogSessionExpired } from '@/components/dialogs/DialogSessionExpired'
-import { useCorrelationId } from '@/stores/correlation-id.store'
+import { useErrorData } from '@/stores/error-data.store'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -36,14 +36,15 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   let title, description: string | undefined
   let content: JSX.Element | null = null
   const correlationId = error.response?.data.correlationId
+  const errorCode = error.response?.data.errros.errorCode
 
-  const { setCorrelationId } = useCorrelationId()
+  const { setErrorData } = useErrorData()
 
   useEffect(() => {
     if (correlationId) {
-      setCorrelationId(correlationId)
+      setErrorData(correlationId, errorCode)
     }
-  }, [correlationId, setCorrelationId])
+  }, [correlationId, errorCode, setErrorData])
 
   const reloadPageButton = (
     <Button size="small" variant="contained" onClick={() => window.location.reload()}>
@@ -89,7 +90,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
       />
       <Button
         target="_blank"
-        href={`${assistanceLink}?data={"traceId":"${correlationId}"}`}
+        href={`${assistanceLink}?data={"traceId":"${correlationId}", "errorCode":"${errorCode}"}`}
         style={{ backgroundColor: 'transparent', fontWeight: 700 }}
         disableRipple
       >
