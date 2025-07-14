@@ -83,23 +83,6 @@ describe('InteropSidebar', () => {
     expect(screen.queryByText('item-child-2')).not.toBeInTheDocument()
   })
 
-  it.only('should be able to select a route', async () => {
-    renderWithApplicationContext(<InteropSidebar routes={mockRoutes} mobile={false} />, {
-      withRouterContext: true,
-    })
-
-    const user = userEvent.setup()
-    const menuItem = screen.getByText('item-root-1')
-    await user.click(menuItem)
-
-    // Assert aria-selected or selected class
-
-    await waitFor(() => {
-      screen.debug()
-      // expect(screen.getByTestId('item-root-1')).toHaveAttribute('aria-selected', 'true')
-    })
-  })
-
   describe('mobile sidebar', () => {
     it('should render only burger icon when menu is closed', async () => {
       renderWithApplicationContext(<InteropSidebar routes={mockRoutes} mobile={true} />, {
