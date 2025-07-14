@@ -73,6 +73,7 @@ export const InteropSidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
 const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
   const generatePath = useGeneratePath()
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
+
   const pathname = useCurrentRoute().routeKey
   const { jwt } = AuthHooks.useJwt()
 
@@ -117,6 +118,7 @@ const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) =
       {routes
         .filter(({ hide }) => !hide)
         .map((route) => {
+          console.log('incluso?', isRouteInCurrentSubtree(route.rootRouteKey), route.rootRouteKey)
           const sidebarItemLinkProps: SidebarItemLinkProps<typeof Link> = {
             isSelected: isRouteInCurrentSubtree(route.rootRouteKey),
             StartIcon: route.icon,
@@ -132,7 +134,11 @@ const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) =
 
           if (route.children && route.children.length > 0) {
             return collapsed ? (
-              <SidebarItemLink key={route.label} {...sidebarItemLinkProps} />
+              <SidebarItemLink
+                datatest-id={route.label}
+                key={route.label}
+                {...sidebarItemLinkProps}
+              />
             ) : (
               <SidebarItemCollapsable
                 key={route.label}

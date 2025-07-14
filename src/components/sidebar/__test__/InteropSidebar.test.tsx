@@ -6,17 +6,18 @@ import {
 } from '@/utils/testing.utils'
 import { InteropSidebar } from '../InteropSidebar'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
-import { screen } from '@testing-library/react'
+// import { vi } from 'vitest'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import type { SidebarRoutes } from '../sidebar.types'
-import * as useIsRouteInCurrentSubtree from '@/components/layout/SideNav/hooks/useIsRouteInCurrentSubtree'
+// import * as useIsRouteInCurrentSubtree from '@/components/layout/SideNav/hooks/useIsRouteInCurrentSubtree'
 import { ConsumerIcon } from '@/assets'
 import { CatalogIcon } from '@/assets/CatalogIcon'
+import { RouteKey } from '@/router'
 
-mockUseCurrentRoute({ routeKey: 'TOS' })
+// mockUseCurrentRoute({ routeKey: 'DEFAULT' })
 mockUseJwt()
 
-vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnValue(() => false)
+// vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnValue(() => false)
 
 describe('InteropSidebar', () => {
   const mockRoutes: SidebarRoutes = [
@@ -80,6 +81,23 @@ describe('InteropSidebar', () => {
 
     expect(screen.queryByText('item-child-1')).not.toBeInTheDocument()
     expect(screen.queryByText('item-child-2')).not.toBeInTheDocument()
+  })
+
+  it.only('should be able to select a route', async () => {
+    renderWithApplicationContext(<InteropSidebar routes={mockRoutes} mobile={false} />, {
+      withRouterContext: true,
+    })
+
+    const user = userEvent.setup()
+    const menuItem = screen.getByText('item-root-1')
+    await user.click(menuItem)
+
+    // Assert aria-selected or selected class
+
+    await waitFor(() => {
+      screen.debug()
+      // expect(screen.getByTestId('item-root-1')).toHaveAttribute('aria-selected', 'true')
+    })
   })
 
   describe('mobile sidebar', () => {

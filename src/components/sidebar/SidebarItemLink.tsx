@@ -49,8 +49,9 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
   const styles = sidebarStyles(theme, collapsed)
 
   return (
-    <ListItem sx={{ p: 0 }}>
+    <ListItem data-testid={label} sx={{ p: 0 }}>
       <ListItemButton
+        aria-selected={isSelected}
         component={component ?? 'a'}
         to={props.to}
         sx={{
@@ -86,7 +87,7 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
         {notification && <BadgeNotification badgeContent={notification.content} />}
         {!collapsed && EndIcon && (
           <ListItemIcon>
-            <EndIcon color="action" />
+            <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />
           </ListItemIcon>
         )}
       </ListItemButton>
