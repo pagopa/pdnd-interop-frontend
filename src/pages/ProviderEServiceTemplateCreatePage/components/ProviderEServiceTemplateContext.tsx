@@ -1,11 +1,8 @@
-import React from 'react'
+import type { FC, ReactNode } from 'react'
+import { useMemo } from 'react'
 import { createContext } from '@/utils/common.utils'
 import noop from 'lodash/noop'
-import type {
-  EServiceMode,
-  EServiceTemplateVersionDetails,
-  TenantKind,
-} from '@/api/api.generatedTypes'
+import type { EServiceMode, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 
 type EServiceTemplateCreateContextType = {
   templateVersion: EServiceTemplateVersionDetails | undefined
@@ -14,16 +11,6 @@ type EServiceTemplateCreateContextType = {
   back: VoidFunction
   forward: VoidFunction
   areEServiceTemplateGeneralInfoEditable: boolean
-  riskAnalysisFormState: {
-    isOpen: boolean
-    riskAnalysisId: string | undefined
-  }
-  tenantKind: TenantKind
-  openRiskAnalysisForm: (value: {
-    riskAnalysisId?: string
-    tenantKindSelected?: TenantKind
-  }) => void
-  closeRiskAnalysisForm: VoidFunction
 }
 
 const initialState: EServiceTemplateCreateContextType = {
@@ -33,13 +20,6 @@ const initialState: EServiceTemplateCreateContextType = {
   back: noop,
   forward: noop,
   areEServiceTemplateGeneralInfoEditable: true,
-  riskAnalysisFormState: {
-    isOpen: false,
-    riskAnalysisId: undefined,
-  },
-  tenantKind: 'PA',
-  openRiskAnalysisForm: noop,
-  closeRiskAnalysisForm: noop,
 }
 
 const { useContext, Provider } = createContext<EServiceTemplateCreateContextType>(
@@ -48,7 +28,7 @@ const { useContext, Provider } = createContext<EServiceTemplateCreateContextType
 )
 
 type EServiceTemplateCreateContextProviderProps = {
-  children: React.ReactNode
+  children: ReactNode
   templateVersion: EServiceTemplateVersionDetails | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
@@ -56,9 +36,7 @@ type EServiceTemplateCreateContextProviderProps = {
   forward: VoidFunction
 }
 
-const EServiceTemplateCreateContextProvider: React.FC<
-  EServiceTemplateCreateContextProviderProps
-> = ({
+const EServiceTemplateCreateContextProvider: FC<EServiceTemplateCreateContextProviderProps> = ({
   children,
   templateVersion,
   eserviceTemplateMode,
@@ -66,40 +44,7 @@ const EServiceTemplateCreateContextProvider: React.FC<
   back,
   forward,
 }) => {
-  const [riskAnalysisFormState, setRiskAnalysisFormState] = React.useState<{
-    isOpen: boolean
-    riskAnalysisId: string | undefined
-  }>({
-    isOpen: false,
-    riskAnalysisId: undefined,
-  })
-
-  const [tenantKind, setTenantKind] = React.useState<TenantKind>('PA')
-
-  const openRiskAnalysisForm = ({
-    riskAnalysisId,
-    tenantKindSelected,
-  }: {
-    riskAnalysisId?: string
-    tenantKindSelected?: TenantKind
-  }) => {
-    if (tenantKindSelected) {
-      setTenantKind(tenantKindSelected)
-    }
-    setRiskAnalysisFormState({
-      isOpen: true,
-      riskAnalysisId: riskAnalysisId,
-    })
-  }
-
-  const closeRiskAnalysisForm = () => {
-    setRiskAnalysisFormState({
-      isOpen: false,
-      riskAnalysisId: undefined,
-    })
-  }
-
-  const providerValue = React.useMemo(() => {
+  const providerValue = useMemo(() => {
     const areEServiceTemplateGeneralInfoEditable = Boolean(
       // case 1: new e-service template
       !templateVersion ||
@@ -114,20 +59,8 @@ const EServiceTemplateCreateContextProvider: React.FC<
       areEServiceTemplateGeneralInfoEditable,
       back,
       forward,
-      riskAnalysisFormState,
-      openRiskAnalysisForm,
-      closeRiskAnalysisForm,
-      tenantKind,
     }
-  }, [
-    templateVersion,
-    eserviceTemplateMode,
-    onEserviceTemplateModeChange,
-    back,
-    forward,
-    riskAnalysisFormState,
-    tenantKind,
-  ])
+  }, [templateVersion, eserviceTemplateMode, onEserviceTemplateModeChange, back, forward])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

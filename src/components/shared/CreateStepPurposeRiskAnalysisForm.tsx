@@ -1,4 +1,4 @@
-import type { RiskAnalysisFormConfig, Tenant, TenantKind } from '@/api/api.generatedTypes'
+import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import React from 'react'
 import { FormProvider } from 'react-hook-form'
 import { Alert, Box, Stack } from '@mui/material'
@@ -12,8 +12,8 @@ import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisForm
 import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 
 type CreateStepPurposeRiskAnalysisFormProps = {
-  defaultName: string | undefined
-  defaultAnswers: Record<string, string[]>
+  defaultName?: string | undefined
+  defaultAnswers?: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
   onSubmit: (name: string, answers: Record<string, string[]>) => void
   onCancel: VoidFunction
