@@ -1,23 +1,12 @@
 import React from 'react'
-import {
-  mockUseCurrentRoute,
-  mockUseJwt,
-  renderWithApplicationContext,
-} from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { InteropSidebar } from '../InteropSidebar'
 import userEvent from '@testing-library/user-event'
-// import { vi } from 'vitest'
-import { fireEvent, screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import type { SidebarRoutes } from '../sidebar.types'
-// import * as useIsRouteInCurrentSubtree from '@/components/layout/SideNav/hooks/useIsRouteInCurrentSubtree'
-import { ConsumerIcon } from '@/assets'
-import { CatalogIcon } from '@/assets/CatalogIcon'
-import { RouteKey } from '@/router'
+import { ConsumerIcon, CatalogIcon } from '@/icons'
 
-// mockUseCurrentRoute({ routeKey: 'DEFAULT' })
 mockUseJwt()
-
-// vi.spyOn(useIsRouteInCurrentSubtree, 'useIsRouteInCurrentSubtree').mockReturnValue(() => false)
 
 describe('InteropSidebar', () => {
   const mockRoutes: SidebarRoutes = [
