@@ -13,7 +13,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { type SvgIconComponent } from '@mui/icons-material'
 import type { Notification } from './sidebar.types'
-import { SidebarRootIcon } from './SidebarItemRootIcon'
+import { SidebarIcon } from './SidebarIcon'
 import { Link } from 'react-router-dom'
 
 type SidebarItemCollapsableProps = {
@@ -77,7 +77,7 @@ export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
           }
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
-            <SidebarRootIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
+            <SidebarIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
             {!collapsed && (
               <ListItemText
                 disableTypography

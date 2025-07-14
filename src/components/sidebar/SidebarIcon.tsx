@@ -3,17 +3,13 @@ import { type SvgIconComponent } from '@mui/icons-material'
 import { ListItemIcon, Badge, Tooltip } from '@mui/material'
 import type { Notification } from './sidebar.types'
 
-type SidebarRootIconProps = {
+type SidebarIconProps = {
   Icon: SvgIconComponent
   notification?: Notification
   tooltipLabel: string
 }
 
-export const SidebarRootIcon: React.FC<SidebarRootIconProps> = ({
-  Icon,
-  notification,
-  tooltipLabel,
-}) => {
+export const SidebarIcon: React.FC<SidebarIconProps> = ({ Icon, notification, tooltipLabel }) => {
   return (
     <Tooltip data-testid="sidebar-icon" title={tooltipLabel} placement="right">
       <ListItemIcon>
@@ -21,7 +17,7 @@ export const SidebarRootIcon: React.FC<SidebarRootIconProps> = ({
           <Icon fontSize="inherit" />
         ) : (
           <Badge color="primary" badgeContent={notification.content} variant="dot">
-            <Icon data-testid={Icon.name} fontSize="inherit" />
+            <Icon fontSize="inherit" />
           </Badge>
         )}
       </ListItemIcon>

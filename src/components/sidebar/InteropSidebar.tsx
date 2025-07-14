@@ -1,15 +1,5 @@
 import React from 'react'
-import {
-  Box,
-  Divider,
-  List,
-  useTheme,
-  Tooltip,
-  IconButton,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from '@mui/material'
+import { Box, Divider, List, useTheme, Tooltip, IconButton, Stack, Typography } from '@mui/material'
 import { sidebarStyles } from './sidebar.styles'
 import { SidebarItemCollapsable } from './SidebarItemCollapsable'
 import { useState } from 'react'
@@ -73,6 +63,7 @@ export const InteropSidebar: React.FC<SidebarProps> = ({ routes, mobile }) => {
 const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) => {
   const generatePath = useGeneratePath()
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
+  const { t } = useTranslation('sidebar')
 
   const pathname = useCurrentRoute().routeKey
   const { jwt } = AuthHooks.useJwt()
@@ -164,14 +155,14 @@ const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) =
       <Divider sx={{ marginBottom: 2 }} />
       <SidebarItemLink
         href={selfcareUsersPageUrl}
-        label="Utenti"
+        label={t('userExternalLinkLabel')}
         StartIcon={PeopleIcon}
         EndIcon={ExitToAppRoundedIcon}
         collapsed={collapsed}
       />
       <SidebarItemLink
         href={selfcareGroupsPageUrl}
-        label="Gruppi"
+        label={t('userExternalLinkLabel')}
         target="_blank"
         StartIcon={SupervisedUserCircleIcon}
         EndIcon={ExitToAppRoundedIcon}
@@ -234,8 +225,7 @@ const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ collapsed, handleCollap
         <Tooltip placement="right" title={tooltipTitle}>
           <IconButton
             sx={{ padding: { xs: 1 } }}
-            data-testid="hamburgerButton"
-            aria-label="hamburger-icon"
+            aria-label="open or close sidebar"
             onClick={handleCollapsed}
             size="large"
           >

@@ -12,7 +12,7 @@ import { BadgeNotification } from './BadgeNotification'
 import type { Notification } from './sidebar.types'
 import { sidebarStyles } from './sidebar.styles'
 import type { SvgIconComponent } from '@mui/icons-material'
-import { SidebarRootIcon } from './SidebarItemRootIcon'
+import { SidebarIcon } from './SidebarIcon'
 
 type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & Omit<
     ComponentPropsWithoutRef<C>,
@@ -63,7 +63,7 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
         {...props}
       >
         {StartIcon && (
-          <SidebarRootIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
+          <SidebarIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
         )}
 
         {!collapsed && (
