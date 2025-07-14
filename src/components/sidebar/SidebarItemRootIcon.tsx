@@ -11,18 +11,17 @@ type SidebarRootIconProps = {
 
 export const SidebarRootIcon: React.FC<SidebarRootIconProps> = ({
   Icon,
-
   notification,
   tooltipLabel,
 }) => {
   return (
-    <Tooltip title={tooltipLabel} placement="right">
+    <Tooltip data-testid="sidebar-icon" title={tooltipLabel} placement="right">
       <ListItemIcon>
         {!notification || notification?.content <= 0 ? (
           <Icon fontSize="inherit" />
         ) : (
           <Badge color="primary" badgeContent={notification.content} variant="dot">
-            <Icon fontSize="inherit" />
+            <Icon data-testid={Icon.name} fontSize="inherit" />
           </Badge>
         )}
       </ListItemIcon>
