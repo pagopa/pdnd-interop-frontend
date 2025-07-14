@@ -118,7 +118,6 @@ const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) =
       {routes
         .filter(({ hide }) => !hide)
         .map((route) => {
-          console.log('incluso?', isRouteInCurrentSubtree(route.rootRouteKey), route.rootRouteKey)
           const sidebarItemLinkProps: SidebarItemLinkProps<typeof Link> = {
             isSelected: isRouteInCurrentSubtree(route.rootRouteKey),
             StartIcon: route.icon,
