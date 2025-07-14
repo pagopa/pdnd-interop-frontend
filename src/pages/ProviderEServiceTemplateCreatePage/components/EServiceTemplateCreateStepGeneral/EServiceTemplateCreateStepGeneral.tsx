@@ -3,11 +3,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import {
-  RHFCheckbox,
-  RHFRadioGroup,
-  RHFTextField,
-} from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
@@ -89,6 +85,24 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     })
   }
 
+  const signalHubLabel = (
+    <>
+      {' '}
+      <span> {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')} </span>
+      <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
+        {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before')}{' '}
+        <IconLink
+          href={SIGNALHUB_GUIDE_URL}
+          target="_blank"
+          endIcon={<LaunchIcon fontSize="small" />}
+        >
+          {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel')}
+        </IconLink>{' '}
+        {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after')}
+      </Typography>
+    </>
+  ) as unknown as string
+
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -167,35 +181,10 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
           {isSignalHubFlagEnabled && (
             <SectionContainer innerSection sx={{ mt: 3 }}>
-              <RHFCheckbox
+              <RHFSwitch
                 disabled={!areEServiceTemplateGeneralInfoEditable}
                 name="isSignalHubEnabled"
-                label={
-                  <>
-                    {' '}
-                    <span>
-                      {' '}
-                      {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')}{' '}
-                    </span>
-                    <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
-                      {t(
-                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before'
-                      )}{' '}
-                      <IconLink
-                        href={SIGNALHUB_GUIDE_URL}
-                        target="_blank"
-                        endIcon={<LaunchIcon fontSize="small" />}
-                      >
-                        {t(
-                          'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel'
-                        )}
-                      </IconLink>{' '}
-                      {t(
-                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after'
-                      )}
-                    </Typography>
-                  </>
-                }
+                label={signalHubLabel}
               />
             </SectionContainer>
           )}
