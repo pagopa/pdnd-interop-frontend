@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, useMediaQuery, useTheme } from '@mui/material'
 import type { SxProps } from '@mui/material'
-import { SideNav } from '@/components/layout'
+import { InteropSidebar } from '../sidebar/InteropSidebar'
+import { useGetSidebarItems } from '../sidebar/useGetSidebarItems'
 
 type AppLayoutProps = {
   children: React.ReactNode
@@ -10,6 +11,10 @@ type AppLayoutProps = {
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx }) => {
+  const theme = useTheme()
+  const matchMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const interopRoutes = useGetSidebarItems()
+
   if (hideSideNav) {
     return (
       <Box
@@ -28,33 +33,27 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
   }
 
   return (
-    <Box sx={{ flexGrow: 1, height: '100%' }}>
-      <Stack direction="row" sx={{ height: '100%', overflowX: 'hidden' }}>
-        <SideNav />
-        <Box
-          sx={{
-            px: 3,
-            py: 2,
-            flexGrow: 1,
-            position: 'relative',
-            '::after': {
-              content: '""',
-              position: 'absolute',
-              right: 0,
-              top: 0,
-              bgcolor: 'background.default',
-              width: 10000,
-              height: '100%',
-              transform: 'translate(100%, 0)',
-            },
-          }}
-          bgcolor="#FAFAFA"
-        >
-          <Box component="main" sx={{ height: '100%', maxWidth: 1280 }}>
-            {children}
-          </Box>
+    <Stack
+      id="interop-sidenav-main"
+      sx={{
+        flexDirection: matchMobile ? 'column' : 'row',
+      }}
+    >
+      <InteropSidebar mobile={matchMobile} routes={interopRoutes} />
+      {/* <SideNav /> */}
+      <Box
+        sx={{
+          flexGrow: 1,
+          px: 3,
+          py: 2,
+          height: '100%',
+          bgcolor: '#FAFAFA',
+        }}
+      >
+        <Box component="main" sx={{ maxWidth: 1280 }}>
+          {children}
         </Box>
-      </Stack>
-    </Box>
+      </Box>
+    </Stack>
   )
 }
