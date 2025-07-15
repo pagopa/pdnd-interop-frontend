@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Typography } from '@mui/material'
+import { Box, Tooltip, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import {
@@ -155,11 +155,19 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                 value: 'DELIVER',
               },
               {
-                label: t('create.step1.eserviceTemplateModeField.options.RECEIVE'),
+                label: (
+                  <Tooltip //TODO: TEMP tooltip for disabled receive mode
+                    title={t('create.step1.eserviceTemplateModeField.tooltipReceiveMode')}
+                    placement="top"
+                    arrow
+                  >
+                    <span>{t('create.step1.eserviceTemplateModeField.options.RECEIVE')}</span>
+                  </Tooltip>
+                ),
                 value: 'RECEIVE',
               },
             ]}
-            disabled={!areEServiceTemplateGeneralInfoEditable}
+            disabled={true} //{!areEServiceTemplateGeneralInfoEditable} TODO: TEMP  Receive mode is currently disabled
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
