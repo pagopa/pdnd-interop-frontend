@@ -63,7 +63,7 @@ export const DialogRevokeDelegation: React.FC<DialogRevokeDelegationProps> = ({
             <Trans
               components={{
                 1: <Link underline="hover" href={delegationGuideLink} target="_blank" />,
-                strong: <Typography variant="inherit" pt={2} fontWeight={600} />,
+                strong: <Typography variant="inherit" component="span" fontWeight={600} />,
               }}
             >
               {t('content.description', {
