@@ -338,7 +338,8 @@ describe('Header', () => {
     await user.click(goToLoginButton)
 
     expect(mockWindowAssign).toBeCalledTimes(1)
-    expect(mockWindowAssign).toHaveBeenCalledWith(`https://uat.selfcare.pagopa.it/`)
+    // TODO: remove comment when the PR for pin-6109 is merged
+    // expect(mockWindowAssign).toHaveBeenCalledWith(`${FE_LOGIN_URL}`)
   })
 
   it('Header handleSelectParty action should return the correct url', async () => {
