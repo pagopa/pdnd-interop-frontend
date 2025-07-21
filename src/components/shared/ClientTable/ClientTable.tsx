@@ -5,7 +5,6 @@ import { ClientTableRow, ClientTableRowSkeleton } from './ClientTableRow'
 import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import type { ClientKind, GetClientsParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_ADMIN_CLIENT } from '@/config/env'
 
 type ClientTableProps = {
   clientKind: ClientKind

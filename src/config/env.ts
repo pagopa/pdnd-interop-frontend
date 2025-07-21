@@ -5,7 +5,7 @@ const viteConfigMode = z.enum(['development', 'production', 'test'])
 type ViteConfigMode = z.infer<typeof viteConfigMode>
 
 const GeneralConfigs = z.object({
-  NODE_ENV: z.enum(['development', 'production', 'test']),
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
   STAGE: z.enum(['DEV', 'PROD', 'UAT', 'ATT', 'QA', 'VAPT']),
   MIXPANEL_PROJECT_ID: z.string(),
   ONETRUST_DOMAIN_SCRIPT_ID: z.string(),
@@ -25,15 +25,14 @@ const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
   FEATURE_FLAG_SIGNALHUB_WHITELIST: z.enum(['true', 'false']),
-  SIGNALHUB_WHITELIST_PRODUCER: z.string(),
-  SIGNALHUB_WHITELIST_CONSUMER: z.string(),
+  SIGNALHUB_WHITELIST_PRODUCER: z.string().optional(),
+  SIGNALHUB_WHITELIST_CONSUMER: z.string().optional(),
 })
 
 const EndpointConfigs = z.object({
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: z.string().url(),
   BACKEND_FOR_FRONTEND_URL: z.string().url(),
   INTEROP_RESOURCES_BASE_URL: z.string().url(),
-  API_GATEWAY_INTERFACE_URL: z.string().url(),
   SELFCARE_BASE_URL: z.string().url(),
 })
 
@@ -46,8 +45,12 @@ const transformedFEConfigs = FEConfigs.transform((c) => ({
     ? parseCommaSeparatedToArray(c.PRODUCER_ALLOWED_ORIGINS)
     : ['IPA'],
   WELL_KNOWN_URLS: parseCommaSeparatedToArray(c.WELL_KNOWN_URLS),
-  SIGNALHUB_WHITELIST_CONSUMER: parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_CONSUMER),
-  SIGNALHUB_WHITELIST_PRODUCER: parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_PRODUCER),
+  SIGNALHUB_WHITELIST_CONSUMER: c.SIGNALHUB_WHITELIST_CONSUMER
+    ? parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_CONSUMER)
+    : '',
+  SIGNALHUB_WHITELIST_PRODUCER: c.SIGNALHUB_WHITELIST_PRODUCER
+    ? parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_PRODUCER)
+    : '',
   TEMP_USER_BLACKLIST_URL: c.INTEROP_RESOURCES_BASE_URL + '/blacklist.json',
 }))
 
@@ -82,7 +85,6 @@ export const {
   BACKEND_FOR_FRONTEND_URL,
   SELFCARE_LOGIN_URL: FE_LOGIN_URL,
   SELFCARE_BASE_URL,
-  API_GATEWAY_INTERFACE_URL,
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
   CLIENT_ASSERTION_JWT_AUDIENCE,
   API_SIGNAL_HUB_PULL_INTERFACE_URL,
