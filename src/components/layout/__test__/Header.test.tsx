@@ -291,6 +291,11 @@ describe('Header', () => {
     const correlationId = 'test-correlation-id'
     const errorCode = 'test-error-code'
 
+    const errorData = {
+      traceId: correlationId,
+      errorCode: errorCode,
+    }
+
     spyUseErrorData.mockReturnValue({
       correlationId,
       errorCode,
@@ -309,7 +314,7 @@ describe('Header', () => {
     const user = userEvent.setup()
     await user.click(assistanceButton)
 
-    const assistanceLinkWithCorrelationId = `${assistanceLink}?data={"traceId":"${correlationId}", "errorCode":"${errorCode}"}`
+    const assistanceLinkWithCorrelationId = `${assistanceLink}&data=${JSON.stringify(errorData)}`
 
     expect(spyWindowOpen).toHaveBeenCalledTimes(1)
     expect(spyWindowOpen).toHaveBeenCalledWith(`${assistanceLinkWithCorrelationId}`, '_blank')
