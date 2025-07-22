@@ -1,8 +1,7 @@
 import React from 'react'
 import { Box, Stack, useMediaQuery, useTheme } from '@mui/material'
 import type { SxProps } from '@mui/material'
-import { InteropSidebar } from '../sidebar/InteropSidebar'
-import { useGetSidebarItems } from '../sidebar/useGetSidebarItems'
+import { Sidebar } from '../sidebar/Sidebar'
 
 type AppLayoutProps = {
   children: React.ReactNode
@@ -12,8 +11,7 @@ type AppLayoutProps = {
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx }) => {
   const theme = useTheme()
-  const matchMobile = useMediaQuery(theme.breakpoints.down('sm'))
-  const interopRoutes = useGetSidebarItems()
+  const matchMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   if (hideSideNav) {
     return (
@@ -39,8 +37,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
         flexDirection: matchMobile ? 'column' : 'row',
       }}
     >
-      <InteropSidebar mobile={matchMobile} routes={interopRoutes} />
-      {/* <SideNav /> */}
+      <Sidebar mobile={matchMobile} />
       <Box
         sx={{
           flexGrow: 1,
