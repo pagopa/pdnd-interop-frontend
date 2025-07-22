@@ -164,7 +164,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_CATALOG_VIEW',
-    path: '/fruizione/catalogo-e-service/:eserviceId/:descriptorId',
+    path: '/catalogo-e-service/:eserviceId/:descriptorId',
     element: <ConsumerEServiceDetailsPage />,
     public: false,
     hideSideNav: false,

@@ -134,7 +134,7 @@ const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) =
                 key={route.label}
                 notification={{
                   show: route?.showNotification ?? false,
-                  content: 10,
+                  content: 0,
                 }}
                 label={route.label}
                 divider={route.divider}
@@ -162,7 +162,7 @@ const InteropSidebarList: React.FC<SidebarListProps> = ({ collapsed, routes }) =
       />
       <SidebarItemLink
         href={selfcareGroupsPageUrl}
-        label={t('userExternalLinkLabel')}
+        label={t('groupsExternalLinkLabel')}
         target="_blank"
         StartIcon={SupervisedUserCircleIcon}
         EndIcon={ExitToAppRoundedIcon}

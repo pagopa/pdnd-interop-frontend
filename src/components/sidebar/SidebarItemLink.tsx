@@ -4,6 +4,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
   Typography,
   useTheme,
 } from '@mui/material'
@@ -50,47 +51,47 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
 
   return (
     <ListItem data-testid={label} sx={{ p: 0 }}>
-      <ListItemButton
-        aria-selected={isSelected}
-        component={component ?? 'a'}
-        to={props.to}
-        sx={{
-          pl: 4,
-          ...(isSelected && styles.itemButtonActive),
-        }}
-        selected={isSelected}
-        disabled={disabled}
-        {...props}
-      >
-        {StartIcon && (
-          <SidebarIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
-        )}
+      <Tooltip data-testid="sidebar-icon" title={label} placement="right">
+        <ListItemButton
+          aria-selected={isSelected}
+          component={component ?? 'a'}
+          to={props.to}
+          sx={{
+            pl: 4,
+            ...(isSelected && styles.itemButtonActive),
+          }}
+          selected={isSelected}
+          disabled={disabled}
+          {...props}
+        >
+          {StartIcon && <SidebarIcon Icon={StartIcon} notification={notification} />}
 
-        {!collapsed && (
-          <ListItemText
-            disableTypography
-            sx={{ color: 'inherit', marginLeft: 7 }}
-            primary={
-              <Typography
-                color="inherit"
-                {...typographyProps}
-                sx={{
-                  fontWeight: 600,
-                  ...typographyProps?.sx,
-                }}
-              >
-                {label}
-              </Typography>
-            }
-          />
-        )}
-        {notification && <BadgeNotification badgeContent={notification.content} />}
-        {!collapsed && EndIcon && (
-          <ListItemIcon>
-            <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />
-          </ListItemIcon>
-        )}
-      </ListItemButton>
+          {!collapsed && (
+            <ListItemText
+              disableTypography
+              sx={{ color: 'inherit', marginLeft: 7 }}
+              primary={
+                <Typography
+                  color="inherit"
+                  {...typographyProps}
+                  sx={{
+                    fontWeight: 600,
+                    ...typographyProps?.sx,
+                  }}
+                >
+                  {label}
+                </Typography>
+              }
+            />
+          )}
+          {notification && <BadgeNotification badgeContent={notification.content} />}
+          {!collapsed && EndIcon && (
+            <ListItemIcon>
+              <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />
+            </ListItemIcon>
+          )}
+        </ListItemButton>
+      </Tooltip>
     </ListItem>
   )
 }

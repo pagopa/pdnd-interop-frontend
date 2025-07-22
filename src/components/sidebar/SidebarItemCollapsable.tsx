@@ -77,7 +77,7 @@ export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
           }
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
-            <SidebarIcon tooltipLabel={label} Icon={StartIcon} notification={notification} />
+            <SidebarIcon Icon={StartIcon} notification={notification} />
             {!collapsed && (
               <ListItemText
                 disableTypography
