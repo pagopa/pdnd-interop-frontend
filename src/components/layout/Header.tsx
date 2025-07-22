@@ -128,10 +128,13 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   }
 
   const goToAssistance = () => {
+    const errorData = {
+      traceId: correlationId,
+      errorCode: errorCode,
+    }
+
     window.open(
-      `${assistanceLink}${
-        correlationId ? `?data={"traceId":"${correlationId}", "errorCode":"${errorCode}"}` : ''
-      }`,
+      `${assistanceLink}${correlationId ? `&data=${JSON.stringify(errorData)}` : ''}`,
       '_blank'
     )
   }
