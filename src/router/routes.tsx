@@ -58,6 +58,7 @@ import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
+import { NotificationUserConfigPage } from '@/pages/NotificationUserConfigPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -561,6 +562,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'NOTIFICATION_CONFIG_PAGE',
+    path: '/notifiche/configurazione',
+    element: <NotificationUserConfigPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin'],
   })
   .build()
 

@@ -145,19 +145,20 @@ export interface EServiceSeed {
 export interface UpdateEServiceDescriptorQuotas {
   /**
    * @format int32
-   * @min 0
+   * @min 60
+   * @max 86400
    */
   voucherLifespan: number
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
    */
   dailyCallsTotal: number
 }
@@ -1916,6 +1917,51 @@ export interface UpdateEServiceTemplateVersionDocumentSeed {
   prettyName: string
 }
 
+export interface Notifications {
+  results: Notification[]
+  /** @format int32 */
+  totalCount: number
+}
+
+export interface Notification {
+  /**
+   * Unique identifier of the notification
+   * @format uuid
+   */
+  id: string
+  /**
+   * ID of the user
+   * @format uuid
+   */
+  userId: string
+  /**
+   * ID of the tenant
+   * @format uuid
+   */
+  tenantId: string
+  /** Content of the notification */
+  body: string
+  /**
+   * Timestamp when the notification was read
+   * @format date-time
+   */
+  readAt: string | null
+  /**
+   * Timestamp when the notification was created
+   * @format date-time
+   */
+  createdAt: string
+}
+
+export interface UserNotificationConfigSeed {
+  inAppConfig: NotificationConfigSeed
+  emailConfig: NotificationConfigSeed
+}
+
+export interface NotificationConfigSeed {
+  newEServiceVersionPublished: boolean
+}
+
 export interface ProblemError {
   /**
    * Internal code of the error
@@ -2077,19 +2123,36 @@ export interface GetEServicesCatalogParams {
 
 export interface GetConsumerDelegatorsParams {
   q?: string
-  /** @default [] */
+  /**
+   * comma separated sequence of EService IDs
+   * @default []
+   */
   eserviceIds?: string[]
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   offset: number
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
   limit: number
 }
 
 export interface GetConsumerDelegatorsWithAgreementsParams {
   q?: string
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 0
+   */
   offset: number
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
   limit: number
 }
 
@@ -2574,6 +2637,26 @@ export interface IsEServiceNameAvailableParams {
   name: string
 }
 
+export interface GetNotificationsParams {
+  /** Query to filter notifications */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface MarkNotificationsAsReadPayload {
+  ids: string[]
+}
+
 export namespace Consumers {
   /**
    * @description retrieves a list of consumer agreements
@@ -2630,11 +2713,21 @@ export namespace Consumers {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
-      /** @default [] */
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
       eserviceIds?: string[]
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 0
+       */
       offset: number
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
       limit: number
     }
     export type RequestBody = never
@@ -2652,9 +2745,16 @@ export namespace Consumers {
     export type RequestParams = {}
     export type RequestQuery = {
       q?: string
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 0
+       */
       offset: number
-      /** @format int32 */
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
       limit: number
     }
     export type RequestBody = never
@@ -2848,7 +2948,10 @@ export namespace Consumers {
    */
   export namespace RevokeConsumerDelegation {
     export type RequestParams = {
-      /** The delegation id */
+      /**
+       * The delegation id
+       * @format uuid
+       */
       delegationId: string
     }
     export type RequestQuery = {}
@@ -3151,7 +3254,10 @@ export namespace Producers {
    */
   export namespace RevokeProducerDelegation {
     export type RequestParams = {
-      /** The delegation id */
+      /**
+       * The delegation id
+       * @format uuid
+       */
       delegationId: string
     }
     export type RequestQuery = {}
@@ -4367,11 +4473,20 @@ export namespace Eservices {
    */
   export namespace GetEServiceDocumentById {
     export type RequestParams = {
-      /** the eservice id */
+      /**
+       * the eservice id
+       * @format uuid
+       */
       eServiceId: string
-      /** the descriptor Id */
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
       descriptorId: string
-      /** the document id */
+      /**
+       * the document id
+       * @format uuid
+       */
       documentId: string
     }
     export type RequestQuery = {}
@@ -6700,7 +6815,10 @@ export namespace ProducerKeychains {
    */
   export namespace GetProducerKeychain {
     export type RequestParams = {
-      /** The Producer Keychain id */
+      /**
+       * The Producer Keychain id
+       * @format uuid
+       */
       producerKeychainId: string
     }
     export type RequestQuery = {}
@@ -6718,7 +6836,10 @@ export namespace ProducerKeychains {
    */
   export namespace DeleteProducerKeychain {
     export type RequestParams = {
-      /** The Producer Keychain id */
+      /**
+       * The Producer Keychain id
+       * @format uuid
+       */
       producerKeychainId: string
     }
     export type RequestQuery = {}
@@ -7076,6 +7197,119 @@ export namespace Creators {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = ProducerEServiceTemplates
+  }
+}
+
+export namespace InAppNotification {
+  /**
+   * @description Retrieves a list of notifications
+   * @tags inAppNotifications
+   * @name GetNotifications
+   * @summary Retrieves a list of notifications
+   * @request GET:/in-app-notification/notifications
+   */
+  export namespace GetNotifications {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter notifications */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as read
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsRead
+   * @summary Mark a list of notifications as read
+   * @request POST:/in-app-notification/notifications/bulk/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationsAsRead {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = MarkNotificationsAsReadPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a notification as read
+   * @tags inAppNotifications
+   * @name MarkNotificationAsRead
+   * @summary Mark a notification as read
+   * @request POST:/in-app-notification/notifications/:notificationId/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationAsRead {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Delete a notification
+   * @tags inAppNotifications
+   * @name DeleteNotification
+   * @summary Delete a notification
+   * @request DELETE:/in-app-notification/notifications/:notificationId
+   * @secure
+   */
+  export namespace DeleteNotification {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace NotificationConfig {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateTenantNotificationConfig
+   * @summary Update a tenant's notification configuration
+   * @request POST:/notification-config/tenantNotificationConfigs
+   */
+  export namespace UpdateTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = NotificationConfigSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateUserNotificationConfig
+   * @summary Update a user's notification configuration
+   * @request POST:/notification-config/userNotificationConfigs
+   */
+  export namespace UpdateUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = UserNotificationConfigSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
 }
 
