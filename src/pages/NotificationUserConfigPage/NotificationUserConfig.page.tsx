@@ -2,14 +2,14 @@ import { PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
+import { EmailNotificationUserConfigTab } from './components/EmailNotificationUserConfigTab'
 
-const NotificationConfigPage: React.FC = () => {
+const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('notificationConfig')
   return (
     <PageContainer
       title="Configuazioni notifiche utente"
       description="Gestisci le tue impostazioni di notifica in app e via email personale"
-
       // backToAction={{
       //   label: 'TODO',
       //   to: '',
@@ -27,14 +27,14 @@ const NotificationConfigPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="inApp">
-          <div>Notifiche in app</div>
+          <EmailNotificationUserConfigTab />
         </TabPanel>
         <TabPanel value="email">
-          <div>Notifhe email</div>
+          <EmailNotificationUserConfigTab />
         </TabPanel>
       </TabContext>
     </PageContainer>
   )
 }
 
-export default NotificationConfigPage
+export default NotificationUserConfigPage
