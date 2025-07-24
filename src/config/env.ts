@@ -19,6 +19,7 @@ const GeneralConfigs = z.object({
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: z.url(),
   API_GATEWAY_V1_INTERFACE_URL: z.url(),
   API_GATEWAY_V2_INTERFACE_URL: z.url(),
+  ERROR_DATA_DURATION_TIME: z.string().default('60000'),
 })
 
 const FeatureFlagConfigs = z.object({
@@ -56,6 +57,7 @@ const transformedFEConfigs = FEConfigs.transform((c) => ({
     ? parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_PRODUCER)
     : '',
   TEMP_USER_BLACKLIST_URL: c.INTEROP_RESOURCES_BASE_URL + '/blacklist.json',
+  ERROR_DATA_DURATION_TIME: z.coerce.number().parse(c.ERROR_DATA_DURATION_TIME),
 }))
 
 export type InteropFEConfigs = z.infer<typeof transformedFEConfigs>
@@ -110,6 +112,7 @@ export const {
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
   API_GATEWAY_V1_INTERFACE_URL,
   API_GATEWAY_V2_INTERFACE_URL,
+  ERROR_DATA_DURATION_TIME,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()

@@ -28,4 +28,5 @@ window.pagopa_env = {
   API_GATEWAY_V2_INTERFACE_URL:
     'https://selfcare.dev.interop.pagopa.it/m2m/v2-interface-specification.yaml',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
+  ERROR_DATA_DURATION_TIME: '90000',
 }
