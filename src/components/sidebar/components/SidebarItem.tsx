@@ -10,44 +10,46 @@ import {
 } from '@mui/material'
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
 import { BadgeNotification } from './BadgeNotification'
-import type { Notification } from './sidebar.types'
-import { sidebarStyles } from './sidebar.styles'
+import type { Notification } from '../sidebar.types'
+import { sidebarStyles } from '../sidebar.styles'
 import type { SvgIconComponent } from '@mui/icons-material'
-import { SidebarIcon } from './SidebarIcon'
+import { SidebarIcon } from '../SidebarIcon'
+import { useSidebarContext } from './Sidebar'
 
 type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & Omit<
     ComponentPropsWithoutRef<C>,
     keyof P | 'component'
   >
 
-export type SidebarItemLinkProps<C extends ElementType = 'a'> = PolymorphicProps<
+export type SidebarItem<C extends ElementType = 'a'> = PolymorphicProps<
   C,
   {
     StartIcon?: SvgIconComponent
     EndIcon?: SvgIconComponent
     typographyProps?: ComponentPropsWithoutRef<typeof Typography>
     disabled?: boolean
-    collapsed: boolean
     label: string
     notification?: Notification
     isSelected?: boolean
   }
 >
 
-export function SidebarItemLink<C extends ElementType = 'a'>({
+export function SidebarItem<C extends ElementType = 'a'>({
   isSelected,
   component,
   StartIcon,
   EndIcon,
   disabled,
   typographyProps,
-  collapsed,
   label,
   notification,
   ...props
-}: SidebarItemLinkProps<C>) {
+}: SidebarItem<C>) {
   const theme = useTheme()
-  const styles = sidebarStyles(theme, collapsed)
+
+  const { isCollapsed } = useSidebarContext()
+
+  const styles = sidebarStyles(theme, isCollapsed)
 
   return (
     <ListItem data-testid={label} sx={{ p: 0 }}>
@@ -66,7 +68,7 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
         >
           {StartIcon && <SidebarIcon Icon={StartIcon} notification={notification} />}
 
-          {!collapsed && (
+          {!isCollapsed && (
             <ListItemText
               disableTypography
               sx={{ color: 'inherit', marginLeft: 7 }}
@@ -85,7 +87,7 @@ export function SidebarItemLink<C extends ElementType = 'a'>({
             />
           )}
           {notification && <BadgeNotification badgeContent={notification.content} />}
-          {!collapsed && EndIcon && (
+          {!isCollapsed && EndIcon && (
             <ListItemIcon>
               <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />
             </ListItemIcon>

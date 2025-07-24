@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import { SidebarItemLink } from '../SidebarItemLink'
+import { SidebarItem } from '../components/SidebarItem'
 import HomeIcon from '@mui/icons-material/Home'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
@@ -16,18 +16,18 @@ describe('SidebarItemLink ', () => {
   }
 
   it('should render label and icon ', () => {
-    render(<SidebarItemLink {...defaultProps} />)
+    render(<SidebarItem {...defaultProps} />)
     expect(screen.getByText('Test Link')).toBeInTheDocument()
     expect(screen.getByTestId('sidebar-icon')).toBeInTheDocument()
   })
 
   it('should render notification badge with corrent number if notification object is provided', () => {
-    render(<SidebarItemLink {...defaultProps} />)
+    render(<SidebarItem {...defaultProps} />)
     expect(screen.getByText('3')).toBeInTheDocument()
   })
 
   it('should render as collapsed ,it means just the StartIcon should be rendered', () => {
-    render(<SidebarItemLink {...defaultProps} collapsed={true} />)
+    render(<SidebarItem {...defaultProps} collapsed={true} />)
     expect(screen.queryByText('Test Link')).not.toBeInTheDocument()
     expect(screen.getAllByTestId('sidebar-icon')).toHaveLength(1)
   })

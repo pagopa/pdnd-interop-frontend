@@ -12,59 +12,43 @@ import {
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { type SvgIconComponent } from '@mui/icons-material'
-import type { Notification } from './sidebar.types'
-import { SidebarIcon } from './SidebarIcon'
-import { Link } from 'react-router-dom'
+import type { Notification } from '../sidebar.types'
+import { SidebarIcon } from '../SidebarIcon'
+import { useSidebarContext } from './Sidebar'
 
-type SidebarItemCollapsableProps = {
+type SidebarItemGroupProps = {
   notification?: Notification
   label: string
   isExpanded: boolean
   isSelected: boolean
   icon: SvgIconComponent
   divider?: boolean
-  collapsed: boolean
   children: React.ReactNode
-  to: string
   handleExpandParent: () => void
+  renderOnCollapsed: React.ReactNode
 }
 
-export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
+export const SidebarItemGroup: React.FC<SidebarItemGroupProps> = ({
   children,
   icon: StartIcon,
   isExpanded,
   isSelected,
   handleExpandParent: handleSelectedRootItem,
   divider,
-  collapsed,
   label,
   notification,
-  to,
+  renderOnCollapsed,
 }) => {
-  const getComponentType = () => {
-    if (!collapsed) {
-      return 'button'
-    }
-    return Link
-  }
+  const { isCollapsed } = useSidebarContext()
 
-  const getNavigationLink = () => {
-    if (!collapsed) {
-      return undefined
-    }
-    return to
-  }
-
-  return (
+  return !isCollapsed ? (
     <>
       <ListItem disablePadding>
         <ListItemButton
-          component={getComponentType()}
           selected={isSelected}
-          to={getNavigationLink()}
           onClick={handleSelectedRootItem}
           sx={
-            !collapsed && isSelected
+            !isCollapsed && isSelected
               ? {
                   '&.Mui-selected': {
                     backgroundColor: 'transparent',
@@ -78,7 +62,7 @@ export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
             <SidebarIcon Icon={StartIcon} notification={notification} />
-            {!collapsed && (
+            {!isCollapsed && (
               <ListItemText
                 disableTypography
                 primary={
@@ -88,16 +72,18 @@ export const SidebarItemCollapsable: React.FC<SidebarItemCollapsableProps> = ({
                 }
               />
             )}
-            {!collapsed && (isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
+            {!isCollapsed && (isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
           </Stack>
         </ListItemButton>
       </ListItem>
       {divider && <Divider sx={{ mb: 2 }} />}
-      {!collapsed && (
+      {!isCollapsed && (
         <Collapse in={isExpanded} timeout="auto" unmountOnExit>
           <List disablePadding>{children}</List>
         </Collapse>
       )}
     </>
+  ) : (
+    renderOnCollapsed
   )
 }

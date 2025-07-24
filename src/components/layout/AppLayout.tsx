@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Stack, useMediaQuery, useTheme } from '@mui/material'
 import type { SxProps } from '@mui/material'
-import { Sidebar } from '../sidebar/Sidebar'
+import { InteropSidebar } from '../sidebar/InteropSidebar'
 
 type AppLayoutProps = {
   children: React.ReactNode
@@ -37,7 +37,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, hideSideNav, sx 
         flexDirection: matchMobile ? 'column' : 'row',
       }}
     >
-      <Sidebar mobile={matchMobile} />
+      <InteropSidebar mobile={matchMobile} />
       <Box
         sx={{
           flexGrow: 1,
