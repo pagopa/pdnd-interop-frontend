@@ -18,9 +18,7 @@ type SidebarContextProps = {
 const { Provider, useContext } = createContext<SidebarContextProps>('SidebarContext', {
   mobile: false,
   open: true,
-  onSidebarOpen: () => {
-    alert
-  },
+  onSidebarOpen: () => {},
 })
 
 export { SidebarContextProvider, useContext as useSidebarContext }
