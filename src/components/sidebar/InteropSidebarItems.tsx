@@ -14,15 +14,12 @@ import { Link } from 'react-router-dom'
 import { useIsRouteInCurrentSubtree } from '../layout/SideNav/hooks/useIsRouteInCurrentSubtree'
 import { AuthHooks } from '@/api/auth'
 import { SidebarItem } from './components/SidebarItem'
-import { Sidebar } from '../sidebar/components/Sidebar'
 
-type InteropSidebarRoutes = {
+type InteropSidebarItems = {
   routes: SidebarRoutes
 }
 
-export const InteropSidebarRoutes: React.FC<InteropSidebarRoutes> = ({ routes }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false)
-
+export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) => {
   const generatePath = useGeneratePath()
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
   const { t } = useTranslation('sidebar')
@@ -66,7 +63,7 @@ export const InteropSidebarRoutes: React.FC<InteropSidebarRoutes> = ({ routes })
       })
 
   return (
-    <Sidebar isCollapsed={isCollapsed} onToggleCollapse={setIsCollapsed}>
+    <>
       {routes
         .filter(({ hide }) => !hide)
         .map((route) => {
@@ -126,6 +123,6 @@ export const InteropSidebarRoutes: React.FC<InteropSidebarRoutes> = ({ routes })
         EndIcon={ExitToAppRoundedIcon}
         typographyProps={{ sx: { fontWeight: 600 } }}
       />
-    </Sidebar>
+    </>
   )
 }

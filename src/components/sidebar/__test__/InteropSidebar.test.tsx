@@ -1,6 +1,6 @@
 import React from 'react'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
-import { InteropSidebarProps } from '../InteropSidebarRoutes'
+import { InteropSidebarProps } from '../InteropSidebarItems'
 import userEvent from '@testing-library/user-event'
 import { screen } from '@testing-library/react'
 import type { SidebarRoutes } from '../sidebar.types'

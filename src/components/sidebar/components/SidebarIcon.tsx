@@ -1,7 +1,7 @@
 import React from 'react'
 import { type SvgIconComponent } from '@mui/icons-material'
 import { ListItemIcon, Badge } from '@mui/material'
-import type { Notification } from './sidebar.types'
+import type { Notification } from '../sidebar.types'
 
 type SidebarIconProps = {
   Icon: SvgIconComponent

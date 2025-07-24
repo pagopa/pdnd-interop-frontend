@@ -13,7 +13,7 @@ import { BadgeNotification } from './BadgeNotification'
 import type { Notification } from '../sidebar.types'
 import { sidebarStyles } from '../sidebar.styles'
 import type { SvgIconComponent } from '@mui/icons-material'
-import { SidebarIcon } from '../SidebarIcon'
+import { SidebarIcon } from './SidebarIcon'
 import { useSidebarContext } from './Sidebar'
 
 type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & Omit<
@@ -47,9 +47,9 @@ export function SidebarItem<C extends ElementType = 'a'>({
 }: SidebarItem<C>) {
   const theme = useTheme()
 
-  const { isCollapsed } = useSidebarContext()
+  const { open } = useSidebarContext()
 
-  const styles = sidebarStyles(theme, isCollapsed)
+  const styles = sidebarStyles(theme, open)
 
   return (
     <ListItem data-testid={label} sx={{ p: 0 }}>
@@ -68,7 +68,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
         >
           {StartIcon && <SidebarIcon Icon={StartIcon} notification={notification} />}
 
-          {!isCollapsed && (
+          {!open && (
             <ListItemText
               disableTypography
               sx={{ color: 'inherit', marginLeft: 7 }}
@@ -87,7 +87,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
             />
           )}
           {notification && <BadgeNotification badgeContent={notification.content} />}
-          {!isCollapsed && EndIcon && (
+          {!open && EndIcon && (
             <ListItemIcon>
               <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />
             </ListItemIcon>
