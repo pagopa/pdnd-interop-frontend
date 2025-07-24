@@ -1,4 +1,4 @@
-import { CLEAR_ERROR_DATA_TIMEOUT } from '@/config/constants'
+import { ERROR_DATA_DURATION_TIME } from '@/config/env'
 import { create } from 'zustand'
 
 type ErrorDataStoreType = {
@@ -23,7 +23,7 @@ export const useErrorDataStore = create<ErrorDataStoreType>((set, get) => ({
 
     const newTimeoutId = setTimeout(() => {
       get().clearErrorData()
-    }, CLEAR_ERROR_DATA_TIMEOUT)
+    }, ERROR_DATA_DURATION_TIME)
 
     set({ timeoutId: newTimeoutId })
   },
