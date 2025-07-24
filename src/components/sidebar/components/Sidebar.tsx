@@ -1,80 +1,89 @@
-import { Divider, IconButton, List, Tooltip, useTheme } from '@mui/material'
+import { Divider, IconButton, List, Tooltip, Typography, useTheme } from '@mui/material'
 import { Box, Stack } from '@mui/system'
 import { createContext } from '@/utils/common.utils'
 import { useTranslation } from 'react-i18next'
 import MenuIcon from '@mui/icons-material/Menu'
-import React from 'react'
+import React, { useState } from 'react'
 import { sidebarStyles } from '../sidebar.styles'
 
-type SidebarProps = {
-  isCollapsed: boolean
-  onToggleCollapse: (isCollaped: boolean) => void
+type SidebarContextProps = {
+  /**
+   *  Open state of the sidebar
+   */
+  open: boolean
+  onSidebarOpen: (open: boolean) => void
+  mobile: boolean
 }
 
-const { Provider, useContext } = createContext<SidebarProps>('SidebarContext', {
-  isCollapsed: false,
-  onToggleCollapse: () => {},
+const { Provider, useContext } = createContext<SidebarContextProps>('SidebarContext', {
+  mobile: false,
+  open: false,
+  onSidebarOpen: () => {},
 })
 
 export { SidebarContextProvider, useContext as useSidebarContext }
 
 type SidebarContextProviderProps = {
   children: React.ReactNode
-  isCollapsed: boolean
-  onToggleCollapse: (value: boolean) => void
+  open: boolean
+  onSidebarOpen: (value: boolean) => void
+  mobile: boolean
 }
 const SidebarContextProvider: React.FC<SidebarContextProviderProps> = ({
   children,
-  isCollapsed,
-  onToggleCollapse,
+  open,
+  onSidebarOpen,
+  mobile,
 }) => {
   const providerValue = React.useMemo(() => {
     return {
-      isCollapsed,
-      onToggleCollapse,
+      open,
+      onSidebarOpen,
+      mobile,
     }
-  }, [isCollapsed, onToggleCollapse])
+  }, [open, onSidebarOpen, mobile])
 
   return <Provider value={providerValue}>{children}</Provider>
 }
 
 export function Sidebar({
   children,
-  isCollapsed,
-  onToggleCollapse,
-}: SidebarProps & { children: React.ReactNode }) {
+  open,
+  onSidebarOpen,
+  mobile,
+  labelMobile,
+}: SidebarContextProps & { children: React.ReactNode; labelMobile: string }) {
   const theme = useTheme()
-  const styles = sidebarStyles(theme, isCollapsed)
+  const styles = sidebarStyles(theme, open)
 
-  console.log('contextValue', isCollapsed)
-  console.log('context invece', { isCollapsed, onToggleCollapse })
   return (
-    <SidebarContextProvider isCollapsed={isCollapsed} onToggleCollapse={onToggleCollapse}>
-      <Box sx={styles.container} component="aside">
-        <Stack component="nav" role="navigation" aria-expanded={!isCollapsed}>
-          <List disablePadding sx={{ marginTop: 1 }}>
-            {children}
-          </List>
-          <HamburgerBox
-            collapsed={isCollapsed}
-            handleCollapsed={() => onToggleCollapse(!isCollapsed)}
-          />
-        </Stack>
-      </Box>
+    <SidebarContextProvider mobile={mobile} open={open} onSidebarOpen={onSidebarOpen}>
+      {!mobile ? (
+        <Box sx={styles.container} component="aside">
+          <Stack component="nav" role="navigation" aria-expanded={!open}>
+            <List disablePadding sx={{ marginTop: 1 }}>
+              {children}
+            </List>
+            <HamburgerBox open={open} handleSidebarOpen={() => onSidebarOpen(!open)} />
+          </Stack>
+        </Box>
+      ) : (
+        <SidebarMobile labelMobile={labelMobile}>{children}</SidebarMobile>
+      )}
     </SidebarContextProvider>
   )
 }
 
 type HamburgerMenuBoxProps = {
-  collapsed: boolean
-  handleCollapsed: () => void
+  open: boolean
+  handleSidebarOpen: () => void
 }
 
-const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ collapsed, handleCollapsed }) => {
+const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ open, handleSidebarOpen }) => {
   const theme = useTheme()
-  const styles = sidebarStyles(theme, collapsed)
+  const styles = sidebarStyles(theme, open)
   const { t } = useTranslation('sidebar')
-  const tooltipTitle = t(!collapsed ? 'collapse' : 'expand')
+  const tooltipTitle = t(!open ? 'collapse' : 'expand')
 
   return (
     <Box sx={styles.hamburgerBox} data-testid="hamburger-box-icon">
@@ -84,7 +93,7 @@ const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ collapsed, handleCollap
           <IconButton
             sx={{ padding: { xs: 1 } }}
             aria-label="open or close sidebar"
-            onClick={handleCollapsed}
+            onClick={handleSidebarOpen}
             size="large"
           >
             <MenuIcon sx={{ fill: '#17324D' }} />
@@ -92,5 +101,45 @@ const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ collapsed, handleCollap
         </Tooltip>
       </Box>
     </Box>
+  )
+}
+
+const SidebarMobile: React.FC<{ children: React.ReactNode; labelMobile: string }> = ({
+  children,
+  labelMobile,
+}) => {
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false)
+
+  const handleOpenSidebar = () => {
+    setIsOpenSidebar(!isOpenSidebar)
+  }
+
+  return (
+    <>
+      <Box display="flex" flexDirection="row" padding={1}>
+        <Tooltip placement="right" title="Menu">
+          <IconButton
+            sx={{ padding: { xs: 1 } }}
+            data-testid="hamburger-mobile-icon"
+            aria-label="hamburger-mobile-icon"
+            onClick={handleOpenSidebar}
+            size="large"
+          >
+            <MenuIcon color="disabled" />
+          </IconButton>
+        </Tooltip>
+        <Typography ml={1} mt={1} variant="h6" component="h6">
+          {labelMobile}
+        </Typography>
+      </Box>
+      <Divider orientation="horizontal" component="div" />
+      {isOpenSidebar && (
+        <>
+          <List disablePadding sx={{ marginTop: 1 }}>
+            {children}
+          </List>
+        </>
+      )}
+    </>
   )
 }
