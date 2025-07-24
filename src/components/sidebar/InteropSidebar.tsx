@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 export const InteropSidebar: React.FC<{ mobile: boolean }> = ({ mobile }) => {
   const interopRoutes = useGetSidebarItems()
-  const [open, setIsOpen] = useState(false)
+  const [open, setIsOpen] = useState(true)
   const { t } = useTranslation('sidebar')
 
   return (

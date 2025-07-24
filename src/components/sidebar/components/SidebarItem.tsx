@@ -46,9 +46,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
   ...props
 }: SidebarItem<C>) {
   const theme = useTheme()
-
   const { open } = useSidebarContext()
-
   const styles = sidebarStyles(theme, open)
 
   return (
@@ -68,7 +66,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
         >
           {StartIcon && <SidebarIcon Icon={StartIcon} notification={notification} />}
 
-          {!open && (
+          {open && (
             <ListItemText
               disableTypography
               sx={{ color: 'inherit', marginLeft: 7 }}
@@ -87,7 +85,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
             />
           )}
           {notification && <BadgeNotification badgeContent={notification.content} />}
-          {!open && EndIcon && (
+          {open && EndIcon && (
             <ListItemIcon>
               <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />
             </ListItemIcon>

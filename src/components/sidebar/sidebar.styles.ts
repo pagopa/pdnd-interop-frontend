@@ -1,14 +1,14 @@
 import { alpha, type SxProps, type Theme } from '@mui/material'
 
-export const sidebarStyles = (theme: Theme, collapsed: boolean): Record<string, SxProps> => ({
+export const sidebarStyles = (theme: Theme, open: boolean): Record<string, SxProps> => ({
   container: {
     top: '0rem',
     background: theme.palette.background.paper,
-    zIndex: collapsed ? 1 : 10,
+    zIndex: open ? 10 : 1,
     display: 'block',
     position: 'sticky',
     height: 'calc(100vh - 8rem)',
-    width: collapsed ? 'fit-content' : '300px',
+    width: open ? '300px' : 'fit-content',
     overscrollBehavior: 'auto',
     overflowY: 'auto',
     scrollbarWidth: 'thin',
