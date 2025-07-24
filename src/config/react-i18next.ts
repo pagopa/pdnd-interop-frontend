@@ -41,6 +41,7 @@ import assistanceItNs from '@/static/locales/it/assistance.json'
 import keychainItNs from '@/static/locales/it/keychain.json'
 import templateItNs from '@/static/locales/it/template.json'
 import developerToolsItNs from '@/static/locales/it/developer-tools.json'
+import sidebarNs from '@/static/locales/it/sidebar.json'
 
 i18n.use(initReactI18next).init({
   debug: false,
@@ -70,6 +71,7 @@ i18n.use(initReactI18next).init({
       keychain: keychainItNs,
       template: templateItNs,
       'developer-tools': developerToolsItNs,
+      sidebar: sidebarNs,
     },
     en: {
       pages: pagesEnNs,
@@ -91,6 +93,7 @@ i18n.use(initReactI18next).init({
       keychain: keychainEnNs,
       template: templateEnNs,
       'developer-tools': developerToolsEnNs,
+      sidebar: sidebarNs,
     },
   },
 })

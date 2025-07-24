@@ -33,13 +33,8 @@ export const SideNavItemLink: React.FC<SideNavItemLinkProps> = ({
   const generatePath = useGeneratePath()
 
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
     <ListItemButton
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
       component={Link}
-      underline="none"
       to={generatePath(routeKey)}
       sx={{
         pl: 3,

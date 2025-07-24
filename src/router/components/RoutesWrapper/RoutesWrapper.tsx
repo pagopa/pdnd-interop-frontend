@@ -13,6 +13,7 @@ import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute } from '@/router'
 import { AuthHooks } from '@/api/auth'
+import { Stack } from '@mui/system'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>
@@ -33,7 +34,7 @@ const _RoutesWrapper: React.FC = () => {
   return (
     <>
       <Header jwt={jwt} isSupport={isSupport} />
-      <Box sx={{ flex: 1 }}>
+      <Stack direction={'column'}>
         <_TOSGuard>
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
@@ -50,9 +51,9 @@ const _RoutesWrapper: React.FC = () => {
             </ErrorBoundary>
           </AppLayout>
         </_TOSGuard>
-      </Box>
-      <Footer jwt={jwt} />
-      <Dialog />
+        <Footer jwt={jwt} />
+        <Dialog />
+      </Stack>
     </>
   )
 }

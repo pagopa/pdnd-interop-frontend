@@ -37,7 +37,7 @@ describe('Checks CatalogCard button', () => {
     expect(history.location.pathname).toEqual('/')
     await user.click(inspectLink)
     expect(history.location.pathname).toBe(
-      `/it/fruizione/catalogo-e-service/${eserviceMock.id}/${eserviceMock.activeDescriptor?.id}`
+      `/it/catalogo-e-service/${eserviceMock.id}/${eserviceMock.activeDescriptor?.id}`
     )
   })
 })

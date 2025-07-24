@@ -164,7 +164,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
     : undefined
 
   return (
-    <header>
+    <header style={{ position: 'sticky', zIndex: 0 }}>
       <HeaderAccount
         rootLink={pagoPaLink}
         loggedUser={headerAccountLoggedUser}
