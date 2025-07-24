@@ -17,8 +17,10 @@ type SidebarContextProps = {
 
 const { Provider, useContext } = createContext<SidebarContextProps>('SidebarContext', {
   mobile: false,
-  open: false,
-  onSidebarOpen: () => {},
+  open: true,
+  onSidebarOpen: () => {
+    alert
+  },
 })
 
 export { SidebarContextProvider, useContext as useSidebarContext }
@@ -54,6 +56,7 @@ export function Sidebar({
   labelMobile,
 }: SidebarContextProps & { children: React.ReactNode; labelMobile: string }) {
   const theme = useTheme()
+
   const styles = sidebarStyles(theme, open)
 
   return (

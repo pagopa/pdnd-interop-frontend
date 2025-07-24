@@ -1,13 +1,13 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { SidebarItem } from '../components/SidebarItem'
 import HomeIcon from '@mui/icons-material/Home'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { Sidebar } from '../components/Sidebar'
 
-describe('SidebarItemLink ', () => {
+describe('SidebarItem ', () => {
   const defaultProps = {
     label: 'Test Link',
-    collapsed: false,
     notification: { show: true, content: 3 },
     isSelected: false,
     StartIcon: HomeIcon,
@@ -26,8 +26,12 @@ describe('SidebarItemLink ', () => {
     expect(screen.getByText('3')).toBeInTheDocument()
   })
 
-  it('should render as collapsed ,it means just the StartIcon should be rendered', () => {
-    render(<SidebarItem {...defaultProps} collapsed={true} />)
+  it('should render just icon when from context open is false, it means just the StartIcon should be rendered', () => {
+    render(
+      <Sidebar open={false} onSidebarOpen={vi.fn()} labelMobile="test" mobile={false}>
+        <SidebarItem {...defaultProps} />
+      </Sidebar>
+    )
     expect(screen.queryByText('Test Link')).not.toBeInTheDocument()
     expect(screen.getAllByTestId('sidebar-icon')).toHaveLength(1)
   })

@@ -33,7 +33,7 @@ export const SidebarItemGroup: React.FC<SidebarItemGroupProps> = ({
   icon: StartIcon,
   isExpanded,
   isSelected,
-  handleExpandParent: handleSelectedRootItem,
+  handleExpandParent,
   divider,
   label,
   notification,
@@ -41,12 +41,13 @@ export const SidebarItemGroup: React.FC<SidebarItemGroupProps> = ({
 }) => {
   const { open } = useSidebarContext()
 
-  return !open ? (
+  return open ? (
     <>
       <ListItem disablePadding>
         <ListItemButton
+          data-testid="sidebar-item-group-button"
           selected={isSelected}
-          onClick={handleSelectedRootItem}
+          onClick={handleExpandParent}
           sx={
             !open && isSelected
               ? {
@@ -62,22 +63,24 @@ export const SidebarItemGroup: React.FC<SidebarItemGroupProps> = ({
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
             <SidebarIcon Icon={StartIcon} notification={notification} />
-            {!open && (
-              <ListItemText
-                disableTypography
-                primary={
-                  <Typography fontWeight={600} color="inherit">
-                    {label}
-                  </Typography>
-                }
-              />
+            {open && (
+              <>
+                <ListItemText
+                  disableTypography
+                  primary={
+                    <Typography fontWeight={600} color="inherit">
+                      {label}
+                    </Typography>
+                  }
+                />
+                {isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </>
             )}
-            {!open && (isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
           </Stack>
         </ListItemButton>
       </ListItem>
-      {divider && <Divider sx={{ mb: 2 }} />}
-      {!open && (
+      {divider && <Divider data-testid="sidebar-item-group-divider" sx={{ mb: 2 }} />}
+      {open && (
         <Collapse in={isExpanded} timeout="auto" unmountOnExit>
           <List disablePadding>{children}</List>
         </Collapse>
