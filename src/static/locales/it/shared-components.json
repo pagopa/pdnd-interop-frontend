@@ -407,6 +407,7 @@
     "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE": "Crea E-Service da template",
     "WATCH_RISK_ANALYSIS_FOR_ESERVICE": "Analisi del rischio",
     "DEVELOPER_TOOLS": "Tool per sviluppatori",
-    "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio"
+    "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio",
+    "NOTIFICATIONS": "Notifiche"
   }
 }

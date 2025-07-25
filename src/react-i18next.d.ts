@@ -17,6 +17,7 @@ import type assistanceNs from '@/static/locales/en/assistance.json'
 import type keychainNs from '@/static/locales/en/keychain.json'
 import type templateNs from '@/static/locales/en/template.json'
 import type developerToolsNs from '@/static/locales/en/developer-tools.json'
+import type notificationsNs from '@/static/locales/en/notifications.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -41,6 +42,7 @@ declare module 'i18next' {
       keychain: typeof keychainNs
       template: typeof templateNs
       'developer-tools': typeof developerToolsNs
+      notifications: typeof notificationsNs
     }
   }
 }
