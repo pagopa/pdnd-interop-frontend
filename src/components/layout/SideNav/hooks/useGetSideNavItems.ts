@@ -40,6 +40,10 @@ const views = [
     routeKey: 'DEVELOPER_TOOLS',
     id: 'deveoloperTools',
   },
+  {
+    routeKey: 'NOTIFICATIONS',
+    id: 'notifications',
+  },
 ] as const
 
 export function useGetSideNavItems() {
