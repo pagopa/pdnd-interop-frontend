@@ -411,6 +411,7 @@
     "WATCH_RISK_ANALYSIS_FOR_ESERVICE": "Analisi del rischio",
     "DEVELOPER_TOOLS": "Tool per lo sviluppo",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio",
-    "CLIENT_MANAGEMENT": "Gestione dei client"
+    "CLIENT_MANAGEMENT": "Gestione dei client",
+    "NOTIFICATIONS": "Notifiche"
   }
 }

@@ -58,6 +58,7 @@ import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
+import { NotificationsPage } from '@/pages/NotificationsPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -570,6 +571,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'NOTIFICATIONS',
+    path: '/notifications',
+    element: <NotificationsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support', 'security'],
   })
   .build()
 
