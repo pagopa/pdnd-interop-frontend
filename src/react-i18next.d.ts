@@ -18,6 +18,8 @@ import type keychainNs from '@/static/locales/en/keychain.json'
 import type eserviceTemplateNs from '@/static/locales/en/eserviceTemplate.json'
 import type developerToolsNs from '@/static/locales/en/developer-tools.json'
 import type sidebarNs from '@/static/locales/en/sidebar.json'
+import type notificationsNs from '@/static/locales/en/notifications.json'
+
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common'
@@ -42,6 +44,7 @@ declare module 'i18next' {
       eserviceTemplate: typeof eserviceTemplateNs
       'developer-tools': typeof developerToolsNs
       sidebar: typeof sidebarNs
+      notifications: typeof notificationsNs
     }
   }
 }

@@ -51,7 +51,9 @@
     "select": "Select",
     "selectAdmin": "Select admin",
     "substituteAdmin": "Substitute admin",
-    "copy": "Copy"
+    "copy": "Copy",
+    "markAsRead": "Mark as read",
+    "marsAsNotRead": "Mark as not read"
   },
   "table": {
     "headData": {
@@ -79,7 +81,10 @@
       "eserviceTemplateUsingTenant": "Tenant",
       "eserviceTemplateInstanceVersion": "Version",
       "eserviceTemplateInstanceState": "Instance's state",
-      "eserviceTemplateName": "Template"
+      "eserviceTemplateName": "Template",
+      "dateColumn": "Date",
+      "categoryColumn": "Category",
+      "objectColumn": "Object"
     }
   },
   "status": {
