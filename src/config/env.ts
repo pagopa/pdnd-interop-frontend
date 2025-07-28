@@ -13,12 +13,12 @@ const GeneralConfigs = z.object({
   WELL_KNOWN_URLS: z.string(),
   PRODUCER_ALLOWED_ORIGINS: z.string(),
   M2M_JWT_AUDIENCE: z.string().optional(),
-  SELFCARE_LOGIN_URL: z.string().url(),
-  API_SIGNAL_HUB_PUSH_INTERFACE_URL: z.string().url(),
-  API_SIGNAL_HUB_PULL_INTERFACE_URL: z.string().url(),
-  SIGNALHUB_PERSONAL_DATA_PROCESS_URL: z.string().url(),
-  API_GATEWAY_V1_INTERFACE_URL: z.string().url(),
-  API_GATEWAY_V2_INTERFACE_URL: z.string().url(),
+  SELFCARE_LOGIN_URL: z.url(),
+  API_SIGNAL_HUB_PUSH_INTERFACE_URL: z.url(),
+  API_SIGNAL_HUB_PULL_INTERFACE_URL: z.url(),
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL: z.url(),
+  API_GATEWAY_V1_INTERFACE_URL: z.url(),
+  API_GATEWAY_V2_INTERFACE_URL: z.url(),
 })
 
 const FeatureFlagConfigs = z.object({
@@ -30,13 +30,17 @@ const FeatureFlagConfigs = z.object({
 })
 
 const EndpointConfigs = z.object({
-  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: z.string().url(),
-  BACKEND_FOR_FRONTEND_URL: z.string().url(),
-  INTEROP_RESOURCES_BASE_URL: z.string().url(),
-  SELFCARE_BASE_URL: z.string().url(),
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: z.url(),
+  BACKEND_FOR_FRONTEND_URL: z.url(),
+  INTEROP_RESOURCES_BASE_URL: z.url(),
+  SELFCARE_BASE_URL: z.url(),
 })
 
-const FEConfigs = FeatureFlagConfigs.merge(EndpointConfigs).merge(GeneralConfigs)
+const FEConfigs = z.object({
+  ...FeatureFlagConfigs.shape,
+  ...EndpointConfigs.shape,
+  ...GeneralConfigs.shape,
+})
 export type FEConfigs = z.infer<typeof FEConfigs>
 
 const transformedFEConfigs = FEConfigs.transform((c) => ({
