@@ -25,6 +25,10 @@ const GeneralConfigs = z.object({
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
+  FEATURE_FLAG_SIGNALHUB_WHITELIST: z.enum(['true', 'false']),
+  SIGNALHUB_WHITELIST_PRODUCER: z.string().optional(),
+  SIGNALHUB_WHITELIST_CONSUMER: z.string().optional(),
+  FEATURE_FLAG_NOTIFICATION_CONFIG: z.boolean().default(false),
 })
 
 const EndpointConfigs = z.object({
@@ -101,6 +105,7 @@ export const {
   API_GATEWAY_V1_INTERFACE_URL,
   API_GATEWAY_V2_INTERFACE_URL,
   ERROR_DATA_DURATION_TIME,
+  FEATURE_FLAG_NOTIFICATION_CONFIG,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()
