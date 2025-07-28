@@ -1,6 +1,6 @@
 import { AuthQueries } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
-import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
+import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
@@ -70,12 +70,18 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
     return isOrganizationAllowedToProduce || !delegationsRoutes.includes(routeKey)
   }
 
+  function isUserAllowedToAccessNotificationPage() {
+    const notificationsRoute: Array<RouteKey> = ['NOTIFICATIONS']
+    return !notificationsRoute.includes(routeKey) || FEATURE_FLAG_NOTIFICATION_CONFIG
+  }
+
   // JWT will be undefined just in case route is public.
   if (
     jwt &&
     (!isUserAllowedToAccessRoute() ||
       !isUserAllowedToAccessCertifierRoutes() ||
-      !isUserAllowedToAccessDelegationsRoutes())
+      !isUserAllowedToAccessDelegationsRoutes() ||
+      !isUserAllowedToAccessNotificationPage())
   ) {
     throw new ForbiddenError()
   }
