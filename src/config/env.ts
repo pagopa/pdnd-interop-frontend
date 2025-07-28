@@ -27,6 +27,7 @@ const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_SIGNALHUB_WHITELIST: z.enum(['true', 'false']),
   SIGNALHUB_WHITELIST_PRODUCER: z.string().optional(),
   SIGNALHUB_WHITELIST_CONSUMER: z.string().optional(),
+  FEATURE_FLAG_NOTIFICATION_CONFIG: z.boolean().default(false),
 })
 
 const EndpointConfigs = z.object({
@@ -106,6 +107,7 @@ export const {
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
   API_GATEWAY_V1_INTERFACE_URL,
   API_GATEWAY_V2_INTERFACE_URL,
+  FEATURE_FLAG_NOTIFICATION_CONFIG,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()
