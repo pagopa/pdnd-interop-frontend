@@ -8,7 +8,7 @@ import type { GetUserNotificationsParams } from '@/api/notification/notification
 import { NotificationQueries } from '@/api/notification'
 import { useQuery } from '@tanstack/react-query'
 
-const DeveloperToolsPage: React.FC = () => {
+const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notifications', { keyPrefix: 'notifications.page' })
 
   const action: ActionItemButton[] = [
@@ -90,4 +90,4 @@ const NotificationsTableWrapper: React.FC<{ params: GetUserNotificationsParams }
   return <NotificationsTable notifications={data ?? []} />
 }
 
-export default DeveloperToolsPage
+export default NotificationsPage
