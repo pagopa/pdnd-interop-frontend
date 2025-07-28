@@ -1,5 +1,4 @@
 {
-  "backToDeveloperToolsLabel": "Back to Developer Tools",
   "notifications": {
     "page": {
       "title": "Notifications",
@@ -23,34 +22,6 @@
             "NotRead": "Not read"
           }
         }
-      }
-    }
-  },
-  "riskAnalysisExporterTool": {
-    "page": {
-      "title": "Risk analysis export",
-      "description": "The export tool allows you to export the risk analysis you fill in a formatted .json format, ready to be used in calls to create a purpose in machine-to-machine flows.",
-      "alertInfo": "The risk analysis import feature will be available soon.",
-      "steps": {
-        "riskAnalysis": "Risk Analysis",
-        "exportGeneration": "Export Generation"
-      }
-    },
-    "jsonExportStep": {
-      "title": "Your JSON export",
-      "successAlert": "The risk analysis has been fully compiled and has generated a correctly formatted output.",
-      "warningAlertTitle": "The risk analysis has been partially compiled.",
-      "backButton": "Back"
-    },
-    "formStep": {
-      "generateCodeButton": "Generate code",
-      "riskAnalysisSection": {
-        "title": "Risk Analysis",
-        "description": "Indicate for whom you are compiling this risk analysis.",
-        "tenantKindLabel": "Entity type",
-        "publicAdministrationOption": "Public Administrations",
-        "privateOption": "Managers of public services, public-controlled companies or Private individuals",
-        "warningAlert": "You have chosen to compile a risk analysis for a different type of entity than yours. Remember that risk analyzes vary based on the type of entity, so the one you are compiling may not work for you."
       }
     }
   }
