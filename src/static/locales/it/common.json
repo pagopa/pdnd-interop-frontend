@@ -51,7 +51,9 @@
     "select": "Seleziona",
     "selectAdmin": "Seleziona admin",
     "substituteAdmin": "Sostituisci admin",
-    "copy": "Copia"
+    "copy": "Copia",
+    "markAsRead": "Segna come letto",
+    "marsAsNotRead": "Segna da leggere"
   },
   "table": {
     "headData": {
@@ -79,7 +81,10 @@
       "eserviceTemplateUsingTenant": "Ente",
       "eserviceTemplateInstanceVersion": "Versione template",
       "eserviceTemplateInstanceState": "Stato istanza",
-      "templateName": "Template"
+      "templateName": "Template",
+      "dateColumn": "Data",
+      "categoryColumn": "Categoria",
+      "objectColumn": "Oggetto"
     }
   },
   "status": {
