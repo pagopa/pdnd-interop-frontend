@@ -46,6 +46,11 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     }
   }, [correlationId, errorCode, setErrorData])
 
+  const errorData = {
+    traceId: correlationId,
+    errorCode: errorCode,
+  }
+
   const reloadPageButton = (
     <Button size="small" variant="contained" onClick={() => window.location.reload()}>
       {t('actions.reloadPage')}
@@ -90,7 +95,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
       />
       <Button
         target="_blank"
-        href={`${assistanceLink}?data={"traceId":"${correlationId}", "errorCode":"${errorCode}"}`}
+        href={`${assistanceLink}&data=${JSON.stringify(errorData)}`}
         style={{ backgroundColor: 'transparent', fontWeight: 700 }}
         disableRipple
       >
