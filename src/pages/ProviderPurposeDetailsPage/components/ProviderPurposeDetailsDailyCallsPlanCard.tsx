@@ -41,7 +41,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
       offset: 0,
       eserviceIds: [purpose?.eservice.id as string],
       kind: 'DELEGATED_PRODUCER',
-      delegatorIds: [jwt?.organizationId as string],
+      delegateIds: [jwt?.organizationId as string],
     }),
     enabled: Boolean(jwt?.organizationId),
     select: ({ results }) => results ?? [],
