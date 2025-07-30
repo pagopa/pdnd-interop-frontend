@@ -1083,6 +1083,12 @@ export interface CreatedResource {
   id: string
 }
 
+/** sets the delegation ID in order to operate as a delegate for a specific active delegation */
+export interface DelegationRef {
+  /** @format uuid */
+  delegationId?: string
+}
+
 /** contains the id of the created resource with the descriptorId */
 export interface CreatedEServiceDescriptor {
   /** @format uuid */
@@ -2029,37 +2035,11 @@ export interface GetAgreementsConsumersParams {
   limit: number
 }
 
-export interface ActivateAgreementParams {
-  /**
-   * The identifier of the delegation to activate the agreement with
-   * @format uuid
-   */
-  delegationId?: string
-  /**
-   * The identifier of the agreement
-   * @format uuid
-   */
-  agreementId: string
-}
-
 export interface AddAgreementConsumerDocumentPayload {
   name: string
   prettyName: string
   /** @format binary */
   doc: File
-}
-
-export interface SuspendAgreementParams {
-  /**
-   * The identifier of the delegation to suspend the agreement for
-   * @format uuid
-   */
-  delegationId?: string
-  /**
-   * The identifier of the agreement
-   * @format uuid
-   */
-  agreementId: string
 }
 
 export interface GetEServicesCatalogParams {
@@ -2352,30 +2332,6 @@ export interface GetConsumerPurposesParams {
    * @max 50
    */
   limit: number
-}
-
-export interface SuspendPurposeVersionParams {
-  /**
-   * The identifier of the delegation to activate the agreement with
-   * @format uuid
-   */
-  delegationId?: string
-  /** @format uuid */
-  purposeId: string
-  /** @format uuid */
-  versionId: string
-}
-
-export interface ActivatePurposeVersionParams {
-  /**
-   * The identifier of the delegation to activate the agreement with
-   * @format uuid
-   */
-  delegationId?: string
-  /** @format uuid */
-  purposeId: string
-  /** @format uuid */
-  versionId: string
 }
 
 export interface RevokeVerifiedAttributePayload {
@@ -3381,14 +3337,8 @@ export namespace Agreements {
        */
       agreementId: string
     }
-    export type RequestQuery = {
-      /**
-       * The identifier of the delegation to activate the agreement with
-       * @format uuid
-       */
-      delegationId?: string
-    }
-    export type RequestBody = never
+    export type RequestQuery = {}
+    export type RequestBody = DelegationRef
     export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
@@ -3529,14 +3479,8 @@ export namespace Agreements {
        */
       agreementId: string
     }
-    export type RequestQuery = {
-      /**
-       * The identifier of the delegation to suspend the agreement for
-       * @format uuid
-       */
-      delegationId?: string
-    }
-    export type RequestBody = never
+    export type RequestQuery = {}
+    export type RequestBody = DelegationRef
     export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
@@ -5957,14 +5901,8 @@ export namespace Purposes {
       /** @format uuid */
       versionId: string
     }
-    export type RequestQuery = {
-      /**
-       * The identifier of the delegation to activate the agreement with
-       * @format uuid
-       */
-      delegationId?: string
-    }
-    export type RequestBody = never
+    export type RequestQuery = {}
+    export type RequestBody = DelegationRef
     export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
@@ -5983,14 +5921,8 @@ export namespace Purposes {
       /** @format uuid */
       versionId: string
     }
-    export type RequestQuery = {
-      /**
-       * The identifier of the delegation to activate the agreement with
-       * @format uuid
-       */
-      delegationId?: string
-    }
-    export type RequestBody = never
+    export type RequestQuery = {}
+    export type RequestBody = DelegationRef
     export type RequestHeaders = {}
     export type ResponseBody = PurposeVersionResource
   }
@@ -7203,6 +7135,23 @@ export namespace Creators {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = ProducerEServiceTemplates
+  }
+}
+
+export namespace ApiDocs {
+  /**
+   * @description Display the API documentation
+   * @tags develop
+   * @name GetDocs
+   * @summary Swagger docs endpoint
+   * @request GET:/apiDocs
+   */
+  export namespace GetDocs {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
 }
 

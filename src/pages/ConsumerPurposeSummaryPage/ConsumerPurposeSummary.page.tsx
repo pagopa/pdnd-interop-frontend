@@ -62,7 +62,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const handlePublishDraft = () => {
     if (!purpose?.currentVersion) return
     publishDraft(
-      { purposeId, versionId: purpose.currentVersion.id },
+      { purposeId, versionId: purpose.currentVersion.id, delegationId: purpose.delegation?.id },
       {
         onSuccess() {
           navigate('SUBSCRIBE_PURPOSE_DETAILS', {

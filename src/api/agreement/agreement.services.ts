@@ -1,7 +1,6 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
-  ActivateAgreementParams,
   AddAgreementConsumerDocumentPayload,
   Agreement,
   AgreementPayload,
@@ -12,13 +11,13 @@ import type {
   CompactEServicesLight,
   CompactOrganizations,
   CreatedResource,
+  DelegationRef,
   GetAgreementsConsumerEServicesParams,
   GetAgreementsConsumersParams,
   GetAgreementsProducerEServicesParams,
   GetAgreementsProducersParams,
   GetConsumerAgreementsParams,
   GetProducerAgreementsParams,
-  SuspendAgreementParams,
 } from '../api.generatedTypes'
 import { waitFor } from '@/utils/common.utils'
 
@@ -172,10 +171,7 @@ function deleteDraftDocument({
   )
 }
 
-async function activate({
-  agreementId,
-  ...params
-}: { agreementId: string } & ActivateAgreementParams) {
+async function activate({ agreementId, ...params }: { agreementId: string } & DelegationRef) {
   const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`,
     {
@@ -196,10 +192,7 @@ async function reject({
   return response.data
 }
 
-async function suspend({
-  agreementId,
-  ...params
-}: { agreementId: string } & SuspendAgreementParams) {
+async function suspend({ agreementId, ...params }: { agreementId: string } & DelegationRef) {
   const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`,
     {

@@ -1,8 +1,8 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
-  ActivatePurposeVersionParams,
   CreatedResource,
+  DelegationRef,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
   Purpose,
@@ -19,7 +19,6 @@ import type {
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
-  SuspendPurposeVersionParams,
 } from '../api.generatedTypes'
 
 /**
@@ -164,7 +163,7 @@ async function suspendVersion({
   purposeId,
   versionId,
   ...params
-}: { purposeId: string; versionId: string } & SuspendPurposeVersionParams) {
+}: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`,
     {
@@ -178,7 +177,7 @@ async function activateVersion({
   purposeId,
   versionId,
   ...params
-}: { purposeId: string; versionId: string } & ActivatePurposeVersionParams) {
+}: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`,
     {
