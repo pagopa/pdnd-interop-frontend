@@ -2,6 +2,7 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
   CreatedResource,
+  DelegationRef,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
   Purpose,
@@ -158,16 +159,30 @@ async function downloadRiskAnalysis({
   return response.data
 }
 
-async function suspendVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
+async function suspendVersion({
+  purposeId,
+  versionId,
+  ...params
+}: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`,
+    {
+      params,
+    }
   )
   return response.data
 }
 
-async function activateVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
+async function activateVersion({
+  purposeId,
+  versionId,
+  ...params
+}: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`,
+    {
+      params,
+    }
   )
   return response.data
 }

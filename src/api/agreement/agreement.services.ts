@@ -11,6 +11,7 @@ import type {
   CompactEServicesLight,
   CompactOrganizations,
   CreatedResource,
+  DelegationRef,
   GetAgreementsConsumerEServicesParams,
   GetAgreementsConsumersParams,
   GetAgreementsProducerEServicesParams,
@@ -170,9 +171,12 @@ function deleteDraftDocument({
   )
 }
 
-async function activate({ agreementId }: { agreementId: string }) {
+async function activate({ agreementId, ...params }: { agreementId: string } & DelegationRef) {
   const response = await axiosInstance.post<Agreement>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`,
+    {
+      params,
+    }
   )
   return response.data
 }
@@ -188,9 +192,12 @@ async function reject({
   return response.data
 }
 
-async function suspend({ agreementId }: { agreementId: string }) {
+async function suspend({ agreementId, ...params }: { agreementId: string } & DelegationRef) {
   const response = await axiosInstance.post<Agreement>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`,
+    {
+      params,
+    }
   )
   return response.data
 }
