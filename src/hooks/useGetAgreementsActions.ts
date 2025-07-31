@@ -11,12 +11,15 @@ import CloseIcon from '@mui/icons-material/Close'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { AuthHooks } from '@/api/auth'
+import { DelegationQueries } from '@/api/delegation'
+import { useQuery } from '@tanstack/react-query'
 
 type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
-function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
-  actions: Array<ActionItemButton>
-} {
+function useGetAgreementsActions(
+  agreement?: Agreement | AgreementListEntry,
+  where?: 'CONSUMER' | 'PRODUCER'
+): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { mode, routeKey } = useCurrentRoute()
   const { isAdmin, jwt } = AuthHooks.useJwt()
@@ -29,14 +32,38 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
   const { mutate: archiveAgreement } = AgreementMutations.useArchive()
 
+  const { data: producerDelegation = [] } = useQuery({
+    //producer side delegation
+    ...DelegationQueries.getList({
+      limit: 1,
+      offset: 0,
+      eserviceIds: [agreement?.eservice.id as string],
+      states: ['ACTIVE'],
+      kind: 'DELEGATED_PRODUCER',
+      delegatorIds: [jwt?.organizationId as string], //TODO CHECK IF DELEGATOR OR DELEGATE IDS
+    }),
+    enabled: Boolean(jwt?.organizationId) && where === 'PRODUCER',
+    select: ({ results }) => results ?? [],
+  })
+
   const isDelegator = Boolean(
     agreement?.delegation && agreement.consumer.id === jwt?.organizationId
   )
 
+  const isThereProducerDelegation = Boolean(producerDelegation[0])
+  const isThereConsumerDelegation = Boolean(agreement?.delegation)
+  const isDelegationMine =
+    isThereConsumerDelegation && agreement?.delegation?.delegate.id === jwt?.organizationId //consumer side delegation
+
   if (!agreement || mode === null || !isAdmin || isDelegator) return { actions: [] }
 
   const handleActivate = () => {
-    activateAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
+    if (where === 'CONSUMER' && isDelegationMine) {
+      activateAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
+    } else if (where === 'PRODUCER' && isThereProducerDelegation) {
+      activateAgreement({ agreementId: agreement.id, delegationId: producerDelegation[0].id })
+    }
+    activateAgreement({ agreementId: agreement.id })
   }
   const activateAction: ActionItemButton = {
     action: handleActivate,
@@ -45,7 +72,12 @@ function useGetAgreementsActions(agreement?: Agreement | AgreementListEntry): {
   }
 
   const handleSuspend = () => {
-    suspendAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
+    if (where === 'CONSUMER' && isDelegationMine) {
+      suspendAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
+    } else if (where === 'PRODUCER' && isThereProducerDelegation) {
+      suspendAgreement({ agreementId: agreement.id, delegationId: producerDelegation[0].id })
+    }
+    suspendAgreement({ agreementId: agreement.id })
   }
 
   const suspendAction: ActionItemButton = {

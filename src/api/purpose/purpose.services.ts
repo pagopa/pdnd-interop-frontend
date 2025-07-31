@@ -34,10 +34,7 @@ function REMOVE_ME_remapPurpose(purpose: Purpose): Purpose {
     purpose.suspendedByConsumer &&
     purpose.currentVersion.dailyCalls === purpose.waitingForApprovalVersion.dailyCalls
   ) {
-    return {
-      ...purpose,
-      currentVersion: undefined,
-    }
+    return { ...purpose, currentVersion: undefined }
   }
 
   return purpose
@@ -46,9 +43,7 @@ function REMOVE_ME_remapPurpose(purpose: Purpose): Purpose {
 async function getProducersList(params: GetProducerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/purposes`,
-    {
-      params,
-    }
+    { params }
   )
   return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
 }
@@ -56,9 +51,7 @@ async function getProducersList(params: GetProducerPurposesParams) {
 async function getConsumersList(params: GetConsumerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers/purposes`,
-    {
-      params,
-    }
+    { params }
   )
   return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
 }
@@ -162,13 +155,11 @@ async function downloadRiskAnalysis({
 async function suspendVersion({
   purposeId,
   versionId,
-  ...params
+  delegationId,
 }: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`,
-    {
-      params,
-    }
+    { delegationId }
   )
   return response.data
 }
@@ -176,13 +167,11 @@ async function suspendVersion({
 async function activateVersion({
   purposeId,
   versionId,
-  ...params
+  delegationId,
 }: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`,
-    {
-      params,
-    }
+    { delegationId }
   )
   return response.data
 }

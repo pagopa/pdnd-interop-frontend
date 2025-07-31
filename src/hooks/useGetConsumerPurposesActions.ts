@@ -27,6 +27,8 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { mutate: activatePurpose } = PurposeMutations.useActivateVersion()
   const { mutate: deletePurposeDraft } = PurposeMutations.useDeleteDraft()
 
+  const isThereConsumerDelegation = Boolean(purpose?.delegation)
+
   const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
   const isNotPublishable =
     purpose?.currentVersion?.state === 'DRAFT' &&
@@ -59,11 +61,15 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     if (!purpose) return
     const currentVersion = purpose.currentVersion
     if (currentVersion) {
-      suspendPurpose({
-        purposeId: purpose.id,
-        versionId: currentVersion.id,
-        delegationId: purpose.delegation?.id,
-      })
+      if (isThereConsumerDelegation) {
+        suspendPurpose({
+          purposeId: purpose.id,
+          versionId: currentVersion.id,
+          delegationId: purpose.delegation?.id,
+        })
+      } else {
+        suspendPurpose({ purposeId: purpose.id, versionId: currentVersion.id })
+      }
     }
   }
 
@@ -78,11 +84,15 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     if (!purpose) return
     const currentVersion = purpose.currentVersion
     if (currentVersion) {
-      activatePurpose({
-        purposeId: purpose.id,
-        versionId: currentVersion.id,
-        delegationId: purpose.delegation?.id,
-      })
+      if (isThereConsumerDelegation) {
+        activatePurpose({
+          purposeId: purpose.id,
+          versionId: currentVersion.id,
+          delegationId: purpose.delegation?.id,
+        })
+      } else {
+        activatePurpose({ purposeId: purpose.id, versionId: currentVersion.id })
+      }
     }
   }
 

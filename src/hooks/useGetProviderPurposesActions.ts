@@ -20,17 +20,20 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { mutate: suspendVersion } = PurposeMutations.useSuspendVersion()
 
-  const { data: delegations = [] } = useQuery({
+  const { data: producerDelegation = [] } = useQuery({
     ...DelegationQueries.getList({
-      limit: 50,
+      limit: 1,
       offset: 0,
       eserviceIds: [purpose?.eservice.id as string],
       kind: 'DELEGATED_PRODUCER',
-      delegateIds: [jwt?.organizationId as string],
+      states: ['ACTIVE'],
+      delegatorIds: [jwt?.organizationId as string],
     }),
     enabled: Boolean(jwt?.organizationId),
     select: ({ results }) => results ?? [],
   })
+
+  const isThereProducerDelegation = Boolean(producerDelegation[0])
 
   const { openDialog } = useDialog()
 
@@ -54,13 +57,21 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
   const isNewPurpose = !currentVersion && !!waitingForApprovalVersion
 
   if (currentVersion && (!isSuspended || (isSuspended && !isSuspendedByProvider))) {
+    if (isThereProducerDelegation) {
+      actions.push({
+        action: () =>
+          suspendVersion({
+            purposeId: purpose.id,
+            versionId: currentVersion.id,
+            delegationId: producerDelegation[0].id,
+          }),
+        label: t('suspend'),
+        color: 'error',
+        icon: PauseCircleOutlineIcon,
+      })
+    }
     actions.push({
-      action: () =>
-        suspendVersion({
-          purposeId: purpose.id,
-          versionId: currentVersion.id,
-          delegationId: delegations[0].id,
-        }),
+      action: () => suspendVersion({ purposeId: purpose.id, versionId: currentVersion.id }),
       label: t('suspend'),
       color: 'error',
       icon: PauseCircleOutlineIcon,
@@ -68,20 +79,28 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
   }
 
   if (isSuspended && isSuspendedByProvider) {
+    if (isThereProducerDelegation) {
+      actions.push({
+        action: () =>
+          activateVersion({
+            purposeId: purpose.id,
+            versionId: currentVersion.id,
+            delegationId: producerDelegation[0].id,
+          }),
+        label: t('activate'),
+        color: 'primary',
+        icon: PlayCircleOutlineIcon,
+      })
+    }
     actions.push({
-      action: () =>
-        activateVersion({
-          purposeId: purpose.id,
-          versionId: currentVersion.id,
-          delegationId: delegations[0].id,
-        }),
+      action: () => activateVersion({ purposeId: purpose.id, versionId: currentVersion.id }),
       label: t('activate'),
       color: 'primary',
       icon: PlayCircleOutlineIcon,
     })
   }
 
-  if (isNewPurpose) {
+  if (isNewPurpose && isThereProducerDelegation) {
     actions.push(
       {
         action: () =>
@@ -100,8 +119,32 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
           activateVersion({
             purposeId: purpose.id,
             versionId: waitingForApprovalVersion.id,
-            delegationId: delegations[0].id,
+            delegationId: producerDelegation[0].id,
           }),
+        label: t('activate'),
+        color: 'primary',
+        icon: PlayCircleOutlineIcon,
+      }
+    )
+  }
+
+  if (isNewPurpose && !isThereProducerDelegation) {
+    actions.push(
+      {
+        action: () =>
+          openDialog({
+            type: 'rejectPurposeVersion',
+            purposeId: purpose.id,
+            versionId: waitingForApprovalVersion.id,
+            isChangePlanRequest: false,
+          }),
+        label: t('reject'),
+        color: 'error',
+        icon: CloseIcon,
+      },
+      {
+        action: () =>
+          activateVersion({ purposeId: purpose.id, versionId: waitingForApprovalVersion.id }),
         label: t('activate'),
         color: 'primary',
         icon: PlayCircleOutlineIcon,
