@@ -27,7 +27,7 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
       eserviceIds: [purpose?.eservice.id as string],
       kind: 'DELEGATED_PRODUCER',
       states: ['ACTIVE'],
-      delegatorIds: [jwt?.organizationId as string],
+      delegateIds: [jwt?.organizationId as string],
     }),
     enabled: Boolean(jwt?.organizationId),
     select: ({ results }) => results ?? [],
