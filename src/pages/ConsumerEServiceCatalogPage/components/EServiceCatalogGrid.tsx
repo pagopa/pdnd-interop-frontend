@@ -8,9 +8,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
 import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
 
-type EServiceCatalogGridProps = {
-  eservices: Array<CatalogEService> | undefined
-}
+type EServiceCatalogGridProps = { eservices: Array<CatalogEService> | undefined }
 
 export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservices }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'table' })
@@ -54,10 +52,7 @@ export const EServiceCatalogCard: React.FC<{ eservice: CatalogEService; disabled
       title={eservice.name}
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_CATALOG_VIEW"
-      params={{
-        eserviceId: eservice.id,
-        descriptorId: activeDescriptor?.id ?? '',
-      }}
+      params={{ eserviceId: eservice.id, descriptorId: activeDescriptor?.id ?? '' }}
       disabled={disabled}
     />
   )

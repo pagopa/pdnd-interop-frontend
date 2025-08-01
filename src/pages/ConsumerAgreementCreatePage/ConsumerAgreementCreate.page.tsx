@@ -91,6 +91,9 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     !hasNewEserviceVersion
 
   const getTooltipButtonTitle = () => {
+    if (isEServiceSuspended) {
+      return t('edit.suspendedEServiceTooltip')
+    }
     if (!hasAllCertifiedAttributes) {
       return t('edit.noCertifiedAttributesForSubmitTooltip')
     }
@@ -99,9 +102,6 @@ const ConsumerAgreementCreatePage: React.FC = () => {
     }
     if (!hasSetContactEmail) {
       return t('edit.noContactEmailTooltip')
-    }
-    if (isEServiceSuspended) {
-      return t('edit.suspendedEServiceTooltip')
     }
   }
 

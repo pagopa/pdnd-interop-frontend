@@ -1,4 +1,5 @@
 import { useDialogStore, useLoadingOverlayStore, useToastNotificationStore } from '@/stores'
+import { useErrorDataStore } from '@/stores/error-data.store'
 import { clearExponentialInterval, setExponentialInterval } from '@/utils/common.utils'
 import { NotFoundError } from '@/utils/errors.utils'
 import {
@@ -36,6 +37,7 @@ const exponentialBackoffRetry = (attemptIndex: number) => {
 const { showToast } = useToastNotificationStore.getState()
 const { showOverlay, hideOverlay } = useLoadingOverlayStore.getState()
 const { openDialog } = useDialogStore.getState()
+const { setErrorData } = useErrorDataStore.getState()
 
 const resolveMeta = (query: {
   mutation: Mutation<unknown, unknown, unknown>
@@ -183,9 +185,12 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   const meta = resolveMeta({ mutation, error, variables, context })
   if (meta.errorToastLabel) {
     let correlationId
+    let errorCode
     if (error instanceof AxiosError) {
       correlationId = error.response?.data.correlationId
+      errorCode = error.response?.data.errors[0].code
     }
+    setErrorData(correlationId, errorCode)
     showToast(meta.errorToastLabel, 'error', correlationId)
   }
 }

@@ -22,7 +22,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const { isAdmin, jwt } = AuthHooks.useJwt()
   const queryClient = useQueryClient()
 
-  const { actions } = useGetAgreementsActions(agreement)
+  const { actions } = useGetAgreementsActions(agreement, 'CONSUMER')
 
   const eservice = agreement.eservice
   const descriptor = agreement.descriptor
@@ -48,10 +48,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
 
   const eserviceCellData = (
     <>
-      {t('eserviceName', {
-        name: eservice.name,
-        version: descriptor.version,
-      })}
+      {t('eserviceName', { name: eservice.name, version: descriptor.version })}
       {isDelegated && <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />}
     </>
   )

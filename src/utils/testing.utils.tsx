@@ -13,6 +13,8 @@ import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
 import { AuthHooks } from '@/api/auth'
 import { queryClient } from '@/config/query-client'
 import { TenantHooks } from '@/api/tenant'
+import { ThemeProvider } from '@mui/material'
+import { theme } from '@pagopa/interop-fe-commons'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -134,14 +136,14 @@ type WrapperOptions = (
 function generateWrapper(options: WrapperOptions & { history: MemoryHistory }) {
   return function Wrapper({ children }: { children: React.ReactNode }) {
     let result = (
-      <>
+      <ThemeProvider theme={theme}>
         {children}
         {(options.withReactQueryContext || options.withToastNotificationsContext) && (
           <ToastNotification />
         )}
         {(options.withReactQueryContext || options.withLoadingOverlayContext) && <LoadingOverlay />}
         {(options.withReactQueryContext || options.withDialogContext) && <Dialog />}
-      </>
+      </ThemeProvider>
     )
 
     if (options.withReactQueryContext) {
