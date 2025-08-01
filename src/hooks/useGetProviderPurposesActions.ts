@@ -20,17 +20,20 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
   const { mutate: suspendVersion } = PurposeMutations.useSuspendVersion()
 
-  const { data: delegations = [] } = useQuery({
+  const { data: producerDelegation = [] } = useQuery({
     ...DelegationQueries.getList({
-      limit: 50,
+      limit: 1,
       offset: 0,
       eserviceIds: [purpose?.eservice.id as string],
       kind: 'DELEGATED_PRODUCER',
-      delegateIds: [jwt?.organizationId as string],
+      states: ['ACTIVE'],
+      delegatorIds: [jwt?.organizationId as string],
     }),
     enabled: Boolean(jwt?.organizationId),
     select: ({ results }) => results ?? [],
   })
+
+  const isThereProducerDelegation = Boolean(producerDelegation[0])
 
   const { openDialog } = useDialog()
 
@@ -59,7 +62,7 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
         suspendVersion({
           purposeId: purpose.id,
           versionId: currentVersion.id,
-          delegationId: delegations[0].id,
+          ...(isThereProducerDelegation && { delegationId: producerDelegation[0].id }),
         }),
       label: t('suspend'),
       color: 'error',
@@ -73,7 +76,7 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
         activateVersion({
           purposeId: purpose.id,
           versionId: currentVersion.id,
-          delegationId: delegations[0].id,
+          ...(isThereProducerDelegation && { delegationId: producerDelegation[0].id }),
         }),
       label: t('activate'),
       color: 'primary',
@@ -100,7 +103,7 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
           activateVersion({
             purposeId: purpose.id,
             versionId: waitingForApprovalVersion.id,
-            delegationId: delegations[0].id,
+            ...(isThereProducerDelegation && { delegationId: producerDelegation[0].id }),
           }),
         label: t('activate'),
         color: 'primary',

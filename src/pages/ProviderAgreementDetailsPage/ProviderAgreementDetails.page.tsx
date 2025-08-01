@@ -30,7 +30,7 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
-  const { actions } = useGetAgreementsActions(agreement)
+  const { actions } = useGetAgreementsActions(agreement, 'PRODUCER')
 
   const suspendedBy = match(agreement)
     .with({ suspendedByProducer: true }, () => 'byProducer' as const)
@@ -45,10 +45,7 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
       title={t('providerRead.title')}
       topSideActions={actions}
       backToAction={{ label: t('backToRequestsBtn'), to: 'PROVIDE_AGREEMENT_LIST' }}
-      statusChip={{
-        for: 'agreement',
-        agreement,
-      }}
+      statusChip={{ for: 'agreement', agreement }}
     >
       {agreement.state === 'PENDING' && isDelegated && (
         <Alert sx={{ mb: 3 }} severity="info">
