@@ -18,7 +18,7 @@ type AgreementActions = Record<AgreementState, Array<ActionItem>>
 
 function useGetAgreementsActions(
   agreement?: Agreement | AgreementListEntry,
-  where?: 'CONSUMER' | 'PRODUCER'
+  from?: 'CONSUMER' | 'PRODUCER'
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { mode, routeKey } = useCurrentRoute()
@@ -40,9 +40,9 @@ function useGetAgreementsActions(
       eserviceIds: [agreement?.eservice.id as string],
       states: ['ACTIVE'],
       kind: 'DELEGATED_PRODUCER',
-      delegatorIds: [jwt?.organizationId as string], //TODO CHECK IF DELEGATOR OR DELEGATE IDS
+      delegateIds: [jwt?.organizationId as string],
     }),
-    enabled: Boolean(jwt?.organizationId) && where === 'PRODUCER',
+    enabled: Boolean(jwt?.organizationId) && from === 'PRODUCER',
     select: ({ results }) => results ?? [],
   })
 
@@ -58,12 +58,13 @@ function useGetAgreementsActions(
   if (!agreement || mode === null || !isAdmin || isDelegator) return { actions: [] }
 
   const handleActivate = () => {
-    if (where === 'CONSUMER' && isDelegationMine) {
+    if (from === 'CONSUMER' && isDelegationMine) {
       activateAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
-    } else if (where === 'PRODUCER' && isThereProducerDelegation) {
+    } else if (from === 'PRODUCER' && isThereProducerDelegation) {
       activateAgreement({ agreementId: agreement.id, delegationId: producerDelegation[0].id })
+    } else {
+      activateAgreement({ agreementId: agreement.id })
     }
-    activateAgreement({ agreementId: agreement.id })
   }
   const activateAction: ActionItemButton = {
     action: handleActivate,
@@ -72,12 +73,13 @@ function useGetAgreementsActions(
   }
 
   const handleSuspend = () => {
-    if (where === 'CONSUMER' && isDelegationMine) {
+    if (from === 'CONSUMER' && isDelegationMine) {
       suspendAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
-    } else if (where === 'PRODUCER' && isThereProducerDelegation) {
+    } else if (from === 'PRODUCER' && isThereProducerDelegation) {
       suspendAgreement({ agreementId: agreement.id, delegationId: producerDelegation[0].id })
+    } else {
+      suspendAgreement({ agreementId: agreement.id })
     }
-    suspendAgreement({ agreementId: agreement.id })
   }
 
   const suspendAction: ActionItemButton = {
