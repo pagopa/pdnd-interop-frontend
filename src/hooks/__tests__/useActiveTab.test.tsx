@@ -49,7 +49,7 @@ describe('determine whether business logic to move among tabs works', () => {
     expect(result.current.activeTab).toBe('fourthTab')
   })
 
-  it('moves between tabs preserving URL params on tab change - with tab search param specified', () => {
+  it('moves between tabs preserving URL params (not offset) on tab change - with tab search param specified', () => {
     const tab = 'fourthTab'
     const memoryHistory = createMemoryHistoryWithTestSearchParams({ tab: tab, test: 'test' })
     const { result, rerender } = renderHookWithApplicationContext(
@@ -71,7 +71,7 @@ describe('determine whether business logic to move among tabs works', () => {
     expect(memoryHistory.location.search).toBe('?tab=secondTab&test=test')
   })
 
-  it('moves between tabs preserving URL params on tab change - without tab search param specified', () => {
+  it('moves between tabs preserving URL params (not offset) on tab change - without tab search param specified', () => {
     const memoryHistory = createMemoryHistoryWithTestSearchParams({ test: 'test' })
     const { result, rerender } = renderHookWithApplicationContext(
       () => useActiveTab(testTabInitialValue),
@@ -90,6 +90,43 @@ describe('determine whether business logic to move among tabs works', () => {
     })
     rerender()
     expect(memoryHistory.location.search).toBe('?test=test&tab=secondTab')
+  })
+
+  it('moves between tabs remove offset from URL params on tab change - with tab search param specified', () => {
+    const tab = 'fourthTab'
+    const memoryHistory = createMemoryHistoryWithTestSearchParams({ tab: tab, offset: '1' })
+    const { result, rerender } = renderHookWithApplicationContext(
+      () => useActiveTab(testTabInitialValue),
+      { withRouterContext: true },
+      memoryHistory
+    )
+
+    act(() => {
+      result.current.updateActiveTab({}, 'fourthTab')
+    })
+    rerender()
+    expect(memoryHistory.location.search).toBe('?tab=fourthTab')
+
+    act(() => {
+      result.current.updateActiveTab({}, 'secondTab')
+    })
+    rerender()
+    expect(memoryHistory.location.search).toBe('?tab=secondTab')
+  })
+
+  it('moves between tabs remove offset from URL params on tab change - without tab search param specified', () => {
+    const memoryHistory = createMemoryHistoryWithTestSearchParams({ offset: '1' })
+    const { result, rerender } = renderHookWithApplicationContext(
+      () => useActiveTab(testTabInitialValue),
+      { withRouterContext: true },
+      memoryHistory
+    )
+
+    act(() => {
+      result.current.updateActiveTab({}, 'fourthTab')
+    })
+    rerender()
+    expect(memoryHistory.location.search).toBe('?tab=fourthTab')
   })
 
   it('url params/state synchronization tests while moves between tabs', () => {

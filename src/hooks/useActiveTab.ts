@@ -6,6 +6,9 @@ export const useActiveTab = (defaultTab: string) => {
   const activeTab = searchParams.get('tab') || defaultTab
 
   const updateActiveTab = (_: unknown, newTab: string) => {
+    // remove the pagination parameter offset if the tab is changed and it is present
+    searchParams.delete('offset')
+
     setSearchParams({ ...Object.fromEntries(searchParams), tab: newTab })
   }
 
