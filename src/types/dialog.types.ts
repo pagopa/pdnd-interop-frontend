@@ -3,6 +3,7 @@ import type {
   RequesterCertifiedAttribute,
   CompactPurposeEService,
   DelegationKind,
+  TenantKind,
 } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -160,5 +161,5 @@ export type DialogCreateAgreementDraftProps = {
 
 export type DialogTenantKindEserviceTemplateProps = {
   type: 'tenantKind'
-  onConfirm: (tenantKind: string) => void
+  onConfirm: (tenantKind: TenantKind) => void
 }

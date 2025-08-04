@@ -17,7 +17,6 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
-import { FEATURE_FLAG_ADMIN_CLIENT } from '@/config/env'
 import { apiV2GuideLink } from '@/config/constants'
 
 const ConsumerClientManagePage: React.FC = () => {
@@ -61,7 +60,7 @@ const ConsumerClientManagePage: React.FC = () => {
           </Link>
         </Stack>
       </Alert>
-      {FEATURE_FLAG_ADMIN_CLIENT && clientKind === 'API' && (
+      {clientKind === 'API' && (
         <Grid container>
           <Grid item xs={8}>
             <SectionContainer
@@ -118,7 +117,7 @@ const ConsumerClientManagePage: React.FC = () => {
           <ClientPublicKeys clientId={clientId} />
         </TabPanel>
       </TabContext>
-      {FEATURE_FLAG_ADMIN_CLIENT && clientKind === 'API' && (
+      {clientKind === 'API' && (
         <SetClientAdminDrawer
           isOpen={isOpen}
           onClose={closeDrawer}

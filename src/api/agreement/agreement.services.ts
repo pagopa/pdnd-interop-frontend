@@ -11,6 +11,7 @@ import type {
   CompactEServicesLight,
   CompactOrganizations,
   CreatedResource,
+  DelegationRef,
   GetAgreementsConsumerEServicesParams,
   GetAgreementsConsumersParams,
   GetAgreementsProducerEServicesParams,
@@ -23,9 +24,7 @@ import { waitFor } from '@/utils/common.utils'
 async function getProducerAgreementsList(params?: GetProducerAgreementsParams) {
   const response = await axiosInstance.get<Agreements>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/agreements`,
-    {
-      params,
-    }
+    { params }
   )
   return response.data
 }
@@ -33,9 +32,7 @@ async function getProducerAgreementsList(params?: GetProducerAgreementsParams) {
 async function getConsumerAgreementsList(params?: GetConsumerAgreementsParams) {
   const response = await axiosInstance.get<Agreements>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers/agreements`,
-    {
-      params,
-    }
+    { params }
   )
   return response.data
 }
@@ -90,9 +87,7 @@ async function createDraft({ eserviceId, descriptorId, delegationId }: Agreement
 async function submitDraft({
   agreementId,
   consumerNotes,
-}: {
-  agreementId: string
-} & AgreementSubmissionPayload) {
+}: { agreementId: string } & AgreementSubmissionPayload) {
   const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/submit`,
     { consumerNotes }
@@ -118,9 +113,7 @@ async function deleteDraft({ agreementId }: { agreementId: string }) {
 async function updateDraft({
   agreementId,
   consumerNotes,
-}: {
-  agreementId: string
-} & AgreementUpdatePayload) {
+}: { agreementId: string } & AgreementUpdatePayload) {
   const response = await axiosInstance.post<Agreement>(
     `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/update`,
     { consumerNotes }
@@ -145,9 +138,7 @@ async function downloadDraftDocument({
 function uploadDraftDocument({
   agreementId,
   ...payload
-}: {
-  agreementId: string
-} & AddAgreementConsumerDocumentPayload) {
+}: { agreementId: string } & AddAgreementConsumerDocumentPayload) {
   const formData = new FormData()
   Object.entries(payload).forEach(([key, data]) => formData.append(key, data))
 
@@ -170,9 +161,10 @@ function deleteDraftDocument({
   )
 }
 
-async function activate({ agreementId }: { agreementId: string }) {
+async function activate({ agreementId, delegationId }: { agreementId: string } & DelegationRef) {
   const response = await axiosInstance.post<Agreement>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`,
+    { delegationId }
   )
   return response.data
 }
@@ -188,9 +180,10 @@ async function reject({
   return response.data
 }
 
-async function suspend({ agreementId }: { agreementId: string }) {
+async function suspend({ agreementId, delegationId }: { agreementId: string } & DelegationRef) {
   const response = await axiosInstance.post<Agreement>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/suspend`,
+    { delegationId }
   )
   return response.data
 }

@@ -42,7 +42,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
 
   const isDelegated = Boolean(agreement?.delegation)
 
-  const { actions } = useGetAgreementsActions(agreement)
+  const { actions } = useGetAgreementsActions(agreement, 'CONSUMER')
 
   const alertProps = useGetConsumerAgreementAlertProps(agreement)
 
@@ -82,14 +82,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
       title={t('consumerRead.title')}
       topSideActions={actions}
       backToAction={{ label: t('backToRequestsBtn'), to: 'SUBSCRIBE_AGREEMENT_LIST' }}
-      statusChip={
-        agreement
-          ? {
-              for: 'agreement',
-              agreement,
-            }
-          : undefined
-      }
+      statusChip={agreement ? { for: 'agreement', agreement } : undefined}
     >
       {alertProps && (
         <Alert sx={{ mb: 3 }} severity={alertProps.severity}>

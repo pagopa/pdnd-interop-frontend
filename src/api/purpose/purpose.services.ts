@@ -2,6 +2,7 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
   CreatedResource,
+  DelegationRef,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
   Purpose,
@@ -33,10 +34,7 @@ function REMOVE_ME_remapPurpose(purpose: Purpose): Purpose {
     purpose.suspendedByConsumer &&
     purpose.currentVersion.dailyCalls === purpose.waitingForApprovalVersion.dailyCalls
   ) {
-    return {
-      ...purpose,
-      currentVersion: undefined,
-    }
+    return { ...purpose, currentVersion: undefined }
   }
 
   return purpose
@@ -45,9 +43,7 @@ function REMOVE_ME_remapPurpose(purpose: Purpose): Purpose {
 async function getProducersList(params: GetProducerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/purposes`,
-    {
-      params,
-    }
+    { params }
   )
   return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
 }
@@ -55,9 +51,7 @@ async function getProducersList(params: GetProducerPurposesParams) {
 async function getConsumersList(params: GetConsumerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers/purposes`,
-    {
-      params,
-    }
+    { params }
   )
   return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
 }
@@ -158,16 +152,26 @@ async function downloadRiskAnalysis({
   return response.data
 }
 
-async function suspendVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
+async function suspendVersion({
+  purposeId,
+  versionId,
+  delegationId,
+}: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`,
+    { delegationId }
   )
   return response.data
 }
 
-async function activateVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
+async function activateVersion({
+  purposeId,
+  versionId,
+  delegationId,
+}: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`,
+    { delegationId }
   )
   return response.data
 }
