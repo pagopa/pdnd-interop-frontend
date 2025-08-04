@@ -35,17 +35,20 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
   const rejectedVersion = purpose.rejectedVersion
   const isNewPurposeRejected = Boolean(rejectedVersion) && !Boolean(purpose.currentVersion)
 
-  const { data: delegations = [] } = useQuery({
+  const { data: producerDelegation = [] } = useQuery({
     ...DelegationQueries.getList({
-      limit: 50,
+      limit: 1,
       offset: 0,
       eserviceIds: [purpose?.eservice.id as string],
       kind: 'DELEGATED_PRODUCER',
+      states: ['ACTIVE'],
       delegateIds: [jwt?.organizationId as string],
     }),
     enabled: Boolean(jwt?.organizationId),
     select: ({ results }) => results ?? [],
   })
+
+  const isThereProducerDelegation = Boolean(producerDelegation[0])
 
   const title = React.useMemo(() => {
     if (waitingForApprovalVersion)
@@ -61,7 +64,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
     activateVersion({
       purposeId: purpose.id,
       versionId: waitingForApprovalVersion.id,
-      delegationId: delegations[0].id,
+      ...(isThereProducerDelegation && { delegationId: producerDelegation[0].id }),
     })
   }
 

@@ -40,6 +40,8 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
 
+  const isThereConsumerDelegation = Boolean(purpose?.delegation)
+
   const handleDeleteDraft = () => {
     deleteDraft(
       { purposeId },
@@ -62,7 +64,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const handlePublishDraft = () => {
     if (!purpose?.currentVersion) return
     publishDraft(
-      { purposeId, versionId: purpose.currentVersion.id, delegationId: purpose.delegation?.id },
+      {
+        purposeId,
+        versionId: purpose.currentVersion.id,
+        ...(isThereConsumerDelegation && { delegationId: purpose.delegation?.id }),
+      },
       {
         onSuccess() {
           navigate('SUBSCRIBE_PURPOSE_DETAILS', {
