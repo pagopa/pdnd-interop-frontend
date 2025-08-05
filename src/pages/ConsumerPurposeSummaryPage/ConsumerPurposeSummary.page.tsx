@@ -18,12 +18,15 @@ import {
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
 import { useCheckRiskAnalysisVersionMismatch } from '@/hooks/useCheckRiskAnalysisVersionMismatch'
 import { useQuery } from '@tanstack/react-query'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_SUMMARY'>()
+
+  const { jwt } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
 
@@ -39,6 +42,10 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
+
+  const isThereConsumerDelegation = Boolean(purpose?.delegation)
+  const isDelegationMine =
+    isThereConsumerDelegation && purpose?.delegation?.delegate.id === jwt?.organizationId //consumer side delegation
 
   const handleDeleteDraft = () => {
     deleteDraft(
@@ -62,7 +69,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const handlePublishDraft = () => {
     if (!purpose?.currentVersion) return
     publishDraft(
-      { purposeId, versionId: purpose.currentVersion.id, delegationId: purpose.delegation?.id },
+      {
+        purposeId,
+        versionId: purpose.currentVersion.id,
+        ...(isDelegationMine && { delegationId: purpose.delegation?.id }),
+      },
       {
         onSuccess() {
           navigate('SUBSCRIBE_PURPOSE_DETAILS', {

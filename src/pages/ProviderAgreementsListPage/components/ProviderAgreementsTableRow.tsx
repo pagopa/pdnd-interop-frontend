@@ -23,7 +23,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const isAgreementEditable = agreement.state === 'DRAFT' && isAdmin
   const queryClient = useQueryClient()
 
-  const { actions } = useGetAgreementsActions(agreement)
+  const { actions } = useGetAgreementsActions(agreement, 'PRODUCER')
 
   const eservice = agreement.eservice
   const descriptor = agreement.descriptor
@@ -34,10 +34,7 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
 
   const eserviceCellData = (
     <>
-      {t('eserviceName', {
-        name: eservice.name,
-        version: descriptor.version,
-      })}
+      {t('eserviceName', { name: eservice.name, version: descriptor.version })}
       {agreement.delegation && <ByDelegationChip />}
     </>
   )
