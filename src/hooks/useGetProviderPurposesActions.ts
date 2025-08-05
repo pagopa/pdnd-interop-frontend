@@ -34,7 +34,6 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
   })
 
   const isThereProducerDelegation = Boolean(producerDelegation[0])
-
   const { openDialog } = useDialog()
 
   const currentVersion = purpose?.currentVersion
