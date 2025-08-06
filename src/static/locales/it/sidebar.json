@@ -9,11 +9,11 @@
     "provider": {
       "provider": "Erogazione",
       "providerEservice": "I miei e-service",
-      "providerAgreeemnt": "Richieste riceute",
+      "providerAgreeemnt": "Richieste ricevute",
       "providerPurpose": "Finalità ricevute",
       "eServiceTemplatesCatalog": "Template e-service",
-      "providerEserviceTemplate": "I miei template",
-      "providerKeychainsList": "I miei portachiavi erogatore"
+      "providerEserviceTemplate": "I miei template e-service",
+      "providerKeychainsList": "Portachiavi erogatore"
     },
     "client": {
       "client": "Gestione del client",

@@ -67,7 +67,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
       {routes
         .filter(({ hide }) => !hide)
         .map((route) => {
-          const sidebarItemLinkProps: SidebarItem<typeof Link> = {
+          const sidebarItemProps: SidebarItem<typeof Link> = {
             isSelected: isRouteInCurrentSubtree(route.rootRouteKey),
             StartIcon: route.icon,
             label: route.label,
@@ -76,6 +76,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
               show: true,
             },
             component: Link,
+            divider: route.divider,
             to: generatePath(route.rootRouteKey),
           }
 
@@ -83,11 +84,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
             return (
               <SidebarItemGroup
                 renderOnCollapsed={
-                  <SidebarItem
-                    datatest-id={route.label}
-                    key={route.label}
-                    {...sidebarItemLinkProps}
-                  />
+                  <SidebarItem datatest-id={route.label} key={route.label} {...sidebarItemProps} />
                 }
                 key={route.label}
                 notification={{
@@ -106,7 +103,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
             )
           }
 
-          return <SidebarItem key={route.label} {...sidebarItemLinkProps} />
+          return <SidebarItem key={route.label} {...sidebarItemProps} />
         })}
       <Divider sx={{ marginBottom: 2 }} />
       <SidebarItem

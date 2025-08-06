@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Divider,
   ListItem,
   ListItemButton,
   ListItemIcon,
@@ -31,6 +32,7 @@ export type SidebarItem<C extends ElementType = 'a'> = PolymorphicProps<
     label: string
     notification?: Notification
     isSelected?: boolean
+    divider?: boolean
   }
 >
 
@@ -43,6 +45,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
   typographyProps,
   label,
   notification,
+  divider = false,
   ...props
 }: SidebarItem<C>) {
   const theme = useTheme()
@@ -50,48 +53,51 @@ export function SidebarItem<C extends ElementType = 'a'>({
   const styles = sidebarStyles(theme, open)
 
   return (
-    <ListItem data-testid={label} sx={{ p: 0 }}>
-      <Tooltip data-testid="sidebar-icon" title={label} placement="right">
-        <ListItemButton
-          aria-selected={isSelected}
-          component={component ?? 'a'}
-          to={props.to}
-          sx={{
-            pl: 4,
-            ...(isSelected && styles.itemButtonActive),
-          }}
-          selected={isSelected}
-          disabled={disabled}
-          {...props}
-        >
-          {StartIcon && <SidebarIcon Icon={StartIcon} notification={notification} />}
+    <>
+      <ListItem data-testid={label} sx={{ p: 0 }}>
+        <Tooltip data-testid="sidebar-icon" title={label} placement="right">
+          <ListItemButton
+            aria-selected={isSelected}
+            component={component ?? 'a'}
+            to={props.to}
+            sx={{
+              pl: 4,
+              ...(isSelected && styles.itemButtonActive),
+            }}
+            selected={isSelected}
+            disabled={disabled}
+            {...props}
+          >
+            {StartIcon && <SidebarIcon Icon={StartIcon} notification={notification} />}
 
-          {open && (
-            <ListItemText
-              disableTypography
-              sx={{ color: 'inherit', marginLeft: 7 }}
-              primary={
-                <Typography
-                  color="inherit"
-                  {...typographyProps}
-                  sx={{
-                    fontWeight: 600,
-                    ...typographyProps?.sx,
-                  }}
-                >
-                  {label}
-                </Typography>
-              }
-            />
-          )}
-          {notification && <BadgeNotification badgeContent={notification.content} />}
-          {open && EndIcon && (
-            <ListItemIcon>
-              <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />
-            </ListItemIcon>
-          )}
-        </ListItemButton>
-      </Tooltip>
-    </ListItem>
+            {open && (
+              <ListItemText
+                disableTypography
+                sx={{ color: 'inherit', marginLeft: 7 }}
+                primary={
+                  <Typography
+                    color="inherit"
+                    {...typographyProps}
+                    sx={{
+                      fontWeight: 600,
+                      ...typographyProps?.sx,
+                    }}
+                  >
+                    {label}
+                  </Typography>
+                }
+              />
+            )}
+            {notification && <BadgeNotification badgeContent={notification.content} />}
+            {open && EndIcon && (
+              <ListItemIcon>
+                <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />
+              </ListItemIcon>
+            )}
+          </ListItemButton>
+        </Tooltip>
+      </ListItem>
+      {divider && <Divider sx={{ my: 1 }} />}
+    </>
   )
 }
