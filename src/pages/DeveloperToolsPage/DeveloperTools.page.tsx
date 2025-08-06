@@ -49,6 +49,24 @@ const DeveloperToolsPage: React.FC = () => {
             </Stack>
           </SectionContainer>
         </Grid>
+        <Grid item xs={7}>
+          <SectionContainer
+            title={t('sectionDebugClientAssertion.title')}
+            description={t('sectionDebugClientAssertion.description')}
+          >
+            <Stack direction="row" spacing={2}>
+              <Link
+                startIcon={<DownloadIcon />}
+                as="button"
+                variant="outlined"
+                size="medium"
+                to="SUBSCRIBE_DEBUG_VOUCHER"
+              >
+                {t('sectionDebugClientAssertion.button')}
+              </Link>
+            </Stack>
+          </SectionContainer>
+        </Grid>
       </Grid>
     </PageContainer>
   )

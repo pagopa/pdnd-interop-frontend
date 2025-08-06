@@ -372,7 +372,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_DEBUG_VOUCHER',
-    path: '/gestione-client/debug-voucher',
+    path: '/developer-tools/debug-voucher',
     element: <ConsumerDebugVoucherPage />,
     public: false,
     hideSideNav: false,

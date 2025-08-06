@@ -10,6 +10,11 @@
         "importTooltip": "Disponibile a breve",
         "importButton": "Importa .json",
         "exportButton": "Esporta .json"
+      },
+      "sectionDebugClientAssertion": {
+        "title": "Debug Client Assertion",
+        "description": "Strumento per generare, visualizzare e validare client assertion JWT, utile per il debug e l’integrazione con flussi OAuth 2.0.",
+        "button": "Effettua il debug"
       }
     }
   },

@@ -61,7 +61,6 @@ export function useGetSidebarItems(): SidebarRoutes {
         children: [
           { to: 'SUBSCRIBE_CLIENT_LIST', label: t('client.eservice') },
           { to: 'SUBSCRIBE_INTEROP_M2M', label: t('client.interop') },
-          { to: 'SUBSCRIBE_DEBUG_VOUCHER', label: t('client.debugClientAssertion') },
         ],
       },
       {
