@@ -221,7 +221,10 @@
   },
   "sidenav": {
     "userExternalLinkLabel": "Utenti",
-    "groupsExternalLinkLabel": "Gruppi"
+    "groupsExternalLinkLabel": "Gruppi",
+    "collapse": "Chiudi Menù",
+    "expand": "Apri Menù",
+    "navigationMenu": "Menù di navigazione"
   },
   "table": {
     "noDataLabel": "Questa ricerca non ha prodotto risultati"
