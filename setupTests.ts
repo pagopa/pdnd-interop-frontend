@@ -19,9 +19,9 @@ export const testConfigs = {
   WELL_KNOWN_URLS: 'https://dev.interop.pagopa.it/.well-known/jwks.json',
   PRODUCER_ALLOWED_ORIGINS: 'IPA',
   API_SIGNAL_HUB_PUSH_INTERFACE_URL:
-    'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/push-signals.yaml',
+    'https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-push-v1',
   API_SIGNAL_HUB_PULL_INTERFACE_URL:
-    'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/pull-signals.yaml',
+    'http://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-pull-v1#/',
   FEATURE_FLAG_SIGNALHUB_WHITELIST: 'true',
   SIGNALHUB_WHITELIST_CONSUMER:
     '69e2865e-65ab-4e48-a638-2037a9ee2ee7,e79a24cd-8edc-441e-ae8d-e87c3aea0059',
@@ -32,7 +32,7 @@ export const testConfigs = {
   API_GATEWAY_V1_INTERFACE_URL:
     'https://selfcare.dev.interop.pagopa.it/m2m/v1-interface-specification.yaml',
   API_GATEWAY_V2_INTERFACE_URL:
-    'https://selfcare.dev.interop.pagopa.it/m2m/v2-interface-specification.yaml',
+    'https://developer.pagopa.it/pdnd-interoperabilita/api/pdnd-core-v2',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
 }
 

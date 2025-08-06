@@ -18,6 +18,7 @@ import DownloadIcon from '@mui/icons-material/Download'
 import { Link } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
+import LaunchIcon from '@mui/icons-material/Launch'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -111,10 +112,10 @@ export const VoucherInstructionsStep4: React.FC = () => {
                   }}
                   disableRipple
                   href={API_GATEWAY_V2_INTERFACE_URL}
-                  download
+                  target="_blank"
                 >
-                  <DownloadIcon fontSize="small" />
-                  {t(`step4.${clientKind}.actionLabel`)}
+                  <LaunchIcon fontSize="small" />
+                  {t(`step4.actionLabel`)}
                 </Button>
               </Stack>
             </>
@@ -140,9 +141,9 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 }}
                 disableRipple
                 href={API_SIGNAL_HUB_PUSH_INTERFACE_URL}
-                download
+                target="_blank"
               >
-                <DownloadIcon fontSize="small" />
+                <LaunchIcon fontSize="small" />
                 {t(`step4.actionLabel`)}
               </Button>
             </Stack>
@@ -159,9 +160,9 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 }}
                 disableRipple
                 href={API_SIGNAL_HUB_PULL_INTERFACE_URL}
-                download
+                target="_blank"
               >
-                <DownloadIcon fontSize="small" />
+                <LaunchIcon fontSize="small" />
                 {t(`step4.actionLabel`)}
               </Button>
             </Stack>
