@@ -9,6 +9,27 @@ import { useTranslation } from 'react-i18next'
 const DeveloperToolsPage: React.FC = () => {
   const { t } = useTranslation('developer-tools', { keyPrefix: 'developerTools.page' })
 
+  const renderDebugClientAssertionSection = () => {
+    return (
+      <SectionContainer
+        title={t('sectionDebugClientAssertion.title')}
+        description={t('sectionDebugClientAssertion.description')}
+      >
+        <Stack direction="row" spacing={2}>
+          <Link
+            startIcon={<DownloadIcon />}
+            as="button"
+            variant="outlined"
+            size="medium"
+            to="SUBSCRIBE_DEBUG_VOUCHER"
+          >
+            {t('sectionDebugClientAssertion.button')}
+          </Link>
+        </Stack>
+      </SectionContainer>
+    )
+  }
+
   return (
     <PageContainer title={t('title')} description={t('description')}>
       <Grid container>
@@ -48,6 +69,7 @@ const DeveloperToolsPage: React.FC = () => {
               </Link>
             </Stack>
           </SectionContainer>
+          {renderDebugClientAssertionSection()}
         </Grid>
       </Grid>
     </PageContainer>
