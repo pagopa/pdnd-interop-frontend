@@ -43,6 +43,6 @@ describe('Developer tools page', () => {
 
     await userEvent.click(debugClientAssertionButton)
 
-    expect(history.location.pathname).contain('/fruizione/debug-voucher')
+    expect(history.location.pathname).contain('/developer-tools/debug-voucher')
   })
 })
