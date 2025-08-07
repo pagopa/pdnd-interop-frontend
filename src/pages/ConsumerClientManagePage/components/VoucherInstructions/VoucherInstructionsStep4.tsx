@@ -12,12 +12,14 @@ import {
   API_GATEWAY_V2_INTERFACE_URL,
   API_SIGNAL_HUB_PULL_INTERFACE_URL,
   API_SIGNAL_HUB_PUSH_INTERFACE_URL,
+  API_TRACING_INTERFACE_URL,
 } from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
 import { Link } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
+import LaunchIcon from '@mui/icons-material/Launch'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -111,10 +113,10 @@ export const VoucherInstructionsStep4: React.FC = () => {
                   }}
                   disableRipple
                   href={API_GATEWAY_V2_INTERFACE_URL}
-                  download
+                  target="_blank"
                 >
-                  <DownloadIcon fontSize="small" />
-                  {t(`step4.${clientKind}.actionLabel`)}
+                  <LaunchIcon fontSize="small" />
+                  {t(`step4.consultLabel`)}
                 </Button>
               </Stack>
             </>
@@ -140,10 +142,10 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 }}
                 disableRipple
                 href={API_SIGNAL_HUB_PUSH_INTERFACE_URL}
-                download
+                target="_blank"
               >
-                <DownloadIcon fontSize="small" />
-                {t(`step4.actionLabel`)}
+                <LaunchIcon fontSize="small" />
+                {t(`step4.consultLabel`)}
               </Button>
             </Stack>
             <Typography variant="body2" fontWeight={600}>
@@ -159,10 +161,35 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 }}
                 disableRipple
                 href={API_SIGNAL_HUB_PULL_INTERFACE_URL}
-                download
+                target="_blank"
               >
-                <DownloadIcon fontSize="small" />
-                {t(`step4.actionLabel`)}
+                <LaunchIcon fontSize="small" />
+                {t(`step4.consultLabel`)}
+              </Button>
+            </Stack>
+          </Stack>
+        </SectionContainer>
+      )}
+      {clientKind === 'API' && (
+        <SectionContainer>
+          <Stack spacing={2}>
+            <Typography variant="h6" component="h2">
+              {t(`step4.API.tracing.title`)}
+            </Typography>
+            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+              <Typography variant="body2">{t(`step4.API.tracing.description`)}</Typography>
+              <Button
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'white',
+                  },
+                }}
+                disableRipple
+                href={API_TRACING_INTERFACE_URL}
+                target="_blank"
+              >
+                <LaunchIcon fontSize="small" />
+                {t(`step4.consultLabel`)}
               </Button>
             </Stack>
           </Stack>
