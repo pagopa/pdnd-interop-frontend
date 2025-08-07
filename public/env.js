@@ -29,4 +29,5 @@ window.pagopa_env = {
     'https://developer.pagopa.it/pdnd-interoperabilita/api/pdnd-core-v2',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
   ERROR_DATA_DURATION_TIME: '90000',
+  API_TRACING_INTERFACE_URL: 'https://developer.pagopa.it/pdnd-interoperabilita/api/tracing-v1',
 }

@@ -169,6 +169,7 @@
     "consumerStepperLabel": "Accesso e-service",
     "apiStepperLabel": "Accesso API Interop",
     "actionLabel": "Scarica",
+    "consultLabel": "Consulta",
     "CONSUMER": {
       "title": "Congratulazioni!",
       "description": "Ora puoi accedere all’API dell’e-service <strong>{{ eserviceName }}</strong> erogato da <strong>{{ producerName }}</strong> ",
@@ -198,6 +199,10 @@
       "pullApiSH": {
         "title": "Recupero segnali (Pull API)",
         "description": "L’API che permette ai fruitori di recuperare i segnali di variazione sui dati"
+      },
+      "tracing": {
+        "title": "Tracing",
+        "description": "L'API che permette di caricare e gestire le informazioni sui volumi di scambio tra erogatore e fruitore"
       }
     }
   },

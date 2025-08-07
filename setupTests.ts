@@ -34,6 +34,7 @@ export const testConfigs = {
   API_GATEWAY_V2_INTERFACE_URL:
     'https://developer.pagopa.it/pdnd-interoperabilita/api/pdnd-core-v2',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
+  API_TRACING_INTERFACE_URL: 'https://developer.pagopa.it/pdnd-interoperabilita/api/tracing-v1',
 }
 
 // runs a cleanup after each test case (e.g. clearing jsdom)

@@ -20,6 +20,7 @@ const GeneralConfigs = z.object({
   API_GATEWAY_V1_INTERFACE_URL: z.url(),
   API_GATEWAY_V2_INTERFACE_URL: z.url(),
   ERROR_DATA_DURATION_TIME: z.string().default('60000'),
+  API_TRACING_INTERFACE_URL: z.url(),
 })
 
 const FeatureFlagConfigs = z.object({
@@ -113,6 +114,7 @@ export const {
   API_GATEWAY_V1_INTERFACE_URL,
   API_GATEWAY_V2_INTERFACE_URL,
   ERROR_DATA_DURATION_TIME,
+  API_TRACING_INTERFACE_URL,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()
