@@ -3,7 +3,7 @@
   "developerTools": {
     "page": {
       "title": "Tool per sviluppatori",
-      "description": "Questa sezione è stata pensata per fornire strumenti di supporto per gli sviluppatori.",
+      "description": "Una sezione che contiene alcuni strumenti utili a supporto dello sviluppo.",
       "sectionRiskAnalysisExport": {
         "title": "Export analisi del rischio",
         "description": "Esporta e importa in formato .json formattato l’analisi del rischio che compili, pronta per essere utilizzata nelle chiamate di creazione di una finalità nei flussi machine to machine.",
