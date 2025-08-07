@@ -100,7 +100,7 @@ export function useGetSidebarItems(): SidebarRoutes {
 
       // If the view has children, we need to filter out the ones that the user is not authorized to access
       if ('children' in item) {
-        const children = [...item.children!].filter(() => userHasRouteRoles(item.rootRouteKey))
+        const children = [...item.children!].filter((child) => userHasRouteRoles(child.to))
 
         return [...acc, { ...item, children }]
       }

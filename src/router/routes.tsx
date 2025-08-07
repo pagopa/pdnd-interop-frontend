@@ -372,7 +372,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_DEBUG_VOUCHER',
-    path: '/developer-tools/debug-voucher',
+    path: '/tool-sviluppo/debug-voucher',
     element: <ConsumerDebugVoucherPage />,
     public: false,
     hideSideNav: false,
@@ -548,7 +548,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'DEVELOPER_TOOLS',
-    path: '/developer-tools',
+    path: '/tool-sviluppo',
     element: <DeveloperToolsPage />,
     public: false,
     hideSideNav: false,
@@ -556,7 +556,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'RISK_ANALYSIS_EXPORTER_TOOL',
-    path: '/developer-tools/export-analisi-del-rischio',
+    path: '/tool-sviluppo/export-analisi-del-rischio',
     element: <RiskAnalysisExporterToolPage />,
     public: false,
     hideSideNav: true,

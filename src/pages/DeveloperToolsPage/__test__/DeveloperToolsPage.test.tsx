@@ -28,7 +28,7 @@ describe('Developer tools page', () => {
 
     await userEvent.click(exportButton)
 
-    expect(history.location.pathname).contain('/developer-tools/export-analisi-del-rischio')
+    expect(history.location.pathname).contain('/tool-sviluppo/export-analisi-del-rischio')
   })
 
   it('should be able to navigate into Debug client assertion page when button is clicked', async () => {
@@ -43,6 +43,6 @@ describe('Developer tools page', () => {
 
     await userEvent.click(debugClientAssertionButton)
 
-    expect(history.location.pathname).contain('/developer-tools/debug-voucher')
+    expect(history.location.pathname).contain('/tool-sviluppo/debug-voucher')
   })
 })
