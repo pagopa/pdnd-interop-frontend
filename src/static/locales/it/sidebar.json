@@ -16,7 +16,7 @@
       "providerKeychainsList": "Portachiavi erogatore"
     },
     "client": {
-      "client": "Gestione del client",
+      "client": "Gestione dei client",
       "eservice": "API e-service",
       "interop": "API Interoperabilità",
       "debugClientAssertion": "Debug client assertion"
