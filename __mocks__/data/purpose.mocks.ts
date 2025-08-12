@@ -10,7 +10,7 @@ const createMockPurpose = createMockFactory<Purpose>({
     descriptor: {
       id: 'cd80bfe6-54be-493a-aaa1-6bb2b54545f8',
       state: 'PUBLISHED',
-      version: '1',
+      version: 1,
       audience: [],
     },
     id: 'dea4bbf4-df64-4b8a-9ca9-125dd4cd1f5e',

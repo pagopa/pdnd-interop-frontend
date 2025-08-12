@@ -28,7 +28,7 @@ const createMockEServiceCatalog = createMockFactory<CatalogEService>({
   activeDescriptor: {
     id: 'e9762e42-129a-4b07-9b2e-9614998ef9b8',
     state: 'PUBLISHED',
-    version: '1',
+    version: 1,
     audience: [],
   },
   name: '!! -- CAMMELLO -- Test 18/10 [1]',
@@ -52,7 +52,7 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     activeDescriptor: {
       id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
       state: 'PUBLISHED',
-      version: '1',
+      version: 1,
       audience: [],
     },
     producer: {
@@ -64,7 +64,7 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
       {
         id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
         state: 'PUBLISHED',
-        version: '1',
+        version: 1,
         audience: [],
       },
     ],
@@ -86,7 +86,7 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     checksum: 'f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2',
   },
   state: 'PUBLISHED',
-  version: '1',
+  version: 1,
   voucherLifespan: 60,
   attributes: {
     certified: [],
@@ -99,7 +99,7 @@ const createMockCatalogDescriptorEService = createMockFactory<CatalogDescriptorE
   activeDescriptor: {
     id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
     state: 'PUBLISHED',
-    version: '1',
+    version: 1,
     audience: [],
   },
   producer: {
@@ -111,7 +111,7 @@ const createMockCatalogDescriptorEService = createMockFactory<CatalogDescriptorE
     {
       id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
       state: 'PUBLISHED',
-      version: '1',
+      version: 1,
       audience: [],
     },
   ],
@@ -138,7 +138,7 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
       {
         id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
         state: 'PUBLISHED',
-        version: '1',
+        version: 1,
         audience: [],
       },
     ],
@@ -161,7 +161,7 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
     prettyName: 'Specifica API',
   },
   state: 'PUBLISHED',
-  version: '3',
+  version: 3,
   voucherLifespan: 60,
   attributes: {
     certified: [],

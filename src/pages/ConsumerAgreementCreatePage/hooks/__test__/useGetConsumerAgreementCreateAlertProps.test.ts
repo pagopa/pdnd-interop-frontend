@@ -25,9 +25,9 @@ describe('check if useGetConsumerAgreementCreateAlertProps returns the correct a
     const agreement = createMockAgreement({
       state: 'DRAFT',
       eservice: {
-        version: '1',
+        version: 1,
         activeDescriptor: {
-          version: '2',
+          version: 2,
         },
       },
     })
