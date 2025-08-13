@@ -1,58 +1,58 @@
 {
   "consumerEServiceCatalog": {
     "title": "E-service catalog",
-    "description": "The e-service catalog contains all the databases that other entities have made available. You can join those of interest to you."
+    "description": "The e-service catalog contains all the databases that other parties have made available. You can subscribe to those of your interest."
   },
   "consumerAgreementsList": {
-    "title": "Your submitted requests",
-    "description": "Submitted requests will be collected in this area."
+    "title": "Submitted service requests",
+    "description": "The submitted service requests will be collected in this area."
   },
   "providerEServiceList": {
     "title": "My e-services",
-    "description": "Manage and provide new e-services from this dedicated area."
+    "description": "Manage and produce new e-services from this dedicated area."
   },
   "providerAgreementsList": {
-    "title": "Received requests",
-    "description": "In this area you can manage all the requests that have been sent to you by entities that want to use your e-services. Received requests are collected here."
+    "title": "Received service requests",
+    "description": "View and manage the requests that the parties have submitted to you to consume your e-services. The requests you receive are collected in this area."
   },
   "consumerPurposesList": {
     "title": "My submitted purposes",
-    "description": "When your requests for use are accepted, you will need to fill a purpose to describe how you will process the data you receive. Your purposes are collected in this area."
+    "description": "When your service requests are accepted, you will need to fill in a purpose to describe how you will process the data you receive. Your purposes are collected in this area."
   },
   "consumerClientList": {
-    "title": "My API client e-services",
-    "description": "The e-service clients allow you to interface with the provider's API specified in the e-services for which you have an active fruition request and purpose. Your e-service clients are collected here."
+    "title": "My e-service API clients",
+    "description": "The e-service clients allow you to interface with the producers’ APIs specified in the e-services for which you have a service request and an active purpose. Your e-service clients are collected here."
   },
   "consumerClientM2MList": {
-    "title": "My API client interop",
-    "description": "Interoperability clients allow you to interface with the APIs exposed by PDND Interoperability read and write. Your clients are collected here."
+    "title": "My PDND API clients",
+    "description": "The PDND clients allow you to interface with the APIs exposed by PDND for reading and writing. Your clients are collected here."
   },
   "providerPurposesList": {
     "title": "Received purposes",
-    "description": "Entities that want to use your e-services will need to indicate how they will process the data they receive. Received purposes are collected in this area."
+    "description": "The parties that intend to consume your e-services will need to indicate how they will process the data you produce. The purposes you receive are collected in this area."
   },
   "consumerDebugVoucher": {
-    "title": "client assertion debug",
-    "description": "The debug tool allows you to highlight any anomalies contained in your client assertion necessary for obtaining an access token."
+    "title": "Client assertion debug",
+    "description": "The debug tool allows you to highlight any anomalies contained in your client assertion necessary to obtain the access token."
   },
   "tenantCertifier": {
-    "title": "Tenant certifier",
-    "description": "Create and manage certified attributes and assign them to compliant entities."
+    "title": "Certifying authority",
+    "description": "Create and manage certified attributes and assign them to compliant parties."
   },
   "providerKeychainsList": {
-    "title": "My provider keychains",
-    "description": "In this area you can view and manage the keychains associated with your e-services, uploading the public keys necessary for verifying responses from users."
+    "title": "My producer keychains",
+    "description": "In this area you can view and manage the keychains associated with your e-services, uploading the public keys needed for verifying responses from consumers."
   },
   "delegations": {
-    "title": "Delegation management",
-    "description": "Indicate your availability to delegate and manage the delegations you have conferred or received."
+    "title": "Delegations management",
+    "description": "Indicate your availability for delegation and manage the delegations you have granted or received."
   },
   "providerEServiceTemplatesCatalog": {
     "title": "E-service templates catalog",
-    "description": "Templates allow you to create e-service instances from pre-existing template."
+    "description": "The templates allow you to create e-service instances starting from a pre-existing model."
   },
   "providerEServiceTemplatesList": {
-    "title": "My template e-service",
-    "description": "Manage and provide new e-service templates from this dedicated area."
+    "title": "My e-service templates",
+    "description": "Manage and produce new e-service templates from this dedicated area."
   }
 }

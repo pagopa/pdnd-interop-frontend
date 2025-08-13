@@ -8,26 +8,26 @@
         "label": "Attribute description"
       },
       "attributeIdField": {
-        "label": "Attribute Id",
-        "tooltipTitle": "Id successfully copied"
+        "label": "Attribute ID (attributeId)",
+        "tooltipTitle": "ID successfully copied"
       }
     }
   },
   "dialogSessionExpired": {
     "title": "Session expired",
     "content": {
-      "description": "Your session on PDND Interoperabilità has expired. You are about to be redirected to Self Care"
+      "description": "The session on PDND has expired. You are about to be redirected to the Members Area"
     },
     "actions": {
       "exitLabel": "Exit"
     }
   },
   "dialogRejectAgreement": {
-    "title": "Reject fruition request",
+    "title": "Reject service request",
     "content": {
       "reason": {
         "label": "Reason",
-        "infoLabel": "Insert the reason why you are rejecting the fruition request. Min 20 chars, max 1000 chars."
+        "infoLabel": "Enter the reason for rejecting the service request. Min 20 characters, max 1000 characters"
       }
     },
     "actions": {
@@ -41,15 +41,15 @@
       "newPurpose": "Reject purpose"
     },
     "subtitle": {
-      "changePlan": "By refusing this plan change, the user will still be able to continue using the previously available plan.",
-      "newPurpose": "By rejecting this purpose, the user will not be able to access your e-service data."
+      "changePlan": "By rejecting this plan change, the consumer will still be able to use the previously available quota.",
+      "newPurpose": "By rejecting this purpose, the consumer will not be able to access the data for your e-service."
     },
     "content": {
       "reason": {
         "label": "Reason",
         "infoLabel": {
-          "changePlan": "Enter the reason why you reject the plan change. Min 10 characters, max 250 characters",
-          "newPurpose": "Enter the reason why you reject the purpose. Min 10 characters, max 250 characters"
+          "changePlan": "Enter the reason for rejecting the plan change. Min 10 characters, max 250 characters",
+          "newPurpose": "Enter the reason for rejecting the purpose. Min 10 characters, max 250 characters"
         }
       }
     },
@@ -59,83 +59,83 @@
     }
   },
   "drawerAddClientToPurpose": {
-    "title": "Add clients",
+    "title": "Add client",
     "content": {
       "autocompleteLabel": "Selected clients"
     },
     "actions": {
-      "cancelLabel": "Undo",
+      "cancelLabel": "Cancel",
       "confirmLabel": "Add"
     }
   },
   "dialogUpgradeAgreementVersion": {
-    "title": "Update agreement",
+    "title": "Service request update",
     "content": {
-      "subtitle": "A more recent version of the e-service <1>{{eservice}}, version {{version}}</1>, provided by {{provider}}, has been published.",
+      "subtitle": "A more recent version of the e-service <1>{{eservice}}, version {{version}}</1>, produced by {{provider}}, has been published.",
       "description": {
         "title": "What does it mean?",
-        "content": "When a provider publishes a new version of an e-service, there are variations compared to the previous one. These changes may be administrative, technical, or both. Do you have any doubts? <1>See the guide.</1>"
+        "content": "When a producer publishes a new version of an e-service, there are changes compared to the previous one. These changes may be administrative, technical, or both. Have questions? <1>Check the guide.</1>"
       },
       "checkboxesForm": {
-        "title": "What is recommended to do before updating?",
-        "attributesCheckLabel": "The administrators verified compliance with the requirements (attributes) requested by the provider.",
-        "apiIntegrationCheckLabel": "The technicians have verified that your integration corresponds to the updated API of the e-service.",
-        "testEnvCheckLabel": "The technicians tested the integration with the updated e-service in a test environment (if available)."
+        "title": "What is recommended before updating?",
+        "attributesCheckLabel": "Administrative staff have verified compliance with the requirements (attributes) requested by the producer.",
+        "apiIntegrationCheckLabel": "Technical staff have verified that your integration matches the updated API of the e-service.",
+        "testEnvCheckLabel": "Technical staff have tested the integration with the updated e-service in the testing environment (if available)."
       },
-      "missingVerifiedOrDeclaredAttributesAlert": "The new request will not be active immediately, your organization does not have all the necessary attributes. A draft will be produced which you will be asked to integrate. Once done, you can forward it to the provider to request the update."
+      "missingVerifiedOrDeclaredAttributesAlert": "The new request will not be active immediately, your party does not have all the required attributes. A draft will be created that you will be asked to complete. Once done, you can forward it to the producer to request the update."
     },
     "actions": {
       "cancelLabel": "Cancel",
       "upgrade": {
-        "label": "Upgrade",
-        "notAllCheckboxCheckedTooltip": "To be able to update, tick all the checkboxes above"
+        "label": "Update",
+        "notAllCheckboxCheckedTooltip": "To update, check all the boxes above"
       }
     }
   },
   "dialogClonePurpose": {
-    "title": "Confirm cloning purpose",
-    "description": "A new purpose will be created in draft status with the same characteristics as the one selected. Select the e-service to which to associate it.",
+    "title": "Confirm purpose cloning",
+    "description": "A new draft purpose will be created with the same characteristics as the selected one. Select the e-service to associate it with.",
     "eserviceField": {
       "label": "Select e-service",
-      "eserviceProvider": "provided by"
+      "eserviceProvider": "produced by"
     }
   },
   "dialogCreateAgreementDraft": {
-    "title": "Crea bozza richiesta di fruizione",
-    "description": "",
+    "title": "Create draft service request",
+    "description": "Do you want to create a draft service request for the e-service <strong>{{eserviceName}}</strong>, version <strong>{{eserviceVersion}}</strong>? Select the party for which to submit the request",
     "consumerField": {
-      "label": "Seleziona ente"
+      "label": "Select party"
     },
     "certifiedAttributesAlert": {
-      "title": "Non è possibile richiedere la fruizione dell’e-service",
-      "description": "L'ente selezionato non dispone degli attributi certificati necessari a richiedere la fruizione dell'e-service"
+      "title": "It is not possible to request the consumption of the e-service",
+      "description": "The selected party does not have the certified attributes required to request the consumption of the e-service"
     }
   },
   "dialogDeleteOperator": {
-    "title": "Forwarding to Reserved Area for user removal",
-    "description": "User operations on all products managed by PagoPA take place through the Reserved Area portal. By clicking \"confirm\", you will be redirected to the Reserved Area page to manage the selected user."
+    "title": "Forwarding to Members Area for user removal",
+    "description": "Operations on users across all products managed by PagoPA are carried out through the Members Area portal. By clicking \"confirm\", you will be redirected to the Members Area page to manage the selected user."
   },
   "dialogRemoveOperatorFromClient": {
     "title": "Confirm user removal",
-    "description": "By clicking “confirm”, the current user will be removed from the current client and will no longer have access to it. For continuity, all keys uploaded by this user will remain available in the client. For safety reasons, it is recommended to replace them and discard the old ones. Do you have any doubts? <1>Read the guide</1>."
+    "description": "By clicking “confirm”, the current user will be removed from the current client and will no longer have access. For continuity, all keys uploaded by this user will remain available in the client. For security reasons, it is recommended to replace them and delete the old ones. Have questions? <1>Read the guide</1>."
   },
   "dialogRevokeCertifiedAttribute": {
     "title": "Revoke attribute",
     "content": {
-      "description": "If you revoke the <strong>{{attributeName}}</strong> attribute from the <strong>{{tenantName}}</strong>, it will lose access to all the e-services for which it has an active request for use, immediately interrupting the use of the service.",
-      "checkbox": "I confirm that I understand the consequences of revocation"
+      "description": "If you revoke the attribute <strong>{{attributeName}}</strong> from the party <strong>{{tenantName}}</strong>, it will lose access to all e-services for which it has an active service request, immediately interrupting the consumption of the service.",
+      "checkbox": "I confirm that I understand the consequences of the revocation"
     }
   },
   "drawerRejectReason": {
-    "title": "Rejected reason",
+    "title": "Rejection reason",
     "rejectedReasonLabel": "Description",
     "rejectedValueLabel": "Rejected value",
-    "defaultServiceString": "---\n\nThank you for your cooperation,\n\nthe Interoperabilità Team.",
-    "guideLinkLabel": "For further doubts and information. Go to the manual."
+    "defaultServiceString": "---\n\nThank you for your cooperation,\n\nthe Interoperability Team.",
+    "guideLinkLabel": "For further questions and information. Go to the manual."
   },
   "dialogSetTenantMail": {
-    "title": "Insertion of contact email",
-    "description": "The address entered has no legal value. It will be shown on PDND Interoperability as a reference point to facilitate the direct exchange of information between members (e.g. requests for support and clarification, etc.)",
+    "title": "Enter contact email",
+    "description": "The entered address has no legal value. It will be displayed on PDND as a point of reference to facilitate the direct exchange of information between parties (e.g. requests for support and clarification, etc.)",
     "content": {
       "mailField": {
         "label": "Contact email (required)"
@@ -148,16 +148,16 @@
   },
   "dialogRemoveUserFromKeychain": {
     "title": "Confirm user removal",
-    "description": "The current user will be removed from the current keychain and will no longer have access to it. All keys uploaded by this person will remain available in the keychain. It is recommended to replace them and discard the old ones. To find out more, <1>read the guide</1>"
+    "description": "The current user will be removed from the current keychain and will no longer have access. All keys uploaded by this person will remain available in the keychain. It is recommended to replace them and delete the old ones. To learn more, <1>read the guide</1>"
   },
   "dialogDeleteProducerKeychainKey": {
     "title": "Confirm public key deletion",
-    "description": "The key can no longer be used to sign responses to users of your e-services. To find out more, <1>read the guide</1>."
+    "description": "The key will no longer be usable to sign responses to consumers of your e-services. To learn more, <1>read the guide</1>."
   },
   "dialogAcceptDelegation": {
-    "title": "Appointment of Data Controller",
+    "title": "Appoint Data Processor",
     "content": {
-      "description": "Please remember that it is necessary to have been appointed as Personal Data Controller, by signing the deed required by art. 28 of the GDPR, before starting any processing activity via the infrastructure on behalf of the Delegator, Data Controller.",
+      "description": "Please note that it is necessary to have been appointed as Data Processor of personal data, with the signing of the deed required by art. 28 of the GDPR, before carrying out any processing activity through the infrastructure on behalf of the Delegator, Data Controller.",
       "confirmationLabel": "I understand"
     },
     "actions": {
@@ -169,7 +169,7 @@
     "content": {
       "reason": {
         "label": "Reason",
-        "infoLabel": "Enter the reason why you refuse the delegation. Min 10 characters, max 250 characters"
+        "infoLabel": "Enter the reason for rejecting the delegation. Min 10 characters, max 250 characters"
       }
     },
     "actions": {
@@ -178,20 +178,20 @@
   },
   "dialogRevokeDelegation": {
     "producer": {
-      "title": "Producer delegation revocation",
+      "title": "Revoke delegation for producing",
       "content": {
-        "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, and the agreements and the purposes associated with it. The e-service will return under your control in the state it was in at the time of revocation. Do you have doubts? <1>Read the guide</1>.",
-        "checkbox": "I have read and I want to proceed with the revocation"
+        "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with delegation for producing</strong>, and of the service requests and purposes associated with it. The e-service will return under your control in the state it is in at the time of revocation. Have questions? <1>Check the guide</1>.",
+        "checkbox": "I have read and want to proceed with the revocation"
       },
       "actions": {
         "revoke": "Revoke delegation"
       }
     },
     "consumer": {
-      "title": "Consumer delegation revocation",
+      "title": "Revoke delegation for consuming",
       "content": {
-        "description": "By revoking the delegation, you will come into possession of the requests and purposes created by the delegate for use on behalf of your institution and you will be able to manage them independently, or create a new delegation. Do you have doubts? <1>Consult the guide</1>.<strong>After revocation, you will have to reactivate and/or create the purposes and associate your clients to be able to access the e-service data again {{eserviceName}} with delegation of use.</strong>",
-        "checkbox": "I have read and I want to proceed with the revocation"
+        "description": "By revoking the delegation, you will take possession of the requests and purposes created by the delegate for consuming on behalf of your party and you will be able to manage them independently, or create a new delegation. Have questions? <1>Check the guide</1>.<p><strong>Once the revocation has taken place, you will need to reactivate and/or create the purposes and associate your clients to be able to access the data of the e-service {{eserviceName}} with delegation for consuming again.</strong></p>",
+        "checkbox": "I have read and want to proceed with the revocation"
       },
       "actions": {
         "revoke": "Revoke delegation"
@@ -200,17 +200,17 @@
   },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Reject publication",
-    "description": "The reason for your refusal will be reported to your delegate, who will be able to update the draft and send it back to you for approval for publication.",
+    "description": "The reason for your rejection will be communicated to your delegate, who will be able to update the draft and send it back to you for approval for publication.",
     "content": {
       "reason": {
         "label": "Reason",
-        "infoLabel": "Enter the reason why you refuse publication. Min 10 characters, max 250 characters"
+        "infoLabel": "Enter the reason for rejecting the publication. Min 10 characters, max 250 characters"
       }
     }
   },
   "dialogApproveDelegatedVersionDraft": {
     "title": "Publish version",
-    "description": "You are about to publish a new version of your e-service <strong>{{eserviceName}} with delegation of delivery</strong> developed by your delegate <strong>{{delegateName}}</strong>. At the same time, you approve the risk analyzes compiled by the delegate acting on your behalf.",
+    "description": "You are about to publish a new version of your e-service <strong>{{eserviceName}} with delegation for producing</strong> prepared by your delegate <strong>{{delegateName}}</strong>. At the same time, you approve the risk analyses compiled by the delegate acting on your behalf.",
     "actions": {
       "approveAndPublish": "Approve and publish"
     }
@@ -222,86 +222,86 @@
   "sidenav": {
     "userExternalLinkLabel": "Users",
     "groupsExternalLinkLabel": "Groups",
-    "collapse": "Close",
-    "expand": "Open",
-    "navigationMenu": "Navigation menù"
+    "collapse": "Close Menu",
+    "expand": "Open Menu",
+    "navigationMenu": "Navigation menu"
   },
   "table": {
-    "noDataLabel": "This search bears no results"
+    "noDataLabel": "This search returned no results"
   },
   "downloadableDocumentList": {
     "noDataLabel": "No documents available"
   },
   "codeSnippetPreview": {
-    "successFeedbackText": "Script copied successfully"
+    "successFeedbackText": "Script successfully copied"
   },
   "autocompleteMultiple": {
     "loadingLabel": "Searching...",
-    "noDataLabel": "No results"
+    "noDataLabel": "No results found"
   },
   "singleFileInput": {
     "dropzone": {
       "button": "Upload file",
-      "label": "Drag here file or click here to select it from your computer"
+      "label": "Drag the file here or click to select it from your computer"
     },
-    "loadingLabel": "Loading..."
+    "loadingLabel": "Uploading..."
   },
   "documentContainer": {
     "prettyName": {
       "label": "Document name",
-      "infoLabel": "Max 60 chars"
+      "infoLabel": "Max 60 characters"
     },
     "editDocumentName": "Edit document name",
     "deleteDocument": "Delete document",
     "downloadDocument": "Download document"
   },
   "actionMenu": {
-    "iconButtonAriaLabel": "Open action menu"
+    "iconButtonAriaLabel": "Open actions menu"
   },
   "apiInfoSection": {
-    "title": "API Interoperabilità",
-    "content": "Useful parameters to obtain information programmatically through <1>your interop api clients</1>",
-    "tooltipTitle": "Id successfully copied"
+    "title": "Interoperability API",
+    "content": "Useful parameters to obtain information programmatically through <1>your API Interop clients</1>",
+    "tooltipTitle": "ID successfully copied"
   },
   "environmentBanner": {
     "content": {
       "uat": "Testing environment. Do not use real data.",
-      "att": "Attestation environment for private entities: be careful, the data does not have to be real"
+      "att": "Validation environment for private parties: be aware that data must not be real"
     }
   },
   "maintenanceBanner": {
-    "titleAttEnv": "Scheduled maintenance for attestation environment",
-    "titleTestEnv": "Scheduled maintenance for test environment",
-    "titleProdEnv": "Scheduled maintenance for production environment",
-    "bodySingleDay": "Interoperabilità PDND will undergo scheduled maintenance on {{maintenanceStartDay}} at {{maintenanceStartHour}} for approximately {{hoursDuration}} hours. We apologize for any inconvenience caused.",
-    "bodyMultipleDay": "Interoperabilità PDND will undergo scheduled maintenance from {{maintenanceStartHour}} of {{maintenanceStartDay}} to {{maintenanceEndHour}} of {{maintenanceEndDay}}. We apologize for any inconvenience caused."
+    "titleAttEnv": "Scheduled maintenance validation environment",
+    "titleTestEnv": "Scheduled maintenance testing environment",
+    "titleProdEnv": "Scheduled maintenance production environment",
+    "bodySingleDay": "PDND Interoperability will undergo scheduled maintenance on {{maintenanceStartDay}} at {{maintenanceStartHour}} for approximately {{hoursDuration}} hours. We apologize for any inconvenience caused.",
+    "bodyMultipleDay": "PDND Interoperability will undergo scheduled maintenance from {{maintenanceStartHour}} on {{maintenanceStartDay}} to {{maintenanceEndHour}} on {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
   "attributeContainer": {
-    "attributeIdLabel": "Attribute's id (attributeId)",
-    "idCopytooltipLabel": "Id copied correctly",
-    "removeAttributeAriaLabel": "Remove {{attributeName}} attribute"
+    "attributeIdLabel": "Attribute ID (attributeId)",
+    "idCopytooltipLabel": "ID successfully copied",
+    "removeAttributeAriaLabel": "Remove attribute {{attributeName}}"
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Remove attribute group"
   },
   "drawer": {
-    "closeIconAriaLabel": "Close the drawer",
+    "closeIconAriaLabel": "Close drawer",
     "updateLabel": "Update"
   },
   "byDelegationChip": {
     "label": {
-      "default": "By delegation",
+      "default": "Delegated",
       "delegator": "Delegated",
       "delegate": "Received by delegation"
     }
   },
   "riskAnalysis": {
     "formComponents": {
-      "emptyLabel": "No available values",
+      "emptyLabel": "No value available",
       "multiCheckboxField": {
         "validation": {
           "mixed": {
-            "required": "Choose at least one option"
+            "required": "Select at least one option"
           }
         }
       },
@@ -329,19 +329,19 @@
           "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
           "nameField": {
             "label": "Purpose name",
-            "infoLabel": "Max 60 chars"
+            "infoLabel": "Maximum 60 characters"
           }
         },
         "riskAnalysisSection": {
           "title": "Risk analysis",
-          "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
-          "personalDataAlert": "Be careful not to enter personal data in the free text fields",
+          "description": "The questionnaire questions will vary based on the answers provided as you proceed. Changing the answer to a previous question may change the subsequent questions.",
+          "personalDataAlert": "Warning: do not enter personal data in free text fields",
           "eserviceTemplateRiskAnalysis": {
-            "title": "Indicate who will be able to use the following risk analysis.",
-            "description": "Indicate for whom the following risk analysis is filled.",
+            "title": "Indicate who will be able to use the following risk analysis",
+            "description": "Indicate for whom the following risk analysis is being completed.",
             "tenantKind": {
-              "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell’Amministrazione Digitale)",
-              "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
+              "labelPA": "Public Administrations (Art. 2, paragraph 2, letter “a” of the Digital Administration Code)",
+              "labelNotPA": "Public service managers, Publicly controlled companies (Art. 2, paragraph 2, letters “b” and “c”) or Private entities"
             }
           }
         }
@@ -356,43 +356,43 @@
     "PROVIDE_ESERVICE_SUMMARY": "Summary",
     "PROVIDE_ESERVICE_EDIT": "Edit e-service",
     "PROVIDE_ESERVICE_MANAGE": "View e-service",
-    "PROVIDE_ESERVICE_LIST": "My e-service",
+    "PROVIDE_ESERVICE_LIST": "My e-services",
     "PROVIDE_AGREEMENT_READ": "Manage request",
-    "PROVIDE_AGREEMENT_LIST": "Requests received",
-    "PROVIDE_PURPOSE_LIST": "Purposes received",
+    "PROVIDE_AGREEMENT_LIST": "Received requests",
+    "PROVIDE_PURPOSE_LIST": "Received purposes",
     "PROVIDE_PURPOSE_DETAILS": "View purpose",
-    "PROVIDE": "Provider",
+    "PROVIDE": "Producing",
     "SUBSCRIBE_CATALOG_VIEW": "View e-service",
     "SUBSCRIBE_CATALOG_LIST": "E-service catalog",
     "SUBSCRIBE_PURPOSE_CREATE": "Create purpose",
     "SUBSCRIBE_PURPOSE_EDIT": "Edit purpose",
     "SUBSCRIBE_PURPOSE_SUMMARY": "Purpose summary",
-    "SUBSCRIBE_PURPOSE_DETAILS": "Manage purpose",
-    "SUBSCRIBE_PURPOSE_LIST": "Purpose submitted",
+    "SUBSCRIBE_PURPOSE_DETAILS": "Manage single purpose",
+    "SUBSCRIBE_PURPOSE_LIST": "Submitted purposes",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Manage e-service client operator",
     "SUBSCRIBE_CLIENT_KEY_EDIT": "Manage e-service client public key",
     "SUBSCRIBE_CLIENT_CREATE": "Create e-service client",
     "SUBSCRIBE_CLIENT_EDIT": "Manage e-service client",
     "SUBSCRIBE_CLIENT_LIST": "Your e-service clients",
     "SUBSCRIBE_AGREEMENT_READ": "Manage request",
-    "SUBSCRIBE_AGREEMENT_LIST": "Requests submitted",
+    "SUBSCRIBE_AGREEMENT_LIST": "Submitted requests",
     "SUBSCRIBE_AGREEMENT_EDIT": "Edit request",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT": "Manage Interop API client operator",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT": "Manage Interop API client public key",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE": "Create Interop API client",
-    "SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT": "Manage Interop API client",
-    "SUBSCRIBE_INTEROP_M2M": "Your Interop API clients",
-    "SUBSCRIBE": "Subscriber",
-    "PARTY_REGISTRY": "Party registry",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT": "Manage API Interop client operator",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT": "Manage API Interop client public key",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE": "Create API Interop client",
+    "SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT": "Manage API Interop client",
+    "SUBSCRIBE_INTEROP_M2M": "Your API Interop clients",
+    "SUBSCRIBE": "Consuming",
+    "PARTY_REGISTRY": "Registry and attributes",
     "NOT_FOUND": "Page not found",
-    "SUBSCRIBE_DEBUG_VOUCHER": "Voucher debug",
+    "SUBSCRIBE_DEBUG_VOUCHER": "Debug client assertion",
     "ASSISTENCE_PARTY_SELECTION": "Party selection",
     "ASSISTENCE_PARTY_SELECTION_ERROR": "Party selection error",
     "DEFAULT": "",
     "TENANT": "Your party",
-    "TENANT_CERTIFIER": "Certifier party",
-    "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Inspect attribute",
-    "PROVIDE_KEYCHAINS_LIST": "Your keychains",
+    "TENANT_CERTIFIER": "Certifying authority",
+    "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "View attribute",
+    "PROVIDE_KEYCHAINS_LIST": "Producer keychains",
     "PROVIDE_KEYCHAIN_CREATE": "Create keychain",
     "PROVIDE_KEYCHAIN_DETAILS": "Manage keychain",
     "PROVIDE_KEYCHAIN_USER_DETAILS": "Manage keychain user",
@@ -400,14 +400,14 @@
     "DELEGATIONS": "Delegations management",
     "CREATE_DELEGATION": "Create delegation",
     "DELEGATION_DETAILS": "Manage delegation",
-    "PROVIDE_ESERVICE_TEMPLATE_CATALOG": "Templates e-service catalog",
-    "PROVIDE_ESERVICE_TEMPLATE_LIST": "My templates e-service",
+    "PROVIDE_ESERVICE_TEMPLATE_CATALOG": "E-service templates",
+    "PROVIDE_ESERVICE_TEMPLATE_LIST": "My e-service templates",
     "PROVIDE_ESERVICE_TEMPLATE_DETAILS": "View template",
     "SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS": "View template",
-    "PROVIDE_ESERVICE_TEMPLATE_CREATE": "Create E-Service template",
-    "PROVIDE_ESERVICE_TEMPLATE_EDIT": "Update E-Service template",
-    "PROVIDE_ESERVICE_TEMPLATE_SUMMARY": "E-Service template Summary",
-    "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE": "Create E-Service from template",
+    "PROVIDE_ESERVICE_TEMPLATE_CREATE": "Create e-service template",
+    "PROVIDE_ESERVICE_TEMPLATE_EDIT": "Edit e-service template",
+    "PROVIDE_ESERVICE_TEMPLATE_SUMMARY": "E-service template summary",
+    "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE": "Create e-service from template",
     "WATCH_RISK_ANALYSIS_FOR_ESERVICE": "Risk analysis",
     "DEVELOPER_TOOLS": "Developer tools",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export risk analysis"

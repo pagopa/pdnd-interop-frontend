@@ -4,39 +4,39 @@
     "emptyTitle": "Create purpose",
     "preliminaryInformationSectionTitle": "Preliminary information",
     "isTemplateField": {
-      "label": "Clone from template"
+      "label": "Use a pre-filled template"
     },
     "purposeField": {
-      "label": "Choose template",
-      "noDataLabel": "No templates available for this e-service",
-      "loadingLabel": "We are loading the templates"
+      "label": "Template to use",
+      "noDataLabel": "No template available for this e-service",
+      "loadingLabel": "Loading templates"
     },
     "consumerField": {
       "label": "Consumer",
-      "infoLabel": "Among the members, you can only select your organization or the members for whom you have an active delegation"
+      "infoLabel": "Among the parties, you can only select your own party or parties for which you have an active delegation for consuming"
     },
     "eserviceField": {
-      "label": "Choose e-service",
-      "infoLabel": "You can only select the e-services for which the selected user has an active request for use"
+      "label": "E-service to associate",
+      "infoLabel": "You can only select e-services for which the selected consumer has an active service request"
     },
     "eserviceRiskAnalysisSection": {
-      "title": "Choose purpose",
-      "description": "The selected e-service requires the provider to receive data from users. You can select from the purposes proposed by the provider the one for which you intend to send data to its e-service.",
+      "title": "Purpose to use",
+      "description": "The selected e-service requires the producer to receive data from consumers. You can choose among the purposes proposed by the producer the one for which you intend to send data to its e-service.",
       "riskAnalysis": {
         "title": "Risk analysis"
       },
       "purposeField": {
-        "label": "Choose purpose"
+        "label": "Purpose to use"
       }
     },
-    "purposeInfoTitle": "Selected template informations",
+    "purposeInfoTitle": "Content of the selected template",
     "purposeTitle": "Purpose name",
     "purposeDescription": "Purpose description",
     "createNewPurposeBtn": "Create draft",
     "defaultPurpose": {
       "title": "New purpose",
       "description": "Lorem ipsum dolor sit amet...",
-      "freeOfChargeReason": "I'm a Public Amministration"
+      "freeOfChargeReason": "I am a Public Administration"
     },
     "riskAnalysisPreviewTitle": "Risk analysis"
   },
@@ -44,64 +44,64 @@
     "emptyTitle": "Edit purpose",
     "stepper": {
       "stepGeneralLabel": "General",
-      "stepRiskAnalysisLabel": "Risk assessment"
+      "stepRiskAnalysisLabel": "Risk analysis"
     },
     "backWithoutSaveBtn": "Back",
-    "forwardWithSaveBtn": "Save draft and proceed",
+    "forwardWithSaveBtn": "Save draft and continue",
     "endWithSaveBtn": "Go to summary",
-    "eserviceProvider": "provided by",
+    "eserviceProvider": "produced by",
     "stepGeneral": {
       "title": "General information",
       "nameField": {
         "label": "Purpose name (required)",
-        "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
+        "infoLabel": "It will help you distinguish it from others. Min 5 characters, max 60 characters"
       },
       "descriptionField": {
         "label": "Purpose description (required)",
-        "infoLabel": "Min 10 chars, max 250 chars"
+        "infoLabel": "Min 10 characters, max 250 characters"
       },
       "isFreeOfChargeField": {
-        "label": "Indicate whether access to the data made available with the use of this e-service is free of charge (required)",
+        "label": "Indicate if access to the data made available through the consuming of this e-service is free of charge (required)",
         "options": {
           "YES": "Yes",
           "NO": "No"
         }
       },
       "freeOfChargeReasonField": {
-        "label": "Free of charge reason (richiesto)",
-        "infoLabel": "It is requested to specify whether the provision of data is free of charge by virtue of an exemption/exclusion provided for by law or other. Min 10 characters, max 250 characters"
+        "label": "Reason for free of charge (required)",
+        "infoLabel": "Please specify if the provision of the data is free of charge due to an exemption/exclusion provided by law or other reason. Min 10 characters, max 250 characters"
       },
       "dailyCallsField": {
-        "label": "How many API calls do you expect to make per day?"
+        "label": "How many API calls/day do you estimate to make?"
       }
     },
     "stepRiskAnalysis": {
       "title": "Risk analysis",
-      "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
-      "personalInfoAlert": "Warning: do not put personal data inside text fields",
+      "description": "The questionnaire questions will vary based on the answers provided as you go along. Modifying the answer to a previous question may change the following questions.",
+      "personalInfoAlert": "Warning: do not enter personal data in free text fields",
       "versionMismatchDialog": {
         "title": "Risk analysis update",
-        "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
+        "description": "A new version of the risk analysis is available. The one previously completed is outdated and can no longer be used. If you click “Update”, all unchanged fields that were filled in will already be pre-filled in the new version",
         "proceedButtonLabel": "Update",
-        "cancelButtonLabel": "Discard"
+        "cancelButtonLabel": "Abandon"
       }
     }
   },
   "summary": {
     "title": "Summary",
     "alerts": {
-      "associationRemoved": "<strong>The client association was removed</strong> within the process. It will be possible to associate one or more clients only after the activation of the purpose.",
-      "newRiskAnalysisAvailable": "This draft is no longer publishable. Since its creation, a new version of the risk analysis has been released. Delete it and create a new one.",
-      "descriptorOrAgreementArchived": "This draft is no longer publishable. The agreement of this e-service is no longer active. Delete it and create a new one."
+      "associationRemoved": "Within the process, <strong>the client association has been removed</strong>. You will be able to associate one or more clients only after the purpose activation.",
+      "newRiskAnalysisAvailable": "This draft can no longer be published. Since its creation, a new version of the risk analysis has been released. Delete it and create a new one.",
+      "descriptorOrAgreementArchived": "This draft can no longer be published. Your consuming for this e-service is no longer active. Delete the purpose."
     },
     "generalInformationSection": {
-      "title": "General informations",
+      "title": "General information",
       "eservice": {
         "label": "Reference e-service",
         "value": "{{name}}, version {{version}}"
       },
       "producer": {
-        "label": "Provider"
+        "label": "Producer"
       },
       "description": {
         "label": "Description"
@@ -109,40 +109,40 @@
       "loadEstimationSection": {
         "title": "Load estimation",
         "dailyCalls": {
-          "label": "Your required plan",
-          "value": "{{value}} calls API/day"
+          "label": "Your requested plan",
+          "value": "{{value}} API calls/day"
         },
         "dailyCallsPerConsumer": {
-          "label": "Threshold for user set by the provider",
-          "value": "{{value}} calls API/day"
+          "label": "Per consumer threshold set by the producer",
+          "value": "{{value}} API calls/day"
         },
         "dailyCallsTotal": {
-          "label": "Total threshold set by the provider",
-          "value": "{{value}} calls API/day"
+          "label": "Total threshold set by the producer",
+          "value": "{{value}} API calls/day"
         }
       }
     },
     "riskAnalysisSection": {
       "title": "Risk analysis",
-      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
+      "providerRiskAnalysisAlert": "The e-service chosen for this purpose requires that data be sent from the consumer to the producer. The risk analysis was therefore completed by the producer."
     }
   },
   "list": {
-    "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
+    "cantCreatePurposeTooltip": "You cannot create purposes because you have no e-services to associate",
     "newVersionAvailableTooltip": "The consumer has requested an adjustment that requires your approval. Access the purpose for more details",
-    "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires approval from the provider. Access the purpose for more details",
+    "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires the producer’s approval. Access the purpose for more details",
     "filters": {
       "nameField": {
-        "label": "Find by purpose name"
+        "label": "Search by purpose name"
       },
       "eserviceField": {
-        "label": "Find by e-service"
+        "label": "Search by e-service"
       },
       "consumerField": {
-        "label": "Find by consumer"
+        "label": "Search by consumer"
       },
       "providerField": {
-        "label": "Find by provider"
+        "label": "Search by producer"
       },
       "statusField": {
         "label": "Purpose status",
@@ -157,16 +157,16 @@
     }
   },
   "providerView": {
-    "suspendedAlert": "This purpose is suspended. Until it is reactivated, the user will not be able to access the data provided through the API.",
-    "waitingForApprovalAlert": "The consumer has requested a load estimate update which requires your approval. Check the “Load Estimate” section.",
-    "archivedPurposeAlert": "The user will not be able to obtain a voucher from PDND Interoperabilità for this purpose because it is archived.",
-    "rejectedPurposeAlert": "This purpose has been rejected. <1>Read here the reject reason</1>.",
-    "rejectedUpdatePlanInfoAlert": "A change of plan for this purpose was rejected. Check the “Load Estimate” section.",
+    "suspendedAlert": "This purpose is suspended. Until it is reactivated, the consumer will not be able to access the data provided through the API.",
+    "waitingForApprovalAlert": "The consumer has requested a load estimation adjustment that requires your approval. Check the “Load estimation” section.",
+    "archivedPurposeAlert": "The consumer will not be able to obtain a voucher from PDND for this purpose because it is archived.",
+    "rejectedPurposeAlert": "This purpose has been rejected. <1>Read here the reasons for the rejection</1>.",
+    "rejectedUpdatePlanInfoAlert": "A plan change for this purpose has been rejected. Check the “Load estimation” section.",
     "sections": {
       "generalInformations": {
-        "title": "General informations",
+        "title": "General information",
         "eServiceField": {
-          "label": "E-service",
+          "label": "Reference e-service",
           "value": "{{name}}, version {{version}}"
         },
         "consumerField": {
@@ -182,28 +182,28 @@
           }
         },
         "agreementLink": {
-          "label": "Go to agreement"
+          "label": "Go to service request"
         }
       },
       "technicalInformations": {
-        "title": "Purpose technical informations",
-        "description": "In this section you can check the technical informations of the purpose.",
+        "title": "Purpose technical specifications",
+        "description": "In this section you can check the purpose specifications.",
         "purposeField": {
           "label": "Purpose ID",
-          "copySuccessFeedbackText": "Purpose id copied successfully"
+          "copySuccessFeedbackText": "ID copied successfully"
         },
         "consumerField": {
           "label": "Consumer ID",
-          "copySuccessFeedbackText": "Consumer id copied successfully"
+          "copySuccessFeedbackText": "ID copied successfully"
         }
       },
       "loadEstimate": {
-        "title": "Load estimate",
-        "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
-        "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
+        "title": "Load estimation",
+        "description": "The number of API calls/day the consumer estimates to make towards your e-service API",
+        "rejectedUpdatePlanAlert": "The plan change has been rejected. <1>Read here the reasons for the rejection</1>.",
         "planCard": {
           "title": {
-            "activePlan": "Consumer active plan",
+            "activePlan": "The consumer’s active plan",
             "waitingForApprovalPlan": {
               "changePlan": "The plan change requested by the consumer",
               "newPurpose": "The plan requested by the consumer"
@@ -222,56 +222,56 @@
           },
           "waitingForApprovalPlan": {
             "label": {
-              "changePlan": "New required plan",
-              "newPurpose": "Required plan"
+              "changePlan": "New plan requested",
+              "newPurpose": "Plan requested"
             }
           }
         },
         "thresholdsCard": {
-          "title": "Thresholds set by you",
+          "title": "Thresholds you set",
           "subtitle": "API calls/day",
           "dailyCallsPerConsumerField": {
-            "label": "For single consumer"
+            "label": "Per consumer"
           },
           "dailyCallsTotalsField": {
-            "label": "Totals"
+            "label": "Total"
           }
         }
       }
     }
   },
   "consumerView": {
-    "suspendedAlert": "This purpose is suspended. Until it is reactivated you will not be able to access the data made available through the API.",
-    "waitingForApprovalAlert": "This scope is awaiting approval. <strong>Until its activation</strong> by the provider you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
+    "suspendedAlert": "This purpose is suspended. Until it is reactivated, you will not be able to access the data made available through the API.",
+    "waitingForApprovalAlert": "This purpose is waiting for approval. <strong>Until it is activated</strong> by the producer, <strong>you will not be able to access the data</strong> made available through the API and <strong>you will not be able to associate clients</strong>.",
     "archivedPurposeAlert": "This purpose is archived. You cannot access the data made available through the API. You can always <1>create a new one.</1>",
-    "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
-    "rejectedPurposeAlert": "This purpose has been rejected. <2>Read here the reject reason</2>.",
-    "rejectedUpdatePlanInfoAlert": "A change of plan for this purpose was rejected. Check the “Load Estimate” section in <1>Purpose Details</1>.",
-    "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service",
-    "noClientsAlertForDelegateWithoutClientPermissions": "This intent is active but has no associated clients. Wait for {{delegatorName}} to connect its clients for the request to complete.",
+    "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed at the time of archiving and it is no longer possible to associate new ones",
+    "rejectedPurposeAlert": "This purpose has been rejected. <2>Read here the reasons for the rejection</2>.",
+    "rejectedUpdatePlanInfoAlert": "A plan change for this purpose has been rejected. Check the “Load estimation” section in <1>Purpose details</1>.",
+    "noClientsAlert": "This purpose is active but has no associated clients. <1>Associate your first client</1> to consume the e-service",
+    "noClientsAlertForDelegateWithoutClientPermissions": "This purpose is active but has no associated clients. Wait for {{delegatorName}} to link their clients so that the request can be completed.",
     "addClientToPurposeDisableTooltip": {
-      "label": "Only an administrator can manage members of a client"
+      "label": "Only an administrator can manage a client’s members"
     },
     "tabs": {
-      "ariaLabel": "Two different tabs for purposes details and associated clients",
+      "ariaLabel": "Two different tabs for purpose details and associated clients",
       "details": "Purpose details",
       "clients": "Associated clients"
     },
     "sections": {
       "generalInformations": {
-        "title": "Informazioni generali",
+        "title": "General information",
         "eServiceField": {
-          "label": "E-service",
+          "label": "Reference e-service",
           "value": "{{name}}, version {{version}}"
         },
         "providerField": {
-          "label": "Provider"
+          "label": "Producer"
         },
         "consumerField": {
           "label": "Consumer"
         },
         "delegatedConsumerField": {
-          "label": "Delegated Consumer"
+          "label": "Delegate for consuming"
         },
         "descriptionField": {
           "label": "Purpose description"
@@ -283,51 +283,51 @@
           }
         },
         "agreementLink": {
-          "label": "Go to agreement"
+          "label": "Go to service request"
         }
       },
       "loadEstimate": {
-        "title": "Load estimate",
-        "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
-        "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
+        "title": "Load estimation",
+        "description": "The number of API calls/day the consumer estimates to make towards the API of your e-service",
+        "rejectedUpdatePlanAlert": "The plan change has been rejected. <1>Read here the reasons for the rejection</1>.",
         "planCard": {
           "title": {
-            "activePlan": "Consumer active plan",
-            "waitingForApprovalPlan": "Consumer requeste plan",
-            "rejectedPlan": "Consumer requested plan"
+            "activePlan": "The consumer’s active plan",
+            "waitingForApprovalPlan": "The plan requested by the consumer",
+            "rejectedPlan": "The plan requested by the consumer"
           },
           "subtitle": "API calls/day",
           "changePlanRequestLink": {
-            "label": "Request a change of plan"
+            "label": "Request plan change"
           }
         },
         "updatePlanCard": {
           "title": "The plan change you requested",
           "subtitle": "API calls/day",
-          "expectApprovalDateInfo": "You estimated to activate this update on the day <strong>{{date}}</strong>",
+          "expectApprovalDateInfo": "You estimated to activate this adjustment on <strong>{{date}}</strong>",
           "removeChangePlanRequestLink": {
             "label": "Delete request"
           }
         },
         "drawer": {
-          "title": "Request update",
-          "subtitle": "Your current estimate is <strong>{{dailyCalls}} API calls/day</strong>. If the new value exceeds at least one of the thresholds imposed by the provider, it must be approved before becoming active. Do you have any doubts? <1>Read the guide</1>.",
+          "title": "Request adjustment",
+          "subtitle": "Your current estimate is <strong>{{dailyCalls}} API calls/day</strong>. If the new value exceeds at least one of the thresholds set by the producer, it must be approved before becoming active. Have doubts? <1>Check the guide</1>.",
           "dailyCallsFormField": {
             "label": "New load estimate",
             "infoLable": "Estimated number of API calls/day",
             "validation": {
-              "sameValue": "The number of API calls/day requested must be different than the current one"
+              "sameValue": "The requested number of API calls/day must be different from the current one"
             }
           }
         },
         "thresholdsCard": {
-          "title": "Thresholds set by provider",
+          "title": "Thresholds set by the producer",
           "subtitle": "API calls/day",
           "dailyCallsPerConsumerField": {
-            "label": "For single consumer"
+            "label": "Per consumer"
           },
           "dailyCallsTotalsField": {
-            "label": "Totals"
+            "label": "Total"
           }
         }
       }

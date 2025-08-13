@@ -5,30 +5,30 @@
     "declared_other": "declared"
   },
   "certified": {
-    "label": "Certified Attributes",
-    "description": "Attributes certified by a <1>recognized authoritative source.</1>"
+    "label": "Certified attributes",
+    "description": "That is, attributes certified by a <1>recognized authoritative source.</1>"
   },
   "verified": {
-    "label": "Verified Attributes",
-    "description": "Attributes verified <1>by other organizations for the same consumer</1> with the possibility of requesting verification from the provider. For each attribute check or revoke..."
+    "label": "Verified attributes",
+    "description": "That is, attributes verified <1>by other organizations for the same consumer</1> with the possibility of requesting a verification from the producer. For each attribute verify or revoke..."
   },
   "declared": {
-    "label": "Declared Attributes",
-    "description": "Attributes declared by the consumer under his own responsibility during the request for use. A provider check is not necessary."
+    "label": "Declared attributes",
+    "description": "That is, attributes declared by the consumer under their own responsibility during the service request. No verification from the producer is required."
   },
   "noAttributesRequiredAlert": {
-    "provider": "Your organization does not require {{attributeKey}} attributes",
-    "consumer": "The provider does not require {{attributeKey}} attributes"
+    "provider": "Your party does not require {{attributeKey}} attributes",
+    "consumer": "The producer does not require {{attributeKey}} attributes"
   },
   "group": {
     "read": {
-      "provider": "The consumer must possess at least one of the following requirements",
-      "consumer": "Your organization must possess at least one of the following requirements"
+      "provider": "The consumer must possess at least one of the following attributes",
+      "consumer": "Your party must possess at least one of the following attributes"
     },
     "manage": {
       "success": {
-        "provider": "The consumer possess at least one of the following attributes",
-        "consumer": "Your organization has at least one of the following attributes"
+        "provider": "The consumer possesses at least one of the following attributes",
+        "consumer": "Your party possesses at least one of the following attributes"
       },
       "warning": {
         "verified": {
@@ -37,22 +37,22 @@
         },
         "declared": {
           "provider": "The consumer must possess at least one of the following attributes",
-          "consumer": "Your organization has at least one of the following attributes"
+          "consumer": "Your party must possess at least one of the following attributes"
         }
       },
       "error": {
-        "provider": "The consumer has none of the following attributes",
-        "consumer": "Your organization has none of the following attributes"
+        "provider": "The consumer does not possess any of the following attributes",
+        "consumer": "Your party does not possess any of the following attributes"
       },
-      "revokedByCertifier": "Attribute revoked by certifier",
+      "revokedByCertifier": "Attribute revoked by the certifying authority",
       "revokedByProducer": "Attribute revoked by a producer",
-      "revokedByOwnParty": "Attribute revoked by your own party",
+      "revokedByOwnParty": "Attribute revoked by your party",
       "expirationDate": "Verification expiration: {{expirationDate}}"
     },
     "addBtn": "Add requirement",
     "autocompleteInput": {
       "label": "Add attribute to group",
-      "placeholder": "Insert attribute name"
+      "placeholder": "Enter attribute name"
     }
   }
 }

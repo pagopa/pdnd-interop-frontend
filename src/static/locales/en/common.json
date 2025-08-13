@@ -4,19 +4,19 @@
   "createNewBtn": "Create new",
   "validation": {
     "mixed": {
-      "required": "Field required"
+      "required": "Required field"
     },
     "string": {
       "email": "Invalid email format",
       "url": "Invalid URL format",
-      "minLength": "This field must contain at least {{min}} chars"
+      "minLength": "This field must contain at least {{min}} characters"
     },
     "number": {
-      "min": "The value must be more or equal to {{min}}",
-      "max": "The value must be less or equal to {{max}}"
+      "min": "The value must be greater than or equal to {{min}}",
+      "max": "The value must be less than or equal to {{max}}"
     },
     "file": {
-      "maxNameLength": "The document must have a title less than or equal to {{max}} characters"
+      "maxNameLength": "The document must have a title length less than or equal to {{max}} characters"
     }
   },
   "actions": {
@@ -50,35 +50,35 @@
     "updateIstance": "Update instance",
     "select": "Select",
     "selectAdmin": "Select admin",
-    "substituteAdmin": "Substitute admin",
+    "substituteAdmin": "Replace admin",
     "copy": "Copy"
   },
   "table": {
     "headData": {
-      "eserviceName": "E-Service",
+      "eserviceName": "E-service",
       "clientName": "Client",
       "clientAdminName": "Admin API",
       "purposeName": "Purpose",
-      "providerName": "Provider",
-      "subscriberName": "Subscriber",
-      "version": "Versione",
+      "providerName": "Producer",
+      "subscriberName": "Consumer",
+      "version": "Version",
       "status": "Status",
       "agreementStatus": "Request status",
       "purposeStatus": "Purpose status",
-      "keyName": "Key name",
+      "keyName": "Key",
       "keyUploader": "Uploaded by",
       "keyUploadDate": "Creation date",
-      "userName": "Name and surname",
+      "userName": "First and last name",
       "certifiedAttributes": "Certified attributes",
-      "assigneeTenant": "Assignee tenant",
-      "certifiedAttribute": "Certified attribute",
+      "assigneeTenant": "Assigned party",
       "keychain": "Keychain",
+      "certifiedAttribute": "Certified attribute",
       "delegationKind": "Delegation for",
       "delegatorName": "Delegation requested by",
       "delegateName": "Delegation granted to",
-      "eserviceTemplateUsingTenant": "Tenant",
-      "eserviceTemplateInstanceVersion": "Version",
-      "eserviceTemplateInstanceState": "Instance's state",
+      "eserviceTemplateUsingTenant": "Party",
+      "eserviceTemplateInstanceVersion": "Template version",
+      "eserviceTemplateInstanceState": "Instance status",
       "templateName": "Template"
     }
   },
@@ -90,13 +90,13 @@
       "ARCHIVED": "archived",
       "DEPRECATED": "deprecated",
       "WAITING_FOR_APPROVAL": "waiting for approval",
-      "DRAFT_TO_CORRECT": "to correct"
+      "DRAFT_TO_CORRECT": "to be corrected"
     },
     "agreement": {
       "ACTIVE": "active",
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
-      "PENDING": "awaiting approval",
+      "PENDING": "waiting for approval",
       "ARCHIVED": "archived",
       "REJECTED": "rejected",
       "MISSING_CERTIFIED_ATTRIBUTES": "missing certified attributes",
@@ -141,6 +141,6 @@
     "title": "Terms of service"
   },
   "privacyPolicy": {
-    "title": "Privacy Policy"
+    "title": "Privacy policy"
   }
 }

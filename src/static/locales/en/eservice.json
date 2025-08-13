@@ -1,139 +1,139 @@
 {
-  "backToListBtn": "Back to the e-services",
-  "backToEServiceBtn": "Back to the e-service",
+  "backToListBtn": "Back to e-services",
+  "backToEServiceBtn": "Back to e-service",
   "create": {
     "emptyTitle": "Create e-service",
     "stepper": {
       "step1Label": "General",
       "step2Label": "Version",
-      "step2ReceiveLabel": "Purpose",
+      "step2ReceiveLabel": "Purposes",
       "step3Label": "Attributes",
       "step4Label": "Documentation"
     },
     "backWithoutSaveBtn": "Back",
-    "forwardWithSaveBtn": "Save draft and proceed",
-    "forwardWithoutSaveBtn": "Next",
+    "forwardWithSaveBtn": "Save draft and continue",
+    "forwardWithoutSaveBtn": "Continue",
     "goToSummary": "Go to summary",
     "step1": {
-      "detailsTitle": "E-service details",
+      "detailsTitle": "E-service characterization",
       "detailsDescription": {
-        "before": "Read the",
+        "before": "Refer to the",
         "linkLabel": "guidelines",
-        "after": "to naming: your e-services will be easier to find and clearer in their goals"
+        "after": "for naming: they make your e-services easy to find and clear in what they offer."
       },
       "eserviceNameField": {
         "label": "E-service name",
-        "infoLabel": "Min 5 chars, max 60 chars"
+        "infoLabel": "Min 5 characters, max 60 characters"
       },
       "eserviceDescriptionField": {
         "label": "E-service description",
-        "infoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars"
+        "infoLabel": "Include input and output data in the text. Min 10 characters, max 250 characters"
       },
       "eserviceTechnologyField": {
-        "label": "What technology is your API built with?"
+        "label": "Which technology is your API built with?"
       },
       "eserviceModeField": {
-        "label": "Does the e-service deliver or receive data?",
+        "label": "Does the e-service produce or receive data?",
         "options": {
-          "DELIVER": "Deliver",
-          "RECEIVE": "Receive"
+          "DELIVER": "Produces",
+          "RECEIVE": "Receives"
         }
       },
       "isSignalHubEnabled": {
-        "title": "Signal Hub: service for notificantion of data changes",
+        "title": "Signal Hub: data change notification service",
         "description": {
           "firstParagraph": {
             "before": "Signal Hub is an",
             "linkLabel": "integrated solution",
-            "after": "that informs consumers via push notification when the data of the e-service is changed."
+            "after": "that informs consumers when the e-service data changes."
           },
           "secondParagraph": {
-            "before": "By enabling the feature, you designate PagoPa S.p.A. as the data processor by adopting the",
-            "linkLabel": "document appointing PagoPa S.p.A. as the data processor for personal data ",
+            "before": "By enabling the feature, you appoint PagoPa S.p.A. as data processor by adopting the",
+            "linkLabel": "designation document of PagoPa S.p.A. as data processor ",
             "after": "for \"Signal Hub\"."
           }
         },
-        "switchLabel": "I will report any data changes on Signal Hub.",
-        "alert": "Before proceeding, make sure that the designation document has been reviewed and approved by at least one administrator in your organization."
+        "switchLabel": "I will notify data changes on Signal Hub",
+        "alert": "Before proceeding, make sure the designation document has been reviewed and approved by at least one administrator in your party."
       },
       "delegationSection": {
         "title": "Delegations",
-        "description": "Read the <1>documentation</1> relating to how delegations work",
+        "description": "Refer to the <1>documentation</1> about how delegations work",
         "delegationField": {
-          "label": "Can the e-service be used via delegation?",
-          "switchLabel": "I authorize that users of the e-service can delegate other entities to register on their behalf"
+          "label": "Can the e-service be consumed via delegation?",
+          "switchLabel": "I authorize that the e-service consumers can delegate other parties to subscribe on their behalf"
         },
         "clientAccessDelegableField": {
-          "label": "I authorize access to the delegated data",
-          "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
+          "label": "I authorize delegated data access",
+          "checkboxLabel": "I authorize that delegates can associate their own clients to the purposes they created as delegates for consuming. Refer to the <1>documentation</1> for more details"
         }
       },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
+      "firstVersionOnlyEditableInfo": "The content of this step, except for the description, will no longer be editable after publishing the first version of the e-service."
     },
     "stepPurpose": {
-      "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+      "firstVersionOnlyEditableInfoAlert": "The content of this step will no longer be editable after publishing the first version of the e-service.",
       "purposeTableSection": {
-        "title": "Purpose",
-        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
-        "descriptionEServiceFromTemplate": "You can view the risk analyses associated with this template.",
+        "title": "Purposes",
+        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to fill out a risk analysis.",
+        "descriptionEServiceFromTemplate": "You can review the risk analyses associated with this template.",
         "labelAutocompleteEServiceFromTemplate": "Select use case",
-        "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+        "noSelectedPurposesTooltip": "At least one purpose is required to proceed",
         "purposeTable": {
-          "noDataLabel": "No added purpose"
+          "noDataLabel": "No purposes added"
         }
       },
       "riskAnalysis": {
         "riskAnalysisNameSection": {
-          "title": "Purpose",
-          "description": "Indicate a use case for which you intend to collect data and complete the risk analysis.",
+          "title": "Purposes",
+          "description": "Indicate a use case for which you intend to collect data and fill out the risk analysis.",
           "nameField": {
             "label": "Purpose name",
-            "infoLabel": "Max 60 chars"
+            "infoLabel": "Maximum 60 characters"
           }
         },
         "riskAnalysisSection": {
           "title": "Risk analysis",
-          "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
-          "personalDataAlert": "Be careful not to enter personal data in the free text fields"
+          "description": "The questionnaire questions will vary based on the answers provided. Changing a previous answer may change the subsequent questions.",
+          "personalDataAlert": "Warning: do not enter personal data in the free text fields"
         }
       }
     },
     "step2": {
-      "versionTitle": "Informations for version {{versionNumber}}",
+      "versionTitle": "Information for version {{versionNumber}}",
       "descriptionField": {
-        "label": "What changed in this version?"
+        "label": "What has changed in this version?"
       },
       "voucherSection": {
         "title": "Voucher",
         "voucherLifespanField": {
-          "label": "Validity duration (minutes)",
-          "infoLabel": "Max value: 1440 minuites (24 hours)"
+          "label": "Validity duration (in minutes)",
+          "infoLabel": "Maximum value: 1440 minutes (24 hours)"
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "Represents the recipient of the voucher, i.e. your target resource. Doubts? <1>Read the guide</1>"
+          "infoLabel": "Represents the recipient of the voucher, i.e., your target resource. Questions? <1>Refer to the guide</1>"
         }
       },
       "thresholdSection": {
-        "title": "Threshold of calls expected for consumers",
+        "title": "Expected call threshold for consumers",
         "dailyCallsPerConsumerField": {
           "label": "API calls/day per consumer"
         },
         "dailyCallsTotalField": {
           "label": "Total API calls/day",
           "validation": {
-            "min": "This value cannot be below the threshold set for the API calls/day for each subscriber"
+            "min": "The value cannot be lower than the API calls/day per consumer threshold"
           }
         }
       },
       "agreementApprovalPolicySection": {
-        "title": "Do you want to manually activate all the fruition requests received?",
-        "label": "Yes, I will activate them manually"
+        "title": "Do you want to manually activate all received service requests?",
+        "label": "Yes, I will manually activate them"
       }
     },
     "step3": {
       "attributesTitle": "Access requirements for version {{versionNumber}}",
-      "attributesDescription": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service",
+      "attributesDescription": "Below indicate all those attributes, certified, verified, or declared, that the consumer must have to request consuming the e-service",
       "attributesAddBtn": "Add attribute",
       "attributesCreateBtn": "Create new attribute",
       "createAttributeDrawer": {
@@ -141,16 +141,16 @@
           "verified": "Create new verified attribute",
           "declared": "Create new declared attribute"
         },
-        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "subtitle": "Once created, you will find the attribute in the list of those available to be added to an e-service",
         "nameField": {
-          "label": "Nome dell'attributo",
-          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+          "label": "Attribute name",
+          "infoLabel": "Min 5 characters, max 160 characters"
         },
         "descriptionField": {
-          "label": "Descrizione dell'attributo",
-          "infoLabel": "Min 10 caratteri, max 250 caratteri"
+          "label": "Attribute description",
+          "infoLabel": "Min 10 characters, max 250 characters"
         },
-        "submitBtnLabel": "Crea attributo"
+        "submitBtnLabel": "Create attribute"
       }
     },
     "step4": {
@@ -158,19 +158,19 @@
         "interface": {
           "documentation": {
             "title": "Documentation",
-            "description": "Check technical documentations needed for the implementation of an integration with this template of e-service."
+            "description": "Review the technical documentation useful for implementing an integration with this e-service template."
           },
-          "save": "Save data",
+          "save": "Save interface data",
           "title": "Interface",
           "contactSection": {
-            "title": "Contact's info details",
-            "contactNameField": "Contact's name",
-            "emailField": "email",
+            "title": "Contact details",
+            "contactNameField": "Contact name",
+            "emailField": "E-mail",
             "urlField": "URL"
           },
           "termsAndConditions": {
             "title": "Terms and conditions",
-            "label": "Terms and conditions URL"
+            "label": "URL terms and conditions"
           },
           "serverSection": {
             "title": "Server",
@@ -179,28 +179,28 @@
             "remove": "Remove field"
           },
           "description": {
-            "rest": "Compile following fields and openAPI will be automatically generated",
-            "soap": "Compile following fields and WASDL will be automatically generated",
-            "download": "Download interface API file"
+            "rest": "Fill in the following fields and the OpenAPI file will be automatically generated.",
+            "soap": "Fill in the following fields and the WSDL file will be automatically generated.",
+            "download": "Download the interface file"
           }
         }
       },
       "interface": {
         "title": "Interface (required)",
         "description": {
-          "rest": "Upload the OpenAPI file that descrives the API. You must ensure that your specification meets the requirements set in the ModI framework. To check, use",
+          "rest": "Upload the OpenAPI file describing the API. You must ensure that your specification complies with ModI requirements. To check, use",
           "restLinkLabel": "the OpenAPI Checker",
-          "soap": "Upload the WSDL file that descrives the API"
+          "soap": "Upload the WSDL file describing the API"
         },
         "prettyName": "API specification"
       },
       "documentation": {
         "title": "Documentation",
-        "description": "Upload the technical documents that can help implement the use of this e-service"
+        "description": "Enter the technical documentation useful for using this e-service"
       },
       "nameField": {
         "label": "Document name",
-        "infoLabel": "Min 5 chars, max 60 chars"
+        "infoLabel": "Min 5 characters, max 60 characters"
       },
       "uploadBtn": "Save document"
     }
@@ -208,23 +208,23 @@
   "summary": {
     "title": "{{eserviceName}}, version {{versionNumber}}",
     "generalInfoSummary": {
-      "title": "General informations",
+      "title": "General information",
       "description": {
         "label": "Description"
       },
       "apiTechnology": {
-        "label": "API Technology"
+        "label": "API technology"
       },
       "isSignalHubEnabled": {
-        "label": "Is available the data update system (Signal Hub)? ",
+        "label": "Is the data update service (Signal Hub) available?",
         "value": {
-          "true": "Yes, it is available",
-          "false": "No, it is not available",
-          "undefined": "No, it is not available"
+          "true": "Yes, available",
+          "false": "No, not available",
+          "undefined": "No, not available"
         }
       },
       "isConsumerDelegable": {
-        "label": "Can the e-service be used via delegation?",
+        "label": "Can the e-service be consumed via delegation?",
         "value": {
           "true": "Yes",
           "false": "No",
@@ -232,7 +232,7 @@
         }
       },
       "isClientAccessDelegable": {
-        "label": "Do I authorize access to delegated data?",
+        "label": "Do you authorize delegated data access?",
         "value": {
           "true": "Yes",
           "false": "No",
@@ -241,11 +241,11 @@
       }
     },
     "riskAnalysisSummaryList": {
-      "title": "Purpose",
+      "title": "Purposes",
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
     "versionInfoSummary": {
-      "title": "Version's informations",
+      "title": "Version information",
       "description": {
         "label": "Description"
       },
@@ -253,18 +253,18 @@
         "label": "Audience"
       },
       "voucherLifespan": {
-        "label": "Voucher lifespan"
+        "label": "Voucher duration"
       },
       "dailyCallsPerConsumer": {
-        "label": "Daily calls per consumer",
-        "value": "{{value}} API calls per day"
+        "label": "Daily API call limit per consumer",
+        "value": "{{value}} API calls/day"
       },
       "dailyCallsTotal": {
-        "label": "Total daily calls",
-        "value": "{{value}} API calls per day"
+        "label": "Total daily API call limit",
+        "value": "{{value}} API calls/day"
       },
       "manualApproval": {
-        "label": "Manual approval requests",
+        "label": "Manual activation of service requests",
         "value": {
           "true": "Yes",
           "false": "No"
@@ -275,45 +275,45 @@
       "title": "Version access requirements"
     },
     "documentationSummary": {
-      "title": "Version's documentations",
+      "title": "Version documentation",
       "interface": {
-        "label": "OpenAPI Interface"
+        "label": "OpenAPI interface"
       },
-      "emptyLabel": "No uploaded documents"
+      "emptyLabel": "No document uploaded"
     },
     "notPublishableTooltip": {
-      "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
+      "label": "One or more required fields have not been completed. Complete the draft"
     },
     "rejectedDelegatedVersionDraftAlert": {
-      "delegate": "The publication of this draft was rejected by the delegator. <1>Read the reasons for rejection</1> and resend the draft with the corrections.",
-      "delegator": "You have reject the publication of this draft. <1>Read the reasons for rejection here</1>."
+      "delegate": "The publication of this draft was rejected by the delegator. <1>Read the reasons for the rejection</1> and send the draft again with corrections.",
+      "delegator": "You have rejected the publication of this draft. <1>Read the reasons for the rejection here</1>."
     }
   },
   "list": {
     "filters": {
       "nameField": {
-        "label": "Find by name"
+        "label": "Search by name"
       },
       "providerField": {
-        "label": "Find by provider"
+        "label": "Search by producer"
       },
       "consumerField": {
-        "label": "Find by consumer"
+        "label": "Search by consumer"
       }
     },
     "drawers": {
       "importVersionDrawer": {
         "title": "Import E-Service",
-        "subtitle": "For further doubts and information <1>go to the manual</1>",
+        "subtitle": "For further questions and information <1>go to the manual</1>.",
         "disabledImportTooltip": "You cannot import the file. You must first review and confirm the options.",
-        "description": "Before proceeding, check the following sections, then confirm and proceed.",
+        "description": "Before proceeding, check the following sections, then confirm and continue.",
         "attributeInfoSection": {
           "label": "Attributes",
-          "description": "If your e-service includes attributes, you will have to insert them from scratch after uploading this zip."
+          "description": "If your e-service has attributes, you will need to enter them again after uploading this zip."
         },
         "eserviceTitleInfoSection": {
-          "label": "E-service title duplicate",
-          "description": "If there already exists an e-service provided by your institution with the same name as the one inserted in this zip, the upload will not be successful."
+          "label": "Duplicate e-service title",
+          "description": "If there is already an e-service produced by your party with the same name as the one in this zip, the upload will fail."
         },
         "structureInfoSection": {
           "label": "Archive structure",
@@ -321,90 +321,90 @@
         },
         "apiInterfaceInfoSection": {
           "label": "API interface",
-          "description": "Make sure you have entered the correct server URLs for delivery."
+          "description": "Make sure you have entered the correct server URLs for producing."
         },
         "confirmationField": {
           "label": "I have read and confirm",
-          "ariaLabel": "Switch for acknowledgment and confirmation"
+          "ariaLabel": "Read and confirm switch"
         }
       }
     },
-    "disabledTooltip": "Test e-service archived from the catalog and not usable."
+    "disabledTooltip": "Test e-service archived from the catalog and not usable"
   },
   "read": {
     "tabs": {
       "ariaLabel": "Two different tabs for e-service details and associated keychains",
       "eserviceDetails": "E-service details",
-      "keychain": "Keychains associated"
+      "keychain": "Associated keychains"
     },
     "alert": {
-      "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
-      "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived."
+      "suspended": "This version of the e-service is suspended. Until it is reactivated, no consumer will be able to access the data produced through the API.",
+      "deprecated": "This version of the e-service is obsolete but still active. It will be automatically decommissioned by PDND when the last service request on this version is archived."
     },
     "actions": {
-      "backToListLabel": "Back to the e-services",
-      "backToCatalogLabel": "Back to the catalog"
+      "backToListLabel": "Back to e-services",
+      "backToCatalogLabel": "Back to catalog"
     },
     "keychain": {
-      "actionReservedToAdminTooltip": "This actions is reserved to user with administrator permissions",
+      "actionReservedToAdminTooltip": "This action is reserved for users with administrator permissions",
       "actions": {
         "removeKeychainFromEService": "Remove from e-service"
       }
     },
     "sections": {
       "generalInformations": {
-        "title": "General informations",
+        "title": "General information",
         "producer": {
           "label": "Producer"
         },
         "version": {
-          "label": "You are watching version number"
+          "label": "You are viewing version"
         },
         "eserviceTempalteName": {
           "label": "Template reference"
         },
         "eserviceName": {
-          "label": "E-Service name"
+          "label": "E-service name"
         },
         "eserviceDescription": {
-          "label": "E-Service description"
+          "label": "E-service description"
         },
         "descriptorDescription": {
           "label": "Version description"
         },
-        "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
+        "consumerListFileName": "{{timestamp}}-consumer-list-{{eserviceName}}.csv",
         "bottomActions": {
-          "navigateVersions": "Navigate to another e-service version",
-          "showTechnicalDetails": "Show e-service technical details",
+          "navigateVersions": "Navigate to another version of the e-service",
+          "showTechnicalDetails": "View e-service technical details",
           "downloadConsumerList": "Download consumer list",
-          "showProducerContacts": "Show producer contacts",
-          "exportVersion": "Download this e-service version",
-          "watchRiskyAnalysisAssociated": "Consult risky analysis associated to this e-service"
+          "showProducerContacts": "View producer contacts",
+          "exportVersion": "Download this version of the e-service",
+          "watchRiskyAnalysisAssociated": "View the risk analysis of this e-service"
         }
       },
       "technicalInformations": {
         "title": "E-service technical specifications",
-        "description": "In this section you can check the specifications of the e-service and make changes.",
+        "description": "In this section you can check the e-service specifications and make changes.",
         "technology": "Technology",
         "audience": "Audience",
         "eserviceId": {
-          "label": "E-service's ID",
-          "copySuccessFeedbackText": "E-service ID copied successfully"
+          "label": "E-service ID",
+          "copySuccessFeedbackText": "ID copied successfully"
         },
         "descriptorId": {
           "label": "Version ID",
-          "copySuccessFeedbackText": "Version id copied successfully"
+          "copySuccessFeedbackText": "ID copied successfully"
         },
         "producerId": {
           "label": "Producer ID",
-          "copySuccessFeedbackText": "Producer id copied successfully"
+          "copySuccessFeedbackText": "ID copied successfully"
         },
-        "publishedAt": "Last version date",
-        "suspendedAt": "Last suspended date",
-        "deprecatedAt": "Deprecated version date",
-        "archivedAt": "Archived version date",
+        "publishedAt": "Latest version date",
+        "suspendedAt": "Last suspension date",
+        "deprecatedAt": "Version deprecation date",
+        "archivedAt": "Version archive date",
         "mode": {
-          "label": "E-service mode",
+          "label": "E-service type",
           "labelDescription": "Receive / Deliver",
           "value": {
             "DELIVER": "Deliver",
@@ -412,23 +412,23 @@
           }
         },
         "thresholds": {
-          "title": "Voucher lifespan and thresholds",
+          "title": "Voucher duration and limits",
           "voucherLifespan": {
-            "label": "Voucher lifespan",
+            "label": "Voucher duration",
             "labelDescription": "in minutes"
           },
           "dailyCallsPerConsumer": {
-            "label": "Per subscriber threshold",
+            "label": "Limit per consumer",
             "labelDescription": "API calls/day"
           },
           "dailyCallsTotal": {
-            "label": "Total threshold",
+            "label": "Total limit",
             "labelDescription": "API calls/day"
           }
         },
         "agreementApprovalPolicy": {
-          "title": "Agreements",
-          "label": "Requests acceptance",
+          "title": "Service requests",
+          "label": "Request acceptance",
           "content": {
             "AUTOMATIC": "Automatic",
             "MANUAL": "Manual"
@@ -436,15 +436,15 @@
         },
         "documentation": {
           "title": "Documentation",
-          "label": "Documents list",
+          "label": "Document list",
           "interfaceChecksum": "Interface file checksum"
         },
         "usefulLinks": {
           "title": "Useful links",
           "implementAndManageEService": "How do I implement and manage an e-service?",
           "verifyVoucher": "How do I verify a consumer's voucher?",
-          "wellKnown": "URL .well-known",
-          "interfaceChecksum": "How to calculate the interface file checksum yourself?"
+          "wellKnown": ".well-known URL",
+          "interfaceChecksum": "How do I calculate the interface file checksum myself?"
         }
       },
       "signalHub": {
@@ -452,44 +452,44 @@
         "description": {
           "before": "Signal Hub is an",
           "linkLabel": "integrated solution",
-          "after": "that informs consumers via push notification when the data of the e-service is changed."
+          "after": "that informs consumers when the e-service data is changed."
         },
         "innerSection": {
           "title": "Subscription to the notification service",
           "status": {
-            "label": "Activation state",
+            "label": "Activation status",
             "content": {
               "true": "Active",
-              "false": "Not active"
+              "false": "Inactive"
             }
           },
           "document": {
-            "label": "Appointment document",
-            "content": "Appointment of PagoPA S.p.A. as data controller"
+            "label": "Designation document",
+            "content": "Designation of PagoPa S.p.A. as data processor"
           }
         },
         "consumer": {
           "status": {
             "label": "Service availability",
             "content": {
-              "true": "Yes, it is available",
-              "false": "No, it is not available"
+              "true": "Yes, available",
+              "false": "No, not available"
             }
           }
         }
       },
       "attributes": {
         "title": "Attributes",
-        "description": "Below are all the certified, verified or declared attributes that are required for the use of the E-service."
+        "description": "Below are all certified, verified, or declared attributes required for consuming the e-service."
       }
     },
     "drawers": {
       "updateEServiceNameDrawer": {
         "title": "Edit e-service name",
-        "subtitle": "From this panel you can update the name of the e-service. The changes made will take effect immediately.",
+        "subtitle": "From this panel you can update the e-service name. Changes will take effect immediately.",
         "eserviceNameField": {
           "label": "E-service name",
-          "infoLabel": "Min 5 chars, max 60 chars",
+          "infoLabel": "Min 5 characters, max 60 characters",
           "validation": {
             "sameValue": "The e-service name must be different from the current one"
           }
@@ -497,7 +497,7 @@
       },
       "updateEServiceDescriptionDrawer": {
         "title": "Edit e-service description",
-        "subtitle": "From this panel you can update the description of the e-service. The changes made will take effect immediately.",
+        "subtitle": "From this panel you can update the e-service description. Changes will take effect immediately.",
         "eserviceDescriptionField": {
           "label": "E-service description",
           "infoLabel": "Min 10 characters, max 250 characters",
@@ -507,125 +507,125 @@
         }
       },
       "updateThresholdsDrawer": {
-        "title": "Change voucher lifespan and thresholds",
-        "subtitle": "From this panel you can update the parameters of your e-service version. The changes made will take effect immediately.",
+        "title": "Edit voucher duration and limits",
+        "subtitle": "From this panel you can update your e-service version parameters. Changes will take effect immediately.",
         "voucherLifespanField": {
-          "label": "Voucher lifespan",
+          "label": "Voucher duration",
           "infoLabel": "in minutes"
         },
         "dailyCallsPerConsumerField": {
-          "label": "Per subscriber threshold",
+          "label": "Limit per consumer",
           "infoLabel": "API calls/day"
         },
         "dailyCallsTotalField": {
-          "label": "Total threshold",
+          "label": "Total limit",
           "infoLabel": "API calls/day"
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
-        "title": "Agreements approval",
-        "subtitle": "From this panel you can establish how the agreements that the institutions will formulate towards this e-service are managed.",
+        "title": "Service request acceptance",
+        "subtitle": "From this panel you can set how service requests from other parties are handled for this e-service.",
         "agreementApprovalPolicyField": {
-          "label": "Manual approval"
+          "label": "Manual activation"
         }
       },
       "technicalInfoDrawer": {
-        "title": "E-Service technical informations",
-        "suspendedAt": "Last suspended date",
+        "title": "E-service technical specifications",
+        "suspendedAt": "Last suspension date",
         "technology": "Technology",
         "audience": "Audience",
-        "voucherLifespan": "Voucher lifespan",
-        "dailyCallsPerConsumer": "Per subscriber threshold",
-        "dailyCallsTotal": "Total threshold",
+        "voucherLifespan": "Voucher duration",
+        "dailyCallsPerConsumer": "Limit per consumer",
+        "dailyCallsTotal": "Total limit",
         "callsPerDay": "API calls/day",
         "mode": {
-          "label": "Does the e-service deliver or receive data?",
+          "label": "Does the e-service receive or deliver data?",
           "value": {
             "DELIVER": "Deliver",
             "RECEIVE": "Receive"
           }
         },
         "isSignalHubEnabled": {
-          "label": "Is available the data update system (Signal Hub)? ",
+          "label": "Is the data update service (Signal Hub) available?",
           "value": {
-            "true": "Yes, it is available",
-            "false": "No, it is not available",
-            "undefined": "No, it is not available"
+            "true": "Yes, available",
+            "false": "No, not available",
+            "undefined": "No, not available"
           }
         },
         "documentation": "Documentation",
-        "interfaceChecksum": "How to calculate the interface file checksum yourself?",
+        "interfaceChecksum": "Interface file checksum",
         "usefulLinks": {
           "title": "Useful links",
           "integrateEService": "How do I integrate an e-service?",
           "implementAndManageEService": "How do I implement and manage an e-service?",
           "verifyVoucher": "How do I verify a consumer's voucher?",
-          "wellKnown": "URL .well-known",
-          "interfaceChecksum": "How to calculate the interface file checksum yourself?"
+          "wellKnown": ".well-known URL",
+          "interfaceChecksum": "How do I calculate the interface file checksum myself?"
         }
       },
       "producerContactsInfoDrawer": {
         "title": "Producer contacts",
-        "email": "Email contact",
+        "email": "Contact email",
         "notes": "Notes"
       },
       "versionSelectorDrawer": {
-        "title": "Navigate to another e-service version",
+        "title": "Navigate to another version of the e-service",
         "label": "Select version",
-        "currentVersion": "{{ versionNum }} - current versino",
-        "goToSelectedVersion": "Go to the selected version"
+        "currentVersion": "{{ versionNum }} - currently viewed version",
+        "goToSelectedVersion": "Go to selected version"
       },
       "updateDocumentationDrawer": {
         "title": "Edit documentation",
-        "subtitle": "Now you can edit, download and delete documents attached to the e-service.",
+        "subtitle": "You can now edit, download, and delete documents attached to the e-service.",
         "addDocumentLabel": "Add documentation",
         "nameField": {
           "label": "Document name"
         },
-        "interfaceInfoTooltip": "The “API Specification” file is not editable. To update it, create a new version.",
+        "interfaceInfoTooltip": "The “API specification” file cannot be modified. To update it, create a new version.",
         "downloadDocumentTooltip": "Download document"
       },
       "addKeychainToEServiceDrawer": {
         "title": "Add new keychain",
-        "subtitle": "At this stage you can select a keychain to associate with the entire e-service. To find out more, <1>see the guide</1>.",
+        "subtitle": "At this stage you can select a keychain to associate with the entire e-service. To learn more, <1>see the guide</1>.",
         "keychainField": {
           "label": "Select keychain (required)",
-          "noOptionsText": "No keychain found"
+          "noOptionsText": "No keychains found"
         },
-        "noKeychainAlert": "There are no keychain available. <1>Create your first keychain</1>."
+        "noKeychainAlert": "No keychains available. <1>Create your first keychain</1>."
       },
       "updateDescriptorAttributesDrawer": {
         "title": "Edit {{attributeKind}} attributes",
         "subtitle": "The requirements already entered cannot be modified"
       },
       "updateSignalHubDrawer": {
-        "title": "Edit subscription to Signal Hub ",
+        "title": "Edit Signal Hub subscription",
         "description": {
           "firstParagraph": {
             "before": "Signal Hub is an",
             "linkLabel": "integrated solution",
-            "after": "that informs consumers via push notification when the data of the e-service is changed."
+            "after": "that informs consumers when the e-service data is changed."
           },
           "secondParagraph": {
-            "before": "By enabling the feature, you designate PagoPa S.p.A. as the data processor by adopting the",
-            "linkLabel": "document appointing PagoPa S.p.A. as the data processor for personal data ",
+            "before": "By enabling this feature you designate PagoPa S.p.A. as data processor by adopting the",
+            "linkLabel": "designation document of PagoPa S.p.A. as personal data processor ",
             "after": "for \"Signal Hub\"."
           }
         },
-        "switchLabel": "I will report any data changes on Signal Hub.",
-        "alert": "Before proceeding, make sure that the designation document has been reviewed and approved by at least one administrator in your organization."
+        "switchLabel": "I will notify data changes on Signal Hub",
+        "alert": "Before proceeding, make sure that the designation document has been reviewed and approved by at least one administrator in your party."
       }
     }
   },
   "tableEServiceCatalog": {
-    "subscribe": "Request fruition",
+    "subscribe": "Submit service request",
     "editDraft": "Complete request",
-    "inspect": "Inspect request",
+    "inspect": "View request",
     "eserviceSuspendedTooltip": "It is currently not possible to submit new requests, the e-service is suspended",
-    "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
+    "missingCertifiedAttributesTooltip": "Your party does not have the certified attributes required to subscribe"
   },
   "watchRiskyAnalysisAssociated": {
     "title": "Risk analysis",
-    "description": "Select which ris analysis you want to show"
+    "description": "Select the risk analysis to view"
   }
 }
