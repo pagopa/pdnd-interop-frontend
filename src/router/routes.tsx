@@ -562,6 +562,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support', 'security'],
   })
+  .addRoute({
+    key: 'CLIENT_MANAGEMENT',
+    path: '/gestione-client',
+    element: <ConsumerClientListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'support', 'security'],
+  })
   .build()
 
 export type RouteKey = InferRouteKey<typeof routes>

@@ -1,8 +1,8 @@
 {
-  "backToDeveloperToolsLabel": "Torna ai Tool per sviluppatori",
+  "backToDeveloperToolsLabel": "Torna ai Tool per lo sviluppo",
   "developerTools": {
     "page": {
-      "title": "Tool per sviluppatori",
+      "title": "Tool per lo sviluppo",
       "description": "Una sezione che contiene alcuni strumenti utili a supporto dello sviluppo.",
       "sectionRiskAnalysisExport": {
         "title": "Export analisi del rischio",
