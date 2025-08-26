@@ -17,24 +17,13 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
   const renderSubSections = () => {
     return section.subsections.map((subsection) => {
       return (
-        <SectionContainer
-          innerSection
-          key={subsection.name}
-          title={subsection.title}
-          description={subsection.description}
-        >
-          <Stack ml={2}>
-            {subsection.components.map((component) => {
-              return (
-                <RHFSwitch
-                  key={component.name}
-                  name={component.name}
-                  label={component.description}
-                />
-              )
-            })}
-          </Stack>
-        </SectionContainer>
+        <Stack key={subsection.name} ml={2}>
+          {subsection.components.map((component) => {
+            return (
+              <RHFSwitch key={component.name} name={component.name} label={component.description} />
+            )
+          })}
+        </Stack>
       )
     })
   }
