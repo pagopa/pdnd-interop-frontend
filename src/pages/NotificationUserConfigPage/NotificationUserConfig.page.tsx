@@ -3,6 +3,7 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
 import { EmailNotificationUserConfigTab } from './components/EmailNotificationUserConfigTab'
+import { InAppNotificationUserConfigTab } from './components/InAppNotificationUserConfigTab'
 
 const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('notificationConfig')
@@ -27,7 +28,7 @@ const NotificationUserConfigPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="inApp">
-          <EmailNotificationUserConfigTab />
+          <InAppNotificationUserConfigTab />
         </TabPanel>
         <TabPanel value="email">
           <EmailNotificationUserConfigTab />
