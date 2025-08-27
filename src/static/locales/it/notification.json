@@ -1,0 +1,16 @@
+{
+  "configurationPage": {
+    "title": "Configurazione notifiche utente",
+    "description": "Gestisci le tue impostazioni di notifica in app e via email personale.",
+    "inAppTabTitle": "Notifiche in-app",
+    "emailTabTitle": "Email",
+    "inAppTab": {
+      "title": "Configurazione delle preferenze di notifica in piattaforma",
+      "description": "Le notifiche di piattaforma ti informeranno sugli eventi che ti riguardano.",
+      "enableAllNotifications": {
+        "label": "Abilita la ricezione delle notifiche in piattaforma",
+        "description": "Disabilitando questa opzione, non riceverai nessuna notifica in piattaforma"
+      }
+    }
+  }
+}
