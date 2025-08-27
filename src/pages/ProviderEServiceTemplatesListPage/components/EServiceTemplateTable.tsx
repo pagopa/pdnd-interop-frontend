@@ -1,6 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { TemplateTableRow, TemplateTableRowSkeleton } from './TemplateTableRow'
+import {
+  EServiceTemplateTableRow,
+  EServiceTemplateTableRowSkeleton,
+} from './EServiceTemplateTableRow'
 import { Table } from '@pagopa/interop-fe-commons'
 import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 
@@ -8,7 +11,7 @@ type TemplateTableProps = {
   templates: Array<ProducerEServiceTemplate>
 }
 
-export const TemplateTable: React.FC<TemplateTableProps> = ({ templates }) => {
+export const EServiceTemplateTable: React.FC<TemplateTableProps> = ({ templates }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t } = useTranslation('eserviceTemplate')
 
@@ -18,7 +21,9 @@ export const TemplateTable: React.FC<TemplateTableProps> = ({ templates }) => {
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty} noDataLabel={t('noMultiDataLabel')}>
-      {templates?.map((template) => <TemplateTableRow key={template.id} template={template} />)}
+      {templates?.map((template) => (
+        <EServiceTemplateTableRow key={template.id} eserviceTemplate={template} />
+      ))}
     </Table>
   )
 }
@@ -29,11 +34,11 @@ export const TemplateTableSkeleton: React.FC = () => {
 
   return (
     <Table headLabels={headLabels}>
-      <TemplateTableRowSkeleton />
-      <TemplateTableRowSkeleton />
-      <TemplateTableRowSkeleton />
-      <TemplateTableRowSkeleton />
-      <TemplateTableRowSkeleton />
+      <EServiceTemplateTableRowSkeleton />
+      <EServiceTemplateTableRowSkeleton />
+      <EServiceTemplateTableRowSkeleton />
+      <EServiceTemplateTableRowSkeleton />
+      <EServiceTemplateTableRowSkeleton />
     </Table>
   )
 }

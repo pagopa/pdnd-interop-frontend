@@ -7,7 +7,7 @@ import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { TemplateTable, TemplateTableSkeleton } from './components'
+import { EServiceTemplateTable, TemplateTableSkeleton } from './components'
 import { TemplateQueries } from '@/api/template'
 import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
 
@@ -56,7 +56,7 @@ const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = (
   const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesList(params))
 
   if (!data && isFetching) return <TemplateTableSkeleton />
-  return <TemplateTable templates={data?.results ?? []} />
+  return <EServiceTemplateTable templates={data?.results ?? []} />
 }
 
 export default ProviderEServiceTemplatesListPage
