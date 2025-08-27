@@ -22,7 +22,7 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
   })
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
-  const { data: template } = useSuspenseQuery(
+  const { data: eserviceTemplate } = useSuspenseQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
@@ -33,20 +33,26 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
           <Stack spacing={2}>
             <InformationContainer
               label={t('technology')}
-              content={template.eserviceTemplate.technology}
+              content={eserviceTemplate.eserviceTemplate.technology}
             />
 
             <InformationContainer
               label={t('mode.label')}
               labelDescription={t('mode.labelDescription')}
-              content={t(`mode.value.${template.eserviceTemplate.mode}`)}
+              content={t(`mode.value.${eserviceTemplate.eserviceTemplate.mode}`)}
             />
           </Stack>
         </SectionContainer>
         <Divider />
-        <EServiceTemplateThresholdsSection readonly={readonly} template={template} />
+        <EServiceTemplateThresholdsSection
+          readonly={readonly}
+          eserviceTemplate={eserviceTemplate}
+        />
         <Divider />
-        <EServiceTemplateDocumentationSection readonly={readonly} templateVersion={template} />
+        <EServiceTemplateDocumentationSection
+          readonly={readonly}
+          eserviceTemplateVersion={eserviceTemplate}
+        />
         <Divider />
         <EServiceTemplateUsefulLinksSection />
       </Stack>

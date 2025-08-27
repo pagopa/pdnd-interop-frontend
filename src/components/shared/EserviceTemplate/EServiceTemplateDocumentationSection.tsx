@@ -14,18 +14,18 @@ import { EServiceTemplateUpdateDocumentationDrawer } from '.'
 
 type EServiceTemplateDocumentationSectionProps = {
   readonly?: boolean
-  templateVersion: EServiceTemplateVersionDetails
+  eserviceTemplateVersion: EServiceTemplateVersionDetails
 }
 
 export const EServiceTemplateDocumentationSection: React.FC<
   EServiceTemplateDocumentationSectionProps
-> = ({ templateVersion, readonly }) => {
+> = ({ eserviceTemplateVersion, readonly }) => {
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
 
-  const docs = [templateVersion.interface, ...templateVersion.docs]
+  const docs = [eserviceTemplateVersion.interface, ...eserviceTemplateVersion.docs]
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -38,8 +38,8 @@ export const EServiceTemplateDocumentationSection: React.FC<
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
-        eServiceTemplateId: templateVersion.eserviceTemplate.id,
-        eServiceTemplateVersionId: templateVersion.id,
+        eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: eserviceTemplateVersion.id,
         documentId: document.id,
       },
       getDownloadDocumentName(document)
@@ -87,9 +87,9 @@ export const EServiceTemplateDocumentationSection: React.FC<
       <EServiceTemplateUpdateDocumentationDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        templateId={templateVersion.eserviceTemplate.id}
-        templateVersionId={templateVersion.id}
-        templateDocs={templateVersion.docs}
+        templateId={eserviceTemplateVersion.eserviceTemplate.id}
+        templateVersionId={eserviceTemplateVersion.id}
+        templateDocs={eserviceTemplateVersion.docs}
       />
     </>
   )

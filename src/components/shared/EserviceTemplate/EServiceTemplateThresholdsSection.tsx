@@ -13,11 +13,11 @@ import { useParams } from '@/router'
 
 type EServiceTemplateThresholdsSectionProps = {
   readonly: boolean
-  template: EServiceTemplateVersionDetails
+  eserviceTemplate: EServiceTemplateVersionDetails
 }
 export const EServiceTemplateThresholdsSection: React.FC<
   EServiceTemplateThresholdsSectionProps
-> = ({ template, readonly }) => {
+> = ({ eserviceTemplate, readonly }) => {
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
@@ -26,7 +26,7 @@ export const EServiceTemplateThresholdsSection: React.FC<
     keyPrefix: 'read.drawers.updateEServiceTemplateThresholdsDrawer',
   })
 
-  const voucherLifespan = secondsToMinutes(template.voucherLifespan)
+  const voucherLifespan = secondsToMinutes(eserviceTemplate.voucherLifespan)
 
   const { eServiceTemplateVersionId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
@@ -87,8 +87,8 @@ export const EServiceTemplateThresholdsSection: React.FC<
             label={t('thresholds.dailyCallsPerConsumer.label')}
             labelDescription={t('thresholds.dailyCallsPerConsumer.labelDescription')}
             content={
-              template.dailyCallsPerConsumer
-                ? `${formatThousands(template.dailyCallsPerConsumer)}`
+              eserviceTemplate.dailyCallsPerConsumer
+                ? `${formatThousands(eserviceTemplate.dailyCallsPerConsumer)}`
                 : ''
             }
           />
@@ -96,17 +96,21 @@ export const EServiceTemplateThresholdsSection: React.FC<
           <InformationContainer
             label={t('thresholds.dailyCallsTotal.label')}
             labelDescription={t('thresholds.dailyCallsTotal.labelDescription')}
-            content={template.dailyCallsTotal ? `${formatThousands(template.dailyCallsTotal)}` : ''}
+            content={
+              eserviceTemplate.dailyCallsTotal
+                ? `${formatThousands(eserviceTemplate.dailyCallsTotal)}`
+                : ''
+            }
           />
         </Stack>
       </SectionContainer>
       <UpdateThresholdsDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        id={template.eserviceTemplate.id}
-        voucherLifespan={template.voucherLifespan}
-        dailyCallsPerConsumer={template.dailyCallsPerConsumer}
-        dailyCallsTotal={template.dailyCallsTotal}
+        id={eserviceTemplate.eserviceTemplate.id}
+        voucherLifespan={eserviceTemplate.voucherLifespan}
+        dailyCallsPerConsumer={eserviceTemplate.dailyCallsPerConsumer}
+        dailyCallsTotal={eserviceTemplate.dailyCallsTotal}
         versionId={eServiceTemplateVersionId}
         subtitle={tDrawer('subtitle')}
         dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerLabel')}

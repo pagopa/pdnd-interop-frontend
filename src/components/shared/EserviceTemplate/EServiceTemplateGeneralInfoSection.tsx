@@ -32,7 +32,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   const { t: tCommon } = useTranslation('common')
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
-  const { data: templateVersion } = useQuery(
+  const { data: eserviceTemplateVersion } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
@@ -77,12 +77,13 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
       { eServiceTemplateId },
       t('consumerListFileName', {
         timestamp: new Date().toISOString(),
-        eserviceTemplateName: templateVersion?.eserviceTemplate.name,
+        eserviceTemplateName: eserviceTemplateVersion?.eserviceTemplate.name,
       })
     )
   }
 
-  const hasSingleVersion = templateVersion && templateVersion.eserviceTemplate.versions.length <= 1
+  const hasSingleVersion =
+    eserviceTemplateVersion && eserviceTemplateVersion.eserviceTemplate.versions.length <= 1
 
   const navigateTemplateVersionsAction = {
     startIcon: <FileCopyIcon fontSize="small" />,
@@ -141,7 +142,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
         <Stack spacing={2}>
           <InformationContainer
             label={t('version.label')}
-            content={templateVersion?.version.toString() || '1'}
+            content={eserviceTemplateVersion?.version.toString() || '1'}
           />
           <Divider />
           <SectionContainer
@@ -160,7 +161,9 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   ]
             }
           >
-            <Typography variant="body2">{templateVersion?.eserviceTemplate.name}</Typography>
+            <Typography variant="body2">
+              {eserviceTemplateVersion?.eserviceTemplate.name}
+            </Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -180,7 +183,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             }
           >
             <Typography variant="body2">
-              {templateVersion?.eserviceTemplate.intendedTarget}
+              {eserviceTemplateVersion?.eserviceTemplate.intendedTarget}
             </Typography>
           </SectionContainer>
           <Divider />
@@ -200,7 +203,9 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   ]
             }
           >
-            <Typography variant="body2">{templateVersion?.eserviceTemplate.description}</Typography>
+            <Typography variant="body2">
+              {eserviceTemplateVersion?.eserviceTemplate.description}
+            </Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -208,28 +213,28 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             title={t('versionDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
           >
-            <Typography variant="body2">{templateVersion?.description ?? ''}</Typography>
+            <Typography variant="body2">{eserviceTemplateVersion?.description ?? ''}</Typography>
           </SectionContainer>
         </Stack>
       </SectionContainer>
       <>
-        {templateVersion && (
+        {eserviceTemplateVersion && (
           <EServiceTemplateVersionSelectorDrawer
             isOpen={isVersionSelectorDrawerOpen}
             onClose={closeVersionSelectorDrawer}
-            actualVersion={templateVersion.version.toString()}
-            versions={templateVersion?.eserviceTemplate.versions ?? []}
-            eServiceTemplateId={templateVersion.eserviceTemplate.id}
+            actualVersion={eserviceTemplateVersion.version.toString()}
+            versions={eserviceTemplateVersion?.eserviceTemplate.versions ?? []}
+            eServiceTemplateId={eserviceTemplateVersion.eserviceTemplate.id}
           />
         )}
         <>
-          {templateVersion && !readonly && (
+          {eserviceTemplateVersion && !readonly && (
             <>
               <UpdateNameDrawer
                 isOpen={isEServiceTemplateUpdateNameDrawerOpen}
                 onClose={closeEServiceUpdateNameDrawer}
-                id={templateVersion.eserviceTemplate.id}
-                name={templateVersion.eserviceTemplate.name}
+                id={eserviceTemplateVersion.eserviceTemplate.id}
+                name={eserviceTemplateVersion.eserviceTemplate.name}
                 onSubmit={handleNameUpdate}
                 title={tDrawer('updateEServiceTemplateNameDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateNameDrawer.subtitle')}
@@ -242,8 +247,8 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
               <UpdateDescriptionDrawer
                 isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
                 onClose={closeEServiceTemplateUpdateDescriptionDrawer}
-                id={templateVersion.eserviceTemplate.id}
-                description={templateVersion.eserviceTemplate.description}
+                id={eserviceTemplateVersion.eserviceTemplate.id}
+                description={eserviceTemplateVersion.eserviceTemplate.description}
                 onSubmit={handleDescriptionUpdate}
                 title={tDrawer('updateEServiceTemplateDescriptionDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateDescriptionDrawer.subtitle')}
@@ -260,8 +265,8 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
               <UpdateDescriptionDrawer
                 isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
                 onClose={closeEServiceUpdateAudienceDrawer}
-                id={templateVersion.eserviceTemplate.id}
-                description={templateVersion.eserviceTemplate.intendedTarget}
+                id={eserviceTemplateVersion.eserviceTemplate.id}
+                description={eserviceTemplateVersion.eserviceTemplate.intendedTarget}
                 onSubmit={handleIntendedTargetUpdate}
                 title={tDrawer('updateEServiceTemplateAudienceDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateAudienceDrawer.subtitle')}
