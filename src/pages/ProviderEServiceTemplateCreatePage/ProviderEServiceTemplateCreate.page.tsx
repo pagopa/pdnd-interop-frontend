@@ -41,7 +41,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
     EServiceMode | undefined
   >()
 
-  const { data: template, isLoading: isLoadingTemplate } = useQuery({
+  const { data: eserviceTemplate, isLoading: isLoadingTemplate } = useQuery({
     ...EServiceTemplateQueries.getSingle(
       params?.eServiceTemplateId as string,
       params?.eServiceTemplateVersionId as string
@@ -51,7 +51,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
 
   const eserviceTemplateMode =
     selectedEServiceTemplateMode || // The mode selected by the user
-    template?.eserviceTemplate.mode || // The mode of the e-service
+    eserviceTemplate?.eserviceTemplate.mode || // The mode of the e-service
     'DELIVER' // Default mode
 
   const steps: Array<StepperStep> =
@@ -82,19 +82,19 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const { component: Step } = steps[activeStep]
 
   // If this e-service is not in draft, you cannot edit it
-  if (template && template.state !== 'DRAFT') {
+  if (eserviceTemplate && eserviceTemplate.state !== 'DRAFT') {
     return (
       <Redirect
         to="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
         params={{
-          eServiceTemplateId: template.id,
-          eServiceTemplateVersionId: template.eserviceTemplate.id,
+          eServiceTemplateId: eserviceTemplate.id,
+          eServiceTemplateVersionId: eserviceTemplate.eserviceTemplate.id,
         }}
       />
     )
   }
 
-  const isReady = Boolean(isNewEServiceTemplate || (!isLoadingTemplate && template))
+  const isReady = Boolean(isNewEServiceTemplate || (!isLoadingTemplate && eserviceTemplate))
 
   const stepsLoadingSkeletons =
     eserviceTemplateMode === 'DELIVER'
@@ -115,8 +115,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const intro = isNewEServiceTemplate
     ? { title: t('create.emptyTitle') }
     : {
-        title: template?.eserviceTemplate.name,
-        description: template?.eserviceTemplate.description,
+        title: eserviceTemplate?.eserviceTemplate.name,
+        description: eserviceTemplate?.eserviceTemplate.description,
       }
 
   return (
@@ -131,7 +131,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceTemplateCreateContextProvider
-          templateVersion={template}
+          eserviceTemplateVersion={eserviceTemplate}
           eserviceTemplateMode={eserviceTemplateMode}
           onEserviceTemplateModeChange={setSelectedEServiceTemplateMode}
           {...stepProps}

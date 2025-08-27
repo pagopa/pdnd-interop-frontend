@@ -18,7 +18,7 @@ type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
 
 export function EServiceTemplateCreateStepDocumentsInterface() {
   const { t } = useTranslation('eserviceTemplate')
-  const { templateVersion } = useEServiceTemplateCreateContext()
+  const { eserviceTemplateVersion } = useEServiceTemplateCreateContext()
   const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceTemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceTemplateMutations.usePostVersionDraftDocument()
@@ -28,7 +28,7 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     prettyName: t('create.step4.interface.prettyName'),
   }
 
-  const actualInterface: EServiceDoc | null = templateVersion?.interface ?? null
+  const actualInterface: EServiceDoc | null = eserviceTemplateVersion?.interface ?? null
 
   const formMethods = useForm({
     defaultValues,
@@ -39,10 +39,10 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     interfaceDoc,
     prettyName,
   }: EServiceTemplateCreateStepDocumentsInterfaceFormValues) => {
-    if (!interfaceDoc || !templateVersion) return
+    if (!interfaceDoc || !eserviceTemplateVersion) return
     uploadDocument({
-      eServiceTemplateId: templateVersion.eserviceTemplate.id,
-      eServiceTemplateVersionId: templateVersion.id,
+      eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+      eServiceTemplateVersionId: eserviceTemplateVersion.id,
       doc: interfaceDoc,
       prettyName,
       kind: 'INTERFACE',
@@ -50,20 +50,20 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
   }
 
   const handleDeleteInterface = () => {
-    if (!actualInterface || !templateVersion) return
+    if (!actualInterface || !eserviceTemplateVersion) return
     deleteDocument({
-      eServiceTemplateId: templateVersion.eserviceTemplate.id,
-      eServiceTemplateVersionId: templateVersion.id,
+      eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+      eServiceTemplateVersionId: eserviceTemplateVersion.id,
       documentId: actualInterface.id,
     })
   }
 
   const handleDownloadInterface = () => {
-    if (!actualInterface || !templateVersion) return
+    if (!actualInterface || !eserviceTemplateVersion) return
     downloadDocument(
       {
-        eServiceTemplateId: templateVersion.eserviceTemplate.id,
-        eServiceTemplateVersionId: templateVersion.id,
+        eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: eserviceTemplateVersion.id,
         documentId: actualInterface.id,
       },
       getDownloadDocumentName(actualInterface)

@@ -17,7 +17,7 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
   })
   const { t: tCommon } = useTranslation('common')
 
-  const { templateVersion, areEServiceTemplateGeneralInfoEditable } =
+  const { eserviceTemplateVersion, areEServiceTemplateGeneralInfoEditable } =
     useEServiceTemplateCreateContext()
 
   const { mutate: deleteRiskAnalysis } =
@@ -33,9 +33,9 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
   }
 
   const handleDeletePurpose = (riskAnalysisId: string) => {
-    if (!templateVersion) return
+    if (!eserviceTemplateVersion) return
     deleteRiskAnalysis({
-      eServiceTemplateId: templateVersion.eserviceTemplate.id,
+      eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
       riskAnalysisId: riskAnalysisId,
     })
   }
@@ -43,11 +43,11 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
   return (
     <>
       <Table
-        isEmpty={templateVersion?.eserviceTemplate.riskAnalysis.length === 0}
+        isEmpty={eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.length === 0}
         headLabels={[]}
         noDataLabel={t('noDataLabel')}
       >
-        {templateVersion?.eserviceTemplate.riskAnalysis.map((riskAnalysis) => (
+        {eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.map((riskAnalysis) => (
           <TableRow
             key={riskAnalysis.id}
             cellData={[
