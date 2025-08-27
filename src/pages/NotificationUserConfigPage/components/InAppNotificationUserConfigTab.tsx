@@ -118,25 +118,21 @@ const notificationSchema: NotificationConfigSchema = {
 
 export const InAppNotificationUserConfigTab = () => {
   const formMethods = useForm()
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('notification', { keyPrefix: 'configurationPage.inAppTab' })
 
   return (
     <FormProvider {...formMethods}>
-      <SectionContainer
-        sx={{ px: 4, pt: 4 }}
-        title="Configurazione delle preferenze di notifica in piattaforma"
-        description="Le notifiche di piattaforma ti informeranno sugli eventi che ti riguardano."
-      >
+      <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
         <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
-          Dubbi? Vai al manuale
+          Dubbi? Vai al manuale (TODO TRANSLATE)
         </Link>
         <Box sx={{ px: 3, mt: 2 }}>
           <RHFSwitch
             name="toBeDefined"
             label={
               <SwitchLabelDescription
-                label="Abilita la ricezione delle notifiche in piattaforma"
-                description="Disabilitando questa opzione, non riceverai nessuna notifica in piattaforma"
+                label={t('enableAllNotifications.label')}
+                description={t('enableAllNotifications.description')}
               />
             }
           />

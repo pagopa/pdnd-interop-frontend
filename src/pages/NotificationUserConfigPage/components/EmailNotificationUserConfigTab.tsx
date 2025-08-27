@@ -1,5 +1,4 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import { NotificationConfigSection } from './NotificationConfigSection'
 
 export type NotificationSectionSchema = {
   title: string
@@ -59,12 +58,8 @@ export const EmailNotificationUserConfigTab = () => {
     <div>
       <FormProvider {...formMethods}>
         {Object.keys(notificationSchema).map((sectionName) => {
-          return (
-            <NotificationConfigSection
-              key={sectionName}
-              subsection={notificationSchema[sectionName]}
-            />
-          )
+          // eslint-disable-next-line react/jsx-key
+          return <div>TODO </div>
         })}
       </FormProvider>
     </div>
