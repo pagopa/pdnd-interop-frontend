@@ -15,12 +15,12 @@ import { Alert } from '@mui/material'
 
 type ProviderEServiceTemplateUsingTenantsTableProps = {
   eserviceTemplateId: string
-  templateVersions: CompactEServiceTemplateVersion[]
+  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
 }
 
 export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   ProviderEServiceTemplateUsingTenantsTableProps
-> = ({ eserviceTemplateId, templateVersions }) => {
+> = ({ eserviceTemplateId, eserviceTemplateVersions }) => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
   const { t: tTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
@@ -64,7 +64,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
         <ProviderEServiceTemplateUsingTenantsTableWrapper
           params={queryParams}
           eserviceTemplateId={eserviceTemplateId}
-          templateVersions={templateVersions}
+          eserviceTemplateVersions={eserviceTemplateVersions}
           noTableData={isDataEmpty && areFiltersEmpty}
         />
       </React.Suspense>
@@ -76,9 +76,9 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   params: GetEServiceTemplateInstancesParams
   eserviceTemplateId: string
-  templateVersions: CompactEServiceTemplateVersion[]
+  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
   noTableData: boolean
-}> = ({ params, eserviceTemplateId, templateVersions, noTableData }) => {
+}> = ({ params, eserviceTemplateId, eserviceTemplateVersions, noTableData }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'list.usingTenantTable' })
 
@@ -110,7 +110,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
             <ProviderEServiceTemplateUsingTenantsTableRow
               key={instance.id}
               instance={instance}
-              templateVersions={templateVersions}
+              eserviceTemplateVersions={eserviceTemplateVersions}
             />
           ))}
         </Table>

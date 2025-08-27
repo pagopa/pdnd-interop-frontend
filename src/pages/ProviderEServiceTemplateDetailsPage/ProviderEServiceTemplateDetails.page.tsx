@@ -18,29 +18,29 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceTemplateDetails')
 
-  const { data: template } = useQuery(
+  const { data: eserviceTemplate } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
   const { actions } = useGetProviderEServiceTemplateActions(
     eServiceTemplateId,
     eServiceTemplateVersionId,
-    template?.eserviceTemplate.draftVersion?.id,
-    template?.state,
-    template?.eserviceTemplate.draftVersion?.state,
-    template?.eserviceTemplate.mode
+    eserviceTemplate?.eserviceTemplate.draftVersion?.id,
+    eserviceTemplate?.state,
+    eserviceTemplate?.eserviceTemplate.draftVersion?.state,
+    eserviceTemplate?.eserviceTemplate.mode
   )
 
   return (
     <PageContainer
-      title={template?.eserviceTemplate.name || ''}
+      title={eserviceTemplate?.eserviceTemplate.name || ''}
       topSideActions={actions}
-      isLoading={!template}
+      isLoading={!eserviceTemplate}
       statusChip={
-        template
+        eserviceTemplate
           ? {
               for: 'eserviceTemplate',
-              state: template?.state,
+              state: eserviceTemplate?.state,
             }
           : undefined
       }
@@ -55,11 +55,13 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
           <Tab label={t('tabs.eserviceTemplateTenants')} value="eserviceTemplateTenants" />
         </TabList>
         <TabPanel value="eserviceTemplateDetails">
-          <ProviderEServiceTemplateDetailsTab templateVersionState={template?.state} />
+          <ProviderEServiceTemplateDetailsTab
+            eserviceTemplateVersionState={eserviceTemplate?.state}
+          />
         </TabPanel>
         <TabPanel value="eserviceTemplateTenants">
           <ProviderEServiceTemplateTenantsTab
-            templateVersions={template?.eserviceTemplate.versions ?? []}
+            eserviceTemplateVersions={eserviceTemplate?.eserviceTemplate.versions ?? []}
           />
         </TabPanel>
       </TabContext>
