@@ -7,7 +7,7 @@ import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
 
@@ -38,7 +38,7 @@ export const EServiceTemplateTableRow: React.FC<EServiceTemplateTableRow> = ({
 
   const handlePrefetch = () => {
     queryClient.prefetchQuery(
-      TemplateQueries.getSingle(eserviceTemplate.id, versionIdEserviceTemplate as string)
+      EServiceTemplateQueries.getSingle(eserviceTemplate.id, versionIdEserviceTemplate as string)
     )
   }
 

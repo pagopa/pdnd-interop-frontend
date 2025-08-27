@@ -8,7 +8,7 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { EServiceTemplateTable, TemplateTableSkeleton } from './components'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplatesListPage: React.FC = () => {
@@ -34,7 +34,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
   const { data: totalPageCount = 0 } = useQuery({
-    ...TemplateQueries.getProviderTemplatesList(queryParams),
+    ...EServiceTemplateQueries.getProviderEServiceTemplatesList(queryParams),
     placeholderData: keepPreviousData,
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
@@ -53,7 +53,9 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
 }
 
 const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = ({ params }) => {
-  const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesList(params))
+  const { data, isFetching } = useQuery(
+    EServiceTemplateQueries.getProviderEServiceTemplatesList(params)
+  )
 
   if (!data && isFetching) return <TemplateTableSkeleton />
   return <EServiceTemplateTable templates={data?.results ?? []} />

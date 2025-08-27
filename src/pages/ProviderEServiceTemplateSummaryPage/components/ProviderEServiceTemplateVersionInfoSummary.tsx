@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 
 export const ProviderEServiceTemplateVersionInfoSummary: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.versionInfoSummary' })
@@ -13,7 +13,7 @@ export const ProviderEServiceTemplateVersionInfoSummary: React.FC = () => {
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
   const { data: template } = useSuspenseQuery(
-    TemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
+    EServiceTemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
   )
 
   const voucherLifespan = secondsToMinutes(template.voucherLifespan)

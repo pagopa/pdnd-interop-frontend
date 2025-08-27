@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { useTranslation } from 'react-i18next'
 import { EServiceTemplateCatalogGrid } from './components'
 import {
@@ -22,7 +22,7 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
     useAutocompleteTextInput()
 
   const { data: templateProducersOptions = [] } = useQuery({
-    ...TemplateQueries.getProducersTemplateEserviceList({
+    ...EServiceTemplateQueries.getProducersEServiceTemplateList({
       offset: 0,
       limit: 50,
       q: templateProducersAutocompleteInput ? templateProducersAutocompleteInput : undefined,
@@ -56,7 +56,7 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data } = useQuery({
-    ...TemplateQueries.getProviderTemplatesCatalogList(queryParams),
+    ...EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList(queryParams),
     placeholderData: keepPreviousData,
   })
 
@@ -75,7 +75,9 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
 const ProviderEServiceTemplatesCatalogWrapper: React.FC<{
   params: { limit: number; offset: number }
 }> = ({ params }) => {
-  const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesCatalogList(params))
+  const { data, isFetching } = useQuery(
+    EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList(params)
+  )
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
 

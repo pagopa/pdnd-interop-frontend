@@ -17,7 +17,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { AuthHooks } from '@/api/auth'
 import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
@@ -46,8 +46,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     onEserviceTemplateModeChange,
   } = useEServiceTemplateCreateContext()
 
-  const { mutate: updateDraft } = TemplateMutations.useUpdateDraft()
-  const { mutate: createDraft } = TemplateMutations.useCreateDraft()
+  const { mutate: updateDraft } = EServiceTemplateMutations.useUpdateDraft()
+  const { mutate: createDraft } = EServiceTemplateMutations.useCreateDraft()
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: templateVersion?.eserviceTemplate.name ?? '',

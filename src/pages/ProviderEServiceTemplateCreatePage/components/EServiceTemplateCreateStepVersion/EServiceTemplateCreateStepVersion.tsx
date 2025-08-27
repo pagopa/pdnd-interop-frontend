@@ -11,7 +11,7 @@ import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
 
@@ -29,7 +29,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
 
   const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
 
-  const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
+  const { mutate: updateVersionDraft } = EServiceTemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 

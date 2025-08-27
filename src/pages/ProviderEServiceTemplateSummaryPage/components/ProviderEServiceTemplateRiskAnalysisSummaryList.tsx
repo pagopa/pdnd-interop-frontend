@@ -3,7 +3,7 @@ import { Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { EServiceTemplateRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 export const ProviderEServiceTemplateRiskAnalysisSummaryList: React.FC = () => {
@@ -11,7 +11,7 @@ export const ProviderEServiceTemplateRiskAnalysisSummaryList: React.FC = () => {
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
   const { data: template } = useSuspenseQuery(
-    TemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
+    EServiceTemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
   )
 
   const riskAnalysisList = template.eserviceTemplate.riskAnalysis

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
@@ -16,7 +16,7 @@ export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
   const { data: template } = useSuspenseQuery(
-    TemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
+    EServiceTemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
   )
 
   return (

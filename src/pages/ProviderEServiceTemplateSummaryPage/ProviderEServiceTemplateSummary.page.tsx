@@ -8,7 +8,7 @@ import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import { useQuery } from '@tanstack/react-query'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
+import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { ProviderEServiceTemplateGeneralInfoSummary } from './components/ProviderEServiceTemplateGeneralInfoSummary'
 import {
   ProviderEServiceTemplateAttributeVersionSummary,
@@ -25,11 +25,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
     useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
   const navigate = useNavigate()
 
-  const { mutate: deleteVersion } = TemplateMutations.useDeleteVersionDraft()
-  const { mutate: publishVersion } = TemplateMutations.usePublishVersionDraft()
+  const { mutate: deleteVersion } = EServiceTemplateMutations.useDeleteVersionDraft()
+  const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
 
   const { data: template, isLoading } = useQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
   const handleDeleteDraft = () => {

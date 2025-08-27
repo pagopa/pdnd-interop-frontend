@@ -9,8 +9,8 @@ import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateDownloads } from '@/api/template/template.downloads'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 type EServiceTemplateCreateStepDocumentsDocFormValues = {
   doc: File | null
@@ -26,11 +26,11 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
   const { t } = useTranslation('eserviceTemplate')
   const { t: tCommon } = useTranslation('common')
   const { templateVersion } = useEServiceTemplateCreateContext()
-  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
-  const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()
+  const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
+  const { mutate: deleteDocument } = EServiceTemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: updateDocumentName } =
-    TemplateMutations.useUpdateVersionDraftDocumentDescription()
-  const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
+    EServiceTemplateMutations.useUpdateVersionDraftDocumentDescription()
+  const { mutate: uploadDocument } = EServiceTemplateMutations.usePostVersionDraftDocument()
 
   const docs = templateVersion?.docs ?? []
 

@@ -2,7 +2,7 @@ import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/i
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import {
   ProviderEServiceTemplateUsingTenantsTableRow,
   ProviderEServiceTemplateUsingTenantsTableRowSkeleton,
@@ -45,7 +45,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data: templateInstancesCount } = useQuery({
-    ...TemplateQueries.getProviderTemplateInstancesList({
+    ...EServiceTemplateQueries.getProviderEServiceTemplateInstancesList({
       ...queryParams,
       eserviceTemplateId: eserviceTemplateId,
     }),
@@ -83,7 +83,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'list.usingTenantTable' })
 
   const { data: templateInstances } = useSuspenseQuery(
-    TemplateQueries.getProviderTemplateInstancesList({
+    EServiceTemplateQueries.getProviderEServiceTemplateInstancesList({
       ...params,
       eserviceTemplateId: eserviceTemplateId,
     })

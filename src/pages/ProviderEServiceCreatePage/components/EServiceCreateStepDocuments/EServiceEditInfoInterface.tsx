@@ -11,7 +11,7 @@ import type {
   TemplateInstanceInterfaceMetadata,
   EServiceTechnology,
 } from '@/api/api.generatedTypes'
-import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { ExtendedTemplateInstanceInterfaceMetadata } from './EServiceCreateFromTemplateStepDocuments'
@@ -28,7 +28,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { descriptor } = useEServiceCreateContext()
 
-  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
+  const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
 
   const handleDownloadInterfaceDocument = () => {
     if (

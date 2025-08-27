@@ -8,8 +8,8 @@ import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateDownloads } from '@/api/template/template.downloads'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -19,9 +19,9 @@ type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
 export function EServiceTemplateCreateStepDocumentsInterface() {
   const { t } = useTranslation('eserviceTemplate')
   const { templateVersion } = useEServiceTemplateCreateContext()
-  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
-  const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()
-  const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
+  const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
+  const { mutate: deleteDocument } = EServiceTemplateMutations.useDeleteVersionDraftDocument()
+  const { mutate: uploadDocument } = EServiceTemplateMutations.usePostVersionDraftDocument()
 
   const defaultValues: EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
     interfaceDoc: null,

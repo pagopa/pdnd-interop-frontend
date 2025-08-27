@@ -33,7 +33,7 @@ import {
 } from '@/config/constants'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
 import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
@@ -74,9 +74,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
   const { mutate: createDraftFromTemplate } =
-    TemplateMutations.useCreateInstanceFromEServiceTemplate()
+    EServiceTemplateMutations.useCreateInstanceFromEServiceTemplate()
   const { mutate: updateDraftFromTemplate } =
-    TemplateMutations.useUpdateInstanceFromEServiceTemplate()
+    EServiceTemplateMutations.useUpdateInstanceFromEServiceTemplate()
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef) || !!template
 

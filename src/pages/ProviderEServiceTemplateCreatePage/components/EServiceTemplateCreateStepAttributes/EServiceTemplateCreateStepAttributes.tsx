@@ -15,7 +15,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttributeDrawer'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import type { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
 
@@ -23,7 +23,7 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'create' })
   const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
 
-  const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
+  const { mutate: updateVersionDraft } = EServiceTemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 

@@ -4,7 +4,7 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useParams, useGeneratePath } from '@/router'
 import { Link } from '@mui/material'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { StepperStep } from '@/types/common.types'
 import {
   EServiceCreateStepAttributes,
@@ -39,7 +39,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const generatePath = useGeneratePath()
 
   const { data: template } = useQuery({
-    ...TemplateQueries.getSingleByEServiceTemplateId(eServiceTemplateId),
+    ...EServiceTemplateQueries.getSingleByEServiceTemplateId(eServiceTemplateId),
   })
 
   const steps: Array<StepperStep> =

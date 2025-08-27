@@ -5,14 +5,14 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
+import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
-import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 
 type EServiceTemplateGeneralInfoSectionProps = {
@@ -33,18 +33,20 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
   const { data: templateVersion } = useQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  const downloadTemplateConsumerList = TemplateDownloads.useDownloadTemplateConsumerList()
+  const downloadTemplateConsumerList =
+    EServiceTemplateDownloads.useDownloadEServiceTemplateConsumerList()
 
   const { mutate: updateEserviceTemplateDescription } =
-    TemplateMutations.useUpdateEServiceTemplateDescription()
+    EServiceTemplateMutations.useUpdateEServiceTemplateDescription()
 
   const { mutate: updateEserviceTemplateIntendedTarget } =
-    TemplateMutations.useUpdateEServiceTemplateIntendedTarget()
+    EServiceTemplateMutations.useUpdateEServiceTemplateIntendedTarget()
 
-  const { mutate: updateEserviceTemplateName } = TemplateMutations.useUpdateEServiceTemplateName()
+  const { mutate: updateEserviceTemplateName } =
+    EServiceTemplateMutations.useUpdateEServiceTemplateName()
 
   const {
     isOpen: isVersionSelectorDrawerOpen,

@@ -5,7 +5,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { EServiceTemplateThresholdsSection } from './EServiceTemplateThresholdsSection'
 import { EServiceTemplateDocumentationSection } from './EServiceTemplateDocumentationSection'
 import { EServiceTemplateUsefulLinksSection } from './EServiceTemplateUsefulLinksSection'
@@ -23,7 +23,7 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
   const { data: template } = useSuspenseQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
   return (

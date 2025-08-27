@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { ProviderEServiceTemplateDetailsTab } from './components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateDetailsTab'
 import { ProviderEServiceTemplateTenantsTab } from './components/ProviderEServiceTemplateTenantsTab/ProviderEServiceTemplateTenantsTab'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
@@ -19,7 +19,7 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('eserviceTemplateDetails')
 
   const { data: template } = useQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
   const { actions } = useGetProviderEServiceTemplateActions(

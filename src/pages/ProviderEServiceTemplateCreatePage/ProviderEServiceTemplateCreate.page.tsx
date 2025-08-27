@@ -4,7 +4,7 @@ import type { StepperStep } from '@/types/common.types'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import { useActiveStep } from '@/hooks/useActiveStep'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { Redirect, useParams } from '@/router'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceTemplateCreateContextProvider } from './components/ProviderEServiceTemplateContext'
@@ -42,7 +42,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
   >()
 
   const { data: template, isLoading: isLoadingTemplate } = useQuery({
-    ...TemplateQueries.getSingle(
+    ...EServiceTemplateQueries.getSingle(
       params?.eServiceTemplateId as string,
       params?.eServiceTemplateVersionId as string
     ),

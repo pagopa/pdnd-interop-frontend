@@ -6,7 +6,7 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
 import type { EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { useParams } from '@/router'
@@ -36,7 +36,7 @@ export const EServiceTemplateThresholdsSection: React.FC<
     openDrawer()
   }
 
-  const { mutate: updateEserviceTemplateQuotas } = TemplateMutations.useUpdateQuotas()
+  const { mutate: updateEserviceTemplateQuotas } = EServiceTemplateMutations.useUpdateQuotas()
 
   const handleThresholdsUpdate = (
     id: string,
