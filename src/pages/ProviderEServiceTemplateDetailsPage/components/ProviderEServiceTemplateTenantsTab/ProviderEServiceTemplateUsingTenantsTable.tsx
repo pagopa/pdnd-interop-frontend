@@ -23,7 +23,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 > = ({ eserviceTemplateId, templateVersions }) => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
-  const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
+  const { t: tTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetEServiceTemplateInstancesParams, 'limit' | 'offset'>
@@ -80,7 +80,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   noTableData: boolean
 }> = ({ params, eserviceTemplateId, templateVersions, noTableData }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const { t } = useTranslation('template', { keyPrefix: 'list.usingTenantTable' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'list.usingTenantTable' })
 
   const { data: templateInstances } = useSuspenseQuery(
     TemplateQueries.getProviderTemplateInstancesList({

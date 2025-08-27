@@ -7,7 +7,7 @@ import { TemplateQueries } from '@/api/template'
 import { EServiceTemplateRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 export const ProviderEServiceTemplateRiskAnalysisSummaryList: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'summary.riskAnalysisSummaryList' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.riskAnalysisSummaryList' })
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
   const { data: template } = useSuspenseQuery(

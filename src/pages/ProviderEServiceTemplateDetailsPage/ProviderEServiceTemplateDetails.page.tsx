@@ -12,7 +12,7 @@ import { ProviderEServiceTemplateTenantsTab } from './components/ProviderEServic
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
 
 const ProviderEServiceTemplateDetailsPage: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'read' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'read' })
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
@@ -39,7 +39,7 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
       statusChip={
         template
           ? {
-              for: 'template',
+              for: 'eserviceTemplate',
               state: template?.state,
             }
           : undefined

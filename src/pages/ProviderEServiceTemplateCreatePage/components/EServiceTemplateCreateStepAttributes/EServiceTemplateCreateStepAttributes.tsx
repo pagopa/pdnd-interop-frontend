@@ -20,7 +20,7 @@ import type { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCre
 import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
 
 export const EServiceTemplateCreateStepAttributes: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'create' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'create' })
   const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
 
   const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({

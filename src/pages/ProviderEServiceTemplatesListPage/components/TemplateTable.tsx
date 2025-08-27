@@ -10,7 +10,7 @@ type TemplateTableProps = {
 
 export const TemplateTable: React.FC<TemplateTableProps> = ({ templates }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
 
   const headLabels = [tCommon('templateName'), tCommon('version'), tCommon('status'), '']
 

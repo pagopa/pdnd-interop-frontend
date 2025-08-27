@@ -18,11 +18,11 @@ type EServiceTemplateThresholdsSectionProps = {
 export const EServiceTemplateThresholdsSection: React.FC<
   EServiceTemplateThresholdsSectionProps
 > = ({ template, readonly }) => {
-  const { t } = useTranslation('template', {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
-  const { t: tDrawer } = useTranslation('template', {
+  const { t: tDrawer } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.drawers.updateEServiceTemplateThresholdsDrawer',
   })
 

@@ -33,7 +33,7 @@ import type { EServiceMode } from '@/api/api.generatedTypes'
 
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
-  const { t: tTemplate } = useTranslation('template')
+  const { t: tTemplate } = useTranslation('eserviceTemplate')
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
   const { activeStep, ...stepProps } = useActiveStep()
   const generatePath = useGeneratePath()

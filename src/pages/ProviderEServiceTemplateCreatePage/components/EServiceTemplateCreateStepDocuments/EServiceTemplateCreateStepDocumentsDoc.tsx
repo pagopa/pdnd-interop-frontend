@@ -23,7 +23,7 @@ const defaultValues: EServiceTemplateCreateStepDocumentsDocFormValues = {
 }
 
 export function EServiceTemplateCreateStepDocumentsDoc() {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const { t: tCommon } = useTranslation('common')
   const { templateVersion } = useEServiceTemplateCreateContext()
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()

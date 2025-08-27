@@ -11,7 +11,7 @@ import { TemplateQueries } from '@/api/template'
 import { TemplateDownloads } from '@/api/template/template.downloads'
 
 export const ProviderEServiceTemplateDocumentationSummary: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'summary.documentationSummary' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.documentationSummary' })
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
   const { data: template } = useSuspenseQuery(

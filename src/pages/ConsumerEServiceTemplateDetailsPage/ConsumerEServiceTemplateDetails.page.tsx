@@ -8,7 +8,7 @@ import { ConsumerEServiceTemplateDetails } from './components'
 import { useGetConsumerEServiceTemplateActions } from './hooks/useGetConsumerEServiceTemplateActions'
 
 const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'read' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'read' })
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>()
 
@@ -33,7 +33,7 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
       statusChip={
         template
           ? {
-              for: 'template',
+              for: 'eserviceTemplate',
               state: template?.state,
             }
           : undefined

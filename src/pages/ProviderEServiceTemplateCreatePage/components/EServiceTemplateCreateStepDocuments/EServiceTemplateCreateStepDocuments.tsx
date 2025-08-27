@@ -12,7 +12,7 @@ import { EServiceTemplateCreateStepDocumentsDoc } from './EServiceTemplateCreate
 import { Alert, Stack } from '@mui/material'
 
 export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const navigate = useNavigate()
 
   const { templateVersion, back } = useEServiceTemplateCreateContext()

@@ -52,10 +52,10 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
         versionEserviceTemplate.toString(),
         <Stack key={template.id} direction="row" spacing={1}>
           {template.activeVersion && (
-            <StatusChip for="template" state={template.activeVersion.state} />
+            <StatusChip for="eserviceTemplate" state={template.activeVersion.state} />
           )}
           {template.draftVersion && (
-            <StatusChip for="template" state={template.draftVersion.state} />
+            <StatusChip for="eserviceTemplate" state={template.draftVersion.state} />
           )}
         </Stack>,
       ]}

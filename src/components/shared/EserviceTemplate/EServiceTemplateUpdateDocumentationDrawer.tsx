@@ -38,7 +38,9 @@ type EServiceTemplateUpdateDocumentationDrawerProps = {
 export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
   EServiceTemplateUpdateDocumentationDrawerProps
 > = ({ isOpen, onClose, templateId, templateVersionId, interfaceDocs, templateDocs }) => {
-  const { t } = useTranslation('template', { keyPrefix: 'read.drawers.updateDocumentationDrawer' })
+  const { t } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'read.drawers.updateDocumentationDrawer',
+  })
   const { t: tCommon } = useTranslation('common')
 
   const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()

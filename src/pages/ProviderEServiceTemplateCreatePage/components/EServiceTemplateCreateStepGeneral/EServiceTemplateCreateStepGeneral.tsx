@@ -32,7 +32,7 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
 }
 
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const navigate = useNavigate()
 
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string

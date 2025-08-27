@@ -25,7 +25,7 @@ export type EServiceTemplateCreateStepVersionFormValues = {
 }
 
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'create' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'create' })
 
   const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
 

@@ -12,7 +12,7 @@ export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
   const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
-  const { t } = useTranslation('template', { keyPrefix: 'summary.generalInfoSummary' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.generalInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
   const { data: template } = useSuspenseQuery(

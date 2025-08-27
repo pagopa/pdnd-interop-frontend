@@ -17,7 +17,7 @@ type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
 }
 
 export function EServiceTemplateCreateStepDocumentsInterface() {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const { templateVersion } = useEServiceTemplateCreateContext()
   const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()

@@ -18,7 +18,7 @@ import {
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
 
 const ProviderEServiceTemplateSummaryPage: React.FC = () => {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { eServiceTemplateId, eServiceTemplateVersionId } =
@@ -90,7 +90,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       }}
       isLoading={isLoading}
       statusChip={{
-        for: 'template',
+        for: 'eserviceTemplate',
         state: 'DRAFT',
       }}
     >
@@ -161,7 +161,7 @@ type PublishButtonProps = {
 
 const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('template', { keyPrefix: 'summary' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary' })
 
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (

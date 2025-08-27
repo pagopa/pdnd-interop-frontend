@@ -20,7 +20,7 @@ type EServiceTemplateDocumentationSectionProps = {
 export const EServiceTemplateDocumentationSection: React.FC<
   EServiceTemplateDocumentationSectionProps
 > = ({ templateVersion, readonly }) => {
-  const { t } = useTranslation('template', {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')

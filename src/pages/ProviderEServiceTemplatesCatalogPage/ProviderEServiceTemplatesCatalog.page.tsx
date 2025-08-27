@@ -16,7 +16,7 @@ import type { GetEServiceTemplatesCatalogParams } from '@/api/api.generatedTypes
 
 const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesCatalog' })
-  const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
+  const { t: tTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
 
   const [templateProducersAutocompleteInput, setTemplateProducersAutocompleteInput] =
     useAutocompleteTextInput()

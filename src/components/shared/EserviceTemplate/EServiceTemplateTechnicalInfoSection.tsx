@@ -17,7 +17,7 @@ type EServiceTemplateTechnicalInfoSectionProps = {
 export const EServiceTemplateTechnicalInfoSection: React.FC<
   EServiceTemplateTechnicalInfoSectionProps
 > = ({ readonly, routeKey }) => {
-  const { t } = useTranslation('template', {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
 

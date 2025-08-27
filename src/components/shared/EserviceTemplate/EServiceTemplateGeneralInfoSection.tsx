@@ -23,10 +23,10 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   EServiceTemplateGeneralInfoSectionProps
 > = ({ routeKey, readonly }) => {
   routeKey
-  const { t } = useTranslation('template', {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.generalInformations',
   })
-  const { t: tDrawer } = useTranslation('template', {
+  const { t: tDrawer } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.drawers',
   })
   const { t: tCommon } = useTranslation('common')

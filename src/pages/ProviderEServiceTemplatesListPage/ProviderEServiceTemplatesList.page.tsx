@@ -15,7 +15,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesList' })
   const { t: tCommon } = useTranslation('common')
-  const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
+  const { t: tTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
   const navigate = useNavigate()
 
   const topSideActions: Array<ActionItemButton> = [

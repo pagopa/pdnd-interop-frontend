@@ -31,7 +31,7 @@ import {
 } from './components/EServiceTemplateCreateStepDocuments/EServiceTemplateCreateStepDocuments'
 
 const ProviderEServiceCreatePage: React.FC = () => {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_CREATE' | 'PROVIDE_ESERVICE_TEMPLATE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
 

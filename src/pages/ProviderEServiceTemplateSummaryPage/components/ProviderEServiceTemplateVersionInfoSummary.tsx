@@ -8,7 +8,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { TemplateQueries } from '@/api/template'
 
 export const ProviderEServiceTemplateVersionInfoSummary: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'summary.versionInfoSummary' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.versionInfoSummary' })
   const { t: tCommon } = useTranslation('common')
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
