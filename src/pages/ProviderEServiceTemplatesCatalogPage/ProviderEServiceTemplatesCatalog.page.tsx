@@ -16,16 +16,20 @@ import type { GetEServiceTemplatesCatalogParams } from '@/api/api.generatedTypes
 
 const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesCatalog' })
-  const { t: tTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
+  const { t: tEServiceTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
 
-  const [templateProducersAutocompleteInput, setTemplateProducersAutocompleteInput] =
-    useAutocompleteTextInput()
+  const [
+    eserviceTemplateProducersAutocompleteInput,
+    setEServiceTemplateProducersAutocompleteInput,
+  ] = useAutocompleteTextInput()
 
   const { data: templateProducersOptions = [] } = useQuery({
     ...EServiceTemplateQueries.getProducersEServiceTemplateList({
       offset: 0,
       limit: 50,
-      q: templateProducersAutocompleteInput ? templateProducersAutocompleteInput : undefined,
+      q: eserviceTemplateProducersAutocompleteInput
+        ? eserviceTemplateProducersAutocompleteInput
+        : undefined,
     }),
     placeholderData: keepPreviousData,
     select: (data) =>
@@ -42,15 +46,15 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   >([
     {
       name: 'q',
-      label: tTemplate('nameField.label'),
+      label: tEServiceTemplate('nameField.label'),
       type: 'freetext',
     },
     {
       name: 'creatorsIds',
-      label: tTemplate('templateProviderField.label'),
+      label: tEServiceTemplate('templateProviderField.label'),
       type: 'autocomplete-multiple',
       options: templateProducersOptions,
-      onTextInputChange: setTemplateProducersAutocompleteInput,
+      onTextInputChange: setEServiceTemplateProducersAutocompleteInput,
     },
   ])
   const queryParams = { ...paginationParams, ...filtersParams }
