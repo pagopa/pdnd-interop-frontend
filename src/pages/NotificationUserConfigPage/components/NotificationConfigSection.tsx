@@ -1,43 +1,37 @@
-import { SectionContainer } from '@/components/layout/containers'
-import { RHFRadioGroup, RHFSwitch } from '@/components/shared/react-hook-form-inputs'
-import { Stack } from '@mui/system'
+import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
+import { Box } from '@mui/system'
 import { useFormContext } from 'react-hook-form'
 import type { NotificationSectionSchema } from './EmailNotificationUserConfigTab'
+import { Typography } from '@mui/material'
+import { NotificationSubSectionSchema } from './InAppNotificationUserConfigTab'
 
 type NotificationConfigSectionProps = {
-  section: NotificationSectionSchema
+  subsection: NotificationSubSectionSchema
 }
 export const NotificationConfigSection: React.FC<NotificationConfigSectionProps> = ({
-  section,
+  subsection,
 }) => {
   const { watch } = useFormContext()
 
   const customizeNotification = watch('generalUpdate')
 
-  const renderSubSections = () => {
-    return section.subsections.map((subsection) => {
-      return (
-        <Stack key={subsection.name} ml={2}>
-          {subsection.components.map((component) => {
-            return (
-              <RHFSwitch key={component.name} name={component.name} label={component.description} />
-            )
-          })}
-        </Stack>
-      )
-    })
-  }
-
   return (
-    <SectionContainer title={section.title} description={section.description}>
-      <RHFRadioGroup
-        name="generalUpdate"
-        options={[
-          { label: 'ricevi aggiornamenti', value: 'general' },
-          { label: 'personalizza gli aggiormaneti', value: 'custom' },
-        ]}
-      />
-      {customizeNotification === 'custom' && renderSubSections()}
-    </SectionContainer>
+    <>
+      <Typography variant="body2" component="h2" mb={1} fontWeight={600}>
+        {subsection.title}
+      </Typography>
+      <Box sx={{ ml: 3 }}>
+        {subsection.components.map((component) => (
+          <RHFSwitch
+            sx={{ mt: 1, mb: 1 }}
+            key={component.name}
+            name={component.name}
+            label={
+              <SwitchLabelDescription label={component.title} description={component.description} />
+            }
+          />
+        ))}
+      </Box>
+    </>
   )
 }
