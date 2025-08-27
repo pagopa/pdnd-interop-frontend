@@ -1,22 +1,23 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Link, Typography } from '@mui/material'
+import { Box, Card, Link, Stack, Typography } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
 
-export type NotificationSectionSchema = {
+export type NotificationSubSectionSchema = {
+  name: string
   title: string
-  description: string
-  subsections: {
+  components: {
     name: string
     title: string
     description: string
-    components: {
-      name: string
-      description: string
-    }[]
   }[]
+}
+export type NotificationSectionSchema = {
+  title: string
+  subsections: NotificationSubSectionSchema[]
 }
 export type NotificationConfigSchema = {
   [key: string]: NotificationSectionSchema
@@ -25,33 +26,89 @@ export type NotificationConfigSchema = {
 const notificationSchema: NotificationConfigSchema = {
   subscriber: {
     title: 'Fruizione',
-    description:
-      "Le comunicazioni relative alla fruizione di e-service comprendono lo stato di una richiesta, l'aggiornamento di una nuova versione, la sospensione e riattivazione",
     subsections: [
       {
-        name: 'agreements',
-        title: 'Richieste di fruizione inoltrate',
-        description:
-          'Ricevi aggiornamenti sullo stato di avanzamento delel tue richieste di fruizione verso gli e-service',
+        name: 'fruizioneDati',
+        title: 'Fruizione dei dati',
         components: [
           {
-            name: 'avanzamentoRichiesta',
+            name: 'variazioneDiStatoEservice',
+            title: 'Variazione di stato degli e-service',
             description: 'Ricevi notifiche sullo stato di avanzamento della tua richiesta',
           },
           {
-            name: 'suspendedOrReactivated',
+            name: 'richiestaDiFruizione',
+            title: 'Accettazione o rifiuto delle richieste di fruizione',
+            description: 'Ricevi notifiche quando una richiesta viene sospesa o riattivata',
+          },
+          {
+            name: 'variazionestatoRichiestaFruizione',
+            title: 'Variazione dello stato della richiesta di fruizione',
             description: 'Ricevi notifiche quando una richiesta viene sospesa o riattivata',
           },
         ],
       },
       {
-        name: 'purposes',
+        name: 'finalita',
         title: 'Finalità',
-        description: 'Ricevi aggiornamenti sulle finalità che hai inoltrato',
         components: [
           {
-            name: 'acceptedOrRefusedPurpose',
-            description: 'Ricevi notifihe quando viene accettata o rifiutata una finalità',
+            name: 'accettazioneFinalita',
+            title: 'Accettazione o rifiuto di una finalità',
+            description: 'Avvisami quando una finalità viene accettata o rifiutata',
+          },
+          {
+            name: 'variazioneFinalita',
+            title: 'Variazione di stato di una finalità',
+            description:
+              'Avvisami quando lo stato di una finalità viene sospesa, archiviata o riattivata',
+          },
+        ],
+      },
+      {
+        name: 'soglieDiCarico',
+        title: 'Soglie di carico',
+        components: [
+          {
+            name: 'statoSoglieDiCarico',
+            title: 'Stato delle soglie di carico',
+            description:
+              'Avvisami quando una mia richiesta supera le soglie massime stabilite dall’erogatore',
+          },
+          {
+            name: 'adeguamentoSoglia',
+            title: 'Richieste di adeguamento soglia',
+            description:
+              'Avvisami quando un erogatore accetta o rifiuta una richiesta di adeguamento delle soglie',
+          },
+        ],
+      },
+    ],
+  },
+  provider: {
+    title: 'Erogazione',
+    subsections: [
+      {
+        name: 'richiesteFruizione',
+        title: 'Fruizione dei dati',
+        components: [
+          {
+            name: 'gestioneRichiesteInArrivo',
+            title: 'Gestione delle richieste di fruizione in arrivo',
+            description:
+              'Avvisami sulle nuove richieste di fruizione in arrivo e quelle accettate automaticamente',
+          },
+        ],
+      },
+      {
+        name: 'finalita',
+        title: 'Finalità',
+        components: [
+          {
+            name: 'variazioneFinalita',
+            title: 'Variazione di stato di una finalità',
+            description:
+              'Avvisami quando lo stato di una finalità viene sospesa, archiviata o riattivata',
           },
         ],
       },
@@ -83,14 +140,35 @@ export const InAppNotificationUserConfigTab = () => {
               />
             }
           />
-          {/* {Object.keys(notificationSchema).map((sectionName) => {
-          return (  
-            <NotificationConfigSection
-              key={sectionName}
-              section={notificationSchema[sectionName]}
-            />
-          )
-        })} */}
+
+          {Object.keys(notificationSchema).map((sectionName) => {
+            return (
+              <Box key={sectionName}>
+                <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
+                  <Box
+                    display="flex"
+                    width="100%"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    sx={{ mb: 4 }}
+                  >
+                    <Stack alignItems="center" direction="row" gap={1}>
+                      <MenuBookIcon />
+                      <Typography variant="button">
+                        {notificationSchema[sectionName].title}
+                      </Typography>
+                    </Stack>
+
+                    <RHFSwitch sx={{ width: 'auto' }} name="toBeDefined" label="Abilita tutto" />
+                  </Box>
+
+                  {notificationSchema[sectionName].subsections.map((subsection) => (
+                    <NotificationConfigSection key={sectionName} subsection={subsection} />
+                  ))}
+                </Card>
+              </Box>
+            )
+          })}
         </Box>
       </SectionContainer>
     </FormProvider>

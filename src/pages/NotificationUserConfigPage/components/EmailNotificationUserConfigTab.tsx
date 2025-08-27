@@ -3,7 +3,6 @@ import { NotificationConfigSection } from './NotificationConfigSection'
 
 export type NotificationSectionSchema = {
   title: string
-  description: string
   subsections: {
     name: string
     title: string
@@ -21,8 +20,6 @@ export type NotificationConfigSchema = {
 const notificationSchema: NotificationConfigSchema = {
   subscriber: {
     title: 'Fruizione',
-    description:
-      "Le comunicazioni relative alla fruizione di e-service comprendono lo stato di una richiesta, l'aggiornamento di una nuova versione, la sospensione e riattivazione",
     subsections: [
       {
         name: 'agreements',
@@ -65,7 +62,7 @@ export const EmailNotificationUserConfigTab = () => {
           return (
             <NotificationConfigSection
               key={sectionName}
-              section={notificationSchema[sectionName]}
+              subsection={notificationSchema[sectionName]}
             />
           )
         })}
