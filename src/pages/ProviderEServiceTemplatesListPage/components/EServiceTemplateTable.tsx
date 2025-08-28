@@ -8,21 +8,21 @@ import { Table } from '@pagopa/interop-fe-commons'
 import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 
 type TemplateTableProps = {
-  templates: Array<ProducerEServiceTemplate>
+  eserviceTemplates: Array<ProducerEServiceTemplate>
 }
 
-export const EServiceTemplateTable: React.FC<TemplateTableProps> = ({ templates }) => {
+export const EServiceTemplateTable: React.FC<TemplateTableProps> = ({ eserviceTemplates }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
   const { t } = useTranslation('eserviceTemplate')
 
-  const headLabels = [tCommon('templateName'), tCommon('version'), tCommon('status'), '']
+  const headLabels = [tCommon('eserviceTemplateName'), tCommon('version'), tCommon('status'), '']
 
-  const isEmpty = templates && templates.length === 0
+  const isEmpty = eserviceTemplates && eserviceTemplates.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty} noDataLabel={t('noMultiDataLabel')}>
-      {templates?.map((template) => (
-        <EServiceTemplateTableRow key={template.id} eserviceTemplate={template} />
+      {eserviceTemplates?.map((eserviceTemplate) => (
+        <EServiceTemplateTableRow key={eserviceTemplate.id} eserviceTemplate={eserviceTemplate} />
       ))}
     </Table>
   )
@@ -30,7 +30,7 @@ export const EServiceTemplateTable: React.FC<TemplateTableProps> = ({ templates 
 
 export const TemplateTableSkeleton: React.FC = () => {
   const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const headLabels = [t('templateName'), t('version'), t('status'), '']
+  const headLabels = [t('eserviceTemplateName'), t('version'), t('status'), '']
 
   return (
     <Table headLabels={headLabels}>

@@ -15,7 +15,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesList' })
   const { t: tCommon } = useTranslation('common')
-  const { t: tTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
+  const { t: tEServiceTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
   const navigate = useNavigate()
 
   const topSideActions: Array<ActionItemButton> = [
@@ -29,7 +29,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetProducerEServicesParams, 'limit' | 'offset'>
-  >([{ name: 'q', label: tTemplate('nameField.label'), type: 'freetext' }])
+  >([{ name: 'q', label: tEServiceTemplate('nameField.label'), type: 'freetext' }])
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
@@ -58,7 +58,7 @@ const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = (
   )
 
   if (!data && isFetching) return <TemplateTableSkeleton />
-  return <EServiceTemplateTable templates={data?.results ?? []} />
+  return <EServiceTemplateTable eserviceTemplates={data?.results ?? []} />
 }
 
 export default ProviderEServiceTemplatesListPage
