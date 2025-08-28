@@ -1960,6 +1960,60 @@ export interface UpdateEServiceTemplateVersionDocumentSeed {
   prettyName: string
 }
 
+export interface Notifications {
+  results: Notification[]
+  /** @format int32 */
+  totalCount: number
+}
+
+export interface Notification {
+  /**
+   * Unique identifier of the notification
+   * @format uuid
+   */
+  id: string
+  /**
+   * ID of the user
+   * @format uuid
+   */
+  userId: string
+  /**
+   * ID of the tenant
+   * @format uuid
+   */
+  tenantId: string
+  /** Content of the notification */
+  body: string
+  /**
+   * Timestamp when the notification was read
+   * @format date-time
+   */
+  readAt: string | null
+  /**
+   * Timestamp when the notification was created
+   * @format date-time
+   */
+  createdAt: string
+}
+
+export interface NotificationConfig {
+  newEServiceVersionPublished: boolean
+}
+
+export type TenantNotificationConfig = NotificationConfig
+
+export interface UserNotificationConfig {
+  inAppConfig: NotificationConfig
+  emailConfig: NotificationConfig
+}
+
+export type TenantNotificationConfigUpdateSeed = NotificationConfig
+
+export interface UserNotificationConfigUpdateSeed {
+  inAppConfig: NotificationConfig
+  emailConfig: NotificationConfig
+}
+
 export interface ProblemError {
   /**
    * Internal code of the error
@@ -2636,6 +2690,26 @@ export interface CreateEServiceTemplateDocumentPayload {
 export interface IsEServiceNameAvailableParams {
   /** the e-service name to check for */
   name: string
+}
+
+export interface GetNotificationsParams {
+  /** Query to filter notifications */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface MarkNotificationsAsReadPayload {
+  ids: string[]
 }
 
 export namespace Consumers {
@@ -7184,6 +7258,150 @@ export namespace Creators {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = ProducerEServiceTemplates
+  }
+}
+
+export namespace InAppNotifications {
+  /**
+   * @description Retrieves a list of notifications
+   * @tags inAppNotifications
+   * @name GetNotifications
+   * @summary Retrieves a list of notifications
+   * @request GET:/inAppNotifications
+   */
+  export namespace GetNotifications {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter notifications */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as read
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsRead
+   * @summary Mark a list of notifications as read
+   * @request POST:/inAppNotifications/bulk/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationsAsRead {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = MarkNotificationsAsReadPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a notification as read
+   * @tags inAppNotifications
+   * @name MarkNotificationAsRead
+   * @summary Mark a notification as read
+   * @request POST:/inAppNotifications/:notificationId/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationAsRead {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Delete a notification
+   * @tags inAppNotifications
+   * @name DeleteNotification
+   * @summary Delete a notification
+   * @request DELETE:/inAppNotifications/:notificationId
+   * @secure
+   */
+  export namespace DeleteNotification {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace TenantNotificationConfigs {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name GetTenantNotificationConfig
+   * @summary Retrieve the tenant's notification configuration
+   * @request GET:/tenantNotificationConfigs
+   */
+  export namespace GetTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = TenantNotificationConfig
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateTenantNotificationConfig
+   * @summary Update the tenant's notification configuration
+   * @request POST:/tenantNotificationConfigs
+   */
+  export namespace UpdateTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = TenantNotificationConfigUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace UserNotificationConfigs {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name GetUserNotificationConfig
+   * @summary Retrieve the user's notification configuration
+   * @request GET:/userNotificationConfigs
+   */
+  export namespace GetUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = UserNotificationConfig
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateUserNotificationConfig
+   * @summary Update the user's notification configuration
+   * @request POST:/userNotificationConfigs
+   */
+  export namespace UpdateUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = UserNotificationConfigUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
 }
 
