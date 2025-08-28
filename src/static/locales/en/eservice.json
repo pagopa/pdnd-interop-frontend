@@ -154,7 +154,7 @@
       }
     },
     "step4": {
-      "template": {
+      "eserviceTemplate": {
         "interface": {
           "documentation": {
             "title": "Documentation",
