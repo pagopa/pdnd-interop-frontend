@@ -12,29 +12,29 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const { data: template } = useQuery(
+  const { data: eserviceTemplate } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  const isAlreadyInstantiated = template?.isAlreadyInstantiated ?? false
-  const hasRequesterRiskAnalysis = template?.hasRequesterRiskAnalysis ?? true
+  const isAlreadyInstantiated = eserviceTemplate?.isAlreadyInstantiated ?? false
+  const hasRequesterRiskAnalysis = eserviceTemplate?.hasRequesterRiskAnalysis ?? true
 
   const { actions } = useGetConsumerEServiceTemplateActions(
     eServiceTemplateId,
     isAlreadyInstantiated,
     hasRequesterRiskAnalysis,
-    template?.state
+    eserviceTemplate?.state
   )
   return (
     <PageContainer
-      title={template?.eserviceTemplate.name || ''}
-      isLoading={!template}
+      title={eserviceTemplate?.eserviceTemplate.name || ''}
+      isLoading={!eserviceTemplate}
       topSideActions={actions}
       statusChip={
-        template
+        eserviceTemplate
           ? {
               for: 'eserviceTemplate',
-              state: template?.state,
+              state: eserviceTemplate?.state,
             }
           : undefined
       }
