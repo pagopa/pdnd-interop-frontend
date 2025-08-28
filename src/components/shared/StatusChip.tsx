@@ -157,7 +157,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
   if (props.for === 'eserviceTemplate') {
     color = chipColors['eserviceTemplate'][props.state]
-    label = t(`status.template.${props.state}`)
+    label = t(`status.eserviceTemplate.${props.state}`)
   }
 
   return (

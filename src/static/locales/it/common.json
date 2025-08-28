@@ -120,7 +120,7 @@
       "REVOKED": "revocata",
       "WAITING_FOR_APPROVAL": "in attesa di accettazione"
     },
-    "template": {
+    "eserviceTemplate": {
       "PUBLISHED": "attivo",
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
