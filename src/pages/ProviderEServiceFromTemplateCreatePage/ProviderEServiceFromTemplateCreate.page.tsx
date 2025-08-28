@@ -112,7 +112,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
               ),
             }}
           >
-            {tTemplate('createInstance.templateDescriptionLink', {
+            {tTemplate('createInstance.eserviceTemplateDescriptionLink', {
               templateName: template?.name,
             })}
           </Trans>

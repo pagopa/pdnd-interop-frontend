@@ -253,13 +253,13 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 title={tDrawer('updateEServiceTemplateDescriptionDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateDescriptionDrawer.subtitle')}
                 label={tDrawer(
-                  'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.label'
+                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.label'
                 )}
                 infoLabel={tDrawer(
-                  'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.infoLabel'
+                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.infoLabel'
                 )}
                 validateLabel={tDrawer(
-                  'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.validation.sameValue'
+                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.validation.sameValue'
                 )}
               />
               <UpdateDescriptionDrawer
@@ -270,12 +270,14 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 onSubmit={handleIntendedTargetUpdate}
                 title={tDrawer('updateEServiceTemplateAudienceDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateAudienceDrawer.subtitle')}
-                label={tDrawer('updateEServiceTemplateAudienceDrawer.templateAudienceField.label')}
+                label={tDrawer(
+                  'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.label'
+                )}
                 infoLabel={tDrawer(
-                  'updateEServiceTemplateAudienceDrawer.templateAudienceField.infoLabel'
+                  'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.infoLabel'
                 )}
                 validateLabel={tDrawer(
-                  'updateEServiceTemplateAudienceDrawer.templateAudienceField.validation.sameValue'
+                  'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.validation.sameValue'
                 )}
               />
             </>

@@ -79,7 +79,7 @@
       "eserviceTemplateUsingTenant": "Tenant",
       "eserviceTemplateInstanceVersion": "Version",
       "eserviceTemplateInstanceState": "Instance's state",
-      "templateName": "Template"
+      "eserviceTemplateName": "Template"
     }
   },
   "status": {

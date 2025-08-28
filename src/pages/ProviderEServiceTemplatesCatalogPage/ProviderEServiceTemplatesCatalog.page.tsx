@@ -51,7 +51,7 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
     },
     {
       name: 'creatorsIds',
-      label: tEServiceTemplate('templateProviderField.label'),
+      label: tEServiceTemplate('eserviceTemplateProviderField.label'),
       type: 'autocomplete-multiple',
       options: templateProducersOptions,
       onTextInputChange: setEServiceTemplateProducersAutocompleteInput,

@@ -360,7 +360,7 @@
         "version": {
           "label": "Stai vedendo la versione"
         },
-        "eserviceTempalteName": {
+        "eserviceTemplateName": {
           "label": "Riferimento template"
         },
         "eserviceName": {
