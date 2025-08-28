@@ -38,12 +38,12 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { activeStep, ...stepProps } = useActiveStep()
   const generatePath = useGeneratePath()
 
-  const { data: template } = useQuery({
+  const { data: eserviceTemplate } = useQuery({
     ...EServiceTemplateQueries.getSingleByEServiceTemplateId(eServiceTemplateId),
   })
 
   const steps: Array<StepperStep> =
-    template?.mode === 'DELIVER'
+    eserviceTemplate?.mode === 'DELIVER'
       ? [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
           { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
@@ -66,13 +66,13 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
 
   const { component: Step } = steps[activeStep]
 
-  const isTemplateReady = Boolean(template)
+  const isTemplateReady = Boolean(eserviceTemplate)
 
-  const activeTemplateversionId = template?.versions.find((v) => v.state === 'PUBLISHED')
+  const activeTemplateversionId = eserviceTemplate?.versions.find((v) => v.state === 'PUBLISHED')
     ?.id as string
 
   const stepsLoadingSkeletons =
-    template?.mode === 'DELIVER'
+    eserviceTemplate?.mode === 'DELIVER'
       ? [
           <EServiceCreateStepGeneralSkeleton key={1} />,
           <EServiceCreateStepVersionSkeleton key={2} />,
@@ -103,7 +103,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
                   href={
                     '/ui' +
                     generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
-                      eServiceTemplateId: template?.id as string,
+                      eServiceTemplateId: eserviceTemplate?.id as string,
                       eServiceTemplateVersionId: activeTemplateversionId,
                     })
                   }
@@ -113,7 +113,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
             }}
           >
             {tTemplate('createInstance.eserviceTemplateDescriptionLink', {
-              templateName: template?.name,
+              templateName: eserviceTemplate?.name,
             })}
           </Trans>
         )
@@ -126,9 +126,9 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
       <Stepper steps={steps} activeIndex={activeStep} />
       {isTemplateReady && (
         <EServiceCreateContextProvider
-          template={template}
+          eserviceTemplate={eserviceTemplate}
           descriptor={undefined}
-          eserviceMode={template?.mode as EServiceMode}
+          eserviceMode={eserviceTemplate?.mode as EServiceMode}
           onEserviceModeChange={undefined}
           {...stepProps}
         >
