@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
-import { notificationServices } from './index'
+import { NotificationServices } from './index'
 function useUpdateNotificationUserConfigs() {
   return useMutation({
-    mutationFn: notificationServices.updateUserNotificationConfiguration,
+    mutationFn: NotificationServices.updateUserNotificationConfiguration,
   })
 }
 
