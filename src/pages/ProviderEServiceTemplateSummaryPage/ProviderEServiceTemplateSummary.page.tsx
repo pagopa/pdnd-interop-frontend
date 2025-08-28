@@ -28,12 +28,12 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const { mutate: deleteVersion } = EServiceTemplateMutations.useDeleteVersionDraft()
   const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
 
-  const { data: template, isLoading } = useQuery(
+  const { data: eserviceTemplate, isLoading } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
   const handleDeleteDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
 
     deleteVersion(
       { eServiceTemplateId, eServiceTemplateVersionId },
@@ -42,7 +42,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const handleEditDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
     navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
       params: {
         eServiceTemplateId: eServiceTemplateId,
@@ -53,7 +53,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const handlePublishDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
 
     publishVersion(
       {
@@ -73,16 +73,16 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const canBePublished = () => {
-    return !!template?.interface
+    return !!eserviceTemplate?.interface
   }
 
-  const isReceiveMode = template?.eserviceTemplate.mode === 'RECEIVE'
+  const isReceiveMode = eserviceTemplate?.eserviceTemplate.mode === 'RECEIVE'
 
   return (
     <PageContainer
       title={t('summary.title', {
-        eserviceTemplateName: template?.eserviceTemplate.name,
-        versionEserviceTemplateNumber: template?.version ?? '1',
+        eserviceTemplateName: eserviceTemplate?.eserviceTemplate.name,
+        versionEserviceTemplateNumber: eserviceTemplate?.version ?? '1',
       })}
       backToAction={{
         label: t('backToListBtn'),

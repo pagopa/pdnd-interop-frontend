@@ -10,11 +10,11 @@ export const ProviderEServiceTemplateRiskAnalysisSummaryList: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.riskAnalysisSummaryList' })
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
-  const { data: template } = useSuspenseQuery(
+  const { data: eserviceTemplate } = useSuspenseQuery(
     EServiceTemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
   )
 
-  const riskAnalysisList = template.eserviceTemplate.riskAnalysis
+  const riskAnalysisList = eserviceTemplate.eserviceTemplate.riskAnalysis
 
   return (
     <Stack spacing={3} divider={<Divider flexItem />}>

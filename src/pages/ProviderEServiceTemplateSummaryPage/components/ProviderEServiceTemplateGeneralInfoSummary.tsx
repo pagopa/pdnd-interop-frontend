@@ -15,7 +15,7 @@ export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.generalInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
-  const { data: template } = useSuspenseQuery(
+  const { data: eserviceTemplate } = useSuspenseQuery(
     EServiceTemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
   )
 
@@ -23,16 +23,18 @@ export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
     <Stack spacing={2}>
       <InformationContainer
         label={t('description.label')}
-        content={template.eserviceTemplate.description}
+        content={eserviceTemplate.eserviceTemplate.description}
       />
       <InformationContainer
         label={t('apiTechnology.label')}
-        content={template.eserviceTemplate.technology}
+        content={eserviceTemplate.eserviceTemplate.technology}
       />
       {isSignalHubFlagEnabled && (
         <InformationContainer
           label={t('isSignalHubEnabled.label')}
-          content={t(`isSignalHubEnabled.value.${template.eserviceTemplate.isSignalHubEnabled}`)}
+          content={t(
+            `isSignalHubEnabled.value.${eserviceTemplate.eserviceTemplate.isSignalHubEnabled}`
+          )}
         />
       )}
     </Stack>

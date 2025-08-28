@@ -12,22 +12,22 @@ export const ProviderEServiceTemplateVersionInfoSummary: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
-  const { data: template } = useSuspenseQuery(
+  const { data: eserviceTemplate } = useSuspenseQuery(
     EServiceTemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
   )
 
-  const voucherLifespan = secondsToMinutes(template.voucherLifespan)
-  const hasManualApproval = template.agreementApprovalPolicy === 'MANUAL'
+  const voucherLifespan = secondsToMinutes(eserviceTemplate.voucherLifespan)
+  const hasManualApproval = eserviceTemplate.agreementApprovalPolicy === 'MANUAL'
 
   return (
     <Stack spacing={2}>
       <InformationContainer
         label={t('description.label')}
-        content={template.eserviceTemplate.description ?? 'n/a'}
+        content={eserviceTemplate.eserviceTemplate.description ?? 'n/a'}
       />
       <InformationContainer
         label={t('audience.label')}
-        content={template.eserviceTemplate.intendedTarget}
+        content={eserviceTemplate.eserviceTemplate.intendedTarget}
       />
       <InformationContainer
         label={t('voucherLifespan.label')}
@@ -38,15 +38,17 @@ export const ProviderEServiceTemplateVersionInfoSummary: React.FC = () => {
       <InformationContainer
         label={t('dailyCallsPerConsumer.label')}
         content={t('dailyCallsPerConsumer.value', {
-          value: template.dailyCallsPerConsumer
-            ? formatThousands(template.dailyCallsPerConsumer)
+          value: eserviceTemplate.dailyCallsPerConsumer
+            ? formatThousands(eserviceTemplate.dailyCallsPerConsumer)
             : 'n/a',
         })}
       />
       <InformationContainer
         label={t('dailyCallsTotal.label')}
         content={t('dailyCallsTotal.value', {
-          value: template.dailyCallsTotal ? formatThousands(template.dailyCallsTotal) : 'n/a',
+          value: eserviceTemplate.dailyCallsTotal
+            ? formatThousands(eserviceTemplate.dailyCallsTotal)
+            : 'n/a',
         })}
       />
       <InformationContainer
