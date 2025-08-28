@@ -24,8 +24,8 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
         {subsection.components.map((component) => (
           <RHFSwitch
             sx={{ mt: 1, mb: 1 }}
-            key={component.name}
-            name={component.name}
+            key={component.key}
+            name={component.key}
             label={
               <SwitchLabelDescription label={component.title} description={component.description} />
             }
