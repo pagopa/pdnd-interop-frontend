@@ -79,7 +79,9 @@
       "eserviceTemplateUsingTenant": "Ente",
       "eserviceTemplateInstanceVersion": "Versione template",
       "eserviceTemplateInstanceState": "Stato istanza",
-      "eserviceTemplateName": "Template"
+      "eserviceTemplateName": "Template",
+      "targetOrganization": "Destinazione ente",
+      "purposeTemplateName": "Nome template finalità"
     }
   },
   "status": {

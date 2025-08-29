@@ -1,0 +1,24 @@
+{
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Search by name"
+      },
+      "eserviceField": {
+        "label": "Search by e-service"
+      },
+      "statusField": {
+        "label": "Filter by status",
+        "optionLabels": {
+          "ACTIVE": "Active",
+          "DRAFT": "Draft",
+          "SUSPENDED": "Suspended",
+          "ARCHIVED": "Archived"
+        }
+      }
+    },
+    "purposeTemplatesTable": {
+      "noResultsLabel": "The current search returned no results."
+    }
+  }
+}
