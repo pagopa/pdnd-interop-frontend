@@ -954,5 +954,70 @@
         "description": "By clicking \"confirm\",  this e-service template version will be reactivated. All the Subscribers that have an active fruition request for this e-service template version will be able to access it"
       }
     }
+  },
+  "purposeTemplate": {
+    "createDraft": {
+      "loading": "Creating the draft",
+      "outcome": {
+        "error": "The facilitated purpose template draft could not be created. Please try again!"
+      }
+    },
+    "updateDraft": {
+      "loading": "Updating the draft",
+      "outcome": {
+        "error": "The facilitated purpose template draft could not be updated. Please try again!"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Deleting the facilitated purpose template draft",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully deleted",
+        "error": "The facilitated purpose template could not be deleted. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm deletion of the facilitated purpose template",
+        "description": "By clicking \"confirm\" this facilitated purpose template will be deleted and cannot be recovered."
+      }
+    },
+    "suspendPurposeTemplate": {
+      "loading": "Suspending the purpose",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully suspended.",
+        "error": "The template could not be suspended. Please try again later."
+      },
+      "confirmDialog": {
+        "title": "Confirm template suspension",
+        "description": "By clicking \"confirm\" this template will be suspended. No user will be able to use this template until it is reactivated."
+      }
+    },
+    "activatePurposeTemplate": {
+      "loading": "Publishing the purpose",
+      "outcome": {
+        "success": "The purpose is now published. Note: if the number of calls exceeds the limit set by the provider, their approval will be required to support that load.",
+        "error": "The purpose could not be reactivated. Please try again! If this is the first activation, make sure all required fields for the purpose are filled out."
+      },
+      "confirmDialog": {
+        "title": "Confirm purpose activation",
+        "description": "By clicking \"confirm\" this purpose will be activated. All clients associated by the consumer will have access to the provider’s e-service with the defined number of calls."
+      }
+    },
+    "publishDraft": {
+      "loading": "Publishing the facilitated purpose template",
+      "outcome": {
+        "success": "The facilitated purpose template is now published.",
+        "error": "The facilitated purpose template could not be published. Make sure all required fields for the purpose are filled out."
+      }
+    },
+    "archivePurposeTemplate": {
+      "loading": "Archiving the facilitated purpose template",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully archived.",
+        "error": "The template could not be archived. Please try again later."
+      },
+      "confirmDialog": {
+        "title": "Confirm template archiving",
+        "description": "By clicking \"confirm\" this template will be archived. Once archived, the template can no longer be used."
+      }
+    }
   }
 }
