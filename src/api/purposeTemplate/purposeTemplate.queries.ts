@@ -1,10 +1,10 @@
 import { queryOptions } from '@tanstack/react-query'
 import { PurposeTemplateServices } from './purposeTemplate.services'
 
-function getProviderPurposeTemplatesList(/*params: GetProducerPurposesParams*/) {
+function getConsumerPurposeTemplatesList(/*params: GetProducerPurposesParams*/) {
   return queryOptions({
     queryKey: ['PurposeTemplateGetProviderPurposeTemplatesList' /*, params*/],
-    queryFn: () => PurposeTemplateServices.getProviderPurposeTemplatesList(/*params*/),
+    queryFn: () => PurposeTemplateServices.getConsumerPurposeTemplatesList(/*params*/),
   })
 }
 
@@ -30,7 +30,7 @@ function getSingle(id: string) {
 }
 
 export const PurposeTemplateQueries = {
-  getProviderPurposeTemplatesList,
+  getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
   getPurposeTemplateEservices,
   getSingle,

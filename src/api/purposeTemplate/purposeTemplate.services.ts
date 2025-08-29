@@ -10,7 +10,7 @@ import {
   UpdateEServiceDescriptorPurposeTemplateSeed,
 } from './mockedResponses'
 
-async function getProviderPurposeTemplatesList(/* TODO params: GetProducerEServicesParams*/) {
+async function getConsumerPurposeTemplatesList(/* TODO params: GetProducerEServicesParams*/) {
   //   const response = await axiosInstance.get<ProducerPurposeTemplates>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
   //     { params }
@@ -139,7 +139,7 @@ async function archivePurposeTemplate({ id }: { id: string }) {
 }
 
 export const PurposeTemplateServices = {
-  getProviderPurposeTemplatesList,
+  getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
   getPurposeTemplateEservices,
   getSingle,

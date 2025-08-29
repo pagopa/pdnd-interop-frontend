@@ -1,1 +1,24 @@
-{}
+{
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Cerca per nome"
+      },
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "statusField": {
+        "label": "Filtra per stato",
+        "optionLabels": {
+          "ACTIVE": "Attivo",
+          "DRAFT": "In bozza",
+          "SUSPENDED": "Sospeso",
+          "ARCHIVED": "Archiviato"
+        }
+      }
+    },
+    "purposeTemplatesTable": {
+      "noResultsLabel": "La ricerca corrente non ha prodotto risultati."
+    }
+  }
+}
