@@ -84,7 +84,7 @@ const HamburgerBox: React.FC<HamburgerMenuBoxProps> = ({ open, handleSidebarOpen
   const theme = useTheme()
   const styles = sidebarStyles(theme, open)
   const { t } = useTranslation('sidebar')
-  const tooltipTitle = t(!open ? 'collapse' : 'expand')
+  const tooltipTitle = t(!open ? 'expand' : 'collapse')
 
   return (
     <Box sx={styles.hamburgerBox} data-testid="hamburger-box-icon">
