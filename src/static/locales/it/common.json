@@ -127,6 +127,12 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "DEPRECATED": "deprecato"
+    },
+    "purposeTemplate": {
+      "ACTIVE": "attivo",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospeso",
+      "ARCHIVED": "archiviato"
     }
   },
   "userProductRole": {
