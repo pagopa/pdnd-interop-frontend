@@ -1,4 +1,5 @@
 {
+  "backToListBtn": "Torna ai template",
   "list": {
     "filters": {
       "nameField": {
@@ -19,6 +20,61 @@
     },
     "purposeTemplatesTable": {
       "noResultsLabel": "The current search returned no results."
+    }
+  },
+  "create": {
+    "emptyTitle": "Create purpose template",
+    "stepper": {
+      "step1Label": "General",
+      "step2Label": "Suggested e-services",
+      "step3Label": "Risk analysis"
+    },
+    "step1": {
+      "detailsTitle": "General informations",
+      "purposeNameField": {
+        "label": "Purpose name",
+        "infoLabel": "Min 5 characters, max 60 characters"
+      },
+      "purposeDescriptionField": {
+        "label": "Purpose description (required)",
+        "infoLabel": "Min 10 characters, max 250 characters"
+      },
+      "dataAccessField": {
+        "radioButton": {
+          "label": "Indicate whether access to the data made available through the use of this E-service is free of charge.",
+          "true": "Yes",
+          "false": "No"
+        },
+        "textField": {
+          "label": "Justification for free-of-charge access (required)",
+          "infoLabel": "You are required to specify whether the provision of data free of charge is due to a legal exemption/exclusion or other reason. Min 10 characters, max 250 characters."
+        }
+      },
+      "APICallsField": {
+        "label": "How many API calls per day do you suggest to the user? (optional)"
+      }
+    },
+    "step2": {
+      "detailsTitle": "Suggested e-services for this puspose template",
+      "detailsDescription": "Are there any e-services or e-service templates that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
+      "addBtn": "Add e-service",
+      "autocompleteInput": {
+        "label": "E-service or e-service template to associate"
+      }
+    },
+    "step3": {
+      "detailsTitle": "Risk Analysis",
+      "detailsDescription": "The questionnaire questions will vary based on the answers provided as you go. Changing the answer to a previous question may alter the following questions.",
+      "alert": "Warning: Do not enter personal data in the free text fields",
+      "switchLabel": "Assign the completion of this item to the template user",
+      "addAnnotationBtn": "Add annotations and documentation",
+      "editAnnotationBtn": "Edit annotations and documentation",
+      "deleteAnnotationBtn": "Remove annotations",
+      "annotationSectionTitle": "Annotations provided by the creator",
+      "addAnswerBtn": "Add answer"
+    },
+    "summary": {
+      "title": "Summary"
     }
   }
 }

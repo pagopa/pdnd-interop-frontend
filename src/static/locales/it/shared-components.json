@@ -215,6 +215,17 @@
       "approveAndPublish": "Approva e pubblica"
     }
   },
+  "dialogPurposeTemplatesTenantKind": {
+    "title": "Seleziona la tipologia di ente",
+    "content": {
+      "description": "A chi si rivolge il template che stai realizzando?",
+      "label": "Destinazione tipologia ente",
+      "options": {
+        "labelPA": "Pubbliche Amministrazioni",
+        "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico"
+      }
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
@@ -411,6 +422,8 @@
     "WATCH_RISK_ANALYSIS_FOR_ESERVICE": "Analisi del rischio",
     "DEVELOPER_TOOLS": "Tool per lo sviluppo",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio",
-    "CLIENT_MANAGEMENT": "Gestione dei client"
+    "CLIENT_MANAGEMENT": "Gestione dei client",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "I miei template finalità",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Template finalità"
   }
 }
