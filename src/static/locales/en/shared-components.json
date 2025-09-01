@@ -215,6 +215,17 @@
       "approveAndPublish": "Approve and publish"
     }
   },
+  "dialogPurposeTemplatesTenantKind": {
+    "title": "Select the type of entity",
+    "content": {
+      "description": "Who is the template you are creating intended for?",
+      "label": "Target entity type",
+      "options": {
+        "labelPA": "Public Administrations",
+        "labelNotPA": "Public service managers, Publicly controlled companies"
+      }
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -411,6 +422,8 @@
     "WATCH_RISK_ANALYSIS_FOR_ESERVICE": "Risk analysis",
     "DEVELOPER_TOOLS": "Developer tools",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export risk analysis",
-    "CLIENT_MANAGEMENT": "Client management"
+    "CLIENT_MANAGEMENT": "Client management",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "My purpose templates",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Purpose template"
   }
 }

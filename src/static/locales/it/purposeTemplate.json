@@ -1,4 +1,5 @@
 {
+  "backToListBtn": "Torna ai template",
   "list": {
     "filters": {
       "nameField": {
@@ -19,6 +20,61 @@
     },
     "purposeTemplatesTable": {
       "noResultsLabel": "La ricerca corrente non ha prodotto risultati."
+    }
+  },
+  "create": {
+    "emptyTitle": "Crea template finalità",
+    "stepper": {
+      "step1Label": "Generale",
+      "step2Label": "E-service suggeriti",
+      "step3Label": "Analisi del rischio"
+    },
+    "step1": {
+      "detailsTitle": "Informazioni generali",
+      "purposeNameField": {
+        "label": "Nome finalità",
+        "infoLabel": "Min 5 caratteri, max 60 caratteri"
+      },
+      "purposeDescriptionField": {
+        "label": "Descrizione finalità (richiesto)",
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
+      },
+      "dataAccessField": {
+        "radioButton": {
+          "label": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente E-service è a titolo gratuito",
+          "true": "Sì",
+          "false": "No"
+        },
+        "textField": {
+          "label": "Motivazione titolo gratuito (richiesto)",
+          "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
+        }
+      },
+      "APICallsField": {
+        "label": "Quante chiamate API/giorno suggerisci al fruitore? (opzionale)"
+      }
+    },
+    "step2": {
+      "detailsTitle": "E-service suggeriti per questo template",
+      "detailsDescription": "Ci sono e-service o template e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
+      "addBtn": "Aggiungi e-service",
+      "autocompleteInput": {
+        "label": "E-service o template e-service da associare"
+      }
+    },
+    "step3": {
+      "detailsTitle": "Analisi del rischio",
+      "detailsDescription": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
+      "alert": "Attenzione non inserire dati personali all’interno dei campi liberi di testo",
+      "switchLabel": "Assegna la compilazione di questo elemento all’utilizzatore del template",
+      "addAnnotationBtn": "Aggiungi annotazioni e documentazione",
+      "editAnnotationBtn": "Modifica annotazioni e documentazione",
+      "deleteAnnotationBtn": "Rimuovi annotazioni",
+      "annotationSectionTitle": "Annotazioni fornite dal creatore",
+      "addAnswerBtn": "Aggiungi risposta"
+    },
+    "summary": {
+      "title": "Riepilogo"
     }
   }
 }
