@@ -14,6 +14,7 @@ type ConsumerPurposeTemplatesTableProps = {
 export const ConsumerPurposeTemplateTable: React.FC<ConsumerPurposeTemplatesTableProps> = ({
   purposeTemplates,
 }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'table' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const headLabels = [
@@ -24,7 +25,11 @@ export const ConsumerPurposeTemplateTable: React.FC<ConsumerPurposeTemplatesTabl
   ]
 
   return (
-    <Table headLabels={headLabels} isEmpty={purposeTemplates && purposeTemplates.length === 0}>
+    <Table
+      headLabels={headLabels}
+      isEmpty={purposeTemplates && purposeTemplates.length === 0}
+      noDataLabel={t('noDataLabel')}
+    >
       {purposeTemplates?.map((purposeTemplate) => (
         <ConsumerPurposeTemplateTableRow
           key={purposeTemplate.id}
