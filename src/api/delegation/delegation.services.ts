@@ -17,7 +17,7 @@ import type {
 } from '../api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { EServiceServices } from '../eservice'
-import { TemplateServices } from '../template'
+import { EServiceTemplateServices } from '../eserviceTemplate'
 
 async function getList(params: GetDelegationsParams) {
   const response = await axiosInstance.get<CompactDelegations>(
@@ -157,7 +157,7 @@ async function createProducerDelegationAndEserviceFromTemplate({
     eServiceTemplateId,
     ...crateDraftPayload,
   }
-  const response = await TemplateServices.createInstanceFromEServiceTemplate(requestPayload)
+  const response = await EServiceTemplateServices.createInstanceFromEServiceTemplate(requestPayload)
   //!!! Temporary, in order to avoid eventual consistency issues.
   await waitFor(4000)
   const delegationParams = {

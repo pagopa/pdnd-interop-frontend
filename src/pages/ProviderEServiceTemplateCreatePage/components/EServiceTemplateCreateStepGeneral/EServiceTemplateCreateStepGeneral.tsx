@@ -17,7 +17,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { AuthHooks } from '@/api/auth'
 import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
@@ -32,43 +32,46 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
 }
 
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const navigate = useNavigate()
 
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
   const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   const {
-    templateVersion,
+    eserviceTemplateVersion,
     areEServiceTemplateGeneralInfoEditable,
     forward,
     eserviceTemplateMode,
     onEserviceTemplateModeChange,
   } = useEServiceTemplateCreateContext()
 
-  const { mutate: updateDraft } = TemplateMutations.useUpdateDraft()
-  const { mutate: createDraft } = TemplateMutations.useCreateDraft()
+  const { mutate: updateDraft } = EServiceTemplateMutations.useUpdateDraft()
+  const { mutate: createDraft } = EServiceTemplateMutations.useCreateDraft()
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
-    name: templateVersion?.eserviceTemplate.name ?? '',
-    description: templateVersion?.eserviceTemplate.description ?? '',
-    intendedTarget: templateVersion?.eserviceTemplate.intendedTarget ?? '',
-    technology: templateVersion?.eserviceTemplate.technology ?? 'REST',
+    name: eserviceTemplateVersion?.eserviceTemplate.name ?? '',
+    description: eserviceTemplateVersion?.eserviceTemplate.description ?? '',
+    intendedTarget: eserviceTemplateVersion?.eserviceTemplate.intendedTarget ?? '',
+    technology: eserviceTemplateVersion?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
-    isSignalHubEnabled: templateVersion?.eserviceTemplate.isSignalHubEnabled ?? false,
+    isSignalHubEnabled: eserviceTemplateVersion?.eserviceTemplate.isSignalHubEnabled ?? false,
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
-    // If we are editing an existing e-service templateVersion, we update the draft
-    if (templateVersion) {
+    // If we are editing an existing e-service eserviceTemplateVersion, we update the draft
+    if (eserviceTemplateVersion) {
       // If nothing has changed skip the update call
-      const isEServiceTemplateTheSame = compareObjects(formValues, templateVersion.eserviceTemplate)
+      const isEServiceTemplateTheSame = compareObjects(
+        formValues,
+        eserviceTemplateVersion.eserviceTemplate
+      )
 
       if (!isEServiceTemplateTheSame)
         updateDraft(
-          { eServiceTemplateId: templateVersion.eserviceTemplate.id, ...formValues },
+          { eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id, ...formValues },
           { onSuccess: forward }
         )
       else forward()
@@ -76,7 +79,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
       return
     }
 
-    // If we are creating a new e-service templateVersion, we create a new draft
+    // If we are creating a new e-service eserviceTemplateVersion, we create a new draft
     createDraft(formValues, {
       onSuccess({ id, versionId }) {
         navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {

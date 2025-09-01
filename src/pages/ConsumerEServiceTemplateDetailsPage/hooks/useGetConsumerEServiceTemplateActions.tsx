@@ -12,7 +12,7 @@ export function useGetConsumerEServiceTemplateActions(
   hasRequesterRiskAnalysis: boolean,
   activeVersionState?: EServiceTemplateVersionState | undefined
 ): { actions: Array<ActionItemButton> } {
-  const { t } = useTranslation('template', { keyPrefix: 'actions' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'actions' })
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()

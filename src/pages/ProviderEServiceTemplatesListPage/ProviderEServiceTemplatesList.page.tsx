@@ -7,15 +7,15 @@ import type { ActionItemButton } from '@/types/common.types'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { TemplateTable, TemplateTableSkeleton } from './components'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateTable, TemplateTableSkeleton } from './components'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplatesListPage: React.FC = () => {
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesList' })
   const { t: tCommon } = useTranslation('common')
-  const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
+  const { t: tEServiceTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
   const navigate = useNavigate()
 
   const topSideActions: Array<ActionItemButton> = [
@@ -29,12 +29,12 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetProducerEServicesParams, 'limit' | 'offset'>
-  >([{ name: 'q', label: tTemplate('nameField.label'), type: 'freetext' }])
+  >([{ name: 'q', label: tEServiceTemplate('nameField.label'), type: 'freetext' }])
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
   const { data: totalPageCount = 0 } = useQuery({
-    ...TemplateQueries.getProviderTemplatesList(queryParams),
+    ...EServiceTemplateQueries.getProviderEServiceTemplatesList(queryParams),
     placeholderData: keepPreviousData,
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
@@ -53,10 +53,12 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
 }
 
 const TemplateTableWrapper: React.FC<{ params: GetProducerEServicesParams }> = ({ params }) => {
-  const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesList(params))
+  const { data, isFetching } = useQuery(
+    EServiceTemplateQueries.getProviderEServiceTemplatesList(params)
+  )
 
   if (!data && isFetching) return <TemplateTableSkeleton />
-  return <TemplateTable templates={data?.results ?? []} />
+  return <EServiceTemplateTable eserviceTemplates={data?.results ?? []} />
 }
 
 export default ProviderEServiceTemplatesListPage

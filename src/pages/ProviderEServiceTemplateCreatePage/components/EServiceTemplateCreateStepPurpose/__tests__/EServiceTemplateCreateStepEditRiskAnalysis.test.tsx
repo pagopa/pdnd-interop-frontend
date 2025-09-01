@@ -7,12 +7,12 @@ import type { EServiceTemplateRiskAnalysis } from '@/api/api.generatedTypes'
 
 // Mocks
 vi.mock('@/api/template', () => ({
-  TemplateMutations: {
+  EServiceTemplateMutations: {
     useUpdateEServiceTemplateRiskAnalysis: () => ({ mutate: vi.fn() }),
   },
 }))
 
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 vi.mock('@/api/purpose', () => ({
   PurposeQueries: {
@@ -64,7 +64,7 @@ describe('EServiceTemplateCreateStepEditRiskAnalysis', () => {
     const onClose = vi.fn()
     const mutate = vi.fn((_, { onSuccess }: { onSuccess: () => void }) => onSuccess())
     // Patch the mocked hook to return our spy
-    TemplateMutations.useUpdateEServiceTemplateRiskAnalysis = () => ({ mutate }) as never
+    EServiceTemplateMutations.useUpdateEServiceTemplateRiskAnalysis = () => ({ mutate }) as never
 
     render(
       <EServiceTemplateCreateStepEditRiskAnalysis
