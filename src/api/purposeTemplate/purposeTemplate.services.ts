@@ -1,13 +1,15 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import type {
+  PurposeTemplateSeed,
+  RiskAnalysisFormTemplateSeed,
+  UpdateEServiceDescriptorPurposeTemplateSeed,
+} from './mockedResponses'
 import {
   eservicesLinkedToPurposeTemplatesMock,
   purposeTemplateEservicesMock,
   purposeTemplateMock,
-  PurposeTemplateSeed,
   purposeTemplatesListMock,
-  RiskAnalysisFormTemplateSeed,
-  UpdateEServiceDescriptorPurposeTemplateSeed,
 } from './mockedResponses'
 
 async function getConsumerPurposeTemplatesList(/* TODO params: GetProducerEServicesParams*/) {

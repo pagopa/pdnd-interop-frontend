@@ -127,6 +127,12 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "DEPRECATED": "deprecated"
+    },
+    "purposeTemplate": {
+      "ACTIVE": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "ARCHIVED": "archived"
     }
   },
   "userProductRole": {
