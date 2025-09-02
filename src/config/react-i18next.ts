@@ -21,6 +21,7 @@ import assistanceEnNs from '@/static/locales/en/assistance.json'
 import keychainEnNs from '@/static/locales/en/keychain.json'
 import eserviceTemplateEnNs from '@/static/locales/en/eserviceTemplate.json'
 import developerToolsEnNs from '@/static/locales/en/developer-tools.json'
+import purposeTemplateEnNs from '@/static/locales/en/purposeTemplate.json'
 
 import pagesItNs from '@/static/locales/it/pages.json'
 import commonItNs from '@/static/locales/it/common.json'
@@ -42,6 +43,7 @@ import keychainItNs from '@/static/locales/it/keychain.json'
 import eserviceTemplateItNs from '@/static/locales/it/eserviceTemplate.json'
 import developerToolsItNs from '@/static/locales/it/developer-tools.json'
 import sidebarNs from '@/static/locales/it/sidebar.json'
+import purposeTemplateItNs from '@/static/locales/it/purposeTemplate.json'
 
 i18n.use(initReactI18next).init({
   debug: false,
@@ -72,6 +74,7 @@ i18n.use(initReactI18next).init({
       eserviceTemplate: eserviceTemplateItNs,
       'developer-tools': developerToolsItNs,
       sidebar: sidebarNs,
+      purposeTemplate: purposeTemplateItNs,
     },
     en: {
       pages: pagesEnNs,
@@ -94,6 +97,7 @@ i18n.use(initReactI18next).init({
       eserviceTemplate: eserviceTemplateEnNs,
       'developer-tools': developerToolsEnNs,
       sidebar: sidebarNs,
+      purposeTemplate: purposeTemplateEnNs,
     },
   },
 })
