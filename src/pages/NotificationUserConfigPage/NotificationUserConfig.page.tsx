@@ -5,10 +5,17 @@ import { Tab } from '@mui/material'
 import { EmailNotificationUserConfigTab } from './components/EmailNotificationUserConfigTab'
 import { InAppNotificationUserConfigTab } from './components/InAppNotificationUserConfigTab'
 import { useTranslation } from 'react-i18next'
+import { NotificationQueries } from '@/api/notification'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('notificationConfig')
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
+
+  const { data } = useQuery({
+    ...NotificationQueries.getUserNotificationConfiguration(),
+    placeholderData: keepPreviousData,
+  })
 
   return (
     <PageContainer
@@ -26,10 +33,11 @@ const NotificationUserConfigPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="inApp">
-          <InAppNotificationUserConfigTab />
+          {/* TODO: Put load skeleton here  */}
+          {data?.inAppConfig && <InAppNotificationUserConfigTab inAppConfig={data.inAppConfig} />}
         </TabPanel>
         <TabPanel value="email">
-          <EmailNotificationUserConfigTab />
+          {data?.emailConfig && <EmailNotificationUserConfigTab emailConfig={data.emailConfig} />}{' '}
         </TabPanel>
       </TabContext>
     </PageContainer>

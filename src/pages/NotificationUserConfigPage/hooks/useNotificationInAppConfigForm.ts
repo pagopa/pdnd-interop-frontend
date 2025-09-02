@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { type NotificationConfigSchema } from '../components/InAppNotificationUserConfigTab'
+import type { NotificationConfig } from '@/api/api.generatedTypes'
 
-export function useNotificationInAppConfigForm() {
+export function useNotificationInAppConfigForm(inAppConfig: NotificationConfig) {
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage.inAppTab' })
 
   const notificationSchema: NotificationConfigSchema = {
@@ -16,16 +17,19 @@ export function useNotificationInAppConfigForm() {
               key: 'eserviceStateChangedToConsumer',
               title: t('subscriber.dataUsage.components.eServiceStateUpdated.label') + '(11)',
               description: t('subscriber.dataUsage.components.eServiceStateUpdated.description'),
+              defaultValue: inAppConfig?.eserviceStateChangedToConsumer,
             },
             {
               key: 'agreementActivatedRejectedToConsumer',
               title: t('subscriber.dataUsage.components.agreementManagement.label') + '(12)',
               description: t('subscriber.dataUsage.components.agreementManagement.description'),
+              defaultValue: inAppConfig?.agreementActivatedRejectedToConsumer,
             },
             {
               key: 'agreementSuspendedUnsuspendedToConsumer',
               title: t('subscriber.dataUsage.components.agreementStateUpdated.label') + '(13)',
               description: t('subscriber.dataUsage.components.agreementStateUpdated.description'),
+              defaultValue: inAppConfig?.agreementSuspendedUnsuspendedToConsumer,
             },
           ],
         },
@@ -37,11 +41,13 @@ export function useNotificationInAppConfigForm() {
               key: 'purposeActivatedRejectedToConsumer',
               title: t('subscriber.purpose.components.purposeManagement.label') + '(15)',
               description: t('subscriber.purpose.components.purposeManagement.description'),
+              defaultValue: inAppConfig?.purposeActivatedRejectedToConsumer,
             },
             {
               key: 'purposeSuspendedUnsuspendedToConsumer',
               title: t('subscriber.purpose.components.purposeStateUpdated.label') + '(16)',
               description: t('subscriber.purpose.components.purposeStateUpdated.description'),
+              defaultValue: inAppConfig?.purposeSuspendedUnsuspendedToConsumer,
             },
           ],
         },
@@ -76,11 +82,13 @@ export function useNotificationInAppConfigForm() {
               key: 'agreementManagementToProducer',
               title: t('provider.agreement.components.agreementRequestReceived.label') + '(03)',
               description: t('provider.agreement.components.agreementRequestReceived.description'),
+              defaultValue: inAppConfig.agreementManagementToProducer,
             },
             {
               key: 'agreementSuspendedUnsuspendedToProducer',
               title: t('provider.agreement.components.agreementStateUpdated.label') + '(04)',
               description: t('provider.agreement.components.agreementStateUpdated.description'),
+              defaultValue: inAppConfig.agreementSuspendedUnsuspendedToProducer,
             },
           ],
         },
@@ -92,6 +100,7 @@ export function useNotificationInAppConfigForm() {
               key: 'purposeStatusChangedToProducer',
               title: t('provider.purpose.components.purposeStateUpdated.label') + '(07)',
               description: t('provider.purpose.components.purposeStateUpdated.description'),
+              defaultValue: inAppConfig.purposeStatusChangedToProducer,
             },
           ],
         },
@@ -107,6 +116,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.clientAndThresholds.components.clientAssociationFromSubscriber.description'
               ),
+              defaultValue: inAppConfig.clientAddedRemovedToProducer,
             },
             {
               key: 'TODO',
@@ -136,6 +146,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.eserviceTemplate.components.instanceFromTemplate.description'
               ),
+              defaultValue: inAppConfig.newEserviceTemplateVersionToInstantiator,
             },
             {
               key: 'eserviceTemplateStatusChangedToInstantiator',
@@ -143,6 +154,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.eserviceTemplate.components.templateStateUpdated.description'
               ),
+              defaultValue: inAppConfig.eserviceTemplateStatusChangedToInstantiator,
             },
             {
               key: 'newTemplateVersion',
@@ -156,6 +168,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.eserviceTemplate.components.templatePropertiesUpdated.description'
               ),
+              defaultValue: inAppConfig.eserviceTemplateNameChangedToInstantiator,
             },
             {
               key: 'templateStatusChangedToProducer',
@@ -165,6 +178,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.eserviceTemplate.components.templateStateArchivedSuspended.description'
               ),
+              defaultValue: inAppConfig.templateStatusChangedToProducer,
             },
           ],
         },
@@ -184,6 +198,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'delegation.delegationAssignment.components.delegationUpdated.description'
               ),
+              defaultValue: inAppConfig.delegationApprovedRejectedToDelegator,
             },
             {
               key: 'eserviceNewVersionSubmittedToDelegator',
@@ -193,6 +208,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'delegation.delegationAssignment.components.eserviceDelegatedCreated.description'
               ),
+              defaultValue: inAppConfig.eserviceNewVersionSubmittedToDelegator,
             },
           ],
         },
@@ -206,6 +222,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'delegation.delegationReceive.components.delegationUpdated.description'
               ),
+              defaultValue: inAppConfig.delegationSubmittedRevokedToDelegate,
             },
             {
               key: 'eserviceNewVersionApprovedRejectedToDelegate',
@@ -215,6 +232,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'delegation.delegationReceive.components.eserviceDelegatedApproval.description'
               ),
+              defaultValue: inAppConfig.eserviceNewVersionApprovedRejectedToDelegate,
             },
           ],
         },
@@ -234,6 +252,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'keyAndAttributes.attributes.components.attributesStateUpdated.description'
               ),
+              defaultValue: inAppConfig.certifiedVerifiedAttributeAssignedRevokedToAssignee,
             },
           ],
         },
@@ -248,6 +267,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'keyAndAttributes.keys.components.clientKeysAssociationUpdated.description'
               ),
+              defaultValue: inAppConfig.clientKeyAddedDeletedToClientUsers,
             },
           ],
         },

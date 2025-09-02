@@ -6,9 +6,12 @@ import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hoo
 import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { useNotificationInAppConfigForm } from '../hooks/useNotificationInAppConfigForm'
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { NotificationQueries } from '@/api/notification'
+import { type NotificationConfig } from '@/api/api.generatedTypes'
+import React from 'react'
 
+type InAppNotificationUserConfigTabProps = {
+  inAppConfig: NotificationConfig
+}
 export type NotificationSubSectionSchema = {
   name: string
   title: string
@@ -16,6 +19,7 @@ export type NotificationSubSectionSchema = {
     key: string
     title: string
     description: string
+    defaultValue?: boolean
   }[]
 }
 export type NotificationSectionSchema = {
@@ -30,16 +34,15 @@ export type NotificationConfigSchema = {
 // TODO: Definire i campi che sono visibili in base al role
 // TODO: Definire POST
 
-export const InAppNotificationUserConfigTab = () => {
+export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfigTabProps> = ({
+  inAppConfig,
+}) => {
   const formMethods = useForm()
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage.inAppTab' })
 
-  // const { data } = useQuery({
-  //   ...NotificationQueries.getUserNotificationConfiguration(),
-  //   placeholderData: keepPreviousData,
-  // })
+  const { notificationSchema } = useNotificationInAppConfigForm(inAppConfig)
 
-  const { notificationSchema } = useNotificationInAppConfigForm()
+  const enableAllNotifications = formMethods.watch('enableShowNotification', true)
 
   return (
     <FormProvider {...formMethods}>
@@ -49,7 +52,8 @@ export const InAppNotificationUserConfigTab = () => {
         </Link>
         <Box sx={{ px: 3, mt: 2 }}>
           <RHFSwitch
-            name="toBeDefined"
+            name="enableShowNotification"
+            defaultChecked={enableAllNotifications}
             label={
               <SwitchLabelDescription
                 label={t('enableAllNotifications.label')}
@@ -58,34 +62,35 @@ export const InAppNotificationUserConfigTab = () => {
             }
           />
 
-          {Object.keys(notificationSchema).map((sectionName) => {
-            return (
-              <Box key={sectionName}>
-                <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
-                  <Box
-                    display="flex"
-                    width="100%"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    sx={{ mb: 4 }}
-                  >
-                    <Stack alignItems="center" direction="row" gap={1}>
-                      <MenuBookIcon />
-                      <Typography variant="button">
-                        {notificationSchema[sectionName].title}
-                      </Typography>
-                    </Stack>
+          {enableAllNotifications &&
+            Object.keys(notificationSchema).map((sectionName) => {
+              return (
+                <Box key={sectionName}>
+                  <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
+                    <Box
+                      display="flex"
+                      width="100%"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      sx={{ mb: 4 }}
+                    >
+                      <Stack alignItems="center" direction="row" gap={1}>
+                        <MenuBookIcon />
+                        <Typography variant="button">
+                          {notificationSchema[sectionName].title}
+                        </Typography>
+                      </Stack>
 
-                    <RHFSwitch sx={{ width: 'auto' }} name="toBeDefined" label="Abilita tutto" />
-                  </Box>
+                      <RHFSwitch sx={{ width: 'auto' }} name="toBeDefined" label="Abilita tutto" />
+                    </Box>
 
-                  {notificationSchema[sectionName].subsections.map((subsection) => (
-                    <NotificationConfigSection key={sectionName} subsection={subsection} />
-                  ))}
-                </Card>
-              </Box>
-            )
-          })}
+                    {notificationSchema[sectionName].subsections.map((subsection) => (
+                      <NotificationConfigSection key={sectionName} subsection={subsection} />
+                    ))}
+                  </Card>
+                </Box>
+              )
+            })}
         </Box>
       </SectionContainer>
     </FormProvider>

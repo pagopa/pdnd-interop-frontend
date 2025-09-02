@@ -1,5 +1,9 @@
+import type { NotificationConfig } from '@/api/api.generatedTypes'
 import { FormProvider, useForm } from 'react-hook-form'
 
+type EmailNotificationUserConfigTabProps = {
+  emailConfig: NotificationConfig
+}
 export type NotificationSectionSchema = {
   title: string
   subsections: {
@@ -51,7 +55,9 @@ const notificationSchema: NotificationConfigSchema = {
   },
 }
 
-export const EmailNotificationUserConfigTab = () => {
+export const EmailNotificationUserConfigTab: React.FC<EmailNotificationUserConfigTabProps> = ({
+  emailConfig,
+}) => {
   const formMethods = useForm()
 
   return (
