@@ -1,3 +1,4 @@
+import { result } from 'lodash'
 import type { TenantKind } from '../api.generatedTypes'
 
 export const purposeTemplatesListMock: Array<PurposeTemplate> = [
@@ -373,6 +374,8 @@ export interface GetConsumerPurposeTemplatesParams {
    * comma separated sequence of consumers IDs
    * @default []
    */
+  eservicesIds?: string[]
+  states?: PurposeTemplateState[]
   offset: number
   /**
    * @format int32
