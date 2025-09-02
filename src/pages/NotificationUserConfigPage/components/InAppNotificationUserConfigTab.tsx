@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { useNotificationInAppConfigForm } from '../hooks/useNotificationInAppConfigForm'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 type InAppNotificationUserConfigTabProps = {
   inAppConfig: NotificationConfig
@@ -19,7 +19,6 @@ export type NotificationSubSectionSchema = {
     key: string
     title: string
     description: string
-    defaultValue?: boolean
   }[]
 }
 export type NotificationSectionSchema = {
@@ -37,12 +36,19 @@ export type NotificationConfigSchema = {
 export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfigTabProps> = ({
   inAppConfig,
 }) => {
-  const formMethods = useForm()
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage.inAppTab' })
 
-  const { notificationSchema } = useNotificationInAppConfigForm(inAppConfig)
+  const { notificationSchema } = useNotificationInAppConfigForm()
 
-  const enableAllNotifications = formMethods.watch('enableShowNotification', true)
+  const formMethods = useForm<NotificationConfig>({
+    defaultValues: inAppConfig,
+  })
+
+  const valueChanged = formMethods.watch()
+
+  useEffect(() => {
+    console.log('valueChanged', valueChanged)
+  }, [valueChanged])
 
   return (
     <FormProvider {...formMethods}>
@@ -52,8 +58,8 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
         </Link>
         <Box sx={{ px: 3, mt: 2 }}>
           <RHFSwitch
-            name="enableShowNotification"
-            defaultChecked={enableAllNotifications}
+            name="todo"
+            defaultChecked={true}
             label={
               <SwitchLabelDescription
                 label={t('enableAllNotifications.label')}
@@ -62,7 +68,7 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
             }
           />
 
-          {enableAllNotifications &&
+          {true &&
             Object.keys(notificationSchema).map((sectionName) => {
               return (
                 <Box key={sectionName}>
