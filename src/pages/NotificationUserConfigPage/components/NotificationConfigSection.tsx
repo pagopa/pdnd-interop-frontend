@@ -1,6 +1,5 @@
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/system'
-import { useFormContext } from 'react-hook-form'
 import { Typography } from '@mui/material'
 import type { NotificationSubSectionSchema } from './InAppNotificationUserConfigTab'
 
@@ -21,7 +20,6 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
             sx={{ mt: 1, mb: 1 }}
             key={component.key}
             name={component.key}
-            defaultChecked={component.defaultValue}
             label={
               <SwitchLabelDescription label={component.title} description={component.description} />
             }
