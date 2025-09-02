@@ -1997,17 +1997,39 @@ export interface Notification {
 }
 
 export interface NotificationConfig {
-  newEServiceVersionPublished: boolean
+  agreementSuspendedUnsuspendedToProducer: boolean
+  agreementManagementToProducer: boolean
+  clientAddedRemovedToProducer: boolean
+  purposeStatusChangedToProducer: boolean
+  templateStatusChangedToProducer: boolean
+  agreementSuspendedUnsuspendedToConsumer: boolean
+  eserviceStateChangedToConsumer: boolean
+  agreementActivatedRejectedToConsumer: boolean
+  purposeActivatedRejectedToConsumer: boolean
+  purposeSuspendedUnsuspendedToConsumer: boolean
+  newEserviceTemplateVersionToInstantiator: boolean
+  eserviceTemplateNameChangedToInstantiator: boolean
+  eserviceTemplateStatusChangedToInstantiator: boolean
+  delegationApprovedRejectedToDelegator: boolean
+  eserviceNewVersionSubmittedToDelegator: boolean
+  eserviceNewVersionApprovedRejectedToDelegate: boolean
+  delegationSubmittedRevokedToDelegate: boolean
+  certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
+  clientKeyAddedDeletedToClientUsers: boolean
 }
 
-export type TenantNotificationConfig = NotificationConfig
+export interface TenantNotificationConfig {
+  enabled: boolean
+}
 
 export interface UserNotificationConfig {
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
 }
 
-export type TenantNotificationConfigUpdateSeed = NotificationConfig
+export interface TenantNotificationConfigUpdateSeed {
+  enabled: boolean
+}
 
 export interface UserNotificationConfigUpdateSeed {
   inAppConfig: NotificationConfig
