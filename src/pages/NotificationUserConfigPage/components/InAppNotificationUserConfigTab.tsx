@@ -1,3 +1,4 @@
+import React, { useCallback, useEffect, useRef } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { SectionContainer } from '@/components/layout/containers'
@@ -7,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { useNotificationInAppConfigForm } from '../hooks/useNotificationInAppConfigForm'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import React, { useEffect } from 'react'
+import { debounce } from 'lodash'
 
 type InAppNotificationUserConfigTabProps = {
   inAppConfig: NotificationConfig
@@ -29,10 +30,6 @@ export type NotificationConfigSchema = {
   [key: string]: NotificationSectionSchema
 }
 
-// TODO: Definire get
-// TODO: Definire i campi che sono visibili in base al role
-// TODO: Definire POST
-
 export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfigTabProps> = ({
   inAppConfig,
 }) => {
@@ -40,15 +37,25 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
 
   const { notificationSchema } = useNotificationInAppConfigForm()
 
-  const formMethods = useForm<NotificationConfig>({
-    defaultValues: inAppConfig,
+  const formMethods = useForm<NotificationConfig & { enableAllNotification: boolean }>({
+    defaultValues: { ...inAppConfig, enableAllNotification: false },
   })
 
   const valueChanged = formMethods.watch()
+  const valuesRef = useRef(valueChanged)
+  valuesRef.current = valueChanged
+
+  const debounceFn = useCallback(
+    debounce(() => {
+      console.log('value has been changed: call API', valuesRef.current)
+      //TODO: Dedcide timing in ms
+    }, 1000),
+    []
+  )
 
   useEffect(() => {
-    console.log('valueChanged', valueChanged)
-  }, [valueChanged])
+    if (valueChanged) debounceFn()
+  }, [debounceFn, valueChanged])
 
   return (
     <FormProvider {...formMethods}>
@@ -58,8 +65,7 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
         </Link>
         <Box sx={{ px: 3, mt: 2 }}>
           <RHFSwitch
-            name="todo"
-            defaultChecked={true}
+            name="enableAllNotification"
             label={
               <SwitchLabelDescription
                 label={t('enableAllNotifications.label')}
@@ -68,7 +74,7 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
             }
           />
 
-          {true &&
+          {valueChanged.enableAllNotification &&
             Object.keys(notificationSchema).map((sectionName) => {
               return (
                 <Box key={sectionName}>
