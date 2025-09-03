@@ -22,7 +22,6 @@ import { useDialog } from '@/stores'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { TenantKind } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
-import { EServiceMutations } from '@/api/eservice'
 
 const ConsumerPurposeTemplateListPage: React.FC = () => {
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
