@@ -1,29 +1,29 @@
 import { useTranslation } from 'react-i18next'
-import { TemplateServices } from './template.services'
+import { EServiceTemplateServices } from './eserviceTemplate.services'
 import { useDownloadFile } from '../hooks'
 
 function useDownloadVersionDocument() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.downloadVersionDraftDocument',
   })
-  return useDownloadFile(TemplateServices.downloadVersionDraftDocument, {
+  return useDownloadFile(EServiceTemplateServices.downloadVersionDraftDocument, {
     errorToastLabel: t('outcome.error'),
     loadingLabel: t('loading'),
   })
 }
 
-function useDownloadTemplateConsumerList() {
+function useDownloadEServiceTemplateConsumerList() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.downloadConsumerList',
   })
-  return useDownloadFile(TemplateServices.downloadConsumerList, {
+  return useDownloadFile(EServiceTemplateServices.downloadConsumerList, {
     errorToastLabel: t('outcome.error'),
     successToastLabel: t('outcome.success'),
     loadingLabel: t('loading'),
   })
 }
 
-export const TemplateDownloads = {
+export const EServiceTemplateDownloads = {
   useDownloadVersionDocument,
-  useDownloadTemplateConsumerList,
+  useDownloadEServiceTemplateConsumerList,
 }

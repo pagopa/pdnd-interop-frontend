@@ -1,57 +1,58 @@
 {
   "consumerEServiceCatalog": {
     "title": "Catalogo degli e-service",
-    "description": "In quest'area puoi vedere tutti gli e-service nel catalogo, e aderire a quelli a cui sei interessato"
+    "description": "Il catalogo degli e-service contiene tutte le basi dati che altri enti hanno reso disponibili. Puoi aderire a quelli di tuo interesse."
   },
   "consumerAgreementsList": {
-    "title": "Le tue richieste",
-    "description": "In quest'area puoi gestire tutte le richieste di fruizione che hai sottoscritto"
+    "title": "Richieste di fruizione inoltrate",
+    "description": "Le richieste di fruizione inoltrate verranno raccolte in questa area."
   },
   "providerEServiceList": {
-    "title": "I tuoi e-service",
-    "description": "In quest'area puoi gestire tutti gli e-service che stai erogando"
+    "title": "I miei e-service",
+    "description": "Gestisci ed eroga nuovi e-service da questa area dedicata."
   },
   "providerAgreementsList": {
-    "title": "Richieste di fruizione",
-    "description": "In quest'area puoi gestire tutte le richieste di fruizione che ti sono state inoltrate da enti che intendono fruire dei tuoi e-service"
+    "title": "Richieste di fruizione ricevute",
+    "description": "Consulta e gestisci le richieste che gli enti ti hanno inoltrato per fruire dei tuoi e-service. Le richieste che ricevi sono raccolte in questa area."
   },
   "consumerPurposesList": {
-    "title": "Le tue finalità",
-    "description": "In quest'area puoi i trovare e gestire tutte le finalità che hai creato"
+    "title": "Le mie finalità inoltrate",
+    "description": "Quando le tue richieste di fruizione vengono accettate, dovrai compilare una finalità per descrivere come tratterai i dati che ricevi. Le tue finalità vengono raccolte in questa area."
   },
   "consumerClientList": {
-    "title": "I tuoi client e-service",
-    "description": "Qui puoi gestire i client che ti permettono di ottenere un voucher spendibile presso le API degli e-service degli erogatori"
+    "title": "I miei client API e-service",
+    "description": "I client e-service ti permettono di interfacciarti con le API degli erogatori specificate negli e-service per cui hai una richiesta di fruizione e una finalità attiva. I tuoi client e-service sono raccolti qui."
   },
   "consumerClientM2MList": {
-    "title": "I tuoi client API Interop",
-    "description": "Qui puoi gestire i client che ti permettono di ottenere un voucher spendibile presso le API di PDND Interoperabilità"
+    "title": "I miei client API Interoperabilità",
+    "description": "I client Interoperabilità ti permettono di interfacciarti con le API esposte da PDND Interoperabilità in lettura e scrittura. I tuoi client sono raccolti qui."
   },
   "providerPurposesList": {
-    "title": "Finalità",
-    "description": "Qui puoi gestire le finalità create dai fruitori per i tuoi e-service"
+    "title": "Finalità ricevute",
+    "description": "Gli enti che intendono fruire dei tuoi e-service dovranno indicare come tratteranno i dati che eroghi. Le finalità che ricevi sono raccolte in questa area."
   },
   "consumerDebugVoucher": {
-    "title": "Debug della client assertion",
-    "description": "Se non riesci ad ottenere un voucher e non sai perché, puoi effettuare il debugging con questo simulatore e capire i possibili errori"
+    "title": "Debug client assertion",
+    "description": "Lo strumento di debug ti consente di evidenziare eventuali anomalie contenute nella tua client assertion necessaria per l’ottenimento dell’access token."
   },
   "tenantCertifier": {
     "title": "Ente certificatore",
-    "description": "In questa vista puoi gestire gli attributi certificati che hai creato e la loro assegnazione"
+    "description": "Crea e gestisci gli attributi certificati e assegnali agli enti conformi."
   },
   "providerKeychainsList": {
-    "title": "I tuoi portachiavi",
-    "description": "Qui puoi gestire i tuoi portachiavi"
+    "title": "I miei portachiavi erogatore",
+    "description": "In quest’area puoi visualizzare e gestire i portachiavi associati ai tuoi e-service, caricando le chiavi pubbliche necessarie per la verifica delle risposte da parte dei fruitori."
   },
   "delegations": {
-    "title": "Deleghe",
-    "description": "Qui puoi gestire tutte le deleghe che hai dato o ricevuto da altri enti"
+    "title": "Gestione delle deleghe",
+    "description": "Indica la tua disponibilità alla delega e gestisci le deleghe che hai conferito o ricevuto."
   },
   "providerEServiceTemplatesCatalog": {
     "title": "Catalogo dei template di e-service",
     "description": "I template ti permettono di creare istanze di e-service partendo da un modello preesistente."
   },
   "providerEServiceTemplatesList": {
-    "title": "I tuoi template"
+    "title": "I miei template e-service",
+    "description": "Gestisci ed eroga nuovi template di e-service da questa area dedicata."
   }
 }

@@ -9,13 +9,13 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 
 type ProviderEServiceTemplateUsingTenantsTableRowProps = {
-  templateVersions: CompactEServiceTemplateVersion[]
+  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
   instance: EServiceTemplateInstance
 }
 
 export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
   ProviderEServiceTemplateUsingTenantsTableRowProps
-> = ({ instance, templateVersions }) => {
+> = ({ instance, eserviceTemplateVersions }) => {
   return (
     <TableRow
       key={instance.latestDescriptor?.id}
@@ -24,7 +24,7 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
         `${
           getStateByTemplateVersion(
             instance.latestDescriptor?.templateVersionId as string,
-            templateVersions
+            eserviceTemplateVersions
           ) ?? '-'
         }`,
         instance.latestDescriptor?.state ? (
@@ -47,9 +47,9 @@ export const ProviderEServiceTemplateUsingTenantsTableRowSkeleton: React.FC = ()
 
 const getStateByTemplateVersion = (
   templateVersionId: string,
-  templateVersions: CompactEServiceTemplateVersion[]
+  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
 ) => {
-  const templateVersion = templateVersions.find(
+  const templateVersion = eserviceTemplateVersions.find(
     (templateVersion) => templateVersion.id === templateVersionId
   )
   return templateVersion?.version

@@ -30,7 +30,7 @@ describe('ClientTableRow', () => {
     const user = userEvent.setup()
     await user.click(getByRole('link', { name: 'inspect' }))
 
-    expect(history.location.pathname).toBe('/it/fruizione/interop-m2m/client-id')
+    expect(history.location.pathname).toBe('/it/gestione-client/api-interop/client-id')
   })
 
   it('should navigate to the client edit page (CONSUMER)', async () => {
@@ -46,6 +46,6 @@ describe('ClientTableRow', () => {
     const user = userEvent.setup()
     await user.click(getByRole('link', { name: 'inspect' }))
 
-    expect(history.location.pathname).toBe('/it/fruizione/client/client-id')
+    expect(history.location.pathname).toBe('/it/gestione-client/api-e-service/client-id')
   })
 })
