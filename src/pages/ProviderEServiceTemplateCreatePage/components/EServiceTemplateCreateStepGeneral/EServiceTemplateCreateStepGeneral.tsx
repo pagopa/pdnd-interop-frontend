@@ -18,8 +18,6 @@ import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import { AuthHooks } from '@/api/auth'
-import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
@@ -34,9 +32,6 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
   const navigate = useNavigate()
-
-  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   const {
     eserviceTemplateVersion,
@@ -176,40 +171,36 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
           />
 
-          {isSignalHubFlagEnabled && (
-            <SectionContainer innerSection sx={{ mt: 3 }}>
-              <RHFCheckbox
-                disabled={!areEServiceTemplateGeneralInfoEditable}
-                name="isSignalHubEnabled"
-                label={
-                  <>
+          <SectionContainer innerSection sx={{ mt: 3 }}>
+            <RHFCheckbox
+              disabled={!areEServiceTemplateGeneralInfoEditable}
+              name="isSignalHubEnabled"
+              label={
+                <>
+                  {' '}
+                  <span>
                     {' '}
-                    <span>
-                      {' '}
-                      {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')}{' '}
-                    </span>
-                    <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
+                    {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')}{' '}
+                  </span>
+                  <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
+                    {t(
+                      'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before'
+                    )}{' '}
+                    <IconLink
+                      href={SIGNALHUB_GUIDE_URL}
+                      target="_blank"
+                      endIcon={<LaunchIcon fontSize="small" />}
+                    >
                       {t(
-                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before'
-                      )}{' '}
-                      <IconLink
-                        href={SIGNALHUB_GUIDE_URL}
-                        target="_blank"
-                        endIcon={<LaunchIcon fontSize="small" />}
-                      >
-                        {t(
-                          'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel'
-                        )}
-                      </IconLink>{' '}
-                      {t(
-                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after'
+                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel'
                       )}
-                    </Typography>
-                  </>
-                }
-              />
-            </SectionContainer>
-          )}
+                    </IconLink>{' '}
+                    {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after')}
+                  </Typography>
+                </>
+              }
+            />
+          </SectionContainer>
         </SectionContainer>
 
         <StepActions
