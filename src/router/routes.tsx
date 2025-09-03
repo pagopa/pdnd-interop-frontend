@@ -325,7 +325,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'SUBSCRIBE',
     path: '/fruizione',
-    redirect: 'SUBSCRIBE_CATALOG_LIST',
+    redirect: 'SUBSCRIBE_AGREEMENT_LIST',
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security', 'api'],
@@ -485,7 +485,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'PROVIDE',
     path: '/erogazione',
-    redirect: 'PROVIDE_ESERVICE_TEMPLATE_CATALOG',
+    redirect: 'PROVIDE_ESERVICE_LIST',
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support'],
@@ -565,6 +565,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'CLIENT_MANAGEMENT',
     path: '/gestione-client',
+    redirect: 'SUBSCRIBE_CLIENT_LIST',
     element: <ConsumerClientListPage />,
     public: false,
     hideSideNav: false,

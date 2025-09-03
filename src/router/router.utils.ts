@@ -6,7 +6,7 @@ export const isProviderOrConsumerRoute = memoize((pathname: string): ProviderOrC
     return 'provider'
   }
 
-  if (pathname.includes('fruizione')) {
+  if (pathname.includes('fruizione') || pathname.includes('catalogo-e-service')) {
     return 'consumer'
   }
 
