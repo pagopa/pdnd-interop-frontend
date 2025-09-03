@@ -169,6 +169,7 @@
     "consumerStepperLabel": "E-service access",
     "apiStepperLabel": "API Interop access",
     "actionLabel": "Download",
+    "consultLabel": "Consult",
     "CONSUMER": {
       "title": "Congratulations!",
       "description": "You can access the eservice <strong>{{ eserviceName }}</strong> provided by <strong>{{ producerName }}</strong>",
@@ -197,7 +198,11 @@
       },
       "pullApiSH": {
         "title": "Signals retrieval (Pull API)",
-        "description": "The API that allow consumers to retrieve the signal of data change"
+        "description": "The API that allows consumers to retrieve the signal of data change"
+      },
+      "tracing": {
+        "title": "Tracing",
+        "description": "The API that allows uploading and managing information on the exchange volumes between the provider and the user."
       }
     }
   },
