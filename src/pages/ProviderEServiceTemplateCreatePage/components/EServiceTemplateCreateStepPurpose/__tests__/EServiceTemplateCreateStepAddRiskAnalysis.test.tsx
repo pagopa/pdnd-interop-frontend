@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { EServiceTemplateCreateStepAddRiskAnalysis } from '../EServiceTemplateCreateStepAddRiskAnalysis'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 vi.mock('@/api/template', () => ({
   EServiceTemplateMutations: {
@@ -10,7 +11,6 @@ vi.mock('@/api/template', () => ({
   },
 }))
 
-import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 vi.mock('@/api/purpose', () => ({
   PurposeQueries: {

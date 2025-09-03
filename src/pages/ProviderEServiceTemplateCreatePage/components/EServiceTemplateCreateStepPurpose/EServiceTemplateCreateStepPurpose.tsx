@@ -15,6 +15,7 @@ import type { EServiceTemplateRiskAnalysis, TenantKind } from '@/api/api.generat
 
 export const EServiceTemplateCreateStepPurpose: FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+
   const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
 
   const [riskAnalysisFormState, setRiskAnalysisFormState] = useState<
@@ -48,6 +49,7 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
   }
 
   // Disable the forward button if there are no risk analyses inserted
+
   const isForwardButtonDisabled =
     eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.length === 0
 

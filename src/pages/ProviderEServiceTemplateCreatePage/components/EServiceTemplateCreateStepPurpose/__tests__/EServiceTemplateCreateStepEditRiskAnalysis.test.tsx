@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { EServiceTemplateCreateStepEditRiskAnalysis } from '../EServiceTemplateCreateStepEditRiskAnalysis'
 import type { EServiceTemplateRiskAnalysis } from '@/api/api.generatedTypes'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 // Mocks
 vi.mock('@/api/template', () => ({
@@ -12,7 +13,6 @@ vi.mock('@/api/template', () => ({
   },
 }))
 
-import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 vi.mock('@/api/purpose', () => ({
   PurposeQueries: {
