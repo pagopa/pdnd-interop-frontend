@@ -23,7 +23,7 @@ async function getUserNotificationConfiguration() {
     setTimeout(() => {
       resolve({
         emailConfig: getNotificationConfig(Math.random() < 0.5),
-        inAppConfig: getNotificationConfig(Math.random() < 0.5),
+        inAppConfig: getNotificationConfig(false),
       })
     }, 1000)
   })

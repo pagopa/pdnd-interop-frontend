@@ -6,11 +6,14 @@
     "emailTabTitle": "Email",
     "inAppTab": {
       "title": "Configurazione delle preferenze di notifica in piattaforma",
+      "manualLinkLabel": "Dubbi? Vai sul manuale",
       "description": "Le notifiche di piattaforma ti informeranno sugli eventi che ti riguardano.",
+      "enableSectionAllNotifications": "Abilita tutto",
       "enableAllNotifications": {
         "label": "Abilita la ricezione delle notifiche in piattaforma",
         "description": "Disabilitando questa opzione, non riceverai nessuna notifica in piattaforma"
       },
+
       "subscriber": {
         "title": "Fruizione",
         "dataUsage": {
