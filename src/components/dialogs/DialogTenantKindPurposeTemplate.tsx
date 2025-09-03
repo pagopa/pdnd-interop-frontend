@@ -66,7 +66,6 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
                 name="tenantKind"
                 options={options}
                 label={t('content.label')}
-                onInputChange={(_, value) => console.log(value)}
                 rules={{ required: true }}
               />
             </Stack>
