@@ -12,6 +12,7 @@ import {
   purposeTemplateMock,
   purposeTemplatesListMock,
 } from './mockedResponses'
+import { TenantKind } from '../api.generatedTypes'
 
 async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
   //   const response = await axiosInstance.get<ProducerPurposeTemplates>(
@@ -59,7 +60,7 @@ async function updatePurposeTemplateRiskAnalysis({
   return console.log('risk analysis updated!')
 }
 
-async function createDraft(payload: PurposeTemplateSeed) {
+async function createDraft(payload: PurposeTemplatePayload) {
   //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
   //     payload
@@ -73,7 +74,7 @@ async function updateDraft({
   ...payload
 }: {
   id: string
-} & UpdateEServiceDescriptorPurposeTemplateSeed) {
+} & PurposeTemplateSeed) {
   //   return await axiosInstance.post<void>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}`,
   //     payload

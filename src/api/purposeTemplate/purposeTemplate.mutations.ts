@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeTemplateServices } from './purposeTemplate.services'
+import { TenantKind } from '../api.generatedTypes'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
