@@ -9,7 +9,7 @@ import { NotificationQueries } from '@/api/notification'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 
 const NotificationUserConfigPage: React.FC = () => {
-  const { activeTab, updateActiveTab } = useActiveTab('notificationConfig')
+  const { activeTab, updateActiveTab } = useActiveTab('inApp')
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
 
   const { data } = useQuery({
