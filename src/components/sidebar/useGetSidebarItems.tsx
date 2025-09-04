@@ -7,8 +7,16 @@ import React from 'react'
 import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import DnsIcon from '@mui/icons-material/Dns'
-import { ConsumerIcon, ProviderIcon, CatalogIcon, DeveloperToolIcon, MyTenantIcon } from '@/icons'
+import {
+  ConsumerIcon,
+  ProviderIcon,
+  CatalogIcon,
+  DeveloperToolIcon,
+  MyTenantIcon,
+  MessageIcon,
+} from '@/icons'
 import { useTranslation } from 'react-i18next'
+import { Message } from '@mui/icons-material'
 
 export function useGetSidebarItems(): SidebarRoutes {
   const { t } = useTranslation('sidebar', { keyPrefix: 'menuItem' })
@@ -84,7 +92,13 @@ export function useGetSidebarItems(): SidebarRoutes {
       {
         icon: DeveloperToolIcon,
         rootRouteKey: 'DEVELOPER_TOOLS',
-        label: 'Tool per lo sviluppo ',
+        label: 'Tool per lo sviluppo',
+        children: [],
+      },
+      {
+        icon: MessageIcon,
+        rootRouteKey: 'NOTIFICATIONS',
+        label: 'Notifiche ',
         children: [],
       },
     ]

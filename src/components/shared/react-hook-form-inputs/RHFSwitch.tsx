@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
-  label: string
+  label: string | React.ReactNode
   infoLabel?: string
   name: string
   rules?: ControllerProps['rules']
