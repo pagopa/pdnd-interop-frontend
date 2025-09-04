@@ -72,7 +72,7 @@ const NotificationsPage: React.FC = () => {
       <HeadSection
         title={t('title')}
         description={t('description')}
-        headVariant="secondary"
+        headVariant="primary"
         actions={action}
       />
       <Filters {...filtersHandlers} />
