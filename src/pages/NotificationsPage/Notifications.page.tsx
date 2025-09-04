@@ -7,9 +7,12 @@ import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsT
 import type { GetUserNotificationsParams } from '@/api/notification/notification.services'
 import { NotificationQueries } from '@/api/notification'
 import { useQuery } from '@tanstack/react-query'
+import { Stack } from '@mui/system'
+import { Button } from '@mui/material'
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notifications', { keyPrefix: 'notifications.page' })
+  const [enableMultipleSelection, setEnableMultipleSelection] = React.useState(false)
 
   const action: ActionItemButton[] = [
     {
@@ -73,21 +76,38 @@ const NotificationsPage: React.FC = () => {
         actions={action}
       />
       <Filters {...filtersHandlers} />
-      <NotificationsTableWrapper params={params} />
+      <Stack direction="row" justifyContent="flex-end" sx={{ mb: 3 }}>
+        <Button
+          onClick={() => setEnableMultipleSelection(!enableMultipleSelection)}
+          variant="naked"
+        >
+          {enableMultipleSelection ? 'Disattiva selezione multipla' : 'Attiva selezione multipla'}
+        </Button>
+      </Stack>
+      <NotificationsTableWrapper
+        enableMultipleSelection={enableMultipleSelection}
+        params={params}
+      />
       <Pagination {...paginationProps} totalPages={totalPageCount} />
     </>
   )
 }
 
-const NotificationsTableWrapper: React.FC<{ params: GetUserNotificationsParams }> = ({
-  params,
-}) => {
+const NotificationsTableWrapper: React.FC<{
+  params: GetUserNotificationsParams
+  enableMultipleSelection: boolean
+}> = ({ params, enableMultipleSelection }) => {
   const { data, isFetching } = useQuery({
     ...NotificationQueries.getUserNotificationsList(params),
   })
 
   if (!data && isFetching) return <NotificationsTableSkeleton />
-  return <NotificationsTable notifications={data ?? []} />
+  return (
+    <NotificationsTable
+      enableMultipleSelection={enableMultipleSelection}
+      notifications={data ?? []}
+    />
+  )
 }
 
 export default NotificationsPage

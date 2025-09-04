@@ -8,19 +8,24 @@ import type { UserNotification } from '@/api/notification/notification.services'
 export const NotificationsTableRow: React.FC<{
   notification: UserNotification
   isSelected: boolean
+  enableMultipleSelection: boolean
   onToggle: () => void
-}> = ({ notification, isSelected, onToggle }) => {
+}> = ({ notification, isSelected, onToggle, enableMultipleSelection }) => {
   const { actions } = useGetNotificationsActions(notification)
 
   return (
     <TableRow
       cellData={[
-        <Checkbox
-          key={notification.id}
-          name="selectedNotification"
-          checked={isSelected}
-          onChange={onToggle}
-        />,
+        ...(enableMultipleSelection
+          ? [
+              <Checkbox
+                key={notification.id}
+                name="selectedNotification"
+                checked={isSelected}
+                onChange={onToggle}
+              />,
+            ]
+          : []),
         <TableCell width={180} key={0}>
           {notification.data}
         </TableCell>,

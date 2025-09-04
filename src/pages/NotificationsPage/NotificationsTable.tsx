@@ -7,9 +7,13 @@ import type { UserNotification } from '@/api/notification/notification.services'
 
 type NotificationsTableProps = {
   notifications: Array<UserNotification>
+  enableMultipleSelection: boolean
 }
 
-export const NotificationsTable: React.FC<NotificationsTableProps> = ({ notifications }) => {
+export const NotificationsTable: React.FC<NotificationsTableProps> = ({
+  notifications,
+  enableMultipleSelection,
+}) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -30,9 +34,16 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({ notifica
   }
 
   const headLabels = [
-    (
-      <Checkbox key="selectAll" name="selectAll" checked={allSelected} onChange={handleSelectAll} />
-    ) as unknown as string,
+    ...((enableMultipleSelection
+      ? [
+          <Checkbox
+            key="selectAll"
+            name="selectAll"
+            checked={allSelected}
+            onChange={handleSelectAll}
+          />,
+        ]
+      : []) as unknown as string),
     tCommon('dateColumn'),
     tCommon('categoryColumn'),
     tCommon('objectColumn'),
@@ -43,6 +54,7 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({ notifica
     <Table headLabels={headLabels} isEmpty={notifications && notifications.length === 0}>
       {notifications?.map((notification) => (
         <NotificationsTableRow
+          enableMultipleSelection={enableMultipleSelection}
           key={notification.id}
           notification={notification}
           isSelected={selectedIds.includes(notification.id)}
