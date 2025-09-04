@@ -35,7 +35,6 @@ import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
-import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -52,9 +51,6 @@ type SignalHubSectionProps = {
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
-  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
-
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice')
@@ -237,10 +233,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           />
         </SectionContainer>
 
-        {isSignalHubFlagEnabled && (
-          // Signalhub switch can be editable also if coming from a eservice eserviceTemplate
-          <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
-        )}
+        {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}
+        <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
 
         {isOrganizationAllowedToProduce && (
           <SectionContainer

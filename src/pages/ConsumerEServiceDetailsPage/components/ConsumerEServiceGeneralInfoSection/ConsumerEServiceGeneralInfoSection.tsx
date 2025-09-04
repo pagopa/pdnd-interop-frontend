@@ -13,8 +13,6 @@ import { ConsumerEServiceTechnicalInfoDrawer } from './ConsumerEServiceTechnical
 import { ConsumerEServiceProducerContactsDrawer } from './ConsumerEServiceProducerContactsDrawer'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_SIGNALHUB_WHITELIST, SIGNALHUB_WHITELIST_CONSUMER } from '@/config/env'
-import { AuthHooks } from '@/api/auth'
 
 export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {

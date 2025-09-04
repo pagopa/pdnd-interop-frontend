@@ -16,8 +16,6 @@ import {
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
-import { AuthHooks } from '@/api/auth'
-import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 import {
   ProviderEServiceSignalHubSectionSkeleton,
   ProviderEServiceSignalHubSection,
@@ -30,9 +28,6 @@ export const ProviderEserviceDetailsTab: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
-
   return (
     <>
       <ProviderEServiceDetailsAlerts descriptor={descriptor} />
@@ -44,11 +39,9 @@ export const ProviderEserviceDetailsTab: React.FC = () => {
           <React.Suspense fallback={<ProviderEServiceTechnicalInfoSectionSkeleton />}>
             <ProviderEServiceTechnicalInfoSection />
           </React.Suspense>
-          {isSignalHubFlagEnabled && (
-            <React.Suspense fallback={<ProviderEServiceSignalHubSectionSkeleton />}>
-              <ProviderEServiceSignalHubSection />
-            </React.Suspense>
-          )}
+          <React.Suspense fallback={<ProviderEServiceSignalHubSectionSkeleton />}>
+            <ProviderEServiceSignalHubSection />
+          </React.Suspense>
           <React.Suspense fallback={<ProviderEServiceDescriptorAttributesSkeleton />}>
             <ProviderEServiceDescriptorAttributes />
           </React.Suspense>
