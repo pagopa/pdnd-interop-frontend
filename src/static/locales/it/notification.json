@@ -12,8 +12,20 @@
       "enableAllNotifications": {
         "label": "Abilita la ricezione delle notifiche in piattaforma",
         "description": "Disabilitando questa opzione, non riceverai nessuna notifica in piattaforma"
-      },
-
+      }
+    },
+    "emailTab": {
+      "title": "Configurazione delle preferenze di notifica tramite email",
+      "description": "Le notifiche email ti informeranno sulla tua casella personale gli eventi che ti riguardano. La mail che utilizzeremo è quella che ci hai fornito in fase di iscrizione.",
+      "linkLabel": "Non è la tua mail? Scopri come aggiornarla",
+      "mailLabel": "Indirizzo email",
+      "enableSectionAllNotifications": "Abilita tutto",
+      "enableAllNotifications": {
+        "label": "Abilita la ricezione delle notifiche e-mail",
+        "description": "Disabilitando questa opzione, non riceverai nessuna e-mail"
+      }
+    },
+    "sections": {
       "subscriber": {
         "title": "Fruizione",
         "dataUsage": {

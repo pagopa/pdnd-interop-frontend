@@ -2,15 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { SectionContainer } from '@/components/layout/containers'
-import {
-  Box,
-  Card,
-  Link,
-  Stack,
-  Typography,
-  Switch as MUISwitch,
-  FormControlLabel,
-} from '@mui/material'
+import { Box, Card, Link, Stack, Typography, Button } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
@@ -45,9 +37,7 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
 
   const { notificationSchema } = useNotificationInAppConfigForm()
 
-  const formMethods = useForm<
-    NotificationConfig & { enableAllNotification: boolean; subscriber: boolean }
-  >({
+  const formMethods = useForm<NotificationConfig & { enableAllNotification: boolean }>({
     defaultValues: { ...inAppConfig, enableAllNotification: false },
   })
 
@@ -67,20 +57,14 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
     if (valueChanged) debounceFn()
   }, [debounceFn, valueChanged])
 
-  const handleChangeSectionSwitch = (
-    _event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-    sectionName: string
-  ) => {
-    if (checked) {
-      const sectionComponentsKeys = notificationSchema[sectionName].subsections.flatMap((s) =>
-        s.components.map((c) => c.key)
-      )
+  const onClickEnableAllSectionSwitch = (sectionName: string) => {
+    const sectionComponentsKeys = notificationSchema[sectionName].subsections.flatMap((s) =>
+      s.components.map((c) => c.key)
+    )
 
-      sectionComponentsKeys.map((inAppConfigKey) => {
-        formMethods.setValue(inAppConfigKey as keyof NotificationConfig, true)
-      })
-    }
+    sectionComponentsKeys.map((inAppConfigKey) => {
+      formMethods.setValue(inAppConfigKey as keyof NotificationConfig, true)
+    })
   }
 
   return (
@@ -118,19 +102,13 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
                           {notificationSchema[sectionName].title}
                         </Typography>
                       </Stack>
-                      <FormControlLabel
-                        sx={{ width: 'auto' }}
-                        control={
-                          <MUISwitch
-                            sx={{ mr: 1 }}
-                            key={sectionName}
-                            onChange={(event, checked) =>
-                              handleChangeSectionSwitch(event, checked, sectionName)
-                            }
-                          />
-                        }
-                        label={t('enableSectionAllNotifications')}
-                      />
+                      <Button
+                        variant="naked"
+                        sx={{ mr: 3 }}
+                        onClick={() => onClickEnableAllSectionSwitch(sectionName)}
+                      >
+                        {t('enableSectionAllNotifications')}
+                      </Button>
                     </Box>
 
                     {notificationSchema[sectionName].subsections.map((subsection) => (
