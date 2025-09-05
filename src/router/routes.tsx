@@ -60,6 +60,7 @@ import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
 import ConsumerPurposeTemplateListPage from '@/pages/ConsumerPurposeTemplateListPage/ConsumerPurposeTemplateList.page'
 import ConsumerPurposeTemplateCatalogPage from '@/pages/ConsumerPurposeTemplateCatalogPage/ConsumerPurposeTemplateCatalog.page'
+import ConsumerPurposeTemplateEditPage from '@/pages/ConsumerPurposeTemplateEditPage/ConsumerPurposeTemplateEdit.page'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -587,6 +588,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'SUBCRIBE_PURPOSE_TEMPLATE_EDIT',
+    path: 'fruizione/template-finalita/:purposeTemplateId/modifica',
+    element: <ConsumerPurposeTemplateEditPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
   })
   .build()
 

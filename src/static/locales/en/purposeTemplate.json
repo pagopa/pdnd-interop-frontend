@@ -22,8 +22,10 @@
       "noResultsLabel": "The current search returned no results."
     }
   },
-  "create": {
+  "edit": {
     "emptyTitle": "Create purpose template",
+    "backWithoutSaveBtn": "Go back",
+    "forwardWithSaveBtn": "Save draft and proceed",
     "stepper": {
       "step1Label": "General",
       "step2Label": "Suggested e-services",
@@ -31,21 +33,25 @@
     },
     "step1": {
       "detailsTitle": "General informations",
-      "purposeNameField": {
+      "purposeTemplateNameField": {
         "label": "Purpose name",
         "infoLabel": "Min 5 characters, max 60 characters"
       },
-      "purposeDescriptionField": {
+      "purposeTemplateDescriptionField": {
         "label": "Purpose description (required)",
         "infoLabel": "Min 10 characters, max 250 characters"
       },
-      "dataAccessField": {
+      "purposeTemplateIntendedTargetField": {
+        "label": "Who is the template you are creating intended for?",
+        "infoLabel": "Min 10 characters, max 250 characters"
+      },
+      "purposeTemplateIsFreeOfCharge": {
         "radioButton": {
           "label": "Indicate whether access to the data made available through the use of this E-service is free of charge.",
-          "true": "Yes",
-          "false": "No"
+          "YES": "Yes",
+          "NO": "No"
         },
-        "textField": {
+        "reasonField": {
           "label": "Justification for free-of-charge access (required)",
           "infoLabel": "You are required to specify whether the provision of data free of charge is due to a legal exemption/exclusion or other reason. Min 10 characters, max 250 characters."
         }
@@ -67,8 +73,8 @@
       "detailsDescription": "The questionnaire questions will vary based on the answers provided as you go. Changing the answer to a previous question may alter the following questions.",
       "alert": "Warning: Do not enter personal data in the free text fields",
       "switchLabel": "Assign the completion of this item to the template user",
-      "addAnnotationBtn": "Add annotations and documentation",
-      "editAnnotationBtn": "Edit annotations and documentation",
+      "addAnnotationBtn": "Add annotations",
+      "editAnnotationBtn": "Edit annotations",
       "deleteAnnotationBtn": "Remove annotations",
       "annotationSectionTitle": "Annotations provided by the creator",
       "addAnswerBtn": "Add answer"

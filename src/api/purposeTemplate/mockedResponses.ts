@@ -1,4 +1,3 @@
-import { result } from 'lodash'
 import type { TenantKind } from '../api.generatedTypes'
 
 export const purposeTemplatesListMock: Array<PurposeTemplate> = [
@@ -319,9 +318,8 @@ type RiskAnalysisTemplateAnswer = {
 
 type RiskAnalysisFormTemplate = {
   version: string
-  answers: {
-    [key: string]: RiskAnalysisTemplateAnswer // Each answer is a RiskAnalysisTemplateAnswer, keyed by a string.
-  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  answers: any
 }
 
 export type PurposeTemplate = {
@@ -383,4 +381,17 @@ export interface GetConsumerPurposeTemplatesParams {
    * @max 50
    */
   limit: number
+}
+
+export interface PurposeTemplateUpdateContent {
+  title: string
+  description: string
+  isFreeOfCharge: boolean
+  freeOfChargeReason?: string
+  riskAnalysisForm?: RiskAnalysisFormTemplateSeed
+  /**
+   * maximum number of daily calls that this version can perform.
+   * @format int32
+   */
+  dailyCalls?: number
 }

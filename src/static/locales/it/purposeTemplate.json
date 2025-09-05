@@ -22,8 +22,10 @@
       "noResultsLabel": "La ricerca corrente non ha prodotto risultati."
     }
   },
-  "create": {
+  "edit": {
     "emptyTitle": "Crea template finalità",
+    "backWithoutSaveBtn": "Indietro",
+    "forwardWithSaveBtn": "Salva bozza e prosegui",
     "stepper": {
       "step1Label": "Generale",
       "step2Label": "E-service suggeriti",
@@ -31,21 +33,25 @@
     },
     "step1": {
       "detailsTitle": "Informazioni generali",
-      "purposeNameField": {
+      "purposeTemplateNameField": {
         "label": "Nome finalità",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
-      "purposeDescriptionField": {
+      "purposeTemplateDescriptionField": {
         "label": "Descrizione finalità (richiesto)",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
-      "dataAccessField": {
+      "purposeTemplateIntendedTargetField": {
+        "label": "A chi è rivolto il template (richiesto)",
+        "infoLabel": "Min 10 caratteri, max 250 caratteri"
+      },
+      "purposeTemplateIsFreeOfCharge": {
         "radioButton": {
           "label": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente E-service è a titolo gratuito",
-          "true": "Sì",
-          "false": "No"
+          "YES": "Sì",
+          "NO": "No"
         },
-        "textField": {
+        "reasonField": {
           "label": "Motivazione titolo gratuito (richiesto)",
           "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
         }
@@ -67,8 +73,8 @@
       "detailsDescription": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "alert": "Attenzione non inserire dati personali all’interno dei campi liberi di testo",
       "switchLabel": "Assegna la compilazione di questo elemento all’utilizzatore del template",
-      "addAnnotationBtn": "Aggiungi annotazioni e documentazione",
-      "editAnnotationBtn": "Modifica annotazioni e documentazione",
+      "addAnnotationBtn": "Aggiungi annotazioni",
+      "editAnnotationBtn": "Modifica annotazioni",
       "deleteAnnotationBtn": "Rimuovi annotazioni",
       "annotationSectionTitle": "Annotazioni fornite dal creatore",
       "addAnswerBtn": "Aggiungi risposta"
