@@ -14,6 +14,7 @@ export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
   helperText?: string
   formHelper?: string
   rules?: ControllerProps['rules']
+  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
@@ -23,6 +24,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   helperText,
   multiline,
   rules,
+  isFromPurposeTemplate,
   ...props
 }) => {
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
@@ -39,6 +41,8 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
     helperText,
   })
 
+  console.log(isFromPurposeTemplate)
+
   return (
     <RiskAnalysisInputWrapper
       name={name}
@@ -47,6 +51,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
       helperText={helperText}
       error={error}
       {...ids}
+      isFromPurposeTemplate={isFromPurposeTemplate}
     >
       <Controller
         name={name}

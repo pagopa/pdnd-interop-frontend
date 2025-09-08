@@ -16,6 +16,7 @@ export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'>
   emptyLabel?: string
   options: Array<InputOption>
   rules?: ControllerProps['rules']
+  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
@@ -26,6 +27,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
   helperText,
   emptyLabel,
   rules,
+  isFromPurposeTemplate,
   ...props
 }) => {
   const { t } = useTranslation()
@@ -49,6 +51,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       error={error}
       helperText={helperText}
       {...ids}
+      isFromPurposeTemplate={isFromPurposeTemplate}
     >
       <Controller
         name={name}
