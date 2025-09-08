@@ -16,6 +16,7 @@ type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   options: Array<InputOption>
   questionId: string
   rules?: ControllerProps['rules']
+  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
@@ -25,6 +26,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   options,
   questionId,
   rules,
+  isFromPurposeTemplate,
   ...switchProps
 }) => {
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
@@ -48,6 +50,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       infoLabel={infoLabel}
       helperText={helperText}
       {...ids}
+      isFromPurposeTemplate={isFromPurposeTemplate}
     >
       <FormLabel sx={{ color: 'text.primary' }}>
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={1}>
