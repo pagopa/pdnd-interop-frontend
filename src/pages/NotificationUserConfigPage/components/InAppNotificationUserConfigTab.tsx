@@ -9,6 +9,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { useNotificationInAppConfigForm } from '../hooks/useNotificationInAppConfigForm'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
 import { debounce } from 'lodash'
+import type { UserProductRole } from '@/types/party.types'
 
 type InAppNotificationUserConfigTabProps = {
   inAppConfig: NotificationConfig
@@ -20,6 +21,7 @@ export type NotificationSubSectionSchema = {
     key: string
     title: string
     description: string
+    visibility: UserProductRole[]
   }[]
 }
 export type NotificationSectionSchema = {
