@@ -1,0 +1,81 @@
+import React from 'react'
+import { Box, Stack } from '@mui/material'
+import { useTranslation } from 'react-i18next'
+import AddIcon from '@mui/icons-material/Add'
+import { ButtonNaked } from '@pagopa/mui-italia'
+import type { CatalogEService } from '@/api/api.generatedTypes'
+import { useFormContext } from 'react-hook-form'
+import { EServiceAutocomplete } from '@/components/shared/EServiceAutoComplete'
+import { EServiceContainer } from '@/components/layout/containers/EServiceContainer'
+import type { EditStepLinkedEServicesForm } from './PurposeTemplateEditLinkedEService'
+
+export type EServiceGroupProps = {
+  group: Array<CatalogEService>
+  readOnly: boolean
+  onRemoveEServiceFromGroup: (eserviceId: string) => void
+}
+
+export const EServiceGroup: React.FC<EServiceGroupProps> = ({
+  group,
+  readOnly,
+  onRemoveEServiceFromGroup,
+}) => {
+  const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step2' })
+  const [isEServiceAutocompleteShown, setIsEServiceAutocompleteShown] = React.useState(true)
+
+  const handleDeleteEServiceFromGroup = (eserviceId: string) => {
+    onRemoveEServiceFromGroup(eserviceId)
+  }
+
+  const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
+  const eserviceGroup = watch('eservices')
+
+  const handleAddEServiceToGroup = (eservice: CatalogEService) => {
+    const newEServiceGroup = [...eserviceGroup]
+    newEServiceGroup.push(eservice)
+    setValue('eservices', newEServiceGroup)
+    setIsEServiceAutocompleteShown(false)
+
+    //TODO IS THERE A API CALL FOR ADDING AN ESERVICE TO A PURPOSE TEMPLATE?
+  }
+
+  return (
+    <>
+      {group.length > 0 && (
+        <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }} component="ul" spacing={1.2}>
+          {group.map((eservice) => (
+            <Box component="li" key={eservice.id}>
+              <EServiceContainer
+                eservice={eservice}
+                onRemove={
+                  !readOnly ? handleDeleteEServiceFromGroup.bind(null, eservice.id) : undefined
+                }
+              />
+            </Box>
+          ))}
+        </Stack>
+      )}
+      {!readOnly && (
+        <>
+          {isEServiceAutocompleteShown ? (
+            <EServiceAutocomplete
+              onAddEService={handleAddEServiceToGroup}
+              alreadySelectedEServiceIds={group.map((e) => e.id)} //TODO
+            />
+          ) : (
+            <ButtonNaked
+              color="primary"
+              type="button"
+              sx={{ fontWeight: 700, alignSelf: 'flex-start' }}
+              readOnly={readOnly}
+              startIcon={<AddIcon fontSize="small" />}
+              onClick={() => setIsEServiceAutocompleteShown(true)}
+            >
+              {t('addBtn')}
+            </ButtonNaked>
+          )}
+        </>
+      )}
+    </>
+  )
+}
