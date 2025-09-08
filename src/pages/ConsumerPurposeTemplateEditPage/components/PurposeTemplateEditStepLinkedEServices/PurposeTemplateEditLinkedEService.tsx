@@ -5,11 +5,12 @@ import SaveIcon from '@mui/icons-material/Save'
 import { SectionContainer } from '@/components/layout/containers'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { PurposeTemplateEditStepGeneralFormValues } from '../PurposeTemplateEditStepGeneral/PurposeTemplateEditStepGeneralForm'
-import type { CompactEService } from '@/api/api.generatedTypes'
+import type { CatalogEService } from '@/api/api.generatedTypes'
 import { Box } from '@mui/material'
+import { AddEServiceToForm } from './AddEServiceToForm'
 
 export type EditStepLinkedEServicesForm = {
-  eservices: Array<CompactEService>
+  eservices: Array<CatalogEService>
 }
 
 export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ forward }) => {
@@ -34,7 +35,7 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
             title={t('edit.step2.detailsTitle')}
             description={t('edit.step2.detailsDescription')}
           >
-            TODO
+            <AddEServiceToForm readOnly={false} />
             <StepActions
               back={{
                 to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
