@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next'
 import SaveIcon from '@mui/icons-material/Save'
 import { SectionContainer } from '@/components/layout/containers'
 import { FormProvider, useForm } from 'react-hook-form'
-import type { PurposeTemplateEditStepGeneralFormValues } from '../PurposeTemplateEditStepGeneral/PurposeTemplateEditStepGeneralForm'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import { Box } from '@mui/material'
 import { AddEServiceToForm } from './AddEServiceToForm'
+import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { useQuery } from '@tanstack/react-query'
+import { useParams } from '@/router'
 
 export type EditStepLinkedEServicesForm = {
   eservices: Array<CatalogEService>
@@ -15,6 +17,10 @@ export type EditStepLinkedEServicesForm = {
 
 export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ forward }) => {
   const { t } = useTranslation('purposeTemplate')
+
+  const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
+  const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
+  //const eservicesGroup = purposeTemplate?.eservices ?? [] //TODO MOCK ESERVICE LINKED TO PURPOSE TEMPLATE
 
   const defaultValues: EditStepLinkedEServicesForm = {
     eservices: [],
@@ -35,7 +41,7 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
             title={t('edit.step2.detailsTitle')}
             description={t('edit.step2.detailsDescription')}
           >
-            <AddEServiceToForm readOnly={false} />
+            <AddEServiceToForm readOnly={false} /> {/*TODO ADD LINKED ESERVICES PROP */}
             <StepActions
               back={{
                 to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
