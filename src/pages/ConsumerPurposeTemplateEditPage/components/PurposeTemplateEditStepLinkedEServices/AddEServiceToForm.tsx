@@ -1,6 +1,5 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 import { Box, Stack } from '@mui/material'
 import { EServiceGroup } from './EServiceGroup'
 import type { EditStepLinkedEServicesForm } from './PurposeTemplateEditLinkedEService'
@@ -10,9 +9,6 @@ export type AddEServiceToFormProps = {
 }
 
 export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({ readOnly }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: `create.step3` })
-  const { t: tAttribute } = useTranslation('attribute')
-
   const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
 
   const eserviceGroup = watch(`eservices`)
