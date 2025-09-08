@@ -1,6 +1,7 @@
 import type { LANGUAGES } from '@/config/constants'
 import type { SvgIconComponent } from '@mui/icons-material'
 import type { ButtonProps } from '@mui/material'
+import { Palette } from '@mui/material/styles'
 
 export type PagoPAEnvVars = {
   STAGE: 'DEV' | 'PROD' | 'UAT' | 'ATT' | 'QA' | 'DEV_REF'
@@ -45,7 +46,7 @@ export type Provider = 'provider'
 export type Consumer = 'consumer'
 export type ProviderOrConsumer = Provider | Consumer
 
-export type ActionItem = { action: VoidFunction; label: string }
+export type ActionItem = { action: VoidFunction; label: string; fontColor?: string }
 export type ActionItemButton = ActionItem & {
   color?: ButtonProps['color']
   icon?: SvgIconComponent

@@ -3,6 +3,7 @@ import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
 import type { UserNotification } from '@/api/notification/notification.services'
 import { NotificationMutations } from '@/api/notification/notification.mutation'
+import { theme } from '@pagopa/interop-fe-commons'
 
 function useGetNotificationsActions(notification?: UserNotification): {
   actions: Array<ActionItemButton>
@@ -37,6 +38,8 @@ function useGetNotificationsActions(notification?: UserNotification): {
   const deleteNotifcationAction: ActionItemButton = {
     action: handleDeleteNotification,
     label: t('delete'),
+    color: 'error',
+    fontColor: theme.palette.error.main,
   }
 
   const markAsReadNotifcationAction: ActionItemButton = {
