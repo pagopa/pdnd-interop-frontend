@@ -16,16 +16,19 @@ export function useNotificationInAppConfigForm() {
               key: 'eserviceStateChangedToConsumer',
               title: t('subscriber.dataUsage.components.eServiceStateUpdated.label') + '(11)',
               description: t('subscriber.dataUsage.components.eServiceStateUpdated.description'),
+              visibility: ['admin', 'security'],
             },
             {
               key: 'agreementActivatedRejectedToConsumer',
               title: t('subscriber.dataUsage.components.agreementManagement.label') + '(12)',
               description: t('subscriber.dataUsage.components.agreementManagement.description'),
+              visibility: ['admin'],
             },
             {
               key: 'agreementSuspendedUnsuspendedToConsumer',
               title: t('subscriber.dataUsage.components.agreementStateUpdated.label') + '(13)',
               description: t('subscriber.dataUsage.components.agreementStateUpdated.description'),
+              visibility: ['admin', 'security'],
             },
           ],
         },
@@ -37,11 +40,13 @@ export function useNotificationInAppConfigForm() {
               key: 'purposeActivatedRejectedToConsumer',
               title: t('subscriber.purpose.components.purposeManagement.label') + '(15)',
               description: t('subscriber.purpose.components.purposeManagement.description'),
+              visibility: ['admin'],
             },
             {
               key: 'purposeSuspendedUnsuspendedToConsumer',
               title: t('subscriber.purpose.components.purposeStateUpdated.label') + '(16)',
               description: t('subscriber.purpose.components.purposeStateUpdated.description'),
+              visibility: ['admin', 'security'],
             },
           ],
         },
@@ -53,6 +58,7 @@ export function useNotificationInAppConfigForm() {
               key: 'TODO',
               title: t('subscriber.thresholds.components.thresholdsExcedeed.label'),
               description: t('subscriber.thresholds.components.thresholdsExcedeed.description'),
+              visibility: ['admin'], // To define
             },
             {
               key: 'TODO',
@@ -60,6 +66,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'subscriber.thresholds.components.thresholsdAdjustmentRequest.description'
               ),
+              visibility: ['admin'], // To define
             },
           ],
         },
@@ -76,11 +83,13 @@ export function useNotificationInAppConfigForm() {
               key: 'agreementManagementToProducer',
               title: t('provider.agreement.components.agreementRequestReceived.label') + '(03)',
               description: t('provider.agreement.components.agreementRequestReceived.description'),
+              visibility: ['admin'],
             },
             {
               key: 'agreementSuspendedUnsuspendedToProducer',
               title: t('provider.agreement.components.agreementStateUpdated.label') + '(04)',
               description: t('provider.agreement.components.agreementStateUpdated.description'),
+              visibility: ['admin'],
             },
           ],
         },
@@ -92,6 +101,7 @@ export function useNotificationInAppConfigForm() {
               key: 'purposeStatusChangedToProducer',
               title: t('provider.purpose.components.purposeStateUpdated.label') + '(07)',
               description: t('provider.purpose.components.purposeStateUpdated.description'),
+              visibility: ['admin', 'api'],
             },
           ],
         },
@@ -107,6 +117,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.clientAndThresholds.components.clientAssociationFromSubscriber.description'
               ),
+              visibility: ['admin', 'api'],
             },
             {
               key: 'TODO',
@@ -114,6 +125,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.clientAndThresholds.components.thresholdExceeded.description'
               ),
+              visibility: ['admin', 'api'], // To define
             },
             {
               key: 'TODO',
@@ -123,6 +135,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.clientAndThresholds.components.thresholdAdjustmentRequest.description'
               ),
+              visibility: ['admin', 'api'], // To define
             },
           ],
         },
@@ -136,6 +149,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.eserviceTemplate.components.instanceFromTemplate.description'
               ),
+              visibility: ['admin', 'security'],
             },
             {
               key: 'eserviceTemplateStatusChangedToInstantiator',
@@ -143,11 +157,13 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.eserviceTemplate.components.templateStateUpdated.description'
               ),
+              visibility: ['admin', 'security'],
             },
             {
               key: 'newTemplateVersion',
               title: t('provider.eserviceTemplate.components.newTemplateVersion.label') + 'BOH',
               description: t('provider.eserviceTemplate.components.newTemplateVersion.description'),
+              visibility: ['admin', 'security'], // To define
             },
             {
               key: 'eserviceTemplateNameChangedToInstantiator',
@@ -156,6 +172,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.eserviceTemplate.components.templatePropertiesUpdated.description'
               ),
+              visibility: ['admin', 'security'],
             },
             {
               key: 'templateStatusChangedToProducer',
@@ -165,6 +182,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'provider.eserviceTemplate.components.templateStateArchivedSuspended.description'
               ),
+              visibility: ['admin', 'api'],
             },
           ],
         },
@@ -184,6 +202,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'delegation.delegationAssignment.components.delegationUpdated.description'
               ),
+              visibility: ['admin'],
             },
             {
               key: 'eserviceNewVersionSubmittedToDelegator',
@@ -193,6 +212,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'delegation.delegationAssignment.components.eserviceDelegatedCreated.description'
               ),
+              visibility: ['admin'],
             },
           ],
         },
@@ -206,6 +226,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'delegation.delegationReceive.components.delegationUpdated.description'
               ),
+              visibility: ['admin'],
             },
             {
               key: 'eserviceNewVersionApprovedRejectedToDelegate',
@@ -215,6 +236,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'delegation.delegationReceive.components.eserviceDelegatedApproval.description'
               ),
+              visibility: ['admin', 'api'],
             },
           ],
         },
@@ -234,6 +256,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'keyAndAttributes.attributes.components.attributesStateUpdated.description'
               ),
+              visibility: ['admin'],
             },
           ],
         },
@@ -248,6 +271,7 @@ export function useNotificationInAppConfigForm() {
               description: t(
                 'keyAndAttributes.keys.components.clientKeysAssociationUpdated.description'
               ),
+              visibility: ['admin', 'security'], // To define
             },
           ],
         },
