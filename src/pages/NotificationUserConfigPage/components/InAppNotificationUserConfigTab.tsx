@@ -9,27 +9,10 @@ import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { useNotificationInAppConfigForm } from '../hooks/useNotificationInAppConfigForm'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
 import { debounce } from 'lodash'
-import type { UserProductRole } from '@/types/party.types'
+import type { NotificationSubSectionSchema } from '../types'
 
 type InAppNotificationUserConfigTabProps = {
   inAppConfig: NotificationConfig
-}
-export type NotificationSubSectionSchema = {
-  name: string
-  title: string
-  components: {
-    key: string
-    title: string
-    description: string
-    visibility: UserProductRole[]
-  }[]
-}
-export type NotificationSectionSchema = {
-  title: string
-  subsections: NotificationSubSectionSchema[]
-}
-export type NotificationConfigSchema = {
-  [key: string]: NotificationSectionSchema
 }
 
 export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfigTabProps> = ({
@@ -60,11 +43,11 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
   }, [debounceFn, valueChanged])
 
   const onClickEnableAllSectionSwitch = (sectionName: string) => {
-    const sectionComponentsKeys = notificationSchema[sectionName].subsections.flatMap((s) =>
-      s.components.map((c) => c.key)
+    const sectionComponentsKeys = notificationSchema[sectionName].subsections.flatMap(
+      (s: NotificationSubSectionSchema) => s.components.map((c) => c.key)
     )
 
-    sectionComponentsKeys.map((inAppConfigKey) => {
+    sectionComponentsKeys.map((inAppConfigKey: string) => {
       formMethods.setValue(inAppConfigKey as keyof NotificationConfig, true)
     })
   }
@@ -113,9 +96,11 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
                       </Button>
                     </Box>
 
-                    {notificationSchema[sectionName].subsections.map((subsection) => (
-                      <NotificationConfigSection key={sectionName} subsection={subsection} />
-                    ))}
+                    {notificationSchema[sectionName].subsections.map(
+                      (subsection: NotificationSubSectionSchema) => (
+                        <NotificationConfigSection key={sectionName} subsection={subsection} />
+                      )
+                    )}
                   </Card>
                 </Box>
               )

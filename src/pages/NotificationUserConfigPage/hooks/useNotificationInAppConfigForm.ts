@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { type NotificationConfigSchema } from '../components/InAppNotificationUserConfigTab'
+import { type NotificationConfigSchema } from '../types'
 
 export function useNotificationInAppConfigForm() {
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage.sections' })

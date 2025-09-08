@@ -1,8 +1,8 @@
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
-import type { NotificationSubSectionSchema } from './InAppNotificationUserConfigTab'
 import { AuthHooks } from '@/api/auth'
+import type { NotificationSubSectionSchema } from '../types'
 
 type NotificationConfigSectionProps = {
   subsection: NotificationSubSectionSchema
