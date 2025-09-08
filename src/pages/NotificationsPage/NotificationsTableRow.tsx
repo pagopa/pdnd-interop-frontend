@@ -4,6 +4,8 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import useGetNotificationsActions from '@/hooks/useGetNotificationsActions'
 import type { UserNotification } from '@/api/notification/notification.services'
+import { Link } from '@/router'
+import { useTranslation } from 'react-i18next'
 
 export const NotificationsTableRow: React.FC<{
   notification: UserNotification
@@ -12,6 +14,7 @@ export const NotificationsTableRow: React.FC<{
   onToggle: () => void
 }> = ({ notification, isSelected, onToggle, enableMultipleSelection }) => {
   const { actions } = useGetNotificationsActions(notification)
+  const { t: tCommon } = useTranslation('common')
 
   return (
     <TableRow
@@ -26,13 +29,26 @@ export const NotificationsTableRow: React.FC<{
               />,
             ]
           : []),
-        <TableCell width={180} key={0}>
+        <TableCell width={250} key={0}>
           {notification.data}
         </TableCell>,
         notification.category,
         notification.object,
       ]}
     >
+      <Link
+        key={notification.id}
+        as="button"
+        onPointerEnter={() => console.log('handle prefetch TODO')}
+        onFocusVisible={() => console.log('handle prefetch TODO')}
+        variant="outlined"
+        size="small"
+        to="DELEGATION_DETAILS"
+        params={{ delegationId: '1234' }}
+      >
+        {tCommon('actions.inspect')}
+      </Link>
+
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />
       </Box>
