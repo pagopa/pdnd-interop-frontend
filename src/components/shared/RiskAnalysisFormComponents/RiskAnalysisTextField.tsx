@@ -52,6 +52,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
       error={error}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
+      questionId={questionId}
     >
       <Controller
         name={name}
