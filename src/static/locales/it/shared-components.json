@@ -295,6 +295,12 @@
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Rimuovi gruppo di attributi"
   },
+  "eserviceContainer": {
+    "eserviceIdField": "ID dell’e-service",
+    "viewEserviceBtn": "Visualizza e-service",
+    "idCopytooltipLabel": "ID copiato correttamente",
+    "removeAttributeAriaLabel": "Rimuovi attributo {{eserviceName}}"
+  },
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer",
     "updateLabel": "Aggiorna"

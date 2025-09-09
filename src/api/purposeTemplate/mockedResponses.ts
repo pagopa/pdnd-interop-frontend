@@ -303,7 +303,7 @@ type RiskAnalysisTemplateAnswerAnnotationDocument = {
   createdAt: string // ISO date-time string (e.g., '2025-08-29T09:01:20.116Z')
 }
 
-type RiskAnalysisTemplateAnswerAnnotation = {
+export type RiskAnalysisTemplateAnswerAnnotation = {
   id: string // UUID
   text: string // Annotation text
   docs: RiskAnalysisTemplateAnswerAnnotationDocument[] // List of documents associated with the annotation
