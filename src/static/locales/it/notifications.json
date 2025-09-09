@@ -1,0 +1,28 @@
+{
+  "notifications": {
+    "page": {
+      "title": "Notifiche",
+      "description": "Visualizza tutte le notifiche per la tua utenza.",
+      "addNotificationConfigBtn": "Configura notifiche",
+      "filters": {
+        "objectField": {
+          "label": "Cerca per Oggetto"
+        },
+        "categoryField": {
+          "label": "Categoria",
+          "optionLabels": {
+            "Deliver": "Erogazione",
+            "Receive": "Fruizione"
+          }
+        },
+        "stateField": {
+          "label": "Stato lettura",
+          "optionLabels": {
+            "Read": "Letto",
+            "NotRead": "Non letto"
+          }
+        }
+      }
+    }
+  }
+}

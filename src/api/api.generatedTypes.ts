@@ -153,12 +153,14 @@ export interface UpdateEServiceDescriptorQuotas {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
 }
@@ -167,13 +169,15 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
 }
@@ -195,11 +199,15 @@ export interface UpdateEServiceDescriptorSeed {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -216,11 +224,15 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -273,13 +285,15 @@ export interface CatalogEServiceDescriptor {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -418,13 +432,15 @@ export interface ProducerEServiceDescriptor {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -692,7 +708,8 @@ export interface PurposeVersionSeed {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -710,7 +727,8 @@ export interface PurposeSeed {
   freeOfChargeReason?: string
   /**
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -729,7 +747,8 @@ export interface PurposeEServiceSeed {
   freeOfChargeReason?: string
   /**
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -865,11 +884,15 @@ export interface Purpose {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   delegation?: DelegationWithCompactTenants
@@ -976,6 +999,8 @@ export interface PurposeUpdateContent {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -989,6 +1014,8 @@ export interface ReversePurposeUpdateContent {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -1022,6 +1049,8 @@ export interface PurposeVersion {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
   riskAnalysisDocument?: PurposeVersionDocument
@@ -1653,12 +1682,14 @@ export interface EServiceTemplateVersionDetails {
    * maximum number of daily calls that this descriptor can afford per consumer.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   interface?: EServiceDoc
@@ -1687,11 +1718,13 @@ export interface EServiceTemplateVersionQuotasUpdateSeed {
   /**
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
 }
@@ -1773,12 +1806,14 @@ export interface VersionSeedForEServiceTemplateCreation {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   /**
@@ -1886,12 +1921,14 @@ export interface UpdateEServiceTemplateVersionSeed {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   /**
@@ -1921,6 +1958,82 @@ export interface UpdateEServiceTemplateVersionDocumentSeed {
    * @maxLength 60
    */
   prettyName: string
+}
+
+export interface Notifications {
+  results: Notification[]
+  /** @format int32 */
+  totalCount: number
+}
+
+export interface Notification {
+  /**
+   * Unique identifier of the notification
+   * @format uuid
+   */
+  id: string
+  /**
+   * ID of the user
+   * @format uuid
+   */
+  userId: string
+  /**
+   * ID of the tenant
+   * @format uuid
+   */
+  tenantId: string
+  /** Content of the notification */
+  body: string
+  /**
+   * Timestamp when the notification was read
+   * @format date-time
+   */
+  readAt: string | null
+  /**
+   * Timestamp when the notification was created
+   * @format date-time
+   */
+  createdAt: string
+}
+
+export interface NotificationConfig {
+  agreementSuspendedUnsuspendedToProducer: boolean
+  agreementManagementToProducer: boolean
+  clientAddedRemovedToProducer: boolean
+  purposeStatusChangedToProducer: boolean
+  templateStatusChangedToProducer: boolean
+  agreementSuspendedUnsuspendedToConsumer: boolean
+  eserviceStateChangedToConsumer: boolean
+  agreementActivatedRejectedToConsumer: boolean
+  purposeActivatedRejectedToConsumer: boolean
+  purposeSuspendedUnsuspendedToConsumer: boolean
+  newEserviceTemplateVersionToInstantiator: boolean
+  eserviceTemplateNameChangedToInstantiator: boolean
+  eserviceTemplateStatusChangedToInstantiator: boolean
+  delegationApprovedRejectedToDelegator: boolean
+  eserviceNewVersionSubmittedToDelegator: boolean
+  eserviceNewVersionApprovedRejectedToDelegate: boolean
+  delegationSubmittedRevokedToDelegate: boolean
+  certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
+  clientKeyAddedDeletedToClientUsers: boolean
+}
+
+export interface TenantNotificationConfig {
+  enabled: boolean
+}
+
+export interface UserNotificationConfig {
+  inAppConfig: NotificationConfig
+  emailConfig: NotificationConfig
+}
+
+export interface TenantNotificationConfigUpdateSeed {
+  enabled: boolean
+}
+
+export interface UserNotificationConfigUpdateSeed {
+  inAppConfig: NotificationConfig
+  emailConfig: NotificationConfig
 }
 
 export interface ProblemError {
@@ -2077,7 +2190,7 @@ export interface GetEServicesCatalogParams {
   /**
    * @format int32
    * @min 1
-   * @max 50
+   * @max 200
    */
   limit: number
 }
@@ -2593,6 +2706,26 @@ export interface CreateEServiceTemplateDocumentPayload {
 export interface IsEServiceNameAvailableParams {
   /** the e-service name to check for */
   name: string
+}
+
+export interface GetNotificationsParams {
+  /** Query to filter notifications */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface MarkNotificationsAsReadPayload {
+  ids: string[]
 }
 
 export namespace Consumers {
@@ -4034,7 +4167,7 @@ export namespace Catalog {
       /**
        * @format int32
        * @min 1
-       * @max 50
+       * @max 200
        */
       limit: number
     }
@@ -7135,6 +7268,150 @@ export namespace Creators {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = ProducerEServiceTemplates
+  }
+}
+
+export namespace InAppNotifications {
+  /**
+   * @description Retrieves a list of notifications
+   * @tags inAppNotifications
+   * @name GetNotifications
+   * @summary Retrieves a list of notifications
+   * @request GET:/inAppNotifications
+   */
+  export namespace GetNotifications {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter notifications */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as read
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsRead
+   * @summary Mark a list of notifications as read
+   * @request POST:/inAppNotifications/bulk/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationsAsRead {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = MarkNotificationsAsReadPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a notification as read
+   * @tags inAppNotifications
+   * @name MarkNotificationAsRead
+   * @summary Mark a notification as read
+   * @request POST:/inAppNotifications/:notificationId/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationAsRead {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Delete a notification
+   * @tags inAppNotifications
+   * @name DeleteNotification
+   * @summary Delete a notification
+   * @request DELETE:/inAppNotifications/:notificationId
+   * @secure
+   */
+  export namespace DeleteNotification {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace TenantNotificationConfigs {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name GetTenantNotificationConfig
+   * @summary Retrieve the tenant's notification configuration
+   * @request GET:/tenantNotificationConfigs
+   */
+  export namespace GetTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = TenantNotificationConfig
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateTenantNotificationConfig
+   * @summary Update the tenant's notification configuration
+   * @request POST:/tenantNotificationConfigs
+   */
+  export namespace UpdateTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = TenantNotificationConfigUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace UserNotificationConfigs {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name GetUserNotificationConfig
+   * @summary Retrieve the user's notification configuration
+   * @request GET:/userNotificationConfigs
+   */
+  export namespace GetUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = UserNotificationConfig
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateUserNotificationConfig
+   * @summary Update the user's notification configuration
+   * @request POST:/userNotificationConfigs
+   */
+  export namespace UpdateUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = UserNotificationConfigUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
 }
 
