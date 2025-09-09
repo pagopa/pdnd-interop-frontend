@@ -588,6 +588,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support'],
   })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
+    path: 'fruizione/template-finalita/:purposeTemplateId/modifica',
+    element: <ConsumerPurposeTemplateEditPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
+  })
   .build()
 
 export type RouteKey = InferRouteKey<typeof routes>
