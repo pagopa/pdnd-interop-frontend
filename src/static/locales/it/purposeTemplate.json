@@ -26,6 +26,12 @@
     "emptyTitle": "Crea template finalità",
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
+    "defaultPurposeTemplate": {
+      "title": "",
+      "description": "Descrivi brevemente quali dati vengono raccolti e in che modo",
+      "intendedTarget": "Descrivi brevemente quali sono gli enti che potrebbero beneficiare di questo template",
+      "freeOfChargeReason": "Sono una Pubblica Amministrazione"
+    },
     "stepper": {
       "step1Label": "Generale",
       "step2Label": "E-service suggeriti",
@@ -64,6 +70,7 @@
       "detailsTitle": "E-service suggeriti per questo template",
       "detailsDescription": "Ci sono e-service o template e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
       "addBtn": "Aggiungi e-service",
+      "saveBtn": "Salva",
       "autocompleteInput": {
         "label": "E-service o template e-service da associare"
       }
@@ -77,7 +84,14 @@
       "editAnnotationBtn": "Modifica annotazioni",
       "deleteAnnotationBtn": "Rimuovi annotazioni",
       "annotationSectionTitle": "Annotazioni fornite dal creatore",
-      "addAnswerBtn": "Aggiungi risposta"
+      "addAnswerBtn": "Aggiungi risposta",
+      "drawer": {
+        "title": "Aggiungi annotazioni",
+        "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
+        "question": "Domanda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
+        "label": "Annotazioni",
+        "addBtn": "Aggiungi"
+      }
     },
     "summary": {
       "title": "Riepilogo"

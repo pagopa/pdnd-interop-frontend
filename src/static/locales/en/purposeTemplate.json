@@ -26,6 +26,12 @@
     "emptyTitle": "Create purpose template",
     "backWithoutSaveBtn": "Go back",
     "forwardWithSaveBtn": "Save draft and proceed",
+    "defaultPurposeTemplate": {
+      "title": "",
+      "description": "Describe briefly which data are collected and how",
+      "intendedTarget": "Describe briefly which entities could benefit from this template",
+      "freeOfChargeReason": "I'm a Public Administration"
+    },
     "stepper": {
       "step1Label": "General",
       "step2Label": "Suggested e-services",
@@ -61,9 +67,10 @@
       }
     },
     "step2": {
-      "detailsTitle": "Suggested e-services for this puspose template",
+      "detailsTitle": "Suggested e-services for this purpose template",
       "detailsDescription": "Are there any e-services or e-service templates that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
       "addBtn": "Add e-service",
+      "saveBtn": "Save",
       "autocompleteInput": {
         "label": "E-service or e-service template to associate"
       }
@@ -77,7 +84,14 @@
       "editAnnotationBtn": "Edit annotations",
       "deleteAnnotationBtn": "Remove annotations",
       "annotationSectionTitle": "Annotations provided by the creator",
-      "addAnswerBtn": "Add answer"
+      "addAnswerBtn": "Add answer",
+      "drawer": {
+        "title": "Add annotations",
+        "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",
+        "question": "Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
+        "label": "Annotations",
+        "addBtn": "Add"
+      }
     },
     "summary": {
       "title": "Summary"
