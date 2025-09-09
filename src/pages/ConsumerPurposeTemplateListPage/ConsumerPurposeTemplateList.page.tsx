@@ -41,7 +41,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       { tenantKind },
       {
         onSuccess() {
-          navigate('CONSUMER_PURPOSE_TEMPLATE_CREATE')
+          navigate(/*'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'*/ 'NOT_FOUND') //TODO TO FIX WHEN ROUTE IS AVAILABLE
         },
       }
     )
