@@ -39,6 +39,7 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({
           <Checkbox
             key="selectAll"
             name="selectAll"
+            data-testid="selectAll"
             checked={allSelected}
             onChange={handleSelectAll}
           />,

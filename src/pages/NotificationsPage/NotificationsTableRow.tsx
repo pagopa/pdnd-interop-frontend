@@ -23,7 +23,7 @@ export const NotificationsTableRow: React.FC<{
           ? [
               <Checkbox
                 key={notification.id}
-                name="selectedNotification"
+                data-testid={`checkbox-${notification.id}`}
                 checked={isSelected}
                 onChange={onToggle}
               />,
