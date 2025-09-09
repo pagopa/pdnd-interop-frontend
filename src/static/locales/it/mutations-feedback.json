@@ -969,21 +969,21 @@
       }
     },
     "deleteDraft": {
-      "loading": "Stiamo cancellando il template della finalità agevolata in bozza",
+      "loading": "Stiamo cancellando il template in bozza",
       "outcome": {
-        "success": "Il template della finalità agevolata è stato cancellato correttamente",
-        "error": "Non è stato possibile cancellare il template della finalità agevolata. Per favore, riprova!"
+        "success": "Il template è stato cancellato correttamente",
+        "error": "Non è stato possibile cancellare il template. Per favore, riprova!"
       },
       "confirmDialog": {
-        "title": "Conferma cancellazione del template della finalità agevolata",
-        "description": "Cliccando \"conferma\" questo template della finalità agevolata verrà cancellata e non sarà più recuperabile."
+        "title": "Conferma cancellazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà cancellata e non sarà più recuperabile."
       }
     },
 
     "suspendPurposeTemplate": {
-      "loading": "Stiamo sospendendo la finalità",
+      "loading": "Stiamo sospendendo il template",
       "outcome": {
-        "success": "Il template finalità agevolata è stato sospeso correttamente.",
+        "success": "Il template è stato sospeso correttamente.",
         "error": "Non è stato possibile sospendere il template. Riprova più tardi."
       },
       "confirmDialog": {
@@ -992,27 +992,31 @@
       }
     },
     "activatePurposeTemplate": {
-      "loading": "Stiamo pubblicando la finalità",
+      "loading": "Stiamo attivando il template",
       "outcome": {
-        "success": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
-        "error": "Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati"
+        "success": "Il template è ora pubblicato.",
+        "error": "Non è stato possibile riattivare il template. Per favore, riprova!"
       },
       "confirmDialog": {
-        "title": "Conferma attivazione finalità",
-        "description": "Cliccando \"conferma\" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all'e-service dell'erogatore con il numero di chiamate stabilito"
+        "title": "Conferma riattivazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà riattivato."
       }
     },
     "publishDraft": {
       "loading": "Stiamo pubblicando il template della finalità agevolata",
       "outcome": {
-        "success": "il template della finalità agevolata è ora pubblicato.",
-        "error": "Non è stato possibile pubblicare il template della finalità agevolata. Assicurati che tutti i campi richiesti dalla finalità siano compilati."
+        "success": "Il template è ora pubblicato.",
+        "error": "Non è stato possibile pubblicare il template. Assicurati che tutti i campi richiesti siano compilati."
+      },
+      "confirmDialog": {
+        "title": "Conferma pubblicazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà pubblicato."
       }
     },
     "archivePurposeTemplate": {
-      "loading": "Stiamo archiviando il template della finalità agevolata",
+      "loading": "Stiamo archiviando il template",
       "outcome": {
-        "success": "Il template finalità agevolata è stato archiviato correttamente.",
+        "success": "Il template è stato archiviato correttamente.",
         "error": "Non è stato possibile archiviare il template. Riprova più tardi."
       },
       "confirmDialog": {

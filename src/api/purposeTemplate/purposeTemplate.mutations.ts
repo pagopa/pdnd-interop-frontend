@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeTemplateServices } from './purposeTemplate.services'
-import { TenantKind } from '../api.generatedTypes'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
@@ -63,8 +62,13 @@ function usePublishDraft() {
   return useMutation({
     mutationFn: PurposeTemplateServices.publishDraft,
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+      },
     },
   })
 }
@@ -74,6 +78,7 @@ function useDeleteDraft() {
   return useMutation({
     mutationFn: PurposeTemplateServices.deleteDraft,
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
@@ -91,6 +96,7 @@ function useSuspendPurposeTemplate() {
   return useMutation({
     mutationFn: PurposeTemplateServices.suspendPurposeTemplate,
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
@@ -108,6 +114,7 @@ function useReactivatePurposeTemplate() {
   return useMutation({
     mutationFn: PurposeTemplateServices.reactivatePurposeTemplate,
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
@@ -125,6 +132,7 @@ function useArchivePurposeTemplate() {
   return useMutation({
     mutationFn: PurposeTemplateServices.archivePurposeTemplate,
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {

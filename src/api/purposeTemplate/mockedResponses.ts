@@ -7,7 +7,7 @@ export const purposeTemplatesListMock: Array<PurposeTemplate> = [
     targetDescription: 'Healthcare data processing',
     targetTenantKind: 'PA',
     creatorId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-    state: 'ACTIVE',
+    state: 'DRAFT',
     createdAt: '2025-08-29T09:01:20.116Z',
     updatedAt: '2025-08-29T09:01:20.116Z',
     purposeTitle: 'Medical Analysis',
