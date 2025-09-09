@@ -980,7 +980,7 @@
       }
     },
     "suspendPurposeTemplate": {
-      "loading": "Suspending the purpose",
+      "loading": "Suspending the purpose template",
       "outcome": {
         "success": "The facilitated purpose template has been successfully suspended.",
         "error": "The template could not be suspended. Please try again later."
@@ -991,14 +991,14 @@
       }
     },
     "activatePurposeTemplate": {
-      "loading": "Publishing the purpose",
+      "loading": "Publishing the purpose template",
       "outcome": {
-        "success": "The purpose is now published. Note: if the number of calls exceeds the limit set by the provider, their approval will be required to support that load.",
-        "error": "The purpose could not be reactivated. Please try again! If this is the first activation, make sure all required fields for the purpose are filled out."
+        "success": "The purpose template is now published.",
+        "error": "The purpose template could not be reactivated. Please try again!"
       },
       "confirmDialog": {
         "title": "Confirm purpose activation",
-        "description": "By clicking \"confirm\" this purpose will be activated. All clients associated by the consumer will have access to the provider’s e-service with the defined number of calls."
+        "description": "By clicking \"confirm\" this purpose will be reactivated."
       }
     },
     "publishDraft": {
@@ -1006,6 +1006,10 @@
       "outcome": {
         "success": "The facilitated purpose template is now published.",
         "error": "The facilitated purpose template could not be published. Make sure all required fields for the purpose are filled out."
+      },
+      "confirmDialog": {
+        "title": "Confirm publication of the facilitated purpose template",
+        "description": "By clicking \"confirm\" this facilitated purpose template will be published."
       }
     },
     "archivePurposeTemplate": {
