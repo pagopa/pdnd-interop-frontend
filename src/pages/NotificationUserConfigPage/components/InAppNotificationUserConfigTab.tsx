@@ -62,7 +62,7 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
         </Link>
         <Box sx={{ px: 3, mt: 2 }}>
           <RHFSwitch
-            data-testid="enableAllNotification-testId"
+            data-testid="enableAllNotification"
             name="enableAllNotification"
             label={
               <SwitchLabelDescription
