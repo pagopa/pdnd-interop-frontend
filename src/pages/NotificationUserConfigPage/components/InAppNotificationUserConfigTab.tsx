@@ -52,8 +52,6 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
     })
   }
 
-  console.log('cambio', valueChanged.enableAllNotification)
-
   return (
     <FormProvider {...formMethods}>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
