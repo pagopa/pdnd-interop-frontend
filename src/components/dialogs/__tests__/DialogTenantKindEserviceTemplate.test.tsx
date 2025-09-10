@@ -12,7 +12,9 @@ vi.mock('@/stores', () => ({
 describe('DialogTenantKindEserviceTemplate', () => {
   it('renders dialog with radio options and handles selection and confirm', async () => {
     const onConfirm = vi.fn()
-    render(<DialogTenantKindEserviceTemplate type="tenantKind" onConfirm={onConfirm} />)
+    render(
+      <DialogTenantKindEserviceTemplate type="tenantKindEServiceTemplate" onConfirm={onConfirm} />
+    )
 
     // Check dialog title and description
     expect(screen.getByText('title')).toBeInTheDocument()
@@ -41,7 +43,9 @@ describe('DialogTenantKindEserviceTemplate', () => {
 
   it('calls closeDialog on cancel', async () => {
     const onConfirm = vi.fn()
-    render(<DialogTenantKindEserviceTemplate type="tenantKind" onConfirm={onConfirm} />)
+    render(
+      <DialogTenantKindEserviceTemplate type="tenantKindEServiceTemplate" onConfirm={onConfirm} />
+    )
     const cancelButton = screen.getByRole('button', { name: 'cancel' })
     await userEvent.click(cancelButton)
     expect(onConfirm).not.toHaveBeenCalled()
