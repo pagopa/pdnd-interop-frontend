@@ -128,7 +128,12 @@ const PurposeTemplateTableWrapper: React.FC<{
   data: CreatorPurposeTemplates | undefined
 }> = ({ data }) => {
   if (!data) return <ConsumerPurposeTemplateTableSkeleton />
-  return <ConsumerPurposeTemplateTable purposeTemplates={data.results ?? []} />
+  return (
+    <ConsumerPurposeTemplateTable
+      purposeTemplates={data.results ?? []}
+      data-testid="purpose-template-table-component"
+    />
+  )
 }
 
 export default ConsumerPurposeTemplateListPage

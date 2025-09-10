@@ -54,7 +54,14 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
   ]
 
   return (
-    <Dialog open onClose={handleCancel} aria-labelledby={ariaLabelId} maxWidth={'md'} fullWidth>
+    <Dialog
+      open
+      onClose={handleCancel}
+      aria-labelledby={ariaLabelId}
+      maxWidth={'md'}
+      fullWidth
+      data-testid="create-purpose-modal"
+    >
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={onSubmit}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
