@@ -5,6 +5,7 @@ import type {
   UserNotificationConfig,
   UserNotificationConfigUpdateSeed,
 } from '../api.generatedTypes'
+import * as crypto from 'crypto'
 
 async function updateUserNotificationConfiguration(payload: UserNotificationConfigUpdateSeed) {
   return await axiosInstance.post<void>(
@@ -22,7 +23,7 @@ async function getUserNotificationConfiguration() {
   return new Promise<UserNotificationConfig>((resolve) => {
     setTimeout(() => {
       resolve({
-        emailConfig: getNotificationConfig(Math.random() < 0.5),
+        emailConfig: getNotificationConfig(crypto.randomBytes(1)[0] < 128),
         inAppConfig: getNotificationConfig(false),
       })
     }, 5000)
