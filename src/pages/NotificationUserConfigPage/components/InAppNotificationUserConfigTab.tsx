@@ -53,60 +53,62 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
   }
 
   return (
-    <FormProvider {...formMethods}>
-      <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
-        <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
-          {t('manualLinkLabel')}
-        </Link>
-        <Box sx={{ px: 3, mt: 2 }}>
-          <RHFSwitch
-            name="enableAllNotification"
-            label={
-              <SwitchLabelDescription
-                label={t('enableAllNotifications.label')}
-                description={t('enableAllNotifications.description')}
-              />
-            }
-          />
+    <React.Suspense fallback={<div>loading</div>}>
+      <FormProvider {...formMethods}>
+        <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
+          <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
+            {t('manualLinkLabel')}
+          </Link>
+          <Box sx={{ px: 3, mt: 2 }}>
+            <RHFSwitch
+              name="enableAllNotification"
+              label={
+                <SwitchLabelDescription
+                  label={t('enableAllNotifications.label')}
+                  description={t('enableAllNotifications.description')}
+                />
+              }
+            />
 
-          {valueChanged.enableAllNotification &&
-            Object.keys(notificationSchema).map((sectionName) => {
-              return (
-                <Box key={sectionName}>
-                  <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
-                    <Box
-                      display="flex"
-                      width="100%"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      sx={{ mb: 4, mt: 3 }}
-                    >
-                      <Stack alignItems="center" direction="row" gap={1}>
-                        <MenuBookIcon />
-                        <Typography variant="button">
-                          {notificationSchema[sectionName].title}
-                        </Typography>
-                      </Stack>
-                      <Button
-                        variant="naked"
-                        sx={{ mr: 3 }}
-                        onClick={() => onClickEnableAllSectionSwitch(sectionName)}
+            {valueChanged.enableAllNotification &&
+              Object.keys(notificationSchema).map((sectionName) => {
+                return (
+                  <Box key={sectionName}>
+                    <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
+                      <Box
+                        display="flex"
+                        width="100%"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        sx={{ mb: 4, mt: 3 }}
                       >
-                        {t('enableSectionAllNotifications')}
-                      </Button>
-                    </Box>
+                        <Stack alignItems="center" direction="row" gap={1}>
+                          <MenuBookIcon />
+                          <Typography variant="button">
+                            {notificationSchema[sectionName].title}
+                          </Typography>
+                        </Stack>
+                        <Button
+                          variant="naked"
+                          sx={{ mr: 3 }}
+                          onClick={() => onClickEnableAllSectionSwitch(sectionName)}
+                        >
+                          {t('enableSectionAllNotifications')}
+                        </Button>
+                      </Box>
 
-                    {notificationSchema[sectionName].subsections.map(
-                      (subsection: NotificationSubSectionSchema) => (
-                        <NotificationConfigSection key={sectionName} subsection={subsection} />
-                      )
-                    )}
-                  </Card>
-                </Box>
-              )
-            })}
-        </Box>
-      </SectionContainer>
-    </FormProvider>
+                      {notificationSchema[sectionName].subsections.map(
+                        (subsection: NotificationSubSectionSchema) => (
+                          <NotificationConfigSection key={sectionName} subsection={subsection} />
+                        )
+                      )}
+                    </Card>
+                  </Box>
+                )
+              })}
+          </Box>
+        </SectionContainer>
+      </FormProvider>
+    </React.Suspense>
   )
 }
