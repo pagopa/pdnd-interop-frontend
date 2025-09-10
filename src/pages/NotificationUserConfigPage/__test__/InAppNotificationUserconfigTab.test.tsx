@@ -1,7 +1,7 @@
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { fireEvent, screen } from '@testing-library/react'
 import { InAppNotificationUserConfigTab } from '../components/InAppNotificationUserConfigTab'
-import { NotificationConfig } from '@/api/api.generatedTypes'
+import { type NotificationConfig } from '@/api/api.generatedTypes'
 
 mockUseJwt()
 
@@ -47,13 +47,12 @@ describe('InAppNotificationUserconfigTab', () => {
   })
 
   it('Shold be able to see all sections if main switch is on', async () => {
-    const mainSwitch = screen.getByTestId('enableAllNotification-testId')
+    const mainSwitch = screen.getByTestId('enableAllNotification')
     expect(mainSwitch).toBeInTheDocument()
 
     fireEvent.click(mainSwitch)
     const allSections = screen.getAllByTestId(/config-section-/)
 
-    screen.debug(allSections)
     expect(allSections).toHaveLength(4)
   })
 })
