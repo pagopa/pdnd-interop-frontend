@@ -25,7 +25,7 @@ async function getUserNotificationConfiguration() {
         emailConfig: getNotificationConfig(Math.random() < 0.5),
         inAppConfig: getNotificationConfig(false),
       })
-    }, 1000)
+    }, 5000)
   })
 }
 
