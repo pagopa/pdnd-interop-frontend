@@ -29,10 +29,10 @@ const NotificationUserConfigPage: React.FC = () => {
   )
 }
 
-const NotificationUserConfigTabs: React.FC<{ activeTab: string; updateActiveTab: any }> = ({
-  activeTab,
-  updateActiveTab,
-}) => {
+const NotificationUserConfigTabs: React.FC<{
+  activeTab: string
+  updateActiveTab: (_: unknown, newTab: string) => void
+}> = ({ activeTab, updateActiveTab }) => {
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
 
   const { data } = useSuspenseQuery({
