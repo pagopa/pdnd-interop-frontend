@@ -153,12 +153,14 @@ export interface UpdateEServiceDescriptorQuotas {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
 }
@@ -167,13 +169,15 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
 }
@@ -195,11 +199,15 @@ export interface UpdateEServiceDescriptorSeed {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -216,11 +224,15 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -273,13 +285,15 @@ export interface CatalogEServiceDescriptor {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -418,13 +432,15 @@ export interface ProducerEServiceDescriptor {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -692,7 +708,8 @@ export interface PurposeVersionSeed {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -710,7 +727,8 @@ export interface PurposeSeed {
   freeOfChargeReason?: string
   /**
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -729,7 +747,8 @@ export interface PurposeEServiceSeed {
   freeOfChargeReason?: string
   /**
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -865,11 +884,15 @@ export interface Purpose {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   delegation?: DelegationWithCompactTenants
@@ -976,6 +999,8 @@ export interface PurposeUpdateContent {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -989,6 +1014,8 @@ export interface ReversePurposeUpdateContent {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -1022,6 +1049,8 @@ export interface PurposeVersion {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
   riskAnalysisDocument?: PurposeVersionDocument
@@ -1517,7 +1546,7 @@ export interface CompactUser {
 
 export interface PublicKeys {
   keys: PublicKey[]
-  pagination?: Pagination
+  pagination: Pagination
 }
 
 export interface CertifiedTenantAttributeSeed {
@@ -1653,12 +1682,14 @@ export interface EServiceTemplateVersionDetails {
    * maximum number of daily calls that this descriptor can afford per consumer.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   interface?: EServiceDoc
@@ -1687,11 +1718,13 @@ export interface EServiceTemplateVersionQuotasUpdateSeed {
   /**
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
 }
@@ -1773,12 +1806,14 @@ export interface VersionSeedForEServiceTemplateCreation {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   /**
@@ -1886,12 +1921,14 @@ export interface UpdateEServiceTemplateVersionSeed {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   /**
@@ -2077,7 +2114,7 @@ export interface GetEServicesCatalogParams {
   /**
    * @format int32
    * @min 1
-   * @max 50
+   * @max 200
    */
   limit: number
 }
@@ -2446,11 +2483,6 @@ export interface GetProducerKeychainsParams {
    */
   userIds?: string[]
   /**
-   * ID of producer that MUST be related to the keychain
-   * @format uuid
-   */
-  producerId: string
-  /**
    * ID of e-service that MUST be related to the Producer Keychain
    * @format uuid
    */
@@ -2479,6 +2511,17 @@ export interface GetProducerKeysParams {
    * @default []
    */
   userIds?: string[]
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
   /**
    * ID of the producer keychain to look up
    * @format uuid
@@ -4034,7 +4077,7 @@ export namespace Catalog {
       /**
        * @format int32
        * @min 1
-       * @max 50
+       * @max 200
        */
       limit: number
     }
@@ -6715,11 +6758,6 @@ export namespace ProducerKeychains {
        */
       userIds?: string[]
       /**
-       * ID of producer that MUST be related to the keychain
-       * @format uuid
-       */
-      producerId: string
-      /**
        * ID of e-service that MUST be related to the Producer Keychain
        * @format uuid
        */
@@ -6893,6 +6931,17 @@ export namespace ProducerKeychains {
        * @default []
        */
       userIds?: string[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
     }
     export type RequestBody = never
     export type RequestHeaders = {}
