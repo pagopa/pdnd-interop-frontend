@@ -130,7 +130,12 @@ const PurposeTemplateTableWrapper: React.FC<{ params: GetConsumerPurposeTemplate
   )
 
   if (!data && isFetching) return <ConsumerPurposeTemplateTableSkeleton />
-  return <ConsumerPurposeTemplateTable purposeTemplates={data ?? []} />
+  return (
+    <ConsumerPurposeTemplateTable
+      purposeTemplates={data ?? []}
+      data-testid="purpose-template-table-component"
+    />
+  )
 }
 
 export default ConsumerPurposeTemplateListPage
