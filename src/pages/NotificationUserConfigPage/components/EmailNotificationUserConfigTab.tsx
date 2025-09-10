@@ -67,6 +67,7 @@ export const EmailNotificationUserConfigTab: React.FC<EmailNotificationUserConfi
         </Link>
         <Box sx={{ px: 3, mt: 2 }}>
           <RHFSwitch
+            data-testid="enableAllNotification"
             name="enableAllNotification"
             label={
               <SwitchLabelDescription
@@ -78,7 +79,7 @@ export const EmailNotificationUserConfigTab: React.FC<EmailNotificationUserConfi
           {valueChanged.enableAllNotification &&
             Object.keys(notificationSchema).map((sectionName) => {
               return (
-                <Box key={sectionName}>
+                <Box key={sectionName} data-testid={`config-section-${sectionName}`}>
                   <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
                     <Box
                       display="flex"
