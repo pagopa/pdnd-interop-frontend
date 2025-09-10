@@ -12,11 +12,6 @@ const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('inApp')
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
 
-  const { data } = useQuery({
-    ...NotificationQueries.getUserNotificationConfiguration(),
-    placeholderData: keepPreviousData,
-  })
-
   return (
     <PageContainer
       title={t('title')}
