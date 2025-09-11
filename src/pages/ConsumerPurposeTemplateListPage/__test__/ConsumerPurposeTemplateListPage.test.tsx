@@ -2,6 +2,8 @@ import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerPurposeTemplateListPage from '../ConsumerPurposeTemplateList.page'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { ConsumerPurposeTemplateTableRow } from '../components/ConsumerPurposeTemplateTableRow'
+import { ConsumerPurposeTemplateTable } from '../components/ConsumerPurposeTemplateTable'
 
 mockUseJwt()
 
@@ -25,5 +27,13 @@ describe('Purpose Template list page', () => {
     await userEvent.click(createButton)
 
     expect(await screen.findByTestId('create-purpose-modal')).toBeInTheDocument()
+  })
+
+  it('should be have four columns (intended target, purpose template, status, actions)', () => {
+    renderWithApplicationContext(<ConsumerPurposeTemplateTable purposeTemplates={[]} />, {
+      withRouterContext: true,
+      withReactQueryContext: true,
+    })
+    expect(screen.getAllByRole('columnheader')).toHaveLength(4)
   })
 })
