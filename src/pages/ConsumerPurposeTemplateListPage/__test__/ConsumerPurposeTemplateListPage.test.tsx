@@ -2,7 +2,6 @@ import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerPurposeTemplateListPage from '../ConsumerPurposeTemplateList.page'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ConsumerPurposeTemplateTableRow } from '../components/ConsumerPurposeTemplateTableRow'
 import { ConsumerPurposeTemplateTable } from '../components/ConsumerPurposeTemplateTable'
 
 mockUseJwt()
@@ -15,7 +14,7 @@ describe('Purpose Template list page', () => {
     })
     expect(screen.getByText('title')).toBeInTheDocument()
     expect(screen.getByText('createNewBtn')).toBeInTheDocument()
-    expect(screen.findByTestId('purpose-template-table-component'))
+    expect(screen.getByRole('table')).toBeInTheDocument()
   })
 
   it('should open the dialog when clicking the create button', async () => {
