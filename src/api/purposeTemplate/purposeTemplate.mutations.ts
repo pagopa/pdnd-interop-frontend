@@ -89,6 +89,40 @@ function useDeleteDraft() {
   })
 }
 
+function useDeleteAnnotation() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.deleteAnnotation',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.deleteAnnotation,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: {
+        title: t('confirmDialog.title'),
+        description: t('confirmDialog.description'),
+        cancelLabel: t('confirmDialog.cancelLabel'),
+        proceedLabel: t('confirmDialog.proceedLabel'),
+      },
+    },
+  })
+}
+
+function useDeleteDocument() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.deleteDocument',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.deleteDocument,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useSuspendPurposeTemplate() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purposeTemplate.suspendPurposeTemplate',
@@ -179,6 +213,8 @@ export const PurposeTemplateMutations = {
   useCreateDraft,
   usePublishDraft,
   useDeleteDraft,
+  useDeleteAnnotation,
+  useDeleteDocument,
   useSuspendPurposeTemplate,
   useReactivatePurposeTemplate,
   useArchivePurposeTemplate,

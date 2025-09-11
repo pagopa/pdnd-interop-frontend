@@ -155,6 +155,34 @@ async function deleteDraft({ id }: { id: string }) {
   return console.log('Draft deleted')
 }
 
+async function deleteAnnotation({
+  purposeTemplateId,
+  answerId,
+}: {
+  purposeTemplateId: string
+  answerId: string
+}) {
+  //   return await axiosInstance.delete<void>(
+  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/riskAnalysis/answers/${answerId}/annotation`
+  //   )
+  return console.log('Annotation deleted')
+}
+
+async function deleteDocument({
+  purposeTemplateId,
+  answerId,
+  documentId,
+}: {
+  purposeTemplateId: string
+  answerId: string
+  documentId: string
+}) {
+  //   return await axiosInstance.delete<void>(
+  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`
+  //   )
+  return console.log('Document deleted')
+}
+
 async function suspendPurposeTemplate({ id }: { id: string }) {
   //   return await axiosInstance.post<void>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/suspend`
@@ -192,6 +220,8 @@ export const PurposeTemplateServices = {
   createDraft,
   publishDraft,
   deleteDraft,
+  deleteAnnotation,
+  deleteDocument,
   suspendPurposeTemplate,
   reactivatePurposeTemplate,
   archivePurposeTemplate,

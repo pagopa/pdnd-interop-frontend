@@ -1027,8 +1027,8 @@
     "addAnnotationToAnswer": {
       "loading": "Stiamo aggiungendo l'annotazione",
       "outcome": {
-        "success": "L'annotazione è stata aggiunta correttamente",
-        "error": "Non è stato possibile aggiungere l'annotazione. Per favore, riprova!"
+        "success": "Annotazione aggiunta con successo.",
+        "error": "Non è stato possibile aggiungere l’annotazione. Assicurati di aver inserito le informazioni corrette e riprova."
       }
     },
     "addDocumentsToAnswer": {
@@ -1036,6 +1036,26 @@
       "outcome": {
         "success": "I documenti sono stati aggiunti correttamente",
         "error": "Non è stato possibile aggiungere i documenti. Per favore, riprova!"
+      }
+    },
+    "deleteAnnotation": {
+      "loading": "Stiamo rimuovendo l'annotazione",
+      "outcome": {
+        "success": "L'annotazione è stata rimossa correttamente",
+        "error": "Non è stato possibile rimuovere l'annotazione. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Rimuovi annotazione",
+        "description": "Confermi di voler rimuovere questa annotazione?",
+        "proceedLabel": "Rimuovi annotazione",
+        "cancelLabel": "Mantieni annotazione"
+      }
+    },
+    "deleteDocument": {
+      "loading": "Stiamo rimuovendo il documento",
+      "outcome": {
+        "success": "Il documento è stato rimosso correttamente",
+        "error": "Non è stato possibile rimuovere il documento. Per favore, riprova!"
       }
     }
   }
