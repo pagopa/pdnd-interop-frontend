@@ -143,6 +143,34 @@ function useArchivePurposeTemplate() {
   })
 }
 
+function useAddAnnotationToAnswer() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.addAnnotationToAnswer',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.addAnnotationToAnswer,
+    meta: {
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useAddDocumentsToAnswer() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.addDocumentsToAnswer',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.addDocumentsToAnswer,
+    meta: {
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 export const PurposeTemplateMutations = {
   useUpdatePurposeTemplateRiskAnalysis,
   useUpdateDraft,
@@ -154,4 +182,6 @@ export const PurposeTemplateMutations = {
   useSuspendPurposeTemplate,
   useReactivatePurposeTemplate,
   useArchivePurposeTemplate,
+  useAddAnnotationToAnswer,
+  useAddDocumentsToAnswer,
 }
