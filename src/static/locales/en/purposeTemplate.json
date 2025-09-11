@@ -94,7 +94,16 @@
       }
     },
     "summary": {
-      "title": "Summary"
+      "title": "Summary",
+      "generalInformationSection": {
+        "title": "General informations"
+      },
+      "suggestedEServicesSection": {
+        "title": "Suggested e-services"
+      },
+      "riskAnalysisSection": {
+        "title": "Risk analysis"
+      }
     }
   }
 }

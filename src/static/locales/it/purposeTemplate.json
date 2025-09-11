@@ -94,7 +94,16 @@
       }
     },
     "summary": {
-      "title": "Riepilogo"
+      "title": "Riepilogo",
+      "generalInformationSection": {
+        "title": "Informazioni generali"
+      },
+      "suggestedEServicesSection": {
+        "title": "E-service suggeriti"
+      },
+      "riskAnalysisSection": {
+        "title": "Analisi del rischio"
+      }
     }
   }
 }
