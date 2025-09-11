@@ -1022,6 +1022,20 @@
         "title": "Confirm template archiving",
         "description": "By clicking \"confirm\" this template will be archived. Once archived, the template can no longer be used."
       }
+    },
+    "addAnnotationToAnswer": {
+      "loading": "We are adding the annotation",
+      "outcome": {
+        "success": "The annotation has been added successfully",
+        "error": "It was not possible to add the annotation. Please try again!"
+      }
+    },
+    "addDocumentsToAnswer": {
+      "loading": "We are adding the documents",
+      "outcome": {
+        "success": "The documents have been added successfully",
+        "error": "It was not possible to add the documents. Please try again!"
+      }
     }
   }
 }

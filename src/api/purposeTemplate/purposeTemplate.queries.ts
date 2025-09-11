@@ -30,9 +30,25 @@ function getSingle(id: string) {
   })
 }
 
+function getCatalogPurposeTemplates() {
+  return queryOptions({
+    queryKey: ['PurposeTemplateGetCatalogPurposeTemplates'],
+    queryFn: () => PurposeTemplateServices.getConsumerCatalogPurposeTemplates(),
+  })
+}
+
+function getAnswerDocuments(purposeTemplateId: string, answerId: string) {
+  return queryOptions({
+    queryKey: ['PurposeTemplateGetAnswerDocuments', purposeTemplateId, answerId],
+    queryFn: () => PurposeTemplateServices.getAnswerDocuments(purposeTemplateId, answerId),
+  })
+}
+
 export const PurposeTemplateQueries = {
   getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
   getPurposeTemplateEservices,
   getSingle,
+  getCatalogPurposeTemplates,
+  getAnswerDocuments,
 }

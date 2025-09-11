@@ -1023,6 +1023,20 @@
         "title": "Conferma archiviazione template",
         "description": "Cliccando \"conferma\" questo template sarà archiviato. Una volta archiviato, il template non potrà più essere utilizzato."
       }
+    },
+    "addAnnotationToAnswer": {
+      "loading": "Stiamo aggiungendo l'annotazione",
+      "outcome": {
+        "success": "L'annotazione è stata aggiunta correttamente",
+        "error": "Non è stato possibile aggiungere l'annotazione. Per favore, riprova!"
+      }
+    },
+    "addDocumentsToAnswer": {
+      "loading": "Stiamo aggiungendo i documenti",
+      "outcome": {
+        "success": "I documenti sono stati aggiunti correttamente",
+        "error": "Non è stato possibile aggiungere i documenti. Per favore, riprova!"
+      }
     }
   }
 }
