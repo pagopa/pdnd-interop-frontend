@@ -1036,6 +1036,26 @@
         "success": "The documents have been added successfully",
         "error": "It was not possible to add the documents. Please try again!"
       }
+    },
+    "deleteAnnotation": {
+      "loading": "We are removing the annotation",
+      "outcome": {
+        "success": "The annotation has been removed successfully",
+        "error": "It was not possible to remove the annotation. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Remove annotation",
+        "description": "Do you confirm you want to remove this annotation?",
+        "proceedLabel": "Remove annotation",
+        "cancelLabel": "Keep annotation"
+      }
+    },
+    "deleteDocument": {
+      "loading": "We are removing the document",
+      "outcome": {
+        "success": "The document has been removed successfully",
+        "error": "It was not possible to remove the document. Please try again!"
+      }
     }
   }
 }
