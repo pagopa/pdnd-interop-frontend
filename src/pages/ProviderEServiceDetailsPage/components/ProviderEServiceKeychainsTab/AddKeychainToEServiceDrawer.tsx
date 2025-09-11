@@ -1,5 +1,4 @@
 import type { CompactProducerKeychain } from '@/api/api.generatedTypes'
-import { AuthHooks } from '@/api/auth'
 import { KeychainQueries } from '@/api/keychain'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
@@ -33,7 +32,6 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
     keyPrefix: 'read.drawers.addKeychainToEServiceDrawer',
   })
   const { t: tCommon } = useTranslation('common')
-  const { jwt } = AuthHooks.useJwt()
   const [keychainSearchParam, setKeychainSearchParam] = useAutocompleteTextInput()
 
   const handleCloseDrawer = () => {
@@ -68,7 +66,6 @@ export const AddKeychainToEServiceDrawer: React.FC<AddKeychainToEServiceDrawerPr
       q: getKeychainQ(),
       limit: 50,
       offset: 0,
-      producerId: jwt?.organizationId as string,
     }),
     select: (d) => d.results,
   })
