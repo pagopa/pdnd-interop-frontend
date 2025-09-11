@@ -96,7 +96,9 @@
     "summary": {
       "title": "Riepilogo",
       "generalInformationSection": {
-        "title": "Informazioni generali"
+        "title": "Informazioni generali",
+        "purposeTemplateName": "Nome template di finalità",
+        "purposeTemplateDescription": "Descrizione"
       },
       "suggestedEServicesSection": {
         "title": "E-service suggeriti"
