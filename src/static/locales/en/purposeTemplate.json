@@ -96,7 +96,9 @@
     "summary": {
       "title": "Summary",
       "generalInformationSection": {
-        "title": "General informations"
+        "title": "General informations",
+        "purposeTemplateName": "Purpose template name",
+        "purposeTemplateDescription": "Purpose template description"
       },
       "suggestedEServicesSection": {
         "title": "Suggested e-services"
