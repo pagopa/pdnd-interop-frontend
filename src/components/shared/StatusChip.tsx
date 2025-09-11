@@ -15,6 +15,7 @@ import type {
   Purpose,
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
+import type { PurposeTemplateState } from '@/api/purposeTemplate/mockedResponses'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   PUBLISHED: 'success',
@@ -58,12 +59,20 @@ const CHIP_COLORS_E_SERVICE_TEMPLATE: Record<EServiceTemplateVersionState, MUICo
   DEPRECATED: 'warning',
 }
 
+const CHIP_COLORS_PURPOSE_TEMPLATE: Record<PurposeTemplateState, MUIColor> = {
+  ACTIVE: 'success',
+  DRAFT: 'info',
+  SUSPENDED: 'error',
+  ARCHIVED: 'warning',
+}
+
 const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
   delegation: CHIP_COLORS_DELEGATION,
   eserviceTemplate: CHIP_COLORS_E_SERVICE_TEMPLATE,
+  purposeTemplate: CHIP_COLORS_PURPOSE_TEMPLATE,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
@@ -88,6 +97,10 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'eserviceTemplate'
         state: EServiceTemplateVersionState
+      }
+    | {
+        for: 'purposeTemplate'
+        state: PurposeTemplateState
       }
   )
 
@@ -158,6 +171,11 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   if (props.for === 'eserviceTemplate') {
     color = chipColors['eserviceTemplate'][props.state]
     label = t(`status.eserviceTemplate.${props.state}`)
+  }
+
+  if (props.for === 'purposeTemplate') {
+    color = chipColors['purposeTemplate'][props.state]
+    label = t(`status.purposeTemplate.${props.state}`)
   }
 
   return (
