@@ -1,3 +1,6 @@
+import axiosInstance from '@/config/axios'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+
 export interface GetUserNotificationsParams {
   /** Query to filter EServices by name */
   q?: string
@@ -76,12 +79,11 @@ export const mockedNotifications: UserNotification[] = [
 ]
 
 async function getUserNotificationsList(params: GetUserNotificationsParams) {
-  //   const response = await axiosInstance.get<UserNotifications>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`,
-  //     { params }
-  //   )
-  //   return response.data
-  return mockedNotifications
+  // const response = await axiosInstance.get<unknown>(
+  //   `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications`,
+  //   { params }
+  // )
+  return mockedNotifications as UserNotification[] // TODO to be removed when API will be ready
 }
 
 async function markAsRead({ id, ...payload }: { id: string }) {
