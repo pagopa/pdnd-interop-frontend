@@ -96,12 +96,17 @@
     "summary": {
       "title": "Summary",
       "generalInformationSection": {
-        "title": "General informations",
+        "title": "General information",
+        "descriptionTitle": "Description",
         "purposeTemplateName": "Purpose template name",
-        "purposeTemplateDescription": "Purpose template description"
+        "purposeTemplateDescription": "Purpose template description",
+        "thresholdTitle": "Thresholds",
+        "thresholdLabel": "Suggested daily API calls threshold"
       },
       "suggestedEServicesSection": {
-        "title": "Suggested e-services"
+        "title": "Suggested e-services",
+        "subtitle": "Linked e-services",
+        "providedBy": "provided by"
       },
       "riskAnalysisSection": {
         "title": "Risk analysis"
