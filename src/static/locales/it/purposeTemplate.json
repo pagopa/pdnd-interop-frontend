@@ -97,11 +97,16 @@
       "title": "Riepilogo",
       "generalInformationSection": {
         "title": "Informazioni generali",
+        "descriptionTitle": "Descrizione",
         "purposeTemplateName": "Nome template di finalità",
-        "purposeTemplateDescription": "Descrizione"
+        "purposeTemplateDescription": "Descrizione",
+        "thresholdTitle": "Stime di carico",
+        "thresholdLabel": "Soglia giornaliera chiamate API suggerite"
       },
       "suggestedEServicesSection": {
-        "title": "E-service suggeriti"
+        "title": "E-service suggeriti",
+        "subtitle": "E-service collegati",
+        "providedBy": "erogato da"
       },
       "riskAnalysisSection": {
         "title": "Analisi del rischio"
