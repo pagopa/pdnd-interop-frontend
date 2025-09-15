@@ -4,6 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { SectionContainer } from '@/components/layout/containers'
 
 type PurposeTemplateTemplateSummaryGeneralInformationAccordionProps = {
   purposeTemplateId: string
@@ -19,14 +20,33 @@ export const PurposeTemplateTemplateSummaryGeneralInformationAccordion: React.FC
     keyPrefix: 'edit.summary.generalInformationSection',
   })
 
+  const suggestedApiCalls = (purposeTemplate.purposeDailyCalls ?? '-') as unknown as string
+
   return (
-    <Stack spacing={2}>
-      <InformationContainer
-        content={purposeTemplate.purposeDescription}
-        direction="row"
-        label="TODO: ADD LABEL WHEN AVAILABLE"
-      />
-      TO DO
+    <Stack spacing={3}>
+      <SectionContainer innerSection title={t('descriptionTitle')}>
+        <Stack spacing={2}>
+          <InformationContainer
+            content={purposeTemplate.purposeTitle}
+            direction="row"
+            label={t('purposeTemplateName')}
+          />
+          <InformationContainer
+            content={purposeTemplate.purposeDescription}
+            direction="row"
+            label={t('purposeTemplateDescription')}
+          />
+        </Stack>
+      </SectionContainer>
+      <SectionContainer innerSection title={t('thresholdTitle')}>
+        <Stack spacing={2}>
+          <InformationContainer
+            content={suggestedApiCalls}
+            direction="row"
+            label={t('thresholdLabel')}
+          />
+        </Stack>
+      </SectionContainer>
     </Stack>
   )
 }
