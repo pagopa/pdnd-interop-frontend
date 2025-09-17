@@ -411,3 +411,12 @@ export interface PurposeTemplateUpdateContent {
    */
   dailyCalls?: number
 }
+
+export interface PurposeTemplateEService {
+  purposeTemplateId: string
+  eserviceId: string
+  eserviceName: string
+  producerName: string
+  descriptorId: string
+  createdAt: string
+}

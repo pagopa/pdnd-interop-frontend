@@ -112,5 +112,48 @@
         "title": "Analisi del rischio"
       }
     }
+  },
+  "read": {
+    "tabs": {
+      "ariaLabel": "Tre tab diverse per i dettagli del template della finalità, gli e-service collegati e l'analisi del rischio",
+      "details": "Dettaglio template",
+      "linkedEservices": "E-service collegati",
+      "riskAnalysis": "Analisi del rischio"
+    },
+    "detailsTab": {
+      "sections": {
+        "generalInformation": {
+          "title": "Informazioni template",
+          "producerName": "Realizzato da",
+          "tenantKind": "Destinato a",
+          "intendedTarget": "A chi è rivolto il template",
+          "purposeDescription": "Descrizione della finalità",
+          "riskAnalysisDownloadLink": "Scarica analisi del rischio"
+        },
+        "linkedEservices": {
+          "title": "E-service collegati",
+          "description": "L’ente ha definito un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare questo template anche per e-service che non compaiono nella lista.",
+          "linkedEservicesLink": "Visualizza gli e-service collegati"
+        },
+        "documentation": {
+          "title": "Documentazione",
+          "description": "Per questa analisi del rischio agevolata sono disponibili le seguenti linee guida.",
+          "documentsLabel": "Documenti a supporto",
+          "usefulLink": "Link utili"
+        },
+        "thresholds": {
+          "title": "Stima di carico suggerita",
+          "description": "Il numero di chiamate API/giorno che si stima di fare verso l’e-service dell’erogatore",
+          "planCard": {
+            "title": "Il piano suggerito",
+            "subtitle": "Chiamate API/giorno"
+          }
+        }
+      }
+    },
+    "linkedEservicesTab": {
+      "title": "E-service e template e-service collegati",
+      "description": "Definisci un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare \n questo template anche per e-service che non compaiono nella lista."
+    }
   }
 }

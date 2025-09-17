@@ -112,5 +112,48 @@
         "title": "Risk analysis"
       }
     }
+  },
+  "read": {
+    "tabs": {
+      "ariaLabel": "Three separate tabs for purpose template details, linked e-services, and risk analysis",
+      "details": "Template details",
+      "linkedEservices": "Linked e-services",
+      "riskAnalysis": "Risk analysis"
+    },
+    "detailsTab": {
+      "sections": {
+        "generalInformation": {
+          "title": "Template information",
+          "producerName": "Created by",
+          "tenantKind": "Intended for",
+          "intendedTarget": "Who is the template for",
+          "purposeDescription": "Purpose description",
+          "riskAnalysisDownloadLink": "Download risk analysis"
+        },
+        "linkedEservices": {
+          "title": "Linked e-services",
+          "description": "The entity has defined a list of e-services for which the facilitated purpose is suggested. The user may also use this template for e-services not included in the list.",
+          "linkedEservicesLink": "View linked e-services"
+        },
+        "documentation": {
+          "title": "Documentation",
+          "description": "The following guidelines are available for this facilitated risk analysis.",
+          "documentsLabel": "Supporting documents",
+          "usefulLink": "Useful links"
+        },
+        "thresholds": {
+          "title": "Suggested load estimate",
+          "description": "The estimated number of API calls per day to the provider's e-service",
+          "planCard": {
+            "title": "Suggested plan",
+            "subtitle": "API calls/day"
+          }
+        }
+      }
+    },
+    "linkedEservicesTab": {
+      "title": "Linked e-services and template e-services",
+      "description": "Define a list of e-services for which it is suggested to use the facilitated purpose. The user \n  may also use this template for e-services not included in the list."
+    }
   }
 }
