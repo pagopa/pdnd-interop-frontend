@@ -4,7 +4,6 @@ import { Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import { AuthHooks } from '@/api/auth'
 import { PurposeTemplateEService } from '@/api/purposeTemplate/mockedResponses'
 
 interface ConsumerPurposeTemplateLinkedEServiceTableRowProps {
