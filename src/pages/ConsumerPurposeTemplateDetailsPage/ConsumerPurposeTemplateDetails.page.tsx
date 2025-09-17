@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useCurrentRoute, useParams } from '@/router'
+import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { PageContainer } from '@/components/layout/containers'
@@ -8,6 +8,7 @@ import { ConsumerPurposeTemplateDetailsTab } from './components/ConsumerPurposeT
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
 import { useActiveTab } from '@/hooks/useActiveTab'
+import { ConsumerPurposeTemplateLinkedEServiceTab } from './components/ConsumerPurposeTemplateLinkedEServiceTab/ConsumerPurposeTemplateLinkedEServiceTab'
 
 const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('purposeTemplate')
@@ -55,7 +56,9 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
           <ConsumerPurposeTemplateDetailsTab purposeTemplate={purposeTemplate} />
         </TabPanel>
 
-        <TabPanel value="linkedEservices">TO DO</TabPanel>
+        <TabPanel value="linkedEservices">
+          <ConsumerPurposeTemplateLinkedEServiceTab purposeTemplate={purposeTemplate} />
+        </TabPanel>
 
         <TabPanel value="riskAnalysis">TO DO</TabPanel>
       </TabContext>
