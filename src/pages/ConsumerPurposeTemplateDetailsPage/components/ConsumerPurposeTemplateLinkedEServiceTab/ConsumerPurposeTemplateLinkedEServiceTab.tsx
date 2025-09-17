@@ -1,12 +1,9 @@
-import { AuthHooks } from '@/api/auth'
-import { Button, Stack, Tooltip } from '@mui/material'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
+import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import EditIcon from '@mui/icons-material/Edit'
-import { PageContainer, SectionContainer } from '@/components/layout/containers'
-import { ActionItemButton } from '@/types/common.types'
+import { SectionContainer } from '@/components/layout/containers'
+import type { ActionItemButton } from '@/types/common.types'
 import {
   ConsumerPurposeTemplateLinkedEServiceTableSkeleton,
   ConsumerPurposeTemplateLinkedEServiceTable,
