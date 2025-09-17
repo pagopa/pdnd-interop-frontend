@@ -81,7 +81,9 @@
       "eserviceTemplateInstanceState": "Stato istanza",
       "eserviceTemplateName": "Template",
       "targetOrganization": "Destinazione ente",
-      "purposeTemplateName": "Nome template finalità"
+      "purposeTemplateName": "Nome template finalità",
+      "linkedEserviceName": "E-service o template e-service",
+      "linkedEserviceProviderName": "Nome erogatore"
     }
   },
   "status": {

@@ -81,7 +81,9 @@
       "eserviceTemplateInstanceState": "Instance's state",
       "eserviceTemplateName": "Template",
       "targetOrganization": "Target organization",
-      "purposeTemplateName": "Purpose template name"
+      "purposeTemplateName": "Purpose template name",
+      "linkedEserviceName": "E-service or e-service template",
+      "linkedEserviceProviderName": "Provider Name"
     }
   },
   "status": {
