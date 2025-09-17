@@ -60,6 +60,7 @@ import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
 import ConsumerPurposeTemplateListPage from '@/pages/ConsumerPurposeTemplateListPage/ConsumerPurposeTemplateList.page'
 import ConsumerPurposeTemplateCatalogPage from '@/pages/ConsumerPurposeTemplateCatalogPage/ConsumerPurposeTemplateCatalog.page'
+import { ConsumerPurposeTemplateDetailsPage } from '@/pages/ConsumerPurposeTemplateDetailsPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -585,6 +586,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
     path: 'fruizione/catalogo-template-finalita',
     element: <ConsumerPurposeTemplateCatalogPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
+    path: 'fruizione/template-finalita/:purposeTemplateId',
+    element: <ConsumerPurposeTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support'],
