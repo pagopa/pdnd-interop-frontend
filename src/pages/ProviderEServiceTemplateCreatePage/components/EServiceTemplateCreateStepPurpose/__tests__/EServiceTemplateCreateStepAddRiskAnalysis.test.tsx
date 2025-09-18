@@ -11,7 +11,6 @@ vi.mock('@/api/template', () => ({
   },
 }))
 
-
 vi.mock('@/api/purpose', () => ({
   PurposeQueries: {
     getRiskAnalysisLatest: vi.fn(() => ({ queryKey: ['riskAnalysisLatest'] })),

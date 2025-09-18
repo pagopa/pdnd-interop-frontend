@@ -18,7 +18,6 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
   })
   const { t: tCommon } = useTranslation('common')
 
-
   const { eserviceTemplateVersion, areEServiceTemplateGeneralInfoEditable } =
     useEServiceTemplateCreateContext()
 

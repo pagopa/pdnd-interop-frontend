@@ -34,7 +34,7 @@ async function getKeychainsList(params: GetProducerKeychainsParams) {
 async function getProducerKeychainKeysList(params: GetProducerKeysParams) {
   const response = await axiosInstance.get<PublicKeys>(
     `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${params.producerKeychainId}/keys`,
-    { params: { userIds: params.userIds } }
+    { params: { userIds: params.userIds, offset: params.offset, limit: params.limit } }
   )
   return response.data
 }
