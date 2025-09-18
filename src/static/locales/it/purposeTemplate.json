@@ -114,6 +114,10 @@
     }
   },
   "read": {
+    "actions": {
+      "createNewPurposeInstance": "Usa template",
+      "tooltip": "Non puoi usare il template perché è destinato ad una tipologia di ente differente."
+    },
     "tabs": {
       "ariaLabel": "Tre tab diverse per i dettagli del template della finalità, gli e-service collegati e l'analisi del rischio",
       "details": "Dettaglio template",

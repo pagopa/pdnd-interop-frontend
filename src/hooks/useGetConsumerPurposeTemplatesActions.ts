@@ -8,9 +8,14 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useLocation, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
+import type { TenantKind } from '@/api/api.generatedTypes'
 
-function useGetConsumerPurposeTemplateTemplatesActions(purposeTemplate?: PurposeTemplate) {
+function useGetConsumerPurposeTemplateTemplatesActions(
+  tenantKind: TenantKind,
+  purposeTemplate?: PurposeTemplate
+) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t } = useTranslation('purposeTemplate', { keyPrefix: 'read' })
   const { isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
@@ -95,18 +100,34 @@ function useGetConsumerPurposeTemplateTemplatesActions(purposeTemplate?: Purpose
     action: handlePublishDraft,
   }
 
+  const usePurposeTemplateAction: ActionItemButton = {
+    label: t('actions.createNewPurposeInstance'),
+    action: handleUsePurposeTemplateAction,
+    variant: 'contained',
+    disabled: tenantKind !== purposeTemplate.targetTenantKind,
+    tooltip: t('actions.tooltip'),
+  }
+
+  function handleUsePurposeTemplateAction() {
+    if (!purposeTemplate) return
+    console.log('create purpose draft')
+  }
+
   if (purposeTemplate?.state === 'DRAFT') {
     return { actions: [deleteAction, publishAction] }
   }
 
-  const actions: Array<ActionItemButton> = [archiveAction]
+  const actions: Array<ActionItemButton> = []
 
   const isSuspended = purposeTemplate?.state === 'SUSPENDED'
   const isActive = purposeTemplate?.state === 'ACTIVE'
 
   if (isActive) {
+    actions.push(usePurposeTemplateAction)
     actions.push(suspendAction)
   }
+
+  actions.push(archiveAction)
 
   if (isSuspended) {
     actions.push(activateAction)
