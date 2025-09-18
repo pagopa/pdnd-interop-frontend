@@ -22,6 +22,7 @@
       "mailLabel": "Indirizzo email",
       "enableSectionAllNotifications": "Abilita tutto",
       "disableSectionAllNotifications": "Disabilita tutto",
+      "digestInfoDescription": "Il resoconto settimanale sarà disponibile a breve, pertanto non riceverai subito comunicazioni.",
       "enableAllNotifications": {
         "label": "Abilita la ricezione delle notifiche e-mail",
         "description": "Disabilitando questa opzione, non riceverai nessuna e-mail"

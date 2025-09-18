@@ -13,6 +13,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Alert,
 } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -140,6 +141,12 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
               <MenuItem value="customize">{t('customize')}</MenuItem>
             </Select>
           </FormControl>
+        )}
+
+        {emailPreferencesChoice === 'digest' && type === 'email' && (
+          <Alert severity="info" sx={{ mt: 3 }}>
+            {t('digestInfoDescription')}
+          </Alert>
         )}
 
         <Box sx={{ ml: 2, mt: 2 }}>
