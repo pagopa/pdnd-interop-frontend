@@ -2,14 +2,26 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Card, Link, Stack, Typography, Button } from '@mui/material'
+import {
+  Box,
+  Card,
+  Link,
+  Stack,
+  Typography,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
-import { useNotificationInAppConfigForm } from '../hooks/useNotificationInAppConfigForm'
+import { useNotificationInAppConfigForm as useNotificationInAppConfigHook } from '../hooks/useNotificationInAppConfigForm'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
 import { debounce, isEqual } from 'lodash'
 import type { NotificationSubSectionSchema, NotificationConfigType } from '../types'
+import { match } from 'ts-pattern'
 
 type NotificationConfigUserTabProps = {
   notificationConfig: NotificationConfig
@@ -27,9 +39,12 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 }) => {
   const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
 
-  const { notificationSchema } = useNotificationInAppConfigForm('inApp')
+  const { notificationSchema, sectionComponentKeysMap } = useNotificationInAppConfigHook(type)
+  const [emailPreferencesChoice, setPreferencesChoices] = React.useState<
+    'notSend' | 'digest' | 'customize'
+  >('customize')
 
-  const userEmail = 'pippo@mail.com'
+  const userEmail = 'pippo@mail.com' // TODO: Should be available with api
 
   const formMethods = useForm<NotificationConfig & { enableAllNotification: boolean }>({
     defaultValues: { ...notificationConfig, enableAllNotification: true },
@@ -38,8 +53,6 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const valueChanged = formMethods.watch()
   const valuesRef = useRef<NotificationConfig>(valueChanged)
   const previousValuesRef = useRef<NotificationConfig | null>(null)
-
-  console.log('type', type)
 
   valuesRef.current = valueChanged
 
@@ -62,14 +75,27 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
     }
   }, [debounceFn, valueChanged, formMethods.formState.isDirty])
 
-  const onClickEnableAllSectionSwitch = (sectionName: string) => {
-    const sectionComponentsKeys = notificationSchema[sectionName].subsections.flatMap(
-      (s: NotificationSubSectionSchema) => s.components.map((c) => c.key)
-    )
-
-    sectionComponentsKeys.map((inAppConfigKey: string) => {
-      formMethods.setValue(inAppConfigKey as keyof NotificationConfig, true)
+  const onClickEnableAllSectionSwitch = (sectionName: string, value: boolean) => {
+    sectionComponentKeysMap[sectionName].map((inAppConfigKey: string) => {
+      formMethods.setValue(inAppConfigKey as keyof NotificationConfig, value)
     })
+  }
+
+  const getSwitchBySections = (sectionName: string) => {
+    return sectionComponentKeysMap[sectionName].filter(
+      (item) => !valuesRef.current[item as keyof NotificationConfig]
+    )
+  }
+
+  const isEnabledShowPreferencesSwitch = (): boolean => {
+    return match(type)
+      .with('email', () => {
+        return emailPreferencesChoice === 'customize'
+      })
+      .with('inApp', () => {
+        return valueChanged.enableAllNotification
+      })
+      .exhaustive()
   }
 
   return (
@@ -82,12 +108,41 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
         )}
 
         {type === 'email' && (
-          <Stack direction="row" spacing={8} sx={{ mb: 2 }}>
-            <Typography data-testid="test-email">Indirizzo email</Typography>
-            <Typography fontWeight={600}>{userEmail}</Typography>
-          </Stack>
+          <>
+            <Stack direction="row" spacing={8} sx={{ mb: 2 }}>
+              <Typography data-testid="test-email">Indirizzo email</Typography>
+              <Typography fontWeight={600}>{userEmail}</Typography>
+            </Stack>
+            <Link
+              href="https://docs.pagopa.it/interoperabilita-1"
+              underline="none"
+              variant="button"
+            >
+              {t('linkLabel')}
+            </Link>
+          </>
         )}
-        <Box sx={{ px: 3, mt: 2 }}>
+
+        {type === 'email' && (
+          <FormControl fullWidth sx={{ mt: 3 }}>
+            <InputLabel id="demo-simple-select-label">{t('emailPreferencesLabel')}</InputLabel>
+            <Select
+              labelId="emailPrefefences"
+              id="emailPreferences"
+              value={emailPreferencesChoice}
+              label={t('emailPreferencesLabel')}
+              onChange={(event) =>
+                setPreferencesChoices(event.target.value as 'notSend' | 'digest' | 'customize')
+              }
+            >
+              <MenuItem value="notSend">{t('notSend')}</MenuItem>
+              <MenuItem value="digest">{t('digest')}</MenuItem>
+              <MenuItem value="customize">{t('customize')}</MenuItem>
+            </Select>
+          </FormControl>
+        )}
+
+        <Box sx={{ ml: 2, mt: 2 }}>
           {type === 'inApp' && (
             <RHFSwitch
               data-testid="enableAllNotification"
@@ -101,10 +156,9 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
             />
           )}
 
-          {type === 'email' && <div>EMAIL DA CONFIGURARE</div>}
-
-          {valueChanged.enableAllNotification &&
+          {isEnabledShowPreferencesSwitch() &&
             Object.keys(notificationSchema).map((sectionName) => {
+              const isAllSwitchWithinSectionDisabled = getSwitchBySections(sectionName).length <= 0
               return (
                 <Box key={sectionName} data-testid={`config-section-${sectionName}`}>
                   <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
@@ -124,9 +178,16 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
                       <Button
                         variant="naked"
                         sx={{ mr: 3 }}
-                        onClick={() => onClickEnableAllSectionSwitch(sectionName)}
+                        onClick={() =>
+                          onClickEnableAllSectionSwitch(
+                            sectionName,
+                            !isAllSwitchWithinSectionDisabled
+                          )
+                        }
                       >
-                        {t('enableSectionAllNotifications')}
+                        {isAllSwitchWithinSectionDisabled
+                          ? t('disableSectionAllNotifications')
+                          : t('enableSectionAllNotifications')}
                       </Button>
                     </Box>
 

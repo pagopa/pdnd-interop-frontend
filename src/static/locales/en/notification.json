@@ -9,6 +9,7 @@
       "manualLinkLabel": "Dubbi? Vai sul manuale",
       "description": "Le notifiche di piattaforma ti informeranno sugli eventi che ti riguardano.",
       "enableSectionAllNotifications": "Abilita tutto",
+      "disableSectionAllNotifications": "Disabilita tutto",
       "enableAllNotifications": {
         "label": "Abilita la ricezione delle notifiche in piattaforma",
         "description": "Disabilitando questa opzione, non riceverai nessuna notifica in piattaforma"
@@ -20,10 +21,15 @@
       "linkLabel": "Non è la tua mail? Scopri come aggiornarla",
       "mailLabel": "Indirizzo email",
       "enableSectionAllNotifications": "Abilita tutto",
+      "disableSectionAllNotifications": "Disabilita tutto",
       "enableAllNotifications": {
         "label": "Abilita la ricezione delle notifiche e-mail",
         "description": "Disabilitando questa opzione, non riceverai nessuna e-mail"
-      }
+      },
+      "emailPreferencesLabel": "Preferenze di ricezione",
+      "notSend": "Non inviare le notifiche via e-mail",
+      "digest": "Invia una e-mail di resoconto settimanale",
+      "customize": "Personalizza le notifiche via e-mail"
     },
     "sections": {
       "subscriber": {
