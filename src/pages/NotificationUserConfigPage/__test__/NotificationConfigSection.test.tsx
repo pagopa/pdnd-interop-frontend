@@ -1,27 +1,24 @@
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { NotificationConfigSection } from '../components/NotificationConfigSection'
 import { screen } from '@testing-library/react'
-import { FormProvider } from 'react-hook-form'
 
 describe('NotificationConfigSection', () => {
   beforeEach(() => {
     renderWithApplicationContext(
-      // <FormProvider {...formMethods}>
-        <NotificationConfigSection
-          subsection={{
-            title: 'Test subsection',
-            name: 'testSwitchSection',
-            components: [
-              {
-                key: 'firstSwitch',
-                title: 'firstSwitchTitle',
-                description: 'firstSwitchDescription',
-                visibility: ['admin', 'api', 'security'],
-              },
-            ],
-          }}
-        />
-      // </FormProvider>,
+      <NotificationConfigSection
+        subsection={{
+          title: 'Test subsection',
+          name: 'testSwitchSection',
+          components: [
+            {
+              key: 'firstSwitch',
+              title: 'firstSwitchTitle',
+              description: 'firstSwitchDescription',
+              visibility: ['admin', 'api', 'security'],
+            },
+          ],
+        }}
+      />,
       { withRouterContext: true, withReactQueryContext: true }
     )
   })

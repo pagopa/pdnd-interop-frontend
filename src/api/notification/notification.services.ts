@@ -5,37 +5,34 @@ import type {
   UserNotificationConfig,
   UserNotificationConfigUpdateSeed,
 } from '../api.generatedTypes'
-import * as crypto from 'crypto'
 
-async function updateUserNotificationConfiguration(payload: UserNotificationConfigUpdateSeed) {
+async function updateUserNotificationConfigs(payload: UserNotificationConfigUpdateSeed) {
   return await axiosInstance.post<void>(
-    `${BACKEND_FOR_FRONTEND_URL}/notification-config/userNotificationConfigs`,
+    `${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`,
     payload
   )
 }
 
-async function getUserNotificationConfiguration() {
-  // const response = await axiosInstance.get<UserNotificationConfig>(
-  //   `${BACKEND_FOR_FRONTEND_URL}/notification-config/userNotificationConfigs`
-  // )
-  // return response.data
+async function getUserNotificationConfigs() {
+  const response = await axiosInstance.get<UserNotificationConfig>(
+    `${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`
+  )
+  return response.data
 
-  return new Promise<UserNotificationConfig>((resolve) => {
-    setTimeout(() => {
-      resolve({
-        emailConfig: getNotificationConfig(crypto.randomBytes(1)[0] < 128),
-        inAppConfig: getNotificationConfig(false),
-      })
-    }, 5000)
-  })
+  // return new Promise<UserNotificationConfig>((resolve) => {
+  //   setTimeout(() => {
+  //     resolve({
+  //       emailConfig: getNotificationConfig(crypto.randomBytes(1)[0] < 128),
+  //       inAppConfig: getNotificationConfig(false),
+  //     })
+  //   }, 5000)
+  // })
 }
 
 export const NotificationServices = {
-  updateUserNotificationConfiguration,
-  getUserNotificationConfiguration,
+  updateUserNotificationConfigs,
+  getUserNotificationConfigs,
 }
-
-//TODO: To delete:
 
 function getNotificationConfig(randomValue: boolean): NotificationConfig {
   return {

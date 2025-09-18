@@ -8,39 +8,59 @@ import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { useNotificationInAppConfigForm } from '../hooks/useNotificationInAppConfigForm'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import { debounce } from 'lodash'
-import type { NotificationSubSectionSchema } from '../types'
+import { debounce, isEqual } from 'lodash'
+import type { NotificationSubSectionSchema, NotificationConfigType } from '../types'
 
-type InAppNotificationUserConfigTabProps = {
-  inAppConfig: NotificationConfig
+type NotificationConfigUserTabProps = {
+  notificationConfig: NotificationConfig
+  handleUpdateNotificationConfigs: (
+    notificationConfig: NotificationConfig,
+    type: NotificationConfigType
+  ) => void
+  type: NotificationConfigType
 }
 
-export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfigTabProps> = ({
-  inAppConfig,
+export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps> = ({
+  notificationConfig,
+  handleUpdateNotificationConfigs,
+  type,
 }) => {
-  const { t } = useTranslation('notification', { keyPrefix: 'configurationPage.inAppTab' })
+  const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
 
-  const { notificationSchema } = useNotificationInAppConfigForm()
+  const { notificationSchema } = useNotificationInAppConfigForm('inApp')
+
+  const userEmail = 'pippo@mail.com'
 
   const formMethods = useForm<NotificationConfig & { enableAllNotification: boolean }>({
-    defaultValues: { ...inAppConfig, enableAllNotification: false },
+    defaultValues: { ...notificationConfig, enableAllNotification: true },
   })
 
   const valueChanged = formMethods.watch()
-  const valuesRef = useRef(valueChanged)
+  const valuesRef = useRef<NotificationConfig>(valueChanged)
+  const previousValuesRef = useRef<NotificationConfig | null>(null)
+
+  console.log('type', type)
+
   valuesRef.current = valueChanged
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceFn = useCallback(
     debounce(() => {
-      // console.log('value has been changed: call API', valuesRef.current)
-      //TODO: Dedcide timing in ms
+      previousValuesRef.current = valuesRef.current
+      handleUpdateNotificationConfigs(valuesRef.current, type)
     }, 1000),
     []
   )
 
   useEffect(() => {
-    if (valueChanged) debounceFn()
-  }, [debounceFn, valueChanged])
+    if (
+      formMethods.formState.isDirty &&
+      valueChanged &&
+      !isEqual(valueChanged, previousValuesRef.current)
+    ) {
+      debounceFn()
+    }
+  }, [debounceFn, valueChanged, formMethods.formState.isDirty])
 
   const onClickEnableAllSectionSwitch = (sectionName: string) => {
     const sectionComponentsKeys = notificationSchema[sectionName].subsections.flatMap(
@@ -55,20 +75,33 @@ export const InAppNotificationUserConfigTab: React.FC<InAppNotificationUserConfi
   return (
     <FormProvider {...formMethods}>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
-        <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
-          {t('manualLinkLabel')}
-        </Link>
+        {type === 'inApp' && (
+          <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
+            {t('manualLinkLabel')}
+          </Link>
+        )}
+
+        {type === 'email' && (
+          <Stack direction="row" spacing={8} sx={{ mb: 2 }}>
+            <Typography data-testid="test-email">Indirizzo email</Typography>
+            <Typography fontWeight={600}>{userEmail}</Typography>
+          </Stack>
+        )}
         <Box sx={{ px: 3, mt: 2 }}>
-          <RHFSwitch
-            data-testid="enableAllNotification"
-            name="enableAllNotification"
-            label={
-              <SwitchLabelDescription
-                label={t('enableAllNotifications.label')}
-                description={t('enableAllNotifications.description')}
-              />
-            }
-          />
+          {type === 'inApp' && (
+            <RHFSwitch
+              data-testid="enableAllNotification"
+              name="enableAllNotification"
+              label={
+                <SwitchLabelDescription
+                  label={t('enableAllNotifications.label')}
+                  description={t('enableAllNotifications.description')}
+                />
+              }
+            />
+          )}
+
+          {type === 'email' && <div>EMAIL DA CONFIGURARE</div>}
 
           {valueChanged.enableAllNotification &&
             Object.keys(notificationSchema).map((sectionName) => {

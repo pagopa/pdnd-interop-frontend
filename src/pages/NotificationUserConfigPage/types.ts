@@ -1,5 +1,7 @@
 import { type UserProductRole } from '@/types/party.types'
 
+export type NotificationConfigType = 'email' | 'inApp'
+
 export type NotificationSubSectionSchema = {
   name: string
   title: string

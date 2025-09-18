@@ -2730,6 +2730,10 @@ export interface GetNotificationsParams {
   limit: number
 }
 
+export interface DeleteNotificationsPayload {
+  ids: string[]
+}
+
 export interface MarkNotificationsAsReadPayload {
   ids: string[]
 }
@@ -7313,6 +7317,21 @@ export namespace InAppNotifications {
     export type ResponseBody = void
   }
   /**
+   * @description Delete bulk notifications
+   * @tags inAppNotifications
+   * @name DeleteNotifications
+   * @summary Delete bulk notifications
+   * @request DELETE:/inAppNotifications
+   * @secure
+   */
+  export namespace DeleteNotifications {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DeleteNotificationsPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Mark a list of notifications as read
    * @tags inAppNotifications
    * @name MarkNotificationsAsRead
@@ -7340,6 +7359,39 @@ export namespace InAppNotifications {
       /** @format uuid */
       notificationId: string
     }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a notification as unread
+   * @tags inAppNotifications
+   * @name MarkNotificationAsUnread
+   * @summary Mark a notification as unread
+   * @request POST:/inAppNotifications/:notificationId/markAsUnread
+   * @secure
+   */
+  export namespace MarkNotificationAsUnread {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as unread
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsUnread
+   * @summary Mark a list of notifications as unread
+   * @request POST:/inAppNotifications/bulk/markAsUnread
+   * @secure
+   */
+  export namespace MarkNotificationsAsUnread {
+    export type RequestParams = {}
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}

@@ -4,7 +4,7 @@
     "description": "Gestisci le tue impostazioni di notifica in app e via email personale.",
     "inAppTabTitle": "Notifiche in-app",
     "emailTabTitle": "Email",
-    "inAppTab": {
+    "inApp": {
       "title": "Configurazione delle preferenze di notifica in piattaforma",
       "manualLinkLabel": "Dubbi? Vai sul manuale",
       "description": "Le notifiche di piattaforma ti informeranno sugli eventi che ti riguardano.",
@@ -14,7 +14,7 @@
         "description": "Disabilitando questa opzione, non riceverai nessuna notifica in piattaforma"
       }
     },
-    "emailTab": {
+    "email": {
       "title": "Configurazione delle preferenze di notifica tramite email",
       "description": "Le notifiche email ti informeranno sulla tua casella personale gli eventi che ti riguardano. La mail che utilizzeremo è quella che ci hai fornito in fase di iscrizione.",
       "linkLabel": "Non è la tua mail? Scopri come aggiornarla",

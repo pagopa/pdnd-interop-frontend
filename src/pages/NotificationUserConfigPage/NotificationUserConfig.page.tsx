@@ -3,14 +3,20 @@ import { PageContainer, SectionContainerSkeleton } from '@/components/layout/con
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
-import { EmailNotificationUserConfigTab } from './components/EmailNotificationUserConfigTab'
-import { InAppNotificationUserConfigTab } from './components/InAppNotificationUserConfigTab'
+import { NotificationConfigUserTab } from './components/NotificationUserConfigTab'
 import { useTranslation } from 'react-i18next'
-import { NotificationQueries } from '@/api/notification'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { NotificationMutations, NotificationQueries } from '@/api/notification'
+import { useQuery } from '@tanstack/react-query'
+import { match } from 'ts-pattern'
+import {
+  type NotificationConfig,
+  type UserNotificationConfigUpdateSeed,
+} from '@/api/api.generatedTypes'
+import type { NotificationConfigType } from './types'
 
 const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('inApp')
+
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
 
   return (
@@ -35,9 +41,43 @@ const NotificationUserConfigTabs: React.FC<{
 }> = ({ activeTab, updateActiveTab }) => {
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
 
-  const { data } = useSuspenseQuery({
-    ...NotificationQueries.getUserNotificationConfiguration(),
+  const { data } = useQuery({
+    ...NotificationQueries.getUserNotificationConfigs(),
   })
+
+  const { mutate: updateUserNotificationConfigs } =
+    NotificationMutations.useUpdateNotificationUserConfigs()
+
+  const handleUpdate = (notificationConfig: NotificationConfig, type: NotificationConfigType) => {
+    const unnecessaryKeys = ['enableAllNotification']
+    const removeUnnecessaryKeys = (config: NotificationConfig) => {
+      return Object.fromEntries(
+        Object.entries(config).filter(([key]) => !unnecessaryKeys.includes(key))
+      ) as NotificationConfig
+    }
+
+    const notificationConfigSeed = match(type)
+      .with(
+        'inApp',
+        () =>
+          ({
+            inAppConfig: removeUnnecessaryKeys(notificationConfig),
+            emailConfig: data?.emailConfig as NotificationConfig,
+          }) as UserNotificationConfigUpdateSeed
+      )
+      .with(
+        'email',
+        () =>
+          ({
+            inAppConfig: data?.inAppConfig as NotificationConfig,
+            emailConfig: removeUnnecessaryKeys(notificationConfig),
+          }) as UserNotificationConfigUpdateSeed
+      )
+      .exhaustive()
+
+    updateUserNotificationConfigs(notificationConfigSeed)
+  }
+
   return (
     <TabContext value={activeTab}>
       <TabList sx={{ mt: 3 }} onChange={updateActiveTab} variant="fullWidth">
@@ -46,10 +86,22 @@ const NotificationUserConfigTabs: React.FC<{
       </TabList>
 
       <TabPanel value="inApp">
-        {data?.inAppConfig && <InAppNotificationUserConfigTab inAppConfig={data.inAppConfig} />}
+        {data?.inAppConfig && (
+          <NotificationConfigUserTab
+            type="inApp"
+            notificationConfig={data.inAppConfig}
+            handleUpdateNotificationConfigs={(notification) => handleUpdate(notification, 'inApp')}
+          />
+        )}
       </TabPanel>
       <TabPanel value="email">
-        {data?.emailConfig && <EmailNotificationUserConfigTab emailConfig={data.emailConfig} />}{' '}
+        {data?.emailConfig && (
+          <NotificationConfigUserTab
+            type="email"
+            notificationConfig={data.inAppConfig}
+            handleUpdateNotificationConfigs={(notification) => handleUpdate(notification, 'inApp')}
+          />
+        )}
       </TabPanel>
     </TabContext>
   )

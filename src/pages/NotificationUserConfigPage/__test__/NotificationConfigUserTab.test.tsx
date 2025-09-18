@@ -1,12 +1,11 @@
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
-import { fireEvent, screen } from '@testing-library/react'
-import { InAppNotificationUserConfigTab } from '../components/InAppNotificationUserConfigTab'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
+import { NotificationConfigUserTab } from '../components/NotificationUserConfigTab'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import { EmailNotificationUserConfigTab } from '../components/EmailNotificationUserConfigTab'
 
 mockUseJwt()
 
-const emailAppNotificationConfigMock: NotificationConfig = {
+const inAppNotificationConfigMock: NotificationConfig = {
   agreementSuspendedUnsuspendedToProducer: true, // 04
   agreementManagementToProducer: true, // 03
   clientAddedRemovedToProducer: true, // 05
@@ -28,10 +27,14 @@ const emailAppNotificationConfigMock: NotificationConfig = {
   clientKeyAddedDeletedToClientUsers: true, // 25
 }
 
-describe('EmailAppNotificationUserconfigTab', () => {
+describe('InAppNotificationUserconfigTab', () => {
   beforeEach(() => {
     renderWithApplicationContext(
-      <EmailNotificationUserConfigTab emailConfig={emailAppNotificationConfigMock} />,
+      <NotificationConfigUserTab
+        notificationConfig={inAppNotificationConfigMock}
+        type="inApp"
+        handleUpdateNotificationConfigs={vi.fn()}
+      />,
       {
         withRouterContext: true,
         withReactQueryContext: true,
@@ -39,6 +42,10 @@ describe('EmailAppNotificationUserconfigTab', () => {
     )
   })
 
+  it('Should not be se to user email into "inApp" tab', () => {
+    const mailLabel = screen.queryByTestId('mailLabel')
+    expect(mailLabel).not.toBeInTheDocument()
+  })
   it('Should not able to see all sections if main switch is off', () => {
     const mainSwitch = screen.getByTestId('enableAllNotification')
     expect(mainSwitch).toBeInTheDocument()
@@ -55,5 +62,26 @@ describe('EmailAppNotificationUserconfigTab', () => {
     const allSections = screen.getAllByTestId(/config-section-/)
 
     expect(allSections).toHaveLength(4)
+  })
+
+  describe.only('mail tab', () => {
+    beforeEach(() => {
+      renderWithApplicationContext(
+        <NotificationConfigUserTab
+          notificationConfig={inAppNotificationConfigMock}
+          type="email"
+          handleUpdateNotificationConfigs={vi.fn()}
+        />,
+        {
+          withRouterContext: true,
+          withReactQueryContext: true,
+        }
+      )
+    })
+
+    it('Should be able to see user email', () => {
+      const email = screen.getByTestId('test-email')
+      expect(email).toBeInTheDocument()
+    })
   })
 })
