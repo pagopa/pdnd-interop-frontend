@@ -2,7 +2,11 @@ import type { Mail } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { TenantMutations } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import {
+  RHFSwitch,
+  RHFTextField,
+  SwitchLabelDescription,
+} from '@/components/shared/react-hook-form-inputs'
 import { emailRegex } from '@/utils/form.utils'
 import { Alert, Stack, Box } from '@mui/material'
 import isEqual from 'lodash/isEqual'
@@ -28,7 +32,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
   const { t: tCommon } = useTranslation('common')
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, currentRoles } = AuthHooks.useJwt()
 
   const { mutateAsync: updateMail } = TenantMutations.useUpdateMail()
 
@@ -114,6 +118,21 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
               }}
             />
           </Box>
+          {currentRoles.includes('admin') && (
+            <Box>
+              <RHFSwitch
+                sx={{ ml: 2 }}
+                data-testid="enable-notification-tenant-email"
+                name="enable-notification-tenant-email"
+                label={
+                  <SwitchLabelDescription
+                    label=""
+                    description={t('drawer.notificationActivationField.label')}
+                  />
+                }
+              />
+            </Box>
+          )}
           {email?.address && (
             <Alert variant="outlined" severity="info">
               {t('drawer.mailChangeAlert')}

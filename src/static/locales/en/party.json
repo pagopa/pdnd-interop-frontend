@@ -39,6 +39,9 @@
       "mailField": {
         "label": "Party mail address (required)"
       },
+      "notificationActivationField": {
+        "label": "Receive courtesy emails for the organization through this mailbox"
+      },
       "descriptionField": {
         "label": "Notes",
         "infoLabel": "Min 10 chars, max 250 chars"
