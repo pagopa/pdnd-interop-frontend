@@ -3,38 +3,38 @@ import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { ConsumerEServiceTemplateDetails } from './components'
 import { useGetConsumerEServiceTemplateActions } from './hooks/useGetConsumerEServiceTemplateActions'
 
 const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'read' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'read' })
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const { data: template } = useQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+  const { data: eserviceTemplate } = useQuery(
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  const isAlreadyInstantiated = template?.isAlreadyInstantiated ?? false
-  const hasRequesterRiskAnalysis = template?.hasRequesterRiskAnalysis ?? true
+  const isAlreadyInstantiated = eserviceTemplate?.isAlreadyInstantiated ?? false
+  const hasRequesterRiskAnalysis = eserviceTemplate?.hasRequesterRiskAnalysis ?? true
 
   const { actions } = useGetConsumerEServiceTemplateActions(
     eServiceTemplateId,
     isAlreadyInstantiated,
     hasRequesterRiskAnalysis,
-    template?.state
+    eserviceTemplate?.state
   )
   return (
     <PageContainer
-      title={template?.eserviceTemplate.name || ''}
-      isLoading={!template}
+      title={eserviceTemplate?.eserviceTemplate.name || ''}
+      isLoading={!eserviceTemplate}
       topSideActions={actions}
       statusChip={
-        template
+        eserviceTemplate
           ? {
-              for: 'template',
-              state: template?.state,
+              for: 'eserviceTemplate',
+              state: eserviceTemplate?.state,
             }
           : undefined
       }

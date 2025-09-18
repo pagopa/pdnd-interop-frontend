@@ -15,15 +15,15 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttributeDrawer'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import type { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
 
 export const EServiceTemplateCreateStepAttributes: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'create' })
-  const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'create' })
+  const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
 
-  const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
+  const { mutate: updateVersionDraft } = EServiceTemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
@@ -45,13 +45,17 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
     }
 
   const defaultValues: CreateStepAttributesFormValues = {
-    attributes: templateVersion?.attributes ?? { certified: [], verified: [], declared: [] },
+    attributes: eserviceTemplateVersion?.attributes ?? {
+      certified: [],
+      verified: [],
+      declared: [],
+    },
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: CreateStepAttributesFormValues) => {
-    if (!templateVersion) return
+    if (!eserviceTemplateVersion) return
 
     const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
       return attributes.filter((group) => group.length > 0)
@@ -63,7 +67,7 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       declared: removeEmptyAttributeGroups(values.attributes.declared),
     }
 
-    const areAttributesEquals = compareObjects(attributes, templateVersion.attributes)
+    const areAttributesEquals = compareObjects(attributes, eserviceTemplateVersion.attributes)
 
     if (areAttributesEquals) {
       forward()
@@ -74,14 +78,14 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       eServiceTemplateId: string
       eServiceTemplateVersionId: string
     } = {
-      dailyCallsPerConsumer: templateVersion.dailyCallsPerConsumer,
-      dailyCallsTotal: templateVersion.dailyCallsTotal,
-      agreementApprovalPolicy: templateVersion.agreementApprovalPolicy,
-      description: templateVersion.description,
-      eServiceTemplateVersionId: templateVersion.id,
-      eServiceTemplateId: templateVersion.eserviceTemplate.id,
+      dailyCallsPerConsumer: eserviceTemplateVersion.dailyCallsPerConsumer,
+      dailyCallsTotal: eserviceTemplateVersion.dailyCallsTotal,
+      agreementApprovalPolicy: eserviceTemplateVersion.agreementApprovalPolicy,
+      description: eserviceTemplateVersion.description,
+      eServiceTemplateVersionId: eserviceTemplateVersion.id,
+      eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
-      voucherLifespan: templateVersion.voucherLifespan,
+      voucherLifespan: eserviceTemplateVersion.voucherLifespan,
     }
 
     updateVersionDraft(payload, { onSuccess: forward })
@@ -92,7 +96,9 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <SectionContainer
-            title={t('step3.attributesTitle', { versionNumber: templateVersion?.version ?? 1 })}
+            title={t('step3.attributesTitle', {
+              versionNumber: eserviceTemplateVersion?.version ?? 1,
+            })}
             description={t('step3.attributesDescription')}
           >
             <AddAttributesToForm attributeKey="certified" readOnly={false} />

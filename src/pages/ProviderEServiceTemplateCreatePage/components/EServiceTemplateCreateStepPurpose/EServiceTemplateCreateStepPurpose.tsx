@@ -15,7 +15,7 @@ import type { EServiceTemplateRiskAnalysis, TenantKind } from '@/api/api.generat
 
 export const EServiceTemplateCreateStepPurpose: FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
+  const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
 
   const [riskAnalysisFormState, setRiskAnalysisFormState] = useState<
     | { type: null }
@@ -48,23 +48,24 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
   }
 
   // Disable the forward button if there are no risk analyses inserted
-  const isForwardButtonDisabled = templateVersion?.eserviceTemplate.riskAnalysis.length === 0
-
+  const isForwardButtonDisabled =
+    eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.length === 0
+  
   return (
     <>
-      {templateVersion && riskAnalysisFormState.type !== null ? (
+      {eserviceTemplateVersion && riskAnalysisFormState.type !== null ? (
         <Suspense fallback={<RiskAnalysisFormSkeleton />}>
           {match(riskAnalysisFormState)
             .with({ type: 'edit' }, ({ riskAnalysis }) => (
               <EServiceTemplateCreateStepEditRiskAnalysis
-                eserviceTemplateId={templateVersion.eserviceTemplate.id}
+                eserviceTemplateId={eserviceTemplateVersion.eserviceTemplate.id}
                 riskAnalysis={riskAnalysis}
                 onClose={closeRiskAnalysisForm}
               />
             ))
             .with({ type: 'add' }, ({ selectedTenantKind }) => (
               <EServiceTemplateCreateStepAddRiskAnalysis
-                eserviceTemplateId={templateVersion.eserviceTemplate.id}
+                eserviceTemplateId={eserviceTemplateVersion.eserviceTemplate.id}
                 selectedTenantKind={selectedTenantKind}
                 onClose={closeRiskAnalysisForm}
               />

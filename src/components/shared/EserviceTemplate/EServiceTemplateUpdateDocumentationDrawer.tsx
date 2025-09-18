@@ -13,8 +13,8 @@ import DownloadIcon from '@mui/icons-material/Download'
 import InfoIcon from '@mui/icons-material/Info'
 import CloseIcon from '@mui/icons-material/Close'
 import { Pagination, usePagination } from '@pagopa/interop-fe-commons'
-import { TemplateMutations } from '@/api/template'
-import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 
 type EServiceTemplateCreateStepDocumentsDocFormValues = {
   doc: File | null
@@ -38,14 +38,16 @@ type EServiceTemplateUpdateDocumentationDrawerProps = {
 export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
   EServiceTemplateUpdateDocumentationDrawerProps
 > = ({ isOpen, onClose, templateId, templateVersionId, interfaceDocs, templateDocs }) => {
-  const { t } = useTranslation('template', { keyPrefix: 'read.drawers.updateDocumentationDrawer' })
+  const { t } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'read.drawers.updateDocumentationDrawer',
+  })
   const { t: tCommon } = useTranslation('common')
 
-  const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
-  const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()
+  const { mutate: uploadDocument } = EServiceTemplateMutations.usePostVersionDraftDocument()
+  const { mutate: deleteDocument } = EServiceTemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: updateDocumentName } =
-    TemplateMutations.useUpdateVersionDraftDocumentDescription()
-  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
+    EServiceTemplateMutations.useUpdateVersionDraftDocumentDescription()
+  const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
