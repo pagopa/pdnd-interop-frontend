@@ -17,9 +17,9 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
 
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
 
-  const { actions } = useGetConsumerPurposeTemplateTemplatesActions(purposeTemplate)
-
   const { activeTab, updateActiveTab } = useActiveTab('details')
+
+  const { actions } = useGetConsumerPurposeTemplateTemplatesActions('PA', purposeTemplate) //TO DO: TENANT KIND WILL BE PASSED BY BFF
 
   if (!purposeTemplate) return //TODO FIX THIS
 
