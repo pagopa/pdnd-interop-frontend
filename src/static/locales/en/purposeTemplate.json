@@ -114,6 +114,10 @@
     }
   },
   "read": {
+    "actions": {
+      "createNewPurposeInstance": "Use template",
+      "tooltip": "You cannot use the template because it is intended for a different type of entity."
+    },
     "tabs": {
       "ariaLabel": "Three separate tabs for purpose template details, linked e-services, and risk analysis",
       "details": "Template details",
