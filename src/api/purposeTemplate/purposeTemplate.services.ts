@@ -11,6 +11,10 @@ import {
   purposeTemplateMock,
   purposeTemplatesListMock,
 } from './mockedResponses'
+import {
+  LinkEServiceToPurposeTemplatePayload,
+  UnlinkEServiceToPurposeTemplatePayload,
+} from '../api.generatedTypes'
 
 async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
   //   const response = await axiosInstance.get<ConsumerPurposeTemplates>(
@@ -96,19 +100,27 @@ async function updateDraft({
   return console.log('Draft updated!')
 }
 
-async function addEserviceToPurposeTemplate({ id }: { id: string }) {
+async function addEserviceToPurposeTemplate({
+  purposeTemplateId,
+  ...payload
+}: { purposeTemplateId: string } & LinkEServiceToPurposeTemplatePayload) {
   //TODO TO FIX PARAMETERS
-  //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/linkEservice`,
+  //   const response = await axiosInstance.post<LinkEServiceToPurposeTemplatePayload>(
+  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
+  //      payload
   //   )
   //   return response.data
   return console.log('Added eservice')
 }
 
-async function removeEserviceToPurposeTemplate({ id }: { id: string }) {
+async function removeEserviceToPurposeTemplate({
+  purposeTemplateId,
+  ...payload
+}: { purposeTemplateId: string } & UnlinkEServiceToPurposeTemplatePayload) {
   //TODO TO FIX PARAMETERS
   //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/unlinkEservice`,
+  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/unlinkEservice`,
+  //      payload
   //   )
   //   return response.data
   return console.log('removed eservice')
