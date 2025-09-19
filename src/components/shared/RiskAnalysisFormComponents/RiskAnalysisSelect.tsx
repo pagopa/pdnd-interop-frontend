@@ -52,6 +52,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       helperText={helperText}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
+      questionId={questionId}
     >
       <Controller
         name={name}
