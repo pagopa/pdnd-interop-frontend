@@ -42,6 +42,7 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
       helperText={helperText}
       error={error}
       isFromPurposeTemplate={isFromPurposeTemplate}
+      questionId={questionId}
     >
       <FormGroup>
         <Controller
