@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormLabel, Switch as MUISwitch, Typography, Stack } from '@mui/material'
 import type { SwitchProps as MUISwitchProps } from '@mui/material'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import { useTranslation } from 'react-i18next'
 import type { ControllerProps } from 'react-hook-form/dist/types'
@@ -16,6 +16,7 @@ type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   options: Array<InputOption>
   questionId: string
   rules?: ControllerProps['rules']
+  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
@@ -25,8 +26,15 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   options,
   questionId,
   rules,
+  isFromPurposeTemplate,
   ...switchProps
 }) => {
+  const { control } = useFormContext()
+
+  const isAssignedToTemplateUsersSwitch = useWatch({
+    control,
+    name: `assignToTemplateUsers.${questionId}`,
+  })
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
 
@@ -41,6 +49,10 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
     helperText,
   })
 
+  const conditionalRules = isAssignedToTemplateUsersSwitch
+    ? { validate: () => true }
+    : mapValidationErrorMessages(rules, t)
+
   return (
     <RiskAnalysisInputWrapper
       label={label}
@@ -48,12 +60,14 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       infoLabel={infoLabel}
       helperText={helperText}
       {...ids}
+      isFromPurposeTemplate={isFromPurposeTemplate}
+      questionId={questionId}
     >
       <FormLabel sx={{ color: 'text.primary' }}>
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={1}>
           <Controller
             name={name}
-            rules={mapValidationErrorMessages(rules, t)}
+            rules={conditionalRules}
             render={({ field: { value, ref, onChange, ...fieldProps } }) => (
               <MUISwitch
                 {...switchProps}
@@ -67,6 +81,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
                 }}
                 checked={value === 'true'}
                 inputRef={ref}
+                disabled={isAssignedToTemplateUsersSwitch}
               />
             )}
           />
