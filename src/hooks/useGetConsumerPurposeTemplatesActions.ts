@@ -110,7 +110,7 @@ function useGetConsumerPurposeTemplateTemplatesActions(
 
   function handleUsePurposeTemplateAction() {
     if (!purposeTemplate) return
-    console.log('create purpose draft')
+    console.log('create purpose draft') //TODO: API CALL
   }
 
   if (purposeTemplate?.state === 'DRAFT') {
