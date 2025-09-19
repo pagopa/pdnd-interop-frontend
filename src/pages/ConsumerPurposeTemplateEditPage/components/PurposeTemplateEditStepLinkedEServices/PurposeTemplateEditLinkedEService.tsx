@@ -33,6 +33,8 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
     forward()
   }
 
+  if (!purposeTemplate) return
+
   return (
     <>
       <FormProvider {...formMethods}>
@@ -41,7 +43,8 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
             title={t('edit.step2.detailsTitle')}
             description={t('edit.step2.detailsDescription')}
           >
-            <AddEServiceToForm readOnly={false} /> {/*TODO ADD LINKED ESERVICES PROP */}
+            <AddEServiceToForm readOnly={false} purposeTemplate={purposeTemplate} />{' '}
+            {/*TODO ADD LINKED ESERVICES PROP */}
             <StepActions
               back={{
                 to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
