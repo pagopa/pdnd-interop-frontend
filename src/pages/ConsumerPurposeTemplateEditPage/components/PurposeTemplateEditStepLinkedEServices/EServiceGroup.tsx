@@ -8,20 +8,25 @@ import { useFormContext } from 'react-hook-form'
 import { EServiceAutocomplete } from '@/components/shared/EServiceAutoComplete'
 import { EServiceContainer } from '@/components/layout/containers/EServiceContainer'
 import type { EditStepLinkedEServicesForm } from './PurposeTemplateEditLinkedEService'
+import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
+import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 
 export type EServiceGroupProps = {
   group: Array<CatalogEService>
   readOnly: boolean
   onRemoveEServiceFromGroup: (eserviceId: string) => void
+  purposeTemplate: PurposeTemplate
 }
 
 export const EServiceGroup: React.FC<EServiceGroupProps> = ({
   group,
   readOnly,
   onRemoveEServiceFromGroup,
+  purposeTemplate,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step2' })
   const [isEServiceAutocompleteShown, setIsEServiceAutocompleteShown] = React.useState(true)
+  const { mutate: addEService } = PurposeTemplateMutations.useAddEserviceToPurposeTemplate()
 
   const handleDeleteEServiceFromGroup = (eserviceId: string) => {
     onRemoveEServiceFromGroup(eserviceId)
@@ -31,12 +36,11 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
   const eserviceGroup = watch('eservices')
 
   const handleAddEServiceToGroup = (eservice: CatalogEService) => {
-    const newEServiceGroup = [...eserviceGroup]
+    addEService({ purposeTemplateId: purposeTemplate.id, eserviceId: eservice.id })
+    const newEServiceGroup = [...eserviceGroup] //TODO: SHOULD IT BE REMOVED WHEN THE API IS AVAILABLE?
     newEServiceGroup.push(eservice)
     setValue('eservices', newEServiceGroup)
     setIsEServiceAutocompleteShown(false)
-
-    //TODO IS THERE A API CALL FOR ADDING AN ESERVICE TO A PURPOSE TEMPLATE?
   }
 
   return (
