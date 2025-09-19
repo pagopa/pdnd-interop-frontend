@@ -4,7 +4,7 @@ import {
   type RiskAnalysisAnswers,
   type RiskAnalysisQuestions,
 } from '@/types/risk-analysis-form.types'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
@@ -73,12 +73,19 @@ function RiskAnalysisQuestion({
     sx: { mb: 0 },
   }
 
+  const { control } = useFormContext()
+
+  const isAssignedToTemplateUsersSwitch = useWatch({
+    control,
+    name: `assignToTemplateUsers.${question.id}`,
+  })
+
   return match(question.visualType)
     .with('text', () => (
       <RiskAnalysisTextField
         {...commonProps}
         inputProps={{ maxLength }}
-        rules={{ required: true }}
+        rules={isAssignedToTemplateUsersSwitch ? { required: false } : { required: true }}
         isFromPurposeTemplate={isFromPurposeTemplate}
       />
     ))
