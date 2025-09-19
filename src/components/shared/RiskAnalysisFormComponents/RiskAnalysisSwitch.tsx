@@ -51,6 +51,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       helperText={helperText}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
+      questionId={questionId}
     >
       <FormLabel sx={{ color: 'text.primary' }}>
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={1}>
