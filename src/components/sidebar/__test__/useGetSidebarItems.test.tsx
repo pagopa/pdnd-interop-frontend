@@ -15,6 +15,6 @@ describe('useGetSidebarItems', () => {
     mockUseGetActiveUserParty()
     const { result } = renderHook(() => useGetSidebarItems())
 
-    expect(result.current.length).toBe(6)
+    expect(result.current.length).toBe(7)
   })
 })
