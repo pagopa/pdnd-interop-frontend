@@ -58,6 +58,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
       helperText={helperText}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
+      questionId={questionId}
     >
       <Controller
         name={name}
