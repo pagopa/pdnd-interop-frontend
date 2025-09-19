@@ -1,5 +1,6 @@
 import type { Mail } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { NotificationMutations } from '@/api/notification'
 import { TenantMutations } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import {
@@ -17,28 +18,34 @@ import { useTranslation } from 'react-i18next'
 type UpdatePartyMailFormValues = {
   contactEmail: string
   description: string
+  enabledTenantNotificationConfigEmail: boolean
 }
 
 type UpdatePartyMailDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   email?: Mail
+  enabledTenantNotificationConfigEmail?: boolean
 }
 
 export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
   isOpen,
   onClose,
   email,
+  enabledTenantNotificationConfigEmail,
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
   const { t: tCommon } = useTranslation('common')
   const { jwt, currentRoles } = AuthHooks.useJwt()
 
   const { mutateAsync: updateMail } = TenantMutations.useUpdateMail()
+  const { mutate: updateNotificationTenantConfigs } =
+    NotificationMutations.useUpdateNotificationTenantConfigs()
 
   const defaultValues = {
     contactEmail: email?.address ?? '',
     description: email?.description ?? '',
+    enabledTenantNotificationConfigEmail: enabledTenantNotificationConfigEmail ?? false,
   }
 
   const formMethods = useForm<UpdatePartyMailFormValues>({ defaultValues })
@@ -60,6 +67,10 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
         },
         {
           onSuccess() {
+            console.log('invio il valore di notifica:', values.enabledTenantNotificationConfigEmail)
+            updateNotificationTenantConfigs({
+              enabled: values.enabledTenantNotificationConfigEmail,
+            })
             onClose()
           },
         }
@@ -123,7 +134,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
               <RHFSwitch
                 sx={{ ml: 2 }}
                 data-testid="enable-notification-tenant-email"
-                name="enable-notification-tenant-email"
+                name="enabledTenantNotificationConfigEmail"
                 label={
                   <SwitchLabelDescription
                     label=""

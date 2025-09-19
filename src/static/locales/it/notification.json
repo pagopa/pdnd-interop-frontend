@@ -201,5 +201,10 @@
       "success": "Preferenza di notifica salvata.",
       "error": "Non è stato possibile aggiornare la preferenza di notifica. Riprova più tardi."
     }
+  },
+  "tenantPage": {
+    "label": "Ricezione mail di cortesia",
+    "active": "Attivo",
+    "inactive": "Non attivo"
   }
 }

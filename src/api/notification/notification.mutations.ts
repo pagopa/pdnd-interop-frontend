@@ -14,6 +14,13 @@ function useUpdateNotificationUserConfigs() {
   })
 }
 
+function useUpdateNotificationTenantConfigs() {
+  return useMutation({
+    mutationFn: NotificationServices.updateTenantNotificationConfigs,
+  })
+}
+
 export const NotificationMutations = {
   useUpdateNotificationUserConfigs,
+  useUpdateNotificationTenantConfigs,
 }

@@ -8,6 +8,14 @@ function getUserNotificationConfigs() {
   })
 }
 
+function getTenantNotificationConfigs() {
+  return queryOptions({
+    queryKey: ['getTenantNotificationConfiguration'],
+    queryFn: () => NotificationServices.getTenantNotificationConfigs(),
+  })
+}
+
 export const NotificationQueries = {
   getUserNotificationConfigs,
+  getTenantNotificationConfigs,
 }
