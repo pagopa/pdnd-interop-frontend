@@ -1,0 +1,28 @@
+{
+  "notifications": {
+    "page": {
+      "title": "Notifications",
+      "description": "View all notifications for your user.",
+      "addNotificationConfigBtn": "Configure notifications",
+      "filters": {
+        "objectField": {
+          "label": "Find by object"
+        },
+        "categoryField": {
+          "label": "Category",
+          "optionLabels": {
+            "Deliver": "Deliver",
+            "Receive": "Receive"
+          }
+        },
+        "stateField": {
+          "label": "Reading state",
+          "optionLabels": {
+            "Read": "Read",
+            "NotRead": "Not read"
+          }
+        }
+      }
+    }
+  }
+}
