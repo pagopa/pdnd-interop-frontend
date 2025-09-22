@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams } from '@/router'
 import { useNavigate } from 'react-router-dom'
 import { catalogServicesMock } from '@/api/purposeTemplate/mockedResponses'
+import { useState } from 'react'
 
 export type EditStepLinkedEServicesForm = {
   eservices: Array<CatalogEService>
@@ -20,6 +21,8 @@ export type EditStepLinkedEServicesForm = {
 export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ forward }) => {
   const { t } = useTranslation('purposeTemplate')
   const { t: tCommon } = useTranslation('common')
+
+  const [isWarningShown, setIsWarningShown] = useState(false)
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
@@ -36,11 +39,21 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
     defaultValues,
   })
 
-  const onSubmit = () => {
+  const onSubmit = (data: EditStepLinkedEServicesForm) => {
+    const invalidEServices = data.eservices.filter((eservice) => {
+      const state = eservice.activeDescriptor?.state
+      return state === 'ARCHIVED' || state === 'SUSPENDED'
+    })
+
+    if (invalidEServices.length > 0) {
+      setIsWarningShown(true)
+      return
+    }
+
     if (isInDraftState) {
       forward()
     } else {
-      navigate('NOT_FOUND') //TODO: REPLACE WITH DETAILS PAGE RUOTE
+      navigate('NOT_FOUND') // TODO: Replace with details page route
     }
   }
 
@@ -58,6 +71,7 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
               readOnly={false}
               purposeTemplate={purposeTemplate}
               linkedEServices={eservicesGroup}
+              showWarning={isWarningShown}
             />{' '}
             {/*TODO ADD LINKED ESERVICES PROP */}
             <StepActions
