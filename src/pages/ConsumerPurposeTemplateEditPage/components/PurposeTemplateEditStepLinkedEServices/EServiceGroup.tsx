@@ -16,6 +16,7 @@ export type EServiceGroupProps = {
   readOnly: boolean
   onRemoveEServiceFromGroup: (eserviceId: string) => void
   purposeTemplate: PurposeTemplate
+  showWarning: boolean
 }
 
 export const EServiceGroup: React.FC<EServiceGroupProps> = ({
@@ -23,6 +24,7 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
   readOnly,
   onRemoveEServiceFromGroup,
   purposeTemplate,
+  showWarning,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step2' })
   const [isEServiceAutocompleteShown, setIsEServiceAutocompleteShown] = React.useState(true)
@@ -51,6 +53,7 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
             <Box component="li" key={eservice.id}>
               <EServiceContainer
                 eservice={eservice}
+                showWarning={showWarning}
                 onRemove={
                   !readOnly ? handleDeleteEServiceFromGroup.bind(null, eservice.id) : undefined
                 }
