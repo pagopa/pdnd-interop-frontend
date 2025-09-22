@@ -21,7 +21,7 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
 
   const { actions } = useGetConsumerPurposeTemplateTemplatesActions('PA', purposeTemplate) //TO DO: TENANT KIND WILL BE PASSED BY BFF
 
-  if (!purposeTemplate) return //TODO FIX THIS
+  if (!purposeTemplate) return
 
   return (
     <PageContainer

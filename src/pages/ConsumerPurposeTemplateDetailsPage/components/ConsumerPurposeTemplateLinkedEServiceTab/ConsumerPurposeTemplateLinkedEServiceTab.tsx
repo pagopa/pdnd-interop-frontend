@@ -8,6 +8,9 @@ import {
   ConsumerPurposeTemplateLinkedEServiceTableSkeleton,
   ConsumerPurposeTemplateLinkedEServiceTable,
 } from './ConsumerPurposeTemplateLinkedEServiceTable'
+import { useCurrentRoute } from '@/router'
+import { AuthHooks } from '@/api/auth'
+import { useNavigate } from 'react-router-dom'
 
 type ConsumerPurposeTemplateLinkedEServiceTabProps = {
   purposeTemplate: PurposeTemplate
@@ -19,18 +22,30 @@ export const ConsumerPurposeTemplateLinkedEServiceTab: React.FC<
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'read.linkedEservicesTab' })
   const { t: tCommon } = useTranslation('common')
 
-  const topSideActions: Array<ActionItemButton> = [
-    {
-      action: () => {},
-      label: tCommon('actions.edit'),
-      variant: 'contained',
-      icon: EditIcon,
-    },
-  ]
+  const { routeKey } = useCurrentRoute()
+  const { isAdmin } = AuthHooks.useJwt()
 
-  const descriptionLabel = t(
-    'description'
-  ) /** TODO: TO FIX DESCRIPTION UNDER THE BUTTON USING BOX? */
+  const navigate = useNavigate()
+
+  const topSideActions: Array<ActionItemButton> =
+    routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS' && isAdmin
+      ? [
+          {
+            action: () => {}, //TODO: REMOVE COMMENT WHEN AVAILABLE
+            // navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
+            //   params: {
+            //     purposeTemplateId: purposeTemplate.id,
+            //   },
+            //   state: { stepIndexDestination: 1 },
+            // }),
+            label: tCommon('actions.edit'),
+            variant: 'contained',
+            icon: EditIcon,
+          },
+        ]
+      : []
+
+  const descriptionLabel = t('description')
     .split('\n')
     .map((line, idx) => (
       <span key={idx}>
