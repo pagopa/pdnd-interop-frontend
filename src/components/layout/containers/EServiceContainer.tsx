@@ -6,6 +6,7 @@ import {
   Card,
   IconButton,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -19,6 +20,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
 import { Link } from '@/router'
 import type { CatalogEService } from '@/api/api.generatedTypes'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
 type EServiceContainerProps = {
   eservice: CatalogEService
@@ -33,6 +35,8 @@ export const EServiceContainer = ({ eservice, onRemove }: EServiceContainerProps
   const [hasExpandedOnce, setHasExpandedOnce] = React.useState(false)
 
   const queryClient = useQueryClient()
+
+  const isEServiceStateValid = eservice.activeDescriptor?.state === 'PUBLISHED'
 
   const handlePrefetchEService = () => {
     if (alreadyPrefetched.current) return
@@ -49,9 +53,8 @@ export const EServiceContainer = ({ eservice, onRemove }: EServiceContainerProps
           <IconButton
             aria-label={t('removeAttributeAriaLabel', { eserviceName: eservice.name })}
             onClick={onRemove.bind(null, eservice.id, eservice.name)}
-            //color={'error' as unknown as 'primary'} //TODO COLOR
           >
-            <RemoveCircleOutlineIcon sx={{ color: '#D85757' }} />
+            <RemoveCircleOutlineIcon color="error" />
           </IconButton>
         )}
       </Stack>
@@ -69,6 +72,7 @@ export const EServiceContainer = ({ eservice, onRemove }: EServiceContainerProps
             expandIcon={<ExpandMoreIcon />}
             aria-controls={panelContentId}
             id={headerId}
+            disabled={!isEServiceStateValid}
           >
             <Typography fontWeight={600}>{eservice.name}</Typography>
           </AccordionSummary>
@@ -83,6 +87,16 @@ export const EServiceContainer = ({ eservice, onRemove }: EServiceContainerProps
           </AccordionDetails>
         </Accordion>
       </Card>
+      {(eservice.activeDescriptor?.state === 'ARCHIVED' && (
+        <Tooltip title={t('tooltipTitle.ARCHIVED')}>
+          <ErrorOutlineIcon color="error" />
+        </Tooltip>
+      )) ||
+        (eservice.activeDescriptor?.state === 'SUSPENDED' && (
+          <Tooltip title={t(`tooltipTitle.${eservice.activeDescriptor?.state}`)}>
+            <ErrorOutlineIcon color="error" />
+          </Tooltip>
+        ))}
     </Stack>
   )
 }
