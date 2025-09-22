@@ -48,7 +48,7 @@ export const EServiceAutocomplete: React.FC<EServiceAutocompleteProps> = ({
   const { data } = useQuery(
     EServiceQueries.getCatalogList({
       q: getQ(),
-      states: ['PUBLISHED'],
+      states: ['PUBLISHED', 'SUSPENDED'], //TODO: REMOVE SUSPENDED STATE
       limit: 50,
       offset: 0,
     })
