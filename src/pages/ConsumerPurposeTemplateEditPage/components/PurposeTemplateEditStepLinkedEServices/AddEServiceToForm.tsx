@@ -11,12 +11,14 @@ export type AddEServiceToFormProps = {
   readOnly: boolean
   purposeTemplate: PurposeTemplate
   linkedEServices: CatalogEService[]
+  showWarning: boolean
 }
 
 export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
   readOnly,
   purposeTemplate,
   linkedEServices,
+  showWarning,
 }) => {
   const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
   const { mutate: removeEService } = PurposeTemplateMutations.useRemoveEserviceToPurposeTemplate()
@@ -42,6 +44,7 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
           readOnly={readOnly}
           onRemoveEServiceFromGroup={handleRemoveAttributeFromGroup}
           purposeTemplate={purposeTemplate}
+          showWarning={showWarning}
         />
       </Stack>
     </Box>

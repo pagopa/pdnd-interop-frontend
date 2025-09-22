@@ -24,10 +24,11 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
 type EServiceContainerProps = {
   eservice: CatalogEService
+  showWarning: boolean
   onRemove?: (id: string, name: string) => void
 }
 
-export const EServiceContainer = ({ eservice, onRemove }: EServiceContainerProps) => {
+export const EServiceContainer = ({ eservice, showWarning, onRemove }: EServiceContainerProps) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'eserviceContainer' })
   const panelContentId = React.useId()
   const headerId = React.useId()
@@ -47,57 +48,66 @@ export const EServiceContainer = ({ eservice, onRemove }: EServiceContainerProps
   }
 
   return (
-    <Stack direction="row" alignItems="center">
-      <Stack direction="row" alignItems="center" spacing={2}>
-        {onRemove && (
-          <IconButton
-            aria-label={t('removeAttributeAriaLabel', { eserviceName: eservice.name })}
-            onClick={onRemove.bind(null, eservice.id, eservice.name)}
+    <>
+      <Stack direction="row" alignItems="center">
+        <Stack direction="row" alignItems="center" spacing={2}>
+          {onRemove && (
+            <IconButton
+              aria-label={t('removeAttributeAriaLabel', { eserviceName: eservice.name })}
+              onClick={onRemove.bind(null, eservice.id, eservice.name)}
+            >
+              <RemoveCircleOutlineIcon color="error" />
+            </IconButton>
+          )}
+        </Stack>
+        <Card sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}>
+          <Accordion
+            disableGutters
+            sx={{
+              '&:before': { display: 'none' },
+            }}
           >
-            <RemoveCircleOutlineIcon color="error" />
-          </IconButton>
-        )}
-      </Stack>
-      <Card sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}>
-        <Accordion
-          disableGutters
-          sx={{
-            '&:before': { display: 'none' },
-          }}
-        >
-          <AccordionSummary
-            onClick={() => setHasExpandedOnce(true)}
-            onPointerEnter={handlePrefetchEService}
-            onFocusVisible={handlePrefetchEService}
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls={panelContentId}
-            id={headerId}
-            disabled={!isEServiceStateValid}
-          >
-            <Typography fontWeight={600}>{eservice.name}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {hasExpandedOnce && (
-              <EServiceDetails
-                eserviceId={eservice.id}
-                eserviceDescription={eservice.description}
-                descriptorId={eservice.activeDescriptor?.id as string}
-              />
-            )}
-          </AccordionDetails>
-        </Accordion>
-      </Card>
-      {(eservice.activeDescriptor?.state === 'ARCHIVED' && (
-        <Tooltip title={t('tooltipTitle.ARCHIVED')}>
-          <ErrorOutlineIcon color="error" />
-        </Tooltip>
-      )) ||
-        (eservice.activeDescriptor?.state === 'SUSPENDED' && (
-          <Tooltip title={t(`tooltipTitle.${eservice.activeDescriptor?.state}`)}>
+            <AccordionSummary
+              onClick={() => setHasExpandedOnce(true)}
+              onPointerEnter={handlePrefetchEService}
+              onFocusVisible={handlePrefetchEService}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls={panelContentId}
+              id={headerId}
+              disabled={!isEServiceStateValid}
+            >
+              <Typography fontWeight={600}>{eservice.name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {hasExpandedOnce && (
+                <EServiceDetails
+                  eserviceId={eservice.id}
+                  eserviceDescription={eservice.description}
+                  descriptorId={eservice.activeDescriptor?.id as string}
+                />
+              )}
+            </AccordionDetails>
+          </Accordion>
+        </Card>
+        {(eservice.activeDescriptor?.state === 'ARCHIVED' && (
+          <Tooltip title={t('tooltipTitle.ARCHIVED')}>
             <ErrorOutlineIcon color="error" />
           </Tooltip>
-        ))}
-    </Stack>
+        )) ||
+          (eservice.activeDescriptor?.state === 'SUSPENDED' && (
+            <Tooltip title={t(`tooltipTitle.${eservice.activeDescriptor?.state}`)}>
+              <ErrorOutlineIcon color="error" />
+            </Tooltip>
+          ))}
+      </Stack>
+      {showWarning && (
+        <Typography variant="body2" color="error" sx={{ ml: 7, fontWeight: 600 }}>
+          {eservice.activeDescriptor?.state === 'ARCHIVED'
+            ? t('warning.ARCHIVED')
+            : eservice.activeDescriptor?.state === 'SUSPENDED' && t('warning.SUSPENDED')}
+        </Typography>
+      )}
+    </>
   )
 }
 
