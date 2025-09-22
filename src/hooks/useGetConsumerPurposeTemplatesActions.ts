@@ -121,16 +121,19 @@ function useGetConsumerPurposeTemplateTemplatesActions(
 
   const isSuspended = purposeTemplate?.state === 'SUSPENDED'
   const isActive = purposeTemplate?.state === 'ACTIVE'
+  const isArchived = purposeTemplate?.state === 'ARCHIVED'
 
   if (isActive) {
     actions.push(usePurposeTemplateAction)
     actions.push(suspendAction)
   }
 
-  actions.push(archiveAction)
-
   if (isSuspended) {
     actions.push(activateAction)
+  }
+
+  if (!isArchived) {
+    actions.push(archiveAction)
   }
 
   return { actions }
