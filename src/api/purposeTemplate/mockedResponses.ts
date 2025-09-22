@@ -1,4 +1,4 @@
-import type { TenantKind } from '../api.generatedTypes'
+import type { CatalogEService, TenantKind } from '../api.generatedTypes'
 
 export const purposeTemplatesListMock: Array<PurposeTemplate> = [
   {
@@ -420,3 +420,57 @@ export interface PurposeTemplateEService {
   descriptorId: string
   createdAt: string
 }
+
+export const catalogServicesMock: CatalogEService[] = [
+  {
+    id: 'b4fbb90c-7b7b-44c2-883b-16d44c5e5e02',
+    name: 'Service One',
+    description: 'A comprehensive e-service that manages user data and processes.',
+    producer: {
+      id: 'e58e54c3-9012-4b9a-8b73-aba9a8c0d643',
+      name: 'TechCorp',
+      kind: 'PA',
+    },
+    isMine: true,
+    activeDescriptor: {
+      id: '9c4d63d2-cdc9-4737-b7b8-5f255e59a929',
+      state: 'SUSPENDED',
+      version: '1.2.0',
+      audience: ['admin', 'user'],
+    },
+  },
+  {
+    id: 'd1f59c3f-c2ea-4775-bd0b-c63bc05a04d9',
+    name: 'Service Two',
+    description: 'An AI-driven service for real-time analytics and predictions.',
+    producer: {
+      id: '4d03a1e1-b0c6-4e92-84ac-7556e1f9e58f',
+      name: 'DataMind Solutions',
+      kind: 'PRIVATE',
+    },
+    isMine: false,
+    activeDescriptor: {
+      id: 'c92f9da4-17fa-46be-818e-f2c021ffed79',
+      state: 'ARCHIVED',
+      version: '2.3.1',
+      audience: ['data-scientist', 'analyst'],
+    },
+  },
+  {
+    id: 'c2d389c1-47a6-4b38-8b92-713a2f0c8ea3',
+    name: 'Service Three',
+    description: 'A payment processing service for businesses and merchants.',
+    producer: {
+      id: 'ada7fcd1-b7b3-4e2f-b6c7-0566c82b79ac',
+      name: 'PayGlobal',
+      kind: 'GSP',
+    },
+    isMine: true,
+    activeDescriptor: {
+      id: 'f3c2b119-e695-4b47-81c4-42e42f7e3779',
+      state: 'PUBLISHED',
+      version: '3.0.0',
+      audience: ['merchant', 'admin'],
+    },
+  },
+]

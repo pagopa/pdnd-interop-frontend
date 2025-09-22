@@ -299,7 +299,15 @@
     "eserviceIdField": "ID dell’e-service",
     "viewEserviceBtn": "Visualizza e-service",
     "idCopytooltipLabel": "ID copiato correttamente",
-    "removeAttributeAriaLabel": "Rimuovi attributo {{eserviceName}}"
+    "removeAttributeAriaLabel": "Rimuovi attributo {{eserviceName}}",
+    "tooltipTitle": {
+      "ARCHIVED": "Questo e-service è stato archiviato e non può più essere associato",
+      "SUSPENDED": "Questo e-service è stato sospeso e non può più essere associato"
+    },
+    "warning": {
+      "ARCHIVED": "Questo e-service è stato archiviato e non può più essere associato. Rimuovilo prima di procedere",
+      "SUSPENDED": "Questo e-service è stato sospeso e non può più essere associato. Rimuovilo prima di procedere"
+    }
   },
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer",

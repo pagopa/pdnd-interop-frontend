@@ -299,7 +299,15 @@
     "eserviceIdField": "E-service ID",
     "viewEserviceBtn": "View e-service",
     "idCopytooltipLabel": "Id copied correctly",
-    "removeAttributeAriaLabel": "Remove {eserviceName}} e-service"
+    "removeAttributeAriaLabel": "Remove {eserviceName}} e-service",
+    "tooltipTitle": {
+      "ARCHIVED": "This e-service has been archived and can no longer be associated",
+      "SUSPENDED": "This e-service has been suspended and can no longer be associated"
+    },
+    "warning": {
+      "ARCHIVED": "This e-service has been archived and can no longer be associated. Remove it before proceeding",
+      "SUSPENDED": "This e-service has been suspended and can no longer be associated. Remove it before proceeding"
+    }
   },
   "drawer": {
     "closeIconAriaLabel": "Close the drawer",
