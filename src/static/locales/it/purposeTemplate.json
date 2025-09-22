@@ -70,6 +70,7 @@
       "detailsTitle": "E-service suggeriti per questo template",
       "detailsDescription": "Ci sono e-service o template e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
       "addBtn": "Aggiungi e-service",
+      "editLinkedEservices": "Aggiorna elenco",
       "saveBtn": "Salva",
       "autocompleteInput": {
         "label": "E-service o template e-service da associare"
