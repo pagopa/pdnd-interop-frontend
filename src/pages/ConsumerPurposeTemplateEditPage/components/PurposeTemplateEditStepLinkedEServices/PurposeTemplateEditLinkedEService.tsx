@@ -10,6 +10,8 @@ import { AddEServiceToForm } from './AddEServiceToForm'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from '@/router'
+import { useNavigate } from 'react-router-dom'
+import { catalogServicesMock } from '@/api/purposeTemplate/mockedResponses'
 
 export type EditStepLinkedEServicesForm = {
   eservices: Array<CatalogEService>
@@ -17,10 +19,15 @@ export type EditStepLinkedEServicesForm = {
 
 export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ forward }) => {
   const { t } = useTranslation('purposeTemplate')
+  const { t: tCommon } = useTranslation('common')
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
-  //const eservicesGroup = purposeTemplate?.eservices ?? [] //TODO MOCK ESERVICE LINKED TO PURPOSE TEMPLATE
+  const eservicesGroup = catalogServicesMock //purposeTemplate?.eservices ?? [] //TODO MOCK ESERVICE LINKED TO PURPOSE TEMPLATE
+
+  const navigate = useNavigate()
+
+  const isInDraftState = purposeTemplate?.state === 'DRAFT'
 
   const defaultValues: EditStepLinkedEServicesForm = {
     eservices: [],
@@ -30,7 +37,11 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
   })
 
   const onSubmit = () => {
-    forward()
+    if (isInDraftState) {
+      forward()
+    } else {
+      navigate('NOT_FOUND') //TODO: REPLACE WITH DETAILS PAGE RUOTE
+    }
   }
 
   if (!purposeTemplate) return
@@ -43,16 +54,22 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
             title={t('edit.step2.detailsTitle')}
             description={t('edit.step2.detailsDescription')}
           >
-            <AddEServiceToForm readOnly={false} purposeTemplate={purposeTemplate} />{' '}
+            <AddEServiceToForm
+              readOnly={false}
+              purposeTemplate={purposeTemplate}
+              linkedEServices={eservicesGroup}
+            />{' '}
             {/*TODO ADD LINKED ESERVICES PROP */}
             <StepActions
               back={{
-                to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
-                label: t('backToListBtn'),
+                to: isInDraftState ? 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST' : 'NOT_FOUND', //TODO: REPLACE WITH DETAILS PAGE RUOTE
+                label: isInDraftState ? t('backToListBtn') : tCommon('actions.cancel'),
                 type: 'link',
               }}
               forward={{
-                label: t('edit.forwardWithSaveBtn'),
+                label: isInDraftState
+                  ? t('edit.forwardWithSaveBtn')
+                  : t('edit.step2.editLinkedEservices'),
                 type: 'submit',
                 startIcon: <SaveIcon />,
               }}
