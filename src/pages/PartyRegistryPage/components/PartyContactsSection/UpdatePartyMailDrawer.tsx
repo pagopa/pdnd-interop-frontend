@@ -39,7 +39,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
   const { jwt, currentRoles } = AuthHooks.useJwt()
 
   const { mutateAsync: updateMail } = TenantMutations.useUpdateMail()
-  const { mutate: updateNotificationTenantConfigs } =
+  const { mutateAsync: updateNotificationTenantConfigs } =
     NotificationMutations.useUpdateNotificationTenantConfigs()
 
   const defaultValues = {
@@ -51,30 +51,48 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
   const formMethods = useForm<UpdatePartyMailFormValues>({ defaultValues })
 
   React.useEffect(() => {
-    formMethods.reset({ contactEmail: email?.address ?? '', description: email?.description ?? '' })
-  }, [email, formMethods])
+    formMethods.reset({
+      contactEmail: email?.address ?? '',
+      description: email?.description ?? '',
+      enabledTenantNotificationConfigEmail: enabledTenantNotificationConfigEmail,
+    })
+  }, [email, formMethods, enabledTenantNotificationConfigEmail])
 
   const onSubmit = (values: UpdatePartyMailFormValues) => {
     if (!jwt?.organizationId) return
     if (!isEqual(defaultValues, values)) {
-      const { contactEmail, description } = values
-      updateMail(
-        {
-          partyId: jwt.organizationId,
-          address: contactEmail,
-          kind: 'CONTACT_EMAIL',
-          description: description || undefined,
-        },
-        {
-          onSuccess() {
-            console.log('invio il valore di notifica:', values.enabledTenantNotificationConfigEmail)
-            updateNotificationTenantConfigs({
-              enabled: values.enabledTenantNotificationConfigEmail,
-            })
-            onClose()
-          },
-        }
+      const { contactEmail, description, enabledTenantNotificationConfigEmail } = values
+
+      const shouldUpdateMail = !isEqual(defaultValues?.contactEmail, contactEmail)
+      const shouldUpdateNotification = !isEqual(
+        defaultValues?.enabledTenantNotificationConfigEmail,
+        enabledTenantNotificationConfigEmail
       )
+
+      const promises: Promise<unknown>[] = []
+
+      if (shouldUpdateMail) {
+        promises.push(
+          updateMail({
+            partyId: jwt.organizationId,
+            address: contactEmail,
+            kind: 'CONTACT_EMAIL',
+            description: description || undefined,
+          })
+        )
+      }
+
+      if (shouldUpdateNotification) {
+        promises.push(
+          updateNotificationTenantConfigs({
+            enabled: enabledTenantNotificationConfigEmail,
+          })
+        )
+      }
+
+      if (promises.length > 0) {
+        Promise.all(promises).finally(() => onClose())
+      }
     }
   }
 
@@ -135,6 +153,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
                 sx={{ ml: 2 }}
                 data-testid="enable-notification-tenant-email"
                 name="enabledTenantNotificationConfigEmail"
+                defaultChecked={enabledTenantNotificationConfigEmail}
                 label={
                   <SwitchLabelDescription
                     label=""

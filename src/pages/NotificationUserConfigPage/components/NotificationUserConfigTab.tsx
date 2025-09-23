@@ -18,7 +18,7 @@ import {
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
-import { useNotificationInAppConfigForm as useNotificationInAppConfigHook } from '../hooks/useNotificationInAppConfigForm'
+import { useNotificationConfigHook } from '../hooks/useNotificationConfigHook'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
 import { debounce, isEqual } from 'lodash'
 import type { NotificationSubSectionSchema, NotificationConfigType } from '../types'
@@ -40,7 +40,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 }) => {
   const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
 
-  const { notificationSchema, sectionComponentKeysMap } = useNotificationInAppConfigHook(type)
+  const { notificationSchema, sectionComponentKeysMap } = useNotificationConfigHook(type)
   const [emailPreferencesChoice, setPreferencesChoices] = React.useState<
     'notSend' | 'digest' | 'customize'
   >('customize')

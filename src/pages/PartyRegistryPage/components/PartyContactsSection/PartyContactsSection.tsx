@@ -7,7 +7,7 @@ import { AuthHooks } from '@/api/auth'
 import { UpdatePartyMailDrawer } from './UpdatePartyMailDrawer'
 import EditIcon from '@mui/icons-material/Edit'
 import { TenantHooks } from '@/api/tenant'
-import { NotificationMutations, NotificationQueries } from '@/api/notification'
+import { NotificationQueries } from '@/api/notification'
 import { useQuery } from '@tanstack/react-query'
 
 export const PartyContactsSection: React.FC = () => {
