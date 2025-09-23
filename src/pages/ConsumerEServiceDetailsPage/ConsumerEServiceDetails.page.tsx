@@ -12,6 +12,7 @@ import { AuthHooks } from '@/api/auth'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsTab'
+import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurposeTemplatesTab.tsx/ConsumerLinkedPurposeTemplates'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -86,7 +87,9 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
           <ConsumerEServiceDetailsTab />
         </TabPanel>
 
-        <TabPanel value="linkedPurposeTemplates">TODO TAB</TabPanel>
+        <TabPanel value="linkedPurposeTemplates">
+          <ConsumerLinkedPurposeTemplatesTab />
+        </TabPanel>
       </TabContext>
     </PageContainer>
   )
