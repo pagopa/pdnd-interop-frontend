@@ -77,7 +77,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   }, [debounceFn, valueChanged, formMethods.formState.isDirty])
 
   const onClickEnableAllSectionSwitch = (sectionName: string, value: boolean) => {
-    sectionComponentKeysMap[sectionName].map((inAppConfigKey: string) => {
+    sectionComponentKeysMap[sectionName].forEach((inAppConfigKey: string) => {
       formMethods.setValue(inAppConfigKey as keyof NotificationConfig, value, {
         shouldDirty: true,
       })
