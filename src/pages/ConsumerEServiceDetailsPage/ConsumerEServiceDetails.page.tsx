@@ -4,29 +4,21 @@ import { PageContainer } from '@/components/layout/containers'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsAlerts'
-import { Grid } from '@mui/material'
-import {
-  ConsumerEServiceDescriptorAttributes,
-  ConsumerEServiceDescriptorAttributesSkeleton,
-} from './components/ConsumerEServiceDescriptorAttributes'
-import {
-  ConsumerEServiceGeneralInfoSection,
-  ConsumerEServiceGeneralInfoSectionSkeleton,
-} from './components/ConsumerEServiceGeneralInfoSection'
+import { Tab } from '@mui/material'
 import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { AuthHooks } from '@/api/auth'
-import {
-  ConsumerEServiceSignalHubSection,
-  ConsumerEServiceSignalHubSectionSkeleton,
-} from './components/ConsumerEServiceSignalHubSection'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { useActiveTab } from '@/hooks/useActiveTab'
+import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsTab'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
   const { jwt } = AuthHooks.useJwt()
+
+  const { activeTab, updateActiveTab } = useActiveTab('eserviceDetail')
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
@@ -80,20 +72,22 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
         to: 'SUBSCRIBE_CATALOG_LIST',
       }}
     >
-      <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
-      <Grid container>
-        <Grid item xs={8}>
-          <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
-            <ConsumerEServiceGeneralInfoSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
-            <ConsumerEServiceSignalHubSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
-            <ConsumerEServiceDescriptorAttributes />
-          </React.Suspense>
-        </Grid>
-      </Grid>
+      <TabContext value={activeTab}>
+        <TabList
+          onChange={updateActiveTab}
+          aria-label={t('tabs.ariaLabelEserviceDetail')}
+          variant="fullWidth"
+        >
+          <Tab label={t('tabs.eserviceDetail')} value="eserviceDetail" />
+          <Tab label={t('tabs.purposeTemplate')} value="linkedPurposeTemplates" />
+        </TabList>
+
+        <TabPanel value="eserviceDetail">
+          <ConsumerEServiceDetailsTab />
+        </TabPanel>
+
+        <TabPanel value="linkedPurposeTemplates">TODO TAB</TabPanel>
+      </TabContext>
     </PageContainer>
   )
 }
