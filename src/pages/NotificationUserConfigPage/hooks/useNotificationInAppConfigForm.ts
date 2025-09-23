@@ -331,20 +331,20 @@ export function useNotificationInAppConfigForm(type: NotificationConfigType) {
           name: 'soglieDiCarico',
           title: t('subscriber.thresholds.title'),
           components: [
-            {
-              key: 'TODO',
-              title: t('subscriber.thresholds.components.thresholdsExcedeed.label'),
-              description: t('subscriber.thresholds.components.thresholdsExcedeed.description'),
-              visibility: ['admin', 'security'], // to be define
-            },
-            {
-              key: 'TODO',
-              title: t('subscriber.thresholds.components.thresholsdAdjustmentRequest.label'),
-              description: t(
-                'subscriber.thresholds.components.thresholsdAdjustmentRequest.description'
-              ),
-              visibility: ['admin', 'security'], // to be define
-            },
+            // {
+            //   key: 'TODO',
+            //   title: t('subscriber.thresholds.components.thresholdsExcedeed.label'),
+            //   description: t('subscriber.thresholds.components.thresholdsExcedeed.description'),
+            //   visibility: ['admin', 'security'], // to be define
+            // },
+            // {
+            //   key: 'TODO',
+            //   title: t('subscriber.thresholds.components.thresholsdAdjustmentRequest.label'),
+            //   description: t(
+            //     'subscriber.thresholds.components.thresholsdAdjustmentRequest.description'
+            //   ),
+            //   visibility: ['admin', 'security'], // to be define
+            // },
           ],
         },
       ],

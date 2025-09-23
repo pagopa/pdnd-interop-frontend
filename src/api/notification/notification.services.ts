@@ -1,7 +1,6 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
-  NotificationConfig,
   TenantNotificationConfig,
   TenantNotificationConfigUpdateSeed,
   UserNotificationConfig,
@@ -16,7 +15,6 @@ async function updateUserNotificationConfigs(payload: UserNotificationConfigUpda
 }
 
 async function updateTenantNotificationConfigs(payload: TenantNotificationConfigUpdateSeed) {
-  console.log('payload', payload)
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/tenantNotificationConfigs`,
     payload

@@ -24,6 +24,7 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
             currentRoles.some((item) => component.visibility.includes(item)) && (
               <RHFSwitch
                 sx={{ mt: 1, mb: 1 }}
+                data-testid={component.key}
                 key={component.key}
                 name={component.key}
                 label={

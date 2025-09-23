@@ -6,7 +6,7 @@ import { Tab } from '@mui/material'
 import { NotificationConfigUserTab } from './components/NotificationUserConfigTab'
 import { useTranslation } from 'react-i18next'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
 import {
   type NotificationConfig,
@@ -41,7 +41,7 @@ const NotificationUserConfigTabs: React.FC<{
 }> = ({ activeTab, updateActiveTab }) => {
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     ...NotificationQueries.getUserNotificationConfigs(),
   })
 

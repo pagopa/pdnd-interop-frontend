@@ -1,24 +1,32 @@
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseJwt,
+  ReactHookFormWrapper,
+  renderWithApplicationContext,
+} from '@/utils/testing.utils'
 import { NotificationConfigSection } from '../components/NotificationConfigSection'
 import { screen } from '@testing-library/react'
+
+mockUseJwt({ currentRoles: ['admin'] })
 
 describe('NotificationConfigSection', () => {
   beforeEach(() => {
     renderWithApplicationContext(
-      <NotificationConfigSection
-        subsection={{
-          title: 'Test subsection',
-          name: 'testSwitchSection',
-          components: [
-            {
-              key: 'firstSwitch',
-              title: 'firstSwitchTitle',
-              description: 'firstSwitchDescription',
-              visibility: ['admin', 'api', 'security'],
-            },
-          ],
-        }}
-      />,
+      <ReactHookFormWrapper>
+        <NotificationConfigSection
+          subsection={{
+            title: 'Test subsection',
+            name: 'testSwitchSection',
+            components: [
+              {
+                key: 'firstSwitch',
+                title: 'firstSwitchTitle',
+                description: 'firstSwitchDescription',
+                visibility: ['admin', 'api', 'security'],
+              },
+            ],
+          }}
+        />
+      </ReactHookFormWrapper>,
       { withRouterContext: true, withReactQueryContext: true }
     )
   })
@@ -32,7 +40,6 @@ describe('NotificationConfigSection', () => {
     const switchTitle = screen.getByText('firstSwitchTitle')
     expect(switchTitle).toBeInTheDocument()
 
-    screen.debug()
     const switchDescription = screen.getByText('firstSwitchDescription')
     expect(switchDescription).toBeInTheDocument()
   })

@@ -78,7 +78,9 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 
   const onClickEnableAllSectionSwitch = (sectionName: string, value: boolean) => {
     sectionComponentKeysMap[sectionName].map((inAppConfigKey: string) => {
-      formMethods.setValue(inAppConfigKey as keyof NotificationConfig, value)
+      formMethods.setValue(inAppConfigKey as keyof NotificationConfig, value, {
+        shouldDirty: true,
+      })
     })
   }
 
@@ -166,6 +168,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
           {isEnabledShowPreferencesSwitch() &&
             Object.keys(notificationSchema).map((sectionName) => {
               const isAllSwitchWithinSectionDisabled = getSwitchBySections(sectionName).length <= 0
+
               return (
                 <Box key={sectionName} data-testid={`config-section-${sectionName}`}>
                   <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
@@ -183,6 +186,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
                         </Typography>
                       </Stack>
                       <Button
+                        data-testid={`enableSectionAllNotifications-${sectionName}`}
                         variant="naked"
                         sx={{ mr: 3 }}
                         onClick={() =>
@@ -199,9 +203,15 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
                     </Box>
 
                     {notificationSchema[sectionName].subsections.map(
-                      (subsection: NotificationSubSectionSchema) => (
-                        <NotificationConfigSection key={sectionName} subsection={subsection} />
-                      )
+                      (subsection: NotificationSubSectionSchema) => {
+                        return (
+                          <NotificationConfigSection
+                            data-testid={sectionName}
+                            key={sectionName}
+                            subsection={subsection}
+                          />
+                        )
+                      }
                     )}
                   </Card>
                 </Box>
