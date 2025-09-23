@@ -19,6 +19,10 @@ import {
   ConsumerEServiceSignalHubSectionSkeleton,
   ConsumerEServiceSignalHubSection,
 } from './ConsumerEServiceSignalHubSection'
+import {
+  ConsumerLinkedPurposeTemplatesSection,
+  ConsumerLinkedPurposeTemplatesSectionSkeleton,
+} from './ConsumerEServicePurposeTemplateSection'
 
 const ConsumerEServiceDetailsTab: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
@@ -45,6 +49,9 @@ const ConsumerEServiceDetailsTab: React.FC = () => {
         <Grid item xs={8}>
           <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
             <ConsumerEServiceGeneralInfoSection />
+          </React.Suspense>
+          <React.Suspense fallback={<ConsumerLinkedPurposeTemplatesSectionSkeleton />}>
+            <ConsumerLinkedPurposeTemplatesSection />
           </React.Suspense>
           {isSignalHubFlagEnabled && (
             <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
