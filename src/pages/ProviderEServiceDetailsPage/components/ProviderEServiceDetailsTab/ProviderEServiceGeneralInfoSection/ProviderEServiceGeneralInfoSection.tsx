@@ -169,7 +169,10 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         ]}
       >
         <Stack spacing={2}>
-          <InformationContainer label={t('version.label')} content={descriptor.version} />
+          <InformationContainer
+            label={t('version.label')}
+            content={descriptor.version.toString()}
+          />
           {isEserviceFromTemplate ? (
             <>
               <InformationContainer
