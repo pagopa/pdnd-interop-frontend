@@ -1,4 +1,4 @@
-import type { CatalogEService, TenantKind } from '../api.generatedTypes'
+import type { CatalogEService, CatalogPurposeTemplates, TenantKind } from '../api.generatedTypes'
 
 export const purposeTemplatesListMock: Array<PurposeTemplate> = [
   {
@@ -399,6 +399,24 @@ export interface GetConsumerPurposeTemplatesParams {
   limit: number
 }
 
+export interface GetConsumerPurposeTemplatesParams {
+  /** Query to filter EServices by name */
+  q?: string
+  /**
+   * comma separated sequence of consumers IDs
+   * @default []
+   */
+  creatorIds?: string[]
+  targetTenantKind?: TenantKind
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
 export interface PurposeTemplateUpdateContent {
   title: string
   description: string
@@ -474,3 +492,46 @@ export const catalogServicesMock: CatalogEService[] = [
     },
   },
 ]
+
+export const mockCatalogPurposeTemplates: CatalogPurposeTemplates = {
+  results: [
+    {
+      id: 'c1f6e2a8-48ef-4f4d-b028-7b781c5c7e4a',
+      targetTenantKind: 'PA',
+      purposeTitle: 'Data Analytics for Public Services',
+      purposeDescription: 'Use public data to improve urban infrastructure planning.',
+      creator: {
+        id: '88e8b9c5-81c2-4e49-ae88-b1d1d6b848c3',
+        name: 'SmartCity Org',
+        kind: 'PA',
+      },
+    },
+    {
+      id: 'b7b4fc79-4ef9-41e2-b87b-73f539fb9a4e',
+      targetTenantKind: 'PRIVATE',
+      purposeTitle: 'Market Research with Anonymized Data',
+      purposeDescription: 'Leverage anonymized consumer behavior data for product development.',
+      creator: {
+        id: 'a6f34c1e-f3bc-4ff1-bc3e-6a9435d06d28',
+        name: 'DataCorp Ltd.',
+        kind: 'PRIVATE',
+      },
+    },
+    {
+      id: 'e36b71b1-f497-4df7-9d84-14420335c528',
+      targetTenantKind: 'GSP',
+      purposeTitle: 'Healthcare Optimization Research',
+      purposeDescription: 'Analyze patient flow data to optimize healthcare services.',
+      creator: {
+        id: '59bcb92e-6f99-449a-9110-110af3b4bcee',
+        name: 'HealthTech GSP',
+        kind: 'GSP',
+      },
+    },
+  ],
+  pagination: {
+    totalCount: 3,
+    limit: 10,
+    offset: 0,
+  },
+}

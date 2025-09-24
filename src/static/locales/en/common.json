@@ -83,7 +83,9 @@
       "targetOrganization": "Target organization",
       "purposeTemplateName": "Purpose template name",
       "linkedEserviceName": "E-service or e-service template",
-      "linkedEserviceProviderName": "Provider Name"
+      "linkedEserviceProviderName": "Provider Name",
+      "purposeTemplateCreatorName": "Creator name",
+      "purposeTemplateTarget": "Target"
     }
   },
   "status": {
