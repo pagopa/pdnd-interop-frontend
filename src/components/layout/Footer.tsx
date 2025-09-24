@@ -54,7 +54,7 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
     },
     {
       labelKey: 'a11y',
-      href: 'https://form.agid.gov.it/view/1e9cd8e0-df2e-11ef-8637-9f856ac3da10',
+      href: 'https://form.agid.gov.it/view/51e3e520-9790-11f0-b5da-e1fd63eb9de5',
       linkType: 'external',
     },
   ]
