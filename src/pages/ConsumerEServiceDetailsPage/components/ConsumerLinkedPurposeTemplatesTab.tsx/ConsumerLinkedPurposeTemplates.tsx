@@ -1,11 +1,21 @@
 import { EServiceQueries } from '@/api/eservice'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import React from 'react'
-import { useParams } from '@/router'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { Filters, useAutocompleteTextInput, useFilters } from '@pagopa/interop-fe-commons'
+import {
+  Filters,
+  Pagination,
+  useAutocompleteTextInput,
+  useFilters,
+  usePagination,
+} from '@pagopa/interop-fe-commons'
 import type { GetCatalogPurposeTemplatesParams } from '@/api/api.generatedTypes'
+import {
+  ConsumerLinkedPurposeTemplatesTable,
+  ConsumerLinkedPurposeTemplatesTableSkeleton,
+} from './ConsumerLinkedPurposeTemplatesTable'
+import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 
 const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.linkedPurposeTemplatesTab' })
@@ -45,6 +55,15 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
     },
   ])
 
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const queryParams = { ...paginationParams, ...filtersParams }
+  const { data: totalPageCount = 0 } = useQuery({
+    //TODO: IS THE CORRECT API TO RETRIEVE PURPOSE TEMPLATES CONNECTED TO THE ESERVICE?
+    ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
+    placeholderData: keepPreviousData,
+    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
+  })
+
   const descriptionLabel = t('description')
     .split('\n')
     .map((line, idx) => (
@@ -64,13 +83,20 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
         }}
       >
         <Filters {...filtersHandlers} />
-        TO DO
-        {/* <React.Suspense fallback={<ConsumerPurposeTemplateLinkedEServiceTableSkeleton />}>
-          <ConsumerPurposeTemplateLinkedEServiceTable purposeTemplate={purposeTemplate} />
-        </React.Suspense> */}
+        <ConsumerLinkedPurposeTemplatesTableWrapper params={queryParams} />
+        <Pagination {...paginationProps} totalPages={totalPageCount} />
       </SectionContainer>
     </>
   )
+}
+
+const ConsumerLinkedPurposeTemplatesTableWrapper: React.FC<{
+  params: GetCatalogPurposeTemplatesParams
+}> = ({ params }) => {
+  const { data, isFetching } = useQuery(PurposeTemplateQueries.getCatalogPurposeTemplates(params))
+
+  if (!data && isFetching) return <ConsumerLinkedPurposeTemplatesTableSkeleton />
+  return <ConsumerLinkedPurposeTemplatesTable purposeTemplates={data?.results ?? []} />
 }
 
 export default ConsumerLinkedPurposeTemplatesTab
