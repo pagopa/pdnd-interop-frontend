@@ -7,55 +7,58 @@ import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
 
-type TemplateTableRow = {
-  template: ProducerEServiceTemplate
+type EServiceTemplateTableRow = {
+  eserviceTemplate: ProducerEServiceTemplate
 }
 
-export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
+export const EServiceTemplateTableRow: React.FC<EServiceTemplateTableRow> = ({
+  eserviceTemplate,
+}) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const queryClient = useQueryClient()
 
-  const versionIdEserviceTemplate = template.activeVersion?.id ?? template.draftVersion?.id
+  const versionIdEserviceTemplate =
+    eserviceTemplate.activeVersion?.id ?? eserviceTemplate.draftVersion?.id
   const versionEserviceTemplate =
-    template.activeVersion?.version ?? template.draftVersion?.version ?? 1
+    eserviceTemplate.activeVersion?.version ?? eserviceTemplate.draftVersion?.version ?? 1
 
   const { actions } = useGetProviderEServiceTemplateActions(
-    template.id,
-    template.activeVersion?.id,
-    template.draftVersion?.id,
-    template.activeVersion?.state,
-    template.draftVersion?.state,
-    template.mode
+    eserviceTemplate.id,
+    eserviceTemplate.activeVersion?.id,
+    eserviceTemplate.draftVersion?.id,
+    eserviceTemplate.activeVersion?.state,
+    eserviceTemplate.draftVersion?.state,
+    eserviceTemplate.mode
   )
 
   const handlePrefetch = () => {
     queryClient.prefetchQuery(
-      TemplateQueries.getSingle(template.id, versionIdEserviceTemplate as string)
+      EServiceTemplateQueries.getSingle(eserviceTemplate.id, versionIdEserviceTemplate as string)
     )
   }
 
-  const hasNotActiveVersionTemplate = !template.activeVersion
+  const hasNotActiveVersionTemplate = !eserviceTemplate.activeVersion
 
   const versionId = hasNotActiveVersionTemplate
-    ? template.draftVersion?.id
-    : template.activeVersion?.id
+    ? eserviceTemplate.draftVersion?.id
+    : eserviceTemplate.activeVersion?.id
 
   return (
     <TableRow
       cellData={[
-        template.name,
+        eserviceTemplate.name,
         versionEserviceTemplate.toString(),
-        <Stack key={template.id} direction="row" spacing={1}>
-          {template.activeVersion && (
-            <StatusChip for="template" state={template.activeVersion.state} />
+        <Stack key={eserviceTemplate.id} direction="row" spacing={1}>
+          {eserviceTemplate.activeVersion && (
+            <StatusChip for="eserviceTemplate" state={eserviceTemplate.activeVersion.state} />
           )}
-          {template.draftVersion && (
-            <StatusChip for="template" state={template.draftVersion.state} />
+          {eserviceTemplate.draftVersion && (
+            <StatusChip for="eserviceTemplate" state={eserviceTemplate.draftVersion.state} />
           )}
         </Stack>,
       ]}
@@ -72,7 +75,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
             : 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
         }
         params={{
-          eServiceTemplateId: template.id ?? '',
+          eServiceTemplateId: eserviceTemplate.id ?? '',
           eServiceTemplateVersionId: versionId ?? '',
         }}
       >
@@ -86,7 +89,7 @@ export const TemplateTableRow: React.FC<TemplateTableRow> = ({ template }) => {
   )
 }
 
-export const TemplateTableRowSkeleton: React.FC = () => {
+export const EServiceTemplateTableRowSkeleton: React.FC = () => {
   return (
     <TableRow
       cellData={[

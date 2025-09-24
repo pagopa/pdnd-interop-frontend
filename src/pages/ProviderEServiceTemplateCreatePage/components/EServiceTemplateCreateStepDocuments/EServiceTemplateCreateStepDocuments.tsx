@@ -12,13 +12,13 @@ import { EServiceTemplateCreateStepDocumentsDoc } from './EServiceTemplateCreate
 import { Alert, Stack } from '@mui/material'
 
 export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const navigate = useNavigate()
 
-  const { templateVersion, back } = useEServiceTemplateCreateContext()
+  const { eserviceTemplateVersion, back } = useEServiceTemplateCreateContext()
 
   const sectionDescription =
-    templateVersion?.eserviceTemplate.technology === 'SOAP' ? (
+    eserviceTemplateVersion?.eserviceTemplate.technology === 'SOAP' ? (
       t(`create.step4.interface.description.soap`)
     ) : (
       <>{t(`create.step4.interface.description.rest`)} </>
@@ -50,11 +50,11 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
           label: t('create.goToSummary'),
           type: 'button',
           onClick: () => {
-            if (!templateVersion) return
+            if (!eserviceTemplateVersion) return
             navigate('PROVIDE_ESERVICE_TEMPLATE_SUMMARY', {
               params: {
-                eServiceTemplateId: templateVersion.eserviceTemplate.id,
-                eServiceTemplateVersionId: templateVersion.id,
+                eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+                eServiceTemplateVersionId: eserviceTemplateVersion.id,
               },
             })
           },

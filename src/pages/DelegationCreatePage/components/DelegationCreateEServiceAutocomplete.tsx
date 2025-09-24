@@ -11,7 +11,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 
 type DelegationCreateEServiceAutocompleteProps = {
   delegationKind: DelegationKind

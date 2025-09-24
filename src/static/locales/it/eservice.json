@@ -154,7 +154,7 @@
       }
     },
     "step4": {
-      "template": {
+      "eserviceTemplate": {
         "interface": {
           "documentation": {
             "title": "Documentazione",
@@ -360,7 +360,7 @@
         "version": {
           "label": "Stai vedendo la versione"
         },
-        "eserviceTempalteName": {
+        "eserviceTemplateName": {
           "label": "Riferimento template"
         },
         "eserviceName": {

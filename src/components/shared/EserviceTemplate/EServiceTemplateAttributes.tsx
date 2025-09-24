@@ -1,4 +1,4 @@
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
@@ -27,7 +27,7 @@ export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProp
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
 
   const { data: eserviceTemplateAttributes } = useSuspenseQuery({
-    ...TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId),
+    ...EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId),
     select: (d) => d.attributes,
   })
 

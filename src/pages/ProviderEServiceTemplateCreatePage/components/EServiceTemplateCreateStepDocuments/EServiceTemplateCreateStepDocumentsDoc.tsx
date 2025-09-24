@@ -9,8 +9,8 @@ import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateDownloads } from '@/api/template/template.downloads'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 type EServiceTemplateCreateStepDocumentsDocFormValues = {
   doc: File | null
@@ -23,16 +23,16 @@ const defaultValues: EServiceTemplateCreateStepDocumentsDocFormValues = {
 }
 
 export function EServiceTemplateCreateStepDocumentsDoc() {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const { t: tCommon } = useTranslation('common')
-  const { templateVersion } = useEServiceTemplateCreateContext()
-  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
-  const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()
+  const { eserviceTemplateVersion } = useEServiceTemplateCreateContext()
+  const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
+  const { mutate: deleteDocument } = EServiceTemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: updateDocumentName } =
-    TemplateMutations.useUpdateVersionDraftDocumentDescription()
-  const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
+    EServiceTemplateMutations.useUpdateVersionDraftDocumentDescription()
+  const { mutate: uploadDocument } = EServiceTemplateMutations.usePostVersionDraftDocument()
 
-  const docs = templateVersion?.docs ?? []
+  const docs = eserviceTemplateVersion?.docs ?? []
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
@@ -49,11 +49,11 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
   })
 
   const onSubmit = ({ doc, prettyName }: EServiceTemplateCreateStepDocumentsDocFormValues) => {
-    if (!doc || !templateVersion) return
+    if (!doc || !eserviceTemplateVersion) return
     uploadDocument(
       {
-        eServiceTemplateId: templateVersion.eserviceTemplate.id,
-        eServiceTemplateVersionId: templateVersion.id,
+        eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: eserviceTemplateVersion.id,
         doc,
         prettyName,
         kind: 'DOCUMENT',
@@ -63,30 +63,30 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
   }
 
   const handleUpdateDescription = (documentId: string, prettyName: string) => {
-    if (!templateVersion) return
+    if (!eserviceTemplateVersion) return
     updateDocumentName({
-      eServiceTemplateId: templateVersion.eserviceTemplate.id,
-      eServiceTemplateVersionId: templateVersion.id,
+      eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+      eServiceTemplateVersionId: eserviceTemplateVersion.id,
       documentId,
       prettyName,
     })
   }
 
   const handleDeleteDocument = (document: EServiceDoc) => {
-    if (!templateVersion) return
+    if (!eserviceTemplateVersion) return
     deleteDocument({
-      eServiceTemplateId: templateVersion.eserviceTemplate.id,
-      eServiceTemplateVersionId: templateVersion.id,
+      eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+      eServiceTemplateVersionId: eserviceTemplateVersion.id,
       documentId: document.id,
     })
   }
 
   const handleDownloadDocument = (document: EServiceDoc) => {
-    if (!templateVersion) return
+    if (!eserviceTemplateVersion) return
     downloadDocument(
       {
-        eServiceTemplateId: templateVersion.eserviceTemplate.id,
-        eServiceTemplateVersionId: templateVersion.id,
+        eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: eserviceTemplateVersion.id,
         documentId: document.id,
       },
       getDownloadDocumentName(document)

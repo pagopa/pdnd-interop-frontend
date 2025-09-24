@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { CatalogEServiceTemplate } from '@/api/api.generatedTypes'
 import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
 import { useQueryClient } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 
 type EServiceTemplateCatalogGridProps = {
   eservicesTemplateList: Array<CatalogEServiceTemplate> | undefined
@@ -40,7 +40,7 @@ export const EServiceTemplateCatalogCard: React.FC<{
   const handlePrefetch = () => {
     if (!eserviceTemplate.publishedVersion.id) return
     queryClient.prefetchQuery(
-      TemplateQueries.getSingle(publishedVersion.id, eServiceTemplateVersionId)
+      EServiceTemplateQueries.getSingle(publishedVersion.id, eServiceTemplateVersionId)
     )
   }
   return (
