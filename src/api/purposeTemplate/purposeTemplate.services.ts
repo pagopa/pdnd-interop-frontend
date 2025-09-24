@@ -7,11 +7,13 @@ import type {
 } from './mockedResponses'
 import {
   eservicesLinkedToPurposeTemplatesMock,
+  mockCatalogPurposeTemplates,
   purposeTemplateEservicesMock,
   purposeTemplateMock,
   purposeTemplatesListMock,
 } from './mockedResponses'
 import {
+  GetCatalogPurposeTemplatesParams,
   LinkEServiceToPurposeTemplatePayload,
   UnlinkEServiceToPurposeTemplatePayload,
 } from '../api.generatedTypes'
@@ -25,12 +27,13 @@ async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplat
   return purposeTemplatesListMock
 }
 
-async function getConsumerCatalogPurposeTemplates() {
-  //   const response = await axiosInstance.get<ConsumerPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates/catalog`
+async function getConsumerCatalogPurposeTemplates(params: GetCatalogPurposeTemplatesParams) {
+  //   const response = await axiosInstance.get<CatalogPurposeTemplates>(
+  //     `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`
+  //      {params}
   //   )
   //   return response.data
-  return purposeTemplatesListMock
+  return mockCatalogPurposeTemplates
 }
 
 async function getEservicesLinkedToPurposeTemplatesList() {
@@ -65,6 +68,14 @@ async function getAnswerDocuments(purposeTemplateId: string, answerId: string) {
   //   )
   //   return response.data
   return []
+}
+
+async function getCatalogPurposeTemplates(id: string) {
+  //   const response = await axiosInstance.get<CatalogPurposeTemplates>(
+  //     `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`
+  //   )
+  //   return response.data
+  return mockCatalogPurposeTemplates
 }
 
 async function updatePurposeTemplateRiskAnalysis({

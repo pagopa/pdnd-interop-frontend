@@ -83,7 +83,9 @@
       "targetOrganization": "Destinazione ente",
       "purposeTemplateName": "Nome template finalità",
       "linkedEserviceName": "E-service o template e-service",
-      "linkedEserviceProviderName": "Nome erogatore"
+      "linkedEserviceProviderName": "Nome erogatore",
+      "purposeTemplateCreatorName": "Nome realizzatore",
+      "purposeTemplateTarget": "Destinatario"
     }
   },
   "status": {
