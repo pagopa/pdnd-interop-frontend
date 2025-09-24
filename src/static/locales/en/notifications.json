@@ -4,6 +4,13 @@
       "title": "Notifications",
       "description": "View all notifications for your user.",
       "addNotificationConfigBtn": "Configure notifications",
+      "rowActions": {
+        "lastUpdate": "Last update at: ",
+        "updateButton": "Refresh",
+        "markAsRead": "Mark as read",
+        "markAsUnread": "Mark as unread",
+        "delete": "Delete"
+      },
       "filters": {
         "objectField": {
           "label": "Find by object"

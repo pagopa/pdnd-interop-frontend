@@ -4,6 +4,13 @@
       "title": "Notifiche",
       "description": "Visualizza tutte le notifiche per la tua utenza.",
       "addNotificationConfigBtn": "Configura notifiche",
+      "rowActions": {
+        "lastUpdate": "Ultimo aggiornamento: ",
+        "updateButton": "Aggiorna",
+        "markAsRead": "Segna già letto",
+        "markAsUnread": "Segna da leggere",
+        "delete": "Elimina"
+      },
       "filters": {
         "objectField": {
           "label": "Cerca per Oggetto"
