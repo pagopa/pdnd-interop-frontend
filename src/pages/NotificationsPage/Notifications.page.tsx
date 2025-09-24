@@ -12,7 +12,6 @@ import { Button } from '@mui/material'
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notifications', { keyPrefix: 'notifications.page' })
-  const [enableMultipleSelection, setEnableMultipleSelection] = React.useState(false)
 
   const action: ActionItemButton[] = [
     {
@@ -76,18 +75,7 @@ const NotificationsPage: React.FC = () => {
         actions={action}
       />
       <Filters {...filtersHandlers} />
-      <Stack direction="row" justifyContent="flex-end" sx={{ mb: 3 }}>
-        <Button
-          onClick={() => setEnableMultipleSelection(!enableMultipleSelection)}
-          variant="naked"
-        >
-          {enableMultipleSelection ? 'Disattiva selezione multipla' : 'Attiva selezione multipla'}
-        </Button>
-      </Stack>
-      <NotificationsTableWrapper
-        enableMultipleSelection={enableMultipleSelection}
-        params={params}
-      />
+      <NotificationsTableWrapper params={params} />
       <Pagination {...paginationProps} totalPages={totalPageCount} />
     </>
   )
@@ -95,19 +83,13 @@ const NotificationsPage: React.FC = () => {
 
 const NotificationsTableWrapper: React.FC<{
   params: GetUserNotificationsParams
-  enableMultipleSelection: boolean
-}> = ({ params, enableMultipleSelection }) => {
+}> = ({ params }) => {
   const { data, isFetching } = useQuery({
     ...NotificationQueries.getUserNotificationsList(params),
   })
 
   if (!data && isFetching) return <NotificationsTableSkeleton />
-  return (
-    <NotificationsTable
-      enableMultipleSelection={enableMultipleSelection}
-      notifications={data ?? []}
-    />
-  )
+  return <NotificationsTable notifications={data ?? []} />
 }
 
 export default NotificationsPage
