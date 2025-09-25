@@ -20,6 +20,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutocomplete'
 import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { PurposeCreatePurposeTemplateSection } from './PurposeCreatePurposeTemplateSection/PurposeCreatePurposeTemplateSection'
 
 export type PurposeCreateFormValues = {
   consumerId: string
@@ -192,6 +193,14 @@ export const PurposeCreateForm: React.FC = () => {
             </Stack>
           </SectionContainer>
         )}
+        <SectionContainer
+          title={t('create.purposeTemplateField.title')}
+          description={t('create.purposeTemplateField.description')}
+        >
+          <Stack spacing={3}>
+            <PurposeCreatePurposeTemplateSection eserviceId={selectedEService?.id as string} />
+          </Stack>
+        </SectionContainer>
         <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>
           <Button variant="contained" type="submit" startIcon={<NoteAddIcon />}>
             {t('create.createNewPurposeBtn')}

@@ -9,6 +9,9 @@ import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { AuthHooks } from '@/api/auth'
+import { Stack } from '@mui/system'
+import { Alert } from '@mui/material'
+import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -79,21 +82,34 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     value: eservice,
   }))
 
+  const { data: linkedPurposeTemplates } = useQuery({
+    //TODO: TO CHECK WHEN THE BACKEND PART WILL BE READY IF IT'S OK AND THE ALERT SHOWS UP CORRECTLY
+    ...PurposeTemplateQueries.getCatalogPurposeTemplates({
+      eserviceIds: selectedEServiceRef.current?.id || [],
+    }),
+    enabled: true,
+  })
+
   return (
-    <RHFAutocompleteSingle
-      sx={{ my: 0 }}
-      loading={isEServiceLoading || isDelegatedEServiceLoading}
-      name="eservice"
-      label={t('create.eserviceField.label')}
-      infoLabel={t('create.eserviceField.infoLabel')}
-      options={autocompleteOptions}
-      onValueChange={(value) => {
-        selectedEServiceRef.current = eservicesList.find(
-          (eservice) => eservice.id === value?.value.id
-        )
-      }}
-      onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
-      rules={{ required: true }}
-    />
+    <Stack spacing={2} sx={{ mb: 2 }}>
+      <RHFAutocompleteSingle
+        sx={{ my: 0 }}
+        loading={isEServiceLoading || isDelegatedEServiceLoading}
+        name="eservice"
+        label={t('create.eserviceField.label')}
+        infoLabel={t('create.eserviceField.infoLabel')}
+        options={autocompleteOptions}
+        onValueChange={(value) => {
+          selectedEServiceRef.current = eservicesList.find(
+            (eservice) => eservice.id === value?.value.id
+          )
+        }}
+        onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
+        rules={{ required: true }}
+      />
+      {linkedPurposeTemplates && (
+        <Alert severity="success"> {t('create.eserviceField.alert.label')}</Alert>
+      )}
+    </Stack>
   )
 }
