@@ -169,6 +169,9 @@
           "label": "E-service",
           "value": "{{name}}, version {{version}}"
         },
+        "purposeTemplateField": {
+          "label": "Linked purpose template"
+        },
         "consumerField": {
           "label": "Consumer"
         },
@@ -195,6 +198,10 @@
         "consumerField": {
           "label": "Consumer ID",
           "copySuccessFeedbackText": "Consumer id copied successfully"
+        },
+        "purposeTemplateField": {
+          "label": "Template ID",
+          "copySuccessFeedbackText": "Purpose Template id copied successfully"
         }
       },
       "loadEstimate": {

@@ -169,6 +169,9 @@
           "label": "E-service di riferimento",
           "value": "{{name}}, versione {{version}}"
         },
+        "purposeTemplateField": {
+          "label": "Template collegato"
+        },
         "consumerField": {
           "label": "Fruitore"
         },
@@ -194,6 +197,10 @@
         },
         "consumerField": {
           "label": "ID fruitore",
+          "copySuccessFeedbackText": "ID copiato correttamente"
+        },
+        "purposeTemplateField": {
+          "label": "ID template collegato",
           "copySuccessFeedbackText": "ID copiato correttamente"
         }
       },
