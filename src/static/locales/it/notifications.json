@@ -9,7 +9,10 @@
         "updateButton": "Aggiorna",
         "markAsRead": "Segna già letto",
         "markAsUnread": "Segna da leggere",
-        "delete": "Elimina"
+        "delete": "Elimina",
+        "selectedNull": "Nessun elemento selezionato",
+        "selectedPlural": "Selezionati",
+        "selectedSingle": "Selezionata"
       },
       "filters": {
         "objectField": {

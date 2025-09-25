@@ -93,6 +93,8 @@ async function getUserNotificationsList(params: GetUserNotificationsParams) {
   //   `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications`,
   //   { params }
   // )
+
+  console.log('Refetch!')
   return mockedNotifications as Notification[] // TODO to be removed when API will be ready
 }
 

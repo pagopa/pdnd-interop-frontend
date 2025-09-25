@@ -84,12 +84,32 @@ const NotificationsPage: React.FC = () => {
 const NotificationsTableWrapper: React.FC<{
   params: GetUserNotificationsParams
 }> = ({ params }) => {
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, refetch } = useQuery({
     ...NotificationQueries.getUserNotificationsList(params),
   })
 
+  const handleMultipleRowMarkAsRead = (notificationIds: string[]) => {
+    console.log('Marcare come letti:', notificationIds)
+  }
+
+  const handleMultipleRowMarkAsUnread = (notificationIds: string[]) => {
+    console.log('Marcare come non letti:', notificationIds)
+  }
+
+  const handleMultipleRowDelete = (notificationIds: string[]) => {
+    console.log('Eliminare:', notificationIds)
+  }
+
   if (!data && isFetching) return <NotificationsTableSkeleton />
-  return <NotificationsTable notifications={data ?? []} />
+  return (
+    <NotificationsTable
+      handleMultipleRowDelete={handleMultipleRowDelete}
+      handleMultipleRowMarkAsRead={handleMultipleRowMarkAsRead}
+      handleMultipleRowMarkAsUnread={handleMultipleRowMarkAsUnread}
+      handleRefetch={refetch}
+      notifications={data ?? []}
+    />
+  )
 }
 
 export default NotificationsPage
