@@ -17,7 +17,10 @@
     },
     "eserviceField": {
       "label": "Choose e-service",
-      "infoLabel": "You can only select the e-services for which the selected user has an active request for use"
+      "infoLabel": "You can only select the e-services for which the selected user has an active request for use",
+      "alert": {
+        "label": "For the selected e-service, you can use the facilitated compilation feature!"
+      }
     },
     "eserviceRiskAnalysisSection": {
       "title": "Choose purpose",
@@ -38,7 +41,22 @@
       "description": "Lorem ipsum dolor sit amet...",
       "freeOfChargeReason": "I'm a Public Amministration"
     },
-    "riskAnalysisPreviewTitle": "Risk analysis"
+    "riskAnalysisPreviewTitle": "Risk analysis",
+    "purposeTemplateField": {
+      "title": "Facilitated purpose compilation",
+      "description": "The facilitated compilation feature provides annotations, supporting documents, and some pre-filled answers to help you formulate the risk analysis. The template is made available for reuse by other participating organizations and can be used without restrictions.",
+      "usePurposeTemplateSwitch": {
+        "label": "Use the facilitated compilation feature",
+        "selectPurposeTemplate": {
+          "title": "Choose the facilitated purpose compilation template",
+          "showOnlyLinkedPurposeTemplates": "Show only templates suggested for the selected e-service",
+          "autocompleteLabel": "Facilitated purpose compilation template"
+        },
+        "acknowledgeInfoResponsibility": {
+          "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication."
+        }
+      }
+    }
   },
   "edit": {
     "emptyTitle": "Edit purpose",
