@@ -16,9 +16,11 @@ import {
   ConsumerLinkedPurposeTemplatesTableSkeleton,
 } from './ConsumerLinkedPurposeTemplatesTable'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { useParams } from '@/router'
 
 const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.linkedPurposeTemplatesTab' })
+  const { eserviceId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
 
   const [creatorsAutocompleteInput, setCreatorsAutocompleteInput] = useAutocompleteTextInput()
 
@@ -56,9 +58,8 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
   ])
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
-  const queryParams = { ...paginationParams, ...filtersParams }
+  const queryParams = { ...paginationParams, ...filtersParams, eserviceIds: [eserviceId] } //TODO: IS THE CORRECT WAY TO PASS THE ESERVICE ID TO API?
   const { data: totalPageCount = 0 } = useQuery({
-    //TODO: IS THE CORRECT API TO RETRIEVE PURPOSE TEMPLATES CONNECTED TO THE ESERVICE?
     ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
     placeholderData: keepPreviousData,
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),

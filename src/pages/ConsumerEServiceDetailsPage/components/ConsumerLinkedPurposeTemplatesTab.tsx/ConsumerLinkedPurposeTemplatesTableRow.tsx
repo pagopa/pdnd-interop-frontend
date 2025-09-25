@@ -20,8 +20,6 @@ export const ConsumerLinkedPurposeTemplatesTableRow: React.FC<{
     >
       <Link
         as="button"
-        onPointerEnter={() => {}}
-        onFocusVisible={() => {}}
         variant="outlined"
         size="small"
         to="NOT_FOUND" //TODO: REPLACE WITH PURPOSE TEMPLATE DETAILS ROUTE WHEN AVAILABLE
