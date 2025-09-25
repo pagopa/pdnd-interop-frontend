@@ -1,13 +1,13 @@
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { Box, Checkbox, Skeleton, TableCell } from '@mui/material'
-import { TableRow } from '@pagopa/interop-fe-commons'
+import { Box, Checkbox, Skeleton, TableCell, TableRow as MuiTableRow } from '@mui/material'
+// import {TableRow AS }
 import React from 'react'
 import useGetNotificationsActions from '@/hooks/useGetNotificationsActions'
 import type { Notification } from '@/api/notification/notification.services'
 import { Link } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '@mui/system'
-import { theme } from '@pagopa/interop-fe-commons'
+import { TableRow, theme } from '@pagopa/interop-fe-commons'
 
 const NotificaitonBadgeDot = () => {
   return (
@@ -35,8 +35,8 @@ export const NotificationsTableRow: React.FC<{
   const isReaded = notification.readAt !== null
 
   return (
-    <TableRow
-      cellData={[
+    <MuiTableRow selected={isSelected}>
+      <TableCell>
         <Stack key={notification.id} direction="row">
           <Checkbox
             key={notification.id}
@@ -45,33 +45,36 @@ export const NotificationsTableRow: React.FC<{
             onChange={onToggle}
           />
           {isReaded && <NotificaitonBadgeDot />}
-        </Stack>,
-        <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
-          {notification.createdAt}
-        </TableCell>,
-        <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
-          {notification.notificationType}
-        </TableCell>,
-        <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
-          {notification.body}
-        </TableCell>,
-      ]}
-    >
-      <Link
-        key={notification.id}
-        as="button"
-        variant="outlined"
-        size="small"
-        to="DELEGATION_DETAILS"
-        params={{ delegationId: '1234' }}
-      >
-        {tCommon('actions.inspect')}
-      </Link>
+        </Stack>
+      </TableCell>
 
-      <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
-        <ActionMenu actions={actions} />
-      </Box>
-    </TableRow>
+      <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
+        {notification.createdAt}
+      </TableCell>
+      <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
+        {notification.notificationType}
+      </TableCell>
+      <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={450} key={notification.id}>
+        {notification.body}
+      </TableCell>
+      <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }}>
+        <Link
+          key={notification.id}
+          as="button"
+          variant="outlined"
+          size="small"
+          to="DELEGATION_DETAILS"
+          params={{ delegationId: '1234' }}
+        >
+          {tCommon('actions.inspect')}
+        </Link>
+      </TableCell>
+      <TableCell>
+        <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+          <ActionMenu actions={actions} />
+        </Box>
+      </TableCell>
+    </MuiTableRow>
   )
 }
 
