@@ -75,8 +75,9 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          {actions.map(({ label, action }) => (
+          {actions.map(({ label, action, fontColor }) => (
             <MenuItem
+              sx={{ color: fontColor ?? 'inherit' }}
               key={label}
               onClick={(e) => {
                 action()
