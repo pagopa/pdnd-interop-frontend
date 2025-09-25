@@ -1,6 +1,6 @@
 import React from 'react'
 import { OutlinedInput, type OutlinedInputProps } from '@mui/material'
-import { useFormContext, Controller } from 'react-hook-form'
+import { useFormContext, Controller, useWatch } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import { useTranslation } from 'react-i18next'
@@ -14,6 +14,7 @@ export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
   helperText?: string
   formHelper?: string
   rules?: ControllerProps['rules']
+  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
@@ -23,8 +24,16 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   helperText,
   multiline,
   rules,
+  isFromPurposeTemplate,
   ...props
 }) => {
+  const { control } = useFormContext()
+
+  const isAssignedToTemplateUsersSwitch = useWatch({
+    control,
+    name: `assignToTemplateUsers.${questionId}`,
+  })
+
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
 
@@ -39,6 +48,10 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
     helperText,
   })
 
+  const conditionalRules = isAssignedToTemplateUsersSwitch
+    ? { required: false }
+    : mapValidationErrorMessages(rules, t)
+
   return (
     <RiskAnalysisInputWrapper
       name={name}
@@ -47,10 +60,12 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
       helperText={helperText}
       error={error}
       {...ids}
+      isFromPurposeTemplate={isFromPurposeTemplate}
+      questionId={questionId}
     >
       <Controller
         name={name}
-        rules={mapValidationErrorMessages(rules, t)}
+        rules={conditionalRules}
         render={({ field: { ref, onChange, ...fieldProps } }) => (
           <OutlinedInput
             {...props}
@@ -63,6 +78,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
             }}
             inputRef={ref}
             {...fieldProps}
+            disabled={isAssignedToTemplateUsersSwitch}
           />
         )}
       />
