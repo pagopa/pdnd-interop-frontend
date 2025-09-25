@@ -1,6 +1,5 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Link, useGeneratePath } from '@/router'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -36,6 +35,16 @@ export const ProviderPurposeDetailsTechnicalInfoSection: React.FC<
             tooltipTitle: t('consumerField.copySuccessFeedbackText'),
           }}
         />
+        {purpose.purposeTemplateRef && (
+          <InformationContainer
+            label={t('purposeTemplateField.label')}
+            content={purpose.consumer.id}
+            copyToClipboard={{
+              value: purpose.consumer.id,
+              tooltipTitle: t('purposeTemplateField.copySuccessFeedbackText'),
+            }}
+          />
+        )}
       </Stack>
     </SectionContainer>
   )
