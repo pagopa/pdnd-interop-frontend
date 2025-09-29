@@ -17,10 +17,9 @@ import {
 } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
-import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { useNotificationConfigHook } from '../hooks/useNotificationConfigHook'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import { debounce, isEqual } from 'lodash'
+import { debounce } from 'lodash'
 import type {
   NotificationSubSectionSchema,
   NotificationConfigType,
@@ -28,10 +27,11 @@ import type {
 } from '../types'
 import { match } from 'ts-pattern'
 
+type NotificationConfigFormValues = NotificationConfig & {
+  preferenceChoice: NotificationPreferenceChoiceType
+}
 type NotificationConfigUserTabProps = {
-  notificationConfig: NotificationConfig & {
-    preferenceChoice: NotificationPreferenceChoiceType
-  }
+  notificationConfig: NotificationConfigFormValues
   handleUpdateNotificationConfigs: (
     notificationConfig: NotificationConfig,
     type: NotificationConfigType,
@@ -48,7 +48,6 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
 
   const { notificationSchema, sectionComponentKeysMap } = useNotificationConfigHook(type)
-
   const userEmail = 'pippo@mail.com' // TODO: Should be available with api
 
   const formMethods = useForm<
@@ -58,32 +57,26 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   >({
     defaultValues: { ...notificationConfig, preferenceChoice: notificationConfig.preferenceChoice },
   })
-
   const valueChanged = formMethods.watch()
-  const valuesRef = useRef<NotificationConfig>(valueChanged)
-  const previousValuesRef = useRef<NotificationConfig | null>(null)
-
-  valuesRef.current = valueChanged
   const preferenceChoice = formMethods.getValues('preferenceChoice')
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceFn = useCallback(
-    debounce(() => {
-      previousValuesRef.current = valuesRef.current
-      handleUpdateNotificationConfigs(valuesRef.current, type, preferenceChoice)
-    }, 1000),
-    []
+  const debouncedUpdate = React.useMemo(
+    () =>
+      debounce((data: NotificationConfigFormValues) => {
+        handleUpdateNotificationConfigs(data, type, preferenceChoice)
+      }, 1000),
+    [handleUpdateNotificationConfigs, preferenceChoice, type]
   )
 
   useEffect(() => {
-    if (
-      formMethods.formState.isDirty &&
-      valueChanged &&
-      !isEqual(valueChanged, previousValuesRef.current)
-    ) {
-      debounceFn()
+    const subscription = formMethods.watch((value) => {
+      debouncedUpdate(value as NotificationConfigFormValues)
+    })
+
+    return () => {
+      subscription.unsubscribe()
     }
-  }, [debounceFn, valueChanged, formMethods.formState.isDirty])
+  }, [formMethods, formMethods.watch, formMethods.formState.isDirty, debouncedUpdate])
 
   const onClickEnableAllSectionSwitch = (sectionName: string, value: boolean) => {
     sectionComponentKeysMap[sectionName].forEach((inAppConfigKey: string) => {
@@ -95,7 +88,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 
   const getSwitchBySections = (sectionName: string) => {
     return sectionComponentKeysMap[sectionName].filter(
-      (item) => !valuesRef.current[item as keyof NotificationConfig]
+      (item) => !valueChanged[item as keyof NotificationConfig]
     )
   }
 
@@ -105,7 +98,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
         return preferenceChoice === 'ENABLED'
       })
       .with('inApp', () => {
-        return !preferenceChoice
+        return !!preferenceChoice
       })
       .exhaustive()
   }
@@ -173,6 +166,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
           {isEnabledShowPreferencesSwitch() &&
             Object.keys(notificationSchema).map((sectionName) => {
               const isAllSwitchWithinSectionDisabled = getSwitchBySections(sectionName).length <= 0
+              const SectionIcon = notificationSchema[sectionName].icon
 
               return (
                 <Box key={sectionName} data-testid={`config-section-${sectionName}`}>
@@ -185,7 +179,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
                       sx={{ mb: 4, mt: 3 }}
                     >
                       <Stack alignItems="center" direction="row" gap={1}>
-                        <MenuBookIcon />
+                        <SectionIcon />
                         <Typography variant="button">
                           {notificationSchema[sectionName].title}
                         </Typography>

@@ -3,6 +3,8 @@ import type { NotificationSubSectionSchema } from '../types'
 import { type NotificationConfigSchema, type NotificationConfigType } from '../types'
 import { match } from 'ts-pattern'
 import React from 'react'
+import { ConsumerIcon, ProviderIcon, MyTenantIcon } from '@/icons'
+import CodeIcon from '@mui/icons-material/Code'
 
 export function useNotificationConfigHook(type: NotificationConfigType) {
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage.sections' })
@@ -10,6 +12,7 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
   const notificationConfigSchema: NotificationConfigSchema = {
     subscriber: {
       title: t('subscriber.title'),
+      icon: ConsumerIcon,
       subsections: [
         {
           name: 'fruizioneDati',
@@ -77,6 +80,7 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
     },
     provider: {
       title: t('provider.title'),
+      icon: ProviderIcon,
       subsections: [
         {
           name: 'richiesteFruizione',
@@ -193,6 +197,7 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
     },
     delegations: {
       title: t('delegation.title'),
+      icon: MyTenantIcon,
       subsections: [
         {
           name: 'richiesteFruizione',
@@ -247,6 +252,7 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
     },
     keyAndAttributes: {
       title: t('keyAndAttributes.title'),
+      icon: CodeIcon,
       subsections: [
         {
           name: 'attributes',
@@ -566,7 +572,6 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
 
   const sectionComponentKeysMap = React.useMemo(() => {
     const keyMap: Record<string, string[]> = {}
-
     Object.keys(notificationSchema).forEach((sectionName) => {
       keyMap[sectionName] = notificationSchema[sectionName].subsections.flatMap(
         (section: NotificationSubSectionSchema) => section.components.map((c) => c.key)

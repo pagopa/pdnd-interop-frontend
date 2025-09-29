@@ -17,7 +17,6 @@ import type { NotificationConfigType } from './types'
 
 const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('inApp')
-
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
 
   return (
@@ -52,11 +51,11 @@ const NotificationUserConfigTabs: React.FC<{
   const handleUpdate = (
     notificationConfig: NotificationConfig,
     type: NotificationConfigType,
-    preferenceChoice:
+    _preferenceChoice:
       | UserNotificationConfig['emailNotificationPreference']
       | UserNotificationConfig['inAppNotificationPreference']
   ) => {
-    const unnecessaryKeys = ['inAppNotificationPreference', 'emailNotificationPreference']
+    const unnecessaryKeys = ['preferenceChoice']
     const removeUnnecessaryKeys = (config: NotificationConfig) => {
       return Object.fromEntries(
         Object.entries(config).filter(([key]) => !unnecessaryKeys.includes(key))
@@ -68,9 +67,9 @@ const NotificationUserConfigTabs: React.FC<{
         'inApp',
         () =>
           ({
-            inAppNotificationPreference: preferenceChoice,
+            // inAppNotificationPreference: preferenceChoice,
             inAppConfig: removeUnnecessaryKeys(notificationConfig),
-            emailNotificationPreference: data?.emailNotificationPreference,
+            // emailNotificationPreference: data?.emailNotificationPreference,
             emailConfig: data?.emailConfig as NotificationConfig,
           }) as UserNotificationConfigUpdateSeed
       )
@@ -78,14 +77,15 @@ const NotificationUserConfigTabs: React.FC<{
         'email',
         () =>
           ({
-            inAppNotificationPreference: data.inAppNotificationPreference,
+            // inAppNotificationPreference: data.inAppNotificationPreference,
             inAppConfig: data?.inAppConfig as NotificationConfig,
             emailConfig: removeUnnecessaryKeys(notificationConfig),
-            emailNotificationPreference: preferenceChoice,
+            // emailNotificationPreference: preferenceChoice,
           }) as UserNotificationConfigUpdateSeed
       )
       .exhaustive()
 
+    console.log('updateUserNotificationConfigs -> ', notificationConfigSeed)
     updateUserNotificationConfigs(notificationConfigSeed)
   }
 

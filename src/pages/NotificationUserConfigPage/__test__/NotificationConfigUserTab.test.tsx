@@ -2,7 +2,7 @@ import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { cleanup, fireEvent, screen, within } from '@testing-library/react'
 import { NotificationConfigUserTab } from '../components/NotificationUserConfigTab'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import { type NotificationConfigType } from '../types'
+import { NotificationPreferenceChoiceType, type NotificationConfigType } from '../types'
 
 mockUseJwt({ currentRoles: ['admin'] })
 
@@ -28,11 +28,19 @@ const inAppNotificationConfigMock: NotificationConfig = {
   clientKeyAddedDeletedToClientUsers: true, // 25
 }
 
-describe('InAppNotificationUserconfigTab', () => {
-  const renderComponent = (type: NotificationConfigType, ovverideNotificationConfig = {}) => {
+describe('NotificationConfigUserTab', () => {
+  const renderComponent = (
+    type: NotificationConfigType,
+    preferenceChoice: NotificationPreferenceChoiceType,
+    ovverideNotificationConfig = {}
+  ) => {
     renderWithApplicationContext(
       <NotificationConfigUserTab
-        notificationConfig={{ ...inAppNotificationConfigMock, ...ovverideNotificationConfig }}
+        notificationConfig={{
+          ...inAppNotificationConfigMock,
+          ...ovverideNotificationConfig,
+          preferenceChoice,
+        }}
         type={type}
         handleUpdateNotificationConfigs={vi.fn()}
       />,
@@ -45,7 +53,7 @@ describe('InAppNotificationUserconfigTab', () => {
 
   describe('inApp', () => {
     beforeEach(() => {
-      renderComponent('inApp')
+      renderComponent('inApp', true)
     })
 
     it('Should not be se to user email into "inApp" tab', () => {
@@ -71,7 +79,7 @@ describe('InAppNotificationUserconfigTab', () => {
     it('Should be able to turn on all switch for [subscriber] section if click on "enable all" for a section"', async () => {
       cleanup()
 
-      renderComponent('inApp', {
+      renderComponent('inApp', true, {
         certifiedVerifiedAttributeAssignedRevokedToAssignee: false,
         clientKeyAddedDeletedToClientUsers: false,
       })
@@ -104,7 +112,7 @@ describe('InAppNotificationUserconfigTab', () => {
 
   describe('mail', () => {
     beforeEach(() => {
-      renderComponent('email')
+      renderComponent('email', 'ENABLED')
     })
 
     it('Should be able to see user email', () => {
