@@ -17,6 +17,7 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
 
+
   const [riskAnalysisFormState, setRiskAnalysisFormState] = useState<
     | { type: null }
     | {
@@ -28,6 +29,7 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
         selectedTenantKind: TenantKind
       }
   >({ type: null })
+
 
   const handleOpenEditRiskAnalysisForm = (riskAnalysis: EServiceTemplateRiskAnalysis) => {
     setRiskAnalysisFormState({
