@@ -28,6 +28,7 @@ export type PurposeCreateFormValues = {
   useTemplate: boolean
   templateId: string | null
   providerRiskAnalysisId: string | null
+  usePurposeTemplate: boolean | null
 }
 
 export const PurposeCreateForm: React.FC = () => {
@@ -45,12 +46,14 @@ export const PurposeCreateForm: React.FC = () => {
       useTemplate: false,
       templateId: null,
       providerRiskAnalysisId: null,
+      usePurposeTemplate: false,
     },
   })
 
   const selectedEService = formMethods.watch('eservice')
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
+  const usePurposeTemplate = formMethods.watch('usePurposeTemplate')
 
   const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
 
@@ -133,7 +136,10 @@ export const PurposeCreateForm: React.FC = () => {
       createPurposeDraftForReceiveEService(payloadCreatePurposeDraft, {
         onSuccess(data) {
           const purposeId = data.id
-          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
+          navigate(usePurposeTemplate ? 'NOT_FOUND' : 'SUBSCRIBE_PURPOSE_EDIT', {
+            //TODO: REPLACE 'NOT_FOUND' WITH CORRECT ROUTE
+            params: { purposeId },
+          })
         },
       })
     }
@@ -153,7 +159,9 @@ export const PurposeCreateForm: React.FC = () => {
       createPurposeDraft(payloadCreatePurposeDraft, {
         onSuccess(data) {
           const purposeId = data.id
-          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
+          navigate(usePurposeTemplate ? 'NOT_FOUND' : 'SUBSCRIBE_PURPOSE_EDIT', {
+            params: { purposeId },
+          })
         },
       })
     }
