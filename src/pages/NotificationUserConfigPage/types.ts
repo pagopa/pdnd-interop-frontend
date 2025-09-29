@@ -1,6 +1,11 @@
+import { type UserNotificationConfig } from '@/api/api.generatedTypes'
 import { type UserProductRole } from '@/types/party.types'
 
 export type NotificationConfigType = 'email' | 'inApp'
+
+export type NotificationPreferenceChoiceType =
+  | UserNotificationConfig['emailNotificationPreference']
+  | UserNotificationConfig['inAppNotificationPreference']
 
 export type NotificationSubSectionSchema = {
   name: string

@@ -6,8 +6,9 @@ import { Tab } from '@mui/material'
 import { NotificationConfigUserTab } from './components/NotificationUserConfigTab'
 import { useTranslation } from 'react-i18next'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
+import type { UserNotificationConfig } from '@/api/api.generatedTypes'
 import {
   type NotificationConfig,
   type UserNotificationConfigUpdateSeed,
@@ -48,8 +49,14 @@ const NotificationUserConfigTabs: React.FC<{
   const { mutate: updateUserNotificationConfigs } =
     NotificationMutations.useUpdateNotificationUserConfigs()
 
-  const handleUpdate = (notificationConfig: NotificationConfig, type: NotificationConfigType) => {
-    const unnecessaryKeys = ['enableAllNotification']
+  const handleUpdate = (
+    notificationConfig: NotificationConfig,
+    type: NotificationConfigType,
+    preferenceChoice:
+      | UserNotificationConfig['emailNotificationPreference']
+      | UserNotificationConfig['inAppNotificationPreference']
+  ) => {
+    const unnecessaryKeys = ['inAppNotificationPreference', 'emailNotificationPreference']
     const removeUnnecessaryKeys = (config: NotificationConfig) => {
       return Object.fromEntries(
         Object.entries(config).filter(([key]) => !unnecessaryKeys.includes(key))
@@ -61,7 +68,9 @@ const NotificationUserConfigTabs: React.FC<{
         'inApp',
         () =>
           ({
+            inAppNotificationPreference: preferenceChoice,
             inAppConfig: removeUnnecessaryKeys(notificationConfig),
+            emailNotificationPreference: data?.emailNotificationPreference,
             emailConfig: data?.emailConfig as NotificationConfig,
           }) as UserNotificationConfigUpdateSeed
       )
@@ -69,8 +78,10 @@ const NotificationUserConfigTabs: React.FC<{
         'email',
         () =>
           ({
+            inAppNotificationPreference: data.inAppNotificationPreference,
             inAppConfig: data?.inAppConfig as NotificationConfig,
             emailConfig: removeUnnecessaryKeys(notificationConfig),
+            emailNotificationPreference: preferenceChoice,
           }) as UserNotificationConfigUpdateSeed
       )
       .exhaustive()
@@ -85,24 +96,34 @@ const NotificationUserConfigTabs: React.FC<{
         <Tab label={t('emailTabTitle')} value="email" />
       </TabList>
 
-      <TabPanel value="inApp">
-        {data?.inAppConfig && (
-          <NotificationConfigUserTab
-            type="inApp"
-            notificationConfig={data.inAppConfig}
-            handleUpdateNotificationConfigs={(notification) => handleUpdate(notification, 'inApp')}
-          />
-        )}
-      </TabPanel>
-      <TabPanel value="email">
-        {data?.emailConfig && (
-          <NotificationConfigUserTab
-            type="email"
-            notificationConfig={data.inAppConfig}
-            handleUpdateNotificationConfigs={(notification) => handleUpdate(notification, 'inApp')}
-          />
-        )}
-      </TabPanel>
+      {data && (
+        <>
+          <TabPanel value="inApp">
+            <NotificationConfigUserTab
+              type="inApp"
+              notificationConfig={{
+                ...data.inAppConfig,
+                preferenceChoice: data.inAppNotificationPreference,
+              }}
+              handleUpdateNotificationConfigs={(notification, type, preferenceChoice) =>
+                handleUpdate(notification, type, preferenceChoice)
+              }
+            />
+          </TabPanel>
+          <TabPanel value="email">
+            <NotificationConfigUserTab
+              type="email"
+              notificationConfig={{
+                ...data.inAppConfig,
+                preferenceChoice: data.inAppNotificationPreference,
+              }}
+              handleUpdateNotificationConfigs={(notification, type, preferenceChoice) =>
+                handleUpdate(notification, type, preferenceChoice)
+              }
+            />
+          </TabPanel>
+        </>
+      )}
     </TabContext>
   )
 }

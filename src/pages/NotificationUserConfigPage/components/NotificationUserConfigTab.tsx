@@ -21,14 +21,21 @@ import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { useNotificationConfigHook } from '../hooks/useNotificationConfigHook'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
 import { debounce, isEqual } from 'lodash'
-import type { NotificationSubSectionSchema, NotificationConfigType } from '../types'
+import type {
+  NotificationSubSectionSchema,
+  NotificationConfigType,
+  NotificationPreferenceChoiceType,
+} from '../types'
 import { match } from 'ts-pattern'
 
 type NotificationConfigUserTabProps = {
-  notificationConfig: NotificationConfig
+  notificationConfig: NotificationConfig & {
+    preferenceChoice: NotificationPreferenceChoiceType
+  }
   handleUpdateNotificationConfigs: (
     notificationConfig: NotificationConfig,
-    type: NotificationConfigType
+    type: NotificationConfigType,
+    preferenceChoice: NotificationPreferenceChoiceType
   ) => void
   type: NotificationConfigType
 }
@@ -47,8 +54,12 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 
   const userEmail = 'pippo@mail.com' // TODO: Should be available with api
 
-  const formMethods = useForm<NotificationConfig & { enableAllNotification: boolean }>({
-    defaultValues: { ...notificationConfig, enableAllNotification: true },
+  const formMethods = useForm<
+    NotificationConfig & {
+      preferenceChoice: NotificationPreferenceChoiceType
+    }
+  >({
+    defaultValues: { ...notificationConfig, preferenceChoice: notificationConfig.preferenceChoice },
   })
 
   const valueChanged = formMethods.watch()
@@ -61,7 +72,8 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const debounceFn = useCallback(
     debounce(() => {
       previousValuesRef.current = valuesRef.current
-      handleUpdateNotificationConfigs(valuesRef.current, type)
+      const preferenceChoice = formMethods.getValues('preferenceChoice')
+      handleUpdateNotificationConfigs(valuesRef.current, type, preferenceChoice)
     }, 1000),
     []
   )
@@ -96,7 +108,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
         return emailPreferencesChoice === 'customize'
       })
       .with('inApp', () => {
-        return valueChanged.enableAllNotification
+        return formMethods.getValues('preferenceChoice') ? true : false
       })
       .exhaustive()
   }
@@ -154,8 +166,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
         <Box sx={{ ml: 2, mt: 2 }}>
           {type === 'inApp' && (
             <RHFSwitch
-              data-testid="enableAllNotification"
-              name="enableAllNotification"
+              name="preferenceChoice"
               label={
                 <SwitchLabelDescription
                   label={t('enableAllNotifications.label')}
