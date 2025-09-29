@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { SectionContainer } from '@/components/layout/containers'
 import {
@@ -14,6 +14,7 @@ import {
   MenuItem,
   Select,
   Alert,
+  SelectChangeEvent,
 } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -48,9 +49,6 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
 
   const { notificationSchema, sectionComponentKeysMap } = useNotificationConfigHook(type)
-  const [emailPreferencesChoice, setPreferencesChoices] = React.useState<
-    'notSend' | 'digest' | 'customize'
-  >('customize')
 
   const userEmail = 'pippo@mail.com' // TODO: Should be available with api
 
@@ -67,6 +65,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const previousValuesRef = useRef<NotificationConfig | null>(null)
 
   valuesRef.current = valueChanged
+  const preferenceChoice = formMethods.getValues('preferenceChoice')
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceFn = useCallback(
@@ -103,12 +102,13 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   }
 
   const isEnabledShowPreferencesSwitch = (): boolean => {
+    const preferenceChoice = formMethods.getValues('preferenceChoice')
     return match(type)
       .with('email', () => {
-        return emailPreferencesChoice === 'customize'
+        return preferenceChoice === 'ENABLED'
       })
       .with('inApp', () => {
-        return formMethods.getValues('preferenceChoice') ? true : false
+        return preferenceChoice ? true : false
       })
       .exhaustive()
   }
@@ -135,32 +135,31 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
             >
               {t('linkLabel')}
             </Link>
+            <Controller
+              name="preferenceChoice"
+              control={formMethods.control}
+              render={({ field }) => (
+                <FormControl fullWidth sx={{ mt: 3 }}>
+                  <InputLabel id="emailPreferenceLabel">{t('emailPreferencesLabel')}</InputLabel>
+                  <Select
+                    labelId="emailPreferenceLabel"
+                    id="preferenceChoice"
+                    label={t('emailPreferencesLabel')}
+                    {...field}
+                  >
+                    <MenuItem value="DISABLED">{t('notSend')}</MenuItem>
+                    <MenuItem value="DIGEST">{t('digest')}</MenuItem>
+                    <MenuItem value="ENABLED">{t('customize')}</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            />
+            {preferenceChoice === 'DIGEST' && type === 'email' && (
+              <Alert severity="info" sx={{ mt: 3 }}>
+                {t('digestInfoDescription')}
+              </Alert>
+            )}
           </>
-        )}
-
-        {type === 'email' && (
-          <FormControl fullWidth sx={{ mt: 3 }}>
-            <InputLabel id="demo-simple-select-label">{t('emailPreferencesLabel')}</InputLabel>
-            <Select
-              labelId="emailPrefefences"
-              id="emailPreferences"
-              value={emailPreferencesChoice}
-              label={t('emailPreferencesLabel')}
-              onChange={(event) =>
-                setPreferencesChoices(event.target.value as 'notSend' | 'digest' | 'customize')
-              }
-            >
-              <MenuItem value="notSend">{t('notSend')}</MenuItem>
-              <MenuItem value="digest">{t('digest')}</MenuItem>
-              <MenuItem value="customize">{t('customize')}</MenuItem>
-            </Select>
-          </FormControl>
-        )}
-
-        {emailPreferencesChoice === 'digest' && type === 'email' && (
-          <Alert severity="info" sx={{ mt: 3 }}>
-            {t('digestInfoDescription')}
-          </Alert>
         )}
 
         <Box sx={{ ml: 2, mt: 2 }}>

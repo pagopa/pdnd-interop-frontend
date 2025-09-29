@@ -32,7 +32,6 @@ async function getUserNotificationConfigs() {
     emailNotificationPreference: Math.random() < 0.5 ? 'ENABLED' : 'DISABLED',
   } // DELETE THIS
 
-  console.log('API:', responseData.inAppNotificationPreference) // DELETE THIS
   return responseData
 }
 async function getTenantNotificationConfigs() {
