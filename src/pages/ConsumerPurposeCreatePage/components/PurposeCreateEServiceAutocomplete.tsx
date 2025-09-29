@@ -85,7 +85,9 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { data: linkedPurposeTemplates } = useQuery({
     //TODO: TO CHECK WHEN THE BACKEND PART WILL BE READY IF IT'S OK AND THE ALERT SHOWS UP CORRECTLY
     ...PurposeTemplateQueries.getCatalogPurposeTemplates({
-      eserviceIds: selectedEServiceRef.current?.id || [],
+      eserviceIds: selectedEServiceRef.current?.id ? [selectedEServiceRef.current.id] : [],
+      offset: 0,
+      limit: 50,
     }),
     enabled: true,
   })

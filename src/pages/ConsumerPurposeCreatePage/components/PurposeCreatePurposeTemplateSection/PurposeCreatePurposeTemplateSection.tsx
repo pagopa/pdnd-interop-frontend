@@ -61,7 +61,9 @@ export const PurposeCreatePurposeTemplateSection: React.FC<
             name="acknowledgeInfoResponsibility"
             label={t('usePurposeTemplateSwitch.acknowledgeInfoResponsibility.label')}
             sx={{ pl: 2, pt: 2 }}
-            required={true}
+            rules={{
+              required: true,
+            }}
           />
         </Stack>
       )}
