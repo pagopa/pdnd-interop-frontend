@@ -14,7 +14,6 @@ import {
   MenuItem,
   Select,
   Alert,
-  SelectChangeEvent,
 } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -71,7 +70,6 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const debounceFn = useCallback(
     debounce(() => {
       previousValuesRef.current = valuesRef.current
-      const preferenceChoice = formMethods.getValues('preferenceChoice')
       handleUpdateNotificationConfigs(valuesRef.current, type, preferenceChoice)
     }, 1000),
     []
@@ -102,79 +100,76 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   }
 
   const isEnabledShowPreferencesSwitch = (): boolean => {
-    const preferenceChoice = formMethods.getValues('preferenceChoice')
     return match(type)
       .with('email', () => {
         return preferenceChoice === 'ENABLED'
       })
       .with('inApp', () => {
-        return preferenceChoice ? true : false
+        return !preferenceChoice
       })
       .exhaustive()
   }
 
+  const InAppConfigHeader = () => (
+    <>
+      <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
+        {t('manualLinkLabel')}
+      </Link>
+      <Box sx={{ ml: 2, mt: 2 }}>
+        <RHFSwitch
+          name="preferenceChoice"
+          label={
+            <SwitchLabelDescription
+              label={t('enableAllNotifications.label')}
+              description={t('enableAllNotifications.description')}
+            />
+          }
+        />
+      </Box>
+    </>
+  )
+
+  const EmailConfigHeader = () => (
+    <>
+      <Stack direction="row" spacing={8} sx={{ mb: 2 }}>
+        <Typography data-testid="test-email">Indirizzo email</Typography>
+        <Typography fontWeight={600}>{userEmail}</Typography>
+      </Stack>
+      <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
+        {t('linkLabel')}
+      </Link>
+      <Controller
+        name="preferenceChoice"
+        control={formMethods.control}
+        render={({ field }) => (
+          <FormControl fullWidth sx={{ mt: 3 }}>
+            <InputLabel id="emailPreferenceLabel">{t('emailPreferencesLabel')}</InputLabel>
+            <Select
+              labelId="emailPreferenceLabel"
+              id="preferenceChoice"
+              label={t('emailPreferencesLabel')}
+              {...field}
+            >
+              <MenuItem value="DISABLED">{t('notSend')}</MenuItem>
+              <MenuItem value="DIGEST">{t('digest')}</MenuItem>
+              <MenuItem value="ENABLED">{t('customize')}</MenuItem>
+            </Select>
+          </FormControl>
+        )}
+      />
+      {preferenceChoice === 'DIGEST' && (
+        <Alert severity="info" sx={{ mt: 3 }}>
+          {t('digestInfoDescription')}
+        </Alert>
+      )}
+    </>
+  )
+
   return (
     <FormProvider {...formMethods}>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
-        {type === 'inApp' && (
-          <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
-            {t('manualLinkLabel')}
-          </Link>
-        )}
-
-        {type === 'email' && (
-          <>
-            <Stack direction="row" spacing={8} sx={{ mb: 2 }}>
-              <Typography data-testid="test-email">Indirizzo email</Typography>
-              <Typography fontWeight={600}>{userEmail}</Typography>
-            </Stack>
-            <Link
-              href="https://docs.pagopa.it/interoperabilita-1"
-              underline="none"
-              variant="button"
-            >
-              {t('linkLabel')}
-            </Link>
-            <Controller
-              name="preferenceChoice"
-              control={formMethods.control}
-              render={({ field }) => (
-                <FormControl fullWidth sx={{ mt: 3 }}>
-                  <InputLabel id="emailPreferenceLabel">{t('emailPreferencesLabel')}</InputLabel>
-                  <Select
-                    labelId="emailPreferenceLabel"
-                    id="preferenceChoice"
-                    label={t('emailPreferencesLabel')}
-                    {...field}
-                  >
-                    <MenuItem value="DISABLED">{t('notSend')}</MenuItem>
-                    <MenuItem value="DIGEST">{t('digest')}</MenuItem>
-                    <MenuItem value="ENABLED">{t('customize')}</MenuItem>
-                  </Select>
-                </FormControl>
-              )}
-            />
-            {preferenceChoice === 'DIGEST' && type === 'email' && (
-              <Alert severity="info" sx={{ mt: 3 }}>
-                {t('digestInfoDescription')}
-              </Alert>
-            )}
-          </>
-        )}
-
+        {type === 'email' ? <EmailConfigHeader /> : <InAppConfigHeader />}
         <Box sx={{ ml: 2, mt: 2 }}>
-          {type === 'inApp' && (
-            <RHFSwitch
-              name="preferenceChoice"
-              label={
-                <SwitchLabelDescription
-                  label={t('enableAllNotifications.label')}
-                  description={t('enableAllNotifications.description')}
-                />
-              }
-            />
-          )}
-
           {isEnabledShowPreferencesSwitch() &&
             Object.keys(notificationSchema).map((sectionName) => {
               const isAllSwitchWithinSectionDisabled = getSwitchBySections(sectionName).length <= 0
