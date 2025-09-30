@@ -8,6 +8,7 @@ import type { RouteKey } from '@/router'
 import { routes } from '@/router'
 import DnsIcon from '@mui/icons-material/Dns'
 import { ConsumerIcon, ProviderIcon, CatalogIcon, DeveloperToolIcon, MyTenantIcon } from '@/icons'
+import NotificationsIcon from '@mui/icons-material/Notifications'
 import { useTranslation } from 'react-i18next'
 
 export function useGetSidebarItems(): SidebarRoutes {
@@ -22,6 +23,12 @@ export function useGetSidebarItems(): SidebarRoutes {
         rootRouteKey: 'SUBSCRIBE_CATALOG_LIST',
         icon: CatalogIcon,
         label: t('eserviceCatalog'),
+        children: [],
+      },
+      {
+        icon: NotificationsIcon,
+        rootRouteKey: 'NOTIFICATIONS',
+        label: 'Notifiche ',
         children: [],
         divider: true,
       },
@@ -84,7 +91,7 @@ export function useGetSidebarItems(): SidebarRoutes {
       {
         icon: DeveloperToolIcon,
         rootRouteKey: 'DEVELOPER_TOOLS',
-        label: 'Tool per lo sviluppo ',
+        label: 'Tool per lo sviluppo',
         children: [],
       },
     ]
