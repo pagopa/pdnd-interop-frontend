@@ -7,7 +7,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { useTranslation } from 'react-i18next'
 
 export const EServiceTemplateUsefulLinksSection: React.FC = () => {
-  const { t } = useTranslation('template', {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
 

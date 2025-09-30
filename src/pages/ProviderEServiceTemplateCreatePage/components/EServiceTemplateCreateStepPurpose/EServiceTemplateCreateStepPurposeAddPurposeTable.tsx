@@ -4,7 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { useDialog } from '@/stores'
 import type { EServiceTemplateRiskAnalysis, TenantKind } from '@/api/api.generatedTypes'
 
@@ -12,15 +12,16 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
   onOpenAddRiskAnalysisForm: (selectedTenantKind: TenantKind) => void
   onOpenEditRiskAnalysisForm: (riskAnalysis: EServiceTemplateRiskAnalysis) => void
 }> = ({ onOpenAddRiskAnalysisForm, onOpenEditRiskAnalysisForm }) => {
-  const { t } = useTranslation('template', {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'create.stepPurpose.purposeTableSection.purposeTable',
   })
   const { t: tCommon } = useTranslation('common')
 
-  const { templateVersion, areEServiceTemplateGeneralInfoEditable } =
+  const { eserviceTemplateVersion, areEServiceTemplateGeneralInfoEditable } =
     useEServiceTemplateCreateContext()
 
-  const { mutate: deleteRiskAnalysis } = TemplateMutations.useDeleteEServiceTemplateRiskAnalysis()
+  const { mutate: deleteRiskAnalysis } =
+    EServiceTemplateMutations.useDeleteEServiceTemplateRiskAnalysis()
 
   const { openDialog } = useDialog()
 
@@ -32,9 +33,9 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
   }
 
   const handleDeletePurpose = (riskAnalysisId: string) => {
-    if (!templateVersion) return
+    if (!eserviceTemplateVersion) return
     deleteRiskAnalysis({
-      eServiceTemplateId: templateVersion.eserviceTemplate.id,
+      eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
       riskAnalysisId: riskAnalysisId,
     })
   }
@@ -42,11 +43,11 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
   return (
     <>
       <Table
-        isEmpty={templateVersion?.eserviceTemplate.riskAnalysis.length === 0}
+        isEmpty={eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.length === 0}
         headLabels={[]}
         noDataLabel={t('noDataLabel')}
       >
-        {templateVersion?.eserviceTemplate.riskAnalysis.map((riskAnalysis) => (
+        {eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.map((riskAnalysis) => (
           <TableRow
             key={riskAnalysis.id}
             cellData={[

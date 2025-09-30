@@ -31,7 +31,7 @@ import type {
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
-async function getProviderTemplatesList(params: GetProducerEServicesParams) {
+async function getProviderEServiceTemplatesList(params: GetProducerEServicesParams) {
   const response = await axiosInstance.get<ProducerEServiceTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/creators/eservices/templates`,
     { params }
@@ -162,7 +162,7 @@ async function downloadVersionDraftDocument({
   return response.data
 }
 
-async function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
+async function getProducersEServiceTemplateList(params: GetEServiceTemplateCreatorsParams) {
   const response = await axiosInstance.get<CompactOrganizations>(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/filter/creators`,
     { params }
@@ -321,7 +321,7 @@ async function reactivateVersion({
   )
 }
 
-async function getProviderTemplateInstancesList({
+async function getProviderEServiceTemplateInstancesList({
   eServiceTemplateId,
   ...params
 }: GetEServiceTemplateInstancesParams & { eServiceTemplateId: string }) {
@@ -356,7 +356,7 @@ async function updateInstanceFromEServiceTemplate({
   return response.data
 }
 
-async function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
+async function getProviderEServiceTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServiceTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices/templates`,
     { params }
@@ -372,8 +372,8 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
   return response.data
 }
 
-export const TemplateServices = {
-  getProviderTemplatesList,
+export const EServiceTemplateServices = {
+  getProviderEServiceTemplatesList,
   getSingle,
   updateEServiceTemplateName,
   updateEServiceTemplateIntendedTarget,
@@ -396,10 +396,10 @@ export const TemplateServices = {
   deleteVersionDraft,
   suspendVersion,
   reactivateVersion,
-  getProviderTemplateInstancesList,
+  getProviderEServiceTemplateInstancesList,
   createInstanceFromEServiceTemplate,
   getSingleByEServiceTemplateId,
-  getProviderTemplatesCatalogList,
-  getProducersTemplateEserviceList,
+  getProviderEServiceTemplatesCatalogList,
+  getProducersEServiceTemplateList,
   updateInstanceFromEServiceTemplate,
 }

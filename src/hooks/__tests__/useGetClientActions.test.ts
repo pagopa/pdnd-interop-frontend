@@ -31,10 +31,10 @@ afterAll(() => {
 function renderUseGetClientActionsHook(clientMock?: Client) {
   const memoryHistory = createMemoryHistory()
 
-  memoryHistory.push('/it/fruizione/client')
+  memoryHistory.push('/it/gestione-client/api-e-service')
 
   if (clientMock?.kind === 'API') {
-    memoryHistory.push('/it/fruizione/interop-m2m')
+    memoryHistory.push('/it/gestione-client/api-interop')
   }
 
   return renderHookWithApplicationContext(
@@ -84,7 +84,7 @@ describe('check if useGetClientActions returns the correct actions based on the 
     })
 
     await waitFor(() => {
-      expect(history.location.pathname).toBe('/it/fruizione/interop-m2m')
+      expect(history.location.pathname).toBe('/it/gestione-client/api-interop')
     })
   })
 
@@ -105,7 +105,7 @@ describe('check if useGetClientActions returns the correct actions based on the 
     })
 
     await waitFor(() => {
-      expect(history.location.pathname).toBe('/it/fruizione/client')
+      expect(history.location.pathname).toBe('/it/gestione-client/api-e-service')
     })
   })
 })
