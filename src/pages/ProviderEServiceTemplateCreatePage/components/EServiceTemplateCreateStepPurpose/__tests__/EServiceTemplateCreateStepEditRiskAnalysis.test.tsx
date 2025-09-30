@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { EServiceTemplateCreateStepEditRiskAnalysis } from '../EServiceTemplateCreateStepEditRiskAnalysis'
 import type { EServiceTemplateRiskAnalysis } from '@/api/api.generatedTypes'
-
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 // Mocks
@@ -64,7 +63,6 @@ describe('EServiceTemplateCreateStepEditRiskAnalysis', () => {
     const onClose = vi.fn()
     const mutate = vi.fn((_, { onSuccess }: { onSuccess: () => void }) => onSuccess())
     // Patch the mocked hook to return our spy
-
     EServiceTemplateMutations.useUpdateEServiceTemplateRiskAnalysis = () => ({ mutate }) as never
     
     render(
