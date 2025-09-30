@@ -103,6 +103,41 @@
         "proceedButtonLabel": "Update",
         "cancelButtonLabel": "Discard"
       }
+    },
+    "purposeFromTemplate": {
+      "generalInformationSection": {
+        "title": "General information",
+        "subtitle": "The following information was pre-filled by the creator of the facilitated purpose template and can be modified.",
+        "descriptionSection": {
+          "title": "Description",
+          "nameField": {
+            "label": "Purpose name"
+          },
+          "descriptionField": {
+            "label": "Purpose description"
+          },
+          "isFreeOfChargeField": {
+            "label": "Free of charge access",
+            "options": {
+              "YES": "Yes",
+              "NO": "No"
+            }
+          },
+          "freeOfChargeReasonField": {
+            "label": "Free of charge reason"
+          }
+        }
+      },
+      "technicalInformationsSection": {
+        "title": "Technical information",
+        "instanceNameField": {
+          "label": "Instance name",
+          "defaultPurposeInstanceName": "Template for facilitated purpose compilation"
+        },
+        "dailyCallsField": {
+          "label": "How many API calls/day do you estimate to make?"
+        }
+      }
     }
   },
   "summary": {
