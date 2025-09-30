@@ -37,6 +37,25 @@
         "options": {
           "DELIVER": "Deliver",
           "RECEIVE": "Receive"
+        },
+        "eservicePersonalDataField": {
+          "DELIVER": {
+            "label": "Does the e-service deliver personal data?",
+            "options": {
+              "true": "Delivers personal data",
+              "false": "Does not deliver personal data"
+            }
+          },
+          "RECEIVE": {
+            "label": "Does the e-service receive personal data?",
+            "options": {
+              "true": "Receives personal data",
+              "false": "Does not receive personal data"
+            }
+          },
+          "alert": {
+            "label": "Indicate whether this e-service processes personal data."
+          }
         }
       },
       "isSignalHubEnabled": {
@@ -212,6 +231,19 @@
       "description": {
         "label": "Description"
       },
+      "personalDataField": {
+        "DELIVER": {
+          "label": "It delivers personal data"
+        },
+        "RECEIVE": {
+          "label": "It receives personal data"
+        },
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "Not specified"
+        }
+      },
       "apiTechnology": {
         "label": "API Technology"
       },
@@ -282,11 +314,12 @@
       "emptyLabel": "No uploaded documents"
     },
     "notPublishableTooltip": {
-      "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
+      "label": "One or more required fields have not been filled in. Complete the draft"
     },
+    "missingPersonalDataField": "You have not indicated whether the e-service delivers or receives personal data. You can go back to the first step to specify it, or you can proceed and add this information later.",
     "rejectedDelegatedVersionDraftAlert": {
       "delegate": "The publication of this draft was rejected by the delegator. <1>Read the reasons for rejection</1> and resend the draft with the corrections.",
-      "delegator": "You have reject the publication of this draft. <1>Read the reasons for rejection here</1>."
+      "delegator": "You have rejected the publication of this draft. <1>Read the reasons for rejection here</1>."
     }
   },
   "list": {
