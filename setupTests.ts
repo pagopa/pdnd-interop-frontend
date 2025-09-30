@@ -22,10 +22,6 @@ export const testConfigs = {
     'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/push-signals.yaml',
   API_SIGNAL_HUB_PULL_INTERFACE_URL:
     'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/pull-signals.yaml',
-  FEATURE_FLAG_SIGNALHUB_WHITELIST: 'true',
-  SIGNALHUB_WHITELIST_CONSUMER:
-    '69e2865e-65ab-4e48-a638-2037a9ee2ee7,e79a24cd-8edc-441e-ae8d-e87c3aea0059',
-  SIGNALHUB_WHITELIST_PRODUCER: '69e2865e-65ab-4e48-a638-2037a9ee2ee7',
   PUBLIC_URL: '/ui',
   FEATURE_FLAG_ADMIN_CLIENT: 'true',
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',

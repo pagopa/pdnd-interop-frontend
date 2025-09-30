@@ -63,7 +63,7 @@ const chipColors = {
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
   delegation: CHIP_COLORS_DELEGATION,
-  template: CHIP_COLORS_E_SERVICE_TEMPLATE,
+  eserviceTemplate: CHIP_COLORS_E_SERVICE_TEMPLATE,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
@@ -86,7 +86,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
         state: DelegationState
       }
     | {
-        for: 'template'
+        for: 'eserviceTemplate'
         state: EServiceTemplateVersionState
       }
   )
@@ -155,9 +155,9 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     label = t(`status.delegation.${props.state}`)
   }
 
-  if (props.for === 'template') {
-    color = chipColors['template'][props.state]
-    label = t(`status.template.${props.state}`)
+  if (props.for === 'eserviceTemplate') {
+    color = chipColors['eserviceTemplate'][props.state]
+    label = t(`status.eserviceTemplate.${props.state}`)
   }
 
   return (

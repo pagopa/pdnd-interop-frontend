@@ -1,0 +1,38 @@
+{
+  "menuItem": {
+    "eserviceCatalog": "Catalogo e-service",
+    "subscribe": {
+      "subscribe": "Fruizione",
+      "agreement": "Richieste inoltrate",
+      "purpose": "Finalità inoltrate"
+    },
+    "provider": {
+      "provider": "Erogazione",
+      "providerEservice": "I miei e-service",
+      "providerAgreeemnt": "Richieste ricevute",
+      "providerPurpose": "Finalità ricevute",
+      "eServiceTemplatesCatalog": "Template e-service",
+      "providerEserviceTemplate": "I miei template e-service",
+      "providerKeychainsList": "Portachiavi erogatore"
+    },
+    "client": {
+      "client": "Gestione dei client",
+      "eservice": "API e-service",
+      "interop": "API Interoperabilità",
+      "debugClientAssertion": "Debug client assertion"
+    },
+    "tenant": {
+      "tenant": "Il mio ente",
+      "partyRegistry": "Anagrafica e attributi",
+      "tenantCertifier": "Ente certificatore",
+      "delegations": "Gestione delle deleghe"
+    },
+    "developerTools": "Tool per lo sviluppo"
+  },
+  "menu": "Menù",
+  "userExternalLinkLabel": "Utenti",
+  "groupsExternalLinkLabel": "Gruppi",
+  "collapse": "Chiudi Menù",
+  "expand": "Apri Menù",
+  "navigationMenu": "Menù di navigazione"
+}

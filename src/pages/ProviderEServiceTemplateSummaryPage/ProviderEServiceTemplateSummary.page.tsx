@@ -8,7 +8,7 @@ import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import { useQuery } from '@tanstack/react-query'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
+import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { ProviderEServiceTemplateGeneralInfoSummary } from './components/ProviderEServiceTemplateGeneralInfoSummary'
 import {
   ProviderEServiceTemplateAttributeVersionSummary,
@@ -18,22 +18,22 @@ import {
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
 
 const ProviderEServiceTemplateSummaryPage: React.FC = () => {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
   const navigate = useNavigate()
 
-  const { mutate: deleteVersion } = TemplateMutations.useDeleteVersionDraft()
-  const { mutate: publishVersion } = TemplateMutations.usePublishVersionDraft()
+  const { mutate: deleteVersion } = EServiceTemplateMutations.useDeleteVersionDraft()
+  const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
 
-  const { data: template, isLoading } = useQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+  const { data: eserviceTemplate, isLoading } = useQuery(
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
   const handleDeleteDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
 
     deleteVersion(
       { eServiceTemplateId, eServiceTemplateVersionId },
@@ -42,7 +42,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const handleEditDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
     navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
       params: {
         eServiceTemplateId: eServiceTemplateId,
@@ -53,7 +53,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const handlePublishDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
 
     publishVersion(
       {
@@ -73,16 +73,16 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const canBePublished = () => {
-    return !!template?.interface
+    return !!eserviceTemplate?.interface
   }
 
-  const isReceiveMode = template?.eserviceTemplate.mode === 'RECEIVE'
+  const isReceiveMode = eserviceTemplate?.eserviceTemplate.mode === 'RECEIVE'
 
   return (
     <PageContainer
       title={t('summary.title', {
-        eserviceTemplateName: template?.eserviceTemplate.name,
-        versionEserviceTemplateNumber: template?.version ?? '1',
+        eserviceTemplateName: eserviceTemplate?.eserviceTemplate.name,
+        versionEserviceTemplateNumber: eserviceTemplate?.version ?? '1',
       })}
       backToAction={{
         label: t('backToListBtn'),
@@ -90,7 +90,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       }}
       isLoading={isLoading}
       statusChip={{
-        for: 'template',
+        for: 'eserviceTemplate',
         state: 'DRAFT',
       }}
     >
@@ -161,7 +161,7 @@ type PublishButtonProps = {
 
 const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('template', { keyPrefix: 'summary' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary' })
 
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (

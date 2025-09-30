@@ -11,7 +11,7 @@ import type { EServiceTemplateRiskAnalysis } from '@/api/api.generatedTypes'
 
 function mockUseEServiceTemplateCreateContext(riskAnalysis: EServiceTemplateRiskAnalysis[] = []) {
   vi.spyOn(ContextModule, 'useEServiceTemplateCreateContext').mockReturnValue({
-    templateVersion: {
+    eserviceTemplateVersion: {
       // @ts-expect-error mock
       eserviceTemplate: {
         id: 'template-id',

@@ -89,7 +89,7 @@
       "updateEServiceTemplateAudienceDrawer": {
         "title": "Modifica a chi è rivolto il template",
         "subtitle": "Da questo pannello puoi aggiornare  a chi è rivolto il template dell’e-service. Le modifiche apportate avranno effetto da subito.",
-        "templateAudienceField": {
+        "eserviceTemplateAudienceField": {
           "label": "A chi è rivolto il template",
           "infoLabel": "Min 10 caratteri, max 250 caratteri",
           "validation": {
@@ -100,7 +100,7 @@
       "updateEServiceTemplateDescriptionDrawer": {
         "title": "Modifica descrizione del template dell'e-service",
         "subtitle": "Da questo pannello puoi aggiornare la descrizione del template dell’e-service. Le modifiche apportate avranno effetto da subito.",
-        "templateDescriptionField": {
+        "eserviceTemplateDescriptionField": {
           "label": "Descrizione del template eservice",
           "infoLabel": "Min 10 caratteri, max 250 caratteri",
           "validation": {
@@ -136,7 +136,7 @@
       "nameField": {
         "label": "Cerca per nome"
       },
-      "templateProviderField": {
+      "eserviceTemplateProviderField": {
         "label": "Cerca per creatore template"
       },
       "tenantField": "Cerca per nome",
@@ -163,7 +163,7 @@
   },
   "createInstance": {
     "title": "Crea e-service da template",
-    "templateDescriptionLink": "Istanza di <1>{{templateName}}</1>"
+    "eserviceTemplateDescriptionLink": "Istanza di <1>{{templateName}}</1>"
   },
   "noMultiDataLabel": "Non hai ancora creato template di e-service.",
   "backToListBtn": "Torna ai template",

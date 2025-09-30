@@ -21,7 +21,7 @@ export const DialogTenantKindEserviceTemplate: React.FC<DialogTenantKindEservice
   const ariaLabelId = React.useId()
 
   const { closeDialog } = useDialog()
-  const { t: tTemplate } = useTranslation('template', {
+  const { t: tTemplate } = useTranslation('eserviceTemplate', {
     keyPrefix: 'create.step2.tenantKindDialog',
   })
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })

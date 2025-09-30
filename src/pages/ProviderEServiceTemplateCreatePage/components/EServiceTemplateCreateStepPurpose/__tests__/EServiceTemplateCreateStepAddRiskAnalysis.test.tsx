@@ -3,14 +3,13 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { EServiceTemplateCreateStepAddRiskAnalysis } from '../EServiceTemplateCreateStepAddRiskAnalysis'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 vi.mock('@/api/template', () => ({
-  TemplateMutations: {
+  EServiceTemplateMutations: {
     useAddEServiceTemplateRiskAnalysis: () => ({ mutate: vi.fn() }),
   },
 }))
-
-import { TemplateMutations } from '@/api/template'
 
 vi.mock('@/api/purpose', () => ({
   PurposeQueries: {
@@ -47,7 +46,7 @@ describe('EServiceTemplateCreateStepAddRiskAnalysis', () => {
     const onClose = vi.fn()
     const mutate = vi.fn((_, { onSuccess }: { onSuccess: () => void }) => onSuccess())
     // Patch the mocked hook to return our spy
-    TemplateMutations.useAddEServiceTemplateRiskAnalysis = () => ({ mutate }) as never
+    EServiceTemplateMutations.useAddEServiceTemplateRiskAnalysis = () => ({ mutate }) as never
 
     render(
       <EServiceTemplateCreateStepAddRiskAnalysis

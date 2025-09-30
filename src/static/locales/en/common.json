@@ -79,7 +79,7 @@
       "eserviceTemplateUsingTenant": "Tenant",
       "eserviceTemplateInstanceVersion": "Version",
       "eserviceTemplateInstanceState": "Instance's state",
-      "templateName": "Template"
+      "eserviceTemplateName": "Template"
     }
   },
   "status": {
@@ -120,7 +120,7 @@
       "REVOKED": "revoked",
       "WAITING_FOR_APPROVAL": "waiting for acceptance"
     },
-    "template": {
+    "eserviceTemplate": {
       "PUBLISHED": "active",
       "DRAFT": "draft",
       "SUSPENDED": "suspended",

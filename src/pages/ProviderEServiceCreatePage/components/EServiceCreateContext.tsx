@@ -20,12 +20,12 @@ type EServiceCreateContextType = {
   }
   openRiskAnalysisForm: (riskAnalysisId?: string) => void
   closeRiskAnalysisForm: VoidFunction
-  template: EServiceTemplateDetails | undefined
+  eserviceTemplate: EServiceTemplateDetails | undefined
 }
 
 const initialState: EServiceCreateContextType = {
   descriptor: undefined,
-  template: undefined,
+  eserviceTemplate: undefined,
   eserviceMode: 'DELIVER',
   onEserviceModeChange: noop,
   back: noop,
@@ -47,7 +47,7 @@ const { useContext, Provider } = createContext<EServiceCreateContextType>(
 type EServiceCreateContextProviderProps = {
   children: React.ReactNode
   descriptor: ProducerEServiceDescriptor | undefined
-  template?: EServiceTemplateDetails
+  eserviceTemplate?: EServiceTemplateDetails
   eserviceMode: EServiceMode
   onEserviceModeChange?: (value: EServiceMode) => void
   back: VoidFunction
@@ -57,7 +57,7 @@ type EServiceCreateContextProviderProps = {
 const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps> = ({
   children,
   descriptor,
-  template,
+  eserviceTemplate,
   eserviceMode,
   onEserviceModeChange,
   back,
@@ -103,7 +103,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
       riskAnalysisFormState,
       openRiskAnalysisForm,
       closeRiskAnalysisForm,
-      template,
+      eserviceTemplate,
     }
   }, [
     descriptor,
@@ -112,7 +112,7 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
     back,
     forward,
     riskAnalysisFormState,
-    template,
+    eserviceTemplate,
   ])
 
   return <Provider value={providerValue}>{children}</Provider>

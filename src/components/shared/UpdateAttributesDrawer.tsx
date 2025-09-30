@@ -12,7 +12,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { EServiceMutations } from '@/api/eservice'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useParams } from '@/router'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 type UpdateAttributesDrawerProps = {
   isOpen: boolean
@@ -44,7 +44,8 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
   )
 
   const { mutate: updateEserviceAttributes } = EServiceMutations.useUpdateDescriptorAttributes()
-  const { mutate: updateEserviceTemplateAttributes } = TemplateMutations.useUpdateAttributes()
+  const { mutate: updateEserviceTemplateAttributes } =
+    EServiceTemplateMutations.useUpdateAttributes()
 
   const attributeGroups = selectedAttributes[attributeKey]
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)

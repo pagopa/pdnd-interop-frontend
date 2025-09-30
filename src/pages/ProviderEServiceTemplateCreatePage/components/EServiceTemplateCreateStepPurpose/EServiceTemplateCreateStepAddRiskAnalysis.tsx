@@ -1,7 +1,7 @@
 import React from 'react'
 import { PurposeQueries } from '@/api/purpose'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { CreateStepPurposeRiskAnalysisForm } from '@/components/shared/CreateStepPurposeRiskAnalysisForm'
 import type { TenantKind } from '@/api/api.generatedTypes'
 
@@ -11,7 +11,7 @@ export const EServiceTemplateCreateStepAddRiskAnalysis: React.FC<{
   onClose: () => void
 }> = ({ eserviceTemplateId, selectedTenantKind, onClose }) => {
   const { mutate: addEServiceTemplateRiskAnalysis } =
-    TemplateMutations.useAddEServiceTemplateRiskAnalysis()
+    EServiceTemplateMutations.useAddEServiceTemplateRiskAnalysis()
 
   const { data: riskAnalysisLatest } = useSuspenseQuery(
     PurposeQueries.getRiskAnalysisLatest({

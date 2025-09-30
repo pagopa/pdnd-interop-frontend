@@ -17,7 +17,9 @@ type EServiceTemplateVersionSelectorDrawerProps = {
 export const EServiceTemplateVersionSelectorDrawer: React.FC<
   EServiceTemplateVersionSelectorDrawerProps
 > = ({ isOpen, onClose, versions, actualVersion, eServiceTemplateId }) => {
-  const { t } = useTranslation('template', { keyPrefix: 'read.drawers.versionSelectorDrawer' })
+  const { t } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'read.drawers.versionSelectorDrawer',
+  })
   const { mode } = useCurrentRoute()
 
   const [selectedVersion, setSelectedVersion] = React.useState(() => Number(actualVersion))

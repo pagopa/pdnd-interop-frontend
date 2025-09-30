@@ -8,12 +8,12 @@ import {
 import type { EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 
 type ProviderEServiceDetailsTabProps = {
-  templateVersionState: EServiceTemplateVersionState | undefined
+  eserviceTemplateVersionState: EServiceTemplateVersionState | undefined
 }
 export const ProviderEServiceTemplateDetailsTab: React.FC<ProviderEServiceDetailsTabProps> = ({
-  templateVersionState,
+  eserviceTemplateVersionState,
 }) => {
-  const readonly = templateVersionState === 'DEPRECATED'
+  const readonly = eserviceTemplateVersionState === 'DEPRECATED'
   const routeKey = 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
   return (
     <>

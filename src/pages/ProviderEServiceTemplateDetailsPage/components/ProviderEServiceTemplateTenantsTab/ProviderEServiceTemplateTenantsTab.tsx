@@ -4,17 +4,17 @@ import { ProviderEServiceTemplateUsingTenantsTable } from './ProviderEServiceTem
 import type { CompactEServiceTemplateVersion } from '@/api/api.generatedTypes'
 
 type ProviderEServiceTemplateTenantsTabProps = {
-  templateVersions: CompactEServiceTemplateVersion[]
+  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
 }
 export const ProviderEServiceTemplateTenantsTab: React.FC<
   ProviderEServiceTemplateTenantsTabProps
-> = ({ templateVersions }) => {
+> = ({ eserviceTemplateVersions }) => {
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
   return (
     <ProviderEServiceTemplateUsingTenantsTable
       eserviceTemplateId={eServiceTemplateId}
-      templateVersions={templateVersions}
+      eserviceTemplateVersions={eserviceTemplateVersions}
     />
   )
 }

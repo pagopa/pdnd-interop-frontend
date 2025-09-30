@@ -11,11 +11,11 @@ import { useLocation } from 'react-router-dom'
 export function useClientKind(): ClientKind {
   const { pathname } = useLocation()
 
-  if (pathname.includes('interop-m2m')) {
+  if (pathname.includes('api-interop')) {
     return 'API'
   }
 
-  if (pathname.includes('client')) {
+  if (pathname.includes('api-e-service')) {
     return 'CONSUMER'
   }
 

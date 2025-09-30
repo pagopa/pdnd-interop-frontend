@@ -3,13 +3,18 @@
   "developerTools": {
     "page": {
       "title": "Developer Tools",
-      "description": "This section is designed to provide support tools for developers.",
+      "description": "A section containing some useful tools to support development.",
       "sectionRiskAnalysisExport": {
         "title": "Risk Analysis Export",
         "description": "Export and import the risk analysis you fill in a formatted .json format, ready to be used in calls to create a purpose in machine-to-machine flows.",
         "importTooltip": "Available soon",
         "importButton": "Import .json",
         "exportButton": "Export .json"
+      },
+      "sectionDebugClientAssertion": {
+        "title": "Debug Client Assertion",
+        "description": "Strumento per generare, visualizzare e validare client assertion JWT, utile per il debug e l’integrazione con flussi OAuth 2.0.",
+        "button": "Effettua il debug"
       }
     }
   },

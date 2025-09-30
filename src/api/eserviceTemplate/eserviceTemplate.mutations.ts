@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { TemplateServices } from './template.services'
+import { EServiceTemplateServices } from './eserviceTemplate.services'
 import type {
   EServiceTemplateRiskAnalysisSeed,
   UpdateEServiceTemplateVersionSeed,
@@ -12,7 +12,7 @@ function useUpdateEServiceTemplateName() {
     keyPrefix: 'eserviceTemplate.updateEServiceTemplateName',
   })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateName,
+    mutationFn: EServiceTemplateServices.updateEServiceTemplateName,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -26,7 +26,7 @@ function useUpdateEServiceTemplateIntendedTarget() {
     keyPrefix: 'eserviceTemplate.updateEServiceTemplateAudience',
   })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateIntendedTarget,
+    mutationFn: EServiceTemplateServices.updateEServiceTemplateIntendedTarget,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -40,7 +40,7 @@ function useUpdateEServiceTemplateDescription() {
     keyPrefix: 'eserviceTemplate.updateEServiceDescription',
   })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateDescription,
+    mutationFn: EServiceTemplateServices.updateEServiceTemplateDescription,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -54,7 +54,7 @@ function useUpdateQuotas() {
     keyPrefix: 'eserviceTemplate.updateVersion',
   })
   return useMutation({
-    mutationFn: TemplateServices.updateEServiceTemplateQuotas,
+    mutationFn: EServiceTemplateServices.updateEServiceTemplateQuotas,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -68,7 +68,7 @@ function usePostVersionDraftDocument() {
     keyPrefix: 'eserviceTemplate.postVersionDraftDocument',
   })
   return useMutation({
-    mutationFn: TemplateServices.postVersionDraftDocument,
+    mutationFn: EServiceTemplateServices.postVersionDraftDocument,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -82,7 +82,7 @@ function useDeleteVersionDraftDocument() {
     keyPrefix: 'eserviceTemplate.deleteVersionDraftDocument',
   })
   return useMutation({
-    mutationFn: TemplateServices.deleteVersionDraftDocument,
+    mutationFn: EServiceTemplateServices.deleteVersionDraftDocument,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -96,7 +96,7 @@ function useUpdateVersionDraftDocumentDescription() {
     keyPrefix: 'eserviceTemplate.updateVersionDraftDocumentDescription',
   })
   return useMutation({
-    mutationFn: TemplateServices.updateVersionDraftDocumentDescription,
+    mutationFn: EServiceTemplateServices.updateVersionDraftDocumentDescription,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -108,7 +108,7 @@ function useUpdateVersionDraftDocumentDescription() {
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.createDraft' })
   return useMutation({
-    mutationFn: TemplateServices.createDraft,
+    mutationFn: EServiceTemplateServices.createDraft,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -121,7 +121,7 @@ function useCreateNewVersionDraft() {
     keyPrefix: 'eserviceTemplate.createNewVersionDraft',
   })
   return useMutation({
-    mutationFn: TemplateServices.createNewVersionDraft,
+    mutationFn: EServiceTemplateServices.createNewVersionDraft,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -137,7 +137,7 @@ function useCreateNewVersionDraft() {
 function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.updateDraft' })
   return useMutation({
-    mutationFn: TemplateServices.updateDraft,
+    mutationFn: EServiceTemplateServices.updateDraft,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -155,7 +155,7 @@ function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
         eServiceTemplateId: string
         eServiceTemplateVersionId: string
       } & UpdateEServiceTemplateVersionSeed
-    ) => TemplateServices.updateVersionDraft(payload),
+    ) => EServiceTemplateServices.updateVersionDraft(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -173,7 +173,7 @@ function useAddEServiceTemplateRiskAnalysis(config = { suppressSuccessToast: fal
       payload: {
         eServiceTemplateId: string
       } & EServiceTemplateRiskAnalysisSeed
-    ) => TemplateServices.addEServiceTemplateRiskAnalysis(payload),
+    ) => EServiceTemplateServices.addEServiceTemplateRiskAnalysis(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -192,7 +192,7 @@ function useUpdateEServiceTemplateRiskAnalysis(config = { suppressSuccessToast: 
         eServiceTemplateId: string
         riskAnalysisId: string
       } & EServiceTemplateRiskAnalysisSeed
-    ) => TemplateServices.updateEServiceTemplateRiskAnalysis(payload),
+    ) => EServiceTemplateServices.updateEServiceTemplateRiskAnalysis(payload),
     meta: {
       successToastLabel: config.suppressSuccessToast ? undefined : t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -206,7 +206,7 @@ function useDeleteEServiceTemplateRiskAnalysis() {
     keyPrefix: 'eserviceTemplate.deleteEServiceTemplateRiskAnalysis',
   })
   return useMutation({
-    mutationFn: TemplateServices.deleteEServiceTemplateRiskAnalysis,
+    mutationFn: EServiceTemplateServices.deleteEServiceTemplateRiskAnalysis,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -225,7 +225,7 @@ function useUpdateAttributes() {
   })
   const { t: tAttribute } = useTranslation('attribute', { keyPrefix: 'type' })
   return useMutation({
-    mutationFn: TemplateServices.updateAttributes,
+    mutationFn: EServiceTemplateServices.updateAttributes,
     meta: {
       successToastLabel: (_: unknown, variables: unknown) =>
         t('outcome.success', {
@@ -255,7 +255,11 @@ function usePublishVersionDraft() {
     }: {
       eServiceTemplateId: string
       eServiceTemplateVersionId: string
-    }) => TemplateServices.publishVersionDraft({ eServiceTemplateId, eServiceTemplateVersionId }),
+    }) =>
+      EServiceTemplateServices.publishVersionDraft({
+        eServiceTemplateId,
+        eServiceTemplateVersionId,
+      }),
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -274,7 +278,7 @@ function useDeleteVersionDraft() {
     keyPrefix: 'eserviceTemplate.deleteVersionDraft',
   })
   return useMutation({
-    mutationFn: TemplateServices.deleteVersionDraft,
+    mutationFn: EServiceTemplateServices.deleteVersionDraft,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -292,7 +296,7 @@ function useSuspendVersion() {
     keyPrefix: 'eserviceTemplate.suspendVersion',
   })
   return useMutation({
-    mutationFn: TemplateServices.suspendVersion,
+    mutationFn: EServiceTemplateServices.suspendVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -310,7 +314,7 @@ function useReactivateVersion() {
     keyPrefix: 'eserviceTemplate.reactivateVersion',
   })
   return useMutation({
-    mutationFn: TemplateServices.reactivateVersion,
+    mutationFn: EServiceTemplateServices.reactivateVersion,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -326,7 +330,7 @@ function useReactivateVersion() {
 function useCreateInstanceFromEServiceTemplate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.createDraft' })
   return useMutation({
-    mutationFn: TemplateServices.createInstanceFromEServiceTemplate,
+    mutationFn: EServiceTemplateServices.createInstanceFromEServiceTemplate,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -337,7 +341,7 @@ function useCreateInstanceFromEServiceTemplate() {
 function useUpdateInstanceFromEServiceTemplate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.createDraft' })
   return useMutation({
-    mutationFn: TemplateServices.updateInstanceFromEServiceTemplate,
+    mutationFn: EServiceTemplateServices.updateInstanceFromEServiceTemplate,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -345,7 +349,7 @@ function useUpdateInstanceFromEServiceTemplate() {
   })
 }
 
-export const TemplateMutations = {
+export const EServiceTemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateIntendedTarget,
   useUpdateEServiceTemplateDescription,

@@ -173,7 +173,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           {isEserviceFromTemplate ? (
             <>
               <InformationContainer
-                label={t('eserviceTempalteName.label')}
+                label={t('eserviceTemplateName.label')}
                 content={
                   <Link
                     to="PROVIDE_ESERVICE_TEMPLATE_DETAILS"

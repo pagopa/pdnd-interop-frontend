@@ -5,7 +5,7 @@ import noop from 'lodash/noop'
 import type { EServiceMode, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 
 type EServiceTemplateCreateContextType = {
-  templateVersion: EServiceTemplateVersionDetails | undefined
+  eserviceTemplateVersion: EServiceTemplateVersionDetails | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -14,7 +14,7 @@ type EServiceTemplateCreateContextType = {
 }
 
 const initialState: EServiceTemplateCreateContextType = {
-  templateVersion: undefined,
+  eserviceTemplateVersion: undefined,
   eserviceTemplateMode: 'DELIVER',
   onEserviceTemplateModeChange: noop,
   back: noop,
@@ -29,7 +29,7 @@ const { useContext, Provider } = createContext<EServiceTemplateCreateContextType
 
 type EServiceTemplateCreateContextProviderProps = {
   children: ReactNode
-  templateVersion: EServiceTemplateVersionDetails | undefined
+  eserviceTemplateVersion: EServiceTemplateVersionDetails | undefined
   eserviceTemplateMode: EServiceMode
   onEserviceTemplateModeChange: (value: EServiceMode) => void
   back: VoidFunction
@@ -38,7 +38,7 @@ type EServiceTemplateCreateContextProviderProps = {
 
 const EServiceTemplateCreateContextProvider: FC<EServiceTemplateCreateContextProviderProps> = ({
   children,
-  templateVersion,
+  eserviceTemplateVersion,
   eserviceTemplateMode,
   onEserviceTemplateModeChange,
   back,
@@ -47,20 +47,22 @@ const EServiceTemplateCreateContextProvider: FC<EServiceTemplateCreateContextPro
   const providerValue = useMemo(() => {
     const areEServiceTemplateGeneralInfoEditable = Boolean(
       // case 1: new e-service template
-      !templateVersion ||
+      !eserviceTemplateVersion ||
         // case 3: already existing service template and version, but version is 1 and still a draft
-        (templateVersion && templateVersion.version === 1 && templateVersion.state === 'DRAFT')
+        (eserviceTemplateVersion &&
+          eserviceTemplateVersion.version === 1 &&
+          eserviceTemplateVersion.state === 'DRAFT')
     )
 
     return {
-      templateVersion,
+      eserviceTemplateVersion,
       eserviceTemplateMode,
       onEserviceTemplateModeChange,
       areEServiceTemplateGeneralInfoEditable,
       back,
       forward,
     }
-  }, [templateVersion, eserviceTemplateMode, onEserviceTemplateModeChange, back, forward])
+  }, [eserviceTemplateVersion, eserviceTemplateMode, onEserviceTemplateModeChange, back, forward])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

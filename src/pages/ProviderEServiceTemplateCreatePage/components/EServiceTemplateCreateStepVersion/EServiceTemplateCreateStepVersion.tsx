@@ -11,7 +11,7 @@ import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
 
@@ -25,23 +25,27 @@ export type EServiceTemplateCreateStepVersionFormValues = {
 }
 
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'create' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'create' })
 
-  const { templateVersion, forward, back } = useEServiceTemplateCreateContext()
+  const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
 
-  const { mutate: updateVersionDraft } = TemplateMutations.useUpdateVersionDraft({
+  const { mutate: updateVersionDraft } = EServiceTemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
   const defaultValues: EServiceTemplateCreateStepVersionFormValues = {
     thresholdsSection:
-      templateVersion?.dailyCallsPerConsumer && templateVersion.dailyCallsTotal ? true : false,
-    voucherLifespan: templateVersion ? secondsToMinutes(templateVersion.voucherLifespan) : 1,
-    description: templateVersion?.description ?? '',
-    dailyCallsPerConsumer: templateVersion?.dailyCallsPerConsumer,
-    dailyCallsTotal: templateVersion?.dailyCallsTotal,
-    agreementApprovalPolicy: templateVersion
-      ? templateVersion.agreementApprovalPolicy === 'MANUAL'
+      eserviceTemplateVersion?.dailyCallsPerConsumer && eserviceTemplateVersion.dailyCallsTotal
+        ? true
+        : false,
+    voucherLifespan: eserviceTemplateVersion
+      ? secondsToMinutes(eserviceTemplateVersion.voucherLifespan)
+      : 1,
+    description: eserviceTemplateVersion?.description ?? '',
+    dailyCallsPerConsumer: eserviceTemplateVersion?.dailyCallsPerConsumer,
+    dailyCallsTotal: eserviceTemplateVersion?.dailyCallsTotal,
+    agreementApprovalPolicy: eserviceTemplateVersion
+      ? eserviceTemplateVersion.agreementApprovalPolicy === 'MANUAL'
       : false,
   }
 
@@ -49,9 +53,9 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
   const isThresholdSectionVisible = formMethods.watch('thresholdsSection')
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
-    if (!templateVersion) return
+    if (!eserviceTemplateVersion) return
 
-    const newTemplateData = {
+    const newEServiceTemplateData = {
       ...values,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       agreementApprovalPolicy: values.agreementApprovalPolicy
@@ -60,30 +64,35 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     }
 
     // If nothing has changed skip the update call
-    const areTemplatesEquals = compareObjects(newTemplateData, templateVersion)
-    if (areTemplatesEquals) {
+    const areEServiceTemplatesEquals = compareObjects(
+      newEServiceTemplateData,
+      eserviceTemplateVersion
+    )
+    if (areEServiceTemplatesEquals) {
       forward()
       return
     }
 
     const payload: UpdateEServiceTemplateVersionSeed = {
-      description: newTemplateData.description,
-      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(templateVersion.attributes),
-      voucherLifespan: newTemplateData.voucherLifespan,
-      agreementApprovalPolicy: newTemplateData.agreementApprovalPolicy,
-      dailyCallsPerConsumer: newTemplateData.thresholdsSection
-        ? newTemplateData.dailyCallsPerConsumer
+      description: newEServiceTemplateData.description,
+      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(
+        eserviceTemplateVersion.attributes
+      ),
+      voucherLifespan: newEServiceTemplateData.voucherLifespan,
+      agreementApprovalPolicy: newEServiceTemplateData.agreementApprovalPolicy,
+      dailyCallsPerConsumer: newEServiceTemplateData.thresholdsSection
+        ? newEServiceTemplateData.dailyCallsPerConsumer
         : undefined,
-      dailyCallsTotal: newTemplateData.thresholdsSection
-        ? newTemplateData.dailyCallsTotal
+      dailyCallsTotal: newEServiceTemplateData.thresholdsSection
+        ? newEServiceTemplateData.dailyCallsTotal
         : undefined,
     }
 
     updateVersionDraft(
       {
         ...payload,
-        eServiceTemplateId: templateVersion.eserviceTemplate.id,
-        eServiceTemplateVersionId: templateVersion.id,
+        eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: eserviceTemplateVersion.id,
       },
       { onSuccess: forward }
     )
@@ -95,7 +104,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
-          title={t('step2.versionTitle', { versionNumber: templateVersion?.version ?? 1 })}
+          title={t('step2.versionTitle', { versionNumber: eserviceTemplateVersion?.version ?? 1 })}
           component="div"
         >
           <RHFTextField

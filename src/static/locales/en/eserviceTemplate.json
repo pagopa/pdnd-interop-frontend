@@ -89,7 +89,7 @@
       "updateEServiceTemplateAudienceDrawer": {
         "title": "Edit the target audience",
         "subtitle": "From this panel, you can update the target audience of the template. The changes made will take effect immediately",
-        "templateAudienceField": {
+        "eserviceTemplateAudienceField": {
           "label": "Template target audience ",
           "infoLabel": "Min 10 chars, max 250 chars",
           "validation": {
@@ -100,7 +100,7 @@
       "updateEServiceTemplateDescriptionDrawer": {
         "title": "Edit the template e-service description",
         "subtitle": "From this panel, you can update the description of the template. The changes made will take effect immediately.",
-        "templateDescriptionField": {
+        "eserviceTemplateDescriptionField": {
           "label": "Template e-service description",
           "infoLabel": "Min 10 chars, max 250 chars",
           "validation": {
@@ -136,7 +136,7 @@
       "nameField": {
         "label": "Find by name"
       },
-      "templateProviderField": {
+      "eserviceTemplateProviderField": {
         "label": "Find by provider's template"
       },
       "tenantField": "Find by name",
@@ -163,7 +163,7 @@
   },
   "createInstance": {
     "title": "Create e-service from template",
-    "templateDescriptionLink": "Instance of <1>{{templateName}}</1>"
+    "eserviceTemplateDescriptionLink": "Instance of <1>{{templateName}}</1>"
   },
   "noMultiDataLabel": "You have not yet created e-service templates.",
   "backToListBtn": "Back to templates",

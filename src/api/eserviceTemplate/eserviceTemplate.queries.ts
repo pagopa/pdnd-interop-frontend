@@ -1,5 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
-import { TemplateServices } from './template.services'
+import { EServiceTemplateServices } from './eserviceTemplate.services'
 import type {
   GetEServiceTemplateCreatorsParams,
   GetEServiceTemplateInstancesParams,
@@ -7,28 +7,29 @@ import type {
   GetProducerEServicesParams,
 } from '../api.generatedTypes'
 
-function getProviderTemplatesList(params: GetProducerEServicesParams) {
+function getProviderEServiceTemplatesList(params: GetProducerEServicesParams) {
   return queryOptions({
     queryKey: ['EServiceTemplatesGetProviderList', params],
-    queryFn: () => TemplateServices.getProviderTemplatesList(params),
+    queryFn: () => EServiceTemplateServices.getProviderEServiceTemplatesList(params),
   })
 }
 
 function getSingle(eServiceTemplateId: string, eServiceTemplateVersionId: string) {
   return queryOptions({
     queryKey: ['EServiceTemplateGetSingle', eServiceTemplateId, eServiceTemplateVersionId],
-    queryFn: () => TemplateServices.getSingle(eServiceTemplateId, eServiceTemplateVersionId),
+    queryFn: () =>
+      EServiceTemplateServices.getSingle(eServiceTemplateId, eServiceTemplateVersionId),
   })
 }
 
 function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
   return queryOptions({
     queryKey: ['EServiceTemplateGetSingleByEServiceTemplateId', eserviceTemplateId],
-    queryFn: () => TemplateServices.getSingleByEServiceTemplateId(eserviceTemplateId),
+    queryFn: () => EServiceTemplateServices.getSingleByEServiceTemplateId(eserviceTemplateId),
   })
 }
 
-function getProviderTemplateInstancesList({
+function getProviderEServiceTemplateInstancesList({
   eserviceTemplateId,
   ...params
 }: GetEServiceTemplateInstancesParams & { eserviceTemplateId: string }) {
@@ -41,32 +42,32 @@ function getProviderTemplateInstancesList({
       },
     ],
     queryFn: () =>
-      TemplateServices.getProviderTemplateInstancesList({
+      EServiceTemplateServices.getProviderEServiceTemplateInstancesList({
         eServiceTemplateId: eserviceTemplateId,
         ...params,
       }),
   })
 }
 
-function getProviderTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
+function getProviderEServiceTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
   return queryOptions({
     queryKey: ['EServiceProviderTempaltesCatalogList', params],
-    queryFn: () => TemplateServices.getProviderTemplatesCatalogList(params),
+    queryFn: () => EServiceTemplateServices.getProviderEServiceTemplatesCatalogList(params),
   })
 }
 
-function getProducersTemplateEserviceList(params: GetEServiceTemplateCreatorsParams) {
+function getProducersEServiceTemplateList(params: GetEServiceTemplateCreatorsParams) {
   return queryOptions({
     queryKey: ['TemplateEserviceGetProducers', params],
-    queryFn: () => TemplateServices.getProducersTemplateEserviceList(params),
+    queryFn: () => EServiceTemplateServices.getProducersEServiceTemplateList(params),
   })
 }
 
-export const TemplateQueries = {
-  getProviderTemplatesList,
-  getProviderTemplatesCatalogList,
+export const EServiceTemplateQueries = {
+  getProviderEServiceTemplatesList,
+  getProviderEServiceTemplatesCatalogList,
   getSingle,
-  getProducersTemplateEserviceList,
-  getProviderTemplateInstancesList,
+  getProducersEServiceTemplateList,
+  getProviderEServiceTemplateInstancesList,
   getSingleByEServiceTemplateId,
 }
