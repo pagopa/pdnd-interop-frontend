@@ -51,7 +51,8 @@
     "select": "Seleziona",
     "selectAdmin": "Seleziona admin",
     "substituteAdmin": "Sostituisci admin",
-    "copy": "Copia"
+    "copy": "Copia",
+    "completeData": "Completa dato"
   },
   "table": {
     "headData": {
