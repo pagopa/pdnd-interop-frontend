@@ -37,25 +37,25 @@
         "options": {
           "DELIVER": "Eroga",
           "RECEIVE": "Riceve"
-        },
-        "eservicePersonalDataField": {
-          "DELIVER": {
-            "label": "L’e-service eroga dati personali?",
-            "options": {
-              "true": "Eroga dati personali",
-              "false": "Non eroga dati personali"
-            }
-          },
-          "RECEIVE": {
-            "label": "L’e-service riceve dati personali?",
-            "options": {
-              "true": "Riceve dati personali",
-              "false": "Non riceve dati personali"
-            }
-          },
-          "alert": {
-            "label": "Indica se questo e-service tratta dati personali."
+        }
+      },
+      "eservicePersonalDataField": {
+        "DELIVER": {
+          "label": "L’e-service eroga dati personali?",
+          "options": {
+            "true": "Eroga dati personali",
+            "false": "Non eroga dati personali"
           }
+        },
+        "RECEIVE": {
+          "label": "L’e-service riceve dati personali?",
+          "options": {
+            "true": "Riceve dati personali",
+            "false": "Non riceve dati personali"
+          }
+        },
+        "alert": {
+          "label": "Indica se questo e-service tratta dati personali."
         }
       },
       "isSignalHubEnabled": {

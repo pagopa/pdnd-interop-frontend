@@ -37,25 +37,25 @@
         "options": {
           "DELIVER": "Deliver",
           "RECEIVE": "Receive"
-        },
-        "eservicePersonalDataField": {
-          "DELIVER": {
-            "label": "Does the e-service deliver personal data?",
-            "options": {
-              "true": "Delivers personal data",
-              "false": "Does not deliver personal data"
-            }
-          },
-          "RECEIVE": {
-            "label": "Does the e-service receive personal data?",
-            "options": {
-              "true": "Receives personal data",
-              "false": "Does not receive personal data"
-            }
-          },
-          "alert": {
-            "label": "Indicate whether this e-service processes personal data."
+        }
+      },
+      "eservicePersonalDataField": {
+        "DELIVER": {
+          "label": "Does the e-service deliver personal data?",
+          "options": {
+            "true": "Delivers personal data",
+            "false": "Does not deliver personal data"
           }
+        },
+        "RECEIVE": {
+          "label": "Does the e-service receive personal data?",
+          "options": {
+            "true": "Receives personal data",
+            "false": "Does not receive personal data"
+          }
+        },
+        "alert": {
+          "label": "Indicate whether this e-service processes personal data."
         }
       },
       "isSignalHubEnabled": {
