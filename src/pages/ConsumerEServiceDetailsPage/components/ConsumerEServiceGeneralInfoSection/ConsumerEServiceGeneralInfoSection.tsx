@@ -85,6 +85,10 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
           />
           <InformationContainer label={t('version.label')} content={descriptor.version} />
           <InformationContainer
+            label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
+            content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+          />
+          <InformationContainer
             label={t('eserviceDescription.label')}
             content={descriptor.eservice.description}
             direction="column"
