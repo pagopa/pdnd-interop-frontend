@@ -5,10 +5,8 @@ import type { ActionItemButton } from '@/types/common.types'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsTable'
 import type { GetUserNotificationsParams } from '@/api/notification/notification.services'
-import { NotificationQueries } from '@/api/notification'
+import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { useQuery } from '@tanstack/react-query'
-import { Stack } from '@mui/system'
-import { Button } from '@mui/material'
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notifications', { keyPrefix: 'notifications.page' })
@@ -84,20 +82,27 @@ const NotificationsPage: React.FC = () => {
 const NotificationsTableWrapper: React.FC<{
   params: GetUserNotificationsParams
 }> = ({ params }) => {
-  const { data, isFetching, refetch } = useQuery({
+  const { data, isFetching, refetch, dataUpdatedAt } = useQuery({
     ...NotificationQueries.getUserNotificationsList(params),
   })
 
+  const { mutate: markBulkAsRead } = NotificationMutations.useBulkMarkAsRead()
+  const { mutate: markBulkAsUnread } = NotificationMutations.useBulkMarkAsNotRead()
+  const { mutate: deleteNotifications } = NotificationMutations.useDeleteNotifications()
+
   const handleMultipleRowMarkAsRead = (notificationIds: string[]) => {
-    console.log('Marcare come letti:', notificationIds)
+    console.log('MarkAsRead', notificationIds)
+    markBulkAsRead({ ids: notificationIds })
   }
 
   const handleMultipleRowMarkAsUnread = (notificationIds: string[]) => {
-    console.log('Marcare come non letti:', notificationIds)
+    console.log('MarkAsUnread', notificationIds)
+    markBulkAsUnread({ ids: notificationIds })
   }
 
   const handleMultipleRowDelete = (notificationIds: string[]) => {
-    console.log('Eliminare:', notificationIds)
+    console.log('delete:', notificationIds)
+    deleteNotifications({ ids: notificationIds })
   }
 
   if (!data && isFetching) return <NotificationsTableSkeleton />
@@ -107,7 +112,8 @@ const NotificationsTableWrapper: React.FC<{
       handleMultipleRowMarkAsRead={handleMultipleRowMarkAsRead}
       handleMultipleRowMarkAsUnread={handleMultipleRowMarkAsUnread}
       handleRefetch={refetch}
-      notifications={data ?? []}
+      notifications={data?.results ?? []}
+      dataUpdatedAt={new Date(dataUpdatedAt).toLocaleTimeString()}
     />
   )
 }

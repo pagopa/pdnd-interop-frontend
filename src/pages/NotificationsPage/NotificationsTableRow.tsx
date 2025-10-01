@@ -1,13 +1,13 @@
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { Box, Checkbox, Skeleton, TableCell, TableRow as MuiTableRow } from '@mui/material'
-// import {TableRow AS }
 import React from 'react'
 import useGetNotificationsActions from '@/hooks/useGetNotificationsActions'
-import type { Notification } from '@/api/notification/notification.services'
 import { Link } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '@mui/system'
 import { TableRow, theme } from '@pagopa/interop-fe-commons'
+import { type Notification } from '@/api/api.generatedTypes'
+import { NotificationMutations } from '@/api/notification'
 
 const NotificaitonBadgeDot = () => {
   return (
@@ -31,7 +31,6 @@ export const NotificationsTableRow: React.FC<{
 }> = ({ notification, isSelected, onToggle }) => {
   const { actions } = useGetNotificationsActions(notification)
   const { t: tCommon } = useTranslation('common')
-
   const isReaded = notification.readAt !== null
 
   return (
@@ -49,10 +48,16 @@ export const NotificationsTableRow: React.FC<{
       </TableCell>
 
       <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
-        {notification.createdAt}
+        {new Date(notification.createdAt).toLocaleDateString('it-IT', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+        })}
       </TableCell>
       <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
-        {notification.notificationType}
+        {/* {notification.notificationType} */}
       </TableCell>
       <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={450} key={notification.id}>
         {notification.body}

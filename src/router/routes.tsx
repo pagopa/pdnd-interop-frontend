@@ -574,7 +574,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'NOTIFICATIONS',
-    path: '/notifications',
+    path: '/notifiche',
     element: <NotificationsPage />,
     public: false,
     hideSideNav: false,
