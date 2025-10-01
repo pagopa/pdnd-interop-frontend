@@ -14,7 +14,7 @@ import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDr
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
-import { ro } from 'date-fns/locale'
+import { UpdateEServicePersonalDataDrawer } from '../UpdateEServicePersonalDataDrawer'
 
 type EServiceTemplateGeneralInfoSectionProps = {
   readonly: boolean
@@ -130,6 +130,19 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     )
   }
 
+  const {
+    isOpen: isEServiceUpdatePersonalDataDrawerOpen,
+    openDrawer: openUpdateEServicePersonalDataDrawer,
+    closeDrawer: closeEServiceUpdatePersonalDataDrawer,
+  } = useDrawerState()
+
+  const handleEServicePersonalDataUpdate = (
+    eserviceId: string,
+    personalData: boolean | undefined
+  ) => {
+    console.log('TODO: update personal data, API not ready yet')
+  }
+
   return (
     <>
       <SectionContainer
@@ -166,7 +179,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                     variant="naked"
                     size="medium"
                     sx={{ fontWeight: 700, mr: 1 }}
-                    onClick={() => {}}
+                    onClick={openUpdateEServicePersonalDataDrawer}
                   >
                     {tCommon('actions.completeData')}
                   </Button>
@@ -308,6 +321,14 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 validateLabel={tDrawer(
                   'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.validation.sameValue'
                 )}
+              />
+              <UpdateEServicePersonalDataDrawer
+                isOpen={isEServiceUpdatePersonalDataDrawerOpen}
+                onClose={closeEServiceUpdatePersonalDataDrawer}
+                eserviceId={eserviceTemplateVersion.eserviceTemplate.id}
+                personalData={eserviceTemplateVersion.eserviceTemplate.personalData}
+                onSubmit={handleEServicePersonalDataUpdate}
+                eserviceMode={eserviceTemplateVersion.eserviceTemplate.mode}
               />
             </>
           )}
