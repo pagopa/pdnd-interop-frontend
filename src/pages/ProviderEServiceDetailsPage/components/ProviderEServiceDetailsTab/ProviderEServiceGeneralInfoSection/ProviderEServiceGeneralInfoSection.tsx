@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Divider, Stack, Typography } from '@mui/material'
+import { Alert, Button, Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/eservice'
@@ -19,6 +19,7 @@ import { isAxiosError } from 'axios'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { Link } from '@/router'
+import { UpdateEServicePersonalDataDrawer } from '@/components/shared/UpdateEServicePersonalDataDrawer'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -48,6 +49,8 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   const { mutate: updateEserviceDescription } = EServiceMutations.useUpdateEServiceDescription()
   const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
+  const { mutate: updateEservicePersonalData } =
+    EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
 
   const {
     isOpen: isVersionSelectorDrawerOpen,
@@ -65,6 +68,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     isOpen: isEServiceUpdateDescriptionDrawerOpen,
     openDrawer: openEServiceUpdateDescriptionDrawer,
     closeDrawer: closeEServiceUpdateDescriptionDrawer,
+  } = useDrawerState()
+
+  const {
+    isOpen: isEServiceUpdatePersonalDataDrawerOpen,
+    openDrawer: openUpdateEServicePersonalDataDrawer,
+    closeDrawer: closeEServiceUpdatePersonalDataDrawer,
   } = useDrawerState()
 
   const handleDownloadConsumerList = () => {
@@ -140,6 +149,21 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     )
   }
 
+  const handleEServicePersonalDataUpdate = (
+    eserviceId: string,
+    personalData: boolean | undefined
+  ) => {
+    if (personalData) {
+      updateEservicePersonalData(
+        {
+          eserviceId: eserviceId,
+          personalData: personalData,
+        },
+        { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+      )
+    }
+  }
+
   const watchRiskyAnalysisAssociatedAction = {
     startIcon: <InsertLinkIcon fontSize="small" />,
     component: 'button',
@@ -170,6 +194,27 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
       >
         <Stack spacing={2}>
           <InformationContainer label={t('version.label')} content={descriptor.version} />
+          <InformationContainer
+            label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
+            content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+          />
+          {!descriptor.eservice.personalData && !isEserviceFromTemplate && (
+            <Alert severity="warning" sx={{ alignItems: 'center' }}>
+              <Stack spacing={30} direction="row" alignItems="center">
+                {' '}
+                {/**TODO FIX SPACING */}
+                <Typography>{t('personalDataField.alert.label')}</Typography>
+                <Button
+                  variant="naked"
+                  size="medium"
+                  sx={{ fontWeight: 700, mr: 1 }}
+                  onClick={openUpdateEServicePersonalDataDrawer}
+                >
+                  {tCommon('actions.completeData')}
+                </Button>
+              </Stack>
+            </Alert>
+          )}
           {isEserviceFromTemplate ? (
             <>
               <InformationContainer
@@ -270,6 +315,14 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         infoLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.infoLabel')}
         validateLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.validation.sameValue')}
         onSubmit={handleNameUpdate}
+      />
+      <UpdateEServicePersonalDataDrawer
+        isOpen={isEServiceUpdatePersonalDataDrawerOpen}
+        onClose={closeEServiceUpdatePersonalDataDrawer}
+        eserviceId={descriptor.eservice.id}
+        personalData={descriptor.eservice.personalData}
+        onSubmit={handleEServicePersonalDataUpdate}
+        eserviceMode={descriptor.eservice.mode}
       />
     </>
   )
