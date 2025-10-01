@@ -25,6 +25,10 @@ export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
         content={eserviceTemplate.eserviceTemplate.technology}
       />
       <InformationContainer
+        label={t(`personalDataField.${eserviceTemplate.eserviceTemplate.mode}.label`)}
+        content={t(`personalDataField.value.${eserviceTemplate.eserviceTemplate.personalData}`)}
+      />
+      <InformationContainer
         label={t('isSignalHubEnabled.label')}
         content={t(
           `isSignalHubEnabled.value.${eserviceTemplate.eserviceTemplate.isSignalHubEnabled}`
