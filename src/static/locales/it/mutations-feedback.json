@@ -258,6 +258,13 @@
         "error": "Non è stato possibile modificare l’adesione a Signal Hub. Per favore, riprova!",
         "success": "L’adesione a Signal Hub è stata modificata correttamente!"
       }
+    },
+    "updateEServicePersonalDataFlagAfterPublication": {
+      "loading": "Stiamo aggiornando il trattamento dei dati personali",
+      "outcome": {
+        "error": "Non è stato possibile modificare il trattamento dei dati personali. Per favore, riprova!",
+        "success": "Il trattamento dei dati personali è stato modificato correttamente!"
+      }
     }
   },
   "attribute": {
