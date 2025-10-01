@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Divider, Stack, Typography } from '@mui/material'
+import { Alert, Button, Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
@@ -14,6 +14,7 @@ import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDr
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
+import { UpdateEServicePersonalDataDrawer } from '../UpdateEServicePersonalDataDrawer'
 
 type EServiceTemplateGeneralInfoSectionProps = {
   readonly: boolean
@@ -129,6 +130,19 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     )
   }
 
+  const {
+    isOpen: isEServiceUpdatePersonalDataDrawerOpen,
+    openDrawer: openUpdateEServicePersonalDataDrawer,
+    closeDrawer: closeEServiceUpdatePersonalDataDrawer,
+  } = useDrawerState()
+
+  const handleEServicePersonalDataUpdate = (
+    eserviceId: string,
+    personalData: boolean | undefined
+  ) => {
+    console.log('TODO: update personal data, API not ready yet')
+  }
+
   return (
     <>
       <SectionContainer
@@ -144,6 +158,34 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             label={t('version.label')}
             content={eserviceTemplateVersion?.version.toString() || '1'}
           />
+          <InformationContainer
+            label={
+              eserviceTemplateVersion
+                ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
+                : ''
+            }
+            content={t(
+              `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
+            )}
+          />
+          {routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
+            eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
+              <Alert severity="warning" sx={{ alignItems: 'center' }}>
+                <Stack spacing={33} direction="row" alignItems="center">
+                  {' '}
+                  {/**TODO FIX SPACING */}
+                  <Typography>{t('personalDataField.alert.label')}</Typography>
+                  <Button
+                    variant="naked"
+                    size="medium"
+                    sx={{ fontWeight: 700, mr: 1 }}
+                    onClick={openUpdateEServicePersonalDataDrawer}
+                  >
+                    {tCommon('actions.completeData')}
+                  </Button>
+                </Stack>
+              </Alert>
+            )}
           <Divider />
           <SectionContainer
             innerSection
@@ -279,6 +321,14 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 validateLabel={tDrawer(
                   'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.validation.sameValue'
                 )}
+              />
+              <UpdateEServicePersonalDataDrawer
+                isOpen={isEServiceUpdatePersonalDataDrawerOpen}
+                onClose={closeEServiceUpdatePersonalDataDrawer}
+                eserviceId={eserviceTemplateVersion.eserviceTemplate.id}
+                personalData={eserviceTemplateVersion.eserviceTemplate.personalData}
+                onSubmit={handleEServicePersonalDataUpdate}
+                eserviceMode={eserviceTemplateVersion.eserviceTemplate.mode}
               />
             </>
           )}
