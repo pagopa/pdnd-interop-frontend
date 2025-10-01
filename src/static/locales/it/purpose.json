@@ -329,6 +329,13 @@
             "validation": {
               "sameValue": "Il numero di chiamate API/giorno richiesto deve essere diverso da quello attuale"
             }
+          },
+          "riskAnalysisSection": {
+            "title": "Analisi del rischio",
+            "description": "Puoi aggiornare la stima solo se l’analisi del rischio collegata a questa finalità è ancora valida.",
+            "checkbox": {
+              "label": "L’analisi del rischio è invariata"
+            }
           }
         },
         "thresholdsCard": {

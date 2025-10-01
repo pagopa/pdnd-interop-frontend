@@ -329,6 +329,13 @@
             "validation": {
               "sameValue": "The number of API calls/day requested must be different than the current one"
             }
+          },
+          "riskAnalysisSection": {
+            "title": "Risk analysis",
+            "description": "You can update the estimate only if the risk analysis linked to this purpose is still valid.",
+            "checkbox": {
+              "label": "The risk analysis is unchanged"
+            }
           }
         },
         "thresholdsCard": {
