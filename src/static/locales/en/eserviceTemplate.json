@@ -32,7 +32,23 @@
           "downloadUsingTenantsList": "Download list of using tenants",
           "viewTechnicalInfo": "View eservice technical information "
         },
-        "consumerListFileName": "{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv"
+        "consumerListFileName": "{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv",
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Delivers personal data"
+          },
+          "RECEIVE": {
+            "label": "Receives personal data"
+          },
+          "value": {
+            "true": "Yes",
+            "false": "No",
+            "undefined": "Not specified"
+          },
+          "alert": {
+            "label": "Indicate whether this e-service processes personal data."
+          }
+        }
       },
       "technicalInformations": {
         "title": "E-service technical specifications",
