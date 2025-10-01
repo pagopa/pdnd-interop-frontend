@@ -122,6 +122,7 @@ export interface UpdateEServiceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  personalData?: boolean
 }
 
 export interface UpdateEServiceTemplateInstanceSeed {
@@ -140,6 +141,7 @@ export interface EServiceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  personalData?: boolean
 }
 
 export interface UpdateEServiceDescriptorQuotas {
@@ -265,6 +267,10 @@ export interface EServiceSignalHubUpdateSeed {
   isSignalHubEnabled: boolean
 }
 
+export interface EServicePersonalDataFlagUpdateSeed {
+  personalData: boolean
+}
+
 export interface RejectDelegatedEServiceDescriptorSeed {
   rejectionReason: string
 }
@@ -367,6 +373,7 @@ export interface CatalogDescriptorEService {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  personalData?: boolean
 }
 
 export interface ProducerEServiceDetails {
@@ -382,6 +389,7 @@ export interface ProducerEServiceDetails {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  personalData?: boolean
 }
 
 /** Risk Analysis Mode */
@@ -482,6 +490,7 @@ export interface ProducerDescriptorEService {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  personalData?: boolean
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -901,6 +910,62 @@ export interface Purpose {
 export interface PurposeAdditionDetailsSeed {
   /** @format uuid */
   purposeId: string
+}
+
+export interface PurposeTemplateSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  targetDescription: string
+  targetTenantKind: TenantKind
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  purposeTitle: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplateSeed
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
+}
+
+export interface RiskAnalysisFormTemplateSeed {
+  /**
+   * @minLength 1
+   * @maxLength 250
+   */
+  version: string
+  answers: any
+}
+
+export interface RiskAnalysisTemplateAnswerSeed {
+  values: string[]
+  editable: boolean
+  annotation?: RiskAnalysisTemplateAnswerAnnotationSeed
+  suggestedValues: string[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationSeed {
+  text: string
+  docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
+  name: string
+  contentType: string
+  prettyName: string
+  path: string
 }
 
 export type CompactUsers = CompactUser[]
@@ -1667,6 +1732,7 @@ export interface EServiceTemplateDetails {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  personalData?: boolean
   draftVersion?: CompactEServiceTemplateVersion
 }
 
@@ -1758,6 +1824,7 @@ export interface UpdateEServiceTemplateSeed {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  personalData?: boolean
 }
 
 export interface EServiceTemplateSeed {
@@ -1782,6 +1849,7 @@ export interface EServiceTemplateSeed {
   mode: EServiceMode
   version?: VersionSeedForEServiceTemplateCreation
   isSignalHubEnabled?: boolean
+  personalData?: boolean
 }
 
 export interface InstanceEServiceSeed {
@@ -1958,6 +2026,82 @@ export interface UpdateEServiceTemplateVersionDocumentSeed {
    * @maxLength 60
    */
   prettyName: string
+}
+
+export interface Notifications {
+  results: Notification[]
+  /** @format int32 */
+  totalCount: number
+}
+
+export interface Notification {
+  /**
+   * Unique identifier of the notification
+   * @format uuid
+   */
+  id: string
+  /**
+   * ID of the user
+   * @format uuid
+   */
+  userId: string
+  /**
+   * ID of the tenant
+   * @format uuid
+   */
+  tenantId: string
+  /** Content of the notification */
+  body: string
+  /**
+   * Timestamp when the notification was read
+   * @format date-time
+   */
+  readAt: string | null
+  /**
+   * Timestamp when the notification was created
+   * @format date-time
+   */
+  createdAt: string
+}
+
+export interface NotificationConfig {
+  agreementSuspendedUnsuspendedToProducer: boolean
+  agreementManagementToProducer: boolean
+  clientAddedRemovedToProducer: boolean
+  purposeStatusChangedToProducer: boolean
+  templateStatusChangedToProducer: boolean
+  agreementSuspendedUnsuspendedToConsumer: boolean
+  eserviceStateChangedToConsumer: boolean
+  agreementActivatedRejectedToConsumer: boolean
+  purposeActivatedRejectedToConsumer: boolean
+  purposeSuspendedUnsuspendedToConsumer: boolean
+  newEserviceTemplateVersionToInstantiator: boolean
+  eserviceTemplateNameChangedToInstantiator: boolean
+  eserviceTemplateStatusChangedToInstantiator: boolean
+  delegationApprovedRejectedToDelegator: boolean
+  eserviceNewVersionSubmittedToDelegator: boolean
+  eserviceNewVersionApprovedRejectedToDelegate: boolean
+  delegationSubmittedRevokedToDelegate: boolean
+  certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
+  clientKeyAddedDeletedToClientUsers: boolean
+}
+
+export interface TenantNotificationConfig {
+  enabled: boolean
+}
+
+export interface UserNotificationConfig {
+  inAppConfig: NotificationConfig
+  emailConfig: NotificationConfig
+}
+
+export interface TenantNotificationConfigUpdateSeed {
+  enabled: boolean
+}
+
+export interface UserNotificationConfigUpdateSeed {
+  inAppConfig: NotificationConfig
+  emailConfig: NotificationConfig
 }
 
 export interface ProblemError {
@@ -2636,6 +2780,30 @@ export interface CreateEServiceTemplateDocumentPayload {
 export interface IsEServiceNameAvailableParams {
   /** the e-service name to check for */
   name: string
+}
+
+export interface GetNotificationsParams {
+  /** Query to filter notifications */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface DeleteNotificationsPayload {
+  ids: string[]
+}
+
+export interface MarkNotificationsAsReadPayload {
+  ids: string[]
 }
 
 export namespace Consumers {
@@ -4760,6 +4928,27 @@ export namespace Eservices {
   /**
    * No description
    * @tags eservices
+   * @name UpdateEServicePersonalDataFlagAfterPublication
+   * @summary Set personalData flag for published eservices
+   * @request POST:/eservices/{eServiceId}/personalDataFlag
+   * @secure
+   */
+  export namespace UpdateEServicePersonalDataFlagAfterPublication {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServicePersonalDataFlagUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags eservices
    * @name UpdateDescriptorAttributes
    * @summary Update e-service published descriptor attributes
    * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/attributes/update
@@ -6086,6 +6275,24 @@ export namespace Purposes {
   }
 }
 
+export namespace PurposeTemplates {
+  /**
+   * @description Create a Purpose Template (Draft state)
+   * @tags purposeTemplates
+   * @name CreatePurposeTemplate
+   * @summary Create Purpose Template
+   * @request POST:/purposeTemplates
+   * @secure
+   */
+  export namespace CreatePurposeTemplate {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = PurposeTemplateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+}
+
 export namespace CertifiedAttributes {
   /**
    * @description Creates the attribute passed as payload
@@ -7184,6 +7391,198 @@ export namespace Creators {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = ProducerEServiceTemplates
+  }
+}
+
+export namespace InAppNotifications {
+  /**
+   * @description Retrieves a list of notifications
+   * @tags inAppNotifications
+   * @name GetNotifications
+   * @summary Retrieves a list of notifications
+   * @request GET:/inAppNotifications
+   */
+  export namespace GetNotifications {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter notifications */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Delete bulk notifications
+   * @tags inAppNotifications
+   * @name DeleteNotifications
+   * @summary Delete bulk notifications
+   * @request DELETE:/inAppNotifications
+   * @secure
+   */
+  export namespace DeleteNotifications {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DeleteNotificationsPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as read
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsRead
+   * @summary Mark a list of notifications as read
+   * @request POST:/inAppNotifications/bulk/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationsAsRead {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = MarkNotificationsAsReadPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a notification as read
+   * @tags inAppNotifications
+   * @name MarkNotificationAsRead
+   * @summary Mark a notification as read
+   * @request POST:/inAppNotifications/:notificationId/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationAsRead {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a notification as unread
+   * @tags inAppNotifications
+   * @name MarkNotificationAsUnread
+   * @summary Mark a notification as unread
+   * @request POST:/inAppNotifications/:notificationId/markAsUnread
+   * @secure
+   */
+  export namespace MarkNotificationAsUnread {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as unread
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsUnread
+   * @summary Mark a list of notifications as unread
+   * @request POST:/inAppNotifications/bulk/markAsUnread
+   * @secure
+   */
+  export namespace MarkNotificationsAsUnread {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Delete a notification
+   * @tags inAppNotifications
+   * @name DeleteNotification
+   * @summary Delete a notification
+   * @request DELETE:/inAppNotifications/:notificationId
+   * @secure
+   */
+  export namespace DeleteNotification {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace TenantNotificationConfigs {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name GetTenantNotificationConfig
+   * @summary Retrieve the tenant's notification configuration
+   * @request GET:/tenantNotificationConfigs
+   */
+  export namespace GetTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = TenantNotificationConfig
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateTenantNotificationConfig
+   * @summary Update the tenant's notification configuration
+   * @request POST:/tenantNotificationConfigs
+   */
+  export namespace UpdateTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = TenantNotificationConfigUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace UserNotificationConfigs {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name GetUserNotificationConfig
+   * @summary Retrieve the user's notification configuration
+   * @request GET:/userNotificationConfigs
+   */
+  export namespace GetUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = UserNotificationConfig
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateUserNotificationConfig
+   * @summary Update the user's notification configuration
+   * @request POST:/userNotificationConfigs
+   */
+  export namespace UpdateUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = UserNotificationConfigUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
   }
 }
 

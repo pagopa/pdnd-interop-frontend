@@ -53,9 +53,6 @@
             "true": "Riceve dati personali",
             "false": "Non riceve dati personali"
           }
-        },
-        "alert": {
-          "label": "Indica se questo e-service tratta dati personali."
         }
       },
       "isSignalHubEnabled": {
@@ -431,6 +428,9 @@
             "true": "Sì",
             "false": "No",
             "undefined": "Non indicato"
+          },
+          "alert": {
+            "label": "Indica se questo e-service tratta dati personali."
           }
         },
         "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv",

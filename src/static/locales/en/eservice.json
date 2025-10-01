@@ -53,9 +53,6 @@
             "true": "Receives personal data",
             "false": "Does not receive personal data"
           }
-        },
-        "alert": {
-          "label": "Indicate whether this e-service processes personal data."
         }
       },
       "isSignalHubEnabled": {
@@ -360,6 +357,21 @@
           "label": "I have read and confirm",
           "ariaLabel": "Switch for acknowledgment and confirmation"
         }
+      },
+      "personalDataDrawer": {
+        "title": "Personal data",
+        "subtitle": "For this e-service, you must indicate whether personal data is processed.",
+        "alertLabel": "Once saved, this information cannot be changed.",
+        "options": {
+          "DELIVER": {
+            "true": "Delivers personal data",
+            "false": "Does not deliver personal data"
+          },
+          "RECEIVE": {
+            "true": "Receives personal data",
+            "false": "Does not receive personal data"
+          }
+        }
       }
     },
     "disabledTooltip": "Test e-service archived from the catalog and not usable."
@@ -404,6 +416,22 @@
         },
         "descriptorDescription": {
           "label": "Version description"
+        },
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Delivers personal data"
+          },
+          "RECEIVE": {
+            "label": "Receives personal data"
+          },
+          "value": {
+            "true": "Yes",
+            "false": "No",
+            "undefined": "Not specified"
+          },
+          "alert": {
+            "label": "Indicate whether this e-service processes personal data."
+          }
         },
         "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
         "bottomActions": {
