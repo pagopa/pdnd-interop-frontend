@@ -507,6 +507,20 @@ function useUpdateEServiceSignalHub() {
   })
 }
 
+function useUpdateEServicePersonalDataFlagAfterPublication() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServicePersonalDataFlagAfterPublication',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServicePersonalDataFlagAfterPublication,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -539,4 +553,5 @@ export const EServiceMutations = {
   useUpdateInstanceVersion,
   useUpdateAgreementApprovalPolicy,
   useUpdateEServiceSignalHub,
+  useUpdateEServicePersonalDataFlagAfterPublication,
 }
