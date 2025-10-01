@@ -144,6 +144,16 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             label={t('version.label')}
             content={eserviceTemplateVersion?.version.toString() || '1'}
           />
+          <InformationContainer
+            label={
+              eserviceTemplateVersion
+                ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
+                : ''
+            }
+            content={t(
+              `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
+            )}
+          />
           <Divider />
           <SectionContainer
             innerSection
