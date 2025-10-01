@@ -27,6 +27,7 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
   technology: EServiceTechnology
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  personalData?: boolean
 }
 
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
@@ -51,6 +52,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     technology: eserviceTemplateVersion?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
     isSignalHubEnabled: eserviceTemplateVersion?.eserviceTemplate.isSignalHubEnabled ?? false,
+    personalData: eserviceTemplateVersion?.eserviceTemplate.personalData,
   }
 
   const formMethods = useForm({ defaultValues })
@@ -169,6 +171,28 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
+          />
+          <RHFRadioGroup
+            name="personalData"
+            row
+            label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
+            options={[
+              {
+                label: t(
+                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
+                ),
+                value: 'true',
+              },
+              {
+                label: t(
+                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
+                ),
+                value: 'false',
+              },
+            ]}
+            disabled={!areEServiceTemplateGeneralInfoEditable}
+            rules={{ required: false }} //TODO: TO PUT TO TRUE WHEN API WILL BE UPDATED
+            sx={{ mb: 0, mt: 3 }}
           />
 
           <SectionContainer innerSection sx={{ mt: 3 }}>
