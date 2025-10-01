@@ -258,6 +258,13 @@
         "error": "Subscription to Signal Hub service not updated. Try again.",
         "success": "Subscription to Signal Hub service updated correctly"
       }
+    },
+    "updateEServicePersonalDataFlagAfterPublication": {
+      "loading": "We are updating the personal data processing",
+      "outcome": {
+        "error": "Personal data processing could not be updated. Please, try again!",
+        "success": "Personal data processing has been updated successfully!"
+      }
     }
   },
   "attribute": {
