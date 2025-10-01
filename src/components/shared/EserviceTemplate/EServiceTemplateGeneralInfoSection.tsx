@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Divider, Stack, Typography } from '@mui/material'
+import { Alert, Button, Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
@@ -14,6 +14,7 @@ import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDr
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
+import { ro } from 'date-fns/locale'
 
 type EServiceTemplateGeneralInfoSectionProps = {
   readonly: boolean
@@ -154,6 +155,24 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
               `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
             )}
           />
+          {routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
+            eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
+              <Alert severity="warning" sx={{ alignItems: 'center' }}>
+                <Stack spacing={33} direction="row" alignItems="center">
+                  {' '}
+                  {/**TODO FIX SPACING */}
+                  <Typography>{t('personalDataField.alert.label')}</Typography>
+                  <Button
+                    variant="naked"
+                    size="medium"
+                    sx={{ fontWeight: 700, mr: 1 }}
+                    onClick={() => {}}
+                  >
+                    {tCommon('actions.completeData')}
+                  </Button>
+                </Stack>
+              </Alert>
+            )}
           <Divider />
           <SectionContainer
             innerSection
