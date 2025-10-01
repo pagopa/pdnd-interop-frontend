@@ -3,12 +3,12 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NotificationsTableRow, NotificationsTableRowSkeleton } from './NotificationsTableRow'
 import { Box, Button, Checkbox, Stack, Typography } from '@mui/material'
-import type { Notification } from '@/api/notification/notification.services'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread'
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { match } from 'ts-pattern'
+import { type Notification } from '@/api/api.generatedTypes'
 
 type NotificationsTableProps = {
   notifications: Array<Notification>
@@ -16,6 +16,7 @@ type NotificationsTableProps = {
   handleMultipleRowMarkAsRead: (notificationIds: string[]) => void
   handleMultipleRowMarkAsUnread: (notificationIds: string[]) => void
   handleMultipleRowDelete: (notificationIds: string[]) => void
+  dataUpdatedAt: string
 }
 
 type NotficationTableRowsActionsProps = {
@@ -24,6 +25,7 @@ type NotficationTableRowsActionsProps = {
   handleMultipleRowMarkAsUnread: () => void
   handleMultipleRowDelete: () => void
   rowSelected: number
+  dataUpdatedAt: string
 }
 
 export const NotificationsTable: React.FC<NotificationsTableProps> = ({
@@ -32,6 +34,7 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({
   handleMultipleRowMarkAsRead,
   handleMultipleRowMarkAsUnread,
   handleMultipleRowDelete,
+  dataUpdatedAt,
 }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
@@ -74,6 +77,7 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({
       <NotficationTableRowsActions
         rowSelected={selectedIds.length}
         handleRefetch={handleRefetch}
+        dataUpdatedAt={dataUpdatedAt}
         handleMultipleRowMarkAsRead={() => handleMultipleRowMarkAsRead(selectedIds)}
         handleMultipleRowMarkAsUnread={() => handleMultipleRowMarkAsUnread(selectedIds)}
         handleMultipleRowDelete={() => handleMultipleRowDelete(selectedIds)}
@@ -120,6 +124,7 @@ const NotficationTableRowsActions: React.FC<NotficationTableRowsActionsProps> = 
   handleMultipleRowMarkAsUnread,
   handleMultipleRowDelete,
   rowSelected,
+  dataUpdatedAt,
 }) => {
   const { t: tNotification } = useTranslation('notifications', {
     keyPrefix: 'notifications.page.rowActions',
@@ -129,7 +134,9 @@ const NotficationTableRowsActions: React.FC<NotficationTableRowsActionsProps> = 
   return (
     <Box mb={4} display="flex" justifyContent="flex-start">
       <Stack width={'100%'} direction="row">
-        <Typography>{tNotification('lastUpdate')} 12/05/2036: 11:34</Typography>
+        <Typography>
+          {tNotification('lastUpdate')} {dataUpdatedAt}
+        </Typography>
         <Button onClick={handleRefetch} sx={{ ml: 3 }} variant="naked" endIcon={<RefreshIcon />}>
           {tNotification('updateButton')}
         </Button>

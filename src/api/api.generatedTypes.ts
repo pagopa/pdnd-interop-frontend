@@ -903,6 +903,62 @@ export interface PurposeAdditionDetailsSeed {
   purposeId: string
 }
 
+export interface PurposeTemplateSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  targetDescription: string
+  targetTenantKind: TenantKind
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  purposeTitle: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplateSeed
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
+}
+
+export interface RiskAnalysisFormTemplateSeed {
+  /**
+   * @minLength 1
+   * @maxLength 250
+   */
+  version: string
+  answers: any
+}
+
+export interface RiskAnalysisTemplateAnswerSeed {
+  values: string[]
+  editable: boolean
+  annotation?: RiskAnalysisTemplateAnswerAnnotationSeed
+  suggestedValues: string[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationSeed {
+  text: string
+  docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
+  name: string
+  contentType: string
+  prettyName: string
+  path: string
+}
+
 export type CompactUsers = CompactUser[]
 
 /** Models the seed for a public key to be persisted */
@@ -1546,7 +1602,7 @@ export interface CompactUser {
 
 export interface PublicKeys {
   keys: PublicKey[]
-  pagination?: Pagination
+  pagination: Pagination
 }
 
 export interface CertifiedTenantAttributeSeed {
@@ -1984,11 +2040,13 @@ export interface Notification {
   tenantId: string
   /** Content of the notification */
   body: string
+  /** Deep link to the notification */
+  deepLink: string
   /**
    * Timestamp when the notification was read
    * @format date-time
    */
-  readAt: string | null
+  readAt?: string | null
   /**
    * Timestamp when the notification was created
    * @format date-time
@@ -2023,6 +2081,8 @@ export interface TenantNotificationConfig {
 }
 
 export interface UserNotificationConfig {
+  inAppNotificationPreference: boolean
+  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
 }
@@ -2032,8 +2092,49 @@ export interface TenantNotificationConfigUpdateSeed {
 }
 
 export interface UserNotificationConfigUpdateSeed {
+  inAppNotificationPreference: boolean
+  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
+}
+
+export interface NotificationsCountBySection {
+  erogazione: {
+    /** @format int32 */
+    richieste: number
+    /** @format int32 */
+    finalita: number
+    /** @format int32 */
+    'template-eservice': number
+    /** @format int32 */
+    'e-service': number
+    /** @format int32 */
+    portachiavi: number
+    /** @format int32 */
+    totalCount: number
+  }
+  fruizione: {
+    /** @format int32 */
+    richieste: number
+    /** @format int32 */
+    finalita: number
+    /** @format int32 */
+    totalCount: number
+  }
+  'catalogo-e-service': {
+    /** @format int32 */
+    totalCount: number
+  }
+  aderente: {
+    /** @format int32 */
+    deleghe: number
+    /** @format int32 */
+    anagrafica: number
+    /** @format int32 */
+    totalCount: number
+  }
+  /** @format int32 */
+  totalCount: number
 }
 
 export interface ProblemError {
@@ -2559,11 +2660,6 @@ export interface GetProducerKeychainsParams {
    */
   userIds?: string[]
   /**
-   * ID of producer that MUST be related to the keychain
-   * @format uuid
-   */
-  producerId: string
-  /**
    * ID of e-service that MUST be related to the Producer Keychain
    * @format uuid
    */
@@ -2592,6 +2688,17 @@ export interface GetProducerKeysParams {
    * @default []
    */
   userIds?: string[]
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
   /**
    * ID of the producer keychain to look up
    * @format uuid
@@ -2722,6 +2829,10 @@ export interface GetNotificationsParams {
    * @max 50
    */
   limit: number
+}
+
+export interface DeleteNotificationsPayload {
+  ids: string[]
 }
 
 export interface MarkNotificationsAsReadPayload {
@@ -6176,6 +6287,24 @@ export namespace Purposes {
   }
 }
 
+export namespace PurposeTemplates {
+  /**
+   * @description Create a Purpose Template (Draft state)
+   * @tags purposeTemplates
+   * @name CreatePurposeTemplate
+   * @summary Create Purpose Template
+   * @request POST:/purposeTemplates
+   * @secure
+   */
+  export namespace CreatePurposeTemplate {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = PurposeTemplateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+}
+
 export namespace CertifiedAttributes {
   /**
    * @description Creates the attribute passed as payload
@@ -6848,11 +6977,6 @@ export namespace ProducerKeychains {
        */
       userIds?: string[]
       /**
-       * ID of producer that MUST be related to the keychain
-       * @format uuid
-       */
-      producerId: string
-      /**
        * ID of e-service that MUST be related to the Producer Keychain
        * @format uuid
        */
@@ -7026,6 +7150,17 @@ export namespace ProducerKeychains {
        * @default []
        */
       userIds?: string[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
     }
     export type RequestBody = never
     export type RequestHeaders = {}
@@ -7298,6 +7433,21 @@ export namespace InAppNotifications {
     }
     export type RequestBody = never
     export type RequestHeaders = {}
+    export type ResponseBody = Notifications
+  }
+  /**
+   * @description Delete bulk notifications
+   * @tags inAppNotifications
+   * @name DeleteNotifications
+   * @summary Delete bulk notifications
+   * @request DELETE:/inAppNotifications
+   * @secure
+   */
+  export namespace DeleteNotifications {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DeleteNotificationsPayload
+    export type RequestHeaders = {}
     export type ResponseBody = void
   }
   /**
@@ -7334,6 +7484,39 @@ export namespace InAppNotifications {
     export type ResponseBody = void
   }
   /**
+   * @description Mark a notification as unread
+   * @tags inAppNotifications
+   * @name MarkNotificationAsUnread
+   * @summary Mark a notification as unread
+   * @request POST:/inAppNotifications/:notificationId/markAsUnread
+   * @secure
+   */
+  export namespace MarkNotificationAsUnread {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as unread
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsUnread
+   * @summary Mark a list of notifications as unread
+   * @request POST:/inAppNotifications/bulk/markAsUnread
+   * @secure
+   */
+  export namespace MarkNotificationsAsUnread {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Delete a notification
    * @tags inAppNotifications
    * @name DeleteNotification
@@ -7350,6 +7533,21 @@ export namespace InAppNotifications {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags inAppNotifications
+   * @name GetNotificationsCountBySection
+   * @summary Retrieve the count of notifications grouped by section and subsection
+   * @request GET:/inAppNotifications/count
+   * @secure
+   */
+  export namespace GetNotificationsCountBySection {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = NotificationsCountBySection
   }
 }
 
@@ -7412,6 +7610,28 @@ export namespace UserNotificationConfigs {
     export type RequestBody = UserNotificationConfigUpdateSeed
     export type RequestHeaders = {}
     export type ResponseBody = void
+  }
+}
+
+export namespace EmailDeepLink {
+  /**
+   * No description
+   * @tags emailDeepLink
+   * @name GetNotificationDeeplink
+   * @summary Redirect the user to the correct deepLink based on notification type and entity id
+   * @request GET:/emailDeepLink/{notificationType}/{entityId}
+   */
+  export namespace GetNotificationDeeplink {
+    export type RequestParams = {
+      /** The type of the notification */
+      notificationType: string
+      /** The id of the entity */
+      entityId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = any
   }
 }
 

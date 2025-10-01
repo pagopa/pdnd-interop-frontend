@@ -1,37 +1,32 @@
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
-import { AuthHooks } from '@/api/auth'
-import type { UserNotification } from '@/api/notification/notification.services'
 import { NotificationMutations } from '@/api/notification/notification.mutation'
 import { theme } from '@pagopa/interop-fe-commons'
+import { type Notification } from '@/api/api.generatedTypes'
 
-function useGetNotificationsActions(notification?: UserNotification): {
+function useGetNotificationsActions(notification?: Notification): {
   actions: Array<ActionItemButton>
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
-  const { isAdmin } = AuthHooks.useJwt()
   const { mutate: deleteNotification } = NotificationMutations.useDeleteNotification()
   const { mutate: markAsReadNotification } = NotificationMutations.useMarkAsRead()
   const { mutate: markAsNotReadNotification } = NotificationMutations.useMarkAsNotRead()
 
-  if (!notification || !isAdmin) return { actions: [] } //TODO Is the isAdmin check required?
+  if (!notification) return { actions: [] }
 
   function handleDeleteNotification() {
-    if (!notification) return
-    deleteNotification({ id: notification.id })
+    if (notification) deleteNotification({ notificationId: notification.id })
   }
 
   function handleMarkAsRead() {
-    if (!notification) return
-    if (notification.readStatus === false) {
-      markAsReadNotification({ id: notification.id })
+    if (notification && !notification.readAt) {
+      markAsReadNotification({ notificationId: notification.id })
     }
   }
 
   function handleMarkAsNotRead() {
-    if (!notification) return
-    if (notification.readStatus === true) {
-      markAsNotReadNotification({ id: notification.id })
+    if (notification && notification.readAt) {
+      markAsNotReadNotification({ notificationId: notification.id })
     }
   }
 
@@ -52,7 +47,7 @@ function useGetNotificationsActions(notification?: UserNotification): {
     label: t('marsAsNotRead'),
   }
 
-  const validActions = notification.readStatus
+  const validActions = !notification.readAt
     ? [deleteNotifcationAction, markAsReadNotifcationAction]
     : [deleteNotifcationAction, markAsNotReadNotifcationAction]
 
