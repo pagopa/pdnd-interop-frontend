@@ -41,6 +41,7 @@ export type EServiceCreateStepGeneralFormValues = {
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
+  //personalData: boolean | undefined TODO: TO COMMENT OUT WHEN API WILL BE UPDATED
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
@@ -231,6 +232,25 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
+
+          <RHFRadioGroup
+            name="personalData"
+            row
+            label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
+            options={[
+              {
+                label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
+                value: 'true',
+              },
+              {
+                label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.false`),
+                value: 'false',
+              },
+            ]}
+            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+            rules={{ required: false }} //TODO: TO PUT TO TRUE WHEN API WILL BE UPDATED
+            sx={{ mb: 0, mt: 3 }}
+          />
         </SectionContainer>
 
         {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}
@@ -380,6 +400,7 @@ function evaluateFormDefaultValues(
       description: descriptor?.eservice.description ?? '',
       technology: descriptor?.eservice.technology ?? 'REST',
       mode: eserviceMode,
+      //personalData: descriptor?.eservice.personalData, TODO: TO COMMENT OUT WHEN API WILL BE UPDATED
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
@@ -390,6 +411,7 @@ function evaluateFormDefaultValues(
     description: eserviceTemplate?.description,
     technology: eserviceTemplate?.technology,
     mode: eserviceTemplate?.mode,
+    //personalData: eserviceTemplate?.personalData, //TODO: TO COMMENT OUT WHEN API WILL BE UPDATED
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
     isConsumerDelegable: false,
     isClientAccessDelegable: false,
