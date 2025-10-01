@@ -1,7 +1,8 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { PurposeMutations } from '@/api/purpose'
+import { SectionContainer } from '@/components/layout/containers'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFCheckbox, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { purposeUpgradeGuideLink } from '@/config/constants'
 import { Link, Typography } from '@mui/material'
 import React from 'react'
@@ -83,6 +84,18 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
               t('dailyCallsFormField.validation.sameValue'),
           }}
         />
+        <SectionContainer
+          innerSection
+          title={t('riskAnalysisSection.title')}
+          description={t('riskAnalysisSection.description')}
+        >
+          <RHFCheckbox
+            name="riskAnalysisUnchanged"
+            label={t('riskAnalysisSection.checkbox.label')}
+            rules={{ required: true }}
+            sx={{ mt: 0 }}
+          />
+        </SectionContainer>
       </Drawer>
     </FormProvider>
   )
