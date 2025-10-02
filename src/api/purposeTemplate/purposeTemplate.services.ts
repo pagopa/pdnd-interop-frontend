@@ -107,7 +107,7 @@ async function updateDraft({
   //   return await axiosInstance.post<void>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}`,
   //     payload
-  //   )
+
   return console.log('Draft updated!')
 }
 
