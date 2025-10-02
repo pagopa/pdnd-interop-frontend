@@ -1,12 +1,12 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import { Box, Card, CardContent, CardHeader, Stack, Typography } from '@mui/material'
 import { formatThousands } from '@/utils/format.utils'
+import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 
 type PurposeTemplateThresholdSectionProps = {
-  purposeTemplate: PurposeTemplate
+  purposeTemplate: PurposeTemplateWithCompactCreator
 }
 
 export const PurposeTemplateThresholdSection: React.FC<PurposeTemplateThresholdSectionProps> = ({
@@ -35,6 +35,7 @@ const PurposeTemplateSuggestedPlanCard: React.FC<PurposeTemplateThresholdSection
   const { t } = useTranslation('purposeTemplate', {
     keyPrefix: 'read.detailsTab.sections.thresholds.planCard',
   })
+  if (!purposeTemplate.purposeDailyCalls) return
   return (
     <Card
       elevation={8}

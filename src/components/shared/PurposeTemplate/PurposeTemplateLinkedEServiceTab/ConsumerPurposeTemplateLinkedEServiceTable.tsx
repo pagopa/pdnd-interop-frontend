@@ -2,15 +2,15 @@ import { Table } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import {
   ConsumerPurposeTemplateLinkedEServiceTableRow,
   ConsumerPurposeTemplateLinkedEServiceTableRowSkeleton,
 } from './ConsumerPurposeTemplateLinkedEServiceTableRow'
+import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 
 type ConsumerPurposeTemplateLinkedEServiceTableProps = {
-  purposeTemplate: PurposeTemplate
+  purposeTemplate: PurposeTemplateWithCompactCreator
 }
 
 export const ConsumerPurposeTemplateLinkedEServiceTable: React.FC<
@@ -19,7 +19,7 @@ export const ConsumerPurposeTemplateLinkedEServiceTable: React.FC<
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const { data: linkedEservices } = useSuspenseQuery(
-    PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList()
+    PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList() //TODO: CHECK IF THIS IS THE CORRECT API
   )
 
   const headLabels = [tCommon('linkedEserviceName'), tCommon('linkedEserviceProviderName'), '']
