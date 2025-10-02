@@ -389,6 +389,9 @@
           "dailyCallsTotalsField": {
             "label": "Totals"
           }
+        },
+        "alertExceedingThreshold": {
+          "label": "If the number of calls exceeds the limit set by the provider, its approval will be required to use that load"
         }
       }
     }

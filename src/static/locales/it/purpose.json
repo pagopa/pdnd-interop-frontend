@@ -389,6 +389,9 @@
           "dailyCallsTotalsField": {
             "label": "Totali"
           }
+        },
+        "alertExceedingThreshold": {
+          "label": "Se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico"
         }
       }
     }
