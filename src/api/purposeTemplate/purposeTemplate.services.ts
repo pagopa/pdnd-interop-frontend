@@ -12,11 +12,7 @@ import {
   purposeTemplateMock,
   purposeTemplatesListMock,
 } from './mockedResponses'
-import {
-  GetCatalogPurposeTemplatesParams,
-  LinkEServiceToPurposeTemplatePayload,
-  UnlinkEServiceToPurposeTemplatePayload,
-} from '../api.generatedTypes'
+import type { CreatedResource, PurposeTemplateSeed } from '../api.generatedTypes'
 
 async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
   //   const response = await axiosInstance.get<ConsumerPurposeTemplates>(
@@ -89,21 +85,18 @@ async function updatePurposeTemplateRiskAnalysis({
   return console.log('risk analysis updated!')
 }
 
-async function createDraft(payload: PurposeTemplatePayload) {
-  //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
-  //     payload
-  //   )
-  //   return response.data
-  return console.log('Draft created')
+async function createDraft(payload: PurposeTemplateSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
+    payload
+  )
+  return response.data
 }
 
 async function updateDraft({
   purposeTemplateId,
   ...payload
-}: {
-  purposeTemplateId: string
-} & PurposeTemplateUpdateContent) {
+}: { purposeTemplateId: string } & PurposeTemplateUpdateContent) {
   //   return await axiosInstance.post<void>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}`,
   //     payload
@@ -114,7 +107,9 @@ async function updateDraft({
 async function addEserviceToPurposeTemplate({
   purposeTemplateId,
   ...payload
-}: { purposeTemplateId: string } & LinkEServiceToPurposeTemplatePayload) {
+}: {
+  purposeTemplateId: string
+}) {
   //TODO TO FIX PARAMETERS
   //   const response = await axiosInstance.post<LinkEServiceToPurposeTemplatePayload>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
@@ -127,7 +122,9 @@ async function addEserviceToPurposeTemplate({
 async function removeEserviceToPurposeTemplate({
   purposeTemplateId,
   ...payload
-}: { purposeTemplateId: string } & UnlinkEServiceToPurposeTemplatePayload) {
+}: {
+  purposeTemplateId: string
+}) {
   //TODO TO FIX PARAMETERS
   //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/unlinkEservice`,
