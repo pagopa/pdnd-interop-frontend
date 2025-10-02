@@ -7,7 +7,7 @@ const openApiSpecificationFileUrl =
 const apiFolderPath = path.resolve('./src/api/')
 
 generateApi({
-  name: 'api.generatedTypes.ts',
+  fileName: 'api.generatedTypes.ts',
   url: openApiSpecificationFileUrl,
   output: apiFolderPath,
   generateClient: false,
