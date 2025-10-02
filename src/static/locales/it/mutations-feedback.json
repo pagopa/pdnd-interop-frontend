@@ -513,8 +513,8 @@
     "activateVersion": {
       "loading": "Stiamo pubblicando la finalità",
       "outcome": {
-        "success": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
-        "error": "Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati"
+        "success": "La finalità è stata pubblicata con successo.",
+        "error": "Non è stato possibile pubblicare la finalità. Assicurati di aver inserito le informazioni corrette e riprova."
       },
       "confirmDialog": {
         "title": "Conferma attivazione finalità",

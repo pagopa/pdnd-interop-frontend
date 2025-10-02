@@ -513,7 +513,7 @@
     "activateVersion": {
       "loading": "Publishing purpose",
       "outcome": {
-        "success": "The purpose was published successfully. Warning: if the number of API calls/day exceeds any of the Provider threshold, they will have to manually approve the purpose before it can be used",
+        "success": "The purpose was published successfully.",
         "error": "The purpose could not be published. Please, make sure all required fields are filled and try again!"
       },
       "confirmDialog": {
