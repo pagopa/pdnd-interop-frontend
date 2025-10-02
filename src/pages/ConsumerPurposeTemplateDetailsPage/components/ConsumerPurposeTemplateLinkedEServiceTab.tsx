@@ -1,19 +1,19 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import EditIcon from '@mui/icons-material/Edit'
 import { SectionContainer } from '@/components/layout/containers'
 import type { ActionItemButton } from '@/types/common.types'
-import {
-  ConsumerPurposeTemplateLinkedEServiceTableSkeleton,
-  ConsumerPurposeTemplateLinkedEServiceTable,
-} from './ConsumerPurposeTemplateLinkedEServiceTable'
 import { useCurrentRoute } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { useNavigate } from 'react-router-dom'
+import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
+import {
+  ConsumerPurposeTemplateLinkedEServiceTableSkeleton,
+  ConsumerPurposeTemplateLinkedEServiceTable,
+} from '@/components/shared/PurposeTemplate/PurposeTemplateLinkedEServiceTab/ConsumerPurposeTemplateLinkedEServiceTable'
 
 type ConsumerPurposeTemplateLinkedEServiceTabProps = {
-  purposeTemplate: PurposeTemplate
+  purposeTemplate: PurposeTemplateWithCompactCreator
 }
 
 export const ConsumerPurposeTemplateLinkedEServiceTab: React.FC<
