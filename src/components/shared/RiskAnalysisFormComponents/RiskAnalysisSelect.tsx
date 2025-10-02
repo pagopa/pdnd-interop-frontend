@@ -1,6 +1,6 @@
 import React from 'react'
 import { MenuItem, Select as MUISelect, type SelectProps as MUISelectProps } from '@mui/material'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
@@ -16,6 +16,7 @@ export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'>
   emptyLabel?: string
   options: Array<InputOption>
   rules?: ControllerProps['rules']
+  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
@@ -26,8 +27,16 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
   helperText,
   emptyLabel,
   rules,
+  isFromPurposeTemplate,
   ...props
 }) => {
+  const { control } = useFormContext()
+
+  const isAssignedToTemplateUsersSwitch = useWatch({
+    control,
+    name: `assignToTemplateUsers.${questionId}`,
+  })
+
   const { t } = useTranslation()
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
 
@@ -42,6 +51,10 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
     helperText,
   })
 
+  const conditionalRules = isAssignedToTemplateUsersSwitch
+    ? { required: false }
+    : mapValidationErrorMessages(rules, t)
+
   return (
     <RiskAnalysisInputWrapper
       label={label}
@@ -49,10 +62,12 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       error={error}
       helperText={helperText}
       {...ids}
+      isFromPurposeTemplate={isFromPurposeTemplate}
+      questionId={questionId}
     >
       <Controller
         name={name}
-        rules={mapValidationErrorMessages(rules, t)}
+        rules={conditionalRules}
         render={({ field: { ref, onChange, ...fieldProps } }) => (
           <MUISelect
             {...props}
@@ -65,6 +80,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
               onChange(e)
             }}
             inputRef={ref}
+            disabled={isAssignedToTemplateUsersSwitch}
           >
             {options.length > 0 ? (
               options.map((o, i) => (
