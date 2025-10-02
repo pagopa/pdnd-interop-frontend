@@ -1,13 +1,13 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Divider, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import DownloadIcon from '@mui/icons-material/Download'
+import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 
 type PurposeTemplateGeneralInfoSectionProps = {
-  purposeTemplate: PurposeTemplate
+  purposeTemplate: PurposeTemplateWithCompactCreator
 }
 export const PurposeTemplateGeneralInfoSection: React.FC<
   PurposeTemplateGeneralInfoSectionProps
@@ -28,16 +28,17 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
     sx: { fontWeight: 700 },
   }
 
+  const tenantKindTranslationKey =
+    purposeTemplate.targetTenantKind === 'PA'
+      ? t('tenantKindValues.labelPA')
+      : t('tenantKindValues.labelNotPA')
+
   return (
     <>
       <SectionContainer title={t('title')} bottomActions={[downloadRiskAnalysisAction]}>
         <Stack spacing={2}>
-          <InformationContainer label={t('producerName')} content={purposeTemplate.creatorId} />
-          {/* TO DO: PUT CREATOR NAME WHEN AVAILABLE */}
-          <InformationContainer
-            label={t('tenantKind')}
-            content={purposeTemplate.targetTenantKind}
-          />
+          <InformationContainer label={t('producerName')} content={purposeTemplate.creator.name} />
+          <InformationContainer label={t('tenantKind')} content={tenantKindTranslationKey} />
           <SectionContainer
             innerSection
             title={t('intendedTarget')}
