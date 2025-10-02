@@ -153,12 +153,14 @@ export interface UpdateEServiceDescriptorQuotas {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
 }
@@ -167,13 +169,15 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
 }
@@ -195,11 +199,15 @@ export interface UpdateEServiceDescriptorSeed {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -216,11 +224,15 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -273,13 +285,15 @@ export interface CatalogEServiceDescriptor {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -418,13 +432,15 @@ export interface ProducerEServiceDescriptor {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   /**
@@ -692,7 +708,8 @@ export interface PurposeVersionSeed {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -710,7 +727,8 @@ export interface PurposeSeed {
   freeOfChargeReason?: string
   /**
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -729,7 +747,8 @@ export interface PurposeEServiceSeed {
   freeOfChargeReason?: string
   /**
    * @format int32
-   * @min 0
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -865,11 +884,15 @@ export interface Purpose {
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer: number
   /**
    * total daily calls available for this e-service.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal: number
   delegation?: DelegationWithCompactTenants
@@ -878,6 +901,154 @@ export interface Purpose {
 export interface PurposeAdditionDetailsSeed {
   /** @format uuid */
   purposeId: string
+}
+
+/** Purpose Template State */
+export type PurposeTemplateState = 'ACTIVE' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
+
+/** a purpose template with its creator and a list for the answer annotation documents */
+export interface PurposeTemplateWithCompactCreator {
+  /** @format uuid */
+  id: string
+  targetDescription: string
+  targetTenantKind: TenantKind
+  creator: CompactOrganization
+  /** Purpose Template State */
+  state: PurposeTemplateState
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
+  purposeTitle: string
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
+  annotationDocuments?: RiskAnalysisTemplateAnswerAnnotationDocument[]
+}
+
+export interface PurposeTemplateSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  targetDescription: string
+  targetTenantKind: TenantKind
+  /**
+   * @minLength 5
+   * @maxLength 60
+   */
+  purposeTitle: string
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplateSeed
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
+}
+
+export interface RiskAnalysisFormTemplate {
+  /**
+   * @minLength 1
+   * @maxLength 250
+   */
+  version: string
+  answers: any
+}
+
+export interface RiskAnalysisFormTemplateSeed {
+  /**
+   * @minLength 1
+   * @maxLength 250
+   */
+  version: string
+  answers: any
+}
+
+export interface RiskAnalysisTemplateAnswer {
+  values: string[]
+  editable: boolean
+  annotation?: RiskAnalysisTemplateAnswerAnnotation
+  suggestedValues: string[]
+}
+
+export interface RiskAnalysisTemplateAnswerSeed {
+  values: string[]
+  editable: boolean
+  annotation?: RiskAnalysisTemplateAnswerAnnotationSeed
+  suggestedValues: string[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotation {
+  /** @format uuid */
+  id: string
+  text: string
+  docs: RiskAnalysisTemplateAnswerAnnotationDocument[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationSeed {
+  text: string
+  docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationDocument {
+  /** @format uuid */
+  id: string
+  name: string
+  contentType: string
+  prettyName: string
+  path: string
+  /** @format date-time */
+  createdAt: string
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
+  name: string
+  contentType: string
+  prettyName: string
+  path: string
+}
+
+export interface CreatorPurposeTemplate {
+  /** @format uuid */
+  id: string
+  targetTenantKind: TenantKind
+  purposeTitle: string
+  /** Purpose Template State */
+  state: PurposeTemplateState
+}
+
+export interface CreatorPurposeTemplates {
+  results: CreatorPurposeTemplate[]
+  pagination: Pagination
+}
+
+export interface CatalogPurposeTemplate {
+  /** @format uuid */
+  id: string
+  targetTenantKind: TenantKind
+  purposeTitle: string
+  purposeDescription: string
+  creator: CompactOrganization
+}
+
+export interface CatalogPurposeTemplates {
+  results: CatalogPurposeTemplate[]
+  pagination: Pagination
 }
 
 export type CompactUsers = CompactUser[]
@@ -976,6 +1147,8 @@ export interface PurposeUpdateContent {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -989,6 +1162,8 @@ export interface ReversePurposeUpdateContent {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
 }
@@ -1022,6 +1197,8 @@ export interface PurposeVersion {
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
+   * @min 1
+   * @max 1000000000
    */
   dailyCalls: number
   riskAnalysisDocument?: PurposeVersionDocument
@@ -1517,7 +1694,7 @@ export interface CompactUser {
 
 export interface PublicKeys {
   keys: PublicKey[]
-  pagination?: Pagination
+  pagination: Pagination
 }
 
 export interface CertifiedTenantAttributeSeed {
@@ -1653,12 +1830,14 @@ export interface EServiceTemplateVersionDetails {
    * maximum number of daily calls that this descriptor can afford per consumer.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   interface?: EServiceDoc
@@ -1687,11 +1866,13 @@ export interface EServiceTemplateVersionQuotasUpdateSeed {
   /**
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
 }
@@ -1773,12 +1954,14 @@ export interface VersionSeedForEServiceTemplateCreation {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   /**
@@ -1886,12 +2069,14 @@ export interface UpdateEServiceTemplateVersionSeed {
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsPerConsumer?: number
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
+   * @max 1000000000
    */
   dailyCallsTotal?: number
   /**
@@ -1921,6 +2106,126 @@ export interface UpdateEServiceTemplateVersionDocumentSeed {
    * @maxLength 60
    */
   prettyName: string
+}
+
+export interface Notifications {
+  results: Notification[]
+  pagination: Pagination
+}
+
+export interface Notification {
+  /**
+   * Unique identifier of the notification
+   * @format uuid
+   */
+  id: string
+  /**
+   * ID of the user
+   * @format uuid
+   */
+  userId: string
+  /**
+   * ID of the tenant
+   * @format uuid
+   */
+  tenantId: string
+  /** Content of the notification */
+  body: string
+  /** Deep link to the notification */
+  deepLink: string
+  /**
+   * Timestamp when the notification was read
+   * @format date-time
+   */
+  readAt?: string | null
+  /**
+   * Timestamp when the notification was created
+   * @format date-time
+   */
+  createdAt: string
+}
+
+export interface NotificationConfig {
+  agreementSuspendedUnsuspendedToProducer: boolean
+  agreementManagementToProducer: boolean
+  clientAddedRemovedToProducer: boolean
+  purposeStatusChangedToProducer: boolean
+  templateStatusChangedToProducer: boolean
+  agreementSuspendedUnsuspendedToConsumer: boolean
+  eserviceStateChangedToConsumer: boolean
+  agreementActivatedRejectedToConsumer: boolean
+  purposeActivatedRejectedToConsumer: boolean
+  purposeSuspendedUnsuspendedToConsumer: boolean
+  newEserviceTemplateVersionToInstantiator: boolean
+  eserviceTemplateNameChangedToInstantiator: boolean
+  eserviceTemplateStatusChangedToInstantiator: boolean
+  delegationApprovedRejectedToDelegator: boolean
+  eserviceNewVersionSubmittedToDelegator: boolean
+  eserviceNewVersionApprovedRejectedToDelegate: boolean
+  delegationSubmittedRevokedToDelegate: boolean
+  certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
+  clientKeyAddedDeletedToClientUsers: boolean
+}
+
+export interface TenantNotificationConfig {
+  enabled: boolean
+}
+
+export interface UserNotificationConfig {
+  inAppNotificationPreference: boolean
+  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
+  inAppConfig: NotificationConfig
+  emailConfig: NotificationConfig
+}
+
+export interface TenantNotificationConfigUpdateSeed {
+  enabled: boolean
+}
+
+export interface UserNotificationConfigUpdateSeed {
+  inAppNotificationPreference: boolean
+  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
+  inAppConfig: NotificationConfig
+  emailConfig: NotificationConfig
+}
+
+export interface NotificationsCountBySection {
+  erogazione: {
+    /** @format int32 */
+    richieste: number
+    /** @format int32 */
+    finalita: number
+    /** @format int32 */
+    'template-eservice': number
+    /** @format int32 */
+    'e-service': number
+    /** @format int32 */
+    portachiavi: number
+    /** @format int32 */
+    totalCount: number
+  }
+  fruizione: {
+    /** @format int32 */
+    richieste: number
+    /** @format int32 */
+    finalita: number
+    /** @format int32 */
+    totalCount: number
+  }
+  'catalogo-e-service': {
+    /** @format int32 */
+    totalCount: number
+  }
+  aderente: {
+    /** @format int32 */
+    deleghe: number
+    /** @format int32 */
+    anagrafica: number
+    /** @format int32 */
+    totalCount: number
+  }
+  /** @format int32 */
+  totalCount: number
 }
 
 export interface ProblemError {
@@ -2077,7 +2382,7 @@ export interface GetEServicesCatalogParams {
   /**
    * @format int32
    * @min 1
-   * @max 50
+   * @max 200
    */
   limit: number
 }
@@ -2334,6 +2639,65 @@ export interface GetConsumerPurposesParams {
   limit: number
 }
 
+export interface GetCreatorPurposeTemplatesParams {
+  /** filter by purpose template title */
+  q?: string
+  /**
+   * comma separated sequence of e-service IDs
+   * @default []
+   */
+  eserviceIds?: string[]
+  /**
+   * comma separated sequence of purpose template states
+   * @default []
+   */
+  states?: PurposeTemplateState[]
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface GetCatalogPurposeTemplatesParams {
+  /** filter by purpose template title */
+  q?: string
+  /**
+   * comma separated sequence of creators IDs
+   * @default []
+   */
+  creatorIds?: string[]
+  /**
+   * comma separated sequence of e-service IDs
+   * @default []
+   */
+  eserviceIds?: string[]
+  /** filter by target tenant kind */
+  targetTenantKind?: TenantKind
+  /**
+   * exclude purpose templates with expired risk analysis
+   * @default true
+   */
+  excludeExpiredRiskAnalysis?: boolean
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
 export interface RevokeVerifiedAttributePayload {
   /** @format uuid */
   agreementId: string
@@ -2446,11 +2810,6 @@ export interface GetProducerKeychainsParams {
    */
   userIds?: string[]
   /**
-   * ID of producer that MUST be related to the keychain
-   * @format uuid
-   */
-  producerId: string
-  /**
    * ID of e-service that MUST be related to the Producer Keychain
    * @format uuid
    */
@@ -2479,6 +2838,17 @@ export interface GetProducerKeysParams {
    * @default []
    */
   userIds?: string[]
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
   /**
    * ID of the producer keychain to look up
    * @format uuid
@@ -2593,6 +2963,30 @@ export interface CreateEServiceTemplateDocumentPayload {
 export interface IsEServiceNameAvailableParams {
   /** the e-service name to check for */
   name: string
+}
+
+export interface GetNotificationsParams {
+  /** Query to filter notifications */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface DeleteNotificationsPayload {
+  ids: string[]
+}
+
+export interface MarkNotificationsAsReadPayload {
+  ids: string[]
 }
 
 export namespace Consumers {
@@ -4034,7 +4428,7 @@ export namespace Catalog {
       /**
        * @format int32
        * @min 1
-       * @max 50
+       * @max 200
        */
       limit: number
     }
@@ -4067,6 +4461,52 @@ export namespace Catalog {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = CatalogEServiceDescriptor
+  }
+  /**
+   * @description Retrieves Catalog Purpose Templates
+   * @tags purposeTemplates
+   * @name GetCatalogPurposeTemplates
+   * @summary Retrieves Catalog Purpose Templates
+   * @request GET:/catalog/purposeTemplates
+   * @secure
+   */
+  export namespace GetCatalogPurposeTemplates {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** filter by purpose template title */
+      q?: string
+      /**
+       * comma separated sequence of creators IDs
+       * @default []
+       */
+      creatorIds?: string[]
+      /**
+       * comma separated sequence of e-service IDs
+       * @default []
+       */
+      eserviceIds?: string[]
+      /** filter by target tenant kind */
+      targetTenantKind?: TenantKind
+      /**
+       * exclude purpose templates with expired risk analysis
+       * @default true
+       */
+      excludeExpiredRiskAnalysis?: boolean
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CatalogPurposeTemplates
   }
   /**
    * @description Retrieves EService templates catalog
@@ -6043,6 +6483,116 @@ export namespace Purposes {
   }
 }
 
+export namespace PurposeTemplates {
+  /**
+   * @description Create a Purpose Template (Draft state)
+   * @tags purposeTemplates
+   * @name CreatePurposeTemplate
+   * @summary Create Purpose Template
+   * @request POST:/purposeTemplates
+   * @secure
+   */
+  export namespace CreatePurposeTemplate {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = PurposeTemplateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Retrieve a Purpose Template by its ID
+   * @tags purposeTemplates
+   * @name GetPurposeTemplate
+   * @summary Retrieve Purpose Template
+   * @request GET:/purposeTemplates/{purposeTemplateId}
+   * @secure
+   */
+  export namespace GetPurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id to retrieve
+       * @format uuid
+       */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplateWithCompactCreator
+  }
+}
+
+export namespace Creators {
+  /**
+   * @description Retrieves Creator Purpose Templates
+   * @tags purposeTemplates
+   * @name GetCreatorPurposeTemplates
+   * @summary Retrieves Creator Purpose Templates
+   * @request GET:/creators/purposeTemplates
+   * @secure
+   */
+  export namespace GetCreatorPurposeTemplates {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** filter by purpose template title */
+      q?: string
+      /**
+       * comma separated sequence of e-service IDs
+       * @default []
+       */
+      eserviceIds?: string[]
+      /**
+       * comma separated sequence of purpose template states
+       * @default []
+       */
+      states?: PurposeTemplateState[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatorPurposeTemplates
+  }
+  /**
+   * @description Retrieves Creator EService templates
+   * @tags eserviceTemplates
+   * @name GetCreatorEServiceTemplates
+   * @summary Retrieves Creator EService templates
+   * @request GET:/creators/eservices/templates
+   * @secure
+   */
+  export namespace GetCreatorEServiceTemplates {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter EServices templates by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = ProducerEServiceTemplates
+  }
+}
+
 export namespace CertifiedAttributes {
   /**
    * @description Creates the attribute passed as payload
@@ -6715,11 +7265,6 @@ export namespace ProducerKeychains {
        */
       userIds?: string[]
       /**
-       * ID of producer that MUST be related to the keychain
-       * @format uuid
-       */
-      producerId: string
-      /**
        * ID of e-service that MUST be related to the Producer Keychain
        * @format uuid
        */
@@ -6893,6 +7438,17 @@ export namespace ProducerKeychains {
        * @default []
        */
       userIds?: string[]
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
     }
     export type RequestBody = never
     export type RequestHeaders = {}
@@ -7106,19 +7662,18 @@ export namespace Delegations {
   }
 }
 
-export namespace Creators {
+export namespace InAppNotifications {
   /**
-   * @description Retrieves Creator EService templates
-   * @tags eserviceTemplates
-   * @name GetCreatorEServiceTemplates
-   * @summary Retrieves Creator EService templates
-   * @request GET:/creators/eservices/templates
-   * @secure
+   * @description Retrieves a list of notifications
+   * @tags inAppNotifications
+   * @name GetNotifications
+   * @summary Retrieves a list of notifications
+   * @request GET:/inAppNotifications
    */
-  export namespace GetCreatorEServiceTemplates {
+  export namespace GetNotifications {
     export type RequestParams = {}
     export type RequestQuery = {
-      /** Query to filter EServices templates by name */
+      /** Query to filter notifications */
       q?: string
       /**
        * @format int32
@@ -7134,7 +7689,205 @@ export namespace Creators {
     }
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = ProducerEServiceTemplates
+    export type ResponseBody = Notifications
+  }
+  /**
+   * @description Delete bulk notifications
+   * @tags inAppNotifications
+   * @name DeleteNotifications
+   * @summary Delete bulk notifications
+   * @request DELETE:/inAppNotifications
+   * @secure
+   */
+  export namespace DeleteNotifications {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = DeleteNotificationsPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as read
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsRead
+   * @summary Mark a list of notifications as read
+   * @request POST:/inAppNotifications/bulk/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationsAsRead {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = MarkNotificationsAsReadPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a notification as read
+   * @tags inAppNotifications
+   * @name MarkNotificationAsRead
+   * @summary Mark a notification as read
+   * @request POST:/inAppNotifications/:notificationId/markAsRead
+   * @secure
+   */
+  export namespace MarkNotificationAsRead {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a notification as unread
+   * @tags inAppNotifications
+   * @name MarkNotificationAsUnread
+   * @summary Mark a notification as unread
+   * @request POST:/inAppNotifications/:notificationId/markAsUnread
+   * @secure
+   */
+  export namespace MarkNotificationAsUnread {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark a list of notifications as unread
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsUnread
+   * @summary Mark a list of notifications as unread
+   * @request POST:/inAppNotifications/bulk/markAsUnread
+   * @secure
+   */
+  export namespace MarkNotificationsAsUnread {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Delete a notification
+   * @tags inAppNotifications
+   * @name DeleteNotification
+   * @summary Delete a notification
+   * @request DELETE:/inAppNotifications/:notificationId
+   * @secure
+   */
+  export namespace DeleteNotification {
+    export type RequestParams = {
+      /** @format uuid */
+      notificationId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags inAppNotifications
+   * @name GetNotificationsCountBySection
+   * @summary Retrieve the count of notifications grouped by section and subsection
+   * @request GET:/inAppNotifications/count
+   * @secure
+   */
+  export namespace GetNotificationsCountBySection {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = NotificationsCountBySection
+  }
+}
+
+export namespace TenantNotificationConfigs {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name GetTenantNotificationConfig
+   * @summary Retrieve the tenant's notification configuration
+   * @request GET:/tenantNotificationConfigs
+   */
+  export namespace GetTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = TenantNotificationConfig
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateTenantNotificationConfig
+   * @summary Update the tenant's notification configuration
+   * @request POST:/tenantNotificationConfigs
+   */
+  export namespace UpdateTenantNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = TenantNotificationConfigUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace UserNotificationConfigs {
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name GetUserNotificationConfig
+   * @summary Retrieve the user's notification configuration
+   * @request GET:/userNotificationConfigs
+   */
+  export namespace GetUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = UserNotificationConfig
+  }
+  /**
+   * No description
+   * @tags notificationConfigs
+   * @name UpdateUserNotificationConfig
+   * @summary Update the user's notification configuration
+   * @request POST:/userNotificationConfigs
+   */
+  export namespace UpdateUserNotificationConfig {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = UserNotificationConfigUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+}
+
+export namespace EmailDeepLink {
+  /**
+   * No description
+   * @tags emailDeepLink
+   * @name GetNotificationDeeplink
+   * @summary Redirect the user to the correct deepLink based on notification type and entity id
+   * @request GET:/emailDeepLink/{notificationType}/{entityId}
+   */
+  export namespace GetNotificationDeeplink {
+    export type RequestParams = {
+      /** The type of the notification */
+      notificationType: string
+      /** The id of the entity */
+      entityId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = any
   }
 }
 

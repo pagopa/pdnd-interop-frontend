@@ -7,12 +7,11 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useLocation, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
-import type { TenantKind } from '@/api/api.generatedTypes'
+import type { PurposeTemplateWithCompactCreator, TenantKind } from '@/api/api.generatedTypes'
 
 function useGetConsumerPurposeTemplateTemplatesActions(
   tenantKind: TenantKind,
-  purposeTemplate?: PurposeTemplate
+  purposeTemplate?: PurposeTemplateWithCompactCreator
 ) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'read' })
@@ -29,6 +28,22 @@ function useGetConsumerPurposeTemplateTemplatesActions(
   const { mutate: publishPurposeTemplateDraft } = PurposeTemplateMutations.usePublishDraft()
 
   if (!purposeTemplate || !isAdmin) return { actions: [] }
+
+  function checkTenantKind(tenantKind: TenantKind) {
+    let compatibleTenantKind = false
+    const privateTenantKinds: TenantKind[] = ['GSP', 'SCP', 'PRIVATE']
+    if (purposeTemplate?.targetTenantKind === 'PA' && tenantKind === 'PA') {
+      compatibleTenantKind = true
+    } else if (
+      purposeTemplate?.targetTenantKind === 'PRIVATE' &&
+      privateTenantKinds.includes(tenantKind)
+    ) {
+      compatibleTenantKind = true
+    }
+    return compatibleTenantKind
+  }
+
+  const compatibleTenantKind = checkTenantKind(tenantKind)
 
   function handleArchive() {
     if (!purposeTemplate) return
@@ -104,8 +119,8 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     label: t('actions.createNewPurposeInstance'),
     action: handleUsePurposeTemplateAction,
     variant: 'contained',
-    disabled: tenantKind !== purposeTemplate.targetTenantKind,
-    tooltip: t('actions.tooltip'),
+    disabled: !compatibleTenantKind,
+    tooltip: !compatibleTenantKind ? t('actions.tooltip') : undefined,
   }
 
   function handleUsePurposeTemplateAction() {
@@ -122,6 +137,11 @@ function useGetConsumerPurposeTemplateTemplatesActions(
   const isSuspended = purposeTemplate?.state === 'SUSPENDED'
   const isActive = purposeTemplate?.state === 'ACTIVE'
   const isArchived = purposeTemplate?.state === 'ARCHIVED'
+
+  if (routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
+    actions.push(usePurposeTemplateAction)
+    return { actions }
+  }
 
   if (isActive) {
     actions.push(usePurposeTemplateAction)
