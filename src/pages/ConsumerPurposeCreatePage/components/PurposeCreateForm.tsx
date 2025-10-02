@@ -137,7 +137,7 @@ export const PurposeCreateForm: React.FC = () => {
         onSuccess(data) {
           const purposeId = data.id
           navigate(usePurposeTemplate ? 'NOT_FOUND' : 'SUBSCRIBE_PURPOSE_EDIT', {
-            //TODO: REPLACE 'NOT_FOUND' WITH CORRECT ROUTE
+            //TODO: REPLACE 'NOT_FOUND' WITH CORRECT ROUTE; IS THERE AN API CALL TO CREATE PURPOSE FROM PURPOSE TEMPLATE?
             params: { purposeId },
           })
         },
@@ -160,6 +160,7 @@ export const PurposeCreateForm: React.FC = () => {
         onSuccess(data) {
           const purposeId = data.id
           navigate(usePurposeTemplate ? 'NOT_FOUND' : 'SUBSCRIBE_PURPOSE_EDIT', {
+            //TODO: REPLACE 'NOT_FOUND' WITH CORRECT ROUTE; IS THERE AN API CALL TO CREATE PURPOSE FROM PURPOSE TEMPLATE?
             params: { purposeId },
           })
         },
