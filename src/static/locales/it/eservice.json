@@ -335,7 +335,10 @@
     "tabs": {
       "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
       "eserviceDetails": "Dettagli e-service",
-      "keychain": "Portachiavi associati"
+      "keychain": "Portachiavi associati",
+      "ariaLabelEserviceDetail": "Due tab diverse per i dettagli dell'e-service e i template di finalità collegati",
+      "eserviceDetail": "Dettaglio e-service",
+      "purposeTemplate": "Template finalità collegati"
     },
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
@@ -481,6 +484,30 @@
       "attributes": {
         "title": "Attributi",
         "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service."
+      },
+      "linkedPurposeTemplates": {
+        "title": "Compilazione agevolata della finalità",
+        "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
+        "linkedPurposeTabLink": "Visualizza i template collegati"
+      }
+    },
+    "linkedPurposeTemplatesTab": {
+      "title": "Template di compilazione agevolata delle finalità collegati",
+      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune \n risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso \n da altri enti aderenti e può essere utilizzato senza vincoli.",
+      "filters": {
+        "purposeTemplateNameField": {
+          "label": "Nome template"
+        },
+        "creatorNameField": {
+          "label": "Nome creatore"
+        },
+        "targetTenantKindField": {
+          "label": "Destinatario",
+          "values": {
+            "labelPA": "Pubbliche amministrazioni",
+            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico, Privati"
+          }
+        }
       }
     },
     "drawers": {
