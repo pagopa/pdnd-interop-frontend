@@ -19,7 +19,7 @@ import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/mo
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useDialog } from '@/stores'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { PurposeTemplateSeed } from '@/api/api.generatedTypes'
+import type { TenantKind } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 
@@ -28,6 +28,9 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposeTemplatesList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tPurposeTemplate } = useTranslation('purposeTemplate', { keyPrefix: 'list.filters' })
+  const { t: tPurposeTemplateDefaults } = useTranslation('purposeTemplate', {
+    keyPrefix: 'edit.defaultPurposeTemplate',
+  })
   const navigate = useNavigate()
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
@@ -36,9 +39,28 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const { openDialog } = useDialog()
 
-  const handleCreateDraft = (params: PurposeTemplateSeed) => {
+  const handleCreateDraft = (tenantKind: TenantKind) => {
+    /**
+     * A purpose template cannot have two templates with the same title.
+     * To avoid this, we add the current date to the title to make it unique.
+     */
+    const currentDateString = new Intl.DateTimeFormat('it', {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    })
+      .format()
+      .replace(',', '')
+
     createDraft(
-      { ...params },
+      {
+        targetDescription: tPurposeTemplateDefaults('intendedTarget'),
+        targetTenantKind: tenantKind,
+        purposeTitle: `Template finalità ${currentDateString}`,
+        purposeDescription: tPurposeTemplateDefaults('description'),
+        purposeIsFreeOfCharge: true,
+        purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
+        purposeDailyCalls: 1,
+      },
       {
         onSuccess() {
           navigate(/*'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'*/ 'NOT_FOUND') //TODO TO FIX WHEN ROUTE IS AVAILABLE
