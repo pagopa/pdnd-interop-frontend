@@ -873,6 +873,14 @@ export interface Purpose {
    */
   dailyCallsTotal: number
   delegation?: DelegationWithCompactTenants
+  purposeTemplateRef?: PurposeTemplateRef
+}
+
+export interface PurposeTemplateRef {
+  /** @format uuid */
+  id: string
+  /** @format uuid */
+  name: string
 }
 
 export interface PurposeAdditionDetailsSeed {
