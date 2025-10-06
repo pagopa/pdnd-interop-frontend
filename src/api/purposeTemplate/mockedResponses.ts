@@ -1,4 +1,11 @@
-import type { CatalogEService, CatalogPurposeTemplates, TenantKind } from '../api.generatedTypes'
+import type {
+  CatalogEService,
+  CatalogPurposeTemplates,
+  PurposeTemplateWithCompactCreator,
+  RiskAnalysisForm,
+  RiskAnalysisFormConfig,
+  TenantKind,
+} from '../api.generatedTypes'
 
 export const purposeTemplatesListMock: Array<PurposeTemplate> = [
   {
@@ -198,44 +205,55 @@ export const purposeTemplatesListMock: Array<PurposeTemplate> = [
   },
 ]
 
-export const purposeTemplateMock: PurposeTemplate = {
-  description: 'Business representation of a research purposes template',
-  id: '55555555-5555-5555-5555-555555555555',
-  targetDescription: 'Research data processing',
-  targetTenantKind: 'GSP',
-  creatorId: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
-  state: 'ACTIVE',
-  createdAt: '2025-08-25T06:05:00.116Z',
-  updatedAt: '2025-08-25T06:05:00.116Z',
-  purposeTitle: 'Research Data Analysis',
-  purposeDescription: 'Analyze research data for scientific studies',
+export const purposeTemplateMock: PurposeTemplateWithCompactCreator = {
+  id: 'f1e9bcd2-083f-4c27-a8e6-9999f3c77d9f', // UUID
+  targetDescription: 'Description of the target purpose',
+  targetTenantKind: 'PRIVATE', // Example of TenantKind
+  creator: {
+    id: 'a2b3c4d5-e6f7-8a9b-c0d1-e2f3g4h5i6j7', // UUID
+    name: 'Sample Organization',
+    kind: 'PA', // Optional TenantKind
+  },
+  state: 'ACTIVE', // PurposeTemplateState
+  createdAt: '2025-10-02T12:00:00Z', // ISO 8601 date-time
+  updatedAt: '2025-10-03T14:00:00Z', // Optional updatedAt field
+  purposeTitle: 'Sample Purpose Title',
+  purposeDescription: 'A brief description of the purpose.',
   purposeRiskAnalysisForm: {
-    version: '1.0',
+    version: '2.0',
     answers: {
-      dataSensitivity: {
-        value: 'medium',
-        editable: true,
-        annotation: {
-          id: 'annotation-005',
-          text: 'Research data for scientific purposes',
-          docs: [
-            {
-              id: 'doc-005',
-              name: 'ResearchPolicy.pdf',
-              contentType: 'application/pdf',
-              prettyName: 'Research Policy',
-              path: '/docs/research-policy.pdf',
-              createdAt: '2025-08-25T06:05:00.116Z',
-            },
-          ],
-        },
-        suggestedValues: ['high', 'medium', 'low'],
+      values: ['High Risk', 'Medium Risk'],
+      editable: true,
+      annotation: {
+        id: 'c1d2e3f4-g5h6-i7j8-k9l0-mn1op2qr3st4', // UUID
+        text: 'This is an important annotation regarding risk analysis.',
+        docs: [
+          {
+            id: 'doc-001',
+            name: 'Risk Document 1',
+            contentType: 'application/pdf',
+            prettyName: 'Risk Analysis Document 1',
+            path: '/path/to/risk_document_1.pdf',
+            createdAt: '2025-10-02T12:00:00Z',
+          },
+        ],
       },
+      suggestedValues: ['Low Risk', 'High Risk', 'No Risk'],
     },
   },
-  purposeIsFreeOfCharge: true,
-  purposeFreeOfChargeReason: 'Government grant',
-  purposeDailyCalls: 300000,
+  purposeIsFreeOfCharge: false, // Boolean indicating if it's free of charge
+  purposeFreeOfChargeReason: 'The service requires paid access after trial period.', // Optional free of charge reason
+  purposeDailyCalls: 1000, // Optional daily calls
+  annotationDocuments: [
+    {
+      id: 'doc-002',
+      name: 'Supplementary Risk Analysis Document',
+      contentType: 'application/msword',
+      prettyName: 'Risk Analysis Supplementary Document',
+      path: '/path/to/supplementary_risk_analysis.docx',
+      createdAt: '2025-10-02T13:00:00Z',
+    },
+  ], // Optional annotation documents
 }
 
 export const eservicesLinkedToPurposeTemplatesMock = [
@@ -533,5 +551,162 @@ export const mockCatalogPurposeTemplates: CatalogPurposeTemplates = {
     totalCount: 3,
     limit: 10,
     offset: 0,
+  },
+}
+
+export const riskAnalysisConfigMock: RiskAnalysisFormConfig = {
+  version: '2.0',
+  questions: [
+    {
+      id: 'checkedExistenceMereCorrectnessInteropCatalogue',
+      label: {
+        en: 'Checked existence mere correctness interoperability catalogue',
+        it: "Verificata l'esistenza del catalogo di interoperabilità della mera correttezza",
+      },
+      dataType: 'SINGLE', // Assume 'boolean' for simplicity
+      required: true,
+      dependencies: [],
+      visualType: 'checkbox',
+      defaultValue: ['true'],
+      options: [
+        {
+          label: {
+            en: 'Yes',
+            it: 'Sì',
+          },
+          value: 'true',
+        },
+        { label: { en: 'No', it: 'No' }, value: 'false' },
+      ],
+    },
+    {
+      id: 'confirmPricipleIntegrityAndDiscretion',
+      label: {
+        en: 'Confirm principle integrity and discretion',
+        it: "Conferma l'integrità e la discrezione del principio",
+      },
+      dataType: 'SINGLE',
+      required: true,
+      dependencies: [],
+      visualType: 'checkbox',
+      defaultValue: ['true'],
+      options: [
+        { label: { en: 'Yes', it: 'Sì' }, value: 'true' },
+        { label: { en: 'No', it: 'No' }, value: 'false' },
+      ],
+    },
+    {
+      id: 'dataDownload',
+      label: { en: 'Data Download', it: 'Download dei dati' },
+      dataType: 'SINGLE',
+      required: false,
+      dependencies: [],
+      visualType: 'checkbox',
+      defaultValue: ['NO'],
+      options: [
+        { label: { en: 'Yes', it: 'Sì' }, value: 'YES' },
+        { label: { en: 'No', it: 'No' }, value: 'NO' },
+      ],
+    },
+    {
+      id: 'declarationConfirmGDPR',
+      label: { en: 'Declaration confirm GDPR', it: 'Dichiarazione di conferma GDPR' },
+      dataType: 'SINGLE',
+      required: true,
+      dependencies: [],
+      visualType: 'checkbox',
+      defaultValue: ['true'],
+      options: [
+        { label: { en: 'Yes', it: 'Sì' }, value: 'true' },
+        { label: { en: 'No', it: 'No' }, value: 'false' },
+      ],
+    },
+    {
+      id: 'deliveryMethod',
+      label: { en: 'Delivery Method', it: 'Metodo di consegna' },
+      dataType: 'MULTI',
+      required: true,
+      dependencies: [],
+      visualType: 'textInput',
+      defaultValue: ['CLEARTEXT'],
+      options: [],
+    },
+    // Add more questions as needed
+  ],
+}
+
+export const riskAnalysisFormMock: RiskAnalysisForm = {
+  version: '2.0',
+  riskAnalysisId: '88c6e467-3da6-489b-9725-e275a35cf143',
+  answers: {
+    checkedExistenceMereCorrectnessInteropCatalogue: {
+      values: ['true'],
+      editable: false,
+      suggestedValues: ['true', 'false'],
+      annotation: {
+        id: 'a1b2c3d4-e5f6-7890-abcd-1234567890ab',
+        text: 'Verified the correctness of data in the interoperability catalogue.',
+        docs: [
+          {
+            id: 'doc1-uuid-1234',
+            name: 'interop-verification.pdf',
+            contentType: 'application/pdf',
+            prettyName: 'Interoperability Verification Document',
+            path: '/documents/interop-verification.pdf',
+            createdAt: '2025-09-30T10:15:00Z',
+          },
+        ],
+      },
+    },
+    confirmPricipleIntegrityAndDiscretion: {
+      values: ['true'],
+      editable: true,
+      suggestedValues: ['true', 'false'],
+    },
+    dataDownload: {
+      values: ['NO'],
+      editable: false,
+      suggestedValues: ['YES', 'NO'],
+    },
+    declarationConfirmGDPR: {
+      values: ['true'],
+      editable: true,
+      suggestedValues: ['true', 'false'],
+      annotation: {
+        id: 'b2c3d4e5-f678-9012-abcd-234567890abc',
+        text: 'GDPR compliance confirmed by legal department.',
+        docs: [
+          {
+            id: 'doc2-uuid-5678',
+            name: 'gdpr-confirmation.docx',
+            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            prettyName: 'GDPR Confirmation',
+            path: '/documents/gdpr-confirmation.docx',
+            createdAt: '2025-10-01T08:30:00Z',
+          },
+          {
+            id: 'doc3-uuid-5697',
+            name: 'gdpr-document2.docx',
+            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            prettyName: 'GDPR doc 2',
+            path: '/documents/gdpr-document2.docx',
+            createdAt: '2025-10-01T08:30:00Z',
+          },
+          {
+            id: 'doc3-uuid-5697',
+            name: 'gdpr-document2.docx',
+            contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            prettyName: 'GDPR doc 3',
+            path: '/documents/gdpr-document2.docx',
+            createdAt: '2025-10-01T08:30:00Z',
+          },
+        ],
+      },
+    },
+    deliveryMethod: {
+      values: ['CLEARTEXT'],
+      editable: false,
+      suggestedValues: ['CLEARTEXT', 'ENCRYPTED'],
+    },
   },
 }

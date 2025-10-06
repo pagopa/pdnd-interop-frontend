@@ -4,7 +4,7 @@ import { Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import { PurposeTemplateEService } from '@/api/purposeTemplate/mockedResponses'
+import type { PurposeTemplateEService } from '@/api/purposeTemplate/mockedResponses'
 
 interface ConsumerPurposeTemplateLinkedEServiceTableRowProps {
   eservice: PurposeTemplateEService
@@ -23,8 +23,6 @@ export const ConsumerPurposeTemplateLinkedEServiceTableRow: React.FC<
         params={{ eserviceId: eservice.eserviceId, descriptorId: eservice.descriptorId }}
         variant="outlined"
         size="small"
-        // onPointerEnter={handlePrefetchOperator}
-        // onFocusVisible={handlePrefetchOperator}
       >
         {tCommon('actions.inspect')}
       </Link>

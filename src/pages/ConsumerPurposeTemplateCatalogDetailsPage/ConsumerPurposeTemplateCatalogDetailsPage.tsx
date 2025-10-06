@@ -4,17 +4,17 @@ import { useQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { PageContainer } from '@/components/layout/containers'
 import useGetConsumerPurposeTemplateTemplatesActions from '@/hooks/useGetConsumerPurposeTemplatesActions'
-import { ConsumerPurposeTemplateDetailsTab } from './components/ConsumerPurposeTemplateDetailsTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import { ConsumerPurposeTemplateLinkedEServiceTab } from './components/ConsumerPurposeTemplateLinkedEServiceTab'
+import { ConsumerPurposeTemplateCatalogDetailsTab } from './components/ConsumerPurposeTemplateCatalogDetailsTab'
+import { ConsumerPurposeTemplateCatalogLinkedEServiceTab } from './components/ConsumerPurposeTemplateCatalogLinkedEServiceTab'
 import { PurposeTemplateRiskAnalysisTab } from '@/components/shared/PurposeTemplate/PurposeTemplateRiskAnalysisTab/PurposeTemplateRiskAnalysisTab'
 
-const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
+const ConsumerPurposeTemplateCatalogDetailsPage: React.FC = () => {
   const { t } = useTranslation('purposeTemplate')
 
-  const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS'>()
+  const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS'>()
 
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
 
@@ -54,11 +54,11 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="details">
-          <ConsumerPurposeTemplateDetailsTab purposeTemplate={purposeTemplate} />
+          <ConsumerPurposeTemplateCatalogDetailsTab purposeTemplate={purposeTemplate} />
         </TabPanel>
 
         <TabPanel value="linkedEservices">
-          <ConsumerPurposeTemplateLinkedEServiceTab purposeTemplate={purposeTemplate} />
+          <ConsumerPurposeTemplateCatalogLinkedEServiceTab purposeTemplate={purposeTemplate} />
         </TabPanel>
 
         <TabPanel value="riskAnalysis">
@@ -69,4 +69,4 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
   )
 }
 
-export default ConsumerPurposeTemplateDetailsPage
+export default ConsumerPurposeTemplateCatalogDetailsPage
