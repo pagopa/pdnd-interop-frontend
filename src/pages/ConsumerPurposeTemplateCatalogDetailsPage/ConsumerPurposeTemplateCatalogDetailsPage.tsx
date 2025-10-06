@@ -9,6 +9,7 @@ import { Tab } from '@mui/material'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { ConsumerPurposeTemplateCatalogDetailsTab } from './components/ConsumerPurposeTemplateCatalogDetailsTab'
 import { ConsumerPurposeTemplateCatalogLinkedEServiceTab } from './components/ConsumerPurposeTemplateCatalogLinkedEServiceTab'
+import { PurposeTemplateRiskAnalysisTab } from '@/components/shared/PurposeTemplate/PurposeTemplateRiskAnalysisTab/PurposeTemplateRiskAnalysisTab'
 
 const ConsumerPurposeTemplateCatalogDetailsPage: React.FC = () => {
   const { t } = useTranslation('purposeTemplate')
@@ -22,8 +23,6 @@ const ConsumerPurposeTemplateCatalogDetailsPage: React.FC = () => {
   const { actions } = useGetConsumerPurposeTemplateTemplatesActions('PA', purposeTemplate) //TO DO: TENANT KIND WILL BE PASSED BY BFF
 
   if (!purposeTemplate) return
-
-  console.log(purposeTemplate)
 
   return (
     <PageContainer
@@ -62,7 +61,9 @@ const ConsumerPurposeTemplateCatalogDetailsPage: React.FC = () => {
           <ConsumerPurposeTemplateCatalogLinkedEServiceTab purposeTemplate={purposeTemplate} />
         </TabPanel>
 
-        <TabPanel value="riskAnalysis">TO DO</TabPanel>
+        <TabPanel value="riskAnalysis">
+          <PurposeTemplateRiskAnalysisTab purposeTemplate={purposeTemplate} />
+        </TabPanel>
       </TabContext>
     </PageContainer>
   )
