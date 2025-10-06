@@ -1,5 +1,4 @@
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
-import { PurposeTemplateRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 import { Stack } from '@mui/material'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
@@ -20,7 +19,8 @@ export const PurposeTemplateSummaryRiskAnalysisAccordion: React.FC<
   return (
     <>
       <Stack spacing={3}>
-        <PurposeTemplateRiskAnalysisInfoSummary purposeTemplate={purposeTemplate} />
+        {/* <PurposeTemplateRiskAnalysisInfoSummary purposeTemplate={purposeTemplate} /> */}
+        TO DO: COMMENT OUT WHEN BRANCH IS MERGED
       </Stack>
     </>
   )
