@@ -133,7 +133,11 @@
           "tenantKind": "Destinato a",
           "intendedTarget": "A chi è rivolto il template",
           "purposeDescription": "Descrizione della finalità",
-          "riskAnalysisDownloadLink": "Scarica analisi del rischio"
+          "riskAnalysisDownloadLink": "Scarica analisi del rischio",
+          "tenantKindValues": {
+            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico, Privati",
+            "labelPA": "Pubbliche Amministrazioni"
+          }
         },
         "linkedEservices": {
           "title": "E-service collegati",
@@ -159,6 +163,10 @@
     "linkedEservicesTab": {
       "title": "E-service e template e-service collegati",
       "description": "Definisci un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare \n questo template anche per e-service che non compaiono nella lista."
+    },
+    "riskAnalysisTab": {
+      "titlePA": "Analisi del rischio (Pubbliche Amministrazioni)",
+      "titleNotPA": "Analisi del rischio (Gestori di pubblici servizi, Società a controllo pubblico, Privati)"
     }
   }
 }

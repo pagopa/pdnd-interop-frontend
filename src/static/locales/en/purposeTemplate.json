@@ -133,7 +133,11 @@
           "tenantKind": "Intended for",
           "intendedTarget": "Who is the template for",
           "purposeDescription": "Purpose description",
-          "riskAnalysisDownloadLink": "Download risk analysis"
+          "riskAnalysisDownloadLink": "Download risk analysis",
+          "tenantKindValues": {
+            "labelNotPA": "Private entities",
+            "labelPA": "Public Administrations"
+          }
         },
         "linkedEservices": {
           "title": "Linked e-services",
@@ -159,6 +163,10 @@
     "linkedEservicesTab": {
       "title": "Linked e-services and template e-services",
       "description": "Define a list of e-services for which it is suggested to use the facilitated purpose. The user \n  may also use this template for e-services not included in the list."
+    },
+    "riskAnalysisTab": {
+      "titlePA": "Risk analysis (Public Administrations)",
+      "titleNotPA": "Risk analysis (Public service managers, Publicly controlled companies, Private individuals)"
     }
   }
 }

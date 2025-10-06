@@ -373,6 +373,14 @@
       }
     }
   },
+  "purposeTemplateRiskAnalysisInfoSummary": {
+    "annotationSection": {
+      "readAnnotationBtnLabel": "Read annotation",
+      "title": "Annotations provided by the creator"
+    },
+    "answerLabel": "Answer: ",
+    "notEditableLabel": "Not editable"
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of service",
