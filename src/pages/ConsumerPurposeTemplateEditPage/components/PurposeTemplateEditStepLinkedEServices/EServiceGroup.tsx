@@ -37,8 +37,14 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
   const eserviceGroup = watch('eservices')
 
   const handleAddEServiceToGroup = (eservice: CatalogEService) => {
-    addEService({ purposeTemplateId: purposeTemplate.id, eserviceId: eservice.id })
-    const newEServiceGroup = [...eserviceGroup] //TODO: SHOULD IT BE REMOVED WHEN THE API IS AVAILABLE?
+    // todo: Call API with hardcoded E-Service ID when selecting an E-Service - remove hardcoded ES id when read purposeTemplate eservices API is available
+    const hardcodedEServiceId = '3b0f747a-e52a-4775-88c2-218a2747de8c'
+    addEService({
+      purposeTemplateId: purposeTemplate.id,
+      eserviceId: hardcodedEServiceId,
+    })
+
+    const newEServiceGroup = [...eserviceGroup]
     newEServiceGroup.push(eservice)
     setValue('eservices', newEServiceGroup)
     setIsEServiceAutocompleteShown(false)

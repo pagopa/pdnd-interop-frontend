@@ -11,7 +11,6 @@ import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.qu
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from '@/router'
 import { useNavigate } from 'react-router-dom'
-import { catalogServicesMock } from '@/api/purposeTemplate/mockedResponses'
 import { useState } from 'react'
 
 export type EditStepLinkedEServicesForm = {
@@ -26,7 +25,10 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
-  const eservicesGroup = catalogServicesMock //purposeTemplate?.eservices ?? [] //TODO MOCK ESERVICE LINKED TO PURPOSE TEMPLATE
+  const { data: eservicesGroup = [] } = useQuery({
+    ...PurposeTemplateQueries.getPurposeTemplateEservices(purposeTemplateId),
+    enabled: Boolean(purposeTemplateId),
+  })
 
   const navigate = useNavigate()
 
