@@ -2,17 +2,19 @@ import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   GetConsumerPurposeTemplatesParams,
+  PurposeTemplateSeed,
   PurposeTemplateUpdateContent,
   RiskAnalysisFormTemplateSeed,
 } from './mockedResponses'
 import {
   eservicesLinkedToPurposeTemplatesMock,
   mockCatalogPurposeTemplates,
-  purposeTemplateEservicesMock,
+  purposeTemplateEServicesMock,
   purposeTemplateMock,
   purposeTemplatesListMock,
 } from './mockedResponses'
-import {
+import type {
+  EServiceDescriptorPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
   LinkEServiceToPurposeTemplatePayload,
   UnlinkEServiceToPurposeTemplatePayload,
@@ -46,12 +48,11 @@ async function getEservicesLinkedToPurposeTemplatesList() {
 }
 
 async function getPurposeTemplateEservices(id: string) {
-  //   const response = await axiosInstance.get<ConsumerPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/eservices`,
-  //     { params }
+  //   const response = await axiosInstance.get<CatalogEService[]>(
+  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/eservices`
   //   )
   //   return response.data
-  return purposeTemplateEservicesMock
+  return purposeTemplateEServicesMock
 }
 
 async function getSingle(id: string) {
@@ -59,7 +60,10 @@ async function getSingle(id: string) {
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}`
   //   )
   //   return response.data
-  return purposeTemplateMock
+  return {
+    ...purposeTemplateMock,
+    id: id,
+  }
 }
 
 async function getAnswerDocuments(purposeTemplateId: string, answerId: string) {
@@ -89,7 +93,7 @@ async function updatePurposeTemplateRiskAnalysis({
   return console.log('risk analysis updated!')
 }
 
-async function createDraft(payload: PurposeTemplatePayload) {
+async function createDraft(payload: PurposeTemplateSeed) {
   //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
   //     payload
@@ -115,13 +119,11 @@ async function addEserviceToPurposeTemplate({
   purposeTemplateId,
   ...payload
 }: { purposeTemplateId: string } & LinkEServiceToPurposeTemplatePayload) {
-  //TODO TO FIX PARAMETERS
-  //   const response = await axiosInstance.post<LinkEServiceToPurposeTemplatePayload>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
-  //      payload
-  //   )
-  //   return response.data
-  return console.log('Added eservice')
+  const response = await axiosInstance.post<EServiceDescriptorPurposeTemplate>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
+    payload
+  )
+  return response.data
 }
 
 async function removeEserviceToPurposeTemplate({

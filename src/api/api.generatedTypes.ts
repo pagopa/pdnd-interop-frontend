@@ -903,6 +903,33 @@ export interface PurposeAdditionDetailsSeed {
   purposeId: string
 }
 
+/** Business representation of a purpose template */
+export interface PurposeTemplate {
+  /** @format uuid */
+  id: string
+  targetDescription: string
+  targetTenantKind: TenantKind
+  /** @format uuid */
+  creatorId: string
+  /** Purpose Template State */
+  state: PurposeTemplateState
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
+  purposeTitle: string
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
+}
+
 /** Purpose Template State */
 export type PurposeTemplateState = 'ACTIVE' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
 
@@ -934,6 +961,15 @@ export interface PurposeTemplateSeed {
   purposeDailyCalls?: number
 }
 
+export interface RiskAnalysisFormTemplate {
+  /**
+   * @minLength 1
+   * @maxLength 250
+   */
+  version: string
+  answers: any
+}
+
 export interface RiskAnalysisFormTemplateSeed {
   /**
    * @minLength 1
@@ -943,6 +979,13 @@ export interface RiskAnalysisFormTemplateSeed {
   answers: any
 }
 
+export interface RiskAnalysisTemplateAnswer {
+  values: string[]
+  editable: boolean
+  annotation?: RiskAnalysisTemplateAnswerAnnotation
+  suggestedValues: string[]
+}
+
 export interface RiskAnalysisTemplateAnswerSeed {
   values: string[]
   editable: boolean
@@ -950,9 +993,27 @@ export interface RiskAnalysisTemplateAnswerSeed {
   suggestedValues: string[]
 }
 
+export interface RiskAnalysisTemplateAnswerAnnotation {
+  /** @format uuid */
+  id: string
+  text: string
+  docs: RiskAnalysisTemplateAnswerAnnotationDocument[]
+}
+
 export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   text: string
   docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationDocument {
+  /** @format uuid */
+  id: string
+  name: string
+  contentType: string
+  prettyName: string
+  path: string
+  /** @format date-time */
+  createdAt: string
 }
 
 export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
@@ -972,12 +1033,6 @@ export interface EServiceDescriptorPurposeTemplate {
   /** @format date-time */
   createdAt: string
 }
-
-/**
- * Unique identifier for an EService
- * @format uuid
- */
-export type EServiceId = string
 
 export interface CreatorPurposeTemplate {
   /** @format uuid */
@@ -2066,8 +2121,7 @@ export interface UpdateEServiceTemplateVersionDocumentSeed {
 
 export interface Notifications {
   results: Notification[]
-  /** @format int32 */
-  totalCount: number
+  pagination: Pagination
 }
 
 export interface Notification {
@@ -2088,11 +2142,13 @@ export interface Notification {
   tenantId: string
   /** Content of the notification */
   body: string
+  /** Deep link to the notification */
+  deepLink: string
   /**
    * Timestamp when the notification was read
    * @format date-time
    */
-  readAt: string | null
+  readAt?: string | null
   /**
    * Timestamp when the notification was created
    * @format date-time
@@ -2127,6 +2183,8 @@ export interface TenantNotificationConfig {
 }
 
 export interface UserNotificationConfig {
+  inAppNotificationPreference: boolean
+  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
 }
@@ -2136,8 +2194,49 @@ export interface TenantNotificationConfigUpdateSeed {
 }
 
 export interface UserNotificationConfigUpdateSeed {
+  inAppNotificationPreference: boolean
+  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
+}
+
+export interface NotificationsCountBySection {
+  erogazione: {
+    /** @format int32 */
+    richieste: number
+    /** @format int32 */
+    finalita: number
+    /** @format int32 */
+    'template-eservice': number
+    /** @format int32 */
+    'e-service': number
+    /** @format int32 */
+    portachiavi: number
+    /** @format int32 */
+    totalCount: number
+  }
+  fruizione: {
+    /** @format int32 */
+    richieste: number
+    /** @format int32 */
+    finalita: number
+    /** @format int32 */
+    totalCount: number
+  }
+  'catalogo-e-service': {
+    /** @format int32 */
+    totalCount: number
+  }
+  aderente: {
+    /** @format int32 */
+    deleghe: number
+    /** @format int32 */
+    anagrafica: number
+    /** @format int32 */
+    totalCount: number
+  }
+  /** @format int32 */
+  totalCount: number
 }
 
 export interface ProblemError {
@@ -2552,18 +2651,28 @@ export interface GetConsumerPurposesParams {
 }
 
 export interface LinkEServiceToPurposeTemplatePayload {
-  /** Unique identifier for an EService */
-  eserviceId: EServiceId
+  /** @format uuid */
+  eserviceId: string
 }
 
 export interface UnlinkEServiceToPurposeTemplatePayload {
-  /** Unique identifier for an EService */
-  eserviceId: EServiceId
+  /** @format uuid */
+  eserviceId: string
 }
 
 export interface GetCreatorPurposeTemplatesParams {
   /** filter by purpose template title */
   q?: string
+  /**
+   * comma separated sequence of e-service IDs
+   * @default []
+   */
+  eserviceIds?: string[]
+  /**
+   * comma separated sequence of purpose template states
+   * @default []
+   */
+  states?: PurposeTemplateState[]
   /**
    * @format int32
    * @min 0
@@ -2581,10 +2690,22 @@ export interface GetCatalogPurposeTemplatesParams {
   /** filter by purpose template title */
   q?: string
   /**
+   * comma separated sequence of creators IDs
+   * @default []
+   */
+  creatorIds?: string[]
+  /**
    * comma separated sequence of e-service IDs
    * @default []
    */
   eserviceIds?: string[]
+  /** filter by target tenant kind */
+  targetTenantKind?: TenantKind
+  /**
+   * exclude purpose templates with expired risk analysis
+   * @default true
+   */
+  excludeExpiredRiskAnalysis?: boolean
   /**
    * @format int32
    * @min 0
@@ -4376,10 +4497,22 @@ export namespace Catalog {
       /** filter by purpose template title */
       q?: string
       /**
+       * comma separated sequence of creators IDs
+       * @default []
+       */
+      creatorIds?: string[]
+      /**
        * comma separated sequence of e-service IDs
        * @default []
        */
       eserviceIds?: string[]
+      /** filter by target tenant kind */
+      targetTenantKind?: TenantKind
+      /**
+       * exclude purpose templates with expired risk analysis
+       * @default true
+       */
+      excludeExpiredRiskAnalysis?: boolean
       /**
        * @format int32
        * @min 0
@@ -6429,6 +6562,27 @@ export namespace PurposeTemplates {
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
+  /**
+   * @description Updates a Purpose Template (Draft state)
+   * @tags purposeTemplates
+   * @name UpdatePurposeTemplate
+   * @summary Update Purpose Template
+   * @request PUT:/purposeTemplates/{purposeTemplateId}
+   * @secure
+   */
+  export namespace UpdatePurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PurposeTemplateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
+  }
 }
 
 export namespace Creators {
@@ -6445,6 +6599,16 @@ export namespace Creators {
     export type RequestQuery = {
       /** filter by purpose template title */
       q?: string
+      /**
+       * comma separated sequence of e-service IDs
+       * @default []
+       */
+      eserviceIds?: string[]
+      /**
+       * comma separated sequence of purpose template states
+       * @default []
+       */
+      states?: PurposeTemplateState[]
       /**
        * @format int32
        * @min 0
@@ -7588,7 +7752,7 @@ export namespace InAppNotifications {
     }
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type ResponseBody = Notifications
   }
   /**
    * @description Delete bulk notifications
@@ -7689,6 +7853,21 @@ export namespace InAppNotifications {
     export type RequestHeaders = {}
     export type ResponseBody = void
   }
+  /**
+   * No description
+   * @tags inAppNotifications
+   * @name GetNotificationsCountBySection
+   * @summary Retrieve the count of notifications grouped by section and subsection
+   * @request GET:/inAppNotifications/count
+   * @secure
+   */
+  export namespace GetNotificationsCountBySection {
+    export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = NotificationsCountBySection
+  }
 }
 
 export namespace TenantNotificationConfigs {
@@ -7750,6 +7929,28 @@ export namespace UserNotificationConfigs {
     export type RequestBody = UserNotificationConfigUpdateSeed
     export type RequestHeaders = {}
     export type ResponseBody = void
+  }
+}
+
+export namespace EmailDeepLink {
+  /**
+   * No description
+   * @tags emailDeepLink
+   * @name GetNotificationDeeplink
+   * @summary Redirect the user to the correct deepLink based on notification type and entity id
+   * @request GET:/emailDeepLink/{notificationType}/{entityId}
+   */
+  export namespace GetNotificationDeeplink {
+    export type RequestParams = {
+      /** The type of the notification */
+      notificationType: string
+      /** The id of the entity */
+      entityId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = any
   }
 }
 
