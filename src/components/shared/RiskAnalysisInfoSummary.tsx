@@ -12,8 +12,6 @@ import type {
   RiskAnalysisFormConfig,
 } from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
-import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 
 type RiskAnalysisInfoSummaryProps = {
   riskAnalysisConfig: RiskAnalysisFormConfig
@@ -31,10 +29,6 @@ type EServiceTemplateRiskAnalysisInfoSummaryProps = {
 
 type PurposeRiskAnalysisInfoSummaryProps = {
   purpose: Purpose
-}
-
-type PurposeTemplateRiskAnalysisInfoSummaryProps = {
-  purposeTemplate: PurposeTemplate
 }
 
 const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
@@ -170,30 +164,5 @@ export const PurposeRiskAnalysisInfoSummary: React.FC<PurposeRiskAnalysisInfoSum
       riskAnalysisConfig={riskAnalysisConfig}
       riskAnalysisForm={riskAnalysisForm}
     />
-  )
-}
-
-export const PurposeTemplateRiskAnalysisInfoSummary: React.FC<
-  PurposeTemplateRiskAnalysisInfoSummaryProps
-> = ({ purposeTemplate }) => {
-  const riskAnalysisForm = purposeTemplate.purposeRiskAnalysisForm
-
-  const riskAnalysisVersion = purposeTemplate.purposeRiskAnalysisForm.version
-
-  // const { data: riskAnalysisConfig } = useQuery({  TODO: THERE WILL BE AN API CALL?
-  //   ...PurposeTemplateQueries.getRiskAnalysisVersion({
-  //     riskAnalysisVersion: riskAnalysisVersion as string,
-  //     //eserviceId: purposeTemplate.,
-  //   }),
-  //   enabled: Boolean(riskAnalysisVersion),
-  // })
-
-  //if (!riskAnalysisConfig || !riskAnalysisForm) return null
-  return (
-    // <RiskAnalysisInfoSummary
-    //   riskAnalysisConfig={riskAnalysisConfig}
-    //   riskAnalysisForm={riskAnalysisForm}
-    // />
-    <>TO DO</>
   )
 }
