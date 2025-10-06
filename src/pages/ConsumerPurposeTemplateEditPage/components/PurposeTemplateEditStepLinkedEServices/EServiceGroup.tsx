@@ -39,15 +39,23 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
   const handleAddEServiceToGroup = (eservice: CatalogEService) => {
     // todo: Call API with hardcoded E-Service ID when selecting an E-Service - remove hardcoded ES id when read purposeTemplate eservices API is available
     const hardcodedEServiceId = '3b0f747a-e52a-4775-88c2-218a2747de8c'
-    addEService({
-      purposeTemplateId: purposeTemplate.id,
-      eserviceId: hardcodedEServiceId,
-    })
-
-    const newEServiceGroup = [...eserviceGroup]
-    newEServiceGroup.push(eservice)
-    setValue('eservices', newEServiceGroup)
-    setIsEServiceAutocompleteShown(false)
+    addEService(
+      {
+        purposeTemplateId: purposeTemplate.id,
+        eserviceId: hardcodedEServiceId,
+      },
+      {
+        onSuccess: () => {
+          const newEServiceGroup = [...eserviceGroup]
+          newEServiceGroup.push(eservice)
+          setValue('eservices', newEServiceGroup)
+          setIsEServiceAutocompleteShown(false)
+        },
+        onError: (error) => {
+          console.error('Failed to link E-Service:', error) // TODO: handle error or redirect (?)
+        },
+      }
+    )
   }
 
   return (
