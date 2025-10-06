@@ -439,6 +439,44 @@ export interface PurposeTemplateEService {
   createdAt: string
 }
 
+// Mock for GET /purposeTemplates/:id/eservices
+export const purposeTemplateEServicesMock: CatalogEService[] = [
+  {
+    id: '50cadf94-5c60-4a37-b5ed-cc1fb7f846b7', // real purposeTemplateId
+    name: 'Healthcare Data Service',
+    description: 'Service for managing healthcare data processing',
+    producer: {
+      id: 'e58e54c3-9012-4b9a-8b73-aba9a8c0d643',
+      name: 'HealthTech Corp',
+      kind: 'PA',
+    },
+    isMine: true,
+    activeDescriptor: {
+      id: '9c4d63d2-cdc9-4737-b7b8-5f255e59a929',
+      state: 'PUBLISHED',
+      version: '1.0.0',
+      audience: ['healthcare-provider', 'admin'],
+    },
+  },
+  {
+    id: '93839783-b4a0-4aa4-804b-1c02877055d1', // real purposeTemplateId
+    name: 'Patient Records Service',
+    description: 'Service for managing patient medical records',
+    producer: {
+      id: '4d03a1e1-b0c6-4e92-84ac-7556e1f9e58f',
+      name: 'MedData Solutions',
+      kind: 'PA',
+    },
+    isMine: false,
+    activeDescriptor: {
+      id: 'c92f9da4-17fa-46be-818e-f2c021ffed79',
+      state: 'PUBLISHED',
+      version: '2.1.0',
+      audience: ['doctor', 'nurse'],
+    },
+  },
+]
+
 export const catalogServicesMock: CatalogEService[] = [
   {
     id: 'b4fbb90c-7b7b-44c2-883b-16d44c5e5e02',
