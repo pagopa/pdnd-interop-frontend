@@ -224,6 +224,7 @@ const AnnotationDetails: React.FC<{ annotation: RiskAnalysisTemplateAnswerAnnota
                 component="button"
                 onClick={() => {}} // TODO: handle download
                 sx={{ fontWeight: 700, alignSelf: 'flex-start' }}
+                disableRipple
               >
                 {doc.prettyName}
               </Button>
