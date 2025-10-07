@@ -51,9 +51,6 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
           setValue('eservices', newEServiceGroup)
           setIsEServiceAutocompleteShown(false)
         },
-        onError: (error) => {
-          console.error('Failed to link E-Service:', error) // TODO: handle error or redirect (?)
-        },
       }
     )
   }
