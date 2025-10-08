@@ -1,7 +1,10 @@
 import { queryOptions } from '@tanstack/react-query'
 import { PurposeTemplateServices } from './purposeTemplate.services'
 import type { GetConsumerPurposeTemplatesParams } from './mockedResponses'
-import type { GetCatalogPurposeTemplatesParams } from '../api.generatedTypes'
+import type {
+  GetCatalogPurposeTemplatesParams,
+  GetPurposeTemplateEServicesParams,
+} from '../api.generatedTypes'
 
 function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
   return queryOptions({
@@ -10,10 +13,18 @@ function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesPara
   })
 }
 
-function getEservicesLinkedToPurposeTemplatesList() {
+function getEservicesLinkedToPurposeTemplatesList(
+  purposeTemplateId: string,
+  params: Omit<GetPurposeTemplateEServicesParams, 'purposeTemplateId'>
+) {
   return queryOptions({
-    queryKey: ['PurposeTemplateGetEservicesLinkedToPurposeTemplatesList'],
-    queryFn: () => PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList(),
+    queryKey: [
+      'PurposeTemplateGetEservicesLinkedToPurposeTemplatesList',
+      purposeTemplateId,
+      params,
+    ],
+    queryFn: () =>
+      PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList(purposeTemplateId, params),
   })
 }
 

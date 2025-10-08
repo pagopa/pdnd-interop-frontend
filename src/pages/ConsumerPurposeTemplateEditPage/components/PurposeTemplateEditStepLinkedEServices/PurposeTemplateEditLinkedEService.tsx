@@ -4,18 +4,17 @@ import { useTranslation } from 'react-i18next'
 import SaveIcon from '@mui/icons-material/Save'
 import { SectionContainer } from '@/components/layout/containers'
 import { FormProvider, useForm } from 'react-hook-form'
-import type { CatalogEService } from '@/api/api.generatedTypes'
 import { Box } from '@mui/material'
 import { AddEServiceToForm } from './AddEServiceToForm'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from '@/router'
 import { useNavigate } from 'react-router-dom'
-import { catalogServicesMock } from '@/api/purposeTemplate/mockedResponses'
 import { useState } from 'react'
+import type { EServiceWithDescriptor } from '@/types/eservice.types'
 
 export type EditStepLinkedEServicesForm = {
-  eservices: Array<CatalogEService>
+  eservices: Array<EServiceWithDescriptor>
 }
 
 export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ forward }) => {
@@ -26,7 +25,21 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
-  const eservicesGroup = catalogServicesMock //purposeTemplate?.eservices ?? [] //TODO MOCK ESERVICE LINKED TO PURPOSE TEMPLATE
+
+  const { data: purposeTemplateEServices } = useQuery({
+    ...PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList(purposeTemplateId, {
+      producerIds: [],
+      eserviceIds: [],
+      offset: 0,
+      limit: 50,
+    }),
+  })
+
+  const eservicesGroup: EServiceWithDescriptor[] =
+    purposeTemplateEServices?.results.map((item) => ({
+      eservice: item.eservice,
+      descriptor: item.descriptor,
+    })) ?? []
 
   const navigate = useNavigate()
 
@@ -40,8 +53,8 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
   })
 
   const onSubmit = (data: EditStepLinkedEServicesForm) => {
-    const invalidEServices = data.eservices.filter((eservice) => {
-      const state = eservice.activeDescriptor?.state
+    const invalidEServices = data.eservices.filter((eserviceWithDescriptor) => {
+      const state = eserviceWithDescriptor.descriptor.state
       return state === 'ARCHIVED' || state === 'SUSPENDED'
     })
 

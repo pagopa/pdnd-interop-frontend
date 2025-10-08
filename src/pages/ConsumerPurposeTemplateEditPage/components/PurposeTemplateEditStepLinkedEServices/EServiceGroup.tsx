@@ -3,16 +3,17 @@ import { Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import type { CatalogEService } from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
 import { EServiceAutocomplete } from '@/components/shared/EServiceAutoComplete'
 import { EServiceContainer } from '@/components/layout/containers/EServiceContainer'
 import type { EditStepLinkedEServicesForm } from './PurposeTemplateEditLinkedEService'
 import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { EServiceWithDescriptor } from '@/types/eservice.types'
 
 export type EServiceGroupProps = {
-  group: Array<CatalogEService>
+  group: Array<EServiceWithDescriptor>
   readOnly: boolean
   onRemoveEServiceFromGroup: (eserviceId: string) => void
   purposeTemplate: PurposeTemplate
@@ -39,8 +40,19 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
 
   const handleAddEServiceToGroup = (eservice: CatalogEService) => {
     addEService({ purposeTemplateId: purposeTemplate.id, eserviceId: eservice.id })
+
+    // Convert CatalogEService to EServiceWithDescriptor
+    const eserviceWithDescriptor: EServiceWithDescriptor = {
+      eservice: {
+        id: eservice.id,
+        name: eservice.name,
+        producer: eservice.producer,
+      },
+      descriptor: eservice.activeDescriptor!,
+    }
+
     const newEServiceGroup = [...eserviceGroup] //TODO: SHOULD IT BE REMOVED WHEN THE API IS AVAILABLE?
-    newEServiceGroup.push(eservice)
+    newEServiceGroup.push(eserviceWithDescriptor)
     setValue('eservices', newEServiceGroup)
     setIsEServiceAutocompleteShown(false)
   }
@@ -49,13 +61,15 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
     <>
       {group.length > 0 && (
         <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }} component="ul" spacing={1.2}>
-          {group.map((eservice) => (
-            <Box component="li" key={eservice.id}>
+          {group.map((eserviceWithDescriptor) => (
+            <Box component="li" key={eserviceWithDescriptor.eservice.id}>
               <EServiceContainer
-                eservice={eservice}
+                eservice={eserviceWithDescriptor}
                 showWarning={showWarning}
                 onRemove={
-                  !readOnly ? handleDeleteEServiceFromGroup.bind(null, eservice.id) : undefined
+                  !readOnly
+                    ? handleDeleteEServiceFromGroup.bind(null, eserviceWithDescriptor.eservice.id)
+                    : undefined
                 }
               />
             </Box>
@@ -67,7 +81,7 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
           {isEServiceAutocompleteShown ? (
             <EServiceAutocomplete
               onAddEService={handleAddEServiceToGroup}
-              alreadySelectedEServiceIds={group.map((e) => e.id)} //TODO
+              alreadySelectedEServiceIds={group.map((e) => e.eservice.id)} //TODO
             />
           ) : (
             <ButtonNaked

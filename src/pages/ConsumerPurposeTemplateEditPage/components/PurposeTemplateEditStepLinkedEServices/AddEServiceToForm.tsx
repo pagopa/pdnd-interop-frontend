@@ -5,12 +5,12 @@ import { EServiceGroup } from './EServiceGroup'
 import type { EditStepLinkedEServicesForm } from './PurposeTemplateEditLinkedEService'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { EServiceWithDescriptor } from '@/types/eservice.types'
 
 export type AddEServiceToFormProps = {
   readOnly: boolean
   purposeTemplate: PurposeTemplate
-  linkedEServices: CatalogEService[]
+  linkedEServices: EServiceWithDescriptor[]
   showWarning: boolean
 }
 
@@ -28,7 +28,9 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
   const mergedEServices = [...eserviceGroup, ...linkedEServices]
 
   const handleRemoveAttributeFromGroup = (eserviceId: string) => {
-    const newEServicesGroup = eserviceGroup.filter((eservice) => eservice.id !== eserviceId) //TODO: SHOULD IT BE REMOVED WHEN THE API IS AVAILABLE?
+    const newEServicesGroup = eserviceGroup.filter(
+      (eserviceWithDescriptor) => eserviceWithDescriptor.eservice.id !== eserviceId
+    ) //TODO: SHOULD IT BE REMOVED WHEN THE API IS AVAILABLE?
     setValue(`eservices`, newEServicesGroup, {
       shouldValidate: false,
     })
