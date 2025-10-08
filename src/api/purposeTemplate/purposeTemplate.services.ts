@@ -4,18 +4,20 @@ import type {
   GetConsumerPurposeTemplatesParams,
   PurposeTemplateUpdateContent,
   RiskAnalysisFormTemplateSeed,
+  PurposeTemplateSeed,
 } from './mockedResponses'
 import {
-  eservicesLinkedToPurposeTemplatesMock,
   mockCatalogPurposeTemplates,
   purposeTemplateEservicesMock,
   purposeTemplateMock,
   purposeTemplatesListMock,
 } from './mockedResponses'
-import {
+import type {
   GetCatalogPurposeTemplatesParams,
   LinkEServiceToPurposeTemplatePayload,
   UnlinkEServiceToPurposeTemplatePayload,
+  EServiceDescriptorsPurposeTemplate,
+  GetPurposeTemplateEServicesParams,
 } from '../api.generatedTypes'
 
 async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
@@ -36,13 +38,21 @@ async function getConsumerCatalogPurposeTemplates(params: GetCatalogPurposeTempl
   return mockCatalogPurposeTemplates
 }
 
-async function getEservicesLinkedToPurposeTemplatesList() {
-  //   const response = await axiosInstance.get<ProducerPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/eservices`,
-  //     { params }
-  //   )
-  //   return response.data
-  return eservicesLinkedToPurposeTemplatesMock
+/**
+ * Get eservices linked to a purpose template
+ * @param purposeTemplateId - The id of the purpose template
+ * @param params - The parameters for the query
+ * @returns The compact eservices linked to the purpose template
+ */
+async function getEservicesLinkedToPurposeTemplatesList(
+  purposeTemplateId: string,
+  params: Omit<GetPurposeTemplateEServicesParams, 'purposeTemplateId'>
+) {
+  const response = await axiosInstance.get<EServiceDescriptorsPurposeTemplate>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/eservices`,
+    { params }
+  )
+  return response.data
 }
 
 async function getPurposeTemplateEservices(id: string) {
@@ -89,7 +99,7 @@ async function updatePurposeTemplateRiskAnalysis({
   return console.log('risk analysis updated!')
 }
 
-async function createDraft(payload: PurposeTemplatePayload) {
+async function createDraft(payload: PurposeTemplateSeed) {
   //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
   //     payload
