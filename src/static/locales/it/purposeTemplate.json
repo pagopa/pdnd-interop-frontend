@@ -16,10 +16,20 @@
           "SUSPENDED": "Sospeso",
           "ARCHIVED": "Archiviato"
         }
+      },
+      "creatorField": {
+        "label": "Ente realizzatore"
+      },
+      "targetTenantKindField": {
+        "label": "Ente destinatario",
+        "values": {
+          "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico, Privati",
+          "labelPA": "Pubbliche Amministrazioni"
+        }
+      },
+      "purposeTemplatesTable": {
+        "noResultsLabel": "La ricerca corrente non ha prodotto risultati."
       }
-    },
-    "purposeTemplatesTable": {
-      "noResultsLabel": "La ricerca corrente non ha prodotto risultati."
     }
   },
   "edit": {
@@ -167,6 +177,13 @@
     "riskAnalysisTab": {
       "titlePA": "Analisi del rischio (Pubbliche Amministrazioni)",
       "titleNotPA": "Analisi del rischio (Gestori di pubblici servizi, Società a controllo pubblico, Privati)"
+    }
+  },
+  "catalogCard": {
+    "creatorLabel": "Realizzato da",
+    "targetTenantKind": {
+      "labelPA": "Per Pubbliche Amministrazioni",
+      "labelNotPA": "Per Gestori di pubblici servizi, Società a controllo pubblico, Privati"
     }
   }
 }

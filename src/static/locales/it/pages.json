@@ -58,5 +58,9 @@
   "consumerPurposeTemplatesList": {
     "title": "I miei template di finalità agevolata",
     "description": "Metti a disposizione un template di finalità agevolata per aiutare altri enti aderenti a compilare più facilmente l’analisi del rischio."
+  },
+  "consumerPurposeTemplatesCatalog": {
+    "title": "Compilazione agevolata delle finalità",
+    "description": "I template delle finalità sono modelli condivisi tra tutti gli aderenti. Dopo che la tua richiesta di fruizione viene accettata, puoi creare una nuova finalità a partire da uno di questi modelli, che contiene una parte dell’analisi del rischio precompilata."
   }
 }

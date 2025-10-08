@@ -16,6 +16,16 @@
           "SUSPENDED": "Suspended",
           "ARCHIVED": "Archived"
         }
+      },
+      "creatorField": {
+        "label": "Creator tenant"
+      },
+      "targetTenantKindField": {
+        "label": "Target tenant kind",
+        "values": {
+          "labelNotPA": "Public service managers, Publicly controlled companies, Private individuals",
+          "labelPA": "Public Administrations"
+        }
       }
     },
     "purposeTemplatesTable": {
@@ -167,6 +177,13 @@
     "riskAnalysisTab": {
       "titlePA": "Risk analysis (Public Administrations)",
       "titleNotPA": "Risk analysis (Public service managers, Publicly controlled companies, Private individuals)"
+    }
+  },
+  "catalogCard": {
+    "creatorLabel": "Created by",
+    "targetTenantKind": {
+      "labelPA": "For Public Administrations",
+      "labelNotPA": "For Public service managers, Publicly controlled companies, Private individuals"
     }
   }
 }
