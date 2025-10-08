@@ -99,12 +99,6 @@ function useDeleteAnnotation() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-        cancelLabel: t('confirmDialog.cancelLabel'),
-        proceedLabel: t('confirmDialog.proceedLabel'),
-      },
     },
   })
 }

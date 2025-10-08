@@ -1,4 +1,9 @@
-import type { CatalogEService, CatalogPurposeTemplates, TenantKind } from '../api.generatedTypes'
+import type {
+  CatalogEService,
+  CatalogPurposeTemplates,
+  PurposeTemplateWithCompactCreator,
+  TenantKind,
+} from '../api.generatedTypes'
 
 export const purposeTemplatesListMock: Array<PurposeTemplate> = [
   {
@@ -198,44 +203,55 @@ export const purposeTemplatesListMock: Array<PurposeTemplate> = [
   },
 ]
 
-export const purposeTemplateMock: PurposeTemplate = {
-  description: 'Business representation of a research purposes template',
-  id: '55555555-5555-5555-5555-555555555555',
-  targetDescription: 'Research data processing',
-  targetTenantKind: 'GSP',
-  creatorId: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
-  state: 'ACTIVE',
-  createdAt: '2025-08-25T06:05:00.116Z',
-  updatedAt: '2025-08-25T06:05:00.116Z',
-  purposeTitle: 'Research Data Analysis',
-  purposeDescription: 'Analyze research data for scientific studies',
+export const purposeTemplateMock: PurposeTemplateWithCompactCreator = {
+  id: 'f1e9bcd2-083f-4c27-a8e6-9999f3c77d9f', // UUID
+  targetDescription: 'Description of the target purpose',
+  targetTenantKind: 'PRIVATE', // Example of TenantKind
+  creator: {
+    id: 'a2b3c4d5-e6f7-8a9b-c0d1-e2f3g4h5i6j7', // UUID
+    name: 'Sample Organization',
+    kind: 'PA', // Optional TenantKind
+  },
+  state: 'ACTIVE', // PurposeTemplateState
+  createdAt: '2025-10-02T12:00:00Z', // ISO 8601 date-time
+  updatedAt: '2025-10-03T14:00:00Z', // Optional updatedAt field
+  purposeTitle: 'Sample Purpose Title',
+  purposeDescription: 'A brief description of the purpose.',
   purposeRiskAnalysisForm: {
-    version: '1.0',
+    version: '2.0',
     answers: {
-      dataSensitivity: {
-        value: 'medium',
-        editable: true,
-        annotation: {
-          id: 'annotation-005',
-          text: 'Research data for scientific purposes',
-          docs: [
-            {
-              id: 'doc-005',
-              name: 'ResearchPolicy.pdf',
-              contentType: 'application/pdf',
-              prettyName: 'Research Policy',
-              path: '/docs/research-policy.pdf',
-              createdAt: '2025-08-25T06:05:00.116Z',
-            },
-          ],
-        },
-        suggestedValues: ['high', 'medium', 'low'],
+      values: ['High Risk', 'Medium Risk'],
+      editable: true,
+      annotation: {
+        id: 'c1d2e3f4-g5h6-i7j8-k9l0-mn1op2qr3st4', // UUID
+        text: 'This is an important annotation regarding risk analysis.',
+        docs: [
+          {
+            id: 'doc-001',
+            name: 'Risk Document 1',
+            contentType: 'application/pdf',
+            prettyName: 'Risk Analysis Document 1',
+            path: '/path/to/risk_document_1.pdf',
+            createdAt: '2025-10-02T12:00:00Z',
+          },
+        ],
       },
+      suggestedValues: ['Low Risk', 'High Risk', 'No Risk'],
     },
   },
-  purposeIsFreeOfCharge: true,
-  purposeFreeOfChargeReason: 'Government grant',
-  purposeDailyCalls: 300000,
+  purposeIsFreeOfCharge: false, // Boolean indicating if it's free of charge
+  purposeFreeOfChargeReason: 'The service requires paid access after trial period.', // Optional free of charge reason
+  purposeDailyCalls: 1000, // Optional daily calls
+  annotationDocuments: [
+    {
+      id: 'doc-002',
+      name: 'Supplementary Risk Analysis Document',
+      contentType: 'application/msword',
+      prettyName: 'Risk Analysis Supplementary Document',
+      path: '/path/to/supplementary_risk_analysis.docx',
+      createdAt: '2025-10-02T13:00:00Z',
+    },
+  ], // Optional annotation documents
 }
 
 export const eservicesLinkedToPurposeTemplatesMock = [

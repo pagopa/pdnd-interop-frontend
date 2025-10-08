@@ -12,9 +12,10 @@ import {
   purposeTemplateMock,
   purposeTemplatesListMock,
 } from './mockedResponses'
-import {
+import type {
   GetCatalogPurposeTemplatesParams,
   LinkEServiceToPurposeTemplatePayload,
+  PurposeTemplateSeed,
   UnlinkEServiceToPurposeTemplatePayload,
 } from '../api.generatedTypes'
 
@@ -89,7 +90,7 @@ async function updatePurposeTemplateRiskAnalysis({
   return console.log('risk analysis updated!')
 }
 
-async function createDraft(payload: PurposeTemplatePayload) {
+async function createDraft(payload: PurposeTemplateSeed) {
   //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
   //     payload
