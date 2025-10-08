@@ -64,7 +64,7 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
           {group.map((eserviceWithDescriptor) => (
             <Box component="li" key={eserviceWithDescriptor.eservice.id}>
               <EServiceContainer
-                eservice={eserviceWithDescriptor}
+                eserviceWithDescriptor={eserviceWithDescriptor}
                 showWarning={showWarning}
                 onRemove={
                   !readOnly

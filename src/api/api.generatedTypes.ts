@@ -712,6 +712,14 @@ export interface CompactPurposeEService {
   mode: EServiceMode
 }
 
+export interface CompactPurposeTemplateEService {
+  /** @format uuid */
+  id: string
+  name: string
+  producer: CompactOrganization
+  description?: string
+}
+
 /** contains the expected payload for purpose version creation. */
 export interface PurposeVersionSeed {
   /**
@@ -1862,6 +1870,7 @@ export interface EServiceTemplateDetails {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  personalData?: boolean
   draftVersion?: CompactEServiceTemplateVersion
 }
 
@@ -1953,6 +1962,7 @@ export interface UpdateEServiceTemplateSeed {
   /** Risk Analysis Mode */
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  personalData?: boolean
 }
 
 export interface EServiceTemplateSeed {
@@ -1977,6 +1987,7 @@ export interface EServiceTemplateSeed {
   mode: EServiceMode
   version?: VersionSeedForEServiceTemplateCreation
   isSignalHubEnabled?: boolean
+  personalData?: boolean
 }
 
 export interface InstanceEServiceSeed {
@@ -2244,7 +2255,7 @@ export interface EServiceDescriptorsPurposeTemplate {
 export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor {
   /** @format uuid */
   purposeTemplateId: string
-  eservice: CompactEService
+  eservice: CompactPurposeTemplateEService
   descriptor: CompactDescriptor
   /** @format date-time */
   createdAt: string

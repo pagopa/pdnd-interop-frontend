@@ -23,12 +23,16 @@ import { Link } from '@/router'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
 type EServiceContainerProps = {
-  eservice: EServiceWithDescriptor
+  eserviceWithDescriptor: EServiceWithDescriptor
   showWarning: boolean
   onRemove?: (id: string, name: string) => void
 }
 
-export const EServiceContainer = ({ eservice, showWarning, onRemove }: EServiceContainerProps) => {
+export const EServiceContainer = ({
+  eserviceWithDescriptor,
+  showWarning,
+  onRemove,
+}: EServiceContainerProps) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'eserviceContainer' })
   const panelContentId = React.useId()
   const headerId = React.useId()
@@ -37,13 +41,16 @@ export const EServiceContainer = ({ eservice, showWarning, onRemove }: EServiceC
 
   const queryClient = useQueryClient()
 
-  const isEServiceStateValid = eservice.descriptor.state === 'PUBLISHED'
+  const isEServiceStateValid = eserviceWithDescriptor.descriptor.state === 'PUBLISHED'
 
   const handlePrefetchEService = () => {
     if (alreadyPrefetched.current) return
     alreadyPrefetched.current = true
     queryClient.prefetchQuery(
-      EServiceQueries.getDescriptorCatalog(eservice.eservice.id, eservice.descriptor.id)
+      EServiceQueries.getDescriptorCatalog(
+        eserviceWithDescriptor.eservice.id,
+        eserviceWithDescriptor.descriptor.id
+      )
     )
   }
 
@@ -53,8 +60,14 @@ export const EServiceContainer = ({ eservice, showWarning, onRemove }: EServiceC
         <Stack direction="row" alignItems="center" spacing={2}>
           {onRemove && (
             <IconButton
-              aria-label={t('removeAttributeAriaLabel', { eserviceName: eservice.eservice.name })}
-              onClick={onRemove.bind(null, eservice.eservice.id, eservice.eservice.name)}
+              aria-label={t('removeAttributeAriaLabel', {
+                eserviceName: eserviceWithDescriptor.eservice.name,
+              })}
+              onClick={onRemove.bind(
+                null,
+                eserviceWithDescriptor.eservice.id,
+                eserviceWithDescriptor.eservice.name
+              )}
             >
               <RemoveCircleOutlineIcon color="error" />
             </IconButton>
@@ -76,35 +89,35 @@ export const EServiceContainer = ({ eservice, showWarning, onRemove }: EServiceC
               id={headerId}
               disabled={!isEServiceStateValid}
             >
-              <Typography fontWeight={600}>{eservice.eservice.name}</Typography>
+              <Typography fontWeight={600}>{eserviceWithDescriptor.eservice.name}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               {hasExpandedOnce && (
                 <EServiceDetails
-                  eserviceId={eservice.eservice.id}
-                  eserviceDescription={''} // TODO: Actually,CompactEService doesn't have description
-                  descriptorId={eservice.descriptor.id}
+                  eserviceId={eserviceWithDescriptor.eservice.id}
+                  eserviceDescription={eserviceWithDescriptor.eservice.description ?? ''}
+                  descriptorId={eserviceWithDescriptor.descriptor.id}
                 />
               )}
             </AccordionDetails>
           </Accordion>
         </Card>
-        {(eservice.descriptor.state === 'ARCHIVED' && (
+        {(eserviceWithDescriptor.descriptor.state === 'ARCHIVED' && (
           <Tooltip title={t('tooltipTitle.ARCHIVED')}>
             <ErrorOutlineIcon color="error" />
           </Tooltip>
         )) ||
-          (eservice.descriptor.state === 'SUSPENDED' && (
-            <Tooltip title={t(`tooltipTitle.${eservice.descriptor.state}`)}>
+          (eserviceWithDescriptor.descriptor.state === 'SUSPENDED' && (
+            <Tooltip title={t(`tooltipTitle.${eserviceWithDescriptor.descriptor.state}`)}>
               <ErrorOutlineIcon color="error" />
             </Tooltip>
           ))}
       </Stack>
       {showWarning && (
         <Typography variant="body2" color="error" sx={{ ml: 7, fontWeight: 600 }}>
-          {eservice.descriptor.state === 'ARCHIVED'
+          {eserviceWithDescriptor.descriptor.state === 'ARCHIVED'
             ? t('warning.ARCHIVED')
-            : eservice.descriptor.state === 'SUSPENDED' && t('warning.SUSPENDED')}
+            : eserviceWithDescriptor.descriptor.state === 'SUSPENDED' && t('warning.SUSPENDED')}
         </Typography>
       )}
     </>
