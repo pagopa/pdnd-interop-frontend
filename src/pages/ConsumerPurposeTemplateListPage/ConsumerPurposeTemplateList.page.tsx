@@ -18,6 +18,7 @@ import {
 } from './components/ConsumerPurposeTemplateTable'
 import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/mockedResponses'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerPurposeTemplateListPage: React.FC = () => {
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
@@ -38,19 +39,19 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
   ]
 
   const { data: eservicesOptions = [] } = useQuery({
-    //TODO TO FIX WHEN TYPES ARE AVAILABLE
-    ...PurposeTemplateQueries
-      .getEservicesLinkedToPurposeTemplatesList
-      //{offset: 0,
-      // limit: 50,
-      // q: eservicesAutocompleteInput,}
-      (),
+    ...EServiceQueries.getCatalogList({
+      q: eservicesAutocompleteInput,
+      states: ['PUBLISHED'],
+      limit: 50,
+      offset: 0,
+      isConsumerDelegable: true,
+    }),
     placeholderData: keepPreviousData,
-    // select: ({ results }) =>
-    //   results.map((o) => ({
-    //     label: o.name,
-    //     value: o.id,
-    //   })),
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
   })
 
   const { filtersParams, ...filtersHandlers } = useFilters<
@@ -79,7 +80,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
-  // const { data: totalPageCount } = useQuery({
+  // const { data: totalPageCount } = useQuery({ //TODO WHEN API IS READY
   //   ...PurposeTemplateQueries.getConsumerPurposeTemplatesList(queryParams),
   //   placeholderData: keepPreviousData,
   //   select: ({ pagination }) => getTotalPageCount(pagination.totalCount),

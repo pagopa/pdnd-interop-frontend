@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 export const ConsumerPurposeTemplateTableRow: React.FC<{ purposeTemplate: PurposeTemplate }> = ({
   purposeTemplate,
 }) => {
-  const { actions } = useGetConsumerPurposeTemplatesActions(purposeTemplate)
+  const { actions } = useGetConsumerPurposeTemplatesActions('GSP', purposeTemplate) //TODO: TENANT KIND WILL BE PASSED BY BFF?
   const { t: tCommon } = useTranslation('common')
 
   return (
