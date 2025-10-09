@@ -446,6 +446,7 @@
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export risk analysis",
     "CLIENT_MANAGEMENT": "Client management",
     "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "My purpose templates",
-    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Purpose template"
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Purpose template",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit purpose template"
   }
 }
