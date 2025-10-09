@@ -28,6 +28,10 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         content={descriptor.eservice.technology}
       />
       <InformationContainer
+        label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
+        content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+      />
+      <InformationContainer
         label={t('isSignalHubEnabled.label')}
         content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
       />

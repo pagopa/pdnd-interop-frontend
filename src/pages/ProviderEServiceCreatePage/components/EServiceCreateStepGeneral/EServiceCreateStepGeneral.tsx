@@ -41,6 +41,7 @@ export type EServiceCreateStepGeneralFormValues = {
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
+  personalData: boolean | undefined
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
@@ -94,6 +95,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 isClientAccessDelegable: formValues.isClientAccessDelegable,
                 isConsumerDelegable: formValues.isConsumerDelegable,
                 isSignalHubEnabled: formValues.isSignalHubEnabled,
+                //personalData: formValues.personalData, todo
               },
               { onSuccess: forward }
             )
@@ -130,6 +132,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         isClientAccessDelegable: formValues.isClientAccessDelegable,
         isConsumerDelegable: formValues.isConsumerDelegable,
         isSignalHubEnabled: formValues.isSignalHubEnabled,
+        //TODO: PERSONAL DATA FLAG HERE?
       }
 
       createDraftFromTemplate(body, {
@@ -230,6 +233,25 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
+          />
+
+          <RHFRadioGroup
+            name="personalData"
+            row
+            label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
+            options={[
+              {
+                label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
+                value: 'true',
+              },
+              {
+                label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.false`),
+                value: 'false',
+              },
+            ]}
+            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+            rules={{ required: true }}
+            sx={{ mb: 0, mt: 3 }}
           />
         </SectionContainer>
 
@@ -380,6 +402,7 @@ function evaluateFormDefaultValues(
       description: descriptor?.eservice.description ?? '',
       technology: descriptor?.eservice.technology ?? 'REST',
       mode: eserviceMode,
+      personalData: descriptor?.eservice.personalData,
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
@@ -390,6 +413,7 @@ function evaluateFormDefaultValues(
     description: eserviceTemplate?.description,
     technology: eserviceTemplate?.technology,
     mode: eserviceTemplate?.mode,
+    personalData: eserviceTemplate?.personalData,
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
     isConsumerDelegable: false,
     isClientAccessDelegable: false,
