@@ -32,7 +32,23 @@
           "downloadUsingTenantsList": "Scarica l’elenco degli implementatori",
           "viewTechnicalInfo": "Visualizza le specifiche tecniche dell’e-service"
         },
-        "consumerListFileName": "{{timestamp}}-lista-consumatori-template-{{eServiceTemplateName}}.csv"
+        "consumerListFileName": "{{timestamp}}-lista-consumatori-template-{{eServiceTemplateName}}.csv",
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Eroga dati personali"
+          },
+          "RECEIVE": {
+            "label": "Riceve dati personali"
+          },
+          "value": {
+            "true": "Sì",
+            "false": "No",
+            "undefined": "Non indicato"
+          },
+          "alert": {
+            "label": "Indica se questo e-service tratta dati personali."
+          }
+        }
       },
       "technicalInformations": {
         "title": "Specifiche tecniche e-service",
@@ -213,6 +229,22 @@
             "after": "per generare notifiche relative alle variazioni dei dati relativi all’e-service."
           }
         }
+      },
+      "eservicePersonalDataField": {
+        "DELIVER": {
+          "label": "L’e-service eroga dati personali?",
+          "options": {
+            "true": "Eroga dati personali",
+            "false": "Non eroga dati personali"
+          }
+        },
+        "RECEIVE": {
+          "label": "L’e-service riceve dati personali?",
+          "options": {
+            "true": "Riceve dati personali",
+            "false": "Non riceve dati personali"
+          }
+        }
       }
     },
     "stepPurpose": {
@@ -318,6 +350,19 @@
       "apiTechnology": {
         "label": "Tecnologia API"
       },
+      "personalDataField": {
+        "DELIVER": {
+          "label": "Eroga dati personali"
+        },
+        "RECEIVE": {
+          "label": "Riceve dati personali"
+        },
+        "value": {
+          "true": "Sì",
+          "false": "No",
+          "undefined": "Non indicato"
+        }
+      },
       "isSignalHubEnabled": {
         "label": "Viene suggerito di utilizzare il servizio di aggiornamento dati (Signal Hub)?",
         "value": {
@@ -370,6 +415,7 @@
     },
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
-    }
+    },
+    "missingPersonalDataField": "Non hai indicato se l’e-service tratta dati personali. Completa la bozza"
   }
 }
