@@ -4,12 +4,11 @@ import { Box, Stack } from '@mui/material'
 import { EServiceGroup } from './EServiceGroup'
 import type { EditStepLinkedEServicesForm } from './PurposeTemplateEditLinkedEService'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { CatalogEService, PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 
 export type AddEServiceToFormProps = {
   readOnly: boolean
-  purposeTemplate: PurposeTemplate
+  purposeTemplate: PurposeTemplateWithCompactCreator
   linkedEServices: CatalogEService[]
   showWarning: boolean
 }
@@ -21,7 +20,7 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
   showWarning,
 }) => {
   const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
-  const { mutate: removeEService } = PurposeTemplateMutations.useRemoveEserviceToPurposeTemplate()
+  const { mutate: removeEService } = PurposeTemplateMutations.useUnlinkEserviceFromPurposeTemplate()
 
   const eserviceGroup = watch(`eservices`)
 

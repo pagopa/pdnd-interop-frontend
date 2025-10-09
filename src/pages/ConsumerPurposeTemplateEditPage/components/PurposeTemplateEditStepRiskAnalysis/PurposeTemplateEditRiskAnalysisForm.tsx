@@ -18,28 +18,31 @@ export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({
     PurposeQueries.getRiskAnalysisLatest({ tenantKind: purposeTemplate?.targetTenantKind }) //TODO: PURPOSE TEMPLATE QUERIES?
   )
 
-  if (!purposeTemplate || !riskAnalysis) {
+  if (!purposeTemplate || !riskAnalysis || !purposeTemplate.purposeRiskAnalysisForm) {
     return <RiskAnalysisFormSkeleton />
   }
 
   const goToSummary = () => {
-    navigate('SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY', {
-      params: {
-        purposeTemplateId: purposeTemplateId,
-      },
-    })
+    // navigate('SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY', {
+    //   params: {
+    //     purposeTemplateId: purposeTemplateId,
+    //   },
+    // })
+    return //todo
   }
 
   const handleSubmit = (answers: Record<string, string[]>) => {
     updatePurposeTemplate(
       {
         purposeTemplateId: purposeTemplate.id,
-        title: purposeTemplate.purposeTitle,
-        description: purposeTemplate.purposeDescription,
-        riskAnalysisForm: { version: riskAnalysis.version, answers }, //TODO
-        freeOfChargeReason: purposeTemplate.purposeFreeOfChargeReason,
-        isFreeOfCharge: purposeTemplate.purposeIsFreeOfCharge,
-        dailyCalls: purposeTemplate.purposeDailyCalls,
+        purposeTitle: purposeTemplate.purposeTitle,
+        purposeDescription: purposeTemplate.purposeDescription,
+        purposeRiskAnalysisForm: { version: riskAnalysis.version, answers }, //TODO
+        purposeFreeOfChargeReason: purposeTemplate.purposeFreeOfChargeReason,
+        purposeIsFreeOfCharge: purposeTemplate.purposeIsFreeOfCharge,
+        purposeDailyCalls: purposeTemplate.purposeDailyCalls,
+        targetDescription: purposeTemplate.targetDescription,
+        targetTenantKind: purposeTemplate.targetTenantKind,
       },
       { onSuccess: goToSummary }
     )

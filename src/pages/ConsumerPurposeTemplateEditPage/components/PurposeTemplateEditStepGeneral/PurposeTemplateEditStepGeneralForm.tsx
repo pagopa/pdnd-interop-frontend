@@ -1,7 +1,3 @@
-import type {
-  PurposeTemplate,
-  PurposeTemplateUpdateContent,
-} from '@/api/purposeTemplate/mockedResponses'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { RHFTextField, RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
@@ -11,17 +7,21 @@ import { Box } from '@mui/system'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import SaveIcon from '@mui/icons-material/Save'
+import type {
+  PurposeTemplateSeed,
+  PurposeTemplateWithCompactCreator,
+} from '@/api/api.generatedTypes'
 
 export type PurposeTemplateEditStepGeneralFormValues = Omit<
-  PurposeTemplateUpdateContent,
-  'riskAnalysisForm' | 'isFreeOfCharge' | 'eserviceId'
+  PurposeTemplateSeed,
+  'purposeRiskAnalysisForm' | 'purposeIsFreeOfCharge'
 > & {
-  dailyCalls: number
+  dailyCalls: number | undefined
   isFreeOfCharge: 'YES' | 'NO'
 }
 
 type PurposeTemplateEditStepGeneralFormProps = ActiveStepProps & {
-  purposeTemplate: PurposeTemplate
+  purposeTemplate: PurposeTemplateWithCompactCreator
   defaultValues: PurposeTemplateEditStepGeneralFormValues
 }
 
@@ -38,20 +38,23 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
   })
 
   const onSubmit = (values: PurposeTemplateEditStepGeneralFormValues) => {
-    const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
+    const { dailyCalls, isFreeOfCharge, purposeFreeOfChargeReason, ...updateDraftPayload } = values
     const isFreeOfChargeBool = isFreeOfCharge === 'YES'
     const purposeTemplateId = purposeTemplate.id
 
     const requestPayload = {
       ...updateDraftPayload,
       isFreeOfCharge: isFreeOfChargeBool,
-      freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
+      purposeFreeOfChargeReason: isFreeOfChargeBool ? purposeFreeOfChargeReason : undefined,
       purposeTemplateId,
       dailyCalls: dailyCalls,
     }
 
     updateDraft(
-      { ...requestPayload, riskAnalysisForm: purposeTemplate.purposeRiskAnalysisForm },
+      {
+        ...requestPayload,
+        purposeIsFreeOfCharge: purposeTemplate.purposeIsFreeOfCharge,
+      },
       { onSuccess: forward }
     )
   }

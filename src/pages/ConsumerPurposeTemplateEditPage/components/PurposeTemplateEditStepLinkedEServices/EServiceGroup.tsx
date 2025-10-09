@@ -3,19 +3,18 @@ import { Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { CatalogEService, PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
 import { EServiceAutocomplete } from '@/components/shared/EServiceAutoComplete'
 import { EServiceContainer } from '@/components/layout/containers/EServiceContainer'
 import type { EditStepLinkedEServicesForm } from './PurposeTemplateEditLinkedEService'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 
 export type EServiceGroupProps = {
   group: Array<CatalogEService>
   readOnly: boolean
   onRemoveEServiceFromGroup: (eserviceId: string) => void
-  purposeTemplate: PurposeTemplate
+  purposeTemplate: PurposeTemplateWithCompactCreator
   showWarning: boolean
 }
 
@@ -28,7 +27,7 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step2' })
   const [isEServiceAutocompleteShown, setIsEServiceAutocompleteShown] = React.useState(true)
-  const { mutate: addEService } = PurposeTemplateMutations.useAddEserviceToPurposeTemplate()
+  const { mutate: addEService } = PurposeTemplateMutations.useLinkEserviceToPurposeTemplate()
 
   const handleDeleteEServiceFromGroup = (eserviceId: string) => {
     onRemoveEServiceFromGroup(eserviceId)
