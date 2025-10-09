@@ -41,7 +41,7 @@ export type EServiceCreateStepGeneralFormValues = {
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
-  //personalData: boolean | undefined TODO: TO COMMENT OUT WHEN API WILL BE UPDATED
+  personalData: boolean | undefined
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
@@ -95,6 +95,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 isClientAccessDelegable: formValues.isClientAccessDelegable,
                 isConsumerDelegable: formValues.isConsumerDelegable,
                 isSignalHubEnabled: formValues.isSignalHubEnabled,
+                //personalData: formValues.personalData, todo
               },
               { onSuccess: forward }
             )
@@ -131,6 +132,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         isClientAccessDelegable: formValues.isClientAccessDelegable,
         isConsumerDelegable: formValues.isConsumerDelegable,
         isSignalHubEnabled: formValues.isSignalHubEnabled,
+        //TODO: PERSONAL DATA FLAG HERE?
       }
 
       createDraftFromTemplate(body, {
@@ -248,7 +250,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               },
             ]}
             disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-            rules={{ required: false }} //TODO: TO PUT TO TRUE WHEN API WILL BE UPDATED
+            rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
           />
         </SectionContainer>
@@ -400,7 +402,7 @@ function evaluateFormDefaultValues(
       description: descriptor?.eservice.description ?? '',
       technology: descriptor?.eservice.technology ?? 'REST',
       mode: eserviceMode,
-      //personalData: descriptor?.eservice.personalData, TODO: TO COMMENT OUT WHEN API WILL BE UPDATED
+      personalData: descriptor?.eservice.personalData,
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
@@ -411,7 +413,7 @@ function evaluateFormDefaultValues(
     description: eserviceTemplate?.description,
     technology: eserviceTemplate?.technology,
     mode: eserviceTemplate?.mode,
-    //personalData: eserviceTemplate?.personalData, //TODO: TO COMMENT OUT WHEN API WILL BE UPDATED
+    personalData: eserviceTemplate?.personalData,
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
     isConsumerDelegable: false,
     isClientAccessDelegable: false,
