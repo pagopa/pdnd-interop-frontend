@@ -117,7 +117,11 @@ describe('PurposeTemplateServices', () => {
 
   describe('getEservicesLinkedToPurposeTemplatesList', () => {
     it('should return mocked eservices linked to purpose templates', async () => {
-      const result = await PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList()
+      const id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+      const result = await PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList(id, {
+        offset: 0,
+        limit: 10,
+      })
 
       expect(result).toEqual(eservicesLinkedToPurposeTemplatesMock)
       expect(result).toHaveLength(5)
@@ -129,36 +133,6 @@ describe('PurposeTemplateServices', () => {
     //
     //   expect(axiosInstance.get).toHaveBeenCalledWith(
     //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/eservices`
-    //   )
-    // })
-  })
-
-  describe('getPurposeTemplateEservices', () => {
-    it('should return mocked purpose template eservices for given id', async () => {
-      const id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
-
-      const result = await PurposeTemplateServices.getPurposeTemplateEservices(id)
-
-      expect(result).toEqual(purposeTemplateEservicesMock)
-      expect(result).toHaveLength(3)
-    })
-
-    it('should handle different purpose template ids', async () => {
-      const id = '11111111-1111-1111-1111-111111111111'
-
-      const result = await PurposeTemplateServices.getPurposeTemplateEservices(id)
-
-      expect(result).toEqual(purposeTemplateEservicesMock)
-    })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call with purpose template id', async () => {
-    //   const id = 'test-id'
-    //
-    //   await PurposeTemplateServices.getPurposeTemplateEservices(id)
-    //
-    //   expect(axiosInstance.get).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/eservices`
     //   )
     // })
   })
@@ -241,52 +215,6 @@ describe('PurposeTemplateServices', () => {
     // })
   })
 
-  describe('updatePurposeTemplateRiskAnalysis', () => {
-    it('should log risk analysis update message', async () => {
-      const payload: RiskAnalysisFormTemplateSeed = {
-        version: '1.0',
-        questions: {
-          dataSensitivity: {
-            question: 'What is the data sensitivity level?',
-            suggestedValues: ['high', 'medium', 'low'],
-            required: true,
-          },
-        },
-      }
-
-      await PurposeTemplateServices.updatePurposeTemplateRiskAnalysis({
-        id: 'test-id',
-        ...payload,
-      })
-
-      expect(mockConsoleLog).toHaveBeenCalledWith('risk analysis updated!')
-    })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to update risk analysis', async () => {
-    //   const payload: RiskAnalysisFormTemplateSeed = {
-    //     version: '1.0',
-    //     questions: {
-    //       dataSensitivity: {
-    //         question: 'What is the data sensitivity level?',
-    //         suggestedValues: ['high', 'medium', 'low'],
-    //         required: true,
-    //       },
-    //     },
-    //   }
-    //
-    //   await PurposeTemplateServices.updatePurposeTemplateRiskAnalysis({
-    //     id: 'test-id',
-    //     ...payload,
-    //   })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/riskAnalysis`,
-    //     payload
-    //   )
-    // })
-  })
-
   describe('createDraft', () => {
     it('should log draft creation message', async () => {
       const payload: PurposeTemplateSeed = {
@@ -325,12 +253,12 @@ describe('PurposeTemplateServices', () => {
 
   describe('updateDraft', () => {
     it('should log draft update message', async () => {
-      const payload: PurposeTemplateUpdateContent = {
-        title: 'Updated Title',
-        description: 'Updated description',
-        isFreeOfCharge: false,
-        freeOfChargeReason: 'Paid service',
-        dailyCalls: 2000,
+      const payload: PurposeTemplateSeed = {
+        targetDescription: 'Updated target description',
+        targetTenantKind: 'GSP',
+        purposeTitle: 'Updated Purpose Title',
+        purposeDescription: 'Updated purpose description',
+        purposeIsFreeOfCharge: false,
       }
 
       await PurposeTemplateServices.updateDraft({
@@ -369,7 +297,7 @@ describe('PurposeTemplateServices', () => {
         eserviceId: 'test-eservice-id',
       }
 
-      await PurposeTemplateServices.addEserviceToPurposeTemplate({
+      await PurposeTemplateServices.linkEserviceToPurposeTemplate({
         purposeTemplateId: 'test-template-id',
         ...payload,
       })
@@ -402,7 +330,7 @@ describe('PurposeTemplateServices', () => {
         eserviceId: 'test-eservice-id',
       }
 
-      await PurposeTemplateServices.removeEserviceToPurposeTemplate({
+      await PurposeTemplateServices.unlinkEserviceFromPurposeTemplate({
         purposeTemplateId: 'test-template-id',
         ...payload,
       })
@@ -452,19 +380,19 @@ describe('PurposeTemplateServices', () => {
     // })
   })
 
-  describe('addDocumentsToAnswer', () => {
+  describe('addDocumentsToAnnotation', () => {
     it('should log documents addition message', async () => {
-      await PurposeTemplateServices.addDocumentsToAnswer({
+      await PurposeTemplateServices.addDocumentsToAnnotation({
         purposeTemplateId: 'test-template-id',
         answerId: 'test-answer-id',
       })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Added documents to answer')
+      expect(mockConsoleLog).toHaveBeenCalledWith('Added documents to annotation')
     })
 
     // TODO: Update this test when real API calls are implemented
     // it('should make correct API call to add documents', async () => {
-    //   await PurposeTemplateServices.addDocumentsToAnswer({
+    //   await PurposeTemplateServices.addDocumentsToAnnotation({
     //     purposeTemplateId: 'test-template-id',
     //     answerId: 'test-answer-id',
     //   })

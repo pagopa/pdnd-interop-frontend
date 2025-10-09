@@ -13,17 +13,6 @@ function useCreateDraft() {
   })
 }
 
-function useUpdatePurposeTemplateRiskAnalysis() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
-  return useMutation({
-    mutationFn: PurposeTemplateServices.updatePurposeTemplateRiskAnalysis,
-    meta: {
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
 function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.updateDraft' })
   return useMutation({
@@ -35,10 +24,10 @@ function useUpdateDraft() {
   })
 }
 
-function useAddEserviceToPurposeTemplate() {
+function useLinkEserviceToPurposeTemplate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
   return useMutation({
-    mutationFn: PurposeTemplateServices.addEserviceToPurposeTemplate,
+    mutationFn: PurposeTemplateServices.linkEserviceToPurposeTemplate,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -46,10 +35,10 @@ function useAddEserviceToPurposeTemplate() {
   })
 }
 
-function useRemoveEserviceToPurposeTemplate() {
+function useUnlinkEserviceFromPurposeTemplate() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
   return useMutation({
-    mutationFn: PurposeTemplateServices.removeEserviceToPurposeTemplate,
+    mutationFn: PurposeTemplateServices.unlinkEserviceFromPurposeTemplate,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -185,12 +174,12 @@ function useAddAnnotationToAnswer() {
   })
 }
 
-function useAddDocumentsToAnswer() {
+function useAddDocumentsToAnnotation() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purposeTemplate.addDocumentsToAnswer',
   })
   return useMutation({
-    mutationFn: PurposeTemplateServices.addDocumentsToAnswer,
+    mutationFn: PurposeTemplateServices.addDocumentsToAnnotation,
     meta: {
       loadingLabel: t('loading'),
       successToastLabel: t('outcome.success'),
@@ -200,10 +189,9 @@ function useAddDocumentsToAnswer() {
 }
 
 export const PurposeTemplateMutations = {
-  useUpdatePurposeTemplateRiskAnalysis,
   useUpdateDraft,
-  useAddEserviceToPurposeTemplate,
-  useRemoveEserviceToPurposeTemplate,
+  useLinkEserviceToPurposeTemplate,
+  useUnlinkEserviceFromPurposeTemplate,
   useCreateDraft,
   usePublishDraft,
   useDeleteDraft,
@@ -213,5 +201,5 @@ export const PurposeTemplateMutations = {
   useReactivatePurposeTemplate,
   useArchivePurposeTemplate,
   useAddAnnotationToAnswer,
-  useAddDocumentsToAnswer,
+  useAddDocumentsToAnnotation,
 }

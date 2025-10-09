@@ -1,21 +1,17 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import type { GetConsumerPurposeTemplatesParams } from './mockedResponses'
+import { mockCatalogPurposeTemplates, purposeTemplatesListMock } from './mockedResponses'
 import type {
-  GetConsumerPurposeTemplatesParams,
-  PurposeTemplateUpdateContent,
-  RiskAnalysisFormTemplateSeed,
-} from './mockedResponses'
-import {
-  eservicesLinkedToPurposeTemplatesMock,
-  mockCatalogPurposeTemplates,
-  purposeTemplateEservicesMock,
-  purposeTemplateMock,
-  purposeTemplatesListMock,
-} from './mockedResponses'
-import type {
+  CatalogPurposeTemplates,
+  CreatedResource,
+  EServiceDescriptorsPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
+  GetPurposeTemplateEServicesParams,
   LinkEServiceToPurposeTemplatePayload,
+  PurposeTemplate,
   PurposeTemplateSeed,
+  PurposeTemplateWithCompactCreator,
   UnlinkEServiceToPurposeTemplatePayload,
 } from '../api.generatedTypes'
 
@@ -37,30 +33,22 @@ async function getConsumerCatalogPurposeTemplates(params: GetCatalogPurposeTempl
   return mockCatalogPurposeTemplates
 }
 
-async function getEservicesLinkedToPurposeTemplatesList() {
-  //   const response = await axiosInstance.get<ProducerPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/eservices`,
-  //     { params }
-  //   )
-  //   return response.data
-  return eservicesLinkedToPurposeTemplatesMock
+async function getEservicesLinkedToPurposeTemplatesList(
+  purposeTemplateId: string,
+  params: Omit<GetPurposeTemplateEServicesParams, 'purposeTemplateId'>
+) {
+  const response = await axiosInstance.get<EServiceDescriptorsPurposeTemplate>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/eservices`,
+    { params }
+  )
+  return response.data
 }
 
-async function getPurposeTemplateEservices(id: string) {
-  //   const response = await axiosInstance.get<ConsumerPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/eservices`,
-  //     { params }
-  //   )
-  //   return response.data
-  return purposeTemplateEservicesMock
-}
-
-async function getSingle(id: string) {
-  //   const response = await axiosInstance.get<PurposeTemplate>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}`
-  //   )
-  //   return response.data
-  return purposeTemplateMock
+async function getSingle(purposeTemplateId: string) {
+  const response = await axiosInstance.get<PurposeTemplateWithCompactCreator>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}`
+  )
+  return response.data
 }
 
 async function getAnswerDocuments(purposeTemplateId: string, answerId: string) {
@@ -71,32 +59,20 @@ async function getAnswerDocuments(purposeTemplateId: string, answerId: string) {
   return []
 }
 
-async function getCatalogPurposeTemplates(id: string) {
-  //   const response = await axiosInstance.get<CatalogPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`
-  //   )
-  //   return response.data
-  return mockCatalogPurposeTemplates
-}
-
-async function updatePurposeTemplateRiskAnalysis({
-  id,
-  ...payload
-}: { id: string } & RiskAnalysisFormTemplateSeed) {
-  //   return await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/riskAnalysis`,
-  //     payload
-  //   )
-  return console.log('risk analysis updated!')
+async function getCatalogPurposeTemplates(params: GetCatalogPurposeTemplatesParams) {
+  const response = await axiosInstance.get<CatalogPurposeTemplates>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`,
+    { params }
+  )
+  return response.data
 }
 
 async function createDraft(payload: PurposeTemplateSeed) {
-  //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
-  //     payload
-  //   )
-  //   return response.data
-  return console.log('Draft created')
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates`,
+    payload
+  )
+  return response.data
 }
 
 async function updateDraft({
@@ -104,38 +80,32 @@ async function updateDraft({
   ...payload
 }: {
   purposeTemplateId: string
-} & PurposeTemplateUpdateContent) {
-  //   return await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}`,
-  //     payload
-  //   )
-  return console.log('Draft updated!')
+} & PurposeTemplateSeed) {
+  return await axiosInstance.put<PurposeTemplate>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}`,
+    payload
+  )
 }
 
-async function addEserviceToPurposeTemplate({
+async function linkEserviceToPurposeTemplate({
   purposeTemplateId,
   ...payload
 }: { purposeTemplateId: string } & LinkEServiceToPurposeTemplatePayload) {
-  //TODO TO FIX PARAMETERS
-  //   const response = await axiosInstance.post<LinkEServiceToPurposeTemplatePayload>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
-  //      payload
-  //   )
-  //   return response.data
-  return console.log('Added eservice')
+  const response = await axiosInstance.post<LinkEServiceToPurposeTemplatePayload>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
+    payload
+  )
+  return response.data
 }
 
-async function removeEserviceToPurposeTemplate({
+async function unlinkEserviceFromPurposeTemplate({
   purposeTemplateId,
   ...payload
 }: { purposeTemplateId: string } & UnlinkEServiceToPurposeTemplatePayload) {
-  //TODO TO FIX PARAMETERS
-  //   const response = await axiosInstance.post<CreatedPurposeTemplate>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/unlinkEservice`,
-  //      payload
-  //   )
-  //   return response.data
-  return console.log('removed eservice')
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/unlinkEservice`,
+    payload
+  )
 }
 
 async function addAnnotationToAnswer({
@@ -145,25 +115,25 @@ async function addAnnotationToAnswer({
   purposeTemplateId: string
   answerId: string
 }) {
-  //   const response = await axiosInstance.patch<void>(
+  //   const response = await axiosInstance.put<RiskAnalysisAnswerAnnotationText>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`,
   //   )
   //   return response.data
   return console.log('Added annotation to answer')
 }
 
-async function addDocumentsToAnswer({
+async function addDocumentsToAnnotation({
   purposeTemplateId,
   answerId,
 }: {
   purposeTemplateId: string
   answerId: string
 }) {
-  //   const response = await axiosInstance.posth<void>(
+  //   const response = await axiosInstance.post<void>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents`,
   //   )
   //   return response.data
-  return console.log('Added documents to answer')
+  return console.log('Added documents to annotation')
 }
 
 async function publishDraft({ id }: { id: string }) {
@@ -232,15 +202,13 @@ export const PurposeTemplateServices = {
   getConsumerPurposeTemplatesList,
   getConsumerCatalogPurposeTemplates,
   getEservicesLinkedToPurposeTemplatesList,
-  getPurposeTemplateEservices,
   getSingle,
   getAnswerDocuments,
-  updatePurposeTemplateRiskAnalysis,
   updateDraft,
-  addEserviceToPurposeTemplate,
-  removeEserviceToPurposeTemplate,
+  linkEserviceToPurposeTemplate,
+  unlinkEserviceFromPurposeTemplate,
   addAnnotationToAnswer,
-  addDocumentsToAnswer,
+  addDocumentsToAnnotation,
   createDraft,
   publishDraft,
   deleteDraft,
@@ -249,4 +217,5 @@ export const PurposeTemplateServices = {
   suspendPurposeTemplate,
   reactivatePurposeTemplate,
   archivePurposeTemplate,
+  getCatalogPurposeTemplates,
 }
