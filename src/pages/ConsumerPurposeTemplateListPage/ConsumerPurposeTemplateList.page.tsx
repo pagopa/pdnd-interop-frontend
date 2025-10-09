@@ -19,8 +19,9 @@ import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/mo
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useDialog } from '@/stores'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { TenantKind } from '@/api/api.generatedTypes'
+import type { PurposeTemplateSeed } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
+import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerPurposeTemplateListPage: React.FC = () => {
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
@@ -35,9 +36,9 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const { openDialog } = useDialog()
 
-  const handleCreateDraft = (tenantKind: TenantKind) => {
+  const handleCreateDraft = (params: PurposeTemplateSeed) => {
     createDraft(
-      { tenantKind },
+      { ...params },
       {
         onSuccess() {
           navigate(/*'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'*/ 'NOT_FOUND') //TODO TO FIX WHEN ROUTE IS AVAILABLE
