@@ -7,8 +7,7 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useLocation, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
-import type { TenantKind } from '@/api/api.generatedTypes'
+import type { PurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
 
 function useGetConsumerPurposeTemplateTemplatesActions(
   tenantKind: TenantKind,
