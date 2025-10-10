@@ -10,6 +10,7 @@ import DnsIcon from '@mui/icons-material/Dns'
 import { ConsumerIcon, ProviderIcon, CatalogIcon, DeveloperToolIcon, MyTenantIcon } from '@/icons'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { useTranslation } from 'react-i18next'
+import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 
 export function useGetSidebarItems(): SidebarRoutes {
   const { t } = useTranslation('sidebar', { keyPrefix: 'menuItem' })
@@ -31,6 +32,7 @@ export function useGetSidebarItems(): SidebarRoutes {
         label: 'Notifiche ',
         children: [],
         divider: true,
+        hide: !FEATURE_FLAG_NOTIFICATION_CONFIG,
       },
       {
         showNotification: false,
