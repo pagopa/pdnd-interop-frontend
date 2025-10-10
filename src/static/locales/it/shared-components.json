@@ -221,8 +221,15 @@
       "description": "A chi si rivolge il template che stai realizzando?",
       "label": "Destinazione tipologia ente",
       "options": {
-        "labelPA": "Pubbliche Amministrazioni",
-        "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico"
+        "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del CAD)",
+        "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
+      },
+      "personalDataRadioBtn": {
+        "label": "L’analisi del rischio prevede un trattamento dei dati personali?",
+        "options": {
+          "true": "Sì, verranno trattati dati personali",
+          "false": "No, non verranno trattati dati personali"
+        }
       }
     }
   },

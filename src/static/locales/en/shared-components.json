@@ -221,8 +221,15 @@
       "description": "Who is the template you are creating intended for?",
       "label": "Target entity type",
       "options": {
-        "labelPA": "Public Administrations",
-        "labelNotPA": "Public service managers, Publicly controlled companies"
+        "labelPA": "Public Administrations (Art. 2, paragraph 2, letter “a” of the CAD)",
+        "labelNotPA": "Public service managers, publicly controlled companies (Art. 2, paragraph 2, letters “b” and “c”) or Private"
+      },
+      "personalDataRadioBtn": {
+        "label": "Does the risk analysis involve the processing of personal data?",
+        "options": {
+          "true": "Yes, personal data will be processed",
+          "false": "No, personal data will not be processed"
+        }
       }
     }
   },
