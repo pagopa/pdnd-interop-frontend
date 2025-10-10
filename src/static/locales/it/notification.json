@@ -105,7 +105,7 @@
           }
         },
         "clientAndThresholds": {
-          "title": "Client e soglie",
+          "title": "Client",
           "components": {
             "clientAssociationFromSubscriber": {
               "label": "Associazione di un client da parte del fruitore",

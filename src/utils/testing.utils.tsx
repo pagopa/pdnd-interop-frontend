@@ -66,6 +66,7 @@ export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHo
       isSupport: false,
       currentRoles: [],
       isOrganizationAllowedToProduce: true,
+      userEmail: 'user@example.com',
     }),
     overwrites
   )
