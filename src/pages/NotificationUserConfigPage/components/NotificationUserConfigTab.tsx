@@ -46,6 +46,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   handleUpdateNotificationConfigs,
   type,
 }) => {
+  const { t: tConfiguration } = useTranslation('notification', { keyPrefix: 'configurationPage' })
   const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
 
   const { notificationSchema, sectionComponentKeysMap } = useNotificationConfigHook(type)
@@ -107,9 +108,10 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 
   const InAppConfigHeader = () => (
     <>
-      <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
+      {/* Need to understand whats the link should point to */}
+      {/* <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
         {t('manualLinkLabel')}
-      </Link>
+      </Link> */}
       <Box sx={{ ml: 2, mt: 2 }}>
         <RHFSwitch
           name="preferenceChoice"
@@ -130,9 +132,10 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
         <Typography data-testid="test-email">Indirizzo email</Typography>
         <Typography fontWeight={600}>{userEmail}</Typography>
       </Stack>
-      <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
+      {/* Need to understand whats the link should point to */}
+      {/* <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
         {t('linkLabel')}
-      </Link>
+      </Link> */}
       <Controller
         name="preferenceChoice"
         control={formMethods.control}
@@ -164,6 +167,11 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
     <FormProvider {...formMethods}>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
         {type === 'email' ? <EmailConfigHeader /> : <InAppConfigHeader />}
+        {preferenceChoice !== 'DIGEST' && (
+          <Alert sx={{ mt: 2 }} severity="info">
+            {tConfiguration('infoAlert')}
+          </Alert>
+        )}
         <Box sx={{ ml: 2, mt: 2 }}>
           {isEnabledShowPreferencesSwitch() &&
             Object.keys(notificationSchema).map((sectionName) => {

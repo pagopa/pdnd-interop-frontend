@@ -4,6 +4,7 @@
     "description": "Gestisci le tue impostazioni di notifica in app e via email personale.",
     "inAppTabTitle": "Notifiche in-app",
     "emailTabTitle": "Email",
+    "infoAlert": "Le notifiche selezionate potrebbero non arrivare subito, in quanto programmiamo un rilascio graduale. Dopo la tua configurazione delle preferenze non ti sarà richiesta alcuna azione.",
     "inApp": {
       "title": "Configurazione delle preferenze di notifica in piattaforma",
       "manualLinkLabel": "Dubbi? Vai sul manuale",
@@ -22,7 +23,7 @@
       "mailLabel": "Indirizzo email",
       "enableSectionAllNotifications": "Abilita tutto",
       "disableSectionAllNotifications": "Disabilita tutto",
-      "digestInfoDescription": "Le notifiche selezionate potrebbero non arrivare subito, in quanto programmiamo un rilascio graduale. Dopo la tua configurazione delle preferenze non ti sarà richiesta alcuna azione.",
+      "digestInfoDescription": "Il resoconto settimanale sarà disponibile a breve, pertanto non riceverai subito comunicazioni. Abbiamo registrato la tua preferenza e non ti sarà richiesta alcuna azione.",
       "enableAllNotifications": {
         "label": "Abilita la ricezione delle notifiche e-mail",
         "description": "Disabilitando questa opzione, non riceverai nessuna e-mail"

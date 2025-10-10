@@ -56,26 +56,26 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
             },
           ],
         },
-        {
-          name: 'soglieDiCarico',
-          title: t('subscriber.thresholds.title'),
-          components: [
-            // {
-            //   key: 'TODO',
-            //   title: t('subscriber.thresholds.components.thresholdsExcedeed.label'),
-            //   description: t('subscriber.thresholds.components.thresholdsExcedeed.description'),
-            //   visibility: ['admin'], // To define
-            // },
-            // {
-            //   key: 'TODO',
-            //   title: t('subscriber.thresholds.components.thresholsdAdjustmentRequest.label'),
-            //   description: t(
-            //     'subscriber.thresholds.components.thresholsdAdjustmentRequest.description'
-            //   ),
-            //   visibility: ['admin'], // To define
-            // },
-          ],
-        },
+        // {
+        //   name: 'soglieDiCarico',
+        //   title: t('subscriber.thresholds.title'),
+        //   components: [
+        //     {
+        //       key: 'TODO',
+        //       title: t('subscriber.thresholds.components.thresholdsExcedeed.label'),
+        //       description: t('subscriber.thresholds.components.thresholdsExcedeed.description'),
+        //       visibility: ['admin'], // To define
+        //     },
+        //     {
+        //       key: 'TODO',
+        //       title: t('subscriber.thresholds.components.thresholsdAdjustmentRequest.label'),
+        //       description: t(
+        //         'subscriber.thresholds.components.thresholsdAdjustmentRequest.description'
+        //       ),
+        //       visibility: ['admin'], // To define
+        //     },
+        //   ],
+        // },
       ],
     },
     provider: {
@@ -152,7 +152,9 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
           components: [
             {
               key: 'newEserviceTemplateVersionToInstantiator',
-              title: t('provider.eserviceTemplate.components.instanceFromTemplate.label') + '(17)',
+              title:
+                t('provider.eserviceTemplate.components.instanceFromTemplate.label') +
+                '(?? DIGEST)',
               description: t(
                 'provider.eserviceTemplate.components.instanceFromTemplate.description'
               ),
@@ -166,12 +168,12 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
               ),
               visibility: ['admin', 'security'],
             },
-            // {
-            //   key: 'newTemplateVersion',
-            //   title: t('provider.eserviceTemplate.components.newTemplateVersion.label') + 'BOH',
-            //   description: t('provider.eserviceTemplate.components.newTemplateVersion.description'),
-            //   visibility: ['admin', 'security'], // To define
-            // },
+            {
+              key: 'newEserviceTemplateVersionToInstantiator',
+              title: t('provider.eserviceTemplate.components.newTemplateVersion.label') + '(17)',
+              description: t('provider.eserviceTemplate.components.newTemplateVersion.description'),
+              visibility: ['admin', 'security'], // To define
+            },
             {
               key: 'eserviceTemplateNameChangedToInstantiator',
               title:
