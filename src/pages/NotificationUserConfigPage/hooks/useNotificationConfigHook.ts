@@ -166,12 +166,12 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
               ),
               visibility: ['admin', 'security'],
             },
-            {
-              key: 'newTemplateVersion',
-              title: t('provider.eserviceTemplate.components.newTemplateVersion.label') + 'BOH',
-              description: t('provider.eserviceTemplate.components.newTemplateVersion.description'),
-              visibility: ['admin', 'security'], // To define
-            },
+            // {
+            //   key: 'newTemplateVersion',
+            //   title: t('provider.eserviceTemplate.components.newTemplateVersion.label') + 'BOH',
+            //   description: t('provider.eserviceTemplate.components.newTemplateVersion.description'),
+            //   visibility: ['admin', 'security'], // To define
+            // },
             {
               key: 'eserviceTemplateNameChangedToInstantiator',
               title:

@@ -26,13 +26,7 @@ async function getUserNotificationConfigs() {
     `${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`
   )
 
-  const responseData: UserNotificationConfig = {
-    ...response.data,
-    inAppNotificationPreference: Math.random() < 0.5,
-    emailNotificationPreference: Math.random() < 0.5 ? 'ENABLED' : 'DISABLED',
-  } // DELETE THIS
-
-  return responseData
+  return response.data
 }
 async function getTenantNotificationConfigs() {
   const response = await axiosInstance.get<TenantNotificationConfig>(

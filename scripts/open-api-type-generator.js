@@ -2,7 +2,7 @@ import { generateApi } from 'swagger-typescript-api'
 import path from 'path'
 
 const openApiSpecificationFileUrl =
-  'https://raw.githubusercontent.com/pagopa/interop-be-monorepo/refs/heads/PIN-77940_user-preferences-on-config/packages/api-clients/open-api/bffApi.yml'
+  'https://raw.githubusercontent.com/pagopa/interop-be-monorepo/refs/heads/develop/packages/api-clients/open-api/bffApi.yml'
 
 const apiFolderPath = path.resolve('./src/api/')
 

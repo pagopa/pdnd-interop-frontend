@@ -51,7 +51,7 @@ const NotificationUserConfigTabs: React.FC<{
   const handleUpdate = (
     notificationConfig: NotificationConfig,
     type: NotificationConfigType,
-    _preferenceChoice:
+    preferenceChoice:
       | UserNotificationConfig['emailNotificationPreference']
       | UserNotificationConfig['inAppNotificationPreference']
   ) => {
@@ -67,9 +67,9 @@ const NotificationUserConfigTabs: React.FC<{
         'inApp',
         () =>
           ({
-            // inAppNotificationPreference: preferenceChoice,
+            inAppNotificationPreference: preferenceChoice,
             inAppConfig: removeUnnecessaryKeys(notificationConfig),
-            // emailNotificationPreference: data?.emailNotificationPreference,
+            emailNotificationPreference: data?.emailNotificationPreference,
             emailConfig: data?.emailConfig as NotificationConfig,
           }) as UserNotificationConfigUpdateSeed
       )
@@ -77,15 +77,14 @@ const NotificationUserConfigTabs: React.FC<{
         'email',
         () =>
           ({
-            // inAppNotificationPreference: data.inAppNotificationPreference,
+            inAppNotificationPreference: data?.inAppNotificationPreference,
             inAppConfig: data?.inAppConfig as NotificationConfig,
             emailConfig: removeUnnecessaryKeys(notificationConfig),
-            // emailNotificationPreference: preferenceChoice,
+            emailNotificationPreference: preferenceChoice,
           }) as UserNotificationConfigUpdateSeed
       )
       .exhaustive()
 
-    console.log('updateUserNotificationConfigs -> ', notificationConfigSeed)
     updateUserNotificationConfigs(notificationConfigSeed)
   }
 
@@ -114,7 +113,7 @@ const NotificationUserConfigTabs: React.FC<{
             <NotificationConfigUserTab
               type="email"
               notificationConfig={{
-                ...data.inAppConfig,
+                ...data.emailConfig,
                 preferenceChoice: data.emailNotificationPreference,
               }}
               handleUpdateNotificationConfigs={(notification, type, preferenceChoice) =>

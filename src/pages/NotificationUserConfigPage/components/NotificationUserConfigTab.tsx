@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { SectionContainer } from '@/components/layout/containers'
@@ -26,6 +26,7 @@ import type {
   NotificationPreferenceChoiceType,
 } from '../types'
 import { match } from 'ts-pattern'
+import { AuthHooks } from '@/api/auth'
 
 type NotificationConfigFormValues = NotificationConfig & {
   preferenceChoice: NotificationPreferenceChoiceType
@@ -48,7 +49,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
 
   const { notificationSchema, sectionComponentKeysMap } = useNotificationConfigHook(type)
-  const userEmail = 'pippo@mail.com' // TODO: Should be available with api
+  const { userEmail } = AuthHooks.useJwt()
 
   const formMethods = useForm<
     NotificationConfig & {
@@ -63,9 +64,10 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const debouncedUpdate = React.useMemo(
     () =>
       debounce((data: NotificationConfigFormValues) => {
+        const preferenceChoice = formMethods.getValues('preferenceChoice')
         handleUpdateNotificationConfigs(data, type, preferenceChoice)
       }, 1000),
-    [handleUpdateNotificationConfigs, preferenceChoice, type]
+    [handleUpdateNotificationConfigs, formMethods, type]
   )
 
   useEffect(() => {
