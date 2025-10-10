@@ -39,6 +39,9 @@
       "mailField": {
         "label": "Indirizzo email ente (richiesto)"
       },
+      "notificationActivationField": {
+        "label": "Ricevi email di cortesia per l’ente attraverso questa casella"
+      },
       "descriptionField": {
         "label": "Note",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"

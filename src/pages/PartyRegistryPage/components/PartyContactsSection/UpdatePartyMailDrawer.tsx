@@ -1,8 +1,13 @@
 import type { Mail } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { NotificationMutations } from '@/api/notification'
 import { TenantMutations } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import {
+  RHFSwitch,
+  RHFTextField,
+  SwitchLabelDescription,
+} from '@/components/shared/react-hook-form-inputs'
 import { emailRegex } from '@/utils/form.utils'
 import { Alert, Stack, Box } from '@mui/material'
 import isEqual from 'lodash/isEqual'
@@ -13,53 +18,81 @@ import { useTranslation } from 'react-i18next'
 type UpdatePartyMailFormValues = {
   contactEmail: string
   description: string
+  enabledTenantNotificationConfigEmail: boolean
 }
 
 type UpdatePartyMailDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   email?: Mail
+  enabledTenantNotificationConfigEmail?: boolean
 }
 
 export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
   isOpen,
   onClose,
   email,
+  enabledTenantNotificationConfigEmail,
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
   const { t: tCommon } = useTranslation('common')
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, currentRoles } = AuthHooks.useJwt()
 
   const { mutateAsync: updateMail } = TenantMutations.useUpdateMail()
+  const { mutateAsync: updateNotificationTenantConfigs } =
+    NotificationMutations.useUpdateNotificationTenantConfigs()
 
   const defaultValues = {
     contactEmail: email?.address ?? '',
     description: email?.description ?? '',
+    enabledTenantNotificationConfigEmail: enabledTenantNotificationConfigEmail ?? false,
   }
 
   const formMethods = useForm<UpdatePartyMailFormValues>({ defaultValues })
 
   React.useEffect(() => {
-    formMethods.reset({ contactEmail: email?.address ?? '', description: email?.description ?? '' })
-  }, [email, formMethods])
+    formMethods.reset({
+      contactEmail: email?.address ?? '',
+      description: email?.description ?? '',
+      enabledTenantNotificationConfigEmail: enabledTenantNotificationConfigEmail,
+    })
+  }, [email, formMethods, enabledTenantNotificationConfigEmail])
 
   const onSubmit = (values: UpdatePartyMailFormValues) => {
     if (!jwt?.organizationId) return
     if (!isEqual(defaultValues, values)) {
-      const { contactEmail, description } = values
-      updateMail(
-        {
-          partyId: jwt.organizationId,
-          address: contactEmail,
-          kind: 'CONTACT_EMAIL',
-          description: description || undefined,
-        },
-        {
-          onSuccess() {
-            onClose()
-          },
-        }
+      const { contactEmail, description, enabledTenantNotificationConfigEmail } = values
+
+      const shouldUpdateMail = !isEqual(defaultValues?.contactEmail, contactEmail)
+      const shouldUpdateNotification = !isEqual(
+        defaultValues?.enabledTenantNotificationConfigEmail,
+        enabledTenantNotificationConfigEmail
       )
+
+      const promises: Promise<unknown>[] = []
+
+      if (shouldUpdateMail) {
+        promises.push(
+          updateMail({
+            partyId: jwt.organizationId,
+            address: contactEmail,
+            kind: 'CONTACT_EMAIL',
+            description: description || undefined,
+          })
+        )
+      }
+
+      if (shouldUpdateNotification) {
+        promises.push(
+          updateNotificationTenantConfigs({
+            enabled: enabledTenantNotificationConfigEmail,
+          })
+        )
+      }
+
+      if (promises.length > 0) {
+        Promise.all(promises).finally(() => onClose())
+      }
     }
   }
 
@@ -114,6 +147,22 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
               }}
             />
           </Box>
+          {currentRoles.includes('admin') && (
+            <Box>
+              <RHFSwitch
+                sx={{ ml: 2 }}
+                data-testid="enable-notification-tenant-email"
+                name="enabledTenantNotificationConfigEmail"
+                defaultChecked={enabledTenantNotificationConfigEmail}
+                label={
+                  <SwitchLabelDescription
+                    label=""
+                    description={t('drawer.notificationActivationField.label')}
+                  />
+                }
+              />
+            </Box>
+          )}
           {email?.address && (
             <Alert variant="outlined" severity="info">
               {t('drawer.mailChangeAlert')}

@@ -18,6 +18,7 @@ export const parseJwt = memoize((token: string | null | undefined) => {
   const isOrganizationAllowedToProduce = !!(
     jwt?.externalId && PRODUCER_ALLOWED_ORIGINS.includes(jwt.externalId.origin)
   )
+  const userEmail = jwt?.email
 
   return {
     jwt,
@@ -27,5 +28,6 @@ export const parseJwt = memoize((token: string | null | undefined) => {
     isOperatorSecurity,
     isSupport,
     isOrganizationAllowedToProduce,
+    userEmail,
   }
 })
