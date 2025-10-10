@@ -1,7 +1,6 @@
 import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { PageContainer } from '@/components/layout/containers'
 import {
@@ -18,6 +17,10 @@ import {
 } from './components/ConsumerPurposeTemplateTable'
 import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/mockedResponses'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { useDialog } from '@/stores'
+import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import type { PurposeTemplateSeed } from '@/api/api.generatedTypes'
+import { useNavigate } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerPurposeTemplateListPage: React.FC = () => {
@@ -29,9 +32,28 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
+  const { mutate: createDraft } = PurposeTemplateMutations.useCreateDraft()
+
+  const { openDialog } = useDialog()
+
+  const handleCreateDraft = (params: PurposeTemplateSeed) => {
+    createDraft(
+      { ...params },
+      {
+        onSuccess() {
+          navigate(/*'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'*/ 'NOT_FOUND') //TODO TO FIX WHEN ROUTE IS AVAILABLE
+        },
+      }
+    )
+  }
+
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('PROVIDE_ESERVICE_TEMPLATE_CREATE'),
+      action: () =>
+        openDialog({
+          type: 'tenantKindPurposeTemplate',
+          onConfirm: handleCreateDraft,
+        }),
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
@@ -44,7 +66,6 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
-      isConsumerDelegable: true,
     }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
@@ -109,7 +130,12 @@ const PurposeTemplateTableWrapper: React.FC<{ params: GetConsumerPurposeTemplate
   )
 
   if (!data && isFetching) return <ConsumerPurposeTemplateTableSkeleton />
-  return <ConsumerPurposeTemplateTable purposeTemplates={data ?? []} />
+  return (
+    <ConsumerPurposeTemplateTable
+      purposeTemplates={data ?? []}
+      data-testid="purpose-template-table-component"
+    />
+  )
 }
 
 export default ConsumerPurposeTemplateListPage
