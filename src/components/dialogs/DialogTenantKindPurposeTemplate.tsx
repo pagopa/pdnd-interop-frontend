@@ -12,7 +12,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useDialog } from '@/stores'
 import type { DialogTenantKindPurposeTemplateProps } from '@/types/dialog.types'
-import { RHFAutocompleteSingle } from '../shared/react-hook-form-inputs'
+import { RHFAutocompleteSingle, RHFRadioGroup } from '../shared/react-hook-form-inputs'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { PurposeTemplateSeed, TenantKind } from '@/api/api.generatedTypes'
 
@@ -60,6 +60,17 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
     },
   ]
 
+  const optionsPersonalData: Array<{ label: string; value: string }> = [
+    {
+      label: t('content.personalDataRadioBtn.options.true'),
+      value: 'true',
+    },
+    {
+      label: t('content.personalDataRadioBtn.options.false'),
+      value: 'false',
+    },
+  ]
+
   return (
     <Dialog
       open
@@ -73,7 +84,7 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
         <Box component="form" noValidate onSubmit={onSubmit}>
           <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
           <DialogContent>
-            <Stack spacing={2}>
+            <Stack spacing={3}>
               <Typography variant="body1">{t('content.description')}</Typography>
               <RHFAutocompleteSingle
                 sx={{ my: 0 }}
@@ -81,6 +92,13 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
                 options={options}
                 label={t('content.label')}
                 rules={{ required: true }}
+              />
+              <RHFRadioGroup
+                name="personalData"
+                options={optionsPersonalData}
+                label={t('content.personalDataRadioBtn.label')}
+                rules={{ required: true }}
+                row
               />
             </Stack>
           </DialogContent>
