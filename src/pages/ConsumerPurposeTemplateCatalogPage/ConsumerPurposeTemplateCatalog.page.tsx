@@ -1,6 +1,7 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
+import type { FilterOption } from '@pagopa/interop-fe-commons'
 import {
   Filters,
   Pagination,
@@ -18,6 +19,7 @@ import {
   PurposeTemplateCatalogGrid,
   PurposeTemplateCatalogGridSkeleton,
 } from './components/PurposeTemplateCatalogGrid'
+import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposeTemplatesCatalog' })
@@ -28,7 +30,8 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
-  const { data: templateCreatorsOptions = [] } = [] /* useQuery({
+  const templateCreatorsOptions: FilterOption[] = [] //TODO: REMOVE THIS AND UNCOMMENT THE FOLLOWING QUERY WHEN THE API WILL BE READY
+  /*const { data: templateCreatorsOptions = [] } = []  useQuery({
     ...PurposeTemplateQueries.getTODOAPICALL({
       offset: 0,
       limit: 50,
@@ -45,17 +48,18 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
   })*/
 
   const { data: eservicesOptions = [] } = useQuery({
-    ...PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList(/*{ TODO FIX THIS API CALL
-      offset: 0,
+    ...EServiceQueries.getCatalogList({
+      q: eservicesAutocompleteInput,
+      states: ['PUBLISHED'],
       limit: 50,
-      q: undefined,
-    }*/),
-    // placeholderData: keepPreviousData,
-    // select: (data) =>
-    //   data.results.map((o) => ({
-    //     label: o.name,
-    //     value: o.id,
-    //   })),
+      offset: 0,
+    }),
+    placeholderData: keepPreviousData,
+    select: ({ results }) =>
+      results.map((o) => ({
+        label: o.name,
+        value: o.id,
+      })),
   })
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
@@ -107,8 +111,7 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
       <PurposeTemplateCatalogWrapper params={queryParams} />
       <Pagination
         {...paginationProps}
-        //totalPages={getTotalPageCount(data?.pagination.totalCount)}
-        totalPages={10} //TODO: FIX THIS
+        totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </PageContainer>
   )
