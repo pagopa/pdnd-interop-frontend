@@ -17,7 +17,10 @@
     },
     "eserviceField": {
       "label": "Choose e-service",
-      "infoLabel": "You can only select the e-services for which the selected user has an active request for use"
+      "infoLabel": "You can only select the e-services for which the selected user has an active request for use",
+      "alert": {
+        "label": "For the selected e-service, you can use the facilitated compilation feature!"
+      }
     },
     "eserviceRiskAnalysisSection": {
       "title": "Choose purpose",
@@ -38,7 +41,22 @@
       "description": "Lorem ipsum dolor sit amet...",
       "freeOfChargeReason": "I'm a Public Amministration"
     },
-    "riskAnalysisPreviewTitle": "Risk analysis"
+    "riskAnalysisPreviewTitle": "Risk analysis",
+    "purposeTemplateField": {
+      "title": "Facilitated purpose compilation",
+      "description": "The facilitated compilation feature provides annotations, supporting documents, and some pre-filled answers to help you formulate the risk analysis. The template is made available for reuse by other participating organizations and can be used without restrictions.",
+      "usePurposeTemplateSwitch": {
+        "label": "Use the facilitated compilation feature",
+        "selectPurposeTemplate": {
+          "title": "Choose the facilitated purpose compilation template",
+          "showOnlyLinkedPurposeTemplates": "Show only templates suggested for the selected e-service",
+          "autocompleteLabel": "Facilitated purpose compilation template"
+        },
+        "acknowledgeInfoResponsibility": {
+          "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication."
+        }
+      }
+    }
   },
   "edit": {
     "emptyTitle": "Edit purpose",
@@ -84,6 +102,41 @@
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
         "proceedButtonLabel": "Update",
         "cancelButtonLabel": "Discard"
+      }
+    },
+    "purposeFromTemplate": {
+      "generalInformationSection": {
+        "title": "General information",
+        "subtitle": "The following information was pre-filled by the creator of the facilitated purpose template and can be modified.",
+        "descriptionSection": {
+          "title": "Description",
+          "nameField": {
+            "label": "Purpose name"
+          },
+          "descriptionField": {
+            "label": "Purpose description"
+          },
+          "isFreeOfChargeField": {
+            "label": "Free of charge access",
+            "options": {
+              "YES": "Yes",
+              "NO": "No"
+            }
+          },
+          "freeOfChargeReasonField": {
+            "label": "Free of charge reason"
+          }
+        }
+      },
+      "technicalInformationsSection": {
+        "title": "Technical information",
+        "instanceNameField": {
+          "label": "Instance name",
+          "defaultPurposeInstanceName": "Template for facilitated purpose compilation"
+        },
+        "dailyCallsField": {
+          "label": "How many API calls/day do you estimate to make?"
+        }
       }
     }
   },
@@ -169,6 +222,9 @@
           "label": "E-service",
           "value": "{{name}}, version {{version}}"
         },
+        "purposeTemplateField": {
+          "label": "Linked purpose template"
+        },
         "consumerField": {
           "label": "Consumer"
         },
@@ -195,6 +251,10 @@
         "consumerField": {
           "label": "Consumer ID",
           "copySuccessFeedbackText": "Consumer id copied successfully"
+        },
+        "purposeTemplateField": {
+          "label": "Template ID",
+          "copySuccessFeedbackText": "Purpose Template id copied successfully"
         }
       },
       "loadEstimate": {
@@ -329,6 +389,9 @@
           "dailyCallsTotalsField": {
             "label": "Totals"
           }
+        },
+        "alertExceedingThreshold": {
+          "label": "If the number of calls exceeds the limit set by the provider, its approval will be required to use that load"
         }
       }
     }
