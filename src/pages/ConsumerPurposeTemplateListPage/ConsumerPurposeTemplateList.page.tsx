@@ -66,7 +66,6 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
-      isConsumerDelegable: true,
     }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
