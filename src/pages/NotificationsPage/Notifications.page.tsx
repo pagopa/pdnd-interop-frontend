@@ -6,7 +6,10 @@ import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-
 import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsTable'
 import type { GetUserNotificationsParams } from '@/api/notification/notification.services'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { Box, Paper } from '@mui/material'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { Link } from '@/router'
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notifications', { keyPrefix: 'notifications.page' })
@@ -34,6 +37,14 @@ const NotificationsPage: React.FC = () => {
           label: t('filters.categoryField.optionLabels.Receive'),
           value: 'RECEIVE',
         },
+        {
+          label: t('filters.categoryField.optionLabels.Delegation'),
+          value: 'DELEGATION',
+        },
+        {
+          label: t('filters.categoryField.optionLabels.keyAttributes'),
+          value: 'KEY_ATTRIBUTES',
+        },
       ],
     },
     {
@@ -52,12 +63,12 @@ const NotificationsPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
-  const totalPageCount = 10 //TODO TO REMOVE
-  // const { data: totalPageCount = 0 } = useQuery({
-  //   ...TemplateQueries.getProviderTemplatesList(queryParams),
-  //   placeholderData: keepPreviousData,
-  //   select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
-  // })
+
+  const { data: totalPageCount = 0 } = useQuery({
+    ...NotificationQueries.getUserNotificationsList(queryParams),
+    placeholderData: keepPreviousData,
+    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
+  })
 
   const params = {
     ...filtersParams,
@@ -72,9 +83,20 @@ const NotificationsPage: React.FC = () => {
         headVariant="primary"
         actions={action}
       />
-      <Filters {...filtersHandlers} />
-      <NotificationsTableWrapper params={params} />
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+
+      {filtersParams && totalPageCount <= 0 ? (
+        <>
+          <Filters {...filtersHandlers} />
+          <NotificationsTableWrapper params={params} />
+          <Pagination {...paginationProps} totalPages={totalPageCount} />
+        </>
+      ) : (
+        <NoItemResults>
+          <div>
+            {t('notNotificationAvailable')} <Link to="DEFAULT">TODO</Link>
+          </div>
+        </NoItemResults>
+      )}
     </>
   )
 }

@@ -4,6 +4,7 @@
       "title": "Notifications",
       "description": "View all notifications for your user.",
       "addNotificationConfigBtn": "Configure notifications",
+      "notNotificationAvailable": "You have not received any platform notifications yet.",
       "rowActions": {
         "lastUpdate": "Last update at: ",
         "updateButton": "Refresh",
@@ -21,8 +22,10 @@
         "categoryField": {
           "label": "Category",
           "optionLabels": {
-            "Deliver": "Deliver",
-            "Receive": "Receive"
+            "Deliver": "Erogazione",
+            "Receive": "Fruizione",
+            "Delegation": "Deleghe",
+            "keyAttributes": "Attributi e Chiavi"
           }
         },
         "stateField": {

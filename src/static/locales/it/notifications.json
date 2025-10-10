@@ -4,6 +4,7 @@
       "title": "Notifiche",
       "description": "Visualizza tutte le notifiche per la tua utenza.",
       "addNotificationConfigBtn": "Configura notifiche",
+      "notNotificationAvailable": "Non hai ancora ricevuto notifiche di piattaforma.",
       "rowActions": {
         "lastUpdate": "Ultimo aggiornamento: ",
         "updateButton": "Aggiorna",
@@ -22,7 +23,9 @@
           "label": "Categoria",
           "optionLabels": {
             "Deliver": "Erogazione",
-            "Receive": "Fruizione"
+            "Receive": "Fruizione",
+            "Delegation": "Deleghe",
+            "keyAttributes": "Attributi e Chiavi"
           }
         },
         "stateField": {
