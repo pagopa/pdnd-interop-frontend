@@ -335,6 +335,15 @@
         "riskAnalysisSection": {
           "title": "Analisi del rischio",
           "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
+          "personalDataFlag": {
+            "label": "Trattamento dati personali",
+            "true": "Hai dichiarato di trattare dati personali",
+            "false": "Hai dichiarato di non trattare dati personali",
+            "undefined": "Non specificato"
+          },
+          "personalDataValuesAlert": {
+            "label": "Assicurati che la risposta di questa domanda sia uguale a quella che hai indicato nelle informazioni generali dell’e-service. Se i dati non corrispondono ti verrà bloccata la pubblicazione di questa finalità."
+          },
           "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo",
           "eserviceTemplateRiskAnalysis": {
             "title": "Indicare chi potrà utilizzare la seguente analisi del rischio",

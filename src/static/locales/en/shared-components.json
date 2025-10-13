@@ -335,6 +335,15 @@
         "riskAnalysisSection": {
           "title": "Risk analysis",
           "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
+          "personalDataFlag": {
+            "label": "Personal data processing",
+            "true": "You have declared that you process personal data",
+            "false": "You have declared that you do not process personal data",
+            "undefined": "You did not answer the question about personal data processing"
+          },
+          "personalDataValuesAlert": {
+            "label": "Make sure that the answer to this question matches the one you indicated in the general information of the e-service. If the data does not match, the publication of this purpose will be blocked."
+          },
           "personalDataAlert": "Be careful not to enter personal data in the free text fields",
           "eserviceTemplateRiskAnalysis": {
             "title": "Indicate who will be able to use the following risk analysis.",
