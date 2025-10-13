@@ -430,7 +430,7 @@
             "undefined": "Not specified"
           },
           "alert": {
-            "label": "Indicate whether this e-service processes personal data."
+            "label": "Specify whether this e-service processes personal data."
           }
         },
         "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
