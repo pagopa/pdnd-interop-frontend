@@ -5,6 +5,7 @@ import { mockCatalogPurposeTemplates, purposeTemplatesListMock } from './mockedR
 import type {
   CatalogPurposeTemplates,
   CreatedResource,
+  EServiceDescriptorPurposeTemplate,
   EServiceDescriptorsPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
   GetPurposeTemplateEServicesParams,
@@ -91,7 +92,7 @@ async function linkEserviceToPurposeTemplate({
   purposeTemplateId,
   ...payload
 }: { purposeTemplateId: string } & LinkEServiceToPurposeTemplatePayload) {
-  const response = await axiosInstance.post<LinkEServiceToPurposeTemplatePayload>(
+  const response = await axiosInstance.post<EServiceDescriptorPurposeTemplate>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
     payload
   )
