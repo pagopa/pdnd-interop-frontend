@@ -14,7 +14,7 @@ import { useDialog } from '@/stores'
 import type { DialogTenantKindPurposeTemplateProps } from '@/types/dialog.types'
 import { RHFAutocompleteSingle, RHFRadioGroup } from '../shared/react-hook-form-inputs'
 import { FormProvider, useForm } from 'react-hook-form'
-import type { PurposeTemplateSeed, TenantKind } from '@/api/api.generatedTypes'
+import type { TenantKind } from '@/api/api.generatedTypes'
 
 export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTemplateProps> = ({
   onConfirm,
@@ -31,21 +31,16 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
     closeDialog()
   }
 
-  const formMethods = useForm<{ tenantKind: TenantKind }>({
+  const formMethods = useForm<{ tenantKind: TenantKind; personalData: string }>({
     defaultValues: {
       tenantKind: 'PA',
+      personalData: 'true',
     },
   })
 
-  const onSubmit = formMethods.handleSubmit(({ tenantKind }) => {
-    const params: PurposeTemplateSeed = {
-      targetDescription: '',
-      targetTenantKind: tenantKind,
-      purposeTitle: '',
-      purposeDescription: '',
-      purposeIsFreeOfCharge: true,
-    }
-    onConfirm(params)
+  const onSubmit = formMethods.handleSubmit(({ tenantKind, personalData }) => {
+    const handlesPersonalData = personalData === 'true'
+    onConfirm(tenantKind, handlesPersonalData)
     closeDialog()
   })
 
