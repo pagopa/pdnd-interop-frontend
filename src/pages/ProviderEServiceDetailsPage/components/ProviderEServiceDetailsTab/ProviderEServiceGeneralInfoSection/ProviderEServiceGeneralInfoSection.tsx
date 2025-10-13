@@ -20,6 +20,7 @@ import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDr
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { Link } from '@/router'
 import { UpdateEServicePersonalDataDrawer } from '@/components/shared/UpdateEServicePersonalDataDrawer'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -198,23 +199,25 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
           />
-          {!descriptor.eservice.personalData && !isEserviceFromTemplate && (
-            <Alert severity="warning" sx={{ alignItems: 'center' }}>
-              <Stack spacing={25} direction="row" alignItems="center">
-                {' '}
-                {/**TODO FIX SPACING */}
-                <Typography>{t('personalDataField.alert.label')}</Typography>
-                <Button
-                  variant="naked"
-                  size="medium"
-                  sx={{ fontWeight: 700, mr: 1 }}
-                  onClick={openUpdateEServicePersonalDataDrawer}
-                >
-                  {tCommon('actions.specifyProcessing')}
-                </Button>
-              </Stack>
-            </Alert>
-          )}
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' &&
+            !descriptor.eservice.personalData &&
+            !isEserviceFromTemplate && (
+              <Alert severity="warning" sx={{ alignItems: 'center' }}>
+                <Stack spacing={25} direction="row" alignItems="center">
+                  {' '}
+                  {/**TODO FIX SPACING */}
+                  <Typography>{t('personalDataField.alert.label')}</Typography>
+                  <Button
+                    variant="naked"
+                    size="medium"
+                    sx={{ fontWeight: 700, mr: 1 }}
+                    onClick={openUpdateEServicePersonalDataDrawer}
+                  >
+                    {tCommon('actions.specifyProcessing')}
+                  </Button>
+                </Stack>
+              </Alert>
+            )}
           {isEserviceFromTemplate ? (
             <>
               <InformationContainer
