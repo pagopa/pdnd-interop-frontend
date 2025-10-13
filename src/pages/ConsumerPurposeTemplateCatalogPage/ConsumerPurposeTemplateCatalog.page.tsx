@@ -96,9 +96,7 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
     },
   ])
 
-  // Only purpose templates published or suspended can be shown in the catalog
-  const states: Array<PurposeTemplateState> = ['ACTIVE', 'SUSPENDED']
-  const queryParams = { ...paginationParams, ...filtersParams, states }
+  const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data } = useQuery({
     ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
