@@ -4,6 +4,7 @@ import {
   Radio,
   RadioGroup as MUIRadioGroup,
   type RadioGroupProps as MUIRadioGroupProps,
+  Alert,
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
@@ -21,6 +22,7 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
   disabled?: boolean
   rules?: ControllerProps['rules']
   options: Array<InputOption & { disabled?: boolean }>
+  personalDataFlag: boolean
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
@@ -31,13 +33,17 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   helperText,
   disabled,
   rules,
+  personalDataFlag,
   ...props
 }) => {
-  const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
+  const { formState, watch } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
+  const { t: tShared } = useTranslation('shared-components', {
+    keyPrefix: 'create.stepPurpose.riskAnalysis.riskAnalysisSection.personalDataValuesAlert',
+  })
   const labelId = useId()
 
-  const name = `answers.${questionId}`
+  const name = `answers.${questionId}` as const
 
   const error = formState.errors.answers?.[questionId]?.message as string | undefined
 
@@ -47,6 +53,8 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
     error,
     helperText,
   })
+
+  const currentValue = watch(name)
 
   return (
     <RiskAnalysisInputWrapper
@@ -81,6 +89,9 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
           </MUIRadioGroup>
         )}
       />
+      {questionId === 'usesPersonalData' && currentValue !== String(personalDataFlag) && (
+        <Alert severity="warning">{tShared('label')}</Alert>
+      )}
     </RiskAnalysisInputWrapper>
   )
 }

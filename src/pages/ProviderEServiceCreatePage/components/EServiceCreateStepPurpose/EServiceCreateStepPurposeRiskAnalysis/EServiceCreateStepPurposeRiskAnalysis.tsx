@@ -11,6 +11,8 @@ import { useQuery } from '@tanstack/react-query'
 export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
   const { riskAnalysisFormState, closeRiskAnalysisForm, descriptor } = useEServiceCreateContext()
 
+  const personalDataFlag = descriptor?.eservice.personalData
+
   const { mutate: addEServiceRiskAnalysis } = EServiceMutations.useAddEServiceRiskAnalysis()
   const { mutate: updateEServiceRiskAnalysis } = EServiceMutations.useUpdateEServiceRiskAnalysis()
 
@@ -80,6 +82,7 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
       riskAnalysis={riskAnalysisLatest}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
+      personalDataFlag={personalDataFlag}
     />
   )
 }
