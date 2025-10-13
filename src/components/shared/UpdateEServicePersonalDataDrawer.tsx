@@ -14,7 +14,7 @@ type UpdateEServicePersonalDataDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   eserviceId: string
-  onSubmit: (id: string, personalData: boolean | undefined) => void
+  onSubmit: (id: string, personalData: boolean) => void
   personalData: boolean | undefined
   eserviceMode: EServiceMode
 }
@@ -43,6 +43,7 @@ export const UpdateEServicePersonalDataDrawer: React.FC<UpdateEServicePersonalDa
   }, [personalData, formMethods])
 
   const handleSubmit = (values: UpdateEServicePersonalDataFormValues) => {
+    if (values.personalData === undefined) return
     onSubmit(eserviceId, values.personalData)
   }
 
