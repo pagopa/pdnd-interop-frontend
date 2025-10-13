@@ -49,6 +49,9 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   const { mutate: updateEserviceTemplateName } =
     EServiceTemplateMutations.useUpdateEServiceTemplateName()
 
+  const { mutate: updateEserviceTemplatePersonalData } =
+    EServiceTemplateMutations.useUpdateEServiceTemplatePersonalDataFlagAfterPublication()
+
   const {
     isOpen: isVersionSelectorDrawerOpen,
     openDrawer: openVersionSelectorDrawer,
@@ -136,11 +139,17 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     closeDrawer: closeEServiceUpdatePersonalDataDrawer,
   } = useDrawerState()
 
-  const handleEServicePersonalDataUpdate = (
-    eserviceId: string,
-    personalData: boolean | undefined
+  const handleEServiceTemplatePersonalDataUpdate = (
+    eserviceTemplateId: string,
+    personalData: boolean
   ) => {
-    console.log('TODO: update personal data, API not ready yet')
+    updateEserviceTemplatePersonalData(
+      {
+        eserviceTemplateId: eserviceTemplateId,
+        personalData: personalData,
+      },
+      { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+    )
   }
 
   return (
@@ -171,7 +180,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
           {routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
             eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
               <Alert severity="warning" sx={{ alignItems: 'center' }}>
-                <Stack spacing={33} direction="row" alignItems="center">
+                <Stack spacing={17} direction="row" alignItems="center">
                   {' '}
                   {/**TODO FIX SPACING */}
                   <Typography>{t('personalDataField.alert.label')}</Typography>
@@ -181,7 +190,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                     sx={{ fontWeight: 700, mr: 1 }}
                     onClick={openUpdateEServicePersonalDataDrawer}
                   >
-                    {tCommon('actions.completeData')}
+                    {tCommon('actions.specifyProcessing')}
                   </Button>
                 </Stack>
               </Alert>
@@ -327,7 +336,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 onClose={closeEServiceUpdatePersonalDataDrawer}
                 eserviceId={eserviceTemplateVersion.eserviceTemplate.id}
                 personalData={eserviceTemplateVersion.eserviceTemplate.personalData}
-                onSubmit={handleEServicePersonalDataUpdate}
+                onSubmit={handleEServiceTemplatePersonalDataUpdate}
                 eserviceMode={eserviceTemplateVersion.eserviceTemplate.mode}
               />
             </>
