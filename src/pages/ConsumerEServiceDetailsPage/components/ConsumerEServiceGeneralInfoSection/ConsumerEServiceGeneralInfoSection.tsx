@@ -13,6 +13,7 @@ import { ConsumerEServiceTechnicalInfoDrawer } from './ConsumerEServiceTechnical
 import { ConsumerEServiceProducerContactsDrawer } from './ConsumerEServiceProducerContactsDrawer'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -84,10 +85,12 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             content={descriptor.eservice.producer.name}
           />
           <InformationContainer label={t('version.label')} content={descriptor.version} />
-          <InformationContainer
-            label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
-            content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
-          />
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+            <InformationContainer
+              label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
+              content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+            />
+          )}
           <InformationContainer
             label={t('eserviceDescription.label')}
             content={descriptor.eservice.description}
