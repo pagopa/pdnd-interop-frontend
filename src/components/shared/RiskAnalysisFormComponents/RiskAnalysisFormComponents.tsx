@@ -24,15 +24,26 @@ import { match } from 'ts-pattern'
  * @param questions - the actual updated questions visible to the user
  * @returns Array of components that should be rendered inside the form
  * */
-export const RiskAnalysisFormComponents: React.FC<{ questions: RiskAnalysisQuestions }> = ({
-  questions,
-}) => {
+export const RiskAnalysisFormComponents: React.FC<{
+  questions: RiskAnalysisQuestions
+  personalDataFlag: boolean
+}> = ({ questions, personalDataFlag }) => {
   return Object.entries(questions).map(([questionId, question]) => (
-    <RiskAnalysisQuestion key={questionId} question={question} />
+    <RiskAnalysisQuestion
+      key={questionId}
+      question={question}
+      personalDataFlag={personalDataFlag}
+    />
   ))
 }
 
-function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
+function RiskAnalysisQuestion({
+  question,
+  personalDataFlag,
+}: {
+  question: FormConfigQuestion
+  personalDataFlag: boolean
+}) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
 
@@ -85,7 +96,12 @@ function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
       />
     ))
     .with('radio', () => (
-      <RiskAnalysisRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
+      <RiskAnalysisRadioGroup
+        {...commonProps}
+        options={inputOptions}
+        rules={{ required: true }}
+        personalDataFlag={personalDataFlag}
+      />
     ))
     .with('switch', () => (
       <RiskAnalysisSwitch
