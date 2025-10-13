@@ -34,7 +34,10 @@ import {
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
+import {
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
+} from '@/config/env'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -95,7 +98,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 isClientAccessDelegable: formValues.isClientAccessDelegable,
                 isConsumerDelegable: formValues.isConsumerDelegable,
                 isSignalHubEnabled: formValues.isSignalHubEnabled,
-                //personalData: formValues.personalData, todo
               },
               { onSuccess: forward }
             )
@@ -132,7 +134,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         isClientAccessDelegable: formValues.isClientAccessDelegable,
         isConsumerDelegable: formValues.isConsumerDelegable,
         isSignalHubEnabled: formValues.isSignalHubEnabled,
-        //TODO: PERSONAL DATA FLAG HERE?
       }
 
       createDraftFromTemplate(body, {
@@ -234,25 +235,26 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
-
-          <RHFRadioGroup
-            name="personalData"
-            row
-            label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
-            options={[
-              {
-                label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
-                value: 'true',
-              },
-              {
-                label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.false`),
-                value: 'false',
-              },
-            ]}
-            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-            rules={{ required: true }}
-            sx={{ mb: 0, mt: 3 }}
-          />
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+            <RHFRadioGroup
+              name="personalData"
+              row
+              label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
+              options={[
+                {
+                  label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
+                  value: 'true',
+                },
+                {
+                  label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.false`),
+                  value: 'false',
+                },
+              ]}
+              disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+              rules={{ required: true }}
+              sx={{ mb: 0, mt: 3 }}
+            />
+          )}
         </SectionContainer>
 
         {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}

@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   questionId: string
@@ -22,7 +23,7 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
   disabled?: boolean
   rules?: ControllerProps['rules']
   options: Array<InputOption & { disabled?: boolean }>
-  personalDataFlag: boolean
+  personalDataFlag?: boolean
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
@@ -89,9 +90,11 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
           </MUIRadioGroup>
         )}
       />
-      {questionId === 'usesPersonalData' && currentValue !== String(personalDataFlag) && (
-        <Alert severity="warning">{tShared('label')}</Alert>
-      )}
+      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' &&
+        questionId === 'usesPersonalData' &&
+        currentValue !== String(personalDataFlag) && (
+          <Alert severity="warning">{tShared('label')}</Alert>
+        )}
     </RiskAnalysisInputWrapper>
   )
 }

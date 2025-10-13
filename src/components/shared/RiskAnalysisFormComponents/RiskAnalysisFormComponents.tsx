@@ -26,7 +26,7 @@ import { match } from 'ts-pattern'
  * */
 export const RiskAnalysisFormComponents: React.FC<{
   questions: RiskAnalysisQuestions
-  personalDataFlag: boolean
+  personalDataFlag?: boolean
 }> = ({ questions, personalDataFlag }) => {
   return Object.entries(questions).map(([questionId, question]) => (
     <RiskAnalysisQuestion
@@ -42,7 +42,7 @@ function RiskAnalysisQuestion({
   personalDataFlag,
 }: {
   question: FormConfigQuestion
-  personalDataFlag: boolean
+  personalDataFlag?: boolean
 }) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
