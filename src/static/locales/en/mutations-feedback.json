@@ -265,6 +265,13 @@
         "error": "Personal data processing could not be updated. Please, try again!",
         "success": "Personal data processing has been updated successfully!"
       }
+    },
+    "updateEServiceTemplatePersonalDataFlagAfterPublication": {
+      "loading": "We are updating the personal data processing",
+      "outcome": {
+        "error": "Personal data processing could not be updated. Please, try again!",
+        "success": "Personal data processing has been updated successfully!"
+      }
     }
   },
   "attribute": {

@@ -46,7 +46,7 @@
             "undefined": "Not specified"
           },
           "alert": {
-            "label": "Indicate whether this e-service processes personal data."
+            "label": "Specify whether this template e-service handles personal data."
           }
         }
       },
