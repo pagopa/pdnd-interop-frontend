@@ -200,7 +200,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           />
           {!descriptor.eservice.personalData && !isEserviceFromTemplate && (
             <Alert severity="warning" sx={{ alignItems: 'center' }}>
-              <Stack spacing={30} direction="row" alignItems="center">
+              <Stack spacing={25} direction="row" alignItems="center">
                 {' '}
                 {/**TODO FIX SPACING */}
                 <Typography>{t('personalDataField.alert.label')}</Typography>
@@ -210,7 +210,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                   sx={{ fontWeight: 700, mr: 1 }}
                   onClick={openUpdateEServicePersonalDataDrawer}
                 >
-                  {tCommon('actions.completeData')}
+                  {tCommon('actions.specifyProcessing')}
                 </Button>
               </Stack>
             </Alert>
