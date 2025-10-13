@@ -430,7 +430,7 @@
             "undefined": "Non indicato"
           },
           "alert": {
-            "label": "Indica se questo e-service tratta dati personali."
+            "label": "Specificare se questo e-service tratta dati personali."
           }
         },
         "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv",
