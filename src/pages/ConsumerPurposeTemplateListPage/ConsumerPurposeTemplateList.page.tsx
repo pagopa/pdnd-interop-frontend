@@ -39,7 +39,9 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const { openDialog } = useDialog()
 
-  const handleCreateDraft = (tenantKind: TenantKind) => {
+  const handleCreateDraft = (tenantKind: TenantKind, _handlesPersonalData: boolean) => {
+    console.log('tenantKind', tenantKind)
+    console.log('_handlesPersonalData', _handlesPersonalData)
     /**
      * A purpose template cannot have two templates with the same title.
      * To avoid this, we add the current date to the title to make it unique.
@@ -60,6 +62,8 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
         purposeIsFreeOfCharge: true,
         purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
         purposeDailyCalls: 1,
+        // TODO: Add personalData field to the request body when API supports it
+        // personalData: _handlesPersonalData,
       },
       {
         onSuccess() {
