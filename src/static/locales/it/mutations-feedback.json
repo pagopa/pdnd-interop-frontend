@@ -265,6 +265,13 @@
         "error": "Non è stato possibile modificare il trattamento dei dati personali. Per favore, riprova!",
         "success": "Il trattamento dei dati personali è stato modificato correttamente!"
       }
+    },
+    "updateEServiceTemplatePersonalDataFlagAfterPublication": {
+      "loading": "Stiamo aggiornando il trattamento dei dati personali",
+      "outcome": {
+        "error": "Non è stato possibile modificare il trattamento dei dati personali. Per favore, riprova!",
+        "success": "Il trattamento dei dati personali è stato modificato correttamente!"
+      }
     }
   },
   "attribute": {

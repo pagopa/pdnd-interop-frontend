@@ -46,7 +46,7 @@
             "undefined": "Non indicato"
           },
           "alert": {
-            "label": "Indica se questo e-service tratta dati personali."
+            "label": "Specificare se questo template e-service tratta dati personali."
           }
         }
       },
