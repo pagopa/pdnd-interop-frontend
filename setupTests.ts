@@ -30,6 +30,7 @@ export const testConfigs = {
   API_GATEWAY_V2_INTERFACE_URL:
     'https://selfcare.dev.interop.pagopa.it/m2m/v2-interface-specification.yaml',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'false',
 }
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
