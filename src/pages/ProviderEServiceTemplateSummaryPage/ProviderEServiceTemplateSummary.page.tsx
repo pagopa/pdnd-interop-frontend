@@ -16,6 +16,7 @@ import {
   ProviderEServiceTemplateVersionInfoSummary,
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
@@ -151,7 +152,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
         <PublishButton
           onClick={handlePublishDraft}
           disabled={!canBePublished()}
-          arePersonalDataSet={!!eserviceTemplate?.eserviceTemplate.personalData}
+          arePersonalDataSet={
+            FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true'
+              ? !!eserviceTemplate?.eserviceTemplate.personalData
+              : true
+          }
         />
       </Stack>
     </PageContainer>
