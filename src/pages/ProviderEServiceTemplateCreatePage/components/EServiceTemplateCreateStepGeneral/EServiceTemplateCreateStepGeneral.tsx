@@ -19,6 +19,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -172,28 +173,30 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
           />
-          <RHFRadioGroup
-            name="personalData"
-            row
-            label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
-            options={[
-              {
-                label: t(
-                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
-                ),
-                value: 'true',
-              },
-              {
-                label: t(
-                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
-                ),
-                value: 'false',
-              },
-            ]}
-            disabled={!areEServiceTemplateGeneralInfoEditable}
-            rules={{ required: false }} //TODO: TO PUT TO TRUE WHEN API WILL BE UPDATED
-            sx={{ mb: 0, mt: 3 }}
-          />
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+            <RHFRadioGroup
+              name="personalData"
+              row
+              label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
+              options={[
+                {
+                  label: t(
+                    `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
+                  ),
+                  value: 'true',
+                },
+                {
+                  label: t(
+                    `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
+                  ),
+                  value: 'false',
+                },
+              ]}
+              disabled={!areEServiceTemplateGeneralInfoEditable}
+              rules={{ required: true }}
+              sx={{ mb: 0, mt: 3 }}
+            />
+          )}
 
           <SectionContainer innerSection sx={{ mt: 3 }}>
             <RHFCheckbox
