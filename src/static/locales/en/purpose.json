@@ -84,6 +84,14 @@
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
         "proceedButtonLabel": "Update",
         "cancelButtonLabel": "Discard"
+      },
+      "personalDataFlag": {
+        "label": "Personal data processing",
+        "content": {
+          "true": "The provider declares to process personal data",
+          "false": "The provider declares not to process personal data",
+          "undefined": "The provider has not declared the processing of personal data"
+        }
       }
     }
   },
