@@ -33,22 +33,20 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
     onRemoveEServiceFromGroup(eserviceId)
   }
 
-  const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
-  const eserviceGroup = watch('eservices')
+  //const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
+  //const eserviceGroup = watch('eservices')
 
   const handleAddEServiceToGroup = (eservice: CatalogEService) => {
-    // todo: Call API with hardcoded E-Service ID when selecting an E-Service - remove hardcoded ES id when read purposeTemplate eservices API is available
-    const hardcodedEServiceId = '3b0f747a-e52a-4775-88c2-218a2747de8c'
     addEService(
       {
         purposeTemplateId: purposeTemplate.id,
-        eserviceId: hardcodedEServiceId,
+        eserviceId: eservice.id,
       },
       {
         onSuccess: () => {
-          const newEServiceGroup = [...eserviceGroup]
+          /*const newEServiceGroup = [...eserviceGroup]
           newEServiceGroup.push(eservice)
-          setValue('eservices', newEServiceGroup)
+          setValue('eservices', newEServiceGroup)*/
           setIsEServiceAutocompleteShown(false)
         },
       }
