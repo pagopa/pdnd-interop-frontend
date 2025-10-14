@@ -6,7 +6,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import { Box } from '@mui/material'
-import { AddEServiceToForm } from './AddEServiceToForm'
+import { AddEServiceToForm, type LinkedEServiceWithDescriptor } from './AddEServiceToForm'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from '@/router'
@@ -25,10 +25,21 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
-  const { data: eservicesGroup = [] } = useQuery({
-    ...PurposeTemplateQueries.getPurposeTemplateEservices(purposeTemplateId),
+  const { data: eservicesData } = useQuery({
+    ...PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList({
+      purposeTemplateId,
+      offset: 0,
+      limit: 50,
+    }),
     enabled: Boolean(purposeTemplateId),
   })
+
+  // Create a map of EServices with their descriptors
+  const linkedEServices: LinkedEServiceWithDescriptor[] =
+    eservicesData?.results?.map((item) => ({
+      eservice: item.eservice,
+      descriptor: item.descriptor,
+    })) || []
 
   const navigate = useNavigate()
 
@@ -42,12 +53,18 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
   })
 
   const onSubmit = (data: EditStepLinkedEServicesForm) => {
-    const invalidEServices = data.eservices.filter((eservice) => {
+    // Check both form EServices and linked EServices for invalid states
+    const formInvalidEServices = data.eservices.filter((eservice) => {
       const state = eservice.activeDescriptor?.state
       return state === 'ARCHIVED' || state === 'SUSPENDED'
     })
 
-    if (invalidEServices.length > 0) {
+    const linkedInvalidEServices = linkedEServices.filter((linkedItem) => {
+      const state = linkedItem.descriptor.state
+      return state === 'ARCHIVED' || state === 'SUSPENDED'
+    })
+
+    if (formInvalidEServices.length > 0 || linkedInvalidEServices.length > 0) {
       setIsWarningShown(true)
       return
     }
@@ -72,7 +89,7 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
             <AddEServiceToForm
               readOnly={false}
               purposeTemplate={purposeTemplate}
-              linkedEServices={eservicesGroup}
+              linkedEServices={linkedEServices}
               showWarning={isWarningShown}
             />{' '}
             {/*TODO ADD LINKED ESERVICES PROP */}

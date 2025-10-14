@@ -29,8 +29,8 @@ export const PurposeTemplateEditStepGeneral: React.FC<ActiveStepProps> = (props)
   const defaultValues: PurposeTemplateEditStepGeneralFormValues = {
     purposeTitle: purposeTemplate.purposeTitle ?? t('title'),
     purposeDescription: purposeTemplate.purposeDescription ?? t('description'),
-    dailyCalls: purposeTemplate?.purposeDailyCalls,
-    isFreeOfCharge: purposeTemplate?.purposeIsFreeOfCharge ? 'YES' : 'NO',
+    purposeDailyCalls: purposeTemplate?.purposeDailyCalls,
+    purposeIsFreeOfCharge: purposeTemplate?.purposeIsFreeOfCharge ? 'true' : 'false',
     purposeFreeOfChargeReason:
       purposeTemplate?.purposeFreeOfChargeReason ?? t('freeOfChargeReason'),
     targetTenantKind: purposeTemplate.targetTenantKind,
