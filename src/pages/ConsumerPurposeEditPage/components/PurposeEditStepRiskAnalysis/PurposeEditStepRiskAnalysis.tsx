@@ -69,6 +69,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       defaultAnswers={purpose.riskAnalysisForm?.answers}
       onSubmit={handleSubmit}
       onCancel={back}
+      personalData={purpose.eservice.personalData}
     />
   )
 }
