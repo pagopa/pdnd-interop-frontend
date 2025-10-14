@@ -21,6 +21,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { useDialog } from '@/stores'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -153,17 +154,17 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   }
 
   const canBePublished = () => {
-    return !!(
-      descriptor &&
-      descriptor.interface &&
-      descriptor.description &&
-      descriptor.audience[0] &&
-      descriptor.voucherLifespan &&
-      descriptor.dailyCallsPerConsumer &&
-      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
-      checklistEServiceFromTemplate() &&
-      descriptor.eservice.personalData
-    )
+    return !!(descriptor &&
+    descriptor.interface &&
+    descriptor.description &&
+    descriptor.audience[0] &&
+    descriptor.voucherLifespan &&
+    descriptor.dailyCallsPerConsumer &&
+    descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
+    checklistEServiceFromTemplate() &&
+    FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true'
+      ? descriptor.eservice.personalData
+      : true)
   }
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
@@ -279,7 +280,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           <PublishButton
             onClick={handlePublishDraft}
             disabled={!canBePublished() || isSupport}
-            arePersonalDataSet={!!descriptor?.eservice.personalData}
+            arePersonalDataSet={
+              FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true'
+                ? !!descriptor?.eservice.personalData
+                : true
+            }
           />
         </Stack>
       )}
