@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
   isAlreadyInstantiated: boolean,
   hasRequesterRiskAnalysis: boolean,
-  activeVersionState?: EServiceTemplateVersionState | undefined
+  activeVersionState?: EServiceTemplateVersionState | undefined,
+  hasPersonalDataValue?: boolean
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'actions' })
 
@@ -38,6 +40,9 @@ export function useGetConsumerEServiceTemplateActions(
   }
 
   const tooltipToShow = (() => {
+    if (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true') {
+      return t('createInstanceDisabledPersonalData')
+    }
     if (isAlreadyInstantiated) {
       return tooltipLabel as unknown as string
     }

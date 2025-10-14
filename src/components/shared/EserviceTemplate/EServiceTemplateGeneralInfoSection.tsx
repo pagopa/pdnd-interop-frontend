@@ -15,6 +15,7 @@ import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 import { UpdateEServicePersonalDataDrawer } from '../UpdateEServicePersonalDataDrawer'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 type EServiceTemplateGeneralInfoSectionProps = {
   readonly: boolean
@@ -167,17 +168,20 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             label={t('version.label')}
             content={eserviceTemplateVersion?.version.toString() || '1'}
           />
-          <InformationContainer
-            label={
-              eserviceTemplateVersion
-                ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
-                : ''
-            }
-            content={t(
-              `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
-            )}
-          />
-          {routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+            <InformationContainer
+              label={
+                eserviceTemplateVersion
+                  ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
+                  : ''
+              }
+              content={t(
+                `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
+              )}
+            />
+          )}
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' &&
+            routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
             eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
               <Alert severity="warning" sx={{ alignItems: 'center' }}>
                 <Stack spacing={17} direction="row" alignItems="center">
