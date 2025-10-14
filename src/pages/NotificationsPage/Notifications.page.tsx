@@ -7,7 +7,6 @@ import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsT
 import type { GetUserNotificationsParams } from '@/api/notification/notification.services'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { Box, Paper } from '@mui/material'
 import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
 import { Link } from '@/router'
 
@@ -84,7 +83,12 @@ const NotificationsPage: React.FC = () => {
         actions={action}
       />
 
-      {filtersParams && totalPageCount <= 0 ? (
+      <>
+        <Filters {...filtersHandlers} />
+        <NotificationsTableWrapper params={params} />
+        <Pagination {...paginationProps} totalPages={totalPageCount} />
+      </>
+      {/* {filtersParams && totalPageCount <= 0 ? (
         <>
           <Filters {...filtersHandlers} />
           <NotificationsTableWrapper params={params} />
@@ -96,7 +100,7 @@ const NotificationsPage: React.FC = () => {
             {t('notNotificationAvailable')} <Link to="DEFAULT">TODO</Link>
           </div>
         </NoItemResults>
-      )}
+      )} */}
     </>
   )
 }

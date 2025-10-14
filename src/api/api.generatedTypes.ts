@@ -2174,6 +2174,10 @@ export interface EServiceTemplateVersionAttributeSeed {
   explicitAttributeVerification: boolean
 }
 
+export interface EServiceTemplatePersonalDataFlagUpdateSeed {
+  personalData: boolean
+}
+
 export interface UpdateEServiceTemplateVersionDocumentSeed {
   /**
    * @minLength 5
@@ -3110,6 +3114,10 @@ export interface DeleteNotificationsPayload {
 }
 
 export interface MarkNotificationsAsReadPayload {
+  ids: string[]
+}
+
+export interface MarkNotificationsAsUnreadPayload {
   ids: string[]
 }
 
@@ -5949,6 +5957,27 @@ export namespace Eservices {
   }
   /**
    * No description
+   * @tags eserviceTemplates
+   * @name UpdateEServiceTemplatePersonalDataFlagAfterPublication
+   * @summary Set personalData flag for published EService templates
+   * @request POST:/eservices/templates/{eServiceTemplateId}/personalDataFlag
+   * @secure
+   */
+  export namespace UpdateEServiceTemplatePersonalDataFlagAfterPublication {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      eServiceTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceTemplatePersonalDataFlagUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * No description
    * @tags eservices
    * @name IsEServiceNameAvailable
    * @summary Check if the e-service name is available
@@ -6788,6 +6817,37 @@ export namespace PurposeTemplates {
     export type RequestBody = RiskAnalysisTemplateAnswerRequest
     export type RequestHeaders = {}
     export type ResponseBody = RiskAnalysisTemplateAnswerResponse
+  }
+  /**
+   * No description
+   * @tags purposeTemplates
+   * @name GetRiskAnalysisTemplateAnswerAnnotationDocument
+   * @summary Retrieve risk analysis form template answer annotation document
+   * @request GET:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation/documents/{documentId}
+   * @secure
+   */
+  export namespace GetRiskAnalysisTemplateAnswerAnnotationDocument {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+      /**
+       * the risk analysis template answer id
+       * @format uuid
+       */
+      answerId: string
+      /**
+       * the risk analysis template answer annotation document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
   }
 }
 
@@ -8036,6 +8096,23 @@ export namespace InAppNotifications {
    */
   export namespace MarkNotificationsAsUnread {
     export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = MarkNotificationsAsUnreadPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark all notifications with the given entity ID as read
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsReadByEntityId
+   * @summary Mark all notifications with the given entity ID as read
+   * @request POST:/inAppNotifications/markAsReadByEntityId/:entityId
+   * @secure
+   */
+  export namespace MarkNotificationsAsReadByEntityId {
+    export type RequestParams = {
+      entityId: string
+    }
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}

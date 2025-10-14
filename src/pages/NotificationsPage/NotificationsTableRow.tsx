@@ -1,13 +1,14 @@
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { Box, Checkbox, Skeleton, TableCell, TableRow as MuiTableRow } from '@mui/material'
+import { Box, Checkbox, Skeleton, TableCell, TableRow as MuiTableRow, Button } from '@mui/material'
 import React from 'react'
 import useGetNotificationsActions from '@/hooks/useGetNotificationsActions'
-import { Link } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '@mui/system'
 import { TableRow, theme } from '@pagopa/interop-fe-commons'
 import { type Notification } from '@/api/api.generatedTypes'
-import { NotificationMutations } from '@/api/notification'
+import { Link } from 'react-router-dom'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { format } from 'date-fns'
 
 const NotificaitonBadgeDot = () => {
   return (
@@ -31,7 +32,10 @@ export const NotificationsTableRow: React.FC<{
 }> = ({ notification, isSelected, onToggle }) => {
   const { actions } = useGetNotificationsActions(notification)
   const { t: tCommon } = useTranslation('common')
+
+  const currentLang = useCurrentLanguage()
   const isReaded = notification.readAt !== null
+  const notificationLink = `/${currentLang}${notification.deepLink}`
 
   return (
     <MuiTableRow selected={isSelected}>
@@ -48,13 +52,7 @@ export const NotificationsTableRow: React.FC<{
       </TableCell>
 
       <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
-        {new Date(notification.createdAt).toLocaleDateString('it-IT', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-        })}
+        {format(new Date(notification.createdAt), 'dd/MM/yyyy HH:mm')}
       </TableCell>
       <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
         {/* {notification.notificationType} */}
@@ -63,16 +61,9 @@ export const NotificationsTableRow: React.FC<{
         {notification.body}
       </TableCell>
       <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }}>
-        <Link
-          key={notification.id}
-          as="button"
-          variant="outlined"
-          size="small"
-          to="DELEGATION_DETAILS"
-          params={{ delegationId: '1234' }}
-        >
+        <Button component={Link} size="small" variant="outlined" to={notificationLink}>
           {tCommon('actions.inspect')}
-        </Link>
+        </Button>
       </TableCell>
       <TableCell>
         <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

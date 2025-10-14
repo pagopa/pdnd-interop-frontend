@@ -56,21 +56,22 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({
   }
 
   const headLabels = [
-    (
-      <Checkbox
-        key="selectAll"
-        name="selectAll"
-        data-testid="selectAll"
-        checked={allSelected}
-        onChange={handleSelectAll}
-      />
-    ) as unknown as string,
+    notifications.length > 0 &&
+      ((
+        <Checkbox
+          key="selectAll"
+          name="selectAll"
+          data-testid="selectAll"
+          checked={allSelected}
+          onChange={handleSelectAll}
+        />
+      ) as unknown as string),
     tCommon('dateColumn'),
     tCommon('categoryColumn'),
     tCommon('objectColumn'),
     '',
     '',
-  ]
+  ] as string[]
 
   return (
     <>
@@ -149,34 +150,35 @@ const NotficationTableRowsActions: React.FC<NotficationTableRowsActionsProps> = 
             .with(1, () => `${rowSelected} ${tNotification('selectedSingle')}`)
             .otherwise(() => `${rowSelected} ${tNotification('selectedPlural')}`)}
         </Typography>
-        <Button
-          disabled={!atLeastOneRowSelected}
-          onClick={handleMultipleRowMarkAsRead}
-          sx={{ ml: 3 }}
-          variant="naked"
-          endIcon={<MarkEmailReadIcon />}
-        >
-          {tNotification('markAsRead')}
-        </Button>{' '}
-        <Button
-          disabled={!atLeastOneRowSelected}
-          onClick={handleMultipleRowMarkAsUnread}
-          sx={{ ml: 3 }}
-          variant="naked"
-          endIcon={<MarkEmailUnreadIcon />}
-        >
-          {tNotification('markAsUnread')}
-        </Button>
-        <Button
-          disabled={!atLeastOneRowSelected}
-          onClick={handleMultipleRowDelete}
-          sx={{ ml: 3 }}
-          variant="naked"
-          color="error"
-          endIcon={<DeleteOutlineIcon />}
-        >
-          {tNotification('delete')}
-        </Button>
+        {atLeastOneRowSelected && (
+          <>
+            <Button
+              onClick={handleMultipleRowMarkAsRead}
+              sx={{ ml: 3 }}
+              variant="naked"
+              startIcon={<MarkEmailReadIcon />}
+            >
+              {tNotification('markAsRead')}
+            </Button>
+            <Button
+              onClick={handleMultipleRowMarkAsUnread}
+              sx={{ ml: 3 }}
+              variant="naked"
+              startIcon={<MarkEmailUnreadIcon />}
+            >
+              {tNotification('markAsUnread')}
+            </Button>
+            <Button
+              onClick={handleMultipleRowDelete}
+              sx={{ ml: 3 }}
+              variant="naked"
+              color="error"
+              startIcon={<DeleteOutlineIcon />}
+            >
+              {tNotification('delete')}
+            </Button>
+          </>
+        )}
       </Stack>
     </Box>
   )
