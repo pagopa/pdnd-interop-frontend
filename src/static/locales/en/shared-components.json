@@ -342,7 +342,11 @@
             "undefined": "You did not answer the question about personal data processing"
           },
           "personalDataValuesAlert": {
-            "label": "Make sure that the answer to this question matches the one you indicated in the general information of the e-service. If the data does not match, the publication of this purpose will be blocked."
+            "labelForEserviceCreateStep2": "Make sure that the answer to this question matches the one you indicated in the general information of the e-service. If the data does not match, the publication of this purpose will be blocked.",
+            "labelForPurposeCreate": {
+              "YES": "You will not be able to publish this purpose because you have declared that personal data is processed, but the provider has declared otherwise. For clarification, contact the provider.",
+              "NO": "You will not be able to publish this purpose because you have declared that personal data is not processed, but the provider has declared otherwise. For clarification, contact the provider."
+            }
           },
           "personalDataAlert": "Be careful not to enter personal data in the free text fields",
           "eserviceTemplateRiskAnalysis": {

@@ -84,6 +84,14 @@
         "description": "C'è una nuova versione di analisi del rischio disponibile. Quella compilata in precedenza è obsoleta e non può più essere usata. Se clicchi “Aggiorna”, tutti i campi che non sono cambiati ed erano stati compilati li troverai già compilati nella nuova versione",
         "proceedButtonLabel": "Aggiorna",
         "cancelButtonLabel": "Abbandona"
+      },
+      "personalDataFlag": {
+        "label": "Trattamento dati personali",
+        "content": {
+          "true": "L’erogatore dichiara di trattare dati personali",
+          "false": "L’erogatore dichiara di non trattare dati personali",
+          "undefined": "L’erogatore non ha dichiarato il trattamento dei dati personali"
+        }
       }
     }
   },
