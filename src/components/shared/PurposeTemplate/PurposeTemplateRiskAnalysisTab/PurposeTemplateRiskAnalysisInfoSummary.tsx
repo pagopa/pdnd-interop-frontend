@@ -22,7 +22,6 @@ import type {
   RiskAnalysisFormTemplate,
   RiskAnalysisTemplateAnswerAnnotation,
 } from '@/api/api.generatedTypes'
-import { riskAnalysisConfigMock, riskAnalysisFormMock } from '@/api/purposeTemplate/mockedResponses'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -192,10 +191,8 @@ export const PurposeTemplateRiskAnalysisInfoSummary: React.FC<
   if (!riskAnalysisConfig || !riskAnalysisForm) return null
   return (
     <RiskAnalysisInfoSummary
-      // riskAnalysisConfig={riskAnalysisConfig}
-      // riskAnalysisForm={riskAnalysisForm}
-      riskAnalysisConfig={riskAnalysisConfigMock}
-      riskAnalysisForm={riskAnalysisFormMock}
+      riskAnalysisConfig={riskAnalysisConfig}
+      riskAnalysisForm={riskAnalysisForm}
     />
   )
 }
