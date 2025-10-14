@@ -46,7 +46,6 @@ export const PurposeTemplateDocumentationSection: React.FC<
             )
           }
         />
-        <InformationContainer label={t('usefulLink')} content={'TO DO'} />
       </Stack>
     </SectionContainer>
   )
