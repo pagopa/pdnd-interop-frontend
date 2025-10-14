@@ -8102,6 +8102,23 @@ export namespace InAppNotifications {
     export type ResponseBody = void
   }
   /**
+   * @description Mark all notifications with the given entity ID as read
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsReadByEntityId
+   * @summary Mark all notifications with the given entity ID as read
+   * @request POST:/inAppNotifications/markAsReadByEntityId/:entityId
+   * @secure
+   */
+  export namespace MarkNotificationsAsReadByEntityId {
+    export type RequestParams = {
+      entityId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Delete a notification
    * @tags inAppNotifications
    * @name DeleteNotification
