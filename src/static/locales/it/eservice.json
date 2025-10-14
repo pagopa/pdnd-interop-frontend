@@ -53,7 +53,8 @@
             "true": "Riceve dati personali",
             "false": "Non riceve dati personali"
           }
-        }
+        },
+        "alertMissingPersonalData": "Non puoi pubblicare questa bozza in quanto il creatore del template non ha indicato se l’e-service tratta dati personali. Contatta {{tenantName}} per richiedere la modifica di questo template."
       },
       "isSignalHubEnabled": {
         "title": "Signal Hub: servizio di notifica della variazione dei dati",
