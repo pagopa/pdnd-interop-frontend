@@ -40,24 +40,3 @@ export const NotificationServices = {
   getUserNotificationConfigs,
   getTenantNotificationConfigs,
 }
-
-// DELETE THIS
-// agreementSuspendedUnsuspendedToProducer: randomValue, // 04
-// agreementManagementToProducer: randomValue, // 03
-// clientAddedRemovedToProducer: randomValue, // 05
-// purposeStatusChangedToProducer: randomValue, // 07
-// templateStatusChangedToProducer: randomValue, //09
-// agreementSuspendedUnsuspendedToConsumer: randomValue, // 13
-// eserviceStateChangedToConsumer: randomValue, // 11
-// agreementActivatedRejectedToConsumer: randomValue, // 12
-// purposeActivatedRejectedToConsumer: randomValue, // 15
-// purposeSuspendedUnsuspendedToConsumer: randomValue, // 16
-// newEserviceTemplateVersionToInstantiator: randomValue, // 17
-// eserviceTemplateNameChangedToInstantiator: randomValue, //18
-// eserviceTemplateStatusChangedToInstantiator: randomValue, // 19
-// delegationApprovedRejectedToDelegator: randomValue, // 20
-// eserviceNewVersionSubmittedToDelegator: randomValue, // 21
-// eserviceNewVersionApprovedRejectedToDelegate: randomValue, // 22
-// delegationSubmittedRevokedToDelegate: randomValue, // 23
-// certifiedVerifiedAttributeAssignedRevokedToAssignee: randomValue, // 24
-// clientKeyAddedDeletedToClientUsers: randomValue, // 25

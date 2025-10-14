@@ -17,7 +17,7 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
       <Typography variant="body2" component="h2" mb={1} fontWeight={600}>
         {subsection.title}
       </Typography>
-      <Box sx={{ ml: 3 }}>
+      <Box sx={{ ml: 3, mb: 2 }}>
         {subsection.components.map(
           (component) =>
             // is currentRoles authorized to show the switch  ?

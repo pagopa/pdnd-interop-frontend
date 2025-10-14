@@ -179,7 +179,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
               const SectionIcon = notificationSchema[sectionName].icon
 
               return (
-                <Box key={sectionName} data-testid={`config-section-${sectionName}`}>
+                <Box key={sectionName} data-testid={`config-section-${sectionName}`} sx={{ mb: 3 }}>
                   <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
                     <Box
                       display="flex"
