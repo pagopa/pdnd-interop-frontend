@@ -57,6 +57,21 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
 
   const currentValue = watch(name)
 
+  const incompatibleAnswerValue = (value: string) => {
+    if (
+      value.toUpperCase() === 'YES' &&
+      (personalDataFlag === false || personalDataFlag === undefined)
+    ) {
+      return true
+    } else if (
+      value.toUpperCase() === 'NO' &&
+      (personalDataFlag === true || personalDataFlag === undefined)
+    ) {
+      return true
+    }
+    return false
+  }
+
   return (
     <RiskAnalysisInputWrapper
       label={label}
@@ -92,7 +107,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
       />
       {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' &&
         questionId === 'usesPersonalData' &&
-        currentValue !== String(personalDataFlag) && (
+        incompatibleAnswerValue(String(currentValue)) && (
           <Alert severity="warning">{tShared('label')}</Alert>
         )}
     </RiskAnalysisInputWrapper>
