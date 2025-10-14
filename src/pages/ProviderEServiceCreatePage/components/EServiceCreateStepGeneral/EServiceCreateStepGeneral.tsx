@@ -236,24 +236,35 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
           {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
-            <RHFRadioGroup
-              name="personalData"
-              row
-              label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
-              options={[
-                {
-                  label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
-                  value: 'true',
-                },
-                {
-                  label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.false`),
-                  value: 'false',
-                },
-              ]}
-              disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-              rules={{ required: true }}
-              sx={{ mb: 0, mt: 3 }}
-            />
+            <>
+              <RHFRadioGroup
+                name="personalData"
+                row
+                label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
+                options={[
+                  {
+                    label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
+                    value: 'true',
+                  },
+                  {
+                    label: t(
+                      `create.step1.eservicePersonalDataField.${eserviceMode}.options.false`
+                    ),
+                    value: 'false',
+                  },
+                ]}
+                disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+                rules={{ required: true }}
+                sx={{ mb: 3, mt: 3 }}
+              />
+              {!eserviceTemplate?.personalData && (
+                <Alert severity="error">
+                  {t('create.step1.eservicePersonalDataField.alertMissingPersonalData', {
+                    tenantName: eserviceTemplate?.creator.name,
+                  })}
+                </Alert>
+              )}
+            </>
           )}
         </SectionContainer>
 
