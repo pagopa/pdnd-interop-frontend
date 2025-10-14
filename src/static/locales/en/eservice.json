@@ -53,7 +53,8 @@
             "true": "Receives personal data",
             "false": "Does not receive personal data"
           }
-        }
+        },
+        "alertMissingPersonalData": "You cannot publish this draft because the template creator did not indicate whether the e-service processes personal data. Contact {{tenantName}} to request a modification of this template."
       },
       "isSignalHubEnabled": {
         "title": "Signal Hub: service for notificantion of data changes",
