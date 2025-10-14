@@ -4,10 +4,8 @@ import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import type { CatalogEService, PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
-import { useFormContext } from 'react-hook-form'
 import { EServiceAutocomplete } from '@/components/shared/EServiceAutoComplete'
 import { EServiceContainer } from '@/components/layout/containers/EServiceContainer'
-import type { EditStepLinkedEServicesForm } from './PurposeTemplateEditLinkedEService'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 
 export type EServiceGroupProps = {
@@ -33,9 +31,6 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
     onRemoveEServiceFromGroup(eserviceId)
   }
 
-  //const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
-  //const eserviceGroup = watch('eservices')
-
   const handleAddEServiceToGroup = (eservice: CatalogEService) => {
     addEService(
       {
@@ -44,9 +39,6 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
       },
       {
         onSuccess: () => {
-          /*const newEServiceGroup = [...eserviceGroup]
-          newEServiceGroup.push(eservice)
-          setValue('eservices', newEServiceGroup)*/
           setIsEServiceAutocompleteShown(false)
         },
       }
