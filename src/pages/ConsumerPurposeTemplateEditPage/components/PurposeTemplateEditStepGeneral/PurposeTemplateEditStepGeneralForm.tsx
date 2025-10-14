@@ -16,8 +16,7 @@ export type PurposeTemplateEditStepGeneralFormValues = Omit<
   PurposeTemplateSeed,
   'purposeRiskAnalysisForm' | 'purposeIsFreeOfCharge'
 > & {
-  dailyCalls: number | undefined
-  isFreeOfCharge: 'YES' | 'NO'
+  purposeIsFreeOfCharge: 'true' | 'false'
 }
 
 type PurposeTemplateEditStepGeneralFormProps = ActiveStepProps & {
@@ -38,35 +37,33 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
   })
 
   const onSubmit = (values: PurposeTemplateEditStepGeneralFormValues) => {
-    const { dailyCalls, isFreeOfCharge, purposeFreeOfChargeReason, ...updateDraftPayload } = values
-    const isFreeOfChargeBool = isFreeOfCharge === 'YES'
+    const { purposeIsFreeOfCharge, purposeFreeOfChargeReason, ...data } = values
+    const isFreeOfChargeBool = purposeIsFreeOfCharge === 'true'
     const purposeTemplateId = purposeTemplate.id
 
-    const requestPayload = {
-      ...updateDraftPayload,
-      isFreeOfCharge: isFreeOfChargeBool,
+    const requestPayload: PurposeTemplateSeed = {
+      ...data,
+      purposeIsFreeOfCharge: isFreeOfChargeBool,
       purposeFreeOfChargeReason: isFreeOfChargeBool ? purposeFreeOfChargeReason : undefined,
-      purposeTemplateId,
-      dailyCalls: dailyCalls,
     }
 
     updateDraft(
       {
+        purposeTemplateId,
         ...requestPayload,
-        purposeIsFreeOfCharge: purposeTemplate.purposeIsFreeOfCharge,
       },
       { onSuccess: forward }
     )
   }
 
-  const isFreeOfCharge = formMethods.watch('isFreeOfCharge')
+  const isFreeOfCharge = formMethods.watch('purposeIsFreeOfCharge')
 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer title={t('edit.step1.detailsTitle')}>
           <RHFTextField
-            name="title"
+            name="purposeTitle"
             label={t('edit.step1.purposeTemplateNameField.label')}
             infoLabel={t('edit.step1.purposeTemplateNameField.infoLabel')}
             focusOnMount
@@ -75,7 +72,7 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
           />
 
           <RHFTextField
-            name="description"
+            name="purposeDescription"
             label={t('edit.step1.purposeTemplateDescriptionField.label')}
             infoLabel={t('edit.step1.purposeTemplateDescriptionField.infoLabel')}
             multiline
@@ -83,7 +80,7 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
             rules={{ required: true, minLength: 10 }}
           />
           <RHFTextField
-            name="intendedTarget"
+            name="targetDescription"
             label={t('edit.step1.purposeTemplateIntendedTargetField.label')}
             infoLabel={t('edit.step1.purposeTemplateIntendedTargetField.infoLabel')}
             multiline
@@ -92,23 +89,23 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
           />
 
           <RHFRadioGroup
-            name="isFreeOfCharge"
+            name="purposeIsFreeOfCharge"
             label={t('edit.step1.purposeTemplateIsFreeOfCharge.radioButton.label')}
             options={[
               {
                 label: t('edit.step1.purposeTemplateIsFreeOfCharge.radioButton.YES'),
-                value: 'YES',
+                value: 'true',
               },
               {
                 label: t('edit.step1.purposeTemplateIsFreeOfCharge.radioButton.NO'),
-                value: 'NO',
+                value: 'false',
               },
             ]}
           />
 
-          {isFreeOfCharge === 'YES' && (
+          {isFreeOfCharge === 'true' && (
             <RHFTextField
-              name="freeOfChargeReason"
+              name="purposeFreeOfChargeReason"
               label={t('edit.step1.purposeTemplateIsFreeOfCharge.reasonField.label')}
               infoLabel={t('edit.step1.purposeTemplateIsFreeOfCharge.reasonField.infoLabel')}
               multiline
@@ -118,7 +115,7 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
           )}
 
           <RHFTextField
-            name="dailyCalls"
+            name="purposeDailyCalls"
             label={t('edit.step1.APICallsField.label')}
             type="number"
             inputProps={{ min: '1' }}
