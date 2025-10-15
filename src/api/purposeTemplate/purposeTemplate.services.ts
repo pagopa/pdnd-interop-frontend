@@ -5,6 +5,7 @@ import { mockCatalogPurposeTemplates, purposeTemplatesListMock } from './mockedR
 import type {
   CatalogPurposeTemplates,
   CreatedResource,
+  CreatorPurposeTemplates,
   EServiceDescriptorsPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
   GetPurposeTemplateEServicesParams,
@@ -16,12 +17,11 @@ import type {
 } from '../api.generatedTypes'
 
 async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
-  //   const response = await axiosInstance.get<ConsumerPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
-  //     { params }
-  //   )
-  //   return response.data
-  return purposeTemplatesListMock
+  const response = await axiosInstance.get<CreatorPurposeTemplates>(
+    `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
+    { params }
+  )
+  return response.data
 }
 
 async function getConsumerCatalogPurposeTemplates(params: GetCatalogPurposeTemplatesParams) {

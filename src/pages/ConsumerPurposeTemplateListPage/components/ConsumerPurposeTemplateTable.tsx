@@ -1,4 +1,3 @@
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import { Table } from '@pagopa/interop-fe-commons'
 
 import { useTranslation } from 'react-i18next'
@@ -6,9 +5,10 @@ import {
   ConsumerPurposeTemplateTableRow,
   ConsumerPurposeTemplateTableRowSkeleton,
 } from './ConsumerPurposeTemplateTableRow'
+import type { CreatorPurposeTemplate } from '@/api/api.generatedTypes'
 
 type ConsumerPurposeTemplatesTableProps = {
-  purposeTemplates: Array<PurposeTemplate>
+  purposeTemplates: Array<CreatorPurposeTemplate>
 }
 
 export const ConsumerPurposeTemplateTable: React.FC<ConsumerPurposeTemplatesTableProps> = ({
@@ -27,10 +27,10 @@ export const ConsumerPurposeTemplateTable: React.FC<ConsumerPurposeTemplatesTabl
   return (
     <Table
       headLabels={headLabels}
-      isEmpty={purposeTemplates && purposeTemplates.length === 0}
+      isEmpty={purposeTemplates.length === 0}
       noDataLabel={t('noDataLabel')}
     >
-      {purposeTemplates?.map((purposeTemplate) => (
+      {purposeTemplates.map((purposeTemplate: CreatorPurposeTemplate) => (
         <ConsumerPurposeTemplateTableRow
           key={purposeTemplate.id}
           purposeTemplate={purposeTemplate}
