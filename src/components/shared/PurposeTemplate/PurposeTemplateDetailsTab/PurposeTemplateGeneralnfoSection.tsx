@@ -17,7 +17,7 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
   })
 
   const handleDownloadRiskAnalysis = () => {
-    console.log('TODO: ADD API CALLS WHEN AVAILABLE')
+    console.log('TODO: ADD API CALLS WHEN AVAILABLE') // todo: add api calls when available
   }
 
   const downloadRiskAnalysisAction = {
@@ -39,6 +39,10 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
         <Stack spacing={2}>
           <InformationContainer label={t('producerName')} content={purposeTemplate.creator.name} />
           <InformationContainer label={t('tenantKind')} content={tenantKindTranslationKey} />
+          <InformationContainer
+            label={t('handlesPersonalDataLabel')}
+            content={purposeTemplate.purposeIsFreeOfCharge ? 'yes' : 'no'} // todo fix when handlesPersonalData is present in the api response
+          />
           <SectionContainer
             innerSection
             title={t('intendedTarget')}
@@ -46,7 +50,7 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
             sx={{ mb: 0 }}
           >
             <Typography variant="body1" sx={{ fontWeight: 600, mt: -2 }}>
-              {/**TO DO: TO FIX NEGATIVE MARGIN */}
+              {/* TODO: TO FIX NEGATIVE MARGIN */}
               {purposeTemplate.targetDescription}
             </Typography>
           </SectionContainer>
