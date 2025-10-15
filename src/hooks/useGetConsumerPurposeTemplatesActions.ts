@@ -7,11 +7,11 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useLocation, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { PurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
+import type { CreatorPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
 
 function useGetConsumerPurposeTemplateTemplatesActions(
   tenantKind: TenantKind,
-  purposeTemplate?: PurposeTemplate
+  purposeTemplate?: CreatorPurposeTemplate
 ) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'read' })

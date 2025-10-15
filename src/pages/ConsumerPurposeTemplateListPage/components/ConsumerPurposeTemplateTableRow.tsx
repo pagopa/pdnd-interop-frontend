@@ -1,4 +1,3 @@
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
@@ -8,11 +7,15 @@ import { Skeleton } from '@mui/material'
 import { Box } from '@mui/system'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
+import type { CreatorPurposeTemplate } from '@/api/api.generatedTypes'
 
-export const ConsumerPurposeTemplateTableRow: React.FC<{ purposeTemplate: PurposeTemplate }> = ({
-  purposeTemplate,
-}) => {
-  const { actions } = useGetConsumerPurposeTemplatesActions('GSP', purposeTemplate) //TODO: TENANT KIND WILL BE PASSED BY BFF?
+export const ConsumerPurposeTemplateTableRow: React.FC<{
+  purposeTemplate: CreatorPurposeTemplate
+}> = ({ purposeTemplate }) => {
+  const { actions } = useGetConsumerPurposeTemplatesActions(
+    purposeTemplate.targetTenantKind,
+    purposeTemplate
+  )
   const { t: tCommon } = useTranslation('common')
 
   return (

@@ -17,6 +17,7 @@ import {
   ConsumerPurposeTemplateTableSkeleton,
 } from './components/ConsumerPurposeTemplateTable'
 import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/mockedResponses'
+import type { CreatorPurposeTemplates } from '@/api/api.generatedTypes'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { EServiceQueries } from '@/api/eservice'
 
@@ -80,13 +81,11 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
-  // const { data: totalPageCount } = useQuery({ //TODO WHEN API IS READY
-  //   ...PurposeTemplateQueries.getConsumerPurposeTemplatesList(queryParams),
-  //   placeholderData: keepPreviousData,
-  //   select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
-  // })
 
-  const totalPageCount = 10 //TODO TO REMOVE
+  const { data } = useQuery({
+    ...PurposeTemplateQueries.getConsumerPurposeTemplatesList(queryParams),
+    placeholderData: keepPreviousData,
+  })
 
   return (
     <PageContainer
@@ -95,21 +94,20 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       topSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
-      <PurposeTemplateTableWrapper params={queryParams} />
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <PurposeTemplateTableWrapper data={data} />
+      <Pagination
+        {...paginationProps}
+        totalPages={getTotalPageCount(data?.pagination.totalCount)}
+      />
     </PageContainer>
   )
 }
 
-const PurposeTemplateTableWrapper: React.FC<{ params: GetConsumerPurposeTemplatesParams }> = ({
-  params,
-}) => {
-  const { data, isFetching } = useQuery(
-    PurposeTemplateQueries.getConsumerPurposeTemplatesList(params)
-  )
-
-  if (!data && isFetching) return <ConsumerPurposeTemplateTableSkeleton />
-  return <ConsumerPurposeTemplateTable purposeTemplates={data ?? []} />
+const PurposeTemplateTableWrapper: React.FC<{
+  data: CreatorPurposeTemplates | undefined
+}> = ({ data }) => {
+  if (!data) return <ConsumerPurposeTemplateTableSkeleton />
+  return <ConsumerPurposeTemplateTable purposeTemplates={data.results ?? []} />
 }
 
 export default ConsumerPurposeTemplateListPage
