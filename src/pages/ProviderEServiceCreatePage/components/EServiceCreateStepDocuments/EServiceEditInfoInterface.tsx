@@ -11,7 +11,7 @@ import type {
   TemplateInstanceInterfaceMetadata,
   EServiceTechnology,
 } from '@/api/api.generatedTypes'
-import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { ExtendedTemplateInstanceInterfaceMetadata } from './EServiceCreateFromTemplateStepDocuments'
@@ -28,7 +28,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { descriptor } = useEServiceCreateContext()
 
-  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
+  const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
 
   const handleDownloadInterfaceDocument = () => {
     if (
@@ -56,7 +56,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
           onClick={handleDownloadInterfaceDocument}
           endIcon={<DownloadIcon sx={{ ml: 1 }} fontSize="small" />}
         >
-          {t('step4.template.interface.description.download')}
+          {t('step4.eserviceTemplate.interface.description.download')}
         </Button>
       </Stack>
 
@@ -69,7 +69,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
           name={`serverUrls`}
           indexFieldArray={0}
           fieldArrayKeyName="url"
-          label={t('step4.template.interface.serverSection.label')}
+          label={t('step4.eserviceTemplate.interface.serverSection.label')}
           rules={{
             required: true,
           }}
@@ -88,7 +88,7 @@ export const EServiceEditInfoInterface: React.FC<EServiceEditInfoInterfaceProps>
           onClick={() => fieldsArray.append({ url: '' })}
           startIcon={<AddIcon fontSize="small" />}
         >
-          {t('step4.template.interface.serverSection.add')}
+          {t('step4.eserviceTemplate.interface.serverSection.add')}
         </Button>
       </Stack>
     </Box>
@@ -102,21 +102,21 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
   return (
     <>
       <Typography variant="body2" fontWeight={600}>
-        {t('step4.template.interface.contactSection.title')}
+        {t('step4.eserviceTemplate.interface.contactSection.title')}
       </Typography>
       <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
         <RHFTextField
           size="small"
           sx={{ flex: '1 1 50%' }}
           name="contactName"
-          label={t('step4.template.interface.contactSection.contactNameField')}
+          label={t('step4.eserviceTemplate.interface.contactSection.contactNameField')}
           rules={{ required: true }}
         />
         <RHFTextField
           size="small"
           sx={{ flex: '1 1 50%', pl: 1 }}
           name="contactEmail"
-          label={t('step4.template.interface.contactSection.emailField')}
+          label={t('step4.eserviceTemplate.interface.contactSection.emailField')}
           rules={{
             required: false,
             pattern: {
@@ -129,7 +129,7 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
           size="small"
           sx={{ flex: '0 0 50%' }}
           name="contactUrl"
-          label={t('step4.template.interface.contactSection.urlField')}
+          label={t('step4.eserviceTemplate.interface.contactSection.urlField')}
           rules={{
             required: undefined,
             pattern: {
@@ -140,13 +140,13 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
         />
       </Stack>
       <Typography variant="body2" fontWeight={600}>
-        {t('step4.template.interface.termsAndConditions.title')}
+        {t('step4.eserviceTemplate.interface.termsAndConditions.title')}
       </Typography>
       <RHFTextField
         size="small"
         sx={{ width: '50%' }}
         name="termsAndConditionsUrl"
-        label={t('step4.template.interface.termsAndConditions.label')}
+        label={t('step4.eserviceTemplate.interface.termsAndConditions.label')}
         rules={{
           required: undefined,
           pattern: {
@@ -156,7 +156,7 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
         }}
       />
       <Typography variant="body2" fontWeight={600}>
-        {t('step4.template.interface.serverSection.title')}
+        {t('step4.eserviceTemplate.interface.serverSection.title')}
       </Typography>
     </>
   )
@@ -172,7 +172,7 @@ export const UrlInputField: React.FC<{
   return (
     <Stack direction="row" alignItems="center" key={id}>
       {index >= 1 && (
-        <Tooltip title={t('step4.template.interface.serverSection.remove')}>
+        <Tooltip title={t('step4.eserviceTemplate.interface.serverSection.remove')}>
           <Button color="error" sx={{ p: 1 }} onClick={() => remove(index)} variant="naked">
             <RemoveCircleOutlineIcon fontSize="small" />
           </Button>
@@ -184,7 +184,7 @@ export const UrlInputField: React.FC<{
         name={`serverUrls`}
         indexFieldArray={index}
         fieldArrayKeyName="url"
-        label={t('step4.template.interface.serverSection.label')}
+        label={t('step4.eserviceTemplate.interface.serverSection.label')}
       />
     </Stack>
   )

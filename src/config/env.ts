@@ -25,11 +25,6 @@ const GeneralConfigs = z.object({
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
-  SIGNALHUB_WHITELIST_PRODUCER: z.string().optional(),
-  SIGNALHUB_WHITELIST_CONSUMER: z.string().optional(),
-  FEATURE_FLAG_SIGNALHUB_WHITELIST: z
-    .enum(['true', 'false'])
-    .transform((value) => value === 'true'),
 })
 
 const EndpointConfigs = z.object({
@@ -52,12 +47,6 @@ const transformedFEConfigs = FEConfigs.transform((c) => ({
     ? parseCommaSeparatedToArray(c.PRODUCER_ALLOWED_ORIGINS)
     : ['IPA'],
   WELL_KNOWN_URLS: parseCommaSeparatedToArray(c.WELL_KNOWN_URLS),
-  SIGNALHUB_WHITELIST_CONSUMER: c.SIGNALHUB_WHITELIST_CONSUMER
-    ? parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_CONSUMER)
-    : '',
-  SIGNALHUB_WHITELIST_PRODUCER: c.SIGNALHUB_WHITELIST_PRODUCER
-    ? parseCommaSeparatedToArray(c.SIGNALHUB_WHITELIST_PRODUCER)
-    : '',
   TEMP_USER_BLACKLIST_URL: c.INTEROP_RESOURCES_BASE_URL + '/blacklist.json',
   ERROR_DATA_DURATION_TIME: z.coerce.number().parse(c.ERROR_DATA_DURATION_TIME),
 }))
@@ -104,10 +93,7 @@ export const {
   STAGE,
   PRODUCER_ALLOWED_ORIGINS,
   TEMP_USER_BLACKLIST_URL,
-  FEATURE_FLAG_SIGNALHUB_WHITELIST,
   M2M_JWT_AUDIENCE,
-  SIGNALHUB_WHITELIST_CONSUMER,
-  SIGNALHUB_WHITELIST_PRODUCER,
   NODE_ENV,
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE,
   FEATURE_FLAG_ADMIN_CLIENT,

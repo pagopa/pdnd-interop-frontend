@@ -114,9 +114,9 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
   return (
     <FormProvider {...formMethods}>
       <SectionContainer
-        title={t('create.step4.template.interface.title')}
+        title={t('create.step4.eserviceTemplate.interface.title')}
         description={t(
-          `create.step4.template.interface.description.${descriptionLabelByTechnology}`
+          `create.step4.eserviceTemplate.interface.description.${descriptionLabelByTechnology}`
         )}
       >
         <Box component="form" onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -126,14 +126,14 @@ export const EServiceFromTemplateCreateStepDocuments: React.FC<ActiveStepProps> 
           />
           <Stack direction="row" justifyContent="flex-start" mt={2}>
             <Button type="submit" variant="contained" startIcon={<SaveIcon />}>
-              {t('create.step4.template.interface.save')}
+              {t('create.step4.eserviceTemplate.interface.save')}
             </Button>
           </Stack>
         </Box>
       </SectionContainer>
       <SectionContainer
-        title={t('create.step4.template.interface.documentation.title')}
-        description={t('create.step4.template.interface.documentation.description')}
+        title={t('create.step4.eserviceTemplate.interface.documentation.title')}
+        description={t('create.step4.eserviceTemplate.interface.documentation.description')}
       >
         <EServiceCreateStepDocumentsDoc readonly />
       </SectionContainer>
