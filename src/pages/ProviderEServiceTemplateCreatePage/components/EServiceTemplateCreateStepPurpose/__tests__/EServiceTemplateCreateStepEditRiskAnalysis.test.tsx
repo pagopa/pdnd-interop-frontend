@@ -64,6 +64,7 @@ describe('EServiceTemplateCreateStepEditRiskAnalysis', () => {
     const mutate = vi.fn((_, { onSuccess }: { onSuccess: () => void }) => onSuccess())
     // Patch the mocked hook to return our spy
     EServiceTemplateMutations.useUpdateEServiceTemplateRiskAnalysis = () => ({ mutate }) as never
+    
     render(
       <EServiceTemplateCreateStepEditRiskAnalysis
         eserviceTemplateId="template-id"
