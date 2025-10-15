@@ -144,6 +144,7 @@
           "intendedTarget": "A chi è rivolto il template",
           "purposeDescription": "Descrizione della finalità",
           "riskAnalysisDownloadLink": "Scarica analisi del rischio",
+          "handlesPersonalDataLabel": "Tratta dati personali",
           "tenantKindValues": {
             "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico, Privati",
             "labelPA": "Pubbliche Amministrazioni"
