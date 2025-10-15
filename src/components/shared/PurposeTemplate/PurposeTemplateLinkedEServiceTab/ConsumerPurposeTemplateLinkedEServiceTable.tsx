@@ -18,19 +18,23 @@ export const ConsumerPurposeTemplateLinkedEServiceTable: React.FC<
 > = ({ purposeTemplate }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
-  const { data: linkedEservices } = useSuspenseQuery(
-    PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList() //TODO: CHECK IF THIS IS THE CORRECT API
+  const { data: eserviceDescriptorsPurposeTemplateList } = useSuspenseQuery(
+    PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList({
+      purposeTemplateId: purposeTemplate.id,
+      offset: 0,
+      limit: 10,
+    }) //TODO: CHECK IF THIS IS THE CORRECT API
   )
 
   const headLabels = [tCommon('linkedEserviceName'), tCommon('linkedEserviceProviderName'), '']
-  const isEmpty = linkedEservices.length === 0
+  const isEmpty = eserviceDescriptorsPurposeTemplateList.results.length === 0
 
   return (
     <Table headLabels={headLabels} isEmpty={isEmpty}>
-      {linkedEservices.map((eservice) => (
+      {eserviceDescriptorsPurposeTemplateList.results.map((eserviceDescriptorPurposeTemplate) => (
         <ConsumerPurposeTemplateLinkedEServiceTableRow
-          key={eservice.eserviceId}
-          eservice={eservice}
+          key={eserviceDescriptorPurposeTemplate.eservice.id}
+          compactEServiceWithCompactDescriptor={eserviceDescriptorPurposeTemplate}
         />
       ))}
     </Table>

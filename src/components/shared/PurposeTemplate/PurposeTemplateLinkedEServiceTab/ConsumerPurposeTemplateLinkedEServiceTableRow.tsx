@@ -4,23 +4,31 @@ import { Skeleton } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import type { PurposeTemplateEService } from '@/api/purposeTemplate/mockedResponses'
+import type { EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor } from '@/api/api.generatedTypes'
 
 interface ConsumerPurposeTemplateLinkedEServiceTableRowProps {
-  eservice: PurposeTemplateEService
+  compactEServiceWithCompactDescriptor: EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor
 }
 
 export const ConsumerPurposeTemplateLinkedEServiceTableRow: React.FC<
   ConsumerPurposeTemplateLinkedEServiceTableRowProps
-> = ({ eservice }) => {
+> = ({ compactEServiceWithCompactDescriptor }) => {
   const { t: tCommon } = useTranslation('common')
 
   return (
-    <TableRow cellData={[`${eservice.eserviceName}`, `${eservice.producerName}`]}>
+    <TableRow
+      cellData={[
+        `${compactEServiceWithCompactDescriptor.eservice.name}`,
+        `${compactEServiceWithCompactDescriptor.eservice.producer.name}`,
+      ]}
+    >
       <Link
         as="button"
         to={'SUBSCRIBE_CATALOG_VIEW'}
-        params={{ eserviceId: eservice.eserviceId, descriptorId: eservice.descriptorId }}
+        params={{
+          eserviceId: compactEServiceWithCompactDescriptor.eservice.id,
+          descriptorId: compactEServiceWithCompactDescriptor.descriptor.id,
+        }}
         variant="outlined"
         size="small"
       >
