@@ -41,7 +41,7 @@ export const PurposeTemplateTemplateSummaryGeneralInformationAccordion: React.FC
       <SectionContainer innerSection title={t('thresholdTitle')}>
         <Stack spacing={2}>
           <InformationContainer
-            content={suggestedApiCalls}
+            content={`${suggestedApiCalls} ${t('dailyCallsLabel')}`}
             direction="row"
             label={t('thresholdLabel')}
           />

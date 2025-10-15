@@ -110,9 +110,11 @@
         "title": "General information",
         "descriptionTitle": "Description",
         "purposeTemplateName": "Purpose template name",
+        "treatsPersonalDataLabel": "Treats personal data",
         "purposeTemplateDescription": "Purpose template description",
         "thresholdTitle": "Thresholds",
-        "thresholdLabel": "Suggested daily API calls threshold"
+        "thresholdLabel": "Suggested plan",
+        "dailyCallsLabel": "suggested daily API calls"
       },
       "suggestedEServicesSection": {
         "title": "Suggested e-services",

@@ -109,10 +109,12 @@
       "generalInformationSection": {
         "title": "Informazioni generali",
         "descriptionTitle": "Descrizione",
-        "purposeTemplateName": "Nome template di finalità",
+        "purposeTemplateName": "Nome finalità",
+        "treatsPersonalDataLabel": "Tratta dati personali",
         "purposeTemplateDescription": "Descrizione",
         "thresholdTitle": "Stime di carico",
-        "thresholdLabel": "Soglia giornaliera chiamate API suggerite"
+        "thresholdLabel": "Il tuo piano suggerito",
+        "dailyCallsLabel": "chiamate API/giorno"
       },
       "suggestedEServicesSection": {
         "title": "E-service suggeriti",

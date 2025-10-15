@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { SectionContainer } from '@/components/layout/containers'
 import { Link } from '@/router'
@@ -13,9 +13,14 @@ type PurposeTemplateSummaryLinkedEServiceAccordionProps = {
 export const PurposeTemplateSummaryLinkedEServiceAccordion: React.FC<
   PurposeTemplateSummaryLinkedEServiceAccordionProps
 > = ({ purposeTemplateId }) => {
-  const { data: linkedEservices } = useSuspenseQuery(
-    PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList() //TODO: NEED A PURPOSE TEMPLATE ID?
-  )
+  const { data: linkedEservices } = useQuery({
+    ...PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList({
+      purposeTemplateId: purposeTemplateId,
+      offset: 0,
+      limit: 50,
+    }),
+    enabled: Boolean(purposeTemplateId),
+  })
   const { t } = useTranslation('purposeTemplate', {
     keyPrefix: 'edit.summary.suggestedEServicesSection',
   })
@@ -24,21 +29,27 @@ export const PurposeTemplateSummaryLinkedEServiceAccordion: React.FC<
     <Stack spacing={2}>
       <SectionContainer innerSection title={t('subtitle')}>
         <Stack spacing={2}>
-          {linkedEservices.map((eservice) => (
-            <Typography key={eservice.eserviceId} sx={{ fontWeight: 600 }}>
-              <Link
-                underline="none"
-                to="SUBSCRIBE_CATALOG_VIEW"
-                params={{
-                  eserviceId: eservice.eserviceId as string,
-                  descriptorId: eservice.descriptorId,
-                }}
-              >
-                {eservice.eserviceName}
-              </Link>{' '}
-              {t('providedBy')} {eservice.producerName}
+          {linkedEservices && linkedEservices.results && linkedEservices.results.length > 0 ? (
+            linkedEservices.results.map((linkedEservice) => (
+              <Typography key={linkedEservice.eservice.id} sx={{ fontWeight: 600 }}>
+                <Link
+                  underline="none"
+                  to="SUBSCRIBE_CATALOG_VIEW"
+                  params={{
+                    eserviceId: linkedEservice.eservice.id,
+                    descriptorId: linkedEservice.descriptor.id,
+                  }}
+                >
+                  {linkedEservice.eservice.name}
+                </Link>{' '}
+                {t('providedBy')} {linkedEservice.eservice.producer.name}
+              </Typography>
+            ))
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              Nessun e-service collegato
             </Typography>
-          ))}
+          )}
         </Stack>
       </SectionContainer>
     </Stack>
