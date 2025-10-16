@@ -3,21 +3,25 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { Alert, Box, Stack } from '@mui/material'
 import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
+import type {
+  RiskAnalysisFormConfig,
+  RiskAnalysisFormTemplateSeed,
+  RiskAnalysisTemplateAnswerSeed,
+} from '@/api/api.generatedTypes'
 import { StepActions } from '@/components/shared/StepActions'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
-import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
+import { useRiskAnalysisFormTemplate } from '@/hooks/useRiskAnalysisFormTemplate'
 
-type RiskAnalysisFormProps = {
-  defaultAnswers: Record<string, string[]>
+type RiskAnalysisFormTemplateProps = {
+  defaultAnswers: Record<string, RiskAnalysisTemplateAnswerSeed>
   riskAnalysis: RiskAnalysisFormConfig
-  onSubmit: (answers: Record<string, string[]>) => void
+  onSubmit: (riskAnalysisFormTemplateSeed: RiskAnalysisFormTemplateSeed) => void
   onCancel: VoidFunction
 }
 
-export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
+export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> = ({
   defaultAnswers,
   riskAnalysis,
   onSubmit,
@@ -25,12 +29,30 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit' })
 
-  const riskAnalysisForm = useRiskAnalysisForm({
+  const riskAnalysisForm = useRiskAnalysisFormTemplate({
     riskAnalysisConfig: riskAnalysis,
     defaultAnswers: defaultAnswers,
   })
 
-  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers }) => onSubmit(validAnswers))
+  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers, assignToTemplateUsers }) => {
+    // Transform the answers to the correct format for RiskAnalysisFormTemplateSeed
+    const transformedAnswers: Record<string, RiskAnalysisTemplateAnswerSeed> = {}
+
+    Object.entries(validAnswers).forEach(([key, values]) => {
+      // Get the editable value from the assignToTemplateUsers switch for this question
+      const editable = assignToTemplateUsers?.[key] ?? false
+
+      // If editable is true, don't send values (user will fill them)
+      // If editable is false, send the values (template provides them)
+      transformedAnswers[key] = {
+        values: editable ? [] : values, // Empty array if editable, actual values if not editable
+        editable,
+        suggestedValues: [],
+      }
+    })
+
+    onSubmit({ version: riskAnalysis.version, answers: transformedAnswers })
+  })
 
   return (
     <FormProvider {...riskAnalysisForm}>
@@ -67,6 +89,6 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   )
 }
 
-export const RiskAnalysisFormSkeleton: React.FC = () => {
+export const RiskAnalysisFormTemplateSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={600} />
 }
