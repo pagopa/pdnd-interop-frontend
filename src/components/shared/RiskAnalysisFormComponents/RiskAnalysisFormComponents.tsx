@@ -26,20 +26,14 @@ import { match } from 'ts-pattern'
  * */
 export const RiskAnalysisFormComponents: React.FC<{
   questions: RiskAnalysisQuestions
-  personalDataFlag?: boolean
-}> = ({ questions, personalDataFlag }) => {
+}> = ({ questions }) => {
   return Object.entries(questions).map(([questionId, question]) => (
-    <RiskAnalysisQuestion
-      key={questionId}
-      question={question}
-      personalDataFlag={personalDataFlag}
-    />
+    <RiskAnalysisQuestion key={questionId} question={question} />
   ))
 }
 
 function RiskAnalysisQuestion({
   question,
-  personalDataFlag,
 }: {
   question: FormConfigQuestion
   personalDataFlag?: boolean
@@ -96,12 +90,7 @@ function RiskAnalysisQuestion({
       />
     ))
     .with('radio', () => (
-      <RiskAnalysisRadioGroup
-        {...commonProps}
-        options={inputOptions}
-        rules={{ required: true }}
-        personalDataFlag={personalDataFlag}
-      />
+      <RiskAnalysisRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
     ))
     .with('switch', () => (
       <RiskAnalysisSwitch

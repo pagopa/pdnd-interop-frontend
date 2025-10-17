@@ -4,7 +4,6 @@ import {
   Radio,
   RadioGroup as MUIRadioGroup,
   type RadioGroupProps as MUIRadioGroupProps,
-  Alert,
 } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
@@ -13,7 +12,6 @@ import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   questionId: string
@@ -23,7 +21,6 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
   disabled?: boolean
   rules?: ControllerProps['rules']
   options: Array<InputOption & { disabled?: boolean }>
-  personalDataFlag?: boolean
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
@@ -34,14 +31,10 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   helperText,
   disabled,
   rules,
-  personalDataFlag,
   ...props
 }) => {
-  const { formState, watch } = useFormContext<{ answers: RiskAnalysisAnswers }>()
+  const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
-  const { t: tShared } = useTranslation('shared-components', {
-    keyPrefix: 'create.stepPurpose.riskAnalysis.riskAnalysisSection.personalDataValuesAlert',
-  })
   const labelId = useId()
 
   const name = `answers.${questionId}` as const
@@ -54,23 +47,6 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
     error,
     helperText,
   })
-
-  const currentValue = watch(name)
-
-  const incompatibleAnswerValue = (value: string) => {
-    if (
-      value.toUpperCase() === 'YES' &&
-      (personalDataFlag === false || personalDataFlag === undefined)
-    ) {
-      return true
-    } else if (
-      value.toUpperCase() === 'NO' &&
-      (personalDataFlag === true || personalDataFlag === undefined)
-    ) {
-      return true
-    }
-    return false
-  }
 
   return (
     <RiskAnalysisInputWrapper
@@ -105,11 +81,6 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
           </MUIRadioGroup>
         )}
       />
-      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' &&
-        questionId === 'usesPersonalData' &&
-        incompatibleAnswerValue(String(currentValue)) && (
-          <Alert severity="warning">{tShared('label')}</Alert>
-        )}
     </RiskAnalysisInputWrapper>
   )
 }
