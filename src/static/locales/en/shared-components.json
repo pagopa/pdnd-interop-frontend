@@ -343,6 +343,7 @@
           },
           "personalDataValuesAlert": {
             "labelForEserviceCreateStep2": "Make sure that the answer to this question matches the one you indicated in the general information of the e-service. If the data does not match, the publication of this purpose will be blocked.",
+            "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one you indicated in the general information. If the data does not match, the publication will be blocked.",
             "labelForPurposeCreate": {
               "YES": "You will not be able to publish this purpose because you have declared that personal data is processed, but the provider has declared otherwise. For clarification, contact the provider.",
               "NO": "You will not be able to publish this purpose because you have declared that personal data is not processed, but the provider has declared otherwise. For clarification, contact the provider."
