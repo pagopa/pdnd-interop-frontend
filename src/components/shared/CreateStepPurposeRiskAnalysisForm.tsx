@@ -33,7 +33,31 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
     extraFields: { name: defaultName ?? '' },
   })
 
+  const [incompatibleAnswerValue, setIncompatibleAnswerValue] = React.useState<boolean>(false)
+
+  const checkIncompatibleAnswerValue = (validAnswers: Record<string, string[]>) => {
+    const userAnswer = validAnswers['usesPersonalData']?.[0]
+    const isYes = userAnswer === 'YES'
+    const isNo = userAnswer === 'NO'
+
+    const incompatible =
+      (isYes && personalDataFlag !== true) || (isNo && personalDataFlag !== false)
+
+    setIncompatibleAnswerValue(incompatible)
+    return incompatible
+  }
+
   const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers, name }) => {
+    if (checkIncompatibleAnswerValue(validAnswers)) {
+      riskAnalysisForm.setError('answers.usesPersonalData', {
+        type: 'manual',
+        message: t(
+          'riskAnalysis.riskAnalysisSection.personalDataValuesAlert.labelForEserviceCreateStep2'
+        ),
+      })
+      return
+    }
+
     onSubmit(name, validAnswers)
   })
 
@@ -68,11 +92,15 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
           </Alert>
         </SectionContainer>
         <Stack spacing={2}>
-          <RiskAnalysisFormComponents
-            questions={riskAnalysisForm.questions}
-            personalDataFlag={personalDataFlag}
-          />
+          <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
+        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && incompatibleAnswerValue && (
+          <Alert sx={{ mt: 2 }} severity="warning">
+            {t(
+              'riskAnalysis.riskAnalysisSection.personalDataValuesAlert.alertForIncompatibleAnswer'
+            )}
+          </Alert>
+        )}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),
