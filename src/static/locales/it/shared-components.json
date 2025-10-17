@@ -343,6 +343,7 @@
           },
           "personalDataValuesAlert": {
             "labelForEserviceCreateStep2": "Assicurati che la risposta di questa domanda sia uguale a quella che hai indicato nelle informazioni generali dell’e-service. Se i dati non corrispondono ti verrà bloccata la pubblicazione di questa finalità.",
+            "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indicare se si accede a dati personali (richiesto)\" sia uguale a quella che hai indicato nelle informazioni generali. Se i dati non corrispondono ti verrà bloccata la pubblicazione.",
             "labelForPurposeCreate": {
               "YES": "Non potrai pubblicare questa finalità in quanto hai dichiarato che i dati personali vengono trattati, ma l'erogatore ha dichiarato il contrario. Per chiarimenti, contatta l'erogatore.",
               "NO": "Non potrai pubblicare questa finalità in quanto hai dichiarato che i dati personali non vengono trattati, ma l'erogatore ha dichiarato il contrario. Per chiarimenti, contatta l'erogatore."
