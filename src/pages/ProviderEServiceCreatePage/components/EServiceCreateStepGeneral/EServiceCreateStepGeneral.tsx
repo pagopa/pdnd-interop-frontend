@@ -257,7 +257,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 rules={{ required: true }}
                 sx={{ mb: 3, mt: 3 }}
               />
-              {!eserviceTemplate?.personalData && (
+              {isEserviceFromTemplate && !eserviceTemplate?.personalData && (
                 <Alert severity="error">
                   {t('create.step1.eservicePersonalDataField.alertMissingPersonalData', {
                     tenantName: eserviceTemplate?.creator.name,
