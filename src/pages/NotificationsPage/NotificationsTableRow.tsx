@@ -4,27 +4,13 @@ import React from 'react'
 import useGetNotificationsActions from '@/hooks/useGetNotificationsActions'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '@mui/system'
-import { TableRow, theme } from '@pagopa/interop-fe-commons'
+import { TableRow } from '@pagopa/interop-fe-commons'
 import { type Notification } from '@/api/api.generatedTypes'
 import { Link } from 'react-router-dom'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { format } from 'date-fns'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 
-const NotificaitonBadgeDot = () => {
-  return (
-    <Box
-      component="span"
-      alignSelf="center"
-      sx={{
-        height: 8,
-        width: 8,
-        ml: 2,
-        borderRadius: 5,
-        background: theme.palette.primary.main,
-      }}
-    />
-  )
-}
 export const NotificationsTableRow: React.FC<{
   notification: Notification
   isSelected: boolean
@@ -47,7 +33,7 @@ export const NotificationsTableRow: React.FC<{
             checked={isSelected}
             onChange={onToggle}
           />
-          {isReaded && <NotificaitonBadgeDot />}
+          {isReaded && <NotificationBadgeDot />}
         </Stack>
       </TableCell>
 
