@@ -91,7 +91,9 @@
           "true": "The provider declares to process personal data",
           "false": "The provider declares not to process personal data",
           "undefined": "The provider has not declared the processing of personal data"
-        }
+        },
+        "incompatibleAnswerError": "Make sure that the answer to this question matches the one you provided in the general information of the e-service. If the data does not match, the publication of this purpose will be blocked.",
+        "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one you provided in the general information. If the data does not match, the publication will be blocked."
       }
     }
   },
