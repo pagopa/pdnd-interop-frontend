@@ -34,25 +34,27 @@ export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> =
     defaultAnswers: defaultAnswers,
   })
 
-  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers, assignToTemplateUsers }) => {
-    // Transform the answers to the correct format for RiskAnalysisFormTemplateSeed
-    const transformedAnswers: Record<string, RiskAnalysisTemplateAnswerSeed> = {}
+  const handleSubmit = riskAnalysisForm.handleSubmit(
+    ({ validAnswers, assignToTemplateUsers, annotations }) => {
+      // Transform the answers to the correct format for RiskAnalysisFormTemplateSeed
+      const transformedAnswers: Record<string, RiskAnalysisTemplateAnswerSeed> = {}
 
-    Object.entries(validAnswers).forEach(([key, values]) => {
-      // Get the editable value from the assignToTemplateUsers switch for this question
-      const editable = assignToTemplateUsers?.[key] ?? false
+      Object.entries(validAnswers).forEach(([key, values]) => {
+        // Get the editable value from the assignToTemplateUsers switch for this question
+        const editable = assignToTemplateUsers?.[key] ?? false
+        const annotationObj = annotations?.[key]
 
-      // If editable is true, don't send values (user will fill them)
-      // If editable is false, send the values (template provides them)
-      transformedAnswers[key] = {
-        values: editable ? [] : values, // Empty array if editable, actual values if not editable
-        editable,
-        suggestedValues: [],
-      }
-    })
+        transformedAnswers[key] = {
+          values: editable ? [] : values, // Empty array if editable, actual values if not editable
+          editable,
+          ...(annotationObj?.text ? { annotation: { text: annotationObj.text, docs: [] } } : {}),
+          suggestedValues: [],
+        }
+      })
 
-    onSubmit({ version: riskAnalysis.version, answers: transformedAnswers })
-  })
+      onSubmit({ version: riskAnalysis.version, answers: transformedAnswers })
+    }
+  )
 
   return (
     <FormProvider {...riskAnalysisForm}>
