@@ -91,7 +91,9 @@
           "true": "L’erogatore dichiara di trattare dati personali",
           "false": "L’erogatore dichiara di non trattare dati personali",
           "undefined": "L’erogatore non ha dichiarato il trattamento dei dati personali"
-        }
+        },
+        "incompatibleAnswerError": "Assicurati che la risposta di questa domanda sia uguale a quella che hai indicato nelle informazioni generali dell’e-service. Se i dati non corrispondono ti verrà bloccata la pubblicazione di questa finalità.",
+        "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indicare se si accede a dati personali (richiesto)\" sia uguale a quella che hai indicato nelle informazioni generali. Se i dati non corrispondono ti verrà bloccata la pubblicazione."
       }
     }
   },
