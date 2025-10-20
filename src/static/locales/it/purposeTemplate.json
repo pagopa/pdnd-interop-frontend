@@ -96,10 +96,10 @@
       "alert": "Attenzione non inserire dati personali all’interno dei campi liberi di testo",
       "switchLabel": "Assegna la compilazione di questo elemento all’utilizzatore del template",
       "addAnnotationBtn": "Aggiungi annotazioni",
-      "editAnnotationBtn": "Modifica annotazioni",
-      "deleteAnnotationBtn": "Rimuovi annotazioni",
+      "editAnnotationBtn": "Modifica",
+      "deleteAnnotationBtn": "Rimuovi",
       "annotationSectionTitle": "Annotazioni fornite dal creatore",
-      "addAnswerBtn": "Aggiungi risposta",
+      "addDocumentBtn": "Allega documentazione",
       "drawer": {
         "title": "Aggiungi annotazioni",
         "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
