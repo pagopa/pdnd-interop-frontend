@@ -34,7 +34,30 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
     defaultAnswers: defaultAnswers,
   })
 
-  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers }) => onSubmit(validAnswers))
+  const [incompatibleAnswerValue, setIncompatibleAnswerValue] = React.useState<boolean>(false)
+
+  const checkIncompatibleAnswerValue = (answers: Record<string, string[]>) => {
+    const userAnswer = answers['usesPersonalData']?.[0]
+    const isYes = userAnswer === 'YES'
+    const isNo = userAnswer === 'NO'
+
+    const incompatible = (isYes && personalData !== true) || (isNo && personalData !== false)
+
+    return incompatible
+  }
+
+  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers }) => {
+    if (checkIncompatibleAnswerValue(validAnswers)) {
+      setIncompatibleAnswerValue(true)
+      riskAnalysisForm.setError('answers.usesPersonalData', {
+        type: 'manual',
+        message: t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError'),
+      })
+      return
+    }
+
+    onSubmit(validAnswers)
+  })
 
   return (
     <FormProvider {...riskAnalysisForm}>
@@ -57,6 +80,11 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
           </Alert>
           <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
+        {incompatibleAnswerValue && (
+          <Alert sx={{ mt: 2 }} severity="warning">
+            {t('stepRiskAnalysis.personalDataFlag.alertForIncompatibleAnswer')}
+          </Alert>
+        )}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),
