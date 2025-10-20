@@ -92,10 +92,10 @@
       "alert": "Warning: Do not enter personal data in the free text fields",
       "switchLabel": "Assign the completion of this item to the template user",
       "addAnnotationBtn": "Add annotations",
-      "editAnnotationBtn": "Edit annotations",
-      "deleteAnnotationBtn": "Remove annotations",
+      "editAnnotationBtn": "Edit",
+      "deleteAnnotationBtn": "Remove",
       "annotationSectionTitle": "Annotations provided by the creator",
-      "addAnswerBtn": "Add answer",
+      "addDocumentBtn": "Attach documentation",
       "drawer": {
         "title": "Add annotations",
         "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",

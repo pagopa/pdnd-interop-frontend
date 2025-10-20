@@ -1,8 +1,8 @@
-import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/purposeTemplate/mockedResponses'
+import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { Stack, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
@@ -14,12 +14,14 @@ type AddAnnotationDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void
+  initialAnnotation?: RiskAnalysisTemplateAnswerAnnotation
 }
 
 export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  initialAnnotation,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3.drawer' })
   const { t: tCommon } = useTranslation('common')
@@ -30,9 +32,15 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
 
   const formMethods = useForm<AddAnnotationFormValues>({
     defaultValues: {
-      annotation: undefined,
+      annotation: initialAnnotation ?? { id: '', text: '', docs: [] },
     },
   })
+
+  useEffect(() => {
+    if (isOpen) {
+      formMethods.reset({ annotation: initialAnnotation ?? { id: '', text: '', docs: [] } })
+    }
+  }, [isOpen, initialAnnotation, formMethods])
 
   const _onSubmit = ({ annotation }: AddAnnotationFormValues) => {
     onClose()
@@ -67,7 +75,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
           focusOnMount
           label={t('label')}
           size="medium"
-          name="annotation"
+          name="annotation.text"
           multiline
           rows={11}
           sx={{ mt: 0 }}

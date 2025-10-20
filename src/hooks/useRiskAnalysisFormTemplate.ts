@@ -3,6 +3,7 @@ import type {
   RiskAnalysisTemplateAnswerSeed,
 } from '@/api/api.generatedTypes'
 import type { RiskAnalysisAnswers, RiskAnalysisQuestions } from '@/types/risk-analysis-form.types'
+import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
 import {
   getRiskAnalysisDefaultValues,
   getUpdatedQuestionsForTemplate,
@@ -14,6 +15,7 @@ import { useForm } from 'react-hook-form'
 
 type RiskAnalysisForm<TExtraFields extends FieldValues = {}> = {
   answers: RiskAnalysisAnswers
+  annotations?: Record<string, RiskAnalysisTemplateAnswerAnnotation>
 } & TExtraFields
 
 /**
@@ -63,6 +65,7 @@ export function useRiskAnalysisFormTemplate<TExtraFields extends FieldValues = {
     defaultValues: {
       answers: defaultRiskAnalysisAnswers,
       assignToTemplateUsers: defaultAssignToTemplateUsers,
+      annotations: {},
       ...extraFields,
     } as DefaultValues<
       RiskAnalysisForm<TExtraFields> & { assignToTemplateUsers: Record<string, boolean> }
