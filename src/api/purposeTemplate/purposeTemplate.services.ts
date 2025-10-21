@@ -208,7 +208,7 @@ async function deleteAnnotation({
   return console.log('Annotation deleted')
 }
 
-async function deleteDocument({
+async function deleteDocumentFromAnnotation({
   purposeTemplateId,
   answerId,
   documentId,
@@ -217,10 +217,9 @@ async function deleteDocument({
   answerId: string
   documentId: string
 }) {
-  //   return await axiosInstance.delete<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`
-  //   )
-  return console.log('Document deleted')
+  await axiosInstance.delete<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`
+  )
 }
 
 async function suspendPurposeTemplate({ id }: { id: string }) {
@@ -261,7 +260,7 @@ export const PurposeTemplateServices = {
   publishDraft,
   deleteDraft,
   deleteAnnotation,
-  deleteDocument,
+  deleteDocumentFromAnnotation,
   suspendPurposeTemplate,
   reactivatePurposeTemplate,
   archivePurposeTemplate,

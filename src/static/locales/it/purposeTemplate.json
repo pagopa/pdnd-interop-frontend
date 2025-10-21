@@ -99,7 +99,11 @@
       "uploadBtn": "Carica",
       "notifications": {
         "annotationAddedSuccess": "Annotazione aggiunta con successo.",
-        "annotationAddError": "Non è stato possibile aggiungere l'annotazione. Assicurati di aver inserito le informazioni corrette e riprova."
+        "annotationAddError": "Non è stato possibile aggiungere l'annotazione. Assicurati di aver inserito le informazioni corrette e riprova.",
+        "annotationDeletedSuccess": "Annotazione eliminata con successo.",
+        "annotationDeleteError": "Non è stato possibile eliminare l'annotazione. Riprova più tardi.",
+        "documentDeletedSuccess": "Documento eliminato con successo.",
+        "documentDeleteError": "Non è stato possibile eliminare il documento. Riprova più tardi."
       },
       "drawer": {
         "title": "Aggiungi annotazioni",
