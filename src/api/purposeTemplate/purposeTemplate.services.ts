@@ -13,6 +13,10 @@ import type {
   PurposeTemplate,
   PurposeTemplateSeed,
   PurposeTemplateWithCompactCreator,
+  RiskAnalysisTemplateAnswerAnnotation,
+  RiskAnalysisTemplateAnswerAnnotationText,
+  RiskAnalysisTemplateAnswerRequest,
+  RiskAnalysisTemplateAnswerResponse,
   UnlinkEServiceToPurposeTemplatePayload,
 } from '../api.generatedTypes'
 
@@ -127,18 +131,34 @@ async function unlinkEserviceFromPurposeTemplate({
   )
 }
 
-async function addAnnotationToAnswer({
+async function addRiskAnalysisAnswer({
+  purposeTemplateId,
+  answerRequest,
+}: {
+  purposeTemplateId: string
+  answerRequest: RiskAnalysisTemplateAnswerRequest
+}) {
+  const response = await axiosInstance.post<RiskAnalysisTemplateAnswerResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers`,
+    answerRequest
+  )
+  return response.data
+}
+
+async function updateRiskAnalysisAnswerAnnotation({
   purposeTemplateId,
   answerId,
+  annotationText,
 }: {
   purposeTemplateId: string
   answerId: string
+  annotationText: RiskAnalysisTemplateAnswerAnnotationText
 }) {
-  //   const response = await axiosInstance.put<RiskAnalysisAnswerAnnotationText>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`,
-  //   )
-  //   return response.data
-  return console.log('Added annotation to answer')
+  const response = await axiosInstance.put<RiskAnalysisTemplateAnswerAnnotation>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`,
+    annotationText
+  )
+  return response.data
 }
 
 async function addDocumentsToAnnotation({
@@ -226,7 +246,8 @@ export const PurposeTemplateServices = {
   updateDraft,
   linkEserviceToPurposeTemplate,
   unlinkEserviceFromPurposeTemplate,
-  addAnnotationToAnswer,
+  addRiskAnalysisAnswer,
+  updateRiskAnalysisAnswerAnnotation,
   addDocumentsToAnnotation,
   createDraft,
   publishDraft,
