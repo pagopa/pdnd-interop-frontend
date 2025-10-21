@@ -8,7 +8,7 @@ import { Box, Stack, Typography, Button } from '@mui/material'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useForm, FormProvider } from 'react-hook-form'
 import { useState, useEffect } from 'react'
 import type {
   RiskAnalysisTemplateAnswerAnnotation,
@@ -17,6 +17,14 @@ import type {
 } from '@/api/api.generatedTypes'
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
+
+type DocumentUploadFormValues = {
+  doc: File | null
+}
+
+const defaultValues: DocumentUploadFormValues = {
+  doc: null,
+}
 
 export const RiskAnalysisAnswerComponent: React.FC<{
   questionId: string
@@ -39,6 +47,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
 
   // Document management states
   const [showDocInput, setShowDocInput] = useState(false)
+
+  // Separate form for document upload
+  const documentUploadForm = useForm<DocumentUploadFormValues>({
+    defaultValues,
+    shouldUnregister: true,
+  })
 
   // Get documents from annotation
   const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
@@ -138,15 +152,15 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     setShowDocInput(true)
   }
 
-  const handleFileSelected = async (file: File | null) => {
-    if (!file) return
+  const handleDocumentUpload = async ({ doc }: DocumentUploadFormValues) => {
+    if (!doc) return
 
     try {
       const existingAnswerId = watch(`answerIds.${questionId}`)
 
       const documentPayload = {
-        prettyName: file.name,
-        doc: file,
+        prettyName: doc.name,
+        doc,
       }
 
       const uploadedDoc = await PurposeTemplateServices.addDocumentToAnnotation({
@@ -165,13 +179,10 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       })
 
       setShowDocInput(false)
-      // clear temporary upload control value so its preview box disappears
-      setValue(`__annotationUpload.${questionId}`, null)
     } catch (error) {
       console.error('Error uploading document:', error)
       // Show error to user - document upload failed
       setShowDocInput(false)
-      setValue(`__annotationUpload.${questionId}`, null)
     }
   }
 
@@ -255,7 +266,6 @@ export const RiskAnalysisAnswerComponent: React.FC<{
             {annotation.text}
           </Typography>
 
-          {/* Se non ci sono documenti: mostra o il bottone o il dropzone */}
           {docs.length === 0 &&
             (!showDocInput ? (
               <Button
@@ -267,12 +277,23 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                 {t('addDocumentBtn')}
               </Button>
             ) : (
-              <Box sx={{ mt: 2 }}>
-                <RHFSingleFileInput
-                  name={`__annotationUpload.${questionId}`}
-                  onValueChange={handleFileSelected}
-                />
-              </Box>
+              <FormProvider {...documentUploadForm}>
+                <Box
+                  component="form"
+                  noValidate
+                  onSubmit={documentUploadForm.handleSubmit(handleDocumentUpload)}
+                  sx={{ mt: 2 }}
+                >
+                  <RHFSingleFileInput name="doc" rules={{ required: true }} sx={{ my: 2 }} />
+                  {documentUploadForm.watch('doc') && (
+                    <Stack direction="row" justifyContent="flex-end">
+                      <Button type="submit" variant="contained">
+                        {t('uploadBtn')}
+                      </Button>
+                    </Stack>
+                  )}
+                </Box>
+              </FormProvider>
             ))}
 
           {docs.length > 0 && (
@@ -295,7 +316,6 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                 ))}
               </Stack>
 
-              {/* Con documenti: sostituisci il bottone con il dropzone quando attivo */}
               {!showDocInput && docs.length < 2 ? (
                 <Button
                   type="button"
@@ -307,12 +327,23 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                   {t('addDocumentBtn')}
                 </Button>
               ) : showDocInput ? (
-                <Box sx={{ mt: 2 }}>
-                  <RHFSingleFileInput
-                    name={`__annotationUpload.${questionId}`}
-                    onValueChange={handleFileSelected}
-                  />
-                </Box>
+                <FormProvider {...documentUploadForm}>
+                  <Box
+                    component="form"
+                    noValidate
+                    onSubmit={documentUploadForm.handleSubmit(handleDocumentUpload)}
+                    sx={{ mt: 2 }}
+                  >
+                    <RHFSingleFileInput name="doc" rules={{ required: true }} sx={{ my: 2 }} />
+                    {documentUploadForm.watch('doc') && (
+                      <Stack direction="row" justifyContent="flex-end">
+                        <Button type="submit" variant="contained">
+                          {t('uploadBtn')}
+                        </Button>
+                      </Stack>
+                    )}
+                  </Box>
+                </FormProvider>
               ) : null}
             </Box>
           )}
