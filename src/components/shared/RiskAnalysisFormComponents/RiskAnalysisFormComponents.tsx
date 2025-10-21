@@ -36,7 +36,7 @@ function RiskAnalysisQuestion({
   question,
 }: {
   question: FormConfigQuestion
-  personalDataFlag?: boolean
+  personalData?: boolean
 }) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')

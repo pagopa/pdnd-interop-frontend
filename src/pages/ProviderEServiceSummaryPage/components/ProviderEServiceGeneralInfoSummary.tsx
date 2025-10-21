@@ -28,7 +28,7 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         label={t('apiTechnology.label')}
         content={descriptor.eservice.technology}
       />
-      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
         <InformationContainer
           label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
           content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
