@@ -920,33 +920,6 @@ export interface PurposeAdditionDetailsSeed {
   purposeId: string
 }
 
-/** Business representation of a purpose template */
-export interface PurposeTemplate {
-  /** @format uuid */
-  id: string
-  targetDescription: string
-  targetTenantKind: TenantKind
-  /** @format uuid */
-  creatorId: string
-  /** Purpose Template State */
-  state: PurposeTemplateState
-  /** @format date-time */
-  createdAt: string
-  /** @format date-time */
-  updatedAt?: string
-  purposeTitle: string
-  purposeDescription: string
-  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
-  purposeIsFreeOfCharge: boolean
-  purposeFreeOfChargeReason?: string
-  /**
-   * @format int32
-   * @min 1
-   * @max 1000000000
-   */
-  purposeDailyCalls?: number
-}
-
 /** Purpose Template State */
 export type PurposeTemplateState = 'ACTIVE' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
 
@@ -975,6 +948,33 @@ export interface PurposeTemplateWithCompactCreator {
    */
   purposeDailyCalls?: number
   annotationDocuments?: RiskAnalysisTemplateAnswerAnnotationDocument[]
+}
+
+/** Business representation of a purpose template */
+export interface PurposeTemplate {
+  /** @format uuid */
+  id: string
+  targetDescription: string
+  targetTenantKind: TenantKind
+  /** @format uuid */
+  creatorId: string
+  /** Purpose Template State */
+  state: PurposeTemplateState
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
+  purposeTitle: string
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
 }
 
 export interface PurposeTemplateSeed {
@@ -1024,6 +1024,8 @@ export interface RiskAnalysisFormTemplateSeed {
 }
 
 export interface RiskAnalysisTemplateAnswer {
+  /** @format uuid */
+  id: string
   values: string[]
   editable: boolean
   annotation?: RiskAnalysisTemplateAnswerAnnotation
@@ -6823,6 +6825,27 @@ export namespace PurposeTemplates {
     export type ResponseBody = PurposeTemplate
   }
   /**
+   * @description Deletes a specific purpose template if it is in Draft state
+   * @tags purposeTemplates
+   * @name DeletePurposeTemplate
+   * @summary Delete a Purpose Template
+   * @request DELETE:/purposeTemplates/{purposeTemplateId}
+   * @secure
+   */
+  export namespace DeletePurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Add valid new risk analysis answer for the specified purpose template risk analysis.
    * @tags purposeTemplates
    * @name AddPurposeTemplateRiskAnalysisAnswer
@@ -6895,6 +6918,37 @@ export namespace PurposeTemplates {
     export type ResponseBody = File
   }
   /**
+   * @description Delete a risk analysis form template answer annotation document
+   * @tags purposeTemplates
+   * @name DeleteRiskAnalysisTemplateAnswerAnnotationDocument
+   * @summary Delete risk analysis form template answer annotation document
+   * @request DELETE:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation/documents/{documentId}
+   * @secure
+   */
+  export namespace DeleteRiskAnalysisTemplateAnswerAnnotationDocument {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+      /**
+       * the risk analysis template answer id
+       * @format uuid
+       */
+      answerId: string
+      /**
+       * the risk analysis template answer annotation document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Add a risk analysis answer annotation for the specified purpose template risk analysis.
    * @tags purposeTemplates
    * @name AddPurposeTemplateRiskAnalysisAnswerAnnotation
@@ -6913,6 +6967,98 @@ export namespace PurposeTemplates {
     export type RequestBody = RiskAnalysisTemplateAnswerAnnotationText
     export type RequestHeaders = {}
     export type ResponseBody = RiskAnalysisTemplateAnswerAnnotation
+  }
+  /**
+   * @description Delete a risk analysis form template answer annotation and the related files
+   * @tags purposeTemplates
+   * @name DeleteRiskAnalysisTemplateAnswerAnnotation
+   * @summary Delete risk analysis form template answer annotation
+   * @request DELETE:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation
+   * @secure
+   */
+  export namespace DeleteRiskAnalysisTemplateAnswerAnnotation {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+      /** @format uuid */
+      answerId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Publishes a purpose template by id (from Draft State to Active State)
+   * @tags purposeTemplates
+   * @name PublishPurposeTemplate
+   * @summary Publish Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/publish
+   * @secure
+   */
+  export namespace PublishPurposeTemplate {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
+  }
+  /**
+   * @description Unsuspends a purpose template by id (from Suspended State to Active State)
+   * @tags purposeTemplates
+   * @name UnsuspendPurposeTemplate
+   * @summary Unsuspend Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/unsuspend
+   * @secure
+   */
+  export namespace UnsuspendPurposeTemplate {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
+  }
+  /**
+   * @description Suspends a purpose template by id (from Active State to Suspended State)
+   * @tags purposeTemplates
+   * @name SuspendPurposeTemplate
+   * @summary Suspend Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/suspend
+   * @secure
+   */
+  export namespace SuspendPurposeTemplate {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
+  }
+  /**
+   * @description Archives a purpose template by id (from Suspended State to Archived State)
+   * @tags purposeTemplates
+   * @name ArchivePurposeTemplate
+   * @summary Archive Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/archive
+   * @secure
+   */
+  export namespace ArchivePurposeTemplate {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
   }
 }
 
