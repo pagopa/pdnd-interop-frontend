@@ -10,7 +10,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
 import { useFormContext, useForm, FormProvider } from 'react-hook-form'
 import { useState, useEffect } from 'react'
-import { useToastNotification } from '@/stores'
+import { useToastNotification, useDialog } from '@/stores'
 import type {
   RiskAnalysisTemplateAnswerAnnotation,
   RiskAnalysisTemplateAnswerRequest,
@@ -36,6 +36,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { setValue, watch } = useFormContext()
   const { showToast } = useToastNotification()
+  const { openDialog } = useDialog()
   const annotation: RiskAnalysisTemplateAnswerAnnotation | undefined = watch(
     `annotations.${questionId}`
   )
@@ -127,28 +128,33 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     }
   }
 
-  const handleRemove = async () => {
-    try {
-      // Check if we have an answerId (annotation exists in database)
-      const existingAnswerId = watch(`answerIds.${questionId}`)
+  const handleRemove = () => {
+    openDialog({
+      type: 'deleteAnnotation',
+      onProceed: async () => {
+        try {
+          // Check if we have an answerId (annotation exists in database)
+          const existingAnswerId = watch(`answerIds.${questionId}`)
 
-      if (existingAnswerId) {
-        // Delete annotation from database
-        await PurposeTemplateServices.deleteRiskAnalysisAnswerAnnotation({
-          purposeTemplateId,
-          answerId: existingAnswerId,
-        })
-      }
+          if (existingAnswerId) {
+            // Delete annotation from database
+            await PurposeTemplateServices.deleteRiskAnalysisAnswerAnnotation({
+              purposeTemplateId,
+              answerId: existingAnswerId,
+            })
+          }
 
-      // Clear form fields
-      setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
-      setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
-    } catch (error) {
-      console.error('Error deleting annotation:', error)
-      // Fallback: clear form fields anyway
-      setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
-      setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
-    }
+          // Clear form fields
+          setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
+          setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+        } catch (error) {
+          console.error('Error deleting annotation:', error)
+          // Fallback: clear form fields anyway
+          setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
+          setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+        }
+      },
+    })
   }
 
   // Document management functions
