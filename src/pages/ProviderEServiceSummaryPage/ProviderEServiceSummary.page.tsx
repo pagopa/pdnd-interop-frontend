@@ -297,14 +297,21 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           >
             {tCommon('reject')}
           </Button>
-          <Button
-            startIcon={<PublishIcon />}
-            variant="contained"
-            onClick={handleApproveDelegatedVersionDraft}
-            disabled={isSupport || !descriptor.eservice.personalData}
+          <Tooltip
+            title={descriptor.eservice.personalData ? '' : t('summary.missingPersonalDataField')}
+            arrow
           >
-            {tCommon('publish')}
-          </Button>
+            <span>
+              <Button
+                startIcon={<PublishIcon />}
+                variant="contained"
+                onClick={handleApproveDelegatedVersionDraft}
+                disabled={isSupport || !descriptor.eservice.personalData}
+              >
+                {tCommon('publish')}
+              </Button>
+            </span>
+          </Tooltip>
         </Stack>
       )}
 
