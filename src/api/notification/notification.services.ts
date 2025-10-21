@@ -44,12 +44,12 @@ async function getUserNotificationsList(params: GetUserNotificationsParams) {
     { params }
   )
 
-  const responseMock: Notifications = {
+  const _responseMock: Notifications = {
     pagination: { limit: 10, offset: 0, totalCount: 10 },
     results: mockedNotifications,
   }
 
-  // return responseMock // TODO to be removed when API will be ready
+  // return _responseMock // TODO to be removed when API will be ready
   return response.data
 }
 
@@ -94,6 +94,13 @@ async function deleteNotifications(payload: { ids: string[] }) {
   })
 }
 
+async function markNotificationsAsReadByEntityId({ entityId }: { entityId: string }) {
+  const response = await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/markAsReadByEntityId/${entityId}`
+  )
+  return response.data
+}
+
 export const NotificationServices = {
   getUserNotificationsList,
   markAsRead,
@@ -102,4 +109,5 @@ export const NotificationServices = {
   markBulkAsNotRead,
   deleteNotification,
   deleteNotifications,
+  markNotificationsAsReadByEntityId,
 }
