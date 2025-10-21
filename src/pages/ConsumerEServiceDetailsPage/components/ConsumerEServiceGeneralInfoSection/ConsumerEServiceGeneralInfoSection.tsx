@@ -85,7 +85,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             content={descriptor.eservice.producer.name}
           />
           <InformationContainer label={t('version.label')} content={descriptor.version} />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
             <InformationContainer
               label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
               content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}

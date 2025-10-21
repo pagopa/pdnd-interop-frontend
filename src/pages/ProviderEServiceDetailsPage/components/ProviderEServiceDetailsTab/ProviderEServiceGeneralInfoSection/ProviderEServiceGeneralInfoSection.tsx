@@ -199,7 +199,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' &&
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
             !descriptor.eservice.personalData &&
             !isEserviceFromTemplate && (
               <Alert severity="warning" sx={{ alignItems: 'center' }}>
