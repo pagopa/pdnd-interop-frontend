@@ -103,7 +103,11 @@
       "uploadBtn": "Upload",
       "notifications": {
         "annotationAddedSuccess": "Annotation added successfully.",
-        "annotationAddError": "It was not possible to add the annotation. Make sure you have entered the correct information and try again."
+        "annotationAddError": "It was not possible to add the annotation. Make sure you have entered the correct information and try again.",
+        "annotationDeletedSuccess": "Annotation deleted successfully.",
+        "annotationDeleteError": "It was not possible to delete the annotation. Please try again later.",
+        "documentDeletedSuccess": "Document deleted successfully.",
+        "documentDeleteError": "It was not possible to delete the document. Please try again later."
       },
       "drawer": {
         "title": "Add annotations",

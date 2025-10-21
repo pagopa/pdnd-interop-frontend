@@ -8,13 +8,14 @@ import { Box, Stack, Typography, Button } from '@mui/material'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
-import { useFormContext, useForm, FormProvider } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { useState, useEffect } from 'react'
 import { useToastNotification, useDialog } from '@/stores'
 import type {
   RiskAnalysisTemplateAnswerAnnotation,
   RiskAnalysisTemplateAnswerRequest,
   RiskAnalysisTemplateAnswerAnnotationDocument,
+  EServiceDoc,
 } from '@/api/api.generatedTypes'
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
@@ -51,12 +52,6 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
 
   // Document management states
   const [showDocInput, setShowDocInput] = useState(false)
-
-  // Separate form for document upload
-  const documentUploadForm = useForm<DocumentUploadFormValues>({
-    defaultValues,
-    shouldUnregister: true,
-  })
 
   // Get documents from annotation
   const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
@@ -148,11 +143,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
           // Clear form fields
           setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
           setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+
+          // Show success notification
+          showToast(t('notifications.annotationDeletedSuccess'), 'success')
         } catch (error) {
           console.error('Error deleting annotation:', error)
-          // Fallback: clear form fields anyway
-          setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
-          setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+          // Show error notification
+          showToast(t('notifications.annotationDeleteError'), 'error')
+          // Do NOT remove from UI if API call failed - let user retry
         }
       },
     })
@@ -169,15 +167,15 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
     setShowDocInput(true)
   }
 
-  const handleDocumentUpload = async ({ doc }: DocumentUploadFormValues) => {
-    if (!doc) return
+  const handleFileSelected = async (file: File | null) => {
+    if (!file) return
 
     try {
       const existingAnswerId = watch(`answerIds.${questionId}`)
 
       const documentPayload = {
-        prettyName: doc.name,
-        doc,
+        prettyName: file.name,
+        doc: file,
       }
 
       const uploadedDoc = await PurposeTemplateServices.addDocumentToAnnotation({
@@ -202,30 +200,41 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
     }
   }
 
-  const handleDownload = (doc: RiskAnalysisTemplateAnswerAnnotationDocument) => {
+  const handleDownload = (doc: EServiceDoc) => {
     // TODO: Implement download from backend
     console.log('Download document:', doc)
   }
 
-  const handleDelete = (doc: RiskAnalysisTemplateAnswerAnnotationDocument) => {
-    const currentDocs =
-      (watch(`annotations.${questionId}.docs`) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ??
-      []
-    setValue(
-      `annotations.${questionId}.docs`,
-      currentDocs.filter((d) => d.id !== doc.id),
-      { shouldDirty: true }
-    )
-    // TODO: Implement delete from backend
-  }
+  const handleDelete = async (doc: EServiceDoc) => {
+    try {
+      const existingAnswerId = watch(`answerIds.${questionId}`)
 
-  // Wrapper functions for DocumentContainer compatibility
-  const handleDownloadForContainer = (doc: unknown) => {
-    handleDownload(doc as RiskAnalysisTemplateAnswerAnnotationDocument)
-  }
+      if (existingAnswerId) {
+        // Delete document from backend
+        await PurposeTemplateServices.deleteDocumentFromAnnotation({
+          purposeTemplateId,
+          answerId: existingAnswerId,
+          documentId: doc.id,
+        })
+      }
 
-  const handleDeleteForContainer = (doc: unknown) => {
-    handleDelete(doc as RiskAnalysisTemplateAnswerAnnotationDocument)
+      // Update form by removing the document
+      const currentDocs =
+        (watch(
+          `annotations.${questionId}.docs`
+        ) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ?? []
+      setValue(
+        `annotations.${questionId}.docs`,
+        currentDocs.filter((d) => d.id !== doc.id),
+        { shouldDirty: true }
+      )
+
+      // Show success notification
+      showToast(t('notifications.documentDeletedSuccess'), 'success')
+    } catch (error) {
+      console.error('Error deleting document:', error)
+      showToast(t('notifications.documentDeleteError'), 'error')
+    }
   }
 
   return (
@@ -293,23 +302,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
                 {t('addDocumentBtn')}
               </Button>
             ) : (
-              <FormProvider {...documentUploadForm}>
-                <Box
-                  component="form"
-                  noValidate
-                  onSubmit={documentUploadForm.handleSubmit(handleDocumentUpload)}
-                  sx={{ mt: 2 }}
-                >
-                  <RHFSingleFileInput name="doc" rules={{ required: true }} sx={{ my: 2 }} />
-                  {documentUploadForm.watch('doc') && (
-                    <Stack direction="row" justifyContent="flex-end">
-                      <Button type="submit" variant="contained">
-                        {t('uploadBtn')}
-                      </Button>
-                    </Stack>
-                  )}
-                </Box>
-              </FormProvider>
+              <Box sx={{ mt: 2 }}>
+                <RHFSingleFileInput
+                  name={`__annotationUpload.${questionId}`}
+                  onValueChange={handleFileSelected}
+                />
+              </Box>
             ))}
 
           {docs.length > 0 && (
@@ -325,8 +323,8 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
                       contentType: doc.contentType,
                       checksum: '',
                     }}
-                    onDownload={handleDownloadForContainer}
-                    onDelete={handleDeleteForContainer}
+                    onDownload={handleDownload}
+                    onDelete={handleDelete}
                     // todo: add onUpdateDescription
                   />
                 ))}
@@ -343,23 +341,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
                   {t('addDocumentBtn')}
                 </Button>
               ) : showDocInput ? (
-                <FormProvider {...documentUploadForm}>
-                  <Box
-                    component="form"
-                    noValidate
-                    onSubmit={documentUploadForm.handleSubmit(handleDocumentUpload)}
-                    sx={{ mt: 2 }}
-                  >
-                    <RHFSingleFileInput name="doc" rules={{ required: true }} sx={{ my: 2 }} />
-                    {documentUploadForm.watch('doc') && (
-                      <Stack direction="row" justifyContent="flex-end">
-                        <Button type="submit" variant="contained">
-                          {t('uploadBtn')}
-                        </Button>
-                      </Stack>
-                    )}
-                  </Box>
-                </FormProvider>
+                <Box sx={{ mt: 2 }}>
+                  <RHFSingleFileInput
+                    name={`__annotationUpload.${questionId}`}
+                    onValueChange={handleFileSelected}
+                  />
+                </Box>
               ) : null}
             </Box>
           )}
