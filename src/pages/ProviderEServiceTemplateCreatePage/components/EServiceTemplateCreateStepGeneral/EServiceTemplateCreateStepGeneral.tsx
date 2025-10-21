@@ -173,7 +173,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
             <RHFRadioGroup
               name="personalData"
               row

@@ -25,7 +25,7 @@ export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
         label={t('apiTechnology.label')}
         content={eserviceTemplate.eserviceTemplate.technology}
       />
-      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
         <InformationContainer
           label={t(`personalDataField.${eserviceTemplate.eserviceTemplate.mode}.label`)}
           content={t(`personalDataField.value.${eserviceTemplate.eserviceTemplate.personalData}`)}

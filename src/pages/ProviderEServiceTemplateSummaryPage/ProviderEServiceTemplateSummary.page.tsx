@@ -153,7 +153,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
           onClick={handlePublishDraft}
           disabled={!canBePublished()}
           arePersonalDataSet={
-            FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true'
+            FEATURE_FLAG_ESERVICE_PERSONAL_DATA
               ? !!eserviceTemplate?.eserviceTemplate.personalData
               : true
           }
