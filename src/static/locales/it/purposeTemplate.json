@@ -101,6 +101,10 @@
       "annotationSectionTitle": "Annotazioni fornite dal creatore",
       "addDocumentBtn": "Aggiungi documenti",
       "uploadBtn": "Carica",
+      "notifications": {
+        "annotationAddedSuccess": "Annotazione aggiunta con successo.",
+        "annotationAddError": "Non è stato possibile aggiungere l'annotazione. Assicurati di aver inserito le informazioni corrette e riprova."
+      },
       "drawer": {
         "title": "Aggiungi annotazioni",
         "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
