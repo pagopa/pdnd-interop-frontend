@@ -134,6 +134,10 @@ export const RiskAnalysisAnswerComponent: React.FC<{
           // Clear form fields
           setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
           setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+          // Clear the upload input field
+          setValue(`__annotationUpload.${questionId}`, null, { shouldDirty: true })
+          // Reset the document input state
+          setShowDocInput(false)
 
           // Show success notification
           showToast(t('notifications.annotationDeletedSuccess'), 'success')
