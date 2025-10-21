@@ -1,21 +1,22 @@
+import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
+import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import type {
-  RiskAnalysisFormConfig,
-  RiskAnalysisTemplateAnswerSeed,
+  RiskAnalysisTemplateAnswerAnnotation,
+  RiskAnalysisTemplateAnswer,
 } from '@/api/api.generatedTypes'
-import type { RiskAnalysisAnswers, RiskAnalysisQuestions } from '@/types/risk-analysis-form.types'
-import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
 import {
   getRiskAnalysisDefaultValues,
   getUpdatedQuestionsForTemplate,
   getValidAnswers,
 } from '@/utils/risk-analysis-form.utils'
-import { useTransition, useState, useEffect } from 'react'
+import { useMemo } from 'react'
 import type { DefaultValues, FieldValues } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
 type RiskAnalysisForm<TExtraFields extends FieldValues = {}> = {
   answers: RiskAnalysisAnswers
   annotations?: Record<string, RiskAnalysisTemplateAnswerAnnotation>
+  answerIds?: Record<string, string>
 } & TExtraFields
 
 /**
@@ -28,36 +29,45 @@ export function useRiskAnalysisFormTemplate<TExtraFields extends FieldValues = {
   extraFields,
 }: {
   riskAnalysisConfig: RiskAnalysisFormConfig
-  defaultAnswers?: Record<string, RiskAnalysisTemplateAnswerSeed>
+  defaultAnswers?: Record<string, RiskAnalysisTemplateAnswer>
   extraFields?: TExtraFields
 }) {
-  const [_, startTransition] = useTransition()
-
   // Transform the template answers to the format expected by the form components
   const transformedDefaultAnswers = defaultAnswers
     ? Object.fromEntries(
-        Object.entries(defaultAnswers).map(([key, answerSeed]) => [key, answerSeed.values])
+        Object.entries(defaultAnswers).map(([key, answer]) => [key, answer.values])
       )
     : undefined
 
-  const [defaultRiskAnalysisAnswers, __] = useState<RiskAnalysisAnswers>(() =>
-    getRiskAnalysisDefaultValues(riskAnalysisConfig.questions, transformedDefaultAnswers)
+  const defaultRiskAnalysisAnswers = getRiskAnalysisDefaultValues(
+    riskAnalysisConfig.questions,
+    transformedDefaultAnswers
   )
 
   // Create default assignToTemplateUsers from the editable flags
   const defaultAssignToTemplateUsers = defaultAnswers
     ? Object.fromEntries(
-        Object.entries(defaultAnswers).map(([key, answerSeed]) => [key, answerSeed.editable])
+        Object.entries(defaultAnswers).map(([key, answer]) => [key, answer.editable])
       )
     : {}
 
-  const [questions, setQuestions] = useState<RiskAnalysisQuestions>(() =>
-    getUpdatedQuestionsForTemplate(
-      defaultRiskAnalysisAnswers,
-      riskAnalysisConfig.questions,
-      defaultAssignToTemplateUsers
-    )
-  )
+  // Create default annotations from the backend data
+  const defaultAnnotations = defaultAnswers
+    ? Object.fromEntries(
+        Object.entries(defaultAnswers)
+          .filter(([_, answer]) => answer.annotation)
+          .map(([key, answer]) => [key, answer.annotation!])
+      )
+    : {}
+
+  // Create default answerIds from the backend data
+  const defaultAnswerIds = defaultAnswers
+    ? Object.fromEntries(
+        Object.entries(defaultAnswers)
+          .filter(([_, answer]) => answer.id)
+          .map(([key, answer]) => [key, answer.id!])
+      )
+    : {}
 
   const formMethods = useForm<
     RiskAnalysisForm<TExtraFields> & { assignToTemplateUsers: Record<string, boolean> }
@@ -65,7 +75,8 @@ export function useRiskAnalysisFormTemplate<TExtraFields extends FieldValues = {
     defaultValues: {
       answers: defaultRiskAnalysisAnswers,
       assignToTemplateUsers: defaultAssignToTemplateUsers,
-      annotations: {},
+      annotations: defaultAnnotations,
+      answerIds: defaultAnswerIds,
       ...extraFields,
     } as DefaultValues<
       RiskAnalysisForm<TExtraFields> & { assignToTemplateUsers: Record<string, boolean> }
@@ -76,28 +87,21 @@ export function useRiskAnalysisFormTemplate<TExtraFields extends FieldValues = {
 
   const { watch } = formMethods
 
-  /**
-   * Subscribes to the form values changes
-   * and updates the actual visible questions on values change.
-   */
-  useEffect(() => {
-    const subscription = watch(({ answers, assignToTemplateUsers }) => {
-      startTransition(() => {
-        setQuestions(
-          getUpdatedQuestionsForTemplate(
-            answers as RiskAnalysisAnswers,
-            riskAnalysisConfig.questions,
-            Object.fromEntries(
-              Object.entries(assignToTemplateUsers || {}).filter(
-                ([_, value]) => value !== undefined
-              )
-            ) as Record<string, boolean>
-          )
+  // Watch all form values to trigger re-computation when they change
+  const watchedValues = watch()
+
+  // Use useMemo to compute questions reactively based on form values
+  const questions = useMemo(() => {
+    return getUpdatedQuestionsForTemplate(
+      watchedValues.answers as RiskAnalysisAnswers,
+      riskAnalysisConfig.questions,
+      Object.fromEntries(
+        Object.entries(watchedValues.assignToTemplateUsers || {}).filter(
+          ([_, value]) => value !== undefined
         )
-      })
-    })
-    return () => subscription.unsubscribe()
-  }, [watch, riskAnalysisConfig])
+      ) as Record<string, boolean>
+    )
+  }, [watchedValues, riskAnalysisConfig])
 
   type SubmitValues = {
     validAnswers: Record<string, Array<string>>

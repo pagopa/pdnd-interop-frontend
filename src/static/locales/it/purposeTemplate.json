@@ -99,7 +99,7 @@
       "editAnnotationBtn": "Modifica",
       "deleteAnnotationBtn": "Rimuovi",
       "annotationSectionTitle": "Annotazioni fornite dal creatore",
-      "addDocumentBtn": "Allega documentazione",
+      "addDocumentBtn": "Aggiungi documenti",
       "drawer": {
         "title": "Aggiungi annotazioni",
         "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
