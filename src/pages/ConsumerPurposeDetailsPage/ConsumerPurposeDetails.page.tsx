@@ -1,4 +1,5 @@
 import { PurposeQueries } from '@/api/purpose'
+import { NotificationMutations } from '@/api/notification'
 import { PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
@@ -21,9 +22,18 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { jwt } = AuthHooks.useJwt()
 
+  const { mutate: markNotificationsAsRead } =
+    NotificationMutations.useMarkNotificationsAsReadByEntityId()
+
   const { data: purpose, isLoading: isPurposeLoading } = useQuery(
     PurposeQueries.getSingle(purposeId)
   )
+
+  React.useEffect(() => {
+    if (purposeId) {
+      markNotificationsAsRead({ entityId: purposeId })
+    }
+  }, [purposeId, markNotificationsAsRead])
 
   const { data: descriptor, isLoading: isDescriptorLoading } = useQuery({
     ...EServiceQueries.getDescriptorCatalog(

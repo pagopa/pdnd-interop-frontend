@@ -1,5 +1,6 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
+import { NotificationMutations } from '@/api/notification'
 import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { Tab } from '@mui/material'
@@ -15,11 +16,20 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
+  const { mutate: markNotificationsAsRead } =
+    NotificationMutations.useMarkNotificationsAsReadByEntityId()
+
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  React.useEffect(() => {
+    if (eserviceId) {
+      markNotificationsAsRead({ entityId: eserviceId })
+    }
+  }, [eserviceId, markNotificationsAsRead])
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 

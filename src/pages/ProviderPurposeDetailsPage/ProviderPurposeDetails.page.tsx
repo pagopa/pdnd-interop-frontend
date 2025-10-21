@@ -1,4 +1,5 @@
 import { PurposeQueries } from '@/api/purpose'
+import { NotificationMutations } from '@/api/notification'
 import { PageContainer } from '@/components/layout/containers'
 import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions'
 import { useParams } from '@/router'
@@ -23,9 +24,18 @@ const ProviderPurposeDetailsPage: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { purposeId } = useParams<'PROVIDE_PURPOSE_DETAILS'>()
 
+  const { mutate: markNotificationsAsRead } =
+    NotificationMutations.useMarkNotificationsAsReadByEntityId()
+
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const { actions } = useGetProviderPurposesActions(purpose)
+
+  React.useEffect(() => {
+    if (purposeId) {
+      markNotificationsAsRead({ entityId: purposeId })
+    }
+  }, [purposeId, markNotificationsAsRead])
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 

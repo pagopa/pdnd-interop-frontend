@@ -1,5 +1,6 @@
 import React from 'react'
 import { AgreementQueries } from '@/api/agreement'
+import { NotificationMutations } from '@/api/notification'
 import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { Link, useParams } from '@/router'
@@ -35,10 +36,19 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { isAdmin, jwt } = AuthHooks.useJwt()
 
+  const { mutate: markNotificationsAsRead } =
+    NotificationMutations.useMarkNotificationsAsReadByEntityId()
+
   const { openDialog } = useDialog()
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
+
+  React.useEffect(() => {
+    if (agreementId) {
+      markNotificationsAsRead({ entityId: agreementId })
+    }
+  }, [agreementId, markNotificationsAsRead])
 
   const isDelegated = Boolean(agreement?.delegation)
 

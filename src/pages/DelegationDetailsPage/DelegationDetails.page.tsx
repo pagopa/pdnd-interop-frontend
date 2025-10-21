@@ -1,4 +1,5 @@
 import { DelegationQueries } from '@/api/delegation'
+import { NotificationMutations } from '@/api/notification'
 import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
@@ -19,9 +20,18 @@ export const DelegationDetailsPage: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.details' })
   const { jwt } = AuthHooks.useJwt()
 
+  const { mutate: markNotificationsAsRead } =
+    NotificationMutations.useMarkNotificationsAsReadByEntityId()
+
   const { data: delegation, isLoading } = useQuery(
     DelegationQueries.getSingle({ delegationId: delegationId })
   )
+
+  React.useEffect(() => {
+    if (delegationId) {
+      markNotificationsAsRead({ entityId: delegationId })
+    }
+  }, [delegationId, markNotificationsAsRead])
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 

@@ -18,6 +18,7 @@ import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { AuthHooks } from '@/api/auth'
+import { NotificationMutations } from '@/api/notification'
 import {
   ConsumerEServiceSignalHubSection,
   ConsumerEServiceSignalHubSectionSkeleton,
@@ -28,9 +29,18 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
   const { jwt } = AuthHooks.useJwt()
 
+  const { mutate: markNotificationsAsRead } =
+    NotificationMutations.useMarkNotificationsAsReadByEntityId()
+
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
+
+  React.useEffect(() => {
+    if (eserviceId) {
+      markNotificationsAsRead({ entityId: eserviceId })
+    }
+  }, [eserviceId, markNotificationsAsRead])
 
   const { data: delegators } = useQuery({
     ...DelegationQueries.getConsumerDelegators({
