@@ -710,6 +710,7 @@ export interface CompactPurposeEService {
   descriptor: CompactDescriptor
   /** Risk Analysis Mode */
   mode: EServiceMode
+  personalData?: boolean
 }
 
 export interface CompactPurposeTemplateEService {
@@ -1049,6 +1050,14 @@ export interface RiskAnalysisTemplateAnswerAnnotation {
   id: string
   text: string
   docs: RiskAnalysisTemplateAnswerAnnotationDocument[]
+}
+
+export interface RiskAnalysisTemplateAnswerAnnotationText {
+  /**
+   * @minLength 1
+   * @maxLength 250
+   */
+  text: string
 }
 
 export interface RiskAnalysisTemplateAnswerAnnotationSeed {
@@ -2466,6 +2475,8 @@ export interface GetEServicesCatalogParams {
   mode?: EServiceMode
   /** EService isConsumerDelegable filter */
   isConsumerDelegable?: boolean
+  /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
+  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -2592,6 +2603,8 @@ export interface GetProducerEServicesParams {
   consumersIds?: string[]
   /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
   delegated?: boolean
+  /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
+  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -3035,6 +3048,8 @@ export interface GetEServiceTemplatesCatalogParams {
    * @default []
    */
   creatorsIds?: string[]
+  /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
+  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -3114,6 +3129,10 @@ export interface DeleteNotificationsPayload {
 }
 
 export interface MarkNotificationsAsReadPayload {
+  ids: string[]
+}
+
+export interface MarkNotificationsAsUnreadPayload {
   ids: string[]
 }
 
@@ -3513,6 +3532,8 @@ export namespace Producers {
       consumersIds?: string[]
       /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
       delegated?: boolean
+      /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
+      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -4548,6 +4569,8 @@ export namespace Catalog {
       mode?: EServiceMode
       /** EService isConsumerDelegable filter */
       isConsumerDelegable?: boolean
+      /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
+      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -4654,6 +4677,8 @@ export namespace Catalog {
        * @default []
        */
       creatorsIds?: string[]
+      /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
+      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -6845,6 +6870,26 @@ export namespace PurposeTemplates {
     export type RequestHeaders = {}
     export type ResponseBody = File
   }
+  /**
+   * @description Add a risk analysis answer annotation for the specified purpose template risk analysis.
+   * @tags purposeTemplates
+   * @name AddPurposeTemplateRiskAnalysisAnswerAnnotation
+   * @summary Add Risk Analysis Answer Annotation for a Purpose Template Risk Analysis
+   * @request PUT:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation
+   * @secure
+   */
+  export namespace AddPurposeTemplateRiskAnalysisAnswerAnnotation {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+      /** @format uuid */
+      answerId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationText
+    export type RequestHeaders = {}
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotation
+  }
 }
 
 export namespace Creators {
@@ -8092,6 +8137,23 @@ export namespace InAppNotifications {
    */
   export namespace MarkNotificationsAsUnread {
     export type RequestParams = {}
+    export type RequestQuery = {}
+    export type RequestBody = MarkNotificationsAsUnreadPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Mark all notifications with the given entity ID as read
+   * @tags inAppNotifications
+   * @name MarkNotificationsAsReadByEntityId
+   * @summary Mark all notifications with the given entity ID as read
+   * @request POST:/inAppNotifications/markAsReadByEntityId/:entityId
+   * @secure
+   */
+  export namespace MarkNotificationsAsReadByEntityId {
+    export type RequestParams = {
+      entityId: string
+    }
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
