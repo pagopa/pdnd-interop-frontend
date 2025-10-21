@@ -61,6 +61,7 @@ export const DelegationCreateEServiceFromTemplateAutocomplete: React.FC<
         q: getQ(),
         limit: 50,
         offset: 0,
+        personalData: true,
       }),
       select: (d) => d.results ?? [],
     })
