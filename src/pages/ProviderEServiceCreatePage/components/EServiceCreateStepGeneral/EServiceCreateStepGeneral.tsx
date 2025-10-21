@@ -235,7 +235,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
             <>
               <RHFRadioGroup
                 name="personalData"

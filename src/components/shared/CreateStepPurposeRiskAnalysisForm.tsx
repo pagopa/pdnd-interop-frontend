@@ -17,14 +17,14 @@ type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName?: string | undefined
   defaultAnswers?: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
-  personalDataFlag?: boolean | undefined
+  personalData?: boolean | undefined
   onSubmit: (name: string, answers: Record<string, string[]>) => void
   onCancel: VoidFunction
 }
 
 export const CreateStepPurposeRiskAnalysisForm: React.FC<
   CreateStepPurposeRiskAnalysisFormProps
-> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel, personalDataFlag }) => {
+> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel, personalData }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
 
   const riskAnalysisForm = useRiskAnalysisForm({
@@ -40,8 +40,7 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
     const isYes = userAnswer === 'YES'
     const isNo = userAnswer === 'NO'
 
-    const incompatible =
-      (isYes && personalDataFlag !== true) || (isNo && personalDataFlag !== false)
+    const incompatible = (isYes && personalData !== true) || (isNo && personalData !== false)
 
     setIncompatibleAnswerValue(incompatible)
     return incompatible
@@ -81,10 +80,10 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
           title={t('riskAnalysis.riskAnalysisSection.title')}
           description={t('riskAnalysis.riskAnalysisSection.description')}
         >
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
             <InformationContainer
               label={t('riskAnalysis.riskAnalysisSection.personalDataFlag.label')}
-              content={t(`riskAnalysis.riskAnalysisSection.personalDataFlag.${personalDataFlag}`)}
+              content={t(`riskAnalysis.riskAnalysisSection.personalDataFlag.${personalData}`)}
             />
           )}
           <Alert sx={{ mt: 2, mb: -1 }} severity="warning">

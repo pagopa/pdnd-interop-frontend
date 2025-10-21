@@ -162,7 +162,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     descriptor.dailyCallsPerConsumer &&
     descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
     checklistEServiceFromTemplate() &&
-    FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true'
+    FEATURE_FLAG_ESERVICE_PERSONAL_DATA
       ? descriptor.eservice.personalData
       : true)
   }
@@ -281,9 +281,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             onClick={handlePublishDraft}
             disabled={!canBePublished() || isSupport}
             arePersonalDataSet={
-              FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true'
-                ? !!descriptor?.eservice.personalData
-                : true
+              FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? !!descriptor?.eservice.personalData : true
             }
           />
         </Stack>
