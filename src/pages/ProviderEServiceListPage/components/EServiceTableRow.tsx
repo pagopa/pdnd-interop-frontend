@@ -65,14 +65,14 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
       cellData={[
         isEServiceByDelegation ? (
           <Stack direction="row" spacing={1}>
+            {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
             <Typography variant="body2">{eservice.name}</Typography>
             <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />
-            {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
           </Stack>
         ) : (
           <Stack direction="row" alignItems="center">
-            {eservice.name}
             {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
+            {eservice.name}
           </Stack>
         ),
         eservice?.activeDescriptor?.version || '1',

@@ -45,8 +45,8 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
 
   const delegationNameCellData = (
     <Stack direction="row" alignItems="center">
-      {delegation.eservice?.name ?? '-'}
       {delegation.hasUnreadNotifications && <NotificationBadgeDot />}
+      {delegation.eservice?.name ?? '-'}
     </Stack>
   )
 

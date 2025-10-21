@@ -44,8 +44,8 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
 
   const purposeTitle = (
     <Stack direction="row" alignItems="center" key={0}>
-      {purpose.title}
       {purpose.hasUnreadNotifications && <NotificationBadgeDot />}
+      {purpose.title}
     </Stack>
   )
 

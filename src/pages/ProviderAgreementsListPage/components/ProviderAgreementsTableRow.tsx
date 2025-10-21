@@ -35,9 +35,9 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
 
   const eserviceCellData = (
     <Stack direction="row" alignItems="center">
+      {agreement.hasUnreadNotifications && <NotificationBadgeDot />}
       {t('eserviceName', { name: eservice.name, version: descriptor.version })}
       {agreement.delegation && <ByDelegationChip />}
-      {agreement.hasUnreadNotifications && <NotificationBadgeDot />}
     </Stack>
   )
 

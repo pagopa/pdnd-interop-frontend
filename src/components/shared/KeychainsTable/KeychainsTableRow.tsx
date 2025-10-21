@@ -28,8 +28,8 @@ export const KeychainsTableRow: React.FC<KeychainsTableRow> = ({ keychain }) => 
 
   const keychainNameCellData = (
     <Stack direction="row" alignItems="center">
-      {keychain.name}
       {keychain.hasUnreadNotifications && <NotificationBadgeDot />}
+      {keychain.name}
     </Stack>
   )
 

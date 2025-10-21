@@ -33,8 +33,8 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
 
   const purposeCellData = (
     <Stack direction="row" alignItems="center">
-      {purpose.title}
       {purpose.hasUnreadNotifications && <NotificationBadgeDot />}
+      {purpose.title}
     </Stack>
   )
 

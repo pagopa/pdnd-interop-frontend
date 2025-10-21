@@ -28,8 +28,8 @@ export const ClientTableRow: React.FC<ClientTableRowProps> = ({ client, clientKi
 
   const clientName = (
     <Stack direction="row" alignItems="center" key={0}>
-      {client.name}
       {client.hasUnreadNotifications && <NotificationBadgeDot />}
+      {client.name}
     </Stack>
   )
 

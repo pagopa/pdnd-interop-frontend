@@ -51,8 +51,8 @@ export const EServiceTemplateTableRow: React.FC<EServiceTemplateTableRow> = ({
 
   const eserviceTemplateCellData = (
     <Stack direction="row" alignItems="center">
-      {eserviceTemplate.name}
       {eserviceTemplate.hasUnreadNotifications && <NotificationBadgeDot />}
+      {eserviceTemplate.name}
     </Stack>
   )
 
