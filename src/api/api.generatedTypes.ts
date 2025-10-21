@@ -616,6 +616,8 @@ export interface CatalogEService {
   agreement?: CompactAgreement
   isMine: boolean
   activeDescriptor?: CompactDescriptor
+  /** Indicates if there are unread notifications for this e-service */
+  hasUnreadNotifications?: boolean
 }
 
 export type ClientKind = 'API' | 'CONSUMER'
@@ -638,6 +640,8 @@ export interface AgreementListEntry {
   suspendedByPlatform?: boolean
   descriptor: CompactDescriptor
   delegation?: DelegationWithCompactTenants
+  /** Indicates if there are unread notifications for this agreement */
+  hasUnreadNotifications: boolean
 }
 
 export interface CompactAttribute {
@@ -776,6 +780,8 @@ export interface CompactOrganization {
   name: string
   kind?: TenantKind
   contactMail?: Mail
+  /** Indicates if there are unread notifications for this organization */
+  hasUnreadNotifications?: boolean
 }
 
 export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
@@ -851,6 +857,8 @@ export interface ProducerEService {
   delegation?: DelegationWithCompactTenants
   isTemplateInstance: boolean
   isNewTemplateVersionAvailable?: boolean
+  /** Indicates if there are unread notifications for this e-service */
+  hasUnreadNotifications?: boolean
 }
 
 export interface ProducerEServices {
@@ -913,38 +921,13 @@ export interface Purpose {
    */
   dailyCallsTotal: number
   delegation?: DelegationWithCompactTenants
+  /** Indicates if there are unread notifications for this purpose */
+  hasUnreadNotifications: boolean
 }
 
 export interface PurposeAdditionDetailsSeed {
   /** @format uuid */
   purposeId: string
-}
-
-/** Business representation of a purpose template */
-export interface PurposeTemplate {
-  /** @format uuid */
-  id: string
-  targetDescription: string
-  targetTenantKind: TenantKind
-  /** @format uuid */
-  creatorId: string
-  /** Purpose Template State */
-  state: PurposeTemplateState
-  /** @format date-time */
-  createdAt: string
-  /** @format date-time */
-  updatedAt?: string
-  purposeTitle: string
-  purposeDescription: string
-  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
-  purposeIsFreeOfCharge: boolean
-  purposeFreeOfChargeReason?: string
-  /**
-   * @format int32
-   * @min 1
-   * @max 1000000000
-   */
-  purposeDailyCalls?: number
 }
 
 /** Purpose Template State */
@@ -975,6 +958,33 @@ export interface PurposeTemplateWithCompactCreator {
    */
   purposeDailyCalls?: number
   annotationDocuments?: RiskAnalysisTemplateAnswerAnnotationDocument[]
+}
+
+/** Business representation of a purpose template */
+export interface PurposeTemplate {
+  /** @format uuid */
+  id: string
+  targetDescription: string
+  targetTenantKind: TenantKind
+  /** @format uuid */
+  creatorId: string
+  /** Purpose Template State */
+  state: PurposeTemplateState
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
+  purposeTitle: string
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
 }
 
 export interface PurposeTemplateSeed {
@@ -1024,6 +1034,8 @@ export interface RiskAnalysisFormTemplateSeed {
 }
 
 export interface RiskAnalysisTemplateAnswer {
+  /** @format uuid */
+  id: string
   values: string[]
   editable: boolean
   annotation?: RiskAnalysisTemplateAnswerAnnotation
@@ -1051,16 +1063,29 @@ export interface RiskAnalysisTemplateAnswerAnnotation {
   docs: RiskAnalysisTemplateAnswerAnnotationDocument[]
 }
 
+export interface RiskAnalysisTemplateAnswerAnnotationText {
+  /**
+   * @minLength 1
+   * @maxLength 250
+   */
+  text: string
+}
+
 export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   text: string
   docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
 }
 
 export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
+  /** @format uuid */
+  documentId: string
   name: string
   contentType: string
+  checksum: string
   prettyName: string
   path: string
+  /** @format date-time */
+  createdAt: string
 }
 
 export interface EServiceDescriptorPurposeTemplate {
@@ -1162,6 +1187,8 @@ export interface CompactClient {
   hasKeys: boolean
   /** Contains some details about user */
   admin?: CompactUser
+  /** Indicates if there are unread notifications for this client */
+  hasUnreadNotifications?: boolean
 }
 
 /** Producer keychain creation request body */
@@ -1184,6 +1211,8 @@ export interface CompactProducerKeychain {
   id: string
   name: string
   hasKeys: boolean
+  /** Indicates if there are unread notifications for this keychain */
+  hasUnreadNotifications?: boolean
 }
 
 export interface CompactProducerKeychains {
@@ -1830,6 +1859,8 @@ export interface CompactDelegation {
   state: DelegationState
   /** Delegation State */
   kind: DelegationKind
+  /** Indicates if there are unread notifications for this delegation */
+  hasUnreadNotifications?: boolean
 }
 
 export interface CompactDelegations {
@@ -2079,6 +2110,8 @@ export interface ProducerEServiceTemplate {
   mode: EServiceMode
   activeVersion?: CompactEServiceTemplateVersion
   draftVersion?: CompactEServiceTemplateVersion
+  /** Indicates if there are unread notifications for this e-service template */
+  hasUnreadNotifications: boolean
 }
 
 export interface CatalogEServiceTemplates {
@@ -2242,7 +2275,7 @@ export interface NotificationConfig {
   eserviceNewVersionApprovedRejectedToDelegate: boolean
   delegationSubmittedRevokedToDelegate: boolean
   certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
-  clientKeyAddedDeletedToClientUsers: boolean
+  clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean
 }
 
 export interface TenantNotificationConfig {
@@ -2313,6 +2346,12 @@ export interface NotificationsCountBySection {
     deleghe: number
     /** @format int32 */
     anagrafica: number
+    /** @format int32 */
+    totalCount: number
+  }
+  'gestione-client': {
+    /** @format int32 */
+    'api-e-service': number
     /** @format int32 */
     totalCount: number
   }
@@ -2824,6 +2863,12 @@ export interface GetCatalogPurposeTemplatesParams {
    * @max 50
    */
   limit: number
+}
+
+export interface AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload {
+  prettyName: string
+  /** @format binary */
+  doc: File
 }
 
 export interface RevokeVerifiedAttributePayload {
@@ -6798,6 +6843,27 @@ export namespace PurposeTemplates {
     export type ResponseBody = PurposeTemplate
   }
   /**
+   * @description Deletes a specific purpose template if it is in Draft state
+   * @tags purposeTemplates
+   * @name DeletePurposeTemplate
+   * @summary Delete a Purpose Template
+   * @request DELETE:/purposeTemplates/{purposeTemplateId}
+   * @secure
+   */
+  export namespace DeletePurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
    * @description Add valid new risk analysis answer for the specified purpose template risk analysis.
    * @tags purposeTemplates
    * @name AddPurposeTemplateRiskAnalysisAnswer
@@ -6817,6 +6883,26 @@ export namespace PurposeTemplates {
     export type RequestBody = RiskAnalysisTemplateAnswerRequest
     export type RequestHeaders = {}
     export type ResponseBody = RiskAnalysisTemplateAnswerResponse
+  }
+  /**
+   * @description Add Answer Annotation Document to Risk Analysis of Purpose Template
+   * @tags purposeTemplates
+   * @name AddRiskAnalysisTemplateAnswerAnnotationDocument
+   * @summary Add Document to Risk Analysis Answer Annotation
+   * @request POST:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation/documents
+   * @secure
+   */
+  export namespace AddRiskAnalysisTemplateAnswerAnnotationDocument {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+      /** @format uuid */
+      answerId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload
+    export type RequestHeaders = {}
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument
   }
   /**
    * No description
@@ -6848,6 +6934,149 @@ export namespace PurposeTemplates {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = File
+  }
+  /**
+   * @description Delete a risk analysis form template answer annotation document
+   * @tags purposeTemplates
+   * @name DeleteRiskAnalysisTemplateAnswerAnnotationDocument
+   * @summary Delete risk analysis form template answer annotation document
+   * @request DELETE:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation/documents/{documentId}
+   * @secure
+   */
+  export namespace DeleteRiskAnalysisTemplateAnswerAnnotationDocument {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+      /**
+       * the risk analysis template answer id
+       * @format uuid
+       */
+      answerId: string
+      /**
+       * the risk analysis template answer annotation document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Add a risk analysis answer annotation for the specified purpose template risk analysis.
+   * @tags purposeTemplates
+   * @name AddPurposeTemplateRiskAnalysisAnswerAnnotation
+   * @summary Add Risk Analysis Answer Annotation for a Purpose Template Risk Analysis
+   * @request PUT:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation
+   * @secure
+   */
+  export namespace AddPurposeTemplateRiskAnalysisAnswerAnnotation {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+      /** @format uuid */
+      answerId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationText
+    export type RequestHeaders = {}
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotation
+  }
+  /**
+   * @description Delete a risk analysis form template answer annotation and the related files
+   * @tags purposeTemplates
+   * @name DeleteRiskAnalysisTemplateAnswerAnnotation
+   * @summary Delete risk analysis form template answer annotation
+   * @request DELETE:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation
+   * @secure
+   */
+  export namespace DeleteRiskAnalysisTemplateAnswerAnnotation {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+      /** @format uuid */
+      answerId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = void
+  }
+  /**
+   * @description Publishes a purpose template by id (from Draft State to Active State)
+   * @tags purposeTemplates
+   * @name PublishPurposeTemplate
+   * @summary Publish Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/publish
+   * @secure
+   */
+  export namespace PublishPurposeTemplate {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
+  }
+  /**
+   * @description Unsuspends a purpose template by id (from Suspended State to Active State)
+   * @tags purposeTemplates
+   * @name UnsuspendPurposeTemplate
+   * @summary Unsuspend Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/unsuspend
+   * @secure
+   */
+  export namespace UnsuspendPurposeTemplate {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
+  }
+  /**
+   * @description Suspends a purpose template by id (from Active State to Suspended State)
+   * @tags purposeTemplates
+   * @name SuspendPurposeTemplate
+   * @summary Suspend Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/suspend
+   * @secure
+   */
+  export namespace SuspendPurposeTemplate {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
+  }
+  /**
+   * @description Archives a purpose template by id (from Suspended State to Archived State)
+   * @tags purposeTemplates
+   * @name ArchivePurposeTemplate
+   * @summary Archive Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/archive
+   * @secure
+   */
+  export namespace ArchivePurposeTemplate {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeTemplate
   }
 }
 
