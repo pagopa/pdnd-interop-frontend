@@ -10,6 +10,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
 import { useFormContext, useForm, FormProvider } from 'react-hook-form'
 import { useState, useEffect } from 'react'
+import { useToastNotification } from '@/stores'
 import type {
   RiskAnalysisTemplateAnswerAnnotation,
   RiskAnalysisTemplateAnswerRequest,
@@ -35,6 +36,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { setValue, watch } = useFormContext()
+  const { showToast } = useToastNotification()
   const annotation: RiskAnalysisTemplateAnswerAnnotation | undefined = watch(
     `annotations.${questionId}`
   )
@@ -83,6 +85,9 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
           annotationText: { text: annotation.text },
         })
         setValue(`annotations.${questionId}`, updatedAnnotation, { shouldDirty: true })
+
+        // Show success notification
+        showToast(t('notifications.annotationAddedSuccess'), 'success')
       } else {
         // Create new annotation using POST API
         const answerRequest: RiskAnalysisTemplateAnswerRequest = {
@@ -110,9 +115,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
         if (savedAnswer.annotation) {
           setValue(`annotations.${questionId}`, savedAnswer.annotation, { shouldDirty: true })
         }
+
+        // Show success notification
+        showToast(t('notifications.annotationAddedSuccess'), 'success')
       }
     } catch (error) {
       console.error('Error saving annotation:', error)
+      // Show error notification
+      showToast(t('notifications.annotationAddError'), 'error')
       // Fallback: save locally anyway
       setValue(`annotations.${questionId}`, annotation, { shouldDirty: true })
     }
@@ -182,7 +192,6 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
       setShowDocInput(false)
     } catch (error) {
       console.error('Error uploading document:', error)
-      // Show error to user - document upload failed
       setShowDocInput(false)
     }
   }
