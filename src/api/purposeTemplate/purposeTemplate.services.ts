@@ -17,6 +17,8 @@ import type {
   RiskAnalysisTemplateAnswerAnnotationText,
   RiskAnalysisTemplateAnswerRequest,
   RiskAnalysisTemplateAnswerResponse,
+  AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload,
+  RiskAnalysisTemplateAnswerAnnotationDocument,
   UnlinkEServiceToPurposeTemplatePayload,
 } from '../api.generatedTypes'
 
@@ -155,18 +157,29 @@ async function deleteRiskAnalysisAnswerAnnotation({
   )
 }
 
-async function addDocumentsToAnnotation({
+async function addDocumentToAnnotation({
   purposeTemplateId,
   answerId,
+  documentPayload,
 }: {
   purposeTemplateId: string
   answerId: string
+  documentPayload: AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload
 }) {
-  //   const response = await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents`,
-  //   )
-  //   return response.data
-  return console.log('Added documents to annotation')
+  const formData = new FormData()
+  formData.append('prettyName', documentPayload.prettyName)
+  formData.append('doc', documentPayload.doc)
+
+  const response = await axiosInstance.post<RiskAnalysisTemplateAnswerAnnotationDocument>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  )
+  return response.data
 }
 
 async function publishDraft({ id }: { id: string }) {
@@ -243,7 +256,7 @@ export const PurposeTemplateServices = {
   addRiskAnalysisAnswer,
   updateRiskAnalysisAnswerAnnotation,
   deleteRiskAnalysisAnswerAnnotation,
-  addDocumentsToAnnotation,
+  addDocumentToAnnotation,
   createDraft,
   publishDraft,
   deleteDraft,

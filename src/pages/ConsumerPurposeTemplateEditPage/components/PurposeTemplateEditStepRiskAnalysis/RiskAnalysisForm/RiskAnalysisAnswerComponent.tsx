@@ -1,16 +1,19 @@
-import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
+import { RHFSwitch, RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { Box, Stack, Typography, Button } from '@mui/material'
+import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
 import { useFormContext } from 'react-hook-form'
+import { useState } from 'react'
 import type {
   RiskAnalysisTemplateAnswerAnnotation,
   RiskAnalysisTemplateAnswerRequest,
+  RiskAnalysisTemplateAnswerAnnotationDocument,
 } from '@/api/api.generatedTypes'
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
@@ -33,6 +36,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     : questionValue
     ? [questionValue]
     : []
+
+  // Document management states
+  const [showDocInput, setShowDocInput] = useState(false)
+
+  // Get documents from annotation
+  const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
 
   const handleClick = () => {
     openDrawer()
@@ -110,6 +119,74 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     }
   }
 
+  // Document management functions
+  const handleAddDocumentClick = () => {
+    setShowDocInput(true)
+  }
+
+  const handleFileSelected = async (file: File | null) => {
+    if (!file) return
+
+    try {
+      const existingAnswerId = watch(`answerIds.${questionId}`)
+
+      const documentPayload = {
+        prettyName: file.name,
+        doc: file,
+      }
+
+      const uploadedDoc = await PurposeTemplateServices.addDocumentToAnnotation({
+        purposeTemplateId,
+        answerId: existingAnswerId,
+        documentPayload,
+      })
+
+      // Update form with the uploaded document
+      const currentDocs =
+        (watch(
+          `annotations.${questionId}.docs`
+        ) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ?? []
+      setValue(`annotations.${questionId}.docs`, [...currentDocs, uploadedDoc], {
+        shouldDirty: true,
+      })
+
+      setShowDocInput(false)
+      // clear temporary upload control value so its preview box disappears
+      setValue(`__annotationUpload.${questionId}`, null)
+    } catch (error) {
+      console.error('Error uploading document:', error)
+      // Show error to user - document upload failed
+      setShowDocInput(false)
+      setValue(`__annotationUpload.${questionId}`, null)
+    }
+  }
+
+  const handleDownload = (doc: RiskAnalysisTemplateAnswerAnnotationDocument) => {
+    // TODO: Implement download from backend
+    console.log('Download document:', doc)
+  }
+
+  const handleDelete = (doc: RiskAnalysisTemplateAnswerAnnotationDocument) => {
+    const currentDocs =
+      (watch(`annotations.${questionId}.docs`) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ??
+      []
+    setValue(
+      `annotations.${questionId}.docs`,
+      currentDocs.filter((d) => d.id !== doc.id),
+      { shouldDirty: true }
+    )
+    // TODO: Implement delete from backend
+  }
+
+  // Wrapper functions for DocumentContainer compatibility
+  const handleDownloadForContainer = (doc: unknown) => {
+    handleDownload(doc as RiskAnalysisTemplateAnswerAnnotationDocument)
+  }
+
+  const handleDeleteForContainer = (doc: unknown) => {
+    handleDelete(doc as RiskAnalysisTemplateAnswerAnnotationDocument)
+  }
+
   return (
     <>
       <RHFSwitch
@@ -163,9 +240,68 @@ export const RiskAnalysisAnswerComponent: React.FC<{
           <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
             {annotation.text}
           </Typography>
-          <Button variant="contained" sx={{ mt: 2 }} startIcon={<AddIcon fontSize="small" />}>
-            {t('addDocumentBtn')}
-          </Button>
+
+          {/* Se non ci sono documenti: mostra o il bottone o il dropzone */}
+          {docs.length === 0 &&
+            (!showDocInput ? (
+              <Button
+                variant="contained"
+                sx={{ mt: 2 }}
+                startIcon={<AddIcon fontSize="small" />}
+                onClick={handleAddDocumentClick}
+              >
+                {t('addDocumentBtn')}
+              </Button>
+            ) : (
+              <Box sx={{ mt: 2 }}>
+                <RHFSingleFileInput
+                  name={`__annotationUpload.${questionId}`}
+                  onValueChange={handleFileSelected}
+                />
+              </Box>
+            ))}
+
+          {docs.length > 0 && (
+            <Box sx={{ mt: 3 }}>
+              <Stack spacing={2}>
+                {docs.map((doc: RiskAnalysisTemplateAnswerAnnotationDocument) => (
+                  <DocumentContainer
+                    key={doc.id}
+                    doc={{
+                      id: doc.id,
+                      name: doc.name,
+                      prettyName: doc.prettyName,
+                      contentType: doc.contentType,
+                      checksum: '',
+                    }}
+                    onDownload={handleDownloadForContainer}
+                    onDelete={handleDeleteForContainer}
+                    // todo: add onUpdateDescription
+                  />
+                ))}
+              </Stack>
+
+              {/* Con documenti: sostituisci il bottone con il dropzone quando attivo */}
+              {!showDocInput ? (
+                <Button
+                  type="button"
+                  variant="text"
+                  color="primary"
+                  startIcon={<AddIcon fontSize="small" />}
+                  onClick={handleAddDocumentClick}
+                >
+                  {t('addDocumentBtn')}
+                </Button>
+              ) : (
+                <Box sx={{ mt: 2 }}>
+                  <RHFSingleFileInput
+                    name={`__annotationUpload.${questionId}`}
+                    onValueChange={handleFileSelected}
+                  />
+                </Box>
+              )}
+            </Box>
+          )}
         </Box>
       )}
 

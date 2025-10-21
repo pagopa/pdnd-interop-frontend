@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import type {
   RiskAnalysisFormConfig,
   RiskAnalysisFormTemplateSeed,
+  RiskAnalysisTemplateAnswer,
   RiskAnalysisTemplateAnswerSeed,
 } from '@/api/api.generatedTypes'
 import { StepActions } from '@/components/shared/StepActions'
@@ -15,7 +16,7 @@ import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisForm
 import { useRiskAnalysisFormTemplate } from '@/hooks/useRiskAnalysisFormTemplate'
 
 type RiskAnalysisFormTemplateProps = {
-  defaultAnswers: Record<string, RiskAnalysisTemplateAnswerSeed>
+  defaultAnswers: Record<string, RiskAnalysisTemplateAnswer>
   riskAnalysis: RiskAnalysisFormConfig
   onSubmit: (riskAnalysisFormTemplateSeed: RiskAnalysisFormTemplateSeed) => void
   onCancel: VoidFunction

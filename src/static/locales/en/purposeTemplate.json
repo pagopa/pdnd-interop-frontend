@@ -95,7 +95,7 @@
       "editAnnotationBtn": "Edit",
       "deleteAnnotationBtn": "Remove",
       "annotationSectionTitle": "Annotations provided by the creator",
-      "addDocumentBtn": "Attach documentation",
+      "addDocumentBtn": "Add documents",
       "drawer": {
         "title": "Add annotations",
         "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",
