@@ -97,6 +97,10 @@
       "annotationSectionTitle": "Annotations provided by the creator",
       "addDocumentBtn": "Add documents",
       "uploadBtn": "Upload",
+      "notifications": {
+        "annotationAddedSuccess": "Annotation added successfully.",
+        "annotationAddError": "It was not possible to add the annotation. Make sure you have entered the correct information and try again."
+      },
       "drawer": {
         "title": "Add annotations",
         "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",
