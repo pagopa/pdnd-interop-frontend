@@ -201,6 +201,12 @@
     "targetTenantKind": {
       "labelPA": "For Public Administrations",
       "labelNotPA": "For Public service managers, Publicly controlled companies, Private individuals"
+    },
+    "deleteAnnotationDialog": {
+      "title": "Remove annotation",
+      "description": "Do you confirm that you want to remove this annotation?",
+      "proceedLabel": "Remove annotation",
+      "cancelLabel": "Keep annotation"
     }
   }
 }
