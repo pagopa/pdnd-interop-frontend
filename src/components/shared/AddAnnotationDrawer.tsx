@@ -79,6 +79,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
           multiline
           rows={11}
           sx={{ mt: 0 }}
+          inputProps={{ maxLength: 250 }}
         />
       </Drawer>
     </FormProvider>
