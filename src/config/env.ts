@@ -25,7 +25,10 @@ const GeneralConfigs = z.object({
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
-  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: z.enum(['true', 'false']).default('false'),
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
 })
 
 const EndpointConfigs = z.object({
