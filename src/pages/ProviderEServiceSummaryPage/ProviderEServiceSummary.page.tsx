@@ -303,7 +303,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             startIcon={<PublishIcon />}
             variant="contained"
             onClick={handleApproveDelegatedVersionDraft}
-            disabled={isSupport}
+            disabled={isSupport || !descriptor.eservice.personalData}
           >
             {tCommon('publish')}
           </Button>
