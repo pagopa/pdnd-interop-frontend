@@ -10,7 +10,7 @@ import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceAct
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { EServiceDescriptorState, ProducerEService } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 
 type EServiceTableRow = {
@@ -30,6 +30,9 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     eservice.delegation && eservice.delegation?.delegator.id === jwt?.organizationId
   )
 
+  const { data: eserviceWithPersonalData } = useQuery(EServiceQueries.getSingle(eservice.id))
+  const hasPersonalData = eserviceWithPersonalData?.personalData !== undefined
+
   const { actions } = useGetProviderEServiceActions(
     eservice.id,
     eservice.activeDescriptor?.state,
@@ -40,7 +43,9 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     eservice.name,
     eservice.isNewTemplateVersionAvailable ?? false,
     eservice.isTemplateInstance,
-    eservice.delegation
+    eservice.delegation,
+    hasPersonalData,
+    'tableRow'
   )
 
   const hasActiveDescriptor = eservice.activeDescriptor
