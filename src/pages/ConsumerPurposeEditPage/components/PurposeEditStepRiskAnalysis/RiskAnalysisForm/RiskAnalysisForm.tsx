@@ -67,7 +67,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
           description={t('stepRiskAnalysis.description')}
           sx={{ mb: 2 }}
         >
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
             <InformationContainer
               label={t('stepRiskAnalysis.personalDataFlag.label')}
               content={t(`stepRiskAnalysis.personalDataFlag.content.${personalData}`)}
