@@ -13,6 +13,8 @@ import { useTranslation } from 'react-i18next'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import { useQueryClient } from '@tanstack/react-query'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
+import { Stack } from '@mui/material'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('purpose')
@@ -40,6 +42,13 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
 
   const isDelegated = isDelegate || isDelegator
 
+  const purposeTitle = (
+    <Stack direction="row" alignItems="center" key={0}>
+      {purpose.title}
+      {purpose.hasUnreadNotifications && <NotificationBadgeDot />}
+    </Stack>
+  )
+
   const eserviceCellData = (
     <>
       {purpose.eservice.name}
@@ -50,7 +59,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   return (
     <TableRow
       cellData={[
-        purpose.title,
+        purposeTitle,
         eserviceCellData,
         purpose.eservice.producer.name,
         <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,

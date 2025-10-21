@@ -4,7 +4,7 @@ import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Skeleton, Stack } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
 import { useGetDelegationActions } from '@/hooks/useGetDelegationActions'
 import type { DelegationType } from '@/types/party.types'
+import { NotificationBadgeDot } from '../NotificationBadgeDot/NotificationBadgeDot'
 
 type DelegationsTableRowProps = {
   delegation: CompactDelegation
@@ -42,10 +43,17 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
     .with('DELEGATION_GRANTED', () => delegation.delegate.name)
     .exhaustive()
 
+  const delegationNameCellData = (
+    <Stack direction="row" alignItems="center">
+      {delegation.eservice?.name ?? '-'}
+      {delegation.hasUnreadNotifications && <NotificationBadgeDot />}
+    </Stack>
+  )
+
   return (
     <TableRow
       cellData={[
-        delegation.eservice?.name ?? '-',
+        delegationNameCellData,
         delegationKindLabel,
         delegateOrDelegatorCellData,
         <StatusChip key={delegation.id} for="delegation" state={delegation.state} />,

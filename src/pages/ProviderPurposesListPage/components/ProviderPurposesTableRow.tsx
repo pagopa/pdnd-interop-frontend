@@ -11,6 +11,8 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import ErrorIcon from '@mui/icons-material/Error'
 import { useQueryClient } from '@tanstack/react-query'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
+import { Stack } from '@mui/material'
 
 export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t: tCommon } = useTranslation('common')
@@ -29,10 +31,17 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
     purpose.waitingForApprovalVersion
   )
 
+  const purposeCellData = (
+    <Stack direction="row" alignItems="center">
+      {purpose.title}
+      {purpose.hasUnreadNotifications && <NotificationBadgeDot />}
+    </Stack>
+  )
+
   return (
     <TableRow
       cellData={[
-        purpose.title,
+        purposeCellData,
         purpose.consumer.name,
         <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
       ]}

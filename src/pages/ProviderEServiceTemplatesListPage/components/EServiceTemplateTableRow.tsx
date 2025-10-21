@@ -10,6 +10,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 
 type EServiceTemplateTableRow = {
   eserviceTemplate: ProducerEServiceTemplate
@@ -48,10 +49,17 @@ export const EServiceTemplateTableRow: React.FC<EServiceTemplateTableRow> = ({
     ? eserviceTemplate.draftVersion?.id
     : eserviceTemplate.activeVersion?.id
 
+  const eserviceTemplateCellData = (
+    <Stack direction="row" alignItems="center">
+      {eserviceTemplate.name}
+      {eserviceTemplate.hasUnreadNotifications && <NotificationBadgeDot />}
+    </Stack>
+  )
+
   return (
     <TableRow
       cellData={[
-        eserviceTemplate.name,
+        eserviceTemplateCellData,
         versionEserviceTemplate.toString(),
         <Stack key={eserviceTemplate.id} direction="row" spacing={1}>
           {eserviceTemplate.activeVersion && (

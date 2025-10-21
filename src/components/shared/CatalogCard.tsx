@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
+import { NotificationBadgeDot } from './NotificationBadgeDot/NotificationBadgeDot'
 
 type CatalogRoutesKeys = Extract<
   RouteKey,
@@ -24,6 +25,7 @@ type CatalogCardRouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useP
 interface CatalogCardProps<TRouteKey extends CatalogRoutesKeys> {
   title: string
   description: string
+  hasUnreadNotifications?: boolean
   producerName: string
   prefetchFn: () => void
   to: TRouteKey
@@ -34,6 +36,7 @@ interface CatalogCardProps<TRouteKey extends CatalogRoutesKeys> {
 export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
   title,
   description,
+  hasUnreadNotifications,
   disabled,
   producerName,
   prefetchFn,
@@ -62,9 +65,10 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
             <Avatar sx={{ bgcolor: 'background.default' }}>
               <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
             </Avatar>
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>
               {producerName}
             </Typography>
+            {hasUnreadNotifications && <NotificationBadgeDot />}
           </Stack>
         }
       />

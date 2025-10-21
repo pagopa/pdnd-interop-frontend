@@ -9,6 +9,8 @@ import useGetKeychainActions from '@/hooks/useGetKeychainActions'
 import type { CompactProducerKeychain } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
+import { Stack } from '@mui/material'
+import { NotificationBadgeDot } from '../NotificationBadgeDot/NotificationBadgeDot'
 
 type KeychainsTableRow = {
   keychain: CompactProducerKeychain
@@ -24,8 +26,15 @@ export const KeychainsTableRow: React.FC<KeychainsTableRow> = ({ keychain }) => 
     queryClient.prefetchQuery(KeychainQueries.getSingle(keychain.id))
   }
 
+  const keychainNameCellData = (
+    <Stack direction="row" alignItems="center">
+      {keychain.name}
+      {keychain.hasUnreadNotifications && <NotificationBadgeDot />}
+    </Stack>
+  )
+
   return (
-    <TableRow cellData={[keychain.name]}>
+    <TableRow cellData={[keychainNameCellData]}>
       <Link
         as="button"
         variant="outlined"

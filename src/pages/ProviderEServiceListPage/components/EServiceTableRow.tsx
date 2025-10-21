@@ -12,6 +12,7 @@ import type { EServiceDescriptorState, ProducerEService } from '@/api/api.genera
 import { AuthHooks } from '@/api/auth'
 import { useQueryClient } from '@tanstack/react-query'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -66,9 +67,13 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
           <Stack direction="row" spacing={1}>
             <Typography variant="body2">{eservice.name}</Typography>
             <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />
+            {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
           </Stack>
         ) : (
-          eservice.name
+          <Stack direction="row" alignItems="center">
+            {eservice.name}
+            {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
+          </Stack>
         ),
         eservice?.activeDescriptor?.version || '1',
         <Stack key={eservice?.id} direction="row" spacing={1}>
