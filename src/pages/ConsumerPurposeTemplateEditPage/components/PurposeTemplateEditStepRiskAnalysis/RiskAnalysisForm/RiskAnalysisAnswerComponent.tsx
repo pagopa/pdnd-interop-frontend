@@ -8,30 +8,88 @@ import { Box, Stack, Typography, Button } from '@mui/material'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
 import { useFormContext } from 'react-hook-form'
-import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
+import type {
+  RiskAnalysisTemplateAnswerAnnotation,
+  RiskAnalysisTemplateAnswerRequest,
+} from '@/api/api.generatedTypes'
+import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
+import { useParams } from '@/router'
 
 export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; question: string }> = ({
   questionId,
   question,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
+  const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { setValue, watch } = useFormContext()
   const annotation: RiskAnalysisTemplateAnswerAnnotation | undefined = watch(
     `annotations.${questionId}`
   )
+  const assignToTemplateUsers: boolean = watch(`assignToTemplateUsers.${questionId}`) || false
+  const questionValue = watch(`answers.${questionId}`)
+  const questionValues: string[] = Array.isArray(questionValue)
+    ? questionValue
+    : questionValue
+    ? [questionValue]
+    : []
 
   const handleClick = () => {
     openDrawer()
   }
 
-  const handleAnnotationSubmit = (annotation: RiskAnalysisTemplateAnswerAnnotation) => {
-    setValue(`annotations.${questionId}`, annotation, { shouldDirty: true })
+  const handleAnnotationSubmit = async (annotation: RiskAnalysisTemplateAnswerAnnotation) => {
+    try {
+      // Check if we already have an answerId (from previous creation)
+      const existingAnswerId = watch(`answerIds.${questionId}`)
+
+      if (existingAnswerId) {
+        // Update existing annotation using PUT API
+        const updatedAnnotation = await PurposeTemplateServices.updateRiskAnalysisAnswerAnnotation({
+          purposeTemplateId,
+          answerId: existingAnswerId,
+          annotationText: { text: annotation.text },
+        })
+        setValue(`annotations.${questionId}`, updatedAnnotation, { shouldDirty: true })
+      } else {
+        // Create new annotation using POST API
+        const answerRequest: RiskAnalysisTemplateAnswerRequest = {
+          answerKey: questionId,
+          answerData: {
+            values: questionValues,
+            editable: assignToTemplateUsers,
+            annotation: {
+              text: annotation.text,
+              docs: [], // Always empty array for this API
+            },
+            suggestedValues: [],
+          },
+        }
+
+        const savedAnswer = await PurposeTemplateServices.addRiskAnalysisAnswer({
+          purposeTemplateId,
+          answerRequest,
+        })
+
+        // Save the answerId for future updates
+        setValue(`answerIds.${questionId}`, savedAnswer.id, { shouldDirty: true })
+
+        // Update the form with the saved annotation
+        if (savedAnswer.annotation) {
+          setValue(`annotations.${questionId}`, savedAnswer.annotation, { shouldDirty: true })
+        }
+      }
+    } catch (error) {
+      console.error('Error saving annotation:', error)
+      // Fallback: save locally anyway
+      setValue(`annotations.${questionId}`, annotation, { shouldDirty: true })
+    }
   }
 
   const handleRemove = () => {
     setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
+    setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
   }
 
   return (
