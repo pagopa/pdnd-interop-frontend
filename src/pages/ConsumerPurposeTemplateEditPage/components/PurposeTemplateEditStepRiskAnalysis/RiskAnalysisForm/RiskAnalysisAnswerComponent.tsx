@@ -9,7 +9,7 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
 import { useFormContext } from 'react-hook-form'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type {
   RiskAnalysisTemplateAnswerAnnotation,
   RiskAnalysisTemplateAnswerRequest,
@@ -42,6 +42,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{
 
   // Get documents from annotation
   const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
+
+  // Clear answer field when editable flag is set to true
+  useEffect(() => {
+    if (assignToTemplateUsers) {
+      // Clear the answer field when the question becomes editable
+      setValue(`answers.${questionId}`, '', { shouldDirty: true })
+    }
+  }, [assignToTemplateUsers, questionId, setValue])
 
   const handleClick = () => {
     openDrawer()
