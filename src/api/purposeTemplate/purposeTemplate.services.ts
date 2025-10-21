@@ -161,6 +161,18 @@ async function updateRiskAnalysisAnswerAnnotation({
   return response.data
 }
 
+async function deleteRiskAnalysisAnswerAnnotation({
+  purposeTemplateId,
+  answerId,
+}: {
+  purposeTemplateId: string
+  answerId: string
+}) {
+  await axiosInstance.delete<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`
+  )
+}
+
 async function addDocumentsToAnnotation({
   purposeTemplateId,
   answerId,
@@ -248,6 +260,7 @@ export const PurposeTemplateServices = {
   unlinkEserviceFromPurposeTemplate,
   addRiskAnalysisAnswer,
   updateRiskAnalysisAnswerAnnotation,
+  deleteRiskAnalysisAnswerAnnotation,
   addDocumentsToAnnotation,
   createDraft,
   publishDraft,

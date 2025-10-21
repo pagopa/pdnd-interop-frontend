@@ -87,9 +87,28 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
     }
   }
 
-  const handleRemove = () => {
-    setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
-    setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+  const handleRemove = async () => {
+    try {
+      // Check if we have an answerId (annotation exists in database)
+      const existingAnswerId = watch(`answerIds.${questionId}`)
+
+      if (existingAnswerId) {
+        // Delete annotation from database
+        await PurposeTemplateServices.deleteRiskAnalysisAnswerAnnotation({
+          purposeTemplateId,
+          answerId: existingAnswerId,
+        })
+      }
+
+      // Clear form fields
+      setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
+      setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+    } catch (error) {
+      console.error('Error deleting annotation:', error)
+      // Fallback: clear form fields anyway
+      setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
+      setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+    }
   }
 
   return (
