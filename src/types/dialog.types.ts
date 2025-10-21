@@ -23,6 +23,7 @@ export type DialogProps =
   | DialogRejectAgreementProps
   | DialogUpgradeAgreementVersionProps
   | DialogDeleteOperatorProps
+  | DialogDeleteAnnotationProps
   | DialogRemoveOperatorFromClientProps
   | DialogRevokeCertifiedAttributeProps
   | DialogClonePurposeProps
@@ -72,6 +73,11 @@ export type DialogDeleteOperatorProps = {
   type: 'deleteOperator'
   selfcareId: string
   userId: string
+}
+
+export type DialogDeleteAnnotationProps = {
+  type: 'deleteAnnotation'
+  onProceed: () => void
 }
 
 export type DialogRemoveOperatorFromClientProps = {

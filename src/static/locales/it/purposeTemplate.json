@@ -201,6 +201,12 @@
     "targetTenantKind": {
       "labelPA": "Per Pubbliche Amministrazioni",
       "labelNotPA": "Per Gestori di pubblici servizi, Società a controllo pubblico, Privati"
+    },
+    "deleteAnnotationDialog": {
+      "title": "Rimuovi annotazione",
+      "description": "Confermi di voler rimuovere questa annotazione?",
+      "proceedLabel": "Rimuovi annotazione",
+      "cancelLabel": "Mantieni annotazione"
     }
   }
 }
