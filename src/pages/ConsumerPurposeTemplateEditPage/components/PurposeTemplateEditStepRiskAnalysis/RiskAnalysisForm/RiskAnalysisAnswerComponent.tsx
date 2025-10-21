@@ -66,7 +66,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
         const answerRequest: RiskAnalysisTemplateAnswerRequest = {
           answerKey: questionId,
           answerData: {
-            values: questionValues,
+            values: assignToTemplateUsers ? [] : questionValues,
             editable: assignToTemplateUsers,
             annotation: {
               text: annotation.text,
