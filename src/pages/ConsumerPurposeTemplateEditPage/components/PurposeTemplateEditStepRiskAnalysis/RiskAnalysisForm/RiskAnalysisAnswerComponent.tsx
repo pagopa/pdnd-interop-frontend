@@ -130,6 +130,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
 
   // Document management functions
   const handleAddDocumentClick = () => {
+    // Check if we've reached the limit of 2 documents
+    if (docs.length >= 2) {
+      // TODO: Show error message to user
+      console.warn('Maximum of 2 documents allowed')
+      return
+    }
     setShowDocInput(true)
   }
 
@@ -291,7 +297,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
               </Stack>
 
               {/* Con documenti: sostituisci il bottone con il dropzone quando attivo */}
-              {!showDocInput ? (
+              {!showDocInput && docs.length < 2 ? (
                 <Button
                   type="button"
                   variant="text"
@@ -301,14 +307,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
                 >
                   {t('addDocumentBtn')}
                 </Button>
-              ) : (
+              ) : showDocInput ? (
                 <Box sx={{ mt: 2 }}>
                   <RHFSingleFileInput
                     name={`__annotationUpload.${questionId}`}
                     onValueChange={handleFileSelected}
                   />
                 </Box>
-              )}
+              ) : null}
             </Box>
           )}
         </Box>
