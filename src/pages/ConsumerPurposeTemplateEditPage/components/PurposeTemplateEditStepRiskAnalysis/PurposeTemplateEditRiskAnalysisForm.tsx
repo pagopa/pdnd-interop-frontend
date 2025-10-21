@@ -11,7 +11,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type {
   RiskAnalysisFormTemplateSeed,
-  RiskAnalysisTemplateAnswerSeed,
+  RiskAnalysisTemplateAnswer,
 } from '@/api/api.generatedTypes'
 
 export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
@@ -59,7 +59,7 @@ export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({
   // Use the answers directly - no complex transformations needed
   const defaultAnswers = purposeTemplate.purposeRiskAnalysisForm.answers as Record<
     string,
-    RiskAnalysisTemplateAnswerSeed
+    RiskAnalysisTemplateAnswer
   >
 
   return (
