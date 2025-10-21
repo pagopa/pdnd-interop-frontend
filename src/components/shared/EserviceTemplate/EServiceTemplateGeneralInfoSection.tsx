@@ -168,7 +168,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             label={t('version.label')}
             content={eserviceTemplateVersion?.version.toString() || '1'}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' && (
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
             <InformationContainer
               label={
                 eserviceTemplateVersion
@@ -180,7 +180,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
               )}
             />
           )}
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true' &&
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
             routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
             eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
               <Alert severity="warning" sx={{ alignItems: 'center' }}>

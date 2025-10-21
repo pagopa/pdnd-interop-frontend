@@ -40,7 +40,7 @@ export function useGetConsumerEServiceTemplateActions(
   }
 
   const tooltipToShow = (() => {
-    if (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA === 'true') {
+    if (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA) {
       return t('createInstanceDisabledPersonalData')
     }
     if (isAlreadyInstantiated) {
