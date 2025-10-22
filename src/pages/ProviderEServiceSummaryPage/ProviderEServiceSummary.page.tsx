@@ -59,6 +59,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
+  const isEServiceFromTemplate = descriptor?.templateRef
+  const hasPersonalData = descriptor?.eservice.personalData
+
   const handleDeleteDraft = () => {
     if (!descriptor) return
 
@@ -143,8 +146,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   }
 
   const checklistEServiceFromTemplate = (): boolean => {
-    const isEServiceFromTemplate = descriptor?.templateRef
-
     // if the descriptor is not from a template, return true, means that in canBePublished has not to have any condition
     if (!isEServiceFromTemplate) {
       return true
@@ -216,13 +217,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             </Trans>
           </Alert>
         )}
-
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
             <ProviderEServiceGeneralInfoSummary />
           </SummaryAccordion>
         </React.Suspense>
-
         {isReceiveMode && (
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
@@ -230,7 +229,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             </SummaryAccordion>
           </React.Suspense>
         )}
-
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion
             headline={isReceiveMode ? '3' : '2'}
@@ -239,7 +237,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <ProviderEServiceVersionInfoSummary />
           </SummaryAccordion>
         </React.Suspense>
-
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion
             headline={isReceiveMode ? '4' : '3'}
@@ -248,7 +245,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <ProviderEServiceAttributeVersionSummary />
           </SummaryAccordion>
         </React.Suspense>
-
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion
             headline={isReceiveMode ? '5' : '4'}
@@ -257,6 +253,10 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <ProviderEServiceDocumentationSummary />
           </SummaryAccordion>
         </React.Suspense>
+        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
+          !hasPersonalData &&
+          isEServiceFromTemplate &&
+          isDelegator && <Alert severity="error">{t('summary.alertMissingPersonalData')}</Alert>}
       </Stack>
       {!isDelegator && (
         <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
@@ -314,7 +314,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           </Tooltip>
         </Stack>
       )}
-
       {requireDelegateCorrections && sortedRejectedReasons && (
         <RejectReasonDrawer
           isOpen={isOpen}
