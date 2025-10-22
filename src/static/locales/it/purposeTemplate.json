@@ -106,8 +106,9 @@
         "annotationAddError": "Non è stato possibile aggiungere l'annotazione. Assicurati di aver inserito le informazioni corrette e riprova.",
         "annotationDeletedSuccess": "Annotazione eliminata con successo.",
         "annotationDeleteError": "Non è stato possibile eliminare l'annotazione. Riprova più tardi.",
-        "documentDeletedSuccess": "Documento eliminato con successo.",
-        "documentDeleteError": "Non è stato possibile eliminare il documento. Riprova più tardi."
+        "documentDeletedSuccess": "Il documento è stato cancellato correttamente.",
+        "documentDeleteError": "Il documento non è stato cancellato. Riprova!",
+        "documentUploadError": "Non è stato possibile caricare il documento. Riprova più tardi."
       },
       "drawer": {
         "title": "Aggiungi annotazioni",
