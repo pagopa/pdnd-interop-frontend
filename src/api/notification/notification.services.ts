@@ -1,5 +1,5 @@
 import axiosInstance from '@/config/axios'
-import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL, FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 import type { Notifications } from '../api.generatedTypes'
 import { type MarkNotificationsAsReadPayload, type Notification } from '../api.generatedTypes'
 
@@ -95,10 +95,14 @@ async function deleteNotifications(payload: { ids: string[] }) {
 }
 
 async function markNotificationsAsReadByEntityId({ entityId }: { entityId: string }) {
-  const response = await axiosInstance.post<void>(
-    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/markAsReadByEntityId/${entityId}`
-  )
-  return response.data
+  if (FEATURE_FLAG_NOTIFICATION_CONFIG) {
+    const response = await axiosInstance.post<void>(
+      `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/markAsReadByEntityId/${entityId}`
+    )
+    return response.data
+  } else {
+    return Promise.resolve()
+  }
 }
 
 export const NotificationServices = {
