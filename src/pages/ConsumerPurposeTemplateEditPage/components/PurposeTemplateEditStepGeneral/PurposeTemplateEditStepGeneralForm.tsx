@@ -37,6 +37,7 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
   })
 
   const onSubmit = (values: PurposeTemplateEditStepGeneralFormValues) => {
+    forward() //TODO: remove this line after testing
     const { purposeIsFreeOfCharge, purposeFreeOfChargeReason, ...data } = values
     const isFreeOfChargeBool = purposeIsFreeOfCharge === 'true'
     const purposeTemplateId = purposeTemplate.id
