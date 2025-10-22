@@ -1,7 +1,6 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import type { FilterOption } from '@pagopa/interop-fe-commons'
 import {
   Filters,
   Pagination,
@@ -10,8 +9,9 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import type {
+  CatalogEService,
+  CatalogPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
-  PurposeTemplateState,
 } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
@@ -30,9 +30,8 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
-  const templateCreatorsOptions: FilterOption[] = [] //TODO: REMOVE THIS AND UNCOMMENT THE FOLLOWING QUERY WHEN THE API WILL BE READY
-  /*const { data: templateCreatorsOptions = [] } = []  useQuery({
-    ...PurposeTemplateQueries.getTODOAPICALL({
+  const { data: templateCreatorsOptions = [] } = useQuery({
+    ...PurposeTemplateQueries.getCatalogPurposeTemplates({
       offset: 0,
       limit: 50,
       q: purposeTemplateCreatorsAutocompleteInput
@@ -40,12 +39,12 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
         : undefined,
     }),
     placeholderData: keepPreviousData,
-    select: (data) =>
-      data.results.map((o) => ({
-        label: o.name,
-        value: o.id,
+    select: ({ results }) =>
+      results.map((purposeTemplate: CatalogPurposeTemplate) => ({
+        label: purposeTemplate.creator.name,
+        value: purposeTemplate.creator.id,
       })),
-  })*/
+  })
 
   const { data: eservicesOptions = [] } = useQuery({
     ...EServiceQueries.getCatalogList({
@@ -56,9 +55,9 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
     }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
-      results.map((o) => ({
-        label: o.name,
-        value: o.id,
+      results.map((eservice: CatalogEService) => ({
+        label: eservice.name,
+        value: eservice.id,
       })),
   })
 

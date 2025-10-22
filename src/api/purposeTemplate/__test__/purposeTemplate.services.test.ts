@@ -75,49 +75,6 @@ describe('PurposeTemplateServices', () => {
     // })
   })
 
-  describe('getConsumerCatalogPurposeTemplates', () => {
-    it('should return mocked catalog purpose templates', async () => {
-      const params: GetCatalogPurposeTemplatesParams = {
-        offset: 0,
-        limit: 10,
-      }
-
-      const result = await PurposeTemplateServices.getConsumerCatalogPurposeTemplates(params)
-
-      expect(result).toEqual(mockCatalogPurposeTemplates)
-      expect(result.results).toHaveLength(3)
-      expect(result.pagination.totalCount).toBe(3)
-    })
-
-    it('should handle different catalog query parameters', async () => {
-      const params: GetCatalogPurposeTemplatesParams = {
-        creatorIds: ['88e8b9c5-81c2-4e49-ae88-b1d1d6b848c3'],
-        targetTenantKind: 'PA',
-        offset: 0,
-        limit: 5,
-      }
-
-      const result = await PurposeTemplateServices.getConsumerCatalogPurposeTemplates(params)
-
-      expect(result).toEqual(mockCatalogPurposeTemplates)
-    })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to catalog endpoint', async () => {
-    //   const params: GetCatalogPurposeTemplatesParams = {
-    //     offset: 0,
-    //     limit: 10,
-    //   }
-    //
-    //   await PurposeTemplateServices.getConsumerCatalogPurposeTemplates(params)
-    //
-    //   expect(axiosInstance.get).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`,
-    //     { params }
-    //   )
-    // })
-  })
-
   describe('getEservicesLinkedToPurposeTemplatesList', () => {
     it('should make correct API call to eservices endpoint', async () => {
       const id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
