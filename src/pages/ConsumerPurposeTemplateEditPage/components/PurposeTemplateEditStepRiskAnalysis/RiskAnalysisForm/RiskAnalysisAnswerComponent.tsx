@@ -188,9 +188,15 @@ export const RiskAnalysisAnswerComponent: React.FC<{
         shouldDirty: true,
       })
 
+      // Clear the upload input field after successful upload
+      setValue(`__annotationUpload.${questionId}`, null, { shouldDirty: true })
       setShowDocInput(false)
     } catch (error) {
       console.error('Error uploading document:', error)
+      // Show error notification
+      showToast('Non è stato possibile caricare il documento. Riprova più tardi.', 'error')
+      // Clear the upload input field after failed upload
+      setValue(`__annotationUpload.${questionId}`, null, { shouldDirty: true })
       setShowDocInput(false)
     }
   }
@@ -320,7 +326,6 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                     }}
                     onDownload={handleDownload}
                     onDelete={handleDelete}
-                    // todo: add onUpdateDescription
                   />
                 ))}
               </Stack>
