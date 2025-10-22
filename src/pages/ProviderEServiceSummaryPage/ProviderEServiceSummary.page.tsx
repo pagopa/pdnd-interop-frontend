@@ -341,7 +341,9 @@ const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, arePer
         <Tooltip
           arrow
           title={
-            arePersonalDataSet ? t('notPublishableTooltip.label') : t('missingPersonalDataField')
+            arePersonalDataSet
+              ? t('notPublishableTooltip.label')
+              : FEATURE_FLAG_ESERVICE_PERSONAL_DATA && t('missingPersonalDataField')
           }
         >
           <span tabIndex={disabled ? 0 : undefined}>{children}</span>
