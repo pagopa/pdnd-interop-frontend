@@ -314,11 +314,12 @@
     "notPublishableTooltip": {
       "label": "One or more required fields have not been filled in. Complete the draft"
     },
-    "missingPersonalDataField": "You have not indicated whether the e-service delivers or receives personal data. You can go back to the first step to specify it, or you can proceed and add this information later.",
+    "missingPersonalDataField": "This e-service draft does not indicate whether personal data will be processed.",
     "rejectedDelegatedVersionDraftAlert": {
       "delegate": "The publication of this draft was rejected by the delegator. <1>Read the reasons for rejection</1> and resend the draft with the corrections.",
       "delegator": "You have rejected the publication of this draft. <1>Read the reasons for rejection here</1>."
-    }
+    },
+    "alertMissingPersonalData": "This e-service derives from a template that does not comply with the new requirements on the processing of personal data. To unlock the publication the template must be updated. Contact the creator to request the modification of this template."
   },
   "list": {
     "filters": {
