@@ -94,14 +94,10 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
             label={t('riskAnalysisSection.checkbox.label')}
             rules={{
               validate: (value) =>
-                typeof value !== 'undefined' ||
-                t('riskAnalysisSection.checkbox.requiredValidation'),
+                value === true || t('riskAnalysisSection.checkbox.requiredValidation'),
             }}
             sx={{
               mt: 0,
-              '& .Mui-checked': {
-                color: '#FE6666 !important', // custom red color for checked state, error.main is not working
-              },
             }}
           />
         </SectionContainer>
