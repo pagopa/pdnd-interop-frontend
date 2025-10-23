@@ -359,21 +359,6 @@
           "label": "Ho preso visione e confermo",
           "ariaLabel": "Switch di presa visione e conferma"
         }
-      },
-      "personalDataDrawer": {
-        "title": "Dati personali",
-        "subtitle": "Per questo e-service è necessario indicare se vengono trattati dati personali.",
-        "alertLabel": "Al salvataggio, questo dato non sarà più modificabile.",
-        "options": {
-          "DELIVER": {
-            "true": "Eroga dati personali",
-            "false": "Non eroga dati personali"
-          },
-          "RECEIVE": {
-            "true": "Riceve dati personali",
-            "false": "Non riceve dati personali"
-          }
-        }
       }
     },
     "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile"

@@ -6,43 +6,43 @@ import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup } from './react-hook-form-inputs'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 
-type UpdateEServicePersonalDataFormValues = {
+type UpdatePersonalDataFormValues = {
   personalData: boolean | undefined
 }
 
-type UpdateEServicePersonalDataDrawerProps = {
+type UpdatePersonalDataDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   eserviceId: string
   onSubmit: (id: string, personalData: boolean) => void
   personalData: boolean | undefined
   eserviceMode: EServiceMode
+  where: 'e-service' | 'template e-service'
 }
 
-export const UpdateEServicePersonalDataDrawer: React.FC<UpdateEServicePersonalDataDrawerProps> = ({
+export const UpdatePersonalDataDrawer: React.FC<UpdatePersonalDataDrawerProps> = ({
   isOpen,
   onClose,
   eserviceId,
   onSubmit,
   personalData,
   eserviceMode,
+  where,
 }) => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'personalDataDrawer' })
   const { t: tCommon } = useTranslation('common')
-  const { t: tDrawer } = useTranslation('eservice', {
-    keyPrefix: 'list.drawers.personalDataDrawer',
-  })
 
   const defaultValues = {
     personalData: personalData,
   }
 
-  const formMethods = useForm<UpdateEServicePersonalDataFormValues>({ defaultValues })
+  const formMethods = useForm<UpdatePersonalDataFormValues>({ defaultValues })
 
   React.useEffect(() => {
     formMethods.reset({ personalData: personalData })
   }, [personalData, formMethods])
 
-  const handleSubmit = (values: UpdateEServicePersonalDataFormValues) => {
+  const handleSubmit = (values: UpdatePersonalDataFormValues) => {
     if (values.personalData === undefined) return
     onSubmit(eserviceId, values.personalData)
   }
@@ -61,20 +61,20 @@ export const UpdateEServicePersonalDataDrawer: React.FC<UpdateEServicePersonalDa
         isOpen={isOpen}
         onTransitionExited={handleTransitionExited}
         onClose={handleCloseDrawer}
-        title={tDrawer('title')}
-        subtitle={tDrawer('subtitle')}
+        title={t('title')}
+        subtitle={t('subtitle', { where })}
         buttonAction={{
           action: formMethods.handleSubmit(handleSubmit),
           label: tCommon('actions.save'),
         }}
       >
-        <Alert severity="warning">{tDrawer('alertLabel')}</Alert>
+        <Alert severity="warning">{t('alertLabel')}</Alert>
         <Box component="form" noValidate>
           <RHFRadioGroup
             name="personalData"
             options={[
-              { value: 'false', label: tDrawer(`options.${eserviceMode}.false`) },
-              { value: 'true', label: tDrawer(`options.${eserviceMode}.true`) },
+              { value: 'false', label: t(`options.${eserviceMode}.false`) },
+              { value: 'true', label: t(`options.${eserviceMode}.true`) },
             ]}
           />
         </Box>

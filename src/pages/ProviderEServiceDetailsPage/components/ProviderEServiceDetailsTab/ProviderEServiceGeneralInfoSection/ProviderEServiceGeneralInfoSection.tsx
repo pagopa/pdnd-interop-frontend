@@ -19,7 +19,7 @@ import { isAxiosError } from 'axios'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { Link } from '@/router'
-import { UpdateEServicePersonalDataDrawer } from '@/components/shared/UpdateEServicePersonalDataDrawer'
+import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
@@ -73,7 +73,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
 
   const {
     isOpen: isEServiceUpdatePersonalDataDrawerOpen,
-    openDrawer: openUpdateEServicePersonalDataDrawer,
+    openDrawer: openUpdatePersonalDataDrawer,
     closeDrawer: closeEServiceUpdatePersonalDataDrawer,
   } = useDrawerState()
 
@@ -211,7 +211,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                     variant="naked"
                     size="medium"
                     sx={{ fontWeight: 700, mr: 1 }}
-                    onClick={openUpdateEServicePersonalDataDrawer}
+                    onClick={openUpdatePersonalDataDrawer}
                   >
                     {tCommon('actions.specifyProcessing')}
                   </Button>
@@ -319,13 +319,14 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         validateLabel={tDrawer('updateEServiceNameDrawer.eserviceNameField.validation.sameValue')}
         onSubmit={handleNameUpdate}
       />
-      <UpdateEServicePersonalDataDrawer
+      <UpdatePersonalDataDrawer
         isOpen={isEServiceUpdatePersonalDataDrawerOpen}
         onClose={closeEServiceUpdatePersonalDataDrawer}
         eserviceId={descriptor.eservice.id}
         personalData={descriptor.eservice.personalData}
         onSubmit={handleEServicePersonalDataUpdate}
         eserviceMode={descriptor.eservice.mode}
+        where="e-service"
       />
     </>
   )

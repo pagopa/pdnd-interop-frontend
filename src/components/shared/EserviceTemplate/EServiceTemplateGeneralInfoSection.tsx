@@ -14,7 +14,7 @@ import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDr
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
-import { UpdateEServicePersonalDataDrawer } from '../UpdateEServicePersonalDataDrawer'
+import { UpdatePersonalDataDrawer } from '../UpdatePersonalDataDrawer'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 type EServiceTemplateGeneralInfoSectionProps = {
@@ -136,7 +136,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
 
   const {
     isOpen: isEServiceUpdatePersonalDataDrawerOpen,
-    openDrawer: openUpdateEServicePersonalDataDrawer,
+    openDrawer: openUpdatePersonalDataDrawer,
     closeDrawer: closeEServiceUpdatePersonalDataDrawer,
   } = useDrawerState()
 
@@ -192,7 +192,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                     variant="naked"
                     size="medium"
                     sx={{ fontWeight: 700, mr: 1 }}
-                    onClick={openUpdateEServicePersonalDataDrawer}
+                    onClick={openUpdatePersonalDataDrawer}
                   >
                     {tCommon('actions.specifyProcessing')}
                   </Button>
@@ -335,13 +335,14 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.validation.sameValue'
                 )}
               />
-              <UpdateEServicePersonalDataDrawer
+              <UpdatePersonalDataDrawer
                 isOpen={isEServiceUpdatePersonalDataDrawerOpen}
                 onClose={closeEServiceUpdatePersonalDataDrawer}
                 eserviceId={eserviceTemplateVersion.eserviceTemplate.id}
                 personalData={eserviceTemplateVersion.eserviceTemplate.personalData}
                 onSubmit={handleEServiceTemplatePersonalDataUpdate}
                 eserviceMode={eserviceTemplateVersion.eserviceTemplate.mode}
+                where="template e-service"
               />
             </>
           )}
