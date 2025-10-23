@@ -161,7 +161,6 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
           console.error('Error deleting annotation:', error)
           // Show error notification
           showToast(t('notifications.annotationDeleteError'), 'error')
-          // Do NOT remove from UI if API call failed - let user retry
         }
       },
     })
@@ -223,9 +222,36 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
     }
   }
 
-  const handleDownload = (doc: EServiceDoc) => {
-    // TODO: Implement download from backend
-    console.log('Download document:', doc)
+  const handleDownload = async (doc: EServiceDoc) => {
+    try {
+      const existingAnswerId = watch(`answerIds.${questionId}`)
+
+      if (!existingAnswerId) {
+        showToast(t('notifications.documentUploadError'), 'error')
+        return
+      }
+
+      const blob = await PurposeTemplateServices.downloadDocumentFromAnnotation({
+        purposeTemplateId,
+        answerId: existingAnswerId,
+        documentId: doc.id,
+      })
+
+      // Create a download link
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = doc.prettyName || doc.name
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+
+      showToast(t('notifications.documentUploadedSuccess'), 'success')
+    } catch (error) {
+      console.error('Error downloading document:', error)
+      showToast(t('notifications.documentUploadError'), 'error')
+    }
   }
 
   const handleDelete = async (doc: EServiceDoc) => {
