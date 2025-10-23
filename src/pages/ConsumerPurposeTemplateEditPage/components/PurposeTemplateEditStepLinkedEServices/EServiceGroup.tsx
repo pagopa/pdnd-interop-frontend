@@ -7,6 +7,7 @@ import type { CatalogEService, PurposeTemplateWithCompactCreator } from '@/api/a
 import { EServiceAutocomplete } from '@/components/shared/EServiceAutoComplete'
 import { EServiceContainer } from '@/components/layout/containers/EServiceContainer'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import { useToastNotification } from '@/stores/toast-notification.store'
 
 export type EServiceGroupProps = {
   group: Array<CatalogEService>
@@ -26,6 +27,7 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step2' })
   const [isEServiceAutocompleteShown, setIsEServiceAutocompleteShown] = React.useState(true)
   const { mutate: addEService } = PurposeTemplateMutations.useLinkEserviceToPurposeTemplate()
+  const { showToast } = useToastNotification()
 
   const handleDeleteEServiceFromGroup = (eserviceId: string) => {
     onRemoveEServiceFromGroup(eserviceId)
@@ -40,6 +42,10 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
       {
         onSuccess: () => {
           setIsEServiceAutocompleteShown(false)
+          showToast(t('notifications.eserviceLinkSuccess'), 'success')
+        },
+        onError: () => {
+          showToast(t('notifications.eserviceLinkError'), 'error')
         },
       }
     )
