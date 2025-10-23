@@ -104,11 +104,12 @@
         "annotationDeleteError": "Non è stato possibile eliminare l'annotazione. Riprova più tardi.",
         "documentDeletedSuccess": "Il documento è stato cancellato correttamente.",
         "documentDeleteError": "Il documento non è stato cancellato. Riprova!",
-        "documentUploadError": "Non è stato possibile caricare il documento. Riprova più tardi."
+        "documentUploadError": "Non è stato possibile caricare il documento. Riprova più tardi.",
+        "documentUploadedSuccess": "Documento caricato con successo."
       },
       "drawer": {
         "title": "Aggiungi annotazioni",
-        "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
+        "description": "Fornisci all'utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
         "question": "Domanda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
         "label": "Annotazioni",
         "addBtn": "Aggiungi"
