@@ -155,17 +155,18 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   }
 
   const canBePublished = () => {
-    return !!(descriptor &&
-    descriptor.interface &&
-    descriptor.description &&
-    descriptor.audience[0] &&
-    descriptor.voucherLifespan &&
-    descriptor.dailyCallsPerConsumer &&
-    descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
-    checklistEServiceFromTemplate() &&
-    FEATURE_FLAG_ESERVICE_PERSONAL_DATA
-      ? descriptor.eservice.personalData
-      : true)
+    return (
+      !!(descriptor &&
+      descriptor.interface &&
+      descriptor.description &&
+      descriptor.audience[0] &&
+      descriptor.voucherLifespan &&
+      descriptor.dailyCallsPerConsumer &&
+      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
+      FEATURE_FLAG_ESERVICE_PERSONAL_DATA
+        ? descriptor.eservice.personalData
+        : true) && checklistEServiceFromTemplate()
+    )
   }
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
