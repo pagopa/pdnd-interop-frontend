@@ -28,18 +28,20 @@ export const PurposeTemplateDocumentationSection: React.FC<
           content={
             documentation && documentation.length ? (
               <>
-                {documentation.map((doc) => (
-                  <IconLink
-                    key={doc.id}
-                    href={doc.path}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    underline="none"
-                    startIcon={<AttachFileIcon fontSize="small" />}
-                  >
-                    {doc.prettyName}
-                  </IconLink>
-                ))}
+                <Stack spacing={2} direction="column">
+                  {documentation.map((doc) => (
+                    <IconLink
+                      key={doc.id}
+                      href={doc.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      underline="none"
+                      startIcon={<AttachFileIcon fontSize="small" />}
+                    >
+                      {doc.prettyName}
+                    </IconLink>
+                  ))}
+                </Stack>
               </>
             ) : (
               '-'
