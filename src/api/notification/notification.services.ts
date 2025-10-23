@@ -35,6 +35,7 @@ export const mockedNotifications: Notification[] = [
     readAt: null,
     createdAt: '2025-09-23T12:30:00.000Z',
     deepLink: '',
+    category: 'Subscribers',
   },
 ]
 
