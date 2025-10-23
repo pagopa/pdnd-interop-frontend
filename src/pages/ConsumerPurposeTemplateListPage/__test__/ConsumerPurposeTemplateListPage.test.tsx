@@ -1,7 +1,6 @@
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerPurposeTemplateListPage from '../ConsumerPurposeTemplateList.page'
 import { screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 mockUseJwt()
 
