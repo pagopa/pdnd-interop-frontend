@@ -20,6 +20,7 @@ const GeneralConfigs = z.object({
   API_GATEWAY_V1_INTERFACE_URL: z.url(),
   API_GATEWAY_V2_INTERFACE_URL: z.url(),
   ERROR_DATA_DURATION_TIME: z.string().default('60000'),
+  NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
 })
 
 const FeatureFlagConfigs = z.object({
@@ -103,6 +104,7 @@ export const {
   API_GATEWAY_V2_INTERFACE_URL,
   ERROR_DATA_DURATION_TIME,
   FEATURE_FLAG_NOTIFICATION_CONFIG,
+  NOTIFICATION_COUNT_REFRESH_INTERVAL,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()

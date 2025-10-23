@@ -35,7 +35,6 @@ export function useGetSidebarItems(): SidebarRoutes {
         hide: !FEATURE_FLAG_NOTIFICATION_CONFIG,
       },
       {
-        showNotification: false,
         icon: ConsumerIcon,
         label: t('subscribe.subscribe'),
         rootRouteKey: 'SUBSCRIBE_AGREEMENT_LIST',

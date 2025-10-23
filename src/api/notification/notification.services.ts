@@ -1,6 +1,6 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL, FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
-import type { Notifications } from '../api.generatedTypes'
+import type { Notifications, NotificationsCountBySection } from '../api.generatedTypes'
 import { type MarkNotificationsAsReadPayload, type Notification } from '../api.generatedTypes'
 
 export interface GetUserNotificationsParams {
@@ -105,6 +105,44 @@ async function markNotificationsAsReadByEntityId({ entityId }: { entityId: strin
   }
 }
 
+async function getInAppNotificationsCount() {
+  if (FEATURE_FLAG_NOTIFICATION_CONFIG) {
+    const response = await axiosInstance.get<NotificationsCountBySection>(
+      `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/count`
+    )
+    return response.data
+  } else {
+    return Promise.resolve({
+      erogazione: {
+        richieste: 0,
+        finalita: 0,
+        'template-eservice': 0,
+        'e-service': 0,
+        portachiavi: 0,
+        totalCount: 0,
+      },
+      fruizione: {
+        richieste: 0,
+        finalita: 0,
+        totalCount: 0,
+      },
+      'catalogo-e-service': {
+        totalCount: 0,
+      },
+      aderente: {
+        deleghe: 0,
+        anagrafica: 0,
+        totalCount: 0,
+      },
+      'gestione-client': {
+        'api-e-service': 0,
+        totalCount: 0,
+      },
+      totalCount: 0,
+    })
+  }
+}
+
 export const NotificationServices = {
   getUserNotificationsList,
   markAsRead,
@@ -114,4 +152,5 @@ export const NotificationServices = {
   deleteNotification,
   deleteNotifications,
   markNotificationsAsReadByEntityId,
+  getInAppNotificationsCount,
 }
