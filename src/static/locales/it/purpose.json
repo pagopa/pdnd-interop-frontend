@@ -334,7 +334,8 @@
             "title": "Analisi del rischio",
             "description": "Puoi aggiornare la stima solo se l’analisi del rischio collegata a questa finalità è ancora valida.",
             "checkbox": {
-              "label": "L’analisi del rischio è invariata"
+              "label": "L’analisi del rischio è invariata",
+              "requiredValidation": "Per richiedere l’adeguamento, conferma che l’analisi del rischio è rimasta invariata"
             }
           }
         },

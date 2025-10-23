@@ -92,7 +92,11 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
           <RHFCheckbox
             name="riskAnalysisUnchanged"
             label={t('riskAnalysisSection.checkbox.label')}
-            rules={{ required: true }}
+            rules={{
+              validate: (value) =>
+                typeof value !== 'undefined' ||
+                t('riskAnalysisSection.checkbox.requiredValidation'),
+            }}
             sx={{
               mt: 0,
               '& .Mui-checked': {

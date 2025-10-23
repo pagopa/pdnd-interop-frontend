@@ -334,7 +334,8 @@
             "title": "Risk analysis",
             "description": "You can update the estimate only if the risk analysis linked to this purpose is still valid.",
             "checkbox": {
-              "label": "The risk analysis is unchanged"
+              "label": "The risk analysis is unchanged",
+              "requiredValidation": "To request the update, confirm that the risk analysis has remained unchanged"
             }
           }
         },
