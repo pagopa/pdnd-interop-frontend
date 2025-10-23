@@ -240,6 +240,24 @@ async function deleteDocumentFromAnnotation({
   )
 }
 
+async function downloadDocumentFromAnnotation({
+  purposeTemplateId,
+  answerId,
+  documentId,
+}: {
+  purposeTemplateId: string
+  answerId: string
+  documentId: string
+}) {
+  const response = await axiosInstance.get<Blob>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`,
+    {
+      responseType: 'blob',
+    }
+  )
+  return response.data
+}
+
 async function suspendPurposeTemplate({ id }: { id: string }) {
   //   return await axiosInstance.post<void>(
   //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/suspend`
@@ -280,6 +298,7 @@ export const PurposeTemplateServices = {
   deleteAnnotation,
   getRiskAnalysisTemplateAnswerAnnotationDocument,
   deleteDocumentFromAnnotation,
+  downloadDocumentFromAnnotation,
   suspendPurposeTemplate,
   reactivatePurposeTemplate,
   archivePurposeTemplate,
