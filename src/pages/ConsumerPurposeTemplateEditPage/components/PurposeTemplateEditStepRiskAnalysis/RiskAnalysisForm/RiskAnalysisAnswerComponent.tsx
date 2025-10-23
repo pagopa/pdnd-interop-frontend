@@ -4,11 +4,12 @@ import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { Box, Stack, Typography, Button } from '@mui/material'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useForm, FormProvider } from 'react-hook-form'
 import { useState, useEffect } from 'react'
 import { useToastNotification, useDialog } from '@/stores'
 import type {
@@ -52,6 +53,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
 
   // Document management states
   const [showDocInput, setShowDocInput] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+  // Form for document upload
+  const documentFormMethods = useForm<{ doc: File | null }>({
+    shouldUnregister: true,
+  })
 
   // Get documents from annotation
   const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
@@ -169,17 +176,22 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
       return
     }
     setShowDocInput(true)
+    setSelectedFile(null)
   }
 
-  const handleFileSelected = async (file: File | null) => {
-    if (!file) return
+  const handleFileChange = (file: File | null) => {
+    setSelectedFile(file)
+  }
+
+  const handleDocumentSubmit = async ({ doc }: { doc: File | null }) => {
+    if (!doc) return
 
     try {
       const existingAnswerId = watch(`answerIds.${questionId}`)
 
       const documentPayload = {
-        prettyName: file.name,
-        doc: file,
+        prettyName: doc.name,
+        doc,
       }
 
       const uploadedDoc = await PurposeTemplateServices.addDocumentToAnnotation({
@@ -197,16 +209,17 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
         shouldDirty: true,
       })
 
-      // Clear the upload input field after successful upload
-      setValue(`__annotationUpload.${questionId}`, null, { shouldDirty: true })
+      // Reset document form and hide input
+      documentFormMethods.reset()
       setShowDocInput(false)
+      setSelectedFile(null)
+
+      // Show success notification
+      showToast(t('notifications.documentUploadedSuccess'), 'success')
     } catch (error) {
       console.error('Error uploading document:', error)
       // Show error notification
-      showToast('Non è stato possibile caricare il documento. Riprova più tardi.', 'error')
-      // Clear the upload input field after failed upload
-      setValue(`__annotationUpload.${questionId}`, null, { shouldDirty: true })
-      setShowDocInput(false)
+      showToast(t('notifications.documentUploadError'), 'error')
     }
   }
 
@@ -312,12 +325,39 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
                 {t('addDocumentBtn')}
               </Button>
             ) : (
-              <Box sx={{ mt: 2 }}>
-                <RHFSingleFileInput
-                  name={`__annotationUpload.${questionId}`}
-                  onValueChange={handleFileSelected}
-                />
-              </Box>
+              <FormProvider {...documentFormMethods}>
+                <Box
+                  component="form"
+                  noValidate
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    documentFormMethods.handleSubmit(handleDocumentSubmit)(e)
+                  }}
+                  sx={{ mt: 2, px: 2, py: 2 }}
+                  bgcolor="common.white"
+                >
+                  <RHFSingleFileInput
+                    sx={{ my: 0 }}
+                    name="doc"
+                    rules={{ required: true }}
+                    onValueChange={handleFileChange}
+                  />
+
+                  {selectedFile && (
+                    <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
+                      <Button
+                        type="button"
+                        variant="contained"
+                        onClick={() => {
+                          documentFormMethods.handleSubmit(handleDocumentSubmit)()
+                        }}
+                      >
+                        <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('uploadBtn')}
+                      </Button>
+                    </Stack>
+                  )}
+                </Box>
+              </FormProvider>
             ))}
 
           {docs.length > 0 && (
@@ -350,12 +390,39 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
                   {t('addDocumentBtn')}
                 </Button>
               ) : showDocInput ? (
-                <Box sx={{ mt: 2 }}>
-                  <RHFSingleFileInput
-                    name={`__annotationUpload.${questionId}`}
-                    onValueChange={handleFileSelected}
-                  />
-                </Box>
+                <FormProvider {...documentFormMethods}>
+                  <Box
+                    component="form"
+                    noValidate
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      documentFormMethods.handleSubmit(handleDocumentSubmit)(e)
+                    }}
+                    sx={{ mt: 2, px: 2, py: 2 }}
+                    bgcolor="common.white"
+                  >
+                    <RHFSingleFileInput
+                      sx={{ my: 0 }}
+                      name="doc"
+                      rules={{ required: true }}
+                      onValueChange={handleFileChange}
+                    />
+
+                    {selectedFile && (
+                      <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
+                        <Button
+                          type="button"
+                          variant="contained"
+                          onClick={() => {
+                            documentFormMethods.handleSubmit(handleDocumentSubmit)()
+                          }}
+                        >
+                          <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('uploadBtn')}
+                        </Button>
+                      </Stack>
+                    )}
+                  </Box>
+                </FormProvider>
               ) : null}
             </Box>
           )}
