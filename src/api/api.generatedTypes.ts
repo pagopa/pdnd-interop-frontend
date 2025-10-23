@@ -754,6 +754,39 @@ export interface PurposeSeed {
   dailyCalls: number
 }
 
+/** contains the expected payload for purpose creation from a purpose template */
+export interface PurposeFromTemplateSeed {
+  /** @format uuid */
+  eserviceId: string
+  /** @format uuid */
+  consumerId: string
+  riskAnalysisForm?: RiskAnalysisFormSeed
+  title: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  dailyCalls: number
+}
+
+/** Contains the expected payload for purpose update from template */
+export interface PatchPurposeUpdateFromTemplateContent {
+  title?: string
+  /**
+   * Optional in the purpose model, but a purpose cannot exist without a risk analysis.
+   * There is no practical use in letting the user remove it, we don't make it nullable.
+   */
+  riskAnalysisForm?: RiskAnalysisFormSeed
+  /**
+   * Maximum number of daily calls that this version can perform
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  dailyCalls?: number
+}
+
 /** contains the expected payload for purpose creation. */
 export interface PurposeEServiceSeed {
   /** @format uuid */
@@ -923,11 +956,48 @@ export interface Purpose {
   delegation?: DelegationWithCompactTenants
   /** Indicates if there are unread notifications for this purpose */
   hasUnreadNotifications: boolean
+  /** Contains some information about the purpose template */
+  purposeTemplate?: CompactPurposeTemplate
 }
 
 export interface PurposeAdditionDetailsSeed {
   /** @format uuid */
   purposeId: string
+}
+
+/** Contains some information about the purpose template */
+export interface CompactPurposeTemplate {
+  /** @format uuid */
+  id: string
+  purposeTitle: string
+}
+
+/** Business representation of a purpose template */
+export interface PurposeTemplate {
+  /** @format uuid */
+  id: string
+  targetDescription: string
+  targetTenantKind: TenantKind
+  /** @format uuid */
+  creatorId: string
+  /** Purpose Template State */
+  state: PurposeTemplateState
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
+  purposeTitle: string
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
+  handlesPersonalData: boolean
 }
 
 /** Purpose Template State */
@@ -958,33 +1028,7 @@ export interface PurposeTemplateWithCompactCreator {
    */
   purposeDailyCalls?: number
   annotationDocuments?: RiskAnalysisTemplateAnswerAnnotationDocument[]
-}
-
-/** Business representation of a purpose template */
-export interface PurposeTemplate {
-  /** @format uuid */
-  id: string
-  targetDescription: string
-  targetTenantKind: TenantKind
-  /** @format uuid */
-  creatorId: string
-  /** Purpose Template State */
-  state: PurposeTemplateState
-  /** @format date-time */
-  createdAt: string
-  /** @format date-time */
-  updatedAt?: string
-  purposeTitle: string
-  purposeDescription: string
-  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
-  purposeIsFreeOfCharge: boolean
-  purposeFreeOfChargeReason?: string
-  /**
-   * @format int32
-   * @min 1
-   * @max 1000000000
-   */
-  purposeDailyCalls?: number
+  handlesPersonalData: boolean
 }
 
 export interface PurposeTemplateSeed {
@@ -1013,6 +1057,7 @@ export interface PurposeTemplateSeed {
    * @max 1000000000
    */
   purposeDailyCalls?: number
+  handlesPersonalData: boolean
 }
 
 export interface RiskAnalysisFormTemplate {
@@ -1145,6 +1190,7 @@ export interface RiskAnalysisTemplateAnswerAnnotationDocument {
   path: string
   /** @format date-time */
   createdAt: string
+  checksum: string
 }
 
 export type CompactUsers = CompactUser[]
@@ -2244,6 +2290,8 @@ export interface Notification {
   body: string
   /** Deep link to the notification */
   deepLink: string
+  /** Category of the notification */
+  category: string
   /**
    * Timestamp when the notification was read
    * @format date-time
@@ -2505,6 +2553,8 @@ export interface GetEServicesCatalogParams {
   mode?: EServiceMode
   /** EService isConsumerDelegable filter */
   isConsumerDelegable?: boolean
+  /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
+  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -2852,6 +2902,8 @@ export interface GetCatalogPurposeTemplatesParams {
    * @default true
    */
   excludeExpiredRiskAnalysis?: boolean
+  /** show purpose templates that handle personal data */
+  handlesPersonalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -3080,6 +3132,8 @@ export interface GetEServiceTemplatesCatalogParams {
    * @default []
    */
   creatorsIds?: string[]
+  /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
+  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -3141,6 +3195,8 @@ export interface IsEServiceNameAvailableParams {
 export interface GetNotificationsParams {
   /** Query to filter notifications */
   q?: string
+  /** Category to filter notifications */
+  category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
   /**
    * @format int32
    * @min 0
@@ -4597,6 +4653,8 @@ export namespace Catalog {
       mode?: EServiceMode
       /** EService isConsumerDelegable filter */
       isConsumerDelegable?: boolean
+      /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
+      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -4669,6 +4727,8 @@ export namespace Catalog {
        * @default true
        */
       excludeExpiredRiskAnalysis?: boolean
+      /** show purpose templates that handle personal data */
+      handlesPersonalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -4703,6 +4763,8 @@ export namespace Catalog {
        * @default []
        */
       creatorsIds?: string[]
+      /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
+      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -6801,6 +6863,51 @@ export namespace PurposeTemplates {
     export type ResponseBody = EServiceDescriptorsPurposeTemplate
   }
   /**
+   * @description Creates the Purpose from a Purpose Template
+   * @tags purposes
+   * @name CreatePurposeFromTemplate
+   * @request POST:/purposeTemplates/{purposeTemplateId}/purposes
+   * @secure
+   */
+  export namespace CreatePurposeFromTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PurposeFromTemplateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Partially update a Purpose from a Purpose Template
+   * @tags purposes
+   * @name PatchUpdatePurposeFromTemplate
+   * @request PATCH:/purposeTemplates/{purposeTemplateId}/purposes/{purposeId}
+   * @secure
+   */
+  export namespace PatchUpdatePurposeFromTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = PatchPurposeUpdateFromTemplateContent
+    export type RequestHeaders = {}
+    export type ResponseBody = PurposeVersionResource
+  }
+  /**
    * @description Retrieve a Purpose Template by its ID
    * @tags purposeTemplates
    * @name GetPurposeTemplate
@@ -8233,6 +8340,8 @@ export namespace InAppNotifications {
     export type RequestQuery = {
       /** Query to filter notifications */
       q?: string
+      /** Category to filter notifications */
+      category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
       /**
        * @format int32
        * @min 0

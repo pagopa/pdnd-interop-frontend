@@ -1,12 +1,8 @@
 import { generateApi } from 'swagger-typescript-api'
 import path from 'path'
 
-// const openApiSpecificationFileUrl =
-// 'https://raw.githubusercontent.com/pagopa/interop-be-monorepo/refs/heads/develop/packages/api-clients/open-api/bffApi.yml'
-
-//FIXME: remove this before merge
 const openApiSpecificationFileUrl =
-'https://raw.githubusercontent.com/pagopa/interop-be-monorepo/245077920d09a216b96eb875bea6c03a279e05a1/packages/api-clients/open-api/bffApi.yml'
+'https://raw.githubusercontent.com/pagopa/interop-be-monorepo/refs/heads/develop/packages/api-clients/open-api/bffApi.yml'
 
 const apiFolderPath = path.resolve('./src/api/')
 
