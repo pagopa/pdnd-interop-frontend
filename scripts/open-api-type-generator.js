@@ -6,7 +6,7 @@ import path from 'path'
 
 //FIXME: remove this before merge
 const openApiSpecificationFileUrl =
-'https://raw.githubusercontent.com/pagopa/interop-be-monorepo/245077920d09a216b96eb875bea6c03a279e05a1/packages/api-clients/open-api/bffApi.yml'
+  'https://raw.githubusercontent.com/pagopa/interop-be-monorepo/460df69fc16c208e1bcf2fb5f529cad59ad2cdc6/packages/api-clients/open-api/bffApi.yml'
 
 const apiFolderPath = path.resolve('./src/api/')
 

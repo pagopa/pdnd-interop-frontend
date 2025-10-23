@@ -138,7 +138,9 @@ async function getInAppNotificationsCount() {
         'api-e-service': 0,
         totalCount: 0,
       },
-      totalCount: 0,
+      notifiche: {
+        totalCount: 0,
+      },
     })
   }
 }
