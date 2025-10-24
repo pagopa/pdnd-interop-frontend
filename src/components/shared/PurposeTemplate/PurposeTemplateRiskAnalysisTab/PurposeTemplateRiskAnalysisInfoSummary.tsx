@@ -107,7 +107,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
           >
             <ListItem key={i} sx={{ pl: 0 }}>
               <ListItemText>
-                <Typography variant="body2" fontWeight={600}>
+                <Typography variant="body2" fontWeight={600} sx={{ mb: 3 }}>
                   <Box display="flex" justifyContent="space-between" alignItems="center">
                     <span>{question}</span>
                     {!isEditable && (
@@ -135,14 +135,18 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                     <Accordion
                       sx={{
                         '&:before': { display: 'none' },
+                        boxShadow: 'none',
+                        mt: 0, // no top margin before accordion
                       }}
                     >
                       <AccordionSummary
-                        onClick={() => setHasExpandedOnce(true)}
                         expandIcon={<ExpandMoreIcon />}
+                        onClick={() => setHasExpandedOnce(true)}
                         aria-controls={panelContentId}
                         id={headerId}
                         sx={{
+                          px: 0,
+                          py: 0,
                           '& .MuiAccordionSummary-expandIconWrapper': {
                             color: 'primary.main',
                             mr: '84%',
@@ -153,7 +157,13 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                           {t('annotationSection.readAnnotationBtnLabel')}
                         </Typography>
                       </AccordionSummary>
-                      <AccordionDetails>
+
+                      <AccordionDetails
+                        sx={{
+                          px: 0,
+                          py: 0,
+                        }}
+                      >
                         {hasExpandedOnce && <AnnotationDetails annotation={annotations} />}
                       </AccordionDetails>
                     </Accordion>
@@ -210,17 +220,21 @@ const AnnotationDetails: React.FC<{ annotation: RiskAnalysisTemplateAnswerAnnota
       title={t('title')}
       sx={{ backgroundColor: 'grey.50', p: 3, fontWeight: 700 }}
     >
-      <Stack sx={{ mt: 1 }} spacing={2}>
+      <Stack spacing={2}>
         <Typography variant="body2">{annotation.text}</Typography>
         {annotation.docs && annotation.docs.length > 0 && (
-          <Stack>
+          <Stack spacing={1}>
             {annotation.docs.map((doc) => (
               <Button
                 key={doc.id}
                 endIcon={<DownloadIcon fontSize="small" />}
                 component="button"
                 onClick={() => {}} // TODO: handle download
-                sx={{ fontWeight: 700, alignSelf: 'flex-start' }}
+                sx={{
+                  fontWeight: 700,
+                  alignSelf: 'flex-start',
+                  p: 0,
+                }}
                 disableRipple
               >
                 {doc.prettyName}
