@@ -183,18 +183,19 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                   label: t(
                     `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
                   ),
-                  value: 'true',
+                  value: true,
                 },
                 {
                   label: t(
                     `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
                   ),
-                  value: 'false',
+                  value: false,
                 },
               ]}
               disabled={!areEServiceTemplateGeneralInfoEditable}
               rules={{ required: true }}
               sx={{ mb: 0, mt: 3 }}
+              isOptionValueAsBoolean
             />
           )}
 

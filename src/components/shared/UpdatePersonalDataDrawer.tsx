@@ -73,9 +73,10 @@ export const UpdatePersonalDataDrawer: React.FC<UpdatePersonalDataDrawerProps> =
           <RHFRadioGroup
             name="personalData"
             options={[
-              { value: 'false', label: t(`options.${eserviceMode}.false`) },
-              { value: 'true', label: t(`options.${eserviceMode}.true`) },
+              { value: false, label: t(`options.${eserviceMode}.false`) },
+              { value: true, label: t(`options.${eserviceMode}.true`) },
             ]}
+            isOptionValueAsBoolean
           />
         </Box>
       </Drawer>

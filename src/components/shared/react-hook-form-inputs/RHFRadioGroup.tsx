@@ -21,6 +21,7 @@ export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   disabled?: boolean
   rules?: ControllerProps['rules']
   onValueChange?: (value: string) => void
+  isOptionValueAsBoolean?: boolean
 }
 
 export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
@@ -32,6 +33,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
   disabled,
   rules,
   onValueChange,
+  isOptionValueAsBoolean = false,
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -59,8 +61,9 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
             aria-labelledby={labelId}
             {...props}
             {...fieldProps}
-            onChange={(_, value) => {
-              if (onValueChange) onValueChange(value)
+            onChange={(_, val) => {
+              const value = isOptionValueAsBoolean ? Boolean(val) : val
+              if (onValueChange) onValueChange(val)
               onChange(value)
             }}
           >
