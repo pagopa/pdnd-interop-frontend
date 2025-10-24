@@ -1,4 +1,3 @@
-import { PurposeQueries } from '@/api/purpose'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
   Accordion,
@@ -13,7 +12,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import type {
@@ -26,16 +24,13 @@ import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import DownloadIcon from '@mui/icons-material/Download'
 
-type RiskAnalysisInfoSummaryProps = {
+type PurposeTemplateRiskAnalysisInfoSummaryProps = {
   riskAnalysisConfig: RiskAnalysisFormConfig
   riskAnalysisForm: RiskAnalysisFormTemplate
-}
-
-type PurposeTemplateRiskAnalysisInfoSummaryProps = {
   purposeTemplate: PurposeTemplateWithCompactCreator
 }
 
-const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
+const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryProps> = ({
   riskAnalysisConfig,
   riskAnalysisForm,
 }) => {
@@ -175,25 +170,30 @@ const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
 
 export const PurposeTemplateRiskAnalysisInfoSummary: React.FC<
   PurposeTemplateRiskAnalysisInfoSummaryProps
-> = ({ purposeTemplate }) => {
-  const riskAnalysisForm = purposeTemplate.purposeRiskAnalysisForm
-
-  const riskAnalysisVersion = purposeTemplate.purposeRiskAnalysisForm?.version
-
-  const { data: riskAnalysisConfig } = useQuery({
-    ...PurposeQueries.getRiskAnalysisVersion({
-      riskAnalysisVersion: riskAnalysisVersion as string,
-      eserviceId: '4aae1b6f-eca9-4636-b6e3-6ae0ddf9aac4', // TO DO: purposeTemplate.eservice.id is not available in the current type
-    }),
-    enabled: Boolean(riskAnalysisVersion),
+> = ({ purposeTemplate, riskAnalysisConfig, riskAnalysisForm }) => {
+  const { t: tPurposeTemplate } = useTranslation('purposeTemplate', {
+    keyPrefix: 'read.riskAnalysisTab',
   })
+
+  const title =
+    purposeTemplate.targetTenantKind === 'PA'
+      ? tPurposeTemplate('titlePA')
+      : tPurposeTemplate('titleNotPA')
 
   if (!riskAnalysisConfig || !riskAnalysisForm) return null
   return (
-    <RiskAnalysisInfoSummary
-      riskAnalysisConfig={riskAnalysisConfig}
-      riskAnalysisForm={riskAnalysisForm}
-    />
+    <SectionContainer
+      title={title}
+      sx={{
+        backgroundColor: 'paper.main',
+      }}
+    >
+      <RiskAnalysisInfoSummary
+        riskAnalysisConfig={riskAnalysisConfig}
+        riskAnalysisForm={riskAnalysisForm}
+        purposeTemplate={purposeTemplate}
+      />
+    </SectionContainer>
   )
 }
 

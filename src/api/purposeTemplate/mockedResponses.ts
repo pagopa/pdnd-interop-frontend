@@ -3,6 +3,7 @@ import type {
   CatalogPurposeTemplates,
   TenantKind,
   EServiceDescriptorState,
+  PurposeTemplateWithCompactCreator,
 } from '../api.generatedTypes'
 
 const createDocument = (
@@ -90,7 +91,7 @@ const purposeTemplateData = [
     targetDescription: 'Healthcare data processing',
     targetTenantKind: 'PA' as TenantKind,
     creatorId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-    state: 'DRAFT' as PurposeTemplateState,
+    state: 'ACTIVE' as PurposeTemplateState,
     createdAt: '2025-08-29T09:01:20.116Z',
     updatedAt: '2025-08-29T09:01:20.116Z',
     purposeTitle: 'Medical Analysis',
@@ -221,43 +222,52 @@ const purposeTemplateData = [
   },
 ]
 
-export const purposeTemplatesListMock: Array<PurposeTemplate> = purposeTemplateData.map((data) => {
-  const annotation = createAnnotation(
-    data.riskAnalysis.annotation.id,
-    data.riskAnalysis.annotation.text,
-    data.riskAnalysis.annotation.docId,
-    data.riskAnalysis.annotation.docName,
-    data.riskAnalysis.annotation.docPrettyName,
-    data.riskAnalysis.annotation.docPath,
-    data.createdAt
-  )
+export const purposeTemplatesListMock: Array<PurposeTemplateWithCompactCreator> =
+  purposeTemplateData.map((data) => {
+    const annotation = createAnnotation(
+      data.riskAnalysis.annotation.id,
+      data.riskAnalysis.annotation.text,
+      data.riskAnalysis.annotation.docId,
+      data.riskAnalysis.annotation.docName,
+      data.riskAnalysis.annotation.docPrettyName,
+      data.riskAnalysis.annotation.docPath,
+      data.createdAt
+    )
 
-  const riskAnalysisAnswer = createRiskAnalysisAnswer(
-    data.riskAnalysis.value,
-    data.riskAnalysis.editable,
-    annotation
-  )
+    const riskAnalysisAnswer = createRiskAnalysisAnswer(
+      data.riskAnalysis.value,
+      data.riskAnalysis.editable,
+      annotation
+    )
 
-  return createPurposeTemplate(
-    data.id,
-    data.description,
-    data.targetDescription,
-    data.targetTenantKind,
-    data.creatorId,
-    data.state,
-    data.createdAt,
-    data.updatedAt,
-    data.purposeTitle,
-    data.purposeDescription,
-    riskAnalysisAnswer,
-    data.purposeIsFreeOfCharge,
-    data.purposeFreeOfChargeReason,
-    data.purposeDailyCalls
-  )
-})
+    // Add a mock creator object for each template
+    return {
+      ...createPurposeTemplate(
+        data.id,
+        data.description,
+        data.targetDescription,
+        data.targetTenantKind,
+        data.creatorId,
+        data.state,
+        data.createdAt,
+        data.updatedAt,
+        data.purposeTitle,
+        data.purposeDescription,
+        riskAnalysisAnswer,
+        data.purposeIsFreeOfCharge,
+        data.purposeFreeOfChargeReason,
+        data.purposeDailyCalls
+      ),
+      creator: {
+        id: data.creatorId,
+        name: `Creator ${data.creatorId.slice(0, 4)}`,
+        kind: data.targetTenantKind,
+      },
+    }
+  })
 
 // Reuse the last template from the list for purposeTemplateMock
-export const purposeTemplateMock: PurposeTemplate = purposeTemplatesListMock[4]
+export const purposeTemplateMock: PurposeTemplateWithCompactCreator = purposeTemplatesListMock[4]
 
 // Helper function for EService linking data
 const createEServiceLink = (

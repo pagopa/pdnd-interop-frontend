@@ -1,8 +1,8 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { SectionContainer } from '@/components/layout/containers'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 import { PurposeTemplateRiskAnalysisInfoSummary } from './PurposeTemplateRiskAnalysisInfoSummary'
+import { PurposeQueries } from '@/api/purpose'
+import { useQuery } from '@tanstack/react-query'
 
 type PurposeTemplateRiskAnalysisTabProps = {
   purposeTemplate: PurposeTemplateWithCompactCreator
@@ -11,20 +11,19 @@ type PurposeTemplateRiskAnalysisTabProps = {
 export const PurposeTemplateRiskAnalysisTab: React.FC<PurposeTemplateRiskAnalysisTabProps> = ({
   purposeTemplate,
 }) => {
-  const { t } = useTranslation('purposeTemplate', { keyPrefix: 'read.riskAnalysisTab' })
+  const { data: riskAnalysisLatest } = useQuery(
+    PurposeQueries.getRiskAnalysisLatest({
+      tenantKind: purposeTemplate.targetTenantKind,
+    })
+  )
 
-  const title = purposeTemplate.targetTenantKind === 'PA' ? t('titlePA') : t('titleNotPA')
+  if (!purposeTemplate.purposeRiskAnalysisForm || !riskAnalysisLatest) return
 
   return (
-    <>
-      <SectionContainer
-        title={title}
-        sx={{
-          backgroundColor: 'paper.main',
-        }}
-      >
-        <PurposeTemplateRiskAnalysisInfoSummary purposeTemplate={purposeTemplate} />
-      </SectionContainer>
-    </>
+    <PurposeTemplateRiskAnalysisInfoSummary
+      purposeTemplate={purposeTemplate}
+      riskAnalysisForm={purposeTemplate.purposeRiskAnalysisForm}
+      riskAnalysisConfig={riskAnalysisLatest}
+    />
   )
 }
