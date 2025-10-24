@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack } from '@mui/material'
+import { Alert, Button, Stack, Tooltip } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -34,6 +34,12 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
+
+  const eservicePersonalData = undefined //purpose?.eservice.personalData
+
+  const isPublishButtonDisabled =
+    purpose?.riskAnalysisForm &&
+    eservicePersonalData !== purpose?.riskAnalysisForm?.answers['usesPersonalData']
 
   const arePublishOrEditButtonsDisabled =
     (purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
@@ -128,14 +134,19 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         >
           {tCommon('editDraft')}
         </Button>
-        <Button
-          disabled={arePublishOrEditButtonsDisabled}
-          startIcon={<PublishIcon />}
-          variant="contained"
-          onClick={handlePublishDraft}
-        >
-          {tCommon('publish')}
-        </Button>
+
+        <Tooltip title={isPublishButtonDisabled ? t('summary.publishBtnDisabled') : ''} arrow>
+          <span>
+            <Button
+              disabled={arePublishOrEditButtonsDisabled || isPublishButtonDisabled}
+              startIcon={<PublishIcon />}
+              variant="contained"
+              onClick={handlePublishDraft}
+            >
+              {tCommon('publish')}
+            </Button>
+          </span>
+        </Tooltip>
       </Stack>
     </PageContainer>
   )

@@ -25,8 +25,14 @@ const ConsumerPurposeEditPage: React.FC = () => {
   const steps: Array<StepperStep> = isReceive
     ? [{ label: t('edit.stepper.stepGeneralLabel'), component: PurposeEditStepGeneral }]
     : [
-        { label: t('edit.stepper.stepGeneralLabel'), component: PurposeEditStepGeneral },
-        { label: t('edit.stepper.stepRiskAnalysisLabel'), component: PurposeEditStepRiskAnalysis },
+        {
+          label: t('edit.stepper.stepGeneralLabel'),
+          component: PurposeEditStepGeneral,
+        },
+        {
+          label: t('edit.stepper.stepRiskAnalysisLabel'),
+          component: PurposeEditStepRiskAnalysis,
+        },
       ]
 
   const { component: Step } = steps[activeStep]
