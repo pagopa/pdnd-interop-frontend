@@ -382,7 +382,7 @@
   },
   "purposeTemplateRiskAnalysisInfoSummary": {
     "annotationSection": {
-      "readAnnotationBtnLabel": "Leggi l'annotazione",
+      "readAnnotationBtnLabel": "Leggi le annotazioni",
       "title": "Annotazioni fornite dal creatore"
     },
     "answerLabel": "Risposta: ",
