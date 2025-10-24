@@ -41,6 +41,7 @@ const createMockPurpose = createMockFactory<Purpose>({
   suspendedByConsumer: false,
   suspendedByProducer: false,
   title: 'Nuova finalità',
+  hasUnreadNotifications: false,
   versions: [
     {
       createdAt: '2023-02-03T07:59:52.458Z',
