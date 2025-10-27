@@ -17,6 +17,7 @@ type RiskAnalysisForm<TExtraFields extends FieldValues = {}> = {
   answers: RiskAnalysisAnswers
   annotations?: Record<string, RiskAnalysisTemplateAnswerAnnotation>
   answerIds?: Record<string, string>
+  suggestedValues?: Record<string, string[]>
 } & TExtraFields
 
 /**
@@ -69,6 +70,15 @@ export function useRiskAnalysisFormTemplate<TExtraFields extends FieldValues = {
       )
     : {}
 
+  // Create default suggestedValues from the backend data
+  const defaultSuggestedValues = defaultAnswers
+    ? Object.fromEntries(
+        Object.entries(defaultAnswers)
+          .filter(([_, answer]) => answer.suggestedValues && answer.suggestedValues.length > 0)
+          .map(([key, answer]) => [key, answer.suggestedValues!])
+      )
+    : {}
+
   const formMethods = useForm<
     RiskAnalysisForm<TExtraFields> & { assignToTemplateUsers: Record<string, boolean> }
   >({
@@ -77,6 +87,7 @@ export function useRiskAnalysisFormTemplate<TExtraFields extends FieldValues = {
       assignToTemplateUsers: defaultAssignToTemplateUsers,
       annotations: defaultAnnotations,
       answerIds: defaultAnswerIds,
+      suggestedValues: defaultSuggestedValues,
       ...extraFields,
     } as DefaultValues<
       RiskAnalysisForm<TExtraFields> & { assignToTemplateUsers: Record<string, boolean> }
