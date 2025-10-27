@@ -20,7 +20,7 @@ export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   infoLabel?: string
   disabled?: boolean
   rules?: ControllerProps['rules']
-  onValueChange?: (value: string | boolean) => void
+  onValueChange?: (value: string) => void
   isOptionValueAsBoolean?: boolean
 }
 
