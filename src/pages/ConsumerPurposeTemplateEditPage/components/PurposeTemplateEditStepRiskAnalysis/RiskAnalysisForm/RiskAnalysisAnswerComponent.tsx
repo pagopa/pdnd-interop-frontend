@@ -170,8 +170,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
   const handleAddDocumentClick = () => {
     // Check if we've reached the limit of 2 documents
     if (docs.length >= 2) {
-      // TODO: Show error message to user
-      console.warn('Maximum of 2 documents allowed')
+      showToast(t('notifications.documentUploadError'), 'error')
       return
     }
     setShowDocInput(true)
