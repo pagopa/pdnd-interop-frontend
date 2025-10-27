@@ -58,7 +58,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
       .with('root', () => get(inAppNotificationCount, path.substring(1).split('/')[0])?.totalCount)
       .with('child', () => get(inAppNotificationCount, path.substring(1).replaceAll('/', '.')))
       .exhaustive()
-    return notificationCount
+    return notificationCount ?? 0
   }
 
   const renderChildItems = (route: SidebarRoute) =>
